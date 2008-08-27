@@ -33,6 +33,8 @@ import org.compiere.util.CCache;
  */
 public class MResource extends X_S_Resource
 {
+	private static final long serialVersionUID = 1L;
+	
 	/** Cache */
 	private static CCache<Integer, MResource> s_cache = new CCache<Integer, MResource>(Table_Name, 20);
 	
@@ -148,5 +150,15 @@ public class MResource extends X_S_Resource
 		
 		return success;
 	}	//	afterSave
+	
+	public String toString()
+	{
+	      StringBuffer sb = new StringBuffer ("MResource[")
+	        .append(get_ID())
+	        .append(", Value=").append(getValue())
+	        .append(", Name=").append(getName())
+	        .append("]");
+	      return sb.toString();
+	}
 	
 }	//	MResource
