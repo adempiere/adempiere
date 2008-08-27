@@ -46,7 +46,7 @@ public class MFactAcct extends X_Fact_Acct
 	 * @return number of rows or -1 for error
 	 * @deprecated Since ADempiere 3.5.2a; please use {@link #deleteEx(int, int, String)} instead.
 	 */
-	public static int delete00 (int AD_Table_ID, int Record_ID, String trxName)
+	public static int delete (int AD_Table_ID, int Record_ID, String trxName)
 	{
 		int no = -1;
 		try {
