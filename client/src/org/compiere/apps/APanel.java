@@ -457,8 +457,7 @@ public final class APanel extends CPanel
 		toolBar.add(aSave.getButton());
 		toolBar.addSeparator();
 		toolBar.add(aRefresh.getButton());      //  F5
-		if (!isNested())
-			toolBar.add(aFind.getButton());
+		toolBar.add(aFind.getButton());
 		toolBar.add(aAttachment.getButton());
 		toolBar.add(aChat.getButton());
 		toolBar.add(aMulti.getButton());
