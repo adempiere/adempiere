@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 /**
  *	Requisition Line Model
  *	
@@ -29,6 +32,8 @@ import org.compiere.util.*;
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -97,6 +102,18 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	}
 	
 	/**
+	 * Get Ordered Qty
+	 * @return Ordered Qty
+	 */
+	public BigDecimal getQtyOrdered()
+	{
+		if (getC_OrderLine_ID() > 0)
+			return getQty();
+		else
+			return Env.ZERO;
+	}
+	
+	/**
 	 * 	Get Parent
 	 *	@return parent
 	 */
@@ -123,8 +140,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 			m_M_PriceList_ID = getParent().getM_PriceList_ID();
 		if (m_M_PriceList_ID == 0)
 		{
-			log.log(Level.SEVERE, "PriceList unknown!");
-			return;
+			throw new AdempiereException("PriceList unknown!");
 		}
 		setPrice (m_M_PriceList_ID);
 	}	//	setPrice
@@ -177,7 +193,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		if (getM_AttributeSetInstance_ID() != 0 && getC_Charge_ID() != 0)
 			setM_AttributeSetInstance_ID(0);
 		//
-		if (getPriceActual().compareTo(Env.ZERO) == 0)
+		if (getPriceActual().signum() == 0)
 			setPrice();
 		setLineNetAmt();
 		return true;
@@ -222,7 +238,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM M_RequisitionLine rl "
 				+ "WHERE r.M_Requisition_ID=rl.M_Requisition_ID) "
 			+ "WHERE M_Requisition_ID=" + getM_Requisition_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
+		int no = DB.executeUpdateEx(sql, get_TrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "Header update #" + no);
 		m_parent = null;

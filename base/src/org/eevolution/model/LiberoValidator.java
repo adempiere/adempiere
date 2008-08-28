@@ -53,16 +53,11 @@ public class LiberoValidator implements ModelValidator
 	}	//	LiberoValidator
 	
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(LiberoValidator.class);
+	private CLogger log = CLogger.getCLogger(getClass());
 	/** Client			*/
 	private int		m_AD_Client_ID = -1;
 	
 	
-	/**
-	 *	Initialize Validation
-	 *	@param engine validation engine 
-	 *	@param client client
-	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
 		//client = null for global validator
@@ -77,7 +72,6 @@ public class LiberoValidator implements ModelValidator
 		engine.addModelChange(MOrder.Table_Name, this);
 		engine.addModelChange(MOrderLine.Table_Name, this);
 		engine.addModelChange(MRequisitionLine.Table_Name, this);
-		engine.addModelChange(MClient.Table_Name, this);
 		engine.addModelChange(X_M_ForecastLine.Table_Name, this);
 		engine.addModelChange(MDDOrder.Table_Name, this);
 		engine.addModelChange(MDDOrderLine.Table_Name, this);
@@ -88,18 +82,13 @@ public class LiberoValidator implements ModelValidator
 		//engine.addModelChange(MProjectTask.Table_Name, this);
 	}	//	initialize
 
-    /**
-     *	Model Change of a monitored Table.
-     *	Called after PO.beforeSave/PO.beforeDelete
-     *	when you called addModelChange for the table
-     *	@param po persistent object
-     *	@param type TYPE_
-     *	@return error message or null
-     *	@exception Exception if the recipient wishes the change to be not accept.
-     */
 	public String modelChange (PO po, int type) throws Exception
 	{
 		log.info(po.get_TableName() + " Type: "+type);
+		if (po.get_TableName().equals(MOrder.Table_Name) && (type == TYPE_AFTER_CHANGE ))
+		{
+			MPPMRP.C_Order((MOrder)po, false);
+		}
 		if (po.get_TableName().equals(MOrderLine.Table_Name) && ( type == TYPE_AFTER_NEW || type == TYPE_AFTER_CHANGE ))
 		{
 			MOrderLine ol = (MOrderLine)po;
@@ -263,35 +252,9 @@ public class LiberoValidator implements ModelValidator
 		return null;
 	}	//	modelChange
 	
-	/**
-	 *	Validate Document.
-	 *	Called as first step of DocAction.prepareIt 
-     *	when you called addDocValidate for the table.
-     *	Note that totals, etc. may not be correct.
-	 *	@param po persistent object
-	 *	@param timing see TIMING_ constants
-     *	@return error message or null
-	 */
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
-		//	Ignore all after Complete events
-		//if (timing == TIMING_AFTER_COMPLETE)
-		//	return null;
-		
-		if (timing == TIMING_AFTER_COMPLETE) {
-			if (po.get_TableName().equals(MOrder.Table_Name))
-			{
-				/**	Order Discount Example	*
-				MOrder order = (MOrder)po;
-				String error = orderDiscount(order);
-				if (error != null)
-					return error;
-				/** Order Discount Example */
-				log.info(po.toString());
-			}
-		}
-
 		return null;
 	}	//	docValidate
 	
@@ -307,7 +270,6 @@ public class LiberoValidator implements ModelValidator
 	 */
 	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
 	{
-		log.info("AD_User_ID=" + AD_User_ID);
 		return null;
 	}	//	login
 
@@ -320,16 +282,4 @@ public class LiberoValidator implements ModelValidator
 	{
 		return m_AD_Client_ID;
 	}	//	getAD_Client_ID
-
-	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
-	public String toString ()
-	{
-		StringBuffer sb = new StringBuffer ("LiberoValidator");
-		return sb.toString ();
-	}	//	toString
-	
 }	//	LiberoValidator
