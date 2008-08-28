@@ -462,10 +462,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		//	Cannot change Std to anything else if different warehouses
 		if (getC_DocType_ID() != 0) {
-			/*MDocType dtOld = MDocType.get(getCtx(), getC_DocType_ID());
-			 if (MDocType.DOCSUBTYPESO_StandardOrder.equals(dtOld.getDocSubTypeSO())		//	From SO
-			 && !MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO()))	//	To !SO
-			 {*/
 			for (int i = 0; i < lines.length; i++) {
 				if (lines[i].getM_Warehouse_ID() != getM_Warehouse_ID()) {
 					log.warning("different Warehouse " + lines[i]);
@@ -493,6 +489,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		reserveStock(lines);
 		orderStock();
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
 
 		m_justPrepared = true;
 		//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare
@@ -725,7 +725,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public boolean voidIt() {
 		log.info("voidIt - " + toString());
-		return false;
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		return true;
 	} //	voidIt
 
 	/**
@@ -736,6 +746,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
 
 		//	Close Not delivered Qty - SO/PO
 		MPPOrderBOMLine[] lines = getLines(null, MPPOrderBOMLine.COLUMNNAME_M_Product_ID);
@@ -756,6 +771,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		orderStock(); // Clear Ordered Quantities
 		reserveStock(lines); //	Clear Reservations
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
 		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);

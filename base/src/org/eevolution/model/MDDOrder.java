@@ -21,6 +21,8 @@ import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.print.*;
 import org.compiere.process.*;
@@ -314,8 +316,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Invoice/Payment Rule
 		ss = bp.getInvoiceRule();
 
-		//if (ii != 0)
-		//	setSalesRep_ID(ii);
+		if (ii != 0)
+		setSalesRep_ID(ii);
 
 
 		//	Set Locations
@@ -369,11 +371,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				line.setM_AttributeSetInstance_ID(0);
 				//line.setS_ResourceAssignment_ID(0);
 			}
-			/*if (counter)
-				line.setRef_OrderLine_ID(fromLines[i].getDD_OrderLine_ID());
-			else
-				line.setRef_OrderLine_ID(0);*/
-			//
+
 			line.setQtyDelivered(Env.ZERO);
 			line.setQtyReserved(Env.ZERO);
 			line.setDateDelivered(null);
@@ -381,12 +379,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			line.setProcessed(false);
 			if (line.save(get_TrxName()))
 				count++;
-			//	Cross Link
-			if (counter)
-			{
-				/*fromLines[i].setRef_OrderLine_ID(line.getC_OrderLine_ID());*/
-				fromLines[i].save(get_TrxName());
-			}
 		}
 		if (fromLines.length != count)
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
@@ -443,7 +435,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.ORDER, getDD_Order_ID());
+		ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.DISTRIBUTION_ORDER, getDD_Order_ID());
 		if (re == null)
 			return null;
 		return re.getPDF(file);
@@ -460,47 +452,15 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public MDDOrderLine[] getLines (String whereClause, String orderClause)
 	{
-		ArrayList<MDDOrderLine> list = new ArrayList<MDDOrderLine> ();
-		StringBuffer sql = new StringBuffer("SELECT * FROM DD_OrderLine WHERE DD_Order_ID=? ");
-		if (whereClause != null)
-			sql.append(whereClause);
-		if (orderClause != null)
-			sql.append(" ").append(orderClause);
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, getDD_Order_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MDDOrderLine ol = new MDDOrderLine(getCtx(), rs, get_TrxName());
-				ol.setHeaderInfo (this);
-				list.add(ol);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
+		StringBuffer whereClauseFinal = new StringBuffer(MPPOrderBOMLine.COLUMNNAME_PP_Order_ID).append("=?");
+		if (!Util.isEmpty(whereClause, true))
+			whereClauseFinal.append("AND (").append(whereClause).append(")");
 		//
-		MDDOrderLine[] lines = new MDDOrderLine[list.size ()];
-		list.toArray (lines);
-		return lines;
+		List<MDDOrderLine> list = new Query(getCtx(), MDDOrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+												.setParameters(new Object[]{getDD_Order_ID()})
+												.setOrderBy(orderClause)
+												.list();
+		return list.toArray(new MDDOrderLine[list.size()]);		
 	}	//	getLines
 
 	/**
@@ -680,14 +640,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				return false;
 			}
 		}
-		//	Warehouse Org
-		/*if (newRecord 
-			|| is_ValueChanged("AD_Org_ID") || is_ValueChanged("M_Warehouse_ID"))
-		{
-			MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
-			if (wh.getAD_Org_ID() != getAD_Org_ID())
-				log.saveWarning("WarehouseOrgConflict", "");
-		}*/
 		//	Reservations in Warehouse
 		if (!newRecord && is_ValueChanged("M_Warehouse_ID"))
 		{
@@ -707,12 +659,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 
 
 		//	Default Sales Rep
-		/*if (getSalesRep_ID() == 0)
+		if (getSalesRep_ID() == 0)
 		{
 			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
 			if (ii != 0)
 				setSalesRep_ID (ii);
-		}*/
+		}
 		
 		return true;
 	}	//	beforeSave
@@ -743,12 +695,11 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	      
 		//	Sync Lines
 		afterSaveSync("AD_Org_ID");
-		//afterSaveSync("C_BPartner_ID");
-		//afterSaveSync("C_BPartner_Location_ID");
+		afterSaveSync("C_BPartner_ID");
+		afterSaveSync("C_BPartner_Location_ID");
 		afterSaveSync("DateOrdered");
 		afterSaveSync("DatePromised");
-		//afterSaveSync("M_Warehouse_ID");
-		//afterSaveSync("M_Shipper_ID");
+		afterSaveSync("M_Shipper_ID");
 		//
 		return true;
 	}	//	afterSave
@@ -895,47 +846,25 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 		
+		reserveStock(lines);
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
 		m_justPrepared = true;
-	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
-	//		setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
 
 	/**
 	 * 	Reserve Inventory.
-	 * 	Counterpart: MInOut.completeIt()
-	 * 	@param dt document type or null
-	 * 	@param lines order lines (ordered by M_Product_ID for deadlock prevention)
+	 * 	Counterpart: MMovement.completeIt()
+	 * 	@param lines distribution order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
 	 */
-	private boolean reserveStock (MDocType dt, MDDOrderLine[] lines)
+	private void reserveStock (MDDOrderLine[] lines)
 	{
-		if (dt == null)
-			dt = MDocType.get(getCtx(), getC_DocType_ID());
-
-		//	Binding
-		/*boolean binding = !dt.isProposal();
-		//	Not binding - i.e. Target=0
-		if (DOCACTION_Void.equals(getDocAction())
-			//	Closing Binding Quotation
-			|| (MDocType.DOCSUBTYPESO_Quotation.equals(dt.getDocSubTypeSO()) 
-				&& DOCACTION_Close.equals(getDocAction())) 
-			|| isDropShip() )
-			binding = false;
-		boolean isSOTrx = isSOTrx();
-		log.fine("Binding=" + binding + " - IsSOTrx=" + isSOTrx);*/
-		//	Force same WH for all but SO/PO
-		//int header_M_Warehouse_ID = getM_Warehouse_ID();
-		//if (MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO())
-		//	|| MDocType.DOCBASETYPE_PurchaseOrder.equals(dt.getDocBaseType()))
-		//	header_M_Warehouse_ID = 0;		//	don't enforce
-		
 		BigDecimal Volume = Env.ZERO;
 		BigDecimal Weight = Env.ZERO;
 		
@@ -944,21 +873,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		{
 			MDDOrderLine line = lines[i];
 			MLocator locator_from = MLocator.get(getCtx(),line.getM_Locator_ID());
-			MLocator locator_to = MLocator.get(getCtx(),line.getM_LocatorTo_ID());
-			//	Check/set WH/Org
-			/*if (header_M_Warehouse_ID != 0)	//	enforce WH
-			{
-				if (header_M_Warehouse_ID != locator.getM_Warehouse_ID())
-					line.setM_Warehouse_ID(locator.getM_Warehouse_ID());
-				if (getAD_Org_ID() != line.getAD_Org_ID())
-					line.setAD_Org_ID(getAD_Org_ID());
-			}*/
-			//	Binding
-			/*BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO; 
-			BigDecimal difference = target
-				.subtract(line.getQtyReserved())
-				.subtract(line.getQtyDelivered());*/
-			
+			MLocator locator_to = MLocator.get(getCtx(),line.getM_LocatorTo_ID());			
 			BigDecimal reserved_ordered = line.getQtyOrdered()
 				.subtract(line.getQtyReserved())
 				.subtract(line.getQtyDelivered()); 
@@ -983,73 +898,27 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			{
 				if (product.isStocked())
 				{
-					// update reserved qty in locator from
-					/*int M_Locator_ID = 0; 
-					//	Get Locator to reserve
-					if (line.getM_AttributeSetInstance_ID() != 0)	//	Get existing Location
-						M_Locator_ID = MStorage.getM_Locator_ID (locator_from.getM_Warehouse_ID(), 
-							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-							reserved_ordered, get_TrxName());
-					//	Get default Location
-					if (M_Locator_ID == 0)
-					{
-						// try to take default locator for product first
-						// if it is from the selected warehouse
-						MWarehouse wh = MWarehouse.get(getCtx(), locator_from.getM_Warehouse_ID());
-						M_Locator_ID = product.getM_Locator_ID();
-						if (M_Locator_ID!=0) {
-							MLocator locator = new MLocator(getCtx(), product.getM_Locator_ID(), get_TrxName());
-							//product has default locator defined but is not from the order warehouse
-							if(locator.getM_Warehouse_ID()!=wh.get_ID()) {
-								M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-							}
-						} else {
-							M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-						}
-					}*/
 					//	Update Storage
 					if (!MStorage.add(getCtx(), locator_from.getM_Warehouse_ID(), locator_from.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
 						Env.ZERO, reserved_ordered , Env.ZERO , get_TrxName()))
-						return false;
-					
-					// update ordered qty in locator to
-					/*int M_LocatorTo_ID = 0; 
-					//	Get Locator to reserve
-					if (line.getM_AttributeSetInstanceTo_ID() != 0)	//	Get existing Location
-						M_Locator_ID = MStorage.getM_Locator_ID (locator_to.getM_Warehouse_ID(), 
-							line.getM_Product_ID(), line.getM_AttributeSetInstanceTo_ID(), 
-							reserved_ordered, get_TrxName());
-					//	Get default Location
-					if (M_LocatorTo_ID == 0)
 					{
-						// try to take default locator for product first
-						// if it is from the selected warehouse
-						MWarehouse wh = MWarehouse.get(getCtx(), locator_to.getM_Warehouse_ID());
-						M_Locator_ID = product.getM_Locator_ID();
-						if (M_LocatorTo_ID!=0) {
-							MLocator locator = new MLocator(getCtx(), product.getM_Locator_ID(), get_TrxName());
-							//product has default locator defined but is not from the order warehouse
-							if(locator.getM_Warehouse_ID()!=wh.get_ID()) {
-								M_LocatorTo_ID = wh.getDefaultLocator().getM_Locator_ID();
-							}
-						} else {
-							M_LocatorTo_ID = wh.getDefaultLocator().getM_Locator_ID();
-						}
-					}*/
-					//	Update Storage
+						throw new AdempiereException();
+					}				
+					
 					if (!MStorage.add(getCtx(), locator_to.getM_Warehouse_ID(), locator_to.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstanceTo_ID(), line.getM_AttributeSetInstance_ID(),
 						Env.ZERO, Env.ZERO , reserved_ordered, get_TrxName()))
-						return false;
+					{
+						throw new AdempiereException();
+					}
 					
 				}	//	stockec
 				//	update line
 				line.setQtyReserved(line.getQtyReserved().add(reserved_ordered));
-				if (!line.save(get_TrxName()))
-					return false;
+				line.saveEx(get_TrxName());
 				//
 				Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
 				Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
@@ -1058,7 +927,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		
 		setVolume(Volume);
 		setWeight(Weight);
-		return true;
 	}	//	reserveStock
 	
 	
@@ -1117,13 +985,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			approveIt();
 		getLines(true,null);
 		log.info(toString());
-		StringBuffer info = new StringBuffer();
-		
-		//	Counter Documents
-		//MDDOrder counter = createCounterDoc();
-		//if (counter != null)
-		//	info.append(" - @CounterDoc@: @Order@=").append(counter.getDocumentNo());
-		//	User Validation
+		StringBuffer info = new StringBuffer();		
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{
@@ -1140,145 +1002,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
-	
-	/**
-	 * 	Create Shipment
-	 *	@param dt order document type
-	 *	@param movementDate optional movement date (default today)
-	 *	@return shipment or null
-	 */
-	/*private MInOut createShipment(MDocType dt, Timestamp movementDate)
-	{
-		log.info("For " + dt);
-		MInOut shipment = new MInOut (this, dt.getC_DocTypeShipment_ID(), movementDate);
-	//	shipment.setDateAcct(getDateAcct());
-		if (!shipment.save(get_TrxName()))
-		{
-			m_processMsg = "Could not create Shipment";
-			return null;
-		}
-		//
-		MDDOrderLine[] oLines = getLines(true, null);
-		for (int i = 0; i < oLines.length; i++)
-		{
-			MDDOrderLine oLine = oLines[i];
-			//
-			MInOutLine ioLine = new MInOutLine(shipment);
-			//	Qty = Ordered - Delivered
-			BigDecimal MovementQty = oLine.getQtyOrdered().subtract(oLine.getQtyDelivered()); 
-			//	Location
-			int M_Locator_ID = MStorage.getM_Locator_ID (oLine.getM_Warehouse_ID(), 
-					oLine.getM_Product_ID(), oLine.getM_AttributeSetInstance_ID(), 
-					MovementQty, get_TrxName());
-			if (M_Locator_ID == 0)		//	Get default Location
-			{
-				MWarehouse wh = MWarehouse.get(getCtx(), oLine.getM_Warehouse_ID());
-				M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-			}
-			//
-			
-			ioLine.setQty(MovementQty);
-			if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
-				ioLine.setQtyEntered(MovementQty
-					.multiply(oLine.getQtyEntered())
-					.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
-			if (!ioLine.save(get_TrxName()))
-			{
-				m_processMsg = "Could not create Shipment Line";
-				return null;
-			}
-		}
-		//	Manually Process Shipment
-		String status = shipment.completeIt();
-		shipment.setDocStatus(status);
-		shipment.save(get_TrxName());
-		if (!DOCSTATUS_Completed.equals(status))
-		{
-			m_processMsg = "@M_InOut_ID@: " + shipment.getProcessMsg();
-			return null;
-		}
-		return shipment;
-	}	//	createShipment
-    */
-	
-	
-	/**
-	 * 	Create Counter Document
-	 * 	@return counter order
-	 */
-	private MDDOrder createCounterDoc()
-	{
-		//	Is this itself a counter doc ?
-		if (getRef_Order_ID() != 0)
-			return null;
-		
-		//	Org Must be linked to BPartner
-		MOrg org = MOrg.get(getCtx(), getAD_Org_ID());
-		int counterC_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
-		if (counterC_BPartner_ID == 0)
-			return null;
-		//	Business Partner needs to be linked to Org
-		MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
-		int counterAD_Org_ID = bp.getAD_OrgBP_ID_Int(); 
-		if (counterAD_Org_ID == 0)
-			return null;
-		
-		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
-		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
-		log.info("Counter BP=" + counterBP.getName());
-
-		//	Document Type
-		int C_DocTypeTarget_ID = 0;
-		MDocTypeCounter counterDT = MDocTypeCounter.getCounterDocType(getCtx(), getC_DocType_ID());
-		if (counterDT != null)
-		{
-			log.fine(counterDT.toString());
-			if (!counterDT.isCreateCounter() || !counterDT.isValid())
-				return null;
-			C_DocTypeTarget_ID = counterDT.getCounter_C_DocType_ID();
-		}
-		else	//	indirect
-		{
-			C_DocTypeTarget_ID = MDocTypeCounter.getCounterDocType_ID(getCtx(), getC_DocType_ID());
-			log.fine("Indirect C_DocTypeTarget_ID=" + C_DocTypeTarget_ID);
-			if (C_DocTypeTarget_ID <= 0)
-				return null;
-		}
-		//	Deep Copy
-		MDDOrder counter = copyFrom (this, getDateOrdered(), 
-			C_DocTypeTarget_ID, !isSOTrx(), true, false, get_TrxName());
-		//
-		counter.setAD_Org_ID(counterAD_Org_ID);
-		counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
-		//
-		counter.setBPartner(counterBP);
-		counter.setDatePromised(getDatePromised());		// default is date ordered 
-		//	Refernces (Should not be required
-		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
-		
-		//	Update copied lines
-		MDDOrderLine[] counterLines = counter.getLines(true, null);
-		for (int i = 0; i < counterLines.length; i++)
-		{
-			MDDOrderLine counterLine = counterLines[i];
-			counterLine.setOrder(counter);	//	copies header values (BP, etc.)
-			counterLine.save(get_TrxName());
-		}
-		log.fine(counter.toString());
-		
-		//	Document Action
-		if (counterDT != null)
-		{
-			if (counterDT.getDocAction() != null)
-			{
-				counter.setDocAction(counterDT.getDocAction());
-				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
-			}
-		}
-		return counter;
-	}	//	createCounterDoc
 	
 	/**
 	 * 	Void Document.
@@ -1306,13 +1029,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		}
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//	Clear Reservations
-		if (!reserveStock(null, lines))
-		{
-			m_processMsg = "Cannot unreserve Stock (void)";
-			return false;
-		}
-		
-		
+		reserveStock(lines);		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
@@ -1436,11 +1153,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			}
 		}
 		//	Clear Reservations
-		if (!reserveStock(null, lines))
-		{
-			m_processMsg = "Cannot unreserve Stock (close)";
-			return false;
-		}
+		reserveStock(lines);
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
@@ -1502,36 +1215,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
 		if (m_processMsg != null)
 			return false;	
-				
-		
-		
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		String DocSubTypeSO = dt.getDocSubTypeSO();
-		
-		//	Replace Prepay with POS to revert all doc
-		if (MDocType.DOCSUBTYPESO_PrepayOrder.equals (DocSubTypeSO))
-		{
-			MDocType newDT = null;
-			MDocType[] dts = MDocType.getOfClient (getCtx());
-			for (int i = 0; i < dts.length; i++)
-			{
-				MDocType type = dts[i];
-				if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(type.getDocSubTypeSO()))
-				{
-					if (type.isDefault() || newDT == null)
-						newDT = type;
-				}
-			}
-			if (newDT == null)
-				return false;
-			else
-				setC_DocType_ID (newDT.getC_DocType_ID());
-		}
-
-		//	PO - just re-open
-		if (!isSOTrx())
-			log.info("Existing documents not modified - " + dt);
-		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
