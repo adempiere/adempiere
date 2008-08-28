@@ -452,7 +452,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public MDDOrderLine[] getLines (String whereClause, String orderClause)
 	{
-		StringBuffer whereClauseFinal = new StringBuffer(MPPOrderBOMLine.COLUMNNAME_PP_Order_ID).append("=?");
+		StringBuffer whereClauseFinal = new StringBuffer(MDDOrderLine.COLUMNNAME_DD_Order_ID).append("=?");
 		if (!Util.isEmpty(whereClause, true))
 			whereClauseFinal.append("AND (").append(whereClause).append(")");
 		//
