@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
 
 /**
  *	Warehouse Model
@@ -27,10 +28,14 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966337 ] New Method to get the Transit Warehouse based in ID Org http://sourceforge.net/tracker/index.php?func=detail&aid=1966337&group_id=176962&atid=879335
+ *  @author Teo Sarca, http://www.arhipac.ro
+ *  			<li>BF [ 1874419 ] JDBC Statement not close in a finally block
  *  @version $Id: MWarehouse.java,v 1.3 2006/07/30 00:58:05 jjanke Exp $
  */
 public class MWarehouse extends X_M_Warehouse
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Get from Cache
 	 *	@param ctx context
@@ -57,37 +62,12 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse[] getForOrg (Properties ctx, int AD_Org_ID)
 	{
-		ArrayList<MWarehouse> list = new ArrayList<MWarehouse>();
-		String sql = "SELECT * FROM M_Warehouse WHERE IsActive = 'Y' AND AD_Org_ID=? ORDER BY Created";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWarehouse (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MWarehouse[] retValue = new MWarehouse[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "IsActive=? AND AD_Org_ID=?";
+		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
+										.setParameters(new Object[]{"Y", AD_Org_ID})
+										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
+										.list();
+		return list.toArray(new MWarehouse[list.size()]);
 	}	//	get
 	
 	/**
@@ -99,43 +79,16 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse[] getInTransitForOrg (Properties ctx, int AD_Org_ID)
 	{
-		ArrayList<MWarehouse> list = new ArrayList<MWarehouse>();
-		String sql = "SELECT * FROM M_Warehouse WHERE IsActive = 'Y' AND IsInTransit = 'Y' AND AD_Org_ID=? ORDER BY Created";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWarehouse (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MWarehouse[] retValue = new MWarehouse[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "IsActive=? AND IsInTransit=? AND AD_Org_ID=?";
+		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
+										.setParameters(new Object[]{"Y", "Y", AD_Org_ID})
+										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
+										.list();
+		return list.toArray(new MWarehouse[list.size()]);
 	}	//	get
 	
 	/**	Cache					*/
 	private static CCache<Integer,MWarehouse> s_cache = new CCache<Integer,MWarehouse>("M_Warehouse", 5);
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MWarehouse.class);
 	
 	/**
 	 * 	Standard Constructor
@@ -193,37 +146,12 @@ public class MWarehouse extends X_M_Warehouse
 		if (!reload && m_locators != null)
 			return m_locators;
 		//
-		String sql = "SELECT * FROM M_Locator WHERE IsActive = 'Y' AND M_Warehouse_ID=? ORDER BY X,Y,Z";
-		ArrayList<MLocator> list = new ArrayList<MLocator>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getM_Warehouse_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MLocator (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		m_locators = new MLocator[list.size()];
-		list.toArray (m_locators);
+		final String whereClause = "IsActive=? AND M_Warehouse_ID=?";
+		List<MLocator> list = new Query(getCtx(), MLocator.Table_Name, whereClause, null)
+										.setParameters(new Object[]{"Y", getM_Warehouse_ID()})
+										.setOrderBy("X,Y,Z")
+										.list();
+		m_locators = list.toArray(new MLocator[list.size()]);
 		return m_locators;
 	}	//	getLocators
 	
@@ -248,7 +176,7 @@ public class MWarehouse extends X_M_Warehouse
 		//	No Locator - create one
 		MLocator loc = new MLocator (this, "Standard");
 		loc.setIsDefault(true);
-		loc.save();
+		loc.saveEx();
 		log.info("Created default locator for " + getName());
 		return loc;
 	}	//	getLocators
