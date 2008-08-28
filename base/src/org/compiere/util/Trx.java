@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.db.CConnection;
 import org.compiere.db.ServerConnection;
 import org.compiere.interfaces.Server;
@@ -46,7 +47,8 @@ import org.compiere.interfaces.Server;
  *  - added rollback(boolean) and commit(boolean) [20070105]
  *  - remove unnecessary use of savepoint
  *  - use UUID for safer transaction name generation
- *  @version $Id$
+ *  @author Teo Sarca, http://www.arhipac.ro
+ *  			<li>FR [ 2080217 ] Implement TrxRunnable
  */
 public class Trx implements VetoableChangeListener
 {
@@ -674,6 +676,82 @@ public class Trx implements VetoableChangeListener
 		collections.toArray(trxs);
 		
 		return trxs;
+	}
+	
+	/**
+	 * @see #run(String, TrxRunnable)
+	 */
+	public static void run(TrxRunnable r)
+	{
+		run(null, r);
+	}
+	
+	/**
+	 * Execute runnable object using provided transaction.
+	 * If execution fails, database operations will be rolled back.
+	 * <p>
+	 * Example: <pre>
+	 * Trx.run(null, new {@link TrxRunnable}() {
+	 *     public void run(String trxName) {
+	 *         // do something using trxName
+	 *     }
+	 * )};
+	 * </pre>
+	 * 
+	 * @param trxName transaction name (if null, a new transaction will be created)
+	 * @param r runnable object
+	 */
+	public static void run(String trxName, TrxRunnable r)
+	{
+		boolean localTrx = false;
+		if (trxName == null) {
+			trxName = Trx.createTrxName("TrxRun");
+			localTrx = true;
+		}
+		Trx trx = Trx.get(trxName, true);
+		Savepoint savepoint = null;
+		try
+		{
+			if (!localTrx)
+				savepoint = trx.setSavepoint(null);
+				
+			r.run(trxName);
+			
+			if (localTrx)
+				trx.commit(true);
+		}
+		catch (Throwable e)
+		{
+			// Rollback transaction
+			if (localTrx)
+			{
+				trx.rollback();
+			}
+			else if (savepoint != null)
+			{
+				try {
+					trx.rollback(savepoint);
+				}
+				catch (SQLException e2) {;}
+			}
+			trx = null;
+			// Throw exception
+			if (e instanceof RuntimeException)
+			{
+				throw (RuntimeException)e;
+			}
+			else
+			{
+				throw new AdempiereException(e);
+			}
+		}
+		finally {
+			if (localTrx && trx != null)
+			{
+				trx.close();
+				trx = null;
+			}
+		}
 	}
 	
 }	//	Trx
