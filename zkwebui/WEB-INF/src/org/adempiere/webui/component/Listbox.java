@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.adempiere.webui.apps.form.WCreateFrom;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -239,5 +239,46 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 	 */
 	public void addActionListener(EventListener listener) {
 		addEventListener(Events.ON_SELECT, listener);
+	}
+
+	/**
+	 * shortcut for appendItem(pp.getName(), pp.getValue()), to ease porting of swing form
+	 * @param pp
+	 */
+	public void addItem(ValueNamePair pp) {
+		appendItem(pp.getName(), pp.getValue());
+	}
+
+	/**
+	 * select selected item base on vp.getValue, to ease porting of swing form
+	 * @param vp
+	 */
+	public void setSelectedValueNamePair(ValueNamePair vp) {
+		int count = this.getItemCount();
+		for(int i = 0; i < count; i++) {
+			ListItem item = getItemAtIndex(i);
+			if (vp.getValue().equals(item.getValue())) {
+				setSelectedIndex(i);
+				break;
+			}
+		}
+	}
+	
+
+	/**
+	 * select selected item base on kp.getKey, to ease porting of swing form
+	 * @param kp
+	 */
+	public void setSelectedKeyNamePair(KeyNamePair kp) {
+		int count = this.getItemCount();
+		for(int i = 0; i < count; i++) {
+			ListItem item = getItemAtIndex(i);
+			if (item.getValue() instanceof Integer) {
+				if (kp.getKey() == (Integer)item.getValue()) {
+					setSelectedIndex(i);
+					break;
+				}
+			}
+		}
 	}    
 }

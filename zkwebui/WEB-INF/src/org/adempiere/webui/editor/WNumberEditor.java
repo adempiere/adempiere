@@ -34,6 +34,8 @@ import org.zkoss.zk.ui.event.Events;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author Low Heng Sin
  */
 public class WNumberEditor extends WEditor
 {
@@ -45,6 +47,15 @@ public class WNumberEditor extends WEditor
     
     private boolean mandatory = false;
     
+    public WNumberEditor() 
+    {
+    	this("Number", false, false, true, DisplayType.Number, "");
+    }
+    
+    /**
+     * 
+     * @param gridField
+     */
     public WNumberEditor(GridField gridField)
     {
         super(new NumberBox(gridField.getDisplayType() == DisplayType.Integer),
@@ -52,19 +63,49 @@ public class WNumberEditor extends WEditor
         init();
     }
     
+    /**
+     * 
+     * @param gridField
+     * @param integral
+     */
     public WNumberEditor(GridField gridField, boolean integral)
     {
         super(new NumberBox(integral), gridField);
         init();
     }
 
-    private void init()
+    /**
+     * 
+     * @param columnName
+     * @param mandatory
+     * @param readonly
+     * @param updateable
+     * @param displayType
+     * @param title
+     */
+    public WNumberEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
+			int displayType, String title) 
     {
-        getComponent().setMaxlength(gridField.getFieldLength());
+		super(new NumberBox(displayType == DisplayType.Integer), columnName, title, null, mandatory, 
+				readonly, updateable);
+		init();
+	}
+
+	private void init()
+    {
+		if (gridField != null)
+		{
+			getComponent().setMaxlength(gridField.getFieldLength());        
+			getComponent().setTooltiptext(gridField.getDescription());
+		}
+        
         getComponent().setCols(MAX_DISPLAY_LENGTH);
-        getComponent().setTooltiptext(gridField.getDescription());
     }
     
+	/**
+	 * Event handler
+	 * @param event
+	 */
     public void onEvent(Event event)
     {
         String newValue = getComponent().getValue();
@@ -131,14 +172,19 @@ public class WNumberEditor extends WEditor
         }
     }
     
+    @Override
     public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
     
+    /**
+     * Handle context menu events 
+     * @param evt
+     */
     public void onMenu(ContextMenuEvent evt) 
 	{
-	 	if (WEditorPopupMenu.PREFERENCE_EVENT.equals(evt.getContextEvent()))
+	 	if (WEditorPopupMenu.PREFERENCE_EVENT.equals(evt.getContextEvent()) && gridField != null)
 		{
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());

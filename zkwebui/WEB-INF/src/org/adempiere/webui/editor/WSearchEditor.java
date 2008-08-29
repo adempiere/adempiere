@@ -37,9 +37,11 @@ import org.adempiere.webui.panel.InfoProductPanel;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -839,5 +841,43 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			}
         }
 
+	}
+
+	/**
+	 * @param windowNo
+	 * @return WSearchEditor
+	 */
+	public static WSearchEditor createBPartner(int windowNo) {
+		int AD_Column_ID = 3499;    //  C_Invoice.C_BPartner_ID
+		try
+		{
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), windowNo, 
+				0, AD_Column_ID, DisplayType.Search);
+			return new WSearchEditor ("C_BPartner_ID", false, false, true, lookup);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "", e);
+		}
+		return null;
+	}
+
+	/**
+	 * @param windowNo
+	 * @return WSearchEditor 
+	 */
+	public static WSearchEditor createProduct(int windowNo) {
+		int AD_Column_ID = 3840;    //  C_InvoiceLine.M_Product_ID
+		try
+		{
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), windowNo, 0, 
+				AD_Column_ID, DisplayType.Search);
+			return new WSearchEditor("M_Product_ID", false, false, true, lookup);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "", e);
+		}
+		return null;
 	}
 }

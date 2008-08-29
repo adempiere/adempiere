@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -14,161 +14,81 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-
-/**
- * 2007, Modified by Posterita Ltd.
- */
-
 package org.adempiere.webui.apps.form;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Vector;
-import java.util.logging.Level;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
+import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.ListboxFactory;
+import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WDateEditor;
+import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MMatchInv;
-import org.compiere.model.MMatchPO;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MRole;
-import org.compiere.model.MStorage;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
+import org.compiere.model.*;
+import org.compiere.util.*;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.ListModel;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Space;
 
 /**
- * Match PO-Invoice-Receipt Custom Form : Based on VMatch
- * 
- * @author  Niraj Sohun
- * @date    Jul 2, 2007
+ *  Manual Matching
+ *
+ *  @author     Jorg Janke
+ *  @version    $Id: VMatch.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-
-public class WMatch extends ADForm implements EventListener, ValueChangeListener, WTableModelListener
+public class WMatch extends ADForm
+	implements EventListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
-	
-	private Grid grdParameters;
-	private Grid grdMatch;
-	private Grid grdProcess;
-	
-	private Rows rows;
-	private Row row;
-	
-	private Listbox lstInvoice;
-	private Listbox lstReceipt;
-	
-	private Button cmdSearch;
-	private Button cmdProcess;
-	
-	private Datebox dateFrom;
-	private Datebox dateTo;
-	
-	private Listbox lstMatchFrom;
-	private Listbox lstMatchTo;
-	private Listbox lstSearchMode;
-		
-	private Checkbox chkSameBP;
-	private Checkbox chkSameProduct;
-	private Checkbox chkSameQty;
-	
-	private Textbox txtToBeMatched;
-	private Textbox txtMatching;
-	private Textbox txtDifference;
-	
-	private Label lblMatchFrom;
-	private Label lblMatchTo;
-	private Label lblStatus;
-	
-	private String[] m_matchOptions = new String[] {
-			Msg.getElement(Env.getCtx(), "C_Invoice_ID", false),
-			Msg.getElement(Env.getCtx(), "M_InOut_ID", false),
-			Msg.getElement(Env.getCtx(), "C_Order_ID", false) };
-	
-	private static final int MATCH_INVOICE = 0;
-	private static final int MATCH_SHIPMENT = 1;
-	private static final int MATCH_ORDER = 2;
-
-	private String[] m_matchMode = new String[] { 
-			Msg.translate(Env.getCtx(), "NotMatched"),
-			Msg.translate(Env.getCtx(), "Matched")};
-	
-	private static final int MODE_NOTMATCHED = 0;
-	private static final int MODE_MATCHED = 1;
-
-	private static final int I_BPartner = 3;
-	private static final int I_Line = 4;
-	private static final int I_Product = 5;
-	private static final int I_QTY = 6;
-	private static final int I_MATCHED = 7;
-
-	private StringBuffer m_sql = null;
-	private String m_dateColumn = "";
-	private String m_qtyColumn = "";
-	private String m_groupBy = "";
-
-	private BigDecimal m_xMatched = Env.ZERO;
-	private BigDecimal m_xMatchedTo = Env.ZERO;
-	
-	private WEditor bPartnerSearch = null;
-	private WEditor productSearch = null;
-
-	//private int m_C_BPartner_ID;
-	//private int productID;
-	
-	private WListbox xMatchedTable;
-	private WListbox xMatchedToTable;
-	
-	@SuppressWarnings("unused")
-	private String strMatchedTable;
-	
-	@SuppressWarnings("unused")
-	private String strMatchedToTable;
-
-	private static CLogger log = CLogger.getCLogger(WMatch.class);
-	
-	public WMatch()
-	{
-	}
-	
+	/**
+	 *	Initialize Panel
+	 */
 	protected void initForm()
 	{
+		log.info("WinNo=" + m_WindowNo
+			+ " - AD_Client_ID=" + m_AD_Client_ID + ", AD_Org_ID=" + m_AD_Org_ID + ", By=" + m_by);
+		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", "N");
+
 		try
 		{
+			//	UI
+			onlyVendor = WSearchEditor.createBPartner(m_WindowNo); 
+			onlyProduct = WSearchEditor.createProduct(m_WindowNo);
+			zkInit();
+			//
+			dynInit();
+			southPanel.appendChild(new Separator());
+			southPanel.appendChild(statusBar);
+			LayoutUtils.addSclass("status-border", statusBar);
+			//
 			new Thread()
 			{
 				public void run()
@@ -182,352 +102,370 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 		catch(Exception e)
 		{
 			log.log(Level.SEVERE, "", e);
-		}		
-		
-		grdParameters = new Grid();
-		grdParameters.setWidth("700px");
-		
-		grdMatch = new Grid();
-		grdMatch.setWidth("700px");
-		
-		grdProcess = new Grid();
-		grdProcess.setWidth("700px");
-		
-		lstInvoice = new Listbox();
-		lstInvoice.setWidth("700px");
-   
-		lstReceipt = new Listbox();
-		lstReceipt.setWidth("700px");
-		
-		cmdSearch = new Button();
-		cmdSearch.setImage("/images/FindX24.png");
-		cmdSearch.addEventListener(Events.ON_CLICK, this);
-		
-		cmdProcess = new Button();
-		cmdProcess.setImage("/images/Process24.png");
-		cmdProcess.addEventListener(Events.ON_CLICK, this);
-		
-		dateFrom = new Datebox();
-		dateTo = new Datebox();
-		
-		lstMatchFrom = new Listbox();
-		lstMatchFrom.setRows(0);
-        lstMatchFrom.setMold("select");
-        lstMatchFrom.addEventListener(Events.ON_SELECT, this);
-        
-		lstMatchTo = new Listbox();
-		lstMatchTo.setRows(0);
-        lstMatchTo.setMold("select");
-        lstMatchTo.addEventListener(Events.ON_SELECT, this);
-        
-		lstSearchMode = new Listbox();
-		lstSearchMode.setRows(1);
-        lstSearchMode.setMold("select");
-        //lstSearchMode.addEventListener(Events.ON_SELECT, this);
-        
-        chkSameBP = new Checkbox();
-        chkSameBP.setLabel("Same Business Partner");
-        chkSameBP.setChecked(true);
-        chkSameBP.addEventListener(Events.ON_CHECK, this);
-        
-        chkSameProduct = new Checkbox();
-        chkSameProduct.setLabel("Same Product");
-        chkSameProduct.setChecked(true);
-        chkSameProduct.addEventListener(Events.ON_CHECK, this);
-        
-        chkSameQty = new Checkbox();
-        chkSameQty.setLabel("Same Quantity");
-        chkSameQty.setChecked(false);
-        chkSameQty.addEventListener(Events.ON_CHECK, this);
-        
-        txtToBeMatched = new Textbox();
-        txtToBeMatched.setEnabled(false);
-        
-        txtMatching = new Textbox();
-        txtMatching.setEnabled(false);
-        
-        txtDifference = new Textbox();
-        txtDifference.setEnabled(false);
-        
-        lblMatchFrom = new Label(" ");
-        
-        lblMatchTo = new Label(" ");
-        
-        lblStatus = new Label("Invoice#");
-        lblStatus.setWidth("700px");
-        
-        xMatchedTable = new WListbox();
-        xMatchedTable.setWidth("700px");
-        xMatchedTable.setHeight("150px");
-        xMatchedTable.getModel().addTableModelListener(this);
-        xMatchedTable.addEventListener(Events.ON_SELECT, this);
-        
-        xMatchedToTable = new WListbox();
-        xMatchedToTable.setWidth("700px");
-        xMatchedToTable.setHeight("150px");
-        xMatchedToTable.getModel().addTableModelListener(this);
-        xMatchedToTable.addEventListener(Events.ON_SELECT, this);
-        
-        initComponents();
-	}
-	
-	private void initComponents()
-	{
-		this.setWidth("710px");
-		this.setHeight("100%");
-		//this.setBorder("normal");
-		
-		rows = new Rows();
-		
-		// Row 1
-		row = new Row();
-		row.appendChild(new Label("Match From"));
-		row.appendChild(lstMatchFrom);
-		row.appendChild(new Label("Match To"));
-		row.appendChild(lstMatchTo);
-		rows.appendChild(row);
-		
-		// Row 2
-		row = new Row();
-		row.appendChild(new Label("Search Mode"));
-		row.appendChild(lstSearchMode);
-		rows.appendChild(row);
-		
-		// Row 3
-		row = new Row();
-		row.appendChild(new Label("Business Partner"));
-		showBusinessPartner();
-		row.appendChild(bPartnerSearch.getComponent());
-		row.appendChild(new Label("Product"));
-		showProduct();
-		row.appendChild(productSearch.getComponent());
-		rows.appendChild(row);
-		
-		// Row 4
-		row = new Row();
-		row.appendChild(new Label("Date From"));
-		row.appendChild(dateFrom);
-		row.appendChild(new Label("Date To"));
-		row.appendChild(dateTo);
-		rows.appendChild(row);
-		
-		grdParameters.appendChild(rows);
-		this.appendChild(grdParameters);
-		this.appendChild(new Separator());
-
-		Hbox hbox = new Hbox();
-		hbox.appendChild(cmdSearch);
-		hbox.appendChild(cmdProcess);
-		
-		this.appendChild(hbox);
-		this.appendChild(new Separator());
-		
-		// Listbox Invoice
-		
-		this.appendChild(new Label(" "));
-		this.appendChild(lblMatchFrom);
-		this.appendChild(new Separator());
-		this.appendChild(new Label(" "));
-		this.appendChild(xMatchedTable);
-		this.appendChild(new Separator());
-		
-		// Match Parameters
-		
-		rows = new Rows();
-		
-		this.appendChild(new Label(" "));
-		row = new Row();
-		row.appendChild(chkSameBP);
-		row.appendChild(chkSameProduct);
-		row.appendChild(chkSameQty);
-		rows.appendChild(row);
-		
-		grdMatch.appendChild(rows);
-		this.appendChild(grdMatch);
-		this.appendChild(new Separator());
-				
-		// Listbox Receipt
-		this.appendChild(new Label(" "));
-		this.appendChild(lblMatchTo);
-		this.appendChild(new Separator());
-		this.appendChild(new Label(" "));
-		this.appendChild(xMatchedToTable);
-		this.appendChild(new Separator());
-		
-		// Process Parameters
-		
-		rows = new Rows();
-		
-		row = new Row();
-		row.appendChild(new Label("To Be Matched"));
-		row.appendChild(txtToBeMatched);
-		row.appendChild(new Label("Matching"));
-		row.appendChild(txtMatching);
-		row.appendChild(new Label("Difference"));
-		row.appendChild(txtDifference);
-		rows.appendChild(row);
-		
-		grdProcess.appendChild(rows);
-		this.appendChild(grdProcess);
-		
-		this.appendChild(new Separator());
-		this.appendChild(lblStatus);
-		
-		populateMatchFrom();
-		populateMatchTo();
-		populateSearchMode();
-		prepareTable();
-	}
-	
-	private void populateMatchFrom()
-	{
-		for (int i = 0; i < m_matchOptions.length; i++)
-		{
-			String temp = m_matchOptions[i]; 
-			lstMatchFrom.appendItem(temp, temp);
 		}
-		
-		lstMatchFrom.setSelectedIndex(0);
-		lblMatchFrom.setValue(m_matchOptions[0]);
-	}
-	
-	private void populateMatchTo()
+	}	//	init
+
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(WMatch.class);
+
+	private int     m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+	private int     m_AD_Org_ID = Env.getAD_Org_ID(Env.getCtx());
+	private int     m_by = Env.getAD_User_ID(Env.getCtx());
+
+	/** Match Options           */
+	private String[] m_matchOptions = new String[] {
+		Msg.getElement(Env.getCtx(), "C_Invoice_ID", false),
+		Msg.getElement(Env.getCtx(), "M_InOut_ID", false),
+		Msg.getElement(Env.getCtx(), "C_Order_ID", false) };
+	private static final int		MATCH_INVOICE = 0;
+	private static final int		MATCH_SHIPMENT = 1;
+	private static final int		MATCH_ORDER = 2;
+
+	/** Match Mode              	*/
+	private String[] m_matchMode = new String[] {
+		Msg.translate(Env.getCtx(), "NotMatched"),
+		Msg.translate(Env.getCtx(), "Matched")};
+	private static final int		MODE_NOTMATCHED = 0;
+	private static final int		MODE_MATCHED = 1;
+
+	/**	Indexes in Table			*/
+	private static final int		I_BPartner = 3;
+	private static final int		I_Line = 4;
+	private static final int		I_Product = 5;
+	private static final int		I_QTY = 6;
+	private static final int		I_MATCHED = 7;
+
+
+	private StringBuffer    m_sql = null;
+	private String          m_dateColumn = "";
+	private String          m_qtyColumn = "";
+	private String          m_groupBy = "";
+	private StringBuffer			m_linetype = null;
+	private BigDecimal      m_xMatched = Env.ZERO;
+	private BigDecimal      m_xMatchedTo = Env.ZERO;
+
+	//
+	private Panel mainPanel = new Panel();
+	private StatusBarPanel statusBar = new StatusBarPanel();
+	private Borderlayout mainLayout = new Borderlayout();
+	private Panel northPanel = new Panel();
+	private Grid northLayout = GridFactory.newGridLayout();
+	private Label matchFromLabel = new Label();
+	private Listbox matchFrom = ListboxFactory.newDropdownListbox(m_matchOptions);
+	private Label matchToLabel = new Label();
+	private Listbox matchTo = ListboxFactory.newDropdownListbox();
+	private Label matchModeLabel = new Label();
+	private Listbox matchMode = ListboxFactory.newDropdownListbox(m_matchMode);
+	private WSearchEditor onlyVendor = null; 
+	private WSearchEditor onlyProduct = null;
+	private Label onlyVendorLabel = new Label();
+	private Label onlyProductLabel = new Label();
+	private Label dateFromLabel = new Label();
+	private Label dateToLabel = new Label();
+	private WDateEditor dateFrom = new WDateEditor("DateFrom", false, false, true, DisplayType.Date, "DateFrom");
+	private WDateEditor dateTo = new WDateEditor("DateTo", false, false, true, DisplayType.Date, "DateTo");
+	private Button bSearch = new Button();
+	private Panel southPanel = new Panel();
+	private Grid southLayout = GridFactory.newGridLayout();
+	private Label xMatchedLabel = new Label();
+	private Label xMatchedToLabel = new Label();
+	private Label differenceLabel = new Label();
+	private WNumberEditor xMatched = new WNumberEditor("xMatched", false, true, false, DisplayType.Quantity, "xMatched");
+	private WNumberEditor xMatchedTo = new WNumberEditor("xMatchedTo", false, true, false, DisplayType.Quantity, "xMatchedTo");
+	private WNumberEditor difference = new WNumberEditor("Difference", false, true, false, DisplayType.Quantity, "Difference");
+	private Button bProcess = new Button();
+	private Panel centerPanel = new Panel();
+	private Borderlayout centerLayout = new Borderlayout();
+//	private JScrollPane xMatchedScrollPane = new JScrollPane();
+	private Label xMatchedBorder = new Label("xMatched");
+	private WListbox xMatchedTable = ListboxFactory.newDataTable();
+//	private JScrollPane xMatchedToScrollPane = new JScrollPane();
+	private Label xMatchedToBorder = new Label("xMatchedTo");
+	private WListbox xMatchedToTable = ListboxFactory.newDataTable();
+	private Panel xPanel = new Panel();
+	private Checkbox sameProduct = new Checkbox();
+	private Checkbox sameBPartner = new Checkbox();
+	private Checkbox sameQty = new Checkbox();
+//	private FlowLayout xLayout = new FlowLayout(FlowLayout.CENTER, 10, 0);
+
+	/**
+	 *  Static Init.
+	 *  <pre>
+	 *  mainPanel
+	 *      northPanel
+	 *      centerPanel
+	 *          xMatched
+	 *          xPanel
+	 *          xMathedTo
+	 *      southPanel
+	 *  </pre>
+	 *  @throws Exception
+	 */
+	private void zkInit() throws Exception
 	{
-		lstMatchTo.getChildren().clear();
+		this.appendChild(mainPanel);
+		mainPanel.setStyle("width: 99%; height: 100%; padding: 0; margin: 0");
+		mainPanel.appendChild(mainLayout);
+		mainLayout.setWidth("100%");
+		mainLayout.setHeight("100%");
+		northPanel.appendChild(northLayout);
+		matchFromLabel.setText(Msg.translate(Env.getCtx(), "MatchFrom"));
+		matchToLabel.setText(Msg.translate(Env.getCtx(), "MatchTo"));
+		matchModeLabel.setText(Msg.translate(Env.getCtx(), "MatchMode"));
+		onlyVendorLabel.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		onlyProductLabel.setText(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		dateFromLabel.setText(Msg.translate(Env.getCtx(), "DateFrom"));
+		dateToLabel.setText(Msg.translate(Env.getCtx(), "DateTo"));
+		bSearch.setLabel(Msg.translate(Env.getCtx(), "Search"));
+		southPanel.appendChild(southLayout);
+		xMatchedLabel.setText(Msg.translate(Env.getCtx(), "ToBeMatched"));
+		xMatchedToLabel.setText(Msg.translate(Env.getCtx(), "Matching"));
+		differenceLabel.setText(Msg.translate(Env.getCtx(), "Difference"));
+		bProcess.setLabel(Msg.translate(Env.getCtx(), "Process"));
+		centerPanel.appendChild(centerLayout);
+//		xMatchedScrollPane.setBorder(xMatchedBorder);
+//		xMatchedScrollPane.setPreferredSize(new Dimension(450, 200));
+//		xMatchedToScrollPane.setBorder(xMatchedToBorder);
+//		xMatchedToScrollPane.setPreferredSize(new Dimension(450, 200));
+		sameProduct.setSelected(true);
+		sameProduct.setText(Msg.translate(Env.getCtx(), "SameProduct"));
+		sameBPartner.setSelected(true);
+		sameBPartner.setText(Msg.translate(Env.getCtx(), "SameBPartner"));
+		sameQty.setSelected(false);
+		sameQty.setText(Msg.translate(Env.getCtx(), "SameQty"));
+//		xPanel.setLayout(xLayout);
 		
-		ListItem lstIteMatchFromSelection = lstMatchFrom.getSelectedItem();
-		String selection = (String)lstIteMatchFromSelection.getValue();
+		North north = new North();
+		mainLayout.appendChild(north);
+		north.appendChild(northPanel);
 		
+		Rows rows = northLayout.newRows();
+		Row row = rows.newRow();
+		row.appendChild(matchFromLabel.rightAlign());
+		row.appendChild(matchFrom);
+		row.appendChild(matchToLabel.rightAlign());
+		row.appendChild(matchTo);
+		row.appendChild(new Space());
+		
+		row = rows.newRow();
+		row.setSpans("1,1,3");
+		row.appendChild(matchModeLabel.rightAlign());
+		row.appendChild(matchMode);
+		row.appendChild(new Space());
+		
+		row = rows.newRow();
+		row.appendChild(onlyVendorLabel.rightAlign());
+		row.appendChild(onlyVendor.getComponent());
+		row.appendChild(onlyProductLabel.rightAlign());
+		row.appendChild(onlyProduct.getComponent());
+		row.appendChild(new Space());
+		
+		row = rows.newRow();
+		row.appendChild(dateFromLabel.rightAlign());		
+		row.appendChild(dateFrom.getComponent());
+		row.appendChild(dateToLabel.rightAlign());
+		row.appendChild(dateTo.getComponent());
+		row.appendChild(bSearch);
+		
+		South south = new South();
+		mainLayout.appendChild(south);
+		south.appendChild(southPanel);
+		
+		rows = southLayout.newRows();
+		
+		row = rows.newRow();
+		row.appendChild(xMatchedLabel.rightAlign());
+		row.appendChild(xMatched.getComponent());
+		row.appendChild(xMatchedToLabel.rightAlign());
+		row.appendChild(xMatchedTo.getComponent());
+		row.appendChild(differenceLabel.rightAlign());
+		row.appendChild(difference.getComponent());
+		row.appendChild(bProcess);
+		
+		Center center = new Center();
+		mainLayout.appendChild(center);
+		center.appendChild(centerPanel);
+		center.setFlex(true);
+		centerLayout.setWidth("100%");
+		centerLayout.setHeight("100%");
+		north = new North();
+		centerLayout.appendChild(north);
+		north.setStyle("border: none");
+		Panel p = new Panel();
+		p.appendChild(xMatchedBorder);
+		p.appendChild(xMatchedTable);
+		xMatchedTable.setWidth("99%");
+		xMatchedTable.setHeight("85%");
+		p.setStyle("width: 100%; height: 100%; padding: 0; margin: 0");
+		north.appendChild(p);
+		north.setHeight("44%");
+		
+		south = new South();
+		centerLayout.appendChild(south);
+		south.setStyle("border: none");
+		xMatchedToTable.setWidth("99%");
+		xMatchedToTable.setHeight("99%");
+		south.appendChild(xMatchedToTable);
+		south.setHeight("44%");
+		
+		center = new Center();
+		centerLayout.appendChild(center);
+		center.setStyle("border: none");
+		center.setFlex(false);
+//		center.setHeight("6%");
+		center.appendChild(xPanel);
+		xPanel.appendChild(sameBPartner);
+		xPanel.appendChild(new Space());
+		xPanel.appendChild(sameProduct);
+		xPanel.appendChild(new Space());
+		xPanel.appendChild(sameQty);
+		xPanel.setHeight("50px");
+		xPanel.appendChild(new Separator());
+		xPanel.appendChild(xMatchedToBorder);
+	}   //  jbInit
+
+	/**
+	 *  Dynamic Init.
+	 *  Table Layout, Visual, Listener
+	 */
+	private void dynInit()
+	{
+		ColumnInfo[] layout = new ColumnInfo[] {
+			new ColumnInfo(" ",                                         ".", IDColumn.class, false, false, ""),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"),   ".", String.class),             //  1
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Date"),         ".", Timestamp.class),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"),".", KeyNamePair.class, "."),   //  3
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Line"),         ".", KeyNamePair.class, "."),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), ".", KeyNamePair.class, "."),   //  5
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"),          ".", Double.class),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", Double.class)
+		};
+
+		xMatchedTable.prepareTable(layout, "", "", false, "");
+		xMatchedToTable.prepareTable(layout, "", "", true, "");
+
+		matchFrom.setSelectedIndex(0);
+		//  Listener
+		matchFrom.addActionListener(this);
+		matchTo.addActionListener(this);
+		bSearch.addActionListener(this);
+		xMatchedTable.addEventListener(Events.ON_SELECT, this);
+		xMatchedToTable.getModel().addTableModelListener(this);
+		bProcess.addActionListener(this);
+		sameBPartner.addActionListener(this);
+		sameProduct.addActionListener(this);
+		sameQty.addActionListener(this);
+		//  Init
+		cmd_matchFrom();
+		statusBar.setStatusLine("");
+		statusBar.setStatusDB("0");
+	}   //  dynInit
+
+	/**
+	 * 	Dispose
+	 */
+	public void dispose()
+	{
+		SessionManager.getAppDesktop().removeWindow();
+	}	//	dispose
+
+	
+	/**************************************************************************
+	 *  Action Listener
+	 *  @param e event
+	 */
+	public void onEvent (Event e)
+	{
+		if (e.getTarget() == matchFrom)
+			cmd_matchFrom();
+		else if (e.getTarget() == matchTo)
+			cmd_matchTo();
+		else if (e.getTarget() == bSearch)
+			cmd_search();
+		else if (e.getTarget() == bProcess)
+			cmd_process();
+		else if (e.getTarget() == sameBPartner
+			|| e.getTarget() == sameProduct
+			|| e.getTarget() == sameQty)
+			cmd_searchTo();
+		else if (AEnv.contains(xMatchedTable, e.getTarget()))
+			cmd_searchTo();
+	}   //  actionPerformed
+
+	/**
+	 *  Match From Changed - Fill Match To
+	 */
+	private void cmd_matchFrom()
+	{
+	//	log.fine( "VMatch.cmd_matchFrom");
+		String selection = (String)matchFrom.getSelectedItem().getValue();
 		Vector<String> vector = new Vector<String>(2);
-		
 		if (selection.equals(m_matchOptions[MATCH_INVOICE]))
 			vector.add(m_matchOptions[MATCH_SHIPMENT]);
 		else if (selection.equals(m_matchOptions[MATCH_ORDER]))
 			vector.add(m_matchOptions[MATCH_SHIPMENT]);
-		else
+		else    //  shipment
 		{
 			vector.add(m_matchOptions[MATCH_INVOICE]);
 			vector.add(m_matchOptions[MATCH_ORDER]);
 		}
-		
-		for (int i = 0; i < vector.size(); i++)
-		{
-			String temp = vector.get(i).toString();
-			lstMatchTo.appendItem(temp, temp);
-		}
-		
-		lstMatchTo.setSelectedIndex(0);
-		lblMatchTo.setValue(vector.get(0).toString());
-		
+		SimpleListModel model = new SimpleListModel(vector);
+		matchTo.setItemRenderer(model);
+		matchTo.setModel(model);		
+		//  Set Title
+		xMatchedBorder.setValue(selection);
 		//  Reset Table
-		
-		//xMatchedTable.setRowCount(0);
-		//xMatchedToTable.setRowCount(0);
-	}
-	
-	private void populateSearchMode()
-	{
-		for (int i = 0; i < m_matchMode.length; i++)
-		{
-			lstSearchMode.appendItem(m_matchMode[i], m_matchMode[i]);
-		}
-		
-		lstSearchMode.setSelectedIndex(0);
-	}
-	
-	private void showBusinessPartner()
-	{
-		final int AD_Column_ID = 3499;
-		
-		MLookup lookupBP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-				0, AD_Column_ID, DisplayType.Search);
-		
-		bPartnerSearch = new WSearchEditor(lookupBP, Msg.translate(
-				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
+		xMatchedTable.setRowCount(0);
+		//  sync To
+		matchTo.setSelectedIndex(0);
+		cmd_matchTo();
+	}   //  cmd_matchFrom
 
-		bPartnerSearch.addValueChangeListener(this);
-	}
-	
-	private void showProduct()
+	/**
+	 *  Match To Changed - set Title
+	 */
+	private void cmd_matchTo()
 	{
-		final int AD_Column_ID = 3840;
-		
-		MLookup lookupP = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-				0, AD_Column_ID, DisplayType.Search);
-		
-		productSearch = new WSearchEditor(lookupP, Msg.translate(
-				Env.getCtx(), "M_Product_ID"), "", true, false, true);
+	//	log.fine( "VMatch.cmd_matchTo");
+		int index = matchTo.getSelectedIndex();
+		String selection = (String)matchTo.getModel().getElementAt(index);
+		xMatchedToBorder.setValue(selection);
+		//  Reset Table
+		xMatchedToTable.setRowCount(0);
+	}   //  cmd_matchTo
 
-		productSearch.addValueChangeListener(this);
-	}
-	
-	private void prepareTable()
+	/**
+	 *  Search Button Pressed - Fill xMatched
+	 */
+	private void cmd_search()
 	{
-		ColumnInfo[] layout = new ColumnInfo[] {
-				new ColumnInfo(" ",                                         ".", IDColumn.class, false, false, ""),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"),   ".", String.class),             //  1
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Date"),         ".", Timestamp.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"),".", KeyNamePair.class, "."),   //  3
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Line"),         ".", KeyNamePair.class, "."),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), ".", KeyNamePair.class, "."),   //  5
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"),          ".", Double.class),
-				new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", Double.class)
-			};
-
-		strMatchedTable = xMatchedTable.prepareTable(layout, "", "", false, "");
-		strMatchedToTable = xMatchedToTable.prepareTable(layout, "", "", true, "");
-	}
-	
-	private void searchRecords()
-	{
-		int display = lstMatchFrom.getSelectedIndex();
-		
-		ListItem lstIteMatchTo = lstMatchTo.getSelectedItem();
-		String matchToString = (String)lstIteMatchTo.getValue();
+		//  ** Create SQL **
+		int display = matchFrom.getSelectedIndex();
+		String matchToString = (String)matchTo.getSelectedItem().getLabel();
 		int matchToType = MATCH_INVOICE;
-		
 		if (matchToString.equals(m_matchOptions[MATCH_SHIPMENT]))
 			matchToType = MATCH_SHIPMENT;
 		else if (matchToString.equals(m_matchOptions[MATCH_ORDER]))
 			matchToType = MATCH_ORDER;
-
+		//
 		tableInit(display, matchToType);	//	sets m_sql
 
-		// Where Clause
-		// Product
-		
-		if (productSearch.getDisplay() != "")
+		//  ** Add Where Clause **
+		//  Product
+		if (onlyProduct.getValue() != null)
 		{
-			Integer Product = (Integer)productSearch.getValue();
+			Integer Product = (Integer)onlyProduct.getValue();
 			m_sql.append(" AND lin.M_Product_ID=").append(Product);
 		}
-		
-		//  Business Partner
-		
-		if (bPartnerSearch.getDisplay() != "")
+		//  BPartner
+		if (onlyVendor.getValue() != null)
 		{
-			Integer Vendor = (Integer)bPartnerSearch.getValue();
+			Integer Vendor = (Integer)onlyVendor.getValue();
 			m_sql.append(" AND hdr.C_BPartner_ID=").append(Vendor);
 		}
-		
-		Date f =null;
-		Timestamp from  =null;
-		
-		if (dateFrom.getValue() != null)
-		{
-			f = dateFrom.getValue();
-			from = new Timestamp(f.getTime());
-		}
-		
-		Date t = null;
-		Timestamp to = null;
-
-		if (dateTo.getValue() != null)
-		{
-			t = dateTo.getValue();
-			to = new Timestamp(t.getTime());
-		}
-		
+		//  Date
+		Timestamp from = (Timestamp)dateFrom.getValue();
+		Timestamp to = (Timestamp)dateTo.getValue();
 		if (from != null && to != null)
 			m_sql.append(" AND ").append(m_dateColumn).append(" BETWEEN ")
 				.append(DB.TO_DATE(from)).append(" AND ").append(DB.TO_DATE(to));
@@ -536,43 +474,41 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 		else if (to != null)
 			m_sql.append(" AND ").append(m_dateColumn).append(" <= ").append(DB.TO_DATE(to));
 
-		//  Load Table
+		//  ** Load Table **
 		tableLoad (xMatchedTable);
-		txtMatching.setText(Env.ZERO.toString());
-		
+		xMatched.setValue(Env.ZERO);
 		//  Status Info
-		ListItem lstIteMatchFrom = lstMatchFrom.getSelectedItem();
-		Integer rowCount = xMatchedTable.getItemCount();
-		
-		lblStatus.setValue(lstIteMatchFrom.getLabel() + "# = " + rowCount.toString());
-		//	xMatchedTable.getRowCount() == 0);
-		//statusBar.setStatusDB(0);		
-	}
-	
-	private void process()
+		statusBar.setStatusLine(matchFrom.getSelectedItem().getLabel()
+			+ "# = " + xMatchedTable.getRowCount(),
+			xMatchedTable.getRowCount() == 0);
+		statusBar.setStatusDB("0");
+	}   //  cmd_search
+
+	/**
+	 *  Process Button Pressed - Process Matching
+	 */
+	private void cmd_process()
 	{
-		// Matched From
+		log.config("");
+		//  Matched From
 		int matchedRow = xMatchedTable.getSelectedRow();
-		
 		if (matchedRow < 0)
 			return;
-
-		//KeyNamePair BPartner = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_BPartner);
+	//	KeyNamePair BPartner = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_BPartner);
 		KeyNamePair lineMatched = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_Line);
 		KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_Product);
 
-		//int M_Product_ID = Product.getKey();
+		int M_Product_ID = Product.getKey();
 		double totalQty = m_xMatched.doubleValue();
 
 		//  Matched To
-		for (int row = 0; row < xMatchedToTable.getItemCount(); row++)
+		for (int row = 0; row < xMatchedToTable.getRowCount(); row++)
 		{
 			IDColumn id = (IDColumn)xMatchedToTable.getValueAt(row, 0);
 			if (id != null && id.isSelected())
 			{
-				// Need to be the same product
+				//  need to be the same product
 				KeyNamePair ProductCompare = (KeyNamePair)xMatchedToTable.getValueAt(row, I_Product);
-				
 				if (Product.getKey() != ProductCompare.getKey())
 					continue;
 
@@ -580,28 +516,22 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 
 				//	Qty
 				double qty = 0.0;
-				
-				if (lstSearchMode.getSelectedIndex() == MODE_NOTMATCHED)
-					qty = ((Double)xMatchedToTable.getValueAt(row, I_QTY)).doubleValue();	// doc
-				
-				qty -= ((Double)xMatchedToTable.getValueAt(row, I_MATCHED)).doubleValue();  // matched
-				
+				if (matchMode.getSelectedIndex() == MODE_NOTMATCHED)
+					qty = ((Double)xMatchedToTable.getValueAt(row, I_QTY)).doubleValue();	//  doc
+				qty -= ((Double)xMatchedToTable.getValueAt(row, I_MATCHED)).doubleValue();  //  matched
 				if (qty > totalQty)
 					qty = totalQty;
-				
 				totalQty -= qty;
 
 				//  Invoice or PO
 				boolean invoice = true;
-				if (lstMatchFrom.getSelectedIndex() == MATCH_ORDER ||
-						lstMatchTo.getSelectedItem().equals(m_matchOptions[MATCH_ORDER]))
+				if (matchFrom.getSelectedIndex() == MATCH_ORDER ||
+						matchTo.getSelectedItem().equals(m_matchOptions[MATCH_ORDER]))
 					invoice = false;
-
 				//  Get Shipment_ID
 				int M_InOutLine_ID = 0;
 				int Line_ID = 0;
-				
-				if (lstMatchFrom.getSelectedIndex() == MATCH_SHIPMENT)
+				if (matchFrom.getSelectedIndex() == MATCH_SHIPMENT)
 				{
 					M_InOutLine_ID = lineMatched.getKey();      //  upper table
 					Line_ID = lineMatchedTo.getKey();
@@ -616,35 +546,94 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 				createMatchRecord(invoice, M_InOutLine_ID, Line_ID, new BigDecimal(qty));
 			}
 		}
-		//  Requery
-		searchRecords();		
+		//  requery
+		cmd_search();
+	}   //  cmd_process
+	
+	/**
+	 *  Fill xMatchedTo
+	 */
+	private void cmd_searchTo()
+	{
+		int row = xMatchedTable.getSelectedRow();
+		log.config("Row=" + row);
+
+		double qty = 0.0;
+		if (row < 0)
+		{
+			xMatchedToTable.setRowCount(0);
+		}
+		else
+		{
+			//  ** Create SQL **
+			String displayString = (String)matchTo.getSelectedItem().getLabel();
+			int display = MATCH_INVOICE;
+			if (displayString.equals(m_matchOptions[MATCH_SHIPMENT]))
+				display = MATCH_SHIPMENT;
+			else if (displayString.equals(m_matchOptions[MATCH_ORDER]))
+				display = MATCH_ORDER;
+			int matchToType = matchFrom.getSelectedIndex();
+			tableInit (display, matchToType);	//	sets m_sql
+			//  ** Add Where Clause **
+			KeyNamePair BPartner = (KeyNamePair)xMatchedTable.getValueAt(row, I_BPartner);
+			KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(row, I_Product);
+			log.fine("BPartner=" + BPartner + " - Product=" + Product);
+			//
+			if (sameBPartner.isSelected())
+				m_sql.append(" AND hdr.C_BPartner_ID=").append(BPartner.getKey());
+			if (sameProduct.isSelected())
+				m_sql.append(" AND lin.M_Product_ID=").append(Product.getKey());
+
+			//  calculate qty
+			double docQty = ((Double)xMatchedTable.getValueAt(row, I_QTY)).doubleValue();
+			double matchedQty = ((Double)xMatchedTable.getValueAt(row, I_MATCHED)).doubleValue();
+			qty = docQty - matchedQty;
+			if (sameQty.isSelected())
+				m_sql.append(" AND ").append(m_qtyColumn).append("=").append(docQty);
+			//  ** Load Table **
+			tableLoad (xMatchedToTable);
+		}
+		//  Display To be Matched Qty
+		m_xMatched = new BigDecimal (qty);
+		xMatched.setValue(m_xMatched);
+		xMatchedTo.setValue(Env.ZERO);
+		difference.setValue(m_xMatched);
+		//  Status Info
+		statusBar.setStatusLine(matchFrom.getSelectedItem().getLabel()
+			+ "# = " + xMatchedTable.getRowCount() + " - "
+			+ getMatchToLabel()
+			+  "# = " + xMatchedToTable.getRowCount(),
+			xMatchedToTable.getRowCount() == 0);
+		statusBar.setStatusDB("0");
+	}   //  cmd_seachTo
+
+	
+	private String getMatchToLabel() {
+		int index = matchTo.getSelectedIndex();
+		return matchTo.getModel().getElementAt(index).toString();
 	}
 
-	public void tableChanged(WTableModelEvent e)
+	/***************************************************************************
+	 *  Table Model Listener - calculate matchd Qty
+	 *  @param e event
+	 */
+	public void tableChanged (WTableModelEvent e)
 	{
 		if (e.getColumn() != 0)
 			return;
-		
 		log.config("Row=" + e.getFirstRow() + "-" + e.getLastRow() + ", Col=" + e.getColumn()
 			+ ", Type=" + e.getType());
-		//setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		//  Matched From
 		int matchedRow = xMatchedTable.getSelectedRow();
-		if (matchedRow == -1)
-		{
-			return;
-		}
 		KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, 5);
 
 		//  Matched To
 		double qty = 0.0;
-		Integer noRows = 0;
-		
-		for (int row = 0; row < xMatchedToTable.getItemCount(); row++)
+		int noRows = 0;
+		for (int row = 0; row < xMatchedToTable.getRowCount(); row++)
 		{
 			IDColumn id = (IDColumn)xMatchedToTable.getValueAt(row, 0);
-		
 			if (id != null && id.isSelected())
 			{
 				KeyNamePair ProductCompare = (KeyNamePair)xMatchedToTable.getValueAt(row, 5);
@@ -654,32 +643,44 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 				}
 				else
 				{
-					if (lstSearchMode.getSelectedIndex() == MODE_NOTMATCHED)
+					if (matchMode.getSelectedIndex() == MODE_NOTMATCHED)
 						qty += ((Double)xMatchedToTable.getValueAt(row, I_QTY)).doubleValue();  //  doc
-					
 					qty -= ((Double)xMatchedToTable.getValueAt(row, I_MATCHED)).doubleValue();  //  matched
 					noRows++;
 				}
 			}
 		}
-		
-		//  Update qualtities
+		//  update qualtities
 		m_xMatchedTo = new BigDecimal(qty);
-		txtMatching.setValue(m_xMatchedTo.toString());
-		txtDifference.setValue(m_xMatched.subtract(m_xMatchedTo).toString());
-		cmdProcess.setEnabled(noRows != 0);
-		
-		//setCursor(Cursor.getDefaultCursor());
+		xMatchedTo.setValue(m_xMatchedTo);
+		difference.setValue(m_xMatched.subtract(m_xMatchedTo));
+		bProcess.setEnabled(noRows != 0);
 		//  Status
-		//lblStatus.setValue(noRows.toString());
-	}
+		statusBar.setStatusDB(noRows + "");
+	}   //  tableChanged
+
 	
-	private void tableInit(int display, int matchToType)
+	/**************************************************************************
+	 *  Initialise Table access - create SQL, dateColumn.
+	 *  <br>
+	 *  The driving table is "hdr", e.g. for hdr.C_BPartner_ID=..
+	 *  The line table is "lin", e.g. for lin.M_Product_ID=..
+	 *  You use the dateColumn/qtyColumn variable directly as it is table specific.
+	 *  <br>
+	 *  The sql is dependent on MatchMode:
+	 *  - If Matched - all (fully or partially) matched records are listed
+	 *  - If Not Matched - all not fully matched records are listed
+	 *  @param display (Invoice, Shipment, Order) see MATCH_*
+	 *  @param matchToType (Invoice, Shipment, Order) see MATCH_*
+	 */
+	private void tableInit (int display, int matchToType)
 	{
-		boolean matched = lstSearchMode.getSelectedIndex() == MODE_MATCHED;
+		boolean matched = matchMode.getSelectedIndex() == MODE_MATCHED;
+		log.config("Display=" + m_matchOptions[display]
+			+ ", MatchTo=" + m_matchOptions[matchToType]
+			+ ", Matched=" + matched);
 
 		m_sql = new StringBuffer ();
-		
 		if (display == MATCH_INVOICE)
 		{
 			m_dateColumn = "hdr.DateInvoiced";
@@ -713,10 +714,21 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
 				+ " INNER JOIN C_DocType dt ON (hdr.C_DocType_ID=dt.C_DocType_ID AND dt.DocBaseType='POO')"
 				+ " FULL JOIN M_MatchPO mo ON (lin.C_OrderLine_ID=mo.C_OrderLine_ID) "
-				+ "WHERE mo.")
-				.append(matchToType == MATCH_SHIPMENT ? "M_InOutLine_ID" : "C_InvoiceLine_ID")
-				.append(matched ? " IS NOT NULL" : " IS NULL"
-				+ " AND hdr.DocStatus IN ('CO','CL')");
+				+ " WHERE " ) ; //[ 1876972 ] Can't match partially matched PO with an unmatched receipt SOLVED BY BOJANA, AGENDA_GM
+			m_linetype = new StringBuffer();
+			m_linetype.append( matchToType == MATCH_SHIPMENT ? "M_InOutLine_ID" : "C_InvoiceLine_ID") ;
+			if ( matched ) {
+				m_sql.append( " mo." + m_linetype + " IS NOT NULL " ) ; 
+			} else {
+ 				m_sql.append( " ( mo." + m_linetype + " IS NULL OR "
+				+ " (lin.QtyOrdered <>  (SELECT sum(mo1.Qty) AS Qty" 
+				+ " FROM m_matchpo mo1 WHERE "
+				+ " mo1.C_ORDERLINE_ID=lin.C_ORDERLINE_ID AND "
+				+ " hdr.C_ORDER_ID=lin.C_ORDER_ID AND "
+				+ " mo1." + m_linetype
+				+ " IS NOT NULL group by mo1.C_ORDERLINE_ID))) " );	
+			}
+			m_sql.append( " AND hdr.DocStatus IN ('CO','CL')" );
 			m_groupBy = " GROUP BY hdr.C_Order_ID,hdr.DocumentNo,hdr.DateOrdered,bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered "
 				+ "HAVING "
@@ -745,16 +757,21 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 				+ (matched ? "0" : "lin.MovementQty")
 				+ "<>SUM(NVL(m.Qty,0))";
 		}
-	}
-	
-	private void tableLoad(WListbox table)
+	//	Log.trace(7, "VMatch.tableInit", m_sql + "\n" + m_groupBy);
+	}   //  tableInit
+
+
+	/**
+	 *  Fill the table using m_sql
+	 *  @param table table
+	 */
+	private void tableLoad (WListbox table)
 	{
-		log.finest(m_sql + " - " +  m_groupBy);
+	//	log.finest(m_sql + " - " +  m_groupBy);
 		String sql = MRole.getDefault().addAccessSQL(
 			m_sql.toString(), "hdr", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
 			+ m_groupBy;
 		log.finest(sql);
-		
 		try
 		{
 			Statement stmt = DB.createStatement();
@@ -766,33 +783,35 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-	}
-	
+	}   //  tableLoad
+
+	/**
+	 *  Create Matching Record
+	 *  @param invoice true if matching invoice false if matching PO
+	 *  @param M_InOutLine_ID shipment line
+	 *  @param Line_ID C_InvoiceLine_ID or C_OrderLine_ID
+	 *  @param qty quantity
+	 *  @return true if created
+	 */
 	private boolean createMatchRecord (boolean invoice, int M_InOutLine_ID, int Line_ID,
-			BigDecimal qty)
+		BigDecimal qty)
 	{
 		if (qty.compareTo(Env.ZERO) == 0)
 			return true;
-
 		log.fine("IsInvoice=" + invoice
-				+ ", M_InOutLine_ID=" + M_InOutLine_ID + ", Line_ID=" + Line_ID
-				+ ", Qty=" + qty);
-
+			+ ", M_InOutLine_ID=" + M_InOutLine_ID + ", Line_ID=" + Line_ID
+			+ ", Qty=" + qty);
+		//
 		boolean success = false;
 		MInOutLine sLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, null);
-
 		if (invoice)	//	Shipment - Invoice
 		{
 			//	Update Invoice Line
-		
 			MInvoiceLine iLine = new MInvoiceLine (Env.getCtx(), Line_ID, null);
 			iLine.setM_InOutLine_ID(M_InOutLine_ID);
-			
 			if (sLine.getC_OrderLine_ID() != 0)
 				iLine.setC_OrderLine_ID(sLine.getC_OrderLine_ID());
-			
 			iLine.save();
-			
 			//	Create Shipment - Invoice Link
 			if (iLine.getM_Product_ID() != 0)
 			{
@@ -805,18 +824,14 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 			}
 			else
 				success = true;
-			
 			//	Create PO - Invoice Link = corrects PO
 			if (iLine.getC_OrderLine_ID() != 0 && iLine.getM_Product_ID() != 0)
 			{
 				MMatchPO matchPO = MMatchPO.create(iLine, sLine, null, qty);
 				matchPO.setC_InvoiceLine_ID(iLine);
 				matchPO.setM_InOutLine_ID(M_InOutLine_ID);
-				
 				if (!matchPO.save())
-				{
 					log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
-				}
 			}
 		}
 		else	//	Shipment - Order
@@ -824,15 +839,13 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 			//	Update Shipment Line
 			sLine.setC_OrderLine_ID(Line_ID);
 			sLine.save();
-			
 			//	Update Order Line
 			MOrderLine oLine = new MOrderLine(Env.getCtx(), Line_ID, null);
-			
 			if (oLine.get_ID() != 0)	//	other in MInOut.completeIt
 			{
 				oLine.setQtyReserved(oLine.getQtyReserved().subtract(qty));
 				if(!oLine.save())
-					;//log.severe("QtyReserved not updated - C_OrderLine_ID=" + Line_ID);
+					log.severe("QtyReserved not updated - C_OrderLine_ID=" + Line_ID);
 			}
 
 			//	Create PO - Shipment Link
@@ -840,200 +853,23 @@ public class WMatch extends ADForm implements EventListener, ValueChangeListener
 			{
 				MMatchPO match = new MMatchPO (sLine, null, qty);
 				if (!match.save())
-					;//	log.log(Level.SEVERE, "PO Match not created: " + match);
+					log.log(Level.SEVERE, "PO Match not created: " + match);
 				else
 				{
 					success = true;
-
 					//	Correct Ordered Qty for Stocked Products (see MOrder.reserveStock / MInOut.processIt)
 					if (sLine.getProduct() != null && sLine.getProduct().isStocked())
 						success = MStorage.add (Env.getCtx(), sLine.getM_Warehouse_ID(), 
-								sLine.getM_Locator_ID(), 
-								sLine.getM_Product_ID(), 
-								sLine.getM_AttributeSetInstance_ID(), oLine.getM_AttributeSetInstance_ID(), 
-								null, null, qty.negate(), null);
+							sLine.getM_Locator_ID(), 
+							sLine.getM_Product_ID(), 
+							sLine.getM_AttributeSetInstance_ID(), oLine.getM_AttributeSetInstance_ID(), 
+							null, null, qty.negate(), null);
 				}
 			}
 			else
 				success = true;
 		}
 		return success;
-	}
-	
-	private void searchTo()
-	{
-		int row = xMatchedTable.getSelectedRow();
-		log.config("Row=" + row);
+	}   //  createMatchRecord
 
-		double qty = 0.0;
-		
-		if (row < 0)
-		{
-			xMatchedToTable.setRowCount(0);
-		}
-		else
-		{
-			//  ** Create SQL **
-			ListItem lstIteDisplayStr = lstMatchTo.getSelectedItem();
-			String displayString = (String)lstIteDisplayStr.getValue();
-			int display = MATCH_INVOICE;
-			
-			if (displayString.equals(m_matchOptions[MATCH_SHIPMENT]))
-				display = MATCH_SHIPMENT;
-			else if (displayString.equals(m_matchOptions[MATCH_ORDER]))
-				display = MATCH_ORDER;
-			
-			int matchToType = lstMatchFrom.getSelectedIndex();
-			
-			tableInit (display, matchToType);	//	sets m_sql
-			
-			//  ** Add Where Clause **
-			KeyNamePair BPartner = (KeyNamePair)xMatchedTable.getValueAt(row, I_BPartner);
-			KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(row, I_Product);
-			log.fine("BPartner=" + BPartner + " - Product=" + Product);
-
-			if (chkSameBP.isChecked())
-				m_sql.append(" AND hdr.C_BPartner_ID=").append(BPartner.getKey());
-			
-			if (chkSameProduct.isChecked())
-				m_sql.append(" AND lin.M_Product_ID=").append(Product.getKey());
-
-			// Calculate qty
-			double docQty = ((Double)xMatchedTable.getValueAt(row, I_QTY)).doubleValue();
-			double matchedQty = ((Double)xMatchedTable.getValueAt(row, I_MATCHED)).doubleValue();
-			qty = docQty - matchedQty;
-			
-			if (chkSameQty.isChecked())
-				m_sql.append(" AND ").append(m_qtyColumn).append("=").append(docQty);
-
-			//  ** Load Table **
-			tableLoad (xMatchedToTable);
-		}
-
-		//  Display To be Matched Qty
-		m_xMatched = new BigDecimal (qty);
-		txtToBeMatched.setValue(m_xMatched.toString());
-		txtMatching.setValue(Env.ZERO.toString());
-		txtDifference.setValue(m_xMatched.toString());
-		
-		//  Status Info
-		ListItem lstIteMatchFrom = lstMatchFrom.getSelectedItem();
-		ListItem lstIteMatchTo = lstMatchTo.getSelectedItem();
-		
-		Integer matchedRowCount = xMatchedTable.getItemCount();
-		Integer matchToRowCount = xMatchedToTable.getItemCount();
-		
-		String stat = 	lstIteMatchFrom.getLabel() + "# = " + matchedRowCount.toString() + " - "
-						+ lstIteMatchTo.getLabel() +  "# = " + matchToRowCount.toString();
-		
-		lblStatus.setValue(stat);
-		//	xMatchedToTable.getRowCount() == 0);
-		//statusBar.setStatusDB(0);
-	}
-	
-	public void onEvent(Event evt) throws Exception
-	{
-		if (evt != null)
-		{
-			if (evt.getTarget() == lstMatchFrom)
-			{
-				populateMatchTo();
-				
-				ListItem lstIteMatchFrom = lstMatchFrom.getSelectedItem();
-				lblMatchFrom.setValue(lstIteMatchFrom.getLabel());
-				
-				ListItem lstIteMatchTo = lstMatchTo.getSelectedItem();
-				lblMatchTo.setValue(lstIteMatchTo.getLabel());
-				
-				xMatchedTable.clear();
-				xMatchedToTable.clear();
-			}
-
-			if (evt.getTarget() == lstMatchTo)
-			{
-				ListItem lstIteMatchTo = lstMatchTo.getSelectedItem();
-				lblMatchTo.setValue(lstIteMatchTo.getLabel());
-				
-				xMatchedTable.clear();
-				xMatchedToTable.clear();
-			}
-			
-			if (evt.getTarget() == chkSameBP)
-			{
-				searchTo();
-			}
-			
-			if (evt.getTarget() == chkSameProduct)
-			{
-				searchTo();
-			}
-
-			if (evt.getTarget() == chkSameQty)
-			{
-				searchTo();
-			}
-			
-			if (evt.getTarget() == cmdSearch)
-			{
-				xMatchedTable.clear();
-				xMatchedToTable.clear();
-				searchRecords();
-			}
-			
-			if (evt.getTarget() == cmdProcess)
-			{
-				process();
-				
-				xMatchedTable.clear();
-				xMatchedToTable.clear();
-				
-				txtMatching.setValue("");
-				txtToBeMatched.setValue("");
-				txtDifference.setValue("");
-				
-				lblStatus.setValue("");
-				
-				searchRecords();
-			}
-			
-			if (evt.getTarget() == xMatchedTable)
-			{
-				searchTo();
-			}
-		}
-	}
-
-	//public void tableChanged(WTableModelEvent event)
-	//{
-		//if (event.getColumn() == 0)
-		//{
-		//	searchTo();
-		//}
-	//}
-	
-	public void valueChange(ValueChangeEvent evt) 
-	{
-		if (evt == null)
-			return;
-
-		if (evt.getSource() instanceof WEditor)
-		{
-			String name = evt.getPropertyName();
-			Object value = evt.getNewValue() == null ? "" : evt.getNewValue();
-
-			xMatchedTable.clear();
-			xMatchedToTable.clear();
-			
-			if (name.equals("C_BPartner_ID"))
-			{
-				bPartnerSearch.setValue(value);
-				//m_C_BPartner_ID = ((Integer) value).intValue();
-			}
-			else if (name.equals("M_Product_ID"))
-			{
-				productSearch.setValue(value);
-				//productID = new Integer(value);
-			}
-		}
-	}
-}
+}   //  VMatch

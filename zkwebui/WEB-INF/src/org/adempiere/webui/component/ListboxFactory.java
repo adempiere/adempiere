@@ -42,4 +42,14 @@ public class ListboxFactory {
 		
 		return dataTable;
 	}
+
+	public static Listbox newDropdownListbox(String[] items) {
+		Listbox listbox = newDropdownListbox();
+		if (items != null && items.length > 0) {
+			for(int i = 0; i < items.length; i++) {
+				listbox.appendChild(new ListItem(items[i], items[i]));
+			}
+		}
+		return listbox;
+	}
 }

@@ -29,7 +29,6 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
@@ -48,6 +47,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.zkoss.web.servlet.Servlets;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 
@@ -714,5 +714,25 @@ public final class AEnv
     	} else {
     		return false;
     	}
+    }
+    
+    /**
+     * 
+     * @param parent
+     * @param child
+     * @return boolean
+     */
+    public static boolean contains(Component parent, Component child) {
+    	if (child == parent)
+    		return true;
+    	
+    	Component c = child.getParent();
+    	while (c != null) {
+    		if (c == parent)
+    			return true;
+    		c = c.getParent();
+    	}
+    	
+    	return false;
     }
 }	//	AEnv
