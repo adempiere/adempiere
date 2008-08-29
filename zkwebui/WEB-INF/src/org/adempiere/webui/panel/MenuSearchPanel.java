@@ -98,12 +98,6 @@ public class MenuSearchPanel extends Panel implements EventListener
         cmbSearch.setDict(treeValues);
    }
 
-    public boolean isAsap()
-    {
-        return true;
-    }
-
-
     public void onEvent(Event event)
     {
         if (cmbSearch.equals(event.getTarget()) && (event.getName() != Events.ON_CHANGING))

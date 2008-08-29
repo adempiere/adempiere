@@ -229,11 +229,6 @@ public class MenuPanel extends Panel implements EventListener
         }		
 	}
 
-	public boolean isAsap()
-    {
-        return true;
-    }
-	
 	public Tree getMenuTree() 
 	{
 		return menuTree;

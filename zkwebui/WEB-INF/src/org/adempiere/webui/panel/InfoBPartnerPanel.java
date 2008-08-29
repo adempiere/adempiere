@@ -497,11 +497,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
        
     }   //  saveSelectionDetail
 		   
-    public boolean isAsap()
-	{
-		return true;
-	}
-
     public void tableChanged(WTableModelEvent event)
     {
         

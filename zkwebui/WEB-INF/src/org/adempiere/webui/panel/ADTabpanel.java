@@ -634,11 +634,6 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         }*/
     }
 
-    public boolean isAsap()
-    {
-        return false;
-    }
-
     public void onEvent(Event event)
     {
     	if (event.getTarget() instanceof Toolbarbutton) 

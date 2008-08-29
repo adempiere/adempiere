@@ -233,10 +233,6 @@ public class WReport implements EventListener {
 		return MTable.getTable_ID(tableName);
 	}	//	getAD_Table_ID
 
-	public boolean isAsap() {
-		return true;
-	}
-
 	public void onEvent(Event event) {
 		if(event.getTarget() instanceof Menuitem)
 		{

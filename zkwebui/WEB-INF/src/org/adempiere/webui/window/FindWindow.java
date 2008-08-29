@@ -631,6 +631,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         editor = WebEditorFactory.getEditor(mField, false);
         editor.setMandatory(false);
         editor.setReadWrite(true);
+        editor.dynamicDisplay();
         Label label = editor.getLabel();
         Component fieldLabel = editor.getComponent();
               
@@ -1182,6 +1183,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         m_editor.setValue(null);
         m_editor.setReadWrite(enabled);
         m_editor.setVisible(enabled);
+        m_editor.dynamicDisplay();
         //
         return m_editor.getComponent();
         

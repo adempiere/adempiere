@@ -469,11 +469,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	return false;
     }
 
-    public boolean isAsap()
-    {
-        return true;
-    }
-
 //    private void find()
 //    {
 //    	MQuery mquery = new MQuery(curTab.getAD_Table_ID());
@@ -1380,31 +1375,35 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		&& pi.isReportingProcess() == false;
 		//
 		//  Process Result
-		if (notPrint)		//	refresh if not print 
-		{			
-			if (Executions.getCurrent() != null)
+					
+		if (Executions.getCurrent() != null)
+		{
+			if (notPrint)		//	refresh if not print 
 			{
 				updateUI(pi);
-				Clients.showBusy(null, false);
 			}
-			else
-			{
-				try {
-					//get full control of desktop
-					Executions.activate(getComponent().getDesktop());
-					try {                    
-	                	updateUI(pi);                  
-	                	Clients.showBusy(null, false);
-	                } catch(Error ex){                    
-	                	throw ex;                    
-	                } finally{
-	                	//release full control of desktop
-	                	Executions.deactivate(getComponent().getDesktop());                                                            
-	                }
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "Failed to update UI upon unloc.", e);
-				} 		                                                
-			}
+			Clients.showBusy(null, false);
+		}
+		else
+		{
+			try {
+				//get full control of desktop
+				Executions.activate(getComponent().getDesktop());
+				try {                    
+					if (notPrint)		//	refresh if not print
+					{
+						updateUI(pi);
+					}
+                	Clients.showBusy(null, false);
+                } catch(Error ex){                    
+                	throw ex;                    
+                } finally{
+                	//release full control of desktop
+                	Executions.deactivate(getComponent().getDesktop());                                                            
+                }
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "Failed to update UI upon unloc.", e);
+			} 		                                                
 		}
 	}
 

@@ -477,6 +477,7 @@ public final class WAccountDialog extends Window
 		m_row.appendChild(div);
 
 		m_row.appendChild(editor.getComponent());
+		editor.dynamicDisplay();
 		//
 		m_newRow = !m_newRow;
 	}	//	addLine

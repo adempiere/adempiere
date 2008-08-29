@@ -234,15 +234,6 @@ public abstract class ADForm extends Window implements EventListener
     
     /**
      * 
-     * @return false
-     */
-    public boolean isAsap()
-    {
-        return false;
-    }
-
-    /**
-     * 
      */
 	public void onEvent(Event arg0) throws Exception 
     {

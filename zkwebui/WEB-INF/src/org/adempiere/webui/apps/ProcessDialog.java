@@ -123,14 +123,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		String label = Msg.getMsg(Env.getCtx(), "Ok");
 		bOK = new Button(label.replaceAll("&", ""));
 		bOK.setImage("/images/Ok16.png");
-		bOK.setName("ok");
+		bOK.setId("Ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(bOK);
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
 		Button btn = new Button(label.replaceAll("&", ""));
 		btn.setImage("/images/Cancel16.png");
-		btn.setName("cancel");
+		btn.setId("Cancel");
 		btn.addEventListener(Events.ON_CLICK, this);
 		
 		hbox.appendChild(btn);
@@ -298,20 +298,16 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		new Thread(runnable).start();	
 	}
 
-	public boolean isAsap() {
-		return true;
-	}
-
 	public void onEvent(Event event) {
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
 			Button element = (Button)component;
-			if ("ok".equalsIgnoreCase(element.getName())) {
+			if ("Ok".equalsIgnoreCase(element.getId())) {
 				if (element.getLabel().length() > 0)
 					this.startProcess();
 				else
 					this.dispose();
-			} else if ("cancel".equalsIgnoreCase(element.getName())) {
+			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
 		}
@@ -380,7 +376,9 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			.append("</font></p>");
 		m_messageText.append(pi.getLogInfo(true));
 		message.setContent(m_messageText.toString());
-		//message.setCaretPosition(message.getDocument().getLength());	//	scroll down
+		
+		bOK.setLabel("");
+		
 		m_ids = pi.getIDs();
 		
 		//no longer needed, hide to give more space to display log

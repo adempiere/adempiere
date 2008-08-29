@@ -34,12 +34,14 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -98,6 +100,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	}	//	ProcessDialog
 
 	private void initComponents() {
+		this.setBorder("normal");
 		VerticalBox vbox = new VerticalBox();
 		Div div = new Div();
 		message = new Html();
@@ -109,18 +112,21 @@ public class ProcessModalDialog extends Window implements EventListener
 		div.setAlign("right");
 		Hbox hbox = new Hbox();
 		Button btn = new Button("Ok");
-		btn.setName("ok");
+		btn.setSclass("action-text-button");
+		btn.setId("Ok");
 		btn.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(btn);
 		
 		btn = new Button("Cancel");
-		btn.setName("cancel");
+		btn.setId("Cancel");
+		btn.setSclass("action-text-button");
 		btn.addEventListener(Events.ON_CLICK, this);
 		
 		hbox.appendChild(btn);
 		div.appendChild(hbox);
 		vbox.appendChild(div);		
 		this.appendChild(vbox);
+		
 	}
 
 	private ASyncProcess m_ASyncProcess;
@@ -143,6 +149,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	private ProcessParameterPanel parameterPanel = null;
 	
 	private ProcessInfo m_pi = null;
+	private ProcessRunnable m_processRunnable;
 
 	
 	/**
@@ -159,12 +166,16 @@ public class ProcessModalDialog extends Window implements EventListener
 	 *	Dispose
 	 */
 	public void dispose()
-	{
+	{		
 		parameterPanel.restoreContext();
 		m_valid = false;
 		this.detach();
 	}	//	dispose
 
+	/**
+	 * is dialog still valid
+	 * @return boolean
+	 */
 	public boolean isValid()
 	{
 		return m_valid;
@@ -242,27 +253,38 @@ public class ProcessModalDialog extends Window implements EventListener
 			}
 			if (m_autoStart) {
 				startProcess();
-				dispose();
 			}
 		}
 		
 		// Check if the process is a silent one
 		if(isValid() && m_ShowHelp != null && m_ShowHelp.equals("S"))
 		{
-			startProcess();
-			dispose();
+			startProcess();			
 		}
 		return true;
 	}	//	init
 
-	public void startProcess()
-	{		
+	/**
+	 * launch process
+	 */
+	private void startProcess()
+	{	
+		m_processRunnable = new ProcessRunnable(Executions.getCurrent().getDesktop());
 		m_pi.setPrintPreview(true);
+		
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
 		}
 		
-		new Thread(new ProcessRunnable(Executions.getCurrent().getDesktop())).start();
+		//use echo, otherwise lock ui wouldn't work
+		Clients.response(new AuEcho(this, "runProcessBackground", null));
+	}
+	
+	/**
+	 * internal use, don't call this directly
+	 */
+	public void runProcessBackground() {
+		new Thread(m_processRunnable).start();
 	}
 	
 	private class ProcessRunnable implements Runnable {
@@ -282,7 +304,7 @@ public class ProcessModalDialog extends Window implements EventListener
 						m_ASyncProcess.unlockUI(m_pi);
 					}
 					//release full control of desktop
-                	Executions.deactivate(desktop);
+                	Executions.deactivate(desktop);                	
 				}
 			} catch (DesktopUnavailableException e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
@@ -292,22 +314,19 @@ public class ProcessModalDialog extends Window implements EventListener
 		}
 	}
 
-	public boolean isAsap() {
-		return true;
-	}
-
+	/**
+	 * handle events
+	 */
 	public void onEvent(Event event) {
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
 			Button element = (Button)component;
-			if ("ok".equalsIgnoreCase(element.getName())) {
+			if ("Ok".equalsIgnoreCase(element.getId())) {
 				this.startProcess();
-				this.dispose();
-			} else if ("cancel".equalsIgnoreCase(element.getName())) {
+			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
-		}
-		
+		}		
 	}
 	
 }	//	ProcessDialog

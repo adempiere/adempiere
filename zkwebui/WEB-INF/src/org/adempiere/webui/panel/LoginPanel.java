@@ -216,9 +216,4 @@ public class LoginPanel extends Window implements EventListener
             wndLogin.loginOk(userId, userPassword);
         }
     }
-
-    public boolean isAsap()
-    {
-        return true;
-    }
 }

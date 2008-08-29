@@ -336,11 +336,6 @@ public class WDocActionPanel extends Window implements EventListener
 		return index;
 	}	//	getSelectedIndex
 
-	public boolean isAsap()
-	{
-		return true;
-	}
-
 	public int getNumberOfOptions() {
 		return lstDocAction != null ? lstDocAction.getItemCount() : 0;
 	}

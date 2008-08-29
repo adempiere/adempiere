@@ -52,11 +52,6 @@ public class LogoutPanel extends Panel implements EventListener
         this.appendChild(btnLogOut);
 	}
     
-    public boolean isAsap()
-    {
-        return true;
-    }
-
     public void onEvent(Event event)
     {
         if (btnLogOut == event.getTarget())

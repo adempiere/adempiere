@@ -235,6 +235,7 @@ implements ValueChangeListener, IProcessParameter
 			//	The Editor
 			WEditor wEditor = WebEditorFactory.getEditor(mField, false);
 			wEditor.addValueChangeListener(this);
+			wEditor.dynamicDisplay();
 			//  MField => VEditor - New Field value to be updated to editor
 			mField.addPropertyChangeListener(wEditor);
 			//  Set Default
@@ -257,6 +258,7 @@ implements ValueChangeListener, IProcessParameter
 				WEditor wEditor2 = WebEditorFactory.getEditor(mField2, false);
 				//  New Field value to be updated to editor
 				mField2.addPropertyChangeListener(wEditor2);
+				wEditor2.dynamicDisplay();
 				//  Set Default
 				Object defaultObject2 = mField2.getDefault();
 				mField2.setValue (defaultObject2, true);

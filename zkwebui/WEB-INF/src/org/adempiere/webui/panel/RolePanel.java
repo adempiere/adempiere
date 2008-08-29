@@ -334,9 +334,4 @@ public class RolePanel extends Window implements EventListener
         }
         wndLogin.loginCompleted();
     }
-
-    public boolean isAsap()
-    {
-        return true;
-    }
 }

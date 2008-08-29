@@ -128,11 +128,6 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         menuListeners.add(listener);
     }
 
-    public boolean isAsap()
-    {
-        return true;
-    }
-
     public void onEvent(Event event)
     {
         String evt = (String)event.getTarget().getAttribute(EVENT_ATTRIBUTE);

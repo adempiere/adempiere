@@ -193,10 +193,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	return appDesktop;
     }
     
-	public boolean isAsap() {
-		return true;
-	}
-	
 	public void onEvent(Event event) {
 		if (event instanceof ClientInfoEvent) {
 			ClientInfoEvent c = (ClientInfoEvent)event;

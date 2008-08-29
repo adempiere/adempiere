@@ -483,11 +483,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	btnGridToggle.setDisabled(!enabled);
     }
     
-    public boolean isAsap()
-    {
-        return true;
-    }    
-    
     public Event getEvent() 
     {
     	return event;

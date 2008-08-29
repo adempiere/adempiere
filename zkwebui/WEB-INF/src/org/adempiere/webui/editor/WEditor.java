@@ -407,11 +407,9 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         return this.mandatory;
     }
 
-    public boolean isAsap()
-    {
-        return true;
-    }
-    
+    /**
+     * allow subclass to perform dynamic loading of data
+     */
     public void dynamicDisplay()
     {    	
     }
