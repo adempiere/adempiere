@@ -589,17 +589,16 @@ public class DistributionRun extends SvrProcess
 			+"rl.AD_Client_ID,rl.AD_Org_ID, rl.IsActive, rl.Created,rl.CreatedBy, rl.Updated,rl.UpdatedBy, "
 			+"ll.C_BPartner_ID, ll.C_BPartner_Location_ID, rl.M_Product_ID,"
 			// Ration for this process is equal QtyToDeliver
-			+" (ol.QtyOrdered-ol.QtyDelivered-TargetQty) , "
+			+"COALESCE (ol.QtyOrdered-ol.QtyDelivered-TargetQty, 0) , "
 			// Min Qty for this process is equal to TargetQty
 			+" 0 , 0 FROM M_DistributionRunLine rl "
 			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
 			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
 			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
-			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) AND ol.DatePromised"
-			//+ " BETWEEN "+ DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 
-			+ " <= "+DB.TO_DATE(p_DatePromised) 
-			+" INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
-			+" WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND rl.IsActive='Y' AND ll.IsActive='Y'";	
+			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) "		
+			+"INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
+			+"WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND rl.IsActive='Y' AND ll.IsActive='Y' AND ol.DatePromised <= "+DB.TO_DATE(p_DatePromised);	
+			//+ " BETWEEN "+ DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 	
 			no = DB.executeUpdate(sql, get_TrxName());
 			
 			Query query = MTable.get(getCtx(), MDistributionRunDetail.Table_ID).
@@ -780,9 +779,9 @@ public class DistributionRun extends SvrProcess
 			 	   			line.setM_Product_ID(detail.getM_Product_ID());
 			 	   			line.setConfirmedQty(line.getTargetQty().add(detail.getActualAllocation()));
 			 	   			if(p_M_Warehouse_ID>0)
-			 	   			line.setDescription("Distribucion Pull");
+			 	   			line.setDescription(Msg.translate(getCtx(), "PlannedQty"));
 			 	   			else 
-			 	   			line.setDescription("Distribution Push");
+			 	   			line.setDescription(m_run.getDescription());
 			 	   			if (!line.save())
 			 	   			{
 			 	   				log.log(Level.SEVERE, "OrderLine not saved");
@@ -927,6 +926,7 @@ public class DistributionRun extends SvrProcess
 											    //MDDOrder.COLUMNNAME_DatePromised   +" BETWEEN ? AND ? ", get_TrxName());			
 							//query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised,p_DatePromised_To});
 							  query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised});
+							  query.setOrderBy(MDDOrder.COLUMNNAME_DatePromised +" DESC");
 				
 			    order = query.first();
 			}
@@ -987,7 +987,7 @@ public class DistributionRun extends SvrProcess
 			{
 
 				//String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised BETWEEN ? AND ? ";
-				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ?";				
+				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ? ORDER BY DatePromised DESC";				
 				//int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised,p_DatePromised_To});
 				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
 				if (DD_OrderLine_ID  <= 0)
@@ -1002,13 +1002,13 @@ public class DistributionRun extends SvrProcess
 					line.setTargetQty(detail.getActualAllocation());
 					line.setQtyEntered(detail.getActualAllocation());
 					line.setConfirmedQty(detail.getActualAllocation());
-					line.setDescription("Distribution Push");
+					line.setDescription(m_run.getDescription());
 					line.saveEx();
 				}
 				else 
 				{
 					MDDOrderLine line = new MDDOrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
-					line.setDescription(line.getDescription().concat(" "+Msg.translate(getCtx(), "Qty")+" Push " +m_run.getDescription()+ " " + detail.getActualAllocation()));
+					line.setDescription(line.getDescription().concat(" " +m_run.getDescription()+ Msg.translate(getCtx(), "Qty")+ " = " +detail.getActualAllocation()));
 					line.setConfirmedQty(line.getConfirmedQty().add(detail.getActualAllocation()));
 					line.saveEx();
 				}
@@ -1035,7 +1035,7 @@ public class DistributionRun extends SvrProcess
 				line.setTargetQty(detail.getActualAllocation());
 				line.setQtyEntered(detail.getActualAllocation());
 				line.setConfirmedQty(detail.getActualAllocation());
-				line.setDescription("Distribution Push");
+				line.setDescription(m_run.getDescription());
 				if (!line.save())
 				{
 					log.log(Level.SEVERE, "OrderLine not saved");

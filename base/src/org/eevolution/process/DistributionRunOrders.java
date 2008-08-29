@@ -29,6 +29,7 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.MStorage;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -37,6 +38,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.eevolution.model.MDDOrderLine;
 
 /**
  * DistributionRun Orders 
@@ -198,8 +200,6 @@ public class DistributionRunOrders extends SvrProcess
     	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (TargetQty) AS MinQty, SUM (QtyOrdered-QtyDelivered) AS TotalQty, l.M_Warehouse_ID FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
     	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
     	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
-
-    	
  	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
  	    try
@@ -265,38 +265,14 @@ public class DistributionRunOrders extends SvrProcess
      private BigDecimal getQtyReserved(int M_Product_ID)
  	{
  		StringBuffer sql = new StringBuffer("SELECT SUM (TargetQty)  FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-     	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
-
-     	
-  	    PreparedStatement pstmt = null;
- 	    ResultSet rs = null;
- 	    Timestamp today = new Timestamp (System.currentTimeMillis());  
-  	    try
-  	    {
-            pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
-    		pstmt.setTimestamp(1, today);
-    		pstmt.setTimestamp(2, p_DatePromised);
-    		pstmt.setInt(3, p_M_Warehouse_ID);
-    		pstmt.setInt(4, M_Product_ID);
-            rs = pstmt.executeQuery();
-            while (rs.next())
-            {
-            	return rs.getBigDecimal(1);
-            }
-  		}
-  	    catch (Exception e)
-  		{
-        	log.log(Level.SEVERE,"doIt - " + sql, e);
-            return Env.ZERO;
-  		}
-  		finally
-  		{
-  			DB.close(rs, pstmt);
-  			rs = null;
-  			pstmt = null;
-  		}	    
-     	 
-     	return Env.ZERO; 
+     	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+ 		sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+ 		BigDecimal qty = DB.getSQLValueBD(get_TrxName(), sql.toString(), new Object[]{p_DatePromised, p_M_Warehouse_ID, M_Product_ID}); 		
+		//	SQL may return no rows or null
+		if (qty == null)
+			return Env.ZERO;
+		
+ 		return qty;
       }
      
      /**
