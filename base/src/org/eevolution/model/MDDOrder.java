@@ -316,8 +316,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Invoice/Payment Rule
 		ss = bp.getInvoiceRule();
 
-		if (ii != 0)
-		setSalesRep_ID(ii);
+		if (getSalesRep_ID() == 0)
+		{
+			ii = Env.getContextAsInt(getCtx(), "#AD_User_ID");
+			if (ii != 0)
+				setSalesRep_ID (ii);
+		}
 
 
 		//	Set Locations
@@ -474,7 +478,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		if (m_lines != null && !requery)
 			return m_lines;
 		//
-		String orderClause = "ORDER BY ";
+		String orderClause = "";
 		if (orderBy != null && orderBy.length() > 0)
 			orderClause += orderBy;
 		else
@@ -661,7 +665,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		//	Default Sales Rep
 		if (getSalesRep_ID() == 0)
 		{
-			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
+			int ii = Env.getContextAsInt(getCtx(), "#AD_User_ID");
 			if (ii != 0)
 				setSalesRep_ID (ii);
 		}
