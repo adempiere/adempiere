@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 
 package org.eevolution.process;
@@ -21,21 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.MOrg;
+import org.compiere.model.MNote;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MWarehouse;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.model.MForecastLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
+import org.eevolution.model.MPPOrderBOMLine;
 
 /**
  *	MRPUpdate
@@ -91,132 +95,66 @@ public class MRPUpdate extends SvrProcess
 	 */       
 	protected String doIt() throws Exception                
 	{
-		ArrayList <Object> parameters = new ArrayList();
-		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"='"+
-													MResource.MANUFACTURINGRESOURCETYPE_Plant+ "' AND AD_Client_ID=?");
-		parameters.add(m_AD_Client_ID);
-		
-		if (p_S_Resource_ID > 0)
-		{	
-			whereClause.append(" AND S_Resource_ID=?");
-			parameters.add(p_S_Resource_ID);
-		}	
-		
-		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
-		.setParameters(parameters)
-		.list(); 
-		
-		for(MResource plant : plants)
-		{	
-			log.info("Create MRP record to Plant: " + plant.getName());
-			parameters = new ArrayList();
-			whereClause = new StringBuffer("AD_Client_ID=?");
-			parameters.add(m_AD_Client_ID);
-			
-			if (p_AD_Org_ID > 0)
-			{	
-				whereClause.append(" AND AD_Org_ID=?");
-				parameters.add(p_AD_Org_ID);
-			}	
-			
-		
-			List <MOrg> organizations = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), get_TrxName())
-			.setParameters(parameters)
-			.list();
-			
-				for (MOrg organization :  organizations)
-				{
-					log.info("Create MRP record to Organization: " + organization.getName());
-	
-					if(p_M_Warehouse_ID==0)
-					{
-						MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), p_AD_Org_ID);
-						for(MWarehouse w : ws)
-						{	 
-							log.info("Create MRP record to Warehouse: " + organization.getName());
-							if(!deleteRecord(m_AD_Client_ID,organization.get_ID(),plant.get_ID(),w.get_ID()))
-								throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-							if(!createRecord(m_AD_Client_ID,organization.get_ID(),plant.get_ID(),w.get_ID()))
-								throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-						}
-					}
-					else
-					{
-						if(!deleteRecord(m_AD_Client_ID,p_AD_Org_ID,plant.get_ID(),p_M_Warehouse_ID))
-							throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-						if(!createRecord(m_AD_Client_ID,p_AD_Org_ID,plant.get_ID(),p_M_Warehouse_ID))
-							throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-					}
-			}
-		}		
+		deleteRecords();
+		createRecords();
 		return Msg.getMsg(getCtx(), "ProcessOK");
 	} 
 
 	/**
 	 * Delete MRP records
 	 */       
-	public boolean deleteRecord(int AD_Client_ID,int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
+	private void deleteRecords()
 	{						               
-		String where = "";
-		String resourcewhere = "";
-
-		if (AD_Org_ID > 0 )
-			where += " AND AD_Org_ID=" + AD_Org_ID;
-		if (M_Warehouse_ID > 0 )
-			where += " AND M_Warehouse_ID=" + M_Warehouse_ID;
-
-		if (S_Resource_ID > 0 )
-			resourcewhere = " AND S_Resource_ID=" + S_Resource_ID;
-
-		// Delete MRP records (Mfg. Order, Forecast, Material Requisition):
-		String sql = "DELETE FROM PP_MRP  WHERE OrderType IN ('MOP','FCT','POR') AND AD_Client_ID=" + m_AD_Client_ID + where + resourcewhere;   
-		DB.executeUpdateEx(sql, get_TrxName());
+		// Delete MRP records (Orders, Forecasts, Material Requisitions):
+		{
+			List<Object> params = new ArrayList<Object>();
+			String whereClause = "OrderType IN ('MOP','FCT','POR', 'SOO', 'POO') AND "+getWhereClause(params, MPPMRP.Table_Name, null);
+			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
+		}
 
 		// Delete notes:
-		sql = "DELETE FROM AD_Note n WHERE AD_Table_ID = " + MPPMRP.Table_ID + " AND AD_Client_ID = " + m_AD_Client_ID;
-		if (AD_Org_ID > 0)
-			sql += " AND AD_Org_ID=" + AD_Org_ID;
-		DB.executeUpdateEx(sql, get_TrxName());
+		{
+			List<Object> params = new ArrayList<Object>();
+			String whereClause = "AD_Table_ID="+MPPMRP.Table_ID+" AND "+getWhereClause(params, MNote.Table_Name, null); 
+			executeUpdate("DELETE FROM AD_Note WHERE "+whereClause, params);
+		}
 
 		// Delete Mfg. Orders:
-		String whereClause = "DocStatus = 'DR' AND AD_Client_ID = " + m_AD_Client_ID + where;
-		if (S_Resource_ID > 0)
-			whereClause += " AND S_Resource_ID="+S_Resource_ID;
-		deletePO(MPPOrder.Table_Name, whereClause, null);
-		
-		// Delete Material Requisitions:
-		whereClause = "DocStatus = 'DR' AND AD_Client_ID = " + m_AD_Client_ID+ where;
-		deletePO(MRequisition.Table_Name, whereClause, null);
+		{
+			List<Object> params = new ArrayList<Object>();
+			String whereClause = "DocStatus='DR' AND "+getWhereClause(params, MPPOrder.Table_Name, null);
+			deletePO(MPPOrder.Table_Name, whereClause, params);
+		}
 
-		return true;                
+		// Delete Material Requisitions:
+		{
+			List<Object> params = new ArrayList<Object>();
+			String whereClause = "DocStatus='DR' AND "+getWhereClause(params, MRequisition.Table_Name, null);
+			deletePO(MRequisition.Table_Name, whereClause, params);
+		}
 	}
 
 	/**
 	 * Create MRP records
 	 */            
-	public boolean createRecord(int AD_Client_ID,int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
+	private void createRecords ()
 	{
-		String where = "";
-		if (AD_Org_ID > 0 )
-			where = " AND t.AD_Org_ID=" + AD_Org_ID;
-		if (M_Warehouse_ID > 0 )
-			where += " AND t.M_Warehouse_ID=" + M_Warehouse_ID;
-		
 		final String sql = "INSERT INTO PP_MRP ("
-			+"ad_org_id,created, createdby , dateordered,"
+			+"ad_org_id, created, createdby , dateordered,"
 			+"datepromised, datestart, datestartschedule, description,"
 			+"docstatus, isactive , "
 			+"m_forecastline_id, m_forecast_id,"
-			+"pp_order_id,pp_order_bomline_id,"
-			+"c_order_id,c_orderline_id,"
-			+"m_requisition_id,m_requisitionline_id,"
+			+"pp_order_id, pp_order_bomline_id,"
+			+"c_order_id, c_orderline_id,"
+			+"m_requisition_id, m_requisitionline_id,"
 			+"m_product_id, m_warehouse_id, "
 			+"pp_mrp_id, planner_id, "
-			+"qty,  typemrp, ordertype, updated, updatedby, value, "
-			+"ad_client_id, s_resource_id )";
-		
+			+"qty, typemrp, ordertype, updated, updatedby, value, "
+			+"ad_client_id, s_resource_id, c_bpartner_id )";
+
 		//
 		//Insert from M_ForecastLine
+		List<Object> params = new ArrayList<Object>();
 		String sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
 			+"t.datepromised, t.datepromised, t.datepromised, f.Name," 
@@ -228,14 +166,15 @@ public class MRPUpdate extends SvrProcess
 			+"t.m_product_id, t.m_warehouse_id," 
 			+"nextidfunc(53040,'N') , null," 
 			+"t.qty,  'D', 'FCT', t.updated, t.updatedby, f.Name," 
-			+"t.ad_client_id , "+ S_Resource_ID
+			+"t.ad_client_id , null as S_Resource_ID, null as C_BPartner_ID "
 			+" FROM M_ForecastLine t "
 			+" INNER JOIN M_Forecast f ON (f.M_Forecast_ID=t.M_Forecast_ID) "
-			+" WHERE t.Qty > 0 AND t.AD_Client_ID="+ AD_Client_ID;
-		DB.executeUpdateEx(sql + sql_insert + where , get_TrxName());
+			+" WHERE t.Qty > 0 AND "+getWhereClause(params, MForecastLine.Table_Name, "t");
+		executeUpdate(sql + sql_insert, params);
 
 		//
 		//Insert from PP_Order
+		params = new ArrayList<Object>();
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
 			+"t.datepromised, t.datepromised, t.datepromised, t.DocumentNo," 
@@ -247,16 +186,15 @@ public class MRPUpdate extends SvrProcess
 			+"t.m_product_id, t.m_warehouse_id," 
 			+"nextidfunc(53040,'N') , null," 
 			+"t.QtyOrdered-t.QtyDelivered,  'S', 'MOP', t.updated, t.updatedby, t.DocumentNo," 
-			+"t.ad_client_id ,t.S_Resource_ID "
+			+"t.ad_client_id, t.S_Resource_ID, null as C_BPartner_ID "
 			+" FROM PP_Order t "
 			+" WHERE (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO')"
-					+" AND t.AD_Client_ID = " + m_AD_Client_ID;
-		if(S_Resource_ID > 0)
-			sql_insert += " AND S_Resource_ID=" + S_Resource_ID ; 
-		DB.executeUpdateEx(sql + sql_insert + where , get_TrxName());
+			+" AND "+getWhereClause(params, MPPOrder.Table_Name, "t");
+		executeUpdate(sql + sql_insert, params);
 
 		//
 		//Insert from PP_Order_BOMLine
+		params = new ArrayList<Object>();
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , o.datepromised,"
 			+"o.datepromised, o.datepromised, o.datepromised, o.DocumentNo," 
@@ -268,17 +206,16 @@ public class MRPUpdate extends SvrProcess
 			+"t.m_product_id, t.m_warehouse_id," 
 			+"nextidfunc(53040,'N') , null," 
 			+"t.QtyRequiered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
-			+"t.ad_client_id, o.S_Resource_ID "
+			+"t.ad_client_id, o.S_Resource_ID, null as C_BPartner_ID "
 			+" FROM PP_Order_BOMLine t "
 			+" INNER JOIN PP_Order o ON (o.pp_order_id=t.pp_order_id)"
 			+" WHERE  (t.QtyRequiered-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO')"
-					+" AND t.AD_Client_ID = " + m_AD_Client_ID;
-		if(S_Resource_ID > 0)
-			sql_insert += " AND S_Resource_ID=" + S_Resource_ID ; 
-		DB.executeUpdateEx(sql + sql_insert + where , get_TrxName());
+			+" AND "+getWhereClause(params, MPPOrderBOMLine.Table_Name, "t");
+		executeUpdate(sql + sql_insert , params);
 
 		//
 		// Insert from C_OrderLine
+		params = new ArrayList<Object>();
 		sql_insert = " SELECT t.ad_org_id,"
 			+"t.created, t.createdby , t.datepromised,"
 			+"t.datepromised, t.datepromised, t.datepromised, o.DocumentNo," 
@@ -289,16 +226,17 @@ public class MRPUpdate extends SvrProcess
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+"nextidfunc(53040,'N') , null," 
-			+"t.QtyOrdered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
-			+"t.ad_client_id ,"+S_Resource_ID
+			+"t.QtyOrdered-t.QtyDelivered,  'D', (case when o.IsSOTrx='Y' then 'SOO' else 'POO' end), t.updated, t.updatedby, o.DocumentNo," 
+			+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
 			+" FROM C_OrderLine t"
 			+" INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id)"
 			+" WHERE  (t.QtyOrdered - t.QtyDelivered) <> 0 AND o.DocStatus IN ('IP','CO')"
-					+" AND t.AD_Client_ID = " + m_AD_Client_ID; 
-		DB.executeUpdateEx(sql + sql_insert + where , get_TrxName());
+			+" AND "+getWhereClause(params, MOrderLine.Table_Name, "t"); 
+		executeUpdate(sql + sql_insert, params);
 
 		//
 		// Insert from M_RequisitionLine
+		params = new ArrayList<Object>();
 		sql_insert = " SELECT rl.ad_org_id,"
 			+"rl.created, rl.createdby , t.daterequired,"
 			+" t.daterequired,  t.daterequired,  t.daterequired, t.DocumentNo," 
@@ -310,22 +248,76 @@ public class MRPUpdate extends SvrProcess
 			+"rl.m_product_id, t.m_warehouse_id," 
 			+"nextidfunc(53040, 'N') , null," 
 			+"rl.Qty, 'S', 'POR', rl.updated, rl.updatedby, t.DocumentNo," 
-			+"rl.ad_client_id , "+ S_Resource_ID
+			+"rl.ad_client_id , null as S_Resource_ID, null as C_BPartner_ID "
 			+" FROM M_RequisitionLine rl"
 			+" INNER JOIN M_Requisition t ON (rl.m_requisition_id=t.m_requisition_id)"
-			+" WHERE rl.Qty > 0 AND t.DocStatus IN ('CL') AND t.AD_Client_ID = " + m_AD_Client_ID; 
-		DB.executeUpdateEx(sql + sql_insert + where , get_TrxName());
-
-		return true;
-	}   
-
+			+" WHERE rl.Qty > 0 AND t.DocStatus IN ('CL')"
+			+" AND "+getWhereClause(params, MRequisitionLine.Table_Name, "rl"); 
+		executeUpdate(sql + sql_insert, params);
+	}
 	
-	private void deletePO(String tableName, String whereClause, Object[] params)
+	private String getWhereClause(List<Object> params, String tableName, String tableAlias)
+	{
+		boolean filterWarehouse = MTable.get(getCtx(), tableName).getColumn("M_Warehouse_ID") != null;
+		boolean filterResource = MTable.get(getCtx(), tableName).getColumn("S_Resource_ID") != null;
+		String alias = (tableAlias != null ? tableAlias : tableName) + ".";
+		StringBuffer sb = new StringBuffer();
+		//
+		// AD_Client
+		sb.append(alias).append("AD_Client_ID=?");
+		params.add(m_AD_Client_ID);
+		//
+		// AD_Org
+		if (p_AD_Org_ID > 0) {
+			sb.append(" AND ").append(alias).append("AD_Org_ID=? ");
+			params.add(p_AD_Org_ID);
+		}
+		//
+		// M_Warehouse
+		if (filterWarehouse) {
+			if (p_M_Warehouse_ID > 0) {
+				sb.append(" AND ").append(alias).append("M_Warehouse_ID=?");
+				params.add(p_M_Warehouse_ID);
+			}
+		}
+		//
+		// Resource
+		if (filterResource) {
+			if (p_S_Resource_ID > 0) {
+				sb.append(" AND ").append(alias).append("S_Resource_ID=? ");
+				params.add(p_S_Resource_ID);
+			}
+			else {
+				sb.append(" AND EXISTS (SELECT 1 FROM S_Resource zz WHERE ")
+					.append("zz."+MResource.COLUMNNAME_ManufacturingResourceType+"=?")
+					.append(" AND zz.AD_Client_ID="+alias+"AD_Client_ID")
+					.append(") ");
+				params.add(MResource.MANUFACTURINGRESOURCETYPE_Plant);
+			}
+		}
+		//
+		return sb.toString();
+	}
+	
+	private void executeUpdate(String sql, List<Object> params)
+	{
+		Object[] pa = null;
+		if (params != null)
+			pa = params.toArray(new Object[params.size()]);
+		else
+			pa = new Object[]{};
+		//
+		int no = DB.executeUpdateEx(sql, pa, get_TrxName());
+		log.fine("#"+no+" -- "+sql);
+	}
+
+
+	private void deletePO(String tableName, String whereClause, List<Object> params)
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
-									.setParameters(params)
-									.scroll();
+		.setParameters(params)
+		.scroll();
 		try {
 			while(rs.hasNext()) {
 				rs.next().deleteEx(true);

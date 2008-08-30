@@ -211,6 +211,7 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setDateOrdered(ol.getDateOrdered());
 		mrp.setM_Product_ID(ol.getM_Product_ID());
 		mrp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+		mrp.setC_BPartner_ID(ol.getParent().getC_BPartner_ID());                                         
 		mrp.setDocStatus(ol.getParent().getDocStatus());                                         
 		mrp.saveEx();
 
