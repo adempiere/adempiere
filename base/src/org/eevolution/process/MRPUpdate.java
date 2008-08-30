@@ -17,9 +17,13 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.MOrg;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MResource;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
@@ -87,24 +91,64 @@ public class MRPUpdate extends SvrProcess
 	 */       
 	protected String doIt() throws Exception                
 	{
-		if(p_M_Warehouse_ID==0)
-		{
-			MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), p_AD_Org_ID);
-			for(MWarehouse w : ws)
-			{	 
-				if(!deleteRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,w.getM_Warehouse_ID()))
-					throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-				if(!createRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,w.getM_Warehouse_ID()))
-					throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
+		ArrayList <Object> parameters = new ArrayList();
+		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"='"+
+													MResource.MANUFACTURINGRESOURCETYPE_Plant+ "' AND AD_Client_ID=?");
+		parameters.add(m_AD_Client_ID);
+		
+		if (p_S_Resource_ID > 0)
+		{	
+			whereClause.append(" AND S_Resource_ID=?");
+			parameters.add(p_S_Resource_ID);
+		}	
+		
+		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
+		.setParameters(parameters)
+		.list(); 
+		
+		for(MResource plant : plants)
+		{	
+			log.info("Create MRP record to Plant: " + plant.getName());
+			parameters = new ArrayList();
+			whereClause = new StringBuffer("AD_Client_ID=?");
+			parameters.add(m_AD_Client_ID);
+			
+			if (p_AD_Org_ID > 0)
+			{	
+				whereClause.append(" AND AD_Org_ID=?");
+				parameters.add(p_AD_Org_ID);
+			}	
+			
+		
+			List <MOrg> organizations = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), get_TrxName())
+			.setParameters(parameters)
+			.list();
+			
+				for (MOrg organization :  organizations)
+				{
+					log.info("Create MRP record to Organization: " + organization.getName());
+	
+					if(p_M_Warehouse_ID==0)
+					{
+						MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), p_AD_Org_ID);
+						for(MWarehouse w : ws)
+						{	 
+							log.info("Create MRP record to Warehouse: " + organization.getName());
+							if(!deleteRecord(m_AD_Client_ID,organization.get_ID(),plant.get_ID(),w.get_ID()))
+								throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
+							if(!createRecord(m_AD_Client_ID,organization.get_ID(),plant.get_ID(),w.get_ID()))
+								throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
+						}
+					}
+					else
+					{
+						if(!deleteRecord(m_AD_Client_ID,p_AD_Org_ID,plant.get_ID(),p_M_Warehouse_ID))
+							throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
+						if(!createRecord(m_AD_Client_ID,p_AD_Org_ID,plant.get_ID(),p_M_Warehouse_ID))
+							throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
+					}
 			}
-		}
-		else
-		{
-			if(!deleteRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,p_M_Warehouse_ID))
-				throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-			if(!createRecord(m_AD_Client_ID,p_AD_Org_ID,p_S_Resource_ID,p_M_Warehouse_ID))
-				throw new Exception(Msg.getMsg(getCtx(), "ProcessFailed"),CLogger.retrieveException());
-		}
+		}		
 		return Msg.getMsg(getCtx(), "ProcessOK");
 	} 
 
