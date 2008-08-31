@@ -48,12 +48,12 @@ import org.compiere.util.Util;
  * 	They are set in the process() method.
  * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
- *  @author Jorg Janke
- *  @version $Id: MOrder.java,v 1.57 2004/05/21 02:27:38 jjanke Exp $
+ *  Based on Compiere, @author Jorg Janke
+ *  @author e-Evolution, Mexico
+ *  @contributors Cristina Ghita, SC ARHIPAC SERVICE SRL  BF [ 2031197 ] Skips saving
+ *  @version $Id: MHProcess.java $
  * 
- * @author Cristina Ghita, SC ARHIPAC SERVICE SRL
- * 				<li>BF [ 2031197 ] Skips saving
- */
+  */
 public class MHRProcess extends X_HR_Process implements DocAction {
 	public static int m_process   = 0;
 	public static int m_bpartner  = 0;
@@ -238,7 +238,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 	
 		// RE-Process, delete movement exept concept type Incidence 
 		int delete = DB.executeUpdate("DELETE FROM HR_Movement m WHERE HR_Process_ID = " +getHR_Process_ID()+ " AND IsRegistered != 'Y' ", get_TrxName());
-		
+		log.info("info HR_Movement deleted = "+ delete + " records");
 		// Concepts
 		linesConcept = new MHRPayrollConcept(Env.getCtx(),0,get_TrxName()).getPayrollConcepts(this);
 		// Employees 
@@ -247,7 +247,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		int count = 1;
 		for(MBPartner bp: linesEmployee)	//=============================================================== Employee
 		{
-			log.info("Empleado " + count + "  ---------------------- " + bp.getName());
+			log.info("Employee " + count + "  ---------------------- " + bp.getName());
 			count++;
 			m_bpartner             = bp.getC_BPartner_ID();
 			int employee_ID=0;
