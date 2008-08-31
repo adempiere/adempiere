@@ -161,7 +161,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 	/**	Draw using attributed String vs. Text Layout where possible */
 	//hengsin: [ 1564523 ] Max width of print element not always respected
-	public static boolean		s_FASTDRAW = false;
+	//tspc: [ 2084725 ] setting s_FASTDRAW to false is causing exported pdf to be generated as image
+	public static boolean		s_FASTDRAW = true;
 	/** Print Copy (print interface)	*/
 	private boolean				m_isCopy = false;
 
