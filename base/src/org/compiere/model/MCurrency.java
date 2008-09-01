@@ -88,7 +88,7 @@ public class MCurrency extends X_C_Currency
 	/**	Store System Currencies			**/
 	private static CCache<Integer,MCurrency> s_currencies = new CCache<Integer,MCurrency>("C_Currency", 50);
 	/** Cache System Currencies by using ISO code as key **/
-	private static CCache<String,MCurrency> s_currenciesISO = new CCache<String,MCurrency>("C_Currency", 50);
+	private static CCache<String,MCurrency> s_currenciesISO = new CCache<String,MCurrency>("C_CurrencyISO", 50);
 
 	/**
 	 * 	Get Currency using ISO code
@@ -104,20 +104,9 @@ public class MCurrency extends X_C_Currency
 			return retValue;
 
 		//	Try database
-		try {
-			Connection conn = DB.createConnection(true, true, Connection.TRANSACTION_READ_COMMITTED);
-			PreparedStatement ps = conn.prepareStatement("select * from c_currency where iso_code=?");
-			ps.setString(1, ISOcode);
-			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				retValue = new MCurrency(ctx, rs, null);
-			}
-			rs.close();
-			ps.close();
-			conn.close();
-		} catch (Exception ee) {
-			log.log(Level.WARNING, ee.getMessage(), ee);
-		}
+		Query query = new Query(ctx, MCurrency.Table_Name, "iso_code=?", null);
+		query.setParameters(new Object[]{ISOcode});
+		retValue = (MCurrency)query.first();
 		
 		//	Save 
 		if (retValue!=null)
