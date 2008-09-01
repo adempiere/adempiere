@@ -1093,31 +1093,21 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 	      
 		//	Sync Lines
-		afterSaveSync("AD_Org_ID");
-		afterSaveSync("C_BPartner_ID");
-		afterSaveSync("C_BPartner_Location_ID");
-		afterSaveSync("DateOrdered");
-		afterSaveSync("DatePromised");
-		afterSaveSync("M_Warehouse_ID");
-		afterSaveSync("M_Shipper_ID");
-		afterSaveSync("C_Currency_ID");
+		MOrderLine[] lines = getLines();
+		for (MOrderLine line : lines) {
+			line.setAD_Org_ID(getAD_Org_ID());
+			line.setC_BPartner_ID(getC_BPartner_ID());
+			line.setC_BPartner_Location_ID(getC_BPartner_Location_ID());
+			line.setDateOrdered(getDateOrdered());
+			line.setDatePromised(getDatePromised());
+			line.setM_Warehouse_ID(getM_Warehouse_ID());
+			line.setM_Shipper_ID(getM_Shipper_ID());
+			line.setC_Currency_ID(getC_Currency_ID());
+			line.saveEx();
+		}
 		//
 		return true;
 	}	//	afterSave
-
-	private void afterSaveSync (String columnName)
-	{
-		if (is_ValueChanged(columnName))
-		{
-			String sql = "UPDATE C_OrderLine ol"
-				+ " SET " + columnName + " ="
-					+ "(SELECT " + columnName
-					+ " FROM C_Order o WHERE ol.C_Order_ID=o.C_Order_ID) "
-				+ "WHERE C_Order_ID=" + getC_Order_ID();
-			int no = DB.executeUpdate(sql, get_TrxName());
-			log.fine(columnName + " Lines -> #" + no);
-		}		
-	}	//	afterSaveSync
 	
 	/**
 	 * 	Before Delete
