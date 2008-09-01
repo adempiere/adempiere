@@ -43,17 +43,12 @@ import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
- *  Order Model.
- * 	Please do not set DocStatus and C_DocType_ID directly.
- * 	They are set in the process() method.
- * 	Use DocAction and C_DocTypeTarget_ID instead.
+ * HR Process Model
  *
- *  Based on Compiere, @author Jorg Janke
- *  @author e-Evolution, Mexico
- *  @contributors Cristina Ghita, SC ARHIPAC SERVICE SRL  BF [ 2031197 ] Skips saving
- *  @version $Id: MHProcess.java $
- * 
-  */
+ * @author e-Evolution, Mexico
+ * @author Cristina Ghita, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 2031197 ] Skips saving
+ */
 public class MHRProcess extends X_HR_Process implements DocAction {
 	public static int m_process   = 0;
 	public static int m_bpartner  = 0;
