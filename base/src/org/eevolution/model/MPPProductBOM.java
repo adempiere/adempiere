@@ -286,4 +286,37 @@ public class MPPProductBOM extends X_PP_Product_BOM
 			return false;
 		return true;
 	}
+
+	@Override
+	protected boolean afterDelete(boolean success) {
+		if (!success)
+			return false;
+		
+		updateProduct();
+		return true;
+	}
+
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if (!success)
+			return false;
+		
+		if (newRecord || is_ValueChanged("IsActive"))
+		{
+			updateProduct();
+		}
+		return true;
+	}
+	
+	private void updateProduct()
+	{
+		int count = new Query(getCtx(), Table_Name, "M_Product_ID=? AND IsActive=?", get_TrxName())
+							.setParameters(new Object[]{getM_Product_ID(), "Y"})
+							.count();
+		MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+		product.setIsBOM(count > 0);
+		product.saveEx();
+	}
+	
+	
 }	//	MPPProductBOM
