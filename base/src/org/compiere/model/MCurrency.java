@@ -16,17 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.sql.*;
 import java.util.*;
+import java.util.logging.Level;
+
 import org.compiere.util.*;
 
 /**
  * 	Currency Model.
  *
  *  @author Jorg Janke
- *  @version $Id: MCurrency.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public class MCurrency extends X_C_Currency
 {
+
+	private static CLogger log = CLogger.getCLogger(MCurrency.class); 
+	
 	/**
 	 * 	Currency Constructor
 	 *	@param ctx context
@@ -45,6 +50,17 @@ public class MCurrency extends X_C_Currency
 		}
 	}	//	MCurrency
 
+	/**
+	 * Resultset constructor
+	 * 
+	 * @param ctx
+	 * @param rs
+	 * @param trxName
+	 */
+	public MCurrency(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
+	}
+	
 	/**
 	 * 	Currency Constructor
 	 *	@param ctx context
@@ -71,6 +87,44 @@ public class MCurrency extends X_C_Currency
 
 	/**	Store System Currencies			**/
 	private static CCache<Integer,MCurrency> s_currencies = new CCache<Integer,MCurrency>("C_Currency", 50);
+	/** Cache System Currencies by using ISO code as key **/
+	private static CCache<String,MCurrency> s_currenciesISO = new CCache<String,MCurrency>("C_Currency", 50);
+
+	/**
+	 * 	Get Currency using ISO code
+	 *	@param ctx Context
+	 *	@param ISOcode	Iso code
+	 *	@return MCurrency
+	 */
+	public static MCurrency get (Properties ctx, String ISOcode)
+	{
+		//	Try Cache
+		MCurrency retValue = (MCurrency)s_currenciesISO.get(ISOcode);
+		if (retValue != null)
+			return retValue;
+
+		//	Try database
+		try {
+			Connection conn = DB.createConnection(true, true, Connection.TRANSACTION_READ_COMMITTED);
+			PreparedStatement ps = conn.prepareStatement("select * from c_currency where iso_code=?");
+			ps.setString(1, ISOcode);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				retValue = new MCurrency(ctx, rs, null);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} catch (Exception ee) {
+			log.log(Level.WARNING, ee.getMessage(), ee);
+		}
+		
+		//	Save 
+		if (retValue!=null)
+			s_currenciesISO.put(ISOcode, retValue);
+		return retValue;
+	}	
+	
 
 	/**
 	 * 	Get Currency
