@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProduct;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -208,6 +209,10 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			{
 				this.setQtyRequiered(this.getQtyBOM());
 			}
+			else
+			{
+				throw new AdempiereException("@NotSupported@ @ComponentType@ "+this.getComponentType());
+			}
 		}
 		else
 		{
@@ -223,6 +228,10 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			else if (this.getComponentType().equals(COMPONENTTYPE_Tools))
 			{
 				this.setQtyRequiered(this.getQtyBOM());
+			}
+			else
+			{
+				throw new AdempiereException("@NotSupported@ @ComponentType@ "+this.getComponentType());
 			}
 		}
 		
