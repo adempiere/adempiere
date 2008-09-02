@@ -16,11 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.Level;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.util.*;
+import org.compiere.util.CCache;
 
 /**
  * 	Currency Model.
@@ -29,9 +28,11 @@ import org.compiere.util.*;
  */
 public class MCurrency extends X_C_Currency
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	private static CLogger log = CLogger.getCLogger(MCurrency.class); 
-	
 	/**
 	 * 	Currency Constructor
 	 *	@param ctx context
