@@ -86,35 +86,11 @@ public class MMovement extends X_M_Movement implements DocAction
 			return m_lines;
 		}
 		//
-		ArrayList<MMovementLine> list = new ArrayList<MMovementLine>();
-		String sql = "SELECT * FROM M_MovementLine WHERE M_Movement_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Movement_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MMovementLine (getCtx(), rs, get_TrxName()));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+		String whereClause = "";
+		List<MMovement> list = new Query(getCtx(), MMovement.Table_Name, whereClause, null)
+		 										.setParameters(new Object[]{"Y", getM_Movement_ID()})
+		 										.setOrderBy("Line")
+		 										.list();
 		m_lines = new MMovementLine[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
