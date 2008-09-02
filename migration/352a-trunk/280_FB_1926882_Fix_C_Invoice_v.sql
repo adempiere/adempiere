@@ -1,4 +1,3 @@
-DROP VIEW C_INVOICE_V;
 CREATE OR REPLACE VIEW C_INVOICE_V
 (C_INVOICE_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
  CREATEDBY, UPDATED, UPDATEDBY, ISSOTRX, DOCUMENTNO, 
@@ -21,11 +20,11 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
     i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
     i.IsPayScheduleValid, cast(null as number) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
-    CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END  AS ChargeAmt,
-    CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END AS TotalLines,
-    CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END AS GrandTotal,
-    CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END as number) AS Multiplier,
-    CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1 ELSE 1 END AS number) as MultiplierAP,
+    (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END)  AS ChargeAmt,
+    (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END) AS TotalLines,
+    (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END) AS GrandTotal,
+    (CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END) AS Multiplier,
+    (CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1 ELSE 1 END) AS MultiplierAP,
     d.DocBaseType
     , paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) as DueDate
 FROM C_Invoice i
@@ -52,6 +51,4 @@ FROM C_Invoice i
     INNER JOIN C_InvoicePaySchedule ips ON (i.C_Invoice_ID=ips.C_Invoice_ID)
 WHERE i.IsPayScheduleValid='Y'
     AND ips.IsValid='Y';
-
-
-
+/
