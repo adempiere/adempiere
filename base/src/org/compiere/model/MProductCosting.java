@@ -38,41 +38,13 @@ public class MProductCosting extends X_M_Product_Costing
 	 *	@return array of costs
 	 */
 	public static MProductCosting[] getOfProduct (Properties ctx, int M_Product_ID, String trxName)
-	{
-		String sql = "SELECT * FROM M_Product_Costing WHERE M_Product_ID=?";
-		ArrayList<MProductCosting> list = new ArrayList<MProductCosting>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MProductCosting (ctx, rs, trxName));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		MProductCosting[] retValue = new MProductCosting[list.size()];
-		list.toArray(retValue);
-		return retValue;
+	{		
+		String whereClause = "M_Product_ID=?";
+		
+		List<MProductCosting> costs =new Query(ctx, MProductCosting.Table_Name,whereClause, trxName )
+		.setParameters(new Object[]{M_Product_ID})
+		.list();	
+		return costs.toArray(new MProductCosting[costs.size()]);
 	}	//	getOfProduct
 
 	/**
@@ -81,42 +53,16 @@ public class MProductCosting extends X_M_Product_Costing
 	 *	@param M_Product_ID product
 	 *	@param C_AcctSchema_ID as
 	 *	@param trxName trx
-	 *	@return array of costs
+	 *	@return first product cosnting
 	 */
 	public static MProductCosting get (Properties ctx, int M_Product_ID, 
 		int C_AcctSchema_ID, String trxName)
 	{
-		MProductCosting retValue = null;
-		String sql = "SELECT * FROM M_Product_Costing WHERE M_Product_ID=? AND C_AcctSchema_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			pstmt.setInt (2, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next())
-				retValue = new MProductCosting (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		return retValue;
+		String whereClause = "M_Product_ID=? AND C_AcctSchema_ID=?";
+		
+		return new Query(ctx, MProductCosting.Table_Name,whereClause, trxName )
+		.setParameters(new Object[]{M_Product_ID, C_AcctSchema_ID})
+		.first();	
 	}	//	get
 
 	/**	Static Logger	*/
