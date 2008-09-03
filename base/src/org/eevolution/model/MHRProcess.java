@@ -50,6 +50,11 @@ import org.compiere.util.Util;
  * 				<li>BF [ 2031197 ] Skips saving
  */
 public class MHRProcess extends X_HR_Process implements DocAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	public static int m_process   = 0;
 	public static int m_bpartner  = 0;
 	public static int m_concept   = 0;
@@ -235,7 +240,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 		int delete = DB.executeUpdate("DELETE FROM HR_Movement m WHERE HR_Process_ID = " +getHR_Process_ID()+ " AND IsRegistered != 'Y' ", get_TrxName());
 		log.info("info HR_Movement deleted = "+ delete + " records");
 		// Concepts
-		linesConcept = new MHRPayrollConcept(Env.getCtx(),0,get_TrxName()).getPayrollConcepts(this);
+		linesConcept = MHRPayrollConcept.getPayrollConcepts(this);
 		// Employees 
 		linesEmployee = new MHREmployee(Env.getCtx(),0,get_TrxName()).getEmployees(this);
 		//

@@ -14,17 +14,18 @@
 //package org.eevolution.process;
 package org.eevolution.process;
 
-import java.util.Properties;
-import org.compiere.model.*;
-import org.compiere.util.*;
 import org.compiere.process.SvrProcess;
-import org.eevolution.model.*;
+import org.compiere.util.DB;
+import org.eevolution.model.MHRConcept;
+import org.eevolution.model.MHRPayrollConcept;
 
 /**
  *	Create Concept of current Payroll
  *	
  *  @author Oscar Gómez Islas
  *  @version $Id: HRCreateConcept.java,v 1.0 2005/10/24 04:58:38 ogomezi Exp $
+ *  
+ *  @author Cristina Ghita, www.arhipac.ro
  */
 public class HRCreateConcept extends SvrProcess
 {
@@ -45,31 +46,25 @@ public class HRCreateConcept extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		int count     = 1;
-		int LastSeqNo = DB.getSQLValue("HR_PayrollConcept","SELECT COALESCE(MAX(SeqNo),0) FROM HR_PayrollConcept WHERE HR_Payroll_ID=" + p_HR_Payroll_ID) > 0 
-							? DB.getSQLValue("HR_PayrollConcept","SELECT COALESCE(MAX(SeqNo),0) FROM HR_PayrollConcept WHERE HR_Payroll_ID=" + p_HR_Payroll_ID) : 0;
-		MHRConcept[] linesConcept = new MHRConcept(Env.getCtx(),0,null).getConcepts(p_HR_Payroll_ID,0,0,"");
-		for(int j = 0; j < linesConcept.length; j++){ // Ciclo para cada Concepto de la Tabla HR_Concept
-			MHRConcept concept = linesConcept[j];
-			int HR_Concept_ID = concept.getHR_Concept_ID();
-			// Que sea uno nuevo y que además sea del mismo Cliente. 
-			if( DB.getSQLValue("HR_PayrollConcept","SELECT HR_Concept_ID FROM HR_PayrollConcept "+ 
-					" WHERE HR_Payroll_ID=" + p_HR_Payroll_ID + " AND HR_Concept_ID=" + 
-					HR_Concept_ID) < 0	) 
+		int count     = 0;
+		
+		for(MHRConcept concept : MHRConcept.getConcepts(p_HR_Payroll_ID, 0, 0, null))
+		{
+			int HR_Concept_ID = concept.get_ID();
+			if(isPayrollConcept(HR_Concept_ID)) 
 			{
-				LastSeqNo = LastSeqNo + 10;
-				org.eevolution.model.X_HR_PayrollConcept payrollConcept = new org.eevolution.model.X_HR_PayrollConcept (Env.getCtx(), 0, null);
-				payrollConcept.setHR_Payroll_ID(p_HR_Payroll_ID);
-				payrollConcept.setHR_Concept_ID(HR_Concept_ID);
-				payrollConcept.setName(concept.getName());
-				//payrollConcept.setAD_Rule_Engine_ID(concept.getAD_Rule_Engine_ID());
-				//payrollConcept.setIsIncluded(true); 
-				payrollConcept.setIsActive(true);
-				payrollConcept.setSeqNo(LastSeqNo);
-				payrollConcept.save();
-				count ++;
+				MHRPayrollConcept payrollConcept = new MHRPayrollConcept (concept, p_HR_Payroll_ID);
+				payrollConcept.set_TrxName(get_TrxName());
+				payrollConcept.saveEx();
+				count++;
 			}
-		} // Ciclo por Concepto
-		return "@OK  Create / Actualize Concept@: " + (count-1) +" Records.";
+		}
+		return "@Created@/@Updated@ #" + count;
 	}	//	doIt
+	
+	private boolean isPayrollConcept(int HR_Concept_ID)
+	{
+		final String sql = "SELECT HR_Concept_ID FROM HR_PayrollConcept WHERE HR_Payroll_ID=? AND HR_Concept_ID=?";
+		return DB.getSQLValue(get_TrxName(),sql, p_HR_Payroll_ID, HR_Concept_ID) > 0; 
+	}
 }	//	Create Concept of the current Payroll
