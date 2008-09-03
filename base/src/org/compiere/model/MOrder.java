@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -34,9 +34,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MPPProductBOMLine;
 import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
@@ -50,6 +49,8 @@ import org.eevolution.model.MPPProductBOM;
  */
 public class MOrder extends X_C_Order implements DocAction
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Create new Order by copying
 	 * 	@param from order
@@ -609,16 +610,20 @@ public class MOrder extends X_C_Order implements DocAction
 	public MOrderLine[] getLines (String whereClause, String orderClause)
 	{
 		//red1 - using new Query class from Teo / Victor's MDDOrder.java implementation
-		StringBuffer whereClauseFinal = new StringBuffer("C_Order_ID =?");
+		StringBuffer whereClauseFinal = new StringBuffer(MOrderLine.COLUMNNAME_C_Order_ID+"=?");
 		if (!Util.isEmpty(whereClause, true))
 			whereClauseFinal.append(whereClause);
 		if (orderClause.length() == 0)
-			orderClause = "Line";
+			orderClause = MOrderLine.COLUMNNAME_Line;
 		//
 		List<MOrderLine> list = new Query(getCtx(), MOrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
-												.setParameters(new Object[]{getC_Order_ID()})
-												.setOrderBy(orderClause)
-												.list();
+										.setParameters(new Object[]{get_ID()})
+										.setOrderBy(orderClause)
+										.list();
+		for (MOrderLine ol : list) {
+			ol.setHeaderInfo(this);
+		}
+		//
 		return list.toArray(new MOrderLine[list.size()]);		
 	}	//	getLines
 
@@ -697,38 +702,10 @@ public class MOrder extends X_C_Order implements DocAction
 		if (m_taxes != null && !requery)
 			return m_taxes;
 		//
-		ArrayList<MOrderTax> list = new ArrayList<MOrderTax>();
-		String sql = "SELECT * FROM C_OrderTax WHERE C_Order_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MOrderTax(getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getTaxes", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		//
-		m_taxes = new MOrderTax[list.size ()];
-		list.toArray (m_taxes);
+		List<MOrderTax> list = new Query(getCtx(), MOrderTax.Table_Name, "C_Order_ID=?", get_TrxName())
+									.setParameters(new Object[]{get_ID()})
+									.list();
+		m_taxes = list.toArray(new MOrderTax[list.size()]);
 		return m_taxes;
 	}	//	getTaxes
 	
@@ -739,36 +716,15 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MInvoice[] getInvoices()
 	{
-		ArrayList<MInvoice> list = new ArrayList<MInvoice>();
-		String sql = " SELECT DISTINCT i.* FROM C_InvoiceLine il " + 
-						"INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID = il.C_OrderLine_ID) " +
-						"INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID) " +
-						"INNER JOIN C_Invoice i ON (i.C_Invoice_ID = il.C_Invoice_ID) " +
-						"WHERE o.C_Order_ID=? " +  
-						"ORDER BY i.Created DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MInvoice(getCtx(), rs, get_TrxName()));
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		MInvoice[] retValue = new MInvoice[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		final String whereClause = "EXISTS (SELECT 1 FROM C_InvoiceLine il, C_OrderLine ol"
+							        +" WHERE il.C_Invoice_ID=C_Invoice.C_Invoice_ID"
+							        		+" AND il.C_OrderLine_ID=ol.C_OrderLine_ID"
+							        		+" AND ol.C_Order_ID=?)";
+		List<MInvoice> list = new Query(getCtx(), MInvoice.Table_Name, whereClause, get_TrxName())
+									.setParameters(new Object[]{get_ID()})
+									.setOrderBy("C_Invoice_ID DESC")
+									.list();
+		return list.toArray(new MInvoice[list.size()]);
 	}	//	getInvoices
 
 	/**
@@ -777,29 +733,10 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public int getC_Invoice_ID()
 	{
-		int C_Invoice_ID = 0;
  		String sql = "SELECT C_Invoice_ID FROM C_Invoice "
 			+ "WHERE C_Order_ID=? AND DocStatus IN ('CO','CL') "
-			+ "ORDER BY Created DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				C_Invoice_ID = rs.getInt(1);
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getC_Invoice_ID", e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+			+ "ORDER BY C_Invoice_ID DESC";
+		int C_Invoice_ID = DB.getSQLValue(get_TrxName(), sql, get_ID());
 		return C_Invoice_ID;
 	}	//	getC_Invoice_ID
 
@@ -810,37 +747,15 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MInOut[] getShipments()
 	{
-		ArrayList<MInOut> list = new ArrayList<MInOut>();
-		String sql = "SELECT DISTINCT io.* FROM M_InOutLine iol " + 
-						"INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID) " +
-						"INNER JOIN C_ORDERLINE ol ON (ol.C_ORDERLINE_ID=iol.C_ORDERLINE_ID) " + 
-						"INNER JOIN C_ORDER o ON (o.C_ORDER_ID=ol.C_ORDER_ID) " +
-						"WHERE	o.C_ORDER_ID=? " +
-						"ORDER BY io.Created DESC";
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MInOut(getCtx(), rs, get_TrxName()));
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		MInOut[] retValue = new MInOut[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		final String whereClause = "EXISTS (SELECT 1 FROM C_InOutLine iol, C_OrderLine ol"
+			+" WHERE iol.M_InOut_ID=M_InOut.M_InOut_ID"
+			+" AND iol.C_OrderLine_ID=ol.C_OrderLine_ID"
+			+" AND ol.C_Order_ID=?)";
+		List<MInvoice> list = new Query(getCtx(), MInOut.Table_Name, whereClause, get_TrxName())
+									.setParameters(new Object[]{get_ID()})
+									.setOrderBy("M_InOut_ID DESC")
+									.list();
+		return list.toArray(new MInOut[list.size()]);
 	}	//	getShipments
 
 	/**
@@ -903,8 +818,8 @@ public class MOrder extends X_C_Order implements DocAction
 		String set = "SET Processed='"
 			+ (processed ? "Y" : "N")
 			+ "' WHERE C_Order_ID=" + getC_Order_ID();
-		int noLine = DB.executeUpdate("UPDATE C_OrderLine " + set, get_TrxName());
-		int noTax = DB.executeUpdate("UPDATE C_OrderTax " + set, get_TrxName());
+		int noLine = DB.executeUpdateEx("UPDATE C_OrderLine " + set, get_TrxName());
+		int noTax = DB.executeUpdateEx("UPDATE C_OrderTax " + set, get_TrxName());
 		m_lines = null;
 		m_taxes = null;
 		log.fine("setProcessed - " + processed + " - Lines=" + noLine + ", Tax=" + noTax);
@@ -947,8 +862,7 @@ public class MOrder extends X_C_Order implements DocAction
 				setM_Warehouse_ID(ii);
 			else
 			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_Warehouse_ID"));
-				return false;
+				throw new FillMandatoryException(COLUMNNAME_M_Warehouse_ID);
 			}
 		}
 		//	Warehouse Org
@@ -1055,7 +969,7 @@ public class MOrder extends X_C_Order implements DocAction
 					+ "(SELECT Description,POReference "
 					+ "FROM C_Order o WHERE i.C_Order_ID=o.C_Order_ID) "
 				+ "WHERE DocStatus NOT IN ('RE','CL') AND C_Order_ID=" + getC_Order_ID();
-			int no = DB.executeUpdate(sql, get_TrxName());
+			int no = DB.executeUpdateEx(sql, get_TrxName());
 			log.fine("Description -> #" + no);
 		}
 
@@ -1166,7 +1080,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		
 		//	Lines
-		MOrderLine[] lines = getLines(true, "M_Product_ID");
+		MOrderLine[] lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		if (lines.length == 0)
 		{
 			m_processMsg = "@NoLines@";
@@ -1248,7 +1162,7 @@ public class MOrder extends X_C_Order implements DocAction
 
 		//	Lines
 		if (explodeBOM())
-			lines = getLines(true, "M_Product_ID");
+			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		if (!reserveStock(dt, lines))
 		{
 			m_processMsg = "Cannot reserve Stock";
@@ -1320,7 +1234,7 @@ public class MOrder extends X_C_Order implements DocAction
 			renumberLines (1000);		//	max 999 bom items	
 
 			//	Order Lines with non-stocked BOMs
-			MOrderLine[] lines = getLines (where, " Line");
+			MOrderLine[] lines = getLines (where, MOrderLine.COLUMNNAME_Line);
 			for (int i = 0; i < lines.length; i++)
 			{
 				MOrderLine line = lines[i];
@@ -1525,7 +1439,7 @@ public class MOrder extends X_C_Order implements DocAction
 	{
 		log.fine("");
 		//	Delete Taxes
-		DB.executeUpdate("DELETE C_OrderTax WHERE C_Order_ID=" + getC_Order_ID(), get_TrxName());
+		DB.executeUpdateEx("DELETE C_OrderTax WHERE C_Order_ID=" + getC_Order_ID(), get_TrxName());
 		m_taxes = null;
 		
 		//	Lines
@@ -1641,7 +1555,7 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			//	Binding
 			if (MDocType.DOCSUBTYPESO_Quotation.equals(DocSubTypeSO))
-				reserveStock(dt, getLines(true, "M_Product_ID"));
+				reserveStock(dt, getLines(true, MOrderLine.COLUMNNAME_M_Product_ID));
 			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 			if (m_processMsg != null)
 				return DocAction.STATUS_Invalid;
@@ -1994,7 +1908,7 @@ public class MOrder extends X_C_Order implements DocAction
 		if (m_processMsg != null)
 			return false;
 
-		MOrderLine[] lines = getLines(true, "M_Product_ID");
+		MOrderLine[] lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		for (int i = 0; i < lines.length; i++)
 		{
 			MOrderLine line = lines[i];
@@ -2149,7 +2063,7 @@ public class MOrder extends X_C_Order implements DocAction
 			return false;
 		
 		//	Close Not delivered Qty - SO/PO
-		MOrderLine[] lines = getLines(true, "M_Product_ID");
+		MOrderLine[] lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		for (int i = 0; i < lines.length; i++)
 		{
 			MOrderLine line = lines[i];
@@ -2192,7 +2106,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		
 		//	
-		MOrderLine[] lines = getLines(true, "M_Product_ID");
+		MOrderLine[] lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		for (int i = 0; i < lines.length; i++)
 		{
 			MOrderLine line = lines[i];
