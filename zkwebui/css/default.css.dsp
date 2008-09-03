@@ -25,8 +25,9 @@ html,body {
 }
 
 .disableFilter img {
-	filter: progid : DXImageTransform . Microsoft . Alpha(opacity = 20);
-	-moz-opacity: 0.2;
+	opacity: 0.2;
+	filter: progid : DXImageTransform . Microsoft . Alpha(opacity = 20);	
+	-moz-opacity: 0.2;	
 }
 
 .header {

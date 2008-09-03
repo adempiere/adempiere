@@ -22,6 +22,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 
 import org.adempiere.webui.apps.AEnv;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Popup;
@@ -32,6 +34,8 @@ import org.zkoss.zul.Vbox;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author Low Heng Sin
  */
 public class NumberBox extends Panel
 {
@@ -46,6 +50,10 @@ public class NumberBox extends Panel
     private Decimalbox decimalBox = null;
     private Button btn;
     
+    /**
+     * 
+     * @param integral
+     */
     public NumberBox(boolean integral)
     {
         super();
@@ -68,6 +76,7 @@ public class NumberBox extends Panel
         btn.setHeight("22px");
         btn.setWidth("26px");
         btn.setPopup(popup);
+        btn.setStyle("text-align: center");
         appendChild(decimalBox);
         appendChild(btn);
         appendChild(popup);
@@ -76,11 +85,19 @@ public class NumberBox extends Panel
         this.setStyle(style);	     
     }
     
+    /**
+     * 
+     * @param format
+     */
     public void setFormat(NumberFormat format)
     {
     	this.format = format;
     }
     
+    /**
+     * 
+     * @param value
+     */
     public void setValue(Object value)
     {
     	if (value == null)
@@ -93,11 +110,19 @@ public class NumberBox extends Panel
     		decimalBox.setValue(new BigDecimal(value.toString()));
     }
     
+    /**
+     * 
+     * @return BigDecimal
+     */
     public BigDecimal getValue()
     {
     	return decimalBox.getValue();
     }
     
+    /**
+     * 
+     * @return text
+     */
     public String getText()
     {
     	BigDecimal value = decimalBox.getValue();
@@ -109,6 +134,10 @@ public class NumberBox extends Panel
     		return value.toPlainString();
     }
     
+    /**
+     * 
+     * @param value
+     */
     public void setValue(String value)
     {
     	Number numberValue = null;
@@ -289,10 +318,18 @@ public class NumberBox extends Panel
         return popup;
     }
 
+    /**
+     * 
+     * @return boolean
+     */
 	public boolean isIntegral() {
 		return integral;
 	}
 
+	/**
+	 * 
+	 * @param integral
+	 */
 	public void setIntegral(boolean integral) {
 		this.integral = integral;
 		if (integral)
@@ -301,14 +338,35 @@ public class NumberBox extends Panel
 			decimalBox.setScale(Decimalbox.AUTO);
 	}
 	
+	/**
+	 * 
+	 * @param enabled
+	 */
 	public void setEnabled(boolean enabled)
 	{
 	     decimalBox.setReadonly(!enabled);
 	     btn.setEnabled(enabled);
 	}
 	
+	/**
+	 * 
+	 * @return boolean
+	 */
 	public boolean isEnabled()
 	{
 		 return decimalBox.isReadonly();
+	}
+	
+	@Override
+	public boolean addEventListener(String evtnm, EventListener listener)
+	{
+	     if(Events.ON_CLICK.equals(evtnm))
+	     {
+	       	 return btn.addEventListener(evtnm, listener);
+	     }
+	     else
+	     {
+	         return decimalBox.addEventListener(evtnm, listener);
+	     }
 	}
 }

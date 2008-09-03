@@ -152,8 +152,16 @@ public class WNumberEditor extends WEditor
 
     @Override
     public void setValue(Object value)
-    {
-    	getComponent().setValue(value);
+    {    	
+    	if (value == null)
+    		oldValue = null;
+    	else if (value instanceof BigDecimal)
+    		oldValue = (BigDecimal) value;
+    	else if (value instanceof Number)
+    		oldValue = new BigDecimal(((Number)value).doubleValue());
+    	else 
+    		oldValue = new BigDecimal(value.toString());
+    	getComponent().setValue(oldValue);
     }
     
     @Override
