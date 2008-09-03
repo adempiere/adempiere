@@ -114,7 +114,7 @@ public class PP_Product_BOM_Check extends SvrProcess
 		DB.rollback(false, get_TrxName());
 		MProduct xp = new MProduct(getCtx(), p_Record_ID, null); // parent
 		xp.setIsVerified(false); // set BOM not verified
-		xp.save();
+		xp.saveEx();
 		String msg = string;
 		ValueNamePair pp = CLogger.retrieveError();
 		if (pp != null)
