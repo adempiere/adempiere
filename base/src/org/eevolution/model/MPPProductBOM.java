@@ -245,6 +245,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 			final String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
 			this.lines = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
 											.setParameters(new Object[]{getPP_Product_BOM_ID()})
+											.setOrderBy(MPPProductBOMLine.COLUMNNAME_Line)
 											.list();
 		}
 		return this.lines.toArray(new MPPProductBOMLine[this.lines.size()]);
