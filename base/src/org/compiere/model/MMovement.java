@@ -87,9 +87,9 @@ public class MMovement extends X_M_Movement implements DocAction
 		}
 		//
 		String whereClause = "M_Movement_ID=?";
-		List<MMovement> list = new Query(getCtx(), MMovement.Table_Name, whereClause, null)
+		List<MMovement> list = new Query(getCtx(), MMovementLine.Table_Name, whereClause, null)
 		 										.setParameters(new Object[]{getM_Movement_ID()})
-		 										.setOrderBy("Line")
+		 										.setOrderBy(MMovementLine.COLUMNNAME_Line)
 		 										.list();
 		m_lines = new MMovementLine[list.size ()];
 		list.toArray (m_lines);
