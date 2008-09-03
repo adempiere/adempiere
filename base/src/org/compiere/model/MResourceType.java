@@ -33,6 +33,7 @@ import org.compiere.util.CCache;
  */
 public class MResourceType extends X_S_ResourceType
 {
+	private static final long serialVersionUID = 1L;
 	/** Cache */
 	private static CCache<Integer, MResourceType> s_cache = new CCache<Integer, MResourceType>(Table_Name, 20);
 	
@@ -77,17 +78,11 @@ public class MResourceType extends X_S_ResourceType
 		super(ctx, rs, trxName);
 	}	//	MResourceType
 	
-	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return true
-	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
-			return success;
+			return false;
 		
 		//	Update Products
 		if (!newRecord)
@@ -99,11 +94,12 @@ public class MResourceType extends X_S_ResourceType
 			{
 				MProduct product = products[i];
 				if (product.setResource(this))
+				{
 					product.saveEx(get_TrxName());
+				}
 			}
 		}
 		
 		return success;
 	}	//	afterSave
-	
 }	//	MResourceType
