@@ -17,6 +17,9 @@ package org.eevolution.process;
 
 
 import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
@@ -40,6 +43,7 @@ public class CompletePrintOrder extends SvrProcess {
 	private int p_PP_Order_ID = 0;
 	private boolean p_IsPrintPickList = false;
 	private boolean p_IsPrintWorkflow = false;
+	@SuppressWarnings("unused")
 	private boolean p_IsPrintPackList = false; // for future use
 	private boolean p_IsComplete = false;
 
@@ -74,48 +78,57 @@ public class CompletePrintOrder extends SvrProcess {
 	 * @throws Exception
 	 *             if not successful
 	 */
-	protected String doIt() throws Exception {
-
-		MPrintFormat format = null;
+	protected String doIt() throws Exception
+	{
 		Language language = Language.getLoginLanguage(); // Base Language
 
 		if (p_PP_Order_ID == 0)
-			throw new IllegalArgumentException(Msg.translate(getCtx(),MPPOrder.COLUMNNAME_PP_Order_ID) + " == 0");
+		{
+			throw new FillMandatoryException(MPPOrder.COLUMNNAME_PP_Order_ID);
+		}
 
-		if (p_IsComplete) {
+		if (p_IsComplete)
+		{
 			MPPOrder order = new MPPOrder(getCtx(), p_PP_Order_ID, get_TrxName());
 
-			if (order.isAvailable()) {
-				order.completeIt();
-				order.setDocStatus(MPPOrder.DOCACTION_Complete);
-				order.setDocAction(MPPOrder.ACTION_Close);
+			if (order.isAvailable())
+			{
+				String status = order.completeIt();
+				order.setDocStatus(status);
 				order.saveEx();
-			} else {
+				if (!MPPOrder.DOCSTATUS_Completed.equals(status))
+				{
+					throw new AdempiereException(order.getProcessMsg());
+				}
+			}
+			else
+			{
 				return Msg.translate(Env.getCtx(), "NoQtyAvailable");
 			}
 
 		}
 
-		if (p_IsPrintPickList) {
+		if (p_IsPrintPickList)
+		{
 			// Get Format & Data
-			ReportEngine re = ReportEngine.get(getCtx(), ReportEngine.MANUFACTURING_ORDER,getRecord_ID());
+			ReportEngine re = ReportEngine.get(getCtx(), ReportEngine.MANUFACTURING_ORDER, p_PP_Order_ID);
 			ReportCtl.preview(re);
 			re.print();
 		}
-		if (p_IsPrintWorkflow) {
+		if (p_IsPrintWorkflow)
+		{
 			// Get Format & Data
-
-			format = MPrintFormat.get(getCtx(), MPrintFormat.getPrintFormat_ID(
-					"Manufacturing Order Workflow", MPPOrder.Table_ID, getAD_Client_ID()),
-					false);
+			MPrintFormat format = MPrintFormat.get(getCtx(), MPrintFormat.getPrintFormat_ID(
+									"Manufacturing Order Workflow", MPPOrder.Table_ID, getAD_Client_ID()),
+									false);
 
 			format.setLanguage(language);
 			format.setTranslationLanguage(language);
 			// query
-			MQuery query = new MQuery("PP_Order");
-			query.addRestriction("PP_Order_ID", MQuery.EQUAL, p_PP_Order_ID);
+			MQuery query = new MQuery(MPPOrder.Table_Name);
+			query.addRestriction(MPPOrder.COLUMNNAME_PP_Order_ID, MQuery.EQUAL, p_PP_Order_ID);
 			// Engine
-			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID,getRecord_ID());
+			PrintInfo info = new PrintInfo("PP_Order", MPPOrder.Table_ID, p_PP_Order_ID);
 			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
 			ReportCtl.preview(re);
 			re.print(); // prints only original
