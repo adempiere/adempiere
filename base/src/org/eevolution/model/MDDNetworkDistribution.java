@@ -13,51 +13,44 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2008 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, SC ARHIPAC SERVICE SRL                          *
  *****************************************************************************/
-/** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import org.compiere.model.*;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.KeyNamePair;
 
-/**Network Distribution
-*  @author Victor Perez,e-Evolution,SC
-*  @version $Id: MDDNetworkDistribution.java,v 
-*/
+import org.compiere.model.Query;
+
+/**
+ * Network Distribution
+ * @author Victor Perez, e-Evolution,SC
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ */
 public class MDDNetworkDistribution extends X_DD_NetworkDistribution
 {
-	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MDDNetworkDistribution.class);
-	
-    /** Standard Constructor */
-    public MDDNetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
-    {
-     	super (ctx, DD_NetworkDistribution_ID, trxName);
-        if (DD_NetworkDistribution_ID == 0)
-        {
-			setDD_NetworkDistribution_ID (0);
-			/*setName (null);
-			setValue (null);*/
-        }
-    }
+	private static final long serialVersionUID = 1L;
 
-    /** Load Constructor */
-    public MDDNetworkDistribution (Properties ctx, ResultSet rs, String trxName)
-    {
-      super (ctx, rs, trxName);
-    }
-    /** Lines						*/
-	private MDDNetworkDistributionLine[]		m_lines = null;
+	/** Standard Constructor */
+	public MDDNetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
+	{
+		super (ctx, DD_NetworkDistribution_ID, trxName);
+		if (DD_NetworkDistribution_ID == 0)
+		{
+		}
+	}
+
+	/** Load Constructor */
+	public MDDNetworkDistribution (Properties ctx, ResultSet rs, String trxName)
+	{
+		super (ctx, rs, trxName);
+	}
 	
+	/** Network Lines */
+	private MDDNetworkDistributionLine[] m_lines = null;
+
 	/**
 	 * 	Get Lines
 	 *	@return array of lines MDDNetworkDistributionLine
@@ -66,82 +59,30 @@ public class MDDNetworkDistribution extends X_DD_NetworkDistribution
 	{
 		if (m_lines != null)
 			return m_lines;
-		
-		ArrayList<MDDNetworkDistributionLine> list = new ArrayList<MDDNetworkDistributionLine>();
-		String sql = "SELECT * FROM DD_NetworkDistributionLine WHERE DD_NetworkDistribution_ID=? ORDER BY PriorityNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getDD_NetworkDistribution_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MDDNetworkDistributionLine (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		m_lines = new MDDNetworkDistributionLine[list.size ()];
-		list.toArray (m_lines);
+
+		List<MDDNetworkDistributionLine>
+		list = new Query(getCtx(), MDDNetworkDistributionLine.Table_Name, "DD_NetworkDistribution_ID=?", get_TrxName())
+					.setParameters(new Object[]{get_ID()})
+					.setOrderBy("PriorityNo, M_Shipper_ID")
+					.list();
+		m_lines = list.toArray (new MDDNetworkDistributionLine[list.size()]);
 		return m_lines;
 	}	//	getLines
 
 
-/**
- * 	Get Lines
- *  @param M_Warehouse_ID ID Warehouse
- *	@return array of lines MDDNetworkDistributionLine
- */
-public MDDNetworkDistributionLine[] getLines(int M_Warehouse_ID)
-{
-	if (m_lines != null)
-		return m_lines;
-	
-	ArrayList<MDDNetworkDistributionLine> list = new ArrayList<MDDNetworkDistributionLine>();
-	String sql = "SELECT * FROM DD_NetworkDistributionLine WHERE DD_NetworkDistribution_ID=? and M_Warehouse_ID=? ORDER BY PriorityNo, M_Shipper_ID";
-	PreparedStatement pstmt = null;
-	try
+	/**
+	 * 	Get Lines
+	 *  @param M_Warehouse_ID ID Warehouse
+	 *	@return array of lines MDDNetworkDistributionLine
+	 */
+	public MDDNetworkDistributionLine[] getLines(int M_Warehouse_ID)
 	{
-		pstmt = DB.prepareStatement (sql, get_TrxName());
-		pstmt.setInt (1, getDD_NetworkDistribution_ID());
-		pstmt.setInt (2, M_Warehouse_ID);
-		ResultSet rs = pstmt.executeQuery ();
-		while (rs.next ())
-			list.add (new MDDNetworkDistributionLine (getCtx(), rs, get_TrxName()));
-		rs.close ();
-		pstmt.close ();
-		pstmt = null;
-	}
-	catch (Exception e)
-	{
-		log.log(Level.SEVERE, "getLines", e);
-	}
-	try
-	{
-		if (pstmt != null)
-			pstmt.close ();
-		pstmt = null;
-	}
-	catch (Exception e)
-	{
-		pstmt = null;
-	}
-	m_lines = new MDDNetworkDistributionLine[list.size ()];
-	list.toArray (m_lines);
-	return m_lines;
-}	//	getLines
+		List<MDDNetworkDistributionLine> list = new ArrayList<MDDNetworkDistributionLine>();
+		for (MDDNetworkDistributionLine line : getLines())
+		{
+			if (line.getM_Warehouse_ID() == M_Warehouse_ID)
+				list.add(line);
+		}
+		return list.toArray(new MDDNetworkDistributionLine[list.size()]);
+	}	//	getLines
 }

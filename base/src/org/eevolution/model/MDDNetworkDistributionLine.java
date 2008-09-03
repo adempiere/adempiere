@@ -14,42 +14,31 @@
  * Copyright (C) 2003-2008 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
-/** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
-import org.compiere.model.*;
-import org.compiere.util.Env;
 
-/**Network Distribution
-*  @author Victor Perez,e-Evolution,SC
-*  @version $Id: MDDNetworkDistributionLine.java,v 
-*/
+/**
+ * Network Distribution
+ * @author Victor Perez,e-Evolution,SC
+ */
 public class MDDNetworkDistributionLine extends X_DD_NetworkDistributionLine
 {
+	private static final long serialVersionUID = 1L;
 
+	/** Standard Constructor */
+	public MDDNetworkDistributionLine (Properties ctx, int DD_NetworkDistributionLine_ID, String trxName)
+	{
+		super (ctx, DD_NetworkDistributionLine_ID, trxName);
+		if (DD_NetworkDistributionLine_ID == 0)
+		{
+		} 
+	}
 
-    /** Standard Constructor */
-    public MDDNetworkDistributionLine (Properties ctx, int DD_NetworkDistributionLine_ID, String trxName)
-    {
-      super (ctx, DD_NetworkDistributionLine_ID, trxName);
-      if (DD_NetworkDistributionLine_ID == 0)
-        {
-			/*setDD_NetworkDistributionLine_ID (0);
-			setDD_NetworkDistribution_ID (0);
-			setM_WarehouseSource_ID (0);
-			setM_Warehouse_ID (0);*/
-        } 
-    }
-
-    /** Load Constructor */
-    public MDDNetworkDistributionLine (Properties ctx, ResultSet rs, String trxName)
-    {
-      super (ctx, rs, trxName);
-    }
+	/** Load Constructor */
+	public MDDNetworkDistributionLine (Properties ctx, ResultSet rs, String trxName)
+	{
+		super (ctx, rs, trxName);
+	}
 }

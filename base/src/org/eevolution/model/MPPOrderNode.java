@@ -145,8 +145,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setS_Resource_ID(wfNode.getS_Resource_ID());
 		setSetupTime(wfNode.getSetupTime());
 		setSetupTimeRequiered(wfNode.getSetupTime());
-		BigDecimal time = new BigDecimal(wfNode.getDuration()).multiply(qtyOrdered);
-		setDurationRequiered(time.intValue());
 		setMovingTime(wfNode.getMovingTime());
 		setWaitingTime(wfNode.getWaitingTime());
 		setWorkingTime(wfNode.getWorkingTime());
@@ -166,6 +164,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setFinishMode(wfNode.getFinishMode());
 		setValidFrom(wfNode.getValidFrom());
 		setValidTo(wfNode.getValidTo());
+		//
+		setQtyOrdered(qtyOrdered);
 	}
 	
 	/**
@@ -189,16 +189,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 	private MColumn		m_column = null;
 	/** Duration Base MS		*/
 	private long			m_durationBaseMS = -1;
-	
-	/**
-	 * 	Set Client Org
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 */
-	public void setClientOrg (int AD_Client_ID, int AD_Org_ID)
-	{
-		super.setClientOrg (AD_Client_ID, AD_Org_ID);
-	}	//	setClientOrg
 
 	/**
 	 * 	Load Next
@@ -216,6 +206,12 @@ public class MPPOrderNode extends X_PP_Order_Node
 		}
 		log.fine("#" + m_next.size());
 	}	//	loadNext
+	
+	public void setQtyOrdered(BigDecimal qtyOrdered)
+	{
+		BigDecimal time = new BigDecimal(getDuration()).multiply(qtyOrdered);
+		setDurationRequiered(time.intValue());
+	}
 
 	/**
 	 * 	Get Number of Next Nodes
@@ -457,7 +453,9 @@ public class MPPOrderNode extends X_PP_Order_Node
 	{
 		String action = getAction();
 		if (action.equals(ACTION_WaitSleep))
+		{
 			;
+		}
 		else if (action.equals(ACTION_AppsProcess) || action.equals(ACTION_AppsReport)) 
 		{
 			if (getAD_Process_ID() == 0)

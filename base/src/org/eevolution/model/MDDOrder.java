@@ -16,17 +16,39 @@
  
 package org.eevolution.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MDocType;
+import org.compiere.model.MLocator;
+import org.compiere.model.MMovement;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProject;
+import org.compiere.model.MRefList;
+import org.compiere.model.MStorage;
+import org.compiere.model.MUser;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Order Distribution Model.
@@ -35,10 +57,11 @@ import org.compiere.util.*;
  * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
  *  @author Victor Perez,e-Evolution,SC
- *  @version $Id: MDDOrder.java,v 
  */
 public class MDDOrder extends X_DD_Order implements DocAction
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Create new Order by copying
 	 * 	@param from order
@@ -184,17 +207,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	
 	/** Force Creation of order		*/
 	private boolean			m_forceCreation = false;
-	
-	/**
-	 * 	Overwrite Client/Org if required
-	 * 	@param AD_Client_ID client
-	 * 	@param AD_Org_ID org
-	 */
-	public void setClientOrg (int AD_Client_ID, int AD_Org_ID)
-	{
-		super.setClientOrg(AD_Client_ID, AD_Org_ID);
-	}	//	setClientOrg
-
 
 	/**
 	 * 	Add to Description
@@ -208,33 +220,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		else
 			setDescription(desc + " | " + description);
 	}	//	addDescription
-	
-	/**
-	 * 	Set Business Partner (Ship+Bill)
-	 *	@param C_BPartner_ID bpartner
-	 */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		super.setC_BPartner_ID (C_BPartner_ID);
-	}	//	setC_BPartner_ID
-	
-	/**
-	 * 	Set Business Partner Location (Ship+Bill)
-	 *	@param C_BPartner_Location_ID bp location
-	 */
-	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
-	{
-		super.setC_BPartner_Location_ID (C_BPartner_Location_ID);
-	}	//	setC_BPartner_Location_ID
-
-	/**
-	 * 	Set Business Partner Contact (Ship+Bill)
-	 *	@param AD_User_ID user
-	 */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		super.setAD_User_ID (AD_User_ID);
-	}	//	setAD_User_ID
 
 	/**
 	 * 	Set Ship Business Partner
@@ -262,26 +247,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		super.setAD_User_ID (AD_User_ID);
 	}	//	setShip_User_ID
-	
-	
-	/**
-	 * 	Set Warehouse
-	 *	@param M_Warehouse_ID warehouse
-	 */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		super.setM_Warehouse_ID (M_Warehouse_ID);
-	}	//	setM_Warehouse_ID
-	
-	/**
-	 * 	Set Drop Ship
-	 *	@param IsDropShip drop ship
-	 */
-	public void setIsDropShip (boolean IsDropShip)
-	{
-		super.setIsDropShip (IsDropShip);
-	}	//	setIsDropShip
-
 
 	/**
 	 * 	Set Business Partner Defaults & Details.
@@ -318,11 +283,10 @@ public class MDDOrder extends X_DD_Order implements DocAction
 
 		if (getSalesRep_ID() == 0)
 		{
-			ii = Env.getContextAsInt(getCtx(), "#AD_User_ID");
+			ii = Env.getAD_User_ID(getCtx());
 			if (ii != 0)
 				setSalesRep_ID (ii);
 		}
-
 
 		//	Set Locations
 		MBPartnerLocation[] locs = bp.getLocations(false);
@@ -331,22 +295,27 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			for (int i = 0; i < locs.length; i++)
 			{
 				if (locs[i].isShipTo())
+				{
 					super.setC_BPartner_Location_ID(locs[i].getC_BPartner_Location_ID());
-				
+				}
 			}
 			//	set to first
 			if (getC_BPartner_Location_ID() == 0 && locs.length > 0)
+			{
 				super.setC_BPartner_Location_ID(locs[0].getC_BPartner_Location_ID());
-			
+			}
 		}
 		if (getC_BPartner_Location_ID() == 0)
+		{
 			log.log(Level.SEVERE, "MDDOrder.setBPartner - Has no Ship To Address: " + bp);
-	
+		}
 
 		//	Set Contact
 		MUser[] contacts = bp.getContacts(false);
 		if (contacts != null && contacts.length == 1)
+		{
 			setAD_User_ID(contacts[0].getAD_User_ID());
+		}
 	}	//	setBPartner
 
 
@@ -354,7 +323,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 * 	Copy Lines From other Order
 	 *	@param otherOrder order
 	 *	@param counter set counter info
-	 *	@param copyASI copy line attributes Attribute Set Instance, Resaouce Assignment
+	 *	@param copyASI copy line attributes Attribute Set Instance, Resource Assignment
 	 *	@return number of lines copied
 	 */
 	public int copyLinesFrom (MDDOrder otherOrder, boolean counter, boolean copyASI)
