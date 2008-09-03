@@ -747,7 +747,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MInOut[] getShipments()
 	{
-		final String whereClause = "EXISTS (SELECT 1 FROM C_InOutLine iol, C_OrderLine ol"
+		final String whereClause = "EXISTS (SELECT 1 FROM M_InOutLine iol, C_OrderLine ol"
 			+" WHERE iol.M_InOut_ID=M_InOut.M_InOut_ID"
 			+" AND iol.C_OrderLine_ID=ol.C_OrderLine_ID"
 			+" AND ol.C_Order_ID=?)";
