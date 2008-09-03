@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 
 package org.eevolution.process;
@@ -39,7 +40,6 @@ import org.compiere.model.MProductPO;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MSequence;
 import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
@@ -65,8 +65,6 @@ import org.eevolution.model.MPPProductPlanning;
  *	Calculate Material Plan MRP
  *	
  *  @author Victor Perez, e-Evolution, S.C.
- *  @version $Id: CreateCost.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
- *  
  *  @author Teo Sarca, www.arhipac.ro
  */
 public class MRP extends SvrProcess
@@ -103,8 +101,8 @@ public class MRP extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		m_AD_Client_ID = Integer.parseInt(Env.getContext(getCtx(), "#AD_Client_ID"));
-		Planner_ID = Integer.parseInt(Env.getContext(getCtx(), "#AD_User_ID"));
+		m_AD_Client_ID = Env.getAD_Client_ID(getCtx());
+		Planner_ID = Env.getAD_User_ID(getCtx());
 		ProcessInfoParameter[] para = getParameter();
 
 		for (int i = 0; i < para.length; i++)
@@ -186,9 +184,9 @@ public class MRP extends SvrProcess
 		log.info("Type Document to Manufacturing Order:" + DocTypeMO);
 		log.info("Type Document to Distribution Order:" + DocTypeDO);
 		
-		ArrayList <Object> parameters = new ArrayList();
-		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"='"+
-													MResource.MANUFACTURINGRESOURCETYPE_Plant+ "' AND AD_Client_ID=?");
+		ArrayList <Object> parameters = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"=? AND AD_Client_ID=?");
+		parameters.add(MResource.MANUFACTURINGRESOURCETYPE_Plant);
 		parameters.add(m_AD_Client_ID);
 		
 		if (p_S_Resource_ID > 0)
@@ -198,13 +196,13 @@ public class MRP extends SvrProcess
 		}	
 		
 		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
-		.setParameters(parameters)
-		.list(); 
+										.setParameters(parameters)
+										.list(); 
 		
 		for(MResource plant : plants)
 		{	
 			log.info("Run MRP to Plant: " + plant.getName());
-			parameters = new ArrayList();
+			parameters = new ArrayList<Object>();
 			whereClause = new StringBuffer("AD_Client_ID=?");
 			parameters.add(m_AD_Client_ID);
 			
@@ -350,7 +348,7 @@ public class MRP extends SvrProcess
 					{
 						//if exist QtyGrossReq of last Demand verify plan
 						if (QtyGrossReqs.signum() != 0)
-						{   
+						{
 							calculatePlan(BeforePP_MRP_ID, product, QtyGrossReqs ,BeforeDateStartSchedule);
 							QtyGrossReqs = Env.ZERO;
 						}
@@ -374,6 +372,10 @@ public class MRP extends SvrProcess
 							POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
 						}
 					} // new product
+					
+					// If No Product Planning found, go to next MRP record 
+					if (m_product_planning == null)
+						continue;
 
 					BeforeDateStartSchedule =  DateStartSchedule; 						                                          
 					BeforePP_MRP_ID = rs.getInt("PP_MRP_ID");
@@ -383,7 +385,7 @@ public class MRP extends SvrProcess
 					{
 						createMRPNote("MRP-040", rs.getInt("PP_MRP_ID"), product);
 					}
-
+					
 					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 					{
 						// Verify if is DatePromised < DatePromisedTo then Accumulation QtyGrossReqs 
@@ -594,7 +596,10 @@ public class MRP extends SvrProcess
 		if(QtyPlanned.signum() > 0 && m_product_planning.getOrder_Min().signum() > 0)
 		{    
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
-			createMRPNote("MRP-080", PP_MPR_ID, product); 
+			if (m_product_planning.getOrder_Min().compareTo(QtyPlanned) > 0)
+			{
+				createMRPNote("MRP-080", PP_MPR_ID, product);
+			}
 		}
 
 		// Check Order Max                                                
@@ -715,7 +720,6 @@ public class MRP extends SvrProcess
 				{	
 					order = new MDDOrder(getCtx() , 0 , get_TrxName());
 					order.setAD_Org_ID(target.getAD_Org_ID());
-					order.setDocumentNo(MSequence.getDocumentNo(DocTypeDO,get_TrxName(),false));
 					order.setC_BPartner_ID(C_BPartner_ID);
 					//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setAD_User_ID(m_product_planning.getPlanner_ID());
@@ -868,7 +872,12 @@ public class MRP extends SvrProcess
 	private void createMRPNote(String code, int PP_MRP_ID, MProduct product)
 	{
 		MMessage msg = MMessage.get(getCtx(), code);
-		int user_id = (PP_MRP_ID == 0 ? 0 : m_product_planning.getPlanner_ID());
+		int user_id = 0;
+		if (PP_MRP_ID == 0 && m_product_planning != null)
+		{
+			user_id = m_product_planning.getPlanner_ID();
+		}
+		
 		MNote note = new MNote(getCtx(),
 							msg.getAD_Message_ID(),
 							user_id,
