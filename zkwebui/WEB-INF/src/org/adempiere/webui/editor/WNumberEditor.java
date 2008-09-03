@@ -43,7 +43,7 @@ public class WNumberEditor extends WEditor
     
     public static final int MAX_DISPLAY_LENGTH = 20;
 
-    private String oldValue;
+    private BigDecimal oldValue;
     
     private boolean mandatory = false;
     
@@ -95,11 +95,8 @@ public class WNumberEditor extends WEditor
     {
 		if (gridField != null)
 		{
-			getComponent().setMaxlength(gridField.getFieldLength());        
 			getComponent().setTooltiptext(gridField.getDescription());
-		}
-        
-        getComponent().setCols(MAX_DISPLAY_LENGTH);
+		}        
     }
     
 	/**
@@ -108,14 +105,8 @@ public class WNumberEditor extends WEditor
 	 */
     public void onEvent(Event event)
     {
-        String newValue = getComponent().getValue();
-        BigDecimal oldNumber = null;
-        if (oldValue != null && oldValue.trim().length() > 0)
-        	oldNumber = new BigDecimal(oldValue);
-        BigDecimal newNumber = null;
-        if (newValue != null && newValue.trim().length() > 0)
-        	newNumber = new BigDecimal(newValue);
-        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldNumber, newNumber);
+        BigDecimal newValue = getComponent().getValue();
+        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
         super.fireValueChange(changeEvent);
         oldValue = newValue;
     }
@@ -138,7 +129,7 @@ public class WNumberEditor extends WEditor
 	@Override
     public String getDisplay()
     {
-        return getComponent().getValue();
+        return getComponent().getText();
     }
 
     @Override
@@ -162,14 +153,7 @@ public class WNumberEditor extends WEditor
     @Override
     public void setValue(Object value)
     {
-        if (value != null)
-        {
-            getComponent().setValue(value.toString());
-        }
-        else
-        {
-            getComponent().setValue("0");
-        }
+    	getComponent().setValue(value);
     }
     
     @Override

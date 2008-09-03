@@ -162,8 +162,8 @@ public class WMatch extends ADForm
 	private Label onlyProductLabel = new Label();
 	private Label dateFromLabel = new Label();
 	private Label dateToLabel = new Label();
-	private WDateEditor dateFrom = new WDateEditor("DateFrom", false, false, true, DisplayType.Date, "DateFrom");
-	private WDateEditor dateTo = new WDateEditor("DateTo", false, false, true, DisplayType.Date, "DateTo");
+	private WDateEditor dateFrom = new WDateEditor("DateFrom", false, false, true, "DateFrom");
+	private WDateEditor dateTo = new WDateEditor("DateTo", false, false, true, "DateTo");
 	private Button bSearch = new Button();
 	private Panel southPanel = new Panel();
 	private Grid southLayout = GridFactory.newGridLayout();

@@ -164,7 +164,8 @@ public class WArchive implements EventListener
 			else	//	all Reports
 				av.query(true, m_AD_Table_ID, 0);
 
-			SessionManager.getAppDesktop().showWindowInTabPanel(form);
+			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			SessionManager.getAppDesktop().showWindow(form);
 		}
 	}
 }

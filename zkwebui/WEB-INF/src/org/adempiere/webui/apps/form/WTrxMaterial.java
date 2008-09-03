@@ -184,8 +184,8 @@ public class WTrxMaterial extends ADForm
 		MLookup mtypeLookup = MLookupFactory.get (ctx, m_WindowNo, 0, 3666, DisplayType.List);
 		mtypeField = new WTableDirEditor("MovementType", false, false, true, mtypeLookup);
 		//  Dates
-		dateFField = new WDateEditor("DateFrom", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateFrom"));
-		dateTField = new WDateEditor("DateTo", false, false, true, DisplayType.Date, Msg.getMsg(Env.getCtx(), "DateTo"));
+		dateFField = new WDateEditor("DateFrom", false, false, true, Msg.getMsg(Env.getCtx(), "DateFrom"));
+		dateTField = new WDateEditor("DateTo", false, false, true, Msg.getMsg(Env.getCtx(), "DateTo"));
 		//
 		confirmPanel.addActionListener(this);
 		statusBar.setStatusLine("");

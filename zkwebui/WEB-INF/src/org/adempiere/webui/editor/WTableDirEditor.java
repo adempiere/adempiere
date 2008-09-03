@@ -331,7 +331,7 @@ ContextMenuListener, IZoomableEditor
 	@Override
 	public void dynamicDisplay()
     {    	
-		if (isReadWrite() && (!lookup.isValidated() || !lookup.isLoaded()))
+		if (isReadWrite() && (lookup != null) && (!lookup.isValidated() || !lookup.isLoaded()))
 			this.actionRefresh();
     }
 }

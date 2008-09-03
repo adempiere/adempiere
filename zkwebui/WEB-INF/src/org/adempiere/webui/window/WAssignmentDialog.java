@@ -239,7 +239,7 @@ public class WAssignmentDialog extends Window implements EventListener
 		confirmPanel.getButton("Cancel").setVisible(readWrite);
 		fResource.setEnabled(readWrite);
 		fDateFrom.setReadonly(!readWrite);
-		fQty.setReadonly(!readWrite);
+		fQty.setEnabled(readWrite);
 
 		m_setting = false;
 	}	//	dynInit
@@ -265,7 +265,7 @@ public class WAssignmentDialog extends Window implements EventListener
 		Calendar date = new GregorianCalendar();
 		getDateAndTimeFrom(date);
 		Timestamp assignDateFrom = new Timestamp(date.getTimeInMillis());
-		BigDecimal qty = new BigDecimal(fQty.getValue());
+		BigDecimal qty = fQty.getValue();
 		KeyNamePair uom = (KeyNamePair)m_lookup.get(fResource.getSelectedItem());
 		int minutes = MUOMConversion.convertToMinutes(Env.getCtx(), uom.getKey(), qty);
 		Timestamp assignDateTo = TimeUtil.addMinutess(assignDateFrom, minutes);
@@ -339,8 +339,8 @@ public class WAssignmentDialog extends Window implements EventListener
 		Timestamp assignDateFrom = new Timestamp(date.getTimeInMillis());
 		if (assignDateFrom != null)
 			m_mAssignment.setAssignDateFrom (assignDateFrom);
-		if (fQty.getValue() != null && fQty.getValue().trim().length() > 0) {
-			BigDecimal qty = new BigDecimal(fQty.getValue());
+		if (fQty.getValue() != null) {
+			BigDecimal qty = fQty.getValue();
 			m_mAssignment.setQty(qty);
 		}
 		m_mAssignment.setName((String)fName.getValue());

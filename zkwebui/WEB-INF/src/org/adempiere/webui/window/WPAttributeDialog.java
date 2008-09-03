@@ -486,7 +486,7 @@ public class WPAttributeDialog extends Window implements EventListener
 				editor.setValue(Env.ZERO);
 			row.appendChild(editor);
 			if (readOnly)
-				editor.setReadonly(true);
+				editor.setEnabled(false);
 			else
 				m_editors.add (editor);
 		}
@@ -773,7 +773,7 @@ public class WPAttributeDialog extends Window implements EventListener
 			else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
 			{
 				NumberBox editor = (NumberBox)m_editors.get(i);
-				BigDecimal value = new BigDecimal(editor.getValue());
+				BigDecimal value = editor.getValue();
 				log.fine(attributes[i].getName() + "=" + value);
 				if (attributes[i].isMandatory() && value == null)
 					mandatory += " - " + attributes[i].getName();

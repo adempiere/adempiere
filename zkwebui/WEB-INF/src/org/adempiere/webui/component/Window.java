@@ -35,6 +35,10 @@ public class Window extends org.zkoss.zul.Window
     
     public static final String MODE_EMBEDDED =  "embedded";
     
+    public static final String MODE_HIGHLIGHTED = "highlighted";
+    
+    public static final String MODE_KEY = "mode";
+    
     public Window()
     {
         super();

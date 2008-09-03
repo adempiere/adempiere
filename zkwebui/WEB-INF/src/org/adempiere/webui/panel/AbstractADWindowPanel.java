@@ -952,11 +952,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
 			try {
+				dialog.setPage(this.getComponent().getPage());
 				dialog.doModal();
 			} 
 			catch (InterruptedException e) {
-				
-				e.printStackTrace();
 			}
 		}
 	}
@@ -1337,31 +1336,24 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (m_uiLocked) return;
 		
 		m_uiLocked = true;
-		boolean notPrint = pi != null 
-		&& pi.getAD_Process_ID() != curTab.getAD_Process_ID()
-		&& pi.isReportingProcess() == false;
-		//
-		//  Process Result
-		if (notPrint)		//	refresh if not print
+		
+		if (Executions.getCurrent() != null)
+			Clients.showBusy(null, true);
+		else
 		{
-			if (Executions.getCurrent() != null)
-				Clients.showBusy("Processing...", true);
-			else
-			{
-				try {
-					//get full control of desktop
-					Executions.activate(getComponent().getDesktop());
-					try {                    
-						Clients.showBusy("Processing...", true);
-	                } catch(Error ex){                    
-	                	throw ex;                    
-	                } finally{
-	                	//release full control of desktop
-	                	Executions.deactivate(getComponent().getDesktop());                                                            
-	                }
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "Failed to lock UI.", e);
-				}
+			try {
+				//get full control of desktop
+				Executions.activate(getComponent().getDesktop());
+				try {                    
+					Clients.showBusy(null, true);
+                } catch(Error ex){                    
+                	throw ex;                    
+                } finally{
+                	//release full control of desktop
+                	Executions.deactivate(getComponent().getDesktop());                                                            
+                }
+			} catch (Exception e) {
+				logger.log(Level.WARNING, "Failed to lock UI.", e);
 			}
 		}
 	}

@@ -63,7 +63,7 @@ public class SessionContextListener implements ExecutionInit,
         if (parent == null)
         {
             exec.removeAttribute(SESSION_CTX);
-            ServerContext.dispose();
+//            ServerContext.dispose();
         }        
     }
 

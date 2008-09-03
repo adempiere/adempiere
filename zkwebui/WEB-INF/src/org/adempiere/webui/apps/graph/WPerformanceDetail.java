@@ -28,6 +28,7 @@ public class WPerformanceDetail extends Window
 		WBarGraph barPanel = new WBarGraph(goal);
 		appendChild(barPanel);
 				
-		SessionManager.getAppDesktop().showWindowInTabPanel(this);
+		this.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+		SessionManager.getAppDesktop().showWindow(this);
 	}	//	PerformanceDetail
 }

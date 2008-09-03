@@ -252,13 +252,16 @@ public class ProcessModalDialog extends Window implements EventListener
 				m_autoStart = true;
 			}
 			if (m_autoStart) {
+				this.getFirstChild().setVisible(false);
 				startProcess();
+				return true;
 			}
 		}
 		
 		// Check if the process is a silent one
 		if(isValid() && m_ShowHelp != null && m_ShowHelp.equals("S"))
 		{
+			this.getFirstChild().setVisible(false);
 			startProcess();			
 		}
 		return true;
@@ -268,22 +271,24 @@ public class ProcessModalDialog extends Window implements EventListener
 	 * launch process
 	 */
 	private void startProcess()
-	{	
-		m_processRunnable = new ProcessRunnable(Executions.getCurrent().getDesktop());
+	{			
 		m_pi.setPrintPreview(true);
 		
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
+		} else {
+			Clients.showBusy(null, true);
 		}
 		
+		m_processRunnable = new ProcessRunnable(Executions.getCurrent().getDesktop());
 		//use echo, otherwise lock ui wouldn't work
-		Clients.response(new AuEcho(this, "runProcessBackground", null));
+		Clients.response(new AuEcho(this, "runASyncProcess", null));
 	}
 	
 	/**
 	 * internal use, don't call this directly
 	 */
-	public void runProcessBackground() {
+	public void runASyncProcess() {
 		new Thread(m_processRunnable).start();
 	}
 	
@@ -302,6 +307,8 @@ public class ProcessModalDialog extends Window implements EventListener
 				} finally {
 					if (m_ASyncProcess != null) {
 						m_ASyncProcess.unlockUI(m_pi);
+					} else {
+						Clients.showBusy(null, false);
 					}
 					//release full control of desktop
                 	Executions.deactivate(desktop);                	

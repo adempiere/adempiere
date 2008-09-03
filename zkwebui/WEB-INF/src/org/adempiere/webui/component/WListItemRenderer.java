@@ -287,8 +287,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 					numberbox.setFormat(format);
 					numberbox.setValue((BigDecimal)field);
 					numberbox.setWidth("100px");
-					numberbox.setButtonVisible(true);
-					numberbox.setReadonly(false);
+					numberbox.setEnabled(true);
 					numberbox.setStyle("text-align:right; "
 									+ listcell.getStyle());
 					numberbox.addEventListener(Events.ON_CHANGE, this);
@@ -578,7 +577,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			}
 			else if (source instanceof NumberBox)
 			{
-				value = new BigDecimal(((NumberBox)source).getValue());
+				value = ((NumberBox)source).getValue();
 			}
 
 			if(value != null)

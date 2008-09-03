@@ -17,6 +17,10 @@
 
 package org.adempiere.webui.apps;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.NotSerializableException;
 import java.net.URI;
@@ -26,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.servlet.ServletRequest;
@@ -50,6 +55,13 @@ import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
+
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  *  Windows Application Environment and utilities
@@ -734,5 +746,37 @@ public final class AEnv
     	}
     	
     	return false;
+    }
+    
+    /**
+     * 
+     * @param pdfList
+     * @param outFile
+     * @throws IOException
+     * @throws DocumentException
+     * @throws FileNotFoundException
+     */
+    public static void mergePdf(List<File> pdfList, File outFile) throws IOException,
+			DocumentException, FileNotFoundException {
+		Document document = null;
+		PdfWriter copy = null;					
+		for (File f : pdfList) 
+		{
+			PdfReader reader = new PdfReader(f.getAbsolutePath());
+			if (document == null)
+			{
+				document = new Document(reader.getPageSizeWithRotation(1));							
+				copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
+				document.open();
+			}
+			int pages = reader.getNumberOfPages();
+			PdfContentByte cb = copy.getDirectContent();
+			for (int i = 1; i <= pages; i++) {
+				document.newPage();
+				PdfImportedPage page = copy.getImportedPage(reader, i);
+				cb.addTemplate(page, 0, 0);
+			}
+		}
+		document.close();
     }
 }	//	AEnv

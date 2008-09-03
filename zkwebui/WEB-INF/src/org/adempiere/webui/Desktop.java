@@ -519,15 +519,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
     
-    public void showWindowInTabPanel(Window window)
-    {
-    	Tabpanel tabPanel = new Tabpanel();
-    	window.setParent(tabPanel);
-    	String title = window.getTitle();
-    	window.setTitle(null);
-    	windowContainer.addWindow(tabPanel, title, true); 
-    }
-	
+    /**
+     * @param event
+     */
     public void onEvent(Event event)
     {
         Component comp = event.getTarget();
@@ -720,50 +714,97 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 
         if(menu.getAction().equals(MMenu.ACTION_Window))
         {
-        	ADWindow adWindow = new ADWindow(Env.getCtx(), menu.getAD_Window_ID());
-        	
-        	DesktopTabpanel tabPanel = new DesktopTabpanel();
-        	adWindow.createPart(tabPanel);
-        	windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
+        	openWindow(menu.getAD_Window_ID());
         }
         else if(menu.getAction().equals(MMenu.ACTION_Process) ||
         		menu.getAction().equals(MMenu.ACTION_Report))
         {
-        	ProcessDialog pd = new ProcessDialog (menu.getAD_Process_ID(), menu.isSOTrx());
-        	if (pd.isValid()) {
-	        	pd.setPage(page);
-	        	pd.setClosable(true);
-	        	pd.setWidth("500px");
-	        	pd.doHighlighted();
-        	}
+        	openProcessDialog(menu.getAD_Process_ID(), menu.isSOTrx());
         }
         else if(menu.getAction().equals(MMenu.ACTION_Form))
         {
-        	ADForm form = ADForm.openForm(menu.getAD_Form_ID());
-        	
-        	DesktopTabpanel tabPanel = new DesktopTabpanel();
-        	form.setParent(tabPanel);
-        	//do not show window title when open as tab
-        	form.setTitle(null);
-        	windowContainer.addWindow(tabPanel, form.getFormName(), true);        	
+        	openForm(menu.getAD_Form_ID());        	
         }
         else
         {
             throw new ApplicationException("Menu Action not yet implemented: " + menu.getAction());
         }
     }
+
+    /**
+     * 
+     * @param processId
+     * @param soTrx
+     * @return ProcessDialog
+     */
+	public ProcessDialog openProcessDialog(int processId, boolean soTrx) {
+		ProcessDialog pd = new ProcessDialog (processId, soTrx);
+		if (pd.isValid()) {
+			pd.setPage(page);
+			pd.setClosable(true);
+			pd.setWidth("500px");
+			pd.doHighlighted();
+		}
+		return pd;
+	}
+
+    /**
+     * 
+     * @param formId
+     * @return ADWindow
+     */
+	public ADForm openForm(int formId) {
+		ADForm form = ADForm.openForm(formId);
+		
+		DesktopTabpanel tabPanel = new DesktopTabpanel();
+		form.setParent(tabPanel);
+		//do not show window title when open as tab
+		form.setTitle(null);
+		windowContainer.addWindow(tabPanel, form.getFormName(), true);
+		
+		return form;
+	}
+
+	/**
+	 * 
+	 * @param windowId
+	 * @return ADWindow
+	 */
+	public ADWindow openWindow(int windowId) {
+		ADWindow adWindow = new ADWindow(Env.getCtx(), windowId);
+		
+		DesktopTabpanel tabPanel = new DesktopTabpanel();
+		adWindow.createPart(tabPanel);
+		windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
+		
+		return adWindow;
+	}
     
+	/**
+	 * @param url
+	 */
 	public void showURL(String url, boolean closeable)
     {
     	showURL(url, url, closeable);
     }
     
+	/**
+	 * 
+	 * @param url
+	 * @param title
+	 * @param closeable
+	 */
     public void showURL(String url, String title, boolean closeable)
     {
     	Iframe iframe = new Iframe(url);
     	addWin(iframe, title, closeable);
     }
     
+    /**
+     * @param webDoc
+     * @param title
+     * @param closeable
+     */
     public void showURL(WebDoc webDoc, String title, boolean closeable)
     {
     	Iframe iframe = new Iframe();
@@ -774,6 +815,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	addWin(iframe, title, closeable);
     }
     
+    /**
+     * 
+     * @param fr
+     * @param title
+     * @param closeable
+     */
     private void addWin(Iframe fr, String title, boolean closeable)
     {
     	fr.setWidth("100%");
@@ -791,7 +838,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	windowContainer.addWindow(tabPanel, title, closeable);
     }
     
-   
+    /**
+     * @param AD_Window_ID
+     * @param query
+     */
     public void showZoomWindow(int AD_Window_ID, MQuery query)
     {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
@@ -801,12 +851,19 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
 	}
     
+    /**
+     * @param win
+     */
     public void showWindow(Window win) 
     {
     	String pos = win.getPosition();
     	this.showWindow(win, pos);
     }
     
+    /**
+     * @param win
+     * @param pos
+     */
    	public void showWindow(Window win, String pos)
 	{
    		win.setPage(page);		
@@ -819,31 +876,33 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 			mode = objMode.toString();
 		}
 		
-		if ("modal".equals(mode))
+		if (Window.MODE_MODAL.equals(mode))
 		{
 			showModal(win);
 		}
-		else if ("popup".equals(mode))
+		else if (Window.MODE_POPUP.equals(mode))
 		{
 			showPopup(win, pos);
 		}
-		else if ("overlapped".equals(mode))
+		else if (Window.MODE_OVERLAPPED.equals(mode))
 		{
 			showOverlapped(win, pos);
 		}
-		else if ("embedded".equals(mode))
+		else if (Window.MODE_EMBEDDED.equals(mode))
 		{
-			showEmbedded(win, pos);
+			showEmbedded(win);
 		}
-		else if ("highlighted".equals(mode))
+		else if (Window.MODE_HIGHLIGHTED.equals(mode))
 		{
 			showHighlighted(win, pos);
-		}
-		
-//		win.setVisible(true);
+		}		
 	}
    	
-   	public void showModal(Window win)
+   	/**
+   	 * 
+   	 * @param win
+   	 */
+   	private void showModal(Window win)
    	{
 		try
 		{
@@ -856,7 +915,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 			
 	}
    	
-   	public void showPopup(Window win, String position)
+   	/**
+   	 * 
+   	 * @param win
+   	 * @param position
+   	 */
+   	private void showPopup(Window win, String position)
    	{
    		if (position == null)
    			win.setPosition("center");
@@ -866,7 +930,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
    		win.doPopup();
    	}
    	
-	public void showOverlapped(Window win, String position)
+   	/**
+   	 * 
+   	 * @param win
+   	 * @param position
+   	 */
+	private void showOverlapped(Window win, String position)
    	{
 		if (position == null)
 			win.setPosition("center");
@@ -876,7 +945,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
    		win.doOverlapped();
    	}
 	
-	public void showHighlighted(Window win, String position)
+	/**
+	 * 
+	 * @param win
+	 * @param position
+	 */
+	private void showHighlighted(Window win, String position)
    	{
 		if (position == null)
 			win.setPosition("center");
@@ -886,36 +960,56 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
    		win.doHighlighted();
    	}
 
-	public void showEmbedded(Window win, String position)
+	/**
+	 * 
+	 * @param window
+	 */
+	private void showEmbedded(Window window)
    	{
-		if (position == null)
-			win.setPosition("center");
-		else
-			win.setPosition(position);
-		
-   		win.doEmbedded();
+		Tabpanel tabPanel = new Tabpanel();
+    	window.setParent(tabPanel);
+    	String title = window.getTitle();
+    	window.setTitle(null);
+    	windowContainer.addWindow(tabPanel, title, true);
    	}
 	
+	/**
+	 * @return clientInfo
+	 */
 	public ClientInfo getClientInfo() {
 		return clientInfo;
 	}
 
+	/**
+	 * 
+	 * @param clientInfo
+	 */
 	public void setClientInfo(ClientInfo clientInfo) {
 		this.clientInfo = clientInfo;
 	}
 	
+	/**
+	 * @param win
+	 */
 	public int registerWindow(Object win) {
 		int retValue = windows.size();
 		windows.add(win);
 		return retValue;
 	}
 	
+	/**
+	 * @param WindowNo
+	 */
 	public void unregisterWindow(int WindowNo) {
 		if (WindowNo < windows.size())
 			windows.set(WindowNo, null);
 	}
    	
-   
+    /**
+     * 
+     * @param WindowNo
+     * @return Object
+     */
 	public Object findWindow(int WindowNo) {
 		if (WindowNo < windows.size())
 			return windows.get(WindowNo);
@@ -923,11 +1017,18 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 			return null;
 	}
 	
+	/**
+	 * Close active tab
+	 */
 	public void removeWindow()
 	{
 		windowContainer.removeWindow();
 	}
 	
+	/**
+	 * 
+	 * @param page
+	 */
 	public void setPage(Page page) {
 		if (this.page != page) {
 			layout.setPage(page);
@@ -935,6 +1036,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		}
 	}
 	
+	/**
+	 * Get the root component
+	 * @return Component
+	 */
 	public Component getComponent() {
 		return layout;
 	}

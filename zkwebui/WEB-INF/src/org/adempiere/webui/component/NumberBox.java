@@ -17,12 +17,14 @@
 
 package org.adempiere.webui.component;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
-import org.zkoss.zul.Bandpopup;
-import org.zkoss.zul.Button;
+import org.adempiere.webui.apps.AEnv;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Popup;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -31,7 +33,7 @@ import org.zkoss.zul.Vbox;
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
-public class NumberBox extends Bandbox
+public class NumberBox extends Panel
 {
     private static final long serialVersionUID = 1L;
     
@@ -40,6 +42,9 @@ public class NumberBox extends Bandbox
     boolean integral = false;
     
     NumberFormat format = null;
+    
+    private Decimalbox decimalBox = null;
+    private Button btn;
     
     public NumberBox(boolean integral)
     {
@@ -50,10 +55,25 @@ public class NumberBox extends Bandbox
     
     private void init()
     {
-        this.setImage("/images/Calculator16.png");
+    	decimalBox = new Decimalbox();
+    	if (integral)
+    		decimalBox.setScale(0);
+    	
+    	btn = new Button();
+        btn.setImage("/images/Calculator16.png");
         this.setAction("onKeyPress : return calc.validate('" + 
-                this.getId() + "'," + integral + ", event);");
-        this.appendChild(getBandPopup());
+                decimalBox.getId() + "'," + integral + ", event);");
+        
+        Popup popup = getCalculatorPopup();
+        btn.setHeight("22px");
+        btn.setWidth("26px");
+        btn.setPopup(popup);
+        appendChild(decimalBox);
+        appendChild(btn);
+        appendChild(popup);
+     
+        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+        this.setStyle(style);	     
     }
     
     public void setFormat(NumberFormat format)
@@ -61,70 +81,64 @@ public class NumberBox extends Bandbox
     	this.format = format;
     }
     
-    public void setValue(Number value)
+    public void setValue(Object value)
     {
-    	if (format != null)
-    	{
-    		super.setValue(format.format(value));
-    	}
+    	if (value == null)
+    		decimalBox.setValue(null);
+    	else if (value instanceof BigDecimal)
+    		decimalBox.setValue((BigDecimal) value);
+    	else if (value instanceof Number)
+    		decimalBox.setValue(new BigDecimal(((Number)value).doubleValue()));
     	else
-    	{
-    		super.setValue(value.toString());
-    	}
+    		decimalBox.setValue(new BigDecimal(value.toString()));
     }
     
-    public void setRawValue(Object value)
+    public BigDecimal getValue()
     {
-    	super.setRawValue(value);
+    	return decimalBox.getValue();
     }
     
     public String getText()
     {
-    	return super.getText();
+    	BigDecimal value = decimalBox.getValue();
+    	if (value == null) return null;
+    	
+    	if (format != null)
+    		return format.format(value);
+    	else
+    		return value.toPlainString();
     }
     
     public void setValue(String value)
     {
-    	String formattedValue = "";
     	Number numberValue = null;
     	
     	if (format != null)
     	{
     		try
 			{
-				numberValue = format.parse(value);
-				formattedValue = format.format(numberValue);
+    			numberValue = format.parse(value);
+    			setValue(numberValue);
 			}
 			catch (ParseException e)
 			{
-				formattedValue = value;
 			}
     	}
     	else
     	{
-    		formattedValue = value;
-    	}
-    	
-    	super.setValue(formattedValue);
+    		decimalBox.setValue(new BigDecimal(value));
+    	}    	
     }
     
-    /*
-    public void setReadonly(boolean readonly)
+    private Popup getCalculatorPopup()
     {
-    	// Due to bug in bandbox - once set readonly, setting to not readonly
-    	// does not work
-    	super.setDisabled(readonly);
-    }*/
-    
-    private Bandpopup getBandPopup()
-    {
-        Bandpopup bandPopup = new Bandpopup();
+        Popup popup = new Popup(); 
 
         Vbox vbox = new Vbox();
 
         txtCalc = new Textbox();
         txtCalc.setAction("onKeyPress : return calc.validate('" + 
-                this.getId() + "!real','" + txtCalc.getId() 
+        		decimalBox.getId() + "','" + txtCalc.getId() 
                 + "'," + integral + ", event);");
         txtCalc.setMaxlength(250);
         txtCalc.setCols(30);
@@ -252,7 +266,7 @@ public class NumberBox extends Bandbox
         Button btnEqual = new Button();
         btnEqual.setWidth("30px");
         btnEqual.setLabel("=");
-        btnEqual.setAction("onClick : calc.evaluate('" + this.getId() + "!real','" 
+        btnEqual.setAction("onClick : calc.evaluate('" + decimalBox.getId() + "','" 
                 + txtCalcId + "')");
         
         Button btnAdd = new Button();
@@ -271,7 +285,30 @@ public class NumberBox extends Bandbox
         vbox.appendChild(row3);
         vbox.appendChild(row4);
 
-        bandPopup.appendChild(vbox);
-        return bandPopup;
+        popup.appendChild(vbox);
+        return popup;
     }
+
+	public boolean isIntegral() {
+		return integral;
+	}
+
+	public void setIntegral(boolean integral) {
+		this.integral = integral;
+		if (integral)
+			decimalBox.setScale(0);
+		else
+			decimalBox.setScale(Decimalbox.AUTO);
+	}
+	
+	public void setEnabled(boolean enabled)
+	{
+	     decimalBox.setReadonly(!enabled);
+	     btn.setEnabled(enabled);
+	}
+	
+	public boolean isEnabled()
+	{
+		 return decimalBox.isReadonly();
+	}
 }

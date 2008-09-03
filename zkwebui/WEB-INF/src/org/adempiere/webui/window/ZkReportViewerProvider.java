@@ -34,7 +34,7 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 		viewer.setClosable(true);
 		viewer.setWidth("95%");
 		
-		SessionManager.getAppDesktop().showWindowInTabPanel(viewer);
-//		AEnv.showWindow(viewer);
+		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+		SessionManager.getAppDesktop().showWindow(viewer);
 	}
 }

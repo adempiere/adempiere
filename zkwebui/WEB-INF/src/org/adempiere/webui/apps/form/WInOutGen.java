@@ -18,13 +18,13 @@ package org.adempiere.webui.apps.form;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.math.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Label;
@@ -67,12 +67,6 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Space;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
 
 /**
  *	Manual Shipment Selection
@@ -706,26 +700,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		if (pdfList.size() > 1) {
 			try {
 				File outFile = File.createTempFile("WInOutGen", ".pdf");					
-				Document document = null;
-				PdfWriter copy = null;					
-				for (File f : pdfList) 
-				{
-					PdfReader reader = new PdfReader(f.getAbsolutePath());
-					if (document == null)
-					{
-						document = new Document(reader.getPageSizeWithRotation(1));							
-						copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
-						document.open();
-					}
-					int pages = reader.getNumberOfPages();
-					PdfContentByte cb = copy.getDirectContent();
-					for (int i = 1; i <= pages; i++) {
-						document.newPage();
-						PdfImportedPage page = copy.getImportedPage(reader, i);
-						cb.addTemplate(page, 0, 0);
-					}
-				}
-				document.close();
+				AEnv.mergePdf(pdfList, outFile);
 
 				Clients.showBusy(null, false);
 				Window win = new SimplePDFViewer(this.getFormName(), new FileInputStream(outFile));
@@ -745,7 +720,6 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		}
 	}
 
-	
 	/**************************************************************************
 	 *  Lock User Interface.
 	 *  Called from the Worker before processing

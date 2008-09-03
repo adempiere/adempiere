@@ -101,7 +101,7 @@ public class WPayment extends Window
 		m_mTab = mTab;
 		try
 		{
-			bDateField = new WDateEditor("DateAcct", false, false, true, DisplayType.Date, "DateAcct");
+			bDateField = new WDateEditor("DateAcct", false, false, true, "DateAcct");
 			zkInit();
 			m_initOK = dynInit(button);     //  Null Pointer if order/invoice not saved yet
 		}

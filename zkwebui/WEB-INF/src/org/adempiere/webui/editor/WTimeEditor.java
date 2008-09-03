@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
- * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
+ * Copyright (C) 2008 Low Heng Sin                                            *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +9,6 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
 
 package org.adempiere.webui.editor;
@@ -21,20 +17,18 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Timebox;
 
 /**
  * 
- * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date Mar 12, 2007
- * @version $Revision: 0.10 $
+ * @author Low Heng Sin
  */
-public class WDateEditor extends WEditor
+public class WTimeEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     private static final CLogger logger;
@@ -50,11 +44,24 @@ public class WDateEditor extends WEditor
      * 
      * @param gridField
      */
-    public WDateEditor(GridField gridField)
+    public WTimeEditor(GridField gridField)
     {
-        super(new Datebox(), gridField);
+        super(new Timebox(), gridField);
     }
     
+    /**
+	 * 
+	 * @param columnName
+	 * @param mandatory
+	 * @param readonly
+	 * @param updateable
+	 * @param title
+	 */
+	public WTimeEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
+			String title)
+	{
+		super(new Timebox(), columnName, title, null, mandatory, readonly, updateable);
+	}
 	
 	/**
 	 * Constructor for use if a grid field is unavailable
@@ -70,30 +77,16 @@ public class WDateEditor extends WEditor
 	 * @param updateable
 	 *            whether the editor contents can be changed
 	 */
-	public WDateEditor (String label, String description, boolean mandatory, boolean readonly, boolean updateable)
+	public WTimeEditor (String label, String description, boolean mandatory, boolean readonly, boolean updateable)
 	{
-		super(new Datebox(), label, description, mandatory, readonly, updateable);
-		setColumnName("Date");
+		super(new Timebox(), label, description, mandatory, readonly, updateable);
+		setColumnName("Time");
 	}
 	
-	public WDateEditor()
+	public WTimeEditor()
 	{
-		this("Date", "Date", false, false, true);
+		this("Time", "Time", false, false, true);
 	}   // VDate
-	
-	/**
-	 * 
-	 * @param columnName
-	 * @param mandatory
-	 * @param readonly
-	 * @param updateable
-	 * @param title
-	 */
-	public WDateEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
-			String title)
-	{
-		super(new Datebox(), columnName, title, null, mandatory, readonly, updateable);
-	}
     
 	public void onEvent(Event event)
     {
@@ -158,19 +151,19 @@ public class WDateEditor extends WEditor
     }
     
 	@Override
-	public Datebox getComponent() {
-		return (Datebox) component;
+	public Timebox getComponent() {
+		return (Timebox) component;
 	}
 
 	@Override
 	public boolean isReadWrite() {
-		return getComponent().isEnabled();
+		return !getComponent().isReadonly();
 	}
 
 
 	@Override
 	public void setReadWrite(boolean readWrite) {
-		getComponent().setEnabled(readWrite);
+		getComponent().setReadonly(!readWrite);
 	}
 
 	public String[] getEvents()

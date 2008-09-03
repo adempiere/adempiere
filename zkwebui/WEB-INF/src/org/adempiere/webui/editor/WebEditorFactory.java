@@ -105,7 +105,10 @@ public class WebEditorFactory
         /** Date */
         else if (DisplayType.isDate(displayType))
         {
-            editor = new WDateEditor(gridField);
+        	if (displayType == DisplayType.Time)
+        		editor = new WTimeEditor(gridField);
+        	else
+        		editor = new WDateEditor(gridField);
         }
         
         /**  Button */
