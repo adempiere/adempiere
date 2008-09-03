@@ -233,7 +233,7 @@ public class MovementGenerate extends SvrProcess
 							+ " INNER JOIN M_Movement io ON (iol.M_Movement_ID=io.M_Movement_ID) "
 								+ "WHERE iol.DD_OrderLine_ID=DD_OrderLine.DD_OrderLine_ID AND io.DocStatus IN ('IP','WC'))";
 				//	Deadlock Prevention - Order by M_Product_ID
-				MDDOrderLine[] lines = order.getLines (where, "ORDER BY  M_Product_ID");
+				MDDOrderLine[] lines = order.getLines (where, "M_Product_ID");
 				for (int i = 0; i < lines.length; i++)
 				{
 					MDDOrderLine line = lines[i];

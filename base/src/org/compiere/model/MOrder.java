@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
@@ -32,6 +33,8 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MPPProductBOMLine;
 import org.eevolution.model.MPPProductBOM;
 
@@ -605,39 +608,18 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MOrderLine[] getLines (String whereClause, String orderClause)
 	{
-		ArrayList<MOrderLine> list = new ArrayList<MOrderLine> ();
-		StringBuffer sql = new StringBuffer("SELECT * FROM C_OrderLine WHERE C_Order_ID=? ");
-		if (whereClause != null)
-			sql.append(whereClause);
-		if (orderClause != null)
-			sql.append(" ").append(orderClause);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setInt(1, getC_Order_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MOrderLine ol = new MOrderLine(getCtx(), rs, get_TrxName());
-				ol.setHeaderInfo (this);
-				list.add(ol);
-			}
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//red1 - using new Query class from Teo / Victor's MDDOrder.java implementation
+		StringBuffer whereClauseFinal = new StringBuffer("C_Order_ID =?");
+		if (!Util.isEmpty(whereClause, true))
+			whereClauseFinal.append(whereClause);
+		if (orderClause.length() == 0)
+			orderClause = "Line";
 		//
-		MOrderLine[] lines = new MOrderLine[list.size ()];
-		list.toArray (lines);
-		return lines;
+		List<MOrderLine> list = new Query(getCtx(), MOrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+												.setParameters(new Object[]{getC_Order_ID()})
+												.setOrderBy(orderClause)
+												.list();
+		return list.toArray(new MOrderLine[list.size()]);		
 	}	//	getLines
 
 	/**
@@ -653,7 +635,7 @@ public class MOrder extends X_C_Order implements DocAction
 			return m_lines;
 		}
 		//
-		String orderClause = "ORDER BY ";
+		String orderClause = "";
 		if (orderBy != null && orderBy.length() > 0)
 			orderClause += orderBy;
 		else
@@ -1338,7 +1320,7 @@ public class MOrder extends X_C_Order implements DocAction
 			renumberLines (1000);		//	max 999 bom items	
 
 			//	Order Lines with non-stocked BOMs
-			MOrderLine[] lines = getLines (where, "ORDER BY Line");
+			MOrderLine[] lines = getLines (where, " Line");
 			for (int i = 0; i < lines.length; i++)
 			{
 				MOrderLine line = lines[i];
