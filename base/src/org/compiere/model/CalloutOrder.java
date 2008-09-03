@@ -707,14 +707,7 @@ public class CalloutOrder extends CalloutEngine
 		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
 		pp.setM_PriceList_ID(M_PriceList_ID);
 		/** PLV is only accurate if PL selected in header */
-		// globalqss - fix reported bug [ 1643489 ] PriceListVersion misfunctionality
-		int M_PriceList_Version_ID;
-		// try to get the price list version from info product tab
-		M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID");
-		// if not found try to get from the context of window
-		if (M_PriceList_Version_ID == 0)
-			M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-		// end globalqss 
+		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
 		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID); 
 		Timestamp orderDate = (Timestamp)mTab.getValue("DateOrdered");
 		pp.setPriceDate(orderDate);
@@ -973,14 +966,7 @@ public class CalloutOrder extends CalloutEngine
 			boolean IsSOTrx = Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y");
 			MProductPricing pp = new MProductPricing (M_Product_ID, C_BPartner_ID, QtyOrdered, IsSOTrx);
 			pp.setM_PriceList_ID(M_PriceList_ID);
-			// globalqss - fix reported bug [ 1643489 ] PriceListVersion misfunctionality
-			int M_PriceList_Version_ID;
-			// try to get the price list version from info product tab
-			M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_PriceList_Version_ID");
-			// if not found try to get from the context of window
-			if (M_PriceList_Version_ID == 0)
-				M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-			// end globalqss 
+			int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
 			pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
 			Timestamp date = (Timestamp)mTab.getValue("DateOrdered");
 			pp.setPriceDate(date);
