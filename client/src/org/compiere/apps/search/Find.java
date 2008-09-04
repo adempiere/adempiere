@@ -424,6 +424,7 @@ public final class Find extends CDialog
 			{
 				GridFieldVO vo = mField.getVO();
 				GridFieldVO ynvo = vo.clone(vo.ctx, vo.WindowNo, vo.TabNo, vo.AD_Window_ID, vo.AD_Tab_ID, vo.tabReadOnly);
+				ynvo.IsDisplayed = true;
 				ynvo.displayType = DisplayType.List;
 				ynvo.AD_Reference_Value_ID = AD_REFERENCE_ID_YESNO;
 
