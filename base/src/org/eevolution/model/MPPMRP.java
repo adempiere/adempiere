@@ -38,6 +38,7 @@ import org.compiere.model.X_M_ForecastLine;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflow;
 
@@ -526,16 +527,89 @@ public class MPPMRP extends X_PP_MRP
 	 * @param M_Product_ID
 	 * @return
 	 */
-	public static BigDecimal getQtyOnHand(int AD_Client_ID, int M_Warehouse_ID ,int M_Product_ID,String trxName)
+	public static BigDecimal getQtyOnHand(Properties ctx, int M_Warehouse_ID ,int M_Product_ID,String trxName)
 	{	
 		final String sql = "SELECT SUM(bomQtyOnHand (M_Product_ID,?,0)) AS OnHand FROM M_Product"
 							+" WHERE AD_Client_ID=? AND M_Product_ID=?";
-		BigDecimal QtyOnHand = DB.getSQLValueBD(trxName, sql, new Object[]{M_Warehouse_ID,AD_Client_ID,M_Product_ID});
+		BigDecimal QtyOnHand = DB.getSQLValueBD(trxName, sql, new Object[]{M_Warehouse_ID,Env.getAD_Client_ID(ctx),M_Product_ID});
 		if (QtyOnHand == null)
 			QtyOnHand = Env.ZERO;
 		return QtyOnHand;
 	}
-
+	
+    /**
+     * Get Reserved Quantity for a Warehouse 
+	 * @param ctx
+	 * @param M_Warehouse_ID
+	 * @param M_Product_ID
+	 * @param to
+	 * @param Ordertype separate for SOO,POO,
+	 * @param trxName
+	 * @return BibDecimal
+	 */
+    public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp to,String trxName)
+	{
+    	StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='D' AND DocStatus IN ('IN','CO')");
+    	sql.append("AND OrderType IN ('SOO','MOP','DOO') AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
+		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), to , M_Warehouse_ID, M_Product_ID}); 		
+		//	SQL may return no rows or null
+		if (qty == null)
+			return Env.ZERO;
+		
+		return qty;
+     }
+    
+    /**
+     * Get Reserved Quantity for a Warehouse 
+	 * @param ctx
+	 * @param M_Warehouse_ID
+	 * @param M_Product_ID
+	 * @param to
+	 * @param Ordertype separate for SOO,POO,
+	 * @param trxName
+	 * @return BibDecimal
+	 */
+    public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID,String trxName)
+	{
+    	return getQtyReserved(ctx, M_Warehouse_ID, M_Product_ID, new Timestamp (System.currentTimeMillis()), trxName);
+    }
+    
+    /**
+     * Get Reserved Quantity for a Warehouse 
+	 * @param ctx
+	 * @param M_Warehouse_ID
+	 * @param M_Product_ID
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+    public static BigDecimal getQtyOrdered(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp to,String trxName)
+	{
+    	StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='S' AND DocStatus IN ('IN','CO')");	
+		sql.append("AND OrderType IN ('POO','MOP','DOO') AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
+		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), to , M_Warehouse_ID, M_Product_ID}); 		
+		//	SQL may return no rows or null
+		if (qty == null)
+			return Env.ZERO;
+		
+		return qty;
+     }
+    
+	 /**
+	 * Set Order Reserved Quantity for a Warehouse 
+	 * @param AD_Client_ID
+	 * @param M_Warehouse_ID
+	 * @param M_Product_ID
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+   public static BigDecimal getQtyOrdered(Properties ctx, int M_Warehouse_ID ,int M_Product_ID,String trxName)
+   {
+		return getQtyOrdered(ctx, M_Warehouse_ID, M_Product_ID, new Timestamp (System.currentTimeMillis()), trxName);
+   }
+   
+    
 	/**
 	 * Maximum Low Level Code
 	 * @param ctx
