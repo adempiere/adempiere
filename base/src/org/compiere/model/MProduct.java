@@ -38,6 +38,8 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1885153 ] Refactor: getMMPolicy code
  * 			<li>BF [ 1885414 ] ASI should be always mandatory if CostingLevel is Batch/Lot
+ * 			<li>FR [ 2093551 ] Refactor/Add org.compiere.model.MProduct.getCostingLevel
+ * 			<li>FR [ 2093569 ] Refactor/Add org.compiere.model.MProduct.getCostingMethod
  */
 public class MProduct extends X_M_Product
 {
@@ -795,11 +797,9 @@ public class MProduct extends X_M_Product
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
 		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
-		for (MAcctSchema as : mass) {
-			MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.getC_AcctSchema_ID(), get_TrxName());
-			String cl = pca.getCostingLevel();
-			if (cl == null)
-				cl = as.getCostingLevel();
+		for (MAcctSchema as : mass)
+		{
+			String cl = getCostingLevel(as);
 			if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(cl)) {
 				return true;
 			}
@@ -822,5 +822,37 @@ public class MProduct extends X_M_Product
 		//
 		// Default not mandatory
 		return false;
+	}
+	
+	/**
+	 * Get Product Costing Level
+	 * @param as accounting schema
+	 * @return product costing level
+	 */
+	public String getCostingLevel(MAcctSchema as)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
+		String costingLevel = pca.getCostingLevel();
+		if (costingLevel == null)
+		{
+			costingLevel = as.getCostingLevel();
+		}
+		return costingLevel;
+	}
+	
+	/**
+	 * Get Product Costing Method
+	 * @param C_AcctSchema_ID accounting schema ID
+	 * @return product costing method
+	 */
+	public String getCostingMethod(MAcctSchema as)
+	{
+		MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), getM_Product_Category_ID(), as.get_ID(), get_TrxName());
+		String costingMethod = pca.getCostingMethod();
+		if (costingMethod == null)
+		{
+			costingMethod = as.getCostingMethod();
+		}
+		return costingMethod;
 	}
 }	//	MProduct

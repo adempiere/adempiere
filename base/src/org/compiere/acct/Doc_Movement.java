@@ -146,12 +146,7 @@ public class Doc_Movement extends Doc
 			//	Only for between-org movements
 			if (dr.getAD_Org_ID() != cr.getAD_Org_ID())
 			{
-				String costingLevel = as.getCostingLevel();
-				MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
-					line.getProduct().getM_Product_Category_ID(), 
-					as.getC_AcctSchema_ID(), getTrxName());
-				if (pca.getCostingLevel() != null)
-					costingLevel = pca.getCostingLevel();
+				String costingLevel = line.getProduct().getCostingLevel(as);
 				if (!MAcctSchema.COSTINGLEVEL_Organization.equals(costingLevel))
 					continue;
 				//

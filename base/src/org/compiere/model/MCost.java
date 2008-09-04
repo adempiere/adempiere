@@ -17,13 +17,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.*;
-import org.compiere.util.*;
+import org.compiere.Adempiere;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  * 	Product Cost Model
@@ -36,6 +44,9 @@ import org.compiere.util.*;
  */
 public class MCost extends X_M_Cost
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Retrieve/Calculate Current Cost Price
 	 *	@param product product
@@ -55,16 +66,7 @@ public class MCost extends X_M_Cost
 		BigDecimal qty, int C_OrderLine_ID,
 		boolean zeroCostsOK, String trxName)
 	{
-		String CostingLevel = as.getCostingLevel();
-		MProductCategoryAcct pca = MProductCategoryAcct.get (product.getCtx(),
-			product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), null);	
-		if (pca == null)
-			throw new IllegalStateException("Cannot find Acct for M_Product_Category_ID=" 
-				+ product.getM_Product_Category_ID() 
-				+ ", C_AcctSchema_ID=" + as.getC_AcctSchema_ID());
-		//	Costing Level
-		if (pca.getCostingLevel() != null)
-			CostingLevel = pca.getCostingLevel();
+		String CostingLevel = product.getCostingLevel(as);
 		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
 		{
 			AD_Org_ID = 0;
@@ -77,13 +79,10 @@ public class MCost extends X_M_Cost
 		//	Costing Method
 		if (costingMethod == null)
 		{
-			costingMethod = pca.getCostingMethod();
+			costingMethod = product.getCostingMethod(as);
 			if (costingMethod == null)
 			{
-				costingMethod = as.getCostingMethod();
-				if (costingMethod == null)
-					throw new IllegalArgumentException("No Costing Method");
-			//		costingMethod = MAcctSchema.COSTINGMETHOD_StandardCosting;
+				throw new IllegalArgumentException("No Costing Method");
 			}
 		}
 		
@@ -117,7 +116,7 @@ public class MCost extends X_M_Cost
 	{
 		BigDecimal currentCostPrice = null;
 		String costElementType = null;
-		int M_CostElement_ID = 0;
+		//int M_CostElement_ID = 0;
 		BigDecimal percent = null;
 		//
 		BigDecimal materialCostEach = Env.ZERO;
@@ -700,11 +699,7 @@ public class MCost extends X_M_Cost
 		for (int i = 0; i < mass.length; i++)
 		{
 			MAcctSchema as = mass[i];
-			MProductCategoryAcct pca = MProductCategoryAcct.get(product.getCtx(), 
-				product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), product.get_TrxName());
-			String cl = pca.getCostingLevel();
-			if (cl == null)
-				cl = as.getCostingLevel();
+			String cl = product.getCostingLevel(as);
 			//	Create Std Costing
 			if (MAcctSchema.COSTINGLEVEL_Client.equals(cl))
 			{
@@ -1608,12 +1603,8 @@ public class MCost extends X_M_Cost
 		if (m_manual)
 		{
 			MAcctSchema as = new MAcctSchema (getCtx(), getC_AcctSchema_ID(), null);
-			String CostingLevel = as.getCostingLevel();
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			MProductCategoryAcct pca = MProductCategoryAcct.get (getCtx(),
-				product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), null);	
-			if (pca.getCostingLevel() != null)
-				CostingLevel = pca.getCostingLevel();
+			String CostingLevel = product.getCostingLevel(as);
 			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
 			{
 				if (getAD_Org_ID() != 0 || getM_AttributeSetInstance_ID() != 0)

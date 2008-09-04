@@ -145,7 +145,6 @@ public class Doc_InOut extends Doc
 				// if Shipment CostDetail exist then get Cost from Cost Detail 
 				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?");
 				// end MZ
-				
 				if (costs == null || costs.signum() == 0)	//	zero costs OK
 				{
 					MProduct product = line.getProduct();
@@ -292,11 +291,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
 				//get costing method for product
-				String costingMethod = as.getCostingMethod();
-				MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
-					product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
-				if (pca.getCostingMethod() != null)
-					costingMethod = pca.getCostingMethod();
+				String costingMethod = product.getCostingMethod(as);
 				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
 					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
 				{
@@ -382,11 +377,7 @@ public class Doc_InOut extends Doc
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
 				//get costing method for product
-				String costingMethod = as.getCostingMethod();
-				MProductCategoryAcct pca = MProductCategoryAcct.get(getCtx(), 
-					product.getM_Product_Category_ID(), as.getC_AcctSchema_ID(), getTrxName());
-				if (pca.getCostingMethod() != null)
-					costingMethod = pca.getCostingMethod();
+				String costingMethod = product.getCostingMethod(as);
 				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
 					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
 				{

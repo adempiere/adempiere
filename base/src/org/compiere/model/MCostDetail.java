@@ -748,12 +748,8 @@ public class MCostDetail extends X_M_CostDetail
 
 		//	get costing level for product
 		MAcctSchema as = new MAcctSchema (getCtx(), getC_AcctSchema_ID(), null);
-		String CostingLevel = as.getCostingLevel();
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-		MProductCategoryAcct pca = MProductCategoryAcct.get (getCtx(),
-			product.getM_Product_Category_ID(), getC_AcctSchema_ID(), null);	
-		if (pca.getCostingLevel() != null)
-			CostingLevel = pca.getCostingLevel();
+		String CostingLevel = product.getCostingLevel(as);
 		//	Org Element
 		int Org_ID = getAD_Org_ID();
 		int M_ASI_ID = getM_AttributeSetInstance_ID();
@@ -1085,12 +1081,8 @@ public class MCostDetail extends X_M_CostDetail
 			boolean ok = false;
 			//	get costing level for product
 			MAcctSchema as = new MAcctSchema (getCtx(), getC_AcctSchema_ID(), null);
-			String CostingLevel = as.getCostingLevel();
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			MProductCategoryAcct pca = MProductCategoryAcct.get (getCtx(),
-				product.getM_Product_Category_ID(), getC_AcctSchema_ID(), null);	
-			if (pca.getCostingLevel() != null)
-				CostingLevel = pca.getCostingLevel();
+			String CostingLevel = product.getCostingLevel(as);
 			//	Org Element
 			int Org_ID = getAD_Org_ID();
 			int M_ASI_ID = getM_AttributeSetInstance_ID();
