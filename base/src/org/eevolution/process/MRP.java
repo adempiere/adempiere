@@ -445,7 +445,7 @@ public class MRP extends SvrProcess
 	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
 	{
 		//find data product planning demand 
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Client_ID ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx() ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		if (pp != null)
@@ -513,7 +513,7 @@ public class MRP extends SvrProcess
 			}
 		}	
 
-		QtyProjectOnHand = MPPMRP.getQtyOnHand(AD_Client_ID , m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), get_TrxName());
+		QtyProjectOnHand = MPPMRP.getQtyOnHand(getCtx(), m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), get_TrxName());
 		if(m_product_planning.getSafetyStock().signum() > 0
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
@@ -738,7 +738,7 @@ public class MRP extends SvrProcess
 				M_Shipper_ID = network_line.getM_Shipper_ID();
 			}   
 
-			BigDecimal QtyOrdered = QtyPlanned; //.multiply(network_line.getPercent()).divide(Env.ONEHUNDRED);
+			BigDecimal QtyOrdered = QtyPlanned.multiply(network_line.getPercent()).divide(Env.ONEHUNDRED);
 
 			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , get_TrxName());
 			oline.setDD_Order_ID(order.getDD_Order_ID());
@@ -749,6 +749,7 @@ public class MRP extends SvrProcess
 			oline.setDatePromised(DemandDateStartSchedule);
 			oline.setQtyEntered(QtyOrdered);
 			oline.setQtyOrdered(QtyOrdered);
+			oline.setTargetQty(MPPMRP.getQtyReserved(getCtx(), target.getM_Warehouse_ID(), m_product_planning.getM_Product_ID(), DemandDateStartSchedule, get_TrxName()));
 			oline.setIsInvoiced(false);
 			oline.saveEx();
 

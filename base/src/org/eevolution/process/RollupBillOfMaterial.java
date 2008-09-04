@@ -167,8 +167,7 @@ public class RollupBillOfMaterial extends SvrProcess
 	{
 		log.info("ElementType: "+CostElementType);
 		BigDecimal costPriceLL = Env.ZERO;
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(),
-															getAD_Client_ID(), AD_Org_ID,
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID,
 															0, // M_Warehouse_ID
 															0, // S_Resource_ID
 															product.getM_Product_ID(),

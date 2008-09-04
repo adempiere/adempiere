@@ -138,7 +138,7 @@ public class RollupWorkflow extends SvrProcess
      private BigDecimal getCost(String CostElementType ,int AD_Client_ID , int AD_Org_ID , MProduct product , int M_CostType_ID , int  C_AcctSchema_ID)
      {                
          BigDecimal cost = Env.ZERO;        
-         MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Client_ID, AD_Org_ID , 0 , 0 , product.getM_Product_ID(), get_TrxName());                 
+         MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID , 0 , 0 , product.getM_Product_ID(), get_TrxName());                 
          int AD_Workflow_ID = 0; 
          if(pp != null )
         	 AD_Workflow_ID = pp.getAD_Workflow_ID();

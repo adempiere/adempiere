@@ -772,7 +772,7 @@ public class VMRPDetailed
 	  */
 	 private void fillHead()  
 	 {
-		 MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Client_ID, 
+		 MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), 
 				 getAD_Org_ID(), getM_Warehouse_ID(), getS_Resource_ID(), getM_Product_ID(), null);
 		 if (pp == null)
 			 pp = new MPPProductPlanning(getCtx(), 0, null);

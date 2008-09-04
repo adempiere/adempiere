@@ -25,6 +25,7 @@ import org.compiere.model.Query;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Product Data Planning 
@@ -140,7 +141,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 * @param trxName Transaction Name
 	 *	@return MPPProductPlanning Planning Data
 	 **/
-	public static MPPProductPlanning find (Properties ctx, int AD_Client_ID, int AD_Org_ID,
+	public static MPPProductPlanning find (Properties ctx, int AD_Org_ID,
 											int M_Warehouse_ID, int S_Resource_ID, int M_Product_ID,
 											String trxName)
 	{          
@@ -149,7 +150,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 								+ " AND (M_Warehouse_ID IN (0,?) OR M_Warehouse_ID IS NULL)"
 								+ " AND (S_Resource_ID IN (0,?) OR S_Resource_ID IS NULL)";
 		return new Query(ctx, Table_Name, whereClause, trxName)
-				.setParameters(new Object[]{AD_Client_ID, M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
+				.setParameters(new Object[]{Env.getAD_Client_ID(ctx), M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
 				.setOrderBy("AD_Org_ID DESC NULLS LAST, M_Warehouse_ID DESC NULLS LAST, S_Resource_ID DESC NULLS LAST")
 				.first();
 	}
