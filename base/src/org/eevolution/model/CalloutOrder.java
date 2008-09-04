@@ -23,6 +23,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.util.Env;
 import org.compiere.wf.MWorkflow;
@@ -33,8 +34,7 @@ import org.compiere.wf.MWorkflow;
  *  @author Victor Perez
  *  @version $Id: CalloutOrder.java,v 1.23 2004/08/27 21:24:12 vpj-cd Exp $
  *  
- *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
- *  		<li>BF [ 1983657 ] "Data found" error on creating new MO (manually)
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -145,6 +145,23 @@ public class CalloutOrder extends CalloutEngine
 
 		return "";
 	}
-
+	
+	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		if (isCalloutActive() || value == null)
+			return "";
+		
+		MProduct product = MProduct.get(ctx, ((Number)value).intValue());
+		if (product == null)
+			return "";
+		
+		int workflow_id = MWorkflow.getWorkflowSearchKey(ctx, product);
+		mTab.setValue(MPPOrder.COLUMNNAME_AD_Workflow_ID, workflow_id > 0 ? workflow_id : null);
+		
+		int bom_id = MPPProductBOM.getBOMSearchKey(ctx, product);
+		mTab.setValue(MPPOrder.COLUMNNAME_PP_Product_BOM_ID, bom_id > 0 ? bom_id : null);
+		
+		return "";
+	}
 }	//	CalloutOrder
 
