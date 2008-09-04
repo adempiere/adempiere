@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -177,8 +177,21 @@ public class MMovementLine extends X_M_MovementLine
 
 		if (getMovementQty().signum() == 0)
 		{
-			log.saveError("FillMandatory", Msg.getElement(getCtx(), "MovementQty"));
-			return false;
+			if (   MMovement.DOCACTION_Void.equals(getParent().getDocAction())
+				&& (   MMovement.DOCSTATUS_Drafted.equals(getParent().getDocStatus())
+					|| MMovement.DOCSTATUS_Invalid.equals(getParent().getDocStatus())
+					|| MMovement.DOCSTATUS_InProgress.equals(getParent().getDocStatus())
+					|| MMovement.DOCSTATUS_Approved.equals(getParent().getDocStatus())
+					|| MMovement.DOCSTATUS_NotApproved.equals(getParent().getDocStatus())
+				   )
+				) 
+			{
+				// [ 2092198 ] Error voiding an Inventory Move - globalqss
+				// zero allowed in this case (action Void and status Draft)
+			} else {
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), "MovementQty"));
+				return false;
+			}
 		}
 
 		//	Qty Precision
