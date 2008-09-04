@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Bogdan Ioan, www.arhipac.ro                                *
  *****************************************************************************/
 
 package org.eevolution.process;
@@ -40,6 +41,9 @@ import org.eevolution.model.MPPProductPlanning;
  *	This process calculate the Labor, Overhead, Burden Cost
  *  @author Victor Perez, e-Evolution, S.C.
  *  @version $Id: RollupWorkflow.java,v 1.1 2004/06/22 05:24:03 vpj-cd Exp $
+ *  
+ *  @author Bogdan Ioan, www.arhipac.ro
+ *  		<li>BF [ 2093001 ] Error in Cost Workflow & Process Details
  */
 public class RollupWorkflow extends SvrProcess
 {
@@ -89,16 +93,17 @@ public class RollupWorkflow extends SvrProcess
 	 */   
 	protected String doIt() throws Exception                
 	{
-		StringBuffer whereClause = new StringBuffer("AD_Client_ID=? AND ProductType='"+MProduct.PRODUCTTYPE_Item+"'");
-
 		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("AD_Client_ID=? AND ProductType=?");
 		params.add(getAD_Client_ID());
+		params.add(MProduct.PRODUCTTYPE_Item);
+		
 		if (p_M_Product_ID > 0) {  
-			whereClause.append(" AND M_Product_ID=?");
+			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
 			params.add(p_M_Product_ID);
 		}		
 		if (p_M_Product_Category_ID > 0){
-			whereClause.append(" AND M_Product_Category_ID=?");
+			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
 			params.add(p_M_Product_Category_ID);
 		}	
 
@@ -119,14 +124,14 @@ public class RollupWorkflow extends SvrProcess
 					BigDecimal Labor = getCost(MCostElement.COSTELEMENTTYPE_Resource , getAD_Client_ID(), p_AD_Org_ID , product , p_M_CostType_ID , p_C_AcctSchema_ID);
 					log.info("Labor : " + Labor);                                
 					cost.setCurrentCostPrice(Labor);
-					cost.save();
+					cost.saveEx();
 				}
 				else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
 				{                                    
 					BigDecimal Burden = getCost(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, getAD_Client_ID() , p_AD_Org_ID , product , p_M_CostType_ID , p_C_AcctSchema_ID);
 					log.info("Burden : " + Burden);                                   
 					cost.setCurrentCostPrice(Burden);
-					cost.save(get_TrxName());
+					cost.saveEx();
 				}
 			}
 		}                               
@@ -156,8 +161,8 @@ public class RollupWorkflow extends SvrProcess
 		if(AD_Workflow_ID <= 0)
 			return Env.ZERO;
 
-		MWorkflow Workflow = new MWorkflow(getCtx(),AD_Workflow_ID,get_TrxName());                 
-		MWFNode[] nodes = Workflow.getNodes(false,getAD_Client_ID());
+		MWorkflow workflow = MWorkflow.get(getCtx(), AD_Workflow_ID);                 
+		MWFNode[] nodes = workflow.getNodes(false,getAD_Client_ID());
 		for (MWFNode node : nodes)
 		{               
 			BigDecimal rate = getRate(CostElementType, node.getS_Resource_ID(), AD_Org_ID , C_AcctSchema_ID , M_CostType_ID);
