@@ -542,16 +542,15 @@ public class MPPMRP extends X_PP_MRP
 	 * @param ctx
 	 * @param M_Warehouse_ID
 	 * @param M_Product_ID
-	 * @param to
-	 * @param Ordertype separate for SOO,POO,
+	 * @param To
 	 * @param trxName
 	 * @return BibDecimal
 	 */
-    public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp to,String trxName)
+    public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp To,String trxName)
 	{
-    	StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='D' AND DocStatus IN ('IN','CO')");
-    	sql.append("AND OrderType IN ('SOO','MOP','DOO') AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), to , M_Warehouse_ID, M_Product_ID}); 		
+    	StringBuffer  sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='D' AND DocStatus IN ('IN','CO')");
+    	sql.append(" AND OrderType IN ('SOO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
+		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;
@@ -564,8 +563,6 @@ public class MPPMRP extends X_PP_MRP
 	 * @param ctx
 	 * @param M_Warehouse_ID
 	 * @param M_Product_ID
-	 * @param to
-	 * @param Ordertype separate for SOO,POO,
 	 * @param trxName
 	 * @return BibDecimal
 	 */
@@ -579,15 +576,15 @@ public class MPPMRP extends X_PP_MRP
 	 * @param ctx
 	 * @param M_Warehouse_ID
 	 * @param M_Product_ID
-	 * @param to
+	 * @param To
 	 * @param trxName
 	 * @return
 	 */
-    public static BigDecimal getQtyOrdered(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp to,String trxName)
+    public static BigDecimal getQtyOrdered(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp To,String trxName)
 	{
     	StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='S' AND DocStatus IN ('IN','CO')");	
-		sql.append("AND OrderType IN ('POO','MOP','DOO') AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), to , M_Warehouse_ID, M_Product_ID}); 		
+		sql.append(" AND OrderType IN ('POO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
+		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;
@@ -600,7 +597,6 @@ public class MPPMRP extends X_PP_MRP
 	 * @param AD_Client_ID
 	 * @param M_Warehouse_ID
 	 * @param M_Product_ID
-	 * @param to
 	 * @param trxName
 	 * @return
 	 */
