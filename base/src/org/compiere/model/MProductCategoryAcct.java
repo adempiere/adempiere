@@ -16,11 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.util.*;
+import org.compiere.util.CCache;
 
 /**
  * 	Product Category Account Model
@@ -29,6 +28,12 @@ import org.compiere.util.*;
  */
 public class MProductCategoryAcct extends X_M_Product_Category_Acct
 {
+	private static final long serialVersionUID = 1L;
+
+	/** Static cache */
+	private static CCache<String, MProductCategoryAcct>
+	s_cache = new CCache<String, MProductCategoryAcct>(Table_Name, 40, 5);
+	
 	/**
 	 * 	Get Category Acct
 	 *	@param ctx context
@@ -38,43 +43,23 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 	 *	@return category acct
 	 */
 	public static MProductCategoryAcct get (Properties ctx, 
-		int M_Product_Category_ID, int C_AcctSchema_ID, String trxName)
+							int M_Product_Category_ID, int C_AcctSchema_ID, String trxName)
 	{
-		MProductCategoryAcct retValue = null;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM  M_Product_Category_Acct "
-			+ "WHERE M_Product_Category_ID=? AND C_AcctSchema_ID=?";
-		try
+		String key = ""+M_Product_Category_ID+"#"+C_AcctSchema_ID;
+		MProductCategoryAcct acct = s_cache.get(key);
+		if (acct != null)
+			return acct;
+		
+		final String whereClause = "M_Product_Category_ID=? AND C_AcctSchema_ID=?";
+		acct = new Query(ctx, Table_Name, whereClause, trxName)
+					.setParameters(new Object[]{M_Product_Category_ID, C_AcctSchema_ID})
+					.first();
+		if (acct != null)
 		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_Category_ID);
-			pstmt.setInt (2, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MProductCategoryAcct (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+			s_cache.put(key, acct);
 		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		return retValue;
+		return acct;
 	}	//	get
-	
-	/**	Logger	*/
-	private static CLogger s_log = CLogger.getCLogger (MProductCategoryAcct.class);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
