@@ -65,7 +65,7 @@
             <td class="<c:out value='${rowClass}' />"><c:if test='${not empty product.imageURL}'><img src="<c:out value='${product.imageURL}'/>"></c:if></td>
             <td class="<c:out value='${rowClass}' />"> <input name="Name_<c:out value='${product.id}'/>" type="hidden" value="<c:out value='${product.name}'/>">
                 <c:choose>
-                    <c:when test="${not empty product.descriptionURL}}">
+                    <c:when test="${not empty product.descriptionURL}">
                         <a href="<c:out value='${product.descriptionURL}'/>" target="pd"><c:out value="${product.name}"/></a>
                     </c:when>
                     <c:otherwise>
