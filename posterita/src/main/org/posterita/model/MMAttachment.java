@@ -43,8 +43,8 @@ public class MMAttachment extends MAttachment
 	public static MAttachment get (Properties ctx, int AD_Table_ID, int Record_ID, String trxName) throws OperationException
 	{
 //red1 - using new Query model
-		MAttachment retValue = new Query(ctx, Table_Name, "WHERE AD_Table_ID=? AND Record_ID=?", null)
-		 					.setParameters(new Object[]{AD_Table_ID,Record_ID, Record_ID})
+		MAttachment retValue = new Query(ctx, Table_Name, "WHERE AD_Table_ID=? AND Record_ID=?", trxName)
+		 					.setParameters(new Object[]{AD_Table_ID,Record_ID})
 		 					.first();
 		return retValue;
 	}	//	get
