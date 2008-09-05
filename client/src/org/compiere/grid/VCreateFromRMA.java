@@ -108,8 +108,8 @@ public class VCreateFromRMA extends VCreateFrom
         dataTable.setColumnClass(1, String.class, true);        //  1-Line
         dataTable.setColumnClass(2, String.class, true);        //  2-Product 
         dataTable.setColumnClass(3, String.class, true);        //  3-ASI
-        dataTable.setColumnClass(4, Double.class, true);        //  4-Qty
-        dataTable.setColumnClass(5, Double.class, true);        //  5-Delivered Qty
+        dataTable.setColumnClass(4, BigDecimal.class, true);        //  4-Qty
+        dataTable.setColumnClass(5, BigDecimal.class, true);        //  5-Delivered Qty
         
         //  Table UI
         dataTable.autoSize();
@@ -165,8 +165,8 @@ public class VCreateFromRMA extends VCreateFrom
                 BigDecimal qtyEntered = rs.getBigDecimal(4); 
                 BigDecimal movementQty = rs.getBigDecimal(5);
                 
-                line.add(qtyEntered.doubleValue());  //4-Qty
-                line.add(movementQty.doubleValue()); //5-Movement Qty
+                line.add(qtyEntered);  //4-Qty
+                line.add(movementQty); //5-Movement Qty
                 
                 
                 data.add(line);
@@ -211,7 +211,7 @@ public class VCreateFromRMA extends VCreateFrom
         {
             if (((Boolean)model.getValueAt(i, 0)).booleanValue())
             {
-                Double d = (Double)model.getValueAt(i, 5);              //  5-Movement Qty
+                BigDecimal d = (BigDecimal)model.getValueAt(i, 5);              //  5-Movement Qty
                 KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 1);   //  1-Line
                 
                 int inOutLineId = pp.getKey();
@@ -219,7 +219,7 @@ public class VCreateFromRMA extends VCreateFrom
                 MRMALine rmaLine = new MRMALine(Env.getCtx(), 0, null);
                 rmaLine.setM_RMA_ID(m_rma_id);
                 rmaLine.setM_InOutLine_ID(inOutLineId);
-                rmaLine.setQty(new BigDecimal(d));
+                rmaLine.setQty(d);
                 rmaLine.setAD_Org_ID(rma.getAD_Org_ID());
                 if (!rmaLine.save())
                 {

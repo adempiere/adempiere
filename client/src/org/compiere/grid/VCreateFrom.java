@@ -141,9 +141,9 @@ public abstract class VCreateFrom extends CDialog
 	private GridBagLayout parameterBankLayout = new GridBagLayout();
 	//
 	private JLabel tenderTypeLabel = new JLabel();
-	protected VLookup tenderTypeField ; //= new VLookup();
+	protected VLookup tenderTypeField;
 	private JLabel documentTypeLabel = new JLabel();
-	protected VLookup documentTypeField ; //= new VLookup();
+	protected VLookup documentTypeField;
 	private JLabel docDateLabel = new JLabel();
 	protected VDate docDateField = new VDate();
 	// Bug [1759431]
@@ -219,14 +219,15 @@ public abstract class VCreateFrom extends CDialog
 	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		parameterBankPanel.add(docDateField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		
 		parameterBankPanel.add(documentTypeLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		if(documentTypeField!= null)
 		parameterBankPanel.add(documentTypeField, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		
 		parameterBankPanel.add(tenderTypeLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		if(tenderTypeField!=null)
 		parameterBankPanel.add(tenderTypeField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		
@@ -527,7 +528,7 @@ public abstract class VCreateFrom extends CDialog
 				BigDecimal qtyOrdered = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyOrdered.multiply(multiplier);
-				line.add(new Double(qtyEntered.doubleValue()));  //  1-Qty
+				line.add(qtyEntered);  //  1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
@@ -575,7 +576,7 @@ public abstract class VCreateFrom extends CDialog
 		dataTable.setModel(model);
 		//
 		dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-		dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
+		dataTable.setColumnClass(1, BigDecimal.class, true);        //  1-Qty
 		dataTable.setColumnClass(2, String.class, true);        //  2-UOM
 		dataTable.setColumnClass(3, String.class, true);        //  3-Product
 		dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo

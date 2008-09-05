@@ -484,7 +484,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 			{
 				//  variable values
-				BigDecimal QtyEntered = (BigDecimal) model.getValueAt(i, 1);              //  1-Qty
+				BigDecimal QtyEntered= (BigDecimal)model.getValueAt(i, 1);//  1-Qty
 				
 				KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 2);   //  2-UOM
 				int C_UOM_ID = pp.getKey();
@@ -616,7 +616,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	    dataTable.setModel(model);
 	    //
 	    dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-	    dataTable.setColumnClass(1, BigDecimal.class, false);        //  1-Qty
+	    dataTable.setColumnClass(1, BigDecimal.class, true);        //  1-Qty
 	    dataTable.setColumnClass(2, String.class, true);        //  2-UOM
 	    dataTable.setColumnClass(3, String.class, true);        //  3-Product
 	    dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo
