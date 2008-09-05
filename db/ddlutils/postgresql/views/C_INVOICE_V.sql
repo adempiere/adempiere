@@ -23,8 +23,8 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END AS ChargeAmt,
     CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END AS TotalLines,
     CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END AS GrandTotal,
-    CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END AS Multiplier,
-    CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1 ELSE 1 END AS MultiplierAP,
+    CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1.0 ELSE 1.0 END AS Multiplier,
+    CASE WHEN charAt(d.DocBaseType,2)='P' THEN -1.0 ELSE 1.0 END AS MultiplierAP,
     d.DocBaseType
     , paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) as DueDate
 FROM C_Invoice i
