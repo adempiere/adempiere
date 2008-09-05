@@ -989,17 +989,34 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 	      
 		//	Sync Lines
-		MOrderLine[] lines = getLines();
-		for (MOrderLine line : lines) {
-			line.setAD_Org_ID(getAD_Org_ID());
-			line.setC_BPartner_ID(getC_BPartner_ID());
-			line.setC_BPartner_Location_ID(getC_BPartner_Location_ID());
-			line.setDateOrdered(getDateOrdered());
-			line.setDatePromised(getDatePromised());
-			line.setM_Warehouse_ID(getM_Warehouse_ID());
-			line.setM_Shipper_ID(getM_Shipper_ID());
-			line.setC_Currency_ID(getC_Currency_ID());
-			line.saveEx();
+		if (   is_ValueChanged("AD_Org_ID")
+		    || is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID)
+		    || is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_Location_ID)
+		    || is_ValueChanged(MOrder.COLUMNNAME_DateOrdered)
+		    || is_ValueChanged(MOrder.COLUMNNAME_DatePromised)
+		    || is_ValueChanged(MOrder.COLUMNNAME_M_Warehouse_ID)
+		    || is_ValueChanged(MOrder.COLUMNNAME_M_Shipper_ID)
+		    || is_ValueChanged(MOrder.COLUMNNAME_C_Currency_ID)) {
+			MOrderLine[] lines = getLines();
+			for (MOrderLine line : lines) {
+				if (is_ValueChanged("AD_Org_ID"))
+					line.setAD_Org_ID(getAD_Org_ID());
+				if (is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID))
+					line.setC_BPartner_ID(getC_BPartner_ID());
+				if (is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_Location_ID))
+					line.setC_BPartner_Location_ID(getC_BPartner_Location_ID());
+				if (is_ValueChanged(MOrder.COLUMNNAME_DateOrdered))
+					line.setDateOrdered(getDateOrdered());
+				if (is_ValueChanged(MOrder.COLUMNNAME_DatePromised))
+					line.setDatePromised(getDatePromised());
+				if (is_ValueChanged(MOrder.COLUMNNAME_M_Warehouse_ID))
+					line.setM_Warehouse_ID(getM_Warehouse_ID());
+				if (is_ValueChanged(MOrder.COLUMNNAME_M_Shipper_ID))
+					line.setM_Shipper_ID(getM_Shipper_ID());
+				if (is_ValueChanged(MOrder.COLUMNNAME_C_Currency_ID))
+					line.setC_Currency_ID(getC_Currency_ID());
+				line.saveEx();
+			}
 		}
 		//
 		return true;
