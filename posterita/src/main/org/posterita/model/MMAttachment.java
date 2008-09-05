@@ -22,13 +22,9 @@
 
 package org.posterita.model;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.MAttachment;
-import org.compiere.util.DB;
-
+import org.compiere.model.Query;
 import org.posterita.exceptions.OperationException;
 
 public class MMAttachment extends MAttachment
@@ -39,7 +35,6 @@ public class MMAttachment extends MAttachment
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
 	private MMAttachment(Properties ctx, int AD_Table_ID, int Record_ID, String trxName)
 	{
 		super(ctx, AD_Table_ID, Record_ID, trxName);
@@ -47,35 +42,10 @@ public class MMAttachment extends MAttachment
 	
 	public static MAttachment get (Properties ctx, int AD_Table_ID, int Record_ID, String trxName) throws OperationException
 	{
-		MAttachment retValue = null;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM AD_Attachment WHERE AD_Table_ID=? AND Record_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_Table_ID);
-			pstmt.setInt (2, Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MAttachment (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			throw new OperationException("Cannot get attachment!!!", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+//red1 - using new Query model
+		MAttachment retValue = new Query(ctx, Table_Name, "WHERE AD_Table_ID=? AND Record_ID=?", null)
+		 					.setParameters(new Object[]{AD_Table_ID,Record_ID, Record_ID})
+		 					.first();
 		return retValue;
 	}	//	get
 }
