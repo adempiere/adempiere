@@ -53,9 +53,7 @@ public final class MRole extends X_AD_Role
 	 */
 	public static MRole getDefault ()
 	{
-		if (s_defaultRole == null && Ini.isClient())
-			return getDefault (Env.getCtx(), false);
-		return s_defaultRole;
+		return getDefault (Env.getCtx(), false);
 	}	//	getDefault
 
 	/**
@@ -69,20 +67,32 @@ public final class MRole extends X_AD_Role
 	{
 		int AD_Role_ID = Env.getContextAsInt(ctx, "#AD_Role_ID");
 		int AD_User_ID = Env.getContextAsInt(ctx, "#AD_User_ID");
-		if (!Ini.isClient())	//	none for Server
-			AD_User_ID = 0;
-		if (reload || s_defaultRole == null)
+//		if (!Ini.isClient())	//	none for Server
+//			AD_User_ID = 0;
+		MRole defaultRole = getDefaultRole(); 
+		if (reload || defaultRole == null)
 		{
-			s_defaultRole = get (ctx, AD_Role_ID, AD_User_ID, reload);
+			defaultRole = get (ctx, AD_Role_ID, AD_User_ID, reload);
+			setDefaultRole(defaultRole);
 		}
-		else if (s_defaultRole.getAD_Role_ID() != AD_Role_ID
-			|| s_defaultRole.getAD_User_ID() != AD_User_ID)
+		else if (defaultRole.getAD_Role_ID() != AD_Role_ID
+			|| defaultRole.getAD_User_ID() != AD_User_ID)
 		{
-			s_defaultRole = get (ctx, AD_Role_ID, AD_User_ID, reload);
+			defaultRole = get (ctx, AD_Role_ID, AD_User_ID, reload);
+			setDefaultRole(defaultRole);
 		}
-		return s_defaultRole;
+		return defaultRole;
 	}	//	getDefault
 	
+	private static void setDefaultRole(MRole defaultRole) {
+		Env.getCtx().remove(ROLE_KEY);
+		Env.getCtx().put(ROLE_KEY, defaultRole);
+	}
+
+	private static MRole getDefaultRole() {
+		return (MRole) Env.getCtx().get(ROLE_KEY);
+	}
+
 	/**
 	 * 	Get Role for User
 	 * 	@param ctx context
@@ -203,9 +213,7 @@ public final class MRole extends X_AD_Role
 		list.toArray (retValue);
 		return retValue;
 	}	//	getOf
-	
-	/**	Default Role			*/
-	private static MRole			s_defaultRole = null;
+		
 	/** Role/User Cache			*/
 	private static CCache<String,MRole> s_roles = new CCache<String,MRole>("AD_Role", 5);
 	/** Log						*/ 
@@ -224,6 +232,8 @@ public final class MRole extends X_AD_Role
 	public static final int			SUPERUSER_USER_ID = 100;
 	/**	The AD_User_ID of the System Administrator	*/
 	public static final int			SYSTEM_USER_ID = 0;
+	
+	private static final String ROLE_KEY = "org.compiere.model.DefaultRole";
 	
 	
 	/**************************************************************************
@@ -352,9 +362,9 @@ public final class MRole extends X_AD_Role
 			updateAccessRecords();
 		
 		//	Default Role changed
-		if (s_defaultRole != null 
-			&& s_defaultRole.get_ID() == get_ID())
-			s_defaultRole = this;
+		if (getDefaultRole() != null 
+			&& getDefaultRole().get_ID() == get_ID())
+			setDefaultRole(this);
 		return success;
 	}	//	afterSave
 	
