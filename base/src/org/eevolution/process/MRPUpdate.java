@@ -18,6 +18,7 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -300,7 +301,7 @@ public class MRPUpdate extends SvrProcess
 		return sb.toString();
 	}
 	
-	private void executeUpdate(String sql, List<Object> params)
+	private void executeUpdate(String sql, List<Object> params) 
 	{
 		Trx trx = Trx.get(Trx.createTrxName("Update MRP"), true);
 		Object[] pa = null;
@@ -308,10 +309,23 @@ public class MRPUpdate extends SvrProcess
 			pa = params.toArray(new Object[params.size()]);
 		else
 			pa = new Object[]{};
-		//
-		int no = DB.executeUpdateEx(sql, pa, trx.getTrxName());
-		log.fine("#"+no+" -- "+sql);
-		trx.commit();
+		
+		boolean success = false;
+		
+		if ( DB.executeUpdateEx(sql, pa, trx.getTrxName()) < 0 )
+		{
+			
+		    success = false;
+			trx.rollback();
+		}
+		
+		if (success)
+			trx.commit();
+		else
+			trx.rollback();
+		
+		trx.close();
+		trx = null;
 
 	}
  
@@ -319,18 +333,29 @@ public class MRPUpdate extends SvrProcess
 	private void deletePO(String tableName, String whereClause, List<Object> params)
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
-		Trx trx = Trx.get(Trx.createTrxName("Delete MRP"), true);
-		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, trx.getTrxName())
+	
+		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
 		.setParameters(params)
 		.scroll();
 		try {
 			while(rs.hasNext()) {
-				rs.next().deleteEx(true);
+				Trx trx = Trx.get(Trx.createTrxName("Delete MRP"), true);
+				if(rs.next().delete(true))
+					trx.commit();
+				else
+					trx.rollback();
+					trx.commit(true);
+					
+				trx.close();
+				trx = null;
 				
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		finally {
-			trx.commit();
+			
 			rs.close();
 		}
 	}
