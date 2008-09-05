@@ -139,6 +139,13 @@ public abstract class VCreateFrom extends CDialog
 	protected VString authorizationField = new VString();
 	private GridBagLayout parameterStdLayout = new GridBagLayout();
 	private GridBagLayout parameterBankLayout = new GridBagLayout();
+	//
+	private JLabel tenderTypeLabel = new JLabel();
+	protected VLookup tenderTypeField ; //= new VLookup();
+	private JLabel documentTypeLabel = new JLabel();
+	protected VLookup documentTypeField ; //= new VLookup();
+	private JLabel docDateLabel = new JLabel();
+	protected VDate docDateField = new VDate();
 	// Bug [1759431]
 	protected JCheckBox sameWarehouseCb = new JCheckBox();
 	protected VLookup bPartnerField;
@@ -151,7 +158,7 @@ public abstract class VCreateFrom extends CDialog
 	private JScrollPane dataPane = new JScrollPane();
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
+	protected ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private StatusBar statusBar = new StatusBar();
 	protected MiniTable dataTable = new MiniTable();
 	protected JLabel locatorLabel = new JLabel();
@@ -194,26 +201,47 @@ public abstract class VCreateFrom extends CDialog
         rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
         sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
         sameWarehouseCb.setToolTipText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
-        
+        documentTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+        tenderTypeLabel.setText(Msg.translate(Env.getCtx(), "TenderType"));
+        docDateLabel.setText(Msg.translate(Env.getCtx(), "StatementDate"));
+                
 		//
 		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
 		parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
 	    //RF [1811114]
-		parameterBankPanel.add(authorizationLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+		parameterBankPanel.add(bankAccountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+			if (bankAccountField != null)
+				parameterBankPanel.add(bankAccountField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+			
+		parameterBankPanel.add(docDateLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
 	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterBankPanel.add(docDateField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		
+		parameterBankPanel.add(documentTypeLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterBankPanel.add(documentTypeField, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		
+		parameterBankPanel.add(tenderTypeLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterBankPanel.add(tenderTypeField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		
+		parameterBankPanel.add(authorizationLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+		parameterBankPanel.add(authorizationField, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+		
 			parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
-			parameterBankPanel.add(authorizationField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+			
 			parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 			parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
-		parameterBankPanel.add(bankAccountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		if (bankAccountField != null)
-			parameterBankPanel.add(bankAccountField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 		parameterPanel.add(parameterStdPanel, BorderLayout.CENTER);
 		parameterStdPanel.add(bPartnerLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -263,6 +291,7 @@ public abstract class VCreateFrom extends CDialog
 		southPanel.setLayout(southLayout);
 		southPanel.add(confirmPanel, BorderLayout.CENTER);
 		// Trifon End
+		
 		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
 		southPanel.setLayout(southLayout);
 		southPanel.add(confirmPanel, BorderLayout.CENTER);
@@ -498,7 +527,7 @@ public abstract class VCreateFrom extends CDialog
 				BigDecimal qtyOrdered = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyOrdered.multiply(multiplier);
-				line.add(qtyEntered);  //  1-Qty
+				line.add(new Double(qtyEntered.doubleValue()));  //  1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
 				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
@@ -546,7 +575,7 @@ public abstract class VCreateFrom extends CDialog
 		dataTable.setModel(model);
 		//
 		dataTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
-		dataTable.setColumnClass(1, BigDecimal.class, true);        //  1-Qty
+		dataTable.setColumnClass(1, Double.class, true);        //  1-Qty
 		dataTable.setColumnClass(2, String.class, true);        //  2-UOM
 		dataTable.setColumnClass(3, String.class, true);        //  3-Product
 		dataTable.setColumnClass(4, String.class, true);        //  4-VendorProductNo

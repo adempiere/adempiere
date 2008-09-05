@@ -22,13 +22,19 @@ import java.sql.*;
 import java.text.*;
 import java.util.*;
 import java.util.logging.*;
+import java.awt.Cursor;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JLabel;
+import javax.swing.KeyStroke;
 import javax.swing.table.*;
 import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
+import org.compiere.swing.CButton;
 import org.compiere.util.*;
-
 /**
  *  Create Transactions for Bank Statements
  *
@@ -37,7 +43,7 @@ import org.compiere.util.*;
  *  @author Victor Perez, e-Evolucion 
  *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  */
-public class VCreateFromStatement extends VCreateFrom implements VetoableChangeListener
+public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeListener
 {
 	private MBankAccount bankAccount;
 
@@ -63,6 +69,15 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			ADialog.error(0, this, "SaveErrorRowNotFound");
 			return false;
 		}
+		
+		//Regresh button
+		CButton refreshButton = confirmPanel.createRefreshButton(false);
+		refreshButton.setMargin(new Insets (1, 10, 0, 10));
+		refreshButton.setDefaultCapable(true);
+		refreshButton.addActionListener(this);
+		confirmPanel.addButton(refreshButton);
+		//
+		
         // Do not display RMA selection
         rmaLabel.setVisible(false);
         rmaField.setVisible(false);
@@ -74,7 +89,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		bankAccountField = new VLookup ("C_BankAccount_ID", true, true, true, lookup);
+		bankAccountField = new VLookup ("C_BankAccount_ID", true, false, true, lookup);
 		bankAccountField.addVetoableChangeListener(this);
 		//  Set Default
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
@@ -84,7 +99,21 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		String R_AuthCode="";        
 		authorizationField = new VString ("authorization", false, false, true, 10, 30, null, null);
 		authorizationField.addActionListener(this);
-		loadBankAccount(C_BankAccount_ID, R_AuthCode);
+        //Doc Date
+		Timestamp docDate = Env.getContextAsDate(Env.getCtx(), p_WindowNo, MBankStatement.COLUMNNAME_StatementDate);
+		docDateField = new VDate(MBankStatement.COLUMNNAME_StatementDate,false,false,true,DisplayType.Date,Msg.translate(Env.getCtx(), MBankStatement.COLUMNNAME_StatementDate));
+		docDateField.setValue(docDate);
+		docDateField.addActionListener(this);
+
+		String documentType="";
+		MLookup lookupDocument = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_DocType_ID), DisplayType.TableDir);
+		documentTypeField = new VLookup (MPayment.COLUMNNAME_C_DocType_ID,false,false,true,lookupDocument);
+		documentTypeField.addVetoableChangeListener(this);
+		
+		int tenderType=0;
+		MLookup lookupTender = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_TenderType), DisplayType.List);
+		tenderTypeField = new VLookup (MPayment.COLUMNNAME_TenderType,false,false,true,lookupTender);
+		tenderTypeField.addVetoableChangeListener(this);
 
 		bankAccount = new MBankAccount(Env.getCtx(), C_BankAccount_ID, null);
 
@@ -105,31 +134,20 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 	 */
 	public void vetoableChange (PropertyChangeEvent e)
 	{
-		log.config(e.getPropertyName() + "=" + e.getNewValue());
-		int C_BankAccount_ID=0;
-		//RF [1811114]
-		String R_AuthCode = (authorizationField.getValue().toString());
-
-		//  BankAccount
-		if (e.getPropertyName().equals("C_BankAccount_ID"))
-		{
-			//RF [1811114]
-			C_BankAccount_ID = ((Integer)e.getNewValue()).intValue();
-			if (authorizationField.getValue().toString().equals(""))
-				loadBankAccount(C_BankAccount_ID, null);
-			else
-				loadBankAccount(C_BankAccount_ID, R_AuthCode);
-		}
+		log.config(e.getPropertyName() + "=" + e.getNewValue());		
 		tableChanged(null);
 	}   //  vetoableChange
 
 	/**
 	 *  Load Data - Bank Account
 	 *  @param C_BankAccount_ID Bank Account
+	 *  @Document Date
+	 *  @param Document Type
+	 *  @param Teder Type
 	 *  @param Autorization Code
 	 */
 	//RF [1811114]
-	private void loadBankAccount (int C_BankAccount_ID, String R_AuthCode)
+	private void loadBankAccount (int C_BankAccount_ID, Timestamp docDate, int documentType, String tenderType ,String R_AuthCode)
 	{
 		log.config ("C_BankAccount_ID=" + C_BankAccount_ID);
 		/**
@@ -151,21 +169,37 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
 			+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" // Bug 1564453 Added Voided payment to bank statement payement selection
 			+ " AND p.C_BankAccount_ID=?";      //  #2
-			//RF [1811114]
-		    if (R_AuthCode!= "" && R_AuthCode!= null)
-		    	sql = sql + " AND p.R_AuthCode LIKE ?";
+			//RF [1811114] 
+			//Payment Filter 
+			if(docDate != null)
+				sql=sql + " AND p.DateTrx = ?";
+			
+			if(documentType>0)
+				sql=sql + " AND p.C_DocType_ID = " + documentType;
+			
+			if(tenderType!=null && tenderType.length()>0)
+				sql=sql + " AND p.TenderType = '" + tenderType + "'";
+			
+		    if (R_AuthCode!= null && R_AuthCode.length()>0)
+		    	sql = sql + " AND p.R_AuthCode LIKE '" + R_AuthCode + "'";
 		    
 		    sql = sql + " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
 			//	Voided Bank Statements have 0 StmtAmt
 				+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)";
+
+		//  Get StatementDate
+		Timestamp ts = (Timestamp)p_mTab.getValue("StatementDate");
+		if (ts == null)
+			ts = new Timestamp(System.currentTimeMillis());
 
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BankAccount_ID);
 			//RF [1811114]
-			if (R_AuthCode!= "" && R_AuthCode!= null){
-				pstmt.setString(2, R_AuthCode);}
+
+			if(docDate != null)
+				pstmt.setTimestamp(2,docDate);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -266,7 +300,7 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 				pp = (KeyNamePair)model.getValueAt(i, 3);               //  3-Currency
 				int C_Currency_ID = pp.getKey();
 				BigDecimal TrxAmt = (BigDecimal)model.getValueAt(i, 5); //  5- Conv Amt
-				//
+
 				log.fine("Line Date=" + trxDate
 					+ ", Payment=" + C_Payment_ID + ", Currency=" + C_Currency_ID + ", Amt=" + TrxAmt);
 				//	
@@ -294,16 +328,33 @@ public class VCreateFromStatement extends VCreateFrom implements VetoableChangeL
 		super.actionPerformed(e);
 		log.config("Action=" + e.getActionCommand());
 		int C_BankAccount_ID  = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
-		if (e.getSource().equals(authorizationField))
-		{
+		
+		if (e.getActionCommand().equals(confirmPanel.A_REFRESH)) {
+			String tenderType=null;
+			int C_docType_ID=0;
+			Timestamp docDate;
+			//RF [1811114]
 			String R_AuthCode = (authorizationField.getValue().toString());
-			if (authorizationField.getValue().toString().equals(""))
-			{
-				loadBankAccount(C_BankAccount_ID, null);
-			}
+			
+			if(documentTypeField.getValue()!=null)
+				C_docType_ID=(Integer) documentTypeField.getValue();
 			else
-				loadBankAccount(C_BankAccount_ID, R_AuthCode);
-	 		}
+				C_docType_ID=0;
+			if(bankAccountField.getValue()!=null)
+				C_BankAccount_ID=(Integer) bankAccountField.getValue();
+			else
+				C_BankAccount_ID=0;
+			docDate=(docDateField.getTimestamp());
+			if(tenderTypeField.getValue()!=null)
+				tenderType=(String) tenderTypeField.getValue();
+			Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
+			if (authorizationField.getValue().toString().equals(""))
+				loadBankAccount(C_BankAccount_ID, docDate,C_docType_ID,tenderType,null);
+			else
+				loadBankAccount(C_BankAccount_ID, docDate,C_docType_ID,tenderType,R_AuthCode);
+			Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+		}
+		//
 	 }
 
 }   //  VCreateFromStatement
