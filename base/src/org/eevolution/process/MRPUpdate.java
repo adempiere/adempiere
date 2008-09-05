@@ -344,15 +344,11 @@ public class MRPUpdate extends SvrProcess
 					trx.commit();
 				else
 					trx.rollback();
-					trx.commit(true);
 					
 				trx.close();
 				trx = null;
 				
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		finally {
 			
