@@ -36,6 +36,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.eevolution.model.MForecastLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
@@ -301,29 +302,35 @@ public class MRPUpdate extends SvrProcess
 	
 	private void executeUpdate(String sql, List<Object> params)
 	{
+		Trx trx = Trx.get(Trx.createTrxName("Update MRP"), true);
 		Object[] pa = null;
 		if (params != null)
 			pa = params.toArray(new Object[params.size()]);
 		else
 			pa = new Object[]{};
 		//
-		int no = DB.executeUpdateEx(sql, pa, get_TrxName());
+		int no = DB.executeUpdateEx(sql, pa, trx.getTrxName());
 		log.fine("#"+no+" -- "+sql);
-	}
+		trx.commit();
 
+	}
+ 
 
 	private void deletePO(String tableName, String whereClause, List<Object> params)
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
-		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
+		Trx trx = Trx.get(Trx.createTrxName("Delete MRP"), true);
+		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, trx.getTrxName())
 		.setParameters(params)
 		.scroll();
 		try {
 			while(rs.hasNext()) {
 				rs.next().deleteEx(true);
+				
 			}
 		}
 		finally {
+			trx.commit();
 			rs.close();
 		}
 	}
