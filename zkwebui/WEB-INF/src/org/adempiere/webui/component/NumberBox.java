@@ -73,8 +73,7 @@ public class NumberBox extends Panel
                 decimalBox.getId() + "'," + integral + ", event);");
         
         Popup popup = getCalculatorPopup();
-        btn.setHeight("22px");
-        btn.setWidth("26px");
+        btn.setSclass("editor-button");
         btn.setPopup(popup);
         btn.setStyle("text-align: center");
         appendChild(decimalBox);

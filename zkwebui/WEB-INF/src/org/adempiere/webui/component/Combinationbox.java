@@ -50,8 +50,7 @@ public class Combinationbox extends Panel
     {
         textbox = new Textbox();
         button = new Button();
-        button.setHeight("22px");
-        button.setWidth("26px");
+        button.setSclass("editor-button");;
         appendChild(textbox);
         appendChild(button);
         

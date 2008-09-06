@@ -52,6 +52,17 @@ html,body {
 	width: 80px;
 }
 
+.editor-button {
+	height: 22px;
+	width: 26px;
+	padding: 0px;
+}
+
+.editor-button img {
+	vertical-align: middle;
+	text-align: center;
+}
+
 div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: white;
 }

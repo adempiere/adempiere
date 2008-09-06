@@ -50,8 +50,7 @@ public class Searchbox extends Panel
 	 {
 	     txt = new Textbox();
 	     btn = new Button();
-	     btn.setHeight("22px");
-	     btn.setWidth("26px");
+	     btn.setSclass("editor-button");
 	     appendChild(txt);
 	     appendChild(btn);
 	     

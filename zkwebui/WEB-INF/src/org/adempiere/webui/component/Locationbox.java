@@ -54,8 +54,7 @@ public class Locationbox extends Panel
      {
          txt = new Textbox();
          btn = new Button();
-         btn.setHeight("22px");
-         btn.setWidth("26px");
+         btn.setSclass("editor-button");
          this.appendChild(txt);
          this.appendChild(btn);
          

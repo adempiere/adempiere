@@ -64,8 +64,7 @@ public class EditorBox extends Panel
 		this.appendChild(txt);
 	    this.appendChild(btn);
 	    
-	    btn.setHeight("22px");
-	    btn.setWidth("26px");
+	    btn.setSclass("editor-button");
 	     
 	    String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
 	    this.setStyle(style);

@@ -30,6 +30,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.compiere.Adempiere;
+import org.compiere.model.MUser;
 import org.compiere.util.CLogErrorBuffer;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.Env;
@@ -60,6 +61,7 @@ public class AboutWindow extends Window implements EventListener {
 	private Tabbox tabbox;
 	private Tabpanels tabPanels;
 	private Button btnDownload;
+	private Button btnErrorEmail;
 
 	public AboutWindow() {
 		super();
@@ -148,6 +150,9 @@ public class AboutWindow extends Window implements EventListener {
 		btnDownload = new Button(Msg.getMsg(Env.getCtx(), "SaveFile"));
 		btnDownload.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(btnDownload);
+		btnErrorEmail = new Button(Msg.getMsg(Env.getCtx(), "SendEMail"));
+		btnErrorEmail.addEventListener(Events.ON_CLICK, this);
+		hbox.appendChild(btnErrorEmail);
 		vbox.appendChild(hbox);
 				
 		Vector columnNames = CLogErrorBuffer.get(true).getColumnNames(Env.getCtx());
@@ -346,6 +351,8 @@ public class AboutWindow extends Window implements EventListener {
 		} 
 		else if (event.getTarget() == btnDownload)
 			downloadLog();
+		else if (event.getTarget() == btnErrorEmail)
+			cmd_errorEMail();
 		else if (event instanceof SizeEvent)
 			doResize((SizeEvent)event);
 		else if (Events.ON_CLICK.equals(event.getName()))
@@ -370,4 +377,19 @@ public class AboutWindow extends Window implements EventListener {
 		AMedia media = new AMedia("trace.log", null, "text/plain", log.getBytes());
 		Filedownload.save(media);
 	}
+	
+	/**
+	 * 	EMail Errors
+	 */
+	private void cmd_errorEMail()
+	{
+		new WEMailDialog(this, 
+			"EMail Trace", 
+			MUser.get(Env.getCtx()), 
+			"",			//	to 
+			"Adempiere Trace Info", 
+			CLogErrorBuffer.get(true).getErrorInfo(Env.getCtx(), bErrorsOnly.isSelected()), 
+			null);
+		
+	}	//	cmd_errorEMail
 }

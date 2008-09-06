@@ -52,8 +52,7 @@ public class PAttributebox extends Panel
     {
         textBox = new Textbox();
         button = new Button();
-        button.setHeight("22px");
-        button.setWidth("26px");
+        button.setSclass("editor-button");
         appendChild(textBox);
         appendChild(button);
         

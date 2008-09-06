@@ -53,8 +53,7 @@ public class Urlbox extends Panel
     {
         txtUrl = new Textbox();
         btnUrl = new Button();
-        btnUrl.setHeight("22px");
-        btnUrl.setWidth("26px");
+        btnUrl.setSclass("editor-button");
         appendChild(txtUrl);
         appendChild(btnUrl);
         
