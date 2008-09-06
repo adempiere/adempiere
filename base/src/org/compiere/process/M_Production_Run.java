@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,25 +10,35 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- * Portions created by Layda Salas are Copyright (C) 2005 QSS Ltda.
- * Contributor(s): Layda Salas (globalqss)
+ * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.logging.Level;
 
+import org.compiere.model.MLocator;
+import org.compiere.model.MProduct;
 import org.compiere.model.MSequence;
-import org.compiere.util.*;
+import org.compiere.model.MStorage;
+import org.compiere.model.MTransaction;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_Production;
+import org.compiere.model.X_M_ProductionLine;
+import org.compiere.model.X_M_ProductionPlan;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
- * Copy and overwrite Accounts to products of this category
- * 
- * @author Layda Salas (globalqss)
- * @version $Id: M_Production_Run,v 1.0 2005/10/09 22:19:00 globalqss Exp $
+ * @author victor.perez@e-evolution.com
  */
 public class M_Production_Run extends SvrProcess {
 
@@ -37,6 +46,8 @@ public class M_Production_Run extends SvrProcess {
 	private int p_Record_ID = 0;
 
 	private String mustBeStocked;
+	
+	private int m_level = 0;
 
 	/**
 	 * Prepare - e.g., get Parameters.
@@ -62,442 +73,165 @@ public class M_Production_Run extends SvrProcess {
 	 * @throws Exception
 	 */
 
-	protected String doIt() throws Exception {
-		String sql;
-		String sqlupd;
-		String sqlins;
-		String sqldel;
-		int cntu = 0;
-		int cntd = 0;
-		int cnti = 0;
-		int totu = 0;
-		int toti = 0;
-		int totd = 0;
-		int nextNo;
-		boolean isCreated = false;
-		boolean processed = false;
-		int ad_Client_ID = 0;
-		int ad_Org_ID = 0;
-
+	protected String doIt() throws Exception 
+	{
 		log.info("Search fields in M_Production");
 
-		/**
-		 * Get Info + Lock
-		 */
-		sql = " SELECT IsCreated " + ", Processed " + ", AD_Client_ID "
-				+ ", AD_Org_ID " + " FROM M_Production "
-				+ " WHERE M_Production_ID = " + p_Record_ID;
-		PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			isCreated = rs.getString("IsCreated").equals("Y");
-			processed = rs.getString("Processed").equals("Y");
-			ad_Client_ID = rs.getInt("AD_Client_ID");
-			ad_Org_ID = rs.getInt("AD_Org_ID");
-		}
-		rs.close();
-		pstmt.close();
-		pstmt = null;
-
+		X_M_Production production = new X_M_Production(getCtx(), p_Record_ID, get_TrxName());
 		/**
 		 * No Action
 		 */
-		if (processed) {
+		if (production.isProcessed()) 
+		{
 			log.info("Already Posted");
 			return "@AlreadyPosted@";
 		}
+		
+		String whereClause = "M_Production_ID=? ";
+		List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
+												  .setParameters(new Object[]{p_Record_ID })
+												  .list();
+		for (X_M_ProductionPlan pp :lines)
+		{	
 
-		/***********************************************************************
-		 * Create Lines
-		 */
-		if (!isCreated) {
-			// For every Production Plan
-			sql = "SELECT m_productionplan_id " + " ,ad_client_id "
-					+ " ,ad_org_id " + " ,isactive " + " ,created "
-					+ " ,createdby " + " ,updated  " + " ,updatedby  "
-					+ " ,m_production_id " + " ,line " + " ,m_product_id "
-					+ " ,productionqty " + " ,m_locator_id  "
-					+ " ,description  " + " ,processed  "
-					+ " FROM	M_ProductionPlan " + " WHERE	M_Production_ID= "
-					+ p_Record_ID + " ORDER BY Line, M_Product_ID";
-			PreparedStatement curpp = null;
-			curpp = DB.prepareStatement(sql, get_TrxName());
-			ResultSet pp = curpp.executeQuery();
-			while (pp.next()) {
-				//	Delete prior lines
-				sqldel = "DELETE M_ProductionLine "
-						+ "WHERE M_ProductionPlan_ID ="
-						+ pp.getInt("M_ProductionPlan_ID");
-
-				cntd = DB.executeUpdate(sqldel, get_TrxName());
-				if (cntd == -1)
-					raiseError("Deleting Production Line:ERROR", sqldel);
-				totd += cntd;
-
-				//  OriginLine
+			if (!production.isCreated()) 
+			{
+							
 				int line = 100;
-				//	Getsequenses
-				nextNo = MSequence.getNextID(ad_Client_ID, "M_ProductionLine",
-						get_TrxName());
-				//  INSERT IN M_ProductionLine
-				sqlins = "INSERT INTO M_ProductionLine "
-						+ "(M_ProductionLine_ID " + ", M_ProductionPlan_ID"
-						+ ", Line  " + ", AD_Client_ID " + ", AD_Org_ID "
-						+ ", IsActive " + ", Created " + ", CreatedBy "
-						+ ", Updated " + ", UpdatedBy " + ", M_Product_ID "
-						+ ", MovementQty " + ", M_Locator_ID "
-						+ ", Description) " + " VALUES ( " + nextNo + ", "
-						+ pp.getInt("M_ProductionPlan_ID") + ", " + line + ", "
-						+ pp.getInt("ad_client_id") + ", "
-						+ pp.getInt("AD_Org_ID") + ", 'Y' " + ", sysdate "
-						+ ", 0 " + ", sysdate " + ", 0 " + ", "
-						+ pp.getInt("M_Product_ID") + ", "
-						+ pp.getInt("ProductionQty") + ", "
-						+ pp.getInt("M_Locator_ID") + ", '"
-						+ pp.getString("Description") + "')";
-				cnti = DB.executeUpdate(sqlins, get_TrxName());
-				if (cnti == -1)
-					raiseError("INSERT IN M_ProductionLine", sqlins);
-				toti += cnti;
-				//	Create First Level
-				sql = " SELECT m_product_bom_id, " + "ad_client_id, "
-						+ "ad_org_id, " + "isactive, " + "created, "
-						+ "createdby, " + "updated, " + "updatedby, "
-						+ "line, " + "m_product_id, " + "m_productbom_id, "
-						+ "bomqty, " + "description, " + "bomtype "
-						+ " FROM	M_Product_BOM " + " WHERE M_Product_ID="
-						+ pp.getInt("M_product_id") + " ORDER BY Line";
-				PreparedStatement curbom = null;
-				curbom = DB.prepareStatement(sql, get_TrxName());
-				ResultSet bom = curbom.executeQuery();
-				while (bom.next()) {
-					line = line + 100;
-					nextNo = MSequence.getNextID(pp.getInt("ad_client_id"),
-							"M_ProductionLine", get_TrxName());
-					sqlins = "INSERT INTO M_ProductionLine "
-							+ "(M_ProductionLine_ID, M_ProductionPlan_ID, Line, "
-							+ "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy, "
-							+ "M_Product_ID, MovementQty, M_Locator_ID) "
-							+ "VALUES "
-							+ "("
-							+ nextNo
-							+ ","
-							+ pp.getInt("M_ProductionPlan_ID")
-							+ ","
-							+ line
-							+ ","
-							+ pp.getInt("AD_Client_ID")
-							+ ","
-							+ pp.getInt("AD_Org_ID")
-							+ ",'Y',SysDate,0,SysDate,0"
-							+ ","
-							+ bom.getInt("M_ProductBOM_ID")
-							+ ","
-							+ (-pp.getInt("ProductionQty") * bom
-									.getInt("BOMQty")) + ","
-							+ pp.getInt("M_Locator_ID") + ")";
-					cnti = DB.executeUpdate(sqlins, get_TrxName());
-					if (cnti == -1)
-						raiseError("INSERT IN M_ProductionLine First Level",
-								sqlins);
-					toti += cnti;
+				DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
+				MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
+	
+				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+				pl.setLine(line);
+				pl.setDescription(pp.getDescription());
+				pl.setIsActive(true);
+				pl.setM_Product_ID(pp.getM_Product_ID());
+				pl.setM_Locator_ID(pp.getM_Locator_ID());
+				pl.setM_ProductionPlan_ID(pp.get_ID());
+				pl.setMovementQty(pp.getProductionQty());
+				pl.saveEx();
+				if (explosion(pp, product, pp.getProductionQty() , line) > 0 )
+				{	
+					production.setIsCreated(true);
+					production.saveEx();
 				}
-				bom.close();
-				curbom.close();
-				curbom = null;
-
-				//	While we have BOMs
-				while (true) {
-					// Are there non-stored BOMs to list details?
-					sql = "   SELECT COUNT(*) " + "  FROM M_ProductionLine pl"
-							+ "     , M_Product p "
-							+ "  WHERE pl.M_Product_ID=p.M_Product_ID "
-							+ "  AND pl.M_ProductionPlan_ID="
-							+ pp.getInt("M_ProductionPlan_ID")
-							+ "  AND pl.Line<>100	" //	Origin Line
-							+ "  AND p.IsBOM='Y' AND " + "  p.IsStocked='N'";
-
-					PreparedStatement cntlp = null;
-					cntlp = DB.prepareStatement(sql, get_TrxName());
-					ResultSet ct = cntlp.executeQuery();
-					int countNo = 0;
-					if (ct.next())
-						countNo = ct.getInt(1);
-					ct.close();
-					cntlp.close();
-					cntlp = null;
-
-					//	Nothing to do
-					if (countNo == 0)
-						break;
-
-					// Resolve BOMs in ProductLine which are not stocked
-					sql = " SELECT pl.M_ProductionLine_ID, "
-							+ " pl.Line, "
-							+ " pl.M_Product_ID,"
-							+ " pl.MovementQty  "
-							+ " FROM   M_ProductionLine pl, "
-							+ "        M_Product p  "
-							+ " WHERE  pl.M_ProductionPlan_ID = "
-							+ pp.getInt("M_ProductionPlan_ID")
-							+ " AND    pl.M_Product_ID        = p.M_Product_ID "
-							+ " AND    pl.Line<>100	 " // Origin Line
-							+ " AND    p.IsBOM='Y' AND p.IsStocked='N' ";
-					PreparedStatement curPLineBOM = null;
-					curPLineBOM = DB.prepareStatement(sql, get_TrxName());
-					ResultSet pl = curPLineBOM.executeQuery();
-					while (pl.next()) {
-						line = pl.getInt("line");
-
-						// Resolve BOM Line in product line
-						sql = " SELECT m_product_bom_id, " + "ad_client_id, "
-								+ "ad_org_id, " + "isactive, " + "created, "
-								+ "createdby, " + "updated, " + "updatedby, "
-								+ "line, " + "m_product_id, "
-								+ "m_productbom_id, " + "bomqty, "
-								+ "description, " + "bomtype "
-								+ " FROM	M_Product_BOM "
-								+ " WHERE	M_Product_ID="
-								+ pl.getInt("M_Product_ID") + " ORDER BY Line";
-						PreparedStatement curbom1 = null;
-						curbom1 = DB.prepareStatement(sql, get_TrxName());
-						ResultSet bom1 = curbom1.executeQuery();
-						while (bom1.next()) {
-							line = line + 10;
-							nextNo = MSequence.getNextID(pp
-									.getInt("ad_client_id"),
-									"M_ProductionLine", get_TrxName());
-							sqlins = " INSERT INTO M_ProductionLine "
-									+ " (M_ProductionLine_ID, M_ProductionPlan_ID, Line, "
-									+ "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy, "
-									+ " M_Product_ID, MovementQty, M_Locator_ID) "
-									+ " VALUES "
-									+ "("
-									+ nextNo
-									+ ","
-									+ pp.getInt("M_ProductionPlan_ID")
-									+ ","
-									+ line
-									+ ","
-									+ pp.getInt("AD_Client_ID")
-									+ ","
-									+ pp.getInt("AD_Org_ID")
-									+ ",'Y',SysDate,0,SysDate,0"
-									+ ","
-									+ bom1.getInt("M_ProductBOM_ID")
-									+ ","
-									+ (pl.getInt("MovementQty") * bom1
-											.getInt("BOMQty")) + ","
-									+ pp.getInt("M_Locator_ID") + ")";
-							cnti = DB.executeUpdate(sqlins, get_TrxName());
-							if (cnti == -1)
-								raiseError(
-										"INSERT IN M_ProductionLine For Resolve BOM Line in product line",
-										sqlins);
-							toti += cnti;
-
-						}
-						bom1.close();
-						curbom1.close();
-						curbom1 = null;
-
-						//Delete BOM line
-						sqldel = " DELETE  M_ProductionLine "
-								+ " WHERE M_ProductionLine_ID= "
-								+ pl.getInt("M_ProductionLine_ID");
-
-						cntd = DB.executeUpdate(sqldel, get_TrxName());
-						if (cntd == -1)
-							raiseError("Delete BOM line", sqldel);
-						totd += cntd;
-					}
-					pl.close();
-					curPLineBOM.close();
-					curPLineBOM = null;
-				}
-			}
-			pp.close();
-			curpp.close();
-			curpp = null;
-
-			// Modifying locator to have sufficient stock
-			// Indicate that it is Created
-			sqlupd = " UPDATE M_Production " + " SET IsCreated='Y' "
-					+ " WHERE M_Production_ID=" + p_Record_ID;
-			cntu = DB.executeUpdate(sqlupd, get_TrxName());
-			if (cntu == -1)
-				raiseError("Modifying locator to have sufficient stock", sqlupd);
-			totu += cntu;
-
-			/*******************************************************************
-			 * Post Lines
-			 */
-		} else {
-
-			// All Production Lines
-			sql = " SELECT pl.M_ProductionLine_ID, pl.AD_Client_ID, pl.AD_Org_ID,p.MovementDate, "
-					+ " pl.M_Product_ID, pl.M_AttributeSetInstance_ID, pl.MovementQty,pl.M_Locator_ID "
-					+ " FROM M_Production p, M_ProductionLine pl, M_ProductionPlan pp "
-					+ " WHERE p.M_Production_ID=pp.M_Production_ID "
-					+ " AND pp.M_ProductionPlan_ID=pl.M_ProductionPlan_ID "
-					+ " AND pp.M_Production_ID= "
-					+ p_Record_ID
-					+ " ORDER BY pp.Line, pl.Line";
-
-			PreparedStatement CUR_PL_Post = null;
-
-			CUR_PL_Post = DB.prepareStatement(sql, get_TrxName());
-			ResultSet pl = CUR_PL_Post.executeQuery();
-			while (pl.next()) {
-				sql = " select bomQtyOnHand (" + pl.getInt("M_Product_ID")
-						+ ", null," + pl.getInt("M_Locator_ID") + ") FROM DUAL";
-				PreparedStatement cnsql = null;
-				cnsql = DB.prepareStatement(sql, get_TrxName());
-				ResultSet cs = cnsql.executeQuery();
-				int countTo = 0;
-				if (cs.next())
-					countTo = cs.getInt(1);
-				cs.close();
-				cnsql.close();
-				cnsql = null;
-
-				//	Check Stock levels for reductions
-				if ((pl.getInt("MovementQty") < 0)
-						&& ((countTo) + pl.getInt("MovementQty") < 0))
-
+				else
+					return "Do not exist componets";
+									   
+			} 
+			else 
+			{
+				whereClause = "M_ProductionPlan_ID= ? ";
+				List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
+														  .setParameters(new Object[]{pp.get_ID()})
+														  .list();
+				
+				for (X_M_ProductionLine pline : production_lines)
 				{
+					MLocator locator = MLocator.get(getCtx(), pline.getM_Locator_ID());
+					String MovementType = MTransaction.MOVEMENTTYPE_ProductionPlus;					
+					BigDecimal MovementQty = pline.getMovementQty();						
+					if (MovementQty.signum() == 0)
+						continue ;
+					else if(MovementQty.signum() < 0)
+					{
+						BigDecimal QtyAvailable = MStorage.getQtyAvailable(
+								locator.getM_Warehouse_ID(), 
+								locator.getM_Locator_ID(), 
+								pline.getM_Product_ID(), 
+								pline.getM_AttributeSetInstance_ID(),
+								get_TrxName());
+						
+						if(QtyAvailable.add(MovementQty).signum() < 0)
+						{	
+							return Msg.getMsg(getCtx(),"NoQtyAvailable");
+						}
+						
+						MovementType = MTransaction.MOVEMENTTYPE_Production_;
+					}
+					
+					if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
+						locator.getM_Locator_ID(),
+						pline.getM_Product_ID(), 
+						pline.getM_AttributeSetInstance_ID(), 0 , 
+						MovementQty,
+						Env.ZERO,
+						Env.ZERO,
+						get_TrxName()))
+					{
+						return "Cannot correct Inventory";
+					}
+					
+					//Create Transaction
+					MTransaction mtrx = new MTransaction (getCtx(), pline.getAD_Org_ID(), 
+						MovementType, locator.getM_Locator_ID(),
+						pline.getM_Product_ID(), pline.getM_AttributeSetInstance_ID(), 
+						MovementQty, production.getMovementDate(), get_TrxName());
+					mtrx.setM_ProductionLine_ID(pline.get_ID());
+					mtrx.saveEx();
+					
+					pline.setProcessed(true);
+					pline.saveEx();
+				} // Production Line
+				
+			 pp.setProcessed(true);
+			 pp.saveEx();
+			 
+			 production.setProcessed(true);
+			 production.saveEx();
+			} 	
+		} // Production Plan
+		
+		return "@OK@";
 
-					DB.rollback(true, get_TrxName());
+	} 
 
-					sql = " SELECT '@NotEnoughStocked@: ' || Name	"//INTO
-							// Message
-							+ " FROM M_Product WHERE M_Product_ID="
-							+ pl.getInt("M_Product_ID");
-					PreparedStatement cnMess = null;
-					cnMess = DB.prepareStatement(sql, get_TrxName());
-					ResultSet cm = cnMess.executeQuery();
-					String varmess = null;
-					if (cm.next())
-						varmess = cm.getString(1);
-					cm.close();
-					cnMess.close();
-					cnMess = null;
-					return varmess;
 
-				}
-
-				//	Adjust Quantity at Location
-				sqlupd = " UPDATE M_Storage " + " SET	QtyOnHand = QtyOnHand + "
-						+ pl.getInt("MovementQty") + ","
-						+ " Updated = SysDate " + " WHERE	M_Locator_ID = "
-						+ pl.getInt("M_Locator_ID")
-						+ " AND   M_AttributeSetInstance_ID = COALESCE("
-						+ pl.getInt("M_AttributeSetInstance_ID") + ",0)"
-						+ " AND	M_Product_ID =" + pl.getInt("M_Product_ID");
-				cntu = DB.executeUpdate(sqlupd, get_TrxName());
-				if (cntu == -1)
-					raiseError("Adjust Quantity at Location", sqlupd);
-				totu += cntu;
-
-				//    Product not on Stock yet
-				if (cntu == 0) {
-					sqlins = "INSERT INTO M_Storage "
-							+ " (M_Product_ID, M_Locator_ID, M_AttributeSetInstance_ID, "
-							+ " AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy, "
-							+ " QtyOnHand, QtyReserved, QtyOrdered) "
-							+ " VALUES " + "(" + pl.getInt("M_Product_ID")
-							+ "," + pl.getInt("M_Locator_ID") + ", COALESCE("
-							+ pl.getInt("M_AttributeSetInstance_ID") + ",0), "
-							+ pl.getInt("AD_Client_ID") + ","
-							+ pl.getInt("AD_Org_ID")
-							+ ", 'Y', SysDate, 0, SysDate, 0, "
-							+ pl.getInt("MovementQty") + ", 0, 0)";
-					cnti = DB.executeUpdate(sqlins, get_TrxName());
-					if (cnti == -1)
-						raiseError(" Product not on Stock yet", sqlins);
-					toti += cnti;
-
-				}
-
-				//    Create Transaction Entry
-				nextNo = MSequence.getNextID(pl.getInt("AD_Org_ID"),
-						"M_Transaction", get_TrxName());
-				sqlins = " INSERT INTO M_Transaction"
-						+ " (M_Transaction_ID, M_ProductionLine_ID,"
-						+ " AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,"
-						+ " MovementType, M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID,"
-						+ " MovementDate, MovementQty)" + " VALUES "
-						+ "(?,?,?,?,'Y',SysDate,0,SysDate,0,"
-						+ "'P+',?,?,COALESCE(?,0)," // not distinguishing
-						// between
-						// assemby/disassembly
-						+ "?,?)";
-				pstmt = DB.prepareStatement(sqlins,
-						ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_UPDATABLE, get_TrxName());
-				pstmt.setInt(1, nextNo);
-				pstmt.setInt(2, pl.getInt("M_ProductionLine_ID"));
-				pstmt.setInt(3, pl.getInt("AD_Client_ID"));
-				pstmt.setInt(4, pl.getInt("AD_Org_ID"));
-				pstmt.setInt(5, pl.getInt("M_Locator_ID"));
-				pstmt.setInt(6, pl.getInt("M_Product_ID"));
-				pstmt.setInt(7, pl.getInt("M_AttributeSetInstance_ID"));
-				pstmt.setTimestamp(8, pl.getTimestamp("MovementDate"));
-				pstmt.setDouble(9, pl.getDouble("MovementQty"));
-				cnti = pstmt.executeUpdate();
-				//
-				if (cnti == -1)
-					raiseError("Create Transaction Entry", sqlins);
-				toti += cnti;
-
-				//    Update M_ProductionLine
-				sqlupd = " UPDATE M_ProductionLine " + " SET Processed='Y' "
-						+ " WHERE M_ProductionLine_ID="
-						+ pl.getInt("M_ProductionLine_ID");
-				cntu = DB.executeUpdate(sqlupd, get_TrxName());
-				if (cntu == -1)
-					raiseError("Update M_ProductionLine ", sqlupd);
-				totu += cntu;
-
+	/**
+	 * Explosion the Production Plan
+	 * @param pp
+	 * @param product
+	 * @param qty
+	 * @throws AdempiereUserError
+	 */
+	private int explosion(X_M_ProductionPlan pp , MProduct product , BigDecimal qty , int line) throws AdempiereUserError
+	{
+		MPPProductBOM bom = MPPProductBOM.getDefault(product, get_TrxName());
+		if(bom == null )
+		{	
+			throw new AdempiereUserError ("Do not exist default BOM for this product :" 
+					+ product.getValue() + "-" 
+					+ product.getName());
+		}				
+		MPPProductBOMLine[] bom_lines = bom.getLines(new Timestamp (System.currentTimeMillis()));
+		m_level += 1;
+		int components = 0;
+		line = line * m_level;
+		for(MPPProductBOMLine bomline : bom_lines)
+		{
+			MProduct componet = MProduct.get(getCtx(), bomline.getM_Product_ID());
+			
+			if(componet.isBOM() && !componet.isStocked())
+			{	
+				explosion(pp, componet, bomline.getQtyBOM() , line);
 			}
-			pl.close();
-			CUR_PL_Post.close();
-			CUR_PL_Post = null;
-
-			//	Indicate that we are done
-			sqlupd = "UPDATE	M_Production " + "SET Processed='Y' "
-					+ "WHERE	M_Production_ID=" + p_Record_ID;
-			cntu = DB.executeUpdate(sqlupd, get_TrxName());
-			if (cntu == -1)
-				raiseError("Indicate that we are done ", sqlupd);
-			totu += cntu;
-
-			sqlupd = " UPDATE M_ProductionPlan " + " SET Processed='Y' "
-					+ " WHERE M_Production_ID=" + p_Record_ID;
-			cntu = DB.executeUpdate(sqlupd, get_TrxName());
-			if (cntu == -1)
-				raiseError(
-						"Update the indicator of Processed in M_ProductionPlan",
-						sqlupd);
-			totu += cntu;
+			else if(!componet.isBOM() && componet.isStocked())
+			{	
+				line += 1;
+				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+				pl.setLine(line);
+				pl.setDescription(bomline.getDescription());
+				pl.setIsActive(true);
+				pl.setM_Product_ID(bomline.getM_Product_ID());
+				pl.setM_Locator_ID(pp.getM_Locator_ID());
+				pl.setM_ProductionPlan_ID(pp.get_ID());
+				pl.setMovementQty(bomline.getQtyBOM().multiply(qty).negate());
+				pl.saveEx();
+				components += 1;
+				
+			}
+		
 		}
-
-		//	Only commit when entire job successful
-		log.fine("Committing ...");
-		DB.commit(true, get_TrxName());
-
-		return "OK";
-
-	} // del doIt
-
-	private void raiseError(String string, String sql) throws Exception {
-		DB.rollback(false, get_TrxName());
-		String msg = string;
-		ValueNamePair pp = CLogger.retrieveError();
-		if (pp != null)
-			msg = pp.getName() + " - ";
-		msg += sql;
-		throw new AdempiereUserError(msg);
-	}
-
+		return  components;
+	}	
 } // M_Production_Run
