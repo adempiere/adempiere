@@ -73,13 +73,13 @@ public class RollupWorkflow extends SvrProcess
 				;
 			else if (name.equals("AD_Org_ID"))  
 				p_AD_Org_ID = para[i].getParameterAsInt();       
-			else if (name.equals("C_AcctSchema_ID"))
+			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
 				p_C_AcctSchema_ID = para[i].getParameterAsInt();  
-			else if (name.equals("M_CostType_ID"))
+			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
 				p_M_CostType_ID = para[i].getParameterAsInt();  
-			else if (name.equals("M_Product_ID")) 
+			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID)) 
 				p_M_Product_ID = para[i].getParameterAsInt();  
-			else if (name.equals("M_Product_Category_ID")) 
+			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID)) 
 				p_M_Product_Category_ID = para[i].getParameterAsInt();  
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
@@ -117,7 +117,7 @@ public class RollupWorkflow extends SvrProcess
 			MCost[]  costs = MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, product.getM_Product_ID(), p_M_CostType_ID, p_C_AcctSchema_ID , get_TrxName());            
 			for (MCost cost : costs)
 			{
-				MCostElement element = new MCostElement(getCtx(), cost.getM_CostElement_ID(), get_TrxName());
+				MCostElement element = cost.getCostElement();
 				// check if element cost is of type Labor
 				if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
 				{                                    
