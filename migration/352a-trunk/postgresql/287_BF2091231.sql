@@ -1,29 +1,45 @@
--- TODO:  translate to Postgresql
-/*
-drop table PP_WF_NODE_ASSET;
+drop table PP_WF_NODE_ASSET
+;
 
-CREATE TABLE PP_WF_NODE_ASSET
-(
-    "PP_WF_NODE_ASSET_ID" NUMBER(10,0) NOT NULL ENABLE,
+CREATE TABLE pp_wf_node_asset ( 
+    pp_wf_node_asset_id	numeric(10,0) NOT NULL,
     --
-    "AD_CLIENT_ID" NUMBER(10,0) NOT NULL ENABLE,
-    "AD_ORG_ID" NUMBER(10,0) NOT NULL ENABLE,
-    "CREATED" DATE NOT NULL ENABLE,
-    "CREATEDBY" NUMBER(10,0) NOT NULL ENABLE,
-    "UPDATED" DATE NOT NULL ENABLE,
-    "UPDATEDBY" NUMBER(10,0) NOT NULL ENABLE,
-    "ISACTIVE" CHAR(1 BYTE) NOT NULL ENABLE,
+    ad_client_id       	numeric(10,0) NOT NULL,
+    ad_org_id          	numeric(10,0) NOT NULL,
+    created            	timestamp NOT NULL,
+    createdby          	numeric(10,0) NOT NULL,
+    updated            	timestamp NOT NULL,
+    updatedby          	numeric(10,0) NOT NULL,
+    isactive           	char(1) NOT NULL,
     --
-    "AD_WF_NODE_ID" NUMBER(10,0) NOT NULL ENABLE,
-    "A_ASSET_ID" NUMBER(10,0) NOT NULL ENABLE,
-    "SEQNO" NUMBER(10,0) NOT NULL ENABLE,
-    --
-    CHECK (IsActive IN ('Y','N')) ENABLE,
-    CONSTRAINT "PP_WF_NODE_ASSET_KEY" PRIMARY KEY ("PP_WF_NODE_ASSET_ID") ENABLE,
-    CONSTRAINT "AASSET_PPWFNODEASSET" FOREIGN KEY ("A_ASSET_ID") REFERENCES "A_ASSET" ("A_ASSET_ID") ENABLE,
-    CONSTRAINT "ADWFNODE_PPWFNODEASSET" FOREIGN KEY ("AD_WF_NODE_ID") REFERENCES "AD_WF_NODE" ("AD_WF_NODE_ID") ENABLE
-);
-*/
+    ad_wf_node_id      	numeric(10,0) NOT NULL,
+    a_asset_id         	numeric(10,0) NOT NULL,
+    seqno              	numeric(10,0) NOT NULL
+)
+;
+
+ALTER TABLE pp_wf_node_asset
+    ADD CONSTRAINT PP_WF_NODE_ASSET_KEY
+	PRIMARY KEY(PP_WF_NODE_ASSET_ID)
+;
+
+ALTER TABLE pp_wf_node_asset
+    ADD CONSTRAINT pp_wf_node_asset_isactive_check
+	CHECK (isactive = ANY (ARRAY['Y'::bpchar, 'N'::bpchar]))
+;
+
+ALTER TABLE pp_wf_node_asset
+    ADD CONSTRAINT adwfnode_ppwfnodeasset
+	FOREIGN KEY(ad_wf_node_id)
+	REFERENCES adempiere.ad_wf_node(ad_wf_node_id)
+;
+
+ALTER TABLE adempiere.pp_wf_node_asset
+    ADD CONSTRAINT aasset_ppwfnodeasset
+	FOREIGN KEY(a_asset_id)
+	REFERENCES adempiere.a_asset(a_asset_id)
+;
+
 -- 29.08.2008 18:32:06 EEST
 -- 
 UPDATE AD_Column SET IsKey='N', IsMandatory='Y',Updated=TO_TIMESTAMP('2008-08-29 18:32:06','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=53300
