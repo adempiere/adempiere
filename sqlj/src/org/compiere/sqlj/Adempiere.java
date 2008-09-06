@@ -413,6 +413,10 @@ public class Adempiere implements Serializable
 			}
 			else 
 				isHoliday = false;
+			
+			rs.close();
+			pstmt.close();
+
 		}
 		while (isHoliday);
 		// end Goodwill
