@@ -243,18 +243,20 @@ public class MCostElement extends X_M_CostElement
 	
 	
 	/**
-	 * 	Get Costs Record for a Cost Type
-	 * 	@param ctx context
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 *	@return array costs
+	 * Get All Cost Elements for current AD_Client_ID
+	 * @param ctx context
+	 * @param trxName transaction
+	 * @return array cost elements
 	 **/
-	public static MCostElement[] getElements (Properties ctx , int AD_Client_ID, int AD_Org_ID, String trxName)
+	public static MCostElement[] getElements (Properties ctx, String trxName)
 	{
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		int AD_Org_ID = 0; // Org is always ZERO - see beforeSave
+		
 		String whereClause = "AD_Client_ID = ? AND AD_Org_ID = ?";
-		Query query = MTable.get(ctx, MCostElement.Table_ID).createQuery(whereClause, trxName);
-		query.setParameters(new Object[]{AD_Client_ID, AD_Org_ID});
-		List<MCostElement> list = query.list();
+		List<MCostElement> list = new Query(ctx, Table_Name, whereClause, trxName)
+					.setParameters(new Object[]{AD_Client_ID, AD_Org_ID})
+					.list();
 		MCostElement[] retValue = new MCostElement[list.size()];
 		list.toArray(retValue);
 		return retValue;	

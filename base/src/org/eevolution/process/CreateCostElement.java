@@ -16,14 +16,20 @@
 
 package org.eevolution.process;
 
-import java.util.logging.*;
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
-import org.compiere.process.*;
+import org.compiere.model.MProduct;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 
 
@@ -35,93 +41,107 @@ import org.compiere.process.*;
  */
 public class CreateCostElement extends SvrProcess
 {
-        private int				p_AD_Org_ID = 0;
-        private int             p_C_AcctSchema_ID = 0;
-        private int             p_M_CostType_ID = 0;
-        private int             p_M_Product_ID = 0;
-	
-        
-    /**
+	private int				p_AD_Org_ID = 0;
+	private int             p_C_AcctSchema_ID = 0;
+	private int             p_M_CostType_ID = 0;
+	private int             p_M_Product_ID = 0;
+
+	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
 		ProcessInfoParameter[] para = getParameter();
-                
-                
-               
 		for (int i = 0; i < para.length; i++)
 		{
 			String name = para[i].getParameterName();
-
 			if (para[i].getParameter() == null)
+			{
 				;
+			}
 			else if (name.equals("AD_Org_ID"))
-            {    
+			{    
 				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
-                                
-            }
-            else if (name.equals("C_AcctSchema_ID"))
-            {    
+			}
+			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
+			{    
 				p_C_AcctSchema_ID = ((BigDecimal)para[i].getParameter()).intValue();
-                                
-            }
-            else if (name.equals("M_CostType_ID"))
-            {    
+			}
+			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
+			{    
 				p_M_CostType_ID = ((BigDecimal)para[i].getParameter()).intValue();
-                                
-            }
-            else if (name.equals("M_Product_ID"))
-            {    
+			}
+			else if (name.equals(MCost.COLUMNNAME_M_Product_ID))
+			{    
 				p_M_Product_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			}
-            else
+			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
 	}	//	prepare
-  
-    protected String doIt() throws Exception                
+
+	protected String doIt() throws Exception                
 	{
-    	
-        String sql = "SELECT M_Product_ID FROM M_Product p WHERE AD_Client_ID=" +getAD_Client_ID();
-        if (p_M_Product_ID != 0)
-        sql = sql + " and p.M_Product_ID =" +p_M_Product_ID;    
-       
-		MCostElement[] elements = MCostElement.getElements(getCtx(), getAD_Client_ID(), p_AD_Org_ID, get_TrxName());
+		int count_costs = 0;
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		String sql = "SELECT M_Product_ID FROM M_Product WHERE AD_Client_ID=?";
+		params.add(getAD_Client_ID());
+		if (p_M_Product_ID != 0)
+		{
+			sql = sql + " AND M_Product_ID=?";
+			params.add(p_M_Product_ID);
+		}
+
+		MCostElement[] elements = MCostElement.getElements(getCtx(), get_TrxName());
+		if (elements.length == 0)
+		{
+			throw new AdempiereException("@NotFound@ @M_CostElement_ID@");
+		}
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement (sql, get_TrxName());
-            ResultSet rs = pstmt.executeQuery ();
-            while (rs.next())
-            {
-            	int m_M_Product_ID = rs.getInt(1);
-                
-                MCost[] costs = MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, m_M_Product_ID, p_M_CostType_ID, p_C_AcctSchema_ID, get_TrxName());
-                
-                if (costs == null)
-                {	
-                	for(MCostElement element : elements)
-                	{	
-	                    MCost cost = new MCost(getCtx(), 0 ,get_TrxName());
-	                    cost.setM_Product_ID(m_M_Product_ID);
-	                    cost.setAD_Org_ID(p_AD_Org_ID);
-	                    cost.setC_AcctSchema_ID(p_C_AcctSchema_ID);
-	                    cost.setM_CostType_ID(p_M_CostType_ID);
-	                    cost.setM_CostElement_ID(element.getM_CostElement_ID());                                    
-	                    cost.save();  
-                	}    
-                }
-        	}
-            rs.close();
-            pstmt.close();
-
+			pstmt = DB.prepareStatement (sql, get_TrxName());
+			for (int i = 0; i < params.size(); i++)
+			{
+				DB.setParameter(pstmt, i+1, params.get(i));
+			}
+			rs = pstmt.executeQuery ();
+			while (rs.next())
+			{
+				int m_M_Product_ID = rs.getInt(MProduct.COLUMNNAME_M_Product_ID);
+				MCost[] costs = MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID,
+												m_M_Product_ID, p_M_CostType_ID, p_C_AcctSchema_ID,
+												get_TrxName());
+				if (costs.length == 0)
+				{	
+					for(MCostElement element : elements)
+					{	
+						MCost cost = new MCost(getCtx(), 0, get_TrxName());
+						cost.setM_Product_ID(m_M_Product_ID);
+						cost.setAD_Org_ID(p_AD_Org_ID);
+						cost.setC_AcctSchema_ID(p_C_AcctSchema_ID);
+						cost.setM_CostType_ID(p_M_CostType_ID);
+						cost.setM_CostElement_ID(element.get_ID());                                    
+						cost.saveEx();
+						count_costs++;
+					}    
+				}
+			}
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE,"doIt - " + sql, e);
+			throw new DBException(e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
-            return "ok";
-     }
-                                                                
+		return "@Created@ #"+count_costs;
+	}
+
 }	//	Create Cost Element
