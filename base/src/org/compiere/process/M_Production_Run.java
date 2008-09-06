@@ -209,13 +209,13 @@ public class M_Production_Run extends SvrProcess {
 		line = line * m_level;
 		for(MPPProductBOMLine bomline : bom_lines)
 		{
-			MProduct componet = MProduct.get(getCtx(), bomline.getM_Product_ID());
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
 			
-			if(componet.isBOM() && !componet.isStocked())
+			if(component.isBOM() && !component.isStocked())
 			{	
-				explosion(pp, componet, bomline.getQtyBOM() , line);
+				explosion(pp, component, bomline.getQtyBOM() , line);
 			}
-			else if(!componet.isBOM() && componet.isStocked())
+			else if(!component.isBOM() && component.isStocked() || MPPProductBOMLine.COMPONENTTYPE_Phantom.equals(bomline.getComponentType()))
 			{	
 				line += 1;
 				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
