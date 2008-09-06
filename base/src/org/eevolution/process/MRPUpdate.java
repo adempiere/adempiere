@@ -18,7 +18,6 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,7 +36,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 import org.eevolution.model.MForecastLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
@@ -303,55 +301,38 @@ public class MRPUpdate extends SvrProcess
 	
 	private void executeUpdate(String sql, List<Object> params) 
 	{
-		Trx trx = Trx.get(Trx.createTrxName("Update MRP"), true);
 		Object[] pa = null;
 		if (params != null)
-			pa = params.toArray(new Object[params.size()]);
-		else
-			pa = new Object[]{};
-		
-		boolean success = false;
-		
-		if ( DB.executeUpdateEx(sql, pa, trx.getTrxName()) < 0 )
 		{
-			
-		    success = false;
-			trx.rollback();
+			pa = params.toArray(new Object[params.size()]);
+		}
+		else
+		{
+			pa = new Object[]{};
 		}
 		
-		if (success)
-			trx.commit();
-		else
-			trx.rollback();
-		
-		trx.close();
-		trx = null;
-
+		int no = DB.executeUpdateEx(sql, pa, get_TrxName());
+		commit();
+		log.fine("#"+no+" -- "+sql);
 	}
  
 
 	private void deletePO(String tableName, String whereClause, List<Object> params)
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
-	
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
-		.setParameters(params)
-		.scroll();
-		try {
-			while(rs.hasNext()) {
-				Trx trx = Trx.get(Trx.createTrxName("Delete MRP"), true);
-				if(rs.next().delete(true))
-					trx.commit();
-				else
-					trx.rollback();
-					
-				trx.close();
-				trx = null;
-				
+									.setParameters(params)
+									.scroll();
+		try
+		{
+			while(rs.hasNext())
+			{
+				rs.next().deleteEx(true);
+				commit();
 			}
 		}
-		finally {
-			
+		finally
+		{
 			rs.close();
 		}
 	}
