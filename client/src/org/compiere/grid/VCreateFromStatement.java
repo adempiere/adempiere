@@ -25,6 +25,7 @@ import java.util.logging.*;
 import java.awt.Cursor;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ import org.compiere.apps.*;
 import org.compiere.grid.ed.*;
 import org.compiere.model.*;
 import org.compiere.swing.CButton;
+import org.compiere.swing.CTextField;
 import org.compiere.util.*;
 /**
  *  Create Transactions for Bank Statements
@@ -43,7 +45,7 @@ import org.compiere.util.*;
  *  @author Victor Perez, e-Evolucion 
  *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  */
-public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeListener
+public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 {
 	private MBankAccount bankAccount;
 
@@ -54,6 +56,15 @@ public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeL
 	VCreateFromStatement(GridTab mTab)
 	{
 		super (mTab);
+
+		//Refresh button
+		CButton refreshButton = ConfirmPanel.createRefreshButton(false);
+		refreshButton.setMargin(new Insets (1, 10, 0, 10));
+		refreshButton.setDefaultCapable(true);
+		refreshButton.addActionListener(this);
+		confirmPanel.addButton(refreshButton);
+		this.getRootPane().setDefaultButton(refreshButton);
+		
 		log.info("");
 	}   //  VCreateFromStatement
 
@@ -70,55 +81,177 @@ public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeL
 			return false;
 		}
 		
-		//Regresh button
-		CButton refreshButton = confirmPanel.createRefreshButton(false);
-		refreshButton.setMargin(new Insets (1, 10, 0, 10));
-		refreshButton.setDefaultCapable(true);
-		refreshButton.addActionListener(this);
-		confirmPanel.addButton(refreshButton);
 		//
 		
         // Do not display RMA selection
-        rmaLabel.setVisible(false);
+       /* rmaLabel.setVisible(false);
         rmaField.setVisible(false);
         
         sameWarehouseCb.setVisible(false);
-
+*/
 		setTitle(Msg.translate(Env.getCtx(), "C_BankStatement_ID") + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
 		parameterStdPanel.setVisible(false);
 
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
-		bankAccountField = new VLookup ("C_BankAccount_ID", true, false, true, lookup);
-		bankAccountField.addVetoableChangeListener(this);
+		bankAccountField = new VLookup ("C_BankAccount_ID", true, true, true, lookup);
 		//  Set Default
 		int C_BankAccount_ID = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
 		bankAccountField.setValue(new Integer(C_BankAccount_ID));
 		//  initial Loading
-		//RF [1811114]
-		String R_AuthCode="";        
 		authorizationField = new VString ("authorization", false, false, true, 10, 30, null, null);
 		authorizationField.addActionListener(this);
-        //Doc Date
-		Timestamp docDate = Env.getContextAsDate(Env.getCtx(), p_WindowNo, MBankStatement.COLUMNNAME_StatementDate);
-		docDateField = new VDate(MBankStatement.COLUMNNAME_StatementDate,false,false,true,DisplayType.Date,Msg.translate(Env.getCtx(), MBankStatement.COLUMNNAME_StatementDate));
-		docDateField.setValue(docDate);
-		docDateField.addActionListener(this);
 
-		String documentType="";
 		MLookup lookupDocument = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_C_DocType_ID), DisplayType.TableDir);
 		documentTypeField = new VLookup (MPayment.COLUMNNAME_C_DocType_ID,false,false,true,lookupDocument);
-		documentTypeField.addVetoableChangeListener(this);
+		documentTypeField.addActionListener(this);
 		
-		int tenderType=0;
 		MLookup lookupTender = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPayment.Table_Name, MPayment.COLUMNNAME_TenderType), DisplayType.List);
 		tenderTypeField = new VLookup (MPayment.COLUMNNAME_TenderType,false,false,true,lookupTender);
-		tenderTypeField.addVetoableChangeListener(this);
-
+		tenderTypeField.addActionListener(this);
+		
+		bPartnerLookup = new VLookup("C_BPartner_ID", false, false, true,
+				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search));
+		BPartner_idLabel.setLabelFor(bPartnerLookup);
+		
+		Timestamp date = Env.getContextAsDate(Env.getCtx(), p_WindowNo, MBankStatement.COLUMNNAME_StatementDate);
+		dateToField.setValue(date);
+	
 		bankAccount = new MBankAccount(Env.getCtx(), C_BankAccount_ID, null);
+		
+		loadBankAccount();
 
 		return true;
 	}   //  dynInit
+
+	/**************************************************************************
+	 *	Construct SQL Where Clause and define parameters
+	 *  (setParameters needs to set parameters)
+	 *  Includes first AND
+	 *  @return sql where clause
+	 */
+	String getSQLWhere()
+	{
+		StringBuffer sql = new StringBuffer("WHERE p.Processed='Y' AND p.IsReconciled='N'"
+		+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" 
+		+ " AND p.C_BankAccount_ID = ?");
+		
+		if (documentNoField.getText().length() > 0)
+			sql.append(" AND UPPER(p.DocumentNo) LIKE ?");
+		//
+		if (bPartnerLookup.getValue() != null)
+			sql.append(" AND p.C_BPartner_ID=?");
+		//
+		if (dateFromField.getValue() != null || dateToField.getValue() != null)
+		{
+			Timestamp from = (Timestamp)dateFromField.getValue();
+			Timestamp to = (Timestamp)dateToField.getValue();
+			if (from == null && to != null)
+				sql.append(" AND TRUNC(p.DateTrx) <= ?");
+			else if (from != null && to == null)
+				sql.append(" AND TRUNC(p.DateTrx) >= ?");
+			else if (from != null && to != null)
+				sql.append(" AND TRUNC(p.DateTrx) BETWEEN ? AND ?");
+		}
+		//
+		if (amtFromField.getValue() != null || amtToField.getValue() != null)
+		{
+			BigDecimal from = (BigDecimal)amtFromField.getValue();
+			BigDecimal to = (BigDecimal)amtToField.getValue();
+			if (from == null && to != null)
+				sql.append(" AND p.PayAmt <= ?");
+			else if (from != null && to == null)
+				sql.append(" AND p.PayAmt >= ?");
+			else if (from != null && to != null)
+				sql.append(" AND p.PayAmt BETWEEN ? AND ?");
+		}
+		
+		if(documentTypeField.getValue()!=null)
+			sql.append(" AND p.C_DocType_ID=?");
+		if(tenderTypeField.getValue() != null && tenderTypeField.getValue().toString().length() > 0)
+			sql.append(" AND p.TenderType=?");
+		if(authorizationField.getText().length() > 0 )
+			sql.append(" AND p.R_AuthCode LIKE ?");
+
+		log.fine(sql.toString());
+		return sql.toString();
+	}	//	getSQLWhere
+
+	/**
+	 *  Set Parameters for Query.
+	 *  (as defined in getSQLWhere)
+	 *  @param pstmt statement
+	 *  @param forCount for counting records
+	 *  @throws SQLException
+	 */
+	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	{
+		int index = 1;
+		
+		pstmt.setInt(index++, bankAccount.getC_BankAccount_ID());
+		
+		if (documentNoField.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(documentNoField));
+		//
+		if (bPartnerLookup.getValue() != null)
+		{
+			Integer bp = (Integer)bPartnerLookup.getValue();
+			pstmt.setInt(index++, bp.intValue());
+			log.fine("BPartner=" + bp);
+		}
+		//
+		if (dateFromField.getValue() != null || dateToField.getValue() != null)
+		{
+			Timestamp from = (Timestamp)dateFromField.getValue();
+			Timestamp to = (Timestamp)dateToField.getValue();
+			log.fine("Date From=" + from + ", To=" + to);
+			if (from == null && to != null)
+				pstmt.setTimestamp(index++, to);
+			else if (from != null && to == null)
+				pstmt.setTimestamp(index++, from);
+			else if (from != null && to != null)
+			{
+				pstmt.setTimestamp(index++, from);
+				pstmt.setTimestamp(index++, to);
+			}
+		}
+		//
+		if (amtFromField.getValue() != null || amtToField.getValue() != null)
+		{
+			BigDecimal from = (BigDecimal)amtFromField.getValue();
+			BigDecimal to = (BigDecimal)amtToField.getValue();
+			log.fine("Amt From=" + from + ", To=" + to);
+			if (from == null && to != null)
+				pstmt.setBigDecimal(index++, to);
+			else if (from != null && to == null)
+				pstmt.setBigDecimal(index++, from);
+			else if (from != null && to != null)
+			{
+				pstmt.setBigDecimal(index++, from);
+				pstmt.setBigDecimal(index++, to);
+			}
+		}
+		if(documentTypeField.getValue()!=null)
+			pstmt.setInt(index++, (Integer) documentTypeField.getValue());
+		if(tenderTypeField.getValue()!=null  && tenderTypeField.getValue().toString().length() > 0 )
+			pstmt.setString(index++, (String) tenderTypeField.getValue());
+		if(authorizationField.getText().length() > 0 )
+			pstmt.setString(index++, getSQLText(authorizationField));
+
+	}   //  setParameters
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param f field
+	 *  @return Upper case text with % at the end
+	 */
+	private String getSQLText (CTextField f)
+	{
+		String s = f.getText().toUpperCase();
+		if (!s.endsWith("%"))
+			s += "%";
+		log.fine( "String=" + s);
+		return s;
+	}   //  getSQLText
 
 	/**
 	 *  Init Details (never called)
@@ -127,37 +260,15 @@ public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeL
 	protected void initBPDetails(int C_BPartner_ID)
 	{
 	}   //  initDetails
-
-	/**
-	 *  Change Listener
-	 *  @param e event
-	 */
-	public void vetoableChange (PropertyChangeEvent e)
-	{
-		log.config(e.getPropertyName() + "=" + e.getNewValue());		
-		tableChanged(null);
-	}   //  vetoableChange
+ 
 
 	/**
 	 *  Load Data - Bank Account
-	 *  @param C_BankAccount_ID Bank Account
-	 *  @Document Date
-	 *  @param Document Type
-	 *  @param Teder Type
-	 *  @param Autorization Code
 	 */
-	//RF [1811114]
-	private void loadBankAccount (int C_BankAccount_ID, Timestamp docDate, int documentType, String tenderType ,String R_AuthCode)
+	private void loadBankAccount ()
 	{
-		log.config ("C_BankAccount_ID=" + C_BankAccount_ID);
-		/**
-		 *  Selected        - 0
-		 *  Date            - 1
-		 *  C_Payment_ID    - 2
-		 *  C_Currenncy     - 3
-		 *  Amt             - 4
-		 */
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		
 		String sql = "SELECT p.DateTrx,p.C_Payment_ID,p.DocumentNo, p.C_Currency_ID,c.ISO_Code, p.PayAmt,"
 			+ "currencyConvert(p.PayAmt,p.C_Currency_ID,ba.C_Currency_ID,pay.DateAcct,p.C_ConversionType_ID,p.AD_Client_ID,p.AD_Org_ID),"
 			+ " bp.Name "
@@ -165,41 +276,16 @@ public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeL
 			+ " INNER JOIN C_Payment_v p ON (p.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Payment pay ON (p.C_Payment_ID=pay.C_Payment_ID)"
 			+ " INNER JOIN C_Currency c ON (p.C_Currency_ID=c.C_Currency_ID)"
-			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) "
-			+ "WHERE p.Processed='Y' AND p.IsReconciled='N'"
-			+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" // Bug 1564453 Added Voided payment to bank statement payement selection
-			+ " AND p.C_BankAccount_ID=?";      //  #2
-			//RF [1811114] 
-			//Payment Filter 
-			if(docDate != null)
-				sql=sql + " AND p.DateTrx = ?";
-			
-			if(documentType>0)
-				sql=sql + " AND p.C_DocType_ID = " + documentType;
-			
-			if(tenderType!=null && tenderType.length()>0)
-				sql=sql + " AND p.TenderType = '" + tenderType + "'";
-			
-		    if (R_AuthCode!= null && R_AuthCode.length()>0)
-		    	sql = sql + " AND p.R_AuthCode LIKE '" + R_AuthCode + "'";
-		    
-		    sql = sql + " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
-			//	Voided Bank Statements have 0 StmtAmt
-				+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)";
+			+ " LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID) ";
 
-		//  Get StatementDate
-		Timestamp ts = (Timestamp)p_mTab.getValue("StatementDate");
-		if (ts == null)
-			ts = new Timestamp(System.currentTimeMillis());
+		sql = sql + getSQLWhere() + " ORDER BY p.DateTrx";
 
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, C_BankAccount_ID);
-			//RF [1811114]
-
-			if(docDate != null)
-				pstmt.setTimestamp(2,docDate);
+			
+			setParameters( pstmt, false);
+			
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -325,36 +411,16 @@ public class VCreateFromStatement	extends VCreateFrom	implements VetoableChangeL
 	//RF [1811114]
 	public void  actionPerformed(ActionEvent e)
 	{
-		super.actionPerformed(e);
 		log.config("Action=" + e.getActionCommand());
-		int C_BankAccount_ID  = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "C_BankAccount_ID");
-		
-		if (e.getActionCommand().equals(confirmPanel.A_REFRESH)) {
-			String tenderType=null;
-			int C_docType_ID=0;
-			Timestamp docDate;
-			//RF [1811114]
-			String R_AuthCode = (authorizationField.getValue().toString());
-			
-			if(documentTypeField.getValue()!=null)
-				C_docType_ID=(Integer) documentTypeField.getValue();
-			else
-				C_docType_ID=0;
-			if(bankAccountField.getValue()!=null)
-				C_BankAccount_ID=(Integer) bankAccountField.getValue();
-			else
-				C_BankAccount_ID=0;
-			docDate=(docDateField.getTimestamp());
-			if(tenderTypeField.getValue()!=null)
-				tenderType=(String) tenderTypeField.getValue();
+		Object source = e.getSource();
+		if ( e.getActionCommand().equals(confirmPanel.A_REFRESH) )	{
 			Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
-			if (authorizationField.getValue().toString().equals(""))
-				loadBankAccount(C_BankAccount_ID, docDate,C_docType_ID,tenderType,null);
-			else
-				loadBankAccount(C_BankAccount_ID, docDate,C_docType_ID,tenderType,R_AuthCode);
+			loadBankAccount();
+			tableChanged(null);
 			Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 		}
-		//
-	 }
+		else
+			super.actionPerformed(e);
+	}
 
 }   //  VCreateFromStatement

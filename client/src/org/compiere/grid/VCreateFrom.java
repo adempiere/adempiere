@@ -59,8 +59,10 @@ public abstract class VCreateFrom extends CDialog
 		int AD_Table_ID = Env.getContextAsInt(Env.getCtx(), mTab.getWindowNo(), "BaseTable_ID");
 
 		VCreateFrom retValue = null;
-		if (AD_Table_ID == 392)             //  C_BankStatement
+		if (AD_Table_ID == 392)    {         //  C_BankStatement
 			retValue = new VCreateFromStatement (mTab);
+			retValue.setSize(new Dimension(800,600));
+		}
 		else if (AD_Table_ID == 318)        //  C_Invoice
 			retValue = new VCreateFromInvoice (mTab);
 		else if (AD_Table_ID == 319)        //  M_InOut
@@ -144,8 +146,6 @@ public abstract class VCreateFrom extends CDialog
 	protected VLookup tenderTypeField;
 	private JLabel documentTypeLabel = new JLabel();
 	protected VLookup documentTypeField;
-	private JLabel docDateLabel = new JLabel();
-	protected VDate docDateField = new VDate();
 	// Bug [1759431]
 	protected JCheckBox sameWarehouseCb = new JCheckBox();
 	protected VLookup bPartnerField;
@@ -163,6 +163,19 @@ public abstract class VCreateFrom extends CDialog
 	protected MiniTable dataTable = new MiniTable();
 	protected JLabel locatorLabel = new JLabel();
 	protected VLocator locatorField = new VLocator();
+	private CLabel documentNoLabel = new CLabel(Msg.translate(Env.getCtx(), "DocumentNo"));
+	protected CTextField documentNoField = new CTextField(10);
+	protected CLabel BPartner_idLabel = new CLabel(Msg.translate(Env.getCtx(), "BPartner"));
+	protected VLookup bPartnerLookup;
+	private CLabel dateFromLabel = new CLabel(Msg.translate(Env.getCtx(), "DateTrx"));
+	protected VDate dateFromField = new VDate("DateFrom", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateFrom"));
+	private CLabel dateToLabel = new CLabel("-");
+	protected VDate dateToField = new VDate("DateTo", false, false, true, DisplayType.Date, Msg.translate(Env.getCtx(), "DateTo"));
+	private CLabel amtFromLabel = new CLabel(Msg.translate(Env.getCtx(), "PayAmt"));
+	protected VNumber amtFromField = new VNumber("AmtFrom", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtFrom"));
+	private CLabel amtToLabel = new CLabel("-");
+	protected VNumber amtToField = new VNumber("AmtTo", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "AmtTo"));
+	
 	public static final String SELECT_ALL = "SelectAll";
 //	public static final String SELECT_ALL_TOOLTIP = "Select all records";	
     
@@ -184,120 +197,162 @@ public abstract class VCreateFrom extends CDialog
 	 *  </pre>
 	 *  @throws Exception
 	 */
-	private void jbInit() throws Exception
-	{
-		parameterPanel.setLayout(parameterLayout);
-		parameterStdPanel.setLayout(parameterStdLayout);
-		parameterBankPanel.setLayout(parameterBankLayout);
-		//
-		bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
-	    //RF [1811114]
-		authorizationLabel.setText(Msg.translate(Env.getCtx(), "R_AuthCode"));
-		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
-		orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
-		invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
-		shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
-		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
-        rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
-        sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
-        sameWarehouseCb.setToolTipText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
-        documentTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
-        tenderTypeLabel.setText(Msg.translate(Env.getCtx(), "TenderType"));
-        docDateLabel.setText(Msg.translate(Env.getCtx(), "StatementDate"));
-                
-		//
-		this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
-		parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
-	    //RF [1811114]
-		parameterBankPanel.add(bankAccountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-			if (bankAccountField != null)
-				parameterBankPanel.add(bankAccountField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-			
-		parameterBankPanel.add(docDateLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterBankPanel.add(docDateField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterBankPanel.add(documentTypeLabel, new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		if(documentTypeField!= null)
-		parameterBankPanel.add(documentTypeField, new GridBagConstraints(5, 0, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		
-		parameterBankPanel.add(tenderTypeLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		if(tenderTypeField!=null)
-		parameterBankPanel.add(tenderTypeField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		
-		parameterBankPanel.add(authorizationLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterBankPanel.add(authorizationField, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-	 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		
-			parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
-			
-			parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-			parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
-		parameterPanel.add(parameterStdPanel, BorderLayout.CENTER);
-		parameterStdPanel.add(bPartnerLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		if (bPartnerField != null)
-			parameterStdPanel.add(bPartnerField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterStdPanel.add(orderLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterStdPanel.add(shipmentLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterStdPanel.add(shipmentField,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterStdPanel.add(locatorLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		parameterStdPanel.add(locatorField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-		parameterStdPanel.add(sameWarehouseCb, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-        
-        // Add RMA document selection to panel
-        parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
-                ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-        parameterStdPanel.add(rmaField,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
-                ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-        
-		this.getContentPane().add(dataPane, BorderLayout.CENTER);
-		dataPane.getViewport().add(dataTable, null);
-		//
- 		//
-		// @Trifon
-		AppsAction selectAllAction = new AppsAction (SELECT_ALL, KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), null);
-		
-		CButton selectAllButton = (CButton)selectAllAction.getButton();
-		selectAllButton.setMargin(new Insets (0, 10, 0, 10));
-		selectAllButton.setDefaultCapable(true);
-		selectAllButton.addActionListener(this);
-//		selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
-		confirmPanel.addButton(selectAllButton);
-		//
-		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
-		southPanel.setLayout(southLayout);
-		southPanel.add(confirmPanel, BorderLayout.CENTER);
-		// Trifon End
-		
-		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
-		southPanel.setLayout(southLayout);
-		southPanel.add(confirmPanel, BorderLayout.CENTER);
-		southPanel.add(statusBar, BorderLayout.SOUTH);
-	}   //  jbInit
+    private void jbInit() throws Exception
+    {
+    	parameterPanel.setLayout(parameterLayout);
+    	parameterStdPanel.setLayout(parameterStdLayout);
+    	parameterBankPanel.setLayout(parameterBankLayout);
+    	//
+    	bankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+    	//RF [1811114]
+    	authorizationLabel.setText(Msg.translate(Env.getCtx(), "R_AuthCode"));
+    	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
+    	orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
+    	invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
+    	shipmentLabel.setText(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
+    	locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+    	rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
+    	sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
+    	sameWarehouseCb.setToolTipText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
+    	documentTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
+    	tenderTypeLabel.setText(Msg.translate(Env.getCtx(), "TenderType"));
+
+    	//
+    	this.getContentPane().add(parameterPanel, BorderLayout.NORTH);
+    	parameterPanel.add(parameterBankPanel, BorderLayout.NORTH);
+    	//RF [1811114]
+    	documentNoLabel.setLabelFor(documentNoField);
+    	//
+
+
+    	dateFromLabel.setLabelFor(dateFromField);
+    	dateFromField.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
+    	dateToLabel.setLabelFor(dateToField);
+    	dateToField.setToolTipText(Msg.translate(Env.getCtx(), "DateTo"));
+    	amtFromLabel.setLabelFor(amtFromField);
+    	amtFromField.setToolTipText(Msg.translate(Env.getCtx(), "AmtFrom"));
+    	amtToLabel.setLabelFor(amtToField);
+    	amtToField.setToolTipText(Msg.translate(Env.getCtx(), "AmtTo"));
+
+    	parameterBankPanel.add(bankAccountLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	if (bankAccountField != null)
+    		parameterBankPanel.add(bankAccountField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+    				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	parameterBankPanel.add(documentTypeLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	if(documentTypeField!= null)
+    		parameterBankPanel.add(documentTypeField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+    				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	parameterBankPanel.add(tenderTypeLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	if(tenderTypeField!=null)
+    		parameterBankPanel.add(tenderTypeField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+    				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0)); 
+
+    	parameterBankPanel.add(BPartner_idLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	if ( bPartnerLookup != null )
+    	{
+    		parameterBankPanel.add(bPartnerLookup, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+    				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));   	
+    	}
+
+    
+    	parameterBankPanel.add(documentNoLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(documentNoField, new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	parameterBankPanel.add(authorizationLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(authorizationField, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+
+
+    	parameterBankPanel.add(amtFromLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(amtFromField, new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterBankPanel.add(amtToLabel, new GridBagConstraints(4, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(amtToField, new GridBagConstraints(5, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	parameterBankPanel.add(dateFromLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(dateFromField, new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterBankPanel.add(dateToLabel, new GridBagConstraints(4, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterBankPanel.add(dateToField, new GridBagConstraints(5, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
+
+    	parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 1, 5, 5), 0, 0));
+    	parameterPanel.add(parameterStdPanel, BorderLayout.CENTER);
+    	parameterStdPanel.add(bPartnerLabel, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	if (bPartnerField != null)
+    		parameterStdPanel.add(bPartnerField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+    				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterStdPanel.add(orderLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterStdPanel.add(shipmentLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(shipmentField,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterStdPanel.add(locatorLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(locatorField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	parameterStdPanel.add(sameWarehouseCb, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	// Add RMA document selection to panel
+    	parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+    	parameterStdPanel.add(rmaField,  new GridBagConstraints(3, 3, 1, 1, 0.0, 0.0
+    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+
+    	this.getContentPane().add(dataPane, BorderLayout.CENTER);
+    	dataPane.getViewport().add(dataTable, null);
+    	//
+    	//
+    	// @Trifon
+    	AppsAction selectAllAction = new AppsAction (SELECT_ALL, KeyStroke.getKeyStroke(KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK), null);
+
+    	CButton selectAllButton = (CButton)selectAllAction.getButton();
+    	selectAllButton.setMargin(new Insets (0, 10, 0, 10));
+    	selectAllButton.setDefaultCapable(true);
+    	selectAllButton.addActionListener(this);
+//  	selectAllButton.setToolTipText(Msg.getMsg(Env.getCtx(), SELECT_ALL_TOOLTIP));
+    	confirmPanel.addButton(selectAllButton);
+    	//
+    	this.getContentPane().add(southPanel, BorderLayout.SOUTH);
+    	southPanel.setLayout(southLayout);
+    	southPanel.add(confirmPanel, BorderLayout.CENTER);
+    	// Trifon End
+
+    	this.getContentPane().add(southPanel, BorderLayout.SOUTH);
+    	southPanel.setLayout(southLayout);
+    	southPanel.add(confirmPanel, BorderLayout.CENTER);
+    	southPanel.add(statusBar, BorderLayout.SOUTH);
+    }   //  jbInit
 
 	/**
 	 *	Init OK to be able to make changes?
