@@ -126,6 +126,7 @@ ContextMenuListener, IZoomableEditor
         if (lookup != null)
         {
             lookup.addListDataListener(this);
+            lookup.setMandatory(isMandatory());
             
             if ((lookup.getDisplayType() == DisplayType.List && Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID") == 0)
             		|| lookup.getDisplayType() != DisplayType.List) 

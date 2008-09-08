@@ -57,6 +57,7 @@ import org.compiere.util.*;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
@@ -222,6 +223,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		fWarehouse = new WTableDirEditor ("M_Warehouse_ID", true, false, true, orgL);
 		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		fWarehouse.addValueChangeListener(this);
+		fWarehouse.setValue(Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID"));
 		m_M_Warehouse_ID = fWarehouse.getValue();
 		//	C_Order.C_BPartner_ID
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
@@ -432,6 +434,11 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		{
 		    executeQuery();
 		    return;
+		}
+		
+		if (m_selectionActive && 
+			(m_M_Warehouse_ID == null || (Integer)m_M_Warehouse_ID <= 0)) {
+			throw new WrongValueException(fWarehouse.getComponent(), Msg.translate(Env.getCtx(), "FillMandatory"));
 		}
 		//
 		saveSelection();
