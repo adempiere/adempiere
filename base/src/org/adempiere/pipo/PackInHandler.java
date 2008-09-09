@@ -314,7 +314,7 @@ public class PackInHandler extends DefaultHandler {
 				+	"' AND PK_VERSION ='" +  atts.getValue("Version") + "'";		
 			int PK_preInstalled = DB.getSQLValue(m_trxName,sql2); 
 			
-			AD_Package_Imp_ID = MSequence.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp", null);
+			AD_Package_Imp_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp", null);
 			
 			StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp") 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
@@ -344,7 +344,7 @@ public class PackInHandler extends DefaultHandler {
 				log.info("Insert to Package import failed");
 			
 			if ( PK_preInstalled == -1){		
-				AD_Package_Imp_Inst_ID = MSequence.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp_Inst", null);
+				AD_Package_Imp_Inst_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp_Inst", null);
 				
 				//Insert Package into package install log
 				sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Inst") 

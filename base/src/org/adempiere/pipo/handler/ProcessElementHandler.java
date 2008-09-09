@@ -68,7 +68,7 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				Object_Status = "Update";
 			} else {
 				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
-				id = MSequence.getNextID(Env.getAD_Client_ID(ctx),
+				id = DB.getNextID(Env.getAD_Client_ID(ctx),
 						"AD_Process", getTrxName(ctx));
 				m_Process.setAD_Process_ID(id);
 				Object_Status = "New";

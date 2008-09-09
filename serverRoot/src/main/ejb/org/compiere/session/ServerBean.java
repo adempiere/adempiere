@@ -464,7 +464,7 @@ public class ServerBean implements SessionBean
 				throw new RuntimeException("Transaction lost - " + trxName);
 			}
 		}
-		int retValue = MSequence.getNextID (AD_Client_ID, TableName, trxName);
+		int retValue = DB.getNextID (AD_Client_ID, TableName, trxName);
 		log.finer("[" + m_no + "] " + TableName + " = " + retValue);
 		m_nextSeqCount++;
 		return retValue;

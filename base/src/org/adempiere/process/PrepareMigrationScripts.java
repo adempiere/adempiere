@@ -181,7 +181,7 @@ public class PrepareMigrationScripts extends SvrProcess {
 					isFirstLine = false;
 				}
 				scanner.close();
-				int seqID = MSequence.getNextID(0, "AD_MigrationScript", this
+				int seqID = DB.getNextID(0, "AD_MigrationScript", this
 						.get_TrxName());
 				String sql = "INSERT INTO ad_migrationscript (ad_client_id, ad_org_id, "
 						+ "ad_migrationscript_id,  createdby, "

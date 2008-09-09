@@ -139,7 +139,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			//Copy File
 			int success = copyFile (inputStream,outputStream);        
 			//Record in log
-			int idBackup = MSequence.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
+			int idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
 					idDetail = record_log (ctx, 1, fileName,"file", 0,0, Object_Status,fileName,0);

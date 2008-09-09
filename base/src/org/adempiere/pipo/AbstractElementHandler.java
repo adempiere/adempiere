@@ -100,7 +100,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		//String sql2 = "SELECT MAX(AD_PACKAGE_IMP_DETAIL_ID) FROM AD_PACKAGE_IMP_DETAIL";
     		//int id = DB.getSQLValue(m_trxName, sql2)+1;
     		
-    		id = MSequence.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
+    		id = DB.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
     		
     		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
     				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
@@ -147,7 +147,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
     		//String sql2 = "SELECT MAX(AD_PACKAGE_IMP_DETAIL_ID) FROM AD_PACKAGE_IMP_DETAIL";
     		//int id = DB.getSQLValue(m_trxName,sql2)+1; 
     		
-    		id = MSequence.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
+    		id = DB.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
     		
     		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
     				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
@@ -249,7 +249,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
 			    StringBuffer sqlD = new StringBuffer("SELECT AD_Reference_ID FROM AD_COLUMN WHERE AD_Column_ID = '"+columnID+"'");
 	    		int referenceID = DB.getSQLValue(getTrxName(ctx),sqlD.toString());
 	    		
-	    		idBackup = MSequence.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));
+	    		idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));
 	    		
 	    		sqlD = new StringBuffer("SELECT MAX(AD_PACKAGE_IMP_DETAIL_ID) FROM AD_PACKAGE_IMP_DETAIL");
 	    		int idDetail = DB.getSQLValue(getTrxName(ctx),sqlD.toString())+1;

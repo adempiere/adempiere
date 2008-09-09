@@ -127,7 +127,7 @@ public class CodeSnipitElementHandler extends AbstractElementHandler {
 			int success = readReplace(targetDirectoryModified+sourceName, oldCode, newCode);
 			
 //			Record in log
-			int idBackup = MSequence.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
+			int idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
 					idDetail = record_log (ctx, 1, sourceName,"codesnipit", 0,0, Object_Status,sourceName,0);

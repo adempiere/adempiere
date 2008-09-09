@@ -193,7 +193,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 										+ (columnID == -1 ? "null" : columnID));
 						int referenceID = DB.getSQLValue(getTrxName(ctx), sql
 								.toString());
-						int idBackup = MSequence.getNextID(Env
+						int idBackup = DB.getNextID(Env
 								.getAD_Client_ID(ctx), "AD_Package_Imp_Backup",
 								getTrxName(ctx));
 						if (referenceID == 20 || referenceID == 28)
