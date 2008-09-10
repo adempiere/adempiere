@@ -121,9 +121,14 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     	tabbox.setSelectedTab(tab);
     }
 
-    public void removeWindow()
+    public boolean closeActiveWindow()
     {
+    	Tab tab = (Tab) tabbox.getSelectedTab();
     	tabbox.getSelectedTab().onClose();
+    	if (tab.getParent() == null)
+    		return true;
+    	else
+    		return false;
     }
     
     public Tab getSelectedTab() {
@@ -152,7 +157,7 @@ public class WindowContainer extends AbstractUIPart implements EventListener
 		}
 	}
 
-	public Component getComponent() {
+	public Tabbox getComponent() {
 		return tabbox;
 	}
 }

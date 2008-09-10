@@ -75,6 +75,8 @@ public class ADWindow extends AbstractUIPart
     protected Component doCreatePart(Component parent) 
     {
     	windowPanelComponent = windowPanel.createPart(parent);
+    	windowPanelComponent.setAttribute("ADWindow", this);
+    	windowPanelComponent.setAttribute("desktop.windowno", windowNo);
     	windowPanel.initPanel(adWindowId, query);
     	_title = windowPanel.getTitle();
     	
@@ -84,4 +86,11 @@ public class ADWindow extends AbstractUIPart
 	public Component getComponent() {
 		return windowPanelComponent;
 	}	
+	
+	/**
+	 * @return ADWindowPanel
+	 */
+	public ADWindowPanel getADWindowPanel() {
+		return windowPanel;
+	}
 }

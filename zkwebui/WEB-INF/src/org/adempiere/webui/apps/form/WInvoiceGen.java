@@ -742,7 +742,7 @@ public class WInvoiceGen extends ADForm
 
 	@Override
 	public void dispose() {
-		SessionManager.getAppDesktop().removeWindow();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 	
 	

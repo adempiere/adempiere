@@ -897,7 +897,7 @@ public class WCharge extends ADForm implements EventListener
 
     public void close()
     {
-        SessionManager.getAppDesktop().removeWindow();
+        SessionManager.getAppDesktop().closeActiveWindow();
     }
 }
 

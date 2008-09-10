@@ -26,6 +26,7 @@ import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -119,6 +120,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	Window w = (Window) adTab.getComponent();
         	w.addEventListener(Events.ON_CTRL_KEY, toolbar);
         }
+        
         return layout;
     }
 
@@ -128,7 +130,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	return composite;
     }
 
-	public Component getComponent() {
+	public Borderlayout getComponent() {
 		return layout;
 	}
 	
@@ -151,6 +153,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
 				}
 				tabPanel.detach();
 				tab.detach();
+				if (getWindowNo() > 0) 
+					SessionManager.getAppDesktop().unregisterWindow(getWindowNo());
 			}
 		}
 	}

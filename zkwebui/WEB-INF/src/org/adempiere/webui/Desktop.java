@@ -30,6 +30,7 @@ import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.graph.WPAPanel;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.DesktopTabpanel;
+import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
@@ -74,6 +75,8 @@ import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Tab;
+import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Treerow;
 import org.zkoss.zul.Vbox;
@@ -1003,6 +1006,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	public void unregisterWindow(int WindowNo) {
 		if (WindowNo < windows.size())
 			windows.set(WindowNo, null);
+		Env.clearWinContext(WindowNo);
 	}
    	
     /**
@@ -1019,10 +1023,61 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	
 	/**
 	 * Close active tab
+	 * @return boolean
 	 */
-	public void removeWindow()
+	public boolean closeActiveWindow()
 	{
-		windowContainer.removeWindow();
+		if ( windowContainer.closeActiveWindow() )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * @return Component
+	 */
+	public Component getActiveWindow()
+	{
+		return windowContainer.getSelectedTab().getLinkedPanel().getFirstChild();
+	}
+	
+	/**
+	 * 
+	 * @param windowNo
+	 * @return boolean
+	 */
+	public boolean closeWindow(int windowNo) 
+	{
+		Tabbox tabbox = windowContainer.getComponent();
+		Tabpanels panels = tabbox.getTabpanels();
+		List childrens = panels.getChildren();
+		for (Object child : childrens)
+		{
+			Tabpanel panel = (Tabpanel) child;
+			Component component = panel.getFirstChild();
+			Object att = component.getAttribute("desktop.windowno");
+			if (att != null && (att instanceof Integer))
+			{
+				if (windowNo == (Integer)att)
+				{
+					Tab tab = panel.getLinkedTab();
+					panel.getLinkedTab().onClose();
+					if (tab.getParent() == null) 
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}				
+			}
+		}
+		return false;
 	}
 	
 	/**

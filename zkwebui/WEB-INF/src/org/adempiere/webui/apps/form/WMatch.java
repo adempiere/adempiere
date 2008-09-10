@@ -366,7 +366,7 @@ public class WMatch extends ADForm
 	 */
 	public void dispose()
 	{
-		SessionManager.getAppDesktop().removeWindow();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	dispose
 
 	

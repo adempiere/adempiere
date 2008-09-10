@@ -1321,17 +1321,30 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	     }
 	}
 	
+	/**
+	 * 
+	 * @return IADTab
+	 */
 	public IADTab getADTab() {
 		return adTab;
 	}
 
+	/**
+	 * @param pi
+	 */
 	public void executeASync(ProcessInfo pi) {
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public boolean isUILocked() {
 		return m_uiLocked;
 	}
 
+	/**
+	 * @param pi
+	 */
 	public void lockUI(ProcessInfo pi) {
 		if (m_uiLocked) return;
 		
@@ -1358,6 +1371,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 	}
 
+	/**
+	 * @param pi
+	 */
 	public void unlockUI(ProcessInfo pi) {
 		if (!m_uiLocked) return;
 		
@@ -1419,7 +1435,26 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				pi.getTitle() + "<br>" + logInfo);
 	}
 	
+	/**
+	 * 
+	 * @return toolbar instance
+	 */
 	public CWindowToolbar getToolbar() {
 		return toolbar;
 	}
+	
+	/**
+	 * @return active grid tab
+	 */
+	public GridTab getActiveGridTab() {
+		return curTab;
+	}
+	
+	/**
+	 * @return windowNo
+	 */
+	public int getWindowNo() {
+		return curWindowNo;
+	}
+	
 }

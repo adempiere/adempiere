@@ -524,11 +524,11 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		if (e.getTarget() == updateArchive)
 			cmd_updateArchive();
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
-			SessionManager.getAppDesktop().removeWindow();
+			SessionManager.getAppDesktop().closeActiveWindow();
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			if (tabbox.getSelectedIndex() == 1)
-				SessionManager.getAppDesktop().removeWindow();
+				SessionManager.getAppDesktop().closeActiveWindow();
 			else
 				cmd_query();
 		}

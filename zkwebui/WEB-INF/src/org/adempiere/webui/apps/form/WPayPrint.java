@@ -225,7 +225,7 @@ public class WPayPrint extends ADForm
 	 */
 	public void dispose()
 	{
-		SessionManager.getAppDesktop().removeWindow();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	dispose
 
 	/**

@@ -749,7 +749,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	
 	@Override
 	public void dispose() {
-		SessionManager.getAppDesktop().removeWindow();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}
 
 }	//	VInOutGen

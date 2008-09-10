@@ -30,8 +30,16 @@ public interface IDesktop {
 
 	/**
 	 * close active window
+	 * @return boolean
 	 */
-	public void removeWindow();
+	public boolean closeActiveWindow();
+	
+	/**
+	 * 
+	 * @param windowNo
+	 * @return boolean
+	 */
+	public boolean closeWindow(int windowNo); 
 
 	/**
 	 * 

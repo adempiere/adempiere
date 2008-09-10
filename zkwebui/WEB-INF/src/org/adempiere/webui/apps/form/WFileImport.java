@@ -309,7 +309,7 @@ public class WFileImport extends ADForm implements EventListener
 		}
 		else if (e.getTarget() == confirmPanel.getButton("Cancel"))
 		{
-			SessionManager.getAppDesktop().removeWindow();
+			SessionManager.getAppDesktop().closeActiveWindow();
 			return;			
 		}
 		
@@ -562,6 +562,6 @@ public class WFileImport extends ADForm implements EventListener
 		
 		FDialog.info(m_WindowNo, this, "FileImportR/I", row + " / " + imported + "#");
 		
-		SessionManager.getAppDesktop().removeWindow();
+		SessionManager.getAppDesktop().closeActiveWindow();
 	}	//	cmd_process
 }
