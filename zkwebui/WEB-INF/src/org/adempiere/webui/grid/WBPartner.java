@@ -43,6 +43,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -379,19 +380,13 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		//	Check Mandatory fields
 		if (fName.getText().equals(""))
 		{
-			fName.setStyle(BackgroundColours.ERROR);
-			return false;
+			throw new WrongValueException(fName, Msg.translate(Env.getCtx(), "FillMandatory"));
 		}
-		else
-			fName.setStyle(BackgroundColours.MANDATORY);
 			
 		if (fAddress.getC_Location_ID() == 0)
 		{
-			//fAddress.setBackground(Color)(BackgroundColours.ERROR);
-			return false;
+			throw new WrongValueException(fAddress.getComponent(), Msg.translate(Env.getCtx(), "FillMandatory"));
 		}
-		//else
-			//fAddress.setBackground(AdempierePLAF.getFieldBackground_Mandatory());
 
 		//	***** Business Partner *****
 		
@@ -421,7 +416,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 		m_partner.setName2(fName2.getText());
 		
 		ListItem listitem = fGreetingBP.getSelectedItem();
-		KeyNamePair p = (KeyNamePair)listitem.getValue();
+		KeyNamePair p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
 		
 		if (p != null && p.getKey() > 0)
 			m_partner.setC_Greeting_ID(p.getKey());
@@ -467,7 +462,7 @@ public class WBPartner extends Window implements EventListener, ValueChangeListe
 			m_user.setTitle(fTitle.getText());
 			
 			listitem = fGreetingC.getSelectedItem();
-			p = (KeyNamePair)listitem.getValue();
+			p = listitem != null ? (KeyNamePair)listitem.getValue() : null;
 			
 			if (p != null && p.getKey() > 0)
 				m_user.setC_Greeting_ID(p.getKey());

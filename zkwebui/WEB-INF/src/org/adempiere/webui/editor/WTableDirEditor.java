@@ -168,6 +168,8 @@ ContextMenuListener, IZoomableEditor
         if (selItem != null)
         {
             retVal = selItem.getValue();
+            if ((retVal instanceof Integer) && (Integer)retVal == -1)
+            	retVal = null;
         }
         return retVal;
     }

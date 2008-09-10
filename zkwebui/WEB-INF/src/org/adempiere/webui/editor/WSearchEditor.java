@@ -63,6 +63,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	private String 				columnName;
 	private WEditorPopupMenu	popupMenu;
     private Object              value;
+    private InfoPanel			infoPanel = null;
 
 	private static CLogger log = CLogger.getCLogger(WSearchEditor.class);
 
@@ -269,6 +270,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		else if (WEditorPopupMenu.NEW_EVENT.equals(evt.getContextEvent()))
 		{
+			if (infoPanel != null)
+			{
+				infoPanel.detach();
+				infoPanel = null;
+			}
 			actionBPartner(true);
 		}
 	}
@@ -477,6 +483,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			ip.setClosable(true);
 			ip.setAttribute("mode", "modal");
 			ip.addValueChangeListener(this);
+			infoPanel = ip;
 			AEnv.showWindow(ip);
 		}
 		else if (col.equals("C_BPartner_ID"))
@@ -498,6 +505,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			ip.setClosable(true);
 			ip.setAttribute("mode", "modal");
 			ip.addValueChangeListener(this);
+			infoPanel = ip;
 			AEnv.showWindow(ip);
 
 			/*
@@ -524,6 +532,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			ig.setClosable(true);
 			ig.setAttribute("mode", "modal");
 			ig.addValueChangeListener(this);
+			infoPanel = ig;
 			AEnv.showWindow(ig);
 
 			cancelled = ig.isCancelled();
@@ -531,6 +540,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 		}
 
+		infoPanel = null;
 		//  Result
 		if (result != null)
 		{
