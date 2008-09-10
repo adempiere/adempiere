@@ -16,18 +16,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.lang.reflect.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *	Callout Engine.
  *	
  *  @author Jorg Janke
  *  @version $Id: CalloutEngine.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  		<li>BF [ 2104021 ] CalloutEngine returns null if the exception has null message
  */
 public class CalloutEngine implements Callout
 {
@@ -108,8 +113,11 @@ public class CalloutEngine implements Callout
 			if (ex == null)
 				ex = e;
 			log.log(Level.SEVERE, "start: " + methodName, ex);
-			ex.printStackTrace(System.err);
 			retValue = ex.getLocalizedMessage();
+			if (retValue == null)
+			{
+				retValue = ex.toString();
+			}
 		}
 		finally
 		{
