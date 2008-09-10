@@ -158,7 +158,7 @@ public class MRP extends SvrProcess
 		if (doc==null || doc.length == 0) 
 		{
 			log.log(Level.SEVERE,"Not found default document type for docbasetype "+ MDocType.DOCBASETYPE_PurchaseRequisition);                                                                                                                       
-			MNote note = new MNote(getCtx(), MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID,MPPMRP.Table_ID, 0,Msg.getMsg(getCtx(), "SequenceDocNotFound"),Msg.getMsg(getCtx(), "SequenceDocNotFound"),get_TrxName());
+			MNote note = new MNote(getCtx(), MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID,MPPMRP.Table_ID, 0,Msg.getMsg(getCtx(), "SequenceDocNotFound"),Msg.getMsg(getCtx(), "SequenceDocNotFound"),null);
 			note.save();
 			return Msg.getMsg(getCtx(), "SequenceDocNotFound");
 		} 
@@ -169,7 +169,7 @@ public class MRP extends SvrProcess
 
 		if (doc==null || doc.length == 0) {
 			log.severe ("Not found default document type for docbasetype " +  MDocType.DOCBASETYPE_ManufacturingOrder);                                                           
-			MNote note = new MNote (getCtx(),  MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID , MPPMRP.Table_ID , 0 ,  Msg.getMsg(getCtx(), "SequenceDocNotFound") , Msg.getMsg(getCtx(), "SequenceDocNotFound"),get_TrxName());    
+			MNote note = new MNote (getCtx(),  MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID , MPPMRP.Table_ID , 0 ,  Msg.getMsg(getCtx(), "SequenceDocNotFound") , Msg.getMsg(getCtx(), "SequenceDocNotFound"),null);    
 			note.save();
 			return Msg.getMsg(getCtx(), Msg.getMsg(getCtx(), "SequenceDocNotFound"));
 		}
@@ -180,14 +180,14 @@ public class MRP extends SvrProcess
 
 		if (doc==null || doc.length == 0) {
 			log.severe ("Not found default document type for docbasetype " + MDocType.DOCBASETYPE_DistributionOrder);                                                           
-			MNote note = new MNote (getCtx(),  MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID , MPPMRP.Table_ID , 0 ,  Msg.getMsg(getCtx(), "SequenceDocNotFound") , Msg.getMsg(getCtx(), "SequenceDocNotFound"),get_TrxName());    
+			MNote note = new MNote (getCtx(),  MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"), Planner_ID , MPPMRP.Table_ID , 0 ,  Msg.getMsg(getCtx(), "SequenceDocNotFound") , Msg.getMsg(getCtx(), "SequenceDocNotFound"),null);    
 			note.save();
 			return Msg.getMsg(getCtx(), Msg.getMsg(getCtx(), "SequenceDocNotFound"));
 		}
 		else
 			DocTypeDO = doc[0].getC_DocType_ID();
 
-		commit();
+
 		log.info("Type Document to Requisition:"+ DocTypeReq);
 		log.info("Type Document to Manufacturing Order:" + DocTypeMO);
 		log.info("Type Document to Distribution Order:" + DocTypeDO);
@@ -203,7 +203,7 @@ public class MRP extends SvrProcess
 			parameters.add(p_S_Resource_ID);
 		}	
 		
-		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
+		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), null)
 										.setParameters(parameters)
 										.list(); 
 		
@@ -221,7 +221,7 @@ public class MRP extends SvrProcess
 			}	
 			
 		
-			List <MOrg> organizations = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), get_TrxName())
+			List <MOrg> organizations = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), null)
 			.setParameters(parameters)
 			.list();
 			
@@ -262,15 +262,15 @@ public class MRP extends SvrProcess
 	{
 		// Delete Manufacturing Order with Close Status from MRP Table
 		String sql = "DELETE FROM PP_MRP WHERE OrderType = 'MOP' AND DocStatus='CL' AND AD_Client_ID=" + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID ;					
-		DB.executeUpdateEx(sql, get_TrxName());
+		DB.executeUpdateEx(sql, null);
 
 		// Delete Requisition with Status Close from MRP Table
 		sql = "DELETE FROM PP_MRP WHERE OrderType = 'POR' AND DocStatus='CL' AND AD_Client_ID = " + AD_Client_ID +  " AND AD_Org_ID=" + AD_Org_ID+ " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID;				
-		DB.executeUpdateEx(sql, get_TrxName());
+		DB.executeUpdateEx(sql, null);
 
 		// Delete Action Notice
 		sql = "DELETE FROM AD_Note WHERE AD_Table_ID=? AND AD_Client_ID=? AND AD_Org_ID=?";
-		DB.executeUpdateEx(sql, new Object[]{MPPMRP.Table_ID, AD_Client_ID, AD_Org_ID}, get_TrxName());
+		DB.executeUpdateEx(sql, new Object[]{MPPMRP.Table_ID, AD_Client_ID, AD_Org_ID}, null);
 
 		if (p_IsRequiredDRP)
 		{
@@ -544,7 +544,7 @@ public class MRP extends SvrProcess
 										m_product_planning.getM_Warehouse_ID()
 		};
 		QtyScheduledReceipts = DB.getSQLValueBD(null, "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
-		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable = 'N' WHERE "+whereClause, params, get_TrxName());
+		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable = 'N' WHERE "+whereClause, params, null);
 		log.info("QtyScheduledReceipts :" + QtyScheduledReceipts);
 
 		//QtyProjectOnHand =  QtyProjectOnHand.add(QtyScheduledReceipts);
@@ -695,10 +695,10 @@ public class MRP extends SvrProcess
 				continue;
 			}
 			//get the warehouse in transit
-			//MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
-			MWarehouse transit = getWarehouseTransit(source.getAD_Org_ID());
+			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
+			//MWarehouse transit = getWarehouseTransit(source.getAD_Org_ID());
 
-			if (transit == null)
+			if (wsts == null)
 			{
 				createMRPNote("DRP-010", PP_MRP_ID, product);
 				continue;
@@ -738,7 +738,7 @@ public class MRP extends SvrProcess
 					//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setAD_User_ID(m_product_planning.getPlanner_ID());
 					order.setC_DocType_ID(DocTypeDO);  
-					order.setM_Warehouse_ID(transit.get_ID());
+					order.setM_Warehouse_ID(wsts[0].get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
 					order.setDateOrdered(Today);                       
 					order.setDatePromised(DemandDateStartSchedule);
@@ -748,6 +748,10 @@ public class MRP extends SvrProcess
 					//order.setSalesRep_ID(m_product_planning.getPlanner_ID());
 					order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
 					order.saveEx();
+					
+					String key = network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+DemandDateStartSchedule+"DR";
+					
+					dd_order_cache.put(key,order);
 				}	
 				M_Shipper_ID = network_line.getM_Shipper_ID();
 			}   
@@ -763,9 +767,10 @@ public class MRP extends SvrProcess
 			oline.setDatePromised(DemandDateStartSchedule);
 			oline.setQtyEntered(QtyOrdered);
 			oline.setQtyOrdered(QtyOrdered);
-			oline.setTargetQty(MPPMRP.getQtyReserved(getCtx(), target.getM_Warehouse_ID(), m_product_planning.getM_Product_ID(), DemandDateStartSchedule, get_TrxName()));
+			oline.setTargetQty(MPPMRP.getQtyReserved(getCtx(), target.getM_Warehouse_ID(), m_product_planning.getM_Product_ID(), DemandDateStartSchedule, null));
 			oline.setIsInvoiced(false);
 			oline.saveEx();
+
 
 			// Set Correct Dates for Plan
 			final String whereClause = MPPMRP.COLUMNNAME_DD_OrderLine_ID+"=?";
@@ -777,10 +782,10 @@ public class MRP extends SvrProcess
 				mrp.setS_Resource_ID(p_S_Resource_ID);
 				mrp.setDatePromised(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValue()));                                                            
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
-				mrp.saveEx();
+
 			}
 		}
-		commit();
+		
 	}
 	
 	private void createRequisition(int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
@@ -800,6 +805,7 @@ public class MRP extends SvrProcess
 		req.setM_PriceList_ID();
 		req.saveEx();
 
+
 		MRequisitionLine reqline = new  MRequisitionLine(req);
 		reqline.setLine(10);
 		reqline.setM_Product_ID(m_product_planning.getM_Product_ID());
@@ -807,6 +813,7 @@ public class MRP extends SvrProcess
 		reqline.setPriceActual(Env.ZERO);
 		reqline.setQty(QtyPlanned);
 		reqline.saveEx();
+
 
 		// Set Correct Dates for Plan
 		final String whereClause = MPPMRP.COLUMNNAME_M_Requisition_ID+"=?";
@@ -820,7 +827,7 @@ public class MRP extends SvrProcess
 			mrp.setDateFinishSchedule(DemandDateStartSchedule);
 			mrp.saveEx();
 		}
-		commit();
+		
 	}
 	
 	private void createPPOrder(int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
@@ -868,7 +875,7 @@ public class MRP extends SvrProcess
 		order.setDocStatus(MPPOrder.DOCSTATUS_Drafted);
 		order.setDocAction(MPPOrder.DOCSTATUS_Completed);
 		order.saveEx();
-		commit();
+
 	}
 	
 	private void deletePO(String tableName, String whereClause, Object[] params)
@@ -880,7 +887,6 @@ public class MRP extends SvrProcess
 		try {
 			while(rs.hasNext()) {
 				rs.next().deleteEx(true);
-				commit();
 			}
 		}
 		finally {
@@ -905,33 +911,20 @@ public class MRP extends SvrProcess
 							Msg.getMsg(getCtx(), msg.getValue()),
 							null);
 		note.save();
-		commit();
 		log.info(code+": "+note.getTextMsg());  
-	}
-	
-	
-	private MWarehouse getWarehouseTransit(int AD_Org_ID)
-	{
-		MWarehouse warehouse = transit_cache.get(AD_Org_ID);
-		if ( warehouse == null)
-		{	
-			 MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), AD_Org_ID);
-			 if(wsts.length > 0)
-				 transit_cache.put(wsts[0].get_ID(),wsts[0]);
-		}
-		return warehouse;
 	}
 	
 	private MDDOrder getDDOrder(int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
 	{
-		StringBuffer key = new StringBuffer(M_Shipper_ID).append("#").append(C_BPartner_ID).append("#").append(DatePromised).append("DR");
+		String key = M_Shipper_ID+"#"+C_BPartner_ID+"#"+DatePromised+"DR";
 		MDDOrder order = dd_order_cache.get(key.toString());
 		if ( order == null)
 		{	
 			 order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).
 			 getPO("M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?", 
 			 new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"}, null);
-			 dd_order_cache.put(key.toString(),order);
+			 if(order != null)
+				 dd_order_cache.put(key,order);
 		}
 		return order;
 	}

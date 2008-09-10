@@ -88,9 +88,7 @@ public class MWarehouse extends X_M_Warehouse
 	}	//	get
 	
 	/**	Cache					*/
-	private static CCache<Integer,MWarehouse> s_cache = new CCache<Integer,MWarehouse>("M_Warehouse", 50 );
-	private static CCache<String,MWarehouse> s_cacheInTransit = new CCache<String,MWarehouse>("M_Warehouse", 50 );
-	
+	private static CCache<Integer,MWarehouse> s_cache = new CCache<Integer,MWarehouse>("M_Warehouse", 50 );	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
