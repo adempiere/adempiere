@@ -48,6 +48,7 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -92,8 +93,14 @@ public class MRP extends SvrProcess
 	private Timestamp Date_Planning_Horizon = null;
 
 	private int DocTypeReq = 0;
-	private int DocTypeMO = 0;
+	private int DocTypeMO = 0; 
 	private int DocTypeDO = 0;
+	
+	private static CCache<Integer,MWarehouse			>   transit_cache 	= new CCache<Integer,MWarehouse>(MWarehouse.Table_Name, 50);
+	private static CCache<String ,MDDOrder				>   dd_order_cache 	= new CCache<String,MDDOrder>(MDDOrder.Table_Name, 50);
+	private static CCache<Integer,MOrg					>   org_cache 		= new CCache<Integer,MOrg>(MOrg.Table_Name, 50);
+	private static CCache<Integer,MBPartner				>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
+
 
 
 	/**
@@ -180,6 +187,7 @@ public class MRP extends SvrProcess
 		else
 			DocTypeDO = doc[0].getC_DocType_ID();
 
+		commit();
 		log.info("Type Document to Requisition:"+ DocTypeReq);
 		log.info("Type Document to Manufacturing Order:" + DocTypeMO);
 		log.info("Type Document to Distribution Order:" + DocTypeDO);
@@ -219,6 +227,7 @@ public class MRP extends SvrProcess
 			
 				for (MOrg organization :  organizations)
 				{
+					org_cache.put(organization.get_ID(), organization );
 					log.info("Run MRP to Organization: " + organization.getName());
 					if(p_M_Warehouse_ID==0)
 					{
@@ -302,9 +311,9 @@ public class MRP extends SvrProcess
 			Timestamp  POQDateStartSchedule = null;
 			
 			// Mark all supply MRP records as available
-			DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S'  AND AD_Client_ID = " + AD_Client_ID+" AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID=" + M_Warehouse_ID ,get_TrxName());
+			DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S'  AND AD_Client_ID = " + AD_Client_ID+" AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID=" + M_Warehouse_ID ,null);
 
-			int lowlevel = MPPMRP.getMaxLowLevel(getCtx(), get_TrxName());
+			int lowlevel = MPPMRP.getMaxLowLevel(getCtx(), null);
 			log.info("Low Level Is :"+lowlevel);
 			// Calculate MRP for all levels
 			for (int level = 0 ; level <= lowlevel ; level++)
@@ -320,7 +329,7 @@ public class MRP extends SvrProcess
 							+ " AND mrp.DatePromised <= ?"
 							+ " AND COALESCE(p.LowLevel,0) = ? "
 						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised  ";
-				pstmt = DB.prepareStatement (sql, get_TrxName());
+				pstmt = DB.prepareStatement (sql, null);
 				pstmt.setString(1, MPPMRP.TYPEMRP_Demand);
 				pstmt.setInt(2, AD_Client_ID);
 				pstmt.setInt(3, AD_Org_ID);
@@ -445,7 +454,7 @@ public class MRP extends SvrProcess
 	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
 	{
 		//find data product planning demand 
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx() ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());  
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx() ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), null);  
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		if (pp != null)
@@ -491,7 +500,7 @@ public class MRP extends SvrProcess
 			if(product.isPurchased())
 			{    
 				int C_BPartner_ID = 0;
-				MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), get_TrxName());
+				MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), null);
 				for (int i = 0; i < ppos.length; i++)
 				{
 					if (ppos[i].isCurrentVendor() && ppos[i].getC_BPartner_ID() != 0)
@@ -513,7 +522,7 @@ public class MRP extends SvrProcess
 			}
 		}	
 
-		QtyProjectOnHand = MPPMRP.getQtyOnHand(getCtx(), m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), get_TrxName());
+		QtyProjectOnHand = MPPMRP.getQtyOnHand(getCtx(), m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), null);
 		if(m_product_planning.getSafetyStock().signum() > 0
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
@@ -534,7 +543,7 @@ public class MRP extends SvrProcess
 										AD_Client_ID, AD_Org_ID,
 										m_product_planning.getM_Warehouse_ID()
 		};
-		QtyScheduledReceipts = DB.getSQLValueBD(get_TrxName(), "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
+		QtyScheduledReceipts = DB.getSQLValueBD(null, "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
 		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable = 'N' WHERE "+whereClause, params, get_TrxName());
 		log.info("QtyScheduledReceipts :" + QtyScheduledReceipts);
 
@@ -658,8 +667,8 @@ public class MRP extends SvrProcess
 	
 	private void createDDOrder(int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
 	{
-		MDDNetworkDistribution network = new MDDNetworkDistribution(getCtx(),m_product_planning.getDD_NetworkDistribution_ID(), get_TrxName());
-		//Get the distribution lines
+		
+		MDDNetworkDistribution network = MDDNetworkDistribution.get(getCtx(),m_product_planning.getDD_NetworkDistribution_ID());
 		MDDNetworkDistributionLine[] network_lines = network.getLines(m_product_planning.getM_Warehouse_ID());
 		int M_Shipper_ID = 0;
 		MDDOrder order = null;
@@ -667,11 +676,12 @@ public class MRP extends SvrProcess
 		for (MDDNetworkDistributionLine network_line : network_lines)
 		{	
 			//get supply source warehouse and locator
-			MWarehouse source = MWarehouse.get(getCtx(), network_line.getM_WarehouseSource_ID());
-			MLocator locator =  MLocator.getDefault(source);
+			MWarehouse source = MWarehouse.get(getCtx(), network_line.getM_WarehouseSource_ID());	
+			MLocator locator = source.getDefaultLocator();
+			
 			//get supply target warehouse and locator
 			MWarehouse target = MWarehouse.get(getCtx(), network_line.getM_Warehouse_ID());
-			MLocator locator_to = MLocator.getDefault(target); 
+			MLocator locator_to =target.getDefaultLocator(); 
 			//get the transfer time
 			BigDecimal transfertTime = network_line.getTransfertTime(); 
 			if(transfertTime.compareTo(Env.ZERO) <= 0)
@@ -685,9 +695,10 @@ public class MRP extends SvrProcess
 				continue;
 			}
 			//get the warehouse in transit
-			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
+			//MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
+			MWarehouse transit = getWarehouseTransit(source.getAD_Org_ID());
 
-			if (wsts.length <= 0)
+			if (transit == null)
 			{
 				createMRPNote("DRP-010", PP_MRP_ID, product);
 				continue;
@@ -703,28 +714,31 @@ public class MRP extends SvrProcess
 			{	
 
 				//Org Must be linked to BPartner
-				MOrg org = MOrg.get(getCtx(), locator_to.getAD_Org_ID());
-				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
+				//MOrg org = MOrg.get(getCtx(), locator_to.getAD_Org_ID());
+				MOrg org = getOrg(locator_to.getAD_Org_ID());
+				int C_BPartner_ID = org.getLinkedC_BPartner_ID(null); 
 				if (C_BPartner_ID == 0)
 				{
 					createMRPNote("DRP-020", PP_MRP_ID, product);
 					continue;
 				}
-				MBPartner bp = MBPartner.get(getCtx(), C_BPartner_ID);
 				
+				//MBPartner bp = MBPartner.get(getCtx(), C_BPartner_ID);
+				MBPartner bp = getBPartner(C_BPartner_ID);
 				// Try found some order with Shipper , Business Partner and Doc Status = Draft 
 				// Consolidate the demand in a single order for each Shipper , Business Partner , DemandDateStartSchedule
-				String date = DB.TO_DATE(DemandDateStartSchedule);
-				order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).getPO("M_Shipper_ID ="+network_line.getM_Shipper_ID()+" AND C_BPartner_ID="+bp.getC_BPartner_ID() +" AND DatePromised=" + date + " AND DocStatus='DR'", get_TrxName());
+				//String date = DB.TO_DATE(DemandDateStartSchedule);
+				//order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).getPO("M_Shipper_ID ="+network_line.getM_Shipper_ID()+" AND C_BPartner_ID="+bp.getC_BPartner_ID() +" AND DatePromised=" + date + " AND DocStatus='DR'", get_TrxName());
+				order = getDDOrder(network_line.getM_Shipper_ID(), bp.getC_BPartner_ID(),DemandDateStartSchedule);
 				if (order == null)
 				{	
-					order = new MDDOrder(getCtx() , 0 , get_TrxName());
+					order = new MDDOrder(getCtx() , 0 , null);
 					order.setAD_Org_ID(target.getAD_Org_ID());
 					order.setC_BPartner_ID(C_BPartner_ID);
 					//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setAD_User_ID(m_product_planning.getPlanner_ID());
 					order.setC_DocType_ID(DocTypeDO);  
-					order.setM_Warehouse_ID(wsts[0].getM_Warehouse_ID());
+					order.setM_Warehouse_ID(transit.get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
 					order.setDateOrdered(Today);                       
 					order.setDatePromised(DemandDateStartSchedule);
@@ -740,7 +754,7 @@ public class MRP extends SvrProcess
 
 			BigDecimal QtyOrdered = QtyPlanned.multiply(network_line.getPercent()).divide(Env.ONEHUNDRED);
 
-			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , get_TrxName());
+			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , null);
 			oline.setDD_Order_ID(order.getDD_Order_ID());
 			oline.setM_Locator_ID(locator.getM_Locator_ID());
 			oline.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
@@ -755,7 +769,7 @@ public class MRP extends SvrProcess
 
 			// Set Correct Dates for Plan
 			final String whereClause = MPPMRP.COLUMNNAME_DD_OrderLine_ID+"=?";
-			List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
+			List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, null)
 										.setParameters(new Object[]{oline.getDD_OrderLine_ID()})
 										.list();
 			for (MPPMRP mrp : mrpList) {
@@ -766,6 +780,7 @@ public class MRP extends SvrProcess
 				mrp.saveEx();
 			}
 		}
+		commit();
 	}
 	
 	private void createRequisition(int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
@@ -776,7 +791,7 @@ public class MRP extends SvrProcess
 		int duration = m_product_planning.getDeliveryTime_Promised().intValue()
 							+ m_product_planning.getTransfertTime().intValue();
 
-		MRequisition req = new  MRequisition(getCtx(),0, get_TrxName()); 
+		MRequisition req = new  MRequisition(getCtx(),0, null); 
 		req.setAD_User_ID(m_product_planning.getPlanner_ID());                                                        
 		req.setDateRequired(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
 		req.setDescription("Generate from MRP"); // TODO: add translation
@@ -795,7 +810,7 @@ public class MRP extends SvrProcess
 
 		// Set Correct Dates for Plan
 		final String whereClause = MPPMRP.COLUMNNAME_M_Requisition_ID+"=?";
-		List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
+		List<MPPMRP> mrpList = new Query(getCtx(), MPPMRP.Table_Name, whereClause, null)
 									.setParameters(new Object[]{req.getM_Requisition_ID()})
 									.list();
 		for (MPPMRP mrp : mrpList) {
@@ -805,6 +820,7 @@ public class MRP extends SvrProcess
 			mrp.setDateFinishSchedule(DemandDateStartSchedule);
 			mrp.saveEx();
 		}
+		commit();
 	}
 	
 	private void createPPOrder(int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
@@ -816,7 +832,7 @@ public class MRP extends SvrProcess
 		}
 		
 		log.info("Manufacturing Order Create");                       
-		MPPOrder order = new MPPOrder(getCtx(), 0, get_TrxName());
+		MPPOrder order = new MPPOrder(getCtx(), 0, null);
 		order.setLine(10);
 		order.setC_DocTypeTarget_ID(DocTypeMO);
 		order.setC_DocType_ID(DocTypeMO);  
@@ -834,7 +850,7 @@ public class MRP extends SvrProcess
 		order.setDatePromised(DemandDateStartSchedule);
 
 		if (m_product_planning.getDeliveryTime_Promised().signum() == 0)
-			order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getCtx(), order.getS_Resource_ID(), order.getAD_Workflow_ID(), QtyPlanned, order.get_TrxName()).add(m_product_planning.getTransfertTime())).negate().intValue()));
+			order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (MPPMRP.getDays(order.getCtx(), order.getS_Resource_ID(), order.getAD_Workflow_ID(), QtyPlanned, null).add(m_product_planning.getTransfertTime())).negate().intValue()));
 		else	                                                        	
 			order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));
 		order.setDateFinishSchedule(DemandDateStartSchedule);
@@ -852,17 +868,19 @@ public class MRP extends SvrProcess
 		order.setDocStatus(MPPOrder.DOCSTATUS_Drafted);
 		order.setDocAction(MPPOrder.DOCSTATUS_Completed);
 		order.saveEx();
+		commit();
 	}
 	
 	private void deletePO(String tableName, String whereClause, Object[] params)
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
-		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
+		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, null)
 									.setParameters(params)
 									.scroll();
 		try {
 			while(rs.hasNext()) {
 				rs.next().deleteEx(true);
+				commit();
 			}
 		}
 		finally {
@@ -885,9 +903,59 @@ public class MRP extends SvrProcess
 							MPPMRP.Table_ID, PP_MRP_ID,
 							product.getValue() + " " + product.getName(),
 							Msg.getMsg(getCtx(), msg.getValue()),
-							get_TrxName());
+							null);
 		note.save();
+		commit();
 		log.info(code+": "+note.getTextMsg());  
+	}
+	
+	
+	private MWarehouse getWarehouseTransit(int AD_Org_ID)
+	{
+		MWarehouse warehouse = transit_cache.get(AD_Org_ID);
+		if ( warehouse == null)
+		{	
+			 MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), AD_Org_ID);
+			 if(wsts.length > 0)
+				 transit_cache.put(wsts[0].get_ID(),wsts[0]);
+		}
+		return warehouse;
+	}
+	
+	private MDDOrder getDDOrder(int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
+	{
+		StringBuffer key = new StringBuffer(M_Shipper_ID).append("#").append(C_BPartner_ID).append("#").append(DatePromised).append("DR");
+		MDDOrder order = dd_order_cache.get(key.toString());
+		if ( order == null)
+		{	
+			 order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).
+			 getPO("M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?", 
+			 new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"}, null);
+			 dd_order_cache.put(key.toString(),order);
+		}
+		return order;
+	}
+	
+	private MBPartner getBPartner(int C_BPartner_ID)
+	{
+		MBPartner partner = partner_cache.get(C_BPartner_ID);
+		if ( partner == null)
+		{	
+			 partner = MBPartner.get(getCtx(), C_BPartner_ID);
+			 partner_cache.put(C_BPartner_ID, partner);
+		}
+		return partner;
+	}
+	
+	private MOrg getOrg(int C_Org_ID)
+	{
+		MOrg org = org_cache.get(C_Org_ID);
+		if ( org == null)
+		{	
+			 org = MOrg.get(getCtx(), C_Org_ID);
+			 org_cache.put(C_Org_ID, org);
+		}
+		return org;
 	}
 }
 
