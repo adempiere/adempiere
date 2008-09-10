@@ -13,7 +13,8 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]                  *
+ *              Teo Sarca, www.arhipac.ro                                     *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -43,6 +44,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -71,6 +73,7 @@ import org.compiere.util.ValueNamePair;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *  			<li>BF [ 1742159 ] Editable number field for inactive record
  *  			<li>BF [ 1968598 ] Callout is not called if tab is processed
+ *  			<li>BF [ 2104022 ] GridTab.processCallout: throws NPE if callout returns null
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -2633,7 +2636,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				
 			}			
 			
-			if (!retValue.equals(""))		//	interrupt on first error
+			if (!Util.isEmpty(retValue))		//	interrupt on first error
 			{
 				log.severe (retValue);
 				return retValue;
@@ -2871,4 +2874,4 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		
 	}
 
-}	//	MTab
+}	//	GridTab
