@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 
@@ -34,7 +33,7 @@ import org.compiere.util.CCache;
 public class MDDNetworkDistribution extends X_DD_NetworkDistribution
 {
 	private static final long serialVersionUID = 1L;
-	private static CCache<Integer,MDDNetworkDistribution> 	s_cache = new CCache<Integer,MDDNetworkDistribution>(MDDNetworkDistribution.Table_Name, 50);
+	private static CCache<Integer,MDDNetworkDistribution> s_cache = new CCache<Integer,MDDNetworkDistribution>(MDDNetworkDistribution.Table_Name, 50);
 
 	/** Standard Constructor */
 	public MDDNetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
@@ -62,14 +61,12 @@ public class MDDNetworkDistribution extends X_DD_NetworkDistribution
 	 */
 	public static MDDNetworkDistribution get (Properties ctx, int DD_NetworkDistribution_ID)
 	{
-		Integer key = new Integer(DD_NetworkDistribution_ID);
 		MDDNetworkDistribution retValue = (MDDNetworkDistribution)s_cache.get(DD_NetworkDistribution_ID);
 		if (retValue != null)
 			return retValue;
 		//
 		retValue = new MDDNetworkDistribution (ctx,DD_NetworkDistribution_ID, null);
-		retValue.getLines();
-		s_cache.put (key, retValue);
+		s_cache.put (DD_NetworkDistribution_ID, retValue);
 		return retValue;
 	}	//	get
 
