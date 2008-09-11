@@ -42,6 +42,9 @@ import org.zkoss.zul.Label;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author Cristina Ghita, www.arhipac.ro
+ * 				<li>FR [ 2076330 ] Add new methods in CWindowToolbar class
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
@@ -66,6 +69,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private ToolBarButton btnReport, btnArchive, btnPrint;
 
     private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
+    
+    private HashMap<String, ToolBarButton> buttons = new HashMap<String, ToolBarButton>();
 
 //    private ToolBarButton btnExit;
     
@@ -83,167 +88,37 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private void init()
     {
     	LayoutUtils.addSclass("adwindow-toolbar", this);
-    	
-        btnIgnore = new ToolBarButton();
-        btnIgnore.setName("btnIgnore");
-        btnIgnore.setImage("/images/Ignore16.png");
-        btnIgnore.setTooltiptext(Msg.getMsg(Env.getCtx(),"Ignore"));
-        // --
-        btnHelp = new ToolBarButton("");
-        btnHelp.setName("btnHelp");
-        btnHelp.setImage("/images/Help24.png");
-        btnHelp.setTooltiptext(Msg.getMsg(Env.getCtx(),"Help"));
 
-        btnNew = new ToolBarButton("");
-        btnNew.setName("btnNew");
-        btnNew.setImage("/images/New24.png");
-        btnNew.setTooltiptext(Msg.getMsg(Env.getCtx(),"New"));
-        
-        btnDelete = new ToolBarButton("");
-        btnDelete.setName("btnDelete");
-        btnDelete.setImage("/images/Delete24.png");
-        btnDelete.setTooltiptext(Msg.getMsg(Env.getCtx(),"Delete"));
-
-        btnSave = new ToolBarButton("");
-        btnSave.setName("btnSave");
-        btnSave.setImage("/images/Save24.png");
-        btnSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"Save"));
-        // --
-        btnRefresh = new ToolBarButton("");
-        btnRefresh.setName("btnRefresh");
-        btnRefresh.setImage("/images/Refresh24.png");
-        btnRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(),"Refresh"));
-
-        btnFind = new ToolBarButton("");
-        btnFind.setName("btnFind");
-        btnFind.setImage("/images/Find24.png");
-        btnFind.setTooltiptext(Msg.getMsg(Env.getCtx(),"Find"));
-
-        btnAttachment = new ToolBarButton("");
-        btnAttachment.setName("btnAttachment");
-        btnAttachment.setImage("/images/Attachment24.png");
-        btnAttachment.setTooltiptext(Msg.getMsg(Env.getCtx(),"Attachment"));
-        // --
-        
-        btnGridToggle = new ToolBarButton("");
-        btnGridToggle.setName("btnGridToggle");
-        btnGridToggle.setImage("/images/Multi24.png");
-        btnGridToggle.setTooltiptext(Msg.getMsg(Env.getCtx(),"Multi"));
-        
-        btnHistoryRecords = new ToolBarButton("");
-        btnHistoryRecords.setName("btnHistoryRecords");
-        btnHistoryRecords.setImage("/images/HistoryX24.png");
-        btnHistoryRecords.setTooltiptext(Msg.getMsg(Env.getCtx(),"History"));
-
-        btnMenu = new ToolBarButton("");
-        btnMenu.setName("btnHome");
-        btnMenu.setImage("/images/Home24.png");
-        btnMenu.setTooltiptext(Msg.getMsg(Env.getCtx(),"Home"));
-
-        btnParentRecord = new ToolBarButton("");
-        btnParentRecord.setName("btnParentRecord");
-        btnParentRecord.setImage("/images/Parent24.png");
-        btnParentRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Parent"));
-
-        btnDetailRecord = new ToolBarButton("");
-        btnDetailRecord.setName("btnDetailRecord");
-        btnDetailRecord.setImage("/images/Detail24.png");
-        btnDetailRecord.setTooltiptext(Msg.getMsg(Env.getCtx(),"Detail"));
-        // --
-        btnFirst = new ToolBarButton("");
-        btnFirst.setName("btnFirst");
-        btnFirst.setImage("/images/First24.png");
-        btnFirst.setTooltiptext(Msg.getMsg(Env.getCtx(),"First"));
-
-        btnPrevious = new ToolBarButton("");
-        btnPrevious.setName("btnPrevious");
-        btnPrevious.setImage("/images/Previous24.png");
-        btnPrevious.setTooltiptext(Msg.getMsg(Env.getCtx(),"Previous"));
-
-        btnNext = new ToolBarButton("");
-        btnNext.setName("btnNext");
-        btnNext.setImage("/images/Next24.png");
-        btnNext.setTooltiptext(Msg.getMsg(Env.getCtx(),"Next"));
-
-        btnLast = new ToolBarButton("");
-        btnLast.setName("btnLast");
-        btnLast.setImage("/images/Last24.png");
-        btnLast.setTooltiptext(Msg.getMsg(Env.getCtx(),"Last"));
-        
-        // --
-        btnReport = new ToolBarButton("");
-        btnReport.setName("btnReport");
-        btnReport.setImage("/images/Report24.png");
-        btnReport.setTooltiptext(Msg.getMsg(Env.getCtx(),"Report"));
-
-        btnArchive = new ToolBarButton("");
-        btnArchive.setName("btnArchive");
-        btnArchive.setImage("/images/Archive24.png");
-        btnArchive.setTooltiptext(Msg.getMsg(Env.getCtx(),"Archive"));
-
-        btnPrint = new ToolBarButton("");
-        btnPrint.setName("btnPrint");
-        btnPrint.setImage("/images/Print24.png");
-        btnPrint.setTooltiptext(Msg.getMsg(Env.getCtx(),"Print"));
-        
-        // --
-        btnZoomAcross = new ToolBarButton("");
-        btnZoomAcross.setName("btnZoomAcross");
-        btnZoomAcross.setImage("/images/ZoomAcross24.png");
-        btnZoomAcross.setTooltiptext(Msg.getMsg(Env.getCtx(),"ZoomAcross"));
-
-        btnActiveWorkflows = new ToolBarButton("");
-        btnActiveWorkflows.setName("btnActiveWorkflows");
-        btnActiveWorkflows.setImage("/images/WorkFlow24.png");
-        btnActiveWorkflows.setTooltiptext(Msg.getMsg(Env.getCtx(),"WorkFlow"));
-
-        btnRequests = new ToolBarButton("");
-        btnRequests.setName("btnRequests");
-        btnRequests.setImage("/images/Request24.png");
-        btnRequests.setTooltiptext(Msg.getMsg(Env.getCtx(),"Request"));
-
-        btnProductInfo = new ToolBarButton("");
-        btnProductInfo.setName("btnProductInfo");
-        btnProductInfo.setImage("/images/Product24.png");
-        btnProductInfo.setTooltiptext(Msg.getMsg(Env.getCtx(),"InfoProduct"));
-
-//        btnExit = new ToolBarButton("");
-//        btnExit.setName("btnExit");
-//        btnExit.setImage("/images/End24.png");
-
-        this.appendChild(btnIgnore);
+        btnIgnore = createButton("Ignore", "Ignore16.png", "Ignore");
         addSeparator();
-        this.appendChild(btnHelp);
-        this.appendChild(btnNew);
-//        this.appendChild(btnEdit);
-        this.appendChild(btnDelete);
-        this.appendChild(btnSave);
+        btnHelp = createButton("Help", "Help24.png","Help");
+        btnNew = createButton("New", "New24.png", "New");
+        btnDelete = createButton("Delete", "Delete24.png", "Delete");
+        btnSave = createButton("Save", "Save24.png", "Save");
         addSeparator();
-        this.appendChild(btnRefresh);
-        this.appendChild(btnFind);
-        this.appendChild(btnAttachment);
-        this.appendChild(btnGridToggle);
+        btnRefresh = createButton("Refresh", "Refresh24.png", "Refresh");
+        btnFind = createButton("Find", "Find24.png", "Find");
+        btnAttachment = createButton("Attachment", "Attachment24.png", "Attachment");
+        btnGridToggle = createButton("Toggle", "Multi24.png", "Multi");
         addSeparator();
-        this.appendChild(btnHistoryRecords);
-        this.appendChild(btnMenu);
-        this.appendChild(btnParentRecord);
-        this.appendChild(btnDetailRecord);
+        btnHistoryRecords = createButton("HistoryRecords", "HistoryX24.png", "History");
+        btnMenu = createButton("Home", "Home24.png", "Home");
+        btnParentRecord = createButton("ParentRecord", "Parent24.png", "Parent");
+        btnDetailRecord = createButton("DetailRecord", "Detail24.png", "Detail");
         addSeparator();
-        this.appendChild(btnFirst);
-        this.appendChild(btnPrevious);
-        this.appendChild(btnNext);
-        this.appendChild(btnLast);
+        btnFirst = createButton("First", "First24.png", "First");
+        btnPrevious = createButton("Previous", "Previous24.png", "Previous");
+        btnNext = createButton("Next", "Next24.png", "Next");
+        btnLast = createButton("Last", "Last24.png", "Last");
         addSeparator();
-        this.appendChild(btnReport);
-        this.appendChild(btnArchive);
-        this.appendChild(btnPrint);
+        btnReport = createButton("Report", "Report24.png", "Report");
+        btnArchive = createButton("Archive", "Archive24.png", "Archive");
+        btnPrint = createButton("Print", "Print24.png", "Print");
         addSeparator();
-        this.appendChild(btnZoomAcross);
-        this.appendChild(btnActiveWorkflows);
-        this.appendChild(btnRequests);
-        this.appendChild(btnProductInfo);
-//        addSeparator();
-//        this.appendChild(btnExit);
+        btnZoomAcross = createButton("ZoomAcross", "ZoomAcross24.png", "ZoomAcross");
+        btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow24.png", "WorkFlow");
+        btnRequests = createButton("Requests", "Request24.png", "Request");
+        btnProductInfo = createButton("ProductInfo", "Product24.png", "InfoProduct");
         
         for (Object obj : this.getChildren())
         {
@@ -271,7 +146,17 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnArchive.setDisabled(false); // Elaine 2008/07/28
         
         configureKeyMap();
-        
+    }
+    
+    private ToolBarButton createButton(String name, String image, String tooltip)
+    {
+    	ToolBarButton btn = new ToolBarButton("");
+        btn.setName("btn"+name);
+        btn.setImage("/images/"+image);
+        btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
+        buttons.put(name, btn);
+        this.appendChild(btn);
+        return btn;
     }
 
     private void configureKeyMap() {
@@ -509,4 +394,22 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		}
 		return true;
 	}
+	
+	public void setVisibleAll(boolean visible)
+	{
+		for (ToolBarButton btn : buttons.values())
+		{
+			btn.setVisible(visible);
+		}
+	}
+	
+	public void setVisible(String buttonName, boolean visible)
+	{
+		ToolBarButton btn = buttons.get(buttonName);
+		if (btn != null)
+		{
+			btn.setVisible(visible);
+		}
+	}
+	
 }
