@@ -95,9 +95,7 @@ public class MRP extends SvrProcess
 	private int DocTypeMO = 0; 
 	private int DocTypeDO = 0;
 	
-	private static CCache<Integer,MWarehouse			>   transit_cache 	= new CCache<Integer,MWarehouse>(MWarehouse.Table_Name, 50);
 	private static CCache<String ,MDDOrder				>   dd_order_cache 	= new CCache<String,MDDOrder>(MDDOrder.Table_Name, 50);
-	private static CCache<Integer,MOrg					>   org_cache 		= new CCache<Integer,MOrg>(MOrg.Table_Name, 50);
 	private static CCache<Integer,MBPartner				>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
 
 
@@ -226,7 +224,6 @@ public class MRP extends SvrProcess
 			
 				for (MOrg organization :  organizations)
 				{
-					org_cache.put(organization.get_ID(), organization );
 					log.info("Run MRP to Organization: " + organization.getName());
 					if(p_M_Warehouse_ID==0)
 					{
@@ -715,7 +712,7 @@ public class MRP extends SvrProcess
 			{	
 
 				//Org Must be linked to BPartner
-				MOrg org = getOrg(locator_to.getAD_Org_ID());
+				MOrg org = MOrg.get(getCtx(), locator_to.getAD_Org_ID());
 				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 				if (C_BPartner_ID == 0)
 				{
@@ -928,11 +925,15 @@ public class MRP extends SvrProcess
 		MDDOrder order = dd_order_cache.get(key.toString());
 		if ( order == null)
 		{	
-			 order = (MDDOrder) MTable.get(getCtx(), MDDOrder.Table_Name).
-			 getPO("M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?", 
-			 new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"}, get_TrxName());
+			 order = new Query(getCtx(), MDDOrder.Table_Name, 
+					 			"M_Shipper_ID=? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?",
+					 			get_TrxName())
+			 			.setParameters(new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"})
+			 			.first();
 			 if(order != null)
+			 {
 				 dd_order_cache.put(key,order);
+			 }
 		}
 		return order;
 	}
@@ -946,17 +947,6 @@ public class MRP extends SvrProcess
 			 partner_cache.put(C_BPartner_ID, partner);
 		}
 		return partner;
-	}
-	
-	private MOrg getOrg(int C_Org_ID)
-	{
-		MOrg org = org_cache.get(C_Org_ID);
-		if ( org == null)
-		{	
-			 org = MOrg.get(getCtx(), C_Org_ID);
-			 org_cache.put(C_Org_ID, org);
-		}
-		return org;
 	}
 }
 
