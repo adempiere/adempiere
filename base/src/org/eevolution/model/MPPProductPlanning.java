@@ -151,7 +151,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 								+ " AND (S_Resource_ID IN (0,?) OR S_Resource_ID IS NULL)";
 		return new Query(ctx, Table_Name, whereClause, trxName)
 				.setParameters(new Object[]{Env.getAD_Client_ID(ctx), M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
-				.setOrderBy("AD_Org_ID DESC NULLS LAST, M_Warehouse_ID DESC NULLS LAST, S_Resource_ID DESC NULLS LAST")
+				.setOrderBy("AD_Org_ID is null, AD_Org_ID DESC, M_Warehouse_ID is null,M_Warehouse_ID DESC , S_Resource_ID is null, S_Resource_ID DESC ")
 				.first();
 	}
 	
