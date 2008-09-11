@@ -91,7 +91,7 @@ public class MOrg extends X_AD_Org
 	/**	Logger	*/
 	private static CLogger 			s_log = CLogger.getCLogger (MOrg.class);
 	/**	Cache						*/
-	private static CCache<Integer,MOrg>	s_cache	= new CCache<Integer,MOrg>("AD_Org", 20);
+	private static CCache<Integer,MOrg>	s_cache	= new CCache<Integer,MOrg>(Table_Name, 50);
 	
 	
 	/**************************************************************************
