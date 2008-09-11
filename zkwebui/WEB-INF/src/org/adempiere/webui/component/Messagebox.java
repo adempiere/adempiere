@@ -182,7 +182,6 @@ public class Messagebox extends Window implements EventListener
 	}
 	
 	public int show(String message, String title, int buttons, String icon)
-			throws InterruptedException
 	{
 		this.msg = message;
 		this.imgSrc = icon;
