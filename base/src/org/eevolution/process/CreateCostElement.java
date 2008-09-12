@@ -104,10 +104,7 @@ public class CreateCostElement extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
-			for (int i = 0; i < params.size(); i++)
-			{
-				DB.setParameter(pstmt, i+1, params.get(i));
-			}
+			DB.setParameters(pstmt, params);
 			rs = pstmt.executeQuery ();
 			while (rs.next())
 			{
