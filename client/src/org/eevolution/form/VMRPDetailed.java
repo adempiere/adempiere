@@ -1336,8 +1336,8 @@ public class VMRPDetailed
 					 String TypeMRP = (String)p_table.getValueAt(row,10);
 					 String OrderType = (String) p_table.getValueAt(row,11);
 					 if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)
-							 && MPPMRP.ORDERTYPE_Forecast.equals(OrderType) // TODO: arhipac: teo_sarca: is this ok, since gross req = sum of all demands ??? 
-							 && datepromised.after(today)
+							 || (MPPMRP.ORDERTYPE_Forecast.equals(OrderType) // TODO: arhipac: teo_sarca: is this ok, since gross req = sum of all demands ??? 
+							 && datepromised.after(today))
 					 	)
 					 {
 						 BigDecimal QtyGrossReqs =  (BigDecimal)p_table.getValueAt(row,6);   
