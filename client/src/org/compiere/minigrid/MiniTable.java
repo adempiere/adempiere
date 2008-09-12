@@ -16,19 +16,36 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.Insets;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 import org.compiere.apps.search.Info_Column;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.grid.ed.VCellRenderer;
+import org.compiere.grid.ed.VHeaderRenderer;
+import org.compiere.model.MRole;
+import org.compiere.model.PO;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CTable;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Util;
 
 /**
  *  Mini Table.
@@ -49,9 +66,12 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1891082 ] NPE on MiniTable when you hide some columns
+ * 				<li>FR [ 1974299 ] Add MiniTable.getSelectedKeys method
  */
 public class MiniTable extends CTable
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *  Default Constructor
 	 */
@@ -268,7 +288,7 @@ public class MiniTable extends CTable
 	 *  @param c   class of column - determines renderere
 	 *  @param readOnly read only flag
 	 */
-	public void setColumnClass (int index, Class c, boolean readOnly)
+	public void setColumnClass (int index, Class<?> c, boolean readOnly)
 	{
 		setColumnClass(index, c, readOnly, null);
 	}   //  setColumnClass
@@ -283,7 +303,7 @@ public class MiniTable extends CTable
 	 *  @param readOnly read only flag
 	 *  @param header optional header value
 	 */
-	public void setColumnClass (int index, Class c, boolean readOnly, String header)
+	public void setColumnClass (int index, Class<?> c, boolean readOnly, String header)
 	{
 	//	log.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
 		TableColumn tc = getColumnModel().getColumn(index);
@@ -441,7 +461,7 @@ public class MiniTable extends CTable
 				for (int col = 0; col < m_layout.length; col++)
 				{
 					Object data = null;
-					Class c = m_layout[col].getColClass();
+					Class<?> c = m_layout[col].getColClass();
 					int colIndex = col + colOffset;
 					if (c == IDColumn.class)
 						data = new IDColumn(rs.getInt(colIndex));
@@ -513,7 +533,7 @@ public class MiniTable extends CTable
 				Object data = myPO.get_Value(columnName);
 				if (data != null)
 				{
-					Class c = m_layout[col].getColClass();
+					Class<?> c = m_layout[col].getColClass();
 					if (c == IDColumn.class)
 						data = new IDColumn(((Integer)data).intValue());
 					else if (c == Double.class)
@@ -551,7 +571,36 @@ public class MiniTable extends CTable
 		return null;
 	}   //  getSelectedRowKey
 
-	
+	/**
+	 * @return collection of selected IDs
+	 */
+	public Collection<Integer> getSelectedKeys()
+	{
+		if (m_layout == null)
+		{
+			throw new UnsupportedOperationException("Layout not defined");
+		}
+		if (p_keyColumnIndex < 0)
+		{
+			throw new UnsupportedOperationException("Key Column is not defined");
+		}
+		//
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		for (int row = 0; row < getRowCount(); row++)
+		{
+			Object data = getModel().getValueAt(row, p_keyColumnIndex);
+			if (data instanceof IDColumn)
+			{
+				IDColumn record = (IDColumn)data;
+				if (record.isSelected())
+				{
+					list.add(record.getRecord_ID());
+				}
+			}
+		}
+		return list;
+	}
+
 	/**************************************************************************
 	 *  Get Layout
 	 *  @return Array of ColumnInfo
@@ -683,7 +732,7 @@ public class MiniTable extends CTable
 				for (int col = 0; col < layout.length; col++)
 				{
 					Object data = getModel().getValueAt(row, col);
-					Class c = layout[col].getColClass();
+					Class<?> c = layout[col].getColClass();
 					int colIndex = col + colOffset;
 					if (c == BigDecimal.class)
 					{	
@@ -722,7 +771,7 @@ public class MiniTable extends CTable
 		int colOffset = 1;  //  columns start with 1
 		for (int col = 0; col < layout.length; col++)
 		{
-			Class c = layout[col].getColClass();
+			Class<?> c = layout[col].getColClass();
 			int colIndex = col + colOffset;
 			if (c == BigDecimal.class)
 			{	
@@ -762,7 +811,7 @@ public class MiniTable extends CTable
 				for (int col = 0; col < layout.length; col++)
 				{
 					Object data = getModel().getValueAt(row, col);
-					Class c = layout[col].getColClass();
+					Class<?> c = layout[col].getColClass();
 					int colIndex = col + colOffset;
 					if (c == BigDecimal.class)
 					{	
@@ -801,7 +850,7 @@ public class MiniTable extends CTable
 		int colOffset = 1;  //  columns start with 1
 		for (int col = 0; col < layout.length; col++)
 		{
-			Class c = layout[col].getColClass();
+			Class<?> c = layout[col].getColClass();
 			int colIndex = col + colOffset;
 			if (c == BigDecimal.class)
 			{	
