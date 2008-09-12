@@ -31,6 +31,7 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -73,6 +74,7 @@ import org.compiere.process.SequenceCheck;
  * 		<li>FR [ 1984268 ] DB.executeUpdateEx should throw DBException
  * 		<li>FR [ 1986583 ] Add DB.executeUpdateEx(String, Object[], String)
  * 		<li>BF [ 2030233 ] Remove duplicate code from DB class
+ * 		<li>FR [ 2107062 ] Add more DB.getKeyNamePairs methods
  */
 public final class DB
 {
@@ -792,7 +794,7 @@ public final class DB
 	 * @param stmt statements
 	 * @param params parameters array; if null or empty array, no parameters are set
 	 */
-	private static void setParameters(PreparedStatement stmt, Object[] params)
+	public static void setParameters(PreparedStatement stmt, Object[] params)
 	throws SQLException
 	{
 		if (params == null || params.length == 0) {
@@ -804,6 +806,25 @@ public final class DB
 			setParameter(stmt, i+1, params[i]);
 		}
 	}
+	
+	/**
+	 * Set parameters for given statement
+	 * @param stmt statements
+	 * @param params parameters list; if null or empty list, no parameters are set
+	 */
+	public static void setParameters(PreparedStatement stmt, List<?> params)
+	throws SQLException
+	{
+		if (params == null || params.size() == 0)
+		{
+			return;
+		}
+		for (int i = 0; i < params.size(); i++)
+		{
+			setParameter(stmt, i+1, params.get(i));
+		}
+	}
+	
 	
 	/**
 	 * Set PreparedStatement's parameter.
@@ -1328,24 +1349,54 @@ public final class DB
     }
 	
 	/**
-	 * 	Get Array of Key Name Pairs
-	 *	@param sql select with id / name as first / second column
-	 *	@param optional if true (-1,"") is added 
-	 *	@return array of key name pairs
+	 * Get Array of Key Name Pairs
+	 * @param sql select with id / name as first / second column
+	 * @param optional if true (-1,"") is added 
+	 * @return array of {@link KeyNamePair}
+	 * @see #getKeyNamePairs(String, boolean, Object...)
 	 */
 	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional)
+	{
+		return getKeyNamePairs(sql, optional, (Object[])null);
+	}
+	
+	/**
+	 * Get Array of Key Name Pairs
+	 * @param sql select with id / name as first / second column
+	 * @param optional if true (-1,"") is added
+	 * @param params query parameters
+	 * @return array of {@link KeyNamePair}
+	 * @see #getKeyNamePairs(String, boolean, Object...)
+	 */
+	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, Collection<Object> params)
+	{
+		return getKeyNamePairs(sql, optional, params.toArray(new Object[params.size()]));
+	}
+	
+	/**
+	 * Get Array of Key Name Pairs
+	 * @param sql select with id / name as first / second column
+	 * @param optional if true (-1,"") is added
+	 * @param params query parameters
+	 */
+	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, Object ... params)
 	{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
         if (optional)
+        {
             list.add (new KeyNamePair(-1, ""));
+        }
         try
         {
             pstmt = DB.prepareStatement(sql, null);
+            setParameters(pstmt, params);
             rs = pstmt.executeQuery();
             while (rs.next())
+            {
                 list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
+            }
         }
         catch (Exception e)
         {
@@ -1353,8 +1404,7 @@ public final class DB
         }
         finally
         {
-            close(rs);
-            close(pstmt);
+            close(rs, pstmt);
             rs= null;
             pstmt = null;
         }
