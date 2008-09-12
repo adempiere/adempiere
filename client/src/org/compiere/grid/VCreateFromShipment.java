@@ -41,7 +41,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	VCreateFromShipment(GridTab mTab)
+	public VCreateFromShipment(GridTab mTab)
 	{
 		super (mTab);
 	//	log.info( "VCreateFromShipment");

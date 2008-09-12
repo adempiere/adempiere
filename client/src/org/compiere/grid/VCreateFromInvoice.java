@@ -31,6 +31,9 @@ import org.compiere.util.*;
  *
  *  @author Jorg Janke
  *  @version  $Id: VCreateFromInvoice.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1896947 ] Generate invoice from Order error
  */
 public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeListener
 {
@@ -38,7 +41,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	VCreateFromInvoice(GridTab mTab)
+	public VCreateFromInvoice(GridTab mTab)
 	{
 		super (mTab);
 		log.info(mTab.toString());
@@ -537,8 +540,9 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 				}
 				else
 				{
+					String whereClause = "EXISTS (SELECT 1 FROM M_InOut io WHERE io.M_InOut_ID=M_InOutLine.M_InOut_ID AND io.DocStatus IN ('CO','CL'))";
 					MInOutLine[] lines = MInOutLine.getOfOrderLine(Env.getCtx(), 
-						C_OrderLine_ID, null, null);
+						C_OrderLine_ID, whereClause, null);
 					log.fine ("Receipt Lines with OrderLine = #" + lines.length);
 					if (lines.length > 0)
 					{

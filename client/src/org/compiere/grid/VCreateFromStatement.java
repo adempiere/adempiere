@@ -53,7 +53,7 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	VCreateFromStatement(GridTab mTab)
+	public VCreateFromStatement(GridTab mTab)
 	{
 		super (mTab);
 

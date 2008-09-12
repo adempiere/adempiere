@@ -16,21 +16,60 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import java.math.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.KeyStroke;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AppsAction;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLocator;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.grid.ed.VString;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.GridTab;
+import org.compiere.model.I_C_BankStatement;
+import org.compiere.model.I_C_Invoice;
+import org.compiere.model.I_M_InOut;
+import org.compiere.model.I_M_RMA;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrder;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *  CreateFrom (Called from GridController.startProcess)
@@ -40,6 +79,7 @@ import org.compiere.util.*;
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
+ * 			<li>FR [ 1974354 ] VCreateFrom.create should be more flexible
  * @author Victor Perez, e-Evolucion 
  *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  * @author Karsten Thiemann, Schaeffer AG
@@ -48,6 +88,30 @@ import org.compiere.util.*;
 public abstract class VCreateFrom extends CDialog
 	implements ActionListener, TableModelListener
 {
+	/**
+	 * Register custom VCreateFrom* class
+	 * @param ad_table_id
+	 * @param cl custom class
+	 */
+	public static final void registerClass(int ad_table_id, Class<? extends VCreateFrom> cl)
+	{
+		s_registeredClasses.put(ad_table_id, cl);
+		s_log.info("Registered AD_Table_ID="+ad_table_id+", Class="+cl);
+	}
+	
+	/** Registered classes map (AD_Table_ID -> Class) */
+	private static HashMap<Integer, Class<? extends VCreateFrom>> s_registeredClasses = null;
+	static
+	{
+		// Register defaults:
+		s_registeredClasses = new HashMap<Integer, Class<? extends VCreateFrom>>();
+		s_registeredClasses.put(I_C_BankStatement.Table_ID, VCreateFromStatement.class);
+		s_registeredClasses.put(I_C_Invoice.Table_ID, VCreateFromInvoice.class);
+		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipment.class);
+		//s_registeredClasses.put(I_C_PaySelection.Table_ID, null); //	ignore - will call process C_PaySelection_CreateFrom
+		s_registeredClasses.put(I_M_RMA.Table_ID, VCreateFromRMA.class);
+	}
+	
 	/**
 	 *  Factory - called from APanel
 	 *  @param  mTab        Model Tab for the trx
@@ -59,23 +123,21 @@ public abstract class VCreateFrom extends CDialog
 		int AD_Table_ID = Env.getContextAsInt(Env.getCtx(), mTab.getWindowNo(), "BaseTable_ID");
 
 		VCreateFrom retValue = null;
-		if (AD_Table_ID == 392)    {         //  C_BankStatement
-			retValue = new VCreateFromStatement (mTab);
-			retValue.setSize(new Dimension(800,600));
+		Class<? extends VCreateFrom> cl = s_registeredClasses.get(AD_Table_ID);
+		if (cl != null)
+		{
+			try
+			{
+				java.lang.reflect.Constructor<? extends VCreateFrom> ctor = cl.getConstructor(GridTab.class);
+				retValue = ctor.newInstance(mTab);
+			}
+			catch (Throwable e)
+			{
+				s_log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				return null;
+			}
 		}
-		else if (AD_Table_ID == 318)        //  C_Invoice
-			retValue = new VCreateFromInvoice (mTab);
-		else if (AD_Table_ID == 319)        //  M_InOut
-			retValue = new VCreateFromShipment (mTab);
-		else if (AD_Table_ID == 426)		//	C_PaySelection
-			return null;	//	ignore - will call process C_PaySelection_CreateFrom
-		/**
-		 * Modification to support create Lines from for RMA
-		 * @author ashley
-		 */
-		else if (AD_Table_ID == 661)
-			retValue = new VCreateFromRMA(mTab); // RMA
-		else    //  Not supported CreateFrom
+		if (retValue == null)
 		{
 			s_log.info("Unsupported AD_Table_ID=" + AD_Table_ID);
 			return null;

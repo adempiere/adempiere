@@ -40,7 +40,7 @@ public class VCreateFromRMA extends VCreateFrom
 	 * 
 	 * @param mTab
 	 */
-    VCreateFromRMA(GridTab mTab)
+	public VCreateFromRMA(GridTab mTab)
     {
         super(mTab);
         log.info(mTab.toString());
