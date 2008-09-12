@@ -130,6 +130,8 @@ public class InvoiceGenerate extends SvrProcess
 			//
 			sql += " AND EXISTS (SELECT * FROM C_OrderLine ol "
 					+ "WHERE o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyInvoiced) "
+				+ "AND o.C_DocType_ID IN (SELECT C_DocType_ID FROM C_DocType "
+					+ "WHERE DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
 				+ "ORDER BY M_Warehouse_ID, PriorityRule, C_BPartner_ID, C_Order_ID";
 		}
 	//	sql += " FOR UPDATE";
