@@ -95,7 +95,7 @@ public class MRP extends SvrProcess
 	private int DocTypeMO = 0; 
 	private int DocTypeDO = 0;
 	
-	private static CCache<String ,MDDOrder				>   dd_order_cache 	= new CCache<String,MDDOrder>(MDDOrder.Table_Name, 50);
+	private static CCache<String ,Integer				>   dd_order_id_cache 	= new CCache<String,Integer>(MDDOrder.COLUMNNAME_DD_Order_ID, 50);
 	private static CCache<Integer,MBPartner				>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
 
 
@@ -671,6 +671,7 @@ public class MRP extends SvrProcess
 		MDDNetworkDistributionLine[] network_lines = network.getLines(m_product_planning.getM_Warehouse_ID());
 		int M_Shipper_ID = 0;
 		MDDOrder order = null;
+		Integer DD_Order_ID = 0;
 
 		for (MDDNetworkDistributionLine network_line : network_lines)
 		{	
@@ -723,8 +724,8 @@ public class MRP extends SvrProcess
 				MBPartner bp = getBPartner(C_BPartner_ID);
 				// Try found some order with Shipper , Business Partner and Doc Status = Draft 
 				// Consolidate the demand in a single order for each Shipper , Business Partner , DemandDateStartSchedule
-				order = getDDOrder(network_line.getM_Shipper_ID(), bp.getC_BPartner_ID(),DemandDateStartSchedule);
-				if (order == null)
+				DD_Order_ID = getDDOrder_ID(network_line.getM_Shipper_ID(), bp.getC_BPartner_ID(),DemandDateStartSchedule);
+				if (DD_Order_ID < 0)
 				{	
 					order = new MDDOrder(getCtx() , 0 , get_TrxName());
 					order.setAD_Org_ID(target.getAD_Org_ID());
@@ -742,11 +743,9 @@ public class MRP extends SvrProcess
 					//order.setSalesRep_ID(m_product_planning.getPlanner_ID());
 					order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
 					order.saveEx();
-
-					
+					DD_Order_ID = order.get_ID();				
 					String key = network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+DemandDateStartSchedule+"DR";
-					
-					dd_order_cache.put(key,order);
+					dd_order_id_cache.put(key,DD_Order_ID);
 				}	
 				M_Shipper_ID = network_line.getM_Shipper_ID();
 			}   
@@ -754,7 +753,7 @@ public class MRP extends SvrProcess
 			BigDecimal QtyOrdered = QtyPlanned.multiply(network_line.getPercent()).divide(Env.ONEHUNDRED);
 
 			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , get_TrxName());
-			oline.setDD_Order_ID(order.getDD_Order_ID());
+			oline.setDD_Order_ID(DD_Order_ID);
 			oline.setM_Locator_ID(locator.getM_Locator_ID());
 			oline.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
 			oline.setM_Product_ID(m_product_planning.getM_Product_ID()); 
@@ -890,12 +889,12 @@ public class MRP extends SvrProcess
 		try {
 			while(rs.hasNext()) {
 				rs.next().deleteEx(true);
-				commit();
 			}
 		}
 		finally {
 			rs.close();
 		}
+		commit();
 	}
 
 	private void createMRPNote(String code, int PP_MRP_ID, MProduct product)
@@ -919,23 +918,17 @@ public class MRP extends SvrProcess
 		log.info(code+": "+note.getTextMsg());  
 	}
 	
-	private MDDOrder getDDOrder(int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
+	private int getDDOrder_ID(int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
 	{
 		String key = M_Shipper_ID+"#"+C_BPartner_ID+"#"+DatePromised+"DR";
-		MDDOrder order = dd_order_cache.get(key.toString());
-		if ( order == null)
+		Integer order_id = dd_order_id_cache.get(key.toString());
+		if ( order_id == null)
 		{	
-			 order = new Query(getCtx(), MDDOrder.Table_Name, 
-					 			"M_Shipper_ID=? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?",
-					 			get_TrxName())
-			 			.setParameters(new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"})
-			 			.first();
-			 if(order != null)
-			 {
-				 dd_order_cache.put(key,order);
-			 }
+			 order_id = DB.getSQLValue(get_TrxName(), "SELECT DD_Order_ID FROM DD_Order WHERE M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?", new Object[]{M_Shipper_ID,C_BPartner_ID,DatePromised,"DR"});
+			 if(order_id > 0)
+				 dd_order_id_cache.put(key,order_id);
 		}
-		return order;
+		return order_id;
 	}
 	
 	private MBPartner getBPartner(int C_BPartner_ID)
