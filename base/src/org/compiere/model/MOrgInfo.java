@@ -15,20 +15,25 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CCache;
 
 /**
  *	Organization Info Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MOrgInfo.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2107083 ] Caching of MOrgInfo issue
  */
 public class MOrgInfo extends X_AD_OrgInfo
-{	
+{
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context
@@ -37,39 +42,23 @@ public class MOrgInfo extends X_AD_OrgInfo
 	 */
 	public static MOrgInfo get (Properties ctx, int AD_Org_ID)
 	{
-		MOrgInfo retValue = null;
-		String sql = "SELECT * FROM AD_OrgInfo WHERE AD_Org_ID=?";
-		PreparedStatement pstmt = null;
-		try
+		MOrgInfo retValue = s_cache.get(AD_Org_ID);
+		if (retValue != null)
 		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Org_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = new MOrgInfo (ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+			return retValue;
 		}
-		catch (Exception e)
+		retValue = new Query(ctx, Table_Name, "AD_Org_ID=?", null)
+						.setParameters(new Object[]{AD_Org_ID})
+						.first();
+		if (retValue != null)
 		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			s_cache.put(AD_Org_ID, retValue);
 		}
 		return retValue;
 	}	//	get
 
-	/** Static Logger					*/
-	private static CLogger		s_log = CLogger.getCLogger (MOrgInfo.class);
+	/**	Cache						*/
+	private static CCache<Integer,MOrgInfo>	s_cache	= new CCache<Integer,MOrgInfo>(Table_Name, 50);
 
 	
 	/**************************************************************************

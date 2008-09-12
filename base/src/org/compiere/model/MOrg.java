@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Organization Model
@@ -29,45 +32,26 @@ import org.compiere.util.*;
  */
 public class MOrg extends X_AD_Org
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
-	 * 	Get Organizations Of Client
+	 * 	Get Active Organizations Of Client
 	 *	@param po persistent object
 	 *	@return array of orgs
 	 */
 	public static MOrg[] getOfClient (PO po)
 	{
-		ArrayList<MOrg> list = new ArrayList<MOrg>();
-		String sql = "SELECT * FROM AD_Org WHERE AD_Client_ID=? ORDER BY Value";
-		PreparedStatement pstmt = null;
-		try
+		List<MOrg> list = new Query(po.getCtx(), Table_Name, "AD_Client_ID=?", null)
+								.setOrderBy(COLUMNNAME_Value)
+								.setOnlyActiveRecords(true)
+								.setParameters(new Object[]{po.getAD_Client_ID()})
+								.list();
+		for (MOrg org : list)
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, po.getAD_Client_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MOrg (po.getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+			s_cache.put(org.get_ID(), org);
 		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MOrg[] retValue = new MOrg[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return list.toArray(new MOrg[list.size()]);
 	}	//	getOfClient
 	
 	/**
@@ -78,18 +62,15 @@ public class MOrg extends X_AD_Org
 	 */
 	public static MOrg get (Properties ctx, int AD_Org_ID)
 	{
-		Integer key = new Integer (AD_Org_ID);
-		MOrg retValue = (MOrg) s_cache.get (key);
+		MOrg retValue = s_cache.get (AD_Org_ID);
 		if (retValue != null)
 			return retValue;
 		retValue = new MOrg (ctx, AD_Org_ID, null);
 		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
+			s_cache.put (AD_Org_ID, retValue);
 		return retValue;
 	}	//	get
 
-	/**	Logger	*/
-	private static CLogger 			s_log = CLogger.getCLogger (MOrg.class);
 	/**	Cache						*/
 	private static CCache<Integer,MOrg>	s_cache	= new CCache<Integer,MOrg>(Table_Name, 50);
 	
@@ -135,8 +116,6 @@ public class MOrg extends X_AD_Org
 		setName (name);
 	}	//	MOrg
 
-	/**	Org Info						*/
-	private MOrgInfo	m_info = null;
 	/**	Linked Business Partner			*/
 	private Integer 	m_linkedBPartner = null;
 
@@ -146,9 +125,7 @@ public class MOrg extends X_AD_Org
 	 */
 	public MOrgInfo getInfo()
 	{
-		if (m_info == null)
-			m_info = MOrgInfo.get (getCtx(), getAD_Org_ID());
-		return m_info;
+		return MOrgInfo.get(getCtx(), getAD_Org_ID());
 	}	//	getMOrgInfo
 
 
@@ -166,8 +143,8 @@ public class MOrg extends X_AD_Org
 		if (newRecord)
 		{
 			//	Info
-			m_info = new MOrgInfo (this);
-			m_info.save();
+			MOrgInfo info = new MOrgInfo (this);
+			info.saveEx();
 			//	Access
 			MRoleOrgAccess.createForOrg (this);
 			MRole.getDefault(getCtx(), true);	//	reload
