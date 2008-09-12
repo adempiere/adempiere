@@ -263,7 +263,7 @@ public class MRPUpdate extends SvrProcess
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'Y'), null ,"
-			+"t.QtyOrdered-t.QtyDelivered,  'D', (case when o.IsSOTrx='Y' then 'SOO' else 'POO' end), t.updated, t.updatedby, o.DocumentNo," 
+			+"t.QtyOrdered-t.QtyDelivered,  (case when o.IsSOTrx='Y' then 'D' else 'S' end) , (case when o.IsSOTrx='Y' then 'SOO' else 'POO' end), t.updated, t.updatedby, o.DocumentNo," 
 			+"t.ad_client_id , null as S_Resource_ID, o.C_BPartner_ID"
 			+" FROM C_OrderLine t"
 			+" INNER JOIN C_Order o  ON (o.c_order_id=t.c_order_id)"
