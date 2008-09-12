@@ -1,19 +1,21 @@
 /*******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution * Copyright (C)
- * 1999-2006 Adempiere, Inc. All Rights Reserved. * This program is free
- * software; you can redistribute it and/or modify it * under the terms version
- * 2 of the GNU General Public License as published * by the Free Software
- * Foundation. This program is distributed in the hope * that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied * warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. * See the GNU General
- * Public License for more details. * You should have received a copy of the GNU
- * General Public License along * with this program; if not, write to the Free
- * Software Foundation, Inc., * 59 Temple Place, Suite 330, Boston, MA
- * 02111-1307 USA. *
- * 
- * Copyright (C) 2007 Low Heng Sin hengsin@avantz.com 
- * Contributor(s): 
- * __________________________________________
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it     *
+ * under the terms version 2 of the GNU General Public License as published    *
+ * by the Free Software Foundation. This program is distributed in the hope    *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied  *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.            *
+ * See the GNU General Public License for more details.                        *
+ * You should have received a copy of the GNU General Public License along     *
+ * with this program; if not, write to the Free Software Foundation, Inc.,     *
+ * 59 Temple Place, Suite 330, Boston, MA                                      *
+ * 02111-1307 USA.                                                             *
+ *                                                                             *
+ * Copyright (C) 2007 Low Heng Sin hengsin@avantz.com                          *
+ * Contributor(s):                                                             *
+ *                 Teo Sarca, www.arhipac.ro                                   *
+ * __________________________________________                                  *
  ******************************************************************************/
 package org.compiere.model;
 
@@ -30,6 +32,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * 
@@ -38,9 +41,11 @@ import org.compiere.util.DB;
  * 			<li>FR [ 1981760 ] Improve Query class
  * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access fielter issue
  * 			<li>FR [ 2041894 ] Add Query.match() method
+ * 			<li>FR [ 2107068 ] Query.setOrderBy should be more error tollerant
+ * 			<li>FR [ 2107109 ] Add method Query.setOnlyActiveRecords
  */
-public class Query {
-
+public class Query
+{
 	private static CLogger log	= CLogger.getCLogger (Query.class);
 	
 	private Properties ctx = null;
@@ -50,6 +55,7 @@ public class Query {
 	private String trxName = null;
 	private Object[] parameters = null;
 	private boolean applyAccessFilter = false;
+	private boolean onlyActiveRecords = false;
 	
 	/**
 	 * 
@@ -58,7 +64,8 @@ public class Query {
 	 * @param trxName
 	 * @deprecated Use {@link #Query(Properties, MTable, String, String)} instead because this method is security error prone
 	 */
-	public Query(MTable table, String whereClause, String trxName) {
+	public Query(MTable table, String whereClause, String trxName)
+	{
 		this.ctx = table.getCtx();
 		this.table = table;
 		this.whereClause = whereClause;
@@ -71,7 +78,8 @@ public class Query {
 	 * @param whereClause
 	 * @param trxName
 	 */
-	public Query(Properties ctx, MTable table, String whereClause, String trxName) {
+	public Query(Properties ctx, MTable table, String whereClause, String trxName)
+	{
 		this.ctx = ctx;
 		this.table = table;
 		this.whereClause = whereClause;
@@ -85,7 +93,8 @@ public class Query {
 	 * @param whereClause
 	 * @param trxName
 	 */
-	public Query(Properties ctx, String tableName, String whereClause, String trxName) {
+	public Query(Properties ctx, String tableName, String whereClause, String trxName)
+	{
 		this(ctx, MTable.get(ctx, tableName), whereClause, trxName);
 		if (this.table == null)
 			throw new IllegalArgumentException("Table Name Not Found - "+tableName);
@@ -95,7 +104,8 @@ public class Query {
 	 * Set query parameters
 	 * @param parameters
 	 */
-	public Query setParameters(Object[] parameters) {
+	public Query setParameters(Object[] parameters)
+	{
 		this.parameters = parameters;
 		return this;
 	}
@@ -104,7 +114,8 @@ public class Query {
 	 * Set query parameters
 	 * @param parameters collection of parameters
 	 */
-	public Query setParameters(Collection<Object> parameters) {
+	public Query setParameters(Collection<Object> parameters)
+	{
 		if (parameters == null) {
 			this.parameters = null;
 			return this;
@@ -115,11 +126,17 @@ public class Query {
 	}
 	
 	/**
-	 * Set order by clause ( without the order by sql keyword ).
-	 * @param orderBy
+	 * Set order by clause.
+	 * If the string starts with "ORDER BY" then "ORDER BY" keywords will be discarded. 
+	 * @param orderBy SQL ORDER BY clause
 	 */
-	public Query setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
+	public Query setOrderBy(String orderBy)
+	{
+		this.orderBy = orderBy != null ? orderBy.trim() : null;
+		if (this.orderBy != null && this.orderBy.toUpperCase().startsWith("ORDER BY"))
+		{
+			this.orderBy = this.orderBy.substring(8);
+		}
 		return this;
 	}
 	
@@ -127,8 +144,19 @@ public class Query {
 	 * Turn on/off the addition of data access filter
 	 * @param flag
 	 */
-	public Query setApplyAccessFilter(boolean flag) {
-		applyAccessFilter = flag;
+	public Query setApplyAccessFilter(boolean flag)
+	{
+		this.applyAccessFilter = flag;
+		return this;
+	}
+	
+	/**
+	 * Select only active records (i.e. IsActive='Y')
+	 * @param onlyActiveRecords
+	 */
+	public Query setOnlyActiveRecords(boolean onlyActiveRecords)
+	{
+		this.onlyActiveRecords = onlyActiveRecords;
 		return this;
 	}
 	
@@ -137,7 +165,9 @@ public class Query {
 	 * @return List
 	 * @throws DBException 
 	 */
-	public <T extends PO> List<T> list() throws DBException {
+	@SuppressWarnings("unchecked")
+	public <T extends PO> List<T> list() throws DBException
+	{
 		List<T> list = new ArrayList<T>();
 		String sql = buildSQL(null, true);
 		
@@ -166,10 +196,12 @@ public class Query {
 	
 	/**
 	 * Return first PO that match query criteria
-	 * @return PO
+	 * @return first PO
 	 * @throws DBException
 	 */
-	public <T extends PO> T first() throws DBException {
+	@SuppressWarnings("unchecked")
+	public <T extends PO> T first() throws DBException
+	{
 		T po = null;
 		String sql = buildSQL(null, true);
 		
@@ -226,7 +258,8 @@ public class Query {
 	 * @return true if exists, false otherwise
 	 * @throws DBException
 	 */
-	public boolean match() {
+	public boolean match() throws DBException
+	{
 		String sql = buildSQL(new StringBuffer("SELECT 1 FROM ").append(table.getTableName()), false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -252,7 +285,8 @@ public class Query {
 	 * @return Iterator
 	 * @throws DBException 
 	 */
-	public <T extends PO> Iterator<T> iterate() throws DBException {
+	public <T extends PO> Iterator<T> iterate() throws DBException
+	{
 		String[] keys = table.getKeyColumns();
 		StringBuffer sqlBuffer = new StringBuffer(" SELECT ");
 		for (int i = 0; i < keys.length; i++) {
@@ -296,7 +330,8 @@ public class Query {
 	 * @return POResultSet
 	 * @throws DBException 
 	 */
-	public <T extends PO> POResultSet<T> scroll() throws DBException {
+	public <T extends PO> POResultSet<T> scroll() throws DBException
+	{
 		String sql = buildSQL(null, true);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -329,20 +364,41 @@ public class Query {
 	 * @param selectClause optional; if null the select clause will be build according to POInfo
 	 * @return final SQL
 	 */
-	private final String buildSQL(StringBuffer selectClause, boolean useOrderByClause) {
-		if (selectClause == null) {
+	private final String buildSQL(StringBuffer selectClause, boolean useOrderByClause)
+	{
+		if (selectClause == null)
+		{
 			POInfo info = POInfo.getPOInfo(this.ctx, table.getAD_Table_ID(), trxName);
 			if (info == null)
+			{
 				throw new IllegalStateException("No POInfo found for AD_Table_ID="+table.getAD_Table_ID());
+			}
 			selectClause = info.buildSelect();
 		}
 		StringBuffer sqlBuffer = new StringBuffer(selectClause);
-		if (whereClause != null && whereClause.trim().length() > 0)
+		if (!Util.isEmpty(this.whereClause, true))
+		{
 			sqlBuffer.append(" WHERE ").append(whereClause);
+		}
+		if (this.onlyActiveRecords)
+		{
+			if (Util.isEmpty(this.whereClause, true))
+			{
+				sqlBuffer.append(" WHERE IsActive=?");
+			}
+			else
+			{
+				sqlBuffer.append(" AND IsActive=?");
+			}
+			
+		}
 		if (useOrderByClause && orderBy != null && orderBy.trim().length() > 0)
+		{
 			sqlBuffer.append(" ORDER BY ").append(orderBy);
+		}
 		String sql = sqlBuffer.toString();
-		if (applyAccessFilter) {
+		if (applyAccessFilter)
+		{
 			MRole role = MRole.getDefault(this.ctx, false);
 			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
@@ -351,14 +407,13 @@ public class Query {
 	
 	private final ResultSet createResultSet (PreparedStatement pstmt) throws SQLException
 	{
-		if (parameters != null && parameters.length > 0) 
+		DB.setParameters(pstmt, parameters);
+		if (this.onlyActiveRecords)
 		{
-			
-			for (int i = 0; i < parameters.length; i++)
-			{
-				DB.setParameter(pstmt, i+1, parameters[i]);
-			}
+			int i = 1 + (parameters != null ? parameters.length : 0);
+			DB.setParameter(pstmt, i, true);
 		}
 		return pstmt.executeQuery();
 	}
+
 }
