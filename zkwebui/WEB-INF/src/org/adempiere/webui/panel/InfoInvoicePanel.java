@@ -354,7 +354,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         //
         Double fromAmount = null;
         Double toAmount = null;
-        if (!amountFrom.getText().equals(""))
+        if (!Util.isEmpty(amountFrom.getText()))
         {
             try
             {
@@ -365,7 +365,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
                 
             }
         }
-        if (!amountTo.getText().equals(""))
+        if (!Util.isEmpty(amountTo.getText()))
         {
             try
             {
@@ -467,7 +467,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         Double fromAmt = null;
         Double toAmt = null;
         
-        if (!amountFrom.getText().equals(""))
+        if (!Util.isEmpty(amountFrom.getText()))
         {
             try
             {
@@ -480,7 +480,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
             }
         }
         
-        if (!amountTo.getText().equals(""))
+        if (!Util.isEmpty(amountTo.getText()))
         {
             try
             {
