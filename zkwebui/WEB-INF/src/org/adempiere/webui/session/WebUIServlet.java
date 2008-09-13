@@ -37,6 +37,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.zkoss.lang.Library;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
 
 /**
@@ -64,6 +65,9 @@ public class WebUIServlet extends DHtmlLayoutServlet
         /** Initialise context for the current thread*/
         ServerContext.newInstance();
         Env.setContextProvider(new ZkContextProvider());
+        
+        // Use ZK 3.0 theme, because ZK 3.5 theme is so buggy - teo_sarca
+        Library.setProperty("org.zkoss.zul.theme.v30", "true");
         
         /**
          * Start ADempiere
