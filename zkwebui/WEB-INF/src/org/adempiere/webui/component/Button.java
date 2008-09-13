@@ -17,7 +17,6 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.apps.form.WCreateFrom;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 

@@ -175,7 +175,7 @@ public class LoginPanel extends Window implements EventListener
         {
             validateLogin();
         }
-        if (event.getName().equals("onSelect"))
+        if (event.getName().equals(Events.ON_SELECT))
         {
             if(eventComp.getId().equals(lstLanguage.getId())) {
             	String langName = (String) lstLanguage.getSelectedItem().getValue();
