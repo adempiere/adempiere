@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -151,7 +152,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 								+ " AND (S_Resource_ID IN (0,?) OR S_Resource_ID IS NULL)";
 		return new Query(ctx, Table_Name, whereClause, trxName)
 				.setParameters(new Object[]{Env.getAD_Client_ID(ctx), M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
-				.setOrderBy("AD_Org_ID is null, AD_Org_ID DESC, M_Warehouse_ID is null,M_Warehouse_ID DESC , S_Resource_ID is null, S_Resource_ID DESC ")
+				.setOrderBy("COALESCE(AD_Org_ID, 0) DESC"
+								+", COALESCE(M_Warehouse_ID, 0) DESC"
+								+", COALESCE(S_Resource_ID, 0) DESC")
 				.first();
 	}
 	
