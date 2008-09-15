@@ -17,9 +17,14 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -30,6 +35,7 @@ import org.compiere.util.CCache;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 2051056 ] MResource[Type] should be cached
+ * 				<li>added manufacturing related methods (getDayStart, getDayEnd etc)
  */
 public class MResourceType extends X_S_ResourceType
 {
@@ -79,6 +85,19 @@ public class MResourceType extends X_S_ResourceType
 	}	//	MResourceType
 	
 	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		if (isTimeSlot())
+		{
+			if (getTimeSlotStart().compareTo(getTimeSlotEnd()) >= 0)
+			{
+				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@"); 
+			}
+		}
+		return true;
+	}
+
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
@@ -102,4 +121,102 @@ public class MResourceType extends X_S_ResourceType
 		
 		return success;
 	}	//	afterSave
+	
+	public Timestamp getDayStart(Timestamp date)
+	{
+		if(isTimeSlot())
+		{
+			return TimeUtil.getDayBorder(date, getTimeSlotStart(), false);
+		}
+		else
+		{
+			return TimeUtil.getDayBorder(date, null, false);
+		}
+	}
+	
+	public Timestamp getDayEnd(Timestamp date)
+	{
+		if(isTimeSlot())
+		{
+			return TimeUtil.getDayBorder(date, getTimeSlotEnd(), true);
+		}
+		else
+		{
+			return TimeUtil.getDayBorder(date, null, true);
+		}
+	}
+	
+	public long getDayDurationMillis()
+	{
+		if (isTimeSlot())
+		{
+			return getTimeSlotEnd().getTime() - getTimeSlotStart().getTime();
+		}
+		else
+		{
+			return 24*60*60*1000; // 24 hours
+		}
+	}
+	
+	public boolean isDayAvailable(Timestamp dateTime)
+	{
+		if (!isActive())
+		{
+			return false;
+		}
+		if(isDateSlot())
+		{
+			return true;
+		}
+
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(dateTime.getTime());
+
+		boolean retValue = false;
+		switch(gc.get(Calendar.DAY_OF_WEEK)) {
+		case Calendar.SUNDAY:
+			retValue = isOnSunday();
+			break;
+
+		case Calendar.MONDAY:
+			retValue = isOnMonday();
+			break;
+
+		case Calendar.TUESDAY:
+			retValue = isOnTuesday();
+			break;
+
+		case Calendar.WEDNESDAY:
+			retValue = isOnWednesday();
+			break;
+
+		case Calendar.THURSDAY:
+			retValue = isOnThursday();
+			break;
+
+		case Calendar.FRIDAY:
+			retValue = isOnFriday();
+			break;
+
+		case Calendar.SATURDAY:
+			retValue = isOnSaturday();	
+			break;
+		} 
+
+		return retValue;
+	}
+	
+	public boolean isAvailable()
+	{
+		if (!isActive())
+		{
+			return false;
+		}
+		if(!isDateSlot())
+		{
+			return true;
+		}
+		return isOnMonday() || isOnTuesday() || isOnWednesday() || isOnThursday() || isOnFriday()
+				|| isOnSaturday() || isOnSunday();
+	}
 }	//	MResourceType

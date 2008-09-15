@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -12,11 +12,13 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 
 package org.eevolution.form.crp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,31 +32,34 @@ import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
-import org.eevolution.model.reasoner.CRPReasoner;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-
-import org.eevolution.tools.DateTimeUtil;
-
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderNode;
 import org.eevolution.model.MPPOrderWorkflow;
+import org.eevolution.model.reasoner.CRPReasoner;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
  * @version 1.0, October 14th 2005
+ * 
+ * @author Teo Sarca, http://www.arhipac.ro
  */
-public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel {
-
+public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel
+{
 	protected JTree tree;
 	protected DefaultCategoryDataset dataset;
 	
-	protected abstract BigDecimal convert(BigDecimal value);
+	/**
+	 * Convert from minutes to base UOM
+	 */
+	protected abstract BigDecimal convert(BigDecimal minutes);
 	
-	public static CRPModel get(Timestamp start, Timestamp end, MResource r) {
-		
+	public static CRPModel get(Timestamp start, Timestamp end, MResource r)
+	{
 		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 		// UOM ID - 'Minutes' is base unit
 		final MUOM uom1 = MUOM.get(Env.getCtx(), MUOM.getMinute_UOM_ID(Env.getCtx()));
@@ -62,202 +67,180 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
 		final MUOM uom2 = MUOM.get(Env.getCtx(), t.getC_UOM_ID());
 
 		CRPDatasetFactory factory = new CRPDatasetFactory() {
-			
-			protected BigDecimal convert(BigDecimal value) {
-				
-				return MUOMConversion.convert(Env.getCtx(), uom1.get_ID(), uom2.get_ID(), value);
+			protected BigDecimal convert(BigDecimal minutes)
+			{
+				return MUOMConversion.convert(Env.getCtx(), uom1.get_ID(), uom2.get_ID(), minutes);
 			}
 		};
 		factory.generate(start, end, r);
-		
+
 		return factory;
 	}
 
-	protected boolean generate(Timestamp start, Timestamp end, MResource r) {
-
-		 if(start == null || end == null || r == null) {
-			 
-			 return false;
+	private void generate(Timestamp start, Timestamp end, MResource r)
+	{
+		 if(start == null || end == null || r == null)
+		 {
+			 return ;
 		 }
 			  	
 		 String labelActCap = Msg.translate(Env.getCtx(), "DailyCapacity");
 		 String labelLoadAct = Msg.translate(Env.getCtx(), "ActualLoad");
+	 	 DateFormat formatter = DisplayType.getDateFormat(DisplayType.DateTime, Env.getLanguage(Env.getCtx()));
 		 
-		 MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
-		 
-		 BigDecimal utilization = r.getPercentUtilization();
-		 BigDecimal dailyCapacity = null;
-		 if(BigDecimal.ZERO.compareTo(utilization) < 0) {
-			 
-			 dailyCapacity = r.getDailyCapacity().divide(utilization.divide(new BigDecimal(100)), 8, BigDecimal.ROUND_HALF_DOWN);
-		 }
-		 else {
-			 
-			 dailyCapacity = BigDecimal.ZERO;
-		 }
-		 
-		 BigDecimal load = null;
+		 BigDecimal dailyCapacity = getMaxRange(r);
 
-	     String label = null;
-	 	 DateFormat formatter = DateFormat.getDateInstance();
+	 	 dataset = new DefaultCategoryDataset();
+	 	 HashMap<DefaultMutableTreeNode, String> names = new HashMap<DefaultMutableTreeNode, String>();
+	 	 DefaultMutableTreeNode root = new DefaultMutableTreeNode(r);
+	 	 names.put(root, getTreeNodeRepresentation(null, root, r));
 
-	     dataset = new DefaultCategoryDataset();
-		 HashMap names = new HashMap();
-		 DefaultMutableTreeNode root = new DefaultMutableTreeNode(r);
-		 names.put(root, getTreeNodeRepresentation(null, root, r));
-		 
-		 Timestamp dateTime = start;
-	     while(end.after(dateTime)) {
+	 	 Timestamp dateTime = start;
+	 	 while(end.after(dateTime))
+	 	 {
+	 		 String label = formatter.format(dateTime);
+	 		 names.putAll(addTreeNodes(dateTime, root, r));
 
-	    	label = formatter.format(dateTime);
-	    	names.putAll(addTreeNodes(dateTime, root, r));
+	 		 boolean available = isAvailable(r, dateTime);
+	 		 dataset.addValue(available ? dailyCapacity : BigDecimal.ZERO, labelActCap, label);
+	 		 dataset.addValue(available ? calculateLoad(dateTime, r, null) : BigDecimal.ZERO, labelLoadAct, label);
 
-	    	load = isResourceAvailable(dateTime, r) ? calculateLoad(dateTime, r, null) : BigDecimal.ZERO;
-	    	dataset.addValue(isResourceAvailable(dateTime, r) ? dailyCapacity : BigDecimal.ZERO ,labelActCap, label);
-	 		dataset.addValue(isResourceAvailable(dateTime, r) ? load : BigDecimal.ZERO ,labelLoadAct, label);
+	 		 dateTime = org.compiere.util.TimeUtil.addDays(dateTime, 1); // TODO: teo_sarca: increment should be more general, not only days
+	 	 } 	 	
 
-	 		//dateTime = DateTimeUtil.incrementDay(dateTime);
-                        dateTime = org.compiere.util.TimeUtil.addDays(dateTime,1);
-		 } 	 	
-
-	     tree = new JTree(root);
-	     tree.setCellRenderer(new DiagramTreeCellRenderer(names));
-	     return true;
+	 	 tree = new JTree(root);
+	 	 tree.setCellRenderer(new DiagramTreeCellRenderer(names));
 	}
 
-	public BigDecimal calculateLoad(Timestamp dateTime, MResource r, String docStatus) {
-		
+	public BigDecimal calculateLoad(Timestamp dateTime, MResource r, String docStatus)
+	{
 		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
-		MPPOrderNode[] nodes = getPPOrderNodes(dateTime, r);
 		MUOM uom = MUOM.get(Env.getCtx(), t.getC_UOM_ID());
 
-		MPPOrder o = null;
 		BigDecimal qtyOpen;
 		long millis = 0l;
-		for(int i = 0; i < nodes.length; i++) {                        
-			o = new MPPOrder(Env.getCtx(), nodes[i].getPP_Order_ID(), null);
-			if(docStatus != null && !o.getDocStatus().equals(docStatus)) {
-			
-				continue;
+		for(MPPOrderNode node : getPPOrderNodes(dateTime, r))
+		{                        
+			if (docStatus != null)
+			{
+				MPPOrder o = new MPPOrder(node.getCtx(), node.getPP_Order_ID(), node.get_TrxName());
+				if(!o.getDocStatus().equals(docStatus))
+				{
+					continue;
+				}
 			}
-			
-			millis += calculateMillisForDay(dateTime, nodes[i], t);
+			millis += calculateMillisForDay(dateTime, node, t);
 		}
-		
+
 		// Pre-converts to minutes, because its the lowest time unit of compiere 
 		BigDecimal scale = new BigDecimal(1000*60);
 		BigDecimal minutes = new BigDecimal(millis).divide(scale, 2, BigDecimal.ROUND_HALF_UP);
 		return convert(minutes);
 	}
 	
-	protected Timestamp[] getDayBorders(Timestamp dateTime, MPPOrderNode node, MResourceType t) {
-		
-		Timestamp endDayTime = null;
+	/**
+	 * Gets {StartDate, EndDate} times for given dateTime.
+	 * For calculating this, following factors are considered:
+	 * <li> resource type time slot
+	 * <li> node DateStartSchedule and DateEndSchedule 
+	 * @param dateTime
+	 * @param node
+	 * @param t resouce type
+	 * @return array of 2 elements, {StartDate, EndDate}   
+	 */
+	private Timestamp[] getDayBorders(Timestamp dateTime, MPPOrderNode node, MResourceType t)
+	{
  		// The theoretical latest time on a day, where the work ends, dependent on
 		// the resource type's time slot value
-		if(t.isTimeSlot()) {
- 			
- 			endDayTime = DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotEnd(), true);
- 		}
- 		else {
- 			
- 			endDayTime = DateTimeUtil.getDayBorder(dateTime, null, true);
- 		}	
-		
-		// Initialize the end time to the present, if the work ends at this day. Otherwise
-		// the earliest possible start time for a day is set.
+		Timestamp endDayTime = t.getDayEnd(dateTime);
+		// Initialize the end time to the present, if the work ends at this day.
+		// Otherwise the earliest possible start time for a day is set.
 		endDayTime = (endDayTime.before(node.getDateFinishSchedule())) ? endDayTime : node.getDateFinishSchedule();
 		
-		Timestamp startDayTime = null;
  		// The theoretical earliest time on a day, where the work begins, dependent on
 		// the resource type's time slot value
-		if(t.isTimeSlot()) {
- 			
- 			startDayTime = DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotStart(), false);
- 		}
- 		else {
- 			
- 			startDayTime = DateTimeUtil.getDayBorder(dateTime, null, false);
- 		}	
-
-		// Initialize the end time to the present, if the work begins at this day. Otherwise
-		// the earliest possible start time for a day is set.
+		Timestamp startDayTime = t.getDayStart(dateTime);
+		// Initialize the start time to the present, if the work begins at this day.
+		// Otherwise the latest possible start time for a day is set.
 		startDayTime = (startDayTime.after(node.getDateStartSchedule())) ? startDayTime : node.getDateStartSchedule();
 
 		return new Timestamp[] {startDayTime, endDayTime};
 	}
 	
-	protected long calculateMillisForDay(Timestamp dateTime, MPPOrderNode node, MResourceType t) {
-		
+	private long calculateMillisForDay(Timestamp dateTime, MPPOrderNode node, MResourceType t)
+	{
 		Timestamp[] borders = getDayBorders(dateTime, node, t);
-		return DateTimeUtil.getTimeDifference(borders[0], borders[1]);
+		return borders[1].getTime() - borders[0].getTime();
 	}
-	
-	protected HashMap addTreeNodes(Timestamp dateTime, DefaultMutableTreeNode root, MResource r) {
 
-		HashMap names = new HashMap();
+	/**
+	 * Generates following tree:
+	 * <pre>
+	 * (dateTime)
+	 *     \-------(root)
+	 *     \-------(PP Order)
+	 *                 \---------(PP Order Node)
+	 * </pre>
+	 * @param dateTime
+	 * @param root
+	 * @param r
+	 * @return
+	 */
+	private HashMap<DefaultMutableTreeNode, String> addTreeNodes(Timestamp dateTime, DefaultMutableTreeNode root, MResource r)
+	{
+		HashMap<DefaultMutableTreeNode, String> names = new HashMap<DefaultMutableTreeNode, String>();
 		
-		MPPOrder[] orders = getPPOrders(dateTime, r);
-		MPPOrderNode[] nodes = null;
-
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(dateTime);
 		names.put(parent, getTreeNodeRepresentation(null, parent, r));
-		
-		DefaultMutableTreeNode child1 = null;
-		DefaultMutableTreeNode child2 = null;
 		root.add(parent);
 
-		for(int i = 0; i < orders.length; i++) {
+		for(MPPOrder order : getPPOrders(dateTime, r))
+		{		
+			DefaultMutableTreeNode childOrder = new DefaultMutableTreeNode(order);
+			parent.add(childOrder);
+			names.put(childOrder, getTreeNodeRepresentation(dateTime, childOrder, r));
 			
-			child1 = new DefaultMutableTreeNode(orders[i]);
-			parent.add(child1);
-
-			names.put(child1, getTreeNodeRepresentation(dateTime, child1, r));
-			
-			nodes = getPPOrderNodes(dateTime, r);
-			for(int j = 0; j < nodes.length; j++) {
-				
-				child2 = new DefaultMutableTreeNode(nodes[j]);
-				child1.add(child2);
-
-				names.put(child2, getTreeNodeRepresentation(dateTime, child2, r));
+			for(MPPOrderNode node : getPPOrderNodes(dateTime, r))
+			{
+				DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(node);
+				childOrder.add(childNode);
+				names.put(childNode, getTreeNodeRepresentation(dateTime, childNode, r));
 			}
 		}
 		
 		return names;
 	}
 
-    protected String getTreeNodeRepresentation(Timestamp dateTime, DefaultMutableTreeNode node, MResource r) {
-    	
+    private String getTreeNodeRepresentation(Timestamp dateTime, DefaultMutableTreeNode node, MResource r)
+    {
         String name = null;
-        if(node.getUserObject() instanceof MResource) {
-        
+        if(node.getUserObject() instanceof MResource)
+        {
         	MResource res = (MResource) node.getUserObject();
-       	
         	name = res.getName();
         }
-        else if(node.getUserObject() instanceof Timestamp) {
-        	
+        else if(node.getUserObject() instanceof Timestamp)
+        {
         	Timestamp d = (Timestamp)node.getUserObject();
     		SimpleDateFormat df = Env.getLanguage(Env.getCtx()).getDateFormat();
 
         	name = df.format(d);
-       		if(!isResourceAvailable(d, r)) {
-       			
+       		if(!isAvailable(r, d))
+       		{
        			name = "{"+name+"}";
        		}
         }
-        else if(node.getUserObject() instanceof MPPOrder) {
-        	
+        else if(node.getUserObject() instanceof MPPOrder)
+        {
         	MPPOrder o = (MPPOrder)node.getUserObject();
-        	MProduct p = new MProduct(Env.getCtx(), o.getM_Product_ID(), null);
+        	MProduct p = MProduct.get(Env.getCtx(), o.getM_Product_ID());
         	
         	name = o.getDocumentNo()+" ("+p.getName()+")";
         }
-        else if(node.getUserObject() instanceof MPPOrderNode) {
-        	
+        else if(node.getUserObject() instanceof MPPOrderNode)
+        {
         	MPPOrderNode on = (MPPOrderNode)node.getUserObject();
-        	MPPOrderWorkflow owf = new MPPOrderWorkflow(Env.getCtx(), on.getPP_Order_Workflow_ID(), null);
+        	MPPOrderWorkflow owf = on.getWorkflow();
         	MResourceType rt = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 
         	// no function
@@ -270,19 +253,23 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel 
         return name;
     }
     
-	protected BigDecimal getMaxRange(MResource r) {
-		
-		 return r.getDailyCapacity().divide(r.getPercentUtilization().divide(new BigDecimal(100)));
-
-	}
+    /**
+     * @return Daily Capacity * Utilization / 100
+     */
+    private BigDecimal getMaxRange(MResource r)
+    {
+    	BigDecimal utilizationDec = r.getPercentUtilization().divide(Env.ONEHUNDRED, 2, RoundingMode.HALF_UP);
+    	int precision = 2; // TODO: hardcoded
+    	return r.getDailyCapacity().divide(utilizationDec, precision, RoundingMode.HALF_UP);
+    }
     
-	public CategoryDataset getDataset() {
-		
-		return dataset;
-	}
+    public CategoryDataset getDataset()
+    {
+    	return dataset;
+    }
 
-	public JTree getTree() {
-		
+	public JTree getTree()
+	{
 		return tree;
 	}
 }

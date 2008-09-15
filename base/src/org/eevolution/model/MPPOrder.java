@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -224,6 +225,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	public void setClientOrg(int AD_Client_ID, int AD_Org_ID) {
 		super.setClientOrg(AD_Client_ID, AD_Org_ID);
 	} //	setClientOrg
+	
+	/**
+	 * @return Open Qty
+	 */
+	public BigDecimal getQtyOpen()
+	{
+		return getQtyOrdered().subtract(getQtyDelivered()).subtract(getQtyScrap());
+	}
 
 	/**************************************************************************
 	 * 	String Representation
@@ -282,11 +291,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
-		if (getAD_Client_ID() == 0) {
+		if (getAD_Client_ID() == 0)
+		{
 			m_processMsg = "AD_Client_ID = 0";
 			return false;
 		}
-		if (getAD_Org_ID() == 0) {
+		if (getAD_Org_ID() == 0)
+		{
 			int context_AD_Org_ID = Env.getAD_Org_ID(getCtx());
 			if (context_AD_Org_ID == 0) {
 				m_processMsg = "AD_Org_ID = 0";
@@ -295,11 +306,20 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			setAD_Org_ID(context_AD_Org_ID);
 			log.warning("beforeSave - Changed Org to Context=" + context_AD_Org_ID);
 		}
-
-		if (getM_Warehouse_ID() == 0) {
+		if (getM_Warehouse_ID() == 0)
+		{
 			int ii = Env.getContextAsInt(getCtx(), "#M_Warehouse_ID");
-			if (ii != 0) setM_Warehouse_ID(ii);
+			if (ii != 0)
+			{
+				setM_Warehouse_ID(ii);
+			}
 		}
+		// If DateFinishSchedule is not filled, use DatePromised
+		if (getDateFinishSchedule() == null)
+		{
+			setDateFinishSchedule(getDatePromised());
+		}				
+
 		return true;
 	}
 

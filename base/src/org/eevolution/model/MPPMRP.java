@@ -38,7 +38,6 @@ import org.compiere.model.X_M_ForecastLine;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Util;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflow;
 

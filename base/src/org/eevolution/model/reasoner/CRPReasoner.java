@@ -12,260 +12,231 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 
 package org.eevolution.model.reasoner;
 
 import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MResourceUnAvailable;
-import org.compiere.model.PO;
-import org.compiere.util.CLogger;
+import org.compiere.model.POResultSet;
+import org.compiere.model.Query;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderNode;
-import org.eevolution.model.MPPOrderWorkflow;
-import org.eevolution.tools.DateTimeUtil;
 
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
  * @version 1.0, October 14th 2005
+ * 
+ * @author Teo Sarca, http://www.arhipac.ro
  */
-public class CRPReasoner {
-
-	/**
-	 * All the below cases expect exactly two parameters: The (1) begin and the (2) end of a day 
-	 */
-
-	/**
-	 * Case 1: The time dependent process has already begun and ends at this day.
-	 */
-	public static final String RESTRICTION_DAY_CASE_1 = 
-		"(datestartschedule<=''{0}'' AND datefinishschedule>=''{0}'' AND datefinishschedule<=''{1}'')";
-
-	/**
-	 * Case 2: The time dependent process begins and ends at this day.
-	 */
-	public static final String RESTRICTION_DAY_CASE_2 = 
-		"(datestartschedule>=''{0}'' AND datestartschedule<=''{1}'' AND datefinishschedule>=''{0}'' AND datefinishschedule<=''{1}'')";
-
-	/**
-	 * Case 3: The time dependent process begins at this day and ends few days later.
-	 */
-	public static final String RESTRICTION_DAY_CASE_3 = 
-		"(datestartschedule>=''{0}'' AND datestartschedule<=''{1}'' AND datefinishschedule>=''{1}'')";
-
-	/**
-	 * Case 4: The time dependent process has already begun and ends few days later.
-	 */
-	public static final String RESTRICTION_DAY_CASE_4 = 
-		"(datestartschedule<=''{0}'' AND datefinishschedule>=''{1}'')";
-
-	private static CLogger	log	= CLogger.getCLogger (CRPReasoner.class);
-
-
-	private String getDayRestriction(Timestamp dateTime, MResource r) {
-
-		Object[] params = { getBorderDayMin(dateTime, r).toString(), getBorderDayMax(dateTime, r).toString() };
-
-		return 
-		MessageFormat.format(RESTRICTION_DAY_CASE_1, params)+
-		" OR "+MessageFormat.format(RESTRICTION_DAY_CASE_2, params)+
-		" OR "+MessageFormat.format(RESTRICTION_DAY_CASE_3, params)+
-		" OR "+MessageFormat.format(RESTRICTION_DAY_CASE_4, params);
+public class CRPReasoner
+{
+	public Properties getCtx()
+	{
+		return Env.getCtx();
 	}
 
-	public MPPOrder[] getPPOrdersNotCompleted(MResource r) {
+	private String getSQLDayRestriction(Timestamp dateTime, MResource r, List<Object> params)
+	{
+		Timestamp dayStart = r.getResourceType().getDayStart(dateTime);
+		Timestamp dayEnd = r.getResourceType().getDayEnd(dateTime);
+		
+		String whereClause;
+		
+		//
+		// Case 1: The time dependent process has already begun and ends at this day.
+		whereClause = "(DateStartSchedule<=? AND DateFinishSchedule>=? AND DateFinishSchedule<=?)";
+		params.add(dayStart);
+		params.add(dayStart);
+		params.add(dayEnd);
+		
+		//
+		// Case 2: The time dependent process begins and ends at this day.
+		whereClause += " OR (DateStartSchedule>=? AND DateStartSchedule<=?"
+							+" AND DateFinishSchedule>=? AND DateFinishSchedule<=?)";
+		params.add(dayStart);
+		params.add(dayEnd);
+		params.add(dayStart);
+		params.add(dayEnd);
 
-		//String sql = "SELECT owf.PP_Order_Workflow_ID , o.DateStartSchedule , o.DateFinishSchedule ,o.QtyOrdered - o.QtyDelivered - o.QtyScrap AS QtyOpen FROM PP_Order o INNER JOIN PP_Order_Workflow owf ON (owf.PP_ORDER_ID = o.PP_Order_ID) WHERE o.DocStatus <> 'CL' AND o.AD_Client_ID = ? AND o.S_Resource_ID= ? ORDER BY DatePromised" ;		
-		String where = 
-			// Checks the requested resource id directly on order node, not on resource id of the order
-			//"PP_Order_ID IN (SELECT PP_Order_ID FROM PP_Order_Node on WHERE on.S_Resource_ID="+r.getID()+")"
-			"S_Resource_ID="+r.get_ID() +" AND DocStatus <> 'CL' AND AD_Client_ID = " + r.getAD_Client_ID() ; //+ " AND PP_Order_ID = 1000031" ;
-		// ... and completed orders needn't to be observed      		
+		//
+		// Case 3: The time dependent process begins at this day and ends few days later.
+		whereClause += " OR (DateStartSchedule>=? AND DateStartSchedule<=? AND DateFinishSchedule>=?)";
+		params.add(dayStart);
+		params.add(dayEnd);
+		params.add(dayEnd);
 
-		int[] orderIds = PO.getAllIDs("PP_Order", where, null);
-		MPPOrder[] orders = new MPPOrder[orderIds.length];
-		for(int i = 0; i < orderIds.length; i++) {
+		//
+		// Case 4: The time dependent process has already begun and ends few days later.
+		whereClause += " OR (DateStartSchedule<=? AND DateFinishSchedule>=?)";
+		params.add(dayStart);
+		params.add(dayEnd);
 
-			orders[i] = new MPPOrder(Env.getCtx(), orderIds[i], null);
+		return "("+whereClause+")";
+	}
+
+	public Query getPPOrdersNotCompletedQuery(int S_Resource_ID, String trxName)
+	{
+		ArrayList<Object> params = new ArrayList<Object>();
+		
+		StringBuffer whereClause = new StringBuffer();
+		
+		// For current AD_Client_ID (security)
+		whereClause.append("AD_Client_ID=?");
+		params.add(Env.getAD_Client_ID(getCtx()));
+		
+		// Skip voided, reversed and closed orders:
+		whereClause.append(" AND ").append(MPPOrder.COLUMNNAME_DocStatus).append(" NOT IN ('VO', 'RE', 'CL')");
+		
+		
+		// For given resource (if any)
+		if (S_Resource_ID > 0)
+		{
+			whereClause.append(" AND ").append(MPPOrder.COLUMNNAME_S_Resource_ID).append("=?");
+			params.add(S_Resource_ID);
 		}
 
-		return orders;
+		return new Query(getCtx(), MPPOrder.Table_Name, whereClause.toString(), trxName)
+					.setParameters(params)
+					.setOnlyActiveRecords(true)
+					.setOrderBy(MPPOrder.COLUMNNAME_DatePromised);
 	}
 
-	public Timestamp getBorderDayMin(Timestamp dateTime, MResource r) {
-
-		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
-		return (t.isTimeSlot()) ? 
-				DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotStart(), false) :
-					DateTimeUtil.getDayBorder(dateTime, null, false);
-	}
-
-	public Timestamp getBorderDayMax(Timestamp dateTime, MResource r) {
-
-		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
-		return (t.isTimeSlot()) ? 
-				DateTimeUtil.getDayBorder(dateTime, t.getTimeSlotEnd(), true) :
-					DateTimeUtil.getDayBorder(dateTime, null, true);
-	}
-
-	public boolean isResourceAvailable(Timestamp dateTime, MResource r) {
-
-		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
-		return ( checkResourceAvailability(dateTime, r) && checkResourceTypeAvailability(dateTime, t) );
-	}
-
-	public MPPOrder[] getPPOrders(Timestamp dateTime, MResource r) {
-
-		if(!isResourceAvailable(dateTime, r)) {
-
+	public MPPOrder[] getPPOrders(Timestamp dateTime, MResource r)
+	{
+		if(!isAvailable(r, dateTime))
+		{
 			return new MPPOrder[0];
 		}
 
-		String where = 
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(r.get_ID());
+		final String whereClause = 
 			// Checks the requested resource id directly on order node, not on resource id of the order
-			"PP_order_id in (select PP_order_id from PP_order_node where s_resource_id="+r.get_ID()
-			// ... and only the orders running on given day
-			+" AND ("+getDayRestriction(dateTime, r)+") ) AND AD_Client_ID =" + r.getAD_Client_ID();
-
-		int[] orderIds = PO.getAllIDs("PP_Order", where, null);
-		MPPOrder[] orders = new MPPOrder[orderIds.length];
-		for(int i = 0; i < orderIds.length; i++) {
-
-			orders[i] = new MPPOrder(Env.getCtx(), orderIds[i], null);
-		}
-
-		return orders;
+			"PP_Order_ID IN (SELECT PP_Order_ID FROM PP_Order_Node WHERE S_Resource_ID=?"
+								// ... and only the orders running on given day
+								+" AND "+getSQLDayRestriction(dateTime, r, params)
+			+")"
+			+ " AND AD_Client_ID=?";
+		params.add(r.getAD_Client_ID());
+		
+		List<MPPOrder> list = new Query(r.getCtx(), MPPOrder.Table_Name, whereClause, null)
+									.setParameters(params)
+									.list();
+		return list.toArray(new MPPOrder[list.size()]);
 	}  
 
-	public MPPOrderNode[] getPPOrderNodes(Timestamp dateTime, MResource r) {
-
-		if(!isResourceAvailable(dateTime, r)) {
-
+	public MPPOrderNode[] getPPOrderNodes(Timestamp dateTime, MResource r)
+	{
+		if(!isAvailable(r, dateTime))
+		{
 			return new MPPOrderNode[0];
 		}
 
-		String where = 
-			"s_resource_id = "+r.get_ID()
-			+" AND ("+getDayRestriction(dateTime, r)+") AND AD_Client_ID = " + r.getAD_Client_ID();
-		log.log(Level.FINE,"getPPOrderNodes --> Where:" + where);
-		int[] ids = PO.getAllIDs("PP_Order_Node", where, null);
-
-		MPPOrderNode[] nodes = new MPPOrderNode[ids.length];
-		for(int i = 0; i < ids.length; i++) {
-
-			nodes[i] = new MPPOrderNode(Env.getCtx(), ids[i], null);
-		}
-
-		return nodes;
+		ArrayList<Object> params = new ArrayList<Object>();
+		String whereClause = MPPOrderNode.COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?";
+		params.add(r.get_ID());
+		params.add(r.getAD_Client_ID());
+		
+		whereClause += " AND "+getSQLDayRestriction(dateTime, r, params);
+		
+		List<MPPOrderNode> list = new Query(r.getCtx(), MPPOrderNode.Table_Name, whereClause, null)
+									.setParameters(params)
+									.list();
+		return list.toArray(new MPPOrderNode[list.size()]);
 	}  
 
-	public MPPOrderWorkflow getPPOrderWorkflow(MPPOrder o) {
-
-		int[] ids = PO.getAllIDs("PP_Order_Workflow", "PP_Order_ID = "+o.get_ID() + " AND AD_Client_ID = " + o.getAD_Client_ID(), null);
-
-		return (ids.length != 1) ? null : new MPPOrderWorkflow(Env.getCtx(), ids[0], null);
+	public boolean isAvailable(MResource r, Timestamp dateTime)
+	{
+		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
+		return t.isDayAvailable(dateTime) && !MResourceUnAvailable.isUnAvailable(r, dateTime);
 	}
 
-	public boolean checkResourceTypeAvailability(MResourceType t) {
-
-		if(!t.isDateSlot()) {
-
-			return true;
-		}
-
-		Timestamp dateTime = new Timestamp(System.currentTimeMillis());
-		for(int i = 0; i < 7; i++) {
-
-			if(checkResourceTypeAvailability(dateTime, t)) {
-
-				return true;
-			}
-
-			//dateTime = DateTimeUtil.incrementDay(dateTime);
-			dateTime = org.compiere.util.TimeUtil.addDays(dateTime, 1);
-
-		}
-
-		return false;
+	public boolean isAvailable(MResource r)
+	{
+		return r.getResourceType().isAvailable();
 	}
-
-	public boolean checkResourceAvailability(Timestamp dateTime, MResource r) {
-
-		int[] ids = PO.getAllIDs("S_ResourceUnAvailable", "S_Resource_ID = "+r.get_ID() + " AND AD_Client_ID = " + r.getAD_Client_ID(), null);
-
-		Timestamp dateFrom = null;
-		Timestamp dateTo = null;
-		Timestamp dateActual = null;
-
-		MResourceUnAvailable rua = null;
-		for(int i = 0; i < ids.length; i++) {
-
-			rua = new MResourceUnAvailable(Env.getCtx(), ids[i], null);
-
-			dateFrom = DateTimeUtil.getDayBorder(rua.getDateFrom(), null, false);
-			dateTo = DateTimeUtil.getDayBorder(rua.getDateTo(), null, true);
-			dateActual = DateTimeUtil.getDayBorder(dateTime, null, false);
-
-			if(dateFrom.compareTo(dateActual) <= 0 && dateTo.compareTo(dateActual) >= 0 ) {
-
-				return false;
+	
+	private Timestamp getAvailableDate(MResourceType t, Timestamp dateTime, boolean isScheduleBackward)
+	{
+		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		int direction = isScheduleBackward ? -1 : +1; 
+		for (int i = 0; i <= 7; i++)
+		{
+			date = TimeUtil.addDays(date, i * direction);
+			if (t.isDayAvailable(date))
+			{
+				break;
 			}
 		}
-
-		return true;
+		return date;
 	}
 
-	public boolean checkResourceTypeAvailability(Timestamp dateTime, MResourceType t) {
-
-		if(!t.isDateSlot()) {
-
-			return true;
+	/**
+	 * @param r resource
+	 * @param dateTime
+	 * @return next available date
+	 */
+	public Timestamp getAvailableDate(MResource r, Timestamp dateTime, boolean isScheduleBackward)
+	{
+		MResourceType t = r.getResourceType();
+		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		ArrayList<Object> params = new ArrayList<Object>();
+		String whereClause;
+		String orderByClause;
+		int direction;
+		if (isScheduleBackward)
+		{
+			whereClause = "TRUNC("+MResourceUnAvailable.COLUMNNAME_DateFrom+") < ?";
+			params.add(date);
+			orderByClause = MResourceUnAvailable.COLUMNNAME_DateFrom+" DESC";
+			direction = 1;
+		}
+		else
+		{
+			whereClause = "TRUNC("+MResourceUnAvailable.COLUMNNAME_DateTo+") > ?";
+			params.add(date);
+			orderByClause = MResourceUnAvailable.COLUMNNAME_DateTo;
+			direction = -1;
 		}
 
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTimeInMillis(dateTime.getTime());
-
-		boolean retValue = false;
-		switch(gc.get(Calendar.DAY_OF_WEEK)) {
-
-		case Calendar.SUNDAY:
-			retValue = t.isOnSunday();
-			break;
-
-		case Calendar.MONDAY:
-			retValue = t.isOnMonday();
-			break;
-
-		case Calendar.TUESDAY:
-			retValue = t.isOnTuesday();
-			break;
-
-		case Calendar.WEDNESDAY:
-			retValue = t.isOnWednesday();
-			break;
-
-		case Calendar.THURSDAY:
-			retValue = t.isOnThursday();
-			break;
-
-		case Calendar.FRIDAY:
-			retValue = t.isOnFriday();
-			break;
-
-		case Calendar.SATURDAY:
-			retValue = t.isOnSaturday();	
-			break;
-		} 
-
-		return retValue;
+		whereClause += " AND "+MResourceUnAvailable.COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?";
+		params.add(r.get_ID());
+		params.add(r.getAD_Client_ID());
+		
+		POResultSet<MResourceUnAvailable> rs = new Query(r.getCtx(), MResourceUnAvailable.Table_Name, whereClause, null)
+												.setOrderBy(orderByClause)
+												.setParameters(params)
+												.scroll();
+		try
+		{
+			while(rs.hasNext())
+			{
+				MResourceUnAvailable rua = rs.next();
+				if (rua.isUnAvailable(date))
+				{
+					date = TimeUtil.addDays(rua.getDateTo(), 1 * direction);
+				}
+				date = getAvailableDate(t, dateTime, isScheduleBackward);
+			}
+		}
+		finally
+		{
+			DB.close(rs);
+		}
+		//
+		date = getAvailableDate(t, dateTime, isScheduleBackward);
+		return date;
 	}
 }

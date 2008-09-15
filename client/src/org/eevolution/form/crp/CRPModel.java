@@ -28,12 +28,10 @@ import org.jfree.data.category.CategoryDataset;
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
  * @version 1.0, October 14th 2005
  */
-public interface CRPModel {
-
-	public JTree getTree();
-	
+public interface CRPModel
+{
+	public JTree getTree();	
 	public CategoryDataset getDataset();
-	
 	public BigDecimal calculateLoad(Timestamp dateTime, MResource r, String docStatus);
 	
 }

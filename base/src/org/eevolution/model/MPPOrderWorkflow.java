@@ -57,6 +57,14 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			s_cache.put(key, retValue);
 		return retValue;
 	}	//	get
+	
+	public static MPPOrderWorkflow forPP_Order_ID(Properties ctx, int PP_Order_ID, String trxName)
+	{
+		final String whereClause = MPPOrderWorkflow.COLUMNNAME_PP_Order_ID+"=?";
+		return new Query(ctx, MPPOrderWorkflow.Table_Name, whereClause, trxName)
+				.setParameters(new Object[]{PP_Order_ID})
+				.first();
+	}
 
 	/**	Single Cache					*/
 	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>("PP_Order_Workflow", 20);
@@ -154,9 +162,10 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	 */
 	protected void loadNodes()
 	{
-		final String whereClause = MPPOrderNode.COLUMNNAME_PP_Order_Workflow_ID+"=? AND IsActive=?";
+		final String whereClause = MPPOrderNode.COLUMNNAME_PP_Order_Workflow_ID+"=?";
 		m_nodes = new Query(getCtx(), MPPOrderNode.Table_Name, whereClause, get_TrxName())
-						.setParameters(new Object[]{get_ID(), "Y"})
+						.setParameters(new Object[]{get_ID()})
+						.setOnlyActiveRecords(true)
 						.list();
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
@@ -352,7 +361,9 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			{
 				MPPOrderNodeNext[] nexts = nodes[i].getTransitions(AD_Client_ID);
 				if (nexts.length > 0)
+				{
 					return nexts[0].getPP_Order_Next_ID();
+				}
 				return 0;
 			}
 		}
@@ -401,15 +412,16 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 
 	/**
 	 * 	Get very Last Node
-	 * 	@param PP_Order_Node_ID ignored
 	 * 	@param AD_Client_ID for client
 	 * 	@return next PP_Order_Node_ID or 0
 	 */
-	public int getLast (int PP_Order_Node_ID, int AD_Client_ID)
+	public int getLast (int AD_Client_ID)
 	{
 		MPPOrderNode[] nodes = getNodesInOrder(AD_Client_ID);
 		if (nodes.length > 0)
+		{
 			return nodes[nodes.length-1].getPP_Order_Node_ID();
+		}
 		return 0;
 	}	//	getLast
 

@@ -417,8 +417,14 @@ public class TimeUtil
 	 */
 	static public Timestamp addDays (Timestamp day, int offset)
 	{
+		if (offset == 0)
+		{
+			return day;
+		}
 		if (day == null)
+		{
 			day = new Timestamp(System.currentTimeMillis());
+		}
 		//
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTime(day);
@@ -654,6 +660,51 @@ public class TimeUtil
 		cal.set(Calendar.DAY_OF_YEAR, 1);
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	trunc
+	
+	/**
+	 * Returns the day border by combining the date part from dateTime and time part form timeSlot.
+	 * If timeSlot is null, then first milli of the day will be used (if end == false)
+	 * or last milli of the day (if end == true).
+	 * 
+	 * @param dateTime
+	 * @param timeSlot
+	 * @param end
+	 * @return
+	 */
+	public static Timestamp getDayBorder(Timestamp dateTime, Timestamp timeSlot, boolean end)
+	{
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(dateTime.getTime());
+		dateTime.setNanos(0);
+
+		if(timeSlot != null)
+		{
+			timeSlot.setNanos(0);
+			GregorianCalendar gcTS = new GregorianCalendar();
+			gcTS.setTimeInMillis(timeSlot.getTime());
+
+			gc.set(Calendar.HOUR_OF_DAY, gcTS.get(Calendar.HOUR_OF_DAY));
+			gc.set(Calendar.MINUTE, gcTS.get(Calendar.MINUTE));
+			gc.set(Calendar.SECOND, gcTS.get(Calendar.SECOND));
+			gc.set(Calendar.MILLISECOND, gcTS.get(Calendar.MILLISECOND));
+		} 
+		else if(end)
+		{
+			gc.set(Calendar.HOUR_OF_DAY, 23);
+			gc.set(Calendar.MINUTE, 59);
+			gc.set(Calendar.SECOND, 59);
+			gc.set(Calendar.MILLISECOND, 999);
+		}
+		else
+		{
+			gc.set(Calendar.MILLISECOND, 0);
+			gc.set(Calendar.SECOND, 0);
+			gc.set(Calendar.MINUTE, 0);
+			gc.set(Calendar.HOUR_OF_DAY, 0);
+		}
+		return new Timestamp(gc.getTimeInMillis());
+	}
+
 	
 	/**
 	 * 	Test

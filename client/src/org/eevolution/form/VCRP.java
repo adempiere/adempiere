@@ -17,80 +17,48 @@
 package org.eevolution.form;
 
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
+import org.compiere.model.MResource;
+import org.compiere.model.MResourceType;
+import org.compiere.model.MUOM;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.eevolution.form.crp.CRPDatasetFactory;
 import org.eevolution.form.crp.CRPModel;
 import org.eevolution.model.MPPMRP;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.CategoryLabelPositions;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.resources.JFreeChartResources;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-//import org.jfree.ui.ApplicationFrame;
-//import org.jfree.ui.RefineryUtilities;
-
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GradientPaint;
-import java.text.DateFormat;
-import java.io.File;
-
-import java.math.BigDecimal;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import java.math.BigDecimal;
-
-import org.compiere.apps.*;
-import org.compiere.impexp.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.minigrid.*;
-import org.compiere.print.*;
-import org.compiere.db.*;
-
-import org.compiere.apps.form.FormFrame;
-import org.compiere.apps.form.FormPanel;
-import org.compiere.grid.ed.VDate;
-
-import org.compiere.model.MTable;
-import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
-import org.compiere.grid.ed.*;
 
 
 
@@ -366,9 +334,8 @@ implements FormPanel, ActionListener
 		 DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		 
 		 double currentweight = DB.getSQLValue(null, "Select SUM( (mo.qtyordered-mo.qtydelivered)*(Select mp.weight From m_product mp Where mo.m_product_id=mp.m_product_id )  )From PP_order mo Where ad_client_id=?", r.getAD_Client_ID());
-		 double dailyCapacity = DB.getSQLValue(null,"Select dailycapacity From s_resource Where s_resource_id=?",r.getS_Resource_ID());
-		 double utilization = DB.getSQLValue(null, "Select percentutilization From s_resource Where s_resource_id=?", r.getS_Resource_ID());
-
+		 double dailyCapacity = r.getDailyCapacity().doubleValue(); 
+		 double utilization = r.getPercentUtilization().doubleValue();
 	     double summary = 0;
 
 	     int day = 0;

@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
+
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -26,10 +29,32 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MResourceUnAvailable.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 {
+	private static final long serialVersionUID = 1L;
 
+
+	/**
+	 * Check if a resource is not available
+	 * @param r resource
+	 * @param dateTime date (date is truncated to day)
+	 * @return true if resource is unavailable
+	 */
+	public static boolean isUnAvailable(MResource r, Timestamp dateTime)
+	{
+		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		final String whereClause = COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?"
+									+" AND TRUNC("+COLUMNNAME_DateFrom+") <= ?"
+									+" AND TRUNC("+COLUMNNAME_DateTo+") >= ?";
+		return new Query(r.getCtx(), MResourceUnAvailable.Table_Name, whereClause, null)
+						.setParameters(new Object[]{r.get_ID(), r.getAD_Client_ID(), date, date})
+						.match();
+		
+	}
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -50,13 +75,8 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 	{
 		super(ctx, rs, trxName);
 	}	//	MResourceUnAvailable
-	
-	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
-	 */
+
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (getDateTo() == null)
@@ -68,5 +88,25 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 		}
 		return true;
 	}	//	beforeSave
+	
+
+	/**
+	 * Check if the resource is unavailable for date
+	 * @param date
+	 * @return true if valid
+	 */
+	public boolean isUnAvailable(Timestamp dateTime)
+	{
+		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		Timestamp dateFrom = getDateFrom();
+		Timestamp dateTo = getDateTo();
+		
+		if (dateFrom != null && date.before(dateFrom))
+			return false;
+		if (dateTo != null && date.after(dateTo))
+			return false;
+		return true;
+	}
+
 	
 }	//	MResourceUnAvailable
