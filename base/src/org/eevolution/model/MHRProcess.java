@@ -282,7 +282,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 					log.info("Skip concept "+concept+" - attribute not found");
 					continue;
 				}
-				X_HR_Attribute att =  new X_HR_Attribute(Env.getCtx(),m_attribute,get_TrxName());
+				MHRAttribute att =  new MHRAttribute(Env.getCtx(),m_attribute,get_TrxName());
 			
 				if(!concept.getType().equals(MHRConcept.TYPE_RuleEngine)) // Not Rule Engine - Only put HashTable
 				{
