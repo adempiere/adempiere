@@ -16,7 +16,6 @@
 
 package org.eevolution.process;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -44,6 +43,8 @@ public class CreateCostElement extends SvrProcess
 	private int				p_AD_Org_ID = 0;
 	private int             p_C_AcctSchema_ID = 0;
 	private int             p_M_CostType_ID = 0;
+	private int             p_M_CostElement_ID = 0;
+	private int             p_M_Product_Category_ID = 0;
 	private int             p_M_Product_ID = 0;
 
 	/**
@@ -61,19 +62,27 @@ public class CreateCostElement extends SvrProcess
 			}
 			else if (name.equals("AD_Org_ID"))
 			{    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_AD_Org_ID = para[i].getParameterAsInt();
 			}
 			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
 			{    
-				p_C_AcctSchema_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_C_AcctSchema_ID = para[i].getParameterAsInt();
 			}
 			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
 			{    
-				p_M_CostType_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_M_CostType_ID = para[i].getParameterAsInt();
+			}
+			else if (name.equals(MCost.COLUMNNAME_M_CostElement_ID))
+			{    
+				p_M_CostElement_ID = para[i].getParameterAsInt();
+			}
+			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID))
+			{    
+				p_M_Product_Category_ID = para[i].getParameterAsInt();
 			}
 			else if (name.equals(MCost.COLUMNNAME_M_Product_ID))
 			{    
-				p_M_Product_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_M_Product_ID = para[i].getParameterAsInt();
 			}
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
@@ -87,11 +96,18 @@ public class CreateCostElement extends SvrProcess
 		ArrayList<Object> params = new ArrayList<Object>();
 		String sql = "SELECT M_Product_ID FROM M_Product WHERE AD_Client_ID=?";
 		params.add(getAD_Client_ID());
+		if (p_M_Product_Category_ID != 0)
+		{
+			sql = sql + " AND M_Product_Category_ID=?";
+			params.add(p_M_Product_Category_ID);
+		}
+		
 		if (p_M_Product_ID != 0)
 		{
 			sql = sql + " AND M_Product_ID=?";
 			params.add(p_M_Product_ID);
 		}
+
 
 		MCostElement[] elements = MCostElement.getElements(getCtx(), get_TrxName());
 		if (elements.length == 0)
@@ -116,6 +132,9 @@ public class CreateCostElement extends SvrProcess
 				{	
 					for(MCostElement element : elements)
 					{	
+						if(p_M_CostElement_ID > 0 &&  element.get_ID() != p_M_CostElement_ID)
+							continue;
+						
 						MCost cost = new MCost(getCtx(), 0, get_TrxName());
 						cost.setM_Product_ID(m_M_Product_ID);
 						cost.setAD_Org_ID(p_AD_Org_ID);
