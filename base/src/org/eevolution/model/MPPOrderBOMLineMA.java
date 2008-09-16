@@ -12,24 +12,31 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, http://www.arhipac.ro                           *
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.model.Query;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	Shipment Material Allocation
  *	
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MPPOrderBOMLineMA.java,v 1.1 2005/04/01 05:59:48 vpj-cd Exp $
+ *  
+ *  @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderBOMLineMA extends X_PP_Order_BOMLineMA
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Get Material Allocations for Line
 	 *	@param ctx context
@@ -39,63 +46,36 @@ public class MPPOrderBOMLineMA extends X_PP_Order_BOMLineMA
 	 */
 	public static MPPOrderBOMLineMA[] get (Properties ctx, int PP_Order_BOMLine_ID, String trxName)
 	{
-		ArrayList list = new ArrayList ();
-		String sql = "SELECT * FROM PP_Order_BOMLineMA WHERE PP_Order_BOMLine_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, PP_Order_BOMLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MPPOrderBOMLineMA (ctx, rs, trxName));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		MPPOrderBOMLineMA[] retValue = new MPPOrderBOMLineMA[list.size ()];
-		list.toArray (retValue);
-		return retValue;
-	}	//	get
+		final String whereClause = COLUMNNAME_PP_Order_BOMLine_ID+"=?";
+		List<MPPOrderBOMLineMA> list = new Query(ctx, Table_Name, whereClause, trxName)
+											.setParameters(new Object[]{PP_Order_BOMLine_ID})
+											.setOrderBy(COLUMNNAME_PP_Order_BOMLineMA_ID)
+											.list();
+		return list.toArray(new MPPOrderBOMLineMA[list.size()]);
+	}
 	
 	/**
-	 * 	Delete all Material Allocation for InOut
-	 *	@param M_InOut_ID shipment
-	 *	@return number of rows deleted or -1 for error
+	 * Delete all Material Allocation for PP order component
+	 * @param PP_Order_BOMLine_ID PP order component line
+	 * @return number of rows deleted
 	 */
 	public static int deleteOrderBOMLineMA (int PP_Order_BOMLine_ID, String trxName)
 	{
-		String sql = "DELETE FROM PP_Order_BOMLineMA ma WHERE EXISTS "
-			+ "(SELECT * FROM PP_Order_BOMLine l WHERE l.PP_Order_BOMLine_ID=ma.PP_Order_BOMLine_ID"
-			+ " AND PP_Order_BOMLine_ID=" + PP_Order_BOMLine_ID + ")";
-		return DB.executeUpdate(sql, trxName);
-	}	//	deleteInOutMA
+		final String sql = "DELETE FROM "+Table_Name+" WHERE "+COLUMNNAME_PP_Order_BOMLine_ID+"=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{PP_Order_BOMLine_ID}, trxName);
+		
+		s_log.config("Delete old #" + no);
+		return no;
+	}
 	
 	/**	Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MPPOrderBOMLineMA.class);
 	
-	/**************************************************************************
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param M_InOutLineMA_ID ignored
-	 *	@param trxName trx
+	/**
+	 * Standard Constructor
+	 * @param ctx context
+	 * @param M_InOutLineMA_ID ignored
+	 * @param trxName trx
 	 */
 	public MPPOrderBOMLineMA (Properties ctx, int PP_Order_BOMLineMA_ID, String trxName)
 	{
@@ -116,10 +96,10 @@ public class MPPOrderBOMLineMA extends X_PP_Order_BOMLineMA
 	}	//	MInOutLineMA
 	
 	/**
-	 * 	Parent Constructor
-	 *	@param parent parent
-	 *	@param M_AttributeSetInstance_ID asi
-	 *	@param MovementQty qty
+	 * Parent Constructor
+	 * @param parent parent
+	 * @param M_AttributeSetInstance_ID asi
+	 * @param MovementQty qty
 	 */
 	public MPPOrderBOMLineMA (MPPOrderBOMLine parent, int M_AttributeSetInstance_ID, BigDecimal MovementQty)
 	{

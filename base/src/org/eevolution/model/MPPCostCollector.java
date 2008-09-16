@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -22,9 +23,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
@@ -34,20 +37,28 @@ import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTransaction;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
+
 /**
- *	Inventory Movement Model
+ *	PP Cost Collector Model
  *	
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MPPCostCollector.java,v 1.1 2004/06/19 02:10:34 vpj-cd Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -58,14 +69,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		super (ctx, PP_Cost_Collector_ID,trxName);
 		if (PP_Cost_Collector_ID == 0)
 		{
-			//	setC_DocType_ID (0);
 			setDocAction (DOCACTION_Complete);	// CO
 			setDocStatus (DOCSTATUS_Drafted);	// DR
-			//setIsApproved (false);
-			//setIsInTransit (false);
 			setMovementDate (new Timestamp(System.currentTimeMillis()));	// @#Date@
 			setPosted (false);
-			super.setProcessed (false);
+			setProcessed (false);
 		}	
 	}	//	MPPCostCollector
 
@@ -76,7 +84,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	 */
 	public MPPCostCollector(Properties ctx, ResultSet rs,String trxName)
 	{
-		super (ctx, rs,trxName);
+		super (ctx, rs, trxName);
 	}	//	MPPCostCollector
 
 
@@ -93,29 +101,19 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			setDescription(desc + " | " + description);
 	}	//	addDescription
 
-	/**
-	 * 	Set Processed.
-	 * 	Propagate to Lines/Taxes
-	 *	@param processed processed
-	 */
+//	@Override
 	public void setProcessed (boolean processed)
 	{
 		super.setProcessed (processed);
 		if (get_ID() == 0)
 			return;
-		String sql = "UPDATE PP_Cost_Collector SET Processed='"
-			+ (processed ? "Y" : "N")
-			+ "' WHERE PP_Cost_Collector_ID =" + getPP_Cost_Collector_ID();
-		int noLine = DB.executeUpdate(sql, get_TrxName());
+		final String sql = "UPDATE PP_Cost_Collector SET Processed=? WHERE PP_Cost_Collector_ID=?";
+		int noLine = DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
 		log.fine("setProcessed - " + processed + " - Lines=" + noLine);
 	}	//	setProcessed
 
 
-	/**************************************************************************
-	 * 	Process document
-	 *	@param processAction document action
-	 *	@return true if performed
-	 */
+//	@Override
 	public boolean processIt (String processAction)
 	{
 		m_processMsg = null;
@@ -128,10 +126,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	/**	Just Prepared Flag			*/
 	private boolean		m_justPrepared = false;
 
-	/**
-	 * 	Unlock Document.
-	 * 	@return true if success 
-	 */
+//	@Override
 	public boolean unlockIt()
 	{
 		log.info("unlockIt - " + toString());
@@ -139,10 +134,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return true;
 	}	//	unlockIt
 
-	/**
-	 * 	Invalidate Document
-	 * 	@return true if success 
-	 */
+//	@Override
 	public boolean invalidateIt()
 	{
 		log.info("invalidateIt - " + toString());
@@ -150,33 +142,33 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return true;
 	}	//	invalidateIt
 
-	/**
-	 *	Prepare Document
-	 * 	@return new status (In Progress or Invalid) 
-	 */
+//	@Override
 	public String prepareIt()
 	{
-		log.info("prepareIt - " + toString());
-
-		org.compiere.model.MDocType dt = MDocType.get(getCtx(), getC_DocType_ID()); //getC_DocType_ID()
-
-		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getMovementDate(), dt.getDocBaseType()))
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (m_processMsg != null)
 		{
-			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
+		
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocType_ID());
+		
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
+		{
 			setDocAction(DOCACTION_Complete);
+		}
+		
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+		{
+			return DocAction.STATUS_Invalid;
+		}
+
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
-	/**
-	 * 	Approve Document
-	 * 	@return true if success 
-	 */
-
+//	@Override
 	public boolean  approveIt()
 	{
 		log.info("approveIt - " + toString());
@@ -184,11 +176,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return true;
 	}	//	approveIt
 
-	/**
-	 * 	Reject Approval
-	 * 	@return true if success 
-	 */
-
+//	@Override
 	public boolean rejectIt()
 	{
 		log.info("rejectIt - " + toString());
@@ -196,10 +184,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return true;
 	}	//	rejectIt
 
-	/**
-	 * 	Complete Document
-	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
-	 */
+//	@Override
 	public String completeIt()
 	{
 		//	Re-Check
@@ -210,15 +195,15 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				return status;
 		}
 
-		MProduct product = new MProduct (getCtx(),getM_Product_ID(),get_TrxName());
-
-		//	Qty & Type
-		String MovementType = getMovementType();
-
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
 		BigDecimal QtyIssue = Env.ZERO;
 		BigDecimal QtyReceipt = Env.ZERO;
 		BigDecimal Qty = getMovementQty();
-		if (MovementType.charAt(1) == '-')
+		
+		if (isIssue())
 		{	
 			Qty = Qty.negate();
 			QtyIssue = Qty;
@@ -229,23 +214,18 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		}
 
 		//	Update Order Line
-		MPPOrderBOMLine obomline = null;
-		if (getPP_Order_BOMLine_ID()!= 0)
-		{
-			obomline = new MPPOrderBOMLine(getCtx(),getPP_Order_BOMLine_ID(),get_TrxName());
-		}	
-
-		log.info(" Qty=" + getMovementQty());
-		//Operation activity begin
-		MDocType doctype = new MDocType(Env.getCtx(),getC_DocType_ID(),get_TrxName());
-		if(!doctype.equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
+		MDocType doctype = MDocType.get(getCtx(), getC_DocType_ID());
+		if(!doctype.getDocBaseType().equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
 		{
 			//	Stock Movement 
-			if (product != null	&& product.isStocked() )
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			if (product != null	&& product.isStocked())
 			{
 				// Only for Production Issue records
-				if (MovementType.charAt(1) == '-')
-					checkMaterialPolicy( obomline, getMovementQty());
+				if (isIssue())
+				{
+					checkMaterialPolicy(getPP_Order_BOMLine(), getMovementQty());
+				}
 
 				log.fine("Material Transaction");
 				MTransaction mtrx = null; 
@@ -253,14 +233,10 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 				if (getM_AttributeSetInstance_ID() == 0)
 				{
-					MPPOrderBOMLineMA mas[] = MPPOrderBOMLineMA.get(getCtx(),
-							getPP_Cost_Collector_ID(), get_TrxName());
-					for (int j = 0; j < mas.length; j++)
+					for (MPPOrderBOMLineMA ma : MPPOrderBOMLineMA.get(getCtx(), getPP_Order_Node_ID(), get_TrxName()))
 					{
-						MPPOrderBOMLineMA ma = mas[j];
 						BigDecimal QtyMA = ma.getMovementQty();
-
-						if (MovementType.charAt(1) == '-')
+						if (isIssue())
 						{	
 							QtyMA = QtyMA.negate();
 							QtyIssue = QtyMA;
@@ -281,18 +257,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 						}
 
 						//	Create Transaction
-						mtrx = new MTransaction (getCtx(), this.getAD_Org_ID() ,
-								MovementType,getM_Locator_ID(),
+						mtrx = new MTransaction (getCtx(), this.getAD_Org_ID(),
+								getMovementType(), getM_Locator_ID(),
 								getM_Product_ID(), ma.getM_AttributeSetInstance_ID(), 
 								QtyMA, getMovementDate(), get_TrxName());                                                                                                           
-
 						mtrx.setPP_Order_ID(getPP_Order_ID());
 						mtrx.setPP_Order_BOMLine_ID(getPP_Order_BOMLine_ID());
-						if (!mtrx.save(get_TrxName()))
-						{
-							m_processMsg = "Could not create Material Transaction (MA)";
-							return DocAction.STATUS_Invalid;
-						}
+						mtrx.saveEx();
 					}
 				}
 				//	sLine.getM_AttributeSetInstance_ID() != 0
@@ -302,30 +273,30 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					if (!MStorage.add(getCtx(), getM_Warehouse_ID(), 
 							getM_Locator_ID(),
 							getM_Product_ID(), 
-							getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, Qty, QtyIssue, QtyReceipt, get_TrxName()))
+							getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID,
+							Qty, QtyIssue, QtyReceipt, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory";
 						return DocAction.STATUS_Invalid;
 					}
 					//	FallBack: Create Transaction
 
-					mtrx = new MTransaction (getCtx(),getAD_Org_ID(),MovementType,getM_Locator_ID(),getM_Product_ID(),getM_AttributeSetInstance_ID(), Qty, getMovementDate(), get_TrxName());
+					mtrx = new MTransaction (getCtx(),getAD_Org_ID(),
+							getMovementType(), getM_Locator_ID(),
+							getM_Product_ID(), getM_AttributeSetInstance_ID(),
+							Qty, getMovementDate(), get_TrxName());
 					mtrx.setPP_Order_ID(getPP_Order_ID());
 					mtrx.setPP_Order_BOMLine_ID(getPP_Order_BOMLine_ID());
-					if (!mtrx.save(get_TrxName()))
-					{
-						m_processMsg = "Could not create Material Transaction";
-						return DocAction.STATUS_Invalid;
-					}
+					mtrx.saveEx();
 				}										
 			}	//	stock movement
 
-			if (MovementType.charAt(1) == '-')				
+			if (isIssue())				
 			{
-				//	Update Order Line
-				if (getPP_Order_BOMLine_ID()!= 0)
+				//	Update PP Order Line
+				MPPOrderBOMLine obomline = getPP_Order_BOMLine();
+				if (obomline != null)
 				{
-					obomline = new MPPOrderBOMLine(getCtx(),getPP_Order_BOMLine_ID(),get_TrxName());
 					obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
 					obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
 					obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
@@ -333,296 +304,88 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
 					log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
 					obomline.setQtyReserved(obomline.getQtyReserved().subtract(getMovementQty()));
-
-					if (!obomline.save(get_TrxName()))
-					{
-						m_processMsg = "Could not update Order Line";
-						return DocAction.STATUS_Invalid;
-					}
-					else
-						log.fine("OrderLine -> Reserved=" + obomline.getQtyReserved() 
-								+ ", Delivered=" + obomline.getQtyDelivered());
+					obomline.saveEx();
+					log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
 				}
 			}
-			else if  (MovementType.charAt(1) == '+')
+			else if  (isReceipt())
 			{
-				MPPOrder order = new MPPOrder(getCtx(), getPP_Order_ID(),get_TrxName());
+				//	Update PP Order 
+				MPPOrder order = getPP_Order();
 				order.setQtyDelivered(order.getQtyDelivered().add(getMovementQty()));                
 				order.setQtyScrap(order.getQtyScrap().add(getScrappedQty()));
 				order.setQtyReject(order.getQtyReject().add(getQtyReject()));                
 				order.setDateDelivered(getMovementDate());	//	overwrite=last				
 				log.fine("OrderLine - Reserved=" + order.getQtyReserved() + ", Delivered=" + order.getQtyDelivered());				
 				order.setQtyReserved(order.getQtyReserved().subtract(getMovementQty()));
-				if (!order.save(get_TrxName()))
-				{
-					m_processMsg = "Could not update Order";
-					return DocAction.STATUS_Invalid;
-				}
-				else
-					log.fine("Order -> Delivered=" + order.getQtyDelivered());										
+				order.saveEx();
+				log.fine("Order -> Delivered=" + order.getQtyDelivered());										
 			}
-			//                             //fjv e-evolution Operation Activity Report begin
 		}
-		// I need refactory this code because can be improve Victor perez
-		if(doctype.equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
+		// Operation Activity
+		if(doctype.getDocBaseType().equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
 		{
-			MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),get_TrxName());
+			MPPOrderNode onodeact = getPP_Order_Node();
 			onodeact.setDocStatus(DOCSTATUS_Completed);
 			onodeact.setQtyScrap(onodeact.getQtyScrap().add(getScrappedQty()));
 			onodeact.setQtyReject(onodeact.getQtyReject().add(getQtyReject()));
 			onodeact.setQtyDelivered(onodeact.getQtyDelivered().add(getMovementQty()));
 			onodeact.setDurationReal(onodeact.getDurationReal()+getDurationReal().intValue());
 			onodeact.setSetupTimeReal(onodeact.getSetupTimeReal()+getSetupTimeReal().intValue());
-			onodeact.save();
+			onodeact.saveEx();
 
-			ArrayList<String> list = new ArrayList<String>();
-			int count =0;
-			try
+			if (MPPOrderNode.isLastNode(getCtx(), getPP_Order_Node_ID(), get_TrxName()))
 			{
-				StringBuffer sql=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=? Order By Value");
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(),get_TrxName());
-				pstmt.setInt(1, getPP_Order_ID());
-				ResultSet rs = pstmt.executeQuery();
-				
-				while (rs.next())
-				{
-					Integer nodeid = new Integer(rs.getInt(1));
-					list.add(count,nodeid.toString());
-
-					count++;
-
-				}
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException enode)
-			{
-			}
-
-			boolean lastnode = false;  
-			
-			for (int v =0 ; v < list.size(); v++)
-			{
-				if (list.get(v).equals(new Integer(getPP_Order_Node_ID()).toString()))
-				{
-					//String nextnode = new String(list.get(v+1));
-					try
-					{
-						StringBuffer sqlnn=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_NodeNext WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID=?");
-						PreparedStatement pstmtnn = DB.prepareStatement(sqlnn.toString(),get_TrxName());
-						pstmtnn.setInt(1, getPP_Order_ID());
-						pstmtnn.setInt(2, getPP_Order_Node_ID());
-						ResultSet rsnn = pstmtnn.executeQuery();
-						log.fine("***** SQL last node " + sqlnn.toString());
-						if (rsnn.next())
-						{
-							lastnode=false;
-						}
-						else
-						{
-							lastnode=true;
-						}
-						rsnn.close();
-						pstmtnn.close();
-					}
-					catch (SQLException enodenn)
-					{
-					}
-					if (!lastnode)
-					{
-						log.fine("***** It's not last node");
-					}
-					else
-					{
-						try
-						{
-							StringBuffer sql1=new StringBuffer("SELECT DocStatus,PP_Order_Node_ID,DurationRequiered " +
-									"FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID!=?");
-							PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),get_TrxName());
-							pstmt1.setInt(1, getPP_Order_ID());
-							pstmt1.setInt(2, getPP_Order_Node_ID());
-							ResultSet rs1 = pstmt1.executeQuery();
-							
-							log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
-							while (rs1.next())
-							{
-								createnewnode(rs1.getInt(2),rs1.getBigDecimal(3));  
-							}
-							rs1.close();
-							pstmt1.close();
-						}
-						catch (SQLException enode)
-						{
-						}
-					}
-				}
-			}  
-
-			// create purchase order on complete
-			int p_PP_Order_Node_ID=0;
-			BigDecimal m_MovementQty=Env.ZERO;
-
-			try
-			{
-				StringBuffer sql=new StringBuffer("SELECT PP_Order_Node_ID,MovementQty FROM PP_Cost_Collector WHERE IsActive='Y' AND AD_Client_ID=? and PP_Cost_Collector_ID=? ");
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(),get_TrxName());
-				pstmt.setInt(1, getAD_Client_ID());
-				pstmt.setInt(2, getPP_Cost_Collector_ID());
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next())
-				{
-					p_PP_Order_Node_ID= rs.getInt(1);
-					m_MovementQty=rs.getBigDecimal(2);
-				}
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException e)
-			{
-			}
-
-			// if(isSubcontracting())
-			
-			int M_Product_ID =0;
-			String message="";
-			BigDecimal DeliveryTime=Env.ZERO;
-			try
-			{
-				StringBuffer plv=new StringBuffer("SELECT M_Product_ID FROM PP_Order_Node WHERE IsActive='Y' AND PP_Order_Node_ID=? ");
-				PreparedStatement pstmtplv = DB.prepareStatement(plv.toString(),get_TrxName());
-				pstmtplv.setInt(1, p_PP_Order_Node_ID);
-				ResultSet rsplv = pstmtplv.executeQuery();
-				if (rsplv.next())
-				{
-					M_Product_ID= rsplv.getInt(1);
-				}
-				rsplv.close();
-				pstmtplv.close();
-			}
-			catch (SQLException e)
-			{
-			}
-
-			if (M_Product_ID==0)
-			{
-				message="There is no service associated to this subcontract";
-				return message;
-			}
-			else
-			{
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
-					StringBuffer pp=new StringBuffer("SELECT DeliveryTime_Promised FROM PP_Product_Planning WHERE IsActive='Y' AND M_Product_ID=? ");
-					PreparedStatement pstmtpp = DB.prepareStatement(pp.toString(),get_TrxName());
-					pstmtpp.setInt(1, M_Product_ID);
-					ResultSet rspp = pstmtpp.executeQuery();
-					if (rspp.next())
+					String sql = "SELECT DocStatus,PP_Order_Node_ID,DurationRequiered FROM PP_Order_Node n"
+						+ " WHERE IsActive='Y' AND PP_Order_ID=? AND PP_Order_Node_ID<>?"
+							+" AND NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc "
+								+" WHERE cc.PP_Order_ID=n.PP_Order_ID AND cc.PP_Order_Node_ID=n.PP_Order_Node_ID)";
+								
+					pstmt = DB.prepareStatement(sql, get_TrxName());
+					pstmt.setInt(1, getPP_Order_ID());
+					pstmt.setInt(2, getPP_Order_Node_ID());
+					rs = pstmt.executeQuery();
+					while (rs.next())
 					{
-						DeliveryTime= rspp.getBigDecimal(1);
+						createNewNode(rs.getInt(2), rs.getBigDecimal(3));  
 					}
-					rspp.close();
-					pstmtpp.close();
 				}
 				catch (SQLException e)
 				{
+					throw new DBException(e);
 				}
-			}
-			//   MPPProfileBOM profileorder = new MPPProfileBOM(Env.getCtx(),m_PP_ProfileBOM_ID);
-			// int m_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));    
-			// int m_AD_Org_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Org_ID"));                   
-
-			int C_BPartner_ID=0;
-			try
-			{
-				StringBuffer sqlpo=new StringBuffer("SELECT C_BPartner_ID FROM M_Product_PO WHERE IsActive='Y' AND M_Product_ID=? ");
-				PreparedStatement pstmtpo = DB.prepareStatement(sqlpo.toString(),get_TrxName());
-				pstmtpo.setInt(1, M_Product_ID);
-				ResultSet rspo = pstmtpo.executeQuery();
-				while (rspo.next())
+				finally
 				{
-					C_BPartner_ID= rspo.getInt(1);
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
-				rspo.close();
-				pstmtpo.close();
 			}
-			catch (SQLException epo)
+			
+			if (onodeact.isSubcontracting())
 			{
+				createPOrder();
 			}
-
-			if (C_BPartner_ID==0)
-			{
-				message="There is no vendor associated with this subcontract";
-				return message;
-			}
-			MPPOrder mpcorder = new MPPOrder(Env.getCtx(),getPP_Order_ID(),get_TrxName());
-			String documentno = mpcorder.getDocumentNo();
-
-			Timestamp today=new Timestamp(System.currentTimeMillis());
-
-			MOrder order = new MOrder(Env.getCtx(),0,get_TrxName());
-			order.setC_BPartner_ID(C_BPartner_ID);
-			order.setIsSOTrx(false);
-			order.setC_DocTypeTarget_ID();
-			order.setDatePromised(TimeUtil.addDays(today, DeliveryTime.intValue()));
-			order.setDescription(documentno);
-			if (order.save())
-			{
-				MOrderLine oline = new MOrderLine(order);
-				oline.setM_Product_ID(M_Product_ID);
-				oline.setQtyEntered(m_MovementQty);
-				oline.setQtyOrdered(m_MovementQty);
-				oline.setDatePromised(TimeUtil.addDays(today, DeliveryTime.intValue()));
-				if(oline.save())
-				{
-					MOrderLine oline1 = new MOrderLine(order);
-					oline1.setPriceEntered(oline.getPriceActual());
-					oline1.setQtyOrdered(oline.getQtyEntered());
-					oline1.save();
-				}
-
-				MPPCostCollector cc = new MPPCostCollector(Env.getCtx(),getPP_Cost_Collector_ID(),get_TrxName());
-				cc.setProcessing(true);
-				cc.setDescription(order.getDocumentNo());
-				cc.save();
-			}
-			else
-			{
-				return DocAction.STATUS_Invalid;
-			}
-			//fjv e-evolution Operation Activity Report end	
 		} 
 
 		//	for all lines	
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
-		setDocStatus(DOCSTATUS_Completed);    //fjv e-evolution add field Docstatus
+		setDocStatus(DOCSTATUS_Completed);    //fjv e-evolution set DocStatus
+		
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 
-	/**
-	 * 	Post Document - nothing
-	 * 	@return true if success 
-	 */
-	public boolean postIt()
-	{
-		log.info("postIt - " + toString());
-		return false;
-	}	//	postIt
-
-	/**
-	 * 	Void Document.
-	 * 	@return true if success 
-	 */
+//	@Override
 	public boolean voidIt()
 	{
-		log.info("voidIt - " + toString());
 		return false;
 	}	//	voidIt
 
-	/**
-	 * 	Close Document.
-	 * 	@return true if success 
-	 */
+//	@Override
 	public boolean closeIt()
 	{
 		log.info("closeIt - " + toString());
@@ -630,186 +393,96 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		//	Close Not delivered Qty
 		// fjviejo e-evolution operation activity
 		// last node translates to => I complete node
-		boolean lastnode=false;
-		try
+		if(!MPPOrderNode.isLastNode(getCtx(), getPP_Order_Node_ID(), get_TrxName()))
 		{
-			StringBuffer sqlnn=new StringBuffer("SELECT PP_Order_Node_ID FROM PP_Order_NodeNext WHERE IsActive='Y' AND  PP_Order_ID=? and PP_Order_Node_ID=?");
-			PreparedStatement pstmtnn = DB.prepareStatement(sqlnn.toString(),get_TrxName());
-			pstmtnn.setInt(1, getPP_Order_ID());
-			pstmtnn.setInt(2, getPP_Order_Node_ID());
-			ResultSet rsnn = pstmtnn.executeQuery();
-			log.fine("***** SQL last node " + sqlnn.toString());
-			if (rsnn.next())
-			{
-				lastnode=false;
-			}
-			else
-			{
-				lastnode=true;
-			}
-			rsnn.close();
-			pstmtnn.close();
-		}
-		catch (SQLException enodenn)
-		{
-		}
-
-		if(!lastnode)
-		{
-			MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),get_TrxName());
+			MPPOrderNode onodeact = new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),get_TrxName());
 			onodeact.setDocStatus(DOCSTATUS_Closed);
 			//   onodeact.setAction(DOCACTION_None);
-			onodeact.save();
-			try
+			onodeact.saveEx();
+			
+			final String whereClause = COLUMNNAME_PP_Order_ID+"=? AND "+COLUMNNAME_PP_Order_Node_ID+"=?";
+			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
+											.setOnlyActiveRecords(true)
+											.setParameters(new Object[]{getPP_Order_ID(), getPP_Order_Node_ID()})
+											.list();
+			for (MPPCostCollector cc : list)
 			{
-				StringBuffer sql1=new StringBuffer("SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID=? AND PP_Order_Node_ID=?");
-				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(),get_TrxName());
-				pstmt1.setInt(1, getPP_Order_ID());
-				pstmt1.setInt(2, getPP_Order_Node_ID());
-				ResultSet rs1 = pstmt1.executeQuery();
-				log.fine("***** SQL1 " + sql1 + " variable " +getPP_Order_ID());
-				while (rs1.next())
-				{
-					MPPCostCollector costcoll = new MPPCostCollector(Env.getCtx(),rs1.getInt(1),get_TrxName());
-					costcoll.setDocStatus(DOCSTATUS_Closed);
-					costcoll.setDocAction(DOCACTION_None);
-					costcoll.save();
-				}
-				rs1.close();
-				pstmt1.close();
-			}
-			catch (SQLException enode1)
-			{
+				cc.setDocStatus(DOCSTATUS_Closed);
+				cc.setDocAction(DOCACTION_None);
+				cc.saveEx();
 			}
 		}
 		else
 		{
-			try
+			String whereClause = MPPOrderNode.COLUMNNAME_PP_Order_ID+"=?"
+					+" AND ("+MPPOrderNode.COLUMNNAME_DocStatus+" IS NULL OR "+MPPOrderNode.COLUMNNAME_DocStatus+"<>?)";
+			List<MPPOrderNode> list = new Query(getCtx(), MPPOrderNode.Table_Name, whereClause, get_TrxName())
+											.setOnlyActiveRecords(true)
+											.setParameters(new Object[]{getPP_Order_ID(), MPPOrderNode.DOCSTATUS_Closed})
+											.list();
+			for (MPPOrderNode onode : list)
 			{
-				StringBuffer sql1= new StringBuffer("SELECT DocStatus, PP_Order_Node_ID, DurationRequiered FROM PP_Order_Node WHERE IsActive='Y' AND  PP_Order_ID=?");
-				PreparedStatement pstmt1 = DB.prepareStatement(sql1.toString(), get_TrxName());
-				pstmt1.setInt(1, getPP_Order_ID());
-				ResultSet rs1 = pstmt1.executeQuery();
-				log.finest("***** SQL1 =[" + sql1 + "]; variable =[" +getPP_Order_ID() + "]");
-				while (rs1.next())
-				{
-					String docStatus = rs1.getString(1);
-					log.finest("***** PP_Order_Node_ID = [" +rs1.getInt(2) +"]; status =[" +docStatus + "]");
-					
-					
-					if (docStatus == null 
-							|| ( docStatus != null && !docStatus.equals(DOCSTATUS_Closed) )
-						)
-					{
-						MPPOrderNode onodenext = new MPPOrderNode(Env.getCtx(),rs1.getInt(2),get_TrxName());
-						onodenext.setDocStatus(DOCSTATUS_Closed);
-						onodenext.save();
-					}
-				}
-				rs1.close();
-				pstmt1.close();
+				onode.setDocStatus(DOCSTATUS_Closed);
+				onode.saveEx();
 			}
-			catch (SQLException enode)
-			{
-			}
-			closenew(getPP_Order_ID(), getPP_Order_Node_ID());
+			closeNew(getPP_Order_ID(), getPP_Order_Node_ID());
 		}
 		// fjviejo e-evolution operation activity end
 		setDocAction(DOCACTION_None);
 		return true;
 	}	//	closeIt
 
-	/**
-	 * 	Reverse Correction
-	 * 	@return false 
-	 */
+//	@Override
 	public boolean reverseCorrectIt()
 	{
-		log.info("reverseCorrectIt - " + toString());
 		return false;
-	}	//	reverseCorrectionIt
+	}
 
-	/**
-	 * 	Reverse Accrual - none
-	 * 	@return false 
-	 */
+//	@Override
 	public boolean reverseAccrualIt()
 	{
-		log.info("reverseAccrualIt - " + toString());
 		return false;
-	}	//	reverseAccrualIt
+	}
 
-	/** 
-	 * 	Re-activate
-	 * 	@return false 
-	 */
+//	@Override
 	public boolean reActivateIt()
 	{
-		log.info("reActivateIt - " + toString());
 		return false;
-	}	//	reActivateIt
+	}
 
-
-	/*************************************************************************
-	 * 	Get Summary
-	 *	@return Summary of Document
-	 */
+//	@Override
 	public String getSummary()
 	{
 		StringBuffer sb = new StringBuffer();
 		sb.append(getDescription());
-		//	: Total Lines = 123.00 (#1)
-		//sb.append(": ")
-		//	.append(Msg.translate(getCtx(),"ApprovalAmt")).append("=").append(getApprovalAmt())
-		//	.append(" (#").append(")");
-		//	 - Description
-		if (getDescription() != null && getDescription().length() > 0)
-			sb.append(" - ").append(getDescription());
 		return sb.toString();
-	}	//	getSummary
+	}
 
-	/**
-	 * 	Get Process Message
-	 *	@return clear text error message
-	 */
+//	@Override
 	public String getProcessMsg()
 	{
 		return m_processMsg;
-	}	//	getProcessMsg
+	}
 
-	/**
-	 * 	Get Document Owner (Responsible)
-	 *	@return AD_User_ID
-	 */
+//	@Override
 	public int getDoc_User_ID()
 	{
 		return getCreatedBy();
-	}	//	getDoc_User_ID
+	}
 
-	/**
-	 * 	Get Document Currency
-	 *	@return C_Currency_ID
-	 */
+//	@Override
 	public int getC_Currency_ID()
 	{
-		//	MPriceList pl = MPriceList.get(getCtx(), getM_PriceList_ID());
-		//	return pl.getC_Currency_ID();
 		return 0;
 	}
 
-	/**
-	 * 	Get Document Approval Amount
-	 *	@return amount
-	 */
+//	@Override
 	public BigDecimal getApprovalAmt()
 	{
-		return new  BigDecimal(0);
-	}	//	getApprovalAmt
+		return Env.ZERO;
+	}
 
-	/**
-	 * 	Create PDF
-	 *	@return File or null
-	 */
+//	@Override
 	public File createPDF ()
 	{
 		try
@@ -837,250 +510,290 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return re.getPDF(file);
 	}	//	createPDF
 
-	/**
-	 * 	Get Document Info
-	 *	@return document info (untranslated)
-	 */
+//	@Override
 	public String getDocumentInfo()
 	{
-		org.compiere.model.MDocType dt = org.compiere.model.MDocType.get(getCtx(), getC_DocType_ID());
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		return dt.getName() + " " + getDocumentNo();
 	}	//	getDocumentInfo
 
 	public String getDocumentNo()
 	{
-		return "";
+		return "" + get_ID();
 	}    
 
-	protected void createnewnode(int node, BigDecimal duration)
+	private void createNewNode(int PP_Order_Node_ID, BigDecimal duration)
 	{
-
-
-		//fjv e-evolution Operation Activity Report begin
-		try
+		String whereClause = COLUMNNAME_PP_Order_ID+"=? AND "+COLUMNNAME_PP_Order_Node_ID+"=?";
+		boolean exists = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
+								.setOnlyActiveRecords(true)
+								.setParameters(new Object[]{getPP_Order_ID(), PP_Order_Node_ID})
+								.match();
+		if (!exists)
 		{
-			String sqlar="SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="
-				+getPP_Order_ID() +"  and PP_Order_Node_ID="+node;
-			PreparedStatement pstmtar = DB.prepareStatement(sqlar,get_TrxName());
-			log.fine("***** SQLar " +sqlar + " variables " +getPP_Order_ID() +" node "+node);
-			ResultSet rsar = pstmtar.executeQuery();
-			if(rsar.next())
-			{
-				log.warning("***** NODE already exists");
-			}
-			else
-			{
-				log.fine("***** Entering else");
-				MPPCostCollector costnew = new MPPCostCollector(Env.getCtx(),0,get_TrxName());
-				costnew.setPP_Order_ID(getPP_Order_ID());
-				costnew.setC_DocTypeTarget_ID(getC_DocTypeTarget_ID());
-				costnew.setC_DocType_ID(getC_DocType_ID());
-				costnew.setS_Resource_ID(getS_Resource_ID());
-				costnew.setM_Warehouse_ID(getM_Warehouse_ID());
-				costnew.setM_Locator_ID(getM_Locator_ID());
-				costnew.setM_Product_ID(getM_Product_ID());
-				costnew.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
-				costnew.setPP_Order_Workflow_ID(getPP_Order_Workflow_ID());
-				costnew.setAD_User_ID(getAD_User_ID());
-				costnew.setMovementDate(getMovementDate());
-				costnew.setDateAcct(getDateAcct());
-				costnew.setPP_Order_Node_ID(node);
-				costnew.setMovementQty(getMovementQty());
-				costnew.setDurationReal(duration);
-				//costnew.setDurationUnit(getDurationUnit());
-				costnew.setMovementType(getMovementType());
-				costnew.save();
-				//    costnew.completeIt();
-			}
-			rsar.close();
-			pstmtar.close();
+			MPPCostCollector costnew = new MPPCostCollector(Env.getCtx(), 0, get_TrxName());
+			costnew.setPP_Order_ID(getPP_Order_ID());
+			costnew.setC_DocTypeTarget_ID(getC_DocTypeTarget_ID());
+			costnew.setC_DocType_ID(getC_DocType_ID());
+			costnew.setS_Resource_ID(getS_Resource_ID());
+			costnew.setM_Warehouse_ID(getM_Warehouse_ID());
+			costnew.setM_Locator_ID(getM_Locator_ID());
+			costnew.setM_Product_ID(getM_Product_ID());
+			costnew.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+			costnew.setPP_Order_Workflow_ID(getPP_Order_Workflow_ID());
+			costnew.setAD_User_ID(getAD_User_ID());
+			costnew.setMovementDate(getMovementDate());
+			costnew.setDateAcct(getDateAcct());
+			costnew.setMovementQty(getMovementQty());
+			//costnew.setDurationUnit(getDurationUnit());
+			costnew.setMovementType(getMovementType());
+			//
+			costnew.setPP_Order_Node_ID(PP_Order_Node_ID);
+			costnew.setDurationReal(duration);
+			//
+			costnew.saveEx();
+			//    costnew.completeIt();
 		}
-		catch (SQLException exnode)
+		else
 		{
+			log.warning("***** NODE already exists");
 		}
 		//completenew(getPP_Order_ID(),node);
-		//fjv e-evolution Operation Activity Report end
 	}
 
-	protected boolean beforeSave(boolean newRecord) {
-
-		//fjv e-evolution Operation Activity Report begin
-//		MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),get_TrxName());
-//		onodeact.setDocStatus(DOCSTATUS_InProgress);
-//		onodeact.save();
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
 		if (newRecord)
+		{
 			setDocStatus(DOCSTATUS_InProgress);
-
-		//fjv e-evolution Operation Activity Report end
-
+		}
 		return true;
 	}
 
-	protected boolean afterSave(boolean newRecord, boolean success) {
-
-		if (!newRecord)
-			return success;
-/****** tspc: Cannot see any need for the following code, commenting out for now
-		//fjv e-evolution Operation Activity Report begin
-		MPPOrderNode onodeact =new MPPOrderNode(Env.getCtx(),getPP_Order_Node_ID(),get_TrxName());
-		onodeact.setDocStatus(DOCSTATUS_InProgress);
-		//onodeact.setAD_WF_Node_ID(getPP_Order_Workflow_ID());
-		onodeact.save();
-
-		// setDocStatus(DOCSTATUS_InProgress);
-
-		//fjv e-evolution Operation Activity Report end
-********/
-		return true;
-	} //aftersave
-	protected void closenew(int order, int node)
+	private void closeNew(int PP_Order_ID, int PP_Order_Node_ID)
 	{
-		try
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if(MDocType.DOCBASETYPE_ManufacturingOperationActivity.equals(dt.getDocBaseType()))
 		{
-			String sqlcom="SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="+order;
-			PreparedStatement pstmtcom = DB.prepareStatement(sqlcom,get_TrxName());
-			//System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
-
-			ResultSet rscom = pstmtcom.executeQuery();
-			while(rscom.next())
+			String whereClause = COLUMNNAME_PP_Order_ID+"=?";
+			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
+												.setOnlyActiveRecords(true)
+												.setParameters(new Object[]{PP_Order_ID})
+												.list();
+			for (MPPCostCollector cc : list)
 			{
-				MDocType doc = new MDocType(Env.getCtx(),getC_DocType_ID(),get_TrxName());
-				String doct ="";
-				doct=doc.getDocBaseType();
-				if(doct.equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
-				{
-					MPPCostCollector costcoll = new MPPCostCollector(Env.getCtx(),rscom.getInt(1),get_TrxName());
-					costcoll.setDocStatus(DOCSTATUS_Closed);
-					costcoll.setDocAction(DOCACTION_None);
-					costcoll.save();
-				}
+				cc.setDocStatus(DOCSTATUS_Closed);
+				cc.setDocAction(DOCACTION_None);
+				cc.saveEx();
 			}
-		}
-		catch (SQLException excom)
-		{
 		}
 	}
 
-	protected void completenew(int order, int node)
+	protected void completeNew(int PP_Order_ID)
 	{
-		try
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if(MDocType.DOCBASETYPE_ManufacturingOperationActivity.equals(dt.getDocBaseType()))
 		{
-			String sqlcom="SELECT PP_Cost_Collector_ID,DocStatus FROM PP_Cost_Collector WHERE IsActive='Y' AND  PP_Order_ID="+order;
-			PreparedStatement pstmtcom = DB.prepareStatement(sqlcom,get_TrxName());
-			//System.out.println("***** SQLar " +sqlcom + " variables " +order +" nodo "+node);
-			ResultSet rscom = pstmtcom.executeQuery();
-			while(rscom.next())
+			String whereClause = COLUMNNAME_PP_Order_ID+"=?"
+			+" AND "+COLUMNNAME_DocStatus+"<>'"+DOCSTATUS_Completed+"'"
+			+" AND "+COLUMNNAME_DocStatus+"<>'"+DOCSTATUS_Closed+"'";
+			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
+			.setOnlyActiveRecords(true)
+			.setParameters(new Object[]{PP_Order_ID})
+			.list();
+			for (MPPCostCollector cc : list)
 			{
-				MDocType doc = new MDocType(Env.getCtx(),getC_DocType_ID(),get_TrxName());
-				String doct ="";
-				doct=doc.getDocBaseType();
-				if(doct.equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
-				{
-					if(!rscom.getString(2).equals(DOCSTATUS_Completed) && !rscom.getString(2).equals(DOCSTATUS_Closed))
-					{
-						MPPCostCollector costcoll = new MPPCostCollector(Env.getCtx(),rscom.getInt(1),get_TrxName());
-						costcoll.completeIt();
-					}
-				}
+				cc.completeIt();
+				cc.saveEx();
 			}
-		}
-		catch (SQLException excom)
-		{
 		}
 	}
 
 	/**
 	 * 	Check Material Policy.
-	 * 	(NOT USED)
 	 * 	Sets line ASI
 	 */
 	private void checkMaterialPolicy(MPPOrderBOMLine line , BigDecimal qty)
 	{
-		int no = MPPOrderBOMLineMA.deleteOrderBOMLineMA(line.getPP_Order_BOMLine_ID(), get_TrxName());
-		if (no > 0)
-			log.config("Delete old #" + no);
+		MPPOrderBOMLineMA.deleteOrderBOMLineMA(line.get_ID(), get_TrxName());
+
+		//	is ASI != 0, MA is not needed
+		if (line.getM_AttributeSetInstance_ID() != 0)
+		{
+			return;
+		}
+
+		BigDecimal qtyASI = Env.ZERO ;
 
 		//	Check Line
-		boolean needSave = false;
-		BigDecimal qtyASI = Env.ZERO ;
-		//	Attribute Set Instance
-		if (line.getM_AttributeSetInstance_ID() == 0)
+		MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
+		if (qty.signum() > 0)	//	Incoming Trx -> Create new ASI
 		{
-			MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
-			if (qty.signum() > 0)	//	Incoming Trx
+			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
+			asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+			asi.saveEx();
+			line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+			line.saveEx();
+		}
+		else	//	Outgoing Trx
+		{
+			String MMPolicy = product.getMMPolicy();
+			MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
+					line.getM_Product_ID(),	line.getM_Locator_ID(), 
+					MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
+			BigDecimal qtyToDeliver = qty.negate();
+
+			for (MStorage storage : storages)
 			{
-				MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
-				asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
-				if (!asi.save())
+				//consume ASI Zero
+				if (storage.getM_AttributeSetInstance_ID() == 0)
 				{
-					throw new IllegalStateException("Error try create ASI Reservation");
-				}	
-				if (asi.save())
-				{
-					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
-					needSave = true;
+					qtyASI = qtyASI.add(storage.getQtyOnHand());
+					qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
 				}
+				else if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+				{
+					MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 
+							storage.getM_AttributeSetInstance_ID(),
+							qtyToDeliver);
+					ma.saveEx();
+					qtyToDeliver = Env.ZERO;
+					log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);
+					break;
+				}
+				else
+				{	
+					MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 
+							storage.getM_AttributeSetInstance_ID(),
+							storage.getQtyOnHand());
+					ma.saveEx();
+					qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+					log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
+				}
+			} // for storage
+
+			//	No AttributeSetInstance found for remainder
+			BigDecimal qtyRemaining = qtyToDeliver.add(qtyASI);
+			if (qtyRemaining.signum() != 0)
+			{
+				MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 0 , qtyRemaining);
+				ma.saveEx();
+				log.fine("##: " + ma);
 			}
-			else	//	Outgoing Trx
-			{
-				String MMPolicy = product.getMMPolicy();
-				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
-						line.getM_Product_ID(),	line.getM_Locator_ID(), 
-						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
-				BigDecimal qtyToDeliver = qty.negate();
-
-				for (MStorage storage: storages)
-				{
-					//consume ASI Zero
-					if (storage.getM_AttributeSetInstance_ID() == 0)
-					{
-						qtyASI = qtyASI.add(storage.getQtyOnHand());
-						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						continue;
-					}
-
-					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-					{
-						MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 
-								storage.getM_AttributeSetInstance_ID(),
-								qtyToDeliver);
-						if (!ma.save())
-						{
-							throw new IllegalStateException("Error try create ASI Reservation");
-						}		
-						qtyToDeliver = Env.ZERO;
-						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-						//return;
-					}
-					else
-					{	
-						MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 
-								storage.getM_AttributeSetInstance_ID(),
-								storage.getQtyOnHand());
-						if (!ma.save())
-						{
-							throw new IllegalStateException("Error try create ASI Reservation");
-						}	
-						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-					}
-				}
-
-				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
-				{
-					MPPOrderBOMLineMA ma = new MPPOrderBOMLineMA (line, 0 , qtyToDeliver.add(qtyASI));
-
-					if (!ma.save())
-						;
-					log.fine("##: " + ma);
-				}
-			}	//	outgoing Trx
-
-			if (needSave && !line.save())
-				log.severe("NOT saved " + line);
-		}	//	for all lines
-
+		}	//	outgoing Trx
 	}	//	checkMaterialPolicy
+	
+	public MPPOrderNode getPP_Order_Node()
+	{
+		int node_id = getPP_Order_Node_ID();
+		if (node_id <= 0)
+		{
+			m_orderNode = null;
+			return null;
+		}
+		if (m_orderNode == null || m_orderNode.get_ID() != node_id)
+		{
+			m_orderNode = new MPPOrderNode(getCtx(), node_id, get_TrxName());
+		}
+		m_orderNode.set_TrxName(get_TrxName());
+		return m_orderNode;
+	}
+	
+	private MPPOrderNode m_orderNode = null;
 
+	public MPPOrderBOMLine getPP_Order_BOMLine()
+	{
+		int id = getPP_Order_BOMLine_ID();
+		if (id <= 0)
+		{
+			m_bomLine = null;
+			return null;
+		}
+		if (m_bomLine == null || m_bomLine.get_ID() != id)
+		{
+			m_bomLine = new MPPOrderBOMLine(getCtx(), id, get_TrxName());
+		}
+		m_bomLine.set_TrxName(get_TrxName());
+		return m_bomLine;
+	}
+	private MPPOrderBOMLine m_bomLine = null;
+	
+	public MPPOrder getPP_Order()
+	{
+		int id = getPP_Order_ID();
+		if (id <= 0)
+		{
+			m_pporder = null;
+			return null;
+		}
+		if (m_pporder == null || m_pporder.get_ID() != id)
+		{
+			m_pporder = new MPPOrder(getCtx(), id, get_TrxName());
+		}
+		m_pporder.set_TrxName(get_TrxName());
+		return m_pporder;
+	}
+	private MPPOrder m_pporder = null;
+
+	
+	/**
+	 * Create Purchase Order (in case of Subcontracting)
+	 */
+	private void createPOrder()
+	{
+		// create purchase order on complete
+		BigDecimal m_MovementQty = getMovementQty();
+
+		// if(isSubcontracting())
+
+		int M_Product_ID = DB.getSQLValue(get_TrxName(),
+				"SELECT M_Product_ID FROM PP_Order_Node WHERE IsActive='Y' AND PP_Order_Node_ID=?",
+				getPP_Order_Node_ID());
+		if (M_Product_ID <= 0)
+		{
+			throw new AdempiereException("There is no service associated to this subcontract");
+		}
+		
+		BigDecimal DeliveryTime = DB.getSQLValueBD(get_TrxName(),
+				"SELECT DeliveryTime_Promised FROM PP_Product_Planning WHERE IsActive='Y' AND M_Product_ID=?",
+				M_Product_ID);
+
+		int C_BPartner_ID = DB.getSQLValue(get_TrxName(),
+				"SELECT C_BPartner_ID FROM M_Product_PO WHERE IsActive='Y' AND M_Product_ID=? ",
+				M_Product_ID);;
+		if (C_BPartner_ID <= 0)
+		{
+			throw new AdempiereException("There is no vendor associated with this subcontract");
+		}
+
+		Timestamp today = new Timestamp(System.currentTimeMillis());
+		Timestamp datePromised = TimeUtil.addDays(today, DeliveryTime.intValue()); 
+
+		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
+		order.setC_BPartner_ID(C_BPartner_ID);
+		order.setIsSOTrx(false);
+		order.setC_DocTypeTarget_ID();
+		order.setDatePromised(datePromised);
+		order.setDescription(getPP_Order().getDocumentNo());
+		order.saveEx();
+
+		MOrderLine oline = new MOrderLine(order);
+		oline.setM_Product_ID(M_Product_ID);
+		oline.setQty(m_MovementQty);
+		oline.setDatePromised(datePromised);
+		oline.saveEx();
+		
+		setDescription(order.getDocumentNo());
+	}
+	
+	public boolean isIssue()
+	{
+		return getMovementType().charAt(1) == '-';
+	}
+	
+	public boolean isReceipt()
+	{
+		return getMovementType().charAt(1) == '+';
+	}
 }	//	MPPCostCollector

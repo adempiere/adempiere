@@ -434,7 +434,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 * 	User String Representation
 	 *	@return info
 	 */
-	public String toStringX ()
+	public String toStringX()
 	{
 		StringBuffer sb = new StringBuffer ("MPPOrderNode[");
 		sb.append(getName())
@@ -443,11 +443,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 		return sb.toString ();
 	}	//	toStringX
 	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true if can be saved
-	 */
 	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
@@ -537,4 +532,16 @@ public class MPPOrderNode extends X_PP_Order_Node
 		
 		return true;
 	}	//	beforeSave
+	
+	/**
+	 * @return true if this is last node
+	 */
+	public static boolean isLastNode(Properties ctx, int PP_Order_Node_ID, String trxName)
+	{
+		String whereClause = MPPOrderNodeNext.COLUMNNAME_PP_Order_Node_ID+"=?";
+		return false == new Query(ctx, MPPOrderNodeNext.Table_Name, whereClause, trxName)
+									.setOnlyActiveRecords(true)
+									.setParameters(new Object[]{PP_Order_Node_ID})
+									.match();
+	}
 }	//	M_WFNext
