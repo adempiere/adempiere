@@ -401,42 +401,7 @@ public class FinReport extends SvrProcess
 			}
 			
 			if (m_columns[col].isColumnTypeSegmentValue())
-			{
-				String elementType = m_columns[col].getElementType();
-				if (MReportColumn.ELEMENTTYPE_Organization.equals(elementType))
-					select.append(" AND AD_Org_ID=").append(m_columns[col].getOrg_ID());
-				else if (MReportColumn.ELEMENTTYPE_BPartner.equals(elementType))
-					select.append(" AND C_BPartner_ID=").append(m_columns[col].getC_BPartner_ID());
-				else if (MReportColumn.ELEMENTTYPE_Product.equals(elementType))
-					select.append(" AND M_Product_ID=").append(m_columns[col].getM_Product_ID());
-				else if (MReportColumn.ELEMENTTYPE_Project.equals(elementType))
-					select.append(" AND C_Project_ID=").append(m_columns[col].getC_Project_ID());
-				else if (MReportColumn.ELEMENTTYPE_Activity.equals(elementType))
-					select.append(" AND C_Activity_ID=").append(m_columns[col].getC_Activity_ID());
-				else if (MReportColumn.ELEMENTTYPE_Campaign.equals(elementType))
-					select.append(" AND C_Campaign_ID=").append(m_columns[col].getC_Campaign_ID());
-				else if (MReportColumn.ELEMENTTYPE_LocationFrom.equals(elementType))
-					select.append(" AND C_LocFrom_ID=").append(m_columns[col].getC_Location_ID());
-				else if (MReportColumn.ELEMENTTYPE_LocationTo.equals(elementType))
-					select.append(" AND C_LocTo_ID=").append(m_columns[col].getC_Location_ID());
-				else if (MReportColumn.ELEMENTTYPE_OrgTrx.equals(elementType))
-					select.append(" AND AD_OrgTrx_ID=").append(m_columns[col].getOrg_ID());
-				else if (MReportColumn.ELEMENTTYPE_SalesRegion.equals(elementType))
-					select.append(" AND C_SalesRegion_ID=").append(m_columns[col].getC_SalesRegion_ID());
-				else if (MReportColumn.ELEMENTTYPE_Account.equals(elementType))
-					select.append(" AND Account_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserList1.equals(elementType))
-					select.append(" AND User1_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserList2.equals(elementType))
-					select.append(" AND User2_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(elementType))
-					select.append(" AND UserElement1_ID=").append(m_columns[col].getUserElement1_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(elementType))
-					select.append(" AND UserElement2_ID=").append(m_columns[col].getUserElement2_ID());
-				// Financial Report Source with Type Combination
-				else if (MReportColumn.ELEMENTTYPE_Combination.equals(elementType))
-					select.append(getWhereCombination(m_columns[col]));
-			}
+				select.append(m_columns[col].getWhereClause(p_PA_Hierarchy_ID));
 			
 			//	Parameter Where
 			select.append(m_parameterWhere);
@@ -464,117 +429,7 @@ public class FinReport extends SvrProcess
 		}
 	}	//	insertLine
 
-	/**************************************************************************
-	 *  Returns where clause for combination type
-	 *  @param reportColumn
-	 *  @return where clause for the combination
-	 */
-	private String getWhereCombination(MReportColumn reportColumn) {
-		StringBuffer whcomb = new StringBuffer();
-		// Just one org - selected owning - OrgTrx not supported in combination
-		if (reportColumn.isIncludeNullsOrg())
-			if (reportColumn.getOrg_ID() > 0)
-				whcomb.append(" AND (AD_Org_ID IS NULL OR AD_Org_ID=").append(reportColumn.getOrg_ID()).append(")");
-			else
-				whcomb.append(" AND AD_Org_ID IS NULL");
-		else
-			if (reportColumn.getOrg_ID() > 0)
-				whcomb.append(" AND AD_Org_ID=").append(reportColumn.getOrg_ID());
-		
-		if (reportColumn.isIncludeNullsBPartner())
-			if (reportColumn.getC_BPartner_ID() > 0)
-				whcomb.append(" AND (C_BPartner_ID IS NULL OR C_BPartner_ID=").append(reportColumn.getC_BPartner_ID()).append(")");
-			else
-				whcomb.append(" AND C_BPartner_ID IS NULL");
-		else
-			if (reportColumn.getC_BPartner_ID() > 0)
-				whcomb.append(" AND C_BPartner_ID=").append(reportColumn.getC_BPartner_ID());
-		
-		if (reportColumn.isIncludeNullsProduct())
-			if (reportColumn.getM_Product_ID() > 0)
-				whcomb.append(" AND (M_Product_ID IS NULL OR M_Product_ID=").append(reportColumn.getM_Product_ID()).append(")");
-			else
-				whcomb.append(" AND M_Product_ID IS NULL");
-		else
-			if (reportColumn.getM_Product_ID() > 0)
-				whcomb.append(" AND M_Product_ID=").append(reportColumn.getM_Product_ID());
-		
-		if (reportColumn.isIncludeNullsProject())
-			if (reportColumn.getC_Project_ID() > 0)
-				whcomb.append(" AND (C_Project_ID IS NULL OR C_Project_ID=").append(reportColumn.getC_Project_ID()).append(")");
-			else
-				whcomb.append(" AND C_Project_ID IS NULL");
-		else
-			if (reportColumn.getC_Project_ID() > 0)
-				whcomb.append(" AND C_Project_ID=").append(reportColumn.getC_Project_ID());
-		
-		if (reportColumn.isIncludeNullsActivity())
-			if (reportColumn.getC_Activity_ID() > 0)
-				whcomb.append(" AND (C_Activity_ID IS NULL OR C_Activity_ID=").append(reportColumn.getC_Activity_ID()).append(")");
-			else
-				whcomb.append(" AND C_Activity_ID IS NULL");
-		else
-			if (reportColumn.getC_Activity_ID() > 0)
-				whcomb.append(" AND C_Activity_ID=").append(reportColumn.getC_Activity_ID());
-		
-		if (reportColumn.isIncludeNullsCampaign())
-			if (reportColumn.getC_Campaign_ID() > 0)
-				whcomb.append(" AND (C_Campaign_ID IS NULL OR C_Campaign_ID=").append(reportColumn.getC_Campaign_ID()).append(")");
-			else
-				whcomb.append(" AND C_Campaign_ID IS NULL");
-		else
-			if (reportColumn.getC_Campaign_ID() > 0)
-				whcomb.append(" AND C_Campaign_ID=").append(reportColumn.getC_Campaign_ID());
-		
-		// Just one Location - selected From - LocTo not supported in combination
-		if (reportColumn.isIncludeNullsLocation())
-			if (reportColumn.getC_Location_ID() > 0)
-				whcomb.append(" AND (C_LocFrom_ID IS NULL OR C_LocFrom_ID=").append(reportColumn.getC_Location_ID()).append(")");
-			else
-				whcomb.append(" AND C_LocFrom_ID IS NULL");
-		else
-			if (reportColumn.getC_Location_ID() > 0)
-				whcomb.append(" AND C_LocFrom_ID=").append(reportColumn.getC_Location_ID());
-		
-		if (reportColumn.isIncludeNullsSalesRegion())
-			if (reportColumn.getC_SalesRegion_ID() > 0)
-				whcomb.append(" AND (C_SalesRegion_ID IS NULL OR C_SalesRegion_ID=").append(reportColumn.getC_SalesRegion_ID()).append(")");
-			else
-				whcomb.append(" AND C_SalesRegion_ID IS NULL");
-		else
-			if (reportColumn.getC_SalesRegion_ID() > 0)
-				whcomb.append(" AND C_SalesRegion_ID=").append(reportColumn.getC_SalesRegion_ID());
-		
-		// Just account - neither UserList1/2 supported in combination
-		if (reportColumn.isIncludeNullsElementValue())
-			if (reportColumn.getC_ElementValue_ID() > 0)
-				whcomb.append(" AND (Account_ID IS NULL OR Account_ID=").append(reportColumn.getC_ElementValue_ID()).append(")");
-			else
-				whcomb.append(" AND Account_ID IS NULL");
-		else
-			if (reportColumn.getC_ElementValue_ID() > 0)
-				whcomb.append(" AND Account_ID=").append(reportColumn.getC_ElementValue_ID());
-		
-		if (reportColumn.isIncludeNullsUserElement1())
-			if (reportColumn.getUserElement1_ID() > 0)
-				whcomb.append(" AND (UserElement1_ID IS NULL OR UserElement1_ID=").append(reportColumn.getUserElement1_ID()).append(")");
-			else
-				whcomb.append(" AND UserElement1_ID IS NULL");
-		else
-			if (reportColumn.getUserElement1_ID() > 0)
-				whcomb.append(" AND UserElement1_ID=").append(reportColumn.getUserElement1_ID());
-		
-		if (reportColumn.isIncludeNullsUserElement2())
-			if (reportColumn.getUserElement2_ID() > 0)
-				whcomb.append(" AND (UserElement2_ID IS NULL OR UserElement2_ID=").append(reportColumn.getUserElement2_ID()).append(")");
-			else
-				whcomb.append(" AND UserElement2_ID IS NULL");
-		else
-			if (reportColumn.getUserElement2_ID() > 0)
-				whcomb.append(" AND UserElement2_ID=").append(reportColumn.getUserElement2_ID());
-		return whcomb.toString();
-	}
-	
+
 	/**************************************************************************
 	 *	Line + Column calculation
 	 */
@@ -926,14 +781,21 @@ public class FinReport extends SvrProcess
 				insertLineSource (line);
 		}
 
+		//	Clean up empty rows
+		StringBuffer sql = new StringBuffer ("DELETE FROM T_Report WHERE ABS(LevelNo)<>0")
+			.append(" AND Col_0 IS NULL AND Col_1 IS NULL AND Col_2 IS NULL AND Col_3 IS NULL AND Col_4 IS NULL AND Col_5 IS NULL AND Col_6 IS NULL AND Col_7 IS NULL AND Col_8 IS NULL AND Col_9 IS NULL")
+			.append(" AND Col_10 IS NULL AND Col_11 IS NULL AND Col_12 IS NULL AND Col_13 IS NULL AND Col_14 IS NULL AND Col_15 IS NULL AND Col_16 IS NULL AND Col_17 IS NULL AND Col_18 IS NULL AND Col_19 IS NULL AND Col_20 IS NULL"); 
+		int no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Deleted empty #=" + no);
+		
 		//	Set SeqNo
-		StringBuffer sql = new StringBuffer ("UPDATE T_Report r1 "
+		sql = new StringBuffer ("UPDATE T_Report r1 "
 			+ "SET SeqNo = (SELECT SeqNo "
 				+ "FROM T_Report r2 "
 				+ "WHERE r1.AD_PInstance_ID=r2.AD_PInstance_ID AND r1.PA_ReportLine_ID=r2.PA_ReportLine_ID"
 				+ " AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0)"
 			+ "WHERE SeqNo IS NULL");
-		int no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("SeqNo #=" + no);
 
 		if (!m_report.isListTrx())
@@ -1053,54 +915,29 @@ public class FinReport extends SvrProcess
 				select.append(" AND ").append(s);
 			//	Limited Segment Values
 			if (m_columns[col].isColumnTypeSegmentValue())
-			{
-				String elementType = m_columns[col].getElementType();
-				if (MReportColumn.ELEMENTTYPE_Organization.equals(elementType))
-					select.append(" AND AD_Org_ID=").append(m_columns[col].getOrg_ID());
-				else if (MReportColumn.ELEMENTTYPE_BPartner.equals(elementType))
-					select.append(" AND C_BPartner_ID=").append(m_columns[col].getC_BPartner_ID());
-				else if (MReportColumn.ELEMENTTYPE_Product.equals(elementType))
-					select.append(" AND M_Product_ID=").append(m_columns[col].getM_Product_ID());
-				else if (MReportColumn.ELEMENTTYPE_Project.equals(elementType))
-					select.append(" AND C_Project_ID=").append(m_columns[col].getC_Project_ID());
-				else if (MReportColumn.ELEMENTTYPE_Activity.equals(elementType))
-					select.append(" AND C_Activity_ID=").append(m_columns[col].getC_Activity_ID());
-				else if (MReportColumn.ELEMENTTYPE_Campaign.equals(elementType))
-					select.append(" AND C_Campaign_ID=").append(m_columns[col].getC_Campaign_ID());
-				else if (MReportColumn.ELEMENTTYPE_LocationFrom.equals(elementType))
-					select.append(" AND C_LocFrom_ID=").append(m_columns[col].getC_Location_ID());
-				else if (MReportColumn.ELEMENTTYPE_LocationTo.equals(elementType))
-					select.append(" AND C_LocTo_ID=").append(m_columns[col].getC_Location_ID());
-				else if (MReportColumn.ELEMENTTYPE_OrgTrx.equals(elementType))
-					select.append(" AND AD_OrgTrx_ID=").append(m_columns[col].getOrg_ID());
-				else if (MReportColumn.ELEMENTTYPE_SalesRegion.equals(elementType))
-					select.append(" AND C_SalesRegion_ID=").append(m_columns[col].getC_SalesRegion_ID());
-				else if (MReportColumn.ELEMENTTYPE_Account.equals(elementType))
-					select.append(" AND Account_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserList1.equals(elementType))
-					select.append(" AND User1_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserList2.equals(elementType))
-					select.append(" AND User2_ID=").append(m_columns[col].getC_ElementValue_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(elementType))
-					select.append(" AND UserElement1_ID=").append(m_columns[col].getUserElement1_ID());
-				else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(elementType))
-					select.append(" AND UserElement2_ID=").append(m_columns[col].getUserElement2_ID());
-				// Financial Report Source with Type Combination
-				else if (MReportColumn.ELEMENTTYPE_Combination.equals(elementType))
-					select.append(getWhereCombination(m_columns[col]));
-			}
+				select.append(m_columns[col].getWhereClause(p_PA_Hierarchy_ID));
+			
 			//	Parameter Where
 			select.append(m_parameterWhere);
 		//	System.out.println("    c=" + col + ", l=" + line + ": " + select);
 			//
 			insert.append("(").append(select).append(")");
 		}
-		//
-		insert.append(" FROM Fact_Acct x WHERE ")
-			.append(m_lines[line].getWhereClause(p_PA_Hierarchy_ID));	//	(sources, posting type)
+		//	WHERE (sources, posting type)
+		StringBuffer where = new StringBuffer(m_lines[line].getWhereClause(p_PA_Hierarchy_ID));
 		String s = m_report.getWhereClause();
 		if (s != null && s.length() > 0)
-			insert.append(" AND ").append(s);
+		{
+			if (where.length() > 0)
+				where.append(" AND ");
+			where.append(s);
+		}
+		if (where.length() > 0)
+			where.append(" AND ");
+		where.append(variable).append(" IS NOT NULL");
+
+		//	FROM .. WHERE
+		insert.append(" FROM Fact_Acct x WHERE ").append(where);	
 		//
 		insert.append(m_parameterWhere)
 			.append(" GROUP BY ").append(variable);
