@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -47,6 +48,12 @@ import org.compiere.util.Trace;
  */
 public final class MRole extends X_AD_Role
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8472593143421441965L;
+
+
 	/**
 	 * 	Get Default (Client) Role
 	 *	@return role
@@ -2292,8 +2299,14 @@ public final class MRole extends X_AD_Role
 	/**
 	 * 	Org Access Summary
 	 */
-	class OrgAccess
+	class OrgAccess implements Serializable
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4880665261978385315L;
+
+
 		/**
 		 * 	Org Access constructor
 		 *	@param ad_Client_ID client
