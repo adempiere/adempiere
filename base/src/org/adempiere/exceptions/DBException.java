@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -28,8 +28,11 @@ import java.sql.SQLException;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class DBException extends AdempiereException {
+public class DBException extends AdempiereException
+{
 	private static final long serialVersionUID = 1L;
+	
+	private String m_sql = null;
 
 	/**
 	 * Create a new DBException based on a SQLException
@@ -39,6 +42,17 @@ public class DBException extends AdempiereException {
 	{
 		super(e);
 	}	//	DBException
+	
+	/**
+	 * Create a new DBException based on a SQLException and SQL Query
+	 * @param e exception
+	 * @param sql sql query
+	 */
+	public DBException(SQLException e, String sql)
+	{
+		super(e);
+		m_sql = sql;
+	}
 
 	/**
 	 * Create a new DBException
@@ -48,6 +62,14 @@ public class DBException extends AdempiereException {
 	{
 		super(msg);
 	}	//	DBException
+
+	/**
+	 * @return SQL Query or null
+	 */
+	public String getSQL()
+	{
+		return m_sql;
+	}
 	
 	/**
 	 * @return Wrapped SQLException or null
