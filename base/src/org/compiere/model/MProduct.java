@@ -17,14 +17,11 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -53,17 +50,25 @@ public class MProduct extends X_M_Product
 	 * 	Get MProduct from Cache
 	 *	@param ctx context
 	 *	@param M_Product_ID id
-	 *	@return MProduct
+	 *	@return MProduct or null
 	 */
 	public static MProduct get (Properties ctx, int M_Product_ID)
 	{
+		if (M_Product_ID <= 0)
+		{
+			return null;
+		}
 		Integer key = new Integer (M_Product_ID);
 		MProduct retValue = (MProduct) s_cache.get (key);
 		if (retValue != null)
+		{
 			return retValue;
+		}
 		retValue = new MProduct (ctx, M_Product_ID, null);
 		if (retValue.get_ID () != 0)
+		{
 			s_cache.put (key, retValue);
+		}
 		return retValue;
 	}	//	get
 
@@ -76,40 +81,11 @@ public class MProduct extends X_M_Product
 	 */
 	public static MProduct[] get (Properties ctx, String whereClause, String trxName)
 	{
-		String sql = "SELECT * FROM M_Product";
-		if (whereClause != null && whereClause.length() > 0)
-			sql += " WHERE AD_Client_ID=? AND " + whereClause;
-		ArrayList<MProduct> list = new ArrayList<MProduct>();
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MProduct (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MProduct[] retValue = new MProduct[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		List<MProduct> list = new Query(ctx, Table_Name, "AD_Client_ID=? AND "+whereClause, trxName)
+								.setParameters(new Object[]{AD_Client_ID})
+								.list();
+		return list.toArray(new MProduct[list.size()]);
 	}	//	get
 	
 	
@@ -127,9 +103,6 @@ public class MProduct extends X_M_Product
 	
 	/**	Cache						*/
 	private static CCache<Integer,MProduct>	s_cache	= new CCache<Integer,MProduct>("M_Product", 40, 5);	//	5 minutes
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MProduct.class);
-
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -452,6 +425,7 @@ public class MProduct extends X_M_Product
 	 * 	Product is an Item and Stocked
 	 *	@return true if stocked and item
 	 */
+	@Override
 	public boolean isStocked ()
 	{
 		return super.isStocked() && isItem();
@@ -489,39 +463,12 @@ public class MProduct extends X_M_Product
 		if (m_downloads != null && !requery)
 			return m_downloads;
 		//
-		ArrayList<MProductDownload> list = new ArrayList<MProductDownload>();
-		String sql = "SELECT * FROM M_ProductDownload "
-			+ "WHERE M_Product_ID=? AND IsActive='Y' ORDER BY Name";
-		//
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Product_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MProductDownload (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		m_downloads = new MProductDownload[list.size ()];
-		list.toArray (m_downloads);
+		List<MProductDownload> list = new Query(getCtx(), MProductDownload.Table_Name, "M_Product_ID=?", get_TrxName())
+										.setOnlyActiveRecords(true)
+										.setOrderBy(MProductDownload.COLUMNNAME_Name)
+										.setParameters(new Object[]{get_ID()})
+										.list();
+		m_downloads = list.toArray(new MProductDownload[list.size()]);
 		return m_downloads;
 	}	//	getProductDownloads
 	
@@ -531,14 +478,10 @@ public class MProduct extends X_M_Product
 	 */
 	public boolean hasDownloads()
 	{
-		getProductDownloads(false);
-		return m_downloads != null && m_downloads.length > 0;
+		return getProductDownloads(false).length > 0;
 	}	//	hasDownloads
 	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("MProduct[");
@@ -547,12 +490,7 @@ public class MProduct extends X_M_Product
 		return sb.toString();
 	}	//	toString
 
-	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
-	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Check Storage
@@ -609,26 +547,34 @@ public class MProduct extends X_M_Product
 	 * 	HasInventoryOrCost 
 	 *	@return true if it has Inventory or Cost
 	 */
-	protected boolean hasInventoryOrCost () {
+	protected boolean hasInventoryOrCost ()
+	{
 		//check if it has transactions 
-		int trans = DB.getSQLValue(null,"SELECT COUNT(*) FROM M_Transaction WHERE M_Product_ID=? AND IsActive='Y'", getM_Product_ID());
-		if (trans > 0)
+		boolean hasTrx = new Query(getCtx(), MTransaction.Table_Name,
+										MTransaction.COLUMNNAME_M_Product_ID+"=?", get_TrxName())
+								.setOnlyActiveRecords(true)
+								.setParameters(new Object[]{get_ID()})
+								.match();
+		if (hasTrx)
+		{
 			return true;
+		}
 
 		//check if it has cost
-		int cost = DB.getSQLValue(null,"SELECT COUNT(*) FROM M_CostDetail WHERE M_Product_ID=? AND IsActive='Y'", getM_Product_ID());
-		if (cost > 0)		
+		boolean hasCosts = new Query(getCtx(), MCostDetail.Table_Name,
+										MCostDetail.COLUMNNAME_M_Product_ID+"=?", get_TrxName())
+									.setOnlyActiveRecords(true)
+									.setParameters(new Object[]{get_ID()})
+									.match();
+		if (hasCosts)
+		{
 			return true;
+		}
 
 		return false;
 	}
 	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
@@ -676,10 +622,7 @@ public class MProduct extends X_M_Product
 		return success;
 	}	//	afterSave
 
-	/**
-	 * 	Before Delete
-	 *	@return true if it can be deleted
-	 */
+	@Override
 	protected boolean beforeDelete ()
 	{
 		//	Check Storage
@@ -742,11 +685,7 @@ public class MProduct extends X_M_Product
 		return delete_Accounting("M_Product_Acct"); 
 	}	//	beforeDelete
 	
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
-	 */
+	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		if (success)
