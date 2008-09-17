@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -28,6 +28,7 @@ import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.io.InvalidClassException;
 import java.io.NotSerializableException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -985,12 +986,24 @@ public final class AEnv
 			{
 				log.log(Level.WARNING, "(RE)", e);
 				error = e.getMessage();
+				if (error == null)
+					error = "Exception: " + e.toString();
+				s_server = null;
+			}
+			catch (UndeclaredThrowableException e)
+			{
+				log.log(Level.WARNING, "ex", e);
+				error = e.getCause().toString();
+				if (error == null)
+					error = "Exception: " + e.toString();
 				s_server = null;
 			}
 			catch (Exception e)
 			{
 				log.log(Level.WARNING, "ex", e);
 				error = e.getMessage();
+				if (error == null)
+					error = "Exception: " + e.toString();
 				s_server = null;
 			}
 		}
