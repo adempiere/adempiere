@@ -166,7 +166,7 @@ public class CreateCostElement extends SvrProcess
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e, sql);
+			throw new DBException(e);
 		}
 		finally
 		{
