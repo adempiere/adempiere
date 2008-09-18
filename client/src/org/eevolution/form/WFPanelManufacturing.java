@@ -30,7 +30,12 @@ public class WFPanelManufacturing extends WFPanel {
 														+")";
 	
 	private static final int WF_Window_ID = 53005; // TODO: HARDCODED (Manufacturing Workflows)
-
+	/*
+SELECT AD_Window_Id
+FROM AD_Window
+WHERE Name = 'Manufacturing Workflows'
+	 */
+	
 	/**
 	 * Default constructor  
 	 */
