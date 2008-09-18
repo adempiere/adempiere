@@ -30,13 +30,18 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
@@ -51,15 +56,19 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Caption;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Space;
 
 
 
@@ -83,7 +92,7 @@ public class WBOMDrop extends ADForm implements EventListener
 	private ArrayList m_selectionList = new ArrayList();
 	
 	/**	List of all quantities		*/
-	private ArrayList<Textbox> m_qtyList = new ArrayList<Textbox>();
+	private ArrayList<Decimalbox> m_qtyList = new ArrayList<Decimalbox>();
 	
 	/**	List of all products		*/
 	private ArrayList<Integer> m_productList = new ArrayList<Integer>();
@@ -94,9 +103,9 @@ public class WBOMDrop extends ADForm implements EventListener
 	private static final int WINDOW_WIDTH = 600;	//	width of the window
 	
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	private VerticalBox selectionPanel = new VerticalBox();
+	private Grid selectionPanel = GridFactory.newGridLayout();
 	private Listbox productField = new Listbox();
-	private Textbox productQty = new Textbox();
+	private Decimalbox productQty = new Decimalbox();
 	private Listbox orderField = new Listbox();
 	private Listbox invoiceField = new Listbox();
 	private Listbox projectField = new Listbox();
@@ -177,7 +186,7 @@ public class WBOMDrop extends ADForm implements EventListener
 	{
 		Caption caption = new Caption(Msg.translate(Env.getCtx(), "Selection"));
 
-		grpSelectionPanel.setWidth("100%");
+//		grpSelectionPanel.setWidth("100%");
 		grpSelectionPanel.appendChild(caption);
 		grpSelectionPanel.appendChild(selectionPanel);
 		
@@ -188,25 +197,23 @@ public class WBOMDrop extends ADForm implements EventListener
 		
 		for (int i = 0; i < keyNamePair.length; i++)
 		{
-			productField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
+			productField.addItem(keyNamePair[i]);
 		}
 		
-		Hbox boxProductQty = new Hbox();
+		Rows rows = selectionPanel.newRows();
+		Row boxProductQty = rows.newRow();
 		
 		Label lblProduct = new Label(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		Label lblQty = new Label(Msg.translate(Env.getCtx(), "Qty"));
-		productQty.setValue("1");
+		productQty.setValue(new BigDecimal(1));
 		productField.addEventListener(Events.ON_SELECT, this);
 		productQty.addEventListener(Events.ON_CHANGE, this);
 		
-		boxProductQty.setWidth("100%");
-		boxProductQty.setWidths("30%, 30%, 10%, 30%");
-		boxProductQty.appendChild(lblProduct);
+		productField.setWidth("99%");
+		boxProductQty.appendChild(lblProduct.rightAlign());
 		boxProductQty.appendChild(productField);
-		boxProductQty.appendChild(lblQty);
+		boxProductQty.appendChild(lblQty.rightAlign());
 		boxProductQty.appendChild(productQty);
-		
-		selectionPanel.appendChild(boxProductQty);
 		
 		if (order)
 		{
@@ -214,76 +221,73 @@ public class WBOMDrop extends ADForm implements EventListener
 			
 			orderField.setRows(1);
 			orderField.setMold("select");
+			orderField.setWidth("99%");
 			
 			for (int i = 0; i < keyNamePair.length; i++)
 			{
-				orderField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
+				orderField.addItem(keyNamePair[i]);
 			}
 
 			Label lblOrder = new Label(Msg.translate(Env.getCtx(), "C_Order_ID"));
 
-			Hbox boxOrder = new Hbox();
+			Row boxOrder = rows.newRow();
 			
 			orderField.addEventListener(Events.ON_CLICK, this);
 			
-			boxOrder.setWidth("100%");
-			boxOrder.setWidths("30%, 60%");
-			boxOrder.appendChild(lblOrder);
+			boxOrder.appendChild(lblOrder.rightAlign());
 			boxOrder.appendChild(orderField);
-			
-			selectionPanel.appendChild(boxOrder);
+			boxOrder.appendChild(new Space());
+			boxOrder.appendChild(new Space());
 		}
 
 		if (invoice)
 		{
 			invoiceField.setRows(1);
 			invoiceField.setMold("select");
+			invoiceField.setWidth("99%");
 			
 			keyNamePair = getInvoices();
 			
 			for (int i = 0; i < keyNamePair.length; i++)
 			{
-				invoiceField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
+				invoiceField.addItem(keyNamePair[i]);
 			}
 			
 			Label lblInvoice = new Label(Msg.translate(Env.getCtx(), "C_Invoice_ID"));
 			
-			Hbox boxInvoices = new Hbox();
+			Row boxInvoices = rows.newRow();
 			
 			invoiceField.addEventListener(Events.ON_SELECT, this);
 			
-			boxInvoices.setWidth("100%");
-			boxInvoices.setWidths("30%, 60%");
-			boxInvoices.appendChild(lblInvoice);
+			boxInvoices.appendChild(lblInvoice.rightAlign());
 			boxInvoices.appendChild(invoiceField);
-		
-			selectionPanel.appendChild(boxInvoices);
+			boxInvoices.appendChild(new Space());
+			boxInvoices.appendChild(new Space());
 		}
 		
 		if (project)
 		{
 			projectField.setRows(1);
 			projectField.setMold("select");
+			projectField.setWidth("99%");
 			
 			keyNamePair = getProjects();
 			
 			for (int i = 0; i < keyNamePair.length; i++)
 			{
-				projectField.appendItem(keyNamePair[i].getName(), this);
+				projectField.addItem(keyNamePair[i]);
 			}
 			
 			Label lblProject = new Label(Msg.translate(Env.getCtx(), "C_Project_ID"));
 			
-			Hbox boxProject = new Hbox();
+			Row boxProject = rows.newRow();
 			
 			projectField.addEventListener(Events.ON_SELECT, this);
 			
-			boxProject.setWidth("100%");
-			boxProject.setWidths("30%, 60%");
-			boxProject.appendChild(lblProject);
+			boxProject.appendChild(lblProject.rightAlign());
 			boxProject.appendChild(projectField);
-			
-			selectionPanel.appendChild(boxProject);
+			boxProject.appendChild(new Space());
+			boxProject.appendChild(new Space());			
 		}
 		
 		//	Enabled in ActionPerformed
@@ -519,14 +523,15 @@ public class WBOMDrop extends ADForm implements EventListener
 		
 		//	Add to List & display
 		m_productList.add (new Integer(M_Product_ID));
-		Textbox qty = new Textbox();
-		qty.setValue(lineQty.toString());
-		qty.setEnabled(selected);
+		Decimalbox qty = new Decimalbox();
+		qty.setValue(lineQty);
+		qty.setReadonly(!selected);
 		m_qtyList.add(qty);
 		
 		Label label = new Label(name);
-		
-		boxQty.appendChild(label);
+		HtmlBasedComponent c = (HtmlBasedComponent) label.rightAlign();
+		c.setStyle(c.getStyle() + ";margin-right: 5px");
+		boxQty.appendChild(c);
 		boxQty.appendChild(qty);
 
 		grpSelectProd.appendChild(boxQty);
@@ -579,14 +584,14 @@ public class WBOMDrop extends ADForm implements EventListener
 		//	Product / Qty
 		else if (source == productField || source == productQty)
 		{
-			m_qty = new BigDecimal(productQty.getValue());
+			m_qty = productQty.getValue();
 			
 			ListItem listitem = productField.getSelectedItem();
 			
 			KeyNamePair pp = null;
 			
 			if (listitem != null)
-				pp = (KeyNamePair)listitem.getValue();
+				pp = listitem.toKeyNamePair();
 			
 			m_product = MProduct.get (Env.getCtx(), pp.getKey());
 			createMainPanel();
@@ -601,7 +606,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			KeyNamePair pp = null;
 			
 			if (listitem != null)
-				pp = (KeyNamePair)listitem.getValue();
+				pp = listitem.toKeyNamePair();
 			
 			boolean valid = (pp != null && pp.getKey() > 0);
 			
@@ -618,7 +623,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			KeyNamePair pp = null;
 						
 			if (listitem != null)
-				pp = (KeyNamePair)listitem.getValue();
+				pp = listitem.toKeyNamePair();
 			
 			boolean valid = (pp != null && pp.getKey() > 0);
 			
@@ -635,7 +640,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			KeyNamePair pp = null;
 			
 			if (listitem != null)
-				pp = (KeyNamePair)listitem.getValue();
+				pp = listitem.toKeyNamePair();
 			
 			boolean valid = (pp != null && pp.getKey() > 0);
 			//
@@ -665,7 +670,7 @@ public class WBOMDrop extends ADForm implements EventListener
 				ListItem listitem = orderField.getSelectedItem();
 				
 				if (listitem != null)
-					pp = (KeyNamePair)listitem.getValue();
+					pp = listitem.toKeyNamePair();
 			}
 			
 			if ((pp == null || pp.getKey() <= 0) && invoiceField != null)
@@ -673,7 +678,7 @@ public class WBOMDrop extends ADForm implements EventListener
 				ListItem listitem = invoiceField.getSelectedItem();
 				
 				if (listitem != null)
-					pp = (KeyNamePair)listitem.getValue();
+					pp = listitem.toKeyNamePair();
 			}
 			
 			if ((pp == null || pp.getKey() <= 0) && projectField != null)
@@ -681,7 +686,7 @@ public class WBOMDrop extends ADForm implements EventListener
 				ListItem listitem = projectField.getSelectedItem();
 				
 				if (listitem != null)
-					pp = (KeyNamePair)listitem.getValue();
+					pp = listitem.toKeyNamePair();
 			}
 			OK = (pp != null && pp.getKey() > 0);
 		}
@@ -701,8 +706,8 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (source == m_selectionList.get(i))
 			{
 				boolean selected = isSelectionSelected(source);
-				Textbox qty = (Textbox)m_qtyList.get(i);
-				qty.setEnabled(selected);
+				Decimalbox qty = m_qtyList.get(i);
+				qty.setReadonly(!selected);
 				return;
 			}
 		}
@@ -741,7 +746,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		KeyNamePair pp = null;
 		
 		if (listitem != null)
-			pp = (KeyNamePair)listitem.getValue();
+			pp = listitem.toKeyNamePair();
 		
 		if (pp != null && pp.getKey() > 0)
 			return cmd_saveOrder (pp.getKey());
@@ -751,7 +756,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		pp = null;
 		
 		if (listitem != null)
-			pp = (KeyNamePair)listitem.getValue();
+			pp = listitem.toKeyNamePair();
 		
 		if (pp != null && pp.getKey() > 0)
 			return cmd_saveInvoice (pp.getKey());
@@ -761,7 +766,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		pp = null;
 		
 		if (listitem != null)
-			pp = (KeyNamePair)listitem.getValue();
+			pp = listitem.toKeyNamePair();
 		
 		if (pp != null && pp.getKey() > 0)
 			return cmd_saveProject (pp.getKey());
@@ -794,7 +799,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		{
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
-				BigDecimal qty = new BigDecimal(((Textbox)m_qtyList.get(i)).getValue());
+				BigDecimal qty = m_qtyList.get(i).getValue();
 				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
 				//	Create Line
 				MOrderLine ol = new MOrderLine (order);
@@ -809,6 +814,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			}	//	line selected
 		}	//	for all bom lines
 		
+		FDialog.info(-1, this, order.getDocumentInfo() + " " + Msg.translate(Env.getCtx(), "Inserted") + "=" + lineCount);
 		log.config("#" + lineCount);
 		return true;
 	}	//	cmd_saveOrder
@@ -835,7 +841,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		{
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
-				BigDecimal qty = new BigDecimal(((Textbox)m_qtyList.get(i)).getValue());
+				BigDecimal qty = m_qtyList.get(i).getValue();
 				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
 				//	Create Line
 				MInvoiceLine il = new MInvoiceLine (invoice);
@@ -850,6 +856,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			}	//	line selected
 		}	//	for all bom lines
 		
+		FDialog.info(-1, this, invoice.getDocumentInfo() +  " " + Msg.translate(Env.getCtx(), "Inserted") + "=" + lineCount);
 		log.config("#" + lineCount);
 		return true;
 	}	//	cmd_saveInvoice
@@ -875,7 +882,7 @@ public class WBOMDrop extends ADForm implements EventListener
 		{
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
-				BigDecimal qty = new BigDecimal(((Textbox)m_qtyList.get(i)).getValue());
+				BigDecimal qty = m_qtyList.get(i).getValue();
 				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
 				//	Create Line
 				MProjectLine pl = new MProjectLine (project);
@@ -889,6 +896,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			}	//	line selected
 		}	//	for all bom lines
 		
+		FDialog.info(-1, this, project.getName() + " " + Msg.translate(Env.getCtx(), "Inserted") + "=" + lineCount);
 		log.config("#" + lineCount);
 		return true;
 	}	//	cmd_saveProject

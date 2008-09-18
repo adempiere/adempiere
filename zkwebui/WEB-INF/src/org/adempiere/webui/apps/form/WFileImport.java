@@ -71,6 +71,9 @@ import org.zkoss.zul.Separator;
 
 public class WFileImport extends ADForm implements EventListener
 {
+	private static final int MAX_LOADED_LINES = 100;
+	private static final int MAX_SHOWN_LINES = 10;
+	
 	private static final long serialVersionUID = 1L;
 	
 	/**	Logger			*/
@@ -175,7 +178,7 @@ public class WFileImport extends ADForm implements EventListener
 		bNext.setLabel(">");
 		bNext.addEventListener(Events.ON_CLICK, this);
 		
-		record.setValue("-");
+		record.setValue("------");
 		
 		bPrevious.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
 		//bPrevious.setMargin(new Insets(2, 2, 2, 2));
@@ -191,12 +194,9 @@ public class WFileImport extends ADForm implements EventListener
 		northPanel.appendChild(record);
 		northPanel.appendChild(bNext);
 		
-		//rawData.setFont(new java.awt.Font("Monospaced", 0, 10));
-		//rawData.setColumns(80);
-		
 		rawData.setWidth("100%");
 		rawData.setCols(80);
-		rawData.setRows(5);
+		rawData.setRows(MAX_SHOWN_LINES);
 		
 		previewPanel.setWidth("100%");
 		
@@ -399,14 +399,12 @@ public class WFileImport extends ADForm implements EventListener
 				concat += s;
 				concat += "\n";
 				
-				if (m_data.size() < 100)
+				if (m_data.size() < MAX_LOADED_LINES)
 				{
 					rawData.setValue(concat);
-					//rawData.append("\n");
 				}
 			}
 			in.close();
-			//rawData.setCaretPosition(0);
 		}
 		catch (Exception e)
 		{
@@ -494,7 +492,7 @@ public class WFileImport extends ADForm implements EventListener
 			previewPanel.appendChild(hbox);
 		}
 		m_record = -1;
-		record.setValue("-");
+		record.setValue("------");
 		previewPanel.invalidate();
 	}	//	cmd_format
 
@@ -505,7 +503,7 @@ public class WFileImport extends ADForm implements EventListener
 	
 	private void cmd_applyFormat (boolean next)
 	{
-		if (m_format == null)
+		if (m_format == null || m_data.size() == 0)
 			return;
 
 		//	set position
