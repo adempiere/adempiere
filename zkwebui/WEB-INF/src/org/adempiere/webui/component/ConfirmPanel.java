@@ -169,7 +169,9 @@ public final class ConfirmPanel extends Hbox
         
         setVisible(A_CANCEL, withCancelButton);      
         addComponentsRight(createButton(A_OK));
-        addComponentsRight(createButton(A_CANCEL));   
+        
+        if (withCancelButton)
+        	addComponentsRight(createButton(A_CANCEL));   
                  
         if (withRefreshButton)
         {
@@ -208,7 +210,7 @@ public final class ConfirmPanel extends Hbox
      */
     public ConfirmPanel(boolean withCancel)
     {
-        this(true,false,false,false,false,false);
+        this(withCancel,false,false,false,false,false);
     }
     //    
     private Hbox hboxBtnLeft;

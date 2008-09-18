@@ -151,19 +151,19 @@ public abstract class WCreateFrom extends Window
 	private static CLogger 	s_log = CLogger.getCLogger (WCreateFrom.class);
 	
 	//
-	private Borderlayout contentPane = new Borderlayout();
-	private Panel parameterPanel = new Panel();
+	protected Borderlayout contentPane = new Borderlayout();
+	protected Panel parameterPanel = new Panel();
 	protected Panel parameterBankPanel = new Panel();
-	private Borderlayout parameterLayout = new Borderlayout();
-	private Label bankAccountLabel = new Label();
+	protected Borderlayout parameterLayout = new Borderlayout();
+	protected Label bankAccountLabel = new Label();
 	protected Panel parameterStdPanel = new Panel();
-	private Label bPartnerLabel = new Label();
+	protected Label bPartnerLabel = new Label();
 	protected Listbox bankAccountField;
 	//RF [1811114]
-	private Label authorizationLabel = new Label();
+	protected Label authorizationLabel = new Label();
 	protected WStringEditor authorizationField = new WStringEditor();
-	private Grid parameterStdLayout = GridFactory.newGridLayout();
-	private Grid parameterBankLayout = GridFactory.newGridLayout();
+	protected Grid parameterStdLayout = GridFactory.newGridLayout();
+	protected Grid parameterBankLayout = GridFactory.newGridLayout();
 	// Bug [1759431]
 	protected Checkbox sameWarehouseCb = new Checkbox();
 	protected WEditor bPartnerField;
@@ -174,10 +174,10 @@ public abstract class WCreateFrom extends Window
 	protected Label shipmentLabel = new Label();
 	protected Listbox shipmentField = ListboxFactory.newDropdownListbox();
 //	private JScrollPane dataPane = new JScrollPane();
-	private Panel southPanel = new Panel();
+	protected Panel southPanel = new Panel();
 //	private Borderlayout southLayout = new Borderlayout();
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
-	private StatusBarPanel statusBar = new StatusBarPanel();
+	protected ConfirmPanel confirmPanel = new ConfirmPanel(true);
+	protected StatusBarPanel statusBar = new StatusBarPanel();
 	protected WListbox dataTable = ListboxFactory.newDataTable();
 	protected Label locatorLabel = new Label();
 	protected WLocatorEditor locatorField = new WLocatorEditor();
@@ -202,7 +202,7 @@ public abstract class WCreateFrom extends Window
 	 *  </pre>
 	 *  @throws Exception
 	 */
-	private void zkInit() throws Exception
+	protected void zkInit() throws Exception
 	{
 		parameterPanel.appendChild(parameterLayout);
 		parameterStdPanel.appendChild(parameterStdLayout);

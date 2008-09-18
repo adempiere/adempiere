@@ -112,10 +112,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     
     private boolean 			 boolChanges = false;
     
-    private boolean viewed = false;
-
-	private boolean changesOccured = false;
-
 	private int m_onlyCurrentDays = 0;
 	
 	private Component parent;
@@ -333,6 +329,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         return title;
     }
 
+    /**
+     * @see ToolbarListener#onDetailRecord()
+     */
     public void onDetailRecord()
     {
         int maxInd = adTab.getTabCount() - 1;
@@ -343,6 +342,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
     }
 
+    /**
+     * @see ToolbarListener#onParentRecord()
+     */
     public void onParentRecord()
     {
         int curInd = adTab.getSelectedIndex();
@@ -352,26 +354,41 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }        
     }
 
+    /**
+     * @see ToolbarListener#onFirst()
+     */
     public void onFirst()
     {
         curTab.navigate(0);
     }
 
+    /**
+     * @see ToolbarListener#onLast()
+     */
     public void onLast()
     {
         curTab.navigate(curTab.getRowCount() - 1);
     }
 
+    /**
+     * @see ToolbarListener#onNext()
+     */
     public void onNext()
     {
         curTab.navigateRelative(+1);
     }
 
+    /**
+     * @see ToolbarListener#onPrevious()
+     */
     public void onPrevious()
     {
         curTab.navigateRelative(-1);
     }
 
+    /**
+     * @see ToolbarListener#onHistoryRecords()
+     */
     public void onHistoryRecords()
     {
 		logger.info("");
@@ -410,6 +427,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
     }
     
+    /**
+     * @see ToolbarListener#onAttachment()
+     */
     public void onAttachment()
     {
 		int record_ID = curTab.getRecord_ID();
@@ -429,30 +449,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//aAttachment.setPressed(m_curTab.hasAttachment());
 	}
     
-    public void onGridToggle()
+    /**
+     * @see ToolbarListener#onToggle()
+     */
+    public void onToggle()
     {
-    	curTabpanel.switchRowPresentation();
-    	
-    	/*
-    	if (!viewed)
-    	{
-    		viewed = true;
-    	}
-    	
-    	if (changesOccured)
-    	{
-    		changesOccured = false;
-    	}
-    	
-    	if (tabbox.isVisible())
-    	{
-    		tabbox.setVisible(false);
-    	}
-    	else
-    	{
-    		tabbox.setVisible(true);
-    	}
-    	*/
+    	curTabpanel.switchRowPresentation();    	
     }
     
     public boolean onExit()
@@ -469,12 +471,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	return false;
     }
 
-//    private void find()
-//    {
-//    	MQuery mquery = new MQuery(curTab.getAD_Table_ID());
-//    	
-//    }
-    
     public void onEvent(Event event)
     {
     	if (!Events.ON_SELECT.equals(event.getName()))
@@ -789,18 +785,27 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         return (selTabIndex == 0);
     }
 
+    /**
+     * @see ToolbarListener#onRefresh()
+     */
     public void onRefresh()
     {
         curTab.dataRefreshAll();
         curTabpanel.dynamicDisplay(0);
     }
     
+    /**
+     * @see ToolbarListener#onHelp()
+     */
     public void onHelp()
     {
     	WebDoc doc = gridWindow.getHelpDoc(true);
 		SessionManager.getAppDesktop().showURL(doc, "Help", true);
     }
     
+    /**
+     * @see ToolbarListener#onNew()
+     */
     public void onNew()
     {
         if (!curTab.isInsertRecord())
@@ -830,6 +835,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         
     }
     
+    /**
+     * @see ToolbarListener#onFind()
+     */
     public void onFind()
     {
         if (curTab == null)
@@ -856,6 +864,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         curTab.dataRefresh(); // Elaine 2008/07/25
     }
     
+    /**
+     * @see ToolbarListener#onIgnore()
+     */
     public void onIgnore()
     {
     	if (curTab.isSortTab())
@@ -873,6 +884,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	}
     }
     
+    /**
+     * @see ToolbarListener#onEdit()
+     */
     public void onEdit()
     {
         curTabpanel.editRecord(true);
@@ -885,10 +899,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         toolbar.enableReport(true);
     }
     
+    /**
+     * @see ToolbarListener#onSave()
+     */
     public void onSave()
     {
-    	changesOccured = true;
-        
     	if (curTab.isSortTab())
     	{
     		((ADSortTab)curTabpanel).saveData();
@@ -908,6 +923,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	}
     }
     
+    /**
+     * @see ToolbarListener#onDelete()
+     */
     public void onDelete()
     {
         if (curTab.isReadOnly())
@@ -925,6 +943,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         curTabpanel.dynamicDisplay(0);
     }
 
+    /**
+     * @see ToolbarListener#onPrint()
+     */
 	public void onPrint() {
 		//Get process defined for this tab
 		int AD_Process_ID = curTab.getAD_Process_ID();
@@ -960,6 +981,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 	}
 
+	/**
+     * @see ToolbarListener#onReport()
+     */
 	public void onReport() {
 		if (!MRole.getDefault().isCanReport(curTab.getAD_Table_ID()))
 		{
@@ -1006,6 +1030,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 	}
 	
+	/**
+     * @see ToolbarListener#onZoomAcross()
+     */
 	public void onZoomAcross() {
 		if (toolbar.getEvent() != null)
 		{
@@ -1034,6 +1061,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	}
     
 	// Elaine 2008/07/17
+	/**
+     * @see ToolbarListener#onActiveWorkflows()
+     */
 	public void onActiveWorkflows() {
 		if (toolbar.getEvent() != null)
 		{
@@ -1046,6 +1076,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	//
 	
 	// Elaine 2008/07/22
+	/**
+     * @see ToolbarListener#onRequests()
+     */
 	public void onRequests()
 	{
 		if (toolbar.getEvent() != null)
@@ -1064,6 +1097,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	//
 	
 	// Elaine 2008/07/22
+	/**
+     * @see ToolbarListener#onProductInfo()
+     */
 	public void onProductInfo()
 	{
 		InfoPanel.showProduct(0);
@@ -1071,6 +1107,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	//
 	
 	// Elaine 2008/07/28
+	/**
+     * @see ToolbarListener#onArchive()
+     */
 	public void onArchive()
 	{
 		if (toolbar.getEvent() != null)
@@ -1081,6 +1120,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			new WArchive(toolbar.getEvent().getTarget(), curTab.getAD_Table_ID(), curTab.getRecord_ID());
 		}
 	}
+	
 	//
     
 	/**************************************************************************
@@ -1092,7 +1132,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		logger.info(wButton.toString());
 
 		boolean startWOasking = false;
-		boolean batch = false;
 		String col = wButton.getColumnName();
 
 		//  Zoom		

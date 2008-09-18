@@ -62,7 +62,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     private ToolBarButton btnGridToggle;
 
-    private ToolBarButton btnHistoryRecords, btnMenu, btnParentRecord, btnDetailRecord;
+    private ToolBarButton btnHistoryRecords, btnParentRecord, btnDetailRecord;
 
     private ToolBarButton btnFirst, btnPrevious, btnNext, btnLast;
 
@@ -102,7 +102,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnGridToggle = createButton("Toggle", "Multi24.png", "Multi");
         addSeparator();
         btnHistoryRecords = createButton("HistoryRecords", "HistoryX24.png", "History");
-        btnMenu = createButton("Home", "Home24.png", "Home");
         btnParentRecord = createButton("ParentRecord", "Parent24.png", "Parent");
         btnDetailRecord = createButton("DetailRecord", "Detail24.png", "Detail");
         addSeparator();
