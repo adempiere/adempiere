@@ -50,6 +50,4 @@ WHERE	o.DocStatus IN ('CO','CL','IP')	-- Standard Orders are IP
 		)
 GROUP BY o.AD_Client_ID, o.AD_Org_ID, o.C_BPartner_ID, o.C_Order_ID,
 	o.DocumentNo, o.DateOrdered, o.C_DocType_ID;
-
-
-
+/

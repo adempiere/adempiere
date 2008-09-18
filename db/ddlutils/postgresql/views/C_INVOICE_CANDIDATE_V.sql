@@ -20,8 +20,9 @@ WHERE	o.DocStatus IN ('CO','CL','IP')	-- Standard Orders are IP
 	AND (
 		--	Immediate
 		o.InvoiceRule='I'
-		--	Order compete ** not supported **
-		OR	o.InvoiceRule='O'
+		--	Order complete
+		OR	(o.InvoiceRule='O' AND NOT EXISTS (SELECT 1 FROM C_OrderLine zz1
+												WHERE zz1.C_Order_ID=o.C_Order_ID AND zz1.QtyOrdered<>zz1.QtyDelivered))
 		--	Delivery
 		OR	(o.InvoiceRule='D' AND l.QtyInvoiced<>l.QtyDelivered)
 		--	Order Schedule, but none defined on Business Partner level
