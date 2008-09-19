@@ -22,12 +22,12 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
@@ -898,7 +898,8 @@ public class WPayment extends Window
 
 	private void onPaymentComboSelection() {
 		//	get selection
-		ValueNamePair pp = paymentCombo.getSelectedItem().toValueNamePair();
+		ListItem selectedItem = paymentCombo.getSelectedItem(); 
+		ValueNamePair pp = selectedItem != null ? selectedItem.toValueNamePair() : null;
 		if (pp != null)
 		{
 			String s = pp.getValue().toLowerCase();
@@ -966,7 +967,8 @@ public class WPayment extends Window
 		//	B (Cash)		(Currency)
 		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
 		{
-			KeyNamePair kp = bCashBookCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = bCashBookCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				newC_CashBook_ID = kp.getKey();
 			newDateAcct = (Timestamp)bDateField.getValue();
@@ -979,7 +981,8 @@ public class WPayment extends Window
 		//	K (CreditCard)  Type, Number, Exp, Approval
 		else if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_CreditCard))
 		{
-			vp = kTypeCombo.getSelectedItem().toValueNamePair();
+			ListItem selected = kTypeCombo.getSelectedItem(); 
+			vp = selected != null ? selected.toValueNamePair() : null;
 			if (vp != null)
 				newCCType = vp.getValue();
 		}
@@ -994,7 +997,8 @@ public class WPayment extends Window
 		//	P (PaymentTerm)	PaymentTerm
 		else if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
 		{
-			KeyNamePair kp = pTermCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = pTermCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				newC_PaymentTerm_ID = kp.getKey();
 		}
@@ -1002,8 +1006,8 @@ public class WPayment extends Window
 		//	S (Check)		(Currency) CheckNo, Routing
 		else if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Check))
 		{
-		//	sCurrencyCombo.getSelectedItem();
-			KeyNamePair kp = sBankAccountCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = sBankAccountCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				newC_BankAccount_ID = kp.getKey();
 		}
@@ -1315,7 +1319,8 @@ public class WPayment extends Window
 		//	B (Cash)		(Currency)
 		if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
 		{
-			KeyNamePair kp = bCashBookCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = bCashBookCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				C_CashBook_ID = kp.getKey();
 			DateAcct = (Timestamp)bDateField.getValue();
@@ -1324,7 +1329,8 @@ public class WPayment extends Window
 		//	K (CreditCard)  Type, Number, Exp, Approval
 		else if (PaymentRule.equals(MOrder.PAYMENTRULE_CreditCard))
 		{
-			vp = kTypeCombo.getSelectedItem().toValueNamePair();
+			ListItem selected = kTypeCombo.getSelectedItem(); 
+			vp = selected != null ? selected.toValueNamePair() : null;
 			if (vp != null)
 				CCType = vp.getValue();
 			//
@@ -1354,7 +1360,8 @@ public class WPayment extends Window
 		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDeposit)
 			|| PaymentRule.equals(X_C_Order.PAYMENTRULE_DirectDebit))
 		{
-			KeyNamePair bpba = tAccountCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected =  tAccountCombo.getSelectedItem();
+			KeyNamePair bpba = selected != null ? selected.toKeyNamePair() : null;
 			if (bpba == null)
 
 			{
@@ -1366,7 +1373,8 @@ public class WPayment extends Window
 		//	P (PaymentTerm)	PaymentTerm
 		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
 		{
-			KeyNamePair kp = pTermCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = pTermCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				C_PaymentTerm_ID = kp.getKey();
 		}
@@ -1374,8 +1382,8 @@ public class WPayment extends Window
 		//	S (Check)		(Currency) CheckNo, Routing
 		else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
 		{
-		//	sCurrencyCombo.getSelectedItem();
-			KeyNamePair kp = sBankAccountCombo.getSelectedItem().toKeyNamePair();
+			ListItem selected = sBankAccountCombo.getSelectedItem(); 
+			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
 			if (kp != null)
 				C_BankAccount_ID = kp.getKey();
 			String error = MPaymentValidate.validateRoutingNo(sRoutingField.getText());
