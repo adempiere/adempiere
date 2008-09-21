@@ -739,7 +739,7 @@ public class MBPartner extends X_C_BPartner
 	{
 		BigDecimal SO_CreditUsed = null;
 		BigDecimal TotalOpenBalance = null;
-		//AZ Goodwill -> BF: only count completed/closed docs.
+		//AZ Goodwill -> BF2041226 : only count completed/closed docs.
 		String sql = "SELECT "
 			//	SO Credit Used
 			+ "COALESCE((SELECT SUM(currencyBase(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID,i.DateInvoiced, i.AD_Client_ID,i.AD_Org_ID)) FROM C_Invoice_v i "
@@ -796,9 +796,10 @@ public class MBPartner extends X_C_BPartner
 	public void setActualLifeTimeValue()
 	{
 		BigDecimal ActualLifeTimeValue = null;
+		//AZ Goodwill -> BF2041226 : only count completed/closed docs.
 		String sql = "SELECT "
 			+ "COALESCE ((SELECT SUM(currencyBase(i.GrandTotal,i.C_Currency_ID,i.DateInvoiced, i.AD_Client_ID,i.AD_Org_ID)) FROM C_Invoice_v i "
-				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsSOTrx='Y'),0) " 
+				+ "WHERE i.C_BPartner_ID=bp.C_BPartner_ID AND i.IsSOTrx='Y' AND i.DocStatus IN ('CO','CL')),0) " 
 			+ "FROM C_BPartner bp "
 			+ "WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
