@@ -581,8 +581,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     
     public void query (boolean onlyCurrentRows, int onlyCurrentDays, int maxRows)
     {
-//        gridTab.query(onlyCurrentRows, onlyCurrentDays, maxRows);
-        gridTab.query(false);
+        gridTab.query(onlyCurrentRows, onlyCurrentDays, maxRows);
     }
     
     public GridTab getGridTab()

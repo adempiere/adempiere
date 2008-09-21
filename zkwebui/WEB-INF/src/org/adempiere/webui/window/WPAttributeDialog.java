@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
@@ -63,7 +64,6 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.impl.InputElement;
@@ -432,12 +432,8 @@ public class WPAttributeDialog extends Window implements EventListener
 		if (attribute.getDescription() != null)
 			label.setTooltiptext(attribute.getDescription());
 		
-		Row row = new Row();
-		row.setParent(rows);
-		Div div = new Div();
-		div.setStyle("text-align: right");
-		div.appendChild(label);
-		row.appendChild(div);
+		Row row = rows.newRow();
+		row.appendChild(label.rightAlign());
 		//
 		MAttributeInstance instance = attribute.getMAttributeInstance (m_M_AttributeSetInstance_ID);
 		if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attribute.getAttributeValueType()))
@@ -479,7 +475,7 @@ public class WPAttributeDialog extends Window implements EventListener
 		{
 //			VNumber editor = new VNumber(attribute.getName(), attribute.isMandatory(), 
 //				false, true, DisplayType.Number, attribute.getName());
-			NumberBox editor = new NumberBox(true);
+			NumberBox editor = new NumberBox(false);
 			if (instance != null)
 				editor.setValue(instance.getValueNumber());
 			else
@@ -677,6 +673,8 @@ public class WPAttributeDialog extends Window implements EventListener
 				((InputElement)editor).setReadonly(!rw);
 			else if (editor instanceof Listbox)
 				((Listbox)editor).setEnabled(rw);
+			else if (editor instanceof NumberBox)
+				((NumberBox)editor).setEnabled(rw);
 		}	
 	}	//	cmd_newEdit
 
@@ -741,7 +739,8 @@ public class WPAttributeDialog extends Window implements EventListener
 		if (!m_productWindow && as.isGuaranteeDate())
 		{
 			log.fine("GuaranteeDate=" + fieldGuaranteeDate.getValue());
-			Timestamp ts = (Timestamp)fieldGuaranteeDate.getValue();
+			Date gDate = fieldGuaranteeDate.getValue();
+			Timestamp ts = gDate != null ? new Timestamp(gDate.getTime()) : null;
 			m_masi.setGuaranteeDate(ts);
 			if (as.isGuaranteeDateMandatory() && ts == null)
 				mandatory += " - " + Msg.translate(Env.getCtx(), "GuaranteeDate");
@@ -764,7 +763,8 @@ public class WPAttributeDialog extends Window implements EventListener
 			if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
 			{
 				Listbox editor = (Listbox)m_editors.get(i);
-				MAttributeValue value = (MAttributeValue)editor.getSelectedItem().getValue();
+				ListItem item = editor.getSelectedItem();
+				MAttributeValue value = item != null ? (MAttributeValue)item.getValue() : null;
 				log.fine(attributes[i].getName() + "=" + value);
 				if (attributes[i].isMandatory() && value == null)
 					mandatory += " - " + attributes[i].getName();
@@ -777,6 +777,9 @@ public class WPAttributeDialog extends Window implements EventListener
 				log.fine(attributes[i].getName() + "=" + value);
 				if (attributes[i].isMandatory() && value == null)
 					mandatory += " - " + attributes[i].getName();
+				//setMAttributeInstance doesn't work without decimal point
+				if (value != null && value.scale() == 0)
+					value = value.setScale(1);
 				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
 			}
 			else

@@ -184,7 +184,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			{
 				getComponent().setText(vad.getM_AttributeSetInstanceName());
 				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
-				if (m_GridTab != null && !productWindow)
+				if (m_GridTab != null && !productWindow && vad.getM_Locator_ID() > 0)
 					m_GridTab.setValue("M_Locator_ID", vad.getM_Locator_ID());
 				changed = true;
 			}
