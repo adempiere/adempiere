@@ -277,7 +277,7 @@ public class Doc_InOut extends Doc
 
 			}	//	for all lines
 			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
-		}	//	Shipment
+		}	//	Sales Return
 		
 		//  *** Purchasing - Receipt
 		else if (getDocumentType().equals(DOCTYPE_MatReceipt) && !isSOTrx())
@@ -376,6 +376,8 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
+				/*
+				 * BF: [ 2048984 ] Purchase Return costing logic
 				//get costing method for product
 				String costingMethod = product.getCostingMethod(as);
 				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
@@ -395,6 +397,8 @@ public class Doc_InOut extends Doc
 				{
 					costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
 				}
+				*/
+				costs = line.getProductCosts(as, line.getAD_Org_ID(), false);	//	current costs
 				if (costs == null || costs.signum() == 0)
 				{
 					p_Error = "Resubmit - No Costs for " + product.getName();
@@ -442,7 +446,7 @@ public class Doc_InOut extends Doc
 				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
 
 			}
-		}	//	Receipt
+		}	//	Purchasing Return
 		else
 		{
 			p_Error = "DocumentType unknown: " + getDocumentType();
