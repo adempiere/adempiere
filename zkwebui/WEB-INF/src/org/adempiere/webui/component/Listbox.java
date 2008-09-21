@@ -29,6 +29,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Listitem;
 
 /**
  *
@@ -38,7 +39,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
     private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
     
     private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
@@ -280,5 +281,28 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 				}
 			}
 		}
+	}
+
+	@Override
+	protected void afterInsert(Component comp) {
+		super.afterInsert(comp);
+		if ("select".equals(getMold()) && comp instanceof Listitem) {
+			if (getSelectedIndex() < 0 && getItemCount() > 0) {
+				setSelectedIndex(0);
+			}
+		}
+	}
+	 
+	@Override
+	public boolean removeChild(Component child) {
+		boolean b = super.removeChild(child);
+		if (b) {
+			if ("select".equals(getMold()) && child instanceof Listitem) {
+				if (getSelectedIndex() < 0 && getItemCount() > 0) {
+					setSelectedIndex(0);
+				}
+			}
+		}
+		return b;
 	}    
 }
