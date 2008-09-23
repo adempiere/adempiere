@@ -58,11 +58,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
     
     public WEditorPopupMenu(boolean zoom, boolean requery, boolean preferences)
     {
-        super();
-        this.zoomEnabled = zoom;
-        this.requeryEnabled = requery;
-        this.preferencesEnabled = preferences;
-        init();
+        this(zoom, requery, preferences, false);
     }
     
     public WEditorPopupMenu(boolean zoom, boolean requery, boolean preferences, boolean newRecord)

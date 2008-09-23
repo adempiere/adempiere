@@ -18,17 +18,21 @@
 package org.adempiere.webui.editor;
 
 import org.adempiere.webui.ValuePreference;
-import org.adempiere.webui.apps.form.WCreateFromStatement;
 import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Menuitem;
 
 /**
  *
@@ -38,7 +42,9 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WStringEditor extends WEditor implements ContextMenuListener
 {
-    private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+    private static final String EDITOR_EVENT = "EDITOR";
+
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     
     private String oldText;
     
@@ -124,6 +130,12 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        getComponent().setObscureType(obscureType);
 	        
 	        popupMenu = new WEditorPopupMenu(false, false, true);
+	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.gif");
+	        editor.setAttribute("EVENT", EDITOR_EVENT);
+	        editor.addEventListener(Events.ON_CLICK, popupMenu);
+	        popupMenu.appendChild(editor);
+	        
+	        getComponent().setContext(popupMenu.getId());
 		}
     }
 
@@ -194,6 +206,20 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());
 			return;
+		} 
+		else if (EDITOR_EVENT.equals(evt.getContextEvent()))
+		{
+			WTextEditorDialog dialog = new WTextEditorDialog(this.getColumnName(), getDisplay(), 
+					isReadWrite(), gridField.getFieldLength());
+			dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+			SessionManager.getAppDesktop().showWindow(dialog);
+			if (!dialog.isCancelled()) {
+				getComponent().setText(dialog.getText());
+				String newText = getComponent().getValue();
+		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
+		        super.fireValueChange(changeEvent);
+		        oldText = newText;
+			}
 		}
 	}
 }
