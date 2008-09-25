@@ -177,7 +177,7 @@ public class MRPUpdate extends SvrProcess
 			executeUpdate("DELETE FROM PP_MRP WHERE "+whereClause, params);
 
 			//Delete Material Requisitions Document
-			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
+			whereClause = "DocStatus IN ('DR','CL') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			deletePO(MRequisition.Table_Name, whereClause, params);
 			// Delete Distribution Orders:
 			deletePO(MDDOrder.Table_Name, whereClause, params);

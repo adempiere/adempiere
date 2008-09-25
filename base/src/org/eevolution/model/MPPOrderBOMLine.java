@@ -158,6 +158,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 																getPP_Order_ID(), getPP_Order_BOM_ID(),
 																getM_Warehouse_ID(),
 																get_TrxName());
+					PP_Order_BOMLine.setAD_Org_ID(getAD_Org_ID());
 					PP_Order_BOMLine.setQtyOrdered(m_qtyToExplode);
 					PP_Order_BOMLine.saveEx();
 				}

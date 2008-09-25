@@ -338,6 +338,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (PP_Product_BOM.isValidFromTo(getDateStartSchedule()))
 		{
 			MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(PP_Product_BOM, getPP_Order_ID(), get_TrxName());
+			PP_Order_BOM.setAD_Org_ID(getAD_Org_ID());
 			PP_Order_BOM.saveEx();
 
 			for (MPPProductBOMLine PP_Product_BOMline : PP_Product_BOM.getLines())
@@ -348,6 +349,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 																getPP_Order_ID(), PP_Order_BOM.get_ID(),
 																getM_Warehouse_ID(),
 																get_TrxName());
+					PP_Order_BOMLine.setAD_Org_ID(getAD_Org_ID());
 					PP_Order_BOMLine.setQtyOrdered(getQtyOrdered());
 					PP_Order_BOMLine.saveEx();
 				} // end if valid From / To    
@@ -360,6 +362,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (AD_Workflow.isValidFromTo(getDateStartSchedule()))
 		{
 			MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(AD_Workflow, get_ID(), get_TrxName());
+			PP_Order_Workflow.setAD_Org_ID(getAD_Org_ID());
 			PP_Order_Workflow.saveEx();
 			for (MWFNode AD_WF_Node : AD_Workflow.getNodes(false, getAD_Client_ID()))
 			{
@@ -368,11 +371,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					MPPOrderNode PP_Order_Node = new MPPOrderNode(AD_WF_Node, PP_Order_Workflow,
 															getQtyOrdered(),
 															get_TrxName());
+					PP_Order_Node.setAD_Org_ID(getAD_Org_ID());
 					PP_Order_Node.saveEx();
 					
 					for (MWFNodeNext AD_WF_NodeNext : AD_WF_Node.getTransitions(getAD_Client_ID()))
 					{
-						new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node, get_TrxName()).saveEx();
+						MPPOrderNodeNext nodenext = new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node, get_TrxName());
+						nodenext.setAD_Org_ID(getAD_Org_ID());
+						nodenext.saveEx();
 					}// for NodeNext
 				}// for node 
 

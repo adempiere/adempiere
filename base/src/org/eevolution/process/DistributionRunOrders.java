@@ -139,8 +139,7 @@ public class DistributionRunOrders extends SvrProcess
     	m_run.save();
     	
     	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (QtyOrdered-QtyDelivered) AS TotalQty, l.M_Warehouse_ID FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-    	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
-    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID");
     	
  	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
@@ -193,13 +192,12 @@ public class DistributionRunOrders extends SvrProcess
      //Create Distribution Run Line
      public boolean generateDistributionDemand()
      {
-    	m_run = new MDistributionRun(this.getCtx(), 0 , this.get_TrxName());
+    	m_run = new MDistributionRun(this.getCtx(), 0 , null);
     	m_run.setName("Generate from DRP " + p_DatePromised);
     	m_run.save();
     	
-    	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (TargetQty) AS MinQty, SUM (QtyOrdered-QtyDelivered) AS TotalQty, l.M_Warehouse_ID FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-    	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
-    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+    	StringBuffer sql = new StringBuffer("SELECT M_Product_ID , SUM (TargetQty) AS MinQty, SUM (QtyOrdered-QtyDelivered) AS TotalQty FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
+    	sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? GROUP BY M_Product_ID");
  	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
  	    try
@@ -215,7 +213,7 @@ public class DistributionRunOrders extends SvrProcess
  	            {
  	            	int M_Product_ID = rs.getInt("M_Product_ID");
  	            	BigDecimal QtyAvailable = MStorage.getQtyAvailable(p_M_Warehouse_ID,0 , M_Product_ID , 0, get_TrxName());
- 	            	if(QtyAvailable.signum()< 0)
+ 	            	if(QtyAvailable.signum()<= 0)
  	            		continue;
  	            	BigDecimal QtyToDistribute = rs.getBigDecimal("TotalQty");
  	            	if(QtyAvailable.compareTo(QtyToDistribute) >= 0)
@@ -226,6 +224,9 @@ public class DistributionRunOrders extends SvrProcess
  	            		QtyToDistribute = QtyAvailable.subtract(QtyReserved);
  	            	}	
      	
+ 	            	//if(QtyToDistribute.equals(Env.ZERO))
+ 	            	//	continue;
+ 	            		
  	            	MDistributionRunLine m_runLine = new MDistributionRunLine(getCtx(),0 ,get_TrxName());
  	            	m_runLine.setM_DistributionRun_ID(m_run.getM_DistributionRun_ID());
  	            	m_runLine.setAD_Org_ID(p_AD_Org_ID);
@@ -263,26 +264,7 @@ public class DistributionRunOrders extends SvrProcess
      private BigDecimal getTargetQty(int M_Product_ID)
  	{
  		StringBuffer sql = new StringBuffer("SELECT SUM (TargetQty)  FROM DD_OrderLine ol INNER JOIN M_Locator l ON (l.M_Locator_ID=ol.M_Locator_ID) INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) ");
-     	//sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised BETWEEN ? AND ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
- 		sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
- 		BigDecimal qty = DB.getSQLValueBD(get_TrxName(), sql.toString(), new Object[]{p_DatePromised, p_M_Warehouse_ID, M_Product_ID}); 		
-		//	SQL may return no rows or null
-		if (qty == null)
-			return Env.ZERO;
-		
- 		return qty;
-      }
-     
-     /**
-      * Set Qty TargetQty for a Warehouse 
-      * @param M_Product_ID
-      * @return
-      */
-     private BigDecimal setTargetQty(int M_Product_ID)
- 	{
- 		StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP mrp " 
- 		+"WHERE  TypeMRP='D' AND OrderType='SOO' AND DocStatus IN ('IN','CO') AND mrp.DatePromised <=? "
- 		+"AND mrp.M_Warehouse_ID =? AND M_Product_ID=? GROUP BY M_Product_ID, l.M_Warehouse_ID");
+ 		sql.append(" WHERE o.DocStatus IN ('DR','IN') AND ol.DatePromised <= ? AND l.M_Warehouse_ID=? AND ol.M_Product_ID=? GROUP BY M_Product_ID");
  		BigDecimal qty = DB.getSQLValueBD(get_TrxName(), sql.toString(), new Object[]{p_DatePromised, p_M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
@@ -385,6 +367,7 @@ public class DistributionRunOrders extends SvrProcess
 			String msg = "No Parameter added";  //  not translated
 			throw new Exception(msg,CLogger.retrieveException()); 
 		}
+		
 		//	Execute Process
 		MProcess worker = new MProcess(getCtx(),AD_Process_ID,get_TrxName());
 		worker.processIt(pi, Trx.get(get_TrxName(), true));

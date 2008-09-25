@@ -109,7 +109,8 @@ public class MPPMRP extends X_PP_MRP
 							.first();
 		if (mrp == null)
 		{
-			mrp = new MPPMRP(ctx, 0, trxName);                                                          
+			mrp = new MPPMRP(ctx, 0, trxName);     
+			mrp.setAD_Org_ID(fl.getAD_Org_ID());
 			mrp.setM_Forecast_ID(fl.getM_Forecast_ID());
 			mrp.setM_ForecastLine_ID(fl.getM_ForecastLine_ID());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_Forecast);
@@ -188,7 +189,8 @@ public class MPPMRP extends X_PP_MRP
 						.first();
 		if(mrp == null)
 		{	
-			mrp = new MPPMRP(ctx, 0,trxName);                                                          
+			mrp = new MPPMRP(ctx, 0,trxName);        
+			mrp.setAD_Org_ID(ol.getAD_Org_ID());
 			mrp.setC_Order_ID(ol.getC_Order_ID());
 			mrp.setC_OrderLine_ID(ol.getC_OrderLine_ID());
 			if (ol.getParent().isSOTrx())
@@ -303,7 +305,8 @@ public class MPPMRP extends X_PP_MRP
 						.first();
 		if(mrp == null)
 		{		                    
-			mrp = new MPPMRP(m_ctx, 0, trxName);                                                                                                                 
+			mrp = new MPPMRP(m_ctx, 0, trxName);   
+			mrp.setAD_Org_ID(o.getAD_Org_ID());
 			mrp.setPP_Order_ID(o.getPP_Order_ID());
 			mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
 			mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
@@ -345,7 +348,8 @@ public class MPPMRP extends X_PP_MRP
 		MPPOrder o = obl.getParent();
 		if(mrp == null)
 		{
-			mrp = new MPPMRP(ctx, 0, trxName);                                                                           
+			mrp = new MPPMRP(ctx, 0, trxName);       
+			mrp.setAD_Org_ID(obl.getAD_Org_ID());
 			mrp.setPP_Order_BOMLine_ID(obl.getPP_Order_BOMLine_ID());
 			mrp.setPP_Order_ID(o.getPP_Order_ID());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
@@ -496,6 +500,7 @@ public class MPPMRP extends X_PP_MRP
 		if (mrp == null)
 		{
 			mrp = new MPPMRP(ctx, 0, trxName);  
+			mrp.setAD_Org_ID(r.getAD_Org_ID());
 			mrp.setM_Requisition_ID(rl.getM_Requisition_ID());
 			mrp.setM_RequisitionLine_ID(rl.getM_RequisitionLine_ID());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_MaterialRequisition);
