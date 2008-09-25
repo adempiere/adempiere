@@ -18,14 +18,17 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClient;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
-import org.compiere.model.MResource;
 import org.compiere.model.MUOM;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
@@ -84,6 +87,16 @@ public class RollupWorkflow extends SvrProcess
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
+		//
+		if (p_C_AcctSchema_ID <= 0)
+		{
+			p_C_AcctSchema_ID = MClient.get(getCtx(), getAD_Client_ID()).getInfo().getC_AcctSchema1_ID();
+		}
+		if (p_M_CostType_ID <= 0)
+		{
+			MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
+			p_M_CostType_ID = as.getM_CostType_ID();
+		}
 	}	//	prepare
 
 	/**
@@ -94,15 +107,22 @@ public class RollupWorkflow extends SvrProcess
 	protected String doIt() throws Exception                
 	{
 		List<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer("AD_Client_ID=? AND ProductType=?");
+		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
 		params.add(getAD_Client_ID());
+		
+		whereClause.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
 		params.add(MProduct.PRODUCTTYPE_Item);
 		
-		if (p_M_Product_ID > 0) {  
+		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
+		params.add(true);
+		
+		if (p_M_Product_ID > 0)
+		{  
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
 			params.add(p_M_Product_ID);
-		}		
-		if (p_M_Product_Category_ID > 0){
+		}	
+		else if (p_M_Product_Category_ID > 0)
+		{
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
 			params.add(p_M_Product_Category_ID);
 		}	
@@ -121,14 +141,14 @@ public class RollupWorkflow extends SvrProcess
 				// check if element cost is of type Labor
 				if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
 				{                                    
-					BigDecimal Labor = getCost(MCostElement.COSTELEMENTTYPE_Resource , getAD_Client_ID(), p_AD_Org_ID , product , p_M_CostType_ID , p_C_AcctSchema_ID);
+					BigDecimal Labor = getCost(MCostElement.COSTELEMENTTYPE_Resource, p_AD_Org_ID, product);
 					log.info("Labor : " + Labor);                                
 					cost.setCurrentCostPrice(Labor);
 					cost.saveEx();
 				}
 				else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
 				{                                    
-					BigDecimal Burden = getCost(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, getAD_Client_ID() , p_AD_Org_ID , product , p_M_CostType_ID , p_C_AcctSchema_ID);
+					BigDecimal Burden = getCost(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, p_AD_Org_ID, product);
 					log.info("Burden : " + Burden);                                   
 					cost.setCurrentCostPrice(Burden);
 					cost.saveEx();
@@ -143,79 +163,83 @@ public class RollupWorkflow extends SvrProcess
 	 *  Calculate Cost 
 	 *  @param CostElementType Cost Element Type (Labor and Overhead.)
 	 *  @param AD_Org_ID Organization
-	 *  @param MProduct Product
+	 *  @param MProduct product (BOM)
 	 *  @param M_CostType_ID Cost Type
 	 *  @param C_AcctSchema_ID Account Schema
 	 *  @return Cost for this Element
 	 *  @throws Exception if not successful
 	 */
-	private BigDecimal getCost(String CostElementType ,int AD_Client_ID , int AD_Org_ID , MProduct product , int M_CostType_ID , int  C_AcctSchema_ID)
-	{                
-		BigDecimal cost = Env.ZERO;        
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID , 0 , 0 , product.getM_Product_ID(), get_TrxName());                 
-		int AD_Workflow_ID = 0; 
-		if(pp != null )
+	private BigDecimal getCost(String CostElementType, int AD_Org_ID, MProduct product)
+	{
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID, 0, 0, product.get_ID(), get_TrxName());                 
+		int AD_Workflow_ID = 0;
+		if (pp != null)
+		{
 			AD_Workflow_ID = pp.getAD_Workflow_ID();
-		else
+		}
+		if (AD_Workflow_ID <= 0)
+		{
 			AD_Workflow_ID = MWorkflow.getWorkflowSearchKey(getCtx(), product);
+		}
 		if(AD_Workflow_ID <= 0)
+		{
 			return Env.ZERO;
+		}
 
-		MWorkflow workflow = MWorkflow.get(getCtx(), AD_Workflow_ID);                 
-		MWFNode[] nodes = workflow.getNodes(false,getAD_Client_ID());
+		BigDecimal cost = Env.ZERO;
+		MWorkflow workflow = MWorkflow.get(getCtx(), AD_Workflow_ID);
+		MWFNode[] nodes = workflow.getNodes(false, getAD_Client_ID());
 		for (MWFNode node : nodes)
 		{               
-			BigDecimal rate = getRate(CostElementType, node.getS_Resource_ID(), AD_Org_ID , C_AcctSchema_ID , M_CostType_ID);
-			String sql = "SELECT CASE WHEN ow.DurationUnit = 's'  THEN 1 * ( (onode.SetupTime/ow.QtyBatchSize) + onode.Duration ) WHEN ow.DurationUnit = 'm' THEN 60 * ( (onode.SetupTime/ow.QtyBatchSize)  + onode.Duration) WHEN ow.DurationUnit = 'h'  THEN 3600 * ( (onode.SetupTime/ow.QtyBatchSize)  + onode.Duration) WHEN ow.DurationUnit = 'Y'  THEN 31536000 *  ( (onode.SetupTime/ow.QtyBatchSize)  + onode.Duration) WHEN ow.DurationUnit = 'M' THEN 2592000 * ( (onode.SetupTime/ow.QtyBatchSize)  + onode.Duration ) WHEN ow.DurationUnit = 'D' THEN 86400 * ((onode.SetupTime/ow.QtyBatchSize)  + onode.Duration) END  AS load FROM AD_WF_Node onode INNER JOIN AD_Workflow ow ON (ow.AD_Workflow_ID =  onode.AD_Workflow_ID)  WHERE onode.AD_WF_Node_ID = ?  AND onode.AD_Client_ID = ?" ;
-			int seconds = DB.getSQLValue(get_TrxName(),sql,node.getAD_WF_Node_ID(),node.getAD_Client_ID());
+			BigDecimal rate = getResouceRate(CostElementType, node.getS_Resource_ID(), AD_Org_ID);
+			if (rate.signum() == 0)
+			{
+				continue;
+			}
+			
 			int C_UOM_ID = DB.getSQLValue(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , node.getS_Resource_ID());
 			MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
 			if (uom.isHour())
-			{	 			 
-				BigDecimal time = new BigDecimal(seconds);
-				cost = cost.add(time.multiply(rate).divide(new BigDecimal(3600),BigDecimal.ROUND_HALF_UP,12));
-				log.info("Yes isHour" + seconds);
-				log.info("seconds/3600"+ seconds/3600);
-				log.info("time.multiply(rate)"+ time.multiply(rate));
-				log.info("Cost" + cost);
-			}	
-			log.info("Node" + node.getName() + " CostElementType"+ CostElementType +" Duration=" + node.getDuration() +  " rate:" + rate + " Cost:" +  cost);
+			{
+				double hours = (node.getSetupTime() / workflow.getQtyBatchSize().doubleValue() + node.getDuration())
+									* workflow.getDurationBaseSec() / 3600; 
+ 				BigDecimal nodeCost = new BigDecimal(hours).multiply(rate).setScale(12, RoundingMode.HALF_UP);
+				cost = cost.add(nodeCost);
+				log.info("Node:" + node.getName() + " CostElementType:"+ CostElementType +" Duration(H):" + hours +  " rate:" + rate + " NodeCost:" +  nodeCost +" =>Cost:"+cost);
+			}
+			else
+			{
+				throw new AdempiereException("@NotSupported@ @C_UOM_ID@="+uom.getName());
+			}
 		}
 		return cost;        
 	}
 
 	/**
-	 *  get Rate for this Resource
+	 *  Get Rate for this Resource
 	 *  @param CostElementType Cost Element Type (Labor and Overhead.)
-	 *  @param S_Resource_ID Respurce
+	 *  @param S_Resource_ID Resource
 	 *  @param AD_Org_ID Organization
-	 *  @param C_AcctSchema_ID Account Schema
-	 *  @param M_CostType_ID Cost Type
 	 *  @return Rate for Resource
 	 *  @throws Exception if not successful
 	 */
-	private  BigDecimal getRate(String CostElementType , int S_Resource_ID , int AD_Org_ID , int C_AcctSchema_ID ,int M_CostType_ID)
+	private BigDecimal getResouceRate(String CostElementType, int S_Resource_ID, int AD_Org_ID)
 	{
-		MResource resource = MResource.get(getCtx(), S_Resource_ID);
-		MProduct product = resource.getProduct();
-		MCost[]  costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   p_AD_Org_ID  ,  product.getM_Product_ID() ,  p_M_CostType_ID , p_C_AcctSchema_ID , get_TrxName());            
-		if (costs != null)
-		{    
-			BigDecimal rate = Env.ZERO;
-
-			for (MCost cost: costs)
-			{                   
-				MCostElement element = new MCostElement(getCtx(), cost .getM_CostElement_ID(), get_TrxName());
-				// check if element cost is of type Labor
-				if (element.getCostElementType().equals(CostElementType))
-				{                        
-					rate = rate.add(cost.getCurrentCostPrice());
-					log.info("Org" + AD_Org_ID + "S_Resource" + S_Resource_ID + "C_AcctSchema_ID " + C_AcctSchema_ID);
-					log.info("Element rate=" + CostElementType +  "rate:" + rate);                                                 
-				}
-			}
-			return rate;
-		}     
-		return Env.ZERO;
+		final String sql = "SELECT SUM(c."+MCost.COLUMNNAME_CurrentCostPrice+")"
+						+" FROM M_Cost c, M_CostElement ce, M_Product p"
+						+" WHERE c.AD_Client_ID=? AND c.AD_Org_ID=?"
+							+" AND c."+MCost.COLUMNNAME_C_AcctSchema_ID+"=?"
+							+" AND c."+MCost.COLUMNNAME_M_CostType_ID+"=?"
+							// Cost Element Type
+							+" AND ce."+MCostElement.COLUMNNAME_M_CostElement_ID+"=c."+MCost.COLUMNNAME_M_CostElement_ID
+							+" AND ce."+MCostElement.COLUMNNAME_CostElementType+"=?"
+							// Product / Resource
+							+" AND p."+MProduct.COLUMNNAME_M_Product_ID+"=c."+MCost.COLUMNNAME_M_Product_ID
+							+" AND p."+MProduct.COLUMNNAME_S_Resource_ID+"=?"
+		;
+		BigDecimal rate = DB.getSQLValueBD(get_TrxName(), sql, getAD_Client_ID(), AD_Org_ID,
+											p_C_AcctSchema_ID, p_M_CostType_ID,
+											CostElementType, S_Resource_ID);
+		return (rate != null ? rate : Env.ZERO);
 	}                                                       
 }
