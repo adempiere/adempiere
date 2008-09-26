@@ -366,4 +366,10 @@ public class NumberBox extends Panel
 	         return decimalBox.addEventListener(evtnm, listener);
 	     }
 	}
+	
+	@Override
+	public void focus()
+	{
+		decimalBox.focus();
+	}
 }
