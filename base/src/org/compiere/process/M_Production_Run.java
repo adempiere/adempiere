@@ -102,7 +102,7 @@ public class M_Production_Run extends SvrProcess {
 							
 				int line = 100;
 				int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
-				if (no == -1) raiseError("InsertingRoot:ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
+				if (no == -1) raiseError("ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
 				
 				MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
 	
