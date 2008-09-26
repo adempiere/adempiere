@@ -31,9 +31,12 @@ import org.compiere.model.X_M_Production;
 import org.compiere.model.X_M_ProductionLine;
 import org.compiere.model.X_M_ProductionPlan;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
 
@@ -98,7 +101,9 @@ public class M_Production_Run extends SvrProcess {
 			{
 							
 				int line = 100;
-				DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
+				int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
+				if (no == -1) raiseError("InsertingRoot:ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
+				
 				MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
 	
 				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
@@ -116,7 +121,7 @@ public class M_Production_Run extends SvrProcess {
 					production.saveEx();
 				}
 				else
-					return "Do not exist componets";
+					raiseError("Do not exist componets", "");
 									   
 			} 
 			else 
@@ -144,7 +149,7 @@ public class M_Production_Run extends SvrProcess {
 						
 						if(QtyAvailable.add(MovementQty).signum() < 0)
 						{	
-							return Msg.getMsg(getCtx(),"NoQtyAvailable");
+							raiseError(Msg.getMsg(getCtx(),"NoQtyAvailable"), "");
 						}
 						
 						MovementType = MTransaction.MOVEMENTTYPE_Production_;
@@ -159,7 +164,7 @@ public class M_Production_Run extends SvrProcess {
 						Env.ZERO,
 						get_TrxName()))
 					{
-						return "Cannot correct Inventory";
+						raiseError("Cannot correct Inventory", "");
 					}
 					
 					//Create Transaction
@@ -192,16 +197,17 @@ public class M_Production_Run extends SvrProcess {
 	 * @param pp
 	 * @param product
 	 * @param qty
-	 * @throws AdempiereUserError
+	 * @throws Exception 
 	 */
-	private int explosion(X_M_ProductionPlan pp , MProduct product , BigDecimal qty , int line) throws AdempiereUserError
+	private int explosion(X_M_ProductionPlan pp , MProduct product , BigDecimal qty , int line) throws Exception
 	{
 		MPPProductBOM bom = MPPProductBOM.getDefault(product, get_TrxName());
 		if(bom == null )
 		{	
-			throw new AdempiereUserError ("Do not exist default BOM for this product :" 
+			raiseError("Do not exist default BOM for this product :" 
 					+ product.getValue() + "-" 
-					+ product.getName());
+					+ product.getName(),"");
+			
 		}				
 		MPPProductBOMLine[] bom_lines = bom.getLines(new Timestamp (System.currentTimeMillis()));
 		m_level += 1;
@@ -234,4 +240,14 @@ public class M_Production_Run extends SvrProcess {
 		}
 		return  components;
 	}	
+	
+	private void raiseError(String string, String sql) throws Exception {
+		DB.rollback(false, get_TrxName());
+		String msg = string;
+		ValueNamePair pp = CLogger.retrieveError();
+		if (pp != null)
+			msg = pp.getName() + " - ";
+		msg += sql;
+		throw new AdempiereUserError (msg);
+	}
 } // M_Production_Run
