@@ -39,13 +39,11 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_DocType;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Util;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFNodeNext;
 import org.compiere.wf.MWorkflow;
@@ -218,15 +216,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	} //	MOrder
 
 	/**
-	 * 	Overwrite Client/Org if required
-	 * 	@param AD_Client_ID client
-	 * 	@param AD_Org_ID org
-	 */
-	public void setClientOrg(int AD_Client_ID, int AD_Org_ID) {
-		super.setClientOrg(AD_Client_ID, AD_Org_ID);
-	} //	setClientOrg
-	
-	/**
 	 * @return Open Qty
 	 */
 	public BigDecimal getQtyOpen()
@@ -234,58 +223,31 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return getQtyOrdered().subtract(getQtyDelivered()).subtract(getQtyScrap());
 	}
 
-	/**************************************************************************
-	 * 	String Representation
-	 *	@return info
-	 */
-	public String toString()
-	{
-		StringBuffer sb = new StringBuffer("MPPOrder[").append(get_ID())
-								.append("-").append(getDocumentNo())
-								.append(",IsSOTrx=").append(isSOTrx())
-								.append(",C_DocType_ID=").append(getC_DocType_ID())
-								.append("]");
-		return sb.toString();
-	} //	toString
-
-	/**************************************************************************
+	/**
 	 * Get BOM Lines of PP Order
-	 * @param whereClause where clause or null
-	 * @param orderClause order by clause or null 
-	 * @return invoices
+	 * @return Order BOM Lines
 	 */
-	public MPPOrderBOMLine[] getLines(String whereClause, String orderClause)
+	public MPPOrderBOMLine[] getLines()
 	{
-		StringBuffer whereClauseFinal = new StringBuffer(MPPOrderBOMLine.COLUMNNAME_PP_Order_ID).append("=?");
-		if (!Util.isEmpty(whereClause, true))
-			whereClauseFinal.append("AND (").append(whereClause).append(")");
+		String whereClause = MPPOrderBOMLine.COLUMNNAME_PP_Order_ID+"=?";
 		//
-		List<MPPOrderBOMLine> list = new Query(getCtx(), MPPOrderBOMLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
-												.setParameters(new Object[]{getPP_Order_ID()})
-												.setOrderBy(orderClause)
-												.list();
+		List<MPPOrderBOMLine> list = new Query(getCtx(), MPPOrderBOMLine.Table_Name, whereClause, get_TrxName())
+										.setParameters(new Object[]{getPP_Order_ID()})
+										.setOrderBy(MPPOrderBOMLine.COLUMNNAME_Line)
+										.list();
 		return list.toArray(new MPPOrderBOMLine[list.size()]);
 	} //	getLines
 
-
-	public MPPOrderBOMLine[] getLines() {
-		return getLines(null, null);
-	} //	getLines
-
-	/**
-	 * 	Set Processed.
-	 * 	Propergate to Lines/Taxes
-	 *	@param processed processed
-	 */
+	@Override
 	public void setProcessed(boolean processed)
 	{
 		super.setProcessed(processed);
 		
 		// Update DB:
-		if (get_ID() == 0)
+		if (get_ID() <= 0)
 			return;
-		String sql = "UPDATE PP_Order SET Processed=? WHERE PP_Order_ID=?";
-		DB.executeUpdateEx(sql, new Object[]{(processed ? "Y" : "N"), get_ID()}, get_TrxName());
+		final String sql = "UPDATE PP_Order SET Processed=? WHERE PP_Order_ID=?";
+		DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
 	} //	setProcessed
 
 	@Override
@@ -326,10 +288,12 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success)
 	{
-		if (!success) {
+		if (!success)
+		{
 			return false;
 		}
-		if (!newRecord) {
+		if (!newRecord)
+		{
 			return success;
 		}
 
@@ -404,6 +368,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return true;
 	} //	beforeSave
 
+	@Override
 	protected boolean beforeDelete()
 	{
 		// OrderBOMLine
@@ -440,77 +405,63 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	/**	Just Prepared Flag			*/
 	private boolean m_justPrepared = false;
 
-	/**
-	 * 	Unlock Document.
-	 * 	@return true if success
-	 */
-	public boolean unlockIt() {
+	public boolean unlockIt()
+	{
 		log.info("unlockIt - " + toString());
 		setProcessing(false);
 		return true;
 	} //	unlockIt
 
-	/**
-	 * 	Invalidate Document
-	 * 	@return true if success
-	 */
-	public boolean invalidateIt() {
+	public boolean invalidateIt()
+	{
 		log.info("invalidateIt - " + toString());
 		setDocAction(DOCACTION_Prepare);
 		return true;
 	} //	invalidateIt
 
-	/**************************************************************************
-	 *	Prepare Document
-	 * 	@return new status (In Progress or Invalid)
-	 */
-	public String prepareIt() {
+	public String prepareIt()
+	{
 		log.info("prepareIt - " + toString());
-		log.info(toString());
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
-		//	Std Period open?
-		/*if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
-		 {
-		 m_processMsg = "@PeriodClosed@";
-		 return DocAction.STATUS_Invalid;
-		 }*/
-
 		//	Lines
-		MPPOrderBOMLine[] lines = getLines(null, MPPOrderBOMLine.COLUMNNAME_M_Product_ID);
-		if (lines.length == 0) {
+		MPPOrderBOMLine[] lines = getLines();
+		if (lines.length == 0)
+		{
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
 
 		//	Cannot change Std to anything else if different warehouses
-		if (getC_DocType_ID() != 0) {
-			for (int i = 0; i < lines.length; i++) {
-				if (lines[i].getM_Warehouse_ID() != getM_Warehouse_ID()) {
+		if (getC_DocType_ID() != 0)
+		{
+			for (int i = 0; i < lines.length; i++)
+			{
+				if (lines[i].getM_Warehouse_ID() != getM_Warehouse_ID())
+				{
 					log.warning("different Warehouse " + lines[i]);
 					m_processMsg = "@CannotChangeDocType@";
 					return DocAction.STATUS_Invalid;
 				}
 			}
-			//}
 		}
 
 		//	New or in Progress/Invalid
-		if (DOCSTATUS_Drafted.equals(getDocStatus()) || DOCSTATUS_InProgress.equals(getDocStatus()) || DOCSTATUS_Invalid.equals(getDocStatus())
-				|| getC_DocType_ID() == 0) {
+		if (DOCSTATUS_Drafted.equals(getDocStatus())
+				|| DOCSTATUS_InProgress.equals(getDocStatus())
+				|| DOCSTATUS_Invalid.equals(getDocStatus())
+				|| getC_DocType_ID() == 0)
+		{
 			setC_DocType_ID(getC_DocTypeTarget_ID());
 		}
 
 		MDocType doc = MDocType.get(getCtx(), getC_DocType_ID());
-		if (doc.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_QualityOrder))
+		if (doc.getDocBaseType().equals(MDocType.DOCBASETYPE_QualityOrder))
+		{
 			return DocAction.STATUS_InProgress;
-
-		if (lines.length == 0) {
-			m_processMsg = "@NoLines@";
-			return DocAction.STATUS_Invalid;
 		}
 
 		reserveStock(lines);
@@ -521,8 +472,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		m_justPrepared = true;
-		//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare
-		//		setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
 	} //	prepareIt
 
@@ -572,9 +521,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	}
 
 	/**
-	 * 	Reserve Inventory.
-	 * 	@param lines order lines (ordered by M_Product_ID for deadlock prevention)
-	 * 	@return true if (un) reserved
+	 * Reserve Inventory.
+	 * @param lines order lines (ordered by M_Product_ID for deadlock prevention)
+	 * @return true if (un) reserved
 	 */
 	private void reserveStock(MPPOrderBOMLine[] lines)
 	{
@@ -602,9 +551,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					+ ",Reserved=" + line.getQtyReserved() + ",Delivered=" + line.getQtyDelivered());
 
 			//	Check Product - Stocked and Item
-			MProduct product = line.getProduct();
-			if (product != null) {
-				if (product.isStocked()) {
+			MProduct product = line.getM_Product();
+			if (product != null)
+			{
+				if (product.isStocked())
+				{
 					//vpj BigDecimal ordered = isSOTrx ? Env.ZERO : difference;
 					BigDecimal ordered = Env.ZERO;
 					//BigDecimal reserved = isSOTrx ? difference : Env.ZERO;
@@ -633,17 +584,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		} //	reverse inventory
 	} //	reserveStock
 
-	/**
-	 * 	Approve Document
-	 * 	@return true if success
-	 */
 	public boolean approveIt()
 	{
 		log.info("approveIt - " + toString());
 		MDocType doc = MDocType.get(getCtx(), getC_DocType_ID());
-		if (doc.getDocBaseType().equals(X_C_DocType.DOCBASETYPE_QualityOrder))
+		if (doc.getDocBaseType().equals(MDocType.DOCBASETYPE_QualityOrder))
 		{
-			String whereClause = "PP_Product_BOM_ID=? AND AD_Workflow_ID =?";
+			String whereClause = COLUMNNAME_PP_Product_BOM_ID+"=? AND "+COLUMNNAME_AD_Workflow_ID+"=?";
 			MQMSpecification qms = new Query(getCtx(), MQMSpecification.Table_Name, whereClause, get_TrxName())
 										.setParameters(new Object[]{getPP_Product_BOM_ID(), getAD_Workflow_ID()})
 										.first();
@@ -657,10 +604,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return true;
 	} //	approveIt
 
-	/**
-	 * 	Reject Approval
-	 * 	@return true if success
-	 */
 	public boolean rejectIt()
 	{
 		log.info("rejectIt - " + toString());
@@ -668,20 +611,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return true;
 	} //	rejectIt
 
-	/**************************************************************************
-	 * 	Complete Document
-	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
-	 */
 	public String completeIt()
 	{
 		//	Just prepare
-		if (DOCACTION_Prepare.equals(getDocAction())) {
+		if (DOCACTION_Prepare.equals(getDocAction()))
+		{
 			setProcessed(false);
 			return DocAction.STATUS_InProgress;
 		}
 
 		//	Re-Check
-		if (!m_justPrepared) {
+		if (!m_justPrepared)
+		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
@@ -695,43 +636,47 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		//	Implicit Approval
 		if (!isApproved())
+		{
 			approveIt();
+		}
 		
-		StringBuffer info = new StringBuffer();
-
 		MAcctSchema acctSchema = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
 		log.info("Cost_Group_ID" + acctSchema.getM_CostType_ID());
 
+		//
+		// Create Standard Costs for Order 
 		MCost[] costs = MCost.getCosts(getCtx(), getAD_Client_ID(), getAD_Org_ID(), getM_Product_ID(),
 										acctSchema.getM_CostType_ID(), acctSchema.get_ID(),
 										get_TrxName());
-		for (MCost cost : costs) {
+		for (MCost cost : costs)
+		{
 			MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
 			PP_Order_Cost.saveEx();
 		}
 
-		for (MPPOrderBOMLine line : getLines()) {
+		//
+		// Create Standard Costs for Order BOM Line
+		for (MPPOrderBOMLine line : getLines())
+		{
 			costs = MCost.getCosts(getCtx(), getAD_Client_ID(), getAD_Org_ID(), line.getM_Product_ID(),
 									acctSchema.getM_CostType_ID(), acctSchema.get_ID(),
 									get_TrxName());
-			for (MCost cost : costs) {
+			for (MCost cost : costs)
+			{
 				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
 				PP_Order_Cost.saveEx();
 			}
 		}
 
+		setProcessed(true);
+		setDocAction(DOCACTION_Close);
+
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
-		if (valid != null) {
-			if (info.length() > 0) info.append(" - ");
-			info.append(valid);
-			m_processMsg = info.toString();
+		if (valid != null)
+		{
+			m_processMsg = valid;
 			return DocAction.STATUS_Invalid;
 		}
-
-		setProcessed(true);
-		m_processMsg = info.toString();
-		//
-		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	} //	completeIt
 
@@ -744,17 +689,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return !notAvailable;
 	}
 
-	/**
-	 * 	Void Document.
-	 * 	Set Qtys to 0 - Sales: reverse all documents
-	 * 	@return true if success
-	 */
-	public boolean voidIt() {
-		log.info("voidIt - " + toString());
+	public boolean voidIt()
+	{
+		log.info(toString());
 		// Before Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
+		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
@@ -764,11 +706,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return true;
 	} //	voidIt
 
-	/**
-	 * 	Close Document.
-	 * 	Cancel not delivered Qunatities
-	 * 	@return true if success 
-	 */
 	public boolean closeIt()
 	{
 		log.info(toString());
@@ -779,7 +716,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			return false;
 
 		//	Close Not delivered Qty - SO/PO
-		MPPOrderBOMLine[] lines = getLines(null, MPPOrderBOMLine.COLUMNNAME_M_Product_ID);
+		MPPOrderBOMLine[] lines = getLines();
 		/*
 		 for (int i = 0; i < lines.length; i++)
 		 {
@@ -807,63 +744,51 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return true;
 	} //	closeIt
 
-	/**
-	 * 	Reverse Correction - same void
-	 * 	@return true if success
-	 */
-	public boolean reverseCorrectIt() {
+	public boolean reverseCorrectIt()
+	{
 		log.info("reverseCorrectIt - " + toString());
 		return voidIt();
 	} //	reverseCorrectionIt
 
-	/**
-	 * 	Reverse Accrual - none
-	 * 	@return true if success
-	 */
-	public boolean reverseAccrualIt() {
+	public boolean reverseAccrualIt()
+	{
 		log.info("reverseAccrualIt - " + toString());
 		return false;
 	} //	reverseAccrualIt
 
-	/**
-	 * 	Re-activate.
-	 * 	@return true if success
-	 */
-	public boolean reActivateIt() {
+	public boolean reActivateIt()
+	{
 		log.info("reActivateIt - " + toString());
 		return false;
 	} //	reActivateIt
 
-	/**
-	 * 	Get Document Owner (Responsible)
-	 *	@return AD_User_ID
-	 */
-	public int getDoc_User_ID() {
+	public int getDoc_User_ID()
+	{
 		return getPlanner_ID();
 	} //	getDoc_User_ID
 
-	/**
-	 * 	Get Document Approval Amount
-	 *	@return amount
-	 */
-
-	public BigDecimal getApprovalAmt() {
+	public BigDecimal getApprovalAmt()
+	{
 		return Env.ZERO;
 	} //	getApprovalAmt
 
-	public int getC_Currency_ID() {
+	public int getC_Currency_ID()
+	{
 		return 0;
 	}
 
-	public String getProcessMsg() {
-		return "";
+	public String getProcessMsg()
+	{
+		return m_processMsg;
 	}
 
-	public String getSummary() {
-		return "";
+	public String getSummary()
+	{
+		return "" + getDocumentNo() + "/" + getDatePromised();
 	}
 
-	public File createPDF() {
+	public File createPDF()
+	{
 		try {
 			File temp = File.createTempFile(get_TableName() + get_ID() + "_", ".pdf");
 			return createPDF(temp);
@@ -879,7 +804,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 *	@param file output file
 	 *	@return file if success
 	 */
-	public File createPDF(File file) {
+	public File createPDF(File file)
+	{
 		ReportEngine re = ReportEngine.get(getCtx(), ReportEngine.MANUFACTURING_ORDER, getPP_Order_ID());
 		if (re == null)
 			return null;
@@ -890,7 +816,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * 	Get Document Info
 	 *	@return document info (untranslated)
 	 */
-	public String getDocumentInfo() {
+	public String getDocumentInfo()
+	{
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		return dt.getName() + " " + getDocumentNo();
 	} //	getDocumentInfo
@@ -901,13 +828,26 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
 									.setParameters(params)
 									.scroll();
-		try {
-			while(rs.hasNext()) {
+		try
+		{
+			while(rs.hasNext())
+			{
 				rs.next().deleteEx(true);
 			}
 		}
-		finally {
+		finally
+		{
 			rs.close();
 		}
 	}
+	
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer("MPPOrder[").append(get_ID())
+								.append("-").append(getDocumentNo())
+								.append(",IsSOTrx=").append(isSOTrx())
+								.append(",C_DocType_ID=").append(getC_DocType_ID())
+								.append("]");
+		return sb.toString();
+	} //	toString
 } // MPPOrder

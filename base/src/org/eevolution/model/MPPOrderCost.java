@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 
 package org.eevolution.model;
@@ -22,10 +23,7 @@ import java.util.Properties;
 import org.compiere.model.MCost;
 
 /**
- *  Order Model.
- * 	Please do not set DocStatus and C_DocType_ID directly. 
- * 	They are set in the process() method. 
- * 	Use DocAction and C_DocTypeTarget_ID instead.
+ *  PP Order Cost Model.
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @version $Id: MOrder.java,v 1.40 2004/04/13 04:19:30 vpj-cd Exp $

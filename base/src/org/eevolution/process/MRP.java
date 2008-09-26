@@ -267,8 +267,6 @@ public class MRP extends SvrProcess
 		commit();
 		
 		//Delete Requisition with Draft Status
-		
-	
 		String whereClause = "DocStatus IN ('CL','DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 		deletePO(MRequisition.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
 		commit();

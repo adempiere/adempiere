@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -35,8 +36,7 @@ import org.compiere.util.Env;
 public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 {
 	private static final long serialVersionUID = 1L;
-
-
+	
 	/**
 	 *  Default Constructor
 	 *  @param ctx context
@@ -107,7 +107,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	}
 	
 	private MPPOrder m_parent = null;
-	private MProduct m_product = null;
+	
 	/** Qty used for exploding this BOM Line */
 	private BigDecimal m_qtyToExplode = null;
 
@@ -140,7 +140,8 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		if (!success)
 			return false;
 		log.fine(" Parent Product" +  getM_Product_ID() + " getQtyBatch" + getQtyBatch() + " getQtyRequiered"  + getQtyRequiered() + " QtyScrap" + getQtyScrap());
-		// 
+		//
+		// Explode Phantom Items
 		if(m_qtyToExplode != null)
 		{
 			MProduct parent = MProduct.get(getCtx(), getM_Product_ID());
@@ -169,15 +170,10 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 
 	}
 
-	/**
-	 * 	Get Product
-	 *	@return product or null
-	 */
-	public MProduct getProduct()
+	@Override
+	public MProduct getM_Product()
 	{
-		if (m_product == null && getM_Product_ID() != 0)
-			m_product = new MProduct (getCtx(), getM_Product_ID() ,get_TrxName());
-		return m_product;
+		return MProduct.get(getCtx(), getM_Product_ID());
 	}
 
 	/**

@@ -60,7 +60,7 @@ public class MPPMRP extends X_PP_MRP
 	 *	@param PP_MRP_ID id
 	 *	@param trxName Transaction Name
 	 */
-	public MPPMRP(Properties ctx, int PP_MRP_ID,String trxName)
+	public MPPMRP(Properties ctx, int PP_MRP_ID, String trxName)
 	{
 		super(ctx, PP_MRP_ID,trxName);
 		if (PP_MRP_ID == 0)
@@ -74,17 +74,41 @@ public class MPPMRP extends X_PP_MRP
 	 *	@param ctx context
 	 *	@param rs result set
 	 */
-	public MPPMRP(Properties ctx, ResultSet rs,String trxName)
+	public MPPMRP(Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs , trxName);
 	}                
-
-	protected boolean afterSave(boolean newRecord, boolean success) 
+	
+	public void setPP_Order(MPPOrder o)
 	{
-
-		if (!newRecord)
-			return success;         
-		return true;
+		setPP_Order_ID(o.getPP_Order_ID());
+		setOrderType(ORDERTYPE_ManufacturingOrder);
+		//
+		setName(o.getDocumentNo());
+		setDescription(o.getDescription());
+		setDatePromised(o.getDatePromised());
+		setDateOrdered(o.getDateOrdered());
+		setDateStartSchedule(o.getDateStartSchedule());
+		setDateFinishSchedule(o.getDateFinishSchedule());
+		setS_Resource_ID(o.getS_Resource_ID());
+		setDocStatus(o.getDocStatus());
+	}
+	
+	public void setC_Order(MOrder o)
+	{
+		setC_Order_ID(o.get_ID());
+		setC_BPartner_ID(o.getC_BPartner_ID());
+		setDocStatus(o.getDocStatus());
+		if (o.isSOTrx())
+		{    
+			setOrderType(MPPMRP.ORDERTYPE_SalesOrder);
+			setTypeMRP(MPPMRP.TYPEMRP_Demand);
+		}
+		else
+		{
+			setOrderType(MPPMRP.ORDERTYPE_PurchaseOrder);
+			setTypeMRP(MPPMRP.TYPEMRP_Supply);                                 
+		}
 	}
 
 	/**
@@ -95,7 +119,8 @@ public class MPPMRP extends X_PP_MRP
 	public static void M_ForecastLine(X_M_ForecastLine fl, boolean delete)
 	{
 		String trxName = fl.get_TrxName();
-		Properties ctx =fl.getCtx();
+		Properties ctx = fl.getCtx();
+		
 		if (delete)
 		{
 			final String sql = "DELETE FROM PP_MRP WHERE M_ForecastLine_ID=? AND AD_Client_ID=?";
@@ -121,9 +146,9 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setName("MRP");
 		mrp.setQty(fl.getQty());  
 		mrp.setDatePromised(fl.getDatePromised());
-		mrp.setDateStartSchedule(mrp.getDatePromised());
-		mrp.setDateFinishSchedule(mrp.getDatePromised());
-		mrp.setDateOrdered(mrp.getDatePromised());
+		mrp.setDateStartSchedule(fl.getDatePromised());
+		mrp.setDateFinishSchedule(fl.getDatePromised());
+		mrp.setDateOrdered(fl.getDatePromised());
 		mrp.setM_Product_ID(fl.getM_Product_ID());
 		mrp.setM_Warehouse_ID(fl.getM_Warehouse_ID());
 		mrp.setDocStatus(DocAction.STATUS_InProgress);
@@ -139,21 +164,27 @@ public class MPPMRP extends X_PP_MRP
 	public static void C_Order(MOrder o, boolean delete)
 	{
 		String trxName = o.get_TrxName();
+		
 		final String whereClause = COLUMNNAME_C_Order_ID+"=? AND AD_Client_ID=?";
 		Object[] params = new Object[]{o.get_ID(), o.getAD_Client_ID()};
+		
 		if (delete)
 		{
 			final String sql = "DELETE FROM PP_MRP WHERE "+whereClause;
 			DB.executeUpdateEx(sql, params, trxName);
 			return;
 		}
-		if (o.is_ValueChanged(MOrder.COLUMNNAME_DocStatus))
+		
+		if (o.is_ValueChanged(MOrder.COLUMNNAME_DocStatus)
+				|| o.is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID)
+			)
 		{
 			List<MPPMRP> list = new Query(o.getCtx(), MPPMRP.Table_Name, whereClause, trxName)
 							.setParameters(params)
 							.list();
-			for (MPPMRP mrp : list) {
-				mrp.setDocStatus(o.getDocStatus());
+			for (MPPMRP mrp : list)
+			{
+				mrp.setC_Order(o);
 				mrp.saveEx();
 			}
 		}
@@ -189,21 +220,11 @@ public class MPPMRP extends X_PP_MRP
 						.first();
 		if(mrp == null)
 		{	
-			mrp = new MPPMRP(ctx, 0,trxName);        
+			mrp = new MPPMRP(ctx, 0, trxName);                                                          
 			mrp.setAD_Org_ID(ol.getAD_Org_ID());
-			mrp.setC_Order_ID(ol.getC_Order_ID());
 			mrp.setC_OrderLine_ID(ol.getC_OrderLine_ID());
-			if (ol.getParent().isSOTrx())
-			{    
-				mrp.setOrderType(MPPMRP.ORDERTYPE_SalesOrder);
-				mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
-			}
-			else
-			{
-				mrp.setOrderType(MPPMRP.ORDERTYPE_PurchaseOrder);
-				mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);                                 
-			}
 		}
+		mrp.setC_Order(ol.getParent());
 		mrp.setDescription(ol.getDescription());
 		mrp.setName("MRP");
 		mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
@@ -213,8 +234,6 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setDateOrdered(ol.getDateOrdered());
 		mrp.setM_Product_ID(ol.getM_Product_ID());
 		mrp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-		mrp.setC_BPartner_ID(ol.getParent().getC_BPartner_ID());                                         
-		mrp.setDocStatus(ol.getParent().getDocStatus());                                         
 		mrp.saveEx();
 
 		MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
@@ -289,40 +308,45 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void PP_Order(MPPOrder o, boolean delete)
 	{
-
-		String sql = null;
+		Properties ctx = o.getCtx();
 		String trxName = o.get_TrxName();
-		Properties m_ctx = o.getCtx();
+		
 		if (delete)
 		{
-			sql = "DELETE FROM PP_MRP WHERE PP_Order_ID = "+ o.getPP_Order_ID()  +" AND AD_Client_ID = " + o.getAD_Client_ID();				
-			DB.executeUpdateEx(sql ,trxName);
+			String sql = "DELETE FROM PP_MRP WHERE PP_Order_ID=? AND AD_Client_ID=?";
+			Object[] params = new Object[]{o.getPP_Order_ID(), o.getAD_Client_ID()};
+			DB.executeUpdateEx(sql, params, trxName);
 			return;
 		}
-		String whereClause = "TypeMRP=? AND OrderType=? AND AD_Client_ID=? AND PP_Order_ID=?";
-		MPPMRP mrp = new Query(m_ctx, MPPMRP.Table_Name, whereClause, trxName)
-						.setParameters(new Object[]{MPPMRP.TYPEMRP_Supply, MPPMRP.ORDERTYPE_ManufacturingOrder, o.getAD_Client_ID() , o.getPP_Order_ID()})
-						.first();
-		if(mrp == null)
+		
+		//
+		// Supply
+		final String whereClause = "TypeMRP=? AND OrderType=? AND AD_Client_ID=? AND PP_Order_ID=?";
+		MPPMRP mrpSupply = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
+							.setParameters(new Object[]{MPPMRP.TYPEMRP_Supply, MPPMRP.ORDERTYPE_ManufacturingOrder, o.getAD_Client_ID(), o.getPP_Order_ID()})
+							.first();
+		if(mrpSupply == null)
 		{		                    
-			mrp = new MPPMRP(m_ctx, 0, trxName);   
-			mrp.setAD_Org_ID(o.getAD_Org_ID());
-			mrp.setPP_Order_ID(o.getPP_Order_ID());
-			mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
-			mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
+			mrpSupply = new MPPMRP(ctx, 0, trxName);                                                                                                                 
+			mrpSupply.setAD_Org_ID(o.getAD_Org_ID());
+			mrpSupply.setTypeMRP(MPPMRP.TYPEMRP_Supply);
 		}
-		mrp.setDescription(o.getDescription());
-		mrp.setName(o.getDocumentNo());
-		mrp.setQty(o.getQtyOrdered().subtract(o.getQtyDelivered()));
-		mrp.setDatePromised(o.getDatePromised());
-		mrp.setDateOrdered(o.getDateOrdered());
-		mrp.setDateStartSchedule(o.getDateStartSchedule());
-		mrp.setDateFinishSchedule(o.getDateStartSchedule());
-		mrp.setM_Product_ID(o.getM_Product_ID());
-		mrp.setM_Warehouse_ID(o.getM_Warehouse_ID());
-		mrp.setS_Resource_ID(o.getS_Resource_ID());
-		mrp.setDocStatus(o.getDocStatus());
-		mrp.saveEx();           
+		mrpSupply.setPP_Order(o);
+		mrpSupply.setQty(o.getQtyOrdered().subtract(o.getQtyDelivered()));
+		mrpSupply.setM_Product_ID(o.getM_Product_ID());
+		mrpSupply.setM_Warehouse_ID(o.getM_Warehouse_ID());
+		mrpSupply.saveEx();
+		
+		//
+		// Demand
+		List<MPPMRP> demand = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
+							.setParameters(new Object[]{MPPMRP.TYPEMRP_Demand, MPPMRP.ORDERTYPE_ManufacturingOrder, o.getAD_Client_ID(), o.getPP_Order_ID()})
+							.list();
+		for (MPPMRP mrpDemand : demand)
+		{
+			mrpDemand.setPP_Order(o);
+			mrpDemand.saveEx();
+		}
 	}
 
 	/**
@@ -348,24 +372,15 @@ public class MPPMRP extends X_PP_MRP
 		MPPOrder o = obl.getParent();
 		if(mrp == null)
 		{
-			mrp = new MPPMRP(ctx, 0, trxName);       
+			mrp = new MPPMRP(ctx, 0, trxName);                                                                           
 			mrp.setAD_Org_ID(obl.getAD_Org_ID());
 			mrp.setPP_Order_BOMLine_ID(obl.getPP_Order_BOMLine_ID());
-			mrp.setPP_Order_ID(o.getPP_Order_ID());
-			mrp.setOrderType(MPPMRP.ORDERTYPE_ManufacturingOrder);
 			mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
 		}
-		mrp.setName(o.getDocumentNo());
-		mrp.setDescription(o.getDescription());
+		mrp.setPP_Order(o);
 		mrp.setQty(obl.getQtyRequiered().subtract(obl.getQtyDelivered()));
-		mrp.setDatePromised(o.getDatePromised());
-		mrp.setDateOrdered(o.getDateOrdered());
-		mrp.setDateStartSchedule(o.getDateStartSchedule());
-		mrp.setDateFinishSchedule(o.getDateFinishSchedule());
 		mrp.setM_Product_ID(obl.getM_Product_ID());
 		mrp.setM_Warehouse_ID(obl.getM_Warehouse_ID());
-		mrp.setS_Resource_ID(o.getS_Resource_ID());
-		mrp.setDocStatus(o.getDocStatus());
 		mrp.saveEx();
 	}
 
