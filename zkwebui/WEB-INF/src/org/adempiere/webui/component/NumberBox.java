@@ -69,8 +69,6 @@ public class NumberBox extends Panel
     	
     	btn = new Button();
         btn.setImage("/images/Calculator16.png");
-        this.setAction("onKeyPress : return calc.validate('" + 
-                decimalBox.getId() + "'," + integral + ", event);");
         
         Popup popup = getCalculatorPopup();
         btn.setSclass("editor-button");

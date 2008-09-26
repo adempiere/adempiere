@@ -49,6 +49,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Vbox;
+import org.zkoss.zul.event.ListDataEvent;
 
 /**
  *	Tab to maintain Order/Sequence
@@ -113,10 +114,11 @@ public class ADSortTab extends Panel implements IADTabpanel
 			int index = Arrays.binarySearch(elements, obj);
 			if (index < 0)
 				index = -1 * index - 1;
-			if (index > elements.length)
+			if (index >= elements.length)
 				list.add(obj);
 			else
 				list.add(index, obj);
+			fireEvent(ListDataEvent.INTERVAL_ADDED, index, index);
 		}
 	};
 	SimpleListModel yesModel = new SimpleListModel();
@@ -535,11 +537,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 		if (source == bUp)
 		{
 			for (int i = 0; i < length; i++) {
-				ListItem listItem = (ListItem) selObjects[i];
-				ListElement selObject = (ListElement)listItem.getValue();
 				int index = indices[i];
 				if (index == 0)
 					break;
+				ListElement selObject = (ListElement) yesModel.getElementAt(index);
 				ListElement newObject = (ListElement)yesModel.getElementAt(index - 1);
 				if (!selObject.isUpdateable() || !newObject.isUpdateable())
 					break;
@@ -553,10 +554,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 		else if (source == bDown)
 		{
 			for (int i = length - 1; i >= 0; i--) {
-				ListElement selObject = (ListElement)selObjects[i];
 				int index = indices[i];
 				if (index  >= yesModel.getSize() - 1)
 					break;
+				ListElement selObject = (ListElement) yesModel.getElementAt(index);
 				ListElement newObject = (ListElement)yesModel.getElementAt(index + 1);
 				if (!selObject.isUpdateable() || !newObject.isUpdateable())
 					break;

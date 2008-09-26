@@ -253,6 +253,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         confirmPanel.setStyle("border-top: 2px groove #444; padding-top: 4px");
         
         this.setSizable(true);        
+        
+        this.addEventListener(Events.ON_OK, this);
 	}  //  init
 	protected ConfirmPanel confirmPanel;
 	/** Master (owning) Window  */
@@ -849,6 +851,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     	            contentPanel.renderAll();
     				contentPanel.setSelectedIndex(0);
     			}
+            }
+            else if (Events.ON_OK.equals(event.getName()))
+            {
+            	executeQuery();
+                renderItems();
             }
         }
     }  //  onEvent

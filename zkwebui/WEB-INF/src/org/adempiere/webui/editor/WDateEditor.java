@@ -141,7 +141,7 @@ public class WDateEditor extends WEditor
     @Override
     public void setValue(Object value)
     {
-    	if (value == null)
+    	if (value == null || value.toString().trim().length() == 0)
     	{
     		oldValue = null;
     		getComponent().setValue(null);
@@ -151,10 +151,17 @@ public class WDateEditor extends WEditor
             getComponent().setValue((Timestamp)value);
             oldValue = (Timestamp)value;
         }
-        else
-        {
-            logger.log(Level.SEVERE, "New field value is not of type timestamp");
-        }
+    	else 
+    	{
+    		try 
+    		{
+    			getComponent().setText(value.toString());
+    		} catch (Exception e) {}
+    		if (getComponent().getValue() != null)
+    			oldValue = new Timestamp(getComponent().getValue().getTime());
+    		else
+    			oldValue = null;
+    	}
     }
     
 	@Override

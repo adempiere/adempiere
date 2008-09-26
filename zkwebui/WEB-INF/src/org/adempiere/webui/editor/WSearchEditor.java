@@ -56,7 +56,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
 	private Lookup 				lookup;
 	private String				m_tableName = null;
 	private String				m_keyColumnName = null;
@@ -208,12 +208,12 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 	public void onEvent(Event e)
 	{
-		if ("onChange".equals(e.getName()))
+		if (Events.ON_CHANGE.equals(e.getName()) || Events.ON_OK.equals(e.getName()))
 		{
 			actionText(getComponent().getText());
 
 		}
-		else if ("onClick".equals(e.getName()))
+		else if (Events.ON_CLICK.equals(e.getName()))
 		{
 			actionButton("");
 		}

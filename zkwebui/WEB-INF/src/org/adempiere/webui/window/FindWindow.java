@@ -70,10 +70,13 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.ext.AfterCompose;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
@@ -86,7 +89,7 @@ import org.zkoss.zul.Vbox;
  *  @author     Sendy Yagambrum
  *  @date       June 27, 2007
  */
-public class FindWindow extends Window implements EventListener,ValueChangeListener
+public class FindWindow extends Window implements EventListener,ValueChangeListener, AfterCompose
 {
     private static final long serialVersionUID = 1L;
     /** Main Window for the Lookup Panel   */
@@ -735,6 +738,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             else if (event.getTarget() instanceof Label)
             {
                 Label label = (Label)event.getTarget();
+                String value = label.getValue();
                 ListCell listcell = (ListCell)label.getParent();
                 ListItem row = (ListItem)listcell.getParent();
                 advancedPanel.setSelectedItem(row);                
@@ -743,11 +747,13 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 {
                     Component component = getEditorCompQueryFrom(row);
                     addRowEditor(component, listcell);
+                    m_editor.setValue(value);
                 }
                 else if (listcell.getId().equals("cellQueryTo"+row.getId()))
                 {
                     Component component = getEditorCompQueryTo(row);
                     addRowEditor(component,listcell);
+                    m_editor.setValue(value);
                 }
             }
         }   
@@ -1693,6 +1699,20 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             label.addEventListener(Events.ON_CLICK,this);            
         }
     }
+    
+    /**
+     * @see AfterCompose#afterCompose()
+     */
+	public void afterCompose() {
+		if (hasDocNo)
+			Clients.response(new AuFocus(fieldDocumentNo));
+		else if (hasValue)
+			Clients.response(new AuFocus(fieldValue));
+		else if (hasName)
+			Clients.response(new AuFocus(fieldName));
+		else if (m_sEditors.size() > 0 && m_sEditors.get(0) != null)
+			Clients.response(new AuFocus(m_sEditors.get(0).getComponent()));
+	}
     
     
 }   //  FindPanel

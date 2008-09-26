@@ -94,6 +94,8 @@ public class WebEditorFactory
         else if (displayType == DisplayType.YesNo)
         {
             editor = new WYesNoEditor(gridField);
+            if (tableEditor)
+            	((WYesNoEditor)editor).getComponent().setLabel("");
         }
 
         /** Text */
