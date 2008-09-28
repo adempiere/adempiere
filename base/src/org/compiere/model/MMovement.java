@@ -32,6 +32,8 @@ import org.eevolution.model.*;
  *  @author victor.perez@e-evolution.com, e-Evolution
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
  *  @version $Id: MMovement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MMovement extends X_M_Movement implements DocAction
@@ -882,6 +884,9 @@ public class MMovement extends X_M_Movement implements DocAction
 			MMovementLine rLine = new MMovementLine(getCtx(), 0, get_TrxName());
 			copyValues(oLine, rLine, oLine.getAD_Client_ID(), oLine.getAD_Org_ID());
 			rLine.setM_Movement_ID(reversal.getM_Movement_ID());
+			//AZ Goodwill			
+			// store original (voided/reversed) document line
+			rLine.setReversalLine_ID(oLine.getM_MovementLine_ID());
 			//
 			rLine.setMovementQty(rLine.getMovementQty().negate());
 			rLine.setTargetQty(Env.ZERO);

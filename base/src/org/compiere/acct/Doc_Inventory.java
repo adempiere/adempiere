@@ -30,10 +30,15 @@ import org.compiere.util.*;
  *  Document Types:     MMI
  *  </pre>
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @version  $Id: Doc_Inventory.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_Inventory extends Doc
 {
+	private int				m_Reversal_ID = 0;
+	private String			m_DocStatus = "";
+	
 	/**
 	 *  Constructor
 	 * 	@param ass accounting schemata
@@ -55,6 +60,8 @@ public class Doc_Inventory extends Doc
 		MInventory inventory = (MInventory)getPO();
 		setDateDoc (inventory.getMovementDate());
 		setDateAcct(inventory.getMovementDate());
+		m_Reversal_ID = inventory.getReversal_ID();//store original (voided/reversed) document
+		m_DocStatus = inventory.getDocStatus();
 		//	Contained Objects
 		p_lines = loadLines(inventory);
 		log.fine("Lines=" + p_lines.length);
@@ -89,7 +96,7 @@ public class Doc_Inventory extends Doc
 				Qty = QtyCount.subtract(QtyBook);
 			}
 			docLine.setQty (Qty, false);		// -5 => -5
-			//
+			docLine.setReversalLine_ID(line.getReversalLine_ID());
 			log.fine(docLine.toString());
 			list.add (docLine);
 		}
@@ -151,6 +158,16 @@ public class Doc_Inventory extends Doc
 			if (dr == null)
 				continue;
 			dr.setM_Locator_ID(line.getM_Locator_ID());
+			if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+			{
+				//	Set AmtAcctDr from Original Phys.Inventory
+				if (!dr.updateReverseLine (MInventory.Table_ID, 
+						m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+				{
+					p_Error = "Original Physical Inventory not posted yet";
+					return null;
+				}
+			}
 			
 			//  InventoryDiff   DR      CR
 			//	or Charge
@@ -165,6 +182,17 @@ public class Doc_Inventory extends Doc
 			cr.setQty(line.getQty().negate());
 			if (line.getC_Charge_ID() != 0)	//	explicit overwrite for charge
 				cr.setAD_Org_ID(line.getAD_Org_ID());
+			if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+			{
+				//	Set AmtAcctCr from Original Phys.Inventory
+				if (!cr.updateReverseLine (MInventory.Table_ID, 
+						m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+				{
+					p_Error = "Original Physical Inventory not posted yet";
+					return null;
+				}
+				costs = cr.getAcctBalance(); //get original cost
+			}
 
 			//	Cost Detail
 			MCostDetail.createInventory(as, line.getAD_Org_ID(), 

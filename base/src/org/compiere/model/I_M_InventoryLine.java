@@ -119,6 +119,19 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -133,19 +146,6 @@ public interface I_M_InventoryLine
 	public int getM_Inventory_ID();
 
 	public I_M_Inventory getM_Inventory() throws Exception;
-
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
-
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
-
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
-	  */
-	public int getM_InventoryLine_ID();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -224,6 +224,19 @@ public interface I_M_InventoryLine
 	  * Internal Use Quantity removed from Inventory
 	  */
 	public BigDecimal getQtyInternalUse();
+
+    /** Column name ReversalLine_ID */
+    public static final String COLUMNNAME_ReversalLine_ID = "ReversalLine_ID";
+
+	/** Set Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID);
+
+	/** Get Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID();
 
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";

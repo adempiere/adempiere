@@ -33,6 +33,8 @@ import org.compiere.util.*;
  *  Chris Farley: Fix Bug [ 1657372 ] M_MatchInv records can not be balanced
  *    https://sourceforge.net/forum/message.php?msg_id=4151117
  *  Carlos Ruiz - globalqss: Add setAmtAcct method rounded by Currency
+ *  Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
  *  
  */
 public final class FactLine extends X_Fact_Acct
@@ -1012,6 +1014,11 @@ public final class FactLine extends X_Fact_Acct
 			+ "FROM Fact_Acct "
 			+ "WHERE C_AcctSchema_ID=? AND AD_Table_ID=? AND Record_ID=?"
 			+ " AND Line_ID=? AND Account_ID=?";
+		// MZ Goodwill
+		// for Inventory Move
+		if (MMovement.Table_ID == AD_Table_ID)
+			sql += " AND M_Locator_ID=?";
+		// end MZ
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -1022,6 +1029,11 @@ public final class FactLine extends X_Fact_Acct
 			pstmt.setInt(3, Record_ID);
 			pstmt.setInt(4, Line_ID);
 			pstmt.setInt(5, m_acct.getAccount_ID());
+			// MZ Goodwill
+			// for Inventory Move
+			if (MMovement.Table_ID == AD_Table_ID)
+				pstmt.setInt(6, getM_Locator_ID());
+			// end MZ
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{

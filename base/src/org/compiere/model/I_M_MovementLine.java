@@ -221,6 +221,19 @@ public interface I_M_MovementLine
 	  */
 	public boolean isProcessed();
 
+    /** Column name ReversalLine_ID */
+    public static final String COLUMNNAME_ReversalLine_ID = "ReversalLine_ID";
+
+	/** Set Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID);
+
+	/** Get Reversal Line.
+	  * Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID();
+
     /** Column name ScrappedQty */
     public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 

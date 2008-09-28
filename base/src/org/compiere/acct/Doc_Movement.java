@@ -30,10 +30,15 @@ import org.compiere.util.*;
  *  Document Types:     MMM
  *  </pre>
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @version  $Id: Doc_Movement.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_Movement extends Doc
 {
+	private int				m_Reversal_ID = 0;
+	private String			m_DocStatus = "";
+	
 	/**
 	 *  Constructor
 	 * 	@param ass accounting schemata
@@ -55,6 +60,8 @@ public class Doc_Movement extends Doc
 		MMovement move = (MMovement)getPO();
 		setDateDoc (move.getMovementDate());
 		setDateAcct(move.getMovementDate());
+		m_Reversal_ID = move.getReversal_ID();//store original (voided/reversed) document
+		m_DocStatus = move.getDocStatus();
 		//	Contained Objects
 		p_lines = loadLines(move);
 		log.fine("Lines=" + p_lines.length);
@@ -75,7 +82,7 @@ public class Doc_Movement extends Doc
 			MMovementLine line = lines[i];
 			DocLine docLine = new DocLine (line, this);
 			docLine.setQty(line.getMovementQty(), false);
-			//
+			docLine.setReversalLine_ID(line.getReversalLine_ID());
 			log.fine(docLine.toString());
 			list.add (docLine);
 		}
@@ -133,6 +140,16 @@ public class Doc_Movement extends Doc
 				continue;
 			dr.setM_Locator_ID(line.getM_Locator_ID());
 			dr.setQty(line.getQty().negate());	//	outgoing
+			if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+			{
+				//	Set AmtAcctDr from Original Movement
+				if (!dr.updateReverseLine (MMovement.Table_ID, 
+						m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+				{
+					p_Error = "Original Inventory Move not posted yet";
+					return null;
+				}
+			}
 			
 			//  ** InventoryTo     DR      CR
 			cr = fact.createLine(line,
@@ -142,6 +159,17 @@ public class Doc_Movement extends Doc
 				continue;
 			cr.setM_Locator_ID(line.getM_LocatorTo_ID());
 			cr.setQty(line.getQty());
+			if (m_DocStatus.equals(MMovement.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+			{
+				//	Set AmtAcctCr from Original Movement
+				if (!cr.updateReverseLine (MMovement.Table_ID, 
+						m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+				{
+					p_Error = "Original Inventory Move not posted yet";
+					return null;
+				}
+				costs = cr.getAcctBalance(); //get original cost
+			}
 
 			//	Only for between-org movements
 			if (dr.getAD_Org_ID() != cr.getAD_Org_ID())

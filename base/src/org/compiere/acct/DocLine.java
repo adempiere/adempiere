@@ -26,6 +26,8 @@ import org.compiere.util.*;
  *  Standard Document Line
  *
  *  @author 	Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
  *  @version 	$Id: DocLine.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
  */
 public class DocLine
@@ -1034,6 +1036,29 @@ public class DocLine
 		return 0;
 	}   //  getValue
 
+	//AZ Goodwill
+	private int         		m_ReversalLine_ID = 0;
+	/**
+	 *  Set ReversalLine_ID
+	 *  store original (voided/reversed) document line
+	 *  @param ReversalLine_ID
+	 */
+	public void setReversalLine_ID (int ReversalLine_ID)
+	{
+		m_ReversalLine_ID = ReversalLine_ID;
+	}   //  setReversalLine_ID
+
+	/**
+	 *  Get ReversalLine_ID
+	 *  get original (voided/reversed) document line
+	 *  @return ReversalLine_ID
+	 */
+	public int getReversalLine_ID()
+	{
+		return m_ReversalLine_ID;
+	}   //  getReversalLine_ID
+	//end AZ Goodwill
+	
 	/**
 	 *  String representation
 	 *  @return String

@@ -46,6 +46,8 @@ import org.compiere.util.Msg;
  * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  *  @author victor.perez@e-evolution.com, e-Evolution
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  */
 public class MInOut extends X_M_InOut implements DocAction
@@ -2025,6 +2027,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			rLine.setQtyEntered(rLine.getQtyEntered().negate());
 			rLine.setMovementQty(rLine.getMovementQty().negate());
 			rLine.setM_AttributeSetInstance_ID(sLines[i].getM_AttributeSetInstance_ID());
+			// Goodwill: store original (voided/reversed) document line
+			rLine.setReversalLine_ID(sLines[i].getM_InOutLine_ID());
 			if (!rLine.save(get_TrxName()))
 			{
 				m_processMsg = "Could not correct Ship Reversal Line";

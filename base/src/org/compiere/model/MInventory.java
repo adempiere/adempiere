@@ -31,6 +31,8 @@ import org.compiere.util.*;
  *  @version $Id: MInventory.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  *  @author victor.perez@e-evolution.com, e-Evolution
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  */
 public class MInventory extends X_M_Inventory implements DocAction
@@ -1013,6 +1015,9 @@ public class MInventory extends X_M_Inventory implements DocAction
 			copyValues(oLine, rLine, oLine.getAD_Client_ID(), oLine.getAD_Org_ID());
 			rLine.setM_Inventory_ID(reversal.getM_Inventory_ID());
 			rLine.setParent(reversal);
+			//AZ Goodwill
+			// store original (voided/reversed) document line
+			rLine.setReversalLine_ID(oLine.getM_InventoryLine_ID());
 			//
 			rLine.setQtyBook (oLine.getQtyCount());		//	switch
 			rLine.setQtyCount (oLine.getQtyBook());

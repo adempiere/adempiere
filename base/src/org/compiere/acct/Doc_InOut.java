@@ -32,6 +32,8 @@ import org.compiere.util.*;
  *  Document Types:     MMS, MMR
  *  </pre>
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @version  $Id: Doc_InOut.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_InOut extends Doc
@@ -47,6 +49,9 @@ public class Doc_InOut extends Doc
 		super (ass, MInOut.class, rs, null, trxName);
 	}   //  DocInOut
 
+	private int				m_Reversal_ID = 0;
+	private String			m_DocStatus = "";
+	
 	/**
 	 *  Load Document Details
 	 *  @return error message or null
@@ -56,6 +61,8 @@ public class Doc_InOut extends Doc
 		setC_Currency_ID(NO_CURRENCY);
 		MInOut inout = (MInOut)getPO();
 		setDateDoc (inout.getMovementDate());
+		m_Reversal_ID = inout.getReversal_ID();//store original (voided/reversed) document
+		m_DocStatus = inout.getDocStatus();
 		//	Contained Objects
 		p_lines = loadLines(inout);
 		log.fine("Lines=" + p_lines.length);
@@ -84,6 +91,7 @@ public class Doc_InOut extends Doc
 			
 			DocLine docLine = new DocLine (line, this);
 			BigDecimal Qty = line.getMovementQty();
+			docLine.setReversalLine_ID(line.getReversalLine_ID());		
 			docLine.setQty (Qty, getDocumentType().equals(DOCTYPE_MatShipment));    //  sets Trx and Storage Qty
 			//
 			log.fine(docLine.toString());
@@ -172,6 +180,17 @@ public class Doc_InOut extends Doc
 				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 				dr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
 				dr.setQty(line.getQty().negate());
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctDr from Original Shipment/Receipt
+					if (!dr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Shipment/Receipt not posted yet";
+						return null;
+					}
+				}
 				
 				//  Inventory               CR
 				cr = fact.createLine(line,
@@ -186,6 +205,18 @@ public class Doc_InOut extends Doc
 				cr.setM_Locator_ID(line.getM_Locator_ID());
 				cr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
 				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctCr from Original Shipment/Receipt
+					if (!cr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Shipment/Receipt not posted yet";
+						return null;
+					}
+					costs = cr.getAcctBalance(); //get original cost
+				}
 				//
 				if (line.getM_Product_ID() != 0)
 				{
@@ -241,13 +272,25 @@ public class Doc_InOut extends Doc
 					as.getC_Currency_ID(), costs, null);
 				if (dr == null)
 				{
-					p_Error = "FactLine CR not created: " + line;
+					p_Error = "FactLine DR not created: " + line;
 					log.log(Level.WARNING, p_Error);
 					return null;
 				}
 				dr.setM_Locator_ID(line.getM_Locator_ID());
 				dr.setLocationFromLocator(line.getM_Locator_ID(), true);    // from Loc
 				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  // to Loc
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctDr from Original Shipment/Receipt
+					if (!dr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Shipment/Receipt not posted yet";
+						return null;
+					}
+					costs = dr.getAcctBalance(); //get original cost
+				}
 				//
 				if (line.getM_Product_ID() != 0)
 				{
@@ -264,7 +307,7 @@ public class Doc_InOut extends Doc
 					as.getC_Currency_ID(), null, costs);
 				if (cr == null)
 				{
-					p_Error = "FactLine DR not created: " + line;
+					p_Error = "FactLine CR not created: " + line;
 					log.log(Level.WARNING, p_Error);
 					return null;
 				}
@@ -273,8 +316,17 @@ public class Doc_InOut extends Doc
 				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), false);  //  to Loc
 				cr.setAD_Org_ID(line.getOrder_Org_ID());		//	Revenue X-Org
 				cr.setQty(line.getQty().negate());
-				
-
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) 
+						&& m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctCr from Original Shipment/Receipt
+					if (!cr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Shipment/Receipt not posted yet";
+						return null;
+					}					
+				}
 			}	//	for all lines
 			updateProductInfo(as.getC_AcctSchema_ID());     //  only for SO!
 		}	//	Sales Return
@@ -344,6 +396,17 @@ public class Doc_InOut extends Doc
 				dr.setM_Locator_ID(line.getM_Locator_ID());
 				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctDr from Original Shipment/Receipt
+					if (!dr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Receipt not posted yet";
+						return null;
+					}
+				}
+				
 				//  NotInvoicedReceipt				CR
 				// Elaine 2008/06/26
 				/*cr = fact.createLine(line,
@@ -363,6 +426,16 @@ public class Doc_InOut extends Doc
 				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
 				cr.setQty(line.getQty().negate());
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctCr from Original Shipment/Receipt
+					if (!cr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Receipt not posted yet";
+						return null;
+					}
+				}
 			}
 		}	//	Receipt
          //	  *** Purchasing - return
@@ -424,6 +497,16 @@ public class Doc_InOut extends Doc
 				dr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   //  from Loc
 				dr.setLocationFromLocator(line.getM_Locator_ID(), false);   //  to Loc
 				dr.setQty(line.getQty().negate());
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctDr from Original Shipment/Receipt
+					if (!dr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Receipt not posted yet";
+						return null;
+					}
+				}
 				
 				//  Inventory/Asset			CR
 				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
@@ -444,7 +527,16 @@ public class Doc_InOut extends Doc
 				cr.setM_Locator_ID(line.getM_Locator_ID());
 				cr.setLocationFromBPartner(getC_BPartner_Location_ID(), true);   // from Loc
 				cr.setLocationFromLocator(line.getM_Locator_ID(), false);   // to Loc
-
+				if (m_DocStatus.equals(MInOut.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
+				{
+					//	Set AmtAcctCr from Original Shipment/Receipt
+					if (!cr.updateReverseLine (MInOut.Table_ID, 
+							m_Reversal_ID, line.getReversalLine_ID(),Env.ONE))
+					{
+						p_Error = "Original Receipt not posted yet";
+						return null;
+					}
+				}
 			}
 		}	//	Purchasing Return
 		else

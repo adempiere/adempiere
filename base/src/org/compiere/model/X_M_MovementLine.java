@@ -410,6 +410,31 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return false;
 	}
 
+	/** ReversalLine_ID AD_Reference_ID=53284 */
+	public static final int REVERSALLINE_ID_AD_Reference_ID=53284;
+	/** Set Reversal Line.
+		@param ReversalLine_ID 
+		Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID)
+	{
+		if (ReversalLine_ID < 1) 
+			set_Value (COLUMNNAME_ReversalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_ReversalLine_ID, Integer.valueOf(ReversalLine_ID));
+	}
+
+	/** Get Reversal Line.
+		@return Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ReversalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Scrapped Quantity.
 		@param ScrappedQty 
 		The Quantity scrapped due to QA issues

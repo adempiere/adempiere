@@ -45,8 +45,8 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 			setInventoryType (null);
 // D
 			setM_AttributeSetInstance_ID (0);
-			setM_Inventory_ID (0);
 			setM_InventoryLine_ID (0);
+			setM_Inventory_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
 			setM_Product_ID (0);
@@ -214,6 +214,28 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Phys.Inventory Line.
+		@param M_InventoryLine_ID 
+		Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
+	{
+		if (M_InventoryLine_ID < 1)
+			 throw new IllegalArgumentException ("M_InventoryLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+	}
+
+	/** Get Phys.Inventory Line.
+		@return Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Inventory getM_Inventory() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
@@ -247,28 +269,6 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 	public int getM_Inventory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Phys.Inventory Line.
-		@param M_InventoryLine_ID 
-		Unique line in an Inventory document
-	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
-	{
-		if (M_InventoryLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InventoryLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
-	}
-
-	/** Get Phys.Inventory Line.
-		@return Unique line in an Inventory document
-	  */
-	public int getM_InventoryLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -406,6 +406,31 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** ReversalLine_ID AD_Reference_ID=296 */
+	public static final int REVERSALLINE_ID_AD_Reference_ID=296;
+	/** Set Reversal Line.
+		@param ReversalLine_ID 
+		Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public void setReversalLine_ID (int ReversalLine_ID)
+	{
+		if (ReversalLine_ID < 1) 
+			set_Value (COLUMNNAME_ReversalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_ReversalLine_ID, Integer.valueOf(ReversalLine_ID));
+	}
+
+	/** Get Reversal Line.
+		@return Use to keep the reversal line ID for reversing costing purpose
+	  */
+	public int getReversalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ReversalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set UPC/EAN.
