@@ -848,8 +848,8 @@ public class GridTable extends AbstractTableModel
 		m_changed = changed;
 		if (!changed)
 			m_rowChanged = -1;
-		if (changed)
-			fireDataStatusIEvent("", "");
+		//if (changed)
+		//	fireDataStatusIEvent("", "");
 	}	//	setChanged
 
 	/**

@@ -1019,7 +1019,11 @@ public final class APanel extends CPanel
 		aLast.setEnabled(!lastRow);
 
 		//	update Change
+		
 		boolean changed = e.isChanged() || e.isInserting();
+		
+		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
+			changed = false;
 		boolean readOnly = m_curTab.isReadOnly();
 		boolean insertRecord = !readOnly;
 		if (insertRecord)
