@@ -43,62 +43,36 @@ public class MDDOrderLine extends X_DD_OrderLine
 	/**
 	 * 	Get Order Unreserved Qty
 	 *	@param ctx context
-	 *	@param M_Warehouse_ID wh
+	 *	@param M_Locator_ID wh
 	 *	@param M_Product_ID product
 	 *	@param M_AttributeSetInstance_ID asi
 	 *	@param excludeC_OrderLine_ID exclude C_OrderLine_ID
 	 *	@return Unreserved Qty
 	 */
-	public static BigDecimal getNotReserved (Properties ctx, int M_Warehouse_ID, 
-		int M_Product_ID, int M_AttributeSetInstance_ID, int excludeC_OrderLine_ID)
+	public static BigDecimal getNotReserved (Properties ctx, int M_Locator_ID, 
+		int M_Product_ID, int M_AttributeSetInstance_ID, int excludeDD_OrderLine_ID)
 	{
-		BigDecimal retValue = Env.ZERO;
-		String sql = "SELECT SUM(QtyOrdered-QtyDelivered-QtyReserved) "
-			+ "FROM C_OrderLine ol"
-			+ " INNER JOIN C_Order o ON (ol.C_Order_ID=o.C_Order_ID) "
-			+ "WHERE ol.M_Warehouse_ID=?"	//	#1
-			+ " AND M_Product_ID=?"			//	#2
-			+ " AND o.IsSOTrx='Y' AND o.DocStatus='DR'"
-			+ " AND QtyOrdered-QtyDelivered-QtyReserved<>0"
-			+ " AND ol.C_OrderLine_ID<>?";
-		if (M_AttributeSetInstance_ID != 0)
-			sql += " AND M_AttributeSetInstance_ID=?";
 		
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, M_Warehouse_ID);
-			pstmt.setInt (2, M_Product_ID);
-			pstmt.setInt (3, excludeC_OrderLine_ID);
-			if (M_AttributeSetInstance_ID != 0)
-				pstmt.setInt (4, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = rs.getBigDecimal(1);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		if (retValue == null)
-			s_log.fine("-");
-		else
-			s_log.fine(retValue.toString());
-		return retValue;
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(M_Locator_ID);
+		params.add(M_Product_ID);
+		params.add(excludeDD_OrderLine_ID);
+		
+		String sql = "SELECT SUM(QtyOrdered-QtyDelivered-QtyReserved) "
+			+ "FROM DD_OrderLine ol"
+			+ " INNER JOIN DD_Order o ON (ol.DD_Order_ID=o.DD_Order_ID) "
+			+ "WHERE ol.M_Locator_ID=?"	//	#1
+			+ " AND M_Product_ID=?"			//	#2
+			+ " AND o.IsSOTrx='N' AND o.DocStatus='DR'"
+			+ " AND QtyOrdered-QtyDelivered-QtyReserved<>0"
+			+ " AND ol.DD_OrderLine_ID<>?";
+		
+		if (M_AttributeSetInstance_ID != 0)
+		{	
+			sql += " AND M_AttributeSetInstance_ID=?";
+			params.add(M_AttributeSetInstance_ID);
+		}			
+		return DB.getSQLValueBD(null, sql.toString(), params);	
 	}	//	getNotReserved
 	
 	/**	Logger	*/

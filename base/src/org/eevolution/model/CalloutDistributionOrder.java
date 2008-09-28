@@ -23,6 +23,7 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
@@ -156,8 +157,10 @@ public class CalloutDistributionOrder extends CalloutEngine
 			MProduct product = MProduct.get (ctx, M_Product_ID);
 			if (product.isStocked())
 			{
-				int M_Warehouse_ID = Env.getContextAsInt(ctx, WindowNo, "M_Warehouse_ID");
+				int M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, "M_Locator_ID");
 				int M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, "M_AttributeSetInstance_ID");
+				int M_Warehouse_ID = MLocator.get(ctx, M_Locator_ID).getM_Warehouse_ID();
+				
 				BigDecimal available = MStorage.getQtyAvailable
 					(M_Warehouse_ID, 0, M_Product_ID, M_AttributeSetInstance_ID, null);
 				if (available == null)
@@ -168,12 +171,12 @@ public class CalloutDistributionOrder extends CalloutEngine
 					mTab.fireDataStatusEEvent ("InsufficientQtyAvailable", available.toString(), false);
 				else
 				{
-					Integer C_OrderLine_ID = (Integer)mTab.getValue("C_OrderLine_ID");
-					if (C_OrderLine_ID == null)
-						C_OrderLine_ID = new Integer(0);
-					BigDecimal notReserved = MOrderLine.getNotReserved(ctx, 
-						M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,
-						C_OrderLine_ID.intValue());
+					Integer DD_OrderLine_ID = (Integer)mTab.getValue("DD_OrderLine_ID");
+					if (DD_OrderLine_ID == null)
+						DD_OrderLine_ID = new Integer(0);
+					BigDecimal notReserved = MDDOrderLine.getNotReserved(ctx, 
+						M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID,
+						DD_OrderLine_ID.intValue());
 					if (notReserved == null)
 						notReserved = Env.ZERO;
 					BigDecimal total = available.subtract(notReserved);
