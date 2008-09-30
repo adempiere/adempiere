@@ -90,102 +90,105 @@ public class M_Production_Run extends SvrProcess {
 			return "@AlreadyPosted@";
 		}
 		
-		String whereClause = "M_Production_ID=? ";
-		List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
-												  .setParameters(new Object[]{p_Record_ID })
-												  .list();
-		for (X_M_ProductionPlan pp :lines)
-		{	
 
-			if (!production.isCreated()) 
-			{
-							
-				int line = 100;
-				int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
-				if (no == -1) raiseError("ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
-				
-				MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
-	
-				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
-				pl.setLine(line);
-				pl.setDescription(pp.getDescription());
-				pl.setIsActive(true);
-				pl.setM_Product_ID(pp.getM_Product_ID());
-				pl.setM_Locator_ID(pp.getM_Locator_ID());
-				pl.setM_ProductionPlan_ID(pp.get_ID());
-				pl.setMovementQty(pp.getProductionQty());
-				pl.saveEx();
-				if (explosion(pp, product, pp.getProductionQty() , line) > 0 )
+			String whereClause = "M_Production_ID=? ";
+			List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
+													  .setParameters(new Object[]{p_Record_ID })
+													  .list();
+				for (X_M_ProductionPlan pp :lines)
 				{	
-					production.setIsCreated(true);
-					production.saveEx();
-				}
-				else
-					raiseError("Do not exist componets", "");
-									   
-			} 
-			else 
-			{
-				whereClause = "M_ProductionPlan_ID= ? ";
-				List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
-														  .setParameters(new Object[]{pp.get_ID()})
-														  .list();
-				
-				for (X_M_ProductionLine pline : production_lines)
-				{
-					MLocator locator = MLocator.get(getCtx(), pline.getM_Locator_ID());
-					String MovementType = MTransaction.MOVEMENTTYPE_ProductionPlus;					
-					BigDecimal MovementQty = pline.getMovementQty();						
-					if (MovementQty.signum() == 0)
-						continue ;
-					else if(MovementQty.signum() < 0)
+	
+					if (!production.isCreated()) 
 					{
-						BigDecimal QtyAvailable = MStorage.getQtyAvailable(
-								locator.getM_Warehouse_ID(), 
-								locator.getM_Locator_ID(), 
+						int line = 100;
+						int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
+						if (no == -1) raiseError("ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
+						
+						MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
+			
+						X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+						pl.setLine(line);
+						pl.setDescription(pp.getDescription());
+						pl.setIsActive(true);
+						pl.setM_Product_ID(pp.getM_Product_ID());
+						pl.setM_Locator_ID(pp.getM_Locator_ID());
+						pl.setM_ProductionPlan_ID(pp.get_ID());
+						pl.setMovementQty(pp.getProductionQty());
+						pl.saveEx();
+						if (explosion(pp, product, pp.getProductionQty() , line) == 0 )
+							raiseError("Do not exist componets", "");
+						
+					}
+					else
+					{	
+						whereClause = "M_ProductionPlan_ID= ? ";
+						List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
+																  .setParameters(new Object[]{pp.get_ID()})
+															  .list();
+					
+						for (X_M_ProductionLine pline : production_lines)
+						{
+							MLocator locator = MLocator.get(getCtx(), pline.getM_Locator_ID());
+							String MovementType = MTransaction.MOVEMENTTYPE_ProductionPlus;					
+							BigDecimal MovementQty = pline.getMovementQty();						
+							if (MovementQty.signum() == 0)
+								continue ;
+							else if(MovementQty.signum() < 0)
+							{
+								BigDecimal QtyAvailable = MStorage.getQtyAvailable(
+										locator.getM_Warehouse_ID(), 
+										locator.getM_Locator_ID(), 
+										pline.getM_Product_ID(), 
+										pline.getM_AttributeSetInstance_ID(),
+										get_TrxName());
+								
+								if(QtyAvailable.add(MovementQty).signum() < 0)
+								{	
+									raiseError(Msg.getMsg(getCtx(),"NoQtyAvailable"), "");
+								}
+								
+								MovementType = MTransaction.MOVEMENTTYPE_Production_;
+							}
+						
+							if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
+								locator.getM_Locator_ID(),
 								pline.getM_Product_ID(), 
-								pline.getM_AttributeSetInstance_ID(),
-								get_TrxName());
-						
-						if(QtyAvailable.add(MovementQty).signum() < 0)
-						{	
-							raiseError(Msg.getMsg(getCtx(),"NoQtyAvailable"), "");
-						}
-						
-						MovementType = MTransaction.MOVEMENTTYPE_Production_;
-					}
-					
-					if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
-						locator.getM_Locator_ID(),
-						pline.getM_Product_ID(), 
-						pline.getM_AttributeSetInstance_ID(), 0 , 
-						MovementQty,
-						Env.ZERO,
-						Env.ZERO,
-						get_TrxName()))
-					{
-						raiseError("Cannot correct Inventory", "");
-					}
-					
-					//Create Transaction
-					MTransaction mtrx = new MTransaction (getCtx(), pline.getAD_Org_ID(), 
-						MovementType, locator.getM_Locator_ID(),
-						pline.getM_Product_ID(), pline.getM_AttributeSetInstance_ID(), 
-						MovementQty, production.getMovementDate(), get_TrxName());
-					mtrx.setM_ProductionLine_ID(pline.get_ID());
-					mtrx.saveEx();
-					
-					pline.setProcessed(true);
-					pline.saveEx();
-				} // Production Line
-				
-			 pp.setProcessed(true);
-			 pp.saveEx();
-			 
-			 production.setProcessed(true);
-			 production.saveEx();
-			} 	
+								pline.getM_AttributeSetInstance_ID(), 0 , 
+								MovementQty,
+								Env.ZERO,
+								Env.ZERO,
+								get_TrxName()))
+							{
+								raiseError("Cannot correct Inventory", "");
+							}
+							
+							//Create Transaction
+							MTransaction mtrx = new MTransaction (getCtx(), pline.getAD_Org_ID(), 
+								MovementType, locator.getM_Locator_ID(),
+								pline.getM_Product_ID(), pline.getM_AttributeSetInstance_ID(), 
+								MovementQty, production.getMovementDate(), get_TrxName());
+							mtrx.setM_ProductionLine_ID(pline.get_ID());
+							mtrx.saveEx();
+							
+							pline.setProcessed(true);
+							pline.saveEx();
+						} // Production Line
+
+				 pp.setProcessed(true);
+				 pp.saveEx();
+				} 	
 		} // Production Plan
+				
+		if(!production.isCreated())	
+		{	
+			production.setIsCreated(true);
+			production.saveEx();
+		}
+		else
+		{
+			 production.setProcessed(true);
+			 production.saveEx();	
+		}
 		
 		return "@OK@";
 
