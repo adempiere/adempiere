@@ -31,6 +31,9 @@ import javax.print.attribute.standard.*;
  */
 public class Language implements Serializable
 {
+	/**
+	 * 
+	 */
 	/**************************************************************************
 	 *  Languages
 	 *      http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt
@@ -72,7 +75,8 @@ public class Language implements Serializable
 	private static final String AD_Language_ja_JP = "ja_JP";
 	private static final String AD_Language_in_ID = "in_ID";
 	private static final String AD_Language_ar_TN = "ar_TN";
-
+	private static final String AD_Language_hu_HU = "hu_HU";
+	
 	/***
 	 *  System Languages.
 	 *  If you want to add a language, extend the array
@@ -147,6 +151,9 @@ public class Language implements Serializable
 		new Language ("Malay",
 			AD_Language_ms_MY, new Locale("ms","MY"), new Boolean(false), "dd-MM-yyyy",
 			MediaSize.ISO.A4),
+		new Language ("Magyar (HU)",
+			AD_Language_hu_HU,  new Locale("hu","HU"), new Boolean(false), "yyyy.MM.dd",
+			MediaSize.ISO.A4),			
 		new Language ("Nederlands",
 			AD_Language_nl_NL, new Locale("nl","NL"), new Boolean(false), "dd-MM-yyyy",
 			MediaSize.ISO.A4),
