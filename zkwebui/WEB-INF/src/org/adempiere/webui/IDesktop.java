@@ -103,4 +103,10 @@ public interface IDesktop {
 	 * @return ADWindow
 	 */
 	public ADWindow openWindow(int windowId);
+
+	/**
+	 * Open operating system task window
+	 * @param task_ID
+	 */
+	public void openTask(int task_ID);
 }

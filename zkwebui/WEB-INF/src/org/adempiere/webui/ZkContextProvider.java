@@ -29,8 +29,8 @@ import org.compiere.util.ContextProvider;
  */
 public class ZkContextProvider implements ContextProvider {
 
-	private final ServerContextCallback callback = new ServerContextCallback();
-	private final Properties context = (Properties) Enhancer.create(Properties.class, callback);
+	private final static ServerContextCallback callback = new ServerContextCallback();
+	private final static Properties context = (Properties) Enhancer.create(Properties.class, callback);
 	
 	/**
 	 * Get server context proxy

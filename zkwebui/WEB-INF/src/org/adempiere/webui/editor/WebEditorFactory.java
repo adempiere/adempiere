@@ -109,6 +109,8 @@ public class WebEditorFactory
         {
         	if (displayType == DisplayType.Time)
         		editor = new WTimeEditor(gridField);
+        	else if (displayType == DisplayType.DateTime)
+        		editor = new WDatetimeEditor(gridField);
         	else
         		editor = new WDateEditor(gridField);
         }

@@ -166,7 +166,7 @@ public class MenuPanel extends Panel implements EventListener
                 
                 if (mChildNode.isReport())
                 	treeitem.setImage("/images/mReport.png");
-                else if (mChildNode.isProcess())
+                else if (mChildNode.isProcess() || mChildNode.isTask())
                 	treeitem.setImage("/images/mProcess.png");
                 else if (mChildNode.isWorkFlow())
                 	treeitem.setImage("/images/mWorkFlow.png");

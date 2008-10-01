@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
- * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
+ * Copyright (C) 2008 Low Heng Sin                                            *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,18 +9,13 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
-
 package org.adempiere.webui.editor;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
 
-import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.DatetimeBox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
@@ -31,18 +25,16 @@ import org.zkoss.zk.ui.event.Events;
 
 /**
  * 
- * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date Mar 12, 2007
- * @version $Revision: 0.10 $
+ * @author Low Heng Sin
  */
-public class WDateEditor extends WEditor
+public class WDatetimeEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     private static final CLogger logger;
     
     static
     {
-        logger = CLogger.getCLogger(WDateEditor.class);
+        logger = CLogger.getCLogger(WDatetimeEditor.class);
     }
     
     private Timestamp oldValue = new Timestamp(0);
@@ -51,9 +43,9 @@ public class WDateEditor extends WEditor
      * 
      * @param gridField
      */
-    public WDateEditor(GridField gridField)
+    public WDatetimeEditor(GridField gridField)
     {
-        super(new Datebox(), gridField);
+        super(new DatetimeBox(), gridField);
         init();
     }
     
@@ -72,16 +64,16 @@ public class WDateEditor extends WEditor
 	 * @param updateable
 	 *            whether the editor contents can be changed
 	 */
-	public WDateEditor (String label, String description, boolean mandatory, boolean readonly, boolean updateable)
+	public WDatetimeEditor (String label, String description, boolean mandatory, boolean readonly, boolean updateable)
 	{
-		super(new Datebox(), label, description, mandatory, readonly, updateable);
-		setColumnName("Date");
+		super(new DatetimeBox(), label, description, mandatory, readonly, updateable);
+		setColumnName("Datetime");
 		init();
 	}
 	
-	public WDateEditor()
+	public WDatetimeEditor()
 	{
-		this("Date", "Date", false, false, true);		
+		this("Datetime", "Datetime", false, false, true);
 	}   // VDate
 	
 	/**
@@ -92,17 +84,18 @@ public class WDateEditor extends WEditor
 	 * @param updateable
 	 * @param title
 	 */
-	public WDateEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
+	public WDatetimeEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
 			String title)
 	{
-		super(new Datebox(), columnName, title, null, mandatory, readonly, updateable);
-	}
-	
-	private void init() 
-	{
-		getComponent().setFormat(DisplayType.getDateFormat().toPattern());
+		super(new DatetimeBox(), columnName, title, null, mandatory, readonly, updateable);
+		init();
 	}
     
+	private void init()
+	{
+		getComponent().setDateFormat(DisplayType.getDateFormat());
+	}
+	
 	public void onEvent(Event event)
     {
         Date date = getComponent().getValue();
@@ -173,8 +166,8 @@ public class WDateEditor extends WEditor
     }
     
 	@Override
-	public Datebox getComponent() {
-		return (Datebox) component;
+	public DatetimeBox getComponent() {
+		return (DatetimeBox) component;
 	}
 
 	@Override

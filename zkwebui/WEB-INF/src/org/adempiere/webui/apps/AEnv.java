@@ -618,7 +618,11 @@ public final class AEnv
         if (zoomQuery == null || value != null)
         {
             zoomQuery = new MQuery();   //  ColumnName might be changed in MTab.validateQuery
-            zoomQuery.addRestriction(lookup.getColumnName(), MQuery.EQUAL, value);
+            String column = lookup.getColumnName();
+            //strip off table name, fully qualify name doesn't work when zoom into detail tab
+            if (column.indexOf(".") > 0)
+            	column = column.substring(column.indexOf(".")+1);
+            zoomQuery.addRestriction(column, MQuery.EQUAL, value);
             zoomQuery.setRecordCount(1);    //  guess
         }
         int windowId = lookup.getZoom(zoomQuery);

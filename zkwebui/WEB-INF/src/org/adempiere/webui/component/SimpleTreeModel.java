@@ -219,4 +219,12 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		}
 		return null;
 	}
+	
+	public void nodeUpdated(SimpleTreeNode node) {
+		SimpleTreeNode parent = getParent(node);
+		if (parent != null) {
+			int i = parent.getChildren().indexOf(node);
+			fireEvent(parent, i, i, TreeDataEvent.CONTENTS_CHANGED);
+		}
+	}
 }

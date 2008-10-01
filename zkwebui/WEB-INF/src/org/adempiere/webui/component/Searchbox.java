@@ -22,8 +22,9 @@ import java.beans.PropertyChangeSupport;
 
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Div;
 
-public class Searchbox extends Panel
+public class Searchbox extends Div
 {
 	private static final long serialVersionUID = 1L;
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
@@ -49,12 +50,14 @@ public class Searchbox extends Panel
 	 private void initComponents()
 	 {
 	     txt = new Textbox();
+	     txt.setStyle("display: inline;");
 	     btn = new Button();
 	     btn.setSclass("editor-button");
 	     appendChild(txt);
 	     appendChild(btn);
 	     
 	     String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	     style = style + ";white-space:nowrap";
 	     this.setStyle(style);
 	 }
 

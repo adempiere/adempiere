@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.graph.WPAPanel;
+import org.adempiere.webui.apps.wf.WFPanel;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Tabbox;
@@ -44,9 +45,11 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.InfoSchedule;
+import org.adempiere.webui.window.WTask;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MTask;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
@@ -728,6 +731,14 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         {
         	openForm(menu.getAD_Form_ID());        	
         }
+        else if(menu.getAction().equals(MMenu.ACTION_WorkFlow))
+        {
+        	openWorkflow(menu.getAD_Workflow_ID());
+        }
+        else if(menu.getAction().equals(MMenu.ACTION_Task))
+        {
+        	openTask(menu.getAD_Task_ID());
+        }
         else
         {
             throw new ApplicationException("Menu Action not yet implemented: " + menu.getAction());
@@ -735,6 +746,15 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     }
 
     /**
+     * 
+     * @param taskId
+     */
+	public void openTask(int taskId) {
+		MTask task = new MTask(Env.getCtx(), taskId, null);
+		new WTask(task.getName(), task);
+	}
+
+	/**
      * 
      * @param processId
      * @param soTrx
@@ -770,6 +790,19 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 
 	/**
 	 * 
+	 * @param workflow_ID
+	 */
+	public void openWorkflow(int workflow_ID) {
+		WFPanel p = new WFPanel();
+		p.load(workflow_ID);
+		
+		DesktopTabpanel tabPanel = new DesktopTabpanel();
+		p.setParent(tabPanel);
+		windowContainer.addWindow(tabPanel, p.getWorkflow().getName(), true);
+	}
+	
+	/**
+	 * 
 	 * @param windowId
 	 * @return ADWindow
 	 */
@@ -777,10 +810,13 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		ADWindow adWindow = new ADWindow(Env.getCtx(), windowId);
 		
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
-		adWindow.createPart(tabPanel);
-		windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
-		
-		return adWindow;
+		if (adWindow.createPart(tabPanel) != null) {
+			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);		
+			return adWindow;
+		} else {
+			//user cancel 
+			return null;
+		}
 	}
     
 	/**

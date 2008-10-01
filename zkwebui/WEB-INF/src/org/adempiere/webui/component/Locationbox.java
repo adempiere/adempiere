@@ -53,12 +53,14 @@ public class Locationbox extends Panel
      private void initComponents()
      {
          txt = new Textbox();
+         txt.setStyle("display: inline");
          btn = new Button();
          btn.setSclass("editor-button");
          this.appendChild(txt);
          this.appendChild(btn);
          
          String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+         style = style + ";white-space:nowrap";
 	     this.setStyle(style);
      }
      

@@ -17,13 +17,13 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Hbox;
 
 /**
  * URL Box
  */
-public class FilenameBox extends Hbox
+public class FilenameBox extends Panel
 {
 
     private static final long serialVersionUID = 1L;
@@ -51,11 +51,15 @@ public class FilenameBox extends Hbox
     private void initComponents()
     {
         textbox = new Textbox();
-        textbox.setWidth("100%");
+        textbox.setStyle("display: inline");
         button = new Button();
-        button.setHeight("98%");
+        button.setSclass("editor-button");
         appendChild(textbox);
         appendChild(button);
+        
+        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block";
+        style = style + ";white-space:nowrap";
+	    this.setStyle(style);
     }
 
     public void setText(String value)

@@ -192,6 +192,8 @@ public abstract class ADForm extends Window implements EventListener
     			webClassName = "org.adempiere.webui.apps.form.WArchiveViewer"; // TEMP
     		else if ("org.compiere.apps.wf.WFActivity".equals(richClassName))
     			webClassName = "org.adempiere.webui.apps.wf.WWFActivity"; // TEMP
+    		else if ("org.compiere.apps.wf.WFPanel".equals(richClassName))
+    			webClassName = "org.adempiere.webui.apps.wf.WFEditor";
     		else
     			webClassName = translateFormClassName(richClassName);
     		

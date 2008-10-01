@@ -27,7 +27,16 @@ html,body {
 .disableFilter img {
 	opacity: 0.2;
 	filter: progid : DXImageTransform . Microsoft . Alpha(opacity = 20);	
-	-moz-opacity: 0.2;	
+	-moz-opacity: 0.2;			
+}
+
+.depressed {
+	border-style: inset;
+	border-width: 1px;
+	border-color: #CCCCCC;
+	background-color: #E4E3DC;
+	-moz-border-radius: 5px;
+	padding: 1px 4px 1px 4px;
 }
 
 .header {
@@ -56,6 +65,7 @@ html,body {
 	height: 22px;
 	width: 26px;
 	padding: 0px;
+	display: inline;
 }
 
 .editor-button img {

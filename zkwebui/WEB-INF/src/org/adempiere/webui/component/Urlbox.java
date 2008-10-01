@@ -19,7 +19,6 @@ package org.adempiere.webui.component;
 
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Hbox;
 
 /**
  * URL Box
@@ -52,12 +51,14 @@ public class Urlbox extends Panel
     private void initComponents()
     {
         txtUrl = new Textbox();
+        txtUrl.setStyle("display: inline;");
         btnUrl = new Button();
         btnUrl.setSclass("editor-button");
         appendChild(txtUrl);
         appendChild(btnUrl);
         
         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+        style = style + ";white-space:nowrap";
 	    this.setStyle(style);
     }
 

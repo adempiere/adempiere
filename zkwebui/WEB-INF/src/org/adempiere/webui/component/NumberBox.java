@@ -25,6 +25,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Decimalbox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Popup;
 import org.zkoss.zul.Vbox;
@@ -37,7 +38,7 @@ import org.zkoss.zul.Vbox;
  * 
  * @author Low Heng Sin
  */
-public class NumberBox extends Panel
+public class NumberBox extends Div
 {
     private static final long serialVersionUID = 1L;
     
@@ -66,6 +67,7 @@ public class NumberBox extends Panel
     	decimalBox = new Decimalbox();
     	if (integral)
     		decimalBox.setScale(0);
+    	decimalBox.setStyle("display: inline;");
     	
     	btn = new Button();
         btn.setImage("/images/Calculator16.png");
@@ -73,12 +75,13 @@ public class NumberBox extends Panel
         Popup popup = getCalculatorPopup();
         btn.setSclass("editor-button");
         btn.setPopup(popup);
-        btn.setStyle("text-align: center");
+        btn.setStyle("text-align: center;");
         appendChild(decimalBox);
         appendChild(btn);
         appendChild(popup);
      
         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+        style = style + ";white-space:nowrap";
         this.setStyle(style);	     
     }
     

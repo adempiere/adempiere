@@ -51,13 +51,15 @@ public class PAttributebox extends Panel
     private void initComponents()
     {
         textBox = new Textbox();
+        textBox.setStyle("display: inline");
         button = new Button();
         button.setSclass("editor-button");
         appendChild(textBox);
         appendChild(button);
         
         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
-	    this.setStyle(style);
+        style = style + ";white-space:nowrap";
+	    this.setStyle(style + ";overflow: hidden");
     }
 
     public void setText(String value)

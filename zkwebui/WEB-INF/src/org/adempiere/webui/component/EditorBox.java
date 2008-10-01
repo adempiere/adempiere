@@ -59,6 +59,7 @@ public class EditorBox extends Panel
 	private void initComponents()
 	{
 		txt = new Textbox();
+		txt.setStyle("display: inline;");
 		btn = new Button();
 	    
 		this.appendChild(txt);
@@ -67,6 +68,7 @@ public class EditorBox extends Panel
 	    btn.setSclass("editor-button");
 	     
 	    String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+	    style = style + ";white-space:nowrap";
 	    this.setStyle(style);
 	}
 	     

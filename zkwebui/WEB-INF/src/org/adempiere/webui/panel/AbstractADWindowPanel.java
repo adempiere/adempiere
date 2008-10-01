@@ -118,6 +118,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	private boolean m_uiLocked;
 
+	private boolean m_findCancelled;
+
     public AbstractADWindowPanel(Properties ctx, int windowNo)
     {
         this.ctx = ctx;
@@ -201,6 +203,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             if (tab == 0)
             {
                 query = initialQuery(query, gTab);
+                if (gTab.isHighVolume() && m_findCancelled)
+                	return false;
+                	
                 if (query != null && query.getRecordCount() <= 1)
                 {
                     // goSingleRow = true;
@@ -211,6 +216,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                     m_onlyCurrentRows = false;
                     gTab.setQuery(query);
                 }
+                
                 curTab = gTab;                
                 curTabIndex = tab;
             }
@@ -309,6 +315,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         // Show Query
         if (require)
         {
+        	m_findCancelled = false;
             GridField[] findFields = mTab.getFields();
             FindWindow find = new FindWindow(curWindowNo,
                     mTab.getName(), mTab.getAD_Table_ID(), mTab.getTableName(),
@@ -317,7 +324,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             	// Title is not set when the number of rows is below the minRecords parameter (10)
                 find.setVisible(true);
                 AEnv.showWindow(find);
-                query = find.getQuery();  
+                if (!find.isCancel())
+                	query = find.getQuery();
+                else
+                	m_findCancelled = true;
                 find = null;
             }
         }

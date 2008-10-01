@@ -654,7 +654,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     
     public void onEvent(Event event) throws Exception
     {
-        if ("onSelect".equals(event.getName()))
+        if (Events.ON_SELECT.equals(event.getName()))
         {
             if (event.getTarget() instanceof Listbox)
             {
@@ -685,7 +685,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     			parseUserQuery(userQueries[index]);
     		}
         }   //
-        else if ("onClick".equals(event.getName()))
+        else if (Events.ON_CLICK.equals(event.getName()))
         {
             //  Toolbar Buttons actions
             if(event.getTarget() instanceof ToolBarButton)
@@ -726,6 +726,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 }
                 else if("btnCancel".equals(btn.getName()))
                 {
+                	m_isCancel = true;
                     dispose();
                 }
                 else if ("btnNew".equals(btn.getName()))
@@ -757,7 +758,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 }
             }
         }   
-        else if ("onOK".equals(event.getName()))
+        else if (Events.ON_OK.equals(event.getName()))
         {
             if (winLookupRecord.equals(event.getTarget()))
             {
@@ -1714,5 +1715,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			Clients.response(new AuFocus(m_sEditors.get(0).getComponent()));
 	}
     
+	/**
+	 * 
+	 * @return true if dialog cancel by user, false otherwise
+	 */
+	public boolean isCancel() {
+		return m_isCancel;
+	}
     
 }   //  FindPanel

@@ -75,6 +75,7 @@ import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.Space;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
@@ -360,7 +361,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     	//can't stretch bandbox & datebox
                     	if (!(editor.getComponent() instanceof Bandbox) && 
                     		!(editor.getComponent() instanceof Datebox)) {
-                    		String width = AEnv.isFirefox2() ? "99%" : "100%";
+                    		String width = "99%";                    			
                     		((HtmlBasedComponent)editor.getComponent()).setWidth(width);
                     	}
                     }
@@ -404,11 +405,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     }
 
 	private Component createSpacer() {
-		Span span = new Span();
-		Text text = new Text("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-		text.setParent(span);
-		span.setStyle("width: 100%");
-		return span;
+		return new Space();
 	}
     
     public void dynamicDisplay (int col)
