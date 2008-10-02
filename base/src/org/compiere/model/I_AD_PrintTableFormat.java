@@ -184,6 +184,19 @@ public interface I_AD_PrintTableFormat
 	  */
 	public int getHdrLine_PrintColor_ID();
 
+    /** Column name Hdr_PrintFont_ID */
+    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
+
+	/** Set Header Row Font.
+	  * Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
+
+	/** Get Header Row Font.
+	  * Header row Font
+	  */
+	public int getHdr_PrintFont_ID();
+
     /** Column name HdrStroke */
     public static final String COLUMNNAME_HdrStroke = "HdrStroke";
 
@@ -235,19 +248,6 @@ public interface I_AD_PrintTableFormat
 	  * Foreground color if the table header row
 	  */
 	public int getHdrTextFG_PrintColor_ID();
-
-    /** Column name Hdr_PrintFont_ID */
-    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
-
-	/** Set Header Row Font.
-	  * Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
-
-	/** Get Header Row Font.
-	  * Header row Font
-	  */
-	public int getHdr_PrintFont_ID();
 
     /** Column name HeaderCenter */
     public static final String COLUMNNAME_HeaderCenter = "HeaderCenter";
@@ -327,6 +327,19 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isDefault();
 
+    /** Column name IsMultiLineHeader */
+    public static final String COLUMNNAME_IsMultiLineHeader = "IsMultiLineHeader";
+
+	/** Set Multi Line Header.
+	  * Print column headers on mutliple lines if necessary.
+	  */
+	public void setIsMultiLineHeader (boolean IsMultiLineHeader);
+
+	/** Get Multi Line Header.
+	  * Print column headers on mutliple lines if necessary.
+	  */
+	public boolean isMultiLineHeader();
+
     /** Column name IsPaintBoundaryLines */
     public static final String COLUMNNAME_IsPaintBoundaryLines = "IsPaintBoundaryLines";
 
@@ -340,19 +353,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPaintBoundaryLines();
 
-    /** Column name IsPaintHLines */
-    public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
-
-	/** Set Paint Horizontal Lines.
-	  * Paint horizontal lines
-	  */
-	public void setIsPaintHLines (boolean IsPaintHLines);
-
-	/** Get Paint Horizontal Lines.
-	  * Paint horizontal lines
-	  */
-	public boolean isPaintHLines();
-
     /** Column name IsPaintHeaderLines */
     public static final String COLUMNNAME_IsPaintHeaderLines = "IsPaintHeaderLines";
 
@@ -365,6 +365,19 @@ public interface I_AD_PrintTableFormat
 	  * Paint Lines over/under the Header Line 
 	  */
 	public boolean isPaintHeaderLines();
+
+    /** Column name IsPaintHLines */
+    public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
+
+	/** Set Paint Horizontal Lines.
+	  * Paint horizontal lines
+	  */
+	public void setIsPaintHLines (boolean IsPaintHLines);
+
+	/** Get Paint Horizontal Lines.
+	  * Paint horizontal lines
+	  */
+	public boolean isPaintHLines();
 
     /** Column name IsPaintVLines */
     public static final String COLUMNNAME_IsPaintVLines = "IsPaintVLines";
@@ -392,6 +405,19 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPrintFunctionSymbols();
 
+    /** Column name Line_PrintColor_ID */
+    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
+
+	/** Set Line Color.
+	  * Table line color
+	  */
+	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
+
+	/** Get Line Color.
+	  * Table line color
+	  */
+	public int getLine_PrintColor_ID();
+
     /** Column name LineStroke */
     public static final String COLUMNNAME_LineStroke = "LineStroke";
 
@@ -417,19 +443,6 @@ public interface I_AD_PrintTableFormat
 	  * Type of the Line Stroke
 	  */
 	public String getLineStrokeType();
-
-    /** Column name Line_PrintColor_ID */
-    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
-
-	/** Set Line Color.
-	  * Table line color
-	  */
-	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
-
-	/** Get Line Color.
-	  * Table line color
-	  */
-	public int getLine_PrintColor_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -1482,7 +1482,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		HashMap<Point,Color> rowColBackground = new HashMap<Point,Color>();
 		rowColBackground.put(new Point(TableElement.HEADER_ROW,TableElement.ALL), tf.getHeaderBG_Color());
 		//	Sizes
-		boolean multiLineHeader = false;
+		boolean multiLineHeader = tf.isMultiLineHeader();
 		int pageNoStart = m_pageNo;
 		int repeatedColumns = 1;
 		Rectangle firstPage = new Rectangle(m_content);
@@ -1686,7 +1686,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 								dataElement = pde.getValue();
 							else
 								dataElement = pde.getValueDisplay(format.getLanguage());
-						}
+							}
 						else
 							log.log(Level.SEVERE, "Element not PrintDataElement " + obj.getClass());
 					//	System.out.println("  row=" + row + ",col=" + col + " - " + item.getAD_Column_ID() + " => " + dataElement);

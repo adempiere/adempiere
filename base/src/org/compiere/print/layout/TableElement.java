@@ -469,8 +469,8 @@ public class TableElement extends PrintElement
 								height = lineHeight;
 								break;
 							}
-							else if (m_columnMaxHeight[dataCol] == 0
-								|| (height + lineHeight) <= m_columnMaxHeight[dataCol])
+							else /*if (m_columnMaxHeight[dataCol] == 0
+								|| (height + lineHeight) <= m_columnMaxHeight[dataCol])*/
 								height += lineHeight;
 						}
 					}	//	for all header lines
@@ -1256,6 +1256,9 @@ public class TableElement extends PrintElement
 				(int)(colWidth-m_tFormat.getVLineStroke().floatValue()), 
 				(int)(rowHeight-(4*m_tFormat.getLineStroke().floatValue())));
 		}
+		
+
+		int tempCurY = curY;
 		curX += H_GAP;		//	upper left gap
 		curY += V_GAP;
 		//	Header
@@ -1285,40 +1288,38 @@ public class TableElement extends PrintElement
 				if (iter.getEndIndex() != measurer.getPosition())
 					fastDraw = false;
 				float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
-				if (m_columnMaxHeight[col] <= 0		//	-1 = FirstLineOnly  
-					|| (usedHeight + lineHeight) <= m_columnMaxHeight[col])
+				
+				if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Block))
 				{
-					if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Block))
-					{
-						layout = layout.getJustifiedLayout(netWidth + 2);
-						fastDraw = false;
-					}
-					curY += layout.getAscent();
-					float penX = curX;
-					if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Center))
-						penX += (netWidth-layout.getAdvance())/2;
-					else if ((alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_TrailingRight) && layout.isLeftToRight())
-						|| (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft) && !layout.isLeftToRight()))
-						penX += netWidth-layout.getAdvance();
-					//
-					if (fastDraw)
-					{	//	Bug - set Font/Color explicitly 
-						g2D.setFont(getFont(HEADER_ROW, col));
-						g2D.setColor(getColor(HEADER_ROW, col));
-						g2D.drawString(iter, penX, curY);
-					}
-					else
-						layout.draw(g2D, penX, curY);										//	-> text
-					curY += layout.getDescent() + layout.getLeading();
-					usedHeight += lineHeight;
+					layout = layout.getJustifiedLayout(netWidth + 2);
+					fastDraw = false;
 				}
-				if (!m_multiLineHeader)			//	one line only
+				curY += layout.getAscent();
+				float penX = curX;
+				if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Center))
+					penX += (netWidth-layout.getAdvance())/2;
+				else if ((alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_TrailingRight) && layout.isLeftToRight())
+						|| (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft) && !layout.isLeftToRight()))
+					penX += netWidth-layout.getAdvance();
+				//
+				if (fastDraw)
+				{	//	Bug - set Font/Color explicitly 
+					g2D.setFont(getFont(HEADER_ROW, col));
+					g2D.setColor(getColor(HEADER_ROW, col));
+					g2D.drawString(iter, penX, curY);
+				}
+				else
+					layout.draw(g2D, penX, curY);										//	-> text
+				curY += layout.getDescent() + layout.getLeading();
+				usedHeight += layout.getAscent() + layout.getDescent();
+
+				if ( !m_multiLineHeader )			//	one line only
 					break;
 			}
 		}
 		
 		curX += netWidth + H_GAP;
-		curY += V_GAP;
+		curY = tempCurY + (int)(rowHeight-(4*m_tFormat.getLineStroke().floatValue()));
 		//	Y end line
 		g2D.setPaint(m_tFormat.getVLine_Color());
 		g2D.setStroke(m_tFormat.getVLine_Stroke());
