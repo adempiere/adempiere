@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,17 +16,31 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.rmi.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.rmi.RemoteException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.process.ProcessCall;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Payment Model.
@@ -57,6 +71,7 @@ import org.compiere.util.*;
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962 
  *  @version 	$Id: MPayment.java,v 1.4 2006/10/02 05:18:39 jjanke Exp $
  *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ *  @author Carlos Ruiz - globalqss [ 2141475 ] Payment <> allocations must not be completed - implement lots of validations on prepareIt
  */
 public final class MPayment extends X_C_Payment 
 	implements DocAction, ProcessCall
@@ -73,29 +88,23 @@ public final class MPayment extends X_C_Payment
 		ArrayList<MPayment> list = new ArrayList<MPayment>();
 		String sql = "SELECT * FROM C_Payment WHERE C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(new MPayment(ctx,rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 
@@ -373,22 +382,28 @@ public final class MPayment extends X_C_Payment
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID) "
 			+ "WHERE C_BankAccount_ID=?";
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, C_BankAccount_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				setRoutingNo (rs.getString(1));
 				setAccountNo (rs.getString(2));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 	}	//	setBankAccountDetails
 
@@ -640,29 +655,23 @@ public final class MPayment extends X_C_Payment
 			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
 		//	+ " AND al.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_Payment_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				retValue = rs.getBigDecimal(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "getAllocatedAmt", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 	//	log.fine("getAllocatedAmt - " + retValue);
@@ -718,12 +727,13 @@ public final class MPayment extends X_C_Payment
 		else
 			sql += " AND AD_Client_ID=" + Env.getAD_Client_ID(ctx);
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
 			if (C_BPartner_ID > 1)
 				pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				MPayment pay = new MPayment (ctx, rs, trxName);
@@ -731,22 +741,15 @@ public final class MPayment extends X_C_Payment
 					if (pay.save())
 						counter++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 		s_log.config("#" + counter);
@@ -1248,25 +1251,31 @@ public final class MPayment extends X_C_Payment
 	{
 		setIsReceipt(isReceipt);
 		String sql = "SELECT C_DocType_ID FROM C_DocType WHERE AD_Client_ID=? AND DocBaseType=? ORDER BY IsDefault DESC";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getAD_Client_ID());
 			if (isReceipt)
 				pstmt.setString(2, X_C_DocType.DOCBASETYPE_ARReceipt);
 			else
 				pstmt.setString(2, X_C_DocType.DOCBASETYPE_APPayment);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				setC_DocType_ID(rs.getInt(1));
 			else
 				log.warning ("setDocType - NOT found - isReceipt=" + isReceipt);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 	}	//	setC_DocType_ID
 
@@ -1284,14 +1293,15 @@ public final class MPayment extends X_C_Payment
 	
 	/**
 	 * 	Verify Document Type with Invoice
+	 * @param pAllocs 
 	 *	@return true if ok
 	 */
-	private boolean verifyDocType()
+	private boolean verifyDocType(MPaymentAllocate[] pAllocs)
 	{
 		if (getC_DocType_ID() == 0)
 			return false;
 		//
-		Boolean invoiceSO = null;
+		Boolean documentSO = null;
 		//	Check Invoice First
 		if (getC_Invoice_ID() > 0)
 		{
@@ -1300,36 +1310,100 @@ public final class MPayment extends X_C_Payment
 				+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
 				+ "WHERE i.C_Invoice_ID=?";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getC_Invoice_ID());
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				if (rs.next())
-					invoiceSO = new Boolean ("Y".equals(rs.getString(1)));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
+					documentSO = new Boolean ("Y".equals(rs.getString(1)));
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, sql, e);
 			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null;
+				pstmt = null;
+			}
+		}	//	now Order - in Adempiere is allowed to pay PO or receive SO
+		else if (getC_Order_ID() > 0)
+		{
+			String sql = "SELECT odt.IsSOTrx "
+				+ "FROM C_Order o"
+				+ " INNER JOIN C_DocType odt ON (o.C_DocType_ID=odt.C_DocType_ID) "
+				+ "WHERE o.C_Order_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
-				if (pstmt != null)
-					pstmt.close();
-				pstmt = null;
+				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt.setInt(1, getC_Order_ID());
+				rs = pstmt.executeQuery();
+				if (rs.next())
+					documentSO = new Boolean ("Y".equals(rs.getString(1)));
 			}
 			catch (Exception e)
 			{
+				log.log(Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null;
 				pstmt = null;
 			}
-		}	//	Invoice
+		}	//	now Charge
+		else if (getC_Charge_ID() > 0) 
+		{
+			// do nothing about charge
+		} // now payment allocate
+		else
+		{
+			if (pAllocs.length > 0) {
+				for (MPaymentAllocate pAlloc : pAllocs) {
+					String sql = "SELECT idt.IsSOTrx "
+						+ "FROM C_Invoice i"
+						+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
+						+ "WHERE i.C_Invoice_ID=?";
+					PreparedStatement pstmt = null;
+					ResultSet rs = null;
+					try
+					{
+						pstmt = DB.prepareStatement(sql, get_TrxName());
+						pstmt.setInt(1, pAlloc.getC_Invoice_ID());
+						rs = pstmt.executeQuery();
+						if (rs.next()) {
+							if (documentSO != null) { // already set, compare with current
+								if (documentSO.booleanValue() != ("Y".equals(rs.getString(1)))) {
+									return false;
+								}
+							} else {
+								documentSO = new Boolean ("Y".equals(rs.getString(1)));
+							}
+						}
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, sql, e);
+					}
+					finally
+					{
+						DB.close(rs, pstmt);
+						rs = null;
+						pstmt = null;
+					}
+				}
+			}
+		}
 		
 		//	DocumentType
 		Boolean paymentSO = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = "SELECT IsSOTrx "
 			+ "FROM C_DocType "
 			+ "WHERE C_DocType_ID=?";
@@ -1337,25 +1411,18 @@ public final class MPayment extends X_C_Payment
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_DocType_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				paymentSO = new Boolean ("Y".equals(rs.getString(1)));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 		//	No Payment info
@@ -1364,13 +1431,41 @@ public final class MPayment extends X_C_Payment
 		setIsReceipt(paymentSO.booleanValue());
 			
 		//	We have an Invoice .. and it does not match
-		if (invoiceSO != null 
-				&& invoiceSO.booleanValue() != paymentSO.booleanValue())
+		if (documentSO != null 
+				&& documentSO.booleanValue() != paymentSO.booleanValue())
 			return false;
 		//	OK
 		return true;
 	}	//	verifyDocType
 
+	/**
+	 * 	Verify Payment Allocate is ignored (must not exists) if the payment header has charge/invoice/order
+	 * @param pAllocs 
+	 *	@return true if ok
+	 */
+	private boolean verifyPaymentAllocateVsHeader(MPaymentAllocate[] pAllocs) {
+		if (pAllocs.length > 0) {
+			if (getC_Charge_ID() > 0 || getC_Invoice_ID() > 0 || getC_Order_ID() > 0)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 	Verify Payment Allocate Sum must be equal to the Payment Amount
+	 * @param pAllocs 
+	 *	@return true if ok
+	 */
+	private boolean verifyPaymentAllocateSum(MPaymentAllocate[] pAllocs) {
+		BigDecimal sumPaymentAllocates = Env.ZERO;
+		if (pAllocs.length > 0) {
+			for (MPaymentAllocate pAlloc : pAllocs)
+				sumPaymentAllocates = sumPaymentAllocates.add(pAlloc.getAmount());
+		}
+		if (getPayAmt().compareTo(sumPaymentAllocates) != 0)
+			return false;
+		return true;
+	}
 
 	/**
 	 *	Get ISO Code of Currency
@@ -1557,10 +1652,26 @@ public final class MPayment extends X_C_Payment
 			}	//	WaitingPayment
 		}
 		
+		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
+		
 		//	Consistency of Invoice / Document Type and IsReceipt
-		if (!verifyDocType())
+		if (!verifyDocType(pAllocs))
 		{
 			m_processMsg = "@PaymentDocTypeInvoiceInconsistent@";
+			return DocAction.STATUS_Invalid;
+		}
+
+		//	Payment Allocate is ignored if charge/invoice/order exists in header
+		if (!verifyPaymentAllocateVsHeader(pAllocs))
+		{
+			m_processMsg = "@PaymentAllocateIgnored@";
+			return DocAction.STATUS_Invalid;
+		}
+
+		//	Payment Amount must be equal to sum of Allocate amounts
+		if (!verifyPaymentAllocateSum(pAllocs))
+		{
+			m_processMsg = "@PaymentAllocateSumInconsistent@";
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -1923,11 +2034,12 @@ public final class MPayment extends X_C_Payment
 			+ " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID) "
 			+ "WHERE psc.C_Payment_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_Payment_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int C_BPartner_ID = rs.getInt(1);
@@ -1961,22 +2073,15 @@ public final class MPayment extends X_C_Payment
 				if (!aLine.save(get_TrxName()))
 					log.log(Level.SEVERE, "Could not create Allocation Line");
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "allocatePaySelection", e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 		
