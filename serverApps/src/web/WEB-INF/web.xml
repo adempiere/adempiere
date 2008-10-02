@@ -15,8 +15,8 @@
 		<param-value>1</param-value>
 	</context-param>
 	<filter>
-		<filter-name>WFilter</filter-name>
 		<display-name>Adempiere Web Filter</display-name>
+		<filter-name>WFilter</filter-name>
 		<filter-class>org.compiere.www.WFilter</filter-class>
 		<init-param>
 			<param-name>Timing</param-name>
@@ -28,91 +28,91 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<servlet-name>WAccount</servlet-name>
 		<display-name>Adempiere Account</display-name>
+		<servlet-name>WAccount</servlet-name>
 		<servlet-class>org.compiere.www.WAccount</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WCounter</servlet-name>
 		<display-name>Adempiere Counter</display-name>
+		<servlet-name>WCounter</servlet-name>
 		<servlet-class>org.compiere.wstore.Counter</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>WFieldUpdate</servlet-name>
 		<display-name>Adempiere Field Update</display-name>
+		<servlet-name>WFieldUpdate</servlet-name>
 		<servlet-class>org.compiere.www.WFieldUpdate</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WLocation</servlet-name>
 		<display-name>Adempiere Location</display-name>
+		<servlet-name>WLocation</servlet-name>
 		<servlet-class>org.compiere.www.WLocation</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WLogin</servlet-name>
 		<display-name>Adempiere Login</display-name>
+		<servlet-name>WLogin</servlet-name>
 		<servlet-class>org.compiere.www.WLogin</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>WLookup</servlet-name>
 		<display-name>Adempiere Lookup</display-name>
+		<servlet-name>WLookup</servlet-name>
 		<servlet-class>org.compiere.www.WLookup</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WMenu</servlet-name>
 		<display-name>Adempiere Menu</display-name>
+		<servlet-name>WMenu</servlet-name>
 		<servlet-class>org.compiere.www.WMenu</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WProcess</servlet-name>
 		<display-name>Adempiere Process</display-name>
+		<servlet-name>WProcess</servlet-name>
 		<servlet-class>org.compiere.www.WProcess</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WReport</servlet-name>
 		<display-name>Adempiere Report</display-name>
+		<servlet-name>WReport</servlet-name>
 		<servlet-class>org.compiere.www.WReport</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WChat</servlet-name>
 		<display-name>Adempiere Chat</display-name>
+		<servlet-name>WChat</servlet-name>
 		<servlet-class>org.compiere.www.WChat</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WValuePreference</servlet-name>
 		<display-name>Adempiere Value Preference</display-name>
+		<servlet-name>WValuePreference</servlet-name>
 		<servlet-class>org.compiere.www.WValuePreference</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WZoom</servlet-name>
 		<display-name>Adempiere Zoom</display-name>
+		<servlet-name>WZoom</servlet-name>
 		<servlet-class>org.compiere.www.WZoom</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WHelp</servlet-name>
 		<display-name>Adempiere Help</display-name>
+		<servlet-name>WHelp</servlet-name>
 		<servlet-class>org.compiere.www.WHelp</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WAttachment</servlet-name>
 		<display-name>Adempiere Attachment</display-name>
+		<servlet-name>WAttachment</servlet-name>
 		<servlet-class>org.compiere.www.WAttachment</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WRequest</servlet-name>
 		<display-name>Web Requests</display-name>
+		<servlet-name>WRequest</servlet-name>
 		<servlet-class>org.compiere.wstore.RequestServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WStart</servlet-name>
 		<display-name>Adempiere Start</display-name>
+		<servlet-name>WStart</servlet-name>
 		<servlet-class>org.compiere.www.WStart</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>WStatus</servlet-name>
 		<display-name>Adempiere Status - first to load</display-name>
+		<servlet-name>WStatus</servlet-name>
 		<servlet-class>org.compiere.www.WStatus</servlet-class>
 		<init-param>
 			<param-name>StatusInfo</param-name>
@@ -121,18 +121,18 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>WTask</servlet-name>
 		<display-name>Adempiere Task</display-name>
+		<servlet-name>WTask</servlet-name>
 		<servlet-class>org.compiere.www.WTask</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WWindow</servlet-name>
 		<display-name>Adempiere Application Window</display-name>
+		<servlet-name>WWindow</servlet-name>
 		<servlet-class>org.compiere.www.WWindow</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>WWorkflow</servlet-name>
 		<display-name>Adempiere Workflow</display-name>
+		<servlet-name>WWorkflow</servlet-name>
 		<servlet-class>org.compiere.www.WWorkflow</servlet-class>
 	</servlet>
 	<servlet-mapping>

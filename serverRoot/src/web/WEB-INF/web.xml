@@ -11,8 +11,8 @@
 		<param-value>1</param-value>
 	</context-param>
 	<filter>
-		<filter-name>AdempiereMonitorFilter</filter-name>
 		<display-name>Adempiere Monitor Filter</display-name>
+		<filter-name>AdempiereMonitorFilter</filter-name>
 		<filter-class>org.compiere.web.AdempiereMonitorFilter</filter-class>
 	</filter>
 	<filter-mapping>
@@ -20,8 +20,8 @@
 		<url-pattern>/adempiereMonitor/*</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<servlet-name>JnlpDownloadServlet</servlet-name>
 		<display-name>JNLP Download Servlet</display-name>
+		<servlet-name>JnlpDownloadServlet</servlet-name>
 		<servlet-class>jnlp.sample.servlet.JnlpDownloadServlet</servlet-class>
 		<init-param>
 			<param-name>logLevel</param-name>
@@ -30,15 +30,15 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>StatusInfo</servlet-name>
-		<display-name>Server Status</display-name>
 		<description>Adempiere Server Status Info</description>
+		<display-name>Server Status</display-name>
+		<servlet-name>StatusInfo</servlet-name>
 		<servlet-class>org.compiere.web.StatusInfo</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>AdempiereMonitor</servlet-name>
-		<display-name>Adempiere Monitor</display-name>
 		<description>Adempiere Server Monitor</description>
+		<display-name>Adempiere Monitor</display-name>
+		<servlet-name>AdempiereMonitor</servlet-name>
 		<servlet-class>org.compiere.web.AdempiereMonitor</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
