@@ -24,45 +24,46 @@
 		</listener-class>
 	</listener>
 	<servlet>
-		<servlet-name>AdRedirector</servlet-name>
 		<display-name>Adempiere WebCM Ad Redirector</display-name>
+		<servlet-name>AdRedirector</servlet-name>
 		<servlet-class>org.compiere.cm.AdRedirector</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Broadcast</servlet-name>
 		<display-name>Adempiere WebCM Broadcaster</display-name>
+		<servlet-name>Broadcast</servlet-name>
 		<servlet-class>org.compiere.cm.Broadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>CacheService</servlet-name>
 		<display-name>Adempiere WebCM CacheService</display-name>
+		<servlet-name>CacheService</servlet-name>
 		<servlet-class>org.compiere.cm.cache.Service</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>Community</servlet-name>
 		<display-name>Adempiere WebCM Community Handler</display-name>
+		<servlet-name>Community</servlet-name>
 		<servlet-class>org.compiere.cm.Community</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>RequestServlet</servlet-name>
 		<display-name>Adempiere WebCM Request Handler</display-name>
+		<servlet-name>RequestServlet</servlet-name>
 		<servlet-class>org.compiere.cm.RequestServlet</servlet-class>
 	</servlet>	
 	<servlet>
-		<servlet-name>XMLBroadcast</servlet-name>
 		<display-name>Adempiere WebCM XML Broadcaster</display-name>
+		<servlet-name>XMLBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.XMLBroadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>StageBroadcast</servlet-name>
 		<display-name>Adempiere WebCM Stage Broadcaster</display-name>
+		<servlet-name>StageBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.StageBroadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<servlet-name>MediaBroadcast</servlet-name>
 		<display-name>Adempiere WebCM Media Broadcaster</display-name>
+		<servlet-name>MediaBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.MediaBroadcast</servlet-class>
 	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>AdRedirector</servlet-name>
 		<url-pattern>/AdRedirector</url-pattern>
@@ -98,15 +99,19 @@
 	<session-config>
 		<session-timeout>10</session-timeout>
 	</session-config>
+	
 	<welcome-file-list>
 		<welcome-file>Broadcast</welcome-file>
 	</welcome-file-list>
+	
 	<mime-mapping>
     	<extension>css</extension>
 	    <mime-type>text/css</mime-type>
   	</mime-mapping>
+	
 	<error-page>
 		<error-code>404</error-code>
 		<location>/</location>
 	</error-page>
+	
 </web-app>

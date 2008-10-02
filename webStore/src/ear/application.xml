@@ -4,8 +4,9 @@
  @version $Id: application.xml,v 1.2 2006/06/12 00:58:42 jjanke Exp $
 -->
 <application version="1.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
-	<display-name>wstore</display-name>
 	<description>Adempiere Web Store</description>
+	<display-name>wstore</display-name>
+	
 	<module>
 		<java>AdempiereSLib.jar</java>
 	</module>

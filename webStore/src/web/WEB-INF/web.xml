@@ -15,9 +15,9 @@
 		<param-value>0</param-value>
 	</context-param>
 	<filter>
-		<filter-name>WebStoreFilter</filter-name>
-		<display-name>Web Store Filter </display-name>
 		<description>Adempiere Web Store Filter</description>
+		<display-name>Web Store Filter </display-name>
+		<filter-name>WebStoreFilter</filter-name>
 		<filter-class>org.compiere.wstore.StoreFilter</filter-class>
 	</filter>
 	<filter-mapping>
@@ -25,170 +25,170 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<servlet-name>AdvertisementServlet</servlet-name>
 		<display-name>Web Store Advertisement</display-name>
+		<servlet-name>AdvertisementServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.AdvertisementServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>AssetServlet</servlet-name>
 		<display-name>Web Store Assets</display-name>
+		<servlet-name>AssetServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.AssetServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>BasketServlet</servlet-name>
 		<display-name>Web Basket Servlet</display-name>
+		<servlet-name>BasketServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.BasketServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>CheckOutServlet</servlet-name>
 		<display-name>Web CheckOut Servlet</display-name>
+		<servlet-name>CheckOutServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.CheckOutServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Click</servlet-name>
 		<display-name>Adempiere Click</display-name>
+		<servlet-name>Click</servlet-name>
 		<servlet-class>org.compiere.wstore.Click</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>ExpenseServlet</servlet-name>
 		<display-name>Web Expense Report</display-name>
+		<servlet-name>ExpenseServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.ExpenseServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Counter</servlet-name>
 		<display-name>Web Page Counter</display-name>
+		<servlet-name>Counter</servlet-name>
 		<servlet-class>org.compiere.wstore.Counter</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>InfoServlet</servlet-name>
 		<display-name>Web Store Interest Area Servlet</display-name>
+		<servlet-name>InfoServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.InfoServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>InvoiceServlet</servlet-name>
 		<display-name>Web Store Invoices</display-name>
+		<servlet-name>InvoiceServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.InvoiceServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>LocationServlet</servlet-name>
 		<display-name>Web Store Location Servlet</display-name>
+		<servlet-name>LocationServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.LocationServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
     <servlet>
+    	<display-name>Web User Login Servlet</display-name>
         <servlet-name>LoginServlet</servlet-name>
-        <display-name>Web User Login Servlet</display-name>
         <servlet-class>org.compiere.wstore.LoginServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 	<servlet>
-		<servlet-name>NoteServlet</servlet-name>
 		<display-name>Web Notification</display-name>
+		<servlet-name>NoteServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.NoteServlet</servlet-class>
 		<load-on-startup>3</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>OrderServlet</servlet-name>
 		<display-name>Web Store Order</display-name>
+		<servlet-name>OrderServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.OrderServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>PaymentServlet</servlet-name>
 		<display-name>Web Store Payment Processing</display-name>
+		<servlet-name>PaymentServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.PaymentServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>ProductServlet</servlet-name>
 		<display-name>Web Product Search</display-name>
+		<servlet-name>ProductServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.ProductServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>RegistrationServlet</servlet-name>
 		<display-name>Web Registration Servlet</display-name>
+		<servlet-name>RegistrationServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.RegistrationServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>RequestServlet</servlet-name>
 		<display-name>Web Request Servlet</display-name>
+		<servlet-name>RequestServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.RequestServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>RfQServlet</servlet-name>
 		<display-name>Web RfQ Servlet</display-name>
+		<servlet-name>RfQServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.RfQServlet</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>SearchServlet</servlet-name>
 		<display-name>Web Store Search Servlet</display-name>
+		<servlet-name>SearchServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.SearchServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
     <servlet>
+    	<display-name>Web User Update Servlet</display-name>
         <servlet-name>UpdateServlet</servlet-name>
-        <display-name>Web User Update Servlet</display-name>
         <servlet-class>org.compiere.wstore.UpdateServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 	<servlet>
-		<servlet-name>WorkflowServlet</servlet-name>
 		<display-name>Web Workflow Servlet</display-name>
+		<servlet-name>WorkflowServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.WorkflowServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Index</servlet-name>
 		<display-name>Web Index Page</display-name>
+		<servlet-name>Index</servlet-name>
 		<jsp-file>/index.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Basket</servlet-name>
 		<display-name>Web Basket Page</display-name>
+		<servlet-name>Basket</servlet-name>
 		<jsp-file>/basket.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Login</servlet-name>
 		<display-name>Web Login Page</display-name>
+		<servlet-name>Login</servlet-name>
 		<jsp-file>/login.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Request</servlet-name>
 		<display-name>Web Request Page</display-name>
+		<servlet-name>Request</servlet-name>
 		<jsp-file>/request.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>Info</servlet-name>
 		<display-name>Web Info Page</display-name>
+		<servlet-name>Info</servlet-name>
 		<jsp-file>/info.jsp</jsp-file>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>EMailServlet</servlet-name>
 		<display-name>Web EMail Servlet</display-name>
+		<servlet-name>EMailServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.EMailServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<servlet-name>IssueReportServlet</servlet-name>
 		<display-name>Adempiere Issue Reporting</display-name>
+		<servlet-name>IssueReportServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.IssueReportServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -304,12 +304,20 @@
 		<servlet-name>IssueReportServlet</servlet-name>
 		<url-pattern>/issueReportServlet/*</url-pattern>
 	</servlet-mapping>
+	
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
+	
+	<mime-mapping>
+    	<extension>css</extension>
+	    <mime-type>text/css</mime-type>
+  	</mime-mapping>
+  	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
 	<taglib>
 		<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
 		<taglib-location>/WEB-INF/c.tld</taglib-location>
@@ -330,8 +338,5 @@
 		<taglib-uri>webStore.tld</taglib-uri>
 		<taglib-location>/WEB-INF/webStore.tld</taglib-location>
 	</taglib>
-	<mime-mapping>
-    	<extension>css</extension>
-	    <mime-type>text/css</mime-type>
-  	</mime-mapping>
+  	
 </web-app>
