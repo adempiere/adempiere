@@ -83,8 +83,8 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	private static JRViewerProvider viewerProvider = new SwingJRViewerProvider();
 
     static {
-        System.setProperty( "javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
-        System.setProperty( "org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser");
+//        System.setProperty( "javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+//        System.setProperty( "org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser");
 
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
@@ -197,9 +197,9 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     
     /**
      * @author rlemeill
-     * @param reportLocation http://applicationserver/webApp/standalone.jrxml for exemple
-     * @param localPath Where to put the http downloadede file
-     * @return abstract File wich represent the downloaded file
+     * @param reportLocation http://applicationserver/webApp/standalone.jrxml for example
+     * @param localPath Where to put the http downloaded file
+     * @return abstract File which represent the downloaded file
      */
     private File getRemoteFile(String reportLocation, String localPath)
     {
@@ -241,7 +241,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	 * Search for additional subreports deployed to a webcontext if
 	 * the parent report is located there
 	 * @author deathmeat
-	 * @param reportName The original reportname
+	 * @param reportName The original report name
 	 * @param reportPath The full path to the parent report
 	 * @param fileExtension The file extension of the parent report
 	 * @return An Array of File objects referencing to the downloaded subreports
@@ -314,7 +314,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     				//    				compare hash of existing and downloaded
     				if ( DigestOfFile.md5localHashCompare(reportFile,downloadedFile) )
     				{
-    					//nothing file are identic
+    					//nothing file are identical
     					log.info(" no need to replace your existing report");
     				}
     				else
@@ -510,15 +510,15 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 
             Connection conn = null;
             try {
-                //JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, DB.getConnectionRW());
             	conn = getConnection();
                 JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                 if (reportData.isDirectPrint()) 
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     //RF 1906632
-                    if(!processInfo.isBatch())
-                    JasperPrintManager.printReport( jasperPrint, false);
+                    if (!processInfo.isBatch()) {
+                    	JasperPrintManager.printReport( jasperPrint, false);
+                    } 
                     else
                     {
                     	// You can use JasperPrint to create PDF
@@ -626,7 +626,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 
 	/**
 	 * Search for additional subreports deployed as resources
-	 * @param reportName The original reportname
+	 * @param reportName The original report name
 	 * @param reportPath The full path to the parent report
 	 * @param fileExtension The file extension of the parent report
 	 * @return An Array of File objects referencing to the downloaded subreports
@@ -682,13 +682,13 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	protected File getReportFile(String reportPath) {
 		File reportFile = null;
 		
-		// Reports deployement on web server Thanks to Alin Vaida
+		// Reports deployment on web server Thanks to Alin Vaida
 		if (reportPath.startsWith("http://") || reportPath.startsWith("https://")) {
 			reportFile = httpDownloadedReport(reportPath);
 		} else if (reportPath.startsWith("attachment:")) {
 			//report file from process attachment
 			reportFile = downloadAttachment(reportPath);
-		} else if(reportPath.startsWith("/")) {
+		} else if (reportPath.startsWith("/")) {
 			reportFile = new File(reportPath);
 		} else if (reportPath.startsWith("file:/")) {
 			try {
