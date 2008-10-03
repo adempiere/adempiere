@@ -236,6 +236,32 @@ public interface I_PA_ReportColumn
 	  */
 	public String getElementType();
 
+    /** Column name Factor */
+    public static final String COLUMNNAME_Factor = "Factor";
+
+	/** Set Factor.
+	  * Scaling factor.
+	  */
+	public void setFactor (String Factor);
+
+	/** Get Factor.
+	  * Scaling factor.
+	  */
+	public String getFactor();
+
+    /** Column name FormatPattern */
+    public static final String COLUMNNAME_FormatPattern = "FormatPattern";
+
+	/** Set Format Pattern.
+	  * The pattern used to format a number or date.
+	  */
+	public void setFormatPattern (String FormatPattern);
+
+	/** Get Format Pattern.
+	  * The pattern used to format a number or date.
+	  */
+	public String getFormatPattern();
+
     /** Column name GL_Budget_ID */
     public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 

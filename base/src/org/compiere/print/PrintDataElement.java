@@ -18,6 +18,10 @@ package org.compiere.print;
 
 import java.math.*;
 import java.sql.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import org.compiere.model.*;
 import org.compiere.util.*;
 
@@ -37,7 +41,7 @@ public class PrintDataElement
 	 *  @param isPKey is primary key
 	 *  @param isPageBreak if true force page break
 	 */
-	public PrintDataElement (String columnName, Object value, int displayType, boolean isPKey, boolean isPageBreak)
+	public PrintDataElement (String columnName, Object value, int displayType, boolean isPKey, boolean isPageBreak, String format)
 	{
 		if (columnName == null)
 			throw new IllegalArgumentException("PrintDataElement - Name cannot be null");
@@ -46,17 +50,19 @@ public class PrintDataElement
 		m_displayType = displayType;
 		m_isPKey = isPKey;
 		m_isPageBreak = isPageBreak;
+		m_formatPattern = format;
 	}	//	PrintDataElement
 
 	/**
 	 *	Print Data Element Constructor
 	 *  @param columnName name
 	 *  @param value display value
+	 *  @param pattern Number/date format pattern
 	 *  @param displayType optional displayType
 	 */
-	public PrintDataElement(String columnName, Object value, int displayType)
+	public PrintDataElement(String columnName, Object value, int displayType, String pattern)
 	{
-		this (columnName, value, displayType, false, false);
+		this (columnName, value, displayType, false, false, pattern);
 	}	//	PrintDataElement
 
 	/**	Data Name			*/
@@ -69,6 +75,8 @@ public class PrintDataElement
 	private boolean		m_isPKey;
 	/**	Is Page Break		*/
 	private boolean		m_isPageBreak;
+	/** Value format pattern */
+	private String		m_formatPattern;
 
 
 	/**	XML Element Name			*/
@@ -126,9 +134,10 @@ public class PrintDataElement
 		return new BigDecimal(s.length());
 	}	//	getFunctionValue
 
+
 	/**
 	 * 	Get Node Value Display
-	 *  @param language optional language - if null nubers/dates are not formatted
+	 *  @param language optional language - if null numbers/dates are not formatted
 	 * 	@return display value optionally formatted
 	 */
 	public String getValueDisplay (Language language)
@@ -147,10 +156,11 @@ public class PrintDataElement
 			;
 		else if (language != null)	//	Optional formatting of Numbers and Dates
 		{
-			if (DisplayType.isNumeric(m_displayType))
-				retValue = DisplayType.getNumberFormat(m_displayType, language).format(m_value);
+			if (DisplayType.isNumeric(m_displayType)) {
+				retValue = DisplayType.getNumberFormat(m_displayType, language, m_formatPattern).format(m_value);
+			}
 			else if (DisplayType.isDate(m_displayType))
-				retValue = DisplayType.getDateFormat(m_displayType, language).format(m_value);
+				retValue = DisplayType.getDateFormat(m_displayType, language, m_formatPattern).format(m_value);
 		}
 		return retValue;
 	}	//	getValueDisplay
@@ -385,5 +395,13 @@ public class PrintDataElement
 		else
 			return toString();
 	}	//	toStringX
+
+	public String getM_formatPattern() {
+		return m_formatPattern;
+	}
+
+	public void setM_formatPattern(String pattern) {
+		m_formatPattern = pattern;
+	}
 
 }	//	PrintDataElement

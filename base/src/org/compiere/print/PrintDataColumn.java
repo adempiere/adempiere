@@ -59,6 +59,7 @@ public class PrintDataColumn
 	private int			m_columnSize;
 	private String		m_alias;
 	private boolean		m_pageBreak;
+	private String m_FormatPattern;
 
 	/*************************************************************************/
 
@@ -133,5 +134,13 @@ public class PrintDataColumn
 			.append("]");
 		return sb.toString();
 	}	//	toString
+
+	public void setFormatPattern(String formatPattern) {
+		m_FormatPattern = formatPattern;
+	}
+	
+	public String getFormatPattern() {
+		return m_FormatPattern;
+	}
 
 }	//	PrintDataColumn

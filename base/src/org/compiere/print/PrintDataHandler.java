@@ -129,7 +129,7 @@ public class PrintDataHandler extends DefaultHandler
 		}
 		else if (qName.equals(PrintDataElement.XML_TAG))
 		{
-			m_curPD.addNode(new PrintDataElement(m_curPDEname, m_curPDEvalue.toString(),0));
+			m_curPD.addNode(new PrintDataElement(m_curPDEname, m_curPDEvalue.toString(),0, null));
 		}
 	}	//	endElement
 

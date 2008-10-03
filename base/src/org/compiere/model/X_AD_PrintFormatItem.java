@@ -498,6 +498,23 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return (String)get_Value(COLUMNNAME_FieldAlignmentType);
 	}
 
+	/** Set Format Pattern.
+		@param FormatPattern 
+		The pattern used to format a number or date.
+	  */
+	public void setFormatPattern (String FormatPattern)
+	{
+		set_Value (COLUMNNAME_FormatPattern, FormatPattern);
+	}
+
+	/** Get Format Pattern.
+		@return The pattern used to format a number or date.
+	  */
+	public String getFormatPattern () 
+	{
+		return (String)get_Value(COLUMNNAME_FormatPattern);
+	}
+
 	/** Set Image attached.
 		@param ImageIsAttached 
 		The image to be printed is attached to the record

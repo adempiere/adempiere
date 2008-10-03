@@ -220,7 +220,7 @@ public class DataEngine
 			+ "pfi.IsMinCalc,pfi.IsMaxCalc, "							//	18..19
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
-			+ "c.ColumnSQL "											//	24
+			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) "		//	24, 25
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -291,6 +291,8 @@ public class DataEngine
 				boolean IsPrinted = "Y".equals(rs.getString(15));
 				int SortNo = rs.getInt(16);
 				boolean isPageBreak = "Y".equals(rs.getString(17));
+				
+				String formatPattern = rs.getString(25);
 
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + ColumnName;
@@ -550,6 +552,7 @@ public class DataEngine
 				if (pdc == null || (!IsPrinted && !IsKey))
 					continue;
 
+				pdc.setFormatPattern(formatPattern);
 				columns.add(pdc);
 			}	//	for all Fields in Tab
 		}
@@ -782,7 +785,7 @@ public class DataEngine
 											valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
 										valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
 										pd.addNode(new PrintDataElement(pdc.getColumnName(),
-											valueString, DisplayType.String, false, pdc.isPageBreak()));
+											valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
 									}
 									else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
 									{
@@ -790,7 +793,7 @@ public class DataEngine
 											m_group.getValue(group_pdc.getColumnName(), 
 												pdc.getColumnName(), functions[f]), 
 											PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
-												false, pdc.isPageBreak()));
+												false, pdc.isPageBreak(), pdc.getFormatPattern()));
 									}
 								}	//	 for all columns
 							}	//	for all functions
@@ -827,7 +830,8 @@ public class DataEngine
 							if (!rs.wasNull())
 							{
 								KeyNamePair pp = new KeyNamePair(id, KEY);	//	Key
-								pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(), true, pdc.isPageBreak());
+								pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(),
+										true, pdc.isPageBreak(), pdc.getFormatPattern());
 							}
 						}
 						else
@@ -837,7 +841,8 @@ public class DataEngine
 							if (!rs.wasNull())
 							{
 								ValueNamePair pp = new ValueNamePair(id, KEY);	//	Key
-								pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(), true, pdc.isPageBreak());
+								pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(),
+										true, pdc.isPageBreak(), pdc.getFormatPattern());
 							}
 						}
 					}
@@ -855,7 +860,7 @@ public class DataEngine
 								if (display != null && !rs.wasNull())
 								{
 									KeyNamePair pp = new KeyNamePair(id, display);
-									pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType());
+									pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 							else
@@ -864,7 +869,7 @@ public class DataEngine
 								if (display != null && !rs.wasNull())
 								{
 									ValueNamePair pp = new ValueNamePair(id, display);
-									pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType());
+									pde = new PrintDataElement(pdc.getColumnName(), pp, pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 						}
@@ -878,7 +883,7 @@ public class DataEngine
 								if (!rs.wasNull())
 								{
 									boolean b = s.equals("Y");
-									pde = new PrintDataElement(pdc.getColumnName(), new Boolean(b), pdc.getDisplayType());
+									pde = new PrintDataElement(pdc.getColumnName(), new Boolean(b), pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 							else if (pdc.getDisplayType() == DisplayType.TextLong)
@@ -890,13 +895,13 @@ public class DataEngine
 									long length = clob.length();
 									value = clob.getSubString(1, (int)length);
 								}
-								pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType());
+								pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType(), pdc.getFormatPattern());
 							}
                             // fix bug [ 1755592 ] Printing time in format
                             else if (pdc.getDisplayType() == DisplayType.DateTime)
 {
                                 Timestamp datetime = rs.getTimestamp(counter++);
-                                pde = new PrintDataElement(pdc.getColumnName(), datetime, pdc.getDisplayType());
+                                pde = new PrintDataElement(pdc.getColumnName(), datetime, pdc.getDisplayType(), pdc.getFormatPattern());
                             }
 							else
 							//	The general case
@@ -915,10 +920,10 @@ public class DataEngine
 									{
 										String s = (String)obj;
 										s = Msg.parseTranslation(pd.getCtx(), s);
-										pde = new PrintDataElement(pdc.getColumnName(), s, pdc.getDisplayType());
+										pde = new PrintDataElement(pdc.getColumnName(), s, pdc.getDisplayType(), pdc.getFormatPattern());
 									}
 									else
-										pde = new PrintDataElement(pdc.getColumnName(), obj, pdc.getDisplayType());
+										pde = new PrintDataElement(pdc.getColumnName(), obj, pdc.getDisplayType(), pdc.getFormatPattern());
 								}
 							}
 						}	//	Value only
@@ -972,14 +977,15 @@ public class DataEngine
 									valueString = DisplayType.getDateFormat(pdc.getDisplayType(), m_language).format(value);
 								valueString	+= PrintDataFunction.getFunctionSymbol(functions[f]);
 								pd.addNode(new PrintDataElement(pdc.getColumnName(),
-									valueString, DisplayType.String));
+									valueString, DisplayType.String, pdc.getFormatPattern()));
 							}
 							else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
 							{
 								pd.addNode(new PrintDataElement(pdc.getColumnName(),
 									m_group.getValue(group_pdc.getColumnName(), 
 										pdc.getColumnName(), functions[f]),
-									PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType())));
+									PrintDataFunction.getFunctionDisplayType(functions[f],
+											pdc.getDisplayType()),pdc.getFormatPattern()));
 							}
 						}
 					}	//	for all functions
@@ -1006,14 +1012,15 @@ public class DataEngine
 						if (!format.getTableFormat().isPrintFunctionSymbols())		//	Translate Sum, etc.
 							name = Msg.getMsg(format.getLanguage(), PrintDataFunction.getFunctionName(functions[f]));
 						name += PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
-						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(), DisplayType.String));
+						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
+								DisplayType.String, pdc.getFormatPattern()));
 					}
 					else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
 					{
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							m_group.getValue(PrintDataGroup.TOTAL, 
 								pdc.getColumnName(), functions[f]),
-							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType())));
+							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), pdc.getFormatPattern()));
 					}
 				}	//	for all columns
 			}	//	for all functions
@@ -1064,13 +1071,14 @@ public class DataEngine
 				{
 					String title = "RunningTotal";
 					pd.addNode(new PrintDataElement(pdc.getColumnName(),
-						title, DisplayType.String, false, rt==0));		//	page break
+						title, DisplayType.String, false, rt==0, pdc.getFormatPattern()));		//	page break
 				}
 				else if (m_group.isFunctionColumn(pdc.getColumnName(), PrintDataFunction.F_SUM))
 				{
 					pd.addNode(new PrintDataElement(pdc.getColumnName(),
 						m_group.getValue(PrintDataGroup.TOTAL, pdc.getColumnName(), PrintDataFunction.F_SUM),
-						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM, pdc.getDisplayType()), false, false));
+						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM,
+								pdc.getDisplayType()), false, false, pdc.getFormatPattern()));
 				}
 			}	//	for all sum columns
 		}	//	 two lines

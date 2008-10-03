@@ -18,6 +18,7 @@ package org.compiere.util;
 
 import java.text.*;
 import java.util.*;
+import java.util.logging.Level;
 
 /**
  *	System Display Types.
@@ -235,9 +236,10 @@ public final class DisplayType
 	 *	Return Format for numeric DisplayType
 	 *  @param displayType Display Type (default Number)
 	 *  @param language Language
+	 *  @param pattern Java Number Format pattern e.g. "#,##0.00"
 	 *  @return number format
 	 */
-	public static DecimalFormat getNumberFormat(int displayType, Language language)
+	public static DecimalFormat getNumberFormat(int displayType, Language language, String pattern)
 	{
 		Language myLanguage = language;
 		if (myLanguage == null)
@@ -249,7 +251,17 @@ public final class DisplayType
 		else
 			format = (DecimalFormat)NumberFormat.getNumberInstance(Locale.US);
 		//
-		if (displayType == Integer)
+		if (pattern != null && pattern.length() > 0)
+		{
+			try {
+			format.applyPattern(pattern);
+			return format;
+			}
+			catch (IllegalArgumentException e) {
+				s_log.log(Level.WARNING, "Invalid number format: " + pattern);
+			}
+		}
+		else if (displayType == Integer)
 		{
 			format.setParseIntegerOnly(true);
 			format.setMaximumIntegerDigits(INTEGER_DIGITS);
@@ -280,7 +292,18 @@ public final class DisplayType
 		}
 		return format;
 	}	//	getDecimalFormat
-
+	
+	/**************************************************************************
+	 *	Return Format for numeric DisplayType
+	 *  @param displayType Display Type (default Number)
+	 *  @param language Language
+	 *  @return number format
+	 */
+	public static DecimalFormat getNumberFormat(int displayType, Language language)
+	{
+		return getNumberFormat(displayType, language, null);
+	}
+	
 	/**
 	 *	Return Format for numeric DisplayType
 	 *  @param displayType Display Type
@@ -329,10 +352,33 @@ public final class DisplayType
 	 */
 	public static SimpleDateFormat getDateFormat (int displayType, Language language)
 	{
+		return getDateFormat(displayType, language, null);
+	}
+	/**
+	 *	Return format for date displayType
+	 *  @param displayType Display Type (default Date)
+	 *  @param language Language
+	 *  @param pattern Java Simple Date Format pattern e.g. "dd/MM/yy"
+	 *  @return date format
+	 */
+	public static SimpleDateFormat getDateFormat (int displayType, Language language, String pattern)
+	{
 		Language myLanguage = language;
 		if (myLanguage == null)
 			myLanguage = Language.getLoginLanguage();
 		//
+		if ( pattern != null && pattern.length() > 0)
+		{
+			SimpleDateFormat format = (SimpleDateFormat)DateFormat.getInstance();
+			try {
+			format.applyPattern(pattern);
+			return format;
+			}
+			catch (IllegalArgumentException e) {
+				s_log.log(Level.WARNING, "Invalid date pattern: " + pattern);
+			}
+		}
+		
 		if (displayType == DateTime)
 			return myLanguage.getDateTimeFormat();
 		else if (displayType == Time)

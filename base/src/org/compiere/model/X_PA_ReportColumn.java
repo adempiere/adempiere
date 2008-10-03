@@ -586,6 +586,47 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return (String)get_Value(COLUMNNAME_ElementType);
 	}
 
+	/** Factor AD_Reference_ID=53285 */
+	public static final int FACTOR_AD_Reference_ID=53285;
+	/** Thousand = k */
+	public static final String FACTOR_Thousand = "k";
+	/** Million = m */
+	public static final String FACTOR_Million = "m";
+	/** Set Factor.
+		@param Factor 
+		Scaling factor.
+	  */
+	public void setFactor (String Factor)
+	{
+
+		if (Factor == null || Factor.equals("k") || Factor.equals("m")); else throw new IllegalArgumentException ("Factor Invalid value - " + Factor + " - Reference_ID=53285 - k - m");		set_Value (COLUMNNAME_Factor, Factor);
+	}
+
+	/** Get Factor.
+		@return Scaling factor.
+	  */
+	public String getFactor () 
+	{
+		return (String)get_Value(COLUMNNAME_Factor);
+	}
+
+	/** Set Format Pattern.
+		@param FormatPattern 
+		The pattern used to format a number or date.
+	  */
+	public void setFormatPattern (String FormatPattern)
+	{
+		set_Value (COLUMNNAME_FormatPattern, FormatPattern);
+	}
+
+	/** Get Format Pattern.
+		@return The pattern used to format a number or date.
+	  */
+	public String getFormatPattern () 
+	{
+		return (String)get_Value(COLUMNNAME_FormatPattern);
+	}
+
 	public I_GL_Budget getGL_Budget() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);

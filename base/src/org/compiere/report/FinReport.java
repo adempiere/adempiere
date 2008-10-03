@@ -258,6 +258,8 @@ public class FinReport extends SvrProcess
 		doCalculations();
 
 		deleteUnprintedLines();
+		
+		scaleResults();
 
 		//	Create Report
 		if (Ini.isClient())
@@ -269,7 +271,6 @@ public class FinReport extends SvrProcess
 		return "";
 	}	//	doIt
 
-	
 	/**************************************************************************
 	 * 	For all columns (in a line) with relative period access
 	 * 	@param line line
@@ -1061,6 +1062,32 @@ public class FinReport extends SvrProcess
 		}	//	for all lines
 	}	//	deleteUnprintedLines
 
+
+	private void scaleResults() {
+
+		for (int column = 0; column < m_columns.length; column++)
+		{
+			String factor = m_columns[column].getFactor();
+			if ( factor != null )
+			{
+				int divisor = 1;
+				if ( factor.equals("k") )
+					divisor = 1000;
+				else if (factor.equals("M"))
+					divisor = 1000000;
+				else
+					break;
+				
+				String sql = "UPDATE T_Report SET Col_" + column 
+					+ "=Col_" + column + "/" + divisor
+					+  " WHERE AD_PInstance_ID=" + getAD_PInstance_ID();
+				int no = DB.executeUpdate(sql, get_TrxName());
+				if (no > 0)
+					log.fine(m_columns[column].getName() + " - #" + no);
+			}
+		}
+		
+	}
 	
 	/**************************************************************************
 	 *	Get/Create PrintFormat
@@ -1122,6 +1149,16 @@ public class FinReport extends SvrProcess
 				{
 					pfi.setIsPrinted(m_columns[index].isPrinted());
 					String s = m_columns[index].getName();
+					
+					if (m_columns[index].isColumnTypeRelativePeriod())
+					{
+						BigDecimal relativeOffset = m_columns[index].getRelativePeriod();
+						FinReportPeriod frp = getPeriod (relativeOffset);
+					
+						if ( s.contains("@Period@") )
+							s = s.replace("@Period@", frp.getName() );
+					}
+					
 					if (!pfi.getName().equals(s))
 					{
 						pfi.setName (s);
@@ -1130,6 +1167,9 @@ public class FinReport extends SvrProcess
 					int seq = 30 + index;
 					if (pfi.getSeqNo() != seq)
 						pfi.setSeqNo(seq);
+					
+					s = m_columns[index].getFormatPattern();
+					pfi.setFormatPattern(s);
 				}
 				else	//	not printed
 				{
@@ -1196,9 +1236,9 @@ public class FinReport extends SvrProcess
 		}
 		//	set translated to original
 		pf.setTranslation();
-		//	First one is unsorted - just re-load
-		if (createNew)
-			pf = MPrintFormat.get (getCtx(), AD_PrintFormat_ID, false);	//	use Cache
+		
+		// Reload to pick up changed pfi
+		pf = MPrintFormat.get (getCtx(), AD_PrintFormat_ID, true);	//	no cache
 		return pf;
 	}	//	getPrintFormat
 
