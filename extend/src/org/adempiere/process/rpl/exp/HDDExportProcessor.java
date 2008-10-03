@@ -104,7 +104,7 @@ public class HDDExportProcessor implements IExportProcessor {
         //writer = new OutputStreamWriter(new FileOutputStream(out), "utf-8");
         // =================================== Write to Disk
         try {
-        	Result dest = new StreamResult(new File("/XmlExport-test-" + fileName + ".xml"));
+        	Result dest = new StreamResult(new File("XmlExport-test-" + fileName + ".xml"));
             aTransformer.transform(src, dest);
             
             writer.close();
