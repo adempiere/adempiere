@@ -238,6 +238,8 @@ public class WFPanel extends Panel implements EventListener
 			SessionManager.getAppDesktop().openProcessDialog(wfn.getAD_Process_ID(), false);
 		} else if (wfn.getAD_Task_ID() > 0) {
 			SessionManager.getAppDesktop().openTask(wfn.getAD_Task_ID());
+		} else if (wfn.getAD_Workflow_ID() > 0) {
+			SessionManager.getAppDesktop().openWorkflow(wfn.getAD_Workflow_ID());
 		} else {
             throw new ApplicationException("Action not yet implemented: " + wfn.getAction());
         }		

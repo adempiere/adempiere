@@ -124,7 +124,13 @@ public class ADTreeOnDropListener implements EventListener {
 	private void moveNode(SimpleTreeNode movingNode, SimpleTreeNode toNode, boolean moveInto)
 	{
 		SimpleTreeNode newParent;
-		int index;
+		int index;		
+		
+		//  remove
+		SimpleTreeNode oldParent = treeModel.getParent(movingNode);
+		treeModel.removeNode(movingNode);
+		
+		//get new index
 		if (!moveInto)
 		{
 			newParent = treeModel.getParent(toNode);
@@ -135,10 +141,6 @@ public class ADTreeOnDropListener implements EventListener {
 			newParent = toNode;
 			index = 0;                   			//	the first node
 		}
-		
-		//  remove
-		SimpleTreeNode oldParent = treeModel.getParent(movingNode);
-		treeModel.removeNode(movingNode);
 		
 		//  insert
 		treeModel.addNode(newParent, movingNode, index);

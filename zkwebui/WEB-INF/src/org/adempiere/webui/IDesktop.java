@@ -109,4 +109,10 @@ public interface IDesktop {
 	 * @param task_ID
 	 */
 	public void openTask(int task_ID);
+
+	/**
+	 * 
+	 * @param workflow_ID
+	 */
+	public void openWorkflow(int workflow_ID);
 }

@@ -50,6 +50,8 @@ public class NumberBox extends Div
     
     private Decimalbox decimalBox = null;
     private Button btn;
+
+	private Popup popup;
     
     /**
      * 
@@ -72,7 +74,7 @@ public class NumberBox extends Div
     	btn = new Button();
         btn.setImage("/images/Calculator16.png");
         
-        Popup popup = getCalculatorPopup();
+        popup = getCalculatorPopup();
         btn.setSclass("editor-button");
         btn.setPopup(popup);
         btn.setStyle("text-align: center;");
@@ -346,6 +348,13 @@ public class NumberBox extends Div
 	{
 	     decimalBox.setReadonly(!enabled);
 	     btn.setEnabled(enabled);
+	     if (enabled)
+	    	 btn.setPopup(popup);
+	     else 
+	     {
+	    	 Popup p = null;
+	    	 btn.setPopup(p);
+	     }
 	}
 	
 	/**
