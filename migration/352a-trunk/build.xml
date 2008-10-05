@@ -38,7 +38,7 @@
 		<echo message="Loading file ${file.name}" />
 		<exec dir="${oracle.home}/bin" executable="${oracle.home}/bin/sqlplus" resultproperty="sqlplus.result" output="sqlplus.log" append="true">
 			<arg line="${oracle.connect.param}" />
-			<arg line="@${file.name}" />
+			<arg line='@"${file.name}"'/>
 		</exec>
 		<echo message="File ${file.name} status ${sqlplus.result}" />
 		<echo append="true" file="build.log">File ${file.name} status ${sqlplus.result}</echo>
