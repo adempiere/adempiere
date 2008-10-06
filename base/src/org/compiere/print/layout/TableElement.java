@@ -32,6 +32,7 @@ import java.awt.geom.Point2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -111,10 +112,11 @@ public class TableElement extends PrintElement
 		Object[][] data, KeyNamePair[] pk, String pkColumnName,
 		int pageNoStart, Rectangle firstPage, Rectangle nextPages, int repeatedColumns, HashMap<Integer,Integer> additionalLines,
 		HashMap<Point,Font> rowColFont, HashMap<Point,Color> rowColColor, HashMap<Point,Color> rowColBackground,
-		MPrintTableFormat tFormat, ArrayList<Integer> pageBreak)
+		MPrintTableFormat tFormat, ArrayList<Integer> pageBreak, boolean[] colSuppressRepeats)
 	{
 		super();
 		log.fine("Cols=" + columnHeader.length + ", Rows=" + data.length);
+		m_colSuppressRepeats = colSuppressRepeats;
 		m_columnHeader = columnHeader;
 		m_columnMaxWidth = columnMaxWidth;
 		m_columnMaxHeight = columnMaxHeight;
@@ -198,6 +200,8 @@ public class TableElement extends PrintElement
 	private Rectangle 			m_firstPage;
 	/** Bounds of next Pages		*/
 	private Rectangle 			m_nextPages;
+	
+	private boolean[]			m_colSuppressRepeats;
 
 	/** repeat first x columns on - X Axis follow pages	*/
 	private int					m_repeatedColumns;
@@ -1369,131 +1373,146 @@ public class TableElement extends PrintElement
 
 			//	actual data
 			Object[] printItems = getPrintItems(row,col);
+			
 			float penY = curY;
-			for (int index = 0; index < printItems.length; index++)
+			
+			// suppress repeated values
+			boolean suppress = false;
+			if (m_colSuppressRepeats[col] && row > 0 && row != firstRow)
 			{
-				if (printItems[index] == null)
-					;
-				else if (printItems[index] instanceof ImageElement)
+				Object[] lastItems = {};
+				lastItems = getPrintItems(row-1, col);
+				if (Arrays.equals(lastItems,printItems) )
+					suppress = true;
+			}
+			
+			if ( !suppress )
+			{
+				for (int index = 0; index < printItems.length; index++)
 				{
-					Image imageToDraw = ((ImageElement)printItems[index]).getImage();
-					if (imageToDraw != null) // teo_sarca [ 1674706 ] 
+					if (printItems[index] == null )
+						;
+					else if (printItems[index] instanceof ImageElement)
 					{
-						// Draw image using the scale factor - teo_sarca, [ 1673548 ] Image is not scaled in a report table cell 
-						double scale = ((ImageElement)printItems[index]).getScaleFactor();
-						if (scale != 1.0) {
-							AffineTransform transform = new AffineTransform();
-							transform.translate(curX, penY);
-							transform.scale(scale, scale);
-							g2D.drawImage(imageToDraw, transform, this);
-						}
-						else {
-							g2D.drawImage(imageToDraw, curX, (int)penY, this);
-						}
-					}
-				}
-				else if (printItems[index] instanceof BarcodeElement)
-				{
-					try {
-						((BarcodeElement)printItems[index]).getBarcode().draw(g2D, curX, (int)penY);
-					} catch (OutputException e) {
-					}
-				}
-				else if (printItems[index] instanceof Boolean)
-				{
-					int penX = curX + (int)((netWidth-LayoutEngine.IMAGE_SIZE.width)/2);	//	center
-					if (((Boolean)printItems[index]).booleanValue())
-						g2D.drawImage(LayoutEngine.IMAGE_TRUE, penX, (int)penY, this);
-					else
-						g2D.drawImage(LayoutEngine.IMAGE_FALSE, penX, (int)penY, this);
-					penY += LayoutEngine.IMAGE_SIZE.height;
-				}
-				else if (printItems[index] instanceof HTMLRenderer)
-				{
-					HTMLRenderer renderer = (HTMLRenderer)printItems[index];
-					Rectangle allocation = new Rectangle((int)colWidth, (int)netHeight);
-				//	log.finest( "printColumn HTML - " + allocation);
-					g2D.translate(curX, penY);
-					renderer.paint(g2D, allocation);
-					g2D.translate(-curX, -penY);
-					penY += allocation.getHeight();
-				}
-				else
-				{
-					String str = printItems[index].toString();
-					if (DEBUG_PRINT)
-						log.fine("row=" + row + ",col=" + col + " - " + str + " 8Bit=" + Util.is8Bit(str));
-					if (str.length() > 0)
-					{
-						usedHeight = 0;
-						String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(str);
-						for (int lineNo = 0; lineNo < lines.length; lineNo++)
+						Image imageToDraw = ((ImageElement)printItems[index]).getImage();
+						if (imageToDraw != null) // teo_sarca [ 1674706 ] 
 						{
-							aString = new AttributedString(lines[lineNo]);
-							aString.addAttribute(TextAttribute.FONT, getFont(row, col));
-							if (isView && printItems[index] instanceof NamePair)	//	ID
-							{
-								aString.addAttribute(TextAttribute.FOREGROUND, LINK_COLOR);
-								aString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL, 0, str.length());
+							// Draw image using the scale factor - teo_sarca, [ 1673548 ] Image is not scaled in a report table cell 
+							double scale = ((ImageElement)printItems[index]).getScaleFactor();
+							if (scale != 1.0) {
+								AffineTransform transform = new AffineTransform();
+								transform.translate(curX, penY);
+								transform.scale(scale, scale);
+								g2D.drawImage(imageToDraw, transform, this);
 							}
-							else
-								aString.addAttribute(TextAttribute.FOREGROUND, getColor(row, col));
-							//
-							iter = aString.getIterator();
-							boolean fastDraw = LayoutEngine.s_FASTDRAW;
-							if (fastDraw && !isView && !Util.is8Bit(lines[lineNo]))
-								fastDraw = false;
-							measurer = new LineBreakMeasurer(iter, g2D.getFontRenderContext());
-							while (measurer.getPosition() < iter.getEndIndex())		//	print element
+							else {
+								g2D.drawImage(imageToDraw, curX, (int)penY, this);
+							}
+						}
+					}
+					else if (printItems[index] instanceof BarcodeElement)
+					{
+						try {
+							((BarcodeElement)printItems[index]).getBarcode().draw(g2D, curX, (int)penY);
+						} catch (OutputException e) {
+						}
+					}
+					else if (printItems[index] instanceof Boolean)
+					{
+						int penX = curX + (int)((netWidth-LayoutEngine.IMAGE_SIZE.width)/2);	//	center
+						if (((Boolean)printItems[index]).booleanValue())
+							g2D.drawImage(LayoutEngine.IMAGE_TRUE, penX, (int)penY, this);
+						else
+							g2D.drawImage(LayoutEngine.IMAGE_FALSE, penX, (int)penY, this);
+						penY += LayoutEngine.IMAGE_SIZE.height;
+					}
+					else if (printItems[index] instanceof HTMLRenderer)
+					{
+						HTMLRenderer renderer = (HTMLRenderer)printItems[index];
+						Rectangle allocation = new Rectangle((int)colWidth, (int)netHeight);
+						//	log.finest( "printColumn HTML - " + allocation);
+						g2D.translate(curX, penY);
+						renderer.paint(g2D, allocation);
+						g2D.translate(-curX, -penY);
+						penY += allocation.getHeight();
+					}
+					else
+					{
+						String str = printItems[index].toString();
+						if (DEBUG_PRINT)
+							log.fine("row=" + row + ",col=" + col + " - " + str + " 8Bit=" + Util.is8Bit(str));
+						if (str.length() > 0)
+						{
+							usedHeight = 0;
+							String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(str);
+							for (int lineNo = 0; lineNo < lines.length; lineNo++)
 							{
-								TextLayout layout = measurer.nextLayout(netWidth + 2);
-								if (iter.getEndIndex() != measurer.getPosition())
-									fastDraw = false;
-								float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
-								if ((m_columnMaxHeight[col] <= 0 
-										|| (usedHeight + lineHeight) <= m_columnMaxHeight[col])
-									&& (usedHeight + lineHeight) <= netHeight)
+								aString = new AttributedString(lines[lineNo]);
+								aString.addAttribute(TextAttribute.FONT, getFont(row, col));
+								if (isView && printItems[index] instanceof NamePair)	//	ID
 								{
-									if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Block) && measurer.getPosition() < iter.getEndIndex())
-									{
-										layout = layout.getJustifiedLayout(netWidth + 2);
+									aString.addAttribute(TextAttribute.FOREGROUND, LINK_COLOR);
+									aString.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL, 0, str.length());
+								}
+								else
+									aString.addAttribute(TextAttribute.FOREGROUND, getColor(row, col));
+								//
+								iter = aString.getIterator();
+								boolean fastDraw = LayoutEngine.s_FASTDRAW;
+								if (fastDraw && !isView && !Util.is8Bit(lines[lineNo]))
+									fastDraw = false;
+								measurer = new LineBreakMeasurer(iter, g2D.getFontRenderContext());
+								while (measurer.getPosition() < iter.getEndIndex())		//	print element
+								{
+									TextLayout layout = measurer.nextLayout(netWidth + 2);
+									if (iter.getEndIndex() != measurer.getPosition())
 										fastDraw = false;
-									}
-									penY += layout.getAscent();
-									float penX = curX;
-									if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Center))
-										penX += (netWidth-layout.getAdvance())/2;
-									else if ((alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_TrailingRight) && layout.isLeftToRight())
-										|| (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft) && !layout.isLeftToRight()))
-										penX += netWidth-layout.getAdvance();
-									//
-									if (fastDraw)
-									{	//	Bug - set Font/Color explicitly
-										g2D.setFont(getFont(row, col));
-										if (isView && printItems[index] instanceof NamePair)	//	ID
+									float lineHeight = layout.getAscent() + layout.getDescent() + layout.getLeading();
+									if ((m_columnMaxHeight[col] <= 0 
+											|| (usedHeight + lineHeight) <= m_columnMaxHeight[col])
+											&& (usedHeight + lineHeight) <= netHeight)
+									{
+										if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Block) && measurer.getPosition() < iter.getEndIndex())
 										{
-											g2D.setColor(LINK_COLOR);
-										//	TextAttribute.UNDERLINE
+											layout = layout.getJustifiedLayout(netWidth + 2);
+											fastDraw = false;
+										}
+										penY += layout.getAscent();
+										float penX = curX;
+										if (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_Center))
+											penX += (netWidth-layout.getAdvance())/2;
+										else if ((alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_TrailingRight) && layout.isLeftToRight())
+												|| (alignment.equals(MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft) && !layout.isLeftToRight()))
+											penX += netWidth-layout.getAdvance();
+										//
+										if (fastDraw)
+										{	//	Bug - set Font/Color explicitly
+											g2D.setFont(getFont(row, col));
+											if (isView && printItems[index] instanceof NamePair)	//	ID
+											{
+												g2D.setColor(LINK_COLOR);
+												//	TextAttribute.UNDERLINE
+											}
+											else
+												g2D.setColor(getColor(row, col));
+											g2D.drawString(iter, penX, penY);
 										}
 										else
-											g2D.setColor(getColor(row, col));
-										g2D.drawString(iter, penX, penY);
+											layout.draw(g2D, penX, penY);										//	-> text
+										if (DEBUG_PRINT)
+											log.fine("row=" + row + ",col=" + col + " - " + str + " - x=" + penX + ",y=" + penY);
+										penY += layout.getDescent() + layout.getLeading();
+										usedHeight += lineHeight;
+										//
+										if (m_columnMaxHeight[col] == -1)	//	FirstLineOny
+											break;
 									}
-									else
-										layout.draw(g2D, penX, penY);										//	-> text
-									if (DEBUG_PRINT)
-										log.fine("row=" + row + ",col=" + col + " - " + str + " - x=" + penX + ",y=" + penY);
-									penY += layout.getDescent() + layout.getLeading();
-									usedHeight += lineHeight;
-									//
-									if (m_columnMaxHeight[col] == -1)	//	FirstLineOny
-										break;
-								}
-							}	//	print element
-						}	//	for all lines
-					}	//	length > 0
-				}	//	non boolean
-			}	//	for all print items
+								}	//	print element
+							}	//	for all lines
+						}	//	length > 0
+					}	//	non boolean
+				}	//	for all print items
+			} // not suppressed
 
 			curY += netHeight + V_GAP;
 			curX += netWidth + H_GAP;

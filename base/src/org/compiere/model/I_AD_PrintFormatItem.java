@@ -517,6 +517,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public boolean isSuppressNull();
 
+    /** Column name IsSuppressRepeats */
+    public static final String COLUMNNAME_IsSuppressRepeats = "IsSuppressRepeats";
+
+	/** Set Suppress Repeats.
+	  * Suppress repeated elements in column.
+	  */
+	public void setIsSuppressRepeats (boolean IsSuppressRepeats);
+
+	/** Get Suppress Repeats.
+	  * Suppress repeated elements in column.
+	  */
+	public boolean isSuppressRepeats();
+
     /** Column name IsVarianceCalc */
     public static final String COLUMNNAME_IsVarianceCalc = "IsVarianceCalc";
 

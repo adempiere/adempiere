@@ -1060,6 +1060,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
+	/** Set Suppress Repeats.
+		@param IsSuppressRepeats 
+		Suppress repeated elements in column.
+	  */
+	public void setIsSuppressRepeats (boolean IsSuppressRepeats)
+	{
+		set_Value (COLUMNNAME_IsSuppressRepeats, Boolean.valueOf(IsSuppressRepeats));
+	}
+
+	/** Get Suppress Repeats.
+		@return Suppress repeated elements in column.
+	  */
+	public boolean isSuppressRepeats () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSuppressRepeats);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Calculate Variance (?�).
 		@param IsVarianceCalc 
 		Calculate Variance
