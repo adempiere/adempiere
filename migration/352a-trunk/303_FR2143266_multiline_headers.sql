@@ -26,7 +26,7 @@ UPDATE AD_Column SET DefaultValue='N',Updated=TO_DATE('2008-10-02 11:04:17','YYY
 -- 2/10/2008 11:04:23
 -- 2/10/2008 11:05:08
 -- Financial reporting improvements
-ALTER TABLE AD_PrintTableFormat IsMultiLineHeader CHAR(1) DEFAULT 'N' CHECK (IsMultiLineHeader IN ('Y','N')) NOT NULL
+ALTER TABLE AD_PrintTableFormat ADD IsMultiLineHeader CHAR(1) DEFAULT 'N' CHECK (IsMultiLineHeader IN ('Y','N')) NOT NULL
 ;
 
 -- 2/10/2008 11:23:44
