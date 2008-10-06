@@ -38,4 +38,4 @@ UPDATE AD_Column SET IsMandatory='Y',Updated=TO_DATE('2008-10-03 16:33:36','YYYY
 UPDATE AD_Column SET DefaultValue='N',Updated=TO_DATE('2008-10-03 16:33:41','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=56359
 ;
 
-alter table ad_printformatitem add column IsSuppressRepeats CHAR(1) DEFAULT 'N' CHECK (IsSuppressRepeats IN ('Y','N')) NOT NULL;
+alter table ad_printformatitem add IsSuppressRepeats CHAR(1) DEFAULT 'N' CHECK (IsSuppressRepeats IN ('Y','N')) NOT NULL;
