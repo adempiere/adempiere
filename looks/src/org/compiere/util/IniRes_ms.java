@@ -21,20 +21,20 @@ import java.util.ListResourceBundle;
 /**
  *  License Dialog Translation
  *
- *  @author     Jorg Janke
- *  @version    $Id: IniRes_ml.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
+ *  @author     Redhuan D. Oon (www.red1.org)
+ *  @version    $Id: IniRes_in.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
  */
-public class IniRes_ml extends ListResourceBundle
+public class IniRes_ms extends ListResourceBundle
 {
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Adempiere_License",   "License Agreement" },
-	{ "Do_you_accept",      "Do you accept the License ?" },
-	{ "No",                 "No" },
-	{ "Yes_I_Understand",   "Yes, I Understand and  Accept" },
+	{ "Adempiere_License",   "Persetujuan Lesen" },
+	{ "Do_you_accept",      "Apakah anda bersetuju?" },
+	{ "No",                 "Tidak" },
+	{ "Yes_I_Understand",   "Ya, Saya memahami" },
 	{ "license_htm",        "org/adempiere/license.htm" },
-	{ "License_rejected",   "License rejected or expired" }
+	{ "License_rejected",   "Lesen tidak diterima" }
 	};
 
 	/**

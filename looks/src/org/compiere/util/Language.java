@@ -68,7 +68,7 @@ public class Language implements Serializable
 	private static final String AD_Language_vi_VN = "vi_VN";
 	private static final String AD_Language_zh_CN = "zh_CN";
 	private static final String AD_Language_da_DK = "da_DK";
-	private static final String AD_Language_ms_MY = "ml_ML";
+	private static final String AD_Language_ms_MY = "ms_MY";
 	private static final String AD_Language_fa_IR = "fa_IR";
 	private static final String AD_Language_fi_FI = "fi_FI";
 	private static final String AD_Language_ro_RO = "ro_RO";
@@ -148,7 +148,7 @@ public class Language implements Serializable
 		new Language ("\u65e5\u672c\u8a9e (JP)",
 			AD_Language_ja_JP, Locale.JAPAN, null, null,
 			MediaSize.ISO.A4),
-		new Language ("Malay",
+		new Language ("Malaysian",
 			AD_Language_ms_MY, new Locale("ms","MY"), new Boolean(false), "dd-MM-yyyy",
 			MediaSize.ISO.A4),
 		new Language ("Magyar (HU)",
