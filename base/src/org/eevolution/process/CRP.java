@@ -124,7 +124,7 @@ public class CRP extends SvrProcess {
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				if(resource== null)
-					continue;
+					break;
 				
 				MResourceType resourceType = resource.getResourceType();
 
@@ -162,7 +162,7 @@ public class CRP extends SvrProcess {
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				if(resource == null)
-				continue;
+				break;
 				
 				MResourceType resourceType = resource.getResourceType();
 
