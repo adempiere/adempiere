@@ -15,13 +15,14 @@ package org.adempiere.webui.component;
 
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Div;
 
 /**
  * 
  * @author Low Heng Sin
  *
  */
-public class Combinationbox extends Panel
+public class Combinationbox extends Div
 {
 
     private static final long serialVersionUID = 1L;
@@ -55,6 +56,7 @@ public class Combinationbox extends Panel
         appendChild(button);
         
         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
+        style = style + ";white-space:nowrap";
 	    this.setStyle(style);
     }
 
