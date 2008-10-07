@@ -100,11 +100,22 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		return new ProductLowLevelCalculator(ctx, trxName).getLowLevel(M_Product_ID);
 	}
 
-	/**************************************************************************
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@return save
-	 */
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		if (getLine() <= 0)
+		{
+			final String sql = "SELECT COALESCE(MAX("+COLUMNNAME_Line+"),0) + 10 FROM "+Table_Name
+								+" WHERE "+COLUMNNAME_PP_Product_BOM_ID+"=?";
+			int line = DB.getSQLValue(get_TrxName(), sql, getPP_Product_BOM_ID());
+			setLine(line);
+		}
+		
+		return true;
+	}
+
+	@Override
 	protected boolean afterSave(boolean newRecord, boolean success)
 	{
 		if (success)
