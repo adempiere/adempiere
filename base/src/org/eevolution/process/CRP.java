@@ -124,7 +124,10 @@ public class CRP extends SvrProcess {
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				if(resource== null)
-					break;
+				{						
+					nodeId = owf.getNext(nodeId, getAD_Client_ID());
+					continue;
+				}
 				
 				MResourceType resourceType = resource.getResourceType();
 
@@ -143,7 +146,7 @@ public class CRP extends SvrProcess {
 				date = node.getDateFinishSchedule();
 				nodeId = owf.getNext(nodeId, getAD_Client_ID());
 			}
-			if (node != null)
+			if (node != null && node.getDateFinishSchedule()!= null)
 			{
 				order.setDateFinishSchedule(node.getDateFinishSchedule());
 			}
@@ -161,8 +164,11 @@ public class CRP extends SvrProcess {
 				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
-				if(resource == null)
-				break;
+				if(resource== null)
+				{						
+					nodeId = owf.getPrevious(nodeId, getAD_Client_ID());
+					continue;
+				}
 				
 				MResourceType resourceType = resource.getResourceType();
 
@@ -181,7 +187,7 @@ public class CRP extends SvrProcess {
 				date = node.getDateStartSchedule();
 				nodeId = owf.getPrevious(nodeId, getAD_Client_ID());
 			}
-			if (node != null)
+			if (node != null  && node.getDateFinishSchedule()!= null)
 			{
 				order.setDateStartSchedule(node.getDateStartSchedule()) ;
 			}
