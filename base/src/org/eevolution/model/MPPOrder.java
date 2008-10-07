@@ -18,6 +18,7 @@ package org.eevolution.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -363,8 +364,19 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				}
 			}
 			PP_Order_Workflow.saveEx();
-		} // workflow valid from/to 
+			
+			BigDecimal QtyBatchs = null;
+			BigDecimal QtyBatchSize = PP_Order_Workflow.getQtyBatchSize().setScale(0, RoundingMode.UP); 
 
+			if (QtyBatchSize.signum()==0)
+				QtyBatchs = Env.ONE;
+			else   
+				QtyBatchs = getQtyEntered().divide(QtyBatchSize , 0, BigDecimal.ROUND_UP); 
+			
+			setQtyBatchs(QtyBatchs);
+			setQtyBatchSize(QtyBatchSize);
+			
+		} // workflow valid from/to 
 		return true;
 	} //	beforeSave
 
