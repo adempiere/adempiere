@@ -122,6 +122,10 @@ public class CRP extends SvrProcess {
 				node = owf.getNode(nodeId);
 				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
+				
+				if(resource== null)
+					continue;
+				
 				MResourceType resourceType = resource.getResourceType();
 
 				if(!reasoner.isAvailable(resource))
@@ -156,6 +160,10 @@ public class CRP extends SvrProcess {
 				node = owf.getNode(nodeId);
 				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
+				
+				if(resource == null)
+				continue;
+				
 				MResourceType resourceType = resource.getResourceType();
 
 				if(!reasoner.isAvailable(resource))
