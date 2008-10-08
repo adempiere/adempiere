@@ -78,21 +78,6 @@ public interface I_R_Group
 	  */
 	public String getHelp();
 
-    /** Column name M_BOM_ID */
-    public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
-
-	/** Set BOM.
-	  * Bill of Material
-	  */
-	public void setM_BOM_ID (int M_BOM_ID);
-
-	/** Get BOM.
-	  * Bill of Material
-	  */
-	public int getM_BOM_ID();
-
-	public I_M_BOM getM_BOM() throws Exception;
-
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 
@@ -120,6 +105,21 @@ public interface I_R_Group
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception;
 
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";

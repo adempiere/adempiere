@@ -179,45 +179,6 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return false;
 	}
 
-	public I_M_BOM getM_BOM() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
-        I_M_BOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_BOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set BOM.
-		@param M_BOM_ID 
-		Bill of Material
-	  */
-	public void setM_BOM_ID (int M_BOM_ID)
-	{
-		if (M_BOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
-	}
-
-	/** Get BOM.
-		@return Bill of Material
-	  */
-	public int getM_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
@@ -321,6 +282,45 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
+        org.eevolution.model.I_PP_Product_BOM result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_PP_Product_BOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Product_BOM_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Processed.

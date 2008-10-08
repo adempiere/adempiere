@@ -19,11 +19,13 @@ package org.compiere.model;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -38,6 +40,8 @@ import org.compiere.util.TimeUtil;
  */
 public class MRequest extends X_R_Request
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Get Request ID from mail text
 	 *	@param mailText mail text
@@ -228,40 +232,12 @@ public class MRequest extends X_R_Request
 	 */
 	public MRequestAction[] getActions()
 	{
-		String sql = "SELECT * FROM R_RequestAction "
-			+ "WHERE R_Request_ID=? "
-			+ "ORDER BY Created DESC";
-		ArrayList<MRequestAction> list = new ArrayList<MRequestAction>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getR_Request_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MRequestAction(getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		MRequestAction[] retValue = new MRequestAction[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		final String whereClause = MRequestAction.COLUMNNAME_R_Request_ID+"=?";
+		List<MRequestAction> list = new Query(getCtx(), MRequestAction.Table_Name, whereClause, get_TrxName())
+										.setParameters(new Object[]{get_ID()})
+										.setOrderBy("Created DESC")
+										.list();
+		return list.toArray(new MRequestAction[list.size()]);
 	}	//	getActions
 
 	/**
@@ -271,54 +247,31 @@ public class MRequest extends X_R_Request
 	 */
 	public MRequestUpdate[] getUpdates(String confidentialType)
 	{
-		String sql = "SELECT * FROM R_RequestUpdate "
-			+ "WHERE R_Request_ID=? "
-			+ "ORDER BY Created DESC";
+		final String whereClause = MRequestUpdate.COLUMNNAME_R_Request_ID+"=?";
+		List<MRequestUpdate> listUpdates = new Query(getCtx(), MRequestUpdate.Table_Name, whereClause, get_TrxName())
+										.setParameters(new Object[]{get_ID()})
+										.setOrderBy("Created DESC")
+										.list();
 		ArrayList<MRequestUpdate> list = new ArrayList<MRequestUpdate>();
-		PreparedStatement pstmt = null;
-		try
+		for (MRequestUpdate ru : listUpdates)
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getR_Request_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
+			if (confidentialType != null)
 			{
-				MRequestUpdate ru = new MRequestUpdate(getCtx(), rs, get_TrxName());
-				if (confidentialType != null)
-				{
-					//	Private only if private
-					if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_PrivateInformation)
+				//	Private only if private
+				if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_PrivateInformation)
 						&& !confidentialType.equals(CONFIDENTIALTYPEENTRY_PrivateInformation))
-						continue;
-					//	Internal not if Customer/Public
-					if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_Internal)
+					continue;
+				//	Internal not if Customer/Public
+				if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_Internal)
 						&& (confidentialType.equals(CONFIDENTIALTYPEENTRY_PartnerConfidential)
-							|| confidentialType.equals(CONFIDENTIALTYPEENTRY_PublicInformation)))
-						continue;
-					//	No Customer if public
-					if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_PartnerConfidential)
+								|| confidentialType.equals(CONFIDENTIALTYPEENTRY_PublicInformation)))
+					continue;
+				//	No Customer if public
+				if (ru.getConfidentialTypeEntry().equals(CONFIDENTIALTYPEENTRY_PartnerConfidential)
 						&& confidentialType.equals(CONFIDENTIALTYPEENTRY_PublicInformation))
-						continue;
-				}
-				list.add(ru);
+					continue;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			list.add(ru);
 		}
 		//
 		MRequestUpdate[] retValue = new MRequestUpdate[list.size()];
@@ -1044,23 +997,25 @@ public class MRequest extends X_R_Request
 
 		//	ChangeRequest - created in Request Processor
 		if (getM_ChangeRequest_ID() != 0
-			&& is_ValueChanged("R_Group_ID"))	//	different ECN assignment?
+			&& is_ValueChanged(COLUMNNAME_R_Group_ID))	//	different ECN assignment?
 		{
-			int oldID = get_ValueOldAsInt("R_Group_ID");
+			int oldID = get_ValueOldAsInt(COLUMNNAME_R_Group_ID);
 			if (getR_Group_ID() == 0)
+			{
 				setM_ChangeRequest_ID(0);	//	not effective as in afterSave
+			}
 			else
 			{
 				MGroup oldG = MGroup.get(getCtx(), oldID);
 				MGroup newG = MGroup.get(getCtx(), getR_Group_ID());
-				if (oldG.getM_BOM_ID() != newG.getM_BOM_ID()
+				if (oldG.getPP_Product_BOM_ID() != newG.getPP_Product_BOM_ID()
 					|| oldG.getM_ChangeNotice_ID() != newG.getM_ChangeNotice_ID())
 				{
 					MChangeRequest ecr = new MChangeRequest(getCtx(), getM_ChangeRequest_ID(), get_TrxName());
 					if (!ecr.isProcessed()
 						|| ecr.getM_FixChangeNotice_ID() == 0)
 					{
-						ecr.setM_BOM_ID(newG.getM_BOM_ID());
+						ecr.setPP_Product_BOM_ID(newG.getPP_Product_BOM_ID());
 						ecr.setM_ChangeNotice_ID(newG.getM_ChangeNotice_ID());
 						ecr.save();
 					}
@@ -1160,7 +1115,7 @@ public class MRequest extends X_R_Request
 		int notices = 0;
 		//
 		ArrayList<Integer> userList = new ArrayList<Integer>();
-		String sql = "SELECT u.AD_User_ID, u.NotificationType, u.EMail, u.Name, MAX(r.AD_Role_ID) "
+		final String sql = "SELECT u.AD_User_ID, u.NotificationType, u.EMail, u.Name, MAX(r.AD_Role_ID) "
 			+ "FROM RV_RequestUpdates_Only ru"
 			+ " INNER JOIN AD_User u ON (ru.AD_User_ID=u.AD_User_ID)"
 			+ " LEFT OUTER JOIN AD_User_Roles r ON (u.AD_User_ID=r.AD_User_ID) "
@@ -1258,9 +1213,9 @@ public class MRequest extends X_R_Request
 				}
 			}
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{

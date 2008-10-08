@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.util.*;
+import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOM;
 
 /**
  * 	Change Request Model
@@ -28,6 +29,9 @@ import org.compiere.util.*;
  */
 public class MChangeRequest extends X_M_ChangeRequest
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -57,7 +61,7 @@ public class MChangeRequest extends X_M_ChangeRequest
 		setName(Msg.getElement(getCtx(), "R_Request_ID") + ": " + request.getDocumentNo());
 		setHelp(request.getSummary());
 		//
-		setM_BOM_ID(group.getM_BOM_ID());
+		setPP_Product_BOM_ID(group.getPP_Product_BOM_ID());
 		setM_ChangeNotice_ID(group.getM_ChangeNotice_ID());
 	}	//	MChangeRequest
 	
@@ -74,11 +78,12 @@ public class MChangeRequest extends X_M_ChangeRequest
 
 	/**
 	 * 	Get CRM Requests of Change Requests
+	 *  TODO: implement it or delete
 	 *	@return requests
 	 */
 	public MRequest[] getRequests()
 	{
-		String sql = "SELECT * FROM R_Request WHERE M_ChangeRequest_ID=?";
+//		String sql = "SELECT * FROM R_Request WHERE M_ChangeRequest_ID=?";
 		return null;
 	}	//	getRequests
 	
@@ -91,18 +96,20 @@ public class MChangeRequest extends X_M_ChangeRequest
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Have at least one
-		if (getM_BOM_ID() == 0 && getM_ChangeNotice_ID() == 0)
+		if (getPP_Product_BOM_ID() == 0 && getM_ChangeNotice_ID() == 0)
 		{
 			log.saveError("Error", Msg.parseTranslation(getCtx(), "@NotFound@: @M_BOM_ID@ / @M_ChangeNotice_ID@"));
 			return false;
 		}
 		
 		//	Derive ChangeNotice from BOM if defined
-		if (newRecord && getM_BOM_ID() != 0 && getM_ChangeNotice_ID() == 0)
+		if (newRecord && getPP_Product_BOM_ID() != 0 && getM_ChangeNotice_ID() == 0)
 		{
-			MBOM bom = new MBOM (getCtx(), getM_BOM_ID(), get_TrxName());
+			MPPProductBOM bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
 			if (bom.getM_ChangeNotice_ID() != 0)
-				setM_BOM_ID(bom.getM_ChangeNotice_ID());
+			{
+				setM_ChangeNotice_ID(bom.getM_ChangeNotice_ID());
+			}
 		}
 		
 		return true;
