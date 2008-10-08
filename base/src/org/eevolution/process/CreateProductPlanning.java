@@ -249,6 +249,7 @@ public class CreateProductPlanning extends SvrProcess
 		pp.setOrder_Pack(p_Order_Pack);
 		pp.setTimeFence(p_TimeFence);
 		pp.setTransfertTime(p_TransferTime);
+		pp.setIsPhantom(false);
 		pp.setWorkingTime(p_WorkingTime);
 		pp.setYield(p_Yield);                                                                                        
 		//
