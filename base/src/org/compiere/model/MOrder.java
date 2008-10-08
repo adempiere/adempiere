@@ -46,9 +46,6 @@ import org.eevolution.model.MPPProductBOMLine;
  *
  *  @author Jorg Janke
  *  @version $Id: MOrder.java,v 1.5 2006/10/06 00:42:24 jjanke Exp $
- * 
- * @author Teo Sarca, www.arhipac.ro
- * 			<li>BF [ 2153087 ] If i change the date for a SO the MRP date is not changed
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -851,12 +848,6 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			m_processMsg = "AD_Client_ID = 0";
 			return false;
-		}
-		
-		// If Sales Order, set Date Promised (which is not visible) as Date Ordered - BF [ 2153087 ]
-		if (isSOTrx())
-		{
-			setDatePromised(getDateOrdered());
 		}
 		
 		//	New Record Doc Type - make sure DocType set to 0
