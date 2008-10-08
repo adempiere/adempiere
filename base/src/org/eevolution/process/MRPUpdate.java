@@ -310,7 +310,7 @@ public class MRPUpdate extends SvrProcess
 			+"t.QtyOrdered-t.QtyDelivered,  'S', 'MOP', t.updated, t.updatedby, t.DocumentNo," 
 			+"t.ad_client_id, t.S_Resource_ID, null as C_BPartner_ID "
 			+" FROM PP_Order t "
-			+" WHERE (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('IP','CO') AND "
+			+" WHERE (t.QtyOrdered - t.QtyDelivered) <> 0 AND t.DocStatus IN ('DR','IP','CO') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND t.S_Resource_ID=? AND t.M_Warehouse_ID= ?";
 			executeUpdate(sql + sql_insert, params);
 
