@@ -180,7 +180,7 @@ public class ProcessParameter extends CDialog
 		if (Env.isBaseLanguage(Env.getCtx(), "AD_Process_Para"))
 			sql = "SELECT p.Name, p.Description, p.Help, "
 				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
+				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, p.ReadOnlyLogic, p.DisplayLogic, "
 				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
 				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode "
 				+ "FROM AD_Process_Para p"
@@ -191,7 +191,7 @@ public class ProcessParameter extends CDialog
 		else
 			sql = "SELECT t.Name, t.Description, t.Help, "
 				+ "p.AD_Reference_ID, p.AD_Process_Para_ID, "
-				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, "
+				+ "p.FieldLength, p.IsMandatory, p.IsRange, p.ColumnName, p.ReadOnlyLogic, p.DisplayLogic, "
 				+ "p.DefaultValue, p.DefaultValue2, p.VFormat, p.ValueMin, p.ValueMax, "
 				+ "p.SeqNo, p.AD_Reference_Value_ID, vr.Code AS ValidationCode "
 				+ "FROM AD_Process_Para p"
