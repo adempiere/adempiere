@@ -23,6 +23,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectPhase;
 import org.compiere.model.MProjectTask;
+import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
@@ -87,13 +88,17 @@ public class LiberoValidator implements ModelValidator
 		log.info(po.get_TableName() + " Type: "+type);
 		if (po.get_TableName().equals(MOrder.Table_Name) && (type == TYPE_AFTER_CHANGE ))
 		{
-			MPPMRP.C_Order((MOrder)po, false);
+			MOrder order = (MOrder)po;
+			if(order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+				MPPMRP.C_Order((MOrder)po, false);
+			
 		}
 		if (po.get_TableName().equals(MOrderLine.Table_Name) && ( type == TYPE_AFTER_NEW || type == TYPE_AFTER_CHANGE ))
 		{
 			MOrderLine ol = (MOrderLine)po;
-			MPPMRP.C_OrderLine(ol, false);
-			log.info(po.toString());
+			MOrder order = ol.getParent();
+			if(order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+				MPPMRP.C_OrderLine(ol, false);
 		}
 		if (po.get_TableName().equals(MOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
@@ -105,7 +110,6 @@ public class LiberoValidator implements ModelValidator
 		{
 			MRequisitionLine rl = (MRequisitionLine)po;
 			MPPMRP.M_RequisitionLine(rl, false);
-			log.info(po.toString());
 		}
 		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && type == TYPE_BEFORE_DELETE )
 		{
@@ -129,55 +133,51 @@ public class LiberoValidator implements ModelValidator
 		{
 			MDDOrderLine ol = (MDDOrderLine)po;
 			MPPMRP.DD_Order_Line(ol , false);
-			log.info(po.toString());
 		}
 		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
+			
 			MDDOrderLine ol = (MDDOrderLine)po;
 			MPPMRP.DD_Order_Line(ol, true);	
-			log.info(po.toString());
 		}
 		if (po.get_TableName().equals(MPPOrder.Table_Name) && (type == TYPE_AFTER_NEW || type ==  TYPE_AFTER_CHANGE ))
 		{
-			MPPOrder o = (MPPOrder)po;
-			MPPMRP.PP_Order(o, false);	
-			log.info(po.toString());
+			MPPOrder order = (MPPOrder)po;
+			MPPMRP.PP_Order(order, false);	
 		}
 		if (po.get_TableName().equals(MPPOrder.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
-			MPPOrder o = (MPPOrder)po;
-			MPPMRP.PP_Order(o, true);	
-			log.info(po.toString());
+			MPPOrder order = (MPPOrder)po;
+			MPPMRP.PP_Order(order, true);	
 		}
 		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && (type == TYPE_AFTER_NEW|| type ==  TYPE_AFTER_CHANGE ))
 		{
 			MPPOrderBOMLine ol = (MPPOrderBOMLine)po;
 			MPPMRP.PP_Order_BOMLine(ol, false);	
-			log.info(po.toString());
 		}
 		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
 			MPPOrderBOMLine ol = (MPPOrderBOMLine)po;
 			MPPMRP.PP_Order_BOMLine(ol, true);	
-			log.info(po.toString());
 		}
 		
+		/*
 		log.info(po.get_TableName() + " Type: "+type);
 		if (po.get_TableName().equals(MProjectPhase.Table_Name) && ( type == TYPE_AFTER_NEW ))
 		{
 			MProjectPhase pf = (MProjectPhase)po;
 			
 			X_C_Phase phase = new X_C_Phase(pf.getCtx(), pf.getC_Phase_ID(),pf.get_TrxName());
-			int PP_Product_BOM_ID=(Integer)phase.get_Value("PP_Product_BOM_ID");
-			int AD_Workflow_ID=(Integer)phase.get_Value("AD_Workflow_ID");
-			
-			MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
-			
-			/*int PP_Product_BOM_ID=(Integer)pf.get_Value("PP_Product_BOM_ID");
-			int AD_Workflow_ID=(Integer)pf.get_Value("AD_Workflow_ID");*/
-			
-			if(PP_Product_BOM_ID > 0 & AD_Workflow_ID > 0)
+			if(phase.get_Value("PP_Product_BOM_ID") !=null && phase.get_Value("AD_Workflow_ID") != null)
 			{
+				pf.set_ValueOfColumn("PP_Product_BOM_ID", phase.get_Value("PP_Product_BOM_ID"));
+				pf.set_ValueOfColumn("AD_Workflow_ID", phase.get_Value("AD_Workflow_ID"));
+				
+				int PP_Product_BOM_ID=(Integer)phase.get_Value("PP_Product_BOM_ID");
+				int AD_Workflow_ID=(Integer)phase.get_Value("AD_Workflow_ID");
+				
+				MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
+			
 				MPPOrder order = new MPPOrder(project,PP_Product_BOM_ID, AD_Workflow_ID );
 				order.save();
 				
@@ -211,43 +211,49 @@ public class LiberoValidator implements ModelValidator
 			
 			
 			X_C_Task task = new X_C_Task(pt.getCtx(), pt.getC_Task_ID(),pt.get_TrxName());
-			int PP_Product_BOM_ID=(Integer)task.get_Value("PP_Product_BOM_ID");
-			int AD_Workflow_ID=(Integer)task.get_Value("AD_Workflow_ID");
-			
-			
-			MProjectPhase pf = new MProjectPhase(po.getCtx(), pt.getC_ProjectPhase_ID(), pt.get_TrxName());
-			MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
-
-
-			if(PP_Product_BOM_ID > 0 & AD_Workflow_ID > 0)
-			{
-				MPPOrder order = new MPPOrder(project,PP_Product_BOM_ID, AD_Workflow_ID );
-				order.save();
+			if(task.get_Value("PP_Product_BOM_ID") != null && task.get_Value("AD_Workflow_ID") !=null)
+			{	
+				int PP_Product_BOM_ID=(Integer)task.get_Value("PP_Product_BOM_ID");
+				int AD_Workflow_ID=(Integer)task.get_Value("AD_Workflow_ID");
 				
-				Query query = MTable.get(order.getCtx(),MPPOrderBOMLine.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
-				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
-				List<MPPOrderBOMLine> list = query.list();
+				pt.set_ValueOfColumn("PP_Product_BOM_ID", task.get_Value("PP_Product_BOM_ID"));
+				pt.set_ValueOfColumn("AD_Workflow_ID", task.get_Value("AD_Workflow_ID"));
 				
-				for (MPPOrderBOMLine line : list)
+				
+				MProjectPhase pf = new MProjectPhase(po.getCtx(), pt.getC_ProjectPhase_ID(), pt.get_TrxName());
+				MProject project = new MProject(po.getCtx(), pf.getC_Project_ID(), pf.get_TrxName());
+	
+	
+				if(PP_Product_BOM_ID > 0 & AD_Workflow_ID > 0)
 				{
-					line.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
-					line.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
-					line.save();
-				}
-				
-				query = MTable.get(order.getCtx(),MPPOrderNode.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
-				query.setParameters(new Object[]{order.getPP_Order_ID()}); 
-				List<MPPOrderNode> nodes = query.list();
-				
-				for (MPPOrderNode activity : nodes)
-				{
-					activity.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
-					activity.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
-					activity.save();
-				}
-			}		
+					MPPOrder order = new MPPOrder(project,PP_Product_BOM_ID, AD_Workflow_ID );
+					order.save();
+					
+					Query query = MTable.get(order.getCtx(),MPPOrderBOMLine.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+					query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+					List<MPPOrderBOMLine> list = query.list();
+					
+					for (MPPOrderBOMLine line : list)
+					{
+						line.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+						line.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
+						line.save();
+					}
+					
+					query = MTable.get(order.getCtx(),MPPOrderNode.Table_ID).createQuery("PP_Order_ID=?", order.get_TrxName());
+					query.setParameters(new Object[]{order.getPP_Order_ID()}); 
+					List<MPPOrderNode> nodes = query.list();
+					
+					for (MPPOrderNode activity : nodes)
+					{
+						activity.set_CustomColumn("C_ProjectPhase_ID", pf.getC_ProjectPhase_ID());
+						activity.set_CustomColumn("C_ProjectTask_ID", pt.getC_ProjectTask_ID());
+						activity.save();
+					}
+				}		
+			}	
 			log.info(po.toString());
-		}	
+		}*/	
 		
 		return null;
 	}	//	modelChange
