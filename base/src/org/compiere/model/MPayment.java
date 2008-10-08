@@ -1461,9 +1461,9 @@ public final class MPayment extends X_C_Payment
 		if (pAllocs.length > 0) {
 			for (MPaymentAllocate pAlloc : pAllocs)
 				sumPaymentAllocates = sumPaymentAllocates.add(pAlloc.getAmount());
+			if (getPayAmt().compareTo(sumPaymentAllocates) != 0)
+				return false;
 		}
-		if (getPayAmt().compareTo(sumPaymentAllocates) != 0)
-			return false;
 		return true;
 	}
 
