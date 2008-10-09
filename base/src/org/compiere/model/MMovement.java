@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,15 +16,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.eevolution.model.*;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 /**
  *	Inventory Movement Model
  *	
@@ -439,7 +447,7 @@ public class MMovement extends X_M_Movement implements DocAction
 									line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(), get_TrxName());
 							//*/
 							
-							MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
+							// MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
 							//Update Storage 
 							if (!MStorage.add(getCtx(),locator.getM_Warehouse_ID(),
 								line.getM_LocatorTo_ID(),
@@ -530,7 +538,7 @@ public class MMovement extends X_M_Movement implements DocAction
 							return DocAction.STATUS_Invalid;
 						}
 						
-						MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
+						// MLocator locatorTo = new MLocator (getCtx(), line.getM_LocatorTo_ID(), get_TrxName());
 						//Update Storage 
 						if (!MStorage.add(getCtx(),locator.getM_Warehouse_ID(),
 							line.getM_LocatorTo_ID(),
