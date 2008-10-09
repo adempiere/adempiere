@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -72,10 +73,10 @@ public class NumberBox extends Div
     	decimalBox.setStyle("display: inline;");
     	
     	btn = new Button();
-        btn.setImage("/images/Calculator16.png");
+        btn.setImage("/images/Calculator10.png");
         
         popup = getCalculatorPopup();
-        btn.setSclass("editor-button");
+        LayoutUtils.addSclass("editor-button", btn);
         btn.setPopup(popup);
         btn.setStyle("text-align: center;");
         appendChild(decimalBox);

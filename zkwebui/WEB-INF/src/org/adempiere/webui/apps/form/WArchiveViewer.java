@@ -289,7 +289,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		Grid gridQuery = new Grid();
 		gridQuery.setWidth("500px");
 		gridQuery.setStyle("margin:0; padding:0;");
-		gridQuery.setSclass("grid-no-striped");
+		gridQuery.makeNoStrip();
 		gridQuery.setOddRowSclass("even");
         
 		Rows rows = new Rows();
@@ -395,7 +395,7 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		
 		Grid gridView = new Grid();
 		gridView.setStyle("margin:0; padding:0;");
-		gridView.setSclass("grid-no-striped");
+		gridView.makeNoStrip();
 		gridView.setOddRowSclass("even");
         
 		rows = new Rows();

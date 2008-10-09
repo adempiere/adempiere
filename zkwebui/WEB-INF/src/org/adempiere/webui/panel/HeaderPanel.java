@@ -53,7 +53,7 @@ public class HeaderPanel extends Panel implements EventListener
     
     private void init()
     {
-    	this.setSclass("header");
+    	LayoutUtils.addSclass("header", this);
     	
     	UserPanel userPanel = new UserPanel();    	
 

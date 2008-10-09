@@ -58,7 +58,7 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</function-signature>
 		<description>
 	Returns HTML tags to include all JavaScripts used by all languages.
-	The argument is ignored (since 3.1.0; reserved for backward compatible).
+	The argument is ignored (since 3.5.0; reserved for backward compatible).
 		</description>
 	</function>
 	<function>
@@ -169,6 +169,39 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</function-signature>
 		<description>
 	Returns the attributes to render a page.
+		</description>
+	</function>
+
+	<function>
+		<name>outZkHtmlTags</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outZkHtmlTags()
+		</function-signature>
+		<description>
+	Returns the desktop info to render a desktop.
+	It is required only if outPageAttrs might not be called
+		</description>
+	</function>
+
+	<function>
+		<name>noCSSAttrs</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String noCSSAttrs(java.lang.String)
+		</function-signature>
+		<description>
+	Removes the class and style attributes from the specified one.
+		</description>
+	</function>
+	<function>
+		<name>outCSSAttrs</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outCSSAttrs(java.lang.String)
+		</function-signature>
+		<description>
+	Returns only the class and style attributes from the specified one.
 		</description>
 	</function>
 </taglib>

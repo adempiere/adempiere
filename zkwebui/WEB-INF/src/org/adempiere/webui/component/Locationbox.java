@@ -20,6 +20,7 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 
@@ -55,7 +56,7 @@ public class Locationbox extends Panel
          txt = new Textbox();
          txt.setStyle("display: inline");
          btn = new Button();
-         btn.setSclass("editor-button");
+         LayoutUtils.addSclass("editor-button", btn);
          this.appendChild(txt);
          this.appendChild(btn);
          

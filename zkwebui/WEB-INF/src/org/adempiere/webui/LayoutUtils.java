@@ -40,12 +40,23 @@ public final class LayoutUtils {
 		Clients.response("deferRenderBorderLayout", as);		
 	}
 	
+	/**
+	 * 
+	 * @param cls
+	 * @param target
+	 */
 	public static void addSclass(String cls, HtmlBasedComponent target) {
 		final String sclass = target.getSclass();
 		if (!hasSclass(cls, target))
 			target.setSclass(sclass == null ? cls : sclass + " " + cls);
 	}
 	
+	/**
+	 * 
+	 * @param cls
+	 * @param target
+	 * @return boolean
+	 */
 	public static boolean hasSclass(String cls, HtmlBasedComponent target) {
 		String sclass = target.getSclass();
 		if (sclass == null)

@@ -186,7 +186,7 @@ public class WEMailDialog extends Window implements EventListener, ValueChangeLi
 		Grid grid = new Grid();
 		grid.setWidth("480px");
         grid.setStyle("margin:0; padding:0; position: absolute; align: center; valign: center;");
-        grid.setSclass("grid-no-striped");
+        grid.makeNoStrip();
         grid.setOddRowSclass("even");
         
 		Rows rows = new Rows();

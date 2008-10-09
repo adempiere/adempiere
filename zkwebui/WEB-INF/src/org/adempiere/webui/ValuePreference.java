@@ -304,7 +304,7 @@ public class ValuePreference extends Window implements EventListener
 		box.appendChild(confirmPanel);
 		
 		this.setBorder("normal");
-		setLayout.setSclass("grid-no-striped");
+		setLayout.makeNoStrip();
 		setLayout.setOddRowSclass("even");
 		
 	}   //  jbInit

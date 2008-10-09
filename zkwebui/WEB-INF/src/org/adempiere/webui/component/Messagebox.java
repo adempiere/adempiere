@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
@@ -103,37 +104,37 @@ public class Messagebox extends Window implements EventListener
 		btnOk.setLabel("OK");
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
-		btnOk.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnOk);
 			
 		btnCancel.setLabel("Cancel");
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
-		btnCancel.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnCancel);
 
 		btnYes.setLabel("Yes");
 		btnYes.setImage("/images/Ok16.png");
 		btnYes.addEventListener(Events.ON_CLICK, this);
-		btnYes.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnYes);
 		
 		btnNo.setLabel("No");
 		btnNo.setImage("/images/Cancel16.png");
 		btnNo.addEventListener(Events.ON_CLICK, this);
-		btnNo.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnNo);
 		
 		btnAbort.setLabel("Abort");
 		//btnAbort.setImage("/images/");
 		btnAbort.addEventListener(Events.ON_CLICK, this);
-		btnAbort.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnAbort);
 		
 		btnRetry.setLabel("Retry");
 		//btnRetry.setImage("/images/");
 		btnRetry.addEventListener(Events.ON_CLICK, this);
-		btnRetry.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnRetry);
 		
 		btnIgnore.setLabel("Ignore");
 		btnIgnore.setImage("/images/Ignore16.png");
 		btnIgnore.addEventListener(Events.ON_CLICK, this);
-		btnIgnore.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", btnIgnore);
 		
 		Panel pnlMessage = new Panel();
 		pnlMessage.setWidth("100%");

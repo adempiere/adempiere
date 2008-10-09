@@ -22,6 +22,7 @@ import java.text.*;
 import java.util.*;
 import java.util.logging.*;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -267,7 +268,7 @@ public class WPayment extends Window
 		kApprovalLabel.setText(Msg.translate(Env.getCtx(), "VoiceAuthCode"));
 		kAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
 		kOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		kOnline.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", kOnline);
 		kOnline.addActionListener(this);
 		kStatus.setText(" ");
 		kPanel.setId("kPanel");
@@ -318,7 +319,7 @@ public class WPayment extends Window
 		tRoutingText.setText(Msg.translate(Env.getCtx(), "RoutingNo"));
 		tNumberText.setText(Msg.translate(Env.getCtx(), "AccountNo"));
 		tOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		tOnline.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", tOnline);
 		tStatus.setText(" ");
 		tPanel.setId("tPanel");
 		centerPanel.appendChild(tPanel);
@@ -364,7 +365,7 @@ public class WPayment extends Window
 //		sRoutingField.setHeight("21em");
 		sStatus.setText(" ");
 		sOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
-		sOnline.setSclass("action-text-button");
+		LayoutUtils.addSclass("action-text-button", sOnline);
 		sPanel.setId("sPanel");
 		centerPanel.appendChild(sPanel);
 		centerLayout.add(sPanel);

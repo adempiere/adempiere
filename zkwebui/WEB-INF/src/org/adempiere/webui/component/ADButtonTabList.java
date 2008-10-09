@@ -15,6 +15,7 @@ package org.adempiere.webui.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.ADTabListModel.ADTabLabel;
 import org.zkoss.zhtml.Button;
 import org.zkoss.zhtml.Text;

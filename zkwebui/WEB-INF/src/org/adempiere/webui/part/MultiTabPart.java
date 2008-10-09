@@ -38,7 +38,7 @@ public class MultiTabPart extends AbstractUIPart
     protected Component doCreatePart(Component parent)
     {
         tabbox = new Tabbox();
-        tabbox.setSclass("lite");
+//        tabbox.setSclass("lite");
         
         Tabpanels tabpanels = new Tabpanels();
         Tabs tabs = new Tabs();

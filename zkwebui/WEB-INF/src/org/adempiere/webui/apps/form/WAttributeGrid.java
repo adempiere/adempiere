@@ -107,7 +107,7 @@ public class WAttributeGrid extends ADForm implements EventListener
 		Grid gridSelection = new Grid();
 		gridSelection.setWidth("500px");
 		gridSelection.setStyle("margin:0; padding:0;");
-		gridSelection.setSclass("grid-no-striped");
+		gridSelection.makeNoStrip();
 		gridSelection.setOddRowSclass("even");
 		
 		gridView.setWidth("100%");

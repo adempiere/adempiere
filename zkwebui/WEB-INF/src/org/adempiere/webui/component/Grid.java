@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.component;
 
+import org.zkoss.zk.ui.Component;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -26,10 +28,12 @@ package org.adempiere.webui.component;
 public class Grid extends org.zkoss.zul.Grid
 {
     private static final long serialVersionUID = 1L;
+    private boolean noStrip = false;
     
     public void makeNoStrip() {
-    	setSclass("grid-no-striped");        
+    	setStyle("border: none");        
         setOddRowSclass("even");
+        noStrip = true;
     }
 
 	public Rows newRows() {
@@ -37,7 +41,14 @@ public class Grid extends org.zkoss.zul.Grid
 		appendChild(rows);
 		
 		return rows;
+	}    
+	
+	public boolean insertBefore(Component child, Component refChild) {
+		boolean b = super.insertBefore(child, refChild);
+		if (b && child instanceof Rows && noStrip) {
+			Rows rows = (Rows) child;
+			rows.setNoStrip(true);
+		}
+		return b;
 	}
-    
-    
 }

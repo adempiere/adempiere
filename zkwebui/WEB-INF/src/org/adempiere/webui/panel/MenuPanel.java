@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
@@ -34,9 +32,9 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
-import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Panel;
+import org.zkoss.zul.Panelchildren;
+import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treechildren;
 import org.zkoss.zul.Treecol;
@@ -81,44 +79,32 @@ public class MenuPanel extends Panel implements EventListener
     {
     	this.setWidth("100%");
     	this.setHeight("100%");
-    	this.setStyle("position:absolute;border:0;padding:0;margin:0");
     	
         menuTree = new Tree();
         menuTree.setMultiple(false);
         menuTree.setId("mnuMain");
         menuTree.setWidth("100%");
-        menuTree.setHeight("100%");
-        menuTree.setVflex(false);
+//        menuTree.setHeight("96%");
+        menuTree.setVflex(true);
         menuTree.setPageSize(-1); // Due to bug in the new paging functionality
         
-        menuTree.setStyle("border:0");
-        
-        Borderlayout layout = new Borderlayout();
-        layout.setParent(this);
-        layout.setStyle("position:absolute");
-        layout.setWidth("100%");
-        layout.setHeight("100%");
-        
-        South south = new South();
-        south.setParent(layout);
+        menuTree.setStyle("border: none");
         
         pnlSearch = new MenuSearchPanel(this);
-        pnlSearch.setParent(south);
-        LayoutUtils.addSclass("menu-search", pnlSearch);
         
-        Center center = new Center();
-        center.setFlex(true);
-        center.setAutoscroll(true);
-        center.setParent(layout);
+        Toolbar toolbar = new Toolbar();
+        toolbar.appendChild(pnlSearch);
+        this.appendChild(toolbar);
         
-        menuTree.setParent(center);
+        Panelchildren pc = new Panelchildren();
+        this.appendChild(pc);
+        pc.appendChild(menuTree);                
     }
     
     private void initMenu(MTreeNode rootNode)
     {
         Treecols treeCols = new Treecols();
         Treecol treeCol = new Treecol();
-        treeCol.setLabel("Menu");
         
         Treechildren rootTreeChildren = new Treechildren();
         generateMenu(rootTreeChildren, rootNode);

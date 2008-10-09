@@ -122,7 +122,7 @@ public class WWFActivity extends ADForm implements EventListener
 		grid.setWidth("99%");
         grid.setHeight("100%");        
         grid.setStyle("margin:0; padding:0; position: absolute; align: center; valign: center;");
-        grid.setSclass("grid-no-striped");
+        grid.makeNoStrip();
         grid.setOddRowSclass("even");
         
 		Rows rows = new Rows();

@@ -53,7 +53,7 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     protected Component doCreatePart(Component parent)
     {
         tabbox = new Tabbox();
-        tabbox.setSclass("desktop-tb");
+//        tabbox.setSclass("desktop-tb");
         
         Tabpanels tabpanels = new Tabpanels();
         Tabs tabs = new Tabs();
@@ -104,7 +104,7 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         }                
         tabpanel.setHeight("100%");
         tabpanel.setWidth("100%");
-        tabpanel.setSclass("desktop-tabpanel");
+        tabpanel.setZclass("desktop-tabpanel");
         tabpanel.setStyle("position: absolute;");
         
         tabbox.getTabs().appendChild(tab);

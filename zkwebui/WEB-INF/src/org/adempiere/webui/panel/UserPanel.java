@@ -19,6 +19,7 @@ package org.adempiere.webui.panel;
 
 import java.util.Properties;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
@@ -67,7 +68,7 @@ public class UserPanel extends Vbox  implements EventListener
     	
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
     	lblUserNameValue.setStyle("text-align:right");
-    	lblUserNameValue.setSclass("headerFont");
+    	LayoutUtils.addSclass("headerFont", lblUserNameValue);
     	this.appendChild(lblUserNameValue);
     
     	Hbox hbox = new Hbox();
@@ -75,7 +76,7 @@ public class UserPanel extends Vbox  implements EventListener
     	role.setLabel(this.getRoleName());
     	role.addEventListener(Events.ON_CLICK, this);
     	role.setStyle("text-align:right");
-    	role.setSclass("headerFont");
+    	LayoutUtils.addSclass("headerFont", role);
     	role.setParent(hbox);
     	
     	Separator sep = new Separator("vertical");
@@ -85,7 +86,7 @@ public class UserPanel extends Vbox  implements EventListener
     	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
     	logout.addEventListener(Events.ON_CLICK, this);
     	logout.setStyle("text-align:right");
-    	logout.setSclass("headerFont");
+    	LayoutUtils.addSclass("headerFont", logout);
     	logout.setParent(hbox);
     	
     	this.appendChild(hbox);    	

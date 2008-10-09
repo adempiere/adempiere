@@ -20,6 +20,7 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 
@@ -65,7 +66,7 @@ public class EditorBox extends Panel
 		this.appendChild(txt);
 	    this.appendChild(btn);
 	    
-	    btn.setSclass("editor-button");
+	    LayoutUtils.addSclass("editor-button", btn);
 	     
 	    String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
 	    style = style + ";white-space:nowrap";

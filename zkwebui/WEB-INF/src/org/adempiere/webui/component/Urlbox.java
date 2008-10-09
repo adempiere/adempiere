@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 
@@ -53,7 +54,7 @@ public class Urlbox extends Panel
         txtUrl = new Textbox();
         txtUrl.setStyle("display: inline;");
         btnUrl = new Button();
-        btnUrl.setSclass("editor-button");
+        LayoutUtils.addSclass("editor-button", btnUrl);
         appendChild(txtUrl);
         appendChild(btnUrl);
         

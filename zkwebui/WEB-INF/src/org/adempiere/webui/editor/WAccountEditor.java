@@ -48,7 +48,7 @@ public class WAccountEditor extends WEditor
 	public WAccountEditor(GridField gridField) 
 	{
 		super(new Combinationbox(), gridField);
-		getComponent().setButtonImage("/images/Account16.png");
+		getComponent().setButtonImage("/images/Account10.png");
 		
 		m_mAccount = new MAccountLookup (gridField.getVO().ctx, gridField.getWindowNo());
 	}

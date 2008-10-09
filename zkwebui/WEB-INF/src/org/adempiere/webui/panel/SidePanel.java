@@ -41,7 +41,6 @@ public class SidePanel extends Panel
         
         this.setWidth("100%");
         this.setHeight("100%");
-        this.setStyle("position:absolute");
         this.appendChild(pnlMenu);        
     }
     

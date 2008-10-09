@@ -26,8 +26,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Bandbox;
+import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridPanel;
@@ -59,8 +59,6 @@ import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
-import org.zkoss.zhtml.Span;
-import org.zkoss.zhtml.Text;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -154,6 +152,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         //have problem moving the following out as css class
         grid.setWidth("99%");
         grid.setHeight("100%");
+        grid.setVflex(true);
         grid.setStyle("margin:0; padding:0; position: absolute");
         grid.makeNoStrip();
                 
@@ -361,8 +360,16 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     	//can't stretch bandbox & datebox
                     	if (!(editor.getComponent() instanceof Bandbox) && 
                     		!(editor.getComponent() instanceof Datebox)) {
-                    		String width = "99%";                    			
-                    		((HtmlBasedComponent)editor.getComponent()).setWidth(width);
+                    		String width = "99%";    
+                    		if (editor.getComponent() instanceof Button) {
+                    			Button btn = (Button) editor.getComponent();
+                    			String zclass = btn.getZclass();
+                    			if (!zclass.contains("form-button ")) {
+                    				btn.setZclass("form-button " + zclass);
+                    			}
+                    		} else {
+                    			((HtmlBasedComponent)editor.getComponent()).setWidth(width);
+                    		}
                     	}
                     }
                     

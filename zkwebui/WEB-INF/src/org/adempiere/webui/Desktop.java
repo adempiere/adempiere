@@ -68,18 +68,19 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.West;
+import org.zkoss.zkmax.zul.Portalchildren;
+import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Box;
-import org.zkoss.zul.Caption;
-import org.zkoss.zul.Groupbox;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Panel;
+import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabpanels;
+import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Treerow;
 import org.zkoss.zul.Vbox;
@@ -147,6 +148,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         w.setWidth("300px");
         w.setCollapsible(true);
         w.setSplittable(true);
+        w.setTitle("Menu");
+        w.setTooltiptext("Application Menu");
+        w.setFlex(true);
 //        w.setAutoscroll(true);
         pnlSide.setParent(w);
         
@@ -167,96 +171,103 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-        Hbox hbox = new Hbox();
-        hbox.setStyle("margin: 5px");
-        hbox.setSpacing("5px");
-        hbox.setWidths("50%, 50%");
-
-        Vbox vbCol1 = new Vbox();    
-        hbox.appendChild(vbCol1);
-        vbCol1.setWidth("100%");
-
-        Groupbox gbxFav = new Groupbox();        
-        vbCol1.appendChild(gbxFav);
-        Caption caption = new Caption("Favourites");
+        Portallayout layout = new Portallayout();
+        homeTab.appendChild(layout);
+        
+        Portalchildren left = new Portalchildren();
+        left.setWidth("30%");
+        left.setStyle("padding: 5px");
+        layout.appendChild(left);
+        
+        Panel favPanel = new Panel();
+        favPanel.setStyle("margin-bottom:10px");
+        favPanel.setTitle("Favourites");
+        favPanel.setCollapsible(true);
+        favPanel.setBorder("normal");
+        left.appendChild(favPanel);
+        Panelchildren favContent = new Panelchildren();
+        favPanel.appendChild(favContent);
+        favContent.appendChild(createFavouritesPanel());
+        Toolbar favToolbar = new Toolbar();
+        favPanel.appendChild(favToolbar);
         // Elaine 2008/07/24
         Image img = new Image("/images/Delete24.png");
-        caption.appendChild(img);
+        favToolbar.appendChild(img);
         img.setAlign("right");
         img.setDroppable("deleteFav");
         img.addEventListener(Events.ON_DROP, this);
-        //
-        gbxFav.appendChild(caption);
-        gbxFav.appendChild(createFavouritesPanel());
-        gbxFav.setMold("3d");
-        gbxFav.setClosable(true);
-        // Elaine 2008/07/24
-        gbxFav.setDroppable("favourite"); 
-        gbxFav.addEventListener(Events.ON_DROP, this);
-        //
         
-        Groupbox gbxView = new Groupbox();        
-        vbCol1.appendChild(gbxView);
-        gbxView.appendChild(new Caption("Views"));
-        gbxView.appendChild(createViewPanel());
-        gbxView.setMold("3d");
-        gbxView.setClosable(true);
+        favContent.setDroppable("favourite"); 
+        favContent.addEventListener(Events.ON_DROP, this);
 
-        Vbox vbCol2 = new Vbox();    
-        hbox.appendChild(vbCol2);
-        vbCol2.setWidth("100%");
+        Panel viewPanel = new Panel();
+        viewPanel.setStyle("margin-bottom:10px");
+        left.appendChild(viewPanel);
+        viewPanel.setTitle("Views");
+        viewPanel.setCollapsible(true);
+        viewPanel.setBorder("normal");
+        Panelchildren viewContent = new Panelchildren();
+        viewPanel.appendChild(viewContent);
+        viewContent.appendChild(createViewPanel());      
         
-        Groupbox gbxCalendar = new Groupbox();
-        vbCol2.appendChild(gbxCalendar);
-        gbxCalendar.appendChild(new Caption("Calendar"));
+        Portalchildren center = new Portalchildren();
+        layout.appendChild(center);
+        center.setWidth("45%");
+        center.setStyle("padding: 5px");
+        
+        Panel calPanel = new Panel();
+        calPanel.setStyle("margin-bottom:10px");
+        calPanel.setTitle("Calendar");
+        calPanel.setCollapsible(true);
+        calPanel.setBorder("normal");
+        center.appendChild(calPanel);
+        Panelchildren calContent = new Panelchildren();
+        calPanel.appendChild(calContent);
+        
         Iframe iframe = new Iframe("http://www.google.com/calendar/embed?showTitle=0&showTabs=0&height=300&wkst=1&bgcolor=%23FFFFFF&color=%232952A3");
         iframe.setStyle("border-width: 0;");
         iframe.setScrolling("no");
         iframe.setWidth("300px");
         iframe.setHeight("300px");
-        gbxCalendar.appendChild(iframe);
-        gbxCalendar.setStyle("margin-left: 5px; margin-right: 5px; margin-top: 0px; margin-bottom: 0px;");
-        gbxCalendar.setMold("3d");
-        gbxCalendar.setClosable(true);
+        calContent.appendChild(iframe);
         
-        final Groupbox gbxAct = new Groupbox();
-        vbCol2.appendChild(gbxAct);
-        gbxAct.appendChild(new Caption("Activities"));            
-        gbxAct.appendChild(createActivitiesPanel());
-        gbxAct.setStyle("margin-left: 5px; margin-right: 5px; margin-top: 0px; margin-bottom: 0px;");
-        gbxAct.setMold("3d");
-        gbxAct.setClosable(true);
+        Panel actPanel = new Panel();
+        actPanel.setStyle("margin-bottom:10px");
+        actPanel.setTitle("Activities");
+        actPanel.setCollapsible(true);
+        actPanel.setBorder("normal");
+        center.appendChild(actPanel);
+        Panelchildren actContent = new Panelchildren();
+        actPanel.appendChild(actContent);
+        actContent.appendChild(createActivitiesPanel());
         
-        Borderlayout borderlayout = new Borderlayout();
-        homeTab.appendChild(borderlayout);
-        borderlayout.setWidth("100%");
-        borderlayout.setHeight("100%");
-        borderlayout.setStyle("position: absolute");
+        Portalchildren right = new Portalchildren();
+        layout.appendChild(right);
+        right.setWidth("25%");
+        right.setStyle("padding: 5px");
         
         WPAPanel paPanel = WPAPanel.get();
         if (paPanel != null) {
-	        East east = new East();
-	        borderlayout.appendChild(east);        
-	        east.appendChild(paPanel);
-	        east.setWidth("205px");
+        	Panel  wpaPanel = new Panel();
+        	wpaPanel.setStyle("margin-bottom:10px");
+        	wpaPanel.setCollapsible(true);
+        	wpaPanel.setBorder("normal");
+        	wpaPanel.setTitle("Performance");
+        	right.appendChild(wpaPanel);
+        	Panelchildren wpaContent = new Panelchildren();
+        	wpaPanel.appendChild(wpaContent);
+        	wpaContent.appendChild(paPanel);
         }
-        
-        Center center = new Center();
-        borderlayout.appendChild(center);
-        center.appendChild(hbox);
-        center.setFlex(false);
-        center.setAutoscroll(true);
         
         //register as 0
         registerWindow(homeTab);
         
-        // enable server push for this desktop
-        if (!gbxAct.getDesktop().isServerPushEnabled())
-        	gbxAct.getDesktop().enableServerPush(true);
+        if (!layout.getDesktop().isServerPushEnabled())
+        	layout.getDesktop().enableServerPush(true);
         
         updateInfo();
         
-        new Thread(new UpdateInfoRunnable(gbxAct.getDesktop())).start();
+        new Thread(new UpdateInfoRunnable(layout.getDesktop())).start();
 	}
 	
 	private class UpdateInfoRunnable implements Runnable {
@@ -624,7 +635,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         	DropEvent de = (DropEvent) event;
     		Component dragged = de.getDragged();
         	
-        	if(comp instanceof Groupbox)
+        	if(comp instanceof Panelchildren)
         	{
         		if(dragged instanceof Treerow)
         		{

@@ -62,10 +62,9 @@ html,body {
 }
 
 .editor-button {
-	height: 22px;
+	--height: 22px;
 	width: 26px;
 	padding: 0px;
-	display: inline;
 }
 
 .editor-button img {
@@ -285,4 +284,8 @@ tr.tab-desktop-tb-m {
 
 .status-border {
 	border: solid 1px #9CBDFF;
+}
+
+.form-button {
+	width: 99%;
 }

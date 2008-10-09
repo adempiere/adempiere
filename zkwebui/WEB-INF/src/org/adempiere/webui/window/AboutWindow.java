@@ -86,7 +86,7 @@ public class AboutWindow extends Window implements EventListener {
 		tabbox.setParent(layout);
 		tabbox.setWidth("490px");
 		tabbox.setHeight("380px");
-		tabbox.setSclass("lite");
+//		tabbox.setSclass("lite");
 		Tabs tabs = new Tabs();
 		tabs.setParent(tabbox);
 		tabPanels = new Tabpanels();

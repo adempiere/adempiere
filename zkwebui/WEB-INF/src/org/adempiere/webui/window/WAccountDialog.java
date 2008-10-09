@@ -284,7 +284,7 @@ public final class WAccountDialog extends Window
 		m_adTabPanel.init(null, m_WindowNo, m_mTab, null);		
 		
 		//  Prepare Parameter
-		parameterLayout.setSclass("grid-no-striped");
+		parameterLayout.makeNoStrip();
 		parameterLayout.setOddRowSclass("even");
 		parameterLayout.setParent(parameterPanel);
 		parameterLayout.setStyle("background-color: transparent;");

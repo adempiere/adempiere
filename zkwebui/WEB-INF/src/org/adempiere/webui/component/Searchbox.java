@@ -20,6 +20,7 @@ package org.adempiere.webui.component;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Div;
@@ -52,7 +53,7 @@ public class Searchbox extends Div
 	     txt = new Textbox();
 	     txt.setStyle("display: inline;");
 	     btn = new Button();
-	     btn.setSclass("editor-button");
+	     LayoutUtils.addSclass("editor-button", btn);
 	     appendChild(txt);
 	     appendChild(btn);
 	     

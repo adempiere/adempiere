@@ -13,6 +13,7 @@
 
 package org.adempiere.webui.component;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Div;
@@ -51,7 +52,7 @@ public class Combinationbox extends Div
     {
         textbox = new Textbox();
         button = new Button();
-        button.setSclass("editor-button");;
+        LayoutUtils.addSclass("editor-button", button);
         appendChild(textbox);
         appendChild(button);
         

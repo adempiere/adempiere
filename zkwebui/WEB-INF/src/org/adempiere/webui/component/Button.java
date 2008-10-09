@@ -68,5 +68,5 @@ public class Button extends org.zkoss.zul.Button
      */
 	public void addActionListener(EventListener listener) {
 		addEventListener(Events.ON_CLICK, listener);
-	}
+	}	
 }

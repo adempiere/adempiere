@@ -36,5 +36,5 @@ public class Panel extends Div
     public Panel()
     {
         super();
-    }
+    }    
 }
