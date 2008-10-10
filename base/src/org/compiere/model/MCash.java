@@ -502,8 +502,11 @@ public class MCash extends X_C_Cash implements DocAction
 			{
 				// Check if the invoice is completed - teo_sarca BF [ 1894524 ]
 				MInvoice invoice = line.getInvoice();
-				if (!MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus())
-						&& !MInvoice.DOCSTATUS_Closed.equals(invoice.getDocStatus()))
+				if (   !MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus())
+					&& !MInvoice.DOCSTATUS_Closed.equals(invoice.getDocStatus())
+					&& !MInvoice.DOCSTATUS_Reversed.equals(invoice.getDocStatus())
+					&& !MInvoice.DOCSTATUS_Voided.equals(invoice.getDocStatus())
+					)
 				{
 					m_processMsg = "@Line@ "+line.getLine()+": @InvoiceCreateDocNotCompleted@";
 					return DocAction.STATUS_Invalid;
