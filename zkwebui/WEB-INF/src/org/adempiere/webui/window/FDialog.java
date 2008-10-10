@@ -26,6 +26,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trace;
 
 import org.zkoss.zk.ui.Component;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Messagebox;
 
 /**
@@ -132,7 +133,7 @@ public class FDialog
 
     	if (title == null)
     	{
-    		newTitle = windowNo > 0 ? Env.getHeader(ctx, windowNo) : null;
+    		newTitle = windowNo > 0 ? AEnv.getWindowHeader(ctx, windowNo) : null;
     	}
     	else
     	{
@@ -241,7 +242,7 @@ public class FDialog
 		try
 		{
 			String s = out.toString().replace("\n", "<br>");
-			Messagebox.showDialog(s, (windowNo > 0 ? Env.getHeader(ctx, windowNo) : null), Messagebox.OK, Messagebox.ERROR);
+			Messagebox.showDialog(s, (windowNo > 0 ? AEnv.getWindowHeader(ctx, windowNo) : null), Messagebox.OK, Messagebox.ERROR);
 		}
 		catch (InterruptedException exception)
 		{
@@ -348,7 +349,7 @@ public class FDialog
         try
         {
         	String s = out.toString().replace("\n", "<br>");
-        	Messagebox.showDialog(s, Env.getHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
+        	Messagebox.showDialog(s, AEnv.getWindowHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         }
         catch (InterruptedException exception)
         {

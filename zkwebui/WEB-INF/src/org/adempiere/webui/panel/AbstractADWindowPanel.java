@@ -926,7 +926,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        
 	        if (!retValue)
 	        {
-	            FDialog.error(curWindowNo, parent, "SaveIgnored");
+	        	//actual error will prompt in the dataStatusChanged event
+//	            FDialog.error(curWindowNo, parent, "SaveIgnored");
 	            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
 	        }
 	        curTabpanel.dynamicDisplay(0);

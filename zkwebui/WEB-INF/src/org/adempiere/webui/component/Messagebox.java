@@ -78,16 +78,16 @@ public class Messagebox extends Window implements EventListener
 	public static final int IGNORE = 0x0400;
 	
 	/** A symbol consisting of a question mark in a circle. */
-	public static final String QUESTION = "~./zul/img/question.gif";
+	public static final String QUESTION = "~./zul/img/msgbox/question.gif";
 	
 	/** A symbol consisting of an exclamation point in a triangle with a yellow background. */
-	public static final String EXCLAMATION  = "~./zul/img/exclamation.gif";
+	public static final String EXCLAMATION  = "~./zul/img/msgbox/exclamation.gif";
 	
 	/** A symbol of a lowercase letter i in a circle. */
-	public static final String INFORMATION = "~./zul/img/information.gif";
+	public static final String INFORMATION = "~./zul/img/msgbox/information.gif";
 	
 	/** A symbol consisting of a white X in a circle with a red background. */
-	public static final String ERROR = "~./zul/img/error.gif";
+	public static final String ERROR = "~./zul/img/msgbox/error.gif";
 	
 	/** Contains no symbols. */
 	public static final String NONE = null;
@@ -169,7 +169,7 @@ public class Messagebox extends Window implements EventListener
 		
 		this.setWidth("100%");
 		this.setBorder("normal");
-		this.setContentStyle("background-color:#c0d1d2");
+		this.setContentStyle("background-color:#ffffff");
 		this.setPosition("left, top");
 		
 		Separator blank = new Separator();

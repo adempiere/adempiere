@@ -31,6 +31,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.servlet.ServletRequest;
@@ -783,4 +784,31 @@ public final class AEnv
 		}
 		document.close();
     }
+    
+    /**
+	 *	Get window title
+	 *  @param ctx context
+	 *  @param WindowNo window
+	 *  @return Header String
+	 */
+	public static String getWindowHeader(Properties ctx, int WindowNo)
+	{
+		StringBuffer sb = new StringBuffer();
+		if (WindowNo > 0){
+			sb.append(Env.getContext(ctx, WindowNo, "WindowName", false)).append("  ");
+			final String documentNo = Env.getContext(ctx, WindowNo, "DocumentNo", false);
+			final String value = Env.getContext(ctx, WindowNo, "Value", false);
+			final String name = Env.getContext(ctx, WindowNo, "Name", false);
+			if(!"".equals(documentNo)) {
+				sb.append(documentNo).append("  ");
+			}
+			if(!"".equals(value)) {
+				sb.append(value).append("  ");
+			}
+			if(!"".equals(name)) {
+				sb.append(name).append("  ");
+			}
+		}
+		return sb.toString();
+	}	//	getHeader
 }	//	AEnv
