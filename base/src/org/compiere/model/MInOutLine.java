@@ -580,13 +580,13 @@ public class MInOutLine extends X_M_InOutLine
 	{
 		if (MLandedCost.LANDEDCOSTDISTRIBUTION_Costs.equals(CostDistribution))
 		{
-			//Goodwill
-			int c_OrderLine_Id = getC_OrderLine_ID();
-			if(c_OrderLine_Id != 0){
-				MOrderLine oLine = new MOrderLine(getCtx(), c_OrderLine_Id, get_TrxName());
-				return oLine.getLineNetAmt();
+			MInvoiceLine m_il = MInvoiceLine.getOfInOutLine(this);
+			if (m_il == null)
+			{ 
+				log.severe("No Invoice Line for: " + this.toString());
+				return Env.ZERO;
 			}
-			return Env.ZERO;
+			return m_il.getLineNetAmt();
 		}
 		else if (MLandedCost.LANDEDCOSTDISTRIBUTION_Line.equals(CostDistribution))
 			return Env.ONE;
