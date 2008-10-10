@@ -18,7 +18,7 @@ UPDATE AD_Field SET Name='BOM & Formula', Description='BOM & Formula', Help=NULL
 ALTER TABLE R_Group ADD COLUMN PP_Product_BOM_ID NUMERIC(10)
 ;
 
-alter table R_Group add constraint PPProductBOM_RGroup foreign key (PP_Product_BOM_ID) references PP_Product_BOM (PP_Product_BOM_ID) validate
+alter table R_Group add constraint PPProductBOM_RGroup foreign key (PP_Product_BOM_ID) references PP_Product_BOM (PP_Product_BOM_ID)
 ;
 
 -- 07.10.2008 17:42:36 EEST
