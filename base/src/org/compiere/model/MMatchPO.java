@@ -579,6 +579,16 @@ public class MMatchPO extends X_M_MatchPO
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
+		if (newRecord && success)
+		{	
+			// Elaine 2008/6/20	
+			String err = createMatchPOCostDetail(this, getOrderLine());
+			if(err != null && err.length() > 0) 
+			{
+				s_log.warning(err);
+				return false;
+			}
+		}
 		//	Purchase Order Delivered/Invoiced
 		//	(Reserved in VMatch and MInOut.completeIt)
 		if (success && getC_OrderLine_ID() != 0)
@@ -613,16 +623,6 @@ public class MMatchPO extends X_M_MatchPO
 			return orderLine.save();
 		}
 		//
-		if (newRecord)
-		{	
-			// Elaine 2008/6/20	
-			String err = createMatchPOCostDetail(this, getOrderLine());
-			if(err != null && err.length() > 0) 
-			{
-				s_log.warning(err);
-				return false;
-			}
-		}
 		return success;
 	}	//	afterSave
 
