@@ -548,7 +548,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		    	if (curTab.needSave(true, true))
 				{
 					//	Automatic Save
-					if (Env.isAutoCommit(ctx, curWindowNo))
+					if (Env.isAutoCommit(ctx, curWindowNo)
+						&& (curTab.getCommitWarning() == null || curTab.getCommitWarning().trim().length() == 0))
 					{
 						if (!curTab.dataSave(true))
 						{	
@@ -922,6 +923,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	}
     	else
     	{
+    		if (curTab.getCommitWarning() != null && curTab.getCommitWarning().trim().length() > 0)
+    		{
+    			if (!FDialog.ask(curWindowNo, this.getComponent(), "SaveChanges?", curTab.getCommitWarning()))
+    			{
+    				return;
+    			}
+    		}
 	    	boolean retValue = curTab.dataSave(true);
 	        
 	        if (!retValue)

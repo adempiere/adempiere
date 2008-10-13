@@ -84,14 +84,14 @@ public class AboutWindow extends Window implements EventListener {
 		
 		tabbox = new Tabbox();
 		tabbox.setParent(layout);
-		tabbox.setWidth("490px");
+		tabbox.setWidth("480px");
 		tabbox.setHeight("380px");
 //		tabbox.setSclass("lite");
 		Tabs tabs = new Tabs();
 		tabs.setParent(tabbox);
 		tabPanels = new Tabpanels();
 		tabPanels.setParent(tabbox);
-		tabPanels.setWidth("490px");
+		tabPanels.setWidth("480px");
 		
 		//about
 		Tab tab = new Tab();
@@ -363,13 +363,13 @@ public class AboutWindow extends Window implements EventListener {
 		int width = Integer.parseInt(event.getWidth().substring(0, event.getWidth().length() - 2));
 		int height = Integer.parseInt(event.getHeight().substring(0, event.getHeight().length() - 2));
 		
-		tabbox.setWidth((width - 10) + "px");
+		tabbox.setWidth((width - 20) + "px");
 		tabbox.setHeight((height - 70) + "px");
 		
-		tabPanels.setWidth((width - 10) + "px");
+		tabPanels.setWidth((width - 20) + "px");
 		
 		logTable.setHeight((height - 140) + "px");
-		logTable.setWidth((width - 20) + "px");
+		logTable.setWidth((width - 30) + "px");
 	}
 	
 	private void downloadLog() {

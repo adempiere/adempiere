@@ -224,13 +224,13 @@ public class Messagebox extends Window implements EventListener
 			this.setWidth("500px");
 			this.setPosition("center");
 			this.setClosable(true);
-			this.setAttribute("mode", "modal");
+			this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			this.setSizable(true);
 		}
 		else
 		{
 			this.setTitle(title);
-			this.setAttribute("mode", "overlapped");
+			this.setAttribute(Window.MODE_KEY, Window.MODE_OVERLAPPED);
 			this.setWidth("500px");
 			this.setClosable(true);
 			this.setSizable(true);

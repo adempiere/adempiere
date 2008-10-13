@@ -917,9 +917,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
    	public void showWindow(Window win, String pos)
 	{
    		win.setPage(page);		
-		Object objMode = win.getAttribute("mode");
+		Object objMode = win.getAttribute(Window.MODE_KEY);
 
-		String mode = "modal";
+		String mode = Window.MODE_MODAL;
 		
 		if (objMode != null)
 		{
