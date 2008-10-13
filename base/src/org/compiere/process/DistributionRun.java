@@ -578,34 +578,34 @@ public class DistributionRun extends SvrProcess
 			+ p_M_DistributionRun_ID;
 		no = DB.executeUpdate(sql, get_TrxName());
 		log.fine("insertDetails - deleted #" + no);
-		
+
 		//	Insert New
 		sql = "INSERT INTO T_DistributionRunDetail "
 			+ "(M_DistributionRun_ID, M_DistributionRunLine_ID, M_DistributionList_ID, M_DistributionListLine_ID,"
 			+ "AD_Client_ID,AD_Org_ID, IsActive, Created,CreatedBy, Updated,UpdatedBy,"
 			+ "C_BPartner_ID, C_BPartner_Location_ID, M_Product_ID,"
 			+ "Ratio, MinQty, Qty) "			
-			+"SELECT rl.M_DistributionRun_ID, rl.M_DistributionRunLine_ID,ll.M_DistributionList_ID, ll.M_DistributionListLine_ID, "
-			+"rl.AD_Client_ID,rl.AD_Org_ID, rl.IsActive, rl.Created,rl.CreatedBy, rl.Updated,rl.UpdatedBy, "
-			+"ll.C_BPartner_ID, ll.C_BPartner_Location_ID, rl.M_Product_ID,"
+			+"SELECT MAX(rl.M_DistributionRun_ID), MAX(rl.M_DistributionRunLine_ID),MAX(ll.M_DistributionList_ID), MAX(ll.M_DistributionListLine_ID), "
+			+"MAX(rl.AD_Client_ID),MAX(rl.AD_Org_ID), MAX(rl.IsActive), MAX(rl.Created),MAX(rl.CreatedBy), MAX(rl.Updated),MAX(rl.UpdatedBy), "
+			+"MAX(ll.C_BPartner_ID), MAX(ll.C_BPartner_Location_ID), MAX(rl.M_Product_ID),"
 			// Ration for this process is equal QtyToDeliver
-			+"COALESCE (ol.QtyOrdered-ol.QtyDelivered-TargetQty, 0) , "
+			+"COALESCE (SUM(ol.QtyOrdered-ol.QtyDelivered-TargetQty), 0) , "
 			// Min Qty for this process is equal to TargetQty
 			+" 0 , 0 FROM M_DistributionRunLine rl "
 			+"INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID) "
 			+"INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
-			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID) "
+			+"INNER JOIN DD_Order o ON (o.C_BPartner_ID=ll.C_BPartner_ID AND o.DocStatus IN ('DR','IN')) "
 			+"INNER JOIN DD_OrderLine ol ON (ol.DD_Order_ID=o.DD_Order_ID AND ol.M_Product_ID=rl.M_Product_ID) "		
 			+"INNER JOIN M_Locator loc ON (loc.M_Locator_ID=ol.M_Locator_ID AND loc.M_Warehouse_ID="+p_M_Warehouse_ID+") "
-			+"WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND rl.IsActive='Y' AND ll.IsActive='Y' AND ol.DatePromised <= "+DB.TO_DATE(p_DatePromised);	
+			+"WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND rl.IsActive='Y' AND ll.IsActive='Y' AND ol.DatePromised <= "+DB.TO_DATE(p_DatePromised)
+			+" GROUP BY o.M_Shipper_ID , ll.C_BPartner_ID, ol.M_Product_ID";
 			//+ " BETWEEN "+ DB.TO_DATE(p_DatePromised)  +" AND "+ DB.TO_DATE(p_DatePromised_To) 	
 			no = DB.executeUpdate(sql, get_TrxName());
 			
-			Query query = MTable.get(getCtx(), MDistributionRunDetail.Table_ID).
-			createQuery(MDistributionRunDetail.COLUMNNAME_M_DistributionRun_ID + "=?", get_TrxName());
-			query.setParameters(new Object[]{p_M_DistributionRun_ID});
-			
-			List<MDistributionRunDetail> records = query.list();
+			List<MDistributionRunDetail> records = new Query(getCtx(), 
+												   MDistributionRunDetail.Table_Name,
+												   MDistributionRunDetail.COLUMNNAME_M_DistributionRun_ID + "=?",												  
+												   get_TrxName()).setParameters( new Object[]{p_M_DistributionRun_ID}).list();
 			
 			for(MDistributionRunDetail record : records)
 			{
@@ -614,7 +614,6 @@ public class DistributionRun extends SvrProcess
 					MProduct product = MProduct.get(getCtx(), record.getM_Product_ID());					
 					BigDecimal ration = record.getRatio();
 					BigDecimal totalration = getQtyDemand(record.getM_Product_ID());
-					log.info("Value:" + product.getValue());
 					log.info("Value:" + product.getValue());
 					log.info("Product:" + product.getName());
 					log.info("Qty To Deliver:" + record.getRatio());
@@ -782,11 +781,7 @@ public class DistributionRun extends SvrProcess
 			 	   			line.setDescription(Msg.translate(getCtx(), "PlannedQty"));
 			 	   			else 
 			 	   			line.setDescription(m_run.getDescription());
-			 	   			if (!line.save())
-			 	   			{
-			 	   				log.log(Level.SEVERE, "OrderLine not saved");
-			 	   				return false;
-			 	   			}
+			 	   			line.save();
 			 	   			break;
 			 	   			//addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
 			 	   			//	+ ": " + bp.getName() + " - " + product.getName());
@@ -986,9 +981,7 @@ public class DistributionRun extends SvrProcess
 			if(p_ConsolidateDocument)
 			{
 
-				//String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised BETWEEN ? AND ? ";
-				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ? ORDER BY DatePromised DESC";				
-				//int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised,p_DatePromised_To});
+				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ? ORDER BY ol.DatePromised DESC";				
 				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
 				if (DD_OrderLine_ID  <= 0)
 				{	
@@ -1008,7 +1001,15 @@ public class DistributionRun extends SvrProcess
 				else 
 				{
 					MDDOrderLine line = new MDDOrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
-					line.setDescription(line.getDescription().concat(" " +m_run.getDescription()+ Msg.translate(getCtx(), "Qty")+ " = " +detail.getActualAllocation()));
+					BigDecimal QtyAllocation = detail.getActualAllocation();
+					if(QtyAllocation == null)
+						QtyAllocation = Env.ZERO;
+					String Description = line.getDescription();
+					if (Description ==  null)
+						Description ="";
+					if (m_run.getDescription() != null)
+						Description =Description.concat(m_run.getDescription());
+					line.setDescription(Description + Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation);
 					line.setConfirmedQty(line.getConfirmedQty().add(detail.getActualAllocation()));
 					line.saveEx();
 				}
