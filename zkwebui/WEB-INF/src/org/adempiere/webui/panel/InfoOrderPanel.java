@@ -315,7 +315,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         //
         Double fromAmount = null;
         Double toAmount = null;
-        if (!amountFrom.getText().equals(""))
+        if (amountFrom.getText() != null && amountFrom.getText().trim().length() > 0)
         {
             try
             {
@@ -326,7 +326,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
                 
             }
         }
-        if (!amountTo.getText().equals(""))
+        if (amountTo.getText() != null && amountTo.getText().trim().length() > 0)
         {
             try
             {
@@ -424,7 +424,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         Double fromAmt = null;
         Double toAmt = null;
         
-        if (!amountFrom.getText().equals(""))
+        if (amountFrom.getText() != null && amountFrom.getText().trim().length() > 0)
         {
             try
             {
@@ -437,7 +437,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
             }
         }
         
-        if (!amountTo.getText().equals(""))
+        if (amountTo.getText() != null && amountTo.getText().trim().length() > 0)
         {
             try
             {

@@ -38,6 +38,7 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -862,9 +863,26 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     
     public void zoom()
     {
-          ValueChangeEvent event = new ValueChangeEvent(this,"zoom",
-                   contentPanel.getSelectedRowKey(),contentPanel.getSelectedRowKey());
-          fireValueChange(event);
+    	if (listeners != null && listeners.size() > 0)
+    	{
+	        ValueChangeEvent event = new ValueChangeEvent(this,"zoom",
+	                   contentPanel.getSelectedRowKey(),contentPanel.getSelectedRowKey());
+	        fireValueChange(event);
+    	}
+    	else
+    	{
+    		int recordId = contentPanel.getSelectedRowKey();
+    		int AD_Table_ID = MTable.getTable_ID(p_tableName);
+    		if (AD_Table_ID <= 0)
+    		{
+    			if (p_keyColumn.endsWith("_ID")) 
+    			{
+    				AD_Table_ID = MTable.getTable_ID(p_keyColumn.substring(0, p_keyColumn.length() - 3));
+    			}
+    		}
+    		if (AD_Table_ID > 0)
+    			AEnv.zoom(AD_Table_ID, recordId);
+    	}
     }
     
     public void addValueChangeListener(ValueChangeListener listener)

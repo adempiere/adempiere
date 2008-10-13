@@ -383,25 +383,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	} // getSQLText
 
 	/**
-	 *	Zoom
-	 */
-	
-	public void zoom()
-	{
-/*		log.info( "InfoInOut.zoom");
-		Integer M_InOut_ID = getSelectedRowKey();
-	
-		if (M_InOut_ID == null)
-			return;
-		
-		MQuery query = new MQuery("M_InOut");
-		query.addRestriction("M_InOut_ID", MQuery.EQUAL, M_InOut_ID);
-		query.setRecordCount(1);
-		int AD_WindowNo = getAD_Window_ID("M_InOut", fIsSOTrx.isSelected());
-		zoom (AD_WindowNo, query);*/
-	} // zoom
-
-	/**
 	 *	Has Zoom
 	 *  @return true
 	 */

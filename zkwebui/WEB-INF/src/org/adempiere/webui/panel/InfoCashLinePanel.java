@@ -343,10 +343,10 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 				sql.append(" AND TRUNC(c.StatementDate) BETWEEN ? AND ?");
 		}
 
-		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
+		if (!isEmpty(fAmtFrom.getValue()) || !isEmpty(fAmtTo.getValue()))
 		{
-			BigDecimal from = new BigDecimal(fAmtFrom.getValue());
-			BigDecimal to = new BigDecimal(fAmtTo.getValue());
+			BigDecimal from = isEmpty(fAmtFrom.getValue()) ? null : new BigDecimal(fAmtFrom.getValue());
+			BigDecimal to = isEmpty(fAmtTo.getValue()) ? null : new BigDecimal(fAmtTo.getValue());
 			
 			if (cbAbsolute .isChecked())
 				sql.append(" AND ABS(cl.Amount)");
@@ -369,6 +369,10 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		log.fine(sql.toString());
 		return sql.toString();
 	} // getSQLWhere
+
+	private boolean isEmpty(String value) {
+		return value == null || value.trim().length() == 0;
+	}
 
 	/**
 	 *  Set Parameters for Query.
@@ -419,10 +423,10 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			}
 		}
 
-		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)
+		if (!isEmpty(fAmtFrom.getValue()) || !isEmpty(fAmtTo.getValue()))
 		{
-			BigDecimal from = new BigDecimal(fAmtFrom.getValue());
-			BigDecimal to = new BigDecimal(fAmtTo.getValue());
+			BigDecimal from = isEmpty(fAmtFrom.getValue()) ? null : new BigDecimal(fAmtFrom.getValue());
+			BigDecimal to = isEmpty(fAmtTo.getValue()) ? null : new BigDecimal(fAmtTo.getValue());
 
 			if (cbAbsolute.isChecked())
 			{

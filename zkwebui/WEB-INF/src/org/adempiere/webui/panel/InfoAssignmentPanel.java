@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
@@ -35,6 +36,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -99,7 +101,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	public InfoAssignmentPanel (int WindowNo,
 		String value, boolean multiSelection, String whereClause)
 	{
-		super (WindowNo, "ra", "S_ResourceAssigment_ID",
+		super (WindowNo, "ra", "S_ResourceAssignment_ID",
 			multiSelection, whereClause);
 		log.info(value);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
@@ -269,13 +271,13 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 			sql.append(" AND r.S_Resource_ID=").append(S_Resource_ID.intValue());
 
 		Date f = fieldFrom.getValue();
-		Timestamp ts = new Timestamp(f.getTime());
+		Timestamp ts = f != null ? new Timestamp(f.getTime()) : null;
 		
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateFrom)>=").append(DB.TO_DATE(ts,false));
 
 		Date t = fieldTo.getValue();
-		ts = new Timestamp(t.getTime());
+		ts = t != null ? new Timestamp(t.getTime()) : null;
 
 		if (ts != null)
 			sql.append(" AND TRUNC(ra.AssignDateTo)<=").append(DB.TO_DATE(ts,false));
@@ -342,6 +344,19 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	public void zoom()
 	{
+		if (getSelectedRowKey() != null && getSelectedRowKey() > 0)
+		{
+			MQuery zoomQuery = new MQuery();   //  ColumnName might be changed in MTab.validateQuery
+	        String column = getKeyColumn();
+	        //strip off table name, fully qualify name doesn't work when zoom into detail tab
+	        if (column.indexOf(".") > 0)
+	        	column = column.substring(column.indexOf(".")+1);
+	        zoomQuery.addRestriction(column, MQuery.EQUAL, getSelectedRowKey());
+	        zoomQuery.setRecordCount(1);
+	        zoomQuery.setTableName(column.substring(0, column.length() - 3));
+	        
+	        AEnv.zoom(236, zoomQuery);
+		}
 	}
 
 	/**
@@ -352,7 +367,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	boolean hasZoom()
 	{
-		return false;
+		return true;
 	}
 
 	/**
