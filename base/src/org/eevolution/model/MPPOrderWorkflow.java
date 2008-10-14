@@ -57,14 +57,6 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			s_cache.put(key, retValue);
 		return retValue;
 	}	//	get
-	
-	public static MPPOrderWorkflow forPP_Order_ID(Properties ctx, int PP_Order_ID, String trxName)
-	{
-		final String whereClause = MPPOrderWorkflow.COLUMNNAME_PP_Order_ID+"=?";
-		return new Query(ctx, MPPOrderWorkflow.Table_Name, whereClause, trxName)
-				.setParameters(new Object[]{PP_Order_ID})
-				.first();
-	}
 
 	/**	Single Cache					*/
 	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>("PP_Order_Workflow", 20);

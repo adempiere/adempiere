@@ -175,19 +175,33 @@ public class MPPMRP extends X_PP_MRP
 			return;
 		}
 		
-		if (o.is_ValueChanged(MOrder.COLUMNNAME_DocStatus)
-				|| o.is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID)
-			)
-		{
-			List<MPPMRP> list = new Query(o.getCtx(), MPPMRP.Table_Name, whereClause, trxName)
-							.setParameters(params)
-							.list();
-			for (MPPMRP mrp : list)
+		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocType_ID());
+		String DocSubTypeSO = dt.getDocSubTypeSO();
+		
+		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO) || !o.isSOTrx())
+		{		
+			if((o.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || o.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) || !o.isSOTrx())
 			{
-				mrp.setC_Order(o);
-				mrp.saveEx();
+				for(MOrderLine line : o.getLines())
+				{
+					C_OrderLine(line , false);
+				}
 			}
-		}
+			
+			if (o.is_ValueChanged(MOrder.COLUMNNAME_DocStatus)
+					|| o.is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID)
+				)
+			{
+				List<MPPMRP> list = new Query(o.getCtx(), MPPMRP.Table_Name, whereClause, trxName)
+								.setParameters(params)
+								.list();
+				for (MPPMRP mrp : list)
+				{
+					mrp.setC_Order(o);
+					mrp.saveEx();
+				}
+			}
+		}	
 	}
 	
 	/**
@@ -236,68 +250,84 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
 		mrp.saveEx();
 
-		MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
-								.setParameters(params)
-								.first();		
-		if (order == null)
+		MOrder o = ol.getParent();
+		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocTypeTarget_ID());
+		String DocSubTypeSO = dt.getDocSubTypeSO();
+		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO))
 		{
-			MProduct product = MProduct.get(ctx,ol.getM_Product_ID());   
-			MPPProductBOM bom =  MPPProductBOM.getDefault(product, trxName);
-			if (bom != null) 
+			MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
+									.setParameters(params)
+									.first();		
+			if (order == null)
 			{
-				if (bom.getBOMType().equals(MPPProductBOM.BOMTYPE_Make_To_Order))
-				{					
-					String WhereClause = "ManufacturingResourceType = 'PT' AND IsManufacturingResource = 'Y' AND AD_Client_ID = ? AND M_Warehouse_ID = ?";
-					MResource m_resource = (MResource)MTable.get(ctx,MResource.Table_ID).getPO(WhereClause, new Object[]{ ol.getAD_Client_ID(),ol.getM_Warehouse_ID()}, trxName);
-					MWorkflow m_workflow = MWorkflow.get(ctx, MWorkflow.getWorkflowSearchKey(ctx, product));
-					if (m_resource != null && m_workflow != null)
+				String where = MPPProductBOM.COLUMNNAME_BOMType + "='" + 
+							   MPPProductBOM.BOMTYPE_Make_To_Order + "' AND "+
+							   MPPProductBOM.COLUMNNAME_M_Product_ID + "=?";
+				MPPProductBOM bom = new Query(ctx, MPPProductBOM.Table_Name, where, trxName)
+				.setParameters(new Object[]{ol.getM_Product_ID()})
+				.first();	
+	
+				if (bom != null) 
+				{		
+						MProduct product = MProduct.get(ctx,ol.getM_Product_ID());   
+						String WhereClause = "ManufacturingResourceType = 'PT' AND IsManufacturingResource = 'Y' AND AD_Client_ID = ? AND M_Warehouse_ID = ?";
+						MResource m_resource = (MResource)MTable.get(ctx,MResource.Table_ID).getPO(WhereClause, new Object[]{ ol.getAD_Client_ID(),ol.getM_Warehouse_ID()}, trxName);
+						MWorkflow m_workflow = MWorkflow.get(ctx, MWorkflow.getWorkflowSearchKey(ctx, product));
+						if (m_resource != null && m_workflow != null)
+						{
+							MDocType[] doc = MDocType.getOfDocBaseType(ctx, X_C_DocType.DOCBASETYPE_ManufacturingOrder);
+							int C_DocType_ID = doc[0].getC_DocType_ID();
+							
+							order = new MPPOrder(ctx, 0 , trxName);                                     
+							order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
+							order.setS_Resource_ID(m_resource.get_ID());
+							order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+							order.setM_Product_ID(ol.getM_Product_ID());
+							order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
+							order.setPP_Product_BOM_ID(bom.get_ID());
+							order.setAD_Workflow_ID(m_workflow.get_ID());
+							order.setPlanner_ID(ol.getParent().getSalesRep_ID());
+							order.setLine(10);
+							order.setQtyDelivered(Env.ZERO);
+							order.setQtyReject(Env.ZERO);
+							order.setQtyScrap(Env.ZERO);                                                        
+							order.setDateOrdered(ol.getDateOrdered());                       
+							order.setDatePromised(ol.getDatePromised());
+							order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), (MPPMRP.getDays(ctx,m_resource.getS_Resource_ID(),m_workflow.getAD_Workflow_ID(), ol.getQtyOrdered(),ol.get_TrxName())).negate().intValue()));                                                       
+							order.setDateFinishSchedule(ol.getDatePromised());
+							order.setC_UOM_ID(ol.getC_UOM_ID());
+							order.setQty(ol.getQtyEntered());
+							order.setPosted(false);
+							order.setProcessed(false);
+							order.setC_DocTypeTarget_ID(C_DocType_ID);
+							order.setC_DocType_ID(C_DocType_ID);
+							order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
+							order.saveEx();  
+							order.prepareIt(); 
+							order.setDocAction(MPPOrder.DOCSTATUS_Completed);
+							order.saveEx();
+					
+					}
+				}    
+			}
+			else
+			{    
+				if (!order.isProcessed())
+				{
+					if(order.getQtyEntered().compareTo(ol.getQtyEntered()) != 0)
+					{	
+						order.setQty(ol.getQtyEntered());
+						order.saveEx();
+					}	
+					if(order.getDatePromised().compareTo(ol.getDatePromised()) != 0)
 					{
-						MDocType[] doc = MDocType.getOfDocBaseType(ctx, X_C_DocType.DOCBASETYPE_ManufacturingOrder);
-						int C_DocType_ID = doc[0].getC_DocType_ID();
-						
-						order = new MPPOrder(ctx, 0 , trxName);                                     
-						order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
-						order.setS_Resource_ID(m_resource.get_ID());
-						order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-						order.setM_Product_ID(ol.getM_Product_ID());
-						order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
-						order.setPP_Product_BOM_ID(bom.get_ID());
-						order.setAD_Workflow_ID(m_workflow.get_ID());
-						//order.setPlanner_ID(SupplyPlanner_ID);
-						order.setLine(10);
-						order.setQtyDelivered(Env.ZERO);
-						order.setQtyReject(Env.ZERO);
-						order.setQtyScrap(Env.ZERO);                                                        
-						order.setDateOrdered(ol.getDateOrdered());                       
 						order.setDatePromised(ol.getDatePromised());
-						order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), (MPPMRP.getDays(ctx,m_resource.getS_Resource_ID(),m_workflow.getAD_Workflow_ID(), ol.getQtyOrdered(),ol.get_TrxName())).negate().intValue()));                                                       
-						order.setDateFinishSchedule(ol.getDatePromised());
-						order.setQtyEntered(ol.getQtyEntered());
-						order.setQtyOrdered(ol.getQtyOrdered());
-						order.setC_UOM_ID(ol.getC_UOM_ID());
-						order.setPosted(false);
-						order.setProcessed(false);
-						order.setC_DocTypeTarget_ID(C_DocType_ID);
-						order.setC_DocType_ID(C_DocType_ID);
-						order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
-						order.saveEx();  
-						order.prepareIt(); 
-						order.setDocAction(MPPOrder.DOCSTATUS_Completed);
 						order.saveEx();
 					}
-				}
+				}    
 			}    
 		}
-		else
-		{    
-			if (!order.isProcessed())
-			{
-				order.setQtyEntered(ol.getQtyEntered());
-				order.setDatePromised(ol.getDatePromised());
-				order.saveEx();
-			}    
-		}    
-
+		
 		return;
 	}
 

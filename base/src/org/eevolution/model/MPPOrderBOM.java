@@ -98,4 +98,4 @@ public class MPPOrderBOM extends X_PP_Order_BOM
 		.append ("]");
 		return sb.toString ();
 	}	//	toString
-}	//	MOrder
+}	//	MPPOrderBOM

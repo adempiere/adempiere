@@ -97,8 +97,10 @@ public class LiberoValidator implements ModelValidator
 		{
 			MOrderLine ol = (MOrderLine)po;
 			MOrder order = ol.getParent();
-			if(order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
-				MPPMRP.C_OrderLine(ol, false);
+			if(!order.isSOTrx())
+			{	
+					MPPMRP.C_OrderLine(ol, false);
+			}	
 		}
 		if (po.get_TableName().equals(MOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{

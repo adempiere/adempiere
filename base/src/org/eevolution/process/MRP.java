@@ -872,9 +872,7 @@ public class MRP extends SvrProcess
 		else	                                                        	
 			order.setDateStartSchedule(TimeUtil.addDays(DemandDateStartSchedule, (m_product_planning.getDeliveryTime_Promised().add(m_product_planning.getTransfertTime())).negate().intValue()));
 		order.setDateFinishSchedule(DemandDateStartSchedule);
-		
-		order.setQtyEntered(QtyPlanned);
-		order.setQtyOrdered(QtyPlanned);
+		order.setQty(QtyPlanned);
 		order.setQtyBatchs(Env.ONE);
 		order.setQtyBatchSize(QtyPlanned);
 		order.setC_UOM_ID(product.getC_UOM_ID());

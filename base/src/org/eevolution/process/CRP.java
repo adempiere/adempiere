@@ -106,8 +106,7 @@ public class CRP extends SvrProcess {
 	{
 		log.fine("PP_Order DocumentNo:" + order.getDocumentNo());
 		BigDecimal qtyOpen = order.getQtyOpen();
-
-		MPPOrderWorkflow owf = MPPOrderWorkflow.forPP_Order_ID(order.getCtx(), order.getPP_Order_ID(), order.get_TrxName());
+		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
 		log.fine("PP_Order Workflow:" + owf.getName());
 
 		// Schedule Fordward

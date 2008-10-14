@@ -34,6 +34,7 @@ import org.compiere.model.MProject;
 import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
+import org.compiere.model.MUOM;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -63,6 +64,8 @@ import org.compiere.wf.MWorkflow;
 public class MPPOrder extends X_PP_Order implements DocAction
 {
 	private static final long serialVersionUID = 1L;
+	/**	Product					*/
+	private MProduct 		m_product = null;
 
 	/**
 	 * 	Create new Order by copying
@@ -293,90 +296,46 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			return false;
 		}
+		
+		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && 
+				getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
+		{
+				for(MPPOrderBOMLine line : getLines())
+				{
+					line.deleteEx(true);
+				}
+				MPPOrderBOM bom = getMPPOrderBOM();
+				if(bom != null)
+					bom.deleteEx(true, get_TrxName());
+				
+				MPPOrderWorkflow PP_Order_Workflow = getMPPOrderWorkflow();
+				if (PP_Order_Workflow != null)
+				{	
+					PP_Order_Workflow.setPP_Order_Node_ID(0);
+					PP_Order_Workflow.saveEx();
+					for(MPPOrderNode node : PP_Order_Workflow.getNodes(true, getAD_Client_ID()))
+					{	
+						for(MPPOrderNodeNext next : node.getTransitions(getAD_Client_ID()))
+						{
+							next.deleteEx(true);
+						}
+						node.deleteEx(true);
+					}		
+					PP_Order_Workflow.deleteEx(true);
+				}	
+				explotion();
+		}
+		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && !getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
+		{
+			throw new AdempiereException("Cannot Change Quantity, Only is allow with Draft Status"); // TODO: Create Message for Translation
+		}
+		
 		if (!newRecord)
 		{
 			return success;
 		}
-
-		// Create BOM Head
-		MPPProductBOM PP_Product_BOM = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
-		if (PP_Product_BOM.isValidFromTo(getDateStartSchedule()))
-		{
-			MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(PP_Product_BOM, getPP_Order_ID(), get_TrxName());
-			PP_Order_BOM.setAD_Org_ID(getAD_Org_ID());
-			PP_Order_BOM.saveEx();
-
-			for (MPPProductBOMLine PP_Product_BOMline : PP_Product_BOM.getLines())
-			{
-				if (PP_Product_BOMline.isValidFromTo(getDateStartSchedule()))
-				{
-					MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(PP_Product_BOMline,
-																getPP_Order_ID(), PP_Order_BOM.get_ID(),
-																getM_Warehouse_ID(),
-																get_TrxName());
-					PP_Order_BOMLine.setAD_Org_ID(getAD_Org_ID());
-					PP_Order_BOMLine.setQtyOrdered(getQtyOrdered());
-					PP_Order_BOMLine.saveEx();
-				} // end if valid From / To    
-			} // end Create Order BOM
-
-		} // end if From / To parent
-
-		// Create Workflow (Routing & Process
-		MWorkflow AD_Workflow = MWorkflow.get(getCtx(), getAD_Workflow_ID());
-		if (AD_Workflow.isValidFromTo(getDateStartSchedule()))
-		{
-			MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(AD_Workflow, get_ID(), get_TrxName());
-			PP_Order_Workflow.setAD_Org_ID(getAD_Org_ID());
-			PP_Order_Workflow.saveEx();
-			for (MWFNode AD_WF_Node : AD_Workflow.getNodes(false, getAD_Client_ID()))
-			{
-				if (AD_WF_Node.isValidFromTo(getDateStartSchedule()))
-				{
-					MPPOrderNode PP_Order_Node = new MPPOrderNode(AD_WF_Node, PP_Order_Workflow,
-															getQtyOrdered(),
-															get_TrxName());
-					PP_Order_Node.setAD_Org_ID(getAD_Org_ID());
-					PP_Order_Node.saveEx();
-					
-					for (MWFNodeNext AD_WF_NodeNext : AD_WF_Node.getTransitions(getAD_Client_ID()))
-					{
-						MPPOrderNodeNext nodenext = new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node, get_TrxName());
-						nodenext.setAD_Org_ID(getAD_Org_ID());
-						nodenext.saveEx();
-					}// for NodeNext
-				}// for node 
-
-			}
-			// Update transitions nexts and set first node
-			PP_Order_Workflow.loadNodes();
-			for (MPPOrderNode orderNode : PP_Order_Workflow.getNodes(false, getAD_Client_ID()))
-			{
-				// set workflow start node
-				if (PP_Order_Workflow.getAD_WF_Node_ID() == orderNode.getAD_WF_Node_ID()) {
-					PP_Order_Workflow.setPP_Order_Node_ID(orderNode.getPP_Order_Node_ID());
-				}
-				// set node next
-				for (MPPOrderNodeNext next : orderNode.getTransitions(getAD_Client_ID()))
-				{
-					next.setPP_Order_Next_ID();
-					next.saveEx();
-				}
-			}
-			PP_Order_Workflow.saveEx();
-			
-			BigDecimal QtyBatchs = null;
-			BigDecimal QtyBatchSize = PP_Order_Workflow.getQtyBatchSize().setScale(0, RoundingMode.UP); 
-
-			if (QtyBatchSize.signum()==0)
-				QtyBatchs = Env.ONE;
-			else   
-				QtyBatchs = getQtyEntered().divide(QtyBatchSize , 0, BigDecimal.ROUND_UP); 
-			
-			setQtyBatchs(QtyBatchs);
-			setQtyBatchSize(QtyBatchSize);
-			
-		} // workflow valid from/to 
+		
+		explotion();
 		return true;
 	} //	beforeSave
 
@@ -851,6 +810,156 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			rs.close();
 		}
+	}
+	
+	/**
+	 * 	Set Qty Entered/Ordered.
+	 * 	Use this Method if the Line UOM is the Product UOM 
+	 *	@param Qty QtyOrdered/Entered
+	 */
+	public void setQty (BigDecimal Qty)
+	{
+		super.setQtyEntered (Qty);
+		super.setQtyOrdered (getQtyEntered());
+	}	//	setQty
+	
+	/**
+	 * 	Set Qty Entered - enforce entered UOM 
+	 *	@param QtyEntered
+	 */
+	public void setQtyEntered (BigDecimal QtyEntered)
+	{
+		if (QtyEntered != null && getC_UOM_ID() != 0)
+		{
+			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
+			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+		}
+		super.setQtyEntered (QtyEntered);
+	}	//	setQtyEntered
+
+	/**
+	 * 	Set Qty Ordered - enforce Product UOM 
+	 *	@param QtyOrdered
+	 */
+	public void setQtyOrdered (BigDecimal QtyOrdered)
+	{
+		MProduct product = getProduct();
+		if (QtyOrdered != null && product != null)
+		{
+			int precision = product.getUOMPrecision();
+			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+		}
+		super.setQtyOrdered(QtyOrdered);
+	}	//	setQtyOrdered
+	
+	/**
+	 * 	Get Product
+	 *	@return product or null
+	 */
+	public MProduct getProduct()
+	{
+		if (m_product == null && getM_Product_ID() != 0)
+			m_product =  MProduct.get (getCtx(), getM_Product_ID());
+		return m_product;
+	}	//	getProduct
+	
+	public MPPOrderBOM getMPPOrderBOM()
+	{
+		final String whereClause = MPPOrderBOM.COLUMNNAME_PP_Order_ID+"=?";
+		return new Query(getCtx(), MPPOrderBOM.Table_Name, whereClause, get_TrxName())
+				.setParameters(new Object[]{getPP_Order_ID()})
+				.first();
+	}
+	
+	public MPPOrderWorkflow getMPPOrderWorkflow()
+	{
+			final String whereClause = MPPOrderWorkflow.COLUMNNAME_PP_Order_ID+"=?";
+			return new Query(getCtx(), MPPOrderWorkflow.Table_Name, whereClause, get_TrxName())
+					.setParameters(new Object[]{getPP_Order_ID()})
+					.first();
+	}
+	
+	public void explotion()
+	{
+		// Create BOM Head
+		MPPProductBOM PP_Product_BOM = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+		if (PP_Product_BOM.isValidFromTo(getDateStartSchedule()))
+		{
+			MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(PP_Product_BOM, getPP_Order_ID(), get_TrxName());
+			PP_Order_BOM.setAD_Org_ID(getAD_Org_ID());
+			PP_Order_BOM.saveEx();
+
+			for (MPPProductBOMLine PP_Product_BOMline : PP_Product_BOM.getLines())
+			{
+				if (PP_Product_BOMline.isValidFromTo(getDateStartSchedule()))
+				{
+					MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(PP_Product_BOMline,
+																getPP_Order_ID(), PP_Order_BOM.get_ID(),
+																getM_Warehouse_ID(),
+																get_TrxName());
+					PP_Order_BOMLine.setAD_Org_ID(getAD_Org_ID());
+					PP_Order_BOMLine.setQtyOrdered(getQtyOrdered());
+					PP_Order_BOMLine.saveEx();
+				} // end if valid From / To    
+			} // end Create Order BOM
+
+		} // end if From / To parent
+
+		// Create Workflow (Routing & Process
+		MWorkflow AD_Workflow = MWorkflow.get(getCtx(), getAD_Workflow_ID());
+		if (AD_Workflow.isValidFromTo(getDateStartSchedule()))
+		{
+			MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(AD_Workflow, get_ID(), get_TrxName());
+			PP_Order_Workflow.setAD_Org_ID(getAD_Org_ID());
+			PP_Order_Workflow.saveEx();
+			for (MWFNode AD_WF_Node : AD_Workflow.getNodes(false, getAD_Client_ID()))
+			{
+				if (AD_WF_Node.isValidFromTo(getDateStartSchedule()))
+				{
+					MPPOrderNode PP_Order_Node = new MPPOrderNode(AD_WF_Node, PP_Order_Workflow,
+															getQtyOrdered(),
+															get_TrxName());
+					PP_Order_Node.setAD_Org_ID(getAD_Org_ID());
+					PP_Order_Node.saveEx();
+					
+					for (MWFNodeNext AD_WF_NodeNext : AD_WF_Node.getTransitions(getAD_Client_ID()))
+					{
+						MPPOrderNodeNext nodenext = new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node, get_TrxName());
+						nodenext.setAD_Org_ID(getAD_Org_ID());
+						nodenext.saveEx();
+					}// for NodeNext
+				}// for node 
+
+			}
+			// Update transitions nexts and set first node
+			PP_Order_Workflow.loadNodes();
+			for (MPPOrderNode orderNode : PP_Order_Workflow.getNodes(false, getAD_Client_ID()))
+			{
+				// set workflow start node
+				if (PP_Order_Workflow.getAD_WF_Node_ID() == orderNode.getAD_WF_Node_ID()) {
+					PP_Order_Workflow.setPP_Order_Node_ID(orderNode.getPP_Order_Node_ID());
+				}
+				// set node next
+				for (MPPOrderNodeNext next : orderNode.getTransitions(getAD_Client_ID()))
+				{
+					next.setPP_Order_Next_ID();
+					next.saveEx();
+				}
+			}
+			PP_Order_Workflow.saveEx();
+			
+			BigDecimal QtyBatchs = null;
+			BigDecimal QtyBatchSize = PP_Order_Workflow.getQtyBatchSize().setScale(0, RoundingMode.UP); 
+
+			if (QtyBatchSize.signum()==0)
+				QtyBatchs = Env.ONE;
+			else   
+				QtyBatchs = getQtyOrdered().divide(QtyBatchSize , 0, BigDecimal.ROUND_UP); 
+			
+			setQtyBatchs(QtyBatchs);
+			setQtyBatchSize(QtyBatchSize);
+			
+		} // workflow valid from/to 
 	}
 	
 	public String toString()
