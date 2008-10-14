@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Cash Book Journal Callouts
@@ -52,6 +57,11 @@ public class CalloutCashJournal extends CalloutEngine
 			mTab.setValue("C_Currency_ID", null);
 			return "";
 		}
+		
+		int C_InvoicePaySchedule_ID = 0;
+		if (Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID.intValue ()
+			&& Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID") != 0)
+			C_InvoicePaySchedule_ID = Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID");
 
 		//  Date
 		Timestamp ts = Env.getContextAsDate(ctx, WindowNo, "DateAcct");     //  from C_Cash
@@ -59,16 +69,18 @@ public class CalloutCashJournal extends CalloutEngine
 			ts = new Timestamp(System.currentTimeMillis());
 		//
 		String sql = "SELECT C_BPartner_ID, C_Currency_ID,"		//	1..2
-			+ "invoiceOpen(C_Invoice_ID, 0), IsSOTrx, "			//	3..4
-			+ "paymentTermDiscount(invoiceOpen(C_Invoice_ID, 0),C_Currency_ID,C_PaymentTerm_ID,DateInvoiced,?) "
+			+ "invoiceOpen(C_Invoice_ID, ?), IsSOTrx, "			//	3..4
+			+ "invoiceDiscount(C_Invoice_ID,?,?) "              //  5
 			+ "FROM C_Invoice WHERE C_Invoice_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setTimestamp(1, ts);
-			pstmt.setInt(2, C_Invoice_ID.intValue());
+			pstmt.setInt (1, C_InvoicePaySchedule_ID);
+			pstmt.setTimestamp (2, ts);
+			pstmt.setInt (3, C_InvoicePaySchedule_ID);
+			pstmt.setInt(4, C_Invoice_ID.intValue());
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
