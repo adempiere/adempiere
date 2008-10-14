@@ -221,9 +221,9 @@ public class MPPMRP extends X_PP_MRP
 		if(mrp == null)
 		{	
 			mrp = new MPPMRP(ctx, 0, trxName);                                                          
-			mrp.setAD_Org_ID(ol.getAD_Org_ID());
 			mrp.setC_OrderLine_ID(ol.getC_OrderLine_ID());
 		}
+		mrp.setAD_Org_ID(ol.getAD_Org_ID());
 		mrp.setC_Order(ol.getParent());
 		mrp.setDescription(ol.getDescription());
 		mrp.setName("MRP");
