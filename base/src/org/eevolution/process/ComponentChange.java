@@ -12,18 +12,24 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.process;
 
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.FillMandatoryException;
+import org.compiere.model.MRefList;
 import org.compiere.model.Query;
-import org.compiere.process.*;
-import org.eevolution.model.*;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
@@ -31,180 +37,149 @@ import org.eevolution.model.*;
  *	
  *  @author victor.perez@e-evolution.com
  *  @version $Id: ComponentChange.java
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class ComponentChange extends SvrProcess
 {
-	/**	The Order				*/
-		private int			 	p_M_Product_ID = 0;     
-        private Timestamp       p_ValidTo = null;
-        private Timestamp       p_ValidFrom = null;
-        private String          p_Action;
-        private int             p_New_M_Product_ID =0;
-        private BigDecimal      p_Qty = null;
-        private int 			p_M_ChangeNotice_ID=0;
-        private int             morepara = 0;
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
+	private static final int	ACTION_AD_Reference_ID	= 53227;
+	private static final String ACTION_Add				= "A";
+	private static final String ACTION_Deactivate		= "D";
+	private static final String ACTION_Expire			= "E";
+	private static final String ACTION_Replace			= "R";
+	private static final String ACTION_ReplaceAndExpire = "RE";
+	
+	private int			 	p_M_Product_ID = 0;     
+	private Timestamp       p_ValidTo = null;
+	private Timestamp       p_ValidFrom = null;
+	private String          p_Action;
+	private int             p_New_M_Product_ID =0;
+	private BigDecimal      p_Qty = null;
+	private int 			p_M_ChangeNotice_ID=0;
+
+	@Override
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-               
-		for (int i = 0; i < para.length; i++)
+		int morepara = 0;
+		
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
-                     
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+
+			if (para.getParameter() == null)
 				;
 			else if (name.equals("M_Product_ID") && morepara == 0)
-            {    
-				p_M_Product_ID = para[i].getParameterAsInt();
-                morepara = 1;
-            }
-            else if (name.equals("ValidTo"))
-            	p_ValidTo = ((Timestamp)para[i].getParameter());
-            else if (name.equals("ValidFrom")) 
-            	p_ValidFrom = ((Timestamp)para[i].getParameter());
-            else if (name.equals("Action"))
-            	p_Action = ((String)para[i].getParameter());
-            else if (name.equals("M_Product_ID"))
-            	p_New_M_Product_ID = para[i].getParameterAsInt();
-            else if (name.equals("Qty")) 
-            	p_Qty = ((BigDecimal)para[i].getParameter());
-            else if (name.equals("M_ChangeNotice_ID")) 
-    			p_M_ChangeNotice_ID = para[i].getParameterAsInt();
+			{    
+				p_M_Product_ID = para.getParameterAsInt();
+				morepara = 1;
+			}
+			else if (name.equals("ValidTo"))
+				p_ValidTo = ((Timestamp)para.getParameter());
+			else if (name.equals("ValidFrom")) 
+				p_ValidFrom = ((Timestamp)para.getParameter());
+			else if (name.equals("Action"))
+				p_Action = ((String)para.getParameter());
+			else if (name.equals("M_Product_ID"))
+				p_New_M_Product_ID = para.getParameterAsInt();
+			else if (name.equals("Qty")) 
+				p_Qty = ((BigDecimal)para.getParameter());
+			else if (name.equals("M_ChangeNotice_ID")) 
+				p_M_ChangeNotice_ID = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
 	}	//	prepare
 
-	/**
-	 *  Perform process.
-	 *  @return Message
-	 *  @throws Exception if not successful
-	 */
+	@Override
 	protected String doIt() throws Exception
 	{
-		log.info("Existing Product" + p_M_Product_ID );
-		log.info("ValidTo" + p_ValidTo);
-		log.info("ValidFrom" + p_ValidFrom);
-		log.info("Action" + p_Action);
-		log.info("New Product" + p_New_M_Product_ID);
-		log.info("Qty" + p_Qty );
+		if (p_Action == null)
+		{
+			throw new FillMandatoryException("Action");
+		}
 		
-		String whereClause = "M_Product_ID = ?";
-		if (p_ValidTo !=null)
-			whereClause +=" AND TRUNC(ValidTo) <= "+ DB.TO_DATE(p_ValidTo);
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		
+		whereClause.append(MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?");
+		params.add(p_M_Product_ID);
+		
+		if (p_ValidTo != null)
+		{
+			whereClause.append(" AND TRUNC("+MPPProductBOMLine.COLUMNNAME_ValidTo+") <= ?");
+			params.add(p_ValidTo);
+		}
 		if (p_ValidFrom != null)
-			whereClause +=" AND TRUNC(ValidFrom) >= "+DB.TO_DATE(p_ValidFrom);
-		 
-		List<MPPProductBOMLine> components = new Query(getCtx(), MPPProductBOMLine.Table_Name,
-				 			whereClause,get_TrxName()).setParameters(new Object[]{p_M_Product_ID}).list();
-		
+		{
+			whereClause.append(" AND TRUNC("+MPPProductBOMLine.COLUMNNAME_ValidFrom+") >= ?");
+			params.add(p_ValidFrom);
+		}
+
+		List<MPPProductBOMLine> components = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause.toString(), get_TrxName())
+													.setParameters(params)
+													.list();
 		for(MPPProductBOMLine bomline : components) 
 		{		
-            if (p_Action.equals("A"))
-            {
-                MPPProductBOMLine newbomline = new MPPProductBOMLine(Env.getCtx(), 0 ,get_TrxName());
-                newbomline.setAssay(bomline.getAssay());
-                newbomline.setBackflushGroup(bomline.getBackflushGroup());
-                newbomline.setQtyBatch(bomline.getQtyBatch());
-                newbomline.setC_UOM_ID(bomline.getC_UOM_ID());
-                newbomline.setDescription(bomline.getDescription());
-                newbomline.setHelp(bomline.getHelp());
-                newbomline.setM_ChangeNotice_ID(bomline.getM_ChangeNotice_ID());  
-                newbomline.setForecast(bomline.getForecast());
-                newbomline.setQtyBOM(p_Qty);     
-                newbomline.setComponentType(bomline.getComponentType());
-                newbomline.setIsQtyPercentage(bomline.isQtyPercentage());
-                newbomline.setIsCritical(bomline.isCritical());
-                newbomline.setIssueMethod(bomline.getIssueMethod());
-                newbomline.setLine(25);
-                newbomline.setLeadTimeOffset(bomline.getLeadTimeOffset());
-                newbomline.setM_AttributeSetInstance_ID(bomline.getM_AttributeSetInstance_ID());
-                newbomline.setM_Product_ID(p_New_M_Product_ID);                     
-                newbomline.setPP_Product_BOM_ID(bomline.getPP_Product_BOM_ID());
-                newbomline.setScrap(bomline.getScrap());
-                newbomline.setValidFrom(newbomline.getUpdated());
-                newbomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-                newbomline.saveEx();
-                addLog("Component add");
-            }
-            else if (p_Action.equals("D"))
-            {
-                bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-                bomline.setIsActive(false);
-                bomline.saveEx();
-                addLog("Deactivate ");                        
-            }
-            else if (p_Action.equals("E"))
-            {
-            	bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-                bomline.setValidTo(bomline.getUpdated());
-                bomline.saveEx();
-                addLog("Expire");                 
-            }
-            else  if (p_Action.equals("R"))
-            {
-                MPPProductBOMLine newbomline = new MPPProductBOMLine(getCtx(), 0 , get_TrxName());
-                newbomline.setAssay(bomline.getAssay());
-                newbomline.setBackflushGroup(bomline.getBackflushGroup());
-                newbomline.setQtyBatch(bomline.getQtyBatch());
-                newbomline.setComponentType(bomline.getComponentType());
-                newbomline.setC_UOM_ID(bomline.getC_UOM_ID());
-                newbomline.setDescription(bomline.getDescription());
-                newbomline.setM_ChangeNotice_ID(bomline.getM_ChangeNotice_ID());  
-                newbomline.setHelp(bomline.getHelp());
-                newbomline.setForecast(bomline.getForecast());
-                newbomline.setQtyBOM(p_Qty);
-                newbomline.setIsQtyPercentage(bomline.isQtyPercentage());
-                newbomline.setIsCritical(bomline.isCritical());
-                newbomline.setIssueMethod(bomline.getIssueMethod());
-                newbomline.setLine(25);
-                newbomline.setLeadTimeOffset(bomline.getLeadTimeOffset());
-                newbomline.setM_AttributeSetInstance_ID(bomline.getM_AttributeSetInstance_ID());
-                newbomline.setM_Product_ID(p_New_M_Product_ID);                     
-                newbomline.setPP_Product_BOM_ID(bomline.getPP_Product_BOM_ID());
-                newbomline.setScrap(bomline.getScrap());
-                newbomline.setValidFrom(newbomline.getUpdated());
-                newbomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-                newbomline.save();
-                bomline.setIsActive(false);
-                bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-                bomline.saveEx();
-                addLog("Replace");
-            }
-            else if (p_Action.equals("RE"))
-            {
-            	MPPProductBOMLine newbomline = new MPPProductBOMLine(getCtx(), 0 , get_TrxName());
-	            newbomline.setAssay(bomline.getAssay());
-	            newbomline.setBackflushGroup(bomline.getBackflushGroup());
-	            newbomline.setQtyBatch(bomline.getQtyBatch());
-	            newbomline.setComponentType(bomline.getComponentType());
-	            newbomline.setC_UOM_ID(bomline.getC_UOM_ID());
-	            newbomline.setDescription(bomline.getDescription());
-	            newbomline.setHelp(bomline.getHelp());
-	            newbomline.setM_ChangeNotice_ID(bomline.getM_ChangeNotice_ID());                        
-	            newbomline.setHelp(bomline.getHelp());
-	            newbomline.setForecast(bomline.getForecast());
-	            newbomline.setQtyBOM(p_Qty);
-	            newbomline.setIsQtyPercentage(bomline.isQtyPercentage());
-	            newbomline.setIsCritical(bomline.isCritical());
-	            newbomline.setIssueMethod(bomline.getIssueMethod());
-	            newbomline.setLine(25);
-	            newbomline.setLeadTimeOffset(bomline.getLeadTimeOffset());
-	            newbomline.setM_AttributeSetInstance_ID(bomline.getM_AttributeSetInstance_ID());
-	            newbomline.setM_Product_ID(p_New_M_Product_ID);                     
-	            newbomline.setPP_Product_BOM_ID(bomline.getPP_Product_BOM_ID());                     
-	            newbomline.setScrap(bomline.getScrap());
-	            newbomline.setValidFrom(newbomline.getUpdated());
-	            newbomline.saveEx();
-	            bomline.setValidTo(bomline.getUpdated());
-	            bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
-	            bomline.saveEx();
-	            addLog("Replace & Expire");
-            }
-            }                    
-            return "@OK@";
-	}	//	doIt	
+			if (p_Action.equals(ACTION_Add))
+			{
+				actionAdd(bomline, 0);
+			}
+			else if (p_Action.equals(ACTION_Deactivate))
+			{
+				actionDeactivate(bomline);
+			}
+			else if (p_Action.equals(ACTION_Expire))
+			{
+				actionExpire(bomline);
+			}
+			else if (p_Action.equals(ACTION_Replace))
+			{
+				actionAdd(bomline, bomline.getLine() + 1);
+				actionDeactivate(bomline);
+			}
+			else if (p_Action.equals(ACTION_ReplaceAndExpire))
+			{
+				actionAdd(bomline, bomline.getLine() + 1);
+				actionExpire(bomline);
+			}
+			else
+			{
+				throw new AdempiereException("Action not supported - "+p_Action);
+			}
+			addLog(MRefList.getListName(getCtx(), ACTION_AD_Reference_ID, p_Action));
+		}                    
+		return "@OK@";
+	}	//	doIt
+
+	protected void actionAdd(MPPProductBOMLine bomline, int line)
+	{
+		MPPProductBOMLine newbomline = new MPPProductBOMLine(getCtx(), 0, get_TrxName());
+		MPPProductBOMLine.copyValues(bomline, newbomline);
+		newbomline.setIsActive(true);
+		newbomline.setLine(line);
+		newbomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
+		//
+		newbomline.setM_Product_ID(p_New_M_Product_ID);
+		if (p_Qty.signum() != 0)
+		{
+			newbomline.setQtyBOM(p_Qty);
+		}
+		newbomline.setValidFrom(newbomline.getUpdated());
+		newbomline.saveEx();
+	}
+	
+	protected void actionDeactivate(MPPProductBOMLine bomline)
+	{
+		bomline.setIsActive(false);
+		bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
+		bomline.saveEx();
+	}
+
+	protected void actionExpire(MPPProductBOMLine bomline)
+	{
+		bomline.setIsActive(true);
+		bomline.setValidTo(bomline.getUpdated());
+		bomline.setM_ChangeNotice_ID(p_M_ChangeNotice_ID);
+		bomline.saveEx();
+	}
 }	//	Component Change
