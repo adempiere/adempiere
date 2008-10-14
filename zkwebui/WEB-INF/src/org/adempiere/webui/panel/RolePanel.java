@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
+import org.compiere.model.MRole;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -221,6 +222,9 @@ public class RolePanel extends Window implements EventListener
                     lstClient.appendItem(clientKNPairs[i].getName(), clientKNPairs[i].getID());
                 lstClient.setSelectedIndex(0);
             }
+            
+            //force reload of default role
+            MRole.getDefault(Env.getCtx(), true);
         }
         updateOrganisationList();
     }
