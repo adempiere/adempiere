@@ -26,6 +26,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MBPartner;
@@ -39,7 +40,6 @@ import org.compiere.model.MProductPO;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
