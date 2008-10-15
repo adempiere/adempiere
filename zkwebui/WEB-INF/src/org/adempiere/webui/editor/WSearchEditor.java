@@ -430,12 +430,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	
 	private void actionButton(String queryValue)
 	{
-		//	m_button.setEnabled(false);                 //  disable double click
-
 		if (lookup == null)
 			return;		//	leave button disabled
-
-		//m_text.requestFocus();						//  closes other editors
 
 		/**
 		 *  Three return options:
@@ -444,8 +440,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
 
-		Object result = null;			// Not Being Used
-		boolean cancelled = false;	// Not Being Used
+		Object result = null;			
+		boolean cancelled = false;	
 
 		String col = lookup.getColumnName();		//	fully qualified name
 
@@ -485,6 +481,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			ip.addValueChangeListener(this);
 			infoPanel = ip;
 			AEnv.showWindow(ip);
+			
+			cancelled = ip.isCancelled();
+			result = ip.getSelectedKey();
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
@@ -508,10 +507,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			infoPanel = ip;
 			AEnv.showWindow(ip);
 
-			/*
 			cancelled = ip.isCancelled();
 			result = ip.getSelectedKey();
-			*/
 		}
 		else	//	General Info
 		{
@@ -544,20 +541,17 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		//  Result
 		if (result != null)
 		{
-//			log.config(gridField.getColumnName() + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
-			//  make sure that value is in cache
-			lookup.getDirect(result, false, true);
+			//ensure data binding happen
 			actionCombo (result);	//	data binding
 		}
 		else if (cancelled)
 		{
 			log.config(getColumnName() + " - Result = null (cancelled)");
-//			actionCombo(null);
+			actionCombo(null);
 		}
 		else
 		{
 			log.config(getColumnName() + " - Result = null (not cancelled)");
-//			setValue(m_value);      //  to re-display value
 		}
 		
 	}
