@@ -27,12 +27,14 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;
@@ -54,7 +56,8 @@ import org.zkoss.zk.ui.event.Events;
 public class WLocationDialog extends Window implements EventListener
 {
     
-    private static final long serialVersionUID = 1L;
+    private static final String LABEL_STYLE = "white-space: nowrap;";
+	private static final long serialVersionUID = 1L;
     /** Logger          */
     private static CLogger log = CLogger.getCLogger(WLocationDialog.class);
     private Label lblAddress1;
@@ -80,7 +83,7 @@ public class WLocationDialog extends Window implements EventListener
     
     private Button btnOk;
     private Button btnCancel;
-    private VerticalBox mainPanel;
+    private Grid mainPanel;
     
     private boolean     m_change = false;
     private MLocation   m_location;
@@ -114,7 +117,9 @@ public class WLocationDialog extends Window implements EventListener
         {
             lstRegion.appendItem(region.getName(),region);
         }
-        if (m_location.getCountry().isHasRegion())
+        if (m_location.getCountry().isHasRegion() &&
+        	m_location.getCountry().getRegionName() != null &&
+        	m_location.getCountry().getRegionName().trim().length() > 0)
             lblRegion.setValue(m_location.getCountry().getRegionName());   //  name for region
         
         setRegion();
@@ -129,15 +134,25 @@ public class WLocationDialog extends Window implements EventListener
     private void initComponents()
     {
         lblAddress1     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 1");
+        lblAddress1.setStyle(LABEL_STYLE);
         lblAddress2     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 2");
+        lblAddress2.setStyle(LABEL_STYLE);
         lblAddress3     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 3");
+        lblAddress3.setStyle(LABEL_STYLE);
         lblAddress4     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 4");
+        lblAddress4.setStyle(LABEL_STYLE);
         lblCity         = new Label(Msg.getMsg(Env.getCtx(), "City"));
+        lblCity.setStyle(LABEL_STYLE);
         lblZip          = new Label(Msg.getMsg(Env.getCtx(), "Postal"));
+        lblZip.setStyle(LABEL_STYLE);
         lblRegion       = new Label(Msg.getMsg(Env.getCtx(), "Region"));
+        lblRegion.setStyle(LABEL_STYLE);
         lblPostal       = new Label(Msg.getMsg(Env.getCtx(), "Postal"));
+        lblPostal.setStyle(LABEL_STYLE);
         lblPostalAdd    = new Label(Msg.getMsg(Env.getCtx(), "PostalAdd"));
+        lblPostalAdd.setStyle(LABEL_STYLE);
         lblCountry      = new Label(Msg.getMsg(Env.getCtx(), "Country"));
+        lblCountry.setStyle(LABEL_STYLE);
         
         txtAddress1 = new Textbox();
         txtAddress1.setCols(20);
@@ -156,7 +171,7 @@ public class WLocationDialog extends Window implements EventListener
         
         lstRegion    = new Listbox();
         lstRegion.setMold("select");
-        lstRegion.setWidth("50px");
+        lstRegion.setWidth("154px");
         lstRegion.setRows(0);
         
         lstCountry  = new Listbox();
@@ -171,55 +186,47 @@ public class WLocationDialog extends Window implements EventListener
         btnCancel.setImage("/images/Cancel16.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
         
-        mainPanel = new VerticalBox();
+        mainPanel = GridFactory.newGridLayout();
         mainPanel.setStyle("padding:5px");
     }
     
     private void init()
     {
-        Panel pnlAddress1 = new Panel();
-        pnlAddress1.appendChild(lblAddress1);
-        pnlAddress1.appendChild(txtAddress1);
-        pnlAddress1.setAlign("right");
+        Row pnlAddress1 = new Row();
+        pnlAddress1.appendChild(lblAddress1.rightAlign());
+        pnlAddress1.appendChild(txtAddress1);        
         
-        Panel pnlAddress2 = new Panel();
-        pnlAddress2.appendChild(lblAddress2);
+        Row pnlAddress2 = new Row();
+        pnlAddress2.appendChild(lblAddress2.rightAlign());
         pnlAddress2.appendChild(txtAddress2);
-        pnlAddress2.setAlign("right");                
         
-        Panel pnlAddress3 = new Panel();
-        pnlAddress3.appendChild(lblAddress3);
+        Row pnlAddress3 = new Row();
+        pnlAddress3.appendChild(lblAddress3.rightAlign());
         pnlAddress3.appendChild(txtAddress3);
-        pnlAddress3.setAlign("right");      
         
-        Panel pnlAddress4 = new Panel();
-        pnlAddress4.appendChild(lblAddress4);
+        Row pnlAddress4 = new Row();
+        pnlAddress4.appendChild(lblAddress4.rightAlign());
         pnlAddress4.appendChild(txtAddress4);
-        pnlAddress4.setAlign("right");      
         
-        Panel pnlCity     = new Panel();
-        pnlCity.appendChild(lblCity);
+        Row pnlCity     = new Row();
+        pnlCity.appendChild(lblCity.rightAlign());
         pnlCity.appendChild(txtCity);
-        pnlCity.setAlign("right");   
         
-        Panel pnlPostal   = new Panel();
-        pnlPostal.appendChild(lblPostal);
+        Row pnlPostal   = new Row();
+        pnlPostal.appendChild(lblPostal.rightAlign());
         pnlPostal.appendChild(txtPostal);
-        pnlPostal.setAlign("right");
         
-        Panel pnlPostalAdd = new Panel();
-        pnlPostalAdd.appendChild(lblPostalAdd);
+        Row pnlPostalAdd = new Row();
+        pnlPostalAdd.appendChild(lblPostalAdd.rightAlign());
         pnlPostalAdd.appendChild(txtPostalAdd);
         
-        Panel pnlRegion    = new Panel();
-        pnlRegion.appendChild(lblRegion);
+        Row pnlRegion    = new Row();
+        pnlRegion.appendChild(lblRegion.rightAlign());
         pnlRegion.appendChild(lstRegion);
-        pnlRegion.setStyle("text-align:right;padding-right:103px");
         
-        Panel pnlCountry  = new Panel();
-        pnlCountry.appendChild(lblCountry);
+        Row pnlCountry  = new Row();
+        pnlCountry.appendChild(lblCountry.rightAlign());
         pnlCountry.appendChild(lstCountry);
-        pnlCountry.setAlign("right");
         
         Panel pnlButton   = new Panel();
         pnlButton.appendChild(btnOk);
@@ -235,19 +242,26 @@ public class WLocationDialog extends Window implements EventListener
      * @param panel panel to add
     *
      */
-    private void addComponents(Panel panel)
+    private void addComponents(Row row)
     {
-        mainPanel.appendChild(panel);
+    	if (mainPanel.getRows() != null)
+    		mainPanel.getRows().appendChild(row);
+    	else
+    		mainPanel.newRows().appendChild(row);
     }
     
     private void initLocation()
     {
+    	if (mainPanel.getRows() != null)
+    		mainPanel.getRows().getChildren().clear();
+    	
         MCountry country = m_location.getCountry();
         log.fine(country.getName() + ", Region=" + country.isHasRegion() + " " + country.getDisplaySequence()
             + ", C_Location_ID=" + m_location.getC_Location_ID());
         //  new Region
         if (m_location.getC_Country_ID() != s_oldCountry_ID && country.isHasRegion())
         {
+        	lstRegion.getChildren().clear();
             for (MRegion region : MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()))
             {
                 lstRegion.appendItem(region.getName(),region);
@@ -258,10 +272,10 @@ public class WLocationDialog extends Window implements EventListener
             }
             s_oldCountry_ID = m_location.getC_Country_ID();
         }
-        addComponents((Panel)lblAddress1.getParent());
-        addComponents((Panel)lblAddress2.getParent());
-        addComponents((Panel)lblAddress3.getParent());
-        addComponents((Panel)lblAddress4.getParent());
+        addComponents((Row)txtAddress1.getParent());
+        addComponents((Row)txtAddress2.getParent());
+        addComponents((Row)txtAddress3.getParent());
+        addComponents((Row)txtAddress4.getParent());
 //      sequence of City Postal Region - @P@ @C@ - @C@, @R@ @P@
         String ds = country.getDisplaySequence();
         if (ds == null || ds.length() == 0)
@@ -274,16 +288,16 @@ public class WLocationDialog extends Window implements EventListener
         {
             String s = st.nextToken();
             if (s.startsWith("C"))
-                addComponents((Panel)lblCity.getParent());
+                addComponents((Row)txtCity.getParent());
             else if (s.startsWith("P"))
-                addComponents((Panel)lblPostal.getParent());
+                addComponents((Row)txtPostal.getParent());
             else if (s.startsWith("A"))
-                addComponents((Panel)lblPostalAdd.getParent());
+                addComponents((Row)txtPostalAdd.getParent());
             else if (s.startsWith("R") && m_location.getCountry().isHasRegion())
-                addComponents((Panel)lblRegion.getParent());
+                addComponents((Row)lstRegion.getParent());
         }
         //  Country Last
-        addComponents((Panel)lblCountry.getParent());
+        addComponents((Row)lstCountry.getParent());
 
 //      Fill it
         if (m_location.getC_Location_ID() != 0)
@@ -297,7 +311,12 @@ public class WLocationDialog extends Window implements EventListener
             txtPostalAdd.setText(m_location.getPostal_Add());
             if (m_location.getCountry().isHasRegion())
             {
-                lblRegion.setValue(m_location.getCountry().getRegionName());
+            	if (m_location.getCountry().getRegionName() != null
+            		&& m_location.getCountry().getRegionName().trim().length() > 0)
+            		lblRegion.setValue(m_location.getCountry().getRegionName());
+            	else
+            		lblRegion.setValue(Msg.getMsg(Env.getCtx(), "Region"));
+            	
                 setRegion();                
             }
             setCountry();
@@ -318,17 +337,23 @@ public class WLocationDialog extends Window implements EventListener
     }
     private void setRegion()
     {
-        List listState = lstRegion.getChildren();
-        Iterator iter = listState.iterator();
-        while (iter.hasNext())
-        {
-            ListItem listitem = (ListItem)iter.next();
-            if (m_location.getRegion().equals(listitem.getValue()))
-            {
-                lstRegion.setSelectedItem(listitem);
-            }
-        }
-        
+    	if (m_location.getRegion() != null) 
+    	{
+	        List listState = lstRegion.getChildren();
+	        Iterator iter = listState.iterator();
+	        while (iter.hasNext())
+	        {
+	            ListItem listitem = (ListItem)iter.next();
+	            if (m_location.getRegion().equals(listitem.getValue()))
+	            {
+	                lstRegion.setSelectedItem(listitem);
+	            }
+	        }
+    	}
+    	else
+    	{
+    		lstRegion.setSelectedItem(null);
+    	}        
     }
     /**
      *  Get result
@@ -364,7 +389,6 @@ public class WLocationDialog extends Window implements EventListener
         //  Country Changed - display in new Format
         else if (lstCountry.equals(event.getTarget()))
         {
-            //  Modifier for Mouse selection is 16  - for any key selection 0
             MCountry c = (MCountry)lstCountry.getSelectedItem().getValue();
             m_location.setCountry(c);
             //  refrseh
