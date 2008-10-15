@@ -314,7 +314,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 *  @return sql where clause
 	 */
 	
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 	
@@ -382,7 +382,7 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	 *  @throws SQLException
 	 */
 	
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 		if (fName.getText().length() > 0)

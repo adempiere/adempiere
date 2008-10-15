@@ -15,6 +15,7 @@ package org.adempiere.webui.component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Timebox;
@@ -39,9 +40,10 @@ public class DatetimeBox extends Panel {
 	}
 
 	private void initComponents() {
-		dateBox.setStyle("display: inline");
-		timeBox.setStyle("display: inline");
+		dateBox.setStyle("display: inline;");
+		timeBox.setStyle("display: inline;");
 		timeBox.setButtonVisible(false);
+		timeBox.setZclass(dateBox.getZclass());
 		
 		String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
 		style = style + ";white-space:nowrap";
@@ -97,8 +99,8 @@ public class DatetimeBox extends Panel {
 	 * @param readWrite
 	 */
 	public void setEnabled(boolean readWrite) {
-		dateBox.setDisabled(!readWrite);
-		timeBox.setDisabled(!readWrite);
+		dateBox.setReadonly(!readWrite);
+		timeBox.setReadonly(!readWrite);
 		dateBox.setButtonVisible(readWrite);
 	}
 

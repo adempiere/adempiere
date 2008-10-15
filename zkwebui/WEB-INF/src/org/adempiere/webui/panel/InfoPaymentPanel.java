@@ -294,7 +294,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @return sql where clause
 	 */
 	
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 		
@@ -347,7 +347,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @throws SQLException
 	 */
 	
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 	
@@ -442,7 +442,7 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @return true
 	 */
 	
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	} // hasZoom

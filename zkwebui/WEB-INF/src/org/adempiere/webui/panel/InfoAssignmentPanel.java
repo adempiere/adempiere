@@ -256,7 +256,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @return WHERE clause
 	 */
 	
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 
@@ -293,7 +293,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @throws SQLException
 	 */
 	
-	void setParameters (PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters (PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 	}
 
@@ -302,7 +302,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *	To be overwritten by concrete classes
 	 */
 	
-	void showHistory()
+	protected void showHistory()
 	{
 	}
 
@@ -312,7 +312,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @return true if it has history (default false)
 	 */
 	
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return false;
 	}
@@ -322,7 +322,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *	To be overwritten by concrete classes
 	 */
 	
-	void customize()
+	protected void customize()
 	{
 	}
 
@@ -332,7 +332,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @return true if it has customize (default false)
 	 */
 	
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false;
 	}
@@ -365,7 +365,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @return true if it has zoom (default false)
 	 */
 	
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	}
@@ -375,7 +375,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *	To be overwritten by concrete classes
 	 */
 	
-	void saveSelectionDetail()
+	protected void saveSelectionDetail()
 	{
 	}
 

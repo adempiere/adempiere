@@ -480,8 +480,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         int C_BPartner_Location_ID = 0;
 
         
-        AD_User_ID = ((KeyNamePair)contentPanel.getValueAt(contentPanel.getSelectedIndex(), 3)).getKey();
-        //AD_User_ID = contentPanel.getSelectedRowKey();
+        AD_User_ID = ((KeyNamePair)contentPanel.getValueAt(row, 3)).getKey();
        
         if (m_C_BPartner_Location_ID_index != -1)
         {

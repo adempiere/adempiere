@@ -391,7 +391,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	}
 
 	@Override
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException 
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException 
 	{
 		int index = 1;
 	}

@@ -233,7 +233,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @return WHERE clause
 	 */
 	
-	String getSQLWhere()
+	protected String getSQLWhere()
 	{
 		StringBuffer sql = new StringBuffer();
 	
@@ -283,7 +283,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 * @throws SQLException
 	 */
 	
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 		
@@ -337,7 +337,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *	Show History
 	 */
 
-	void showHistory()
+	protected void showHistory()
 	{
 		log.info( "InfoAsset.showHistory");
 	}	//	showHistory
@@ -347,7 +347,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @return true
 	 */
 	
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return false;
 	} // hasHistory
@@ -377,7 +377,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @return true
 	 */
 	
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	} // hasZoom
@@ -386,7 +386,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *	Customize
 	 */
 	
-	void customize()
+	protected void customize()
 	{
 		log.info( "InfoAsset.customize");
 	} // customize
@@ -396,7 +396,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @return false
 	 */
 	
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false; // for now
 	} // hasCustomize

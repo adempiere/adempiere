@@ -543,7 +543,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 *  @param forCount for counting records
 	 * @throws SQLException
 	 */
-	void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
 
@@ -651,7 +651,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	/**
 	 *	Show History
 	 */
-	void showHistory()
+	protected void showHistory()
 	{
 		/*log.info("");
 		Integer M_Product_ID = getSelectedRowKey();
@@ -674,7 +674,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 *
 	 * @return true (has history)
 	 */
-	boolean hasHistory()
+	protected boolean hasHistory()
 	{
 		return true;
 	}	//	hasHistory
@@ -683,7 +683,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 *	Has Zoom
 	 *  @return (has zoom)
 	 */
-	boolean hasZoom()
+	protected boolean hasZoom()
 	{
 		return true;
 	}	//	hasZoom
@@ -691,7 +691,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	/**
 	 *	Customize
 	 */
-	void customize()
+	protected void customize()
 	{
 		log.info("");
 	}	//	customize
@@ -700,7 +700,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 *	Has Customize
 	 *  @return false (no customize)
 	 */
-	boolean hasCustomize()
+	protected boolean hasCustomize()
 	{
 		return false;	//	for now
 	}	//	hasCustomize
@@ -708,7 +708,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	/**
 	 *	Save Selection Settings for PriceList
 	 */
-	void saveSelectionDetail()
+	protected void saveSelectionDetail()
 	{
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();

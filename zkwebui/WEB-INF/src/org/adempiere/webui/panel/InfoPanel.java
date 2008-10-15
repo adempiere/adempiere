@@ -680,7 +680,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 *  Get Table name Synonym
 	 *  @return table name
 	 */
-	String getTableName()
+	protected String getTableName()
 	{
 		return p_tableName;
 	}   //  getTableName
@@ -689,7 +689,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 *  Get Key Column Name
 	 *  @return column name
 	 */
-	String getKeyColumn()
+	protected String getKeyColumn()
 	{
 		return p_keyColumn;
 	}   //  getKeyColumn
@@ -705,7 +705,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 *	To be overwritten by concrete classes
 	 *  @return WHERE clause
 	 */
-	abstract String getSQLWhere();
+	protected abstract String getSQLWhere();
       	
 	/**
 	 *  Set Parameters for Query
@@ -714,7 +714,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 *  @param forCount for counting records
 	 *  @throws SQLException
 	 */
-	abstract void setParameters (PreparedStatement pstmt, boolean forCount) 
+	protected abstract void setParameters (PreparedStatement pstmt, boolean forCount) 
 		throws SQLException;
     /**
      * notify to search editor of a value change in the selection info
@@ -722,35 +722,35 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     *
      */
 
-	void showHistory()					{}
+	protected void showHistory()					{}
 	/**
 	 *  Has History (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has history (default false)
 	 */
-	boolean hasHistory()				{return false;}
+	protected boolean hasHistory()				{return false;}
 	/**
 	 *  Customize dialog
 	 *	To be overwritten by concrete classes
 	 */
-	void customize()					{}
+	protected void customize()					{}
 	/**
 	 *  Has Customize (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has customize (default false)
 	 */
-	boolean hasCustomize()				{return false;}
+	protected boolean hasCustomize()				{return false;}
 	/**
 	 *  Has Zoom (false)
 	 *	To be overwritten by concrete classes
 	 *  @return true if it has zoom (default false)
 	 */
-	boolean hasZoom()					{return false;}
+	protected boolean hasZoom()					{return false;}
 	/**
 	 *  Save Selection Details
 	 *	To be overwritten by concrete classes
 	 */
-	void saveSelectionDetail()          {}
+	protected void saveSelectionDetail()          {}
 
 	/**
 	 * 	Get Zoom Window

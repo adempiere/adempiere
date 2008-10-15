@@ -43,7 +43,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
@@ -356,7 +355,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     }
 
     @Override
-    void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+    protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
     {
         int index = 1;
         if (txtDocumentNo.getText().length() > 0)

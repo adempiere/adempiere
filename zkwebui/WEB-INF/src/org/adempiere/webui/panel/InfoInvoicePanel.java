@@ -395,7 +395,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     }
 
     @Override
-    void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+    protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
     {
         int index = 1;
         if (txtDocumentNo.getText().length() > 0)
@@ -540,5 +540,27 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
             editorOrder.setValue(evt.getNewValue());
         }
     }
+
+	@Override
+	protected void saveSelectionDetail() {
+		//  publish for Callout to read
+		Integer ID = getSelectedRowKey();
+		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
+		//
+		int C_InvoicePaySchedule_ID = 0;
+		int row = contentPanel.getSelectedRow();
+		if (row >= 0)
+		{
+			Object value = contentPanel.getValueAt(row, INDEX_PAYSCHEDULE);
+			if (value != null && value instanceof KeyNamePair)
+				C_InvoicePaySchedule_ID = ((KeyNamePair)value).getKey();
+		}
+		if (C_InvoicePaySchedule_ID <= 0)	//	not selected
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
+		else
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
+	}
+    
+    
 
 }
