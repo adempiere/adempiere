@@ -1077,6 +1077,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					somethingPrinted = false;
 					m_lastWidth[m_area] = 0f;
 					m_lastHeight[m_area] = 0f;
+					// Carlos Ruiz - globalqss - 20060826
+					// Fix problem when the element is not printed but X Space was previously added
+					if (item.isRelativePosition())
+					{
+						addX(-item.getXSpace());
+						addY(-item.getYSpace());
+					}
+					// end globalqss
 				}
 
 				//	Does it fit?
