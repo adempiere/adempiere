@@ -107,6 +107,8 @@ import org.compiere.util.ValueNamePair;
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
 {
+	private static final long serialVersionUID = 6414604433732835410L;
+	
 	private int m_AD_Tab_ID;
 
 	/**
@@ -233,6 +235,9 @@ public final class Find extends CDialog
 	private Component spaceS;
 	private JScrollPane advancedScrollPane = new JScrollPane();
 	private CTable advancedTable = new CTable() {
+
+		private static final long serialVersionUID = -6201749159307529032L;
+
 		public boolean isCellEditable(int row, int column)
 		{
 			boolean editable = ( column == INDEX_COLUMNNAME
@@ -508,6 +513,9 @@ public final class Find extends CDialog
 		{
 			VLookup vl = new VLookup(mField.getColumnName(), false, false, true,
 				mField.getLookup());
+			//setting mField to avoid NPE
+			vl.setField(mField);
+
 			vl.setName(mField.getColumnName());
 			editor = vl;
 		}
@@ -555,6 +563,8 @@ public final class Find extends CDialog
 		final Action tabAction = advancedTable.getActionMap().get(im.get(tab));
 		Action tabActionWrapper = new AbstractAction()
         {
+			private static final long serialVersionUID = -6868476640719619801L;
+
             public void actionPerformed(ActionEvent e)
             {
             	tabAction.actionPerformed(e);
@@ -568,6 +578,8 @@ public final class Find extends CDialog
         final Action shiftTabAction = advancedTable.getActionMap().get(im.get(shiftTab));
 		Action shiftTabActionWrapper = new AbstractAction()
         {
+			private static final long serialVersionUID = 5493691483070046620L;
+
             public void actionPerformed(ActionEvent e)
             {
             	shiftTabAction.actionPerformed(e);
