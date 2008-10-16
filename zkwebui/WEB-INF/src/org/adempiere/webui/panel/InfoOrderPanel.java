@@ -25,9 +25,13 @@ import java.util.Date;
 
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WSearchEditor;
@@ -43,9 +47,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
  * Search Order info and return selection
@@ -134,14 +136,10 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         txtOrderRef = new Textbox();
         
         dateFrom = new Datebox();
-        dateFrom.setWidth("180px");
         dateTo= new Datebox();
-        dateTo.setWidth("180px");
         
         amountFrom = new NumberBox(false);
-        amountFrom.setWidth("180px");
         amountTo = new NumberBox(false);
-        amountTo.setWidth("180px");
         
         isSoTrx = new Checkbox();
         isSoTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
@@ -154,82 +152,53 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setVflex(true);
+        contentPanel.setFixedLayout(true);
     }
     
     public void init()
     {
-        Panel pnlDocumentNo = new Panel();
-        pnlDocumentNo.appendChild(lblDocumentNo);
-        pnlDocumentNo.appendChild(txtDocumentNo);
-        pnlDocumentNo.setAlign("right");
+        Grid parameterPanel = GridFactory.newGridLayout();
+        Rows rows = parameterPanel.newRows();
+        Row row = rows.newRow();
+        row.appendChild(lblDocumentNo.rightAlign());
+        row.appendChild(txtDocumentNo);
+        row.appendChild(lblBPartner.rightAlign());
+        row.appendChild(editorBPartner.getComponent());
+        Panel pnlSalesTrx = new Panel();
+        pnlSalesTrx.appendChild(isSoTrx);
+        isSoTrx.setStyle("margin-left: 5px");
+        pnlSalesTrx.appendChild(lblSalesTransaction);
+        lblSalesTransaction.setStyle("margin-left: 2px");
+        row.appendChild(pnlSalesTrx);
         
-        Panel pnlDescription = new Panel();
-        pnlDescription.appendChild(lblDescription);
-        pnlDescription.appendChild(txtDescription);
-        pnlDescription.setAlign("right");
+        row = rows.newRow();
+        row.appendChild(lblDescription.rightAlign());
+        row.appendChild(txtDescription);
+        row.appendChild(lblDateOrdered.rightAlign());
+        Panel pnlDate = new Panel();
+        pnlDate.appendChild(dateFrom);
+        Label symbol = new Label("-");
+        symbol.setStyle("margin-left: 5px; margin-right: 5px");
+        pnlDate.appendChild(symbol);
+        pnlDate.appendChild(dateTo);        
+        row.appendChild(pnlDate);        
+        row.setSpans("1,1,1,2");
         
-        Panel pnlOrderRef = new Panel();
-        pnlOrderRef.appendChild(lblOrderRef);
-        pnlOrderRef.appendChild(txtOrderRef);
-        pnlOrderRef.setAlign("right");
+        row = rows.newRow();
+        row.appendChild(lblOrderRef.rightAlign());
+        row.appendChild(txtOrderRef);
+        row.appendChild(lblGrandTotal.rightAlign());
+        Panel pnlamt = new Panel();
+        pnlamt.appendChild(amountFrom);
+        symbol = new Label("-");
+        symbol.setStyle("margin-left: 5px; margin-right: 5px");
+        pnlamt.appendChild(symbol);
+        pnlamt.appendChild(amountTo);
+        row.appendChild(pnlamt);
+        row.setSpans("1,1,1,2");
         
-        Hbox pnlBPartner = new Hbox();
-        pnlBPartner.appendChild(lblBPartner);
-        pnlBPartner.appendChild(editorBPartner.getComponent()); 
-        pnlBPartner.setStyle("text-align:right");
-        pnlBPartner.setWidth("100%");
-        
-        Hbox hboxDateOrdered = new Hbox();
-        Panel pnlDateOrdered = new Panel();
-        pnlDateOrdered.appendChild(lblDateOrdered);
-        pnlDateOrdered.appendChild(dateFrom);
-        pnlDateOrdered.setAlign("right");
-        hboxDateOrdered.appendChild(pnlDateOrdered);
-        hboxDateOrdered.setStyle("text-align:right");
-        hboxDateOrdered.setWidth("100%");
-        
-        Hbox pnlGrandTotal = new Hbox();
-        pnlGrandTotal.appendChild(lblGrandTotal);
-        pnlGrandTotal.appendChild(amountFrom);
-        pnlGrandTotal.setStyle("text-align:right");
-        pnlGrandTotal.setWidth("100%");
-        Panel pnlIsSoTrx = new Panel();
-        
-        pnlIsSoTrx.appendChild(isSoTrx);
-        pnlIsSoTrx.appendChild(lblSalesTransaction);
-        pnlIsSoTrx.setAlign("left");
-
-        Panel pnlDateTo = new Panel();
-        pnlDateTo.appendChild(dateTo);
-        pnlDateTo.setAlign("left");
-        
-        Panel pnlAmountTo = new Panel();
-        pnlAmountTo.appendChild(amountTo);     
-        pnlAmountTo.setAlign("left");
-        
-        Vbox vbox1 = new Vbox();
-        vbox1.setWidth("100%");
-        vbox1.appendChild(pnlDocumentNo);
-        vbox1.appendChild(pnlDescription);
-        vbox1.appendChild(pnlOrderRef);
-        
-        Vbox vbox2 = new Vbox();
-        vbox2.setWidth("100%");
-        vbox2.appendChild(pnlBPartner);
-        vbox2.appendChild(pnlDateOrdered);
-        vbox2.appendChild(pnlGrandTotal);
-        
-        Vbox vbox3 = new Vbox();
-        vbox3.setWidth("100%");
-        vbox3.appendChild(pnlIsSoTrx);
-        vbox3.appendChild(pnlDateTo);
-        vbox3.appendChild(pnlAmountTo);
-        
-        Hbox parameterPanel = new Hbox();
-        parameterPanel.appendChild(vbox1);
-        parameterPanel.appendChild(vbox2);
-        parameterPanel.appendChild(vbox3);
         parameterPanel.setWidth("100%");
+        parameterPanel.setInnerWidth("auto");
         
         Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
