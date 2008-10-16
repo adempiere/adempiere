@@ -424,6 +424,30 @@ public class ImportOrder extends SvrProcess
 		if (no != 0)
 			log.warning ("Invalid Product=" + no);
 
+		//	Charge
+		sql = new StringBuffer ("UPDATE I_Order o "
+			  + "SET C_Charge_ID=(SELECT C_Charge_ID FROM C_Charge c"
+			  + " WHERE o.ChargeName=c.Name AND o.AD_Client_ID=c.AD_Client_ID) "
+			  + "WHERE C_Charge_ID IS NULL AND ChargeName IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Charge=" + no);
+		sql = new StringBuffer ("UPDATE I_Order "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Charge, ' "
+				  + "WHERE C_Charge_ID IS NULL AND (ChargeName IS NOT NULL)"
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Charge=" + no);
+		//
+		
+		sql = new StringBuffer ("UPDATE I_Invoice "
+				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Product and Charge, ' "
+				  + "WHERE M_Product_ID IS NOT NULL AND C_Charge_ID IS NOT NULL "
+				  + " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning ("Invalid Product and Charge exclusive=" + no);
+
 		//	Tax
 		sql = new StringBuffer ("UPDATE I_Order o "
 			  + "SET C_Tax_ID=(SELECT MAX(C_Tax_ID) FROM C_Tax t"
@@ -678,6 +702,8 @@ public class ImportOrder extends SvrProcess
 				lineNo += 10;
 				if (imp.getM_Product_ID() != 0)
 					line.setM_Product_ID(imp.getM_Product_ID(), true);
+				if (imp.getC_Charge_ID() != 0)
+					line.setC_Charge_ID(imp.getC_Charge_ID());
 				line.setQty(imp.getQtyOrdered());
 				line.setPrice();
 				if (imp.getPriceActual().compareTo(Env.ZERO) != 0)

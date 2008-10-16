@@ -193,6 +193,21 @@ public interface I_I_Order
 
 	public I_C_Campaign getC_Campaign() throws Exception;
 
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public I_C_Charge getC_Charge() throws Exception;
+
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 
@@ -237,6 +252,19 @@ public interface I_I_Order
 	public int getC_DocType_ID();
 
 	public I_C_DocType getC_DocType() throws Exception;
+
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
+
+	/** Set Charge Name.
+	  * Name of the Charge
+	  */
+	public void setChargeName (String ChargeName);
+
+	/** Get Charge Name.
+	  * Name of the Charge
+	  */
+	public String getChargeName();
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
