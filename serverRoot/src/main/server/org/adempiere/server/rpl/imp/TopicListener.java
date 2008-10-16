@@ -31,6 +31,7 @@ package org.adempiere.server.rpl.imp;
 import java.util.Properties;
 
 import javax.jms.Connection;
+import javax.jms.InvalidClientIDException;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
@@ -187,7 +188,15 @@ public class TopicListener implements MessageListener {
 		
 		log.finest("conn = " + conn );
 		
+		try {
 		conn.setClientID( clientID );
+		} catch (InvalidClientIDException e) {
+			// TODO find a better way to check whether the connection already
+			// exists
+			log.config("Connection with clientID '" + clientID
+					   + "' already exists");
+			return;
+		}	
 		
 		session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE); // TODO - could be parameter
 		log.finest("session = " + session );

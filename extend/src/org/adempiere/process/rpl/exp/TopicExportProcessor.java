@@ -151,7 +151,6 @@ public class TopicExportProcessor implements IExportProcessor {
 				connection = connectionFactory.createConnection();
 			}
 			
-			connection.setClientID( clientID );
 			connection.start();
 			
 			// Create a Session
