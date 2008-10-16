@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,11 +16,22 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MLocation;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MUser;
+import org.compiere.model.X_I_Order;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Import Order from I_Order
@@ -440,7 +451,7 @@ public class ImportOrder extends SvrProcess
 			log.warning ("Invalid Charge=" + no);
 		//
 		
-		sql = new StringBuffer ("UPDATE I_Invoice "
+		sql = new StringBuffer ("UPDATE I_Order "
 				  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Product and Charge, ' "
 				  + "WHERE M_Product_ID IS NOT NULL AND C_Charge_ID IS NOT NULL "
 				  + " AND I_IsImported<>'Y'").append (clientCheck);
