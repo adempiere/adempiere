@@ -291,6 +291,7 @@ public class Doc_MatchInv extends Doc
 				tAmt = tAmt.add(m_invoiceLine.getLineNetAmt().multiply(multiplier));
 			}
 		}
+		tAmt = tAmt.add(cr.getAcctBalance().negate()); //Invoice Price
 		
 		// 	Different currency
 		MInvoice invoice = m_invoiceLine.getParent();
@@ -307,7 +308,6 @@ public class Doc_MatchInv extends Doc
 			}
 		}
 		
-		tAmt = tAmt.add(cr.getAcctBalance().negate()); //Invoice Price
 		// set Qty to negative value when MovementType is Vendor Returns
 		MInOut receipt = m_receiptLine.getParent();
 		if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
