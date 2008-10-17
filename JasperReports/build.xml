@@ -64,7 +64,7 @@
 	      <pathelement path="../lib/CSTools.jar"/>
 	      <pathelement path="../looks/CLooks.jar"/>
 	      <pathelement path="../lib/oracle.jar"/>
-		  <pathelement path="../JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
+		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
 	      <pathelement path="../tools/lib/commons-collections-3.1.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
@@ -131,7 +131,7 @@
 	  index="yes"
   	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
-  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-1.3.0.jar" >
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.0.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >

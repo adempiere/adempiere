@@ -237,7 +237,7 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- Barcode, ftp			-->
-      <zipfileset src="lib/barbecue-1.1.jar" >
+      <zipfileset src="lib/barbecue-1.5-beta1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <zipfileset src="lib/commons-net-1.4.0.jar" >
@@ -266,7 +266,7 @@
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
       <!-- POI -->
-      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
+      <zipfileset src="lib/poi-3.0.1-FINAL-20070705.jar" >
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
       <manifest>
@@ -353,14 +353,14 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- Barcode, ftp			-->
-      <zipfileset src="lib/barbecue-1.1.jar" >
+      <zipfileset src="lib/barbecue-1.5-beta1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <zipfileset src="lib/commons-net-1.4.0.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <!-- JFreeChart			-->
-      <zipfileset src="lib/jfreechart-1.0.2.jar" >
+      <zipfileset src="lib/jfreechar-1.0.3.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
       <zipfileset src="lib/jcommon-1.0.5.jar" >
@@ -403,7 +403,7 @@
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
       <!-- POI -->
-      <zipfileset src="lib/poi-2.0-final-20040126.jar" >
+      <zipfileset src="lib/poi-3.0.1-FINAL-20070705.jar" >
     		<patternset refid="manifest.exclude"/>
       </zipfileset>
       <manifest>
