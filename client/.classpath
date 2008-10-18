@@ -5,9 +5,9 @@
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/looks"/>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/swingx-0.9.0.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/groovy-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.3.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

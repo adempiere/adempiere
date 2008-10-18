@@ -4,6 +4,9 @@
 	<classpathentry exported="true" kind="lib" path="lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/Verisign.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/standard.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>

@@ -23,7 +23,6 @@
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
-	<classpathentry kind="lib" path="/tools/lib/barbecue-1.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
 	<classpathentry kind="lib" path="/tools/lib/j2ee.jar"/>
@@ -31,6 +30,5 @@
 	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
-	<classpathentry kind="lib" path="/sqlj/sqlj.jar"/>
 	<classpathentry kind="output" path="posterita/web/WEB-INF/classes"/>
 </classpath>
