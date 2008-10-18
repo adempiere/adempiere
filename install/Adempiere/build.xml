@@ -133,9 +133,9 @@
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- posterita packages -->
-			<zipfileset src="lib/posterita.jar" >
+			<!--zipfileset src="lib/posterita.jar" >
 				<patternset refid="manifest.exclude"/>
-			</zipfileset>
+			</zipfileset-->
 			<!-- 2pack packages -->
 			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
 				<patternset refid="manifest.exclude"/>
