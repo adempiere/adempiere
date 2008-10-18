@@ -1,0 +1,50 @@
+tr.good td {
+	color: red;
+	font-weight: bold;
+}
+
+tr.bad td {
+	color: blue;
+}
+
+td.money {
+	text-align: right;
+	padding-right: 2px;
+}
+
+tr.bad td.money {
+	font-weight: bold;
+	background-color: blue;
+	color: #fff;
+}
+
+td.r,th.r {
+	text-align: right;
+	padding-right: 10px;
+}
+
+tr.total td,tr.subtotal td {
+	background-color: #eee;
+	font-weight: bold;
+}
+
+
+.DR
+{
+	color:red;
+}
+
+.CO
+{
+	color:green;
+}
+
+.PR
+{
+	color:yellow;
+}
+
+.CL
+{
+	color:blue;
+}

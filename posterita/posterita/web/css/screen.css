@@ -1,0 +1,118 @@
+@import url("displaytag.css");
+
+@import url("alternative.css");
+
+@import url("teststyles.css");
+
+body,input,select,td,textarea {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+
+h4,h5,h6,p,strong,div,form,acronym,label,table,td,th,span,a,hr,code,pre,hr
+	{
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	background-repeat: no-repeat;
+	list-style-type: none;
+}
+
+a,a:visited,a:hover {
+	color: #666;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+img {
+	border: none;
+}
+
+table hr {
+	height: 1px;
+	clear: both;
+	margin: none;
+	width: 100%;
+}
+
+textarea {
+	width: 80%;
+	height: 200px;
+}
+
+dt {
+	font-weight: bold;
+}
+
+acronym {
+	border-bottom: 1px dashed #000;
+	cursor: help;
+}
+
+ul#stylelist {
+	margin: 0 0 20px 0;
+	height: 20px;
+	padding: 0;
+}
+
+ul#stylelist li {
+	list-style-type: none;
+	float: left;
+	width: 100px;
+	border: 1px solid #ccc;
+	background-color: #eee;
+	padding: 2px;;
+	float: left;
+	width: 100px;
+	border: 1px solid #ccc;
+	background-color: #eee;
+	padding: 2px;
+	margin: 0 2px 0 0;
+}
+
+ul#showsource {
+	float: right;
+	padding: 0;
+	margin: 15px 20px 0 0;
+	width: 100px;
+	height: 33px;
+	list-style-type: none;
+	background-image: url("../img/viewsource.png");
+	background-repeat: no-repeat;
+	margin-bottom: -30px;
+	text-align: center;
+	line-height: 30px;
+	font-weight: bold;
+}
+
+ul#showsource a,ul#showsource a:visited {
+	font-size: 11px;
+	font-family: verdana;
+	color: #fff;
+}
+
+table.sublist {
+	margin: 0 0 0 0;
+	width: 100%;
+}
+
+table.sublist td,table.sublist th {
+	width: 50%;
+}
+
+code {
+	background-color: #eee;
+	padding: 0 2px 0 2px;
+}
+
+hr {
+	height: 1px;
+	color: #fff;
+	border: none;
+	border-top: 1px dotted #ccc;
+	margin: 20px 0 20px 0;
+	width: 50%;
+}

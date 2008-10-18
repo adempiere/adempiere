@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- Posterita Web POS Application                            -->
+<!-- ======================================================== -->
+
+<project name="posterita" default="CreateZip" basedir=".">
+
+  <!--<property environment="env"/>-->
+  <import file="properties.xml"/>
+
+
+  <property name="posterita.dist.dir" value="../posterita/dist"/>
+  <property name="dist.dir" value="${basedir}/dist"/>
+  <property name="unzip.dir" value="${basedir}/unzip/Adempiere"/>	 
+  <property name="db.dir" value="${basedir}/db"/>
+  <property name="buildpatch.adempiere.dir" value="${basedir}/BuildPatch/Adempiere"/>
+	
+  <property name="reference.adempiere.dir" value="../reference/Adempiere340"/>
+  <property name="reference.aspectj.dir" value="../reference/aspectJ/"/>
+  <property name="posterita.version" value="1.7.3"/>
+  <property name="posterita.zip.version" value="173"/>
+
+  <target name="init">
+    <echo message="=========== Build Commons ==========="/>
+    <tstamp/>
+  	<mkdir dir="${unzip.dir}"/>
+  	<mkdir dir="${dist.dir}"/>
+  	
+  </target>
+  	  	
+ 
+  <!-- =================================================================== -->
+  <!-- Cleans up the current build                                         -->
+  <!-- =================================================================== -->
+  <target name="clean">
+  
+  	<delete dir="${unzip.dir}"/>
+  	<delete dir="${dist.dir}"/>
+  	
+  </target>
+	
+  <!-- Build Commons -->
+  <target name="CreateZip" depends="init">
+  	
+  	<ant inheritAll="false" dir="../posterita"/>
+  	
+  	<copy todir="${unzip.dir}" overwrite="true"> 
+  		<fileset dir="${reference.adempiere.dir}"/>
+  		<fileset dir="${buildpatch.adempiere.dir}"/>
+  	</copy>
+  	<copy todir="${unzip.dir}/lib" overwrite="true" verbose="true">
+  		<fileset dir="${reference.aspectj.dir}">
+   			 <include name="aspectjweaver.jar"/>
+		</fileset>
+  		<fileset file="${posterita.dist.dir}/lib/posterita.war"/>
+  		<fileset file="${posterita.dist.dir}/lib/posterita.jar"/>
+  		<fileset file="${posterita.dist.dir}/lib/posteritaPatches.jar"/>
+  	</copy>
+  	
+  	<copy todir="${unzip.dir}/data" overwrite="true"> 
+  		<fileset dir="${db.dir}"/>
+  	</copy>
+  	
+  	<delete file="${unzip.dir}/data/Adempiere.dmp" failonerror="true"/>
+  	<delete file="${unzip.dir}/data/Adempiere_pg.dmp" failonerror="true"/>
+  	<unjar src="${unzip.dir}/data/Adempiere.jar" dest="${unzip.dir}/data"/>
+  	<unjar src="${unzip.dir}/data/Adempiere_pg.jar" dest="${unzip.dir}/data"/>
+  	
+  	<zip destfile="${dist.dir}/Posterita${posterita.zip.version}.zip">
+        <fileset dir="${basedir}/unzip"/>
+	</zip>
+  
+  </target>
+  
+</project>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+  "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+	  <tlib-version>1.0</tlib-version>
+	  <jsp-version>1.2</jsp-version>
+	  <short-name>pos</short-name>
+	  <uri>pos.tld</uri>
+	  <display-name>POSterita</display-name>
+	  <description>$Id: pos.tld,v 1.2 2006/11/29 05:23:55 alok Exp $</description>
+	
+	
+	  <tag>
+		<name>message</name>
+		<tag-class>org.posterita.pos.taglib.MessageTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>Display element</description>
+		<attribute>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>printing</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>textOnly</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	  </tag>
+	  <tag>
+	  	<name>bpartner</name>
+	  	<tag-class>org.posterita.pos.taglib.BPartnerSearchTag</tag-class>
+	  	<body-content>JSP</body-content>
+	  	<description>Ajax search for BPartner</description>
+	  	<attribute>
+	  		<name>name</name>
+	  		<required>true</required>
+	  		<rtexprvalue>true</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>property</name>
+	  		<required>true</required>
+	  		<rtexprvalue>true</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>disabled</name>
+	  		<required>false</required>
+	  		<rtexprvalue>true</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>isCustomer</name>
+	  		<required>false</required>
+	  		<rtexprvalue>false</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>isVendor</name>
+	  		<required>false</required>
+	  		<rtexprvalue>false</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>isEmployee</name>
+	  		<required>false</required>
+	  		<rtexprvalue>false</rtexprvalue>
+	  	</attribute>
+	  	<attribute>
+	  		<name>size</name>
+	  		<required>false</required>
+	  		<rtexprvalue>false</rtexprvalue>
+	  	</attribute>
+	  </tag>
+</taglib>

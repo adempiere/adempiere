@@ -1,0 +1,30 @@
+/* Send link
+============================== */
+
+MB_content fieldset input {
+	float: left;
+	margin: 0.5em 0;
+	font: 100%/1.2 Arial, Helvetica, Geneva, sans-serif;
+}
+#MB_content fieldset textarea {
+	width: 98%;
+	margin: 0 0 0.5em;
+	color: #666;
+	font: 100%/1.2 Arial, Helvetica, Geneva, sans-serif;
+}
+#MB_content fieldset label {
+	float: left;
+	padding-bottom: .25em;
+	margin: 0.5em 0;
+	width: 100px;
+}
+#MB_content fieldset label.long { width: 100%; }
+#MB_content br { clear: both }
+
+#MB_content .error-msg {
+	padding: .5em;
+	color: #FFF;
+	font-weight: bold;
+	background-color: #C30;
+	border: 1px solid #930;
+}
