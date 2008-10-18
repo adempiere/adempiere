@@ -884,7 +884,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
          
         //uncomment the following methods to compile using jdk 6
         //vpj-cd add support java 6    
-        /*
+        
         public void setBinaryStream(int parameterIndex, java.io.InputStream x, 
 			 long length) throws SQLException
         {        
@@ -981,7 +981,7 @@ public class CPreparedStatement extends CStatement implements PreparedStatement
        }
 
        public void setRowId(int parameterIndex, java.sql.RowId x) throws SQLException{}
-       */
+       
 
 }	//	CPreparedStatement
 

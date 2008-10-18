@@ -1462,7 +1462,7 @@ public class CCallableStatement extends CPreparedStatement implements CallableSt
 
     
 
-	/* Java 6 support - teo_sarca BF [ 1806700 ] *
+	/* Java 6 support - teo_sarca BF [ 1806700 ] */
 	public Reader getCharacterStream(int parameterIndex) throws SQLException {
         if (p_stmt != null)
         {
