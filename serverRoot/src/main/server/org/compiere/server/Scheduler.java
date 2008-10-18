@@ -113,9 +113,9 @@ public class Scheduler extends AdempiereServer
 		//
 		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(),
 			AD_Table_ID, Record_ID);
-		pi.setAD_User_ID(m_model.getUpdatedBy());
+		pi.setAD_User_ID(getAD_User_ID());
 		pi.setAD_Client_ID(m_model.getAD_Client_ID());
-		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
+		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());		
 		if (!process.processIt(pi, m_trx) && pi.getClassName() != null) 
 			return "Process failed: (" + pi.getClassName() + ") " + pi.getSummary();
 
@@ -127,23 +127,39 @@ public class Scheduler extends AdempiereServer
 		File report = re.getPDF();
 		//	Notice
 		int AD_Message_ID = 884;		//	HARDCODED SchedulerResult
+		MUser from = new MUser(getCtx(), pi.getAD_User_ID(), null);
 		Integer[] userIDs = m_model.getRecipientAD_User_IDs();
 		for (int i = 0; i < userIDs.length; i++)
 		{
-			MNote note = new MNote(getCtx(), 
-					AD_Message_ID, userIDs[i].intValue(), m_trx.getTrxName());
-			note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-			note.setTextMsg(m_model.getName());
-			note.setDescription(m_model.getDescription());
-			note.setRecord(AD_Table_ID, Record_ID);
-			note.save();
-			//	Attachment
-			MAttachment attachment = new MAttachment (getCtx(), 
-					X_AD_Note.Table_ID, note.getAD_Note_ID(), m_trx.getTrxName());
-			attachment.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-			attachment.addEntry(report);
-			attachment.setTextMsg(m_model.getName());
-			attachment.save();
+			MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
+			String type = user.getNotificationType();
+			boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
+				X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+			boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
+				X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+			
+			if (notice)
+			{
+				MNote note = new MNote(getCtx(), 
+						AD_Message_ID, userIDs[i].intValue(), m_trx.getTrxName());
+				note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+				note.setTextMsg(m_model.getName());
+				note.setDescription(m_model.getDescription());
+				note.setRecord(AD_Table_ID, Record_ID);
+				note.save();
+				//	Attachment
+				MAttachment attachment = new MAttachment (getCtx(), 
+						X_AD_Note.Table_ID, note.getAD_Note_ID(), m_trx.getTrxName());
+				attachment.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+				attachment.addEntry(report);
+				attachment.setTextMsg(m_model.getName());
+				attachment.save();
+			}
+			if (email)
+			{
+				MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
+				client.sendEMail(from, user, m_model.getName(), m_model.getDescription(), report);
+			}
 		}
 		//
 		return pi.getSummary();
@@ -167,12 +183,14 @@ public class Scheduler extends AdempiereServer
 		//
 		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(),
 			AD_Table_ID, Record_ID);
-		pi.setAD_User_ID(m_model.getUpdatedBy());
+		int AD_User_ID = getAD_User_ID();		
+		
+		pi.setAD_User_ID(AD_User_ID);
 		pi.setAD_Client_ID(m_model.getAD_Client_ID());
 		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
-		//notify supervisor if error
-		
 		MUser from = new MUser(getCtx(), pi.getAD_User_ID(), null);
+		
+		//notify supervisor if error				
 		if ( !process.processIt(pi, m_trx) ) 
 		{
 			int supervisor = m_model.getSupervisor_ID();
@@ -184,6 +202,10 @@ public class Scheduler extends AdempiereServer
 					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
 				boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
 					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				
+				if (email || notice)
+					ProcessInfoUtil.setLogFromDB(pi);
+				
 				if (email) 
 				{
 					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
@@ -192,7 +214,7 @@ public class Scheduler extends AdempiereServer
 				if (notice) {
 					int AD_Message_ID = 442; //ProcessRunError
 					MNote note = new MNote(getCtx(), 
-							AD_Message_ID, supervisor, m_trx.getTrxName());
+							AD_Message_ID, supervisor, null);
 					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 					note.setTextMsg(pi.getSummary());
 					//note.setDescription();
@@ -202,35 +224,53 @@ public class Scheduler extends AdempiereServer
 			}
 		} 
 		else 
-		{
+		{			
 			Integer[] userIDs = m_model.getRecipientAD_User_IDs();
-			for (int i = 0; i < userIDs.length; i++) 
+			if (userIDs.length > 0) 
 			{
-				MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
-				String type = user.getNotificationType();
-				boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
-					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
-				boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
-					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
-				if (email) 
+				ProcessInfoUtil.setLogFromDB(pi);
+				for (int i = 0; i < userIDs.length; i++) 
 				{
-					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());					
-					client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
-				}
-				if (notice) {
-					int AD_Message_ID = 441; //ProcessOK
-					MNote note = new MNote(getCtx(), 
-							AD_Message_ID, userIDs[i].intValue(), m_trx.getTrxName());
-					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-					note.setTextMsg(pi.getSummary());
-					//note.setDescription();
-					note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
-					note.save();
+					MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
+					String type = user.getNotificationType();
+					boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
+						X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+					boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
+						X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+					
+					if (email) 
+					{
+						MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());					
+						client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
+					}
+					if (notice) {
+						int AD_Message_ID = 441; //ProcessOK
+						MNote note = new MNote(getCtx(), 
+								AD_Message_ID, userIDs[i].intValue(), null);
+						note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+						note.setTextMsg(pi.getSummary());
+						//note.setDescription();
+						note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
+						note.save();
+					}
 				}
 			}
 		}
 		return pi.getSummary();
 	}	//	runProcess
+
+	private int getAD_User_ID() {
+		int AD_User_ID;
+		if (m_model.getSupervisor_ID() > 0)
+			AD_User_ID = m_model.getSupervisor_ID();
+		else if (m_model.getUpdatedBy() > 0)
+			AD_User_ID = m_model.getUpdatedBy();
+		else if (m_model.getCreatedBy() > 0)
+			AD_User_ID = m_model.getCreatedBy();
+		else
+			AD_User_ID = 100; //fall back to SuperUser
+		return AD_User_ID;
+	}
 	
 	/**
 	 * 	Fill Parameter
