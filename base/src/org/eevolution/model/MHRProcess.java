@@ -272,6 +272,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				String attSql = "SELECT att.HR_Attribute_ID FROM HR_Attribute att" 
 				 		 + " WHERE " + m_From + ">= att.ValidFrom AND (" + m_To + " <= att.ValidTo OR att.ValidTo IS NULL)"
 				 		 + " AND att.HR_Concept_ID =" + m_concept
+				 		 + " AND att.isActive ='Y'"
 				 		 + " AND EXISTS (SELECT * FROM HR_Concept conc WHERE conc.HR_Concept_ID = att.HR_Concept_ID )";
 				if (concept.isEmployee())
 					attSql += " AND att.C_BPartner_ID = " + employee.getC_BPartner_ID();
@@ -743,7 +744,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				if(m_movement.get(new Integer(pc.getHR_Concept_ID())).getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
 					value += m_movement.get(new Integer(pc.getHR_Concept_ID())).getAmount().doubleValue();
 				else if (m_movement.get(new Integer(pc.getHR_Concept_ID())).getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
-					value += m_movement.get(new Integer(pc.getHR_Concept_ID())).getAmount().doubleValue();
+					value += m_movement.get(new Integer(pc.getHR_Concept_ID())).getQty().doubleValue();
 			}
 		}
 		return value;
@@ -970,10 +971,8 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				+" INNER JOIN hr_period  pr ON pr.hr_period_id=p.hr_period_id"
 				+" WHERE m.C_BPartner_ID=" +m_bpartner + " AND p.HR_Payroll_ID=?"
 				+" AND m.HR_Concept_ID = " +HR_Concept_ID+ " AND m.AD_Client_ID =" + Env.getAD_Client_ID(Env.getCtx());
-		if (periodFrom < 0)
-			sql += " AND pr.PeriodNo >= " +p.getPeriodNo() +periodFrom;
-		if (periodTo > 0)
-			sql += " AND pr.PeriodNo <= " +p.getPeriodNo() +periodTo;
+			sql += " AND pr.PeriodNo >= " + (p.getPeriodNo() + periodFrom);
+			sql += " AND pr.PeriodNo <= " + (p.getPeriodNo() + periodTo);
 		//
 		int record = DB.getSQLValue(null,sql,DB.getSQLValue(null,"SELECT HR_PAYROLL_ID FROM HR_PAYROLL WHERE VALUE=?", pPayroll));
 		if (record > 0)

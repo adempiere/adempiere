@@ -83,7 +83,7 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 		List<Object> params = new ArrayList<Object>();
 		
 		whereClause.append("IsActive='Y' AND HR_Payroll_ID=?");
-		params.add(Env.getAD_Client_ID(Env.getCtx()));
+		params.add(p.getHR_Payroll_ID());
 		
 		List<MHRPayrollConcept> list = new Query(Env.getCtx(), Table_Name, whereClause.toString(), null)
 												.setParameters(params)
