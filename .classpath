@@ -44,9 +44,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-net-1.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jgraph.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/postgresql.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/src/web/WEB-INF/lib/struts.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/src/web/WEB-INF/lib/barcode4j.jar"/>
@@ -106,7 +104,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/itext-1.4.8.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-1.3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-engine.jar"/>
@@ -115,7 +112,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/jython.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jython-engine.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-2.0-final-20040126.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar"/>
