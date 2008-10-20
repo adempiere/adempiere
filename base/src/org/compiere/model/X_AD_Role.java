@@ -43,6 +43,32 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
       /** if (AD_Role_ID == 0)
         {
 			setAD_Role_ID (0);
+			setAllow_Info_Account (false);
+// N
+			setAllow_Info_Asset (false);
+// N
+			setAllow_Info_BPartner (false);
+// N
+			setAllow_Info_CashJournal (false);
+// N
+			setAllow_Info_CRP (true);
+// Y
+			setAllow_Info_InOut (false);
+// N
+			setAllow_Info_Invoice (false);
+// N
+			setAllow_Info_MRP (true);
+// Y
+			setAllow_Info_Order (false);
+// N
+			setAllow_Info_Payment (false);
+// N
+			setAllow_Info_Product (true);
+// Y
+			setAllow_Info_Resource (false);
+// N
+			setAllow_Info_Schedule (false);
+// N
 			setConfirmQueryRecords (0);
 // 0
 			setIsAccessAllOrgs (false);
@@ -54,6 +80,8 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 // Y
 			setIsChangeLog (false);
 // N
+			setIsDiscountAllowedOnTotal (false);
+			setIsDiscountUptoLimitPrice (false);
 			setIsManual (false);
 			setIsPersonalAccess (false);
 // N
@@ -683,6 +711,48 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	public boolean isChangeLog () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsChangeLog);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsDiscountAllowedOnTotal.
+		@param IsDiscountAllowedOnTotal IsDiscountAllowedOnTotal	  */
+	public void setIsDiscountAllowedOnTotal (boolean IsDiscountAllowedOnTotal)
+	{
+		set_Value (COLUMNNAME_IsDiscountAllowedOnTotal, Boolean.valueOf(IsDiscountAllowedOnTotal));
+	}
+
+	/** Get IsDiscountAllowedOnTotal.
+		@return IsDiscountAllowedOnTotal	  */
+	public boolean isDiscountAllowedOnTotal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDiscountAllowedOnTotal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set IsDiscountUptoLimitPrice.
+		@param IsDiscountUptoLimitPrice IsDiscountUptoLimitPrice	  */
+	public void setIsDiscountUptoLimitPrice (boolean IsDiscountUptoLimitPrice)
+	{
+		set_Value (COLUMNNAME_IsDiscountUptoLimitPrice, Boolean.valueOf(IsDiscountUptoLimitPrice));
+	}
+
+	/** Get IsDiscountUptoLimitPrice.
+		@return IsDiscountUptoLimitPrice	  */
+	public boolean isDiscountUptoLimitPrice () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDiscountUptoLimitPrice);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

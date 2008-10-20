@@ -418,10 +418,10 @@ public interface I_M_Product
     /** Column name LowLevel */
     public static final String COLUMNNAME_LowLevel = "LowLevel";
 
-	/** Set LowLevel	  */
+	/** Set Low Level	  */
 	public void setLowLevel (int LowLevel);
 
-	/** Get LowLevel	  */
+	/** Get Low Level	  */
 	public int getLowLevel();
 
     /** Column name M_AttributeSet_ID */
@@ -652,6 +652,19 @@ public interface I_M_Product
 	public int getS_Resource_ID();
 
 	public I_S_Resource getS_Resource() throws Exception;
+
+    /** Column name UnitsPerPack */
+    public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";
+
+	/** Set UnitsPerPack.
+	  * The Units Per Pack indicates the no of units of a product packed together.
+	  */
+	public void setUnitsPerPack (int UnitsPerPack);
+
+	/** Get UnitsPerPack.
+	  * The Units Per Pack indicates the no of units of a product packed together.
+	  */
+	public int getUnitsPerPack();
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";

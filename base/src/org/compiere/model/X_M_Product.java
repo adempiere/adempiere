@@ -64,6 +64,8 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 			setIsVerified (false);
 // N
 			setIsWebStoreFeatured (false);
+			setLowLevel (0);
+// 0
 			setM_AttributeSetInstance_ID (0);
 			setM_Product_Category_ID (0);
 			setM_Product_ID (0);
@@ -739,15 +741,15 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return false;
 	}
 
-	/** Set LowLevel.
-		@param LowLevel LowLevel	  */
+	/** Set Low Level.
+		@param LowLevel Low Level	  */
 	public void setLowLevel (int LowLevel)
 	{
 		set_Value (COLUMNNAME_LowLevel, Integer.valueOf(LowLevel));
 	}
 
-	/** Get LowLevel.
-		@return LowLevel	  */
+	/** Get Low Level.
+		@return Low Level	  */
 	public int getLowLevel () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LowLevel);
@@ -1225,6 +1227,26 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public int getS_Resource_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set UnitsPerPack.
+		@param UnitsPerPack 
+		The Units Per Pack indicates the no of units of a product packed together.
+	  */
+	public void setUnitsPerPack (int UnitsPerPack)
+	{
+		set_Value (COLUMNNAME_UnitsPerPack, Integer.valueOf(UnitsPerPack));
+	}
+
+	/** Get UnitsPerPack.
+		@return The Units Per Pack indicates the no of units of a product packed together.
+	  */
+	public int getUnitsPerPack () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UnitsPerPack);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

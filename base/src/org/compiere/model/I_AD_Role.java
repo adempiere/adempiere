@@ -340,6 +340,24 @@ public interface I_AD_Role
 	  */
 	public boolean isChangeLog();
 
+    /** Column name IsDiscountAllowedOnTotal */
+    public static final String COLUMNNAME_IsDiscountAllowedOnTotal = "IsDiscountAllowedOnTotal";
+
+	/** Set IsDiscountAllowedOnTotal	  */
+	public void setIsDiscountAllowedOnTotal (boolean IsDiscountAllowedOnTotal);
+
+	/** Get IsDiscountAllowedOnTotal	  */
+	public boolean isDiscountAllowedOnTotal();
+
+    /** Column name IsDiscountUptoLimitPrice */
+    public static final String COLUMNNAME_IsDiscountUptoLimitPrice = "IsDiscountUptoLimitPrice";
+
+	/** Set IsDiscountUptoLimitPrice	  */
+	public void setIsDiscountUptoLimitPrice (boolean IsDiscountUptoLimitPrice);
+
+	/** Get IsDiscountUptoLimitPrice	  */
+	public boolean isDiscountUptoLimitPrice();
+
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";
 

@@ -119,6 +119,32 @@ public interface I_M_PriceList
 	  */
 	public boolean isDefault();
 
+    /** Column name IsMandatory */
+    public static final String COLUMNNAME_IsMandatory = "IsMandatory";
+
+	/** Set Mandatory.
+	  * Data entry is required in this column
+	  */
+	public void setIsMandatory (boolean IsMandatory);
+
+	/** Get Mandatory.
+	  * Data entry is required in this column
+	  */
+	public boolean isMandatory();
+
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct.
+	  * Price List appears in Product Screen
+	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct.
+	  * Price List appears in Product Screen
+	  */
+	public boolean isPresentForProduct();
+
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 

@@ -45,14 +45,15 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 			setInventoryType (null);
 // D
 			setM_AttributeSetInstance_ID (0);
-			setM_InventoryLine_ID (0);
 			setM_Inventory_ID (0);
+			setM_InventoryLine_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
 			setM_Product_ID (0);
 			setProcessed (false);
 			setQtyBook (Env.ZERO);
 			setQtyCount (Env.ZERO);
+			setQtyCsv (Env.ZERO);
         } */
     }
 
@@ -383,6 +384,25 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 	public BigDecimal getQtyCount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyCount);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set QtyCsv.
+		@param QtyCsv QtyCsv	  */
+	public void setQtyCsv (BigDecimal QtyCsv)
+	{
+		if (QtyCsv == null)
+			throw new IllegalArgumentException ("QtyCsv is mandatory.");
+		set_Value (COLUMNNAME_QtyCsv, QtyCsv);
+	}
+
+	/** Get QtyCsv.
+		@return QtyCsv	  */
+	public BigDecimal getQtyCsv () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyCsv);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

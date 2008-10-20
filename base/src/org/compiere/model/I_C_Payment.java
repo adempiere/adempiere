@@ -271,6 +271,21 @@ public interface I_C_Payment
 
 	public I_C_Campaign getC_Campaign() throws Exception;
 
+    /** Column name C_CashBook_ID */
+    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
+
+	/** Set Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID);
+
+	/** Get Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID();
+
+	public I_C_CashBook getC_CashBook() throws Exception;
+
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 

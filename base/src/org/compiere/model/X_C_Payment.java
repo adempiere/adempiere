@@ -43,7 +43,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       super (ctx, C_Payment_ID, trxName);
       /** if (C_Payment_ID == 0)
         {
-			setC_BankAccount_ID (0);
 			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
 			setC_DocType_ID (0);
@@ -364,9 +363,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -491,6 +491,45 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public int getC_Campaign_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_CashBook getC_CashBook() throws Exception 
+    {
+        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
+        I_C_CashBook result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw e;
+        }
+        return result;
+    }
+
+	/** Set Cash Book.
+		@param C_CashBook_ID 
+		Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID)
+	{
+		if (C_CashBook_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+	}
+
+	/** Get Cash Book.
+		@return Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -212,6 +212,15 @@ public interface I_M_InventoryLine
 	  */
 	public BigDecimal getQtyCount();
 
+    /** Column name QtyCsv */
+    public static final String COLUMNNAME_QtyCsv = "QtyCsv";
+
+	/** Set QtyCsv	  */
+	public void setQtyCsv (BigDecimal QtyCsv);
+
+	/** Get QtyCsv	  */
+	public BigDecimal getQtyCsv();
+
     /** Column name QtyInternalUse */
     public static final String COLUMNNAME_QtyInternalUse = "QtyInternalUse";
 

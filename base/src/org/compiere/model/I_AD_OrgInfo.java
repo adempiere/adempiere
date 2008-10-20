@@ -121,6 +121,19 @@ public interface I_AD_OrgInfo
 	  */
 	public int getParent_Org_ID();
 
+    /** Column name ReceiptFooterMsg */
+    public static final String COLUMNNAME_ReceiptFooterMsg = "ReceiptFooterMsg";
+
+	/** Set ReceiptFooterMsg.
+	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public void setReceiptFooterMsg (String ReceiptFooterMsg);
+
+	/** Get ReceiptFooterMsg.
+	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public String getReceiptFooterMsg();
+
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 
@@ -146,4 +159,26 @@ public interface I_AD_OrgInfo
 	  * Tax Identification
 	  */
 	public String getTaxID();
+
+    /** Column name TransferBank_ID */
+    public static final String COLUMNNAME_TransferBank_ID = "TransferBank_ID";
+
+	/** Set Bank for transfers.
+	  * Bank account depending on currency will be used from this bank for doing transfers
+	  */
+	public void setTransferBank_ID (int TransferBank_ID);
+
+	/** Get Bank for transfers.
+	  * Bank account depending on currency will be used from this bank for doing transfers
+	  */
+	public int getTransferBank_ID();
+
+    /** Column name TransferCashBook_ID */
+    public static final String COLUMNNAME_TransferCashBook_ID = "TransferCashBook_ID";
+
+	/** Set CashBook for transfers	  */
+	public void setTransferCashBook_ID (int TransferCashBook_ID);
+
+	/** Get CashBook for transfers	  */
+	public int getTransferCashBook_ID();
 }

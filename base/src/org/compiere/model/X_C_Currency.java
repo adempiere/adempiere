@@ -50,6 +50,8 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 			setIsEuro (false);
 // N
 			setISO_Code (null);
+			setRoundOffFactor (Env.ZERO);
+// 1
 			setStdPrecision (0);
 // 2
         } */
@@ -272,6 +274,28 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
     {
         return new KeyNamePair(get_ID(), getISO_Code());
     }
+
+	/** Set RoundOffFactor.
+		@param RoundOffFactor 
+		Used to Round Off Payment Amount
+	  */
+	public void setRoundOffFactor (BigDecimal RoundOffFactor)
+	{
+		if (RoundOffFactor == null)
+			throw new IllegalArgumentException ("RoundOffFactor is mandatory.");
+		set_Value (COLUMNNAME_RoundOffFactor, RoundOffFactor);
+	}
+
+	/** Get RoundOffFactor.
+		@return Used to Round Off Payment Amount
+	  */
+	public BigDecimal getRoundOffFactor () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RoundOffFactor);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Standard Precision.
 		@param StdPrecision 

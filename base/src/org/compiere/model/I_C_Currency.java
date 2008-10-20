@@ -170,6 +170,19 @@ public interface I_C_Currency
 	  */
 	public String getISO_Code();
 
+    /** Column name RoundOffFactor */
+    public static final String COLUMNNAME_RoundOffFactor = "RoundOffFactor";
+
+	/** Set RoundOffFactor.
+	  * Used to Round Off Payment Amount
+	  */
+	public void setRoundOffFactor (BigDecimal RoundOffFactor);
+
+	/** Get RoundOffFactor.
+	  * Used to Round Off Payment Amount
+	  */
+	public BigDecimal getRoundOffFactor();
+
     /** Column name StdPrecision */
     public static final String COLUMNNAME_StdPrecision = "StdPrecision";
 

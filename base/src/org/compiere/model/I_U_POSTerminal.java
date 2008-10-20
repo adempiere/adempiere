@@ -1,0 +1,342 @@
+/**********************************************************************
+ * This file is part of Adempiere ERP Bazaar                          *
+ * http://www.adempiere.org                                           *
+ *                                                                    *
+ * Copyright (C) Trifon Trifonov.                                     *
+ * Copyright (C) Contributors                                         *
+ *                                                                    *
+ * This program is free software, you can redistribute it and/or      *
+ * modify it under the terms of the GNU General Public License        *
+ * as published by the Free Software Foundation, either version 2     *
+ * of the License, or (at your option) any later version.             *
+ *                                                                    *
+ * This program is distributed in the hope that it will be useful,    *
+ * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
+ * GNU General Public License for more details.                       *
+ *                                                                    *
+ * You should have received a copy of the GNU General Public License  *
+ * along with this program, if not, write to the Free Software        *
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
+ * MA 02110-1301, USA.                                                *
+ *                                                                    *
+ * Contributors:                                                      *
+ * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
+ *                                                                    *
+ * Sponsors:                                                          *
+ * - Company (http://www.site.com)                                    *
+ **********************************************************************/
+package org.compiere.model;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import org.compiere.util.KeyNamePair;
+
+/** Generated Interface for U_POSTerminal
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.2a
+ */
+public interface I_U_POSTerminal 
+{
+
+    /** TableName=U_POSTerminal */
+    public static final String Table_Name = "U_POSTerminal";
+
+    /** AD_Table_ID=52004 */
+    public static final int Table_ID = MTable.getTable_ID(Table_Name);
+
+    KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
+
+    /** AccessLevel = 1 - Org 
+     */
+    BigDecimal accessLevel = BigDecimal.valueOf(1);
+
+    /** Load Meta Data */
+
+    /** Column name AutoLock */
+    public static final String COLUMNNAME_AutoLock = "AutoLock";
+
+	/** Set Auto Lock.
+	  * Whether to automatically lock the terminal when till is closed
+	  */
+	public void setAutoLock (boolean AutoLock);
+
+	/** Get Auto Lock.
+	  * Whether to automatically lock the terminal when till is closed
+	  */
+	public boolean isAutoLock();
+
+    /** Column name CardTransferCashBook_ID */
+    public static final String COLUMNNAME_CardTransferCashBook_ID = "CardTransferCashBook_ID";
+
+	/** Set Transfer Card trx to.
+	  * Cash Book on which to transfer all Card transactions
+	  */
+	public void setCardTransferCashBook_ID (int CardTransferCashBook_ID);
+
+	/** Get Transfer Card trx to.
+	  * Cash Book on which to transfer all Card transactions
+	  */
+	public int getCardTransferCashBook_ID();
+
+    /** Column name CardTransferType */
+    public static final String COLUMNNAME_CardTransferType = "CardTransferType";
+
+	/** Set Card Transfer Type	  */
+	public void setCardTransferType (String CardTransferType);
+
+	/** Get Card Transfer Type	  */
+	public String getCardTransferType();
+
+    /** Column name CashBookTransferType */
+    public static final String COLUMNNAME_CashBookTransferType = "CashBookTransferType";
+
+	/** Set Cash Book Transfer Type.
+	  * Where the money in the cash book should be transfered to. Either a Bank Account or another Cash Book
+	  */
+	public void setCashBookTransferType (String CashBookTransferType);
+
+	/** Get Cash Book Transfer Type.
+	  * Where the money in the cash book should be transfered to. Either a Bank Account or another Cash Book
+	  */
+	public String getCashBookTransferType();
+
+    /** Column name CashTransferCashBook_ID */
+    public static final String COLUMNNAME_CashTransferCashBook_ID = "CashTransferCashBook_ID";
+
+	/** Set Transfer Cash trx to.
+	  * Cash Book on which to transfer all Cash transactions
+	  */
+	public void setCashTransferCashBook_ID (int CashTransferCashBook_ID);
+
+	/** Get Transfer Cash trx to.
+	  * Cash Book on which to transfer all Cash transactions
+	  */
+	public int getCashTransferCashBook_ID();
+
+    /** Column name C_CashBook_ID */
+    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
+
+	/** Set Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID);
+
+	/** Get Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID();
+
+	public I_C_CashBook getC_CashBook() throws Exception;
+
+    /** Column name C_CashBPartner_ID */
+    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
+
+	/** Set Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
+
+	/** Get Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID();
+
+    /** Column name CheckTransferCashBook_ID */
+    public static final String COLUMNNAME_CheckTransferCashBook_ID = "CheckTransferCashBook_ID";
+
+	/** Set Transfer Check trx to.
+	  * Cash Book on which to transfer all Check transactions
+	  */
+	public void setCheckTransferCashBook_ID (int CheckTransferCashBook_ID);
+
+	/** Get Transfer Check trx to.
+	  * Cash Book on which to transfer all Check transactions
+	  */
+	public int getCheckTransferCashBook_ID();
+
+    /** Column name CheckTransferType */
+    public static final String COLUMNNAME_CheckTransferType = "CheckTransferType";
+
+	/** Set Check Transfer Type	  */
+	public void setCheckTransferType (String CheckTransferType);
+
+	/** Get Check Transfer Type	  */
+	public String getCheckTransferType();
+
+    /** Column name C_TemplateBPartner_ID */
+    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
+
+	/** Set Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
+
+	/** Get Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID();
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
+    /** Column name LastLockTime */
+    public static final String COLUMNNAME_LastLockTime = "LastLockTime";
+
+	/** Set Last Lock Time.
+	  * Last time at which the terminal was locked
+	  */
+	public void setLastLockTime (Timestamp LastLockTime);
+
+	/** Get Last Lock Time.
+	  * Last time at which the terminal was locked
+	  */
+	public Timestamp getLastLockTime();
+
+    /** Column name Locked */
+    public static final String COLUMNNAME_Locked = "Locked";
+
+	/** Set Locked.
+	  * Whether the terminal is locked
+	  */
+	public void setLocked (boolean Locked);
+
+	/** Get Locked.
+	  * Whether the terminal is locked
+	  */
+	public boolean isLocked();
+
+    /** Column name LockTime */
+    public static final String COLUMNNAME_LockTime = "LockTime";
+
+	/** Set Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public void setLockTime (int LockTime);
+
+	/** Get Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public int getLockTime();
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public I_M_Warehouse getM_Warehouse() throws Exception;
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
+
+    /** Column name PO_PriceList_ID */
+    public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
+
+	/** Set Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public void setPO_PriceList_ID (int PO_PriceList_ID);
+
+	/** Get Purchase Pricelist.
+	  * Price List used by this Business Partner
+	  */
+	public int getPO_PriceList_ID();
+
+    /** Column name PrinterName */
+    public static final String COLUMNNAME_PrinterName = "PrinterName";
+
+	/** Set Printer Name.
+	  * Name of the Printer
+	  */
+	public void setPrinterName (String PrinterName);
+
+	/** Get Printer Name.
+	  * Name of the Printer
+	  */
+	public String getPrinterName();
+
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
+
+    /** Column name SO_PriceList_ID */
+    public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
+
+	/** Set Sales Pricelist	  */
+	public void setSO_PriceList_ID (int SO_PriceList_ID);
+
+	/** Get Sales Pricelist	  */
+	public int getSO_PriceList_ID();
+
+    /** Column name UnlockingTime */
+    public static final String COLUMNNAME_UnlockingTime = "UnlockingTime";
+
+	/** Set UnlockingTime.
+	  * Time at which the terminal should be unlocked
+	  */
+	public void setUnlockingTime (Timestamp UnlockingTime);
+
+	/** Get UnlockingTime.
+	  * Time at which the terminal should be unlocked
+	  */
+	public Timestamp getUnlockingTime();
+
+    /** Column name U_POSTerminal_ID */
+    public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
+
+	/** Set POS Terminal	  */
+	public void setU_POSTerminal_ID (int U_POSTerminal_ID);
+
+	/** Get POS Terminal	  */
+	public int getU_POSTerminal_ID();
+}

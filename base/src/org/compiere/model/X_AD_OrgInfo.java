@@ -40,6 +40,8 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
       /** if (AD_OrgInfo_ID == 0)
         {
 			setDUNS (null);
+			setReceiptFooterMsg (null);
+// 1
 			setTaxID (null);
         } */
     }
@@ -217,6 +219,25 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set ReceiptFooterMsg.
+		@param ReceiptFooterMsg 
+		This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public void setReceiptFooterMsg (String ReceiptFooterMsg)
+	{
+		if (ReceiptFooterMsg == null)
+			throw new IllegalArgumentException ("ReceiptFooterMsg is mandatory.");
+		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
+	}
+
+	/** Get ReceiptFooterMsg.
+		@return This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public String getReceiptFooterMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
+	}
+
 	/** Supervisor_ID AD_Reference_ID=286 */
 	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
@@ -259,5 +280,52 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	public String getTaxID () 
 	{
 		return (String)get_Value(COLUMNNAME_TaxID);
+	}
+
+	/** TransferBank_ID AD_Reference_ID=52001 */
+	public static final int TRANSFERBANK_ID_AD_Reference_ID=52001;
+	/** Set Bank for transfers.
+		@param TransferBank_ID 
+		Bank account depending on currency will be used from this bank for doing transfers
+	  */
+	public void setTransferBank_ID (int TransferBank_ID)
+	{
+		if (TransferBank_ID < 1) 
+			set_Value (COLUMNNAME_TransferBank_ID, null);
+		else 
+			set_Value (COLUMNNAME_TransferBank_ID, Integer.valueOf(TransferBank_ID));
+	}
+
+	/** Get Bank for transfers.
+		@return Bank account depending on currency will be used from this bank for doing transfers
+	  */
+	public int getTransferBank_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_TransferBank_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** TransferCashBook_ID AD_Reference_ID=52004 */
+	public static final int TRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
+	/** Set CashBook for transfers.
+		@param TransferCashBook_ID CashBook for transfers	  */
+	public void setTransferCashBook_ID (int TransferCashBook_ID)
+	{
+		if (TransferCashBook_ID < 1) 
+			set_Value (COLUMNNAME_TransferCashBook_ID, null);
+		else 
+			set_Value (COLUMNNAME_TransferCashBook_ID, Integer.valueOf(TransferCashBook_ID));
+	}
+
+	/** Get CashBook for transfers.
+		@return CashBook for transfers	  */
+	public int getTransferCashBook_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_TransferCashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

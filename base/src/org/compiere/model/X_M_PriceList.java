@@ -210,6 +210,54 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		return false;
 	}
 
+	/** Set Mandatory.
+		@param IsMandatory 
+		Data entry is required in this column
+	  */
+	public void setIsMandatory (boolean IsMandatory)
+	{
+		set_Value (COLUMNNAME_IsMandatory, Boolean.valueOf(IsMandatory));
+	}
+
+	/** Get Mandatory.
+		@return Data entry is required in this column
+	  */
+	public boolean isMandatory () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMandatory);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set isPresentForProduct.
+		@param isPresentForProduct 
+		Price List appears in Product Screen
+	  */
+	public void setisPresentForProduct (boolean isPresentForProduct)
+	{
+		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
+	}
+
+	/** Get isPresentForProduct.
+		@return Price List appears in Product Screen
+	  */
+	public boolean isPresentForProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Sales Price list.
 		@param IsSOPriceList 
 		This is a Sales Price List
