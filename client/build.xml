@@ -27,8 +27,8 @@
     <pathelement path="../base/Base.jar"/>
     <pathelement path="../lib/customization.jar"/>
     <pathelement path="../lib/patches.jar"/>
-    <pathelement path="../lib/jcommon-1.0.5.jar"/>
-    <pathelement path="../lib/jfreechart-1.0.3.jar"/>
+    <pathelement path="../lib/jcommon-1.0.14.jar"/>
+    <pathelement path="../lib/jfreechart-1.0.11.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../extend/Extend.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
