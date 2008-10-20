@@ -117,7 +117,8 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	private JSplitPane		splitPane	= new JSplitPane ();
 	//private VTreePanel		centerTree;
 	//private JList			centerList	= new JList ();
-	private JScrollPane dataPane = new JScrollPane();        
+	private JScrollPane dataPane = new JScrollPane();
+	private JScrollPane treePane = new JScrollPane();
 	//private CLabel           labelUOM = new CLabel();
 	//private CTextField       fieldUOM = new CTextField(10);
 	//private CLabel     labelDocument  = new CLabel();
@@ -190,15 +191,8 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		};
 		
 		implosion.addActionListener(this);
-
-		loadTableBOM();                   
-		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
-		dataPane.getViewport().add(tableBOM , null);     
-
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Msg.getElement(getCtx(), "M_BOM_ID"));
-		m_tree = new JTree(parent);
-		splitPane.add (m_tree, JSplitPane.LEFT);
-
+		splitPane.add (dataPane, JSplitPane.RIGHT);
+		splitPane.add (treePane, JSplitPane.LEFT);
 	}	//	preInit
 
 	/**
@@ -433,19 +427,15 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		}
 
 		m_tree.addTreeSelectionListener(this);
-		//System.out.println("number of children:" + m_tree.getRowCount());
 
-		splitPane.add (m_tree, JSplitPane.LEFT);
-
-		//System.out.println("Table size " + dataBOM.size());
+		treePane.getViewport().add (m_tree, null);
 
 		loadTableBOM();
-		splitPane.add (new JScrollPane(dataPane), JSplitPane.RIGHT);
+		dataPane.getViewport().add(tableBOM, null);
 		// 4Layers - Set divider location
 		splitPane.setDividerLocation(DIVIDER_LOCATION);
 		// 4Layers - end
-		dataPane.getViewport().add(tableBOM , null);
-
+		
 	}	//	action_fillTree
 
 	public DefaultMutableTreeNode parent(MPPProductBOMLine bomline) 
