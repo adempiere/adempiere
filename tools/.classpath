@@ -5,7 +5,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/Verisign.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/standard.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
@@ -16,10 +15,12 @@
 	<classpathentry exported="true" kind="lib" path="lib/jpayment.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/script-api.jar"/>
-	<classpathentry kind="lib" path="lib/bsh-engine.jar"/>
-	<classpathentry kind="lib" path="lib/groovy-all-1.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/groovy-engine.jar"/>
-	<classpathentry kind="lib" path="lib/jython.jar"/>
-	<classpathentry kind="lib" path="lib/jython-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/bsh-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-all-1.5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/groovy-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jython.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jython-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

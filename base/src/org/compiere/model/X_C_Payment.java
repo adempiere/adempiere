@@ -1909,6 +1909,8 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public static final String TENDERTYPE_DirectDebit = "D";
 	/** Account = T */
 	public static final String TENDERTYPE_Account = "T";
+	/** Cash = X */
+	public static final String TENDERTYPE_Cash = "X";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment
@@ -1916,7 +1918,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setTenderType (String TenderType)
 	{
 		if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
-		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T");		set_Value (COLUMNNAME_TenderType, TenderType);
+		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T") || TenderType.equals("X")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T - X");		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
 
 	/** Get Tender type.

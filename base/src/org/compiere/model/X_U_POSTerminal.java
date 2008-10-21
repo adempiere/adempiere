@@ -101,6 +101,56 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return false;
 	}
 
+	/** Card_BankAccount_ID AD_Reference_ID=53283 */
+	public static final int CARD_BANKACCOUNT_ID_AD_Reference_ID=53283;
+	/** Set Card Bank Account.
+		@param Card_BankAccount_ID 
+		Bank Account on which card transactions will be processed
+	  */
+	public void setCard_BankAccount_ID (int Card_BankAccount_ID)
+	{
+		if (Card_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_Card_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_Card_BankAccount_ID, Integer.valueOf(Card_BankAccount_ID));
+	}
+
+	/** Get Card Bank Account.
+		@return Bank Account on which card transactions will be processed
+	  */
+	public int getCard_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Card_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** CardTransferBankAccount_ID AD_Reference_ID=53283 */
+	public static final int CARDTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
+	/** Set Transfer Card trx to.
+		@param CardTransferBankAccount_ID 
+		Bank account on which to transfer Card transactions
+	  */
+	public void setCardTransferBankAccount_ID (int CardTransferBankAccount_ID)
+	{
+		if (CardTransferBankAccount_ID < 1) 
+			set_Value (COLUMNNAME_CardTransferBankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_CardTransferBankAccount_ID, Integer.valueOf(CardTransferBankAccount_ID));
+	}
+
+	/** Get Transfer Card trx to.
+		@return Bank account on which to transfer Card transactions
+	  */
+	public int getCardTransferBankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CardTransferBankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** CardTransferCashBook_ID AD_Reference_ID=52004 */
 	public static final int CARDTRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
 	/** Set Transfer Card trx to.
@@ -169,6 +219,31 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public String getCashBookTransferType () 
 	{
 		return (String)get_Value(COLUMNNAME_CashBookTransferType);
+	}
+
+	/** CashTransferBankAccount_ID AD_Reference_ID=53283 */
+	public static final int CASHTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
+	/** Set Transfer Cash trx to.
+		@param CashTransferBankAccount_ID 
+		Bank Account on which to transfer all Cash transactions
+	  */
+	public void setCashTransferBankAccount_ID (int CashTransferBankAccount_ID)
+	{
+		if (CashTransferBankAccount_ID < 1) 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_CashTransferBankAccount_ID, Integer.valueOf(CashTransferBankAccount_ID));
+	}
+
+	/** Get Transfer Cash trx to.
+		@return Bank Account on which to transfer all Cash transactions
+	  */
+	public int getCashTransferBankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CashTransferBankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** CashTransferCashBook_ID AD_Reference_ID=52004 */
@@ -253,6 +328,56 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public int getC_CashBPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Check_BankAccount_ID AD_Reference_ID=53283 */
+	public static final int CHECK_BANKACCOUNT_ID_AD_Reference_ID=53283;
+	/** Set Check Bank Account.
+		@param Check_BankAccount_ID 
+		Bank Account to be used for processing Check transactions
+	  */
+	public void setCheck_BankAccount_ID (int Check_BankAccount_ID)
+	{
+		if (Check_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_Check_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_Check_BankAccount_ID, Integer.valueOf(Check_BankAccount_ID));
+	}
+
+	/** Get Check Bank Account.
+		@return Bank Account to be used for processing Check transactions
+	  */
+	public int getCheck_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Check_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** CheckTransferBankAccount_ID AD_Reference_ID=53283 */
+	public static final int CHECKTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
+	/** Set Tranfer Check trx to.
+		@param CheckTransferBankAccount_ID 
+		Bank account on which to transfer Check transactions
+	  */
+	public void setCheckTransferBankAccount_ID (int CheckTransferBankAccount_ID)
+	{
+		if (CheckTransferBankAccount_ID < 1) 
+			set_Value (COLUMNNAME_CheckTransferBankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_CheckTransferBankAccount_ID, Integer.valueOf(CheckTransferBankAccount_ID));
+	}
+
+	/** Get Tranfer Check trx to.
+		@return Bank account on which to transfer Check transactions
+	  */
+	public int getCheckTransferBankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CheckTransferBankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

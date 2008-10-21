@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jnlp.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/junit.jar"/>
 	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
@@ -20,6 +19,7 @@
 	<classpathentry kind="lib" path="/tools/lib/script-api.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.3.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

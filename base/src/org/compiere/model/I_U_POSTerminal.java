@@ -66,6 +66,32 @@ public interface I_U_POSTerminal
 	  */
 	public boolean isAutoLock();
 
+    /** Column name Card_BankAccount_ID */
+    public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
+
+	/** Set Card Bank Account.
+	  * Bank Account on which card transactions will be processed
+	  */
+	public void setCard_BankAccount_ID (int Card_BankAccount_ID);
+
+	/** Get Card Bank Account.
+	  * Bank Account on which card transactions will be processed
+	  */
+	public int getCard_BankAccount_ID();
+
+    /** Column name CardTransferBankAccount_ID */
+    public static final String COLUMNNAME_CardTransferBankAccount_ID = "CardTransferBankAccount_ID";
+
+	/** Set Transfer Card trx to.
+	  * Bank account on which to transfer Card transactions
+	  */
+	public void setCardTransferBankAccount_ID (int CardTransferBankAccount_ID);
+
+	/** Get Transfer Card trx to.
+	  * Bank account on which to transfer Card transactions
+	  */
+	public int getCardTransferBankAccount_ID();
+
     /** Column name CardTransferCashBook_ID */
     public static final String COLUMNNAME_CardTransferCashBook_ID = "CardTransferCashBook_ID";
 
@@ -100,6 +126,19 @@ public interface I_U_POSTerminal
 	  * Where the money in the cash book should be transfered to. Either a Bank Account or another Cash Book
 	  */
 	public String getCashBookTransferType();
+
+    /** Column name CashTransferBankAccount_ID */
+    public static final String COLUMNNAME_CashTransferBankAccount_ID = "CashTransferBankAccount_ID";
+
+	/** Set Transfer Cash trx to.
+	  * Bank Account on which to transfer all Cash transactions
+	  */
+	public void setCashTransferBankAccount_ID (int CashTransferBankAccount_ID);
+
+	/** Get Transfer Cash trx to.
+	  * Bank Account on which to transfer all Cash transactions
+	  */
+	public int getCashTransferBankAccount_ID();
 
     /** Column name CashTransferCashBook_ID */
     public static final String COLUMNNAME_CashTransferCashBook_ID = "CashTransferCashBook_ID";
@@ -141,6 +180,32 @@ public interface I_U_POSTerminal
 	  * BPartner to be used for Cash transactions
 	  */
 	public int getC_CashBPartner_ID();
+
+    /** Column name Check_BankAccount_ID */
+    public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
+
+	/** Set Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public void setCheck_BankAccount_ID (int Check_BankAccount_ID);
+
+	/** Get Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public int getCheck_BankAccount_ID();
+
+    /** Column name CheckTransferBankAccount_ID */
+    public static final String COLUMNNAME_CheckTransferBankAccount_ID = "CheckTransferBankAccount_ID";
+
+	/** Set Tranfer Check trx to.
+	  * Bank account on which to transfer Check transactions
+	  */
+	public void setCheckTransferBankAccount_ID (int CheckTransferBankAccount_ID);
+
+	/** Get Tranfer Check trx to.
+	  * Bank account on which to transfer Check transactions
+	  */
+	public int getCheckTransferBankAccount_ID();
 
     /** Column name CheckTransferCashBook_ID */
     public static final String COLUMNNAME_CheckTransferCashBook_ID = "CheckTransferCashBook_ID";
