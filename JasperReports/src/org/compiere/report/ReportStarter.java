@@ -81,6 +81,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	private static File REPORT_HOME = null;
 	
 	private static JRViewerProvider viewerProvider = new SwingJRViewerProvider();
+	private static JasperPrint jasperPrint;
 
     static {
 //        System.setProperty( "javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
@@ -511,7 +512,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
             Connection conn = null;
             try {
             	conn = getConnection();
-                JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
+                jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
                 if (reportData.isDirectPrint()) 
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
@@ -556,6 +557,12 @@ public class ReportStarter implements ProcessCall, ClientProcess {
         reportResult( AD_PInstance_ID, null, trxName);
         return true;
     }
+
+	public static JasperPrint getJasperPrint() 
+	{
+		return jasperPrint;
+	}
+	
 
 	/**
      * Get .property resource file from process attachment

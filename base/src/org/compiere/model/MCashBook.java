@@ -37,11 +37,23 @@ public class MCashBook extends X_C_CashBook
 	 */
 	public static MCashBook get (Properties ctx, int C_CashBook_ID)
 	{
+		return get(ctx, C_CashBook_ID, null);
+	}	//	get
+	
+	/**
+	 * Gets MCashBook from Cache under transaction scope
+	 * @param ctx 				context	
+	 * @param C_CashBook_ID		id of cashbook to load
+	 * @param trxName			transaction name
+	 * @return   Cashbook
+	 */
+	public static MCashBook get(Properties ctx, int C_CashBook_ID, String trxName)
+	{
 		Integer key = new Integer (C_CashBook_ID);
 		MCashBook retValue = (MCashBook) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MCashBook (ctx, C_CashBook_ID, null);
+		retValue = new MCashBook (ctx, C_CashBook_ID, trxName);
 		if (retValue.get_ID () != 0)
 			s_cache.put (key, retValue);
 		return retValue;

@@ -16,29 +16,44 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.report.MReportTree;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
- *  Invoice Model.
- *  Please do not set DocStatus and C_DocType_ID directly. 
- *  They are set in the process() method. 
- *  Use DocAction and C_DocTypeTarget_ID instead.
+ *	Invoice Model.
+ * 	Please do not set DocStatus and C_DocType_ID directly. 
+ * 	They are set in the process() method. 
+ * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
  *  @author Jorg Janke
  *  @version $Id: MInvoice.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
- *
+ *  @author victor.perez@e-evolution.com
+ *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *  Modifications: Added RMA functionality (Ashley Ramdass)
  */
 public class MInvoice extends X_C_Invoice implements DocAction
 {
+	private static final long serialVersionUID = 1L;
+	
     /**
      *  Get Payments Of BPartner
      *  @param ctx context

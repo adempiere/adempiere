@@ -542,6 +542,23 @@ public final class MPayment extends X_C_Payment
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		// @Trifon - CashPayments
+		//if ( getTenderType().equals("X") ) {
+		if ( isCashTrx() ) {
+			// Cash Book Is mandatory
+			if ( getC_CashBook_ID() <= 0 ) {
+				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
+				return false;
+			}
+		} else {
+			// Bank Account Is mandatory
+			if ( getC_BankAccount_ID() <= 0 ) {
+				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_BankAccount_ID@"));
+				return false;
+			}
+		}
+		// end @Trifon - CashPayments
+		
 		//	We have a charge
 		if (getC_Charge_ID() != 0) 
 		{
@@ -685,7 +702,8 @@ public final class MPayment extends X_C_Payment
 	 */
 	public boolean testAllocation()
 	{
-		//	Cash Trx always allocated
+		//	Cash Trx always allocated!!! WHY???
+/* @Trifon - CashPayments
 		if (isCashTrx())
 		{
 			if (!isAllocated())
@@ -695,6 +713,7 @@ public final class MPayment extends X_C_Payment
 			}
 			return false;
 		}
+*/
 		//
 		BigDecimal alloc = getAllocatedAmt();
 		if (alloc == null)
@@ -1780,6 +1799,54 @@ public final class MPayment extends X_C_Payment
 		if (counter != null)
 			m_processMsg += " @CounterDoc@: @C_Payment_ID@=" + counter.getDocumentNo();
 
+		// @Trifon - CashPayments
+		//if ( getTenderType().equals("X") ) {
+		if ( isCashTrx() ) {
+			// Create Cash Book entry
+			if ( getC_CashBook_ID() <= 0 ) {
+				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
+				m_processMsg = "@NoCashBook@";
+				return DocAction.STATUS_Invalid;
+			}
+			MCash cash = MCash.get (getCtx(), getAD_Org_ID(), getDateAcct(), getC_Currency_ID(), get_TrxName());
+			if (cash == null || cash.get_ID() == 0)
+			{
+				m_processMsg = "@NoCashBook@";
+				return DocAction.STATUS_Invalid;
+			}
+			MCashLine cl = new MCashLine( cash );
+			cl.setCashType( X_C_CashLine.CASHTYPE_GeneralReceipts );
+			cl.setDescription("Generated From Payment #" + getDocumentNo());
+			cl.setC_Currency_ID( this.getC_Currency_ID() );
+			cl.setC_Payment_ID( getC_Payment_ID() ); // Set Reference to payment.
+			StringBuffer info=new StringBuffer();
+			info.append("Cash journal ( ")
+				.append(cash.getDocumentNo()).append(" )");				
+			m_processMsg = info.toString();
+			//	Amount
+			BigDecimal amt = this.getPayAmt();
+/*
+			MDocType dt = MDocType.get(getCtx(), invoice.getC_DocType_ID());			
+			if (MDocType.DOCBASETYPE_APInvoice.equals( dt.getDocBaseType() )
+				|| MDocType.DOCBASETYPE_ARCreditMemo.equals( dt.getDocBaseType() ) 
+			) {
+				amt = amt.negate();
+			}
+*/
+			cl.setAmount( amt );
+			//
+			cl.setDiscountAmt( Env.ZERO );
+			cl.setWriteOffAmt( Env.ZERO );
+			cl.setIsGenerated( true );
+			
+			if (!cl.save(get_TrxName()))
+			{
+				m_processMsg = "Could not save Cash Journal Line";
+				return DocAction.STATUS_Invalid;
+			}
+		}
+		// End Trifon - CashPayments
+		
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -1883,7 +1950,7 @@ public final class MPayment extends X_C_Payment
 		int C_BankAccount_ID = DB.getSQLValue(get_TrxName(), sql, getC_Currency_ID(), counterAD_Org_ID);
 		counter.setC_BankAccount_ID(C_BankAccount_ID);
 
-		//	Refernces
+		//	References
 		counter.setC_Activity_ID(getC_Activity_ID());
 		counter.setC_Campaign_ID(getC_Campaign_ID());
 		counter.setC_Project_ID(getC_Project_ID());

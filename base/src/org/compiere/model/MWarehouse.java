@@ -44,12 +44,24 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse get (Properties ctx, int M_Warehouse_ID)
 	{
+		return get(ctx, M_Warehouse_ID, null);
+	}
+	
+	/**
+	 * Retrieves warehouse from cache under transaction scope
+	 * @param ctx				context
+	 * @param M_Warehouse_ID	id of warehouse to load
+	 * @param trxName			transaction name
+	 * @return					warehouse
+	 */
+	public static MWarehouse get (Properties ctx, int M_Warehouse_ID, String trxName)
+	{
 		Integer key = new Integer(M_Warehouse_ID);
 		MWarehouse retValue = (MWarehouse)s_cache.get(key);
 		if (retValue != null)
 			return retValue;
 		//
-		retValue = new MWarehouse (ctx, M_Warehouse_ID, null);
+		retValue = new MWarehouse (ctx, M_Warehouse_ID, trxName);
 		s_cache.put (key, retValue);
 		return retValue;
 	}	//	get

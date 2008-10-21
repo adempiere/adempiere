@@ -554,6 +554,10 @@ public class MCash extends X_C_Cash implements DocAction
 				pay.set_Value("TrxType", "X");		//	Transfer
 				pay.set_Value("TenderType", "X");
 				//
+				//Modification for cash payment - Posterita
+				pay.setC_CashBook_ID(getC_CashBook_ID());
+				//End of modification - Posterita
+				
 				pay.setC_BankAccount_ID(line.getC_BankAccount_ID());
 				pay.setC_DocType_ID(true);	//	Receipt
 				pay.setDateTrx(getStatementDate());

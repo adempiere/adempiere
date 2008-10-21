@@ -97,13 +97,13 @@ public class MPOS extends X_C_POS
 		if (newRecord 
 			|| is_ValueChanged("C_CashBook_ID") || is_ValueChanged("M_Warehouse_ID"))
 		{
-			MCashBook cb = MCashBook.get(getCtx(), getC_CashBook_ID());
+			MCashBook cb = MCashBook.get(getCtx(), getC_CashBook_ID(), get_TrxName());
 			if (cb.getAD_Org_ID() != getAD_Org_ID())
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@AD_Org_ID@: @C_CashBook_ID@"));
 				return false;
 			}
-			MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
+			MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID(), get_TrxName());
 			if (wh.getAD_Org_ID() != getAD_Org_ID())
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@AD_Org_ID@: @M_Warehouse_ID@"));
