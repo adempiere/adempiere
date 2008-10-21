@@ -107,7 +107,9 @@ public class GenerateModel
 		log.info(sql.toString());
 		log.info("----------------------------------");
 		
-		String tableLike = "'%'";	//	All tables
+		String tableLike = null;
+		tableLike = "'%'";	//	All tables
+		// tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";	//	Only specific tables
 		if (args.length > 3)
 			tableLike = args[3];
 		log.info("Table Like: " + tableLike);
@@ -119,6 +121,7 @@ public class GenerateModel
 			+ " OR IsView='N')"
 			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		sql.append(" AND TableName LIKE ").append(tableLike);
+		//sql.append(" AND TableName IN (").append(tableLike).append(")"); // only specific tables
 
 		sql.append(" ORDER BY TableName");
 		

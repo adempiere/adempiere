@@ -581,6 +581,7 @@ public class ModelInterfaceGenerator {
 		
 		// Table name like
 		String tableLike = "'%'";	//	All tables
+		//tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'"; // only specific tables
 		if (args.length > 3)
 			tableLike = args[3];
 		log.info("Table Like: " + tableLike);
@@ -590,6 +591,7 @@ public class ModelInterfaceGenerator {
 				+ "WHERE (TableName IN ('RV_WarehousePrice','RV_BPartner')" // special views
 				+ " OR IsView='N') AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		sql.append(" AND TableName LIKE ").append(tableLike);
+		//sql.append(" AND TableName IN (").append( tableLike ).append(")");
 		sql.append(" ORDER BY TableName");
 
 		//
