@@ -30,5 +30,5 @@
 	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
-	<classpathentry kind="output" path="posterita/web/WEB-INF/classes"/>
+	<classpathentry kind="output" path="posterita/build"/>
 </classpath>
