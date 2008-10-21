@@ -1685,14 +1685,14 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		log.info(toString());
 		StringBuffer info = new StringBuffer();
 
+        /*
 		//	Create Cash
 		if (PAYMENTRULE_Cash.equals(getPaymentRule()))
 		{
 			// Modifications for POSterita
-			/*
-			 	MCash cash = MCash.get (getCtx(), getAD_Org_ID(), 
-				getDateInvoiced(), getC_Currency_ID(), get_TrxName());
-			*/
+            //
+            //    MCash cash = MCash.get (getCtx(), getAD_Org_ID(), 
+            //    getDateInvoiced(), getC_Currency_ID(), get_TrxName());
 			
 			MCash cash;
             
@@ -1727,6 +1727,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			info.append("@C_Cash_ID@: " + cash.getName() +  " #" + cl.getLine());
 			setC_CashLine_ID(cl.getC_CashLine_ID());
 		}	//	CashBook
+        */
 		
 		//	Update Order & Match
 		int matchInv = 0;
