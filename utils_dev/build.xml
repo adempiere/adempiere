@@ -29,7 +29,7 @@
 		<ant inheritAll="false" dir="webStore"/>
 		<ant inheritAll="false" dir="webCM"/>
 		<ant inheritAll="false" dir="sqlj"/>
-		<!--ant inheritAll="false" dir="posterita/posterita"/-->
+		<ant inheritAll="false" dir="posterita/posterita"/>
 		<ant inheritAll="false" dir="zkwebui"/>
 	</target>
 	<target name="build" depends="jar">
@@ -48,7 +48,7 @@
 		<ant inheritAll="false" dir="webStore" target="clean"/>
 		<ant inheritAll="false" dir="webCM" target="clean"/>
 		<ant inheritAll="false" dir="sqlj" target="clean"/>
-		<!--ant inheritAll="false" dir="posterita/posterita" target="clean"/-->
+		<ant inheritAll="false" dir="posterita/posterita" target="clean"/>
 		<ant inheritAll="false" dir="install" target="clean"/>
 		<ant inheritAll="false" dir="zkwebui" target="clean"/>
 	</target>
