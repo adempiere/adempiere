@@ -37,7 +37,7 @@ public class WAssignmentEditor extends WEditor {
 	}
 	
 	private void initComponents() {
-		getComponent().getTextBox().setReadonly(true);
+		getComponent().getTextbox().setReadonly(true);
 		getComponent().setButtonImage("images/Assignment10.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);		
 	}
@@ -67,7 +67,7 @@ public class WAssignmentEditor extends WEditor {
 	public void setReadWrite(boolean readWrite) {
 		m_readWrite = readWrite;
 		getComponent().setEnabled(readWrite);
-		getComponent().getTextBox().setReadonly(true);
+		getComponent().getTextbox().setReadonly(true);
 	}
 
 	@Override

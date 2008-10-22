@@ -16,83 +16,26 @@
 
 package org.adempiere.webui.component;
 
-import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.apps.AEnv;
-import org.zkoss.zk.ui.event.EventListener;
-
 /**
  * Product Attribute Box
  * @author Low Heng Sin
  */
-public class PAttributebox extends Panel
+public class PAttributebox extends EditorBox
 {
-
     private static final long serialVersionUID = 1L;
-
-    private Textbox           textBox;
-
-    private Button            button;
-
+    
     public PAttributebox()
     {
-        initComponents();
+    	super();
     }
 
-    public PAttributebox(String description)
+    /**
+     * @param description
+     */
+	public PAttributebox(String description)
     {
-        initComponents();
+        super();
         setText(description);
     }
 
-    public void setButtonImage(String imageSrc)
-    {
-        button.setImage(imageSrc);
-    }
-
-    private void initComponents()
-    {
-        textBox = new Textbox();
-        textBox.setStyle("display: inline");
-        button = new Button();
-        LayoutUtils.addSclass("editor-button", button);
-        appendChild(textBox);
-        appendChild(button);
-        
-        String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
-        style = style + ";white-space:nowrap";
-	    this.setStyle(style + ";overflow: hidden");
-    }
-
-    public void setText(String value)
-    {
-        textBox.setText(value);
-    }
-
-    public String getText()
-    {
-        return textBox.getText();
-    }
-
-    public void setEnabled(boolean enabled)
-    {
-        textBox.setReadonly(!enabled);
-        button.setEnabled(enabled);
-    }
-    
-    public void setButtonEnabled(boolean enabled)
-    {
-        button.setEnabled(enabled);
-    }
-
-    public boolean addEventListener(String evtnm, EventListener listener)
-    {
-        if ("onClick".equals(evtnm))
-            return button.addEventListener(evtnm, listener);
-        else
-            return textBox.addEventListener(evtnm, listener);
-    }
-    
-    public Textbox getTextbox() {
-    	return textBox;
-    }
 }

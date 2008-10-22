@@ -130,6 +130,21 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
     
     protected abstract void doTabSelectionChanged(int oldIndex, int newIndex);
 
+    public boolean isDisplay(int index) {
+    	if (index >= tabPanelList.size())
+    		return false;
+    	
+    	IADTabpanel newTab = tabPanelList.get(index);
+    	if (newTab instanceof ADTabpanel) 
+    	{
+	    	if (!isDisplay(newTab))
+	        {
+	            return false;
+	        }
+    	}
+    	return true;
+    }
+    
 	public boolean canNavigateTo(int fromIndex, int toIndex) {
     	IADTabpanel newTab = tabPanelList.get(toIndex);
     	if (newTab instanceof ADTabpanel) 

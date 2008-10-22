@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
- * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
+ * Copyright (C) 2008 Low Heng Sin                                            *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,11 +9,7 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
-
 package org.adempiere.webui.component;
 
 import java.beans.PropertyChangeListener;
@@ -23,89 +18,134 @@ import java.beans.PropertyChangeSupport;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 
 /**
- * Editor Box consists of a text box and a button.
- * May be used instaed of SearchBox, LocationBox....
- * 
- * @author  Niraj Sohun
- * @date    Jul 24, 2007
+ * @author Low Heng Sin
  */
-
-public class EditorBox extends Panel
-{
-
+public class EditorBox extends Grid {
 	private static final long serialVersionUID = 1L;
+	protected PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(
+			this);
+	protected Textbox txt;
+	protected Button btn;
+	protected Column btnColumn;
 
-	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
-	private Textbox txt;
-	private Button btn;
-	    
-	public EditorBox()
-	{
+	public EditorBox() {
 		initComponents();
 	}
 
-	public EditorBox(String text)
-	{
+	/**
+	 * @param text
+	 */
+	public EditorBox(String text) {
 		initComponents();
 		setText(text);
 	}
 
-	public void setButtonImage(String imageSrc)
-	{
+	/**
+	 * @param imageSrc
+	 */
+	public void setButtonImage(String imageSrc) {
 		btn.setImage(imageSrc);
 	}
 
-	private void initComponents()
-	{
+	private void initComponents() {
+		this.makeNoStrip();
+		this.setInnerWidth("100%");
+		this.setFixedLayout(true);
+		this.setVflex(false);
+
+		Columns cols = new Columns();
+		this.appendChild(cols);
+		Column col = new Column();
+		col.setWidth("auto");
+		cols.appendChild(col);
+		btnColumn = new Column();
+		btnColumn.setSclass("editor-button");
+		btnColumn.setAlign("left");
+		cols.appendChild(btnColumn);
+
+		Rows rows = newRows();
+		Row row = rows.newRow();
 		txt = new Textbox();
-		txt.setStyle("display: inline;");
+		txt.setStyle("display: inline; width: 99%");
 		btn = new Button();
-	    
-		this.appendChild(txt);
-	    this.appendChild(btn);
-	    
-	    LayoutUtils.addSclass("editor-button", btn);
-	     
-	    String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 
-	    style = style + ";white-space:nowrap";
-	    this.setStyle(style);
+		btn.setTabindex(-1);
+		LayoutUtils.addSclass("editor-button", btn);
+		row.appendChild(txt);
+		row.appendChild(btn);
+
+		String style = AEnv.isFirefox2() ? "display: inline"
+				: "display: inline-block";
+		style = style
+				+ ";border: none; padding: 0px; background-color: transparent;";
+		this.setStyle(style);
+		style = "white-space:nowrap; padding: 0px";
+		row.setStyle(row.getStyle() + ";" + style);
 	}
-	     
-	public Textbox getTextBox()
-	{
+
+	/**
+	 * @return textbox component
+	 */
+	public Textbox getTextbox() {
 		return txt;
 	}
-	    
-	public void setText(String value)
-	{
+
+	/**
+	 * @param value
+	 */
+	public void setText(String value) {
 		txt.setText(value);
 	}
-	     
-	public String getText()
-	{
+
+	/**
+	 * @return text
+	 */
+	public String getText() {
 		return txt.getText();
 	}
 
-	public void setEnabled(boolean enabled)
-	{
-		txt.setReadonly(enabled);
+	/**
+	 * @param enabled
+	 */
+	public void setEnabled(boolean enabled) {
+		txt.setReadonly(!enabled);
 		btn.setEnabled(enabled);
+		btn.setVisible(enabled);
+		btnColumn.setVisible(enabled);
 	}
-	     
-	public boolean isEnabled()
-	{
+
+	/**
+	 * @return boolean
+	 */
+	public boolean isEnabled() {
 		return txt.isReadonly();
 	}
 
-	public boolean addEventListener(String evtnm, EventListener listener)
-	{
-		return btn.addEventListener(evtnm, listener);
+	/**
+	 * @param evtnm
+	 * @param listener
+	 */
+	public boolean addEventListener(String evtnm, EventListener listener) {
+		if (Events.ON_CLICK.equals(evtnm)) {
+			return btn.addEventListener(evtnm, listener);
+		} else {
+			return txt.addEventListener(evtnm, listener);
+		}
 	}
-	     
-	public synchronized void addPropertyChangeListener(PropertyChangeListener l)
-	{
+
+	/**
+	 * @param l
+	 */
+	public synchronized void addPropertyChangeListener(PropertyChangeListener l) {
 		m_propertyChangeListeners.addPropertyChangeListener(l);
+	}
+
+	/**
+	 * @param tooltiptext
+	 */
+	public void setToolTipText(String tooltiptext) {
+		txt.setTooltiptext(tooltiptext);
 	}
 }

@@ -254,16 +254,19 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         btnNew.setName("btnNew");
         btnNew.setSrc("/images/New24.png");
         btnNew.addEventListener(Events.ON_CLICK,this);
+        LayoutUtils.addSclass("action-button", btnNew);
         
         Button btnOk = new Button();
         btnOk.setName("btnOkSimple");
         btnOk.setSrc("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK,this);
+        LayoutUtils.addSclass("action-button", btnOk);
         
         Button btnCancel = new Button();
         btnCancel.setName("btnCancel");
         btnCancel.setSrc("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
+        LayoutUtils.addSclass("action-button", btnCancel);
         
         Panel pnlButtonRight = new Panel();
         pnlButtonRight.appendChild(btnOk);

@@ -28,6 +28,8 @@ import java.util.logging.Level;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Bandbox;
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Column;
+import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridPanel;
@@ -214,9 +216,29 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     	if (uiCreated) return;
     	
     	uiCreated = true;
+    	
+    	//setup columns
+    	Columns columns = new Columns();
+    	grid.appendChild(columns);
+    	Column col = new Column();
+    	col.setWidth("14%");
+    	columns.appendChild(col);
+    	col = new Column();
+    	col.setWidth("35%");
+    	columns.appendChild(col);
+    	col = new Column();
+    	col.setWidth("14%");
+    	columns.appendChild(col);
+    	col = new Column();
+    	col.setWidth("35%");
+    	columns.appendChild(col);
+    	col = new Column();
+    	col.setWidth("2%");
+    	columns.appendChild(col);
+    	
     	Rows rows = new Rows();
         GridField fields[] = gridTab.getFields();
-        Row row = new Row();
+        Row row = new Row();                
         
         String currentFieldGroup = null;
         for (int i = 0; i < fields.length; i++)
@@ -360,7 +382,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     	//can't stretch bandbox & datebox
                     	if (!(editor.getComponent() instanceof Bandbox) && 
                     		!(editor.getComponent() instanceof Datebox)) {
-                    		String width = "99%";    
+                    		String width = "100%";    
                     		if (editor.getComponent() instanceof Button) {
                     			Button btn = (Button) editor.getComponent();
                     			String zclass = btn.getZclass();

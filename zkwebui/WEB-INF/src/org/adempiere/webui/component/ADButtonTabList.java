@@ -61,9 +61,14 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 				if (!tabbox.canNavigateTo(s, i)) {
 					button.setDynamicProperty("disabled", "disabled");
 					button.setSclass("adwindow-navbtn-dis");
+					if (!tabbox.isDisplay(i)) 
+						button.setVisible(false);
+					else
+						button.setVisible(true);
 				} else {
 					button.setDynamicProperty("disabled", null);
 					button.setSclass("adwindow-navbtn-uns");
+					button.setVisible(true);
 				}
 			}
 			
