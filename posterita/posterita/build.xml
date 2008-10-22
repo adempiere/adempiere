@@ -46,7 +46,7 @@
 	<!-- Creating new posterita.jar -->
 	<target name="compile" depends="init">
 		<!-- compile the java code from ${src} into ${build.dir} -->
-		<javac srcdir="${src.main.dir}" destdir="${build.dir}" deprecation="on" source="1.5" target="1.5" debug="on">
+		<javac srcdir="${src.main.dir}" destdir="${src.web.dir}/WEB-INF/classes" deprecation="on" source="1.5" target="1.5" debug="on">
 			<classpath>
 				<fileset dir="${src.web.dir}/WEB-INF/lib/">
 					<include name="*.jar" />
@@ -106,7 +106,7 @@
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
 				<attribute name="Implementation-URL" value="http://www.posterita.org" />
-				<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar adempiereApps.jar" />
+				<attribute name="Class-Path" value="Adempiere.jar AdempiereSLib.jar adempiereApps.jar posterita.jar" />
 			</manifest>
 		</war>
 
