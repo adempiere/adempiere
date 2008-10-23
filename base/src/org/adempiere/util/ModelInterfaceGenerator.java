@@ -468,6 +468,7 @@ public class ModelInterfaceGenerator {
 			log.info(out.getAbsolutePath() + " - " + size + " kB");
 		} catch (Exception ex) {
 			log.log(Level.SEVERE, fileName, ex);
+			throw new RuntimeException(ex);
 		}
 	}
 	
