@@ -497,10 +497,6 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 				Object result2 = null;
 				if (editor2 != null)
 					result2 = editor2.getValue();
-
-				//	Don't save NULL values
-				if (result == null && result2 == null)
-					continue;
 				
 				//	Create Parameter
 				MPInstancePara para = new MPInstancePara (Env.getCtx(), m_processInfo.getAD_PInstance_ID(), i);
