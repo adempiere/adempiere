@@ -122,8 +122,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 	private CLabel dbUidLabel = new CLabel();
 	private CTextField dbUidField = new CTextField();
 	private JPasswordField dbPwdField = new JPasswordField();
-	private CLabel connectionProfileLabel = new CLabel();
-	private CComboBox connectionProfileField = new CComboBox(CConnection.CONNECTIONProfiles);
 
 	private boolean isCancel = true;
 
@@ -166,8 +164,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		//cbOverwrite.setText(res.getString("Overwrite"));
 		dbUidLabel.setText(res.getString("DBUidPwd"));
 		dbUidField.setColumns(10);
-		connectionProfileLabel.setText(res.getString("ConnectionProfile"));
-		connectionProfileField.addActionListener(this);
 		this.getContentPane().add(mainPanel, BorderLayout.CENTER);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		mainPanel.add(southPanel,  BorderLayout.SOUTH);
@@ -187,51 +183,47 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
 		centerPanel.add(appsPortField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-		centerPanel.add(connectionProfileLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		centerPanel.add(connectionProfileField, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 0, 0), 0, 0));
 		//
-		centerPanel.add(bTestApps, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+		centerPanel.add(bTestApps, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.SOUTHWEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 12, 0), 0, 0));
 		//centerPanel.add(cbOverwrite, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
 			//,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 5, 0, 12), 0, 0));
 		//	DB
-		centerPanel.add(dbTypeLabel, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
+		centerPanel.add(dbTypeLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		centerPanel.add(dbTypeField, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
+		centerPanel.add(dbTypeField, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 0), 0, 0));
-		centerPanel.add(cbBequeath, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
+		centerPanel.add(cbBequeath, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 12), 0, 0));
-		centerPanel.add(hostLabel, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
+		centerPanel.add(hostLabel, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		centerPanel.add(hostField,  new GridBagConstraints(1, 6, 2, 1, 0.0, 0.0
+		centerPanel.add(hostField,  new GridBagConstraints(1, 5, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
-		centerPanel.add(portLabel, new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
+		centerPanel.add(portLabel, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
-		centerPanel.add(dbPortField, new GridBagConstraints(1, 7, 1, 1, 0.0, 0.0
+		centerPanel.add(dbPortField, new GridBagConstraints(1, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0));
-		centerPanel.add(sidLabel,  new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
+		centerPanel.add(sidLabel,  new GridBagConstraints(0, 7, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
-		centerPanel.add(sidField,   new GridBagConstraints(1, 8, 2, 1, 0.0, 0.0
+		centerPanel.add(sidField,   new GridBagConstraints(1, 7, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
-		centerPanel.add(dbUidLabel, new GridBagConstraints(0, 9, 1, 1, 0.0, 0.0
+		centerPanel.add(dbUidLabel, new GridBagConstraints(0, 8, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
-		centerPanel.add(dbUidField, new GridBagConstraints(1, 9, 1, 1, 0.0, 0.0
+		centerPanel.add(dbUidField, new GridBagConstraints(1, 8, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0));
-		centerPanel.add(dbPwdField, new GridBagConstraints(2, 9, 1, 1, 1.0, 0.0
+		centerPanel.add(dbPwdField, new GridBagConstraints(2, 8, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 5, 5, 12), 0, 0));
-		centerPanel.add(cbFirewall, new GridBagConstraints(1, 10, 2, 1, 0.0, 0.0
+		centerPanel.add(cbFirewall, new GridBagConstraints(1, 9, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 12), 0, 0));
-		centerPanel.add(fwHostLabel, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0
+		centerPanel.add(fwHostLabel, new GridBagConstraints(0, 10, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
-		centerPanel.add(fwHostField,  new GridBagConstraints(1, 11, 2, 1, 0.0, 0.0
+		centerPanel.add(fwHostField,  new GridBagConstraints(1, 10, 2, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
-		centerPanel.add(fwPortLabel, new GridBagConstraints(0, 12, 1, 1, 0.0, 0.0
+		centerPanel.add(fwPortLabel, new GridBagConstraints(0, 11, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
-		centerPanel.add(fwPortField, new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0
+		centerPanel.add(fwPortField, new GridBagConstraints(1, 11, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0));
-		centerPanel.add(bTestDB,  new GridBagConstraints(1, 13, 1, 1, 0.0, 0.0
+		centerPanel.add(bTestDB,  new GridBagConstraints(1, 12, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 12, 0), 0, 0));
 		//
 		nameField.addActionListener(this);
@@ -260,8 +252,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			appsPortLabel.setVisible(false);
 			appsPortField.setVisible(false);
 			bTestApps.setVisible(false);
-			connectionProfileLabel.setVisible(false);
-			connectionProfileField.setVisible(false);
 		}
 		else	//	Client
 			cbBequeath.setVisible(false);
@@ -342,16 +332,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 			dispose();
 			return;
 		}
-		else if (src == connectionProfileField)
-		{
-			ValueNamePair pp = (ValueNamePair)connectionProfileField.getSelectedItem();
-			m_cc.setConnectionProfile(pp.getValue());
-			if (m_cc.isRMIoverHTTP())
-				appsPortField.setText(APPS_PORT_HTTP);
-			else
-				appsPortField.setText(APPS_PORT_JNP);
-			return;
-		}
 		else if (src == dbTypeField)
 		{
 			if (dbTypeField.getSelectedItem() == null)
@@ -395,9 +375,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		else
 			m_cc.setAppsHost("localhost");
 		//
-		ValueNamePair pp = (ValueNamePair)connectionProfileField.getSelectedItem();
-		m_cc.setConnectionProfile(pp.getValue());
-		//
 		m_cc.setType((String)dbTypeField.getSelectedItem());
 		m_cc.setDbHost(hostField.getText());
 		m_cc.setDbPort(dbPortField.getText());
@@ -420,19 +397,6 @@ public class CConnectionDialog extends CDialog implements ActionListener
 		appsHostField.setText(m_cc.getAppsHost());
 		appsPortField.setText(String.valueOf(m_cc.getAppsPort()));
 		//
-		String cp = m_cc.getConnectionProfile();
-		ValueNamePair cpPP = null;
-		for (int i = 0; i < CConnection.CONNECTIONProfiles.length; i++)
-		{
-			if (cp.equals(CConnection.CONNECTIONProfiles[i].getValue()))
-			{
-				cpPP = CConnection.CONNECTIONProfiles[i];
-				break;
-			}
-		}
-		if (cpPP == null)	//	LAN
-			cpPP = CConnection.CONNECTIONProfiles[0];
-		connectionProfileField.setSelectedItem(cpPP);
 		bTestApps.setIcon(getStatusIcon(m_cc.isAppsServerOK(false)));
 	//	bTestApps.setToolTipText(m_cc.getRmiUri());
 

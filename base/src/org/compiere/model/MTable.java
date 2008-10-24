@@ -749,21 +749,13 @@ public class MTable extends X_AD_Table
 		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
 		try
 		{
-			if (DB.isRemoteObjects()) 
-			{
-				Server server = CConnection.get().getServer();
-				retValue = server.getTableID(tableName);
-			}
-			else
-			{
-				PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-				pstmt.setString(1, tableName);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					retValue = rs.getInt(1);
-				rs.close();
-				pstmt.close();
-			}
+			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
+			pstmt.setString(1, tableName);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+			rs.close();
+			pstmt.close();
 		}
 		catch (Exception e)
 		{

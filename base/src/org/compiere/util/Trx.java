@@ -19,7 +19,6 @@ package org.compiere.util;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
-import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
@@ -29,9 +28,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.db.CConnection;
-import org.compiere.db.ServerConnection;
-import org.compiere.interfaces.Server;
 
 /**
  *	Transaction Management.
@@ -125,9 +121,6 @@ public class Trx implements VetoableChangeListener
 	//	log.info (trxName);
 		setTrxName (trxName);
 		setConnection (con);
-		//create remote transaction immediately
-		if (DB.isRemoteObjects())
-			this.start();
 	}	//	Trx
 
 	/** Logger					*/
@@ -146,9 +139,6 @@ public class Trx implements VetoableChangeListener
 	public Connection getConnection()
 	{
 		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
-		//wan profile
-		if (DB.isRemoteObjects()) 
-			return new ServerConnection(getTrxName());
 		
 		if (m_connection == null)	//	get new Connection
 			setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
@@ -208,9 +198,6 @@ public class Trx implements VetoableChangeListener
 			log.warning("Trx in progress " + m_trxName);
 			return false;
 		}
-		if (DB.isRemoteObjects()) {
-			startRemoteTransaction();
-		}
 		m_active = true;
 		m_startTime = System.currentTimeMillis();
 		return true;
@@ -224,26 +211,6 @@ public class Trx implements VetoableChangeListener
 		return new Date(m_startTime);
 	}
 	
-	private void startRemoteTransaction() {
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	//	See ServerBean
-				server.startTransaction(getTrxName());
-			}
-			else
-			{
-				log.log(Level.WARNING, "AppsServer not found");
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-		}
-		
-	}
-
 	/**
 	 * 	Transaction is Active
 	 *	@return true if transaction active  
@@ -260,12 +227,6 @@ public class Trx implements VetoableChangeListener
 	 */
 	public boolean rollback(boolean throwException) throws SQLException
 	{
-		//remote
-		if (DB.isRemoteObjects())
-		{
-			return remote_rollback(throwException);
-		}
-		
 		//local
 		try
 		{
@@ -310,12 +271,6 @@ public class Trx implements VetoableChangeListener
 	 */
 	public boolean rollback(Savepoint savepoint) throws SQLException
 	{
-		//remote
-		if (DB.isRemoteObjects())
-		{
-			return remote_rollback(savepoint);
-		}
-		
 		//local
 		try
 		{
@@ -335,109 +290,12 @@ public class Trx implements VetoableChangeListener
 	}	//	rollback
 	
 	/**
-	 * Rollback a remote transaction
-	 * @param throwException
-	 * @return true if success, false otherwise
-	 * @throws SQLException
-	 */
-	private boolean remote_rollback(boolean throwException) throws SQLException
-	{
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	//	See ServerBean
-				return server.rollback(m_trxName);
-			}
-			else
-			{
-				log.log(Level.SEVERE, "AppsServer not found");
-				if (throwException)
-					throw new SQLException("AppsServer not found");
-				return false;
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-			if (throwException)
-			{
-				if (ex.getCause() instanceof RuntimeException)
-				{
-					RuntimeException r = (RuntimeException)ex.getCause();
-					if (r.getCause() instanceof SQLException)
-						throw (SQLException)r.getCause();
-					else if ( r.getCause() != null )
-						throw new SQLException("Application server exception - " + r.getCause().getMessage());
-					else
-						throw new SQLException("Application server exception - " + r.getMessage());
-				}
-				else
-					throw new SQLException("Application server exception - " + ex.getMessage());
-			}
-			
-			return false;
-		}
-	}
-	
-	/**
-	 * Rollback a remote transaction
-	 * @param throwException
-	 * @return true if success, false otherwise
-	 * @throws SQLException
-	 */
-	private boolean remote_rollback(Savepoint savepoint) throws SQLException
-	{
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	
-				SavepointVO sp = null;
-				if (savepoint instanceof SavepointVO)
-					sp = (SavepointVO)savepoint;
-				else
-					sp = new SavepointVO(savepoint);
-				return server.rollback(m_trxName, sp);
-			}
-			else
-			{
-				log.log(Level.SEVERE, "AppsServer not found");
-				throw new SQLException("AppsServer not found");
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-			if (ex.getCause() instanceof RuntimeException)
-			{
-				RuntimeException r = (RuntimeException)ex.getCause();
-				if (r.getCause() instanceof SQLException)
-					throw (SQLException)r.getCause();
-				else if ( r.getCause() != null )
-					throw new SQLException("Application server exception - " + r.getCause().getMessage());
-				else
-					throw new SQLException("Application server exception - " + r.getMessage());
-			}
-			else
-			{
-					throw new SQLException("Application server exception - " + ex.getMessage());
-			}
-		}
-	}
-	/**
 	 * Commit
 	 * @param throwException if true, re-throws exception
 	 * @return true if success
 	 **/
 	public boolean commit(boolean throwException) throws SQLException
 	{
-		//remote
-		if (DB.isRemoteObjects())
-		{
-			return remote_commit(throwException);
-		}
-		
 		//local
 		try
 		{
@@ -461,52 +319,6 @@ public class Trx implements VetoableChangeListener
 		m_active = false;
 		return false;
 	}	//	commit
-	
-	/**
-	 * Commit a remote transaction
-	 * @param throwException
-	 * @return true if success, false otherwise
-	 * @throws SQLException
-	 */
-	private boolean remote_commit(boolean throwException) throws SQLException
-	{
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	//	See ServerBean
-				return server.commit(m_trxName);
-			}
-			else
-			{
-				log.log(Level.SEVERE, "AppsServer not found");
-				if (throwException)
-					throw new SQLException("AppsServer not found");
-				return false;
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-			if (throwException)
-			{
-				if (ex.getCause() instanceof RuntimeException)
-				{
-					RuntimeException r = (RuntimeException)ex.getCause();
-					if (r.getCause() instanceof SQLException)
-						throw (SQLException)r.getCause();
-					else if ( r.getCause() != null )
-						throw new SQLException("Application server exception - " + r.getCause().getMessage());
-					else
-						throw new SQLException("Application server exception - " + r.getMessage());
-				}
-				else
-					throw new SQLException("Application server exception - " + ex.getMessage());
-			}
-				
-			return false;
-		}
-	}
 	
 	/**
 	 * Commit
@@ -534,13 +346,6 @@ public class Trx implements VetoableChangeListener
 		if (s_cache != null)
 			s_cache.remove(getTrxName());
 		
-		//remote
-		if (DB.isRemoteObjects()) {
-			closeRemoteTransaction();
-			m_active = false;
-			return true;
-		}
-		
 		//local
 		if (m_connection == null)
 			return true;
@@ -563,26 +368,6 @@ public class Trx implements VetoableChangeListener
 		return true;
 	}	//	close
 	
-	private void closeRemoteTransaction() {
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	//	See ServerBean
-				server.closeTransaction(getTrxName());
-			}
-			else 
-			{
-				log.log(Level.WARNING, "AppsServer not found");
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-		}
-		
-	}
-
 	/**
 	 * 
 	 * @param name
@@ -590,12 +375,6 @@ public class Trx implements VetoableChangeListener
 	 * @throws SQLException
 	 */
 	public Savepoint setSavepoint(String name) throws SQLException {
-		//remote
-		if (DB.isRemoteObjects())
-		{
-			return setRemoteSavepoint(name);
-		}
-		
 		if (m_connection == null) 
 			getConnection();
 		
@@ -609,38 +388,6 @@ public class Trx implements VetoableChangeListener
 		}
 	}
 	
-	private Savepoint setRemoteSavepoint(String name) throws SQLException {
-		Server server = CConnection.get().getServer();
-		try
-		{
-			if (server != null)
-			{	//	See ServerBean
-				return server.setSavepoint(m_trxName, name);
-			}
-			else
-			{
-				log.log(Level.SEVERE, "AppsServer not found");
-				throw new SQLException("AppsServer not found");
-			}
-		}
-		catch (RemoteException ex)
-		{
-			log.log(Level.SEVERE, "AppsServer error", ex);
-			if (ex.getCause() instanceof RuntimeException)
-			{
-				RuntimeException r = (RuntimeException)ex.getCause();
-				if (r.getCause() instanceof SQLException)
-					throw (SQLException)r.getCause();
-				else if ( r.getCause() != null )
-					throw new SQLException("Application server exception - " + r.getCause().getMessage());
-				else
-					throw new SQLException("Application server exception - " + r.getMessage());
-			}
-			else
-				throw new SQLException("Application server exception - " + ex.getMessage());
-		}
-	}
-
 	/**
 	 * 	String Representation
 	 *	@return info

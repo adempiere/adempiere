@@ -42,7 +42,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
-import org.compiere.util.SecurityToken;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFProcess;
 
@@ -551,7 +550,7 @@ public class ProcessCtl implements Runnable
 	{
 		log.fine(AD_Workflow_ID + " - " + m_pi);
 		boolean started = false;
-		if (DB.isRemoteProcess() || m_IsServerProcess)
+		if (m_IsServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
@@ -604,15 +603,13 @@ public class ProcessCtl implements Runnable
 			} catch (Exception e) {}
 		}
 		
-		if ((DB.isRemoteProcess() || m_IsServerProcess) && !clientOnly)
+		if (m_IsServerProcess && !clientOnly)
 		{
 			Server server = CConnection.get().getServer();
 			try
 			{
 				if (server != null)
 				{	
-					if (m_trx != null)
-						m_pi.setTransactionName(m_trx.getTrxName());
 					//	See ServerBean
 					m_pi = server.process (Env.getCtx(), m_pi);
 					log.finest("server => " + m_pi);
@@ -669,14 +666,14 @@ public class ProcessCtl implements Runnable
 		log.fine(ProcedureName + "(" + m_pi.getAD_PInstance_ID() + ")");
 		boolean started = false;
 		String trxName = m_trx != null ? m_trx.getTrxName() : null;
-		if (DB.isRemoteProcess() || m_IsServerProcess)
+		if (m_IsServerProcess)
 		{
 			Server server = CConnection.get().getServer();
 			try
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.dbProcess(m_pi, ProcedureName, trxName, SecurityToken.getInstance());
+					m_pi = server.dbProcess(m_pi, ProcedureName);
 					log.finest("server => " + m_pi);
 					started = true;		
 				}

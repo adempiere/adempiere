@@ -44,7 +44,7 @@ import org.compiere.Adempiere;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.CConnection;
 import org.compiere.db.Database;
-import org.compiere.db.ServerConnection;
+import org.compiere.db.ProxyFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MLanguage;
 import org.compiere.model.MRole;
@@ -80,16 +80,6 @@ public final class DB
 {
 	/** Connection Descriptor           */
 	private static CConnection      s_cc = null;
-//	/** Connection Cache r/o            */
-//	private static Connection[]		s_connections = null;
-//	/** Connection Cache Size           */
-//	private static int              s_conCacheSize = Ini.isClient() ? 1 : 3;
-//	/** Connection counter              */
-//	private static int              s_conCount = 0;
-//	/** Connection r/w                  */
-//	private static Connection		s_connectionRW = null;
-//	/** Connection r/w for ID           */
-//	private static Connection		s_connectionID = null;
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (DB.class);
 	
@@ -262,8 +252,8 @@ public final class DB
 		{
 			s_cc = cc;			
 		}
-		if ( isRemoteObjects() == false)
-			s_cc.setDataSource();
+		
+		s_cc.setDataSource();
 		
 		log.config(s_cc + " - DS=" + s_cc.isDataSource());
 	//	Trace.printStack();
@@ -274,10 +264,6 @@ public final class DB
 	 * @return True if success, false otherwise
 	 */
 	public static boolean connect() {
-		//wan and vpn profile ( remote connection )
-		if (isRemoteObjects()) 
-			return CConnection.get().isAppsServerOK(true);
-		
 		//direct connection
 		boolean success =false;
 		try 
@@ -330,10 +316,6 @@ public final class DB
 	{
 		//bug [1637432]
 		if (s_cc == null) return false;
-		
-		//wan/vpn profile ( remote connection )
-		if (CConnection.get().isServerObjects()) 
-			return s_cc.isAppsServerOK(createNew);
 		
 		//direct connection
 		boolean success = false;
@@ -408,10 +390,6 @@ public final class DB
 	 */
 	public static Connection createConnection (boolean autoCommit, int trxLevel)
 	{
-		//wan/vpn profile ( remote connection )
-		if (CConnection.get().isServerObjects()) 
-        	return new ServerConnection();
-		
 		Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 		if (CLogMgt.isLevelFinest())
 		{
@@ -450,10 +428,6 @@ public final class DB
      */
     public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
     {
-        //wan/vpn profile ( remote connection )
-        if (CConnection.get().isServerObjects()) 
-        	return new ServerConnection();
-
         Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 
         //hengsin: this could be problematic as it can be reuse for readwrite activites after return to pool
@@ -703,7 +677,8 @@ public final class DB
 	{
 		if (SQL == null || SQL.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + SQL);
-		return new CCallableStatement(ResultSet.TYPE_FORWARD_ONLY, resultSetConcurrency, SQL, trxName);
+		return ProxyFactory.newCCallableStatement(ResultSet.TYPE_FORWARD_ONLY, resultSetConcurrency, SQL,
+				trxName);
 	}	//	prepareCall
 
 	
@@ -765,7 +740,7 @@ public final class DB
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("No SQL");
 		//
-		return new CPreparedStatement(resultSetType, resultSetConcurrency, sql, trxName);
+		return ProxyFactory.newCPreparedStatement(resultSetType, resultSetConcurrency, sql, trxName);
 	}	//	prepareStatement
 
 	/**
@@ -786,7 +761,7 @@ public final class DB
 	 */
 	public static Statement createStatement(int resultSetType, int resultSetConcurrency, String trxName)
 	{
-		return new CStatement(resultSetType, resultSetConcurrency, trxName);
+		return ProxyFactory.newCStatement(resultSetType, resultSetConcurrency, trxName);
 	}	//	createStatement
 	
 	/**
@@ -943,7 +918,7 @@ public final class DB
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
 		//
 		int no = -1;
-		CPreparedStatement cs = new CPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
+		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
 			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
 		
 		try
@@ -999,7 +974,7 @@ public final class DB
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
 		//
 		int no = -1;
-		CPreparedStatement cs = new CPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
+		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY, 
 			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
 		
 		try
@@ -1147,7 +1122,7 @@ public final class DB
 		//	RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, sql);
 		CStatementVO info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
                 // End add vpj-cd e-evolution
-		CPreparedStatement stmt = new CPreparedStatement(info);
+		CPreparedStatement stmt = ProxyFactory.newCPreparedStatement(info);
 		retValue = stmt.getRowSet();
 		try {
 			stmt.close();
@@ -1622,25 +1597,27 @@ public final class DB
 	}	//	getDocumentNo
 
 	/**
-	 * 	Is this a remote client connection
+	 * 	Is this a remote client connection.
+	 * 
+	 *  Deprecated, always return false.
 	 *	@return true if client and RMI or Objects on Server
+	 *  @deprecated
 	 */
 	public static boolean isRemoteObjects()
 	{
-		//avoid infinite loop
-		if (s_cc == null) return false;
-		
-		return CConnection.get().isServerObjects();
+		return false;
 	}	//	isRemoteObjects
 	
 	/**
 	 * 	Is this a remote client connection
+	 *  
+	 *  Deprecated, always return false.
 	 *	@return true if client and RMI or Process on Server
+	 *  @deprecated
 	 */
 	public static boolean isRemoteProcess()
 	{
-		return CConnection.get().isServerProcess() 
-			&& CConnection.get().isAppsServerOK(false);
+		return false;
 	}	//	isRemoteProcess
 	
 	

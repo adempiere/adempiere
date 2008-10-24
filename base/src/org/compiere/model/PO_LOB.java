@@ -109,28 +109,6 @@ public class PO_LOB implements Serializable
 			.append(" SET ").append(m_columnName)
 			.append("=? WHERE ").append(m_whereClause);
 		//
-		boolean success = true;
-		if (DB.isRemoteObjects())
-		{
-			log.fine("[" + trxName + "] - Remote - " + m_value);
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					success = server.updateLOB (sql.toString(), m_displayType, m_value, trxName, SecurityToken.getInstance()); 
-					if (CLogMgt.isLevelFinest())
-						log.fine("server.updateLOB => " + success);
-					return success;
-				}
-				log.log(Level.SEVERE, "AppsServer not found");				
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-			return false;
-		}
 		
 		log.fine("[" + trxName + "] - Local - " + m_value);
 		//	Connection
@@ -150,7 +128,7 @@ public class PO_LOB implements Serializable
 		}
 
 		PreparedStatement pstmt = null;
-		success = true;
+		boolean success = true;
 		try
 		{
 			pstmt = con.prepareStatement(sql.toString());

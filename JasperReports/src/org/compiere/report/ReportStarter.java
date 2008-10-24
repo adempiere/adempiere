@@ -46,7 +46,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.compiere.db.CConnection;
-import org.compiere.db.ServerConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.interfaces.MD5Home;
 import org.compiere.model.MAttachment;
@@ -352,14 +351,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
      */
     protected Connection getConnection()
     {
-    	if (DB.isRemoteObjects())
-    	{
-    		return new ServerConnection();
-    	}
-    	else 
-    	{
-    		return DB.getConnectionRW();
-    	}
+    	return DB.getConnectionRW();
     }
     
     /**

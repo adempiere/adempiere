@@ -168,24 +168,7 @@ public class CacheMgt
 			}
 		}
 		log.info(tableName + ": #" + counter + " (" + total + ")");
-		//	Update Server
-		if (DB.isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					int serverTotal = server.cacheReset(tableName, 0); 
-					if (CLogMgt.isLevelFinest())
-						log.fine("Server => " + serverTotal);
-				}
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
+
 		return total;
 	}	//	reset
 	

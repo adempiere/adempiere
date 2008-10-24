@@ -17,9 +17,6 @@
 package org.compiere.util;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *	Adempiere Statement Value Object
@@ -61,15 +58,8 @@ public class CStatementVO implements Serializable
 	private int 				m_resultSetConcurrency;
 	/** SQL Statement	*/
 	private String 				m_sql;
-	/** Parameters		*/
-	private ArrayList<Object>	m_parameters = new ArrayList<Object>();
 	/** Transaction Name **/
-	private String				m_trxName = null;
-	
-	private Map<String, OutputParameter> m_namedOutput = new HashMap<String, OutputParameter>();
-	
-	private Map<String, Object>m_namedParameters = new HashMap<String, Object>();
-
+	private String				m_trxName = null;	
 	/**
 	 * 	String representation
 	 * 	@return info
@@ -77,85 +67,12 @@ public class CStatementVO implements Serializable
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("CStatementVO[");
-		sb.append(getSql());
-		for (int i = 0; i < m_parameters.size(); i++)
-			sb.append("; #").append(i+1).append("=").append(m_parameters.get(i));
+		sb.append("SQL="+getSql());
+		if (m_trxName != null)
+			sb.append(" TrxName=" + m_trxName);
 		sb.append("]");
 		return sb.toString();
 	}	//	toString
-
-	/**
-	 * 	Set Parameter
-	 * 	@param index1 1 based index
-	 * 	@param element element
-	 */
-	public void setParameter (int index1, Object element)
-	{
-		if (element != null && !(element instanceof Serializable))
-			throw new java.lang.RuntimeException("setParameter not Serializable - " + element.getClass().toString());
-		int zeroIndex = index1 - 1;
-		if (m_parameters.size() == zeroIndex)
-		{
-			m_parameters.add(element);
-		}
-		else if (m_parameters.size() < zeroIndex)
-		{
-			while (m_parameters.size() < zeroIndex)
-				m_parameters.add (null);	//	fill with nulls
-			m_parameters.add(element);
-		}
-		else
-			m_parameters.set(zeroIndex, element);
-	}	//	setParameter
-	
-	/**
-	 * 	Set Parameter
-	 * 	@param index1 1 based index
-	 * 	@param element element
-	 */
-	public void setParameter (String name, Object element)
-	{
-		if (element != null && !(element instanceof Serializable))
-			throw new java.lang.RuntimeException("setParameter not Serializable - " + element.getClass().toString());
-		m_namedParameters.put(name, element);
-	}	//	setParametsr
-
-	/**
-	 *	Clear Parameters
-	 */
-	public void clearParameters()
-	{
-		m_parameters = new ArrayList<Object>();
-		m_namedParameters = new HashMap<String, Object>();
-	}	//	clearParameters
-
-	/**
-	 * 	Get Parameters
-	 *	@return arraylist
-	 */
-	public ArrayList<Object> getParameters()
-	{
-		return m_parameters;
-	}	//	getParameters
-	
-	/***
-	 * get named parameters for callable statement
-	 * @return map
-	 */
-	public Map<String, Object> getNamedParameters()
-	{
-		return m_namedParameters;
-	}
-	
-	/**
-	 * 	Get Parameter Count
-	 *	@return arraylist
-	 */
-	public int getParameterCount()
-	{
-		return m_parameters.size();
-	}	//	getParameterCount
-
 
 	/**
 	 * 	Get SQL
@@ -174,19 +91,7 @@ public class CStatementVO implements Serializable
 	 */
 	public void setSql(String sql)
 	{
-		if (sql != null && DB.isRemoteObjects())
-		{
-			//	Handle RowID in the select part (not where clause)
-			int pos = sql.indexOf("ROWID");
-			int posTrim = sql.indexOf("TRIM(ROWID)");
-			int posWhere = sql.indexOf("WHERE");
-			if (pos != -1 && posTrim == -1 && (posWhere == -1 || pos < posWhere))
-				m_sql = sql.substring(0, pos) + "TRIM(ROWID)" + sql.substring(pos+5);
-			else
-				m_sql = sql;
-		}
-		else
-			m_sql = sql;
+		m_sql = sql;
 	}	//	setSql
 
 	/**
@@ -238,54 +143,4 @@ public class CStatementVO implements Serializable
 	{
 		m_trxName = trxName;
 	}
-
-	public void registerOutParameter(String parameterName, int sqlType,
-			int scale) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, scale, null);
-		m_namedOutput.put(parameterName, o);		
-	}
-
-	public void registerOutParameter(int paramIndex, int sqlType,
-			String typeName) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, -1, typeName);
-		this.setParameter(paramIndex, o);		
-	}
-
-	public void registerOutParameter(int parameterIndex, int sqlType, int scale) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, scale, null);
-		this.setParameter(parameterIndex, o);
-		
-	}
-
-	public void registerOutParameter(String parameterName, int sqlType) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, -1, null);
-		m_namedOutput.put(parameterName, o);		
-	}
-
-	public void registerOutParameter(int parameterIndex, int sqlType) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, -1, null);
-		this.setParameter(parameterIndex, o);		
-	}
-
-	public void registerOutParameter(String parameterName, int sqlType,
-			String typeName) 
-	{
-		OutputParameter o = new OutputParameter(sqlType, -1, typeName);
-		m_namedOutput.put(parameterName, o);		
-	}
-
-	public Map<String, OutputParameter> getNamedOutput()
-	{
-		return m_namedOutput;
-	}
-
-	/*
-	public boolean hasOutputParameters() {
-		return m_ordinalOutput.size() > 0 || m_namedOutput.size() > 0;
-	}*/
 }	//	CStatementVO

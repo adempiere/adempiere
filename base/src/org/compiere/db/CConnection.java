@@ -27,8 +27,6 @@ import javax.swing.JOptionPane;
 import org.compiere.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
-import org.jboss.security.SecurityAssociation;
-import org.jboss.security.SimplePrincipal;
 
 /**
  *  Adempiere Connection Descriptor
@@ -45,12 +43,12 @@ public class CConnection implements Serializable, Cloneable
 	private static CLogger 		log = CLogger.getCLogger (CConnection.class);
 	
 	/** Connection profiles		*/
+	@Deprecated
 	public static ValueNamePair[] CONNECTIONProfiles = new ValueNamePair[]{
-		new ValueNamePair("L", "LAN"),
-		new ValueNamePair("V", "VPN"),
-		new ValueNamePair("W", "WAN") };
+		new ValueNamePair("L", "LAN")};
 
 	/** Connection Profile LAN			*/
+	@Deprecated
 	public static final String	PROFILE_LAN = "L";
 	/** 
 	 * Connection Profile Terminal Server
@@ -58,8 +56,10 @@ public class CConnection implements Serializable, Cloneable
 	 **/
 	public static final String	PROFILE_TERMINAL = "T";
 	/** Connection Profile VPM			*/
+	@Deprecated
 	public static final String	PROFILE_VPN = "V";
 	/** Connection Profile WAN			*/
+	@Deprecated
 	public static final String	PROFILE_WAN = "W";
 
 	/**
@@ -199,7 +199,7 @@ public class CConnection implements Serializable, Cloneable
 	private String 		m_db_name = "MyDBName";
 
 	/** Connection Profile		*/
-	private String	 	m_connectionProfile = null;
+	private String	 	m_connectionProfile = PROFILE_LAN;
 
 	/** In Memory connection    */
 	private boolean 	m_bequeath = false;
@@ -545,71 +545,43 @@ public class CConnection implements Serializable, Cloneable
 
 	/**
 	 * 	RMI over HTTP
+	 * 
+	 *  Deprecated, always return false
 	 * 	@return true if RMI over HTTP (Wan Connection Profile)
+	 *  @deprecated
 	 */
 	public boolean isRMIoverHTTP ()
 	{
-		return Ini.isClient() 
-			&& getConnectionProfile().equals(PROFILE_WAN);
+		return false;
 	}	//	isRMIoverHTTP
 
 	/**
 	 * 	Set Connection Profile
 	 *	@param connectionProfile connection profile
+	 *  @deprecated
 	 */
 	public void setConnectionProfile (ValueNamePair connectionProfile)
 	{
 		if (connectionProfile != null)
-			setConnectionProfile(connectionProfile.getValue());
+			setConnectionProfile(PROFILE_LAN);
 	}	//	setConnectionProfile
 
 	/**
 	 * 	Set Connection Profile
 	 *	@param connectionProfile connection profile
+	 *  @deprecated
 	 */
 	public void setConnectionProfile (String connectionProfile)
 	{
-		if (connectionProfile == null
-			|| (m_connectionProfile != null 
-				&& m_connectionProfile.equals(connectionProfile)))	//	same
-			return;
-		
-		if (PROFILE_TERMINAL.equals(connectionProfile))
-			connectionProfile = PROFILE_LAN;
-		
-		if (PROFILE_LAN.equals(connectionProfile)
-				|| PROFILE_VPN.equals(connectionProfile)
-				|| PROFILE_WAN.equals(connectionProfile))
-		{
-			if (m_connectionProfile != null)
-			{
-				log.config(m_connectionProfile + " -> " + connectionProfile);
-				m_connectionProfile = connectionProfile;
-				if (PROFILE_WAN.equals(m_connectionProfile))
-					setAppsPort(80);
-				else
-					setAppsPort(DEFAULT_APP_SERVER_PORT);
-				Ini.setProperty(Ini.P_CONNECTION, toStringLong());
-			}
-			else
-				m_connectionProfile = connectionProfile;
-			
-			//hengsin, reset initial context and env
-			m_iContext = null;
-			m_env = null;
-		}
-		else
-			log.warning("Invalid: " + connectionProfile);
 	}	//	setConnectionProfile
 
 	/**
 	 * 	Get Connection Profile
 	 *	@return connection profile
+	 *  @deprecated
 	 */
 	public String getConnectionProfile ()
 	{
-		if (m_connectionProfile != null)
-			return m_connectionProfile;
 		return PROFILE_LAN;
 	}	//	getConnectionProfile
 
@@ -617,6 +589,7 @@ public class CConnection implements Serializable, Cloneable
 	 * 	Get Connection Profile Text
 	 * 	@param connectionProfile
 	 *	@return connection profile text
+	 *  @deprecated
 	 */
 	public String getConnectionProfileText (String connectionProfile)
 	{
@@ -631,6 +604,7 @@ public class CConnection implements Serializable, Cloneable
 	/**
 	 * 	Get Connection Profile Text
 	 *	@return connection profile text
+	 *  @deprecated
 	 */
 	public String getConnectionProfileText ()
 	{
@@ -640,6 +614,7 @@ public class CConnection implements Serializable, Cloneable
 	/**
 	 * 	Get Connection Profile
 	 *	@return connection profile
+	 *  @deprecated
 	 */
 	public ValueNamePair getConnectionProfilePair ()
 	{
@@ -654,23 +629,21 @@ public class CConnection implements Serializable, Cloneable
 	/**
 	 *  Should objects be created on Server ?
 	 *  @return true if client and VPN/WAN
+	 *  @deprecated
 	 */
 	public boolean isServerObjects()
 	{
-		return (Ini.isClient()
-			&& (getConnectionProfile().equals(PROFILE_VPN)
-				|| getConnectionProfile().equals(PROFILE_WAN) ));
+		return false;
 	}   //  isServerObjects
 
 	/**
 	 *  Should objects be created on Server ?
 	 *  @return true if client and Terminal/VPN/WAN
+	 *  @deprecated
 	 */
 	public boolean isServerProcess()
 	{
-		return (Ini.isClient()
-			&& (getConnectionProfile().equals(PROFILE_VPN)
-				|| getConnectionProfile().equals(PROFILE_WAN) ));
+		return false;
 	}   //  isServerProcess
 
 	/**
@@ -956,10 +929,6 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public Exception testDatabase(boolean retest)
 	{
-		//	At this point Application Server Connection is tested.
-		if (DB.isRemoteObjects())
-			return null;
-		
 		if (!retest && m_ds != null && m_okDB)
 			return null;
 		
@@ -1093,7 +1062,6 @@ public class CConnection implements Serializable, Cloneable
 		sb.append ("name=").append (m_name)
 		  .append (",AppsHost=").append (m_apps_host)
 		  .append (",AppsPort=").append (m_apps_port)
-		  .append (",Profile=").append (getConnectionProfile())
 		  .append (",type=").append (m_type)
 		  .append (",DBhost=").append (m_db_host)
 		  .append (",DBport=").append (m_db_port)
@@ -1121,9 +1089,6 @@ public class CConnection implements Serializable, Cloneable
 			setAppsHost (attributes.substring (attributes.indexOf ("AppsHost=") + 9, attributes.indexOf (",AppsPort=")));
 			int index = attributes.indexOf("AppsPort=");
 			setAppsPort (attributes.substring (index + 9, attributes.indexOf (",", index)));
-			index = attributes.indexOf("Profile=");
-			if (index > 0)	//	new attribute, may not exist
-				setConnectionProfile(attributes.substring(index+8, attributes.indexOf (",", index)));
 			//
 			setType (attributes.substring (attributes.indexOf ("type=")+5, attributes.indexOf (",DBhost=")));
 			setDbHost (attributes.substring (attributes.indexOf ("DBhost=") + 7, attributes.indexOf (",DBport=")));
@@ -1159,7 +1124,6 @@ public class CConnection implements Serializable, Cloneable
 			  && cc.getAppsPort() == m_apps_port
 			  && cc.getDbHost().equals (m_db_host)
 			  && cc.getDbPort() == m_db_port
-			  && cc.getConnectionProfile().equals(getConnectionProfile())
 			  && cc.getDbName().equals(m_db_name)
 			  && cc.getType().equals(m_type)
 			  && cc.getDbUid().equals(m_db_uid)
@@ -1217,12 +1181,8 @@ public class CConnection implements Serializable, Cloneable
 	                             break; 	 
 	                     } 	 
 	             }
-		         //hengsin, don't test datasource for wan profile
-		         if (!DB.isRemoteObjects())
-		         {
-			         if (m_db != null)		//	test class loader ability
-			        	 m_db.getDataSource(this);
-		         }
+		         if (m_db != null)		//	test class loader ability
+		        	 m_db.getDataSource(this);
 			}
 			catch (NoClassDefFoundError ee)
 			{
@@ -1448,7 +1408,7 @@ public class CConnection implements Serializable, Cloneable
 	 * 	Get Initial Environment
 	 * 	@param AppsHost host
 	 * 	@param AppsPort port
-	 * 	@param RMIoverHTTP true if tunnel through HTTP
+	 * 	@param RMIoverHTTP ignore
 	 *  @param principal
 	 *  @param credential
 	 *	@return environment
@@ -1459,21 +1419,9 @@ public class CConnection implements Serializable, Cloneable
 		//	Set Environment
 		Hashtable<String,String> env = new Hashtable<String,String>();
 		String connect = AppsHost;
-		if (RMIoverHTTP)
-		{
-			env.put (Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.HttpNamingContextFactory");
-			if (AppsHost.indexOf("://") == -1)
-				connect = "http://" + AppsHost + ":" + AppsPort
-						+ "/invoker/JNDIFactory";
-			env.put(Context.PROVIDER_URL, connect);
-		}
-		else
-		{
-			env.put (Context.INITIAL_CONTEXT_FACTORY,"org.jnp.interfaces.NamingContextFactory");
-			if (AppsHost.indexOf("://") == -1)
-				connect = "jnp://" + AppsHost + ":" + AppsPort;
-			env.put (Context.PROVIDER_URL, connect);
-		}
+		if (AppsHost.indexOf("://") == -1)
+			connect = "jnp://" + AppsHost + ":" + AppsPort;
+		env.put (Context.PROVIDER_URL, connect);		
 		env.put (Context.URL_PKG_PREFIXES, "org.jboss.naming.client");
 		//	HTTP - default timeout 0
 		env.put (org.jnp.interfaces.TimedSocketFactory.JNP_TIMEOUT, "5000");	//	timeout in ms
@@ -1483,13 +1431,13 @@ public class CConnection implements Serializable, Cloneable
 		
 		if (principal != null && credential != null)
 		{
-			SecurityAssociation.setPrincipal(new SimplePrincipal(principal));
-			SecurityAssociation.setCredential(credential);
+			env.put (Context.INITIAL_CONTEXT_FACTORY,"org.jboss.security.jndi.JndiLoginInitialContextFactory");
+			env.put(Context.SECURITY_PRINCIPAL, principal);
+			env.put(Context.SECURITY_CREDENTIALS, credential);
 		}
 		else
 		{
-			SecurityAssociation.setPrincipal(null);
-			SecurityAssociation.setCredential(null);
+			env.put (Context.INITIAL_CONTEXT_FACTORY,"org.jnp.interfaces.NamingContextFactory");
 		}
 		
 		return env;
@@ -1600,10 +1548,7 @@ public class CConnection implements Serializable, Cloneable
 		setDbPort (svr.getDbPort ());
 		setDbName (svr.getDbName ());
 		setDbUid (svr.getDbUid ());
-		if (DB.isRemoteObjects())
-			setDbPwd ("");
-		else
-			setDbPwd (svr.getDbPwd ());
+		setDbPwd (svr.getDbPwd ());
 		setBequeath (false);
 		//
 		setFwHost (svr.getFwHost ());

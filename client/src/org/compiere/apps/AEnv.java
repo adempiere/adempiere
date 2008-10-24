@@ -873,47 +873,7 @@ public final class AEnv
 				log.info("Cached=" + mWindowVO);
 			}
 		}
-		//  try to get from Server when enabled
-		if (mWindowVO == null && DB.isRemoteObjects() && isServerActive())
-		{
-			log.config("trying server");
-			try
-			{
-				s_server = CConnection.get().getServer();
-				if (s_server != null)
-				{
-					mWindowVO = s_server.getWindowVO(Env.getCtx(), WindowNo, AD_Window_ID, AD_Menu_ID);
-					log.config("from Server: success");
-				}
-			}
-			catch (RemoteException e)
-			{
-				log.log(Level.SEVERE, "(RE)", e);
-				mWindowVO = null;
-				s_server = null;
-			}
-			catch (Exception e)
-			{
-				Throwable tt = e.getCause();
-				if (tt != null && tt instanceof InvalidClassException)
-					log.log(Level.SEVERE, "(Server<>Client class) " + tt);
-				else if (tt != null && tt instanceof NotSerializableException)
-					log.log(Level.SEVERE, "Serialization: " + tt.getMessage(), e);
-				else
-					log.log(Level.SEVERE, "ex", e);
-				mWindowVO = null;
-				s_server = null;
-			}
-			catch (Throwable t)
-			{
-				log.log(Level.SEVERE, t.toString());
-				mWindowVO = null;
-				s_server = null;
-			}
-			if (mWindowVO != null)
-				s_windows.put(AD_Window_ID, mWindowVO);
-		}	//	from Server
-
+		
 		//  Create Window Model on Client
 		if (mWindowVO == null)
 		{

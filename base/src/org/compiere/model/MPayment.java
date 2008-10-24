@@ -457,34 +457,7 @@ public final class MPayment extends X_C_Payment
 		}
 
 		boolean approved = false;
-		/**	Process Payment on Server	*/
-		if (DB.isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					String trxName = null;	//	unconditionally save
-					save(trxName);	//	server reads from disk
-					approved = server.paymentOnline (getCtx(), getC_Payment_ID(), 
-						m_mPaymentProcessor.getC_PaymentProcessor_ID(), trxName);
-					if (CLogMgt.isLevelFinest())
-						s_log.fine("server => " + approved);
-					load(trxName);	//	server saves to disk
-					setIsApproved(approved);
-					return approved;
-				}
-				log.log(Level.WARNING, "AppsServer not found"); 
-			}
-			catch (RemoteException ex)
-			{
-				log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
-		/** **/
-		
-		//	Try locally
+
 		try
 		{
 			PaymentProcessor pp = PaymentProcessor.create(m_mPaymentProcessor, this);

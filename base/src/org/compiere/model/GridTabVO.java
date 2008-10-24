@@ -253,18 +253,6 @@ public class GridTabVO implements Evaluatee, Serializable
 	 */
 	private static boolean createFields (GridTabVO mTabVO)
 	{
-		if (DB.isRemoteObjects() && CConnection.get().isAppsServerOK(false))
-		{
-			remoteCreateFields(mTabVO);
-			return mTabVO.initFields;
-		}
-		
-		if (CConnection.get().isServerObjects())
-		{
-			CLogger.get().log(Level.SEVERE, "Application server not available.");
-			return false;
-		}
-		
 		//local only or remote fail for vpn profile
 		mTabVO.Fields = new ArrayList<GridFieldVO>();
 
@@ -297,50 +285,6 @@ public class GridTabVO implements Evaluatee, Serializable
 		return mTabVO.Fields.size() != 0;
 	}   //  createFields
 	
-	private static boolean remoteCreateFields (GridTabVO mTabVO)
-	{
-		
-		Server server = CConnection.get().getServer();
-		if (server != null)
-		{
-			try 
-			{
-				mTabVO.Fields = server.getFields(mTabVO);
-				mTabVO.initFields =
-					(mTabVO.Fields != null && mTabVO.Fields.size() > 0);
-				//sync context
-				int size = mTabVO.Fields.size();
-				for (int i = 0; i < size; i++)
-				{
-					GridFieldVO field = (GridFieldVO)mTabVO.Fields.get(i);
-					Properties ctx = field.ctx;
-					field.setCtx(mTabVO.ctx);
-					Set keys = ctx.keySet();
-					//check any key added remotely
-					for(Iterator k = keys.iterator(); k.hasNext(); )
-					{
-						Object key = k.next();
-						if (mTabVO.ctx.containsKey(key) == false)
-						{
-							Object value = ctx.get(key);
-							mTabVO.ctx.put(key, value);
-						}
-					}
-				}
-			} catch (Exception e)
-			{
-				CLogger.get().log(Level.SEVERE, "Application Server Error: " + e.getLocalizedMessage(), e);
-				mTabVO.initFields = false;
-			}
-		}
-		else
-		{
-			if (CConnection.get().isServerObjects())
-				CLogger.get().log(Level.SEVERE, "Remote Connection - Application server not available.");
-		}
-		return false;
-	}
-
 	/**
 	 *  Return the SQL statement used for the MTabVO.create
 	 *  @param ctx context

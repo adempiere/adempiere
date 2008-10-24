@@ -81,30 +81,6 @@ public class MSequence extends X_AD_Sequence
 		if (TableName == null || TableName.length() == 0)
 			throw new IllegalArgumentException("TableName missing");
 		
-		//get from server
-		if (DB.isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	// See ServerBean
-					// hengsin: don't execute getNextID in tranaction to fix performance and locking issue
-					int id = server.getNextID(AD_Client_ID, TableName, null);
-					s_log.finest("server => " + id);
-					if (id < 0)
-						throw new DBException("No NextID");
-					return id;
-				}
-				s_log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
-			}
-			catch (RemoteException ex)
-			{
-				s_log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-			//	Try locally
-		}
-		
 		int retValue = -1;
 
 		//	Check AdempiereSys
@@ -116,7 +92,7 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(LOGLEVEL, TableName + " - AdempiereSys=" + adempiereSys  + " [" + trxName + "]");
 		  //begin vpj-cd e-evolution 09/02/2005 PostgreSQL
 		String selectSQL = null;
-		if (DB.isOracle() == false || DB.isRemoteObjects())
+		if (DB.isOracle() == false)
 		{	
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 				+ "FROM AD_Sequence "
@@ -382,28 +358,6 @@ public class MSequence extends X_AD_Sequence
 		if (TableName == null || TableName.length() == 0)
 			throw new IllegalArgumentException("TableName missing");
 
-		//get from server
-		if (DB.isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					String dn = server.getDocumentNo (AD_Client_ID, TableName, trxName, po);
-					s_log.finest("Server => " + dn);
-					if (dn != null)
-						return dn;
-				}
-				s_log.log(Level.SEVERE, "AppsServer not found - " + TableName); 
-			}
-			catch (RemoteException ex)
-			{
-				s_log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
-		
-		//local
 		//	Check AdempiereSys
 		boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
 		if (adempiereSys && AD_Client_ID > 11)
@@ -445,7 +399,7 @@ public class MSequence extends X_AD_Sequence
 		
 		
 		String selectSQL = null;
-		if (DB.isOracle() == false || DB.isRemoteObjects())
+		if (DB.isOracle() == false)
 		{	
 			if (isStartNewYear) {
 				selectSQL = "SELECT y.CurrentNext, s.CurrentNextSys, s.IncrementNo, s.Prefix, s.Suffix, s.DecimalPattern, s.AD_Sequence_ID "
@@ -673,29 +627,6 @@ public class MSequence extends X_AD_Sequence
 			return null;
 		}
 		
-		//get from server
-		
-		if (DB.isRemoteObjects())
-		{
-			Server server = CConnection.get().getServer();
-			try
-			{
-				if (server != null)
-				{	//	See ServerBean
-					String dn = server.getDocumentNo (C_DocType_ID, trxName, definite, po);
-					s_log.finest("Server => " + dn);
-					if (dn != null)
-						return dn;
-				}
-				s_log.log(Level.SEVERE, "AppsServer not found - " + C_DocType_ID); 
-			}
-			catch (RemoteException ex)
-			{
-				s_log.log(Level.SEVERE, "AppsServer error", ex);
-			}
-		}
-		
-		//local
 		MDocType dt = MDocType.get (Env.getCtx(), C_DocType_ID);	//	wrong for SERVER, but r/o
 		if (dt != null && !dt.isDocNoControlled())
 		{

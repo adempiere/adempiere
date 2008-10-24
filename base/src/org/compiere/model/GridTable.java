@@ -1213,8 +1213,6 @@ public class GridTable extends AbstractTableModel
 			Object[] rowDataDB = null;
 			//	Prepare
 			boolean manualUpdate = ResultSet.CONCUR_READ_ONLY == rs.getConcurrency();
-			if (DB.isRemoteObjects())
-				manualUpdate = true;
 			// Manual update if log migration scripts is enabled - teo_sarca BF [ 1901192 ]
 			if(!manualUpdate && Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
 				manualUpdate = true;

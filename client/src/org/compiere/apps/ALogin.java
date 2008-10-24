@@ -363,24 +363,11 @@ public final class ALogin extends CDialog
 
 	private void validateAppServer() {
 		m_cc.testAppsServer();
-		if (m_cc.getAppsServerException() != null)
-		{
-			if (m_cc.isServerObjects())
-			{
-				m_cc.getAppsServerException().printStackTrace();
-				JOptionPane.showMessageDialog(null, 
-					m_cc.getAppsServerException().getLocalizedMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
 	}
 	
 	private void connectToDatabase() {
 		//Check connection
 		DB.setDBTarget(m_cc);
-		
-		//wan or vpn ( remote connection )
-		if (m_cc.isServerObjects()) return;
 		
 		//direct
 		DB.connect();

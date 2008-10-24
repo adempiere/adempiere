@@ -10,15 +10,6 @@ public interface ServerLocal
    extends javax.ejb.EJBLocalObject
 {
    /**
-    * Get and create Window Model Value Object
-    * @param ctx Environment Properties
-    * @param WindowNo number of this window
-    * @param AD_Window_ID the internal number of the window, if not 0, AD_Menu_ID is ignored
-    * @param AD_Menu_ID ine internal menu number, used when AD_Window_ID is 0
-    * @return initialized Window Model    */
-   public org.compiere.model.GridWindowVO getWindowVO( java.util.Properties ctx,int WindowNo,int AD_Window_ID,int AD_Menu_ID ) ;
-
-   /**
     * Post Immediate
     * @param ctx Client Context
     * @param AD_Client_ID Client ID of Document
@@ -28,72 +19,6 @@ public interface ServerLocal
     * @param trxName transaction
     * @return null, if success or error message    */
    public java.lang.String postImmediate( java.util.Properties ctx,int AD_Client_ID,int AD_Table_ID,int Record_ID,boolean force,java.lang.String trxName ) ;
-
-   /**
-    * Get Prepared Statement ResultSet
-    * @param info Result info
-    * @param token Security Token
-    * @return RowSet
-    * @throws NotSerializableException    */
-   public javax.sql.RowSet pstmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) throws java.io.NotSerializableException;
-
-   /**
-    * Get Statement ResultSet
-    * @param info Result info
-    * @param token Security Token
-    * @return RowSet    */
-   public javax.sql.RowSet stmt_getRowSet( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
-
-   /**
-    * Execute Update
-    * @param info Result info
-    * @param token Security Token
-    * @return row count    */
-   public int stmt_executeUpdate( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
-
-   public org.compiere.util.ExecuteResult stmt_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
-
-   public org.compiere.util.CallableResult callable_execute( org.compiere.util.CStatementVO info,org.compiere.util.SecurityToken token ) ;
-
-   /**
-    * Get next number for Key column = 0 is Error.
-    * @param AD_Client_ID client
-    * @param TableName table name
-    * @param trxName optional Transaction Name
-    * @return next no    */
-   public int getNextID( int AD_Client_ID,java.lang.String TableName,java.lang.String trxName ) ;
-
-   /**
-    * Get Document No from table
-    * @param AD_Client_ID client
-    * @param TableName table name
-    * @param trxName optional Transaction Name
-    * @return document no or null    */
-   public java.lang.String getDocumentNo( int AD_Client_ID,java.lang.String TableName,java.lang.String trxName ) ;
-
-   /**
-    * Get Document No from table
-    * @param AD_Client_ID client
-    * @param TableName table name
-    * @param trxName optional Transaction Name
-    * @param po
-    * @return document no or null    */
-   public java.lang.String getDocumentNo( int AD_Client_ID,java.lang.String TableName,java.lang.String trxName,org.compiere.model.PO po ) ;
-
-   /**
-    * Get Document No based on Document Type
-    * @param C_DocType_ID document type
-    * @param trxName optional Transaction Name
-    * @return document no or null    */
-   public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName,boolean definite ) ;
-
-   /**
-    * Get Document No based on Document Type
-    * @param C_DocType_ID document type
-    * @param trxName optional Transaction Name
-    * @param po
-    * @return document no or null    */
-   public java.lang.String getDocumentNo( int C_DocType_ID,java.lang.String trxName,boolean definite,org.compiere.model.PO po ) ;
 
    /**
     * Process Remote
@@ -109,15 +34,6 @@ public interface ServerLocal
     * @param AD_Workflow_ID id
     * @return process info    */
    public org.compiere.process.ProcessInfo workflow( java.util.Properties ctx,org.compiere.process.ProcessInfo pi,int AD_Workflow_ID ) ;
-
-   /**
-    * Online Payment from Server
-    * @param ctx Context
-    * @param C_Payment_ID payment
-    * @param C_PaymentProcessor_ID processor
-    * @param trxName transaction
-    * @return true if approved    */
-   public boolean paymentOnline( java.util.Properties ctx,int C_Payment_ID,int C_PaymentProcessor_ID,java.lang.String trxName ) ;
 
    /**
     * Create EMail from Server (Request User)
@@ -141,7 +57,7 @@ public interface ServerLocal
    public org.compiere.util.EMail createEMail( java.util.Properties ctx,int AD_Client_ID,int AD_User_ID,java.lang.String to,java.lang.String subject,java.lang.String message ) ;
 
    /**
-    * Create EMail from Server (Request User)
+    * Execute task on server
     * @param AD_Task_ID task
     * @return execution trace    */
    public java.lang.String executeTask( int AD_Task_ID ) ;
@@ -154,73 +70,15 @@ public interface ServerLocal
    public int cacheReset( java.lang.String tableName,int Record_ID ) ;
 
    /**
-    * LOB update
-    * @param sql table name
-    * @param displayType display type (i.e. BLOB/CLOB)
-    * @param value the data
-    * @param trxName
-    * @param token Security Token
-    * @return true if updated    */
-   public boolean updateLOB( java.lang.String sql,int displayType,java.lang.Object value,java.lang.String trxName,org.compiere.util.SecurityToken token ) ;
-
-   /**
     * Describes the instance and its content for debugging purpose
     * @return Debugging information about the instance and its content    */
    public java.lang.String getStatus(  ) ;
 
    /**
-    * Set savepoint
-    * @param trxName
-    * @param savePointName
-    * @return true if success, false otherwise    */
-   public org.compiere.util.SavepointVO setSavepoint( java.lang.String trxName,java.lang.String savePointName ) ;
-
-   /**
-    * Start remote transaction
-    * @param trxName    */
-   public void startTransaction( java.lang.String trxName ) ;
-
-   /**
-    * Close remote transaction
-    * @param trxName    */
-   public void closeTransaction( java.lang.String trxName ) ;
-
-   /**
-    * Commit the named transaction on server
-    * @param trxName
-    * @return true if success, false otherwise    */
-   public boolean commit( java.lang.String trxName ) ;
-
-   /**
-    * Rollback the named transaction on server
-    * @param trxName
-    * @return true if success, false otherwise    */
-   public boolean rollback( java.lang.String trxName ) ;
-
-   /**
-    * Rollback the named transaction on server
-    * @param trxName
-    * @return true if success, false otherwise    */
-   public boolean rollback( java.lang.String trxName,org.compiere.util.SavepointVO savePoint ) ;
-
-   /**
     * Execute db proces on server
     * @param processInfo
     * @param procedureName
-    * @param trxName
     * @return ProcessInfo    */
-   public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName,java.lang.String trxName,org.compiere.util.SecurityToken token ) ;
-
-   /**
-    * Load fields meta data from database
-    * @param gridTabVO
-    * @return ArrayList    */
-   public java.util.ArrayList getFields( org.compiere.model.GridTabVO gridTabVO ) ;
-
-   /**
-    * Get table id from ad_table by table name
-    * @param tableName
-    * @return tableName    */
-   public int getTableID( java.lang.String tableName ) ;
+   public org.compiere.process.ProcessInfo dbProcess( org.compiere.process.ProcessInfo processInfo,java.lang.String procedureName ) ;
 
 }

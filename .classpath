@@ -43,7 +43,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-net-1.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jgraph.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/postgresql.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar"/>

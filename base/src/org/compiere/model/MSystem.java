@@ -417,11 +417,8 @@ public class MSystem extends X_AD_System
 	 */
 	private void setDBInfo()
 	{
-		if (!DB.isRemoteObjects())
-		{
-			String dbAddress = CConnection.get().getConnectionURL();
-			setDBAddress(dbAddress.toLowerCase());
-		}
+		String dbAddress = CConnection.get().getConnectionURL();
+		setDBAddress(dbAddress.toLowerCase());
 		//
 		if (!Ini.isClient())
 		{
