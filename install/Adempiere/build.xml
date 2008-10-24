@@ -55,7 +55,10 @@
 		<condition property="isAppsTomcat">
 			<equals arg1="tomcatOnly" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Tomcat=${isAppsTomcat}" />
+		<condition property="isAppsGlassfish">
+			<equals arg1="Glassfish" arg2="${ADEMPIERE_APPS_TYPE}" />
+		</condition>
+		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Tomcat=${isAppsTomcat} Glassfish=${isAppsGlassfish}" />
 
 	</target>
 
@@ -359,7 +362,11 @@
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml">
 			<fileset dir="${basedir}/lib" 
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,webui.war" />
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war" />
+		</ear>
+		<ear destfile="${basedir}/adempiereGlassfish.ear" appxml="${basedir}/lib/adempiereAll.xml">
+			<fileset dir="${basedir}/lib" 
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war" />
 		</ear>
 	</target>
 
@@ -387,6 +394,24 @@
 		</unjar>
 	</target>
 	
+    <!-- ==================================================== -->
+	<!-- Setup Glassfish (Sun Application Server)             -->
+	<!-- ==================================================== -->
+	<target name="setupGlassfish" depends="setupLib, setupEAR" if="isAppsGlassfish" 
+		description="Setup Glassfish Application Server">
+<!-- HAVE NO IDEA ON EARTH AS TO WHAT CHANGES MIGHT BE NEEDED HERE.
+LEFT BLANK FOR NOW
+CATCH U LATER
+
+ANOTHER POINT: IS SETUPLIB REQUIRED?
+-->
+
+<!-- PLAN AHEAD: MAKE SURE THAT THE EAR FILE GENERATION IS STOPPED THE MOMENT
+GLASSFISH PROPERTY IS DETECTED. THEN MANUALLY DEPLOY THE APPLICATION
+-->
+
+	</target>
+
 	<!-- ==================================================== -->
 	<!-- Setup JBoss Server                                   -->
 	<!-- ==================================================== -->
@@ -474,7 +499,7 @@
 	<!-- ==================================================== -->
 	<!-- Deploy J2EE Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupDeploy" depends="setupJBoss, setupTomcat" 
+	<target name="setupDeploy" depends="setupJBoss, setupTomcat, setupGlassfish" 
 		description="Deploy Adempiere Application Server">
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>

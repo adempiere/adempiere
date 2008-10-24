@@ -1026,18 +1026,28 @@ public class ConfigurationData
 	protected static String	APPSTYPE_JBOSS = "jboss";
 	/** Tomcat only			*/
 	protected static String	APPSTYPE_TOMCAT = "tomcatOnly";
+	/** GlassFish            */
+    protected static String APPSTYPE_GLASSFISH = "GlassFish";
 	/** IBM WS					*/
 	private static String	APPSTYPE_IBM = "<ibmWS>";
 	/** Oracle				*/
 	private static String	APPSTYPE_ORACLE = "<oracleAS>";
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
-		{APPSTYPE_JBOSS, APPSTYPE_TOMCAT, 
-		APPSTYPE_IBM, APPSTYPE_ORACLE};
+		{ APPSTYPE_JBOSS
+		, APPSTYPE_GLASSFISH
+		, APPSTYPE_TOMCAT
+		, APPSTYPE_IBM
+		, APPSTYPE_ORACLE
+		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
-	    {new ConfigJBoss(this), new ConfigTomcat(this), 
-		null, null};
+	    { new ConfigJBoss(this)
+	    , new ConfigGlassfish( this )
+	    , new ConfigTomcat(this)
+	    , null
+	    , null
+	    };
 
 	/**
 	 * 	Init Apps Server
