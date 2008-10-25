@@ -1,51 +1,60 @@
-/*
- *This file is part of Adempiere ERP Bazaar
- *http://www.adempiere.org
- *
- *Copyright (C) 2006 Timo Kontro
- *Copyright (C) 1999-2006 ComPiere, inc
- *
- *This program is free software; you can redistribute it and/or
- *modify it under the terms of the GNU General Public License
- *as published by the Free Software Foundation; either version 2
- *of the License, or (at your option) any later version.
- *
- *This program is distributed in the hope that it will be useful,
- *but WITHOUT ANY WARRANTY; without even the implied warranty of
- *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *GNU General Public License for more details.
- *
- *You should have received a copy of the GNU General Public License
- *along with this program; if not, write to the Free Software
- *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
- */
+CREATE OR REPLACE FUNCTION currencyRound(
+	p_Amount	NUMERIC,
+	p_CurTo_ID	NUMERIC,
+	p_Costing	VARCHAR		--	Default 'N'
+) 
 
-SET search_path = adempiere, pg_catalog;
+RETURNS numeric AS $body$
+	
+/*************************************************************************
+ * The contents of this file are subject to the Compiere License.  You may
+ * obtain a copy of the License at    http://www.compiere.org/license.html
+ * Software is on an  "AS IS" basis,  WITHOUT WARRANTY OF ANY KIND, either
+ * express or implied. See the License for details. Code: Compiere ERP+CRM
+ * Copyright (C) 1999-2001 Jorg Janke, ComPiere, Inc. All Rights Reserved.
+ *
+ * converted to postgreSQL by Karsten Thiemann (Schaeffer AG), 
+ * kthiemann@adempiere.org
+ *************************************************************************
+ ***
+ * Title:	Round amount for Traget Currency
+ * Description:
+ *		Round Amount using Costing or Standard Precision
+ *		Returns unmodified amount if currency not found
+ * Test:
+ *		SELECT currencyRound(currencyConvert(100,116,100,null,null),100,null) FROM AD_System => 64.72 
+ ************************************************************************/
+	
+	
+DECLARE
+	v_StdPrecision		NUMERIC;
+	v_CostPrecision		NUMERIC;
 
-CREATE OR REPLACE FUNCTION currencyround (
-    IN NUMERIC, -- $1 amount
-    IN INTEGER, -- $2 Currency_ID
-    IN BOOLEAN  -- $3 Costing
-) RETURNS NUMERIC AS
-$$
-  DECLARE
-    precision INTEGER;
-  BEGIN
-    IF $1 IS NULL OR $2 IS NULL THEN
-      RETURN $1;
-    END IF;
-    IF COALESCE($3,FALSE) THEN
-      SELECT t.CostingPrecision
-        INTO precision
-        FROM C_Currency AS t
-        WHERE C_Currency_ID = $2;
-    ELSE
-      SELECT t.stdprecision
-        INTO precision
-        FROM C_Currency AS t
-        WHERE C_Currency_ID = $2;
-    END IF; 
-    RETURN ROUND($1, precision);
-  END;
-$$ LANGUAGE plpgsql;
-    
+BEGIN
+	--	Nothing to convert
+	IF (p_Amount IS NULL OR p_CurTo_ID IS NULL) THEN
+		RETURN p_Amount;
+	END IF;
+
+	--	Ger Precision
+	SELECT	MAX(StdPrecision), MAX(CostingPrecision)
+	  INTO	v_StdPrecision, v_CostPrecision
+	FROM	C_Currency
+	  WHERE	C_Currency_ID = p_CurTo_ID;
+	--	Currency Not Found
+	IF (v_StdPrecision IS NULL) THEN
+		RETURN p_Amount;
+	END IF;
+
+	IF (p_Costing = 'Y') THEN
+		RETURN ROUND (p_Amount, v_CostPrecision);
+	END IF;
+
+	RETURN ROUND (p_Amount, v_StdPrecision);
+	
+END;
+
+$body$ LANGUAGE plpgsql;
+
+
+ 	  	 

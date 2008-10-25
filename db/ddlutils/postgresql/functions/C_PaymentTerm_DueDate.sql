@@ -1,70 +1,55 @@
-/*
- *This file is part of Adempiere ERP Bazaar
- *http://www.adempiere.org
+create or replace FUNCTION    paymenttermDueDate
+(
+	PaymentTerm_ID	IN	NUMERIC,
+	DocDate			IN	timestamp with time zone
+)
+RETURNS timestamp with time zone AS $body$
+/*************************************************************************
+ * The contents of this file are subject to the Compiere License.  You may
+ * obtain a copy of the License at    http://www.compiere.org/license.html
+ * Software is on an  "AS IS" basis,  WITHOUT WARRANTY OF ANY KIND, either
+ * express or implied. See the License for details. Code: Compiere ERP+CRM
+ * Copyright (C) 1999-2001 Jorg Janke, ComPiere, Inc. All Rights Reserved.
  *
- *Copyright (C) 2006 Timo Kontro
- *Copyright (C) 1999-2006 ComPiere, inc
- *
- *This program is free software; you can redistribute it and/or
- *modify it under the terms of the GNU General Public License
- *as published by the Free Software Foundation; either version 2
- *of the License, or (at your option) any later version.
- *
- *This program is distributed in the hope that it will be useful,
- *but WITHOUT ANY WARRANTY; without even the implied warranty of
- *MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *GNU General Public License for more details.
- *
- *You should have received a copy of the GNU General Public License
- *along with this program; if not, write to the Free Software
- *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
- */
+ * converted to postgreSQL by Karsten Thiemann (Schaeffer AG), 
+ * kthiemann@adempiere.org
+ *************************************************************************
+ * Title:	Get Due timestamp with time zone
+ * Description:
+ *	Returns the due timestamp with time zone
+ * Test:
+ *	select paymenttermDueDate(106, now()) from Test; => now()+30 days
+ ************************************************************************/
+DECLARE
+ 	Days				NUMERIC := 0;
+	DueDate				timestamp with time zone := TRUNC(DocDate);
+	--
+	FirstDay			timestamp with time zone;
+	NoDays				NUMERIC;
+	p   			RECORD;
+BEGIN
+	FOR p IN 
+		SELECT	*
+		FROM	C_PaymentTerm
+		WHERE	C_PaymentTerm_ID = PaymentTerm_ID
+	LOOP	--	for convineance only
+		--	Due 15th of following month
+		IF (p.IsDueFixed = 'Y') THEN		
+			FirstDay := TRUNC(DocDate, 'MM');
+			NoDays := TRUNC(DocDate) - FirstDay;
+			DueDate := FirstDay + (p.FixMonthDay-1);	--	starting on 1st
+			DueDate := ADD_MONTHS(DueDate, p.FixMonthOffset);
+			IF (NoDays > p.FixMonthCutoff) THEN
+				DueDate := ADD_MONTHS(DueDate, 1);
+			END IF;
+		ELSE
+			DueDate := TRUNC(DocDate) + p.NetDays;
+		END IF;
+	END LOOP;
 
-SET search_path = adempiere, pg_catalog;
+	RETURN DueDate;
+END;
 
-CREATE OR REPLACE FUNCTION paymenttermduedate(
-    IN INTEGER, -- $1 payment term id
-    IN TIMESTAMP WITH TIME ZONE -- $2 document date
-) RETURNS TIMESTAMP WITH TIME ZONE AS 
-$$
-  DECLARE
-    due_date      TIMESTAMP WITH TIME ZONE;
-    fixed         BOOLEAN;
-    monthOffset   INTEGER;
-    monthCutOff    INTEGER;
-    netDays       INTEGER;
-    monthDay      INTEGER;
-  BEGIN
-    IF $1 IS NULL OR $2 IS NULL THEN
-      RETURN 0;
-    END IF;
-    SELECT (t.isDueFixed = 'Y'), t.fixMonthOffset, t.fixMonthCutoff,
-        t.netdays, t.FixMonthDay
-      INTO fixed, monthOffset, monthCutOff, netDays, monthDay
-      FROM C_PaymentTerm AS t WHERE t.C_PaymentTerm_ID = $1;
-    IF fixed THEN
-      --we check if montCutOff is bigger than number of days in month.
-      IF monthCutOff > 28 THEN -- if smaller than days in february no need for further checks.
-        -- montCutOff should not be greater than number of days in month.
-        monthCutOff := LEAST(
-          EXTRACT(DAY FROM (date_trunc('month', $2) + INTERVAL '1 month' - INTERVAL '1 day'))
-          ,monthCutOff);
-      END IF;
-      IF monthCutOff < EXTRACT(DAY FROM $2) THEN
-        monthOffset := COALESCE(monthOffset,0) + 1;
-      END IF;
-      due_date := date_trunc('month', $2) + (INTERVAL '1 month' * monthOffset);
+$body$ LANGUAGE plpgsql;
 
-      IF monthDay > 28 THEN
-        --monthDay should not be greater than number of days in month.
-        monthDay := LEAST(
-          EXTRACT(DAY FROM (due_date + INTERVAL '1 month' - INTERVAL '1 days'))
-          ,monthDay);
-      END IF;
-      due_date := due_date + INTERVAL '1 day' * (monthDay -1);
-    ELSE
-      due_date := $2 + (INTERVAL '1 day' * netDays);
-    END IF;
-    RETURN due_date;
-  END;
-$$ LANGUAGE plpgsql;
+ 	  	 
