@@ -22,6 +22,7 @@
  *                                                                    * 
  * Contributors:                                                      * 
  *  - Trifon Trifonov (trifonnt@users.sourceforge.net)                *
+ *  - Antonio Cañaveral, e-Evolution								  *
  *                                                                    *
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
@@ -64,6 +65,9 @@ import org.w3c.dom.Text;
 
 /**
  * @author Trifon N. Trifonov
+ * @author Antonio Cañaveral, e-Evolution
+ * 				<li>[ 2195016 ] Implementation delete records messages
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195016&group_id=176962&atid=879332
  */
 public class ExportHelper {
 	
@@ -121,8 +125,7 @@ public class ExportHelper {
 		}
 		
 		
-		MTable table = MTable.get(po.getCtx(), po.get_Table_ID());
-		log.info("Table = " + table);
+		log.info("Table = " + po.get_TableName());
 		//PO po = table.getPO (po.get_ID(), po.get_TrxName());
 		
 		if (po.get_KeyColumns().length > 1 || po.get_KeyColumns().length < 1) {
@@ -149,7 +152,7 @@ public class ExportHelper {
 		outDocument = createNewDocument();
 
 		StringBuffer sql = new StringBuffer("SELECT * ")
-					.append("FROM ").append(table.getTableName()).append(" ")
+					.append("FROM ").append(po.get_TableName()).append(" ")
 				   .append("WHERE ").append(po.get_KeyColumns()[0]).append("=?")
 		;
 		
@@ -176,7 +179,7 @@ public class ExportHelper {
 				rootElement.setAttribute("AD_Client_Value", client.getValue());
 				rootElement.setAttribute("Version", exportFormat.getVersion());
 				if (isDeleted) {
-					rootElement.setAttribute("deleted", "true");
+					rootElement.setAttribute("deleted", "Y");
 				}
 				outDocument.appendChild(rootElement);
 				generateExportFormat(rootElement, exportFormat, rs, po, po.get_ID(), variableMap);
