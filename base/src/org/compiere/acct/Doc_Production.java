@@ -170,8 +170,8 @@ public class Doc_Production extends Doc
 			
 			// MZ Goodwill
 			// if Production CostDetail exist then get Cost from Cost Detail 
-			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=? AND M_AttributeSetInstance_ID=?", 
-					line.get_ID(), line.getM_AttributeSetInstance_ID(), getTrxName());
+			MCostDetail cd = MCostDetail.get (as.getCtx(), "M_ProductionLine_ID=?", 
+					line.get_ID(), line.getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), getTrxName());
 			if (cd != null)
 				costs = cd.getAmt();
 			else

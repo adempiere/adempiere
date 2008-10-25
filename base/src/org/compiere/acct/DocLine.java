@@ -703,7 +703,7 @@ public class DocLine
 		if (whereClause != null)
 		{
 			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause, 
-					get_ID(), getM_AttributeSetInstance_ID(), p_po.get_TrxName());
+					get_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), p_po.get_TrxName());
 			if (cd != null)
 				return cd.getAmt();
 		}

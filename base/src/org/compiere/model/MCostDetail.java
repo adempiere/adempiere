@@ -30,7 +30,10 @@ import org.compiere.util.Env;
  * 	Cost Detail Model
  *	
  *  @author Jorg Janke
+ *  @author Armen Rizal & Bayu Cahya
+ *  	<li>BF [ 2129781 ] Cost Detail not created properly for multi acc schema
  *  @version $Id: MCostDetail.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  
  */
 public class MCostDetail extends X_M_CostDetail
 {
@@ -61,12 +64,13 @@ public class MCostDetail extends X_M_CostDetail
 		String sql = "DELETE M_CostDetail "
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND C_OrderLine_ID=" + C_OrderLine_ID
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
-			C_OrderLine_ID, M_AttributeSetInstance_ID, trxName);
+		MCostDetail cd = get (as.getCtx(), "C_OrderLine_ID=?", 
+			C_OrderLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -129,12 +133,13 @@ public class MCostDetail extends X_M_CostDetail
 		String sql = "DELETE M_CostDetail "
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND C_InvoiceLine_ID=" + C_InvoiceLine_ID
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()			
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
-			C_InvoiceLine_ID, M_AttributeSetInstance_ID, trxName);
+		MCostDetail cd = get (as.getCtx(), "C_InvoiceLine_ID=?", 
+			C_InvoiceLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -197,12 +202,13 @@ public class MCostDetail extends X_M_CostDetail
 		String sql = "DELETE M_CostDetail "
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND M_InOutLine_ID=" + M_InOutLine_ID
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?", 
-			M_InOutLine_ID, M_AttributeSetInstance_ID, trxName);
+		MCostDetail cd = get (as.getCtx(), "M_InOutLine_ID=?", 
+			M_InOutLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -265,12 +271,13 @@ public class MCostDetail extends X_M_CostDetail
 		String sql = "DELETE M_CostDetail "
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND M_InventoryLine_ID=" + M_InventoryLine_ID
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "M_InventoryLine_ID=? AND M_AttributeSetInstance_ID=?", 
-			M_InventoryLine_ID, M_AttributeSetInstance_ID, trxName);
+		MCostDetail cd = get (as.getCtx(), "M_InventoryLine_ID=?", 
+			M_InventoryLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -334,13 +341,14 @@ public class MCostDetail extends X_M_CostDetail
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND M_MovementLine_ID=" + M_MovementLine_ID 
 			+ " AND IsSOTrx=" + (from ? "'Y'" : "'N'")
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "M_MovementLine_ID=? AND M_AttributeSetInstance_ID=? AND IsSOTrx=" 
+		MCostDetail cd = get (as.getCtx(), "M_MovementLine_ID=? AND IsSOTrx=" 
 			+ (from ? "'Y'" : "'N'"), 
-			M_MovementLine_ID, M_AttributeSetInstance_ID, trxName);
+			M_MovementLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -403,12 +411,13 @@ public class MCostDetail extends X_M_CostDetail
 		String sql = "DELETE M_CostDetail "
 			+ "WHERE Processed='N' AND COALESCE(DeltaAmt,0)=0 AND COALESCE(DeltaQty,0)=0"
 			+ " AND M_ProductionLine_ID=" + M_ProductionLine_ID
+			+ " AND C_AcctSchema_ID =" + as.getC_AcctSchema_ID()
 			+ " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
 		int no = DB.executeUpdate(sql, trxName);
 		if (no != 0)
 			s_log.config("Deleted #" + no);
-		MCostDetail cd = get (as.getCtx(), "M_ProductionLine_ID=? AND M_AttributeSetInstance_ID=?", 
-			M_ProductionLine_ID, M_AttributeSetInstance_ID, trxName);
+		MCostDetail cd = get (as.getCtx(), "M_ProductionLine_ID=?", 
+			M_ProductionLine_ID, M_AttributeSetInstance_ID, as.getC_AcctSchema_ID(), trxName);
 		//
 		if (cd == null)		//	createNew
 		{
@@ -456,9 +465,11 @@ public class MCostDetail extends X_M_CostDetail
 	 *	@return cost detail
 	 */
 	public static MCostDetail get (Properties ctx, String whereClause, 
-		int ID, int M_AttributeSetInstance_ID, String trxName)
+		int ID, int M_AttributeSetInstance_ID, int C_AcctSchema_ID, String trxName)
 	{
-		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause;
+		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause
+			+ " AND M_AttributeSetInstance_ID=?"
+			+ " AND C_AcctSchema_ID=?";
 		MCostDetail retValue = null;
 		PreparedStatement pstmt = null;
 		try
@@ -466,6 +477,7 @@ public class MCostDetail extends X_M_CostDetail
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, ID);
 			pstmt.setInt (2, M_AttributeSetInstance_ID);
+			pstmt.setInt (3, C_AcctSchema_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MCostDetail (ctx, rs, trxName);

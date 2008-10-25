@@ -129,7 +129,7 @@ public class Doc_Movement extends Doc
 			DocLine line = p_lines[i];
 			// MZ Goodwill
 			// if Inventory Move CostDetail exist then get Cost from Cost Detail 
-			BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_MovementLine_ID=? AND M_AttributeSetInstance_ID=? AND IsSOTrx='N'");
+			BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_MovementLine_ID=? AND IsSOTrx='N'");
 			// end MZ
 
 			//  ** Inventory       DR      CR

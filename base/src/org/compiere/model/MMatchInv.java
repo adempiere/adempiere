@@ -508,8 +508,8 @@ public class MMatchInv extends X_M_MatchInv
 				continue;
 			
 			// update/delete Cost Detail and recalculate Current Cost
-			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
-					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), get_TrxName());
+			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
+					getC_InvoiceLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
 			if (cd != null)
 			{
 				MInOut receipt = (new MInOutLine(getCtx(),getM_InOutLine_ID(),get_TrxName())).getParent();
@@ -535,7 +535,7 @@ public class MMatchInv extends X_M_MatchInv
 					cd.setProcessed(false);
 					cd.delete(true);
 				}
-			}			
+			}
 		}
 		
 		return "";

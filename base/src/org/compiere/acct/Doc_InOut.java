@@ -151,7 +151,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				// MZ Goodwill
 				// if Shipment CostDetail exist then get Cost from Cost Detail 
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?");
+				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=?");
 				// end MZ
 				if (costs == null || costs.signum() == 0)	//	zero costs OK
 				{
@@ -251,7 +251,7 @@ public class Doc_InOut extends Doc
 				DocLine line = p_lines[i];
 				// MZ Goodwill
 				// if Shipment CostDetail exist then get Cost from Cost Detail 
-				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=? AND M_AttributeSetInstance_ID=?");
+				BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InOutLine_ID=?");
 				// end MZ
 				
 				if (costs == null || costs.signum() == 0)	//	zero costs OK

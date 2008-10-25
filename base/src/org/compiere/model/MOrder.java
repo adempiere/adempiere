@@ -30,6 +30,7 @@ import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.report.MReportTree;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -1937,6 +1938,11 @@ public class MOrder extends X_C_Order implements DocAction
 				line.setLineNetAmt(Env.ZERO);
 				line.save(get_TrxName());
 			}
+			//AZ Goodwill	
+			if (!isSOTrx())
+			{
+				deleteMatchPOCostDetail(line);
+			}
 		}
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//	Clear Reservations
@@ -1948,29 +1954,6 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		if (!createReversals())
 			return false;
-		
-		//MZ Goodwill	
-		if (!isSOTrx())
-		{
-			// delete Matched PO Cost Detail
-			MOrderLine[] linesMZ = getLines();
-			for (int i = 0; i < lines.length; i++)
-			{
-				MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), linesMZ[i].getC_OrderLine_ID(), get_TrxName()); 
-				// delete Cost Detail if the Matched PO has been deleted
-				if (mPO.length == 0)
-				{
-					MCostDetail cd = MCostDetail.get(getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
-							linesMZ[i].getC_OrderLine_ID(), linesMZ[i].getM_AttributeSetInstance_ID(), get_TrxName());
-					if (cd !=  null)
-					{
-						cd.setProcessed(false);
-						cd.delete(true);
-					}
-				}
-			}
-		}
-		//End MZ
 		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -2310,5 +2293,45 @@ public class MOrder extends X_C_Order implements DocAction
 	{
 		return getGrandTotal();
 	}	//	getApprovalAmt
+	
+	//AZ Goodwill
+	private String deleteMatchPOCostDetail(MOrderLine line)
+	{
+		// Get Account Schemas to delete MCostDetail
+		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for(int asn = 0; asn < acctschemas.length; asn++)
+		{
+			MAcctSchema as = acctschemas[asn];
+			
+			boolean skip = false;
+			if (as.getAD_OrgOnly_ID() != 0)
+			{
+				if (as.getOnlyOrgs() == null)
+					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
+						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+						as.getAD_OrgOnly_ID()));
+				skip = as.isSkipOrg(getAD_Org_ID());
+			}
+			if (skip)
+				continue;
+			
+			// update/delete Cost Detail and recalculate Current Cost
+			MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName()); 
+			// delete Cost Detail if the Matched PO has been deleted
+			if (mPO.length == 0)
+			{
+				MCostDetail cd = MCostDetail.get(getCtx(), "C_OrderLine_ID=?", 
+						line.getC_OrderLine_ID(), line.getM_AttributeSetInstance_ID(), 
+						as.getC_AcctSchema_ID(), get_TrxName());
+				if (cd !=  null)
+				{
+					cd.setProcessed(false);
+					cd.delete(true);
+				}
+			}
+		}
+		
+		return "";
+	}
 	
 }	//	MOrder

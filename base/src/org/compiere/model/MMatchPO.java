@@ -913,8 +913,8 @@ public class MMatchPO extends X_M_MatchPO
 				continue;
 			
 			// update/delete Cost Detail and recalculate Current Cost
-			MCostDetail cd = MCostDetail.get (getCtx(), "C_OrderLine_ID=? AND M_AttributeSetInstance_ID=?", 
-					getC_OrderLine_ID(), getM_AttributeSetInstance_ID(), get_TrxName());
+			MCostDetail cd = MCostDetail.get (getCtx(), "C_OrderLine_ID=?", 
+					getC_OrderLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
 			if (cd != null)
 			{
 				BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);

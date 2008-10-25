@@ -143,7 +143,7 @@ public class Doc_Inventory extends Doc
 			DocLine line = p_lines[i];
 			// MZ Goodwill
 			// if Physical Inventory CostDetail is exist then get Cost from Cost Detail 
-			BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InventoryLine_ID=? AND M_AttributeSetInstance_ID=?");
+			BigDecimal costs = line.getProductCosts(as, line.getAD_Org_ID(), true, "M_InventoryLine_ID=?");
 			// end MZ
 			if (costs == null || costs.signum() == 0)
 			{

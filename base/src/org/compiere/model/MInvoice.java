@@ -1792,6 +1792,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				}
 				else
 					matchInv++;
+				
+				// Elaine 2008/6/20	
+				String err = createMatchInvCostDetail(inv, line, receiptLine);
+				if(err != null && err.length() > 0) return err;
+				//
 			}
 		}	//	for all lines
 		if (matchInv > 0)
@@ -1919,6 +1924,91 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+	
+	// Elaine 2008/6/20	
+	private String createMatchInvCostDetail(MMatchInv inv, MInvoiceLine m_invoiceLine, MInOutLine m_receiptLine)
+	{
+		// Get Account Schemas to create MCostDetail
+		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for(int asn = 0; asn < acctschemas.length; asn++)
+		{
+			MAcctSchema as = acctschemas[asn];
+			
+			boolean skip = false;
+			if (as.getAD_OrgOnly_ID() != 0)
+			{
+				if (as.getOnlyOrgs() == null)
+					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
+						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+						as.getAD_OrgOnly_ID()));
+
+				//	Header Level Org
+				skip = as.isSkipOrg(getAD_Org_ID());
+				//	Line Level Org
+				skip = as.isSkipOrg(m_invoiceLine.getAD_Org_ID());
+			}
+			if (skip)
+				continue;
+			
+			BigDecimal LineNetAmt = m_invoiceLine.getLineNetAmt();
+			BigDecimal multiplier = inv.getQty()
+				.divide(m_invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP)
+				.abs();
+			if (multiplier.compareTo(Env.ONE) != 0)
+				LineNetAmt = LineNetAmt.multiply(multiplier);
+
+			// Source from Doc_MatchInv.createFacts(MAcctSchema)
+			//	Cost Detail Record - data from Expense/IncClearing (CR) record
+			// MZ Goodwill
+			// Create Cost Detail Matched Invoice using Total Amount and Total Qty based on InvoiceLine
+			MMatchInv[] mInv = MMatchInv.getInvoiceLine(getCtx(), m_invoiceLine.getC_InvoiceLine_ID(), inv.get_TrxName());
+			BigDecimal tQty = Env.ZERO;
+			BigDecimal tAmt = Env.ZERO;
+			for (int i = 0 ; i < mInv.length ; i++)
+			{
+				if (mInv[i].isPosted() && mInv[i].getM_MatchInv_ID() != get_ID())
+				{
+					tQty = tQty.add(mInv[i].getQty());
+					multiplier = mInv[i].getQty()
+						.divide(m_invoiceLine.getQtyInvoiced(), 12, BigDecimal.ROUND_HALF_UP).abs();
+					tAmt = tAmt.add(m_invoiceLine.getLineNetAmt().multiply(multiplier));
+				}
+			}
+			
+			// 	Different currency
+			MInvoice invoice = m_invoiceLine.getParent();
+			if (as.getC_Currency_ID() != invoice.getC_Currency_ID())
+			{
+				tAmt = MConversionRate.convert(getCtx(), tAmt, 
+					invoice.getC_Currency_ID(), as.getC_Currency_ID(),
+					invoice.getDateAcct(), invoice.getC_ConversionType_ID(),
+					invoice.getAD_Client_ID(), invoice.getAD_Org_ID());
+				if (tAmt == null)
+				{
+					return "AP Invoice not convertible - " + as.getName();
+				}
+			}
+			
+			tAmt = tAmt.add(LineNetAmt); //Invoice Price
+			// set Qty to negative value when MovementType is Vendor Returns
+			MInOut receipt = m_receiptLine.getParent();
+			if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
+				tQty = tQty.add(inv.getQty().negate()); //	Qty is set to negative value
+			else
+				tQty = tQty.add(inv.getQty());
+			
+			// Set Total Amount and Total Quantity from Matched Invoice 
+			MCostDetail.createInvoice(as, getAD_Org_ID(), 
+					inv.getM_Product_ID(), inv.getM_AttributeSetInstance_ID(),
+					m_invoiceLine.getC_InvoiceLine_ID(), 0,		//	No cost element
+					tAmt, tQty,	getDescription(), inv.get_TrxName());
+			// end MZ
+			// end
+		}
+		
+		return "";
+	}
+	//
 
 	/**
 	 * 	Set the definite document number after completed
@@ -2222,6 +2312,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				iLine.setM_InOutLine_ID(0);
 				iLine.save(get_TrxName());
 			}
+			//AZ Goodwill
+			if (!isSOTrx())
+			{
+				deleteMatchInvCostDetail(iLine);
+			}
         }
 		setProcessed(true);
 		//FR1948157
@@ -2258,23 +2353,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				alloc.save();
 		}
 		
-		//MZ Goodwill
-		if (!isSOTrx())
-		{
-			// delete Matched Invoice Cost Detail
-			MInvoiceLine[] lines = getLines();
-			for (int i = 0; i < lines.length; i++)
-			{
-				MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=? AND M_AttributeSetInstance_ID=?", 
-						lines[i].getC_InvoiceLine_ID(), lines[i].getM_AttributeSetInstance_ID(), get_TrxName());
-				if (cd !=  null)
-				{
-					cd.setProcessed(false);
-					cd.delete(true);
-				}
-			}
-		}
-		//End MZ
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
@@ -2403,6 +2481,41 @@ public class MInvoice extends X_C_Invoice implements DocAction
         setC_Campaign_ID(originalInvoice.getC_Campaign_ID());
         setUser1_ID(originalInvoice.getUser1_ID());
         setUser2_ID(originalInvoice.getUser2_ID());
+	}
+	
+	//AZ Goodwill
+	private String deleteMatchInvCostDetail(MInvoiceLine line)
+	{
+		// Get Account Schemas to delete MCostDetail
+		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for(int asn = 0; asn < acctschemas.length; asn++)
+		{
+			MAcctSchema as = acctschemas[asn];
+			
+			boolean skip = false;
+			if (as.getAD_OrgOnly_ID() != 0)
+			{
+				if (as.getOnlyOrgs() == null)
+					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
+						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+						as.getAD_OrgOnly_ID()));
+				skip = as.isSkipOrg(getAD_Org_ID());
+			}
+			if (skip)
+				continue;
+			
+			// update/delete Cost Detail and recalculate Current Cost
+			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?", 
+					line.getC_InvoiceLine_ID(), line.getM_AttributeSetInstance_ID(), 
+					as.getC_AcctSchema_ID(), get_TrxName());
+			if (cd !=  null)
+			{
+				cd.setProcessed(false);
+				cd.delete(true);
+			}
+		}
+		
+		return "";
 	}
 	
 }	//	MInvoice
