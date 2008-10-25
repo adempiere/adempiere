@@ -22,6 +22,7 @@
  *                                                                    * 
  * Contributors:                                                      * 
  *  - Trifon Trifonov (trifonnt@users.sourceforge.net)                *
+ *  - Antonio Cañaveral, e-Evolution
  *                                                                    *
  * Sponsors:                                                          *
  *  - e-Evolution (http://www.e-evolution.com/)                       *
@@ -37,11 +38,17 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.MTable;
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
 /**
  * @author Trifon N. Trifonov
+ * @author Antonio Cañaveral, e-Evolution
+ * 				<li>[ 2195090 ] Implementing ExportFormat cache
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195090&group_id=176962&atid=879335
  */
 public class MEXPFormat extends X_EXP_Format {
 
@@ -53,6 +60,7 @@ public class MEXPFormat extends X_EXP_Format {
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPFormat.class);
 	
+	private static CCache<String,MEXPFormat> s_cache = new CCache<String,MEXPFormat>("MEXPFormat", 50 );	
 	
 	public MEXPFormat(Properties ctx, int EXP_Format_ID, String trxName) {
 		super(ctx, EXP_Format_ID, trxName);
@@ -146,75 +154,41 @@ public class MEXPFormat extends X_EXP_Format {
 	public static MEXPFormat getFormatByValueAD_Client_IDAndVersion(Properties ctx, String value, int AD_Client_ID, String version, String trxName) 
 			throws SQLException 
 	{
-		MEXPFormat result = null;
-		                   
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_EXP_Format.Table_Name)
-			.append(" WHERE ").append(X_EXP_Format.COLUMNNAME_Value).append("=?")
-			//.append(" AND IsActive = ?")
-			.append(" AND AD_Client_ID = ?")
-			.append(" AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?")
-		;
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), trxName);
-			pstmt.setString(1, value);
-			pstmt.setInt(2, AD_Client_ID);
-			pstmt.setString(3, version);
-			ResultSet rs = pstmt.executeQuery ();
-			if ( rs.next() ) {
-				result = new MEXPFormat (ctx, rs, trxName);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-			throw e;
-		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
-		}
+		String key = new String(value+version);
+		MEXPFormat retValue=null;
+		if(retValue!=null)
+			return retValue;
+		
+		StringBuffer whereCluse = new StringBuffer(X_EXP_Format.COLUMNNAME_Value).append("=?")
+		.append(" AND AD_Client_ID = ?")
+		.append(" AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
 
-		return result;
+		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereCluse.toString(),trxName)
+					.setParameters(new Object[] {value,AD_Client_ID,version}).first();
+		s_cache.put (key, retValue);
+		
+		return retValue;
 	}
 
 	public static MEXPFormat getFormatByAD_Client_IDAD_Table_IDAndVersion(Properties ctx, int AD_Client_ID, int AD_Table_ID, String version, String trxName) throws SQLException 
 	{
-		MEXPFormat result = null;
-		                   
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_EXP_Format.Table_Name)
-			.append(" WHERE ").append(" AD_Client_ID = ? ")
-			.append("  AND ").append(X_EXP_Format.COLUMNNAME_AD_Table_ID).append(" = ? ")
-			.append("  AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?")
-		;
-		PreparedStatement pstmt = null;
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), trxName);
-			pstmt.setInt(1, AD_Client_ID);
-			pstmt.setInt(2, AD_Table_ID);
-			pstmt.setString(3, version);
-			ResultSet rs = pstmt.executeQuery ();
-			if ( rs.next() ) {
-				result = new MEXPFormat (ctx, rs, trxName);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-			throw e;
-		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
-		}
+		String key = new String(MTable.getTableName(ctx, AD_Table_ID)+version);
+		MEXPFormat retValue=null;
 		
-		return result;
+		retValue = (MEXPFormat)s_cache.get(key);
+		if(retValue!=null)
+			return retValue;
+		
+		StringBuffer whereCluse = new StringBuffer(" AD_Client_ID = ? ")
+			.append("  AND ").append(X_EXP_Format.COLUMNNAME_AD_Table_ID).append(" = ? ")
+			.append("  AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
+
+		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereCluse.toString(),trxName)
+						.setParameters(new Object[] {AD_Client_ID,AD_Table_ID,version}).first();
+		
+		s_cache.put (key, retValue);
+		
+		return retValue;
 	}
 
 	@Override
