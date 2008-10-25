@@ -22,10 +22,12 @@
  *                                                                    * 
  * Contributors:                                                      * 
  *  - Trifon Trifonov (trifonnt@users.sourceforge.net)                *
+ *  - Antonio Cañaveral (antonio.canaveral@e-evolution.com)
  *                                                                    *
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
  **********************************************************************/
+
 package org.adempiere.server.rpl.imp;
 
 import java.util.Properties;
@@ -50,6 +52,9 @@ import org.w3c.dom.Document;
 /**
  * Listen for JMS Messages
  * @author Trifon N. Trifonov
+ * @author Antonio Cañaveral, e-Evolution
+ * 				<li>[ 2194986 ] Already connected ClientID issue.
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2194986&group_id=176962&atid=879332
  */
 public class TopicListener implements MessageListener {
 	
@@ -156,7 +161,14 @@ public class TopicListener implements MessageListener {
 		
 		this.topicName = topicName;
 		
-		this.setUrl(this.protocol + "://" + this.host + ":" + this.port);
+		String uri=this.protocol + "://" + this.host + ":" + this.port;
+		
+		if(options!=null && options.length()>0)
+		{
+			if(!options.contains("?"))
+				uri+="?"+options;
+		}
+		this.setUrl(uri);
 		
 		this.ctx = ctx;
 		
@@ -188,17 +200,22 @@ public class TopicListener implements MessageListener {
 		
 		log.finest("conn = " + conn );
 		
-		try {
-		conn.setClientID( clientID );
-		} catch (InvalidClientIDException e) {
-			// TODO find a better way to check whether the connection already
-			// exists
-			log.config("Connection with clientID '" + clientID
-					   + "' already exists");
-			return;
-		}	
+		if(conn.getClientID()==null)
+		{
+			conn.setClientID( clientID );
+		}else
+		{
+			if(conn.getClientID().equals(clientID))
+			{
+				log.config("Connection with clientID '" + clientID
+						+ "' already exists");
+				return;
+			}else
+				conn.setClientID( clientID );
+		}
 		
-		session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE); // TODO - could be parameter
+		
+		session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE); // TODO - could be parameter
 		log.finest("session = " + session );
 		
 		log.finest("topicName = " + topicName );
@@ -263,9 +280,15 @@ public class TopicListener implements MessageListener {
 				boolean resultSave = pLog.save();
 				log.finest("Result Save = " + resultSave);
 				
+				session.commit();
+								
 			} catch (Exception e) {
 				replicationProcessor.setProcessRunning(false);
-				
+				try {
+					session.rollback();
+				} catch (JMSException e1) {
+					e1.printStackTrace();
+				}
 				e.printStackTrace();
 			}
 
