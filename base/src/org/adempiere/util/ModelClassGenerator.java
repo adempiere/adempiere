@@ -479,7 +479,7 @@ public class ModelClassGenerator
 				}	
 				//end [ 1785001 ]				
 				sb.append(NL)
-					.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws Exception ").append(NL)
+					.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException ").append(NL)
 					.append("    {").append(NL)
 				// TODO - here we can implement Lazy loading or Cache of class
 					.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(NL)
@@ -496,7 +496,7 @@ public class ModelClassGenerator
 					.append("        } catch (Exception e) {").append(NL)
 					.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(NL)
 					.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(NL)
-					.append("           throw e;").append(NL)					
+					.append("           throw new RuntimeException( e );").append(NL)					
 					.append("        }").append(NL)
 					.append("        return result;").append(NL)
 					.append("    }").append(NL)

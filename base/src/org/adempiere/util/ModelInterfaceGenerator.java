@@ -410,7 +410,7 @@ public class ModelInterfaceGenerator {
 				//end [ 1785001 ]
 				
 				sb.append("\n")
-				  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws Exception;")
+				  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException;")
 				;
 			} else {
 				// TODO - Handle other types
