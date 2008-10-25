@@ -21,7 +21,8 @@
 * MA 02110-1301, USA.                                                 *
 *                                                                     *
 * Contributors:                                                       *
-* - Trifon Trifonov (trifonnt@users.sourceforge.net)                  *
+* - Trifon Trifonov (trifonnt@users.sourceforge.net)
+* - Antonio Cañaveral, e-Evolution                  
 *                                                                     *
 * Sponsors:                                                           *
 * - E-evolution (http://www.e-evolution.com)                          *
@@ -57,6 +58,10 @@ import org.w3c.dom.Document;
 
 /**
  * @author Trifon N. Trifonov
+ * @author Antonio Cañaveral, e-Evolution
+ * 				<li>[ 2195051 ] Implementing Message Transaction
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195051&group_id=176962&atid=879335
+
  */
 public class TopicExportProcessor implements IExportProcessor {
 
@@ -154,8 +159,8 @@ public class TopicExportProcessor implements IExportProcessor {
 			connection.start();
 			
 			// Create a Session
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE); //TODO - Trifon could be EXP_ProcessorParameter
-			
+			session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE); //TODO - Trifon could be EXP_ProcessorParameter
+
 			// Create the destination (Topic or Queue)
 			Destination destination = session.createTopic(topicName);
 			
@@ -177,8 +182,18 @@ public class TopicExportProcessor implements IExportProcessor {
 			TextMessage message = session.createTextMessage( msg );
 			
 			// Tell the producer to send the message
-			log.info("JMS Message sent!");
-			producer.send(message);
+			try
+			{
+				producer.send(message);
+				session.commit();
+				log.info("JMS Message sent!");
+			}catch(JMSException ex)
+			{
+				session.rollback();
+				log.info("JMS Can't send the message!");
+				throw ex;
+			}
+			
 		} finally {
 			// Clean up
 			if (session != null) { 
