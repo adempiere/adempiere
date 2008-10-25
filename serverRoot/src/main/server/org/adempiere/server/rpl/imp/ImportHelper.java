@@ -61,6 +61,9 @@ import org.w3c.dom.NodeList;
 
 /**
  * @author Trifon N. Trifonov
+* @author Antonio Cañaveral, e-Evolution
+ * 				<li>[ 2195016 ] Implementation delete records messages
+ * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195016&group_id=176962&atid=879332
  */
 public class ImportHelper {
 
@@ -121,7 +124,9 @@ public class ImportHelper {
 		if (version == null || "".equals(version)) {
 			throw new Exception(Msg.getMsg(ctx, "XMLVersionAttributeMandatory"));
 		}
-
+		boolean isDelete=false;
+		isDelete=rootElement.getAttribute("deleted").equals("Y");
+		
 		MClient client = null;
 		client = getAD_ClientByValue(ctx, AD_Client_Value, trxName);
 		if (client == null) {
@@ -154,7 +159,12 @@ public class ImportHelper {
 		PO po = importElement(ctx, result, rootElement, expFormat, trxName);
 		
 		// Here must invoke other method else we get cycle...
-		boolean resultSave = po.saveReplica(true);
+		boolean resultSave=false;
+		if(isDelete)
+			resultSave=po.delete(true);
+		else
+			resultSave = po.saveReplica(true);
+		
 		result.append("ResultSave=").append(resultSave).append("; ");
 		if (resultSave) {
 			// Success in save
