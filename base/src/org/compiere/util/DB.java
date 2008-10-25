@@ -49,6 +49,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MLanguage;
 import org.compiere.model.MRole;
 import org.compiere.model.MSequence;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
@@ -1491,7 +1492,16 @@ public final class DB
 	 *  @return next no
 	 */
 	public static int getNextID (int AD_Client_ID, String TableName, String trxName)
-	{		
+	{	
+		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false,AD_Client_ID);
+		boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+		
+		if(SYSTEM_NATIVE_SEQUENCE && !adempiereSys)
+		{
+			int m_sequence_id = CConnection.get().getDatabase().getNextID(TableName+"_SEQ");	
+			return m_sequence_id;
+		}
+		
 		return MSequence.getNextID (AD_Client_ID, TableName, trxName);	
 	}	//	getNextID
 

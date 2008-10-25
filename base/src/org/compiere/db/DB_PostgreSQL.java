@@ -34,6 +34,7 @@ import javax.sql.RowSet;
 import org.compiere.dbPort.Convert;
 import org.compiere.dbPort.Convert_PostgreSQL;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 
@@ -761,6 +762,26 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			ex.printStackTrace();
 		}
 	}	//	main
+
+	public int getNextID(String name) {
+		
+		int m_sequence_id = DB.getSQLValue(null, "SELECT nextval('"+name.toLowerCase()+"')");
+		return m_sequence_id;
+	}
+
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start) 
+	{
+
+		int no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
+							+ " INCREMENT " + increment 
+							+ " MINVALUE " + minvalue 
+							+ " MAXVALUE " + maxvalue 
+							+ " START " + start , null);
+		if(no == -1 )
+			return false;
+		else 
+			return true;
+	}
         
         /*
          public boolean getSupportAlias()

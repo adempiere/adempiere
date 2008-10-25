@@ -1085,5 +1085,24 @@ public class DB_Oracle implements AdempiereDatabase
         return m_convert;
     }
 
+	public int getNextID(String Name) {
+		int m_sequence_id = DB.getSQLValue(null, "SELECT "+Name.toUpperCase()+".nextid FROM DUAL");
+		return m_sequence_id;
+	}
+
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start) 
+	{
+
+		int no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
+							+ " INCREMENT BY " + increment 
+							+ " START WITH " + start 
+							+ " MIN VALUE " + minvalue 
+							+ " MAX VALUE " + maxvalue, null);
+		if(no == -1 )
+			return false;
+		else 
+			return true;
+	}
+
 
 }   //  DB_Oracle

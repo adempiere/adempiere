@@ -938,6 +938,28 @@ public class MSequence extends X_AD_Sequence
 	 */
 	public static boolean createTableSequence (Properties ctx, String TableName, String trxName)
 	{
+		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",true,Env.getAD_Client_ID(Env.getCtx()));
+	
+		if(SYSTEM_NATIVE_SEQUENCE)
+		{
+			int next_id = MSequence.getNextID(Env.getAD_Client_ID(ctx), TableName, trxName);
+			if(next_id == -1)
+			{
+				MSequence seq = new MSequence (ctx, 0, trxName);
+				seq.setClientOrg(0, 0);
+				seq.setName(TableName);
+				seq.setDescription("Table " + TableName);
+				seq.setIsTableID(true);
+				seq.save();
+				next_id = 1000000;
+			}
+			
+			if(CConnection.get().getDatabase().createSequence(TableName+"_SEQ", 1, 0 , 9999999,  next_id))
+				return true;
+			
+			return false;		
+		}
+		
 		MSequence seq = new MSequence (ctx, 0, trxName);
 		seq.setClientOrg(0, 0);
 		seq.setName(TableName);

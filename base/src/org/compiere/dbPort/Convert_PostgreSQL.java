@@ -21,7 +21,12 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
+
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Util;
 
 /**
@@ -74,6 +79,32 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		ArrayList<String> result = new ArrayList<String>();
 		/** Vector to save previous values of quoted strings **/
 		Vector<String> retVars = new Vector<String>();
+		
+		//Validate Next ID Function and use Native Sequence if the functionality is active
+		int found_next_fuction = sqlStatement.toUpperCase().indexOf("NEXTIDFUNC(");
+		if(found_next_fuction<=0)
+			found_next_fuction = sqlStatement.toUpperCase().indexOf("NEXTID(");
+		if(found_next_fuction > 0)
+		{
+			boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",true,Env.getAD_Client_ID(Env.getCtx()));
+			boolean adempiereSys = Ini.isPropertyBool(Ini.P_ADEMPIERESYS);
+			
+			if(SYSTEM_NATIVE_SEQUENCE && !adempiereSys)
+			{
+			   String function_before = sqlStatement.substring(0,found_next_fuction);
+			   String function_start = sqlStatement.substring(found_next_fuction);
+			   String function_after = function_start.substring(function_start.indexOf(")") + 1);
+			   String sequence = function_start.substring(function_start.indexOf("(") + 1, function_start.indexOf(","));
+			   int separator = function_start.indexOf("'") + 1;
+			   String next = function_start.substring(separator);
+			   String system = next.substring(0,next.indexOf("'"));
+			   if (system.equals("N"))
+			   {	   
+				   String seq_name = DB.getSQLValueString(null, "SELECT Name FROM AD_Sequence WHERE AD_Sequence_ID=" + sequence);
+				   sqlStatement = function_before + " nextval('"+seq_name+ "_seq') " + function_after;
+			   }   
+			}			
+		}
 		
 		String statement = replaceQuotedStrings(sqlStatement, retVars);
 		statement = convertWithConvertMap(statement);
@@ -164,7 +195,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			fromIndex = found + 6;
 			found = retValue.toUpperCase().indexOf("DECODE", fromIndex);
 		}
-
+		
 		// Outer Join Handling -----------------------------------------------
 		int index = retValue.toUpperCase().indexOf("SELECT ");
 		if (index != -1 && retValue.indexOf("(+)", index) != -1)

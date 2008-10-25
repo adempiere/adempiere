@@ -198,6 +198,19 @@ public interface AdempiereDatabase
 	public String TO_NUMBER (BigDecimal number, int displayType);
 	
 	
+	/**
+	 * 	Return next sequence this Sequence
+	 *	@param Sequence Name
+	 */
+	public int getNextID(String Name);
+	
+	/*
+	 * Create Native Sequence
+	 * @param Sequence Name
+	 */
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start);
+	
+	
 	/** Create User commands					*/
 	public static final int		CMD_CREATE_USER = 0;
 	/** Create Database/Schema Commands			*/
