@@ -243,11 +243,7 @@ public class CConnection implements Serializable, Cloneable
 	/** Had application server been query **/
 	private boolean m_queryAppsServer = false;
 
-	/** application server authentication principal **/
-	private String m_principal = null;
-	/** application server authentication password **/
-	private String m_credential = null;
-	
+	private final static String SECURITY_PRINCIPAL = "org.adempiere.security.principal";
 	
 	/*************************************************************************
 	 *  Get Name
@@ -394,16 +390,20 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public Server getServer()
 	{
-		if (m_server == null)
+		//only cache ServerHome for client
+		if (m_server == null || !Ini.isClient())
 		{
 			try
 			{
-				InitialContext ic = getInitialContext (true);
+				InitialContext ic = getInitialContext (Ini.isClient());
 				if (ic != null)
 				{
 					ServerHome serverHome = (ServerHome)ic.lookup (ServerHome.JNDI_NAME);
 					if (serverHome != null)
-						m_server = serverHome.create();
+						if (Ini.isClient())
+							m_server = serverHome.create();
+						else
+							return serverHome.create();
 				}
 			}
 			catch (Exception ex)
@@ -1373,7 +1373,11 @@ public class CConnection implements Serializable, Cloneable
 
 		//	Set Environment
 		if (m_env == null || !useCache)
-			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), isRMIoverHTTP(), m_principal, m_credential);
+		{
+			SecurityPrincipal sp = (SecurityPrincipal) Env.getCtx().get(SECURITY_PRINCIPAL);
+			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), isRMIoverHTTP(), 
+					sp != null ? sp.principal : null, sp != null ? sp.credential : null);
+		}
 		String connect = (String)m_env.get(Context.PROVIDER_URL);
 		Env.setContext(Env.getCtx(), Context.PROVIDER_URL, connect);
 
@@ -1615,8 +1619,10 @@ public class CConnection implements Serializable, Cloneable
 	
 	public void setAppServerCredential(String principal, String credential)
 	{
-		m_principal = principal;
-		m_credential = credential;
+		SecurityPrincipal sp = new SecurityPrincipal();
+		sp.principal = principal;
+		sp.credential = credential;
+		Env.getCtx().put(SECURITY_PRINCIPAL, sp);
 		m_iContext = null;
 		m_env = null;
 		m_server = null;
@@ -1663,5 +1669,9 @@ public class CConnection implements Serializable, Cloneable
 	}	//	main
 
 	
+	private class SecurityPrincipal {
+		String principal;
+		String credential;
+	}
 
 }	//  CConnection
