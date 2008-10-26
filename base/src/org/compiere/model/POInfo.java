@@ -37,6 +37,9 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version $Id: POInfo.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
+ *  @author Victor Perez, e-Evolution SC
+ *			<li>[ 2195894 ] Improve performance in PO engine
+ *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
  */
 public class POInfo implements Serializable
 {
@@ -118,6 +121,8 @@ public class POInfo implements Serializable
 	private POInfoColumn[]    m_columns = null;
 	/** Table has Key Column	*/ 
 	private boolean		m_hasKeyColumn = false;
+	/**	Table needs keep log*/
+	private boolean 	m_IsChangeLog = false;
 	
 
 	/**
@@ -136,7 +141,7 @@ public class POInfo implements Serializable
 			+ "c.AD_Reference_Value_ID, vr.Code, "							//	12..13
 			+ "c.FieldLength, c.ValueMin, c.ValueMax, c.IsTranslated, "		//	14..17
 			+ "t.AccessLevel, c.ColumnSQL, c.IsEncrypted, "					// 18..20
-			+ "c.IsAllowLogging ");											// 21
+			+ "c.IsAllowLogging,t.IsChangeLog ");											// 21
 		sql.append("FROM AD_Table t"
 			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 			+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
@@ -184,6 +189,7 @@ public class POInfo implements Serializable
 				String ColumnSQL = rs.getString(19);
 				boolean IsEncrypted = "Y".equals(rs.getString(20));
 				boolean IsAllowLogging = "Y".equals(rs.getString(21));
+				m_IsChangeLog="Y".equals(rs.getString(22));
 
 				POInfoColumn col = new POInfoColumn (
 					AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
@@ -724,4 +730,13 @@ public class POInfo implements Serializable
 		return sql;
 	}
 
+	/**
+	 * 
+	 * @return if table save log
+	 */
+	public boolean isChangeLog()
+	{
+		return m_IsChangeLog;
+	}
+	
 }   //  POInfo

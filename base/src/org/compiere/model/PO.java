@@ -71,6 +71,9 @@ import org.w3c.dom.Element;
  *			<li>FR [ 1720995 ] Add PO.saveEx() and PO.deleteEx() methods
  *			<li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
  *			<li>FR [ 2042844 ] PO.get_Translation improvements
+ * @author Victor Perez, e-Evolution SC
+ *			<li>[ 2195894 ] Improve performance in PO engine
+ *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
  */
 public abstract class PO 
 	implements Serializable, Comparator, Evaluatee
@@ -2750,42 +2753,45 @@ public abstract class PO
 		{
 			if (success)
 			{
-				//	Change Log
-				MSession session = MSession.get (p_ctx, false);
-				if (session == null)
-					log.fine("No Session found");
-				else if (m_IDs.length == 1)
+				if( p_info.isChangeLog())
 				{
-					int AD_ChangeLog_ID = 0;
-					int size = get_ColumnCount();
-					for (int i = 0; i < size; i++)
+					//	Change Log
+					MSession session = MSession.get (p_ctx, false);
+					if (session == null)
+						log.fine("No Session found");
+					else if (m_IDs.length == 1)
 					{
-						Object value = m_oldValues[i];
-						if (value != null
-							&& p_info.isAllowLogging(i)		//	logging allowed
-							&& !p_info.isEncrypted(i)		//	not encrypted
-							&& !p_info.isVirtualColumn(i)	//	no virtual column
-							&& !"Password".equals(p_info.getColumnName(i))
-							)
+						int AD_ChangeLog_ID = 0;
+						int size = get_ColumnCount();
+						for (int i = 0; i < size; i++)
 						{
-							// change log on delete
-							MChangeLog cLog = session.changeLog (
-								m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
-								AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
-								Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, MChangeLog.EVENTCHANGELOG_Delete);
-							if (cLog != null)
-								AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
-						}
-					}	//   for all fields
+							Object value = m_oldValues[i];
+							if (value != null
+								&& p_info.isAllowLogging(i)		//	logging allowed
+								&& !p_info.isEncrypted(i)		//	not encrypted
+								&& !p_info.isVirtualColumn(i)	//	no virtual column
+								&& !"Password".equals(p_info.getColumnName(i))
+								)
+							{
+								// change log on delete
+								MChangeLog cLog = session.changeLog (
+									m_trxName != null ? m_trxName : localTrxName, AD_ChangeLog_ID, 
+									AD_Table_ID, p_info.getColumn(i).AD_Column_ID, 
+									Record_ID, getAD_Client_ID(), getAD_Org_ID(), value, null, MChangeLog.EVENTCHANGELOG_Delete);
+								if (cLog != null)
+									AD_ChangeLog_ID = cLog.getAD_ChangeLog_ID();
+							}
+						}	//   for all fields
+					}
+					
+					//	Housekeeping
+					m_IDs[0] = I_ZERO;
+					if (m_trxName == null)
+						log.fine("complete");
+					else
+						log.fine("[" + m_trxName + "] - complete");
+					m_attachment = null;
 				}
-				
-				//	Housekeeping
-				m_IDs[0] = I_ZERO;
-				if (m_trxName == null)
-					log.fine("complete");
-				else
-					log.fine("[" + m_trxName + "] - complete");
-				m_attachment = null;
 			}
 			else
 			{
