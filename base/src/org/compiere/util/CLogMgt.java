@@ -533,7 +533,7 @@ public class CLogMgt
 			.append(Adempiere.getCheckSum()).append(NL)
 			.append(Adempiere.getSummaryAscii()).append(NL)
 			.append(getLocalHost()).append(NL)
-			.append(cc.toStringLong()).append(NL)
+			.append(cc.getName() + " " + cc.getDbUid() + "@" + cc.getConnectionURL()).append(NL)
 			.append(cc.getInfo()).append(NL);
 		//  Context
 		sb.append(NL)
