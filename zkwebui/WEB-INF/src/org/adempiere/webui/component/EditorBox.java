@@ -17,19 +17,23 @@ import java.beans.PropertyChangeSupport;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Div;
 
 /**
  * @author Low Heng Sin
  */
-public class EditorBox extends Grid {
+public class EditorBox extends Div {
 	private static final long serialVersionUID = 1L;
 	protected PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(
 			this);
 	protected Textbox txt;
 	protected Button btn;
-	protected Column btnColumn;
+	protected Td btnColumn;
 
 	public EditorBox() {
 		initComponents();
@@ -51,38 +55,40 @@ public class EditorBox extends Grid {
 	}
 
 	private void initComponents() {
-		this.makeNoStrip();
-		this.setInnerWidth("100%");
-		this.setFixedLayout(true);
-		this.setVflex(false);
+		Table grid = new Table();
+		appendChild(grid);
+		this.setWidth("100%");
+		grid.setStyle("border: none; padding: 0px; margin: 0px;");
+		grid.setDynamicProperty("width", "100%");
+		grid.setDynamicProperty("border", "0");
+		grid.setDynamicProperty("cellpadding", "0");
+		grid.setDynamicProperty("cellspacing", "0");
+		
+		Tr tr = new Tr();
+		grid.appendChild(tr);
+		tr.setStyle("width: 100%; border: none; padding: 0px; margin: 0px; white-space:nowrap; ");
 
-		Columns cols = new Columns();
-		this.appendChild(cols);
-		Column col = new Column();
-		col.setWidth("auto");
-		cols.appendChild(col);
-		btnColumn = new Column();
-		btnColumn.setSclass("editor-button");
-		btnColumn.setAlign("left");
-		cols.appendChild(btnColumn);
-
-		Rows rows = newRows();
-		Row row = rows.newRow();
+		Td td = new Td();
+		tr.appendChild(td);
+		td.setStyle("border: none; padding: 0px; margin: 0px;");
 		txt = new Textbox();
-		txt.setStyle("display: inline; width: 99%");
+		txt.setStyle("display: inline; width: 99%;");
+		td.appendChild(txt);
+		
+		btnColumn = new Td();
+		tr.appendChild(btnColumn);
+		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
+		btnColumn.setSclass("editor-button");
 		btn = new Button();
 		btn.setTabindex(-1);
 		LayoutUtils.addSclass("editor-button", btn);
-		row.appendChild(txt);
-		row.appendChild(btn);
+		btnColumn.appendChild(btn);
 
 		String style = AEnv.isFirefox2() ? "display: inline"
 				: "display: inline-block";
 		style = style
-				+ ";border: none; padding: 0px; background-color: transparent;";
+				+ ";border: none; padding: 0px; margin: 0px; background-color: transparent;";
 		this.setStyle(style);
-		style = "white-space:nowrap; padding: 0px";
-		row.setStyle(row.getStyle() + ";" + style);
 	}
 
 	/**
@@ -114,6 +120,10 @@ public class EditorBox extends Grid {
 		btn.setEnabled(enabled);
 		btn.setVisible(enabled);
 		btnColumn.setVisible(enabled);
+		if (enabled)
+			btnColumn.setSclass("editor-button");
+		else
+			btnColumn.setSclass("");
 	}
 
 	/**
