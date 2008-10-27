@@ -53,10 +53,6 @@ public class VTabbedPane extends CTabbedPane
 	/** Disabled Icon			*/
 	private static Icon			s_disabledIcon = null;
 	
-	private ArrayList<Component> components = new ArrayList<Component>();
-	private ArrayList<GridTab> gTabs = new ArrayList<GridTab>();
-	private ArrayList<String> tabNames = new ArrayList<String>();
-	
 	/**
 	 *  toString
 	 *  @return info
@@ -76,13 +72,8 @@ public class VTabbedPane extends CTabbedPane
 	public void addTab(String tabName, GridTab gTab, Component tabElement)
 	{
 		int index = getTabCount();
-		tabNames.add(tabName);
-		gTabs.add(gTab);
-		components.add(tabElement);
-		
 		super.addTab (tabName, gTab.getIcon(), 
-				tabElement, gTab.getDescription());
-		
+			tabElement, gTab.getDescription());
 		ArrayList<String>	dependents = gTab.getDependentOn();
 		for (int i = 0; i < dependents.size(); i++)
 		{
@@ -95,35 +86,7 @@ public class VTabbedPane extends CTabbedPane
 		setDisabledIconAt(index, s_disabledIcon);
 	}	//	addTab
 	
-	private void hideTab(String tabName)	{
-		
-		int tabIndex = indexOfTab(tabName);
-		
-		if ( tabIndex != -1 )
-			removeTabAt(tabIndex);
-	}
-
-	private void showTab(String tabName)	{
-		int insertAt = 0;
-		
-		if ( indexOfTab(tabName) != -1 )  // already visible
-			return;
-		
-		for ( int i = 0; i < tabNames.size(); i++ )
-		{
-			String name = tabNames.get(i);
-			if ( name.equals(tabName))
-			{
-				insertTab (tabName, gTabs.get(i).getIcon(), 
-						components.get(i), gTabs.get(i).getDescription(), insertAt);
-				break;
-			}
-			
-			if ( indexOfTab(name) != -1 )  // tab is visible, insert after
-				insertAt ++;
-		}
-		
-	}
+	
 	/**
 	 *  Set Workbench - or Window
 	 *  @param isWorkbench
@@ -306,17 +269,17 @@ public class VTabbedPane extends CTabbedPane
 		if (process)
 		{
 			log.config(columnName == null ? "" : columnName);
-			for (int i = 0; i < components.size(); i++)
+			for (int i = 0; i < getTabCount(); i++)
 			{
-				Component c = components.get(i);
+				Component c = getComponentAt(i);
 				if (c instanceof GridController)
 				{
 					GridController gc = (GridController)c;
-					boolean display = isDisplay(gc);
-					if ( display )
-						showTab(tabNames.get(i));
-					else
-						hideTab(tabNames.get(i));
+					String logic = gc.getDisplayLogic();
+					boolean display = true;
+					if (logic != null && logic.length() > 0)
+						display = Evaluator.evaluateLogic(gc, logic);
+					setEnabledAt(i, display);
 				}
 			}
 		}
