@@ -1666,12 +1666,5 @@ public class CConnection implements Serializable, Cloneable
 		Connection con = cc.getConnection (false,
 						 Connection.TRANSACTION_READ_COMMITTED);
 		new CConnectionDialog(cc);
-	}	//	main
-
-	
-	private class SecurityPrincipal {
-		String principal;
-		String credential;
-	}
-
+	}	//	main	
 }	//  CConnection
