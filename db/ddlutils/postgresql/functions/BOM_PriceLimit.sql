@@ -2,8 +2,7 @@
  *This file is part of Adempiere ERP Bazaar
  *http://www.adempiere.org
  *
- *Copyright (C) 2006-2007 Timo Kontro
- *Copyright (C) 1999-2006 ComPiere, inc
+ *Copyright (C) 2006-2008 Antonio Cañaveral, e-Evolution
  *
  *This program is free software; you can redistribute it and/or
  *modify it under the terms of the GNU General Public License
@@ -19,30 +18,34 @@
  *along with this program; if not, write to the Free Software
  *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.of 
  */
-
-/*
- * Loops recursively through BOM and returns BOM's total limit price.
- */
-CREATE OR REPLACE FUNCTION bompricelimit("numeric", "numeric")
-  RETURNS "numeric" AS
+CREATE OR REPLACE FUNCTION bompricelimit(p_product_id numeric, p_pricelist_version_id numeric)
+  RETURNS numeric AS
 $BODY$
-  DECLARE
-    price        NUMERIC;
-    productprice NUMERIC;
-    boms         RECORD;
-  BEGIN
-    SELECT COALESCE(t.PriceLimit,0) INTO price FROM m_productprice t
-      WHERE t.m_pricelist_version_id = $2 AND t.m_product_id = $1;
-    IF price = 0 THEN
-      FOR boms IN SELECT t.m_productbom_id, t.bomqty 
-          FROM m_product_bom t
-          WHERE t.m_product_id = $1
-          LOOP
-        productprice := bompricelimit(boms.m_productbom_id, $2);
-        price := price + (boms.bomqty * productprice);
-      END LOOP;
-    END IF;
-    return price;
-  END;
+DECLARE
+	v_Price		numeric;
+	v_ProductPrice	numeric;
+	bom		record;
+BEGIN
+	--	Try to get price from PriceList directly
+	SELECT	COALESCE (SUM(PriceLimit), 0)
+        INTO	v_Price
+   	FROM	M_PRODUCTPRICE
+	WHERE M_PriceList_Version_ID=p_PriceList_Version_ID AND M_Product_ID=p_Product_ID;
+	IF (v_Price = 0) THEN
+		FOR bom in SELECT bl.M_Product_ID AS M_ProductBOM_ID, 
+			CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM ELSE bl.QtyBatch / 100 END AS BomQty , p.IsBOM 
+		FROM PP_PRODUCT_BOM b
+		INNER JOIN M_PRODUCT p ON (p.M_Product_ID=b.M_Product_ID)
+		INNER JOIN PP_PRODUCT_BOMLINE bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
+		WHERE b.M_Product_ID = p_Product_ID
+		LOOP
+			v_ProductPrice := Bompricelimit (bom.M_ProductBOM_ID, p_PriceList_Version_ID);
+			v_Price := v_Price + (bom.BOMQty * v_ProductPrice);
+		END LOOP;
+	END IF;
+	--
+	RETURN v_Price;
+END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' STABLE STRICT
+  COST 100;
