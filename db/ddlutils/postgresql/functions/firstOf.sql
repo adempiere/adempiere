@@ -26,7 +26,7 @@ SET search_path = adempiere, pg_catalog;
 CREATE OR REPLACE FUNCTION firstOf (
 IN TIMESTAMP WITH TIME ZONE, -- $1 date
 IN VARCHAR -- $2 part of date
-) RETURNS DATE AS
+) RETURNS TIMESTAMP WITH TIME ZONE AS
 $$
 DECLARE
 datepart VARCHAR;
@@ -67,6 +67,6 @@ BEGIN
 		datepart = 'microseconds';
 	END IF;
 	datetime = date_trunc(datepart, $1); 
-RETURN cast(datetime as date);
+RETURN datetime;
 END;
 $$ LANGUAGE plpgsql;
