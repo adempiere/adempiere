@@ -35,6 +35,8 @@ import org.compiere.util.*;
  *  Carlos Ruiz - globalqss: Add setAmtAcct method rounded by Currency
  *  Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
+ *  Bayu Sistematika -  
+ *  		<li>BF [ 2213252 ] Matching Inv-Receipt generated unproperly value for src amt
  *  
  */
 public final class FactLine extends X_Fact_Acct
@@ -1044,8 +1046,13 @@ public final class FactLine extends X_Fact_Acct
 				// setAmtAcctDr (cr.multiply(multiplier));
 				// setAmtAcctCr (dr.multiply(multiplier));
 				setAmtAcct(fact.getC_Currency_ID(), cr.multiply(multiplier), dr.multiply(multiplier));
-				//  Source Amounts
-				setAmtSource(fact.getC_Currency_ID(), getAmtAcctDr(), getAmtAcctCr());
+				//  
+				//  Bayu Sistematika - Source Amounts
+				//  Fixing source amounts
+				BigDecimal drSourceAmt = fact.getAmtSourceDr();
+				BigDecimal crSourceAmt = fact.getAmtSourceCr();
+				setAmtSource(fact.getC_Currency_ID(), crSourceAmt.multiply(multiplier), drSourceAmt.multiply(multiplier));
+				//  end Bayu Sistematika
 				//
 				success = true;
 				log.fine(new StringBuffer("(Table=").append(AD_Table_ID)
