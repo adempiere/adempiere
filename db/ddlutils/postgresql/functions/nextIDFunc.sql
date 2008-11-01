@@ -1,10 +1,13 @@
 CREATE OR REPLACE FUNCTION nextidfunc(
 	p_AD_Sequence_ID 	IN 	INTEGER, 
-	p_System 		IN 	VARCHAR,
-	o_NextID		OUT	INTEGER
+	p_System 		IN 	VARCHAR
 )
   RETURNS INTEGER AS $body$
+DECLARE
+          o_NextIDFunc INTEGER;
+	  dummy INTEGER;
 BEGIN
-    RETURN nextid(p_AD_Sequence_ID, p_System, o_NextID);
+    o_NextIDFunc := nextid(p_AD_Sequence_ID, p_System);
+    RETURN o_NextIDFunc;
 END;
 $body$ LANGUAGE plpgsql;
