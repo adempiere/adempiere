@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -66,133 +68,127 @@ public class MAccount extends X_C_ValidCombination
 		int C_Project_ID, int C_Campaign_ID, int C_Activity_ID,
 		int User1_ID, int User2_ID, int UserElement1_ID, int UserElement2_ID)
 	{
-		MAccount existingAccount = null;
-		//
 		StringBuffer info = new StringBuffer();
-		StringBuffer sql = new StringBuffer("SELECT * FROM C_ValidCombination "
-			//	Mandatory fields
-			+ "WHERE AD_Client_ID=?"		//	#1
-			+ " AND AD_Org_ID=?"
-			+ " AND C_AcctSchema_ID=?"
-			+ " AND Account_ID=?");			//	#4
+		info.append("AD_Client_ID=").append(AD_Client_ID).append(",AD_Org_ID=").append(AD_Org_ID);
+		//	Schema
+		info.append(",C_AcctSchema_ID=").append(C_AcctSchema_ID);
+		//	Account
+		info.append(",Account_ID=").append(Account_ID).append(" ");
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		//		Mandatory fields
+		StringBuffer whereClause =  new StringBuffer("AD_Client_ID=?"		//	#1
+							+ " AND AD_Org_ID=?"
+							+ " AND C_AcctSchema_ID=?"
+							+ " AND Account_ID=?");			//	#4
+		
 		//	Optional fields
 		if (C_SubAcct_ID == 0)
-			sql.append(" AND C_SubAcct_ID IS NULL");
+			whereClause.append(" AND C_SubAcct_ID IS NULL");	
 		else
-			sql.append(" AND C_SubAcct_ID=?");
+		{	
+			whereClause.append(" AND C_SubAcct_ID=?");
+			params.add(C_SubAcct_ID);
+		}
 		if (M_Product_ID == 0)
-			sql.append(" AND M_Product_ID IS NULL");
+			whereClause.append(" AND M_Product_ID IS NULL");
 		else
-			sql.append(" AND M_Product_ID=?");
+		{
+			whereClause.append(" AND M_Product_ID=?");
+			params.add(M_Product_ID);
+		}	
 		if (C_BPartner_ID == 0)
-			sql.append(" AND C_BPartner_ID IS NULL");
+			whereClause.append(" AND C_BPartner_ID IS NULL");
 		else
-			sql.append(" AND C_BPartner_ID=?");
+		{
+			whereClause.append(" AND C_BPartner_ID=?");
+			params.add(C_BPartner_ID);
+		}
 		if (AD_OrgTrx_ID == 0)
-			sql.append(" AND AD_OrgTrx_ID IS NULL");
+			whereClause.append(" AND AD_OrgTrx_ID IS NULL");
 		else
-			sql.append(" AND AD_OrgTrx_ID=?");
+		{	
+			whereClause.append(" AND AD_OrgTrx_ID=?");
+			params.add(AD_OrgTrx_ID);
+		}
 		if (C_LocFrom_ID == 0)
-			sql.append(" AND C_LocFrom_ID IS NULL");
+			whereClause.append(" AND C_LocFrom_ID IS NULL");
 		else
-			sql.append(" AND C_LocFrom_ID=?");
+		{
+			whereClause.append(" AND C_LocFrom_ID=?");
+			params.add(C_LocFrom_ID);
+		}
 		if (C_LocTo_ID == 0)
-			sql.append(" AND C_LocTo_ID IS NULL");
+			whereClause.append(" AND C_LocTo_ID IS NULL");
 		else
-			sql.append(" AND C_LocTo_ID=?");
+		{
+			whereClause.append(" AND C_LocTo_ID=?");
+			params.add(C_LocTo_ID);
+		}	
 		if (C_SalesRegion_ID == 0)
-			sql.append(" AND C_SalesRegion_ID IS NULL");
+			whereClause.append(" AND C_SalesRegion_ID IS NULL");
 		else
-			sql.append(" AND C_SalesRegion_ID=?");
+		{
+			whereClause.append(" AND C_SalesRegion_ID=?");
+			params.add(C_SalesRegion_ID);
+		}
 		if (C_Project_ID == 0)
-			sql.append(" AND C_Project_ID IS NULL");
+			whereClause.append(" AND C_Project_ID IS NULL");
 		else
-			sql.append(" AND C_Project_ID=?");
+		{	
+			whereClause.append(" AND C_Project_ID=?");
+			params.add(C_Project_ID);
+		}
 		if (C_Campaign_ID == 0)
-			sql.append(" AND C_Campaign_ID IS NULL");
+			whereClause.append(" AND C_Campaign_ID IS NULL");
 		else
-			sql.append(" AND C_Campaign_ID=?");
+		{	
+			whereClause.append(" AND C_Campaign_ID=?");
+			params.add(C_Campaign_ID);
+		}
 		if (C_Activity_ID == 0)
-			sql.append(" AND C_Activity_ID IS NULL");
+			whereClause.append(" AND C_Activity_ID IS NULL");
 		else
-			sql.append(" AND C_Activity_ID=?");
+		{
+			whereClause.append(" AND C_Activity_ID=?");
+			params.add(C_Activity_ID);
+		}
 		if (User1_ID == 0)
-			sql.append(" AND User1_ID IS NULL");
+			whereClause.append(" AND User1_ID IS NULL");
 		else
-			sql.append(" AND User1_ID=?");
+		{
+			whereClause.append(" AND User1_ID=?");
+			params.add(User1_ID);
+		}
 		if (User2_ID == 0)
-			sql.append(" AND User2_ID IS NULL");
+			whereClause.append(" AND User2_ID IS NULL");
 		else
-			sql.append(" AND User2_ID=?");
+		{
+			whereClause.append(" AND User2_ID=?");
+			params.add(User2_ID);
+		}
 		if (UserElement1_ID == 0)
-			sql.append(" AND UserElement1_ID IS NULL");
+			whereClause.append(" AND UserElement1_ID IS NULL");
 		else
-			sql.append(" AND UserElement1_ID=?");
+		{	
+			whereClause.append(" AND UserElement1_ID=?");
+			params.add(UserElement1_ID);
+		}
 		if (UserElement2_ID == 0)
-			sql.append(" AND UserElement2_ID IS NULL");
+			whereClause.append(" AND UserElement2_ID IS NULL");
 		else
-			sql.append(" AND UserElement2_ID=?");
-		sql.append(" AND IsActive='Y'");
-	//	sql.append(" ORDER BY IsFullyQualified DESC");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
 		{
-			pstmt = DB.prepareStatement(sql.toString(), null);
-			//  --  Mandatory Accounting fields
-			int index = 1;
-			pstmt.setInt(index++, AD_Client_ID);
-			pstmt.setInt(index++, AD_Org_ID);
-			info.append("AD_Client_ID=").append(AD_Client_ID).append(",AD_Org_ID=").append(AD_Org_ID);
-			//	Schema
-			pstmt.setInt(index++, C_AcctSchema_ID);
-			info.append(",C_AcctSchema_ID=").append(C_AcctSchema_ID);
-			//	Account
-			pstmt.setInt(index++, Account_ID);
-			info.append(",Account_ID=").append(Account_ID).append(" ");
-			
-			//	--  Optional Accounting fields
-			if (C_SubAcct_ID != 0)
-				pstmt.setInt(index++, C_SubAcct_ID);
-			if (M_Product_ID != 0)
-				pstmt.setInt(index++, M_Product_ID);
-			if (C_BPartner_ID != 0)
-				pstmt.setInt(index++, C_BPartner_ID);
-			if (AD_OrgTrx_ID != 0)
-				pstmt.setInt(index++, AD_OrgTrx_ID);
-			if (C_LocFrom_ID != 0)
-				pstmt.setInt(index++, C_LocFrom_ID);
-			if (C_LocTo_ID != 0)
-				pstmt.setInt(index++, C_LocTo_ID);
-			if (C_SalesRegion_ID != 0)
-				pstmt.setInt(index++, C_SalesRegion_ID);
-			if (C_Project_ID != 0)
-				pstmt.setInt(index++, C_Project_ID);
-			if (C_Campaign_ID != 0)
-				pstmt.setInt(index++, C_Campaign_ID);
-			if (C_Activity_ID != 0)
-				pstmt.setInt(index++, C_Activity_ID);
-			if (User1_ID != 0)
-				pstmt.setInt(index++, User1_ID);
-			if (User2_ID != 0)
-				pstmt.setInt(index++, User2_ID);
-			if (UserElement1_ID != 0)
-				pstmt.setInt(index++, UserElement1_ID);
-			if (UserElement2_ID != 0)
-				pstmt.setInt(index++, UserElement2_ID);
-			//
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				existingAccount = new MAccount (ctx, rs, null);
+			whereClause.append(" AND UserElement2_ID=?");
+			params.add(UserElement2_ID);
 		}
-		catch(SQLException e)
-		{
-			s_log.log(Level.SEVERE, info + "\n" + sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		whereClause.append(" AND IsActive='Y'");
+		//	whereClause.append(" ORDER BY IsFullyQualified DESC");
+		
+		
+		
+		MAccount existingAccount = new Query(ctx,MAccount.Table_Name,whereClause.toString(),null)
+		.setParameters(params).first();
+
 		//	Existing
 		if (existingAccount != null)
 			return existingAccount;
@@ -236,28 +232,9 @@ public class MAccount extends X_C_ValidCombination
 	 */
 	public static MAccount get (Properties ctx, int C_AcctSchema_ID, String alias)
 	{
-		MAccount retValue = null;
-		String sql = "SELECT * FROM C_ValidCombination WHERE C_AcctSchema_ID=? AND Alias=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt(1, C_AcctSchema_ID);
-			pstmt.setString (2, alias);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MAccount (ctx, rs, null);
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		String whereClause = "C_AcctSchema_ID=? AND Alias=?";
+		MAccount retValue =  new Query(ctx,MAccount.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{C_AcctSchema_ID,alias}).first();
 		return retValue;
 	}	//	get
 	
@@ -372,38 +349,14 @@ public class MAccount extends X_C_ValidCombination
 	 */
 	public static void updateValueDescription (Properties ctx, String where, String trxName)
 	{
-		String sql = "SELECT * FROM C_ValidCombination";
-		if (where != null && where.length() > 0)
-			sql += " WHERE " + where;
-		sql += " ORDER BY C_ValidCombination_ID";
-		int count = 0;
-		int errors = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
+		List<MAccount> accounts=  new Query(ctx,MAccount.Table_Name,where,trxName)
+		.setOrderBy(MAccount.COLUMNNAME_C_ValidCombination_ID).list();
+		
+		for(MAccount account : accounts)
 		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MAccount account = new MAccount (ctx, rs, trxName);
-				account.setValueDescription();
-				if (account.save())
-					count++;
-				else
-					errors++;
-			}
+			account.setValueDescription();
+			account.saveEx();
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		s_log.info(where + " #" + count + ", Errors=" + errors);
 	}	//	updateValueDescription
 	
 	/**	Logger						*/
