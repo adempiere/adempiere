@@ -18,13 +18,10 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -66,7 +63,7 @@ public class MCash extends X_C_Cash implements DocAction
 		+ " AND EXISTS (SELECT * FROM C_CashBook cb "
 			+ "WHERE c.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=c.AD_Org_ID"
 			+ " AND cb.C_Currency_ID=?)";			//	#3
-		MCash retValue = (MCash)new Query(ctx,MCash.Table_Name,whereClause,trxName)
+		MCash retValue = new Query(ctx,MCash.Table_Name,whereClause,trxName)
 		.setParameters(new Object[]{AD_Org_ID,TimeUtil.getDay(dateAcct),C_Currency_ID}).first();
 		
 		if (retValue != null)
@@ -101,7 +98,7 @@ public class MCash extends X_C_Cash implements DocAction
 				+ " AND TRUNC(c.StatementDate)=?"			//	#2
 				+ " AND c.Processed='N'";
 		
-		MCash retValue = (MCash)new Query(ctx,MCash.Table_Name,whereClause,trxName)
+		MCash retValue = new Query(ctx,MCash.Table_Name,whereClause,trxName)
 		.setParameters(new Object[]{C_CashBook_ID,TimeUtil.getDay(dateAcct)}).first();
 		
 		if (retValue != null)
