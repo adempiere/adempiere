@@ -1,3 +1,5 @@
+set client_encoding='LATIN1';
+
 CREATE OR REPLACE FUNCTION      ProductAttribute 
 (
     p_M_AttributeSetInstance_ID     NUMERIC
