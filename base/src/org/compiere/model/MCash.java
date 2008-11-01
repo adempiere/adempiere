@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -58,38 +59,16 @@ public class MCash extends X_C_Cash implements DocAction
 	public static MCash get (Properties ctx, int AD_Org_ID, 
 		Timestamp dateAcct, int C_Currency_ID, String trxName)
 	{
-		MCash retValue = null;
 		//	Existing Journal
-		String sql;
-	    sql = "SELECT * FROM C_Cash c "
-		+ "WHERE c.AD_Org_ID=?"						//	#1
+		String whereClause = "c.AD_Org_ID=?"						//	#1
 		+ " AND TRUNC(c.StatementDate)=?"			//	#2
 		+ " AND c.Processed='N'"
 		+ " AND EXISTS (SELECT * FROM C_CashBook cb "
 			+ "WHERE c.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=c.AD_Org_ID"
 			+ " AND cb.C_Currency_ID=?)";			//	#3
+		MCash retValue = (MCash)new Query(ctx,MCash.Table_Name,whereClause,trxName)
+		.setParameters(new Object[]{AD_Org_ID,TimeUtil.getDay(dateAcct),C_Currency_ID}).first();
 		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_Org_ID);
-			pstmt.setTimestamp (2, TimeUtil.getDay(dateAcct));
-			pstmt.setInt (3, C_Currency_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MCash (ctx, rs, trxName);
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
 		if (retValue != null)
 			return retValue;
 		
@@ -118,32 +97,13 @@ public class MCash extends X_C_Cash implements DocAction
 	public static MCash get (Properties ctx, int C_CashBook_ID, 
 		Timestamp dateAcct, String trxName)
 	{
-		MCash retValue = null;
-		//	Existing Journal
-		String sql = "SELECT * FROM C_Cash c "
-			+ "WHERE c.C_CashBook_ID=?"					//	#1
-			+ " AND TRUNC(c.StatementDate)=?"			//	#2
-			+ " AND c.Processed='N'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_CashBook_ID);
-			pstmt.setTimestamp (2, TimeUtil.getDay(dateAcct));
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MCash (ctx, rs, trxName);
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		String whereClause ="c.C_CashBook_ID=?"					//	#1
+				+ " AND TRUNC(c.StatementDate)=?"			//	#2
+				+ " AND c.Processed='N'";
+		
+		MCash retValue = (MCash)new Query(ctx,MCash.Table_Name,whereClause,trxName)
+		.setParameters(new Object[]{C_CashBook_ID,TimeUtil.getDay(dateAcct)}).first();
+		
 		if (retValue != null)
 			return retValue;
 		
@@ -243,30 +203,12 @@ public class MCash extends X_C_Cash implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		ArrayList<MCashLine> list = new ArrayList<MCashLine>();
-		String sql = "SELECT * FROM C_CashLine WHERE C_Cash_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_Cash_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MCashLine (getCtx(), rs, get_TrxName()));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
 		
-		m_lines = new MCashLine[list.size ()];
-		list.toArray (m_lines);
+		String whereClause ="C_Cash_ID=?"; 
+		List <MCashLine> list = new Query(getCtx(),MCashLine.Table_Name,  whereClause, get_TrxName())
+		.setParameters(new Object[]{getC_Cash_ID()}).setOrderBy("Line").list();
+		
+		m_lines =  list.toArray(new MCashLine[list.size()]);
 		return m_lines;
 	}	//	getLines
 
