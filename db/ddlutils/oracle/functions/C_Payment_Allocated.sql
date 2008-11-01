@@ -42,7 +42,7 @@ BEGIN
     FROM C_Payment 
     WHERE C_Payment_ID=p_C_Payment_ID AND C_Charge_ID > 0;
     IF (v_PayAmt IS NOT NULL) THEN
-        RETURN 0;
+        RETURN v_PayAmt;
     END IF;
     
 	--	Calculate Allocated Amount

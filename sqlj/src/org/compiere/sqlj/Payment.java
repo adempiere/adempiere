@@ -39,13 +39,25 @@ public class Payment
 	public static BigDecimal allocated (int p_C_Payment_ID, int p_C_Currency_ID)
 		throws SQLException
 	{
-		//	Charge - nothing available
-		String sql = "SELECT C_Charge_ID "
-			+ "FROM C_Payment "
+		BigDecimal PayAmt = null;
+		int C_Charge_ID = 0;
+		//
+		String sql = "SELECT PayAmt, C_Charge_ID "
+			+ "FROM C_Payment_v "	//	corrected for AP/AR
 			+ "WHERE C_Payment_ID=?";
-		int C_Charge_ID = Adempiere.getSQLValue(sql, p_C_Payment_ID);
+		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
+		pstmt.setInt(1, p_C_Payment_ID);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next())
+		{
+			PayAmt = rs.getBigDecimal(1);
+			C_Charge_ID = rs.getInt(2);
+		}
+		rs.close();
+		pstmt.close();
+
 		if (C_Charge_ID > 0)
-			return Adempiere.ZERO;
+			return PayAmt;
 
 		int C_ConversionType_ID = 0;
 		
