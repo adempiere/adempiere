@@ -27,6 +27,7 @@ import org.compiere.util.*;
  *	
  *  @author Jorg Janke
  *  @version $Id: MAchievement.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  red1 - [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MAchievement extends X_PA_Achievement
 {
@@ -48,39 +49,12 @@ public class MAchievement extends X_PA_Achievement
 	 */
 	public static MAchievement[] getOfMeasure (Properties ctx, int PA_Measure_ID)
 	{
-		ArrayList<MAchievement> list = new ArrayList<MAchievement>();
-		String sql = "SELECT * FROM PA_Achievement "
-			+ "WHERE PA_Measure_ID=? AND IsAchieved='Y' ORDER BY SeqNo, DateDoc";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, PA_Measure_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MAchievement (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
-		MAchievement[] retValue = new MAchievement[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause ="PA_Measure_ID=? AND IsAchieved='Y'"; 
+				List <MAchievement> list = new Query(ctx,MAchievement.Table_Name,  whereClause, null)
+				.setParameters(new Object[]{PA_Measure_ID}).setOrderBy("SeqNo, DateDoc").list();
+				
+				return  list.toArray(new MAchievement[list.size()]);
+	 
 	}	//	getOfMeasure
 
 
