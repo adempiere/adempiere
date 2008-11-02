@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
 
 /**
  *	Accounting Schema GL info
@@ -31,6 +32,12 @@ import org.compiere.util.*;
 public class MAcctSchemaGL extends X_C_AcctSchema_GL
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	/**
 	 * 	Get Accounting Schema GL Info
 	 *	@param ctx context
 	 *	@param C_AcctSchema_ID id
@@ -38,36 +45,11 @@ public class MAcctSchemaGL extends X_C_AcctSchema_GL
 	 */
 	public static MAcctSchemaGL get (Properties ctx, int C_AcctSchema_ID)
 	{
-		MAcctSchemaGL retValue = null;
-		String sql = "SELECT * FROM C_AcctSchema_GL WHERE C_AcctSchema_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				retValue = new MAcctSchemaGL (ctx, rs, null);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		String whereClause = "C_AcctSchema_ID=?"; 
+		MAcctSchemaGL retValue = new Query(ctx, MAcctSchemaGL.Table_Name, whereClause, null)
+			.setParameters(new Object[]{C_AcctSchema_ID})
+			.first()
+		;			
 		return retValue;
 	}	//	get
 	

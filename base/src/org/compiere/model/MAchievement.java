@@ -54,7 +54,7 @@ public class MAchievement extends X_PA_Achievement
 				.setParameters(new Object[]{PA_Measure_ID}).setOrderBy("SeqNo, DateDoc").list();
 				
 				MAchievement[] retValue = new MAchievement[list.size ()];
-				list.toArray (retValue);
+				retValue = list.toArray (retValue);
 				return retValue;			
 	 
 	}	//	getOfMeasure
