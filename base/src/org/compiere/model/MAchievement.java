@@ -53,7 +53,9 @@ public class MAchievement extends X_PA_Achievement
 				List <MAchievement> list = new Query(ctx,MAchievement.Table_Name,  whereClause, null)
 				.setParameters(new Object[]{PA_Measure_ID}).setOrderBy("SeqNo, DateDoc").list();
 				
-				return  list.toArray(new MAchievement[list.size()]);
+				MAchievement[] retValue = new MAchievement[list.size ()];
+				list.toArray (retValue);
+				return retValue;			
 	 
 	}	//	getOfMeasure
 
