@@ -33,6 +33,8 @@ import org.compiere.util.Env;
  * 	C_ValidCombination
  *
  *  @author		Jorg Janke
+ *  @author     victor.perez, www.e-evolution.com
+ *    			<li>[ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  *  @version 	$Id: MAccount.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MAccount extends X_C_ValidCombination
@@ -81,7 +83,10 @@ public class MAccount extends X_C_ValidCombination
 							+ " AND AD_Org_ID=?"
 							+ " AND C_AcctSchema_ID=?"
 							+ " AND Account_ID=?");			//	#4
-		
+		params.add(AD_Client_ID);
+		params.add(AD_Org_ID);
+		params.add(C_AcctSchema_ID);
+		params.add(Account_ID);
 		//	Optional fields
 		if (C_SubAcct_ID == 0)
 			whereClause.append(" AND C_SubAcct_ID IS NULL");	
