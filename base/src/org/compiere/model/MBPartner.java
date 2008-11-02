@@ -128,36 +128,9 @@ public class MBPartner extends X_C_BPartner
 	{
 		if (Value == null || Value.length() == 0)
 			return null;
-		MBPartner retValue = null;
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		String sql = "SELECT * FROM C_BPartner WHERE Value=? AND AD_Client_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setString(1, Value);
-			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MBPartner(ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		String whereClause = "Value=? AND AD_Client_ID=?";
+		MBPartner retValue = new Query(ctx,MBPartner.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{Value,Env.getAD_Client_ID(ctx)}).first();
 		return retValue;
 	}	//	get
 
@@ -169,36 +142,9 @@ public class MBPartner extends X_C_BPartner
 	 */
 	public static MBPartner get (Properties ctx, int C_BPartner_ID)
 	{
-		MBPartner retValue = null;
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		String sql = "SELECT * FROM C_BPartner WHERE C_BPartner_ID=? AND AD_Client_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt(1, C_BPartner_ID);
-			pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MBPartner(ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		String whereClause = "C_BPartner_ID=? AND AD_Client_ID=?";
+		MBPartner retValue = new Query(ctx,MBPartner.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{C_BPartner_ID,Env.getAD_Client_ID(ctx)}).first();
 		return retValue;
 	}	//	get
 
