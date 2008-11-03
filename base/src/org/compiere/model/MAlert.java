@@ -84,7 +84,7 @@ public class MAlert extends X_AD_Alert
 			return m_rules;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "AD_Alert_ID=?";
-		List <MAlertRule> list = new Query(getCtx(), MAlertRule.Table_Name, whereClause.toString(), null)
+		List <MAlertRule> list = new Query(getCtx(), MAlertRule.Table_Name, whereClause, null)
 			.setParameters(new Object[]{getAD_Alert_ID()})
 			.setOrderBy("Name, AD_AlertRule_ID")
 			.list()
@@ -110,7 +110,7 @@ public class MAlert extends X_AD_Alert
 			return m_recipients;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "AD_Alert_ID=?";
-		List <MAlertRecipient> list = new Query(getCtx(), MAlertRecipient.Table_Name, whereClause.toString(), null)
+		List <MAlertRecipient> list = new Query(getCtx(), MAlertRecipient.Table_Name, whereClause, null)
 			.setParameters(new Object[]{getAD_Alert_ID()})
 			.list()
 		;
