@@ -36,6 +36,7 @@ import org.compiere.util.*;
  *  @author victor.perez@e-evolution.com, e-Evolution
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  		<li>FR: [ 2214883 ] Remove SQL code and Replace for Query 
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
@@ -199,33 +200,10 @@ public class MJournal extends X_GL_Journal implements DocAction
 	 */
 	public MJournalLine[] getLines (boolean requery)
 	{
-		ArrayList<MJournalLine> list = new ArrayList<MJournalLine>();
-		String sql = "SELECT * FROM GL_JournalLine WHERE GL_Journal_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getGL_Journal_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MJournalLine (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, "getLines", ex); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "GL_Journal_ID=?";
+		List <MJournalLine> list = new Query(getCtx(),MJournalLine.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{getGL_Journal_ID()}).setOrderBy("Line").list();
 		//
 		MJournalLine[] retValue = new MJournalLine[list.size()];
 		list.toArray(retValue);
