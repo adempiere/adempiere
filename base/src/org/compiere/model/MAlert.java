@@ -84,11 +84,18 @@ public class MAlert extends X_AD_Alert
 			return m_rules;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "AD_Alert_ID=?";
-		List <MAlertRule> list = new Query(getCtx(),MAlertRule.Table_Name,whereClause.toString(),null)
-		.setParameters(new Object[]{getAD_Alert_ID()}).setOrderBy("Name, AD_AlertRule_ID").list();
+		List <MAlertRule> list = new Query(getCtx(), MAlertRule.Table_Name, whereClause.toString(), null)
+			.setParameters(new Object[]{getAD_Alert_ID()})
+			.setOrderBy("Name, AD_AlertRule_ID")
+			.list()
+		;
+		for (int i = 0; i < list.size(); i ++) {
+			MAlertRule rule = list.get( i );
+			rule.setParent( this );
+		}
 		//
-		m_rules = new MAlertRule[list.size ()];
-		list.toArray (m_rules);
+		m_rules = new MAlertRule[ list.size() ];
+		m_rules = list.toArray (m_rules);
 		return m_rules;
 	}	//	getRules
 	
@@ -103,11 +110,13 @@ public class MAlert extends X_AD_Alert
 			return m_recipients;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "AD_Alert_ID=?";
-		List <MAlertRecipient> list = new Query(getCtx(),MAlertRecipient.Table_Name,whereClause.toString(),null)
-		.setParameters(new Object[]{getAD_Alert_ID()}).list();
+		List <MAlertRecipient> list = new Query(getCtx(), MAlertRecipient.Table_Name, whereClause.toString(), null)
+			.setParameters(new Object[]{getAD_Alert_ID()})
+			.list()
+		;
 		//
-		m_recipients = new MAlertRecipient[list.size ()];
-		list.toArray (m_recipients);
+		m_recipients = new MAlertRecipient[ list.size() ];
+		m_recipients = list.toArray (m_recipients);
 		return m_recipients;
 	}	//	getRecipients
 
