@@ -16,15 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
-import java.util.logging.Level;
-
-import org.compiere.util.DB;
 
 /**
  *	Alert Model
@@ -34,6 +30,8 @@ import org.compiere.util.DB;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1894573 ] Alert Processor Improvements
+ * 			Victor Perez, Trifon, red1
+ * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MAlert extends X_AD_Alert
 {
@@ -84,34 +82,10 @@ public class MAlert extends X_AD_Alert
 	{
 		if (m_rules != null && !reload)
 			return m_rules;
-		String sql = "SELECT * FROM AD_AlertRule "
-			+ "WHERE AD_Alert_ID=?"
-			+ " ORDER BY Name, AD_AlertRule_ID";
-		ArrayList<MAlertRule> list = new ArrayList<MAlertRule>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getAD_Alert_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MAlertRule rule = new MAlertRule (getCtx(), rs, null);
-				rule.setParent(this);
-				list.add (rule);
-			}
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Alert_ID=?";
+		List <MAchievement> list = new Query(getCtx(),MBPartner.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{getAD_Alert_ID()}).setOrderBy("Name, AD_AlertRule_ID").list();
 		//
 		m_rules = new MAlertRule[list.size ()];
 		list.toArray (m_rules);
@@ -127,28 +101,10 @@ public class MAlert extends X_AD_Alert
 	{
 		if (m_recipients != null && !reload)
 			return m_recipients;
-		String sql = "SELECT * FROM AD_AlertRecipient " 
-			+ "WHERE AD_Alert_ID=?";
-		ArrayList<MAlertRecipient> list = new ArrayList<MAlertRecipient>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getAD_Alert_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MAlertRecipient (getCtx(), rs, null));
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Alert_ID=?";
+		List <MAlertRecipient> list = new Query(getCtx(),MBPartner.Table_Name,whereClause.toString(),null)
+		.setParameters(new Object[]{getAD_Alert_ID()}).list();
 		//
 		m_recipients = new MAlertRecipient[list.size ()];
 		list.toArray (m_recipients);
