@@ -23,11 +23,15 @@ import java.util.Properties;
 import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
 
+
+
 /**
  *	Accounting Schema GL info
  *	
  *  @author Jorg Janke
  *  @version $Id: MAcctSchemaGL.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  */
 public class MAcctSchemaGL extends X_C_AcctSchema_GL
 {
@@ -45,12 +49,10 @@ public class MAcctSchemaGL extends X_C_AcctSchema_GL
 	 */
 	public static MAcctSchemaGL get (Properties ctx, int C_AcctSchema_ID)
 	{
-		String whereClause = "C_AcctSchema_ID=?"; 
-		MAcctSchemaGL retValue = new Query(ctx, MAcctSchemaGL.Table_Name, whereClause, null)
-			.setParameters(new Object[]{C_AcctSchema_ID})
-			.first()
-		;			
-		return retValue;
+		String whereClause = "C_AcctSchema_ID=?";
+		return new Query(ctx,MAcctSchemaGL.Table_Name,whereClause,null)
+		.setParameters(new Object[]{C_AcctSchema_ID})
+		.first();		
 	}	//	get
 	
 	/**	Logger							*/

@@ -16,12 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
+
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -32,6 +31,8 @@ import org.compiere.util.Msg;
  *	Accounting Processor Model
  *	
  *  @author Jorg Janke
+ *  @author     victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335 
  *  @version $Id: MAcctProcessor.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  */
 public class MAcctProcessor extends X_C_AcctProcessor
@@ -44,29 +45,10 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	 */
 	public static MAcctProcessor[] getActive (Properties ctx)
 	{
-		ArrayList<MAcctProcessor> list = new ArrayList<MAcctProcessor>();
-		String sql = "SELECT * FROM C_AcctProcessor WHERE IsActive='Y'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MAcctProcessor (ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getActive", e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MAcctProcessor[] retValue = new MAcctProcessor[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "IsActive=?";
+		List<MAcctProcessor> list = new Query(ctx, MAcctProcessor.Table_Name,whereClause,null)
+		.setParameters(new Object[]{"Y"}).list();
+		return list.toArray(new MAcctProcessor[list.size()]);		
 	}	//	getActive
 
 	/**	Static Logger	*/
@@ -146,33 +128,12 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	 */
 	public AdempiereProcessorLog[] getLogs ()
 	{
-		ArrayList<MAcctProcessorLog> list = new ArrayList<MAcctProcessorLog>();
-		String sql = "SELECT * "
-			+ "FROM C_AcctProcessorLog "
-			+ "WHERE C_AcctProcessor_ID=? " 
-			+ "ORDER BY Created DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_AcctProcessor_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MAcctProcessorLog (getCtx(), rs, get_TrxName()));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MAcctProcessorLog[] retValue = new MAcctProcessorLog[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "C_AcctProcessor_ID=? ";
+		List<MAcctProcessor> list = new Query(getCtx(), MAcctProcessorLog.Table_Name,whereClause,get_TrxName())
+		.setParameters(new Object[]{getC_AcctProcessor_ID()})
+		.setOrderBy("Created DESC")
+		.list();
+		return list.toArray(new MAcctProcessorLog[list.size()]);		
 	}	//	getLogs
 
 	/**

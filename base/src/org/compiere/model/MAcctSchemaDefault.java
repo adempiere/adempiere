@@ -16,16 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
 
 /**
  *	Default Accounts for MAcctSchema
  *	
  *  @author Jorg Janke
+ *  @author     victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  *  @version $Id: MAcctSchemaDefault.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MAcctSchemaDefault extends X_C_AcctSchema_Default
@@ -38,37 +41,9 @@ public class MAcctSchemaDefault extends X_C_AcctSchema_Default
 	 */
 	public static MAcctSchemaDefault get (Properties ctx, int C_AcctSchema_ID)
 	{
-		MAcctSchemaDefault retValue = null;
-		String sql = "SELECT * FROM C_AcctSchema_Default WHERE C_AcctSchema_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				retValue = new MAcctSchemaDefault (ctx, rs, null);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		return retValue;
+		String whereClause = "C_AcctSchema_ID=?";
+		return new Query(ctx,MAcctSchemaDefault.Table_Name,whereClause,null)
+		.setParameters(new Object[]{C_AcctSchema_ID}).first();
 	}	//	get
 	
 	/**	Logger							*/

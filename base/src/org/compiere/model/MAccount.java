@@ -16,16 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -33,8 +30,8 @@ import org.compiere.util.Env;
  * 	C_ValidCombination
  *
  *  @author		Jorg Janke
- *  @author     victor.perez, www.e-evolution.com
- *    			<li>[ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
+ *  @author     victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  *  @version 	$Id: MAccount.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MAccount extends X_C_ValidCombination

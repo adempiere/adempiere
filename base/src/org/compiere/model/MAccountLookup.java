@@ -16,16 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
 
 /**
  *	Account Model Lookup - Maintains ValidCombination Info for Display & Edit - not cached
  *
  *  @author 	Jorg Janke
+ *  @author     victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  *  @version 	$Id: MAccountLookup.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public final class MAccountLookup extends Lookup implements Serializable
@@ -126,35 +132,18 @@ public final class MAccountLookup extends Lookup implements Serializable
 		}
 		if (ID == C_ValidCombination_ID)	//	already loaded
 			return true;
-
-		String	SQL = "SELECT C_ValidCombination_ID, Combination, Description "
-			+ "FROM C_ValidCombination WHERE C_ValidCombination_ID=?";
 		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			//	Prepare Statement
-			pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setInt(1, ID);
-			rs = pstmt.executeQuery();
-			if (!rs.next())
-			{
-				return false;
-			}
-			//
-			C_ValidCombination_ID = rs.getInt(1);
-			Combination = rs.getString(2);
-			Description = rs.getString(3);
-		}
-		catch (SQLException e)
-		{
+		String whereClause = "C_ValidCombination_ID=?";
+		MAccount account = new Query(Env.getCtx(),MAccount.Table_Name,whereClause,null)
+		.setParameters(new Object[]{ID})
+		.first();
+		
+		if(account == null)
 			return false;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		
+		C_ValidCombination_ID = account.getC_ValidCombination_ID();
+		Combination = account.getCombination();
+		Description = account.getDescription();
 		return true;
 	}	//	load
 
@@ -183,30 +172,26 @@ public final class MAccountLookup extends Lookup implements Serializable
 		if (!mandatory)
 			list.add(new KeyNamePair (-1, ""));
 		//
-		StringBuffer sql = new StringBuffer ("SELECT C_ValidCombination_ID, Combination, Description "
-			+ "FROM C_ValidCombination WHERE AD_Client_ID=?");
+		ArrayList<Object> params = new ArrayList<Object>();
+		String whereClause = "AD_Client_ID=?";
+		params.add(Env.getAD_Client_ID(m_ctx));
 		if (onlyActive)
-			sql.append(" AND IsActive='Y'");
-		sql.append(" ORDER BY 2");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, Env.getAD_Client_ID(m_ctx));
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add (new KeyNamePair(rs.getInt(1), rs.getString(2) + " - " + rs.getString(3)));
+		{	
+			whereClause+=" AND IsActive=?";
+			params.add("Y");
 		}
-		catch (SQLException e)
+		
+		List<MAccount> accounts = new Query(Env.getCtx(),MAccount.Table_Name,whereClause,null)
+		.setParameters(params)
+		.setOrderBy("Combination")
+		.list();
+		
+		for(MAccount account :accounts)
 		{
-			log.log(Level.SEVERE, sql.toString(), e);
+			list.add (new KeyNamePair(account.getC_ValidCombination_ID(), 
+					account.getCombination() + " - " + 
+					account.getDescription()));
 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
-
 		//  Sort & return
 		return list;
 	}   //  getData

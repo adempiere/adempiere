@@ -16,15 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
 
 /**
  *  Accounting Schema Model (base)
  *
  *  @author 	Jorg Janke
+ *  @author     victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335  
  *  @version 	$Id: MAcctSchema.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MAcctSchema extends X_C_AcctSchema
@@ -92,36 +98,29 @@ public class MAcctSchema extends X_C_AcctSchema
 		if (as.get_ID() != 0 && trxName == null)
 			list.add(as);
 		
-		//	Other
-		String sql = "SELECT C_AcctSchema_ID FROM C_AcctSchema acs "
-			+ "WHERE IsActive='Y'"
-			+ " AND EXISTS (SELECT * FROM C_AcctSchema_GL gl WHERE acs.C_AcctSchema_ID=gl.C_AcctSchema_ID)"
-			+ " AND EXISTS (SELECT * FROM C_AcctSchema_Default d WHERE acs.C_AcctSchema_ID=d.C_AcctSchema_ID)"; 
+		ArrayList<Object> params = new ArrayList<Object>();
+		String whereClause = "IsActive=? "
+			+ " AND EXISTS (SELECT * FROM C_AcctSchema_GL gl WHERE C_AcctSchema.C_AcctSchema_ID=gl.C_AcctSchema_ID)"
+			+ " AND EXISTS (SELECT * FROM C_AcctSchema_Default d WHERE C_AcctSchema.C_AcctSchema_ID=d.C_AcctSchema_ID)"; 
+			params.add("Y");
 		if (AD_Client_ID != 0)
-			sql += " AND AD_Client_ID=?";
-		sql += " ORDER BY C_AcctSchema_ID";
-		try
+		{	
+			whereClause += " AND AD_Client_ID=?";
+			params.add(AD_Client_ID);
+		}	
+		
+		List <MAcctSchema> ass = new Query(ctx, MAcctSchema.Table_Name,whereClause,trxName)
+		.setParameters(params)
+		.setOrderBy(MAcctSchema.COLUMNNAME_C_AcctSchema_ID)
+		.list();
+		
+		for(MAcctSchema acctschema : ass)
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
-			if (AD_Client_ID != 0)
-				pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
+			if (acctschema.get_ID() != info.getC_AcctSchema1_ID())	//	already in list
 			{
-				int id = rs.getInt(1);
-				if (id != info.getC_AcctSchema1_ID())	//	already in list
-				{
-					as = MAcctSchema.get (ctx, id, trxName);
-					if (as.get_ID() != 0 && trxName == null)
-						list.add(as);
-				}
+				if (acctschema.get_ID() != 0 && trxName == null)
+					list.add(acctschema);
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
 		}
 		//  Save
 		MAcctSchema[] retValue = new MAcctSchema [list.size()];

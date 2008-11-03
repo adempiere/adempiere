@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 /**
  *  Account Schema Element Object
@@ -29,6 +35,8 @@ import org.compiere.util.*;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1795817 ] Acct Schema Elements "Account" and "Org" should be mandatory
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ *    			<li>RF [ 2214883 ] Remove SQL code and Replace for Query http://sourceforge.net/tracker/index.php?func=detail&aid=2214883&group_id=176962&atid=879335
  */
 public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 {
@@ -46,30 +54,18 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 
 		s_log.fine("C_AcctSchema_ID=" + as.getC_AcctSchema_ID());
 		ArrayList<MAcctSchemaElement> list = new ArrayList<MAcctSchemaElement>();
-		//
-		String sql = "SELECT * FROM C_AcctSchema_Element "
-			+ "WHERE C_AcctSchema_ID=? AND IsActive='Y' ORDER BY SeqNo";
-
-		try
+		
+		String whereClause = "C_AcctSchema_ID=? AND IsActive=?";
+		List<MAcctSchemaElement> elements= new Query(as.getCtx(), MAcctSchemaElement.Table_Name,whereClause,as.get_TrxName())
+		.setParameters(new Object[]{as.getC_AcctSchema_ID(),"Y"}).setOrderBy("SeqNo")
+		.list();
+		
+		for(MAcctSchemaElement ase : elements)
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, as.get_TrxName());
-			pstmt.setInt(1, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MAcctSchemaElement ase = new MAcctSchemaElement(as.getCtx(), rs, as.get_TrxName());
-				s_log.fine(" - " + ase);
-				if (ase.isMandatory() && ase.getDefaultValue() == 0)
-					s_log.log(Level.SEVERE, "No default value for " + ase.getName());
-				list.add(ase);
-				//
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
+			s_log.fine(" - " + ase);
+			if (ase.isMandatory() && ase.getDefaultValue() == 0)
+				s_log.log(Level.SEVERE, "No default value for " + ase.getName());
+			list.add(ase);
 		}
 		
 		retValue = new MAcctSchemaElement[list.size()];
