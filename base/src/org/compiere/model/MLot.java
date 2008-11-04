@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -32,6 +33,7 @@ import org.compiere.util.KeyNamePair;
  *
  *	@author Jorg Janke
  *	@version $Id: MLot.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *	FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
  */
 public class MLot extends X_M_Lot
 {
@@ -47,27 +49,11 @@ public class MLot extends X_M_Lot
 	 */
 	public static MLot[] getProductLots (Properties ctx, int M_Product_ID, String trxName)
 	{
-		String sql = "SELECT * FROM M_Lot WHERE M_Product_ID=?";
-		ArrayList<MLot> list = new ArrayList<MLot>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MLot (ctx, rs, trxName));
- 		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "M_Product_ID=?";
+		List <MLot> list = new Query(ctx, MLot.Table_Name, whereClause, null)
+			.setParameters(new Object[]{M_Product_ID})
+ 			.list();
 		//
 		MLot[] retValue = new MLot[list.size()];
 		list.toArray(retValue);
