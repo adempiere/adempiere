@@ -41,6 +41,8 @@ import org.compiere.util.Trx;
  *  
  *  Carlos Ruiz - globalqss - integrate bug fix from Teo Sarca
  *    [ 1619112 ] Posible problem for LastPO costing, Batch/Lot level
+ *  
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1 (only non-join query)
  */
 public class MCost extends X_M_Cost
 {
@@ -1259,45 +1261,14 @@ public class MCost extends X_M_Cost
 		MAcctSchema as, int AD_Org_ID, int M_CostElement_ID)
 	{
 		MCost cost = null;
-		String sql = "SELECT * "
-			+ "FROM M_Cost c "
-			+ "WHERE AD_Client_ID=? AND AD_Org_ID=?"
-			+ " AND M_Product_ID=?"
-			+ " AND M_AttributeSetInstance_ID=?"
-			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=?"
-			+ " AND M_CostElement_ID=?";		
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, product.get_TrxName());
-			pstmt.setInt (1, product.getAD_Client_ID());
-			pstmt.setInt (2, AD_Org_ID);
-			pstmt.setInt (3, product.getM_Product_ID());
-			pstmt.setInt (4, M_AttributeSetInstance_ID);
-			pstmt.setInt (5, as.getM_CostType_ID());
-			pstmt.setInt (6, as.getC_AcctSchema_ID());
-			pstmt.setInt (7, M_CostElement_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				cost = new MCost (product.getCtx(), rs, product.get_TrxName()); 
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Client_ID=? AND AD_Org_ID=? AND M_Product_ID=?"
+			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=? AND M_CostElement_ID=?"
+			+ " AND M_AttributeSetInstance_ID=?";
+		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, null)
+		.setParameters(new Object[]{product.getAD_Client_ID(), AD_Org_ID, product.getM_Product_ID(), as.getM_CostType_ID(), as.getC_AcctSchema_ID(), M_CostElement_ID, M_AttributeSetInstance_ID})
+		.first();
+		//FR: [ 2214883 ] - end -
 		//	New
 		if (cost == null)
 			cost = new MCost (product, M_AttributeSetInstance_ID,
@@ -1322,44 +1293,13 @@ public class MCost extends X_M_Cost
 		int M_AttributeSetInstance_ID)
 	{
 		MCost retValue = null;
-		String sql = "SELECT * FROM M_Cost "
-			+ "WHERE AD_Client_ID=? AND AD_Org_ID=? AND M_Product_ID=?"
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Client_ID=? AND AD_Org_ID=? AND M_Product_ID=?"
 			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=? AND M_CostElement_ID=?"
 			+ " AND M_AttributeSetInstance_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Client_ID);
-			pstmt.setInt (2, AD_Org_ID);
-			pstmt.setInt (3, M_Product_ID);
-			pstmt.setInt (4, M_CostType_ID);
-			pstmt.setInt (5, C_AcctSchema_ID);
-			pstmt.setInt (6, M_CostElement_ID);
-			pstmt.setInt (7, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MCost (ctx, rs, null);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		retValue = new Query(ctx, MCost.Table_Name, whereClause, null)
+		.setParameters(new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID, M_CostType_ID, C_AcctSchema_ID, M_CostElement_ID, M_AttributeSetInstance_ID})
+		.first();
 		return retValue;
 	}	//	get
 	
