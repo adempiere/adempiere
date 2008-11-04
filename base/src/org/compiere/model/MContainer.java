@@ -26,6 +26,7 @@ import org.compiere.util.*;
  * 
  * @author Yves Sandfort
  * @version $Id: MContainer.java,v 1.20 2006/09/05 23:22:53 comdivision Exp $
+ * FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
  */
 public class MContainer extends X_CM_Container
 {
@@ -42,35 +43,12 @@ public class MContainer extends X_CM_Container
 	 */
 	public static MContainer get(Properties ctx, String relURL, int CM_WebProject_Id, String trxName) {
 		MContainer thisContainer = null;
-		String sql = "SELECT * FROM CM_Container WHERE (RelativeURL LIKE ? OR RelativeURL LIKE ?) AND CM_WebProject_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setString (1,relURL);
-			pstmt.setString (2,relURL+"/");
-			pstmt.setInt(3, CM_WebProject_Id);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				thisContainer = (new MContainer(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
+		String whereClause = "(RelativeURL LIKE ? OR RelativeURL LIKE ?) AND CM_WebProject_ID=?";
+		thisContainer = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{relURL, relURL+"/",CM_WebProject_Id})
+		.first();
+
 		return thisContainer;
 	}
 	
@@ -85,34 +63,12 @@ public class MContainer extends X_CM_Container
 	 */
 	public static MContainer get(Properties ctx, int CM_Container_ID, int CM_WebProject_Id, String trxName) {
 		MContainer thisContainer = null;
-		String sql = "SELECT * FROM CM_Container WHERE CM_Container_ID=? AND CM_WebProject_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, CM_Container_ID);
-			pstmt.setInt(2, CM_WebProject_Id);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				thisContainer = (new MContainer(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
+		String whereClause = "CM_Container_ID=? AND CM_WebProject_ID=?";
+		thisContainer = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{CM_Container_ID, CM_WebProject_Id})
+		.first();
+		//
 		return thisContainer;
 	}
 	
@@ -153,33 +109,12 @@ public class MContainer extends X_CM_Container
 		String trxName)
 	{
 		MContainer cc = null;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM CM_Container WHERE CM_Container_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, CM_Container_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				cc = new MContainer (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
+		String whereClause = "CM_Container_ID=?";
+		cc = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{CM_Container_ID})
+		.first();
+		//
 		return cc;
 	} // getDirect
 
@@ -192,37 +127,12 @@ public class MContainer extends X_CM_Container
      */
 	public static MContainer[] getContainers (MWebProject project)
 	{
-		ArrayList<MContainer> list = new ArrayList<MContainer> ();
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM CM_Container WHERE CM_WebProject_ID=? ORDER BY CM_Container_ID";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, project.get_TrxName ());
-			pstmt.setInt (1, project.getCM_WebProject_ID ());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MContainer (project.getCtx (), rs, project
-					.get_TrxName ()));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
+		String whereClause = "CM_WebProject_ID=?";
+		List<MContainer> list = new Query(project.getCtx(), MContainer.Table_Name, whereClause, project.get_TrxName())
+		.setParameters(new Object[]{project.getCM_WebProject_ID ()})
+		.list();
+		//
 		MContainer[] retValue = new MContainer[list.size ()];
 		list.toArray (retValue);
 		return retValue;
