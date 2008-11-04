@@ -28,6 +28,7 @@ import org.compiere.util.*;
  *  @author Jorg Janke
  *  @version $Id: MCommission.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  *  @author victor.perez@e-evolution.com www.e-evolution.com [ 1867477 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1867477&group_id=176962&atid=879332
+ *	FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
  */
 public class MCommission extends X_C_Commission
 {
@@ -72,35 +73,11 @@ public class MCommission extends X_C_Commission
 	public MCommissionLine[] getLines()
 	{
 		//[ 1867477 ]
-		String sql = "SELECT * FROM C_CommissionLine WHERE IsActive='Y' AND C_Commission_ID=? ORDER BY Line";
-		ArrayList<MCommissionLine> list = new ArrayList<MCommissionLine>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Commission_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MCommissionLine(getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "IsActive='Y' AND C_Commission_ID=?";
+		List<MCommissionLine> list  = new Query(getCtx(), MCommissionLine.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{getC_Commission_ID()})
+		.list();	
 		//	Convert
 		MCommissionLine[] retValue = new MCommissionLine[list.size()];
 		list.toArray(retValue);
