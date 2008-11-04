@@ -1262,11 +1262,13 @@ public class MCost extends X_M_Cost
 	{
 		MCost cost = null;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "AD_Client_ID=? AND AD_Org_ID=? AND M_Product_ID=?"
-			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=? AND M_CostElement_ID=?"
-			+ " AND M_AttributeSetInstance_ID=?";
+		String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
+			+ " AND M_Product_ID=?"
+			+ " AND M_AttributeSetInstance_ID=?"
+			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=?"
+			+ " AND M_CostElement_ID=?";
 		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, null)
-		.setParameters(new Object[]{product.getAD_Client_ID(), AD_Org_ID, product.getM_Product_ID(), as.getM_CostType_ID(), as.getC_AcctSchema_ID(), M_CostElement_ID, M_AttributeSetInstance_ID})
+		.setParameters(new Object[]{product.getAD_Client_ID(), AD_Org_ID, product.getM_Product_ID(), M_AttributeSetInstance_ID, as.getM_CostType_ID(), as.getC_AcctSchema_ID(), M_CostElement_ID})
 		.first();
 		//FR: [ 2214883 ] - end -
 		//	New
