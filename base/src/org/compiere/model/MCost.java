@@ -1267,8 +1267,15 @@ public class MCost extends X_M_Cost
 			+ " AND M_AttributeSetInstance_ID=?"
 			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=?"
 			+ " AND M_CostElement_ID=?";
-		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, null)
-		.setParameters(new Object[]{product.getAD_Client_ID(), AD_Org_ID, product.getM_Product_ID(), M_AttributeSetInstance_ID, as.getM_CostType_ID(), as.getC_AcctSchema_ID(), M_CostElement_ID})
+		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
+		.setParameters(new Object[]{
+						product.getAD_Client_ID(), 
+						AD_Org_ID, 
+						product.getM_Product_ID(),
+						M_AttributeSetInstance_ID, 
+						as.getM_CostType_ID(), 
+						as.getC_AcctSchema_ID(), 
+						M_CostElement_ID})
 		.first();
 		//FR: [ 2214883 ] - end -
 		//	New
@@ -1300,7 +1307,14 @@ public class MCost extends X_M_Cost
 			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=? AND M_CostElement_ID=?"
 			+ " AND M_AttributeSetInstance_ID=?";
 		retValue = new Query(ctx, MCost.Table_Name, whereClause, null)
-		.setParameters(new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID, M_CostType_ID, C_AcctSchema_ID, M_CostElement_ID, M_AttributeSetInstance_ID})
+		.setParameters(new Object[]{
+				AD_Client_ID, 
+				AD_Org_ID, 
+				M_Product_ID, 
+				M_CostType_ID, 
+				C_AcctSchema_ID, 
+				M_CostElement_ID, 
+				M_AttributeSetInstance_ID})
 		.first();
 		return retValue;
 	}	//	get

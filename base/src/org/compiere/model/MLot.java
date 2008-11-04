@@ -51,7 +51,7 @@ public class MLot extends X_M_Lot
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "M_Product_ID=?";
-		List <MLot> list = new Query(ctx, MLot.Table_Name, whereClause, null)
+		List <MLot> list = new Query(ctx, MLot.Table_Name, whereClause, trxName)
 			.setParameters(new Object[]{M_Product_ID})
  			.list();
 		//
