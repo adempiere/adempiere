@@ -131,6 +131,7 @@ public class MContainer extends X_CM_Container
 		String whereClause = "CM_WebProject_ID=?";
 		List<MContainer> list = new Query(project.getCtx(), MContainer.Table_Name, whereClause, project.get_TrxName())
 		.setParameters(new Object[]{project.getCM_WebProject_ID ()})
+		.setOrderBy("CM_Container_ID")
 		.list();
 		//
 		MContainer[] retValue = new MContainer[list.size ()];

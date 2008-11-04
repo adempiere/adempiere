@@ -77,6 +77,7 @@ public class MCommission extends X_C_Commission
 		String whereClause = "IsActive='Y' AND C_Commission_ID=?";
 		List<MCommissionLine> list  = new Query(getCtx(), MCommissionLine.Table_Name, whereClause, get_TrxName())
 		.setParameters(new Object[]{getC_Commission_ID()})
+		.setOrderBy("Line")
 		.list();	
 		//	Convert
 		MCommissionLine[] retValue = new MCommissionLine[list.size()];
