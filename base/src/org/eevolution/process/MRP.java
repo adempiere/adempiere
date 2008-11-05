@@ -229,7 +229,10 @@ public class MRP extends SvrProcess
 					{
 						MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), organization.getAD_Org_ID());
 						for(MWarehouse w : ws)
-						{	 
+						{	
+							if(plant.getM_Warehouse_ID() == w.getM_Warehouse_ID() && p_IsRequiredDRP)
+								continue;
+							
 							log.info("Run MRP to Wharehouse: " + w.getName());
 							runMRP(m_AD_Client_ID,organization.getAD_Org_ID(),plant.getS_Resource_ID(),w.getM_Warehouse_ID());
 							result = result + "<br>finish MRP to Warehouse " +w.getName();
@@ -237,6 +240,9 @@ public class MRP extends SvrProcess
 					}
 					else
 					{
+						if(plant.getM_Warehouse_ID() == p_M_Warehouse_ID && p_IsRequiredDRP)
+							continue;
+						
 						runMRP(m_AD_Client_ID,organization.getAD_Org_ID(),plant.getS_Resource_ID(),p_M_Warehouse_ID);
 					}
 					result = result + "<br>finish MRP to Organization " +organization.getName();
@@ -313,7 +319,9 @@ public class MRP extends SvrProcess
 			Timestamp  POQDateStartSchedule = null;
 			
 			// Mark all supply MRP records as available
-			DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S'  AND AD_Client_ID = " + AD_Client_ID+" AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID=" + M_Warehouse_ID ,get_TrxName());
+			
+			DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S'  AND AD_Client_ID = ?  AND AD_Org_ID=? AND M_Warehouse_ID=?", new Object[]{AD_Client_ID,AD_Org_ID,M_Warehouse_ID} ,get_TrxName());
+			
 			commit();
 			int lowlevel = MPPMRP.getMaxLowLevel(getCtx(), get_TrxName());
 			log.info("Low Level Is :"+lowlevel);

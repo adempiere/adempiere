@@ -304,7 +304,7 @@ public class MPPMRP extends X_PP_MRP
 							order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
 							order.saveEx();  
 							order.prepareIt(); 
-							order.setDocAction(MPPOrder.DOCSTATUS_Completed);
+							//order.setDocAction(MPPOrder.DOCSTATUS_Completed);
 							order.saveEx();
 					
 					}
@@ -447,8 +447,8 @@ public class MPPMRP extends X_PP_MRP
 			DB.executeUpdateEx(sql ,trxName);
 			return;
 		}
-		String whereClause = "TypeMRP = 'D' AND OrderType='DOO' AND AD_Client_ID=? AND DD_OrderLine_ID = ?";
-		MPPMRP mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
+		String whereClause = "TypeMRP = ? AND OrderType=? AND AD_Client_ID=? AND DD_OrderLine_ID = ?";
+		MPPMRP mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{MPPMRP.TYPEMRP_Demand,"DOO",ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
 		MLocator source = MLocator.get( m_ctx , ol.getM_Locator_ID());
 		MLocator target = MLocator.get( m_ctx , ol.getM_LocatorTo_ID());
 		if(mrp!=null)
@@ -483,8 +483,8 @@ public class MPPMRP extends X_PP_MRP
 			mrp.saveEx();
 
 		}
-		whereClause ="TypeMRP='S' AND OrderType='DOO' AND AD_Client_ID=? AND DD_OrderLine_ID = ? ";
-		mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
+		whereClause ="TypeMRP=? AND OrderType=? AND AD_Client_ID=? AND DD_OrderLine_ID = ? ";
+		mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{MPPMRP.TYPEMRP_Supply,"DOO",ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
 		if(mrp!=null)
 		{	
 			mrp.setAD_Org_ID(target.getAD_Org_ID());
@@ -597,9 +597,9 @@ public class MPPMRP extends X_PP_MRP
 	 */
     public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp To,String trxName)
 	{
-    	StringBuffer  sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='D' AND DocStatus IN ('IN','CO')");
+    	StringBuffer  sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP=? AND DocStatus IN ('IN','CO')");
     	sql.append(" AND OrderType IN ('SOO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
+		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{MPPMRP.TYPEMRP_Demand,Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;
