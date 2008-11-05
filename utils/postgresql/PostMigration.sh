@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: PostMigration.sh
 echo	Postgresql Post Migration Scripts
 

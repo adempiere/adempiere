@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #	This script installs adempiere
 #	Ported from Windows script Marek Mosiewicz<marek.mosiewicz@jotel.com.pl>
 

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #	This script rebuilds Adempiere 
 #	Ported from Windows script Marek Mosiewicz<marek.mosiewicz@jotel.com.pl>
 #	If you have difficulties, compare it with the Windows version.

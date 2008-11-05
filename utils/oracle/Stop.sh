@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: Stop.sh,v 1.7 2005/01/22 21:59:15 jjanke Exp $
 
 # In a multi-instance environment set the environment first

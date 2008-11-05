@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #	This script compile Adempiere 
 #	Ported from Windows script Marek Mosiewicz<marek.mosiewicz@jotel.com.pl>
 

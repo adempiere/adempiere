@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: RUN_Env.sh,v 1.16 2005/01/22 21:59:15 jjanke Exp $
 echo Adempiere Environment Check
 

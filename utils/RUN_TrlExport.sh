@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: RUN_TrlExport.sh,v 1.4 2005/01/22 21:59:15 jjanke Exp $
 
 if [ $ADEMPIERE_HOME ]; then

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: ImportReference.sh,v 1.5 2005/01/22 21:59:15 jjanke Exp $
 echo	Adempiere Reference Database Import 	$Revision: 1.5 $
 

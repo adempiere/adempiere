@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # Author + Copyright 1999-2005 Jorg Janke
 # $Id: RUN_DBExport.sh,v 1.10 2005/05/31 18:45:33 jjanke Exp $
 if [ $ADEMPIERE_HOME ]; then

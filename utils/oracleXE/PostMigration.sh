@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: PostMigration.sh
 echo	Oracle Post Migration Scripts
 

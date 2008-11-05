@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo	Adempiere Full Database Export 	$Revision: 1.3 $
 
 # $Id: DBExportFull.sh,v 1.3 2005/01/22 21:59:15 jjanke Exp $

@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: DBRestore.sh,v 1.8 2005/12/20 07:12:17 jjanke Exp $
 echo	Adempiere Database Restore 	$Revision: 1.8 $
 

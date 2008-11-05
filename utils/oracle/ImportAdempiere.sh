@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
 echo	Adempiere Database Import		$Revision: 1.10 $
 
