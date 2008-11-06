@@ -89,6 +89,8 @@ public class StatementProxy implements InvocationHandler {
 		} else if (name.equals("commit") && (args == null || args.length == 0)) {
 			commit();
 			return null;
+		} else if (name.equals("getSql") && (args == null || args.length == 0)) {
+			return getSql();
 		}
 		
 		Method m = p_stmt.getClass().getMethod(name, method.getParameterTypes());
@@ -195,4 +197,15 @@ public class StatementProxy implements InvocationHandler {
 			m_conn.commit();
 		}
 	}	//	commit
+	
+	/**
+	 * 	Get Sql
+	 *	@return sql
+	 */
+	public String getSql()
+	{
+		if (p_vo != null)
+			return p_vo.getSql();
+		return null;
+	}	//	getSql
 }
