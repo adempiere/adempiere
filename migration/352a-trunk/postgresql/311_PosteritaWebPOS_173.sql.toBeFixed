@@ -156,7 +156,9 @@ ALTER TABLE C_Currency ADD COLUMN roundOffFactor NUMERIC;
 -----------------------------
 -- May 22, 2008 10:57:07 AM GMT+04:00
 -- Create Mixed in the payment rules list
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,195,52000,TO_DATE('2008-05-22 10:55:30','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Mixed',TO_DATE('2008-05-22 10:55:30','YYYY-MM-DD HH24:MI:SS'),100,'M')
+INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Reference_ID,AD_Ref_List_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value
+) VALUES (
+0,0,195,52000,TO_DATE('2008-05-22 10:55:30','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Mixed',TO_DATE('2008-05-22 10:55:30','YYYY-MM-DD HH24:MI:SS'),100,'M')
 ;
 
 -- May 22, 2008 10:57:11 AM GMT+04:00
@@ -166,12 +168,20 @@ INSERT INTO AD_Ref_List_Trl (AD_Language,AD_Ref_List_ID, Description,Name, IsTra
 
 -- May 22, 2008 11:28:12 AM GMT+04:00
 -- Creates new Validation rule so that rich client does not get Mixed rule
-INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID,AD_Val_Rule_ID,Code,Created,CreatedBy,EntityType,IsActive,Name,Type,Updated,UpdatedBy) VALUES (0,0,52002,'AD_Ref_List.Value <> ''M''',TO_DATE('2008-05-22 11:28:12','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','All_Payment Rule - No mixed','S',TO_DATE('2008-05-22 11:28:12','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Val_Rule (AD_Client_ID,AD_Org_ID
+,AD_Val_Rule_ID,Code
+,Created,CreatedBy,EntityType,IsActive
+,Name,Type,Updated,UpdatedBy
+) VALUES (
+0,0
+,52033,'AD_Ref_List.Value <> ''M'''
+,TO_DATE('2008-05-22 11:28:12','YYYY-MM-DD HH24:MI:SS'),100,'D','Y'
+,'All_Payment Rule - No mixed','S',TO_DATE('2008-05-22 11:28:12','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- May 22, 2008 11:30:02 AM GMT+04:00
 -- Updates all columns in AD where the payment rule list is used with the validation created earlier
-UPDATE AD_Column SET AD_Val_Rule_ID=52002 WHERE AD_Reference_Value_ID=195 AND AD_Val_Rule_ID IS NULL
+UPDATE AD_Column SET AD_Val_Rule_ID=52033 WHERE AD_Reference_Value_ID=195 AND AD_Val_Rule_ID IS NULL
 ;
 
 -- May 22, 2008 11:31:15 AM GMT+04:00
@@ -184,7 +194,12 @@ UPDATE AD_Val_Rule SET Code='AD_Ref_List.Value <> ''B'' AND AD_Ref_List.Value <>
 -----------------------------
 -- Jun 2, 2008 9:19:48 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES ('1',0,0,52004,'N',TO_DATE('2008-06-02 21:19:47','YYYY-MM-DD HH24:MI:SS'),100,'A','N','Y','N','Y','N','N','N',0,'POS Terminal','L','U_POSTerminal',TO_DATE('2008-06-02 21:19:47','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Table (
+AccessLevel,AD_Client_ID,AD_Org_ID
+,AD_Table_ID,CopyColumnsFromTable,Created,CreatedBy,EntityType,ImportTable,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy
+) VALUES (
+'1',0,0
+,52004,'N',TO_DATE('2008-06-02 21:19:47','YYYY-MM-DD HH24:MI:SS'),100,'A','N','Y','N','Y','N','N','N',0,'POS Terminal','L','U_POSTerminal',TO_DATE('2008-06-02 21:19:47','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jun 2, 2008 9:19:48 PM GMT+04:00
@@ -245,7 +260,16 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 2, 2008 9:29:14 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,52002,TO_DATE('2008-06-02 21:29:14','YYYY-MM-DD HH24:MI:SS'),100,'Where money should be transfered to','A','Y','_TransferType',TO_DATE('2008-06-02 21:29:14','YYYY-MM-DD HH24:MI:SS'),100,'L')
+INSERT INTO AD_Reference (
+AD_Client_ID,AD_Org_ID
+,AD_Reference_ID,Created,CreatedBy
+,Description,EntityType,IsActive
+,Name,Updated,UpdatedBy,ValidationType
+) VALUES (
+0,0
+,52002,TO_DATE('2008-06-02 21:29:14','YYYY-MM-DD HH24:MI:SS'),100
+,'Where money should be transfered to','A','Y'
+,'_TransferType',TO_DATE('2008-06-02 21:29:14','YYYY-MM-DD HH24:MI:SS'),100,'L')
 ;
 
 -- Jun 2, 2008 9:29:14 PM GMT+04:00
@@ -293,24 +317,27 @@ INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,
 INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_Description,PO_Help,PO_Name,PO_PrintName,PrintName, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Element_ID, t.Description,t.Help,t.Name,t.PO_Description,t.PO_Help,t.PO_Name,t.PO_PrintName,t.PrintName, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Element t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Element_ID=52032 AND EXISTS (SELECT * FROM AD_Element_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Element_ID!=t.AD_Element_ID)
 ;
 
--- Jun 2, 2008 9:33:15 PM GMT+04:00
--- Default comment for updating dictionary
-INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,52003,TO_DATE('2008-06-02 21:33:15','YYYY-MM-DD HH24:MI:SS'),100,'A','Y','C_BankAccount',TO_DATE('2008-06-02 21:33:15','YYYY-MM-DD HH24:MI:SS'),100,'T')
+-- Nov 6, 2008 9:02:15 AM EET
+-- Posterita Integration
+UPDATE AD_Ref_Table SET WhereClause='C_BankAccount.IsActive=''Y''',Updated=TO_TIMESTAMP('2008-11-06 09:02:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Reference_ID=53283
 ;
 
--- Jun 2, 2008 9:33:15 PM GMT+04:00
--- Default comment for updating dictionary
-INSERT INTO AD_Reference_Trl (AD_Language,AD_Reference_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Reference_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Reference t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Reference_ID=52003 AND EXISTS (SELECT * FROM AD_Reference_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Reference_ID!=t.AD_Reference_ID)
-;
-
--- Jun 2, 2008 9:33:52 PM GMT+04:00
--- Default comment for updating dictionary
-INSERT INTO AD_Ref_Table (AD_Client_ID,AD_Display,AD_Key,AD_Org_ID,AD_Reference_ID,AD_Table_ID,Created,CreatedBy,EntityType,IsActive,IsValueDisplayed,Updated,UpdatedBy,WhereClause) VALUES (0,3074,3077,0,52003,297,TO_DATE('2008-06-02 21:33:52','YYYY-MM-DD HH24:MI:SS'),100,'A','Y','N',TO_DATE('2008-06-02 21:33:52','YYYY-MM-DD HH24:MI:SS'),100,'C_BankAccount.IsActive=''Y''')
-;
 
 -- Jun 2, 2008 9:34:10 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,52081,52032,0,18,52003,52004,'CashTransferBankAccount_ID',TO_DATE('2008-06-02 21:34:10','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account on which to transfer all Cash transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Transfer Cash trx to',0,TO_DATE('2008-06-02 21:34:10','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (
+AD_Client_ID
+,AD_Column_ID,AD_Element_ID,AD_Org_ID
+,AD_Reference_ID,AD_Reference_Value_ID
+,AD_Table_ID
+,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable
+,Name,SeqNo,Updated,UpdatedBy,Version
+) VALUES (
+0
+,52081,52032,0
+,18,53283
+,52004
+,'CashTransferBankAccount_ID',TO_DATE('2008-06-02 21:34:10','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account on which to transfer all Cash transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Transfer Cash trx to',0,TO_DATE('2008-06-02 21:34:10','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 2, 2008 9:34:10 PM GMT+04:00
@@ -395,7 +422,18 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 2, 2008 9:41:34 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,52085,52035,0,18,52003,52004,'Check_BankAccount_ID',TO_DATE('2008-06-02 21:41:34','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account to be used for processing Check transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Check Bank Account',0,TO_DATE('2008-06-02 21:41:34','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (
+AD_Client_ID
+,AD_Column_ID,AD_Element_ID,AD_Org_ID
+,AD_Reference_ID,AD_Reference_Value_ID
+,AD_Table_ID
+,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version
+) VALUES (
+0
+,52085,52035,0
+,18,53283
+,52004
+,'Check_BankAccount_ID',TO_DATE('2008-06-02 21:41:34','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account to be used for processing Check transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Check Bank Account',0,TO_DATE('2008-06-02 21:41:34','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 2, 2008 9:41:34 PM GMT+04:00
@@ -415,7 +453,18 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 2, 2008 9:43:16 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,52086,52036,0,18,52003,52004,'CheckTransferBankAccount_ID',TO_DATE('2008-06-02 21:43:15','YYYY-MM-DD HH24:MI:SS'),100,'Bank account on which to transfer Check transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Tranfer Check trx to',0,TO_DATE('2008-06-02 21:43:15','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (
+AD_Client_ID
+,AD_Column_ID,AD_Element_ID,AD_Org_ID
+,AD_Reference_ID,AD_Reference_Value_ID
+,AD_Table_ID
+,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version
+) VALUES (
+0
+,52086,52036,0
+,18,53283
+,52004
+,'CheckTransferBankAccount_ID',TO_DATE('2008-06-02 21:43:15','YYYY-MM-DD HH24:MI:SS'),100,'Bank account on which to transfer Check transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Tranfer Check trx to',0,TO_DATE('2008-06-02 21:43:15','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 2, 2008 9:43:16 PM GMT+04:00
@@ -455,7 +504,18 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 2, 2008 9:46:28 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,52088,52038,0,18,52003,52004,'Card_BankAccount_ID',TO_DATE('2008-06-02 21:46:28','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account on which card transactions will be processed','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Card Bank Account',0,TO_DATE('2008-06-02 21:46:28','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (
+AD_Client_ID
+,AD_Column_ID,AD_Element_ID,AD_Org_ID
+,AD_Reference_ID,AD_Reference_Value_ID
+,AD_Table_ID
+,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version
+) VALUES (
+0
+,52088,52038,0
+,18,53283
+,52004
+,'Card_BankAccount_ID',TO_DATE('2008-06-02 21:46:28','YYYY-MM-DD HH24:MI:SS'),100,'Bank Account on which card transactions will be processed','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Card Bank Account',0,TO_DATE('2008-06-02 21:46:28','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 2, 2008 9:46:28 PM GMT+04:00
@@ -475,7 +535,18 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Jun 2, 2008 9:47:59 PM GMT+04:00
 -- Default comment for updating dictionary
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Reference_Value_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,52089,52039,0,18,52003,52004,'CardTransferBankAccount_ID',TO_DATE('2008-06-02 21:47:59','YYYY-MM-DD HH24:MI:SS'),100,'Bank account on which to transfer Card transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Transfer Card trx to',0,TO_DATE('2008-06-02 21:47:59','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (
+AD_Client_ID
+,AD_Column_ID,AD_Element_ID,AD_Org_ID
+,AD_Reference_ID,AD_Reference_Value_ID
+,AD_Table_ID
+,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version
+) VALUES (
+0
+,52089,52039,0
+,18,53283
+,52004
+,'CardTransferBankAccount_ID',TO_DATE('2008-06-02 21:47:59','YYYY-MM-DD HH24:MI:SS'),100,'Bank account on which to transfer Card transactions','A',22,'Y','N','N','N','N','N','N','N','N','N','Y','Transfer Card trx to',0,TO_DATE('2008-06-02 21:47:59','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Jun 2, 2008 9:47:59 PM GMT+04:00
