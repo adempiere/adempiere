@@ -1,4 +1,5 @@
 SET DEFINE OFF
+SET SQLBLANKLINES ON
 -- 07.10.2008 17:27:16 EEST
 -- -
 UPDATE AD_Column SET AD_Element_ID=53245, ColumnName='PP_Product_BOM_ID', Description='BOM & Formula', EntityType='EE01', FieldLength=10, Help=NULL, Name='BOM & Formula',Updated=TO_DATE('2008-10-07 17:27:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=13977
