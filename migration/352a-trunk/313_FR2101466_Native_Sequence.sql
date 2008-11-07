@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Sep 8, 2008 10:12:30 PM CDT
 -- DB Native Sequence
 INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50016,'S',TO_DATE('2008-09-08 22:12:21','YYYY-MM-DD HH24:MI:SS'),0,'Y - Yes Use Native Sequence , N - No Use Adempiere Sequence (AD_Sequence)','D','Y','SYSTEM_NATIVE_SEQUENCE',TO_DATE('2008-09-08 22:12:21','YYYY-MM-DD HH24:MI:SS'),0,'N')
