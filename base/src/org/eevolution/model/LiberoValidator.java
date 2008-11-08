@@ -20,18 +20,10 @@ import java.util.List;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MProject;
-import org.compiere.model.MProjectPhase;
-import org.compiere.model.MProjectTask;
-import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
-import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.Query;
-import org.compiere.model.X_C_Phase;
-import org.compiere.model.X_C_Task;
 import org.compiere.model.X_M_ForecastLine;
 import org.compiere.util.CLogger;
 
@@ -86,21 +78,71 @@ public class LiberoValidator implements ModelValidator
 	public String modelChange (PO po, int type) throws Exception
 	{
 		log.info(po.get_TableName() + " Type: "+type);
-		if (po.get_TableName().equals(MOrder.Table_Name) && (type == TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MOrder.Table_Name))
 		{
 			MOrder order = (MOrder)po;
-			if(order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+			//Create a planning supply when isPurchase Order
+			if(type ==  TYPE_AFTER_NEW && !order.isSOTrx())
+			{
 				MPPMRP.C_Order((MOrder)po, false);
+			}
+			//Update MRP when you change DatePromised or DocStatus and is Purchase Order
+			else if(type == TYPE_AFTER_CHANGE && !order.isSOTrx() && order.is_ValueChanged(MOrder.COLUMNNAME_DatePromised))
+			{
+				if( order.is_ValueChanged(MOrder.COLUMNNAME_DatePromised) || 
+					order.is_ValueChanged(MOrder.COLUMNNAME_DocStatus))
+						MPPMRP.C_Order((MOrder)po, false);
+			}
 			
+			//Update MRP when you change the status order to complete or in process for a sales order or you change DatePromised
+			if(type == TYPE_AFTER_CHANGE && order.isSOTrx())
+			{
+				if(order.is_ValueChanged(MOrder.COLUMNNAME_DatePromised) || 
+				   order.is_ValueChanged(MOrder.COLUMNNAME_DocStatus) ||
+				   order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) ||
+				   order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+				{	
+						MPPMRP.C_Order((MOrder)po, false);
+				}
+			}
+
 		}
-		if (po.get_TableName().equals(MOrderLine.Table_Name) && ( type == TYPE_AFTER_NEW || type == TYPE_AFTER_CHANGE ))
+		// 
+		if (po.get_TableName().equals(MOrderLine.Table_Name))
 		{
 			MOrderLine ol = (MOrderLine)po;
 			MOrder order = ol.getParent();
-			if(!order.isSOTrx())
-			{	
-					MPPMRP.C_OrderLine(ol, false);
-			}	
+			//Create a planning supply when isPurchase Order
+			if ( type == TYPE_AFTER_NEW && !order.isSOTrx())
+			{
+				MPPMRP.C_OrderLine(ol, false);
+			}
+			//Update MRP when when isPurchase Order and you change DatePromised , Product , Qty Ordered, Qty Delivered
+			else if(type == TYPE_AFTER_CHANGE && !order.isSOTrx())
+			{
+				if(ol.is_ValueChanged(MOrderLine.COLUMNNAME_DatePromised) || 
+				   ol.is_ValueChanged(MOrderLine.COLUMNNAME_M_Product_ID) ||
+				   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyOrdered)   ||
+				   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyDelivered)
+				  )
+					MPPMRP.C_Order((MOrder)po, false);
+			}
+			//Update MRP when Sales Order have document status in process or complete 
+			//You change DatePromised , Product , Qty Ordered, Qty Delivered
+			else if(type == TYPE_AFTER_CHANGE && order.isSOTrx())
+			{
+				  if( order.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) ||
+				      order.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+				  {	  
+						if(ol.is_ValueChanged(MOrderLine.COLUMNNAME_DatePromised) || 
+						   ol.is_ValueChanged(MOrderLine.COLUMNNAME_M_Product_ID) ||
+						   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyOrdered)   ||
+						   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyDelivered)
+						)
+								MPPMRP.C_Order((MOrder)po, false);
+				  }
+			}
+			
 		}
 		if (po.get_TableName().equals(MOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
@@ -108,10 +150,21 @@ public class LiberoValidator implements ModelValidator
 			org.eevolution.model.MPPMRP.C_OrderLine(ol, true);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && (type == TYPE_AFTER_NEW ||  type == TYPE_AFTER_CHANGE ))
+		
+		
+		if (po.get_TableName().equals(MRequisitionLine.Table_Name) )
 		{
 			MRequisitionLine rl = (MRequisitionLine)po;
-			MPPMRP.M_RequisitionLine(rl, false);
+			if(type == TYPE_AFTER_NEW)
+			{
+				MPPMRP.M_RequisitionLine(rl, false);
+			}
+			if(type == TYPE_AFTER_CHANGE)
+			{
+				if(  rl.is_ValueChanged(MRequisitionLine.COLUMNNAME_M_Product_ID) ||
+				     rl.is_ValueChanged(MRequisitionLine.COLUMNNAME_Qty))
+				MPPMRP.M_RequisitionLine(rl, false);
+			}
 		}
 		if (po.get_TableName().equals(MRequisitionLine.Table_Name) && type == TYPE_BEFORE_DELETE )
 		{
@@ -119,11 +172,19 @@ public class LiberoValidator implements ModelValidator
 			MPPMRP.M_RequisitionLine(ol, true);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && (type == TYPE_AFTER_NEW || type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name))
 		{
-			X_M_ForecastLine ol = (X_M_ForecastLine)po;
-			MPPMRP.M_ForecastLine(ol, false);
-			log.info(po.toString());
+			X_M_ForecastLine fl = (X_M_ForecastLine)po;
+			if(type == TYPE_AFTER_NEW)
+				MPPMRP.M_ForecastLine(fl, false);
+			if(type ==  TYPE_AFTER_CHANGE)
+			{
+				if(fl.is_ValueChanged(X_M_ForecastLine.COLUMNNAME_M_Product_ID) ||
+				   fl.is_ValueChanged(X_M_ForecastLine.COLUMNNAME_Qty) ||
+				   fl.is_ValueChanged(X_M_ForecastLine.COLUMNNAME_DatePromised)
+				)
+					MPPMRP.M_ForecastLine(fl, false);
+			}
 		}
 		if (po.get_TableName().equals(X_M_ForecastLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
@@ -131,10 +192,26 @@ public class LiberoValidator implements ModelValidator
 			MPPMRP.M_ForecastLine(ol, true);
 			log.info(po.toString());
 		}
-		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && (type == TYPE_AFTER_NEW|| type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MDDOrderLine.Table_Name))
 		{
 			MDDOrderLine ol = (MDDOrderLine)po;
-			MPPMRP.DD_Order_Line(ol , false);
+			if(type == TYPE_AFTER_NEW)
+			{	
+				MPPMRP.DD_Order_Line(ol , false);
+			}
+			if (type ==  TYPE_AFTER_CHANGE)
+			{
+				if(ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_M_Product_ID) ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_DatePromised) ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyOrdered )  ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyDelivered) ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_ConfirmedQty) ||		
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_M_Locator_ID) ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_M_LocatorTo_ID) ||
+				   ol.is_ValueChanged(MDDOrderLine.COLUMNNAME_ConfirmedQty) 		
+				)
+					MPPMRP.DD_Order_Line(ol , false);
+			}
 		}
 		if (po.get_TableName().equals(MDDOrderLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
@@ -142,20 +219,47 @@ public class LiberoValidator implements ModelValidator
 			MDDOrderLine ol = (MDDOrderLine)po;
 			MPPMRP.DD_Order_Line(ol, true);	
 		}
-		if (po.get_TableName().equals(MPPOrder.Table_Name) && (type == TYPE_AFTER_NEW || type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MPPOrder.Table_Name))
 		{
 			MPPOrder order = (MPPOrder)po;
-			MPPMRP.PP_Order(order, false);	
+			if(type == TYPE_AFTER_NEW)
+			{
+				MPPMRP.PP_Order(order, false);	
+			}
+			if(type ==  TYPE_AFTER_CHANGE)
+			{
+				if(order.is_ValueChanged(MPPOrder.COLUMNNAME_M_Product_ID) ||
+				   order.is_ValueChanged(MPPOrder.COLUMNNAME_DatePromised) ||
+				   order.is_ValueChanged(MPPOrder.COLUMNNAME_QtyOrdered )  ||
+				   order.is_ValueChanged(MPPOrder.COLUMNNAME_QtyDelivered) ||
+				   order.is_ValueChanged(MPPOrder.COLUMNNAME_PP_Product_BOM_ID) ||
+				   order.is_ValueChanged(MPPOrder.COLUMNNAME_AD_Workflow_ID) 
+				)
+				MPPMRP.PP_Order(order, false);	
+			}
+	
 		}
 		if (po.get_TableName().equals(MPPOrder.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
 			MPPOrder order = (MPPOrder)po;
 			MPPMRP.PP_Order(order, true);	
 		}
-		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && (type == TYPE_AFTER_NEW|| type ==  TYPE_AFTER_CHANGE ))
+		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name))
 		{
 			MPPOrderBOMLine ol = (MPPOrderBOMLine)po;
-			MPPMRP.PP_Order_BOMLine(ol, false);	
+			if(type == TYPE_AFTER_NEW)
+			{
+				MPPMRP.PP_Order_BOMLine(ol, false);	
+			}
+			if(type ==  TYPE_AFTER_CHANGE)
+			{
+				if(ol.is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_M_Product_ID) ||
+				   ol.is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_M_Warehouse_ID) ||
+				   ol.is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyEntered)  ||
+				   ol.is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyDelivered) 
+				)
+				MPPMRP.PP_Order_BOMLine(ol, false);	
+			}
 		}
 		if (po.get_TableName().equals(MPPOrderBOMLine.Table_Name) && type == TYPE_BEFORE_DELETE)
 		{
