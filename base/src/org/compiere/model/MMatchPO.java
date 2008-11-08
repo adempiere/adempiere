@@ -37,6 +37,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MMatchPO.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Bayu Cahya, Sistematika
+ *  		<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
  */
 public class MMatchPO extends X_M_MatchPO
 {
@@ -505,6 +508,24 @@ public class MMatchPO extends X_M_MatchPO
 			MInOutLine iol = new MInOutLine (getCtx(), getM_InOutLine_ID(), get_TrxName());
 			setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
 		}
+		
+		// Bayu, Sistematika
+		// BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
+		// If newRecord, set c_invoiceline_id while null
+		if (newRecord && getC_InvoiceLine_ID() == 0) 
+		{
+			MMatchInv[] mpi = MMatchInv.getInOutLine(getCtx(), getM_InOutLine_ID(), get_TrxName());
+			for (int i = 0; i < mpi.length; i++) 
+			{
+				if (mpi[i].getC_InvoiceLine_ID() != 0 && 
+						mpi[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID()) 
+				{
+					setC_InvoiceLine_ID(mpi[i].getC_InvoiceLine_ID());
+					break;
+				}
+			}
+		}
+		// end Bayu
 		
 		//	Find OrderLine
 		if (getC_OrderLine_ID() == 0)

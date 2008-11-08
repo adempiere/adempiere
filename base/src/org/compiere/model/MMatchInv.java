@@ -40,6 +40,10 @@ import org.compiere.util.Env;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1926113 ] MMatchInv.getNewerDateAcct() should work in trx
+ * 
+ * @author Bayu Cahya, Sistematika
+ * 			<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
+ * 
  */
 public class MMatchInv extends X_M_MatchInv
 {
@@ -540,5 +544,48 @@ public class MMatchInv extends X_M_MatchInv
 		
 		return "";
 	}
+	
+	// Bayu, Sistematika
+	/**
+	 * 	Get Inv Matches for InOutLine
+	 *	@param ctx context
+	 *	@param M_InOutLine_ID shipment
+	 *	@param trxName transaction
+	 *	@return array of matches
+	 */
+	public static MMatchInv[] getInOutLine (Properties ctx, 
+		int M_InOutLine_ID, String trxName)
+	{
+		if (M_InOutLine_ID == 0)
+			return new MMatchInv[]{};
+		//
+		String sql = "SELECT * FROM M_MatchInv m "
+			+ "WHERE m.M_InOutLine_ID=?"; 
+		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, M_InOutLine_ID);
+			rs = pstmt.executeQuery ();
+			while (rs.next ())
+				list.add (new MMatchInv (ctx, rs, trxName));
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e); 
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		MMatchInv[] retValue = new MMatchInv[list.size()];
+		list.toArray (retValue);
+		return retValue;
+	}	//	getInOutLine
+	// end Bayu
+	
 	
 }	//	MMatchInv
