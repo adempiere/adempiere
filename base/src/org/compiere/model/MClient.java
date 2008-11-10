@@ -774,13 +774,13 @@ public class MClient extends X_AD_Client
 				{	//	See ServerBean
 					if (html && message != null)
 						message = EMail.HTML_MAIL_MARKER + message;
-					email = server.createEMail(getCtx(), getAD_Client_ID(), 
+					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(), 
 						to, subject, message);
 				}
 				else
 					log.log(Level.WARNING, "No AppsServer"); 
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, getName() + " - AppsServer error", ex);
 			}
@@ -886,14 +886,14 @@ public class MClient extends X_AD_Client
 				{	//	See ServerBean
 					if (html && message != null)
 						message = email.HTML_MAIL_MARKER + message;
-					email = server.createEMail(getCtx(), getAD_Client_ID(),
+					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(),
 						from.getAD_User_ID(),
 						to, subject, message);
 				}
 				else
 					log.log(Level.WARNING, "No AppsServer"); 
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, getName() + " - AppsServer error", ex);
 			}

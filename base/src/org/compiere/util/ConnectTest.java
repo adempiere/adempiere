@@ -142,13 +142,10 @@ public class ConnectTest
 		System.out.println ("Connecting to EJB server ...");
 		try
 		{
-			System.out.println("  Name=" + StatusHome.JNDI_NAME);
-			StatusHome staHome = (StatusHome)context.lookup (StatusHome.JNDI_NAME);
-			System.out.println("  .. home created");
-			Status sta = staHome.create();
+			System.out.println("  Name=" + Status.JNDI_NAME);
+			Status sta = (Status)context.lookup (Status.JNDI_NAME);
 			System.out.println("  .. bean created");
 			System.out.println("  ServerVersion=" + sta.getMainVersion() + " " + sta.getDateVersion());
-			sta.remove();
 			System.out.println("  .. bean removed");
 		}
 		catch (Exception e)

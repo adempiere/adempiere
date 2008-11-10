@@ -1,11 +1,9 @@
-<?xml version="1.0"  encoding="UTF-8"?>
-<!--
- Copyright (C) 1999-2005 Jorg Janke ComPiere, Inc.
- @version $Id$
--->
-<application version="1.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd">
-	<description>Adempiere Web CM</description>
-	<display-name>webCM</display-name>
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://java.sun.com/xml/ns/javaee"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
+             version="5">
+	<display-name>Adempiere Web CM</display-name>
 	<module>
 		<web>
 			<web-uri>adempiereWebCM.war</web-uri>

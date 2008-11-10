@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mbean PUBLIC
+   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
+
+<!-- The JNDI Naming XMBean
+   $Id: NamingBean-xmbean.xml 60240 2007-02-03 18:29:53Z scott.stark@jboss.org $
+-->
+<mbean>
+   <description>The JNDI pojo bean</description>
+
+   <class>org.jnp.server.NamingBeanImpl</class>
+   
+   <constructor>
+       <description>The default constructor</description>
+       <name>NamingBeanImpl</name>
+   </constructor>
+   
+   <attribute access="read-only" getMethod="getNamingInstance">
+       <description>The NamingInstance</description>
+       <name>NamingInstance</name>
+       <type>org.jnp.interfaces.Naming</type>
+   </attribute>
+   
+   <!-- Operations -->
+   <operation>
+       <description>The start lifecycle op</description>
+       <name>start</name>
+       <return-type>void</return-type>
+   </operation>
+   <operation>
+       <description>The stop lifecycle op</description>
+       <name>stop</name>
+       <return-type>void</return-type>
+   </operation>
+   
+</mbean>

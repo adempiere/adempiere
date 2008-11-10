@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   JBoss EJB3Deployer
+   
+   $Id: jboss-service.xml 63100 2007-05-16 18:02:32Z bdecoste $
+-->
+<server>
+
+   <mbean code="org.jboss.remoting.transport.Connector"
+          name="jboss.remoting:type=Connector,name=DefaultEjb3Connector,handler=ejb3">
+      <depends>jboss.aop:service=AspectDeployer</depends>
+      <attribute name="InvokerLocator">socket://${jboss.bind.address}:3873</attribute>
+      <attribute name="Configuration">
+         <handlers>
+            <handler subsystem="AOP">org.jboss.aspects.remoting.AOPRemotingInvocationHandler</handler>
+         </handlers>
+      </attribute>
+   </mbean>
+   
+   <!-- The following is sample configuration for modifying the Connector 
+   <mbean code="org.jboss.remoting.transport.Connector"
+          name="jboss.remoting:type=Connector,name=DefaultEjb3Connector,handler=ejb3">
+      <depends>jboss.aop:service=AspectDeployer</depends>
+      <attribute name="Configuration">
+         <config>
+            <invoker transport="socket">
+               <attribute name="numAcceptThreads">1</attribute>
+               <attribute name="maxPoolSize">300</attribute>
+               <attribute name="clientMaxPoolSize" isParam="true">50</attribute>
+               <attribute name="timeout" isParam="true">60000</attribute>
+               <attribute name="serverBindAddress">${jboss.bind.address}</attribute>
+               <attribute name="serverBindPort">3873</attribute>
+               <attribute name="backlog">200</attribute>
+            </invoker>
+            <handlers>
+               <handler subsystem="AOP">org.jboss.aspects.remoting.AOPRemotingInvocationHandler</handler>
+            </handlers>
+         </config>
+      </attribute>
+   </mbean-->
+
+   <mbean code="org.jboss.ejb3.JarsIgnoredForScanning" name="jboss.ejb3:service=JarsIgnoredForScanning">
+      <attribute name="IgnoredJars">
+         snmp-adaptor.jar,
+         otherimages.jar,
+         applet.jar,
+         jcommon.jar,
+         console-mgr-classes.jar,
+         jfreechart.jar,
+         juddi-service.jar,
+         wsdl4j.jar,
+         commons-collections.jar,
+         commons-pool.jar,
+         juddi.jar,
+         commons-discovery.jar,
+         uddi4j.jar,
+         axis.jar,
+         commons-dbcp.jar,
+         jboss-juddiaxis.jar,
+         trove.jar,
+         javassist.jar,
+         jboss-aop-jdk50.jar,
+         jboss-aspect-library-jdk50.jar,
+         ejb3-persistence.jar,
+         commons-validator-1.1.3.jar,
+         commons-collections.jar,
+         commons-fileupload.jar,
+         commons-pool.jar,
+         hibernate-entitymanager.jar,
+         jboss-ejb3x.jar,
+         commons-digester-1.6.jar,
+         cglib-2.1.1.jar,
+         commons-discovery.jar,
+         jboss-annotations-ejb3.jar,
+         jaxen-1.1-beta-4.jar,
+         hibernate-annotations.jar,
+         commons-httpclient.jar,
+         commons-logging.jar,
+         commons-vfs.jar,
+         hibernate3.jar,
+         commons-logging-api.jar,
+         asm.jar,
+         asm-attrs.jar,
+         commons-lang-2.0.jar,
+         commons-beanutils.jar,
+         jboss-ejb3.jar,
+         dom4j.jar,
+         commons-codec-1.2.jar,
+         wsdl4j.jar,
+         xmlsec.jar,
+         jbossws.jar,
+         jboss-bean-deployer.jar,
+         jboss-microcontainer.jar,
+         jboss-dependency.jar,
+         jboss-container.jar,
+         tomcat-coyote.jar,
+         commons-collections.jar,
+         myfaces.jar,
+         jstl.jar,
+         commons-digester-1.6.jar,
+         myfaces-impl.jar,
+         commons-beanutils.jar,
+         myfaces-jsf-api.jar,
+         commons-codec-1.2.jar,
+         catalina-optional.jar,
+         tomcat-util.jar,
+         jasper-compiler.jar,
+         commons-el.jar,
+         jasper-compiler-jdt.jar,
+         tomcat-http.jar,
+         catalina-manager.jar,
+         jasper-runtime.jar,
+         tomcat55-service.jar,
+         servlets-invoker.jar,
+         catalina.jar,
+         naming-resources.jar,
+         servlets-default.jar,
+         tomcat-ajp.jar,
+         commons-modeler.jar,
+         tomcat-apr.jar,
+         servlets-webdav.jar
+      </attribute>
+   </mbean>
+
+   <mbean code="org.jboss.ejb3.EJB3Deployer" name="jboss.ejb3:service=EJB3Deployer" xmbean-dd="">
+
+      <attribute name="DeployEjb3ExtensionOnly">false</attribute>
+
+      <!-- Inline XMBean Descriptor BEGIN -->
+      <xmbean>
+         <description>The EJB3Deployer responsible for ejb3 deployment</description>
+         <descriptors>
+            <interceptors>
+               <!-- comment out DynamicInterceptor to disable dynamic addition of interceptors -->
+               <interceptor code="org.jboss.mx.interceptor.DynamicInterceptor"/>
+            </interceptors>
+         </descriptors>
+         <class>org.jboss.ejb3.EJB3Deployer</class>
+
+         <!-- ServiceMBean attributes -->
+         <attribute access="read-only" getMethod="getName">
+            <description>The class name of the MBean</description>
+            <name>Name</name>
+            <type>java.lang.String</type>
+         </attribute>
+
+         <attribute access="read-only" getMethod="getState">
+            <description>The status of the MBean</description>
+            <name>State</name>
+            <type>int</type>
+         </attribute>
+
+         <attribute access="read-only" getMethod="getStateString">
+            <description>The status of the MBean in text form</description>
+            <name>StateString</name>
+            <type>java.lang.String</type>
+         </attribute>
+
+         <!-- SubDeployerMBean attributes -->
+         <attribute access="read-only" getMethod="getServiceName">
+            <description>The ObjectName of the Subdeployer</description>
+            <name>ServiceName</name>
+            <type>javax.management.ObjectName</type>
+         </attribute>
+
+         <attribute access="read-write" getMethod="getSuffixes" setMethod="setSuffixes">
+            <description>The suffixes of interest to this deployer</description>
+            <name>Suffixes</name>
+            <type>[Ljava.lang.String;</type>
+         </attribute>
+
+         <attribute access="read-write" getMethod="getRelativeOrder" setMethod="setRelativeOrder">
+            <description>The relative order of the suffixes in the global suffixes list</description>
+            <name>RelativeOrder</name>
+            <type>int</type>
+         </attribute>
+
+         <!-- EJB3DeployerMBean attributes -->
+         <attribute access="read-only" getMethod="getDefaultProperties">
+            <name>DefaultProperties</name>
+            <type>java.util.Properties</type>
+         </attribute>
+
+         <attribute access="read-write" getMethod="getDeployEjb3ExtensionOnly" setMethod="setDeployEjb3ExtensionOnly">
+            <description>If true, .jars will not be examined for annotations, 3.0 descriptors</description>
+            <name>DeployEjb3ExtensionOnly</name>
+            <type>boolean</type>
+         </attribute>
+
+         <attribute access="write-only" setMethod="setJarsIgnoredForScanning">
+            <description>mbean that has list of jars to ignore</description>
+            <name>JarsIgnoredForScanning</name>
+            <type>org.jboss.ejb3.JarsIgnoredForScanningMBean</type>
+         </attribute>
+
+         <!-- ServiceMBean operations -->
+         <operation>
+            <description>Standard MBean lifecycle method</description>
+            <name>create</name>
+         </operation>
+
+         <operation>
+            <description>The start lifecycle operation</description>
+            <name>start</name>
+         </operation>
+
+         <operation>
+            <description>The stop lifecycle operation</description>
+            <name>stop</name>
+         </operation>
+
+         <operation>
+            <description>The destroy lifecycle operation</description>
+            <name>destroy</name>
+         </operation>
+
+         <operation>
+            <description>The detyped lifecycle operation (for internal use only)</description>
+            <name>jbossInternalLifecycle</name>
+            <parameter>
+               <description>The lifecycle operation</description>
+               <name>method</name>
+               <type>java.lang.String</type>
+            </parameter>
+            <return-type>void</return-type>
+         </operation>
+
+         <!-- SubDeployerMBean operations -->
+         <operation>
+            <description>Accept a module for deployment</description>
+            <name>accepts</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+            <return-type>boolean</return-type>
+         </operation>
+
+         <operation>
+            <description>Initialize deployment step</description>
+            <name>init</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+         </operation>
+
+         <operation>
+            <description>Create deployment step</description>
+            <name>create</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+         </operation>
+
+         <operation>
+            <description>Start deployment step</description>
+            <name>start</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+         </operation>
+
+         <operation>
+            <description>Stop deployment step</description>
+            <name>stop</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+         </operation>
+
+         <operation>
+            <description>Destroy deployment step</description>
+            <name>destroy</name>
+            <parameter>
+               <name>info</name>
+               <type>org.jboss.deployment.DeploymentInfo</type>
+            </parameter>
+         </operation>
+
+         <!-- Interceptable operations -->
+         <operation>
+            <description>Add dynamically an operation interceptor</description>
+            <name>addOperationInterceptor</name>
+            <parameter>
+               <description>The Interceptor</description>
+               <name>interceptor</name>
+               <type>org.jboss.mx.interceptor.Interceptor</type>
+            </parameter>
+         </operation>
+
+         <operation>
+            <description>Remove dynamically an operation interceptor</description>
+            <name>removeOperationInterceptor</name>
+            <parameter>
+               <description>The Interceptor</description>
+               <name>interceptor</name>
+               <type>org.jboss.mx.interceptor.Interceptor</type>
+            </parameter>
+         </operation>
+      </xmbean>
+      <!-- Inline XMBean Descriptor END -->
+
+      <depends>jboss.aop:service=AspectDeployer</depends>
+      <depends>jboss.ejb:service=EJBDeployer</depends>
+      <depends optional-attribute-name="JarsIgnoredForScanning" proxy-type="org.jboss.ejb3.JarsIgnoredForScanningMBean">jboss.ejb3:service=JarsIgnoredForScanning</depends>
+   </mbean>
+
+</server>

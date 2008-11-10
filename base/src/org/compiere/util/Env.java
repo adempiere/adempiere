@@ -1654,6 +1654,30 @@ public final class Env
 		return updated;
 	}
 	
+	/**
+	 * Prepare the context for calling remote server (for e.g, ejb), 
+	 * only default and global variables are pass over.
+	 * It is too expensive and also can have serialization issue if 
+	 * every remote call to server is passing the whole client context.
+	 * @param ctx
+	 * @return Properties
+	 */
+	public static Properties getRemoteCallCtx(Properties ctx) 
+	{
+		Properties p = new Properties();
+		Set<Object> keys = ctx.keySet();
+		for (Object key : keys) 
+		{
+			String s = key.toString();
+			if (s.startsWith("#") || s.startsWith("$"))
+			{
+				p.put(key, ctx.get(key));
+			}
+		}
+		
+		return p;
+	}
+	
 	
 	/**************************************************************************
 	 *  Static Variables

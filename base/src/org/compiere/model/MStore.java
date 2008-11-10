@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.rmi.*;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
@@ -347,13 +346,13 @@ public class MStore extends X_W_Store
 			{
 				if (server != null)
 				{	//	See ServerBean
-					email = server.createEMail(getCtx(), getAD_Client_ID(), 
+					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(), 
 						to, subject, message);
 				}
 				else
 					log.log(Level.WARNING, "No AppsServer"); 
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, getName() + " - AppsServer error", ex);
 			}

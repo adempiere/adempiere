@@ -22,6 +22,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.swing.JFrame;
@@ -557,12 +558,12 @@ public class ProcessCtl implements Runnable
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.workflow (Env.getCtx(), m_pi, AD_Workflow_ID);
+					m_pi = server.workflow (Env.getRemoteCallCtx(Env.getCtx()), m_pi, AD_Workflow_ID);
 					log.finest("server => " + m_pi);
 					started = true;
 				}
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, "AppsServer error", ex);
 				started = false;
@@ -611,7 +612,7 @@ public class ProcessCtl implements Runnable
 				if (server != null)
 				{	
 					//	See ServerBean
-					m_pi = server.process (Env.getCtx(), m_pi);
+					m_pi = server.process (Env.getRemoteCallCtx(Env.getCtx()), m_pi);
 					log.finest("server => " + m_pi);
 					started = true;		
 				}
@@ -633,7 +634,7 @@ public class ProcessCtl implements Runnable
 						+ m_pi, ex);
 				started = false;
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				Throwable cause = ex.getCause();
 				if (cause == null)

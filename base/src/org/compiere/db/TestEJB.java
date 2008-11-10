@@ -57,8 +57,7 @@ public class TestEJB
 		//
 		try
 		{
-			StatusHome statusHome = (StatusHome)ic.lookup ("Status");
-			Status status = statusHome.create ();
+			Status status = (Status)ic.lookup ("Status");
 			//
 		}
 		catch (CommunicationException ce)	//	not a "real" error

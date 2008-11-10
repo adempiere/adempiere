@@ -3,7 +3,7 @@ rem -------------------------------------------------------------------------
 rem JBoss JVM Launcher
 rem -------------------------------------------------------------------------
 
-rem $Id: shutdown.bat,v 1.6 2005/09/04 17:52:33 jjanke Exp $
+rem $Id: shutdown.bat 72204 2008-04-15 09:34:39Z dimitris@jboss.org $
 
 if not "%ECHO%" == ""  echo %ECHO%
 if "%OS%" == "Windows_NT"  setlocal
@@ -15,16 +15,6 @@ set DIRNAME=.\
 if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
 set PROGNAME=run.bat
 if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
-
-rem Read all command line arguments
-
-set ARGS=
-:loop
-if [%1] == [] goto end
-        set ARGS=%ARGS% %1
-        shift
-        goto loop
-:end
 
 rem Find MAIN_JAR, or we can't continue
 
@@ -58,7 +48,7 @@ set JAVA_OPTS=%JAVA_OPTS% -Djboss.boot.loader.name=%PROGNAME%
 rem JPDA options. Uncomment and modify as appropriate to enable remote debugging.
 rem set JAVA_OPTS=-classic -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%
 
-"%JAVA%" %JAVA_OPTS% -classpath "%JBOSS_CLASSPATH%" %MAIN_CLASS% %ARGS%
+"%JAVA%" %JAVA_OPTS% -classpath "%JBOSS_CLASSPATH%" %MAIN_CLASS% %*
 
 :END
 if "%NOPAUSE%" == "" pause

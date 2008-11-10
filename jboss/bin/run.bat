@@ -3,7 +3,7 @@ rem -------------------------------------------------------------------------
 rem JBoss Bootstrap Script for Win32
 rem -------------------------------------------------------------------------
 
-rem $Id: run.bat,v 1.7 2005/09/04 17:52:33 jjanke Exp $
+rem $Id: run.bat 73584 2008-05-22 12:09:26Z dimitris@jboss.org $
 
 @if not "%ECHO%" == ""  echo %ECHO%
 @if "%OS%" == "Windows_NT"  setlocal
@@ -13,23 +13,17 @@ if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
 set PROGNAME=run.bat
 if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
 
-rem Read all command line arguments
+pushd %DIRNAME%..
+set JBOSS_HOME=%CD%
+popd
 
-REM
-REM The %ARGS% env variable commented out in favor of using %* to include
-REM all args in java command line. See bug #840239. [jpl]
-REM
-REM set ARGS=
-REM :loop
-REM if [%1] == [] goto endloop
-REM         set ARGS=%ARGS% %1
-REM         shift
-REM         goto loop
-REM :endloop
+REM Add bin/native to the PATH if present
+if exist "%JBOSS_HOME%\bin\native" set PATH=%JBOSS_HOME%\bin\native;%PATH%
+if exist "%JBOSS_HOME%\bin\native" set JAVA_OPTS=%JAVA_OPTS% -Djava.library.path="%PATH%"
 
 rem Find run.jar, or we can't continue
 
-set RUNJAR=%DIRNAME%\run.jar
+set RUNJAR=%JBOSS_HOME%\bin\run.jar
 if exist "%RUNJAR%" goto FOUND_RUN_JAR
 echo Could not locate %RUNJAR%. Please check that you are in the
 echo bin directory when running this script.
@@ -49,57 +43,66 @@ goto SKIP_TOOLS
 
 set JAVA=%JAVA_HOME%\bin\java
 
-if exist "%JAVA_HOME%\lib\tools.jar" goto SKIP_TOOLS
-echo Could not locate %JAVA_HOME%\lib\tools.jar. Unexpected results may occur.
-echo Make sure that JAVA_HOME points to a JDK and not a JRE.
+rem A full JDK with toos.jar is not required anymore since jboss web packages
+rem the eclipse jdt compiler and javassist has its own internal compiler.
+if not exist "%JAVA_HOME%\lib\tools.jar" goto SKIP_TOOLS
+
+rem If exists, point to the JDK javac compiler in case the user wants to
+rem later override the eclipse jdt compiler for compiling JSP pages.
+set JAVAC_JAR=%JAVA_HOME%\lib\tools.jar
 
 :SKIP_TOOLS
 
-rem Include the JDK javac compiler for JSP pages. The default is for a Sun JDK
-rem compatible distribution to which JAVA_HOME points
+rem If JBOSS_CLASSPATH or JAVAC_JAR is empty, don't include it, as this will 
+rem result in including the local directory in the classpath, which makes
+rem error tracking harder.
+if not "%JAVAC_JAR%" == "" set RUNJAR=%JAVAC_JAR%;%RUNJAR%
+if "%JBOSS_CLASSPATH%" == "" set RUN_CLASSPATH=%RUNJAR%
+if "%RUN_CLASSPATH%" == "" set RUN_CLASSPATH=%JBOSS_CLASSPATH%;%RUNJAR%
 
-set JAVAC_JAR=%JAVA_HOME%\lib\tools.jar
-
-rem If JBOSS_CLASSPATH is empty, don't include it, as this will 
-rem result in including the local directory, which makes error tracking
-rem harder.
-if "%JBOSS_CLASSPATH%" == "" (
-	set JBOSS_CLASSPATH=%JAVAC_JAR%;%RUNJAR%
-) ELSE (
-	set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%JAVAC_JAR%;%RUNJAR%
-)
+set JBOSS_CLASSPATH=%RUN_CLASSPATH%
 
 rem Setup JBoss specific properties
 set JAVA_OPTS=%JAVA_OPTS% -Dprogram.name=%PROGNAME%
-set JBOSS_HOME=%DIRNAME%\..
 
-rem Sun JVM memory allocation pool parameters. Modify as appropriate.
+rem Add -server to the JVM options, if supported
+"%JAVA%" -server -version 2>&1 | findstr /I hotspot > nul
+if not errorlevel == 1 (set JAVA_OPTS=%JAVA_OPTS% -server)
+
+rem JVM memory allocation pool parameters. Modify as appropriate.
 set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m
 
+rem With Sun JVMs reduce the RMI GCs to once per hour
+set JAVA_OPTS=%JAVA_OPTS% -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000
+
 rem JPDA options. Uncomment and modify as appropriate to enable remote debugging.
-rem set JAVA_OPTS=-classic -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%
+rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%
 
 rem Setup the java endorsed dirs
 set JBOSS_ENDORSED_DIRS=%JBOSS_HOME%\lib\endorsed
 
 echo ===============================================================================
-echo .
+echo.
 echo   JBoss Bootstrap Environment
-echo .
+echo.
 echo   JBOSS_HOME: %JBOSS_HOME%
-echo .
+echo.
 echo   JAVA: %JAVA%
-echo .
+echo.
 echo   JAVA_OPTS: %JAVA_OPTS%
-echo .
+echo.
 echo   CLASSPATH: %JBOSS_CLASSPATH%
-echo .
+echo.
 echo ===============================================================================
-echo .
+echo.
 
 :RESTART
-"%JAVA%" %JAVA_OPTS% "-Djava.endorsed.dirs=%JBOSS_ENDORSED_DIRS%" -classpath "%JBOSS_CLASSPATH%" org.jboss.Main %*
-IF ERRORLEVEL 10 GOTO RESTART
+"%JAVA%" %JAVA_OPTS% ^
+   -Djava.endorsed.dirs="%JBOSS_ENDORSED_DIRS%" ^
+   -classpath "%JBOSS_CLASSPATH%" ^
+   org.jboss.Main %*
+
+if ERRORLEVEL 10 goto RESTART
 
 :END
 if "%NOPAUSE%" == "" pause

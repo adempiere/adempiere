@@ -2,7 +2,7 @@
 <!DOCTYPE mbean PUBLIC
    "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
    "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
-<!-- $Id: ClientUserTransaction-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: ClientUserTransaction-xmbean.xml 18262 2003-12-20 21:12:07Z pilhuhn $ -->
 <mbean>
 	 <description>ClientUserTransaction Service.</description>
 	 <class>org.jboss.tm.usertx.server.ClientUserTransactionService</class>

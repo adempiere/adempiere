@@ -1,29 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mbean PUBLIC
-   "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
-   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
-<!-- $Id: org.jboss.deployment.SARDeployer-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ The SARDeployer XMBean descriptor -->
+   "-//JBoss//DTD JBOSS XMBEAN 1.2//EN"
+   "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_2.dtd">
+<!--
+   SARDeployer XMBean descriptor
+   
+   $Id: org.jboss.deployment.SARDeployer-xmbean.xml 35861 2005-09-11 22:24:37Z dimitris $
+ -->
 <mbean>
-   <description>The SAR deployer handles the JBoss service archive deployments.
-   </description>
+   <description>The SAR deployer handles the JBoss service archive deployments.</description>
    <class>org.jboss.deployment.SARDeployer</class>
-
-   <attribute access='read-only' getMethod='getServiceName'>
-      <description>Get the JMX ObjectName of the service that provides the SubDeployer</description>
-      <name>ServiceName</name>
-      <type>javax.management.ObjectName</type>
-   </attribute>
-   <attribute access='read-write' getMethod='getSuffixes' setMethod='setSuffixes'>
-      <description>Get an array of suffixes of interest to this subdeployer</description>
-      <name>Suffixes</name>
-      <type>[Ljava.lang.String;</type>
-   </attribute>
-   <attribute access='read-write' getMethod='getRelativeOrder' setMethod='setRelativeOrder'>
-      <description>Get the relative order of the specified suffixes</description>
-      <name>RelativeOrder</name>
-      <type>int</type>
-   </attribute>
-   <attribute access='read-write' getMethod='getUseNamespaceAwareParser' setMethod='setUseNamespaceAwareParser'>
+   
+   <attribute access="read-write" getMethod="getUseNamespaceAwareParser" setMethod="setUseNamespaceAwareParser">
       <description>A flag passed to the JAXP DocumentBuilderFactory setNamespaceAware method</description>
       <name>UseNamespaceAwareParser</name>
       <type>boolean</type>
@@ -31,7 +19,19 @@
          <value value="true"/>
       </descriptors>
    </attribute>
+   
+   <!-- SubDeployerExtMBean attribute -->
+   <attribute access="read-write" getMethod="getEnhancedSuffixes" setMethod="setEnhancedSuffixes">
+      <description>Allow the override of supported suffixes and relative order</description>
+      <name>EnhancedSuffixes</name>
+      <type>[Ljava.lang.String;</type>
+      <descriptors>
+         <!-- Add "350:har" to the suffixes supported normally by the SARDeployer -->
+         <value value="050:.deployer,050:-deployer.xml,150:.sar,150:-service.xml,350:.har"/>
+      </descriptors>
+   </attribute>
 
+   &deployerAttributes;
    &defaultAttributes;
 
    <operation>
@@ -43,65 +43,8 @@
       </parameter>
       <return-type>org.jboss.deployment.DeploymentInfo</return-type>
    </operation>
-   <operation>
-      <description>This method is called by MainDeployer to determine which
-      deployer is suitable for a DeploymentInfo.</description>
-      <name>accepts</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>boolean</return-type>
-   </operation>
-   <operation>
-      <description>The init method lets the deployer set a few properties of the
-      DeploymentInfo, such as the watch url.</description>
-      <name>init</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>void</return-type>
-   </operation>
-   <operation>
-      <description>Set up the components of the deployment that do not refer to
-      other components.</description>
-      <name>create</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>void</return-type>
-   </operation>
-   <operation>
-      <description>The start method starts all the mbeans in this DeploymentInfo.</description>
-      <name>start</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>void</return-type>
-   </operation>
-   <operation>
-      <description>The stop method invokes stop on the mbeans associated with
-      the deployment in reverse order relative to start.</description>
-      <name>stop</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>void</return-type>
-   </operation>
-   <operation>
-      <description>The destroy method invokes destroy on the mbeans associated
-      with the deployment in reverse order relative to create.</description>
-      <name>destroy</name>
-      <parameter>
-         <name>di</name>
-         <type>org.jboss.deployment.DeploymentInfo</type>
-      </parameter>
-      <return-type>void</return-type>
-   </operation>
 
+   &deployerOperations;   
    &defaultOperations;
+   
 </mbean>

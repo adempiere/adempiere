@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jboss PUBLIC "-//JBoss//DTD JBOSS//EN" "http://www.jboss.org/j2ee/dtd/jboss.dtd">
+<!DOCTYPE jboss PUBLIC
+      "-//JBoss//DTD JBOSS 4.2//EN"
+      "http://www.jboss.org/j2ee/dtd/jboss_4_2.dtd">
 
 <jboss>
 
    <enterprise-beans>
 
       <session>
-         <ejb-name>compiere/MD5</ejb-name>
+         <ejb-name>compiereMD5</ejb-name>
          <jndi-name>ejb/compiere/MD5</jndi-name>
       </session>
 

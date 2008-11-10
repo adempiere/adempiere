@@ -17,7 +17,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,8 +30,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
-import javax.ejb.CreateException;
-import javax.ejb.RemoveException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -47,7 +44,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
 
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
-import org.compiere.interfaces.MD5Home;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MProcess;
@@ -134,13 +130,13 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     {
     	try
 		{
-    		Class md5HomeClass = Class.forName("org.compiere.interfaces.MD5Home");
+    		Class md5Class = Class.forName("org.compiere.interfaces.MD5");
     		log.info("EJB client for MD5 remote hashing is present");
     		return true;
 		}
     	catch (ClassNotFoundException e)
 		{
-    		log.warning("EJB Client for MD5 remote hashing absent\nyou need the class org.compiere.interfaces.MD5Home - from webEJB-client.jar - in classpath");
+    		log.warning("EJB Client for MD5 remote hashing absent\nyou need the class org.compiere.interfaces.MD5 - from webEJB-client.jar - in classpath");
     		return false;	
 		}
     }
@@ -164,11 +160,9 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     		context = new InitialContext(env);
     		if (isRequestedonAS(requestURL) && isMD5HomeInterfaceAvailable())
     		{
-    			MD5Home home = (MD5Home)context.lookup(MD5Home.JNDI_NAME);
-    			MD5 md5 = home.create();
+    			MD5 md5 = (MD5) context.lookup(MD5.JNDI_NAME);
     			md5Hash = md5.getFileMD5(requestedURLString);
     			log.info("MD5 for " + requestedURLString + " is " + md5Hash);
-    			md5.remove();
     		}
   
     	}
@@ -178,18 +172,6 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     	}
     	catch (NamingException e){
     		log.warning("Unable to create jndi context did you deployed webApp.ear package?\nRemote hashing is impossible");
-    		return null;
-    	}
-    	catch (RemoteException e){
-    		log.warning("Unknown remote error exception");
-    		return null;
-    	}
-    	catch(CreateException e){
-    		log.warning("Error in RemoteInterface creation");
-			return null;
-    	}
-    	catch(RemoveException e){
-    		log.warning("Error in RemoteInterface removing");
     		return null;
     	}
     	return md5Hash;

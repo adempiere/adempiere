@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE server>
-<!-- $Id: schedule-manager-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: schedule-manager-service.xml 59789 2007-01-18 17:30:15Z dimitris@jboss.org $ -->
 
 <server>
 
    <!-- ==================================================================== -->
    <!-- Scheduler Service                                                    -->
    <!-- ==================================================================== -->
+   
+   <!--
+    | JDK5 javax.management.timer.Timer appears to be using a single
+    | threaded implementation for executing scheduled tasks.
+    | If you want to revert to the JBossMX timer implementation that
+    | uses a dynamically extensible thread pool to execute scheduled
+    | tasks, uncomment the JBossTimer service below. The Scheduler
+    | service will use this, instead of creating a new Timer.
+    - -> 
+   <mbean code="org.jboss.mx.timer.JBossTimer"
+          name="jboss:service=Timer">
+   </mbean>
+   <!- - -->
    
    <!--
     | This MBean is an example of a Schedule Target
@@ -18,24 +30,29 @@
    
    <!--
     | The Schedule Manager has to be started whenever
-    | schedules are needed
+    | schedules are needed.
+    |
+    | The default JMX Timer scheduling behaviour of FixedDelay execution
+    | (as of JDK5 or JBoss v4.0.5) is overriden below using FixedRate true
     - ->
    <mbean code="org.jboss.varia.scheduler.ScheduleManager"
           name="jboss:service=ScheduleManager">
       <attribute name="StartAtStartup">true</attribute>
+      <attribute name="FixedRate">true</attribute>
    </mbean>
    <!- - -->
    
    <!--
     | This is a single schedule Provider which works like the
     | old Scheduler (when a MBean target is used)
+    |
+    | For clustered singleton schedules add the following dependency:
+    | <depends>jboss.ha:service=HASingletonDeployer,type=Barrier</depends>
     - ->
    <mbean code="org.jboss.varia.scheduler.SingleScheduleProvider" 
           name="jboss:service=SingleScheduleProvider">
-      <depends>jboss:service=ScheduleManager</depends>
-      <depends>jboss:service=SchedulableMBeanExample</depends>
-      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
-      <attribute name="TargetName">jboss:service=SchedulableMBeanExample</attribute>
+      <depends optional-attribute-name="ScheduleManagerName">jboss:service=ScheduleManager</depends>
+      <depends optional-attribute-name="TargetName">jboss:service=SchedulableMBeanExample</depends>
       <attribute name="TargetMethod">hit( NOTIFICATION, DATE, REPETITIONS, SCHEDULER_NAME, java.lang.String )</attribute>
       <attribute name="DateFormat"></attribute>
       <attribute name="StartDate">NOW</attribute>
@@ -58,13 +75,15 @@
     |    repetitions INTEGER,
     |    date_format VARCHAR(20)
     | )
+    |
+    | For clustered singleton schedules add the following dependency:
+    | <depends>jboss.ha:service=HASingletonDeployer,type=Barrier</depends>    
     - ->
    <mbean code="org.jboss.varia.scheduler.DBScheduleProvider" 
           name="jboss:service=DBScheduleProvider">
-      <depends>jboss:service=ScheduleManager</depends>
+      <depends optional-attribute-name="ScheduleManagerName">jboss:service=ScheduleManager</depends>
       <depends>jboss:service=SchedulableMBeanExample</depends>
       <depends>jboss:service=Hypersonic</depends>
-      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
       <attribute name="DataSourceName">java:DefaultDS</attribute>
       <attribute name="SQLStatement">SELECT target, method_name, method_signature, start_date, period, repetitions, date_format FROM Schedule</attribute>
    </mbean>
@@ -73,12 +92,14 @@
    <!--
     | This is a XML based schedule Provider. For more
     | information have a look at the class JavaDoc
+    |
+    | For clustered singleton schedules add the following dependency:
+    | <depends>jboss.ha:service=HASingletonDeployer,type=Barrier</depends>       
     - ->
    <mbean code="org.jboss.varia.scheduler.XMLScheduleProvider" 
           name="jboss:service=XMLScheduleProvider">
-      <depends>jboss:service=ScheduleManager</depends>
+      <depends optional-attribute-name="ScheduleManagerName">jboss:service=ScheduleManager</depends>
       <depends>jboss:service=SchedulableMBeanExample</depends>
-      <attribute name="ScheduleManagerName">jboss:service=ScheduleManager</attribute>
       <attribute name="Schedules">
          <schedules>
             <schedule>

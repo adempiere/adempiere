@@ -21,11 +21,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InvalidClassException;
-import java.io.NotSerializableException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,7 +44,6 @@ import org.compiere.model.Lookup;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -185,32 +181,11 @@ public final class AEnv
 	 */
 	public static void exit (int status)
 	{
-
-		if (s_server != null)
-		{
-			try
-			{
-				s_server.remove();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
 		Env.exitEnv(status);
 	}	//	exit
 
 	public static void logout()
 	{
-		if (s_server != null)
-		{
-			try
-			{
-				s_server.remove();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
 		Env.logout();
 
 
@@ -282,11 +257,6 @@ public final class AEnv
 	private static Boolean	s_workflow = null;
 	/** Workflow Menu		*/
 	private static int		s_workflow_Window_ID = 0;
-
-	/**	Server Re-tries		*/
-	private static int 		s_serverTries = 0;
-	/**	Server Session		*/
-	private static Server	s_server = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AEnv.class);
 
@@ -296,36 +266,7 @@ public final class AEnv
 	 */
 	public static boolean isServerActive()
 	{
-
-		boolean contactAgain = s_server == null && s_serverTries == 0;
-		boolean ok = CConnection.get().isAppsServerOK(contactAgain);
-		if (ok)
-		{
-			s_serverTries = 0;
-			return true;
-		}
-		if (s_serverTries > 1)	//	try twice
-			return false;
-
-		//	Try to connect
-		CLogMgt.enable(false);
-		try
-		{
-			s_serverTries++;
-			log.config("try #" + s_serverTries);
-			ok = CConnection.get().isAppsServerOK(true);
-			if (ok)
-				s_serverTries = 0;
-		}
-		catch (Exception ex)
-		{
-			ok = false;
-			s_server = null;
-		}
-		CLogMgt.enable(true);
-		//
-		return ok;
-
+		return CConnection.get().isAppsServerOK(true);
 	}   //  isServerActive
 
 	/**
@@ -422,10 +363,11 @@ public final class AEnv
 			log.config("trying server");
 			try
 			{
-				s_server = CConnection.get().getServer();
-				if (s_server != null)
+				Server server = CConnection.get().getServer();
+				if (server != null)
 				{
-					error = s_server.postImmediate(Env.getCtx(), AD_Client_ID,
+					Properties p = Env.getRemoteCallCtx(Env.getCtx());
+					error = server.postImmediate(p, AD_Client_ID,
 						AD_Table_ID, Record_ID, force, null);
 					log.config("from Server: " + error== null ? "OK" : error);
 				}
@@ -435,17 +377,10 @@ public final class AEnv
 					return "NoAppsServer";
 				}
 			}
-			catch (RemoteException e)
+			catch (Exception e)
 			{
 				log.log(Level.WARNING, "(RE)", e);
 				error = e.getMessage();
-				s_server = null;
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "ex", e);
-				error = e.getMessage();
-				s_server = null;
 			}
 		}
 		else
@@ -479,15 +414,9 @@ public final class AEnv
 					server.cacheReset(tableName, Record_ID);
 				}
 			}
-			catch (RemoteException e)
-			{
-				log.log(Level.SEVERE, "(RE)", e);
-				s_server = null;
-			}
 			catch (Exception e)
 			{
-				log.log(Level.SEVERE, "ex", e);
-				s_server = null;
+				log.log(Level.SEVERE, "(RE)", e);
 			}
 		}
 

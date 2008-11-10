@@ -27,7 +27,6 @@ import org.zkoss.zk.ui.event.EventThreadInit;
 import org.zkoss.zk.ui.event.EventThreadResume;
 import org.zkoss.zk.ui.util.ExecutionCleanup;
 import org.zkoss.zk.ui.util.ExecutionInit;
-import org.zkoss.zkplus.util.ThreadLocals;
 
 /**
  * 
@@ -63,7 +62,7 @@ public class SessionContextListener implements ExecutionInit,
         if (parent == null)
         {
             exec.removeAttribute(SESSION_CTX);
-//            ServerContext.dispose();
+            ServerContext.dispose();
         }        
     }
 

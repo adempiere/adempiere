@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mbean PUBLIC
    "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
    "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
-<!-- $Id: The MainDeployer XMBean descriptor -->
+
+<!-- $Id: org.jboss.deployment.MainDeployer-xmbean.xml 46368 2006-07-18 15:59:06Z dimitris $ -->
+
+<!-- The MainDeployer XMBean descriptor -->
 <mbean>
    <description>The Main deployer is the service which acts as the entry
        point for the deployment/undeployment requests.
@@ -28,19 +32,29 @@
       <type>javax.management.ObjectName</type>
    </attribute>
    <attribute access='read-only' getMethod='getSuffixOrder'>
-      <description></description>
+      <description>The suffix order used when sorting deployments, constructed dynamically by registering deployers</description>
       <name>SuffixOrder</name>
       <type>[Ljava.lang.String;</type>
    </attribute>
    <attribute access='read-write' setMethod='setEnhancedSuffixOrder' getMethod='getEnhancedSuffixOrder'>
-      <description></description>
+      <description>Allows the override of the suffix order declared by subdeployers, using the syntax [order:]suffix
+      </description>
       <name>EnhancedSuffixOrder</name>
       <type>[Ljava.lang.String;</type>
       <!--
-      <descriptors>
-        <value value="100:deployer,100:deployer.xml,200:sar,200:service.xml,300:rar,300:ds.xml,500:jar,600:war,600:wsr,600:ear,700:zip,900:last"/>
-      </descriptors>
+         Statically set one or more enhanced suffix orders, independent of the value proposed by subdeployers.
+         Some deployers may also allow the suffixes/orders to be set locally, so that's preferable too.
+         For reference, this is the list of enhanced suffixes likely to be set by deployers (it may not
+         be completely up-to-date, or there can be user-defined deployers).
+         
+         050:.deployer,050:-deployer.xml,100:.aop,100:-aop.xml,150:.sar,150:-service.xml,200:.beans,250:.rar,300:-ds.xml,350:.har,400:.jar,400:.ejb3,400:.par,500:.war,600:.wsr,650:.ear,700:.jar,750:.zip,800:.bsh,900:.last
+         
+         Until we resolve some startup issues, we'll setup some static enhanced suffix orders bellow
+         and leave the rest of the suffixes contributed dynamically by registering deployers.
       -->
+      <descriptors>
+         <value value="250:.rar,300:-ds.xml,400:.jar,500:.war,550:.jse,650:.ear,800:.bsh"/>
+      </descriptors>
    </attribute>
    <attribute access='read-write' setMethod='setTempDir' getMethod='getTempDir'>
       <description></description>
@@ -52,6 +66,7 @@
       <name>TempDirString</name>
       <type>java.lang.String</type>
    </attribute>
+   
    &defaultAttributes;
 
    <operation>
@@ -82,6 +97,7 @@
       <return-type>void</return-type>
    </operation>
    <operation>
+      <description></description>   
       <name>deploy</name>
       <parameter>
          <name>url</name>
@@ -95,6 +111,24 @@
       <parameter>
          <name>sdi</name>
          <type>org.jboss.deployment.DeploymentInfo</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>starts a package identified by a URL</description>
+      <name>start</name>
+      <parameter>
+         <name>urlspec</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>stops a package identified by a URL</description>
+      <name>stop</name>
+      <parameter>
+         <name>urlspec</name>
+         <type>java.lang.String</type>
       </parameter>
       <return-type>void</return-type>
    </operation>
@@ -232,4 +266,5 @@
    </operation>
 
    &defaultOperations;
+   
 </mbean>

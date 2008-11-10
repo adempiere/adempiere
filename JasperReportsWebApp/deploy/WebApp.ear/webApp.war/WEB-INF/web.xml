@@ -92,7 +92,6 @@
    <ejb-ref >
       <ejb-ref-name>ejb/compiere/MD5</ejb-ref-name>
       <ejb-ref-type>Session</ejb-ref-type>
-      <home>org.compiere.interfaces.MD5Home</home>
       <remote>org.compiere.interfaces.MD5</remote>
    </ejb-ref>
 

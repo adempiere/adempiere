@@ -44,20 +44,21 @@ public class CLogMgt
 		if (s_handlers != null)
 			return;
 		
-		LogManager mgr = LogManager.getLogManager();
-		try 
-		{	//	Load Logging config from org.compiere.util.*properties
-			String fileName = "logClient.properties";
-			if (!isClient)
-				fileName = "logServer.properties";
-			InputStream in = CLogMgt.class.getResourceAsStream(fileName);
-			BufferedInputStream bin = new BufferedInputStream(in);
-			mgr.readConfiguration(bin);
-			in.close();
-		}
-		catch (Exception e)
+		if (isClient)
 		{
-			e.printStackTrace();
+			LogManager mgr = LogManager.getLogManager();
+			try 
+			{	//	Load Logging config from org.compiere.util.*properties
+				String fileName = "logClient.properties";
+				InputStream in = CLogMgt.class.getResourceAsStream(fileName);
+				BufferedInputStream bin = new BufferedInputStream(in);
+				mgr.readConfiguration(bin);
+				in.close();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		
 		//	Create Handler List
@@ -136,7 +137,7 @@ public class CLogMgt
 		//	Check Loggers
 		if (CLogErrorBuffer.get(false) == null)
 			addHandler(CLogErrorBuffer.get(true));
-		if (CLogConsole.get(false) == null && isClient)
+		if (CLogConsole.get(false) == null)
 			addHandler(CLogConsole.get(true));
 		CLogFile fh = CLogFile.get (false, null, isClient); 
 		if (fh == null && !isClient)

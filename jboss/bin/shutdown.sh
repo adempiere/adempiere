@@ -5,7 +5,7 @@
 ##                                                                          ##
 ### ====================================================================== ###
 
-### $Id: shutdown.sh,v 1.6 2005/09/04 17:52:33 jjanke Exp $ ###
+### $Id: shutdown.sh 62718 2007-05-02 09:06:09Z dimitris@jboss.org $ ###
 
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
@@ -18,14 +18,6 @@ die() {
     echo "${PROGNAME}: $*"
     exit 1
 }
-
-# Read an optional running configuration file
-if [ "x$RUN_CONF" = "x" ]; then
-    RUN_CONF="$DIRNAME/run.conf"
-fi
-if [ -r $RUN_CONF ]; then
-    . $RUN_CONF
-fi
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false;
@@ -50,10 +42,12 @@ fi
 export JBOSS_HOME
 
 # Setup the JVM
-if [ "x$JAVA_HOME" != "x" ]; then
-    JAVA=$JAVA_HOME/bin/java
-else
-    JAVA="java"
+if [ "x$JAVA" = "x" ]; then
+    if [ "x$JAVA_HOME" != "x" ]; then
+        JAVA="$JAVA_HOME/bin/java"
+    else
+        JAVA="java"
+    fi
 fi
 
 # Setup the classpath
@@ -73,7 +67,7 @@ if $cygwin; then
 fi
 
 # Execute the JVM
-exec $JAVA \
+exec "$JAVA" \
     $JAVA_OPTS \
     -classpath $JBOSS_CLASSPATH \
     org.jboss.Shutdown "$@"

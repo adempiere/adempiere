@@ -1496,7 +1496,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				Server server = CConnection.get().getServer();
 				if (server != null)
 				{
-					String error = server.postImmediate(Env.getCtx(), 
+					String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
 						m_postImmediate.getAD_Client_ID(),
 						m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), 
 						true, null);
@@ -1506,13 +1506,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				else
 					m_postImmediate.get_Logger().config("NoAppsServer");
 			}
-			catch (RemoteException e)
-			{
-				m_postImmediate.get_Logger().config("(RE) " + e.getMessage());
-			}
 			catch (Exception e)
 			{
-				m_postImmediate.get_Logger().config("(ex) " + e.getMessage());
+				m_postImmediate.get_Logger().config("(RE) " + e.getMessage());
 			}
 		}
 	}	//	PostImmediate

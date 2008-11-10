@@ -7,39 +7,185 @@
 <!-- ===================================================================== -->
 <!--  Standard JBoss EJB Configurations                                    -->
 <!-- ===================================================================== -->
-<!-- $Id: standardjboss.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: standardjboss.xml 62053 2007-04-03 21:05:33Z alex.loubyansky@jboss.com $ -->
 
 <jboss>
-  <enforce-ejb-restrictions>false</enforce-ejb-restrictions>
+  <!--
+   The missing-method-permissions-excluded-mode is a boolean
+   that allows the deployer to globally indicate that all methods without a
+   method-permission element should be treated as excluded(= true and the default),
+   or that methods without a method-permission element should be treated as
+   unchecked(= false)
+  -->
+  <missing-method-permissions-excluded-mode>true</missing-method-permissions-excluded-mode>
 
-  <!-- start heng sin modification -->
   <invoker-proxy-bindings>
-  	<!-- A custom invoker for RMI/HTTP -->
-      <invoker-proxy-binding>
-      	<name>stateless-http-invoker</name>
-            <invoker-mbean>jboss:service=invoker,type=http</invoker-mbean>
-            <proxy-factory>org.jboss.proxy.ejb.ProxyFactory</proxy-factory>
-            <proxy-factory-config>
-                <client-interceptors>
-                    <home>
-                        <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
-                        <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
-                        <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
-                        <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
-                    </home>
-                    <bean>
-                        <interceptor>
-                            org.jboss.proxy.ejb.StatelessSessionInterceptor
-                        </interceptor>
-                        <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
-                        <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
-                        <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
-                    </bean>
-                </client-interceptors>
-    		</proxy-factory-config>
+
+    <invoker-proxy-binding>
+      <name>entity-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unified</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactory</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.EntityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+          <list-entity>
+            <interceptor>org.jboss.proxy.ejb.ListEntityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </list-entity>
+        </client-interceptors>
+      </proxy-factory-config>
     </invoker-proxy-binding>
-    <!-- end heng sin modification -->
-    
+
+    <invoker-proxy-binding>
+      <name>clustered-entity-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unifiedha</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactoryHA</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.EntityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+          <list-entity>
+            <interceptor>org.jboss.proxy.ejb.ListEntityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </list-entity>
+        </client-interceptors>
+      </proxy-factory-config>
+    </invoker-proxy-binding>
+
+    <invoker-proxy-binding>
+      <name>stateless-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unified</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactory</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.StatelessSessionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+        </client-interceptors>
+      </proxy-factory-config>
+    </invoker-proxy-binding>
+
+    <invoker-proxy-binding>
+      <name>clustered-stateless-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unifiedha</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactoryHA</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.StatelessSessionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+        </client-interceptors>
+      </proxy-factory-config>
+    </invoker-proxy-binding>
+
+    <invoker-proxy-binding>
+      <name>stateful-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unified</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactory</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.StatefulSessionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+        </client-interceptors>
+      </proxy-factory-config>
+    </invoker-proxy-binding>
+
+    <invoker-proxy-binding>
+      <name>clustered-stateful-unified-invoker</name>
+      <invoker-mbean>jboss:service=invoker,type=unifiedha</invoker-mbean>
+      <proxy-factory>org.jboss.proxy.ejb.ProxyFactoryHA</proxy-factory>
+      <proxy-factory-config>
+        <client-interceptors>
+          <home>
+            <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </home>
+          <bean>
+            <interceptor>org.jboss.proxy.ejb.StatefulSessionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
+            <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
+            <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
+          </bean>
+        </client-interceptors>
+      </proxy-factory-config>
+    </invoker-proxy-binding>
+
     <invoker-proxy-binding>
       <name>entity-rmi-invoker</name>
       <invoker-mbean>jboss:service=invoker,type=jrmp</invoker-mbean>
@@ -81,6 +227,7 @@
             <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </home>
@@ -88,6 +235,7 @@
             <interceptor>org.jboss.proxy.ejb.EntityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </bean>
@@ -95,6 +243,7 @@
             <interceptor>org.jboss.proxy.ejb.ListEntityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </list-entity>
@@ -136,6 +285,7 @@
             <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </home>
@@ -143,6 +293,7 @@
             <interceptor>org.jboss.proxy.ejb.StatelessSessionInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </bean>
@@ -184,6 +335,7 @@
             <interceptor>org.jboss.proxy.ejb.HomeInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </home>
@@ -191,13 +343,14 @@
             <interceptor>org.jboss.proxy.ejb.StatefulSessionInterceptor</interceptor>
             <interceptor>org.jboss.proxy.SecurityInterceptor</interceptor>
             <interceptor>org.jboss.proxy.TransactionInterceptor</interceptor>
+            <interceptor>org.jboss.proxy.ejb.SingleRetryInterceptor</interceptor>
             <interceptor call-by-value="false">org.jboss.invocation.InvokerInterceptor</interceptor>
             <interceptor call-by-value="true">org.jboss.invocation.MarshallingInvokerInterceptor</interceptor>
           </bean>
         </client-interceptors>
       </proxy-factory-config>
     </invoker-proxy-binding>
-
+    
     <invoker-proxy-binding>
       <name>message-driven-bean</name>
       <invoker-mbean>default</invoker-mbean>
@@ -279,7 +432,7 @@
       </proxy-factory-config>
     </invoker-proxy-binding>
     -->
-    
+
     <invoker-proxy-binding>
       <name>singleton-message-driven-bean</name>
       <invoker-mbean>default</invoker-mbean>
@@ -393,7 +546,7 @@
     <container-configuration>
       <container-name>Standard CMP 2.x EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <call-ejb-store-on-clean>true</call-ejb-store-on-clean>
@@ -441,7 +594,7 @@
       -->
       <container-name>cmp2.x jdbc2 pm</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>true</insert-after-ejb-post-create>
       <call-ejb-store-on-clean>true</call-ejb-store-on-clean>
@@ -458,19 +611,22 @@
          <interceptor>org.jboss.ejb.plugins.cmp.jdbc2.RelationInterceptor</interceptor>
       </container-interceptors>
       <instance-pool>org.jboss.ejb.plugins.EntityInstancePool</instance-pool>
-      <instance-cache>org.jboss.ejb.plugins.PerTxEntityInstanceCache</instance-cache> 
+      <instance-cache>org.jboss.ejb.plugins.PerTxEntityInstanceCache</instance-cache>
       <persistence-manager>org.jboss.ejb.plugins.cmp.jdbc2.JDBCStoreManager2</persistence-manager>
-      <locking-policy>org.jboss.ejb.plugins.lock.NoLock</locking-policy> 
+      <locking-policy>org.jboss.ejb.plugins.lock.NoLock</locking-policy>
       <container-cache-conf>
          <cache-policy-conf>
             <min-capacity>500</min-capacity>
             <max-capacity>10000</max-capacity>
+            <!-- uncomment to enable time-based eviction
+            <overager-period>300</overager-period>
+            <max-bean-age>600</max-bean-age> -->
          </cache-policy-conf>
          <cache-policy-conf-other>
             <partitions>10</partitions>
             <!-- uncomment to use JDBC java.sql.Statement.executeBatch()
-            <batch-commit-strategy/>
-            -->
+            <batch-commit-strategy/> -->
+            <!-- uncomment to enable cache invalidation <invalidable/> -->
          </cache-policy-conf-other>
       </container-cache-conf>
       <container-pool-conf>
@@ -482,7 +638,7 @@
     <container-configuration>
       <container-name>Clustered CMP 2.x EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>clustered-entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>clustered-entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -529,7 +685,7 @@
     <container-configuration>
       <container-name>Standard CMP 2.x EntityBean with cache invalidation</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <container-interceptors>
         <interceptor>org.jboss.ejb.plugins.ProxyFactoryFinderInterceptor</interceptor>
         <interceptor>org.jboss.ejb.plugins.LogInterceptor</interceptor>
@@ -571,7 +727,7 @@
     <container-configuration>
       <container-name>Instance Per Transaction CMP 2.x EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -602,7 +758,7 @@
     <container-configuration>
       <container-name>Standard CMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -644,7 +800,7 @@
     <container-configuration>
       <container-name>Clustered CMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>clustered-entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>clustered-entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -690,7 +846,7 @@
     <container-configuration>
       <container-name>Instance Per Transaction CMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -720,7 +876,7 @@
     <container-configuration>
       <container-name>Standard Stateless SessionBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>stateless-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>stateless-unified-invoker</invoker-proxy-binding-name>
       <container-interceptors>
         <interceptor>org.jboss.ejb.plugins.ProxyFactoryFinderInterceptor</interceptor>
         <interceptor>org.jboss.ejb.plugins.LogInterceptor</interceptor>
@@ -728,13 +884,11 @@
         <!-- CMT -->
         <interceptor transaction="Container">org.jboss.ejb.plugins.TxInterceptorCMT</interceptor>
         <interceptor transaction="Container">org.jboss.ejb.plugins.CallValidationInterceptor</interceptor>
-        <interceptor transaction="Container">org.jboss.webservice.server.ServiceEndpointInterceptor</interceptor>
         <interceptor transaction="Container">org.jboss.ejb.plugins.StatelessSessionInstanceInterceptor</interceptor>
         <!-- BMT -->
         <interceptor transaction="Bean">org.jboss.ejb.plugins.StatelessSessionInstanceInterceptor</interceptor>
         <interceptor transaction="Bean">org.jboss.ejb.plugins.TxInterceptorBMT</interceptor>
         <interceptor transaction="Bean">org.jboss.ejb.plugins.CallValidationInterceptor</interceptor>
-        <interceptor transaction="Bean">org.jboss.webservice.server.ServiceEndpointInterceptor</interceptor>
         <interceptor>org.jboss.resource.connectionmanager.CachedConnectionInterceptor</interceptor>
       </container-interceptors>
       <instance-pool>org.jboss.ejb.plugins.StatelessSessionInstancePool</instance-pool>
@@ -748,7 +902,7 @@
     <container-configuration>
       <container-name>Clustered Stateless SessionBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>clustered-stateless-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>clustered-stateless-unified-invoker</invoker-proxy-binding-name>
       <container-interceptors>
         <interceptor>org.jboss.ejb.plugins.ProxyFactoryFinderInterceptor</interceptor>
         <interceptor>org.jboss.ejb.plugins.CleanShutdownInterceptor</interceptor>
@@ -757,13 +911,11 @@
         <!-- CMT -->
         <interceptor transaction="Container">org.jboss.ejb.plugins.TxInterceptorCMT</interceptor>
         <interceptor transaction="Container">org.jboss.ejb.plugins.CallValidationInterceptor</interceptor>
-        <interceptor transaction="Container">org.jboss.webservice.server.ServiceEndpointInterceptor </interceptor>
         <interceptor transaction="Container">org.jboss.ejb.plugins.StatelessSessionInstanceInterceptor</interceptor>
         <!-- BMT -->
         <interceptor transaction="Bean">org.jboss.ejb.plugins.StatelessSessionInstanceInterceptor</interceptor>
         <interceptor transaction="Bean">org.jboss.ejb.plugins.TxInterceptorBMT</interceptor>
         <interceptor transaction="Bean">org.jboss.ejb.plugins.CallValidationInterceptor</interceptor>
-        <interceptor transaction="Bean">org.jboss.webservice.server.ServiceEndpointInterceptor </interceptor>
         <interceptor>org.jboss.resource.connectionmanager.CachedConnectionInterceptor</interceptor>
       </container-interceptors>
       <instance-pool>org.jboss.ejb.plugins.StatelessSessionInstancePool</instance-pool>
@@ -781,7 +933,7 @@
     <container-configuration>
       <container-name>Standard Stateful SessionBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>stateful-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>stateful-unified-invoker</invoker-proxy-binding-name>
       <container-interceptors>
         <interceptor>org.jboss.ejb.plugins.ProxyFactoryFinderInterceptor</interceptor>
         <interceptor>org.jboss.ejb.plugins.LogInterceptor</interceptor>
@@ -821,7 +973,7 @@
     <container-configuration>
       <container-name>Clustered Stateful SessionBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>clustered-stateful-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>clustered-stateful-unified-invoker</invoker-proxy-binding-name>
       <container-interceptors>
         <interceptor>org.jboss.ejb.plugins.ProxyFactoryFinderInterceptor</interceptor>
         <interceptor>org.jboss.ejb.plugins.CleanShutdownInterceptor</interceptor>
@@ -866,7 +1018,7 @@
     <container-configuration>
       <container-name>Standard BMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -908,7 +1060,7 @@
     <container-configuration>
       <container-name>Clustered BMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>clustered-entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>clustered-entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>
@@ -954,7 +1106,7 @@
     <container-configuration>
       <container-name>Instance Per Transaction BMP EntityBean</container-name>
       <call-logging>false</call-logging>
-      <invoker-proxy-binding-name>entity-rmi-invoker</invoker-proxy-binding-name>
+      <invoker-proxy-binding-name>entity-unified-invoker</invoker-proxy-binding-name>
       <sync-on-commit-only>false</sync-on-commit-only>
       <insert-after-ejb-post-create>false</insert-after-ejb-post-create>
       <container-interceptors>

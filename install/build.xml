@@ -169,8 +169,7 @@
 	<copy file="${launch.dir}/Release/Adempiere.exe" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="CInstall.jar" todir="${build.dir}/Adempiere/lib"/>
 	<copy file="../sqlj/sqlj.jar" todir="${build.dir}/Adempiere/lib"/>
-	<copy file="../tools/lib/j2ee.jar" todir="${build.dir}/Adempiere/lib"/>
-  	<copy file="../JasperReports/CompiereJasperReqs.jar" todir="${build.dir}/Adempiere/lib"/>
+	<copy file="../JasperReports/CompiereJasperReqs.jar" todir="${build.dir}/Adempiere/lib"/>
 	<concat destfile="${build.dir}/Adempiere/lib/index.html">AdempiereHome</concat>
 
 
@@ -225,6 +224,12 @@
 	  <fileset dir="${jboss.dir}/server"
 		excludes="**/CVS/**"/>
 	</copy>
+  	
+  	<!-- GlassFish -->
+  	<mkdir dir="${build.dir}/Adempiere/glassfish"/>
+  	<copy todir="${build.dir}/Adempiere/glassfish">
+  		<fileset dir="../glassfishfacet/config"/>
+  	</copy>
 
 
 	<!-- Create Install ZIP		-->

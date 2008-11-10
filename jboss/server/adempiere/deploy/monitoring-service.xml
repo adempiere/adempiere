@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- $Id: monitoring-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: monitoring-service.xml 46248 2006-07-13 15:03:17Z dimitris $ -->
 
 <!-- ===================================================================== -->
 <!--                                                                       -->
@@ -28,8 +28,8 @@
     <attribute name="ReplyTo">noreply@nowhere.org</attribute>
     <attribute name="SubjectTemplate"><![CDATA[[jboss-alert] %(MONITOR_NAME)]]></attribute>
   </mbean>
-
 -->
+
 <!--
   Example of listening for notifications from JBoss monitors.
   
@@ -42,6 +42,9 @@
   
   The NotificationListener attribute can be set to indicate an external
   MBean as the receiver of the Notifications.
+  
+  The LogLevel attribute can be set to indicate the level to use for
+  logging the received notification, e.g. "WARN", "INFO", "DEBUG", etc.
 -->
 <!--
   <mbean code="org.jboss.monitor.services.NotificationListener"
@@ -61,8 +64,6 @@
 -->
 
 <!--
-  Example of listening for notifications from the MemoryMonitor
-  
   MemoryMonitor monitors the free JVM memory and emits JMX Notifications
   (org.jboss.monitor.alarm.AlarmNotification) when certain thresholds
   are crossed. 
@@ -70,7 +71,7 @@
   The following attributes may be set:
   
   FreeMemoryWarningThreshold
-    - e.g. 1048576, or 1000k, or 1m
+    - e.g. 1048576, or 1000K, or 1M
   FreeMemoryCriticalThreshold 
     - like above, must be lower
   SamplingPeriod 
@@ -81,27 +82,62 @@
   AlarmNotification carries alarmState and alarmSeverity.
   alarmSeverity takes the values NORMAL, WARNING, CRITICAL for this monitor.
   See org.jboss.monitor.alarm.Alarm
-  
-  The NotificationListener is simply used to output the alarm on the console.
 -->
 <!--
   <mbean code="org.jboss.monitor.services.MemoryMonitor"
          name="jboss.monitor:service=MemoryMonitor">
          
-    <attribute name="FreeMemoryWarningThreshold">17m</attribute>
-    <attribute name="FreeMemoryCriticalThreshold">16m</attribute>    
+    <attribute name="FreeMemoryWarningThreshold">95M</attribute>
+    <attribute name="FreeMemoryCriticalThreshold">80M</attribute>    
   </mbean>
+-->
 
+<!--
+  Example of using the TimerService wrapper to configure a
+  javax.management.timer.Timer mbean, to produce heartbeat
+  notifications.
+  
+  Attributes to configure:
+  
+  NotificationType
+    - The type of the produced javax.management.timer.TimerNotification
+  Notification Message
+    - The string message to carry in the produced notification
+  Timer Period
+    - Every how often to emit notifications, e.g. 500msec, 10sec, 5min, 1h;
+    - a zero value will produce just one notification
+  Repeatitions
+    - How many timer notifications to emit when the period is not zero;
+    - a zero value produces infinite notifications
+  FixedRate
+    - Whether the periodic notification should be produced at
+    - FixedRate (true) or FixedDelay (false, default)
+  TimerMBean
+    - The ObjectName of the JMX Timer to configure, combined with a dependency
+    
+  If you want to see/log the emitted notifications, you can configure
+  a NotificationListener as follows:
+  
   <mbean code="org.jboss.monitor.services.NotificationListener"
          name="jboss.monitor:service=NotificationListener">
-         
     <attribute name="SubscriptionList">
       <subscription-list>
-        <mbean name="jboss.monitor:service=MemoryMonitor">
-          <notification type="jboss.alarm.memory.low"/>
-        </mbean>
+        <mbean name="jboss.monitor:name=Heartbeat,type=Timer"/>
       </subscription-list>
     </attribute>
   </mbean>
--->  
+-->
+<!--
+  <mbean code="org.jboss.monitor.services.TimerService"
+         name="jboss.monitor:name=Heartbeat,type=TimerService">
+    <attribute name="NotificationType">jboss.monitor.heartbeat</attribute>
+    <attribute name="NotificationMessage">JBoss is alive!</attribute>
+    <attribute name="TimerPeriod">5sec</attribute>
+    <depends optional-attribute-name="TimerMBean">
+      <mbean code="javax.management.timer.Timer"
+             name="jboss.monitor:name=Heartbeat,type=Timer"/>
+    </depends>
+  </mbean>
+-->
+
 </server>

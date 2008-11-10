@@ -52,13 +52,10 @@
 		<condition property="isAppsJBoss">
 			<equals arg1="jboss" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<condition property="isAppsTomcat">
-			<equals arg1="tomcatOnly" arg2="${ADEMPIERE_APPS_TYPE}" />
-		</condition>
 		<condition property="isAppsGlassfish">
-			<equals arg1="Glassfish" arg2="${ADEMPIERE_APPS_TYPE}" />
+			<equals arg1="glassfish" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Tomcat=${isAppsTomcat} Glassfish=${isAppsGlassfish}" />
+		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Glassfish=${isAppsGlassfish}" />
 
 	</target>
 
@@ -127,6 +124,13 @@
 	</target>
 	<!-- rebuild Adempiere.jar to include possible customization and patches -->
 	<target name="setupALib" depends="setupInit, backupAdempiereOriginal">
+		<delete file="lib/packages.jar" failonerror="false"/>
+		<jar jarfile="lib/packages.jar" duplicate="preserve">
+			<!-- 2pack packages -->
+			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipgroupfileset>
+		</jar>
 		<jar jarfile="lib/Adempiere1.jar" index="yes" duplicate="preserve">
 			<!-- pack patches.jar and customization.jar into Adempiere.jar -->
 			<zipfileset src="lib/customization.jar" >
@@ -140,9 +144,9 @@
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- 2pack packages -->
-			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
+			<zipfileset src="lib/packages.jar" >
 				<patternset refid="manifest.exclude"/>
-			</zipgroupfileset>
+			</zipfileset>
 			<zipfileset src="lib/AdempiereOriginal.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
@@ -189,7 +193,7 @@
 	<!-- ==================================================== -->
 	<!-- Adempiere Client Lib                                  -->
 	<!-- ==================================================== -->
-	<target name="setupCLib" depends="setupInit" unless="isAppsTomcat" 
+	<target name="setupCLib" depends="setupInit"  
 		description="Setup Adempiere Client Lib">
 
 		<!-- Delete Old		-->
@@ -199,6 +203,9 @@
 		
 		<!-- Create AdempiereCLib.jar file 	-->
 		<jar jarfile="lib/AdempiereCLib.jar" index="yes" duplicate="preserve">
+			<zipfileset src="lib/${ADEMPIERE_APPS_TYPE}.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
 			<zipfileset src="lib/CCTools.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
@@ -207,10 +214,7 @@
 			</zipfileset>
 			<zipfileset src="lib/postgresql.jar" >
 				<patternset refid="manifest.exclude"/>
-			</zipfileset>
-			<zipfileset src="lib/${ADEMPIERE_APPS_TYPE}.jar" >
-				<patternset refid="manifest.exclude"/>
-			</zipfileset>
+			</zipfileset>		
 					
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Client Library" />
@@ -242,8 +246,9 @@
 
 		<!-- Create AdempiereSLib.jar file 	-->
 		<jar jarfile="lib/AdempiereSLib.jar" index="yes" duplicate="preserve">
-			<zipfileset src="lib/CSTools.jar" >
+			<zipfileset src="lib/CSTools.jar">
 				<patternset refid="manifest.exclude"/>
+				<exclude name="**/*.bsh"/>
 			</zipfileset>
 			<zipfileset src="lib/oracle.jar" >
 				<patternset refid="manifest.exclude"/>
@@ -359,17 +364,34 @@
 			<zipfileset src="${basedir}/lib/adempiereWebCMbase.war" />
 		</zip>
 
+		<antcall target="jbossEAR" inheritall="true"/>
+		<antcall target="glassfishEAR" inheritall="true"/>
+	</target>
+	
+	<target name="jbossEAR" if="isAppsJBoss">
 		<!-- bundle everything in one ear file for simpler deployment -->
-		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml">
-			<fileset dir="${basedir}/lib" 
-				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war" />
-		</ear>
-		<ear destfile="${basedir}/adempiereGlassfish.ear" appxml="${basedir}/lib/adempiereAll.xml">
+		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
 			<fileset dir="${basedir}/lib" 
 				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war" />
 		</ear>
 	</target>
 
+	<target name="glassfishEAR" if="isAppsGlassfish">
+		
+		<unzip src="${basedir}/lib/webui.war" dest="${basedir}/lib/webui"/>
+		<copy file="${basedir}/lib/webui/WEB-INF/web-2.5.xml" tofile="${basedir}/lib/webui/WEB-INF/web.xml" overwrite="true" />
+		<delete file="${basedir}/lib/webui.war"/>
+		<zip destfile="${basedir}/lib/webui.war" basedir="${basedir}/lib/webui" />
+		<deltree dir="${basedir}/lib/webui"/>
+		
+		<!-- bundle everything in one ear file for simpler deployment -->
+		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
+			<fileset dir="${basedir}/lib" 
+				includes="adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,posterita.war,posterita.jar,webui.war" />
+			<metainf dir="${basedir}/glassfish" includes="sun-application.xml"/>
+		</ear>
+	</target>
+	
 	<!-- ==================================================== -->
 	<!-- Setup EAR Libraries                                  -->
 	<!-- ==================================================== -->
@@ -399,17 +421,9 @@
 	<!-- ==================================================== -->
 	<target name="setupGlassfish" depends="setupLib, setupEAR" if="isAppsGlassfish" 
 		description="Setup Glassfish Application Server">
-<!-- HAVE NO IDEA ON EARTH AS TO WHAT CHANGES MIGHT BE NEEDED HERE.
-LEFT BLANK FOR NOW
-CATCH U LATER
-
-ANOTHER POINT: IS SETUPLIB REQUIRED?
--->
-
-<!-- PLAN AHEAD: MAKE SURE THAT THE EAR FILE GENERATION IS STOPPED THE MOMENT
-GLASSFISH PROPERTY IS DETECTED. THEN MANUALLY DEPLOY THE APPLICATION
--->
-
+		<copy file="${basedir}/lib/adempiere.ear" tofile="${basedir}/glassfish/adempiere.ear"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/glassfish/Adempiere.jar"/>
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/glassfish/AdempiereSLib.jar"/>
 	</target>
 
 	<!-- ==================================================== -->
@@ -422,11 +436,8 @@ GLASSFISH PROPERTY IS DETECTED. THEN MANUALLY DEPLOY THE APPLICATION
 		<copy file="${basedir}/jboss/server/adempiere/conf/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/jboss-service.xml" filtering="yes" overwrite="yes" />
 		<copy file="${basedir}/jboss/server/adempiere/conf/login-configTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/login-config.xml" filtering="yes" overwrite="yes" />
 
-		<!-- Filter JBoss Templates HTTP Invoker	-->
-		<copy file="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-service.xml" filtering="yes" overwrite="yes" />
-
-		<!-- Filter Tomcat 5.5 				-->
-		<copy file="${basedir}/jboss/server/adempiere/deploy/jbossweb-tomcat55.sar/serverTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/jbossweb-tomcat55.sar/server.xml" filtering="yes" overwrite="yes" />
+		<!-- Filter Tomcat 6.0 				-->
+		<copy file="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/serverTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/server.xml" filtering="yes" overwrite="yes" />
 
 		<!-- Delete Old		-->
 		<delete file="${basedir}/jboss/server/adempiere/lib/CClient.jar" failonerror="no" />
@@ -443,52 +454,6 @@ GLASSFISH PROPERTY IS DETECTED. THEN MANUALLY DEPLOY THE APPLICATION
 
 
 	<!-- ==================================================== -->
-	<!-- Setup Tomcat Server                                  -->
-	<!-- ==================================================== -->
-	<target name="setupTomcat" depends="setupLib, setupEAR" if="isAppsTomcat" 
-		description="Setup Tomcat Web Container">
-
-		<!-- Should delete but needed if you change your mind
-	  	<delete file="lib/RUN_Adempiere.bat" failonerror="false" />
-  		<delete file="lib/RUN_Adempiere.sh" failonerror="false" />
-	  	<delete dir="utils" failonerror="false" />
-  		-->
-
-		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
-
-		<!-- Filter conf/server.xml		-->
-		<copy file="lib/tomcatServerTemplate.xml" 
-			tofile="${ADEMPIERE_APPS_DEPLOY}/conf/server.xml" filtering="yes" overwrite="yes" />
-
-		<!-- Copy to /shared/lib		-->
-		<copy file="${basedir}/lib/Adempiere.jar" 
-			todir="${ADEMPIERE_APPS_DEPLOY}/shared/lib" />
-		<copy file="${basedir}/lib/AdempiereSLib.jar" 
-			todir="${ADEMPIERE_APPS_DEPLOY}/shared/lib" />
-		<copy file="${basedir}/lib/adempiereApps.jar" 
-			todir="${ADEMPIERE_APPS_DEPLOY}/shared/lib" />
-		<copy file="${basedir}/lib/j2ee.jar" 
-			todir="${ADEMPIERE_APPS_DEPLOY}/shared/lib" />
-
-		<!-- Copy to /webapps and rename for context	-->
-		<delete file="${ADEMPIERE_APPS_DEPLOY}/webapps/adempiere.war" failonerror="no" />
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webapps/adempiere" failonerror="no" />
-		<copy file="${basedir}/lib/adempiereApps.war" 
-			tofile="${ADEMPIERE_APPS_DEPLOY}/webapps/adempiere.war" overwrite="yes" />
-
-		<delete file="${ADEMPIERE_APPS_DEPLOY}/webapps/wstore.war" failonerror="no" />
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webapps/wstore" failonerror="no" />
-		<copy file="${basedir}/lib/adempiereWebStore.war" 
-			tofile="${ADEMPIERE_APPS_DEPLOY}/webapps/wstore.war" overwrite="yes" />
-
-		<echo message="----------------------------------------------------------" />
-		<echo message="This is a dedicated Web Container Configuration - You canNOT run the Application (RUN_Adempiere) locally! - Use WebStart from your primary Application Server!" />
-		<echo message="----------------------------------------------------------" />
-
-	</target>
-
-
-	<!-- ==================================================== -->
 	<!-- Update J2EE Server                                   -->
 	<!-- ==================================================== -->
 	<target name="updateDeploy" depends="updateJBoss" 
@@ -499,7 +464,7 @@ GLASSFISH PROPERTY IS DETECTED. THEN MANUALLY DEPLOY THE APPLICATION
 	<!-- ==================================================== -->
 	<!-- Deploy J2EE Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupDeploy" depends="setupJBoss, setupTomcat, setupGlassfish" 
+	<target name="setupDeploy" depends="setupJBoss, setupGlassfish" 
 		description="Deploy Adempiere Application Server">
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>

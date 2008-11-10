@@ -9,10 +9,6 @@
   <!--<property environment="env"/>-->
   <import file="../utils_dev/properties.xml"/>
 
-  <property name="xdoclet.home" value="../tools" />
-  <property name="xdoclet.force" value="false" />
-  <property name="ejb.version" value="2.0" />
-
   <property name="src.dir" value="${basedir}/src"/>
   <property name="src.main.dir" value="${src.dir}/main"/>
   <property name="src.ear.dir" value="${src.dir}/ear"/>
@@ -28,39 +24,12 @@
   <property name="build.classes.dir" value="${build.dir}/classes"/>
   <property name="build.war.dir" value="${build.dir}/war"/>
 
-  <property name="interfaces.dir" value="../base"/>
-  <property name="src.interfaces.dir" value="../base/src"/>
-
-
   <target name="adempiereRootInit">
     <echo message="=========== Build Server Root"/>
-
-    <tstamp/>
-    <uptodate property="interfaces.uptodate"
-		targetfile="${interfaces.dir}/Interfaces.jar">
-      <srcfiles dir="${src.ejb.dir}" includes="**/*.java"/>
-      <srcfiles dir="${src.interfaces.dir}" includes="**/interfaces/*.java"/>
-    </uptodate>
-  	
   </target>
 
 
-  <path id="xdoclet.path">
-    <pathelement location="${xdoclet.home}/lib/ant.jar" />
-    <pathelement location="${xdoclet.home}/lib/log4j.jar" />
-    <pathelement location="${xdoclet.home}/lib/commons-logging.jar" />
-    <pathelement location="${xdoclet.home}/lib/xdoclet-1.2.3.jar" />
-    <pathelement location="${xdoclet.home}/lib/xdoclet-web-module-1.2.3.jar" />
-    <pathelement location="${xdoclet.home}/lib/xdoclet-ejb-module-1.2.3.jar" />
-    <pathelement location="${xdoclet.home}/lib/xjavadoc-1.1.jar" />
-    <pathelement location="${xdoclet.home}/lib/xdoclet-xdoclet-module-1.2.3.jar" />
-    <pathelement location="${xdoclet.home}/lib/xdoclet-jboss-module-1.2.3.jar" />
-  	<pathelement location="${xdoclet.home}/lib/xdoclet-jmx-module-1.2.3.jar" />
-    <pathelement location="${xdoclet.home}/lib/commons-collections-3.1.jar" />
-  </path>
-
   <path id="base.path">
-    <path refid="xdoclet.path"/>
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
     <pathelement location="../tools/lib/j2ee.jar" />
@@ -77,57 +46,19 @@
 
 
   <!-- =================================================================== -->
-  <!-- Generates the necessary EJB classes and deployment descriptors      -->
+  <!-- Copy JBoss specific deployment descriptor     					   -->
   <!-- =================================================================== -->
-  <target name="adempiereRootXdoclet" depends="adempiereRootInit">
-    <echo message="XDoclet=${xdoclet.home}"/>
-    <echo message="UpToDate=${interfaces.uptodate}"/>
-    
-    <taskdef
-	  name="ejbdoclet"
-	  classname="xdoclet.modules.ejb.EjbDocletTask"
-	  classpathref="base.path"/>
-
-  	<delete file="${build.dir}/META-INF/jboss.xml"/>
-    <ejbdoclet
-	  destdir="${src.interfaces.dir}"
-	  excludedTags="@version,@author"
-	  ejbspec="${ejb.version}"
-	  mergedir="${src.resources.dir}/xdoclet"
-	  force="${xdoclet.force}">
-      <fileset dir="${src.ejb.dir}">
-        <include name="**/*Bean.java"/>
-      </fileset>
-      <packageSubstitution packages="session,entity" substituteWith="interfaces"/>
-      <homeinterface/>
-      <localinterface/>
-      <localhomeinterface/>
-      <remoteinterface/>
-      <jboss 
-      	securityDomain="java:/jaas/adempiere"
-      	destdir="${build.dir}/META-INF"/>
-      <deploymentdescriptor destdir="${build.dir}/META-INF"/>
-    </ejbdoclet>  	
+  <target name="adempiereRootXml" depends="adempiereRootInit">
+  	<copyfile dest="${build.dir}/META-INF/jboss.xml" src="${src.ejb.dir}/jboss.xml"/>
+  	<copyfile dest="${build.dir}/META-INF/sun-ejb-jar.xml" src="${src.ejb.dir}/sun-ejb-jar.xml"/>
   </target>
 
 
   <!-- =========================================== -->
   <!-- Compiles the source code                    -->
   <!-- =========================================== -->
-  <target name="adempiereRootCompile" depends="adempiereRootXdoclet">
+  <target name="adempiereRootCompile" depends="adempiereRootXml">
     <mkdir dir="${build.classes.dir}"/>
-
-    <!-- Compile interface -->
-    <javac
-	  destdir="${build.classes.dir}"
-	  debug="on"
-	  deprecation="off"
-	  optimize="on"
-        encoding="UTF-8"
-	  classpathref="base.path">
-      <src path="${src.interfaces.dir}"/>
-	<include name="org/compiere/interfaces/*"/>
-    </javac>
 
     <!--	Compile all -->
     <javac

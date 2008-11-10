@@ -34,9 +34,8 @@
   <path id="base.path">
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/j2ee.jar" />
-
-    <pathelement location="${build.classes.dir}" />
+    <pathelement location="../tools/lib/servlet-api.jar" />
+  	<pathelement location="../tools/lib/jsp-api.jar" />
   </path>
 
   <!-- =========================================== -->

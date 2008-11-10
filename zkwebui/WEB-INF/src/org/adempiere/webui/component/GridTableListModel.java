@@ -20,6 +20,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTable;
+import org.compiere.model.MAccountLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.util.DisplayType;
@@ -206,12 +207,20 @@ ListitemRendererExt, DataStatusListener, ListModelExt {
     	{
     		if (gridField[columnIndex].isLookup())
     		{
-    			MLookup lookup = MLookupFactory.get(
-    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
-    						gridField[columnIndex].getDisplayType());
-    					
-    			NamePair namepair = lookup.get(obj);
-    				
+    			NamePair namepair = null;
+    			if (gridField[columnIndex].getDisplayType() == DisplayType.Account)
+    			{
+    				MAccountLookup lookup = new MAccountLookup(Env.getCtx(), windowNo);
+    				namepair = lookup.get(obj);
+    			}
+    			else
+    			{
+	    			MLookup lookup = MLookupFactory.get(
+	    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
+	    						gridField[columnIndex].getDisplayType());
+	    					
+	    			namepair = lookup.get(obj);
+    			}
     			if (namepair != null)
     				return namepair.getName();
     			else

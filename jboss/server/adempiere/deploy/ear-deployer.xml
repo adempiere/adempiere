@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- The JBoss service configuration file for the EAR deployer service.
-$Id: ear-deployer.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
+$Id: ear-deployer.xml 60679 2007-02-19 21:35:39Z scott.stark@jboss.org $
 -->
 <server>
    <!-- EAR deployer, remove if you are not using ear deployments -->
@@ -15,5 +15,11 @@ $Id: ear-deployer.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
       optimization disabled.
       -->
       <attribute name="CallByValue">false</attribute>
+      <!-- A flag the enables the default behavior of the ee5 library-directory. If true,
+      the lib contents of an ear are assumed to be the default value for library-directory
+      in the absence of an explicit library-directory. If false, there must be an
+      explicit library-directory.
+      -->
+      <attribute name="EnablelibDirectoryByDefault">true</attribute>
    </mbean>
 </server>

@@ -19,34 +19,24 @@ package org.compiere.session;
 import java.util.*;
 import java.util.logging.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.security.DeclareRoles;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.*;
 
 import org.adempiere.util.ProcessUtil;
 import org.compiere.*;
 import org.compiere.acct.*;
+import org.compiere.interfaces.Server;
+import org.compiere.interfaces.ServerLocal;
+import org.compiere.interfaces.ServerRemote;
 import org.compiere.model.*;
 import org.compiere.process.*;
 import org.compiere.util.*;
 
 /**
  * 	Adempiere Server Bean.
- *
- *  @ejb.bean name="adempiere/Server"
- *		display-name="Adempiere Server Session Bean"
- *		type="Stateless"
- *		view-type="both"
- *      transaction-type="Bean"
- *      jndi-name="adempiere/Server"
- *      local-jndi-name="adempiere/ServerLocal"
- *
- *  @ejb.ejb-ref ejb-name="adempiere/Server"
- *  	view-type="both"
- *		ref-name="adempiere/Server"
- *  @ejb.ejb-ref ejb-name="adempiere/Server"
- *  	view-type="local"
- *		ref-name="adempiere/ServerLocal"
- *  
- *  @ejb.permission role-name="adempiereUsers"
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ServerBean.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
@@ -56,10 +46,13 @@ import org.compiere.util.*;
  *  
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
  */
-public class ServerBean implements SessionBean
+@Stateless(mappedName=Server.JNDI_NAME, name=Server.EJB_NAME)
+@Local({ServerLocal.class})
+@Remote({ServerRemote.class})
+@DeclareRoles({"adempiereUsers"})
+@RolesAllowed({"adempiereUsers"})
+public class ServerBean implements ServerRemote, ServerLocal
 {
-	/**	Context				*/
-	private SessionContext 	m_Context;
 	/**	Logger				*/
 	private static CLogger log = CLogger.getCLogger(ServerBean.class);
 	//
@@ -79,33 +72,27 @@ public class ServerBean implements SessionBean
 
 	/**
 	 *  Post Immediate
-	 *  @ejb.interface-method view-type="both"
 	 *
 	 *	@param	ctx Client Context
 	 *  @param  AD_Client_ID    Client ID of Document
 	 *  @param  AD_Table_ID     Table ID of Document
 	 *  @param  Record_ID       Record ID of this document
 	 *  @param  force           force posting
-	 *  @param trxName transaction
+	 *  @param  trxName			ignore, retained for backward compatibility
 	 *  @return null, if success or error message
 	 */
 	public String postImmediate (Properties ctx, 
 		int AD_Client_ID, int AD_Table_ID, int Record_ID, boolean force, String trxName)
 	{
 		log.info ("[" + m_no + "] Table=" + AD_Table_ID + ", Record=" + Record_ID);
-		if (trxName != null) {
-			if (Trx.get(trxName, false) == null) {
-				throw new RuntimeException("Transaction lost - " + trxName);
-			}
-		}
+
 		m_postCount++;
 		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_Client_ID);
-		return Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, trxName);
+		return Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, null);
 	}	//	postImmediate
 
 	/*************************************************************************
 	 *  Process Remote
-	 *  @ejb.interface-method view-type="both"
 	 *
 	 *  @param ctx Context
 	 *  @param pi Process Info
@@ -117,16 +104,13 @@ public class ServerBean implements SessionBean
 		m_processCount++;
 		
 		//	Start Process
-		String trxName = Trx.createTrxName("ServerPrc"); 
-		Trx trx = Trx.get(trxName, true);
-		ProcessUtil.startJavaProcess(ctx, pi, trx);
+		ProcessUtil.startJavaProcess(ctx, pi, null);
 		return pi;
 	}	//	process
 
 
 	/*************************************************************************
 	 *  Run Workflow (and wait) on Server
-	 *  @ejb.interface-method view-type="both"
 	 *
 	 *  @param ctx Context
 	 *  @param pi Process Info
@@ -143,7 +127,6 @@ public class ServerBean implements SessionBean
 
 	/**
 	 *  Create EMail from Server (Request User)
-	 *  @ejb.interface-method view-type="both"
 	 *  @param ctx Context
 	 *  @param AD_Client_ID client 
 	 *	@param to recipient email address
@@ -166,7 +149,6 @@ public class ServerBean implements SessionBean
 
 	/**
 	 *  Create EMail from Server (Request User)
-	 *  @ejb.interface-method view-type="both"
 	 *  @param ctx Context
 	 *  @param AD_Client_ID client 
 	 *  @param AD_User_ID user to send email from
@@ -193,7 +175,6 @@ public class ServerBean implements SessionBean
 	
 	/**
 	 *  Execute task on server
-	 *  @ejb.interface-method view-type="both"
 	 *  @param AD_Task_ID task 
 	 *  @return execution trace
 	 */
@@ -206,8 +187,6 @@ public class ServerBean implements SessionBean
 	
 	/**
 	 *  Cash Reset
-	 *  @ejb.interface-method view-type="both"
-	 *
 	 *  @param tableName table name
 	 *  @param Record_ID record or 0 for all
 	 * 	@return number of records reset
@@ -221,10 +200,9 @@ public class ServerBean implements SessionBean
 	
 	/**************************************************************************
 	 * 	Describes the instance and its content for debugging purpose
-	 *  @ejb.interface-method view-type="both"
-	 *  @ejb.permission unchecked="true"
 	 * 	@return Debugging information about the instance and its content
 	 */
+	@PermitAll
 	public String getStatus()
 	{
 		StringBuffer sb = new StringBuffer("ServerBean[");
@@ -245,16 +223,13 @@ public class ServerBean implements SessionBean
 
 	/**
 	 * Execute db proces on server
-	 * @ejb.interface-method view-type="both"
 	 * @param processInfo
 	 * @param procedureName
 	 * @return ProcessInfo
 	 */
 	public ProcessInfo dbProcess(ProcessInfo processInfo, String procedureName)
 	{
-		String trxName = Trx.createTrxName("ServerDBPrc"); 
-		Trx trx = Trx.get(trxName, true);
-		ProcessUtil.startDatabaseProcedure(processInfo, procedureName, trx);
+		ProcessUtil.startDatabaseProcedure(processInfo, procedureName, null);
 		return processInfo;
 	}
 	
@@ -270,12 +245,9 @@ public class ServerBean implements SessionBean
 	
 	/**************************************************************************
 	 * 	Create the Session Bean
-	 * 	@throws EJBException
-	 * 	@throws CreateException
-	 *  @ejb.create-method view-type="both"
-	 *  @ejb.permission unchecked="true"
 	 */
-	public void ejbCreate() throws EJBException, CreateException
+	@PostConstruct
+	public void ejbCreate() 
 	{
 		m_no = ++s_no;
 		try
@@ -290,56 +262,7 @@ public class ServerBean implements SessionBean
 		}
 		log.info ("#" + getStatus());
 	}	//	ejbCreate
-
-
-	// -------------------------------------------------------------------------
-	// Framework Callbacks
-	// -------------------------------------------------------------------------
-
-	/**
-	 * Method setSessionContext
-	 * @param aContext SessionContext
-	 * @throws EJBException
-	 * @see javax.ejb.SessionBean#setSessionContext(SessionContext)
-	 */
-	public void setSessionContext (SessionContext aContext) throws EJBException
-	{
-		m_Context = aContext;
-	}	//	setSessionContext
-
-	/**
-	 * Method ejbActivate
-	 * @throws EJBException
-	 * @see javax.ejb.SessionBean#ejbActivate()
-	 */
-	public void ejbActivate() throws EJBException
-	{
-		if (log == null)
-			log = CLogger.getCLogger(getClass());
-		log.info ("ejbActivate " + getStatus());
-	}	//	ejbActivate
-
-	/**
-	 * Method ejbPassivate
-	 * @throws EJBException
-	 * @see javax.ejb.SessionBean#ejbPassivate()
-	 */
-	public void ejbPassivate() throws EJBException
-	{
-		log.info ("ejbPassivate " + getStatus());
-	}	//	ejbPassivate
-
-	/**
-	 * Method ejbRemove
-	 * @throws EJBException
-	 * @see javax.ejb.SessionBean#ejbRemove()
-	 */
-	public void ejbRemove() throws EJBException
-	{
-		log.info ("ejbRemove " + getStatus());
-	}	//	ejbRemove
-
-
+	
 	/**************************************************************************
 	 * 	Dump SerialVersionUID of class 
 	 *	@param clazz class

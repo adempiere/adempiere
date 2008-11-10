@@ -377,21 +377,18 @@ public class ConfigOracle extends Config
 		setProperty(ConfigurationData.ADEMPIERE_DB_USER, databaseUser);
 		setProperty(ConfigurationData.ADEMPIERE_DB_PASSWORD, databasePassword);
 
-		//	TNS Name Info via sqlplus - if not tomcat 
-		if (!p_data.getAppsServerType().equals(ConfigurationData.APPSTYPE_TOMCAT))
-		{
-			String sqlplus = "sqlplus system/" + systemPassword + "@" 
-				+ databaseServer.getHostName() + "/" + databaseName
-				+ " @utils/oracle/Test.sql";
-			log.config(sqlplus);
-			pass = testSQL(sqlplus);
-			error = "Error connecting via: " + sqlplus;
-			if (getPanel() != null)
-				signalOK(getPanel().okDatabaseSQL, "ErrorTNS", 
-					pass, true, error);
-			if (pass)
-				log.info("OK: Database SQL Connection");
-		}
+		//	TNS Name Info via sqlplus 
+		String sqlplus = "sqlplus system/" + systemPassword + "@" 
+			+ databaseServer.getHostName() + "/" + databaseName
+			+ " @utils/oracle/Test.sql";
+		log.config(sqlplus);
+		pass = testSQL(sqlplus);
+		error = "Error connecting via: " + sqlplus;
+		if (getPanel() != null)
+			signalOK(getPanel().okDatabaseSQL, "ErrorTNS", 
+				pass, true, error);
+		if (pass)
+			log.info("OK: Database SQL Connection");
 		
 		//	OCI Test
 		if (System.getProperty("TestOCI", "N").equals("Y"))

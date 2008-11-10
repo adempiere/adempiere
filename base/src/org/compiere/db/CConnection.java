@@ -24,6 +24,7 @@ import javax.naming.*;
 import javax.sql.*;
 import javax.swing.JOptionPane;
 
+import org.adempiere.as.ASFactory;
 import org.compiere.*;
 import org.compiere.interfaces.*;
 import org.compiere.util.*;
@@ -61,7 +62,12 @@ public class CConnection implements Serializable, Cloneable
 	/** Connection Profile WAN			*/
 	@Deprecated
 	public static final String	PROFILE_WAN = "W";
-
+	
+	private final static String COMPONENT_NS = "java:comp/env";
+	
+	/** Prefer component namespace when running at server **/ 
+	private boolean useComponentNamespace = !Ini.isClient();
+	
 	/**
 	 *  Get/Set default client/server Connection 
 	 *  @return Connection Descriptor
@@ -89,7 +95,7 @@ public class CConnection implements Serializable, Cloneable
 				{
 					cc = new CConnection(apps_host);
 					cc.setConnectionProfile(CConnection.PROFILE_LAN);
-					cc.setAppsPort(DEFAULT_APP_SERVER_PORT);
+					cc.setAppsPort(ASFactory.getApplicationServer().getDefaultNamingServicePort());
 					if (cc.testAppsServer() == null)
 					{
 						s_cc = cc;
@@ -168,7 +174,7 @@ public class CConnection implements Serializable, Cloneable
 	 *  Adempiere Connection
 	 *  @param	host optional application/db host
 	 */
-	private CConnection (String host)
+	public CConnection (String host)
 	{
 		if (host != null)
 		{
@@ -177,17 +183,14 @@ public class CConnection implements Serializable, Cloneable
 		}
 	} 	//  CConnection
 
-	/** Default jboss port **/
-	private final static int DEFAULT_APP_SERVER_PORT = 1099;
-	
 	/** Name of Connection  */
 	private String 		m_name = "Standard";
 
 	/** Application Host    */
 	private String 		m_apps_host = "MyAppsServer";
 	/** Application Port    */
-	private int 		m_apps_port = DEFAULT_APP_SERVER_PORT;
-
+	private int 		m_apps_port = ASFactory.getApplicationServer().getDefaultNamingServicePort();
+	
 	/** Database Type       */
 	private String 		m_type = "";
 
@@ -241,7 +244,7 @@ public class CConnection implements Serializable, Cloneable
 	private String		m_dbInfo = null;
 	
 	/** Had application server been query **/
-	private boolean m_queryAppsServer = false;
+	private boolean m_queryAppsServer = false;	
 
 	private final static String SECURITY_PRINCIPAL = "org.adempiere.security.principal";
 	
@@ -339,35 +342,45 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public boolean isAppsServerOK (boolean tryContactAgain)
 	{
-		if (!tryContactAgain && m_queryAppsServer)
+		if (Ini.isClient() && !tryContactAgain && m_queryAppsServer)
 			return m_okApps;
 
+		// Carlos Ruiz - globalqss - speed up when jnp://MyAppsServer:1099 is set
+		if (getAppsHost().equalsIgnoreCase("MyAppsServer")) {
+			log.warning (getAppsHost() + " ignored");
+			return false;
+		}
+		
 		m_queryAppsServer = true;
 		
-		//	Get Context
-		if (m_iContext == null)
-		{
-			getInitialContext (false);
-			if (!m_okApps)
-				return false;
-		}
-
 		//	Contact it
 		try
 		{
-			StatusHome statusHome = (StatusHome)m_iContext.lookup (StatusHome.JNDI_NAME);
-			Status status = statusHome.create ();
+			Status status = (Status)lookup (Status.JNDI_NAME);
 			m_version = status.getDateVersion ();
-			status.remove ();
 			m_okApps = true;
 		}
 		catch (Exception ce)
 		{
 			m_okApps = false;
+			String connect = (String)m_env.get(Context.PROVIDER_URL);
+			if (connect == null || connect.trim().length() == 0)
+				connect = getAppsHost() + ":" + getAppsPort();
+			log.warning (connect
+				+ "\n - " + ce.toString ()
+				+ "\n - " + m_env);
+			ce.printStackTrace();
 		}
 		catch (Throwable t)
 		{
 			m_okApps = false;
+			String connect = (String)m_env.get(Context.PROVIDER_URL);
+			if (connect == null || connect.trim().length() == 0)
+				connect = getAppsHost() + ":" + getAppsPort();
+			log.warning (connect
+				+ "\n - " + t.toString ()
+				+ "\n - " + m_env);
+			t.printStackTrace();
 		}
 		return m_okApps;
 	} 	//  isAppsOK
@@ -376,11 +389,9 @@ public class CConnection implements Serializable, Cloneable
 	 *  Test ApplicationServer
 	 *  @return Exception or null
 	 */
-	public Exception testAppsServer ()
+	public synchronized Exception testAppsServer ()
 	{
-		//if (queryAppsServerInfo ())
-		//	testDatabase (false);
-		queryAppsServerInfo ();
+		queryAppsServerInfo();
 		return getAppsServerException ();
 	} 	//  testAppsServer
 
@@ -395,21 +406,18 @@ public class CConnection implements Serializable, Cloneable
 		{
 			try
 			{
-				InitialContext ic = getInitialContext (Ini.isClient());
-				if (ic != null)
-				{
-					ServerHome serverHome = (ServerHome)ic.lookup (ServerHome.JNDI_NAME);
-					if (serverHome != null)
-						if (Ini.isClient())
-							m_server = serverHome.create();
-						else
-							return serverHome.create();
-				}
+				Server server = (Server)lookup (Server.JNDI_NAME);
+				if (server != null)
+					if (Ini.isClient())
+						m_server = server;
+					else
+						return server;
 			}
 			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, "", ex);
 				m_iContext = null;
+				throw new RuntimeException(ex);
 			}
 		}
 		return m_server;
@@ -1375,8 +1383,10 @@ public class CConnection implements Serializable, Cloneable
 		if (m_env == null || !useCache)
 		{
 			SecurityPrincipal sp = (SecurityPrincipal) Env.getCtx().get(SECURITY_PRINCIPAL);
-			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), isRMIoverHTTP(), 
-					sp != null ? sp.principal : null, sp != null ? sp.credential : null);
+			String principal = sp != null ? sp.principal : null;
+			String credential = sp != null ? sp.credential : null; 
+			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), false, 
+					principal, credential);
 		}
 		String connect = (String)m_env.get(Context.PROVIDER_URL);
 		Env.setContext(Env.getCtx(), Context.PROVIDER_URL, connect);
@@ -1402,75 +1412,21 @@ public class CConnection implements Serializable, Cloneable
 		return m_iContext;
 	}	//	getInitialContext
 
-	public static Hashtable getInitialEnvironment (String AppsHost, int AppsPort,
-			boolean RMIoverHTTP)
-	{
-		return getInitialEnvironment(AppsHost, AppsPort, RMIoverHTTP, null, null);
-	}
-	
 	/**
 	 * 	Get Initial Environment
 	 * 	@param AppsHost host
 	 * 	@param AppsPort port
-	 * 	@param RMIoverHTTP ignore
+	 * 	@param RMIoverHTTP ignore, retained for backward compatibility
 	 *  @param principal
 	 *  @param credential
 	 *	@return environment
 	 */
-	public static Hashtable getInitialEnvironment (String AppsHost, int AppsPort,
+	private Hashtable getInitialEnvironment (String AppsHost, int AppsPort,
 		boolean RMIoverHTTP, String principal, String credential)
 	{
-		//	Set Environment
-		Hashtable<String,String> env = new Hashtable<String,String>();
-		String connect = AppsHost;
-		if (AppsHost.indexOf("://") == -1)
-			connect = "jnp://" + AppsHost + ":" + AppsPort;
-		env.put (Context.PROVIDER_URL, connect);		
-		env.put (Context.URL_PKG_PREFIXES, "org.jboss.naming.client");
-		//	HTTP - default timeout 0
-		env.put (org.jnp.interfaces.TimedSocketFactory.JNP_TIMEOUT, "5000");	//	timeout in ms
-		env.put (org.jnp.interfaces.TimedSocketFactory.JNP_SO_TIMEOUT, "5000");
-		//	JNP - default timeout 5 sec
-		env.put(org.jnp.interfaces.NamingContext.JNP_DISCOVERY_TIMEOUT, "5000");
-		
-		if (principal != null && credential != null)
-		{
-			env.put (Context.INITIAL_CONTEXT_FACTORY,"org.jboss.security.jndi.JndiLoginInitialContextFactory");
-			env.put(Context.SECURITY_PRINCIPAL, principal);
-			env.put(Context.SECURITY_CREDENTIALS, credential);
-		}
-		else
-		{
-			env.put (Context.INITIAL_CONTEXT_FACTORY,"org.jnp.interfaces.NamingContextFactory");
-		}
-		
-		return env;
+		return ASFactory.getApplicationServer()
+			.getInitialContextEnvironment(AppsHost, AppsPort, principal, credential);
 	}	//	getInitialEnvironment
-
-	/**
-	 * 	Get Initial Context
-	 *	@param env environment
-	 *	@return Initial Context
-	 */
-	public static InitialContext getInitialContext (Hashtable env)
-	{
-		InitialContext iContext = null;
-		try
-		{
-			iContext = new InitialContext (env);
-		}
-		catch (Exception ex)
-		{
-			log.warning ("URL=" + env.get(Context.PROVIDER_URL)
-				+ "\n - " + ex.toString ()
-				+ "\n - " + env);
-			iContext = null;
-			if (CLogMgt.isLevelFinest())
-				ex.printStackTrace();
-		}
-		return iContext;
-	}	//	getInitialContext
-
 
 	/**
 	 *  Query Application Server Status.
@@ -1484,10 +1440,6 @@ public class CConnection implements Serializable, Cloneable
 		m_okApps = false;
 		m_queryAppsServer = true;
 		m_appsException = null;
-		//
-		getInitialContext (false);
-		if (m_iContext == null)
-			return m_okApps;	//	false
 		
 		// Carlos Ruiz - globalqss - speed up when jnp://MyAppsServer:1099 is set
 		if (getAppsHost().equalsIgnoreCase("MyAppsServer")) {
@@ -1495,35 +1447,36 @@ public class CConnection implements Serializable, Cloneable
 			return m_okApps; // false
 		}
 		
-		//	Prevent error trace
-	//	CLogMgtLog4J.enable(false);
 		try
 		{
-			StatusHome statusHome = (StatusHome)m_iContext.lookup (StatusHome.JNDI_NAME);
-			Status status = statusHome.create ();
+			Status status = (Status)lookup (Status.JNDI_NAME);
 			//
 			updateInfoFromServer(status);
 			//
-			status.remove ();
 			m_okApps = true;
 		}
 		catch (CommunicationException ce)	//	not a "real" error
 		{
 			m_appsException = ce;
 			String connect = (String)m_env.get(Context.PROVIDER_URL);
+			if (connect == null || connect.trim().length() == 0)
+				connect = getAppsHost() + ":" + getAppsPort();
 			log.warning (connect
 				+ "\n - " + ce.toString ()
 				+ "\n - " + m_env);
+			ce.printStackTrace();
 		}
 		catch (Exception e)
 		{
 			m_appsException = e;
 			String connect = (String)m_env.get(Context.PROVIDER_URL);
+			if (connect == null || connect.trim().length() == 0)
+				connect = getAppsHost() + ":" + getAppsPort();
 			log.warning (connect
 				+ "\n - " + e.toString ()
 				+ "\n - " + m_env);
+			e.printStackTrace();
 		}
-		CLogMgtLog4J.enable(true);
 		log.fine("Success=" + m_okApps + " - " + (System.currentTimeMillis()-start) + "ms");
 		return m_okApps;
 	}	//  setAppsServerInfo
@@ -1636,6 +1589,27 @@ public class CConnection implements Serializable, Cloneable
 		info[1] = m_info[1];
 		c.m_info = info;
 		return c;
+	}
+	
+	private Object lookup(String jndiName) throws NamingException {
+		InitialContext ctx = getInitialContext(Ini.isClient());
+		
+		if (useComponentNamespace)
+		{
+			try 
+			{
+				return ctx.lookup(COMPONENT_NS + "/" + jndiName);
+			} 
+			catch (Exception e) 
+			{
+				log.warning("Component name space not available - " + e.getLocalizedMessage());
+				//not available
+				useComponentNamespace = false;
+			}
+		}
+		
+		//global jndi lookup
+		return ctx.lookup(jndiName);
 	}
 	
 	/**************************************************************************

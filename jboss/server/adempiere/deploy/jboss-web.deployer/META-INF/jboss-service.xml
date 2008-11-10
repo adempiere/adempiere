@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: jboss-service.xml 75558 2008-07-09 16:50:17Z bstansberry@jboss.com $ -->
+<server> 
+   
+   <!-- JBossWeb Service-->
+   <mbean code="org.jboss.web.tomcat.service.JBossWeb"
+      name="jboss.web:service=WebServer" xmbean-dd="META-INF/webserver-xmbean.xml">
+      
+      <!-- You can configure a set of authenticators keyed by http-auth method used. This
+      will apply the same set of authenticators across all web applications. You can
+      override the set of authenticators at the web application level by adding
+      <authenticators> element to the respective jboss-web.xml --> 
+      <!--
+      -->
+      <attribute name="Authenticators" serialDataType="jbxb">
+         <java:properties xmlns:java="urn:jboss:java-properties"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+            xs:schemaLocation="urn:jboss:java-properties resource:java-properties_1_0.xsd">
+            <java:property>
+               <java:key>BASIC</java:key>
+               <java:value>org.apache.catalina.authenticator.BasicAuthenticator</java:value>
+            </java:property>
+            <java:property>
+               <java:key>CLIENT-CERT</java:key>
+               <java:value>org.apache.catalina.authenticator.SSLAuthenticator</java:value>
+            </java:property>
+            <java:property>
+               <java:key>DIGEST</java:key>
+               <java:value>org.apache.catalina.authenticator.DigestAuthenticator</java:value>
+            </java:property>
+            <java:property>
+               <java:key>FORM</java:key>
+               <java:value>org.apache.catalina.authenticator.FormAuthenticator</java:value>
+            </java:property> 
+            <java:property>
+               <java:key>NONE</java:key>
+               <java:value>org.apache.catalina.authenticator.NonLoginAuthenticator</java:value>
+            </java:property> 
+         </java:properties>
+      </attribute> 
+	   
+      <!-- The JAAS security domain to use in the absense of an explicit
+      security-domain specification in the war WEB-INF/jboss-web.xml
+      -->
+      <attribute name="DefaultSecurityDomain">java:/jaas/other</attribute>
+
+      <!-- Get the flag indicating if the normal Java2 parent first class
+           loading model should be used over the servlet 2.3 web container first
+           model.
+      -->
+      <attribute name="Java2ClassLoadingCompliance">false</attribute>
+      <!-- A flag indicating if the JBoss Loader should be used. This loader
+           uses a unified class loader as the class loader rather than the tomcat
+           specific class loader.
+           The default is false to ensure that wars have isolated class loading
+           for duplicate jars and jsp files.
+      -->
+      <attribute name="UseJBossWebLoader">false</attribute>
+      <!-- The list of package prefixes that should not be loaded without
+         delegating to the parent class loader before trying the web app
+         class loader. The packages listed here are those tha are used by
+         the web container implementation and cannot be overriden. The format
+         is a comma separated list of the package names. There cannot be any
+         whitespace between the package prefixes.
+         This setting only applies when UseJBossWebLoader=false.
+      -->
+      <attribute name="FilteredPackages">javax.servlet</attribute>
+
+      <attribute name="LenientEjbLink">true</attribute>
+
+      <!--Flag to delete the Work Dir on Context Destroy -->
+      <attribute name="DeleteWorkDirOnContextDestroy">false</attribute>
+
+      <!--
+          Class of the session manager (used if context is marked as 'distributable'. Currently allowed values:
+          - org.jboss.web.tomcat.service.session.JBossCacheManager
+      -->
+      <attribute name="ManagerClass">org.jboss.web.tomcat.service.session.JBossCacheManager</attribute>
+
+      <!-- The name of the request attribute under with the authenticated JAAS
+      Subject is stored on successful authentication. If null or empty then
+      the Subject will not be stored.
+      -->
+      <!--
+      <attribute name="SubjectAttributeName">j_subject</attribute>
+      -->
+
+      <!-- The SessionIdAlphabet is the set of characters used to create a session Id
+           It must be made up of exactly 65 unique characters
+      <attribute name="SessionIdAlphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-*</attribute>
+      -->
+
+      <!--
+      *******************************************************
+      ****************** CLUSTERING *************************
+      *******************************************************
+      In order to activate HTTP Session clustering for Tomcat
+      make sure you run JBoss's "all" configuration i.e.
+      "run -c all"
+      (the default configuration doesn't contain clustering)
+ 
+      Furthermore, you may change SnapshotMode and
+      SnapshotInterval attributes below to indicate when to
+      synchronize changes with the other node(s).   
+
+      If you use Apache+mod_jk(2) you will most probably use
+      the AJP1.3 connector below. Thus, if you so wish,
+      you may comment (i.e. deactivate) the HTTP connector
+      as it won't be used anymore.
+
+      *******************************************************
+      *******************************************************
+      *******************************************************
+      --> 
+		
+      <!--
+      If you are using clustering, the following two attributes
+      define when the sessions are replicated to the other nodes.
+      The default value, "instant", synchronously replicates changes
+      to the other nodes at the end of requests. In this case, the 
+      "SnapshotInterval" attribute is not used.
+      The "interval" mode, in association with the "SnapshotInterval"
+      attribute, indicates that modified sessions will only be replicated
+      every "SnapshotInterval" milliseconds at most.
+		
+      Note that this attribute is not in effect if the replication-granularity
+      is set to FIELD. If it is FIELD, it will be per http request (that is, 
+      "instant" mode.)
+      --> 
+      <attribute name="SnapshotMode">instant</attribute> <!-- you may switch to "interval" -->
+      <attribute name="SnapshotInterval">2000</attribute>
+
+      <!--
+      Whether to use MOD_JK(2) for load balancing with sticky session 
+      combined with JvmRoute. If set to true, it will insert a JvmRouteFilter 
+      to intercept every request and replace the JvmRoute if it detects a 
+      failover. In addition, you will need to set the JvmRoute inside
+      Tomcat, e.g.,
+        Engine name="jboss.web" jmvRoute="Node1" defaultHost="localhost" 
+      in server.xml.
+
+      For clustering purpose only.
+      -->
+      <attribute name="UseJK">false</attribute>
+
+      <!--
+       Clustering only: Determines the maximum interval between requests, in 
+       seconds, after which a request will trigger replication of the session's 
+       timestamp and other metadata regardless of whether the request has otherwise 
+       made the session dirty.  Such replication ensures that other nodes in the 
+       cluster are aware of the most recent value for the session's timestamp 
+       and won't incorrectly expire an unreplicated session upon failover. It also
+       results in correct values for HttpSession.getLastAccessedTime() calls 
+       following failover.
+
+       The cost of this metadata replication depends on the configured
+       replication-granularity. With <code>SESSION</code>, the session's 
+       attribute map is replicated along with the metadata, so it can be fairly 
+       costly.  With other granularities, the metadata object is replicated 
+       separately from the attributes and only contains a String, and a few longs, 
+       ints and booleans.
+   
+       A value of 0 means the metadata will be replicated whenever the session is
+       accessed.  A value of -1 means the metadata will be replicated only if some
+       other activity during the request (e.g. modifying an attribute) has
+       resulted in other replication work involving the session. A positive value
+       greater than the HttpSession.getMaxInactiveInterval() value will be treated 
+       as a likely misconfiguration and converted to 0; i.e. replicate the 
+       metadata on every request.
+    
+       Default value if unconfigured is 60 seconds.
+      -->
+      <attribute name="MaxUnreplicatedInterval">60</attribute>
+
+      <attribute name="Domain">jboss.web</attribute>
+
+      <!-- A mapping to the server security manager service which must be
+      operation compatible with type
+      org.jboss.security.plugins.JaasSecurityManagerServiceMBean. This is only
+      needed if web applications are allowed to flush the security manager
+      authentication cache when the web sessions invalidate.
+      -->
+      <depends optional-attribute-name="SecurityManagerService"
+         proxy-type="attribute">jboss.security:service=JaasSecurityManager
+      </depends>
+
+      <!--
+         Needed if using HTTP Session Clustering or if the
+         ClusteredSingleSignOn valve is enabled in the tomcat server.xml file
+      -->
+      <!--
+      <depends>jboss.cache:service=TomcatClusteringCache</depends>
+      -->
+      
+      <depends>jboss:service=TransactionManager</depends>
+      
+      <!-- Only needed if the org.jboss.web.tomcat.service.jca.CachedConnectionValve
+      is enabled in the tomcat server.xml file.
+      -->
+      <depends>jboss.jca:service=CachedConnectionManager</depends>
+      
+   </mbean>
+
+</server>

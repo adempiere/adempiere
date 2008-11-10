@@ -71,10 +71,8 @@ public class StatusInfo extends HttpServlet
 
 		try
 		{
-			StatusHome statusHome = (StatusHome)context.lookup (StatusHome.JNDI_NAME);
-			Status status = statusHome.create();
+			Status status = (Status)context.lookup (Status.JNDI_NAME);
 			out.println("<p>" + status.getStatus() + "</p>");
-			status.remove();
 		}
 		catch (Exception ex)
 		{
@@ -83,10 +81,8 @@ public class StatusInfo extends HttpServlet
 
 		try
 		{
-			ServerHome serverHome = (ServerHome)context.lookup (ServerHome.JNDI_NAME);
-			Server server = serverHome.create();
+			Server server = (Server)context.lookup (Server.JNDI_NAME);
 			out.println("<p>" + server.getStatus() + "</p>");
-			server.remove();
 		}
 		catch (Exception ex)
 		{

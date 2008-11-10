@@ -7,7 +7,7 @@
 ]>
 
 <!-- The JNDI Naming service XMBean
-$Id: NamingService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
+$Id: NamingService-xmbean.xml 60231 2007-02-03 08:00:43Z scott.stark@jboss.org $
 -->
 <mbean>
    <description>The standard JBoss JNDI naming server with a custom
@@ -41,6 +41,16 @@ $Id: NamingService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
       <name>MethodMap</name>
       <type>java.util.Map</type>
    </attribute>
+   <attribute access="read-write" getMethod="getNaming" setMethod="setNaming">
+      <description>Underlying Naming bean instance</description>
+      <name>Naming</name>
+      <type>org.jnp.server.NamingBean</type>
+   </attribute>
+   <attribute access="read-only" getMethod="getNamingInstance">
+      <description>Underlying Naming bean instance</description>
+      <name>NamingInstance</name>
+      <type>org.jnp.interfaces.Naming</type>
+   </attribute>   
    <attribute access="read-write" getMethod="getCallByValue" setMethod="setCallByValue">
       <description>The call by value mode. true if all lookups are unmarshalled using
       the caller's TCL, false if in VM lookups return the value by reference.</description>
@@ -65,9 +75,15 @@ $Id: NamingService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
    </attribute>
    <attribute access="read-write" getMethod="getJNPServerSocketFactory"
       setMethod="setJNPServerSocketFactory">
-      <description>The bootstrap socket javax.net.ServerSocketFactory</description>
+      <description>The bootstrap socket javax.net.ServerSocketFactory class name</description>
       <name>JNPServerSocketFactory</name>
       <type>java.lang.String</type>
+   </attribute>
+   <attribute access="read-write" getMethod="getJNPServerSocketFactoryBean"
+      setMethod="setJNPServerSocketFactoryBean">
+      <description>The bootstrap socket javax.net.ServerSocketFactory</description>
+      <name>JNPServerSocketFactoryBean</name>
+      <type>javax.net.ServerSocketFactory</type>
    </attribute>
 
    <attribute access="read-write" getMethod="getRmiPort" setMethod="setRmiPort">
@@ -82,19 +98,40 @@ $Id: NamingService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
       <type>java.lang.String</type>
    </attribute>
    <attribute access="read-write" getMethod="getClientSocketFactory" setMethod="setClientSocketFactory">
-      <description>The RMI service java.rmi.server.RMIClientSocketFactory</description>
+      <description>The RMI service java.rmi.server.RMIClientSocketFactory class name</description>
       <name>ClientSocketFactory</name>
       <type>java.lang.String</type>
    </attribute>
+   <attribute access="read-write" getMethod="getClientSocketFactoryBean" setMethod="setClientSocketFactoryBean">
+      <description>The RMI service java.rmi.server.RMIServerSocketFactory instance</description>
+      <name>ClientSocketFactoryBean</name>
+      <type>java.rmi.server.RMIClientSocketFactory</type>
+   </attribute>
    <attribute access="read-write" getMethod="getServerSocketFactory" setMethod="setServerSocketFactory">
-      <description>The RMI service java.rmi.server.RMIServerSocketFactory</description>
+      <description>The RMI service java.rmi.server.RMIServerSocketFactory class name</description>
       <name>ServerSocketFactory</name>
       <type>java.lang.String</type>
+   </attribute>
+   <attribute access="read-write" getMethod="getServerSocketFactoryBean" setMethod="setServerSocketFactoryBean">
+      <description>The RMI service java.rmi.server.RMIServerSocketFactory instance</description>
+      <name>ServerSocketFactory</name>
+      <type>java.rmi.server.RMIServerSocketFactory</type>
    </attribute>
 
    <attribute access="read-write" getMethod="getInstallGlobalService"
       setMethod="setInstallGlobalService">
+      <description>Ghe InstallGlobalService which defines whether the MainMBean's
+         Naming server will be installed as the NamingContext.setLocal global
+         value.</description>
       <name>InstallGlobalService</name>
+      <type>boolean</type>
+   </attribute>
+   <attribute access="read-write" getMethod="getUseGlobalService"
+      setMethod="setUseGlobalService">
+      <description>The UseGlobalService which defines whether the MainMBean's
+         Naming server will initialized from the existing NamingContext.setLocal global
+         value.</description>
+      <name>UseGlobalService</name>
       <type>boolean</type>
    </attribute>
    <attribute access="write-only" setMethod="setLookupPool">
@@ -122,6 +159,36 @@ $Id: NamingService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
          <type>org.jboss.invocation.Invocation</type>
       </parameter>
       <return-type>java.lang.Object</return-type>
+   </operation>
+   <operation>
+      <description>Create an alias in jndi
+      </description>
+      <name>createAlias</name>
+      <parameter>
+         <description>The from name
+         </description>
+         <name>fromName</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <parameter>
+         <description>The to name
+         </description>
+         <name>toName</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
+   </operation>
+   <operation>
+      <description>Remove an alias from jndi
+      </description>
+      <name>removeAlias</name>
+      <parameter>
+         <description>The name
+         </description>
+         <name>name</name>
+         <type>java.lang.String</type>
+      </parameter>
+      <return-type>void</return-type>
    </operation>
 
    &defaultOperations;   			

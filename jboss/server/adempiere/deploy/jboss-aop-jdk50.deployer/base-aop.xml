@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aop PUBLIC
+   "-//JBoss//DTD JBOSS AOP 1.0//EN"
+   "http://labs.jboss.com/portal/jbossaop/dtd/jboss-aop_1_0.dtd">
+
+<aop>
+   <!-- custom configuration for AOP Security -->
+   <metadata-loader tag="security" class="org.jboss.aspects.security.SecurityClassMetaDataLoader"/>
+
+   <stack name="J2EESecurityStack">
+      <interceptor factory="org.jboss.aspects.security.AuthenticationInterceptorFactory" scope="PER_CLASS"/>
+      <interceptor factory="org.jboss.aspects.security.RoleBasedAuthorizationInterceptorFactory" scope="PER_CLASS"/>
+      <interceptor factory="org.jboss.aspects.security.RunAsSecurityInterceptorFactory" scope="PER_CLASS"/>
+   </stack>
+
+   <bind pointcut="all(@security)">
+      <stack-ref name="J2EESecurityStack"/>
+   </bind>
+
+   <bind pointcut="all(@org.jboss.aspects.security.Permissions)">
+      <stack-ref name="J2EESecurityStack"/>
+   </bind>
+
+   <bind pointcut="all(@org.jboss.aspects.security.Unchecked)">
+      <stack-ref name="J2EESecurityStack"/>
+   </bind>
+
+   <bind pointcut="all(@org.jboss.aspects.security.Exclude)">
+      <stack-ref name="J2EESecurityStack"/>
+   </bind>
+
+   <introduction expr="class(@org.jboss.aspects.jmx.MBean)">
+      <mixin>
+         <interfaces>javax.management.DynamicMBean</interfaces>
+         <class>org.jboss.aspects.jmx.JmxIntrospectingMixin</class>
+         <construction>new org.jboss.aspects.jmx.JmxIntrospectingMixin(this)</construction>
+      </mixin>
+   </introduction>
+
+   <!-- asynchronous aspect -->
+   <aspect class="org.jboss.aspects.asynch.AsynchAspect" scope="PER_INSTANCE">
+      <advisor-attribute name="Advisor"/>
+   </aspect>
+
+   <bind pointcut="execution(!static * *->@org.jboss.aspects.asynch.Asynchronous(..))">
+      <advice name="execute" aspect="org.jboss.aspects.asynch.AsynchAspect"/>
+   </bind>
+
+   <introduction expr="has(!static * *->@org.jboss.aspects.asynch.Asynchronous(..))">
+      <mixin>
+         <interfaces>org.jboss.aspects.asynch.AsynchProvider,org.jboss.aspects.asynch.FutureHolder</interfaces>
+         <class>org.jboss.aspects.asynch.AsynchMixin</class>
+      </mixin>
+   </introduction>
+
+   <!-- old asynch aspect from Claude -->
+
+   <aspect class="org.jboss.aspects.asynchronous.aspects.jboss.AsynchronousAspect" scope="PER_VM"/>
+
+   <bind pointcut="execution(* *->@org.jboss.aspects.asynchronous.aspects.jboss.Asynchronous(..))">
+      <advice name="execute" aspect="org.jboss.aspects.asynchronous.aspects.jboss.AsynchronousAspect"/>
+   </bind>
+
+   <introduction expr="has(* *->@org.jboss.aspects.asynchronous.aspects.jboss.Asynchronous(..)) OR class(@org.jboss.aspects.asynchronous.aspects.jboss.Asynchronous)">
+
+      <mixin>
+         <interfaces>
+            org.jboss.aspects.asynchronous.aspects.AsynchronousFacade
+         </interfaces>
+         <class>org.jboss.aspects.asynchronous.aspects.AsynchronousFacadeImpl</class>
+         <construction>new org.jboss.aspects.asynchronous.aspects.AsynchronousFacadeImpl()</construction>
+      </mixin>
+   </introduction>
+
+   <!-- TRANSACTIONS -->
+   <interceptor class="org.jboss.aspects.tx.TxPropagationInterceptor" scope="PER_VM"/>
+   <interceptor factory="org.jboss.aspects.tx.TxInterceptorFactory" scope="PER_CLASS_JOINPOINT"/>
+
+   <bind pointcut="all(@transaction)">
+      <interceptor-ref name="org.jboss.aspects.tx.TxInterceptorFactory"/>
+   </bind>
+
+   <interceptor name="class-txsynchronized" factory="org.jboss.aspects.txlock.TxLockInterceptorFactory" scope="PER_CLASS"/>
+   <interceptor name="instance-txsynchronized" factory="org.jboss.aspects.txlock.TxLockInterceptorFactory" scope="PER_INSTANCE"/>
+
+   <bind pointcut="execution(static * *->@TxSynchronized(..)) OR execution(*->@TxSynchronized(..))">
+      <interceptor-ref name="class-txsynchronized"/>
+   </bind>
+
+   <bind pointcut="execution(!static * *->@TxSynchronized(..))">
+      <interceptor-ref name="instance-txsynchronized"/>
+   </bind>
+
+   <bind pointcut="all(@org.jboss.aspects.tx.Tx)">
+      <interceptor-ref name="org.jboss.aspects.tx.TxInterceptorFactory"/>
+   </bind>
+
+   <bind pointcut="execution(static * *->@org.jboss.aspects.txlock.TxSynchronized(..)) OR execution(*->@org.jboss.aspects.txlock.TxSynchronized(..))">
+      <interceptor-ref name="class-txsynchronized"/>
+   </bind>
+
+   <bind pointcut="execution(!static * *->@org.jboss.aspects.txlock.TxSynchronized(..))">
+      <interceptor-ref name="instance-txsynchronized"/>
+   </bind>
+
+   <!-- injection -->
+   <aspect class="org.jboss.aspects.tx.TransactionInjector"/>
+   <aspect class="org.jboss.aspects.tx.TransactionManagerInjector"/>
+
+   <bind pointcut="field(javax.transaction.Transaction *->@org.jboss.aspects.Current)">
+      <advice name="access" aspect="org.jboss.aspects.tx.TransactionInjector"/>
+   </bind>
+
+   <bind pointcut="field(javax.transaction.TransactionManager *->@org.jboss.aspects.Injected)">
+      <advice name="access" aspect="org.jboss.aspects.tx.TransactionManagerInjector"/>
+   </bind>
+
+   <bind pointcut="execution(*->new(..)) AND hasfield(javax.transaction.TransactionManager *->@org.jboss.aspects.Injected)">
+      <advice name="allocation" aspect="org.jboss.aspects.tx.TransactionManagerInjector"/>
+   </bind>
+
+   <!-- special types -->
+   <aspect class="org.jboss.aspects.ThreadbasedAspect" scope="PER_JOINPOINT"/>
+   <bind pointcut="field(* *->@org.jboss.aspects.Threadbased)">
+      <advice name="access" aspect="org.jboss.aspects.ThreadbasedAspect"/>
+   </bind>
+
+   <aspect class="org.jboss.aspects.tx.TransactionLocalAspect" scope="PER_JOINPOINT"/>
+   <bind pointcut="field(* *->@org.jboss.aspects.tx.TxLocal)">
+      <advice name="access" aspect="org.jboss.aspects.tx.TransactionLocalAspect"/>
+   </bind>
+
+</aop>

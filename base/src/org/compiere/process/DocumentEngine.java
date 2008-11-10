@@ -464,10 +464,10 @@ public class DocumentEngine implements DocAction
 			Server server = CConnection.get().getServer();
 			if (server != null)
 			{
-				String error = server.postImmediate(Env.getCtx(), 
+				String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
 					m_document.getAD_Client_ID(),
 					m_document.get_Table_ID(), m_document.get_ID(), 
-					true, m_document.get_TrxName());
+					true, null);
 				m_document.get_Logger().config("Server: " + error == null ? "OK" : error);
 				return error == null;
 			}

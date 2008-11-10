@@ -28,7 +28,7 @@
   <path id="base.path">
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/j2ee.jar" />
+    <pathelement location="../tools/lib/javaee.jar" />
 
     <pathelement location="${build.classes.dir}" />
   </path>
@@ -44,7 +44,6 @@
     <mkdir dir="${build.war.dir}"/>
     <path id="web.path">
       <path refid="base.path"/>
-      <pathelement location="${servlet-lib.path}"/>
     </path>
   	
     <javac

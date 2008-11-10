@@ -59,7 +59,7 @@ public class ConfigGlassfish extends Config {
 		p_data.setAppsServerDeployDir(getDeployDir());
 		p_data.setAppsServerDeployDir(false);
 		//
-		p_data.setAppsServerJNPPort("1099");
+		p_data.setAppsServerJNPPort("3700");
 		p_data.setAppsServerJNPPort(true);
 		p_data.setAppsServerWebPort("8080");
 		p_data.setAppsServerWebPort(true);
@@ -74,7 +74,7 @@ public class ConfigGlassfish extends Config {
 	private String getDeployDir()
 	{
 		// TODO - check deployment directory
-		return p_data.getAdempiereHome();
+		return p_data.getAdempiereHome() + File.separator + "glassfish";
                 /*Commented for now
 			+ File.separator + "glassfish"
 			+ File.separator + "domains"
@@ -114,30 +114,10 @@ public class ConfigGlassfish extends Config {
 		setProperty(ConfigurationData.ADEMPIERE_APPS_SERVER, appsServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_APPS_TYPE, p_data.getAppsServerType());
 
-		//	Deployment Dir
-		p_data.setAppsServerDeployDir(getDeployDir());
-		File deploy = new File (p_data.getAppsServerDeployDir());
-		pass = deploy.exists();
-		error = "Not found: " + deploy;
-		if (getPanel() != null)
-			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
-				pass, true, error);
-		if (!pass)
-			return error;
 		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
-		log.info("OK: Deploy Directory = " + deploy);
 		
 		//	JNP Port
 		int JNPPort = p_data.getAppsServerJNPPort();
-		pass = !p_data.testPort (appsServer, JNPPort, false) 
-			&& p_data.testServerPort(JNPPort);
-		error = "Not correct: JNP Port = " + JNPPort;
-		if (getPanel() != null)
-			signalOK(getPanel().okJNPPort, "ErrorJNPPort", 
-				pass, true, error);
-		if (!pass)
-			return error;
-		log.info("OK: JNPPort = " + JNPPort);
 		setProperty(ConfigurationData.ADEMPIERE_JNP_PORT, String.valueOf(JNPPort));
 
 		//	Web Port

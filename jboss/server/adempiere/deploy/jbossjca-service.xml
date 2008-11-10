@@ -6,7 +6,7 @@
 <!--                                                                       -->
 <!-- ===================================================================== -->
 
-<!-- $Id: jbossjca-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: jbossjca-service.xml 37786 2005-11-02 20:35:46Z adrian $ -->
 
 <!-- 
    |  This contains configuration for the RARDeployer 
@@ -46,7 +46,9 @@
 
   <mbean code="org.jboss.deployment.XSLSubDeployer" name="jboss.jca:service=ConnectionFactoryDeployer">
     <attribute name="DdSuffix">-ds.xml</attribute>
+    <attribute name="EnhancedSuffixes">300:-ds.xml</attribute>
     <attribute name="XslUrl">stylesheets/ConnectionFactoryTemplate.xsl</attribute>
+    <attribute name="ValidateDTDs">false</attribute>
   </mbean>
 
   <!-- 
@@ -56,13 +58,6 @@
   <mbean code="org.jboss.resource.connectionmanager.CachedConnectionManager" 
          name="jboss.jca:service=CachedConnectionManager">
     <depends optional-attribute-name="TransactionManagerServiceName">jboss:service=TransactionManager</depends>
-
-    <!--SpecCompliant false means JBoss will close connections left open when you 
-        return from a method call and generate a loud warning.  SpecCompliant true
-        means JBoss will disconnect connection handles left open on return from a
-        method call and reconnect them with an appropriate (security, tx) 
-        connection on the next call to the same object.-->
-    <attribute name="SpecCompliant">false</attribute>
 
     <!-- Enable connection close debug monitoring -->
     <attribute name="Debug">true</attribute>

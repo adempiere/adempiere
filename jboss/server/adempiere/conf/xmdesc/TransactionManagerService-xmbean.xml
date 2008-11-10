@@ -3,7 +3,7 @@
    "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
    "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
 
-<!-- $Id: TransactionManagerService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: TransactionManagerService-xmbean.xml 32334 2005-06-17 06:45:59Z adrian $ -->
 <mbean>
 	 <description>TransactionManager Service.</description>
 	 <class>org.jboss.tm.TransactionManagerService</class>
@@ -27,6 +27,11 @@
 	 	<description>Name of the xidFactory</description>
 	 	<name>XidFactory</name>
 	 	<type>javax.management.ObjectName</type>
+	 </attribute>
+	 <attribute access="write-only" setMethod="setTransactionIntegrityFactory">
+	 	<description>Transaction Integrity Policy</description>
+	 	<name>TransactionIntegrityFactory</name>
+	 	<type>org.jboss.tm.integrity.TransactionIntegrityFactory</type>
 	 </attribute>
 	 <attribute access="read-only" getMethod="getTransactionManager">
 	 	<description>Returns the TransactionManager managed by this service</description>

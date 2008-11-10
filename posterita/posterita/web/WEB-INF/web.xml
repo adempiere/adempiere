@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<!DOCTYPE web-app
-  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
-  "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
-
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
 	<icon>
 		<large-icon>/C32.gif</large-icon>
 	</icon>
@@ -116,63 +115,7 @@
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
-  
-  
 
-
-  <!-- Struts Tag Library Descriptors -->
-  <taglib>
-    <taglib-uri>/tags/struts-bean</taglib-uri>
-    <taglib-location>/WEB-INF/struts-bean.tld</taglib-location>
-  </taglib>
-
-  <taglib>
-    <taglib-uri>/tags/struts-html</taglib-uri>
-    <taglib-location>/WEB-INF/struts-html.tld</taglib-location>
-  </taglib>
-
-  <taglib>
-    <taglib-uri>/tags/struts-logic</taglib-uri>
-    <taglib-location>/WEB-INF/struts-logic.tld</taglib-location>
-  </taglib>
-
-  <taglib>
-    <taglib-uri>/tags/struts-nested</taglib-uri>
-    <taglib-location>/WEB-INF/struts-nested.tld</taglib-location>
-  </taglib>
-
-  <taglib>
-    <taglib-uri>/tags/struts-tiles</taglib-uri>
-    <taglib-location>/WEB-INF/struts-tiles.tld</taglib-location>
-  </taglib>
- 
-  <!-- Compiere Taglib -->
-  
-  <!--
-  	<taglib>
-		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
-		<taglib-location>/WEB-INF/c.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>http://java.sun.com/jstl/fmt</taglib-uri>
-		<taglib-location>/WEB-INF/fmt.tld</taglib-location>
-	</taglib>
-	
-	
-	<taglib>
-		<taglib-uri>http://java.sun.com/jstl/sql</taglib-uri>
-		<taglib-location>/WEB-INF/sql.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>http://java.sun.com/jstl/xml</taglib-uri>
-		<taglib-location>/WEB-INF/x.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>webStore.tld</taglib-uri>
-		<taglib-location>/WEB-INF/webStore.tld</taglib-location>
-	</taglib>
-	-->
-	
   <filter>
     <filter-name>ResponseOverrideFilter</filter-name>
     <filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>

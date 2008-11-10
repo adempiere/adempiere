@@ -6,7 +6,7 @@
 >
 ]>
 <!-- The Log4JService service XMBean
-$Id: Log4jService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $
+$Id: Log4jService-xmbean.xml 28573 2005-02-11 13:15:54Z pilhuhn $
 -->
 <mbean>
 	<description>

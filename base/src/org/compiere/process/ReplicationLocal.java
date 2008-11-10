@@ -124,20 +124,17 @@ public class ReplicationLocal extends SvrProcess
 		//
 		String AppsHost = m_replication.getHostAddress();
 		int AppsPort = m_replication.getHostPort();
-		boolean RMIoverHTTP = m_replication.isRMIoverHTTP();
-		log.info (AppsHost + ":" + AppsPort + " - HTTP Tunnel=" + RMIoverHTTP);
-		InitialContext ic = CConnection.getInitialContext(
-			CConnection.getInitialEnvironment(AppsHost, AppsPort, RMIoverHTTP));
-		if (ic == null)
-			throw new Exception ("NoInitialContext");
-
+		
+		CConnection connection = new CConnection(AppsHost);
+		connection.setAppsPort(AppsPort);
+		log.info (AppsHost + ":" + AppsPort);
 		try
 		{
-			ServerHome serverHome = (ServerHome)ic.lookup (ServerHome.JNDI_NAME);
+			Server server = connection.getServer();
 		//	log.fine("- ServerHome: " + serverHome);
-			if (serverHome == null)
+			if (server == null)
 				throw new Exception ("NoServer");
-			m_serverRemote = serverHome.create();
+			m_serverRemote = server;
 		//	log.fine("- Server: " + m_serverRemote);
 		//	log.fine("- Remote Status = " + m_serverRemote.getStatus());
 		}

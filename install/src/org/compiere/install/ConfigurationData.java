@@ -827,6 +827,7 @@ public class ConfigurationData
 				getDatabaseServer(), getDatabasePort(), getDatabaseName(),
 				getDatabaseUser(), getDatabasePassword());
 			cc.setAppsHost(getAppsServer());
+			cc.setAppsPort(getAppsServerJNPPort());
 			cc.setConnectionProfile(CConnection.PROFILE_LAN);
 		}
 		catch(Exception e)
@@ -1024,29 +1025,17 @@ public class ConfigurationData
 
 	/**	JBoss (default)		*/
 	protected static String	APPSTYPE_JBOSS = "jboss";
-	/** Tomcat only			*/
-	protected static String	APPSTYPE_TOMCAT = "tomcatOnly";
 	/** GlassFish            */
-    protected static String APPSTYPE_GLASSFISH = "GlassFish";
-	/** IBM WS					*/
-	private static String	APPSTYPE_IBM = "<ibmWS>";
-	/** Oracle				*/
-	private static String	APPSTYPE_ORACLE = "<oracleAS>";
+    protected static String APPSTYPE_GLASSFISH = "glassfish";
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
 		{ APPSTYPE_JBOSS
 		, APPSTYPE_GLASSFISH
-		, APPSTYPE_TOMCAT
-		, APPSTYPE_IBM
-		, APPSTYPE_ORACLE
 		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
 	    { new ConfigJBoss(this)
 	    , new ConfigGlassfish( this )
-	    , new ConfigTomcat(this)
-	    , null
-	    , null
 	    };
 
 	/**

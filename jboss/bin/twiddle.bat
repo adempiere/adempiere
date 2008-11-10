@@ -3,7 +3,7 @@ rem -------------------------------------------------------------------------
 rem JBoss JVM Launcher
 rem -------------------------------------------------------------------------
 
-rem $Id: twiddle.bat,v 1.3 2005/09/04 17:52:33 jjanke Exp $
+rem $Id: twiddle.bat 72204 2008-04-15 09:34:39Z dimitris@jboss.org $
 
 if not "%ECHO%" == ""  echo %ECHO%
 if "%OS%" == "Windows_NT"  setlocal
@@ -15,16 +15,6 @@ set DIRNAME=.\
 if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
 set PROGNAME=run.bat
 if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
-
-rem Read all command line arguments
-
-set ARGS=
-:loop
-if [%1] == [] goto end
-        set ARGS=%ARGS% %1
-        shift
-        goto loop
-:end
 
 rem Find MAIN_JAR, or we can't continue
 
@@ -57,16 +47,15 @@ set JBOSS_CLASSPATH=%DIRNAME%\..\client\jbossall-client.jar
 set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\client\getopt.jar
 set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\client\log4j.jar
 set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\lib\jboss-jmx.jar
-set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\lib\xml-apis.jar
-set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\lib\xercesImpl.jar
-set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%DIRNAME%\..\lib\dom4j.jar
 :HAVE_JB_CP
 
 set JBOSS_CLASSPATH=%JBOSS_CLASSPATH%;%MAIN_JAR%
 
 rem Setup JBoss sepecific properties
+set JBOSS_HOME=%DIRNAME%\..
+set JBOSS_ENDORSED_DIRS=%JBOSS_HOME%\lib\endorsed
 set JAVA_OPTS=%JAVA_OPTS% -Djboss.boot.loader.name=%PROGNAME%
 
-%JAVA% %JAVA_OPTS% -classpath "%JBOSS_CLASSPATH%" %MAIN_CLASS% %ARGS%
+"%JAVA%" %JAVA_OPTS% "-Djava.endorsed.dirs=%JBOSS_ENDORSED_DIRS%" -classpath "%JBOSS_CLASSPATH%" %MAIN_CLASS% %*
 
 :END

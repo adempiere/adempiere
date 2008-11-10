@@ -687,31 +687,11 @@ public final class AEnv
 	 */
 	public static void exit (int status)
 	{
-		if (s_server != null)
-		{
-			try
-			{
-				s_server.remove();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
 		Env.exitEnv(status);
 	}	//	exit
 
 	public static void logout() 
 	{
-		if (s_server != null)
-		{
-			try
-			{
-				s_server.remove();
-			}
-			catch (Exception ex)
-			{
-			}
-		}
 		Env.logout();
 		
 		Splash.getSplash().setVisible(true);
@@ -942,25 +922,9 @@ public final class AEnv
 					return "NoAppsServer";
 				}
 			}
-			catch (RemoteException e)
-			{
-				log.log(Level.WARNING, "(RE)", e);
-				error = e.getMessage();
-				if (error == null)
-					error = "Exception: " + e.toString();
-				s_server = null;
-			}
-			catch (UndeclaredThrowableException e)
-			{
-				log.log(Level.WARNING, "ex", e);
-				error = e.getCause().toString();
-				if (error == null)
-					error = "Exception: " + e.toString();
-				s_server = null;
-			}
 			catch (Exception e)
 			{
-				log.log(Level.WARNING, "ex", e);
+				log.log(Level.WARNING, "(RE)", e);
 				error = e.getMessage();
 				if (error == null)
 					error = "Exception: " + e.toString();
@@ -995,11 +959,6 @@ public final class AEnv
 				{
 					server.cacheReset(tableName, Record_ID); 
 				}
-			}
-			catch (RemoteException e)
-			{
-				log.log(Level.SEVERE, "(RE)", e);
-				s_server = null;
 			}
 			catch (Exception e)
 			{

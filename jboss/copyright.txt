@@ -1,0 +1,159 @@
+The JBoss(R)* app server is Copyright 2000-2007, Red Hat Middleware LLC
+and individual contributors, and is licensed under the GNU LGPL.
+
+A summary of the individual contributors is given below.
+Any omission should be sent to scott.stark@jboss.org.
+
+CVS Login(s)            Name
+-------------------------------------------------------------------------------
+adrian,ejort            Adrian Brock
+aloubyansky,loubyansky  Alex Loubyansky
+asaldhana,osdchicago    Anil Saldhana
+csuconic,clebert        Clebert Suconic
+dimitris,andd           Dimitris Andreadis
+kkhan,kabkhan           Kabir Khan
+ovidiu,ovidiuf          Ovidiu Feodorov
+starksm,stark           Scott M Stark
+tdiesler                Thomas Diesler
+timfox                  Tim Fox
+bstansberry             Brian Stansberry
+jgreene,nihility        Jason Greene
+rloehr                  Ruel Loehr
+reverbel                Francisco Reverbel
+alesj                   Ales Justin
+bdecoste                Bill DeCoste
+bill,patriot1burke      Bill Burke
+telrod                  Tom Elrod
+schrouf                 Ulf Schroeter
+rrajasekaran            Rajesh Rajasekaran
+genman                  Elias Ross
+clin                    Chi Lin
+ssilvert                Stan Silvert
+peterj                  Peter Johnson
+rcampbell,recampbell    Ryan Cambell
+acoliver,acoliver2      Andy Oliver
+walkerrl49              Bob Walker
+bwang,bwang00           Ben Wang
+pilhuhn                 Heiko W. Rupp
+jerrygauth              Jerry Gauthier
+ltexier                 Luc Texier
+jchang                  Jack Chang
+nrichards,orb           Norman Richards
+remm                    Remy Maucherat
+nrocher,noelrocher      Noel Rocher
+ccrouch                 Charles Crouch
+sacha,slaboure          Sacha Labourey
+bela,belaan             Bela Ban
+jmoran                  Jim Moran
+gavin,oneovthafew       Gavin King
+msurtani                Manik Surtani
+sebersole,steveebersole Steve Ebersole
+smarlow                 Scott Marlow
+hbarlas                 Haroon Barlas
+rawb                    Robert Stryker
+flaviarnn               Flavia Rainone
+cazzius                 Claudio Vesco
+russo,royrusso          Roy Russo
+theute                  Thomas Heute
+mnf999,fleury           Marc Fleury
+aveitas                 Algirdas Veitas
+deb                     Deborah Hooker
+karan_malhi             Karan Singh
+pharaohh                Les A. Hazlewood
+ricardoarguello         Ricardo Arguello
+rauschuber              Chris Rauschuber
+jhaynie                 Jeff Haynie
+vietj,cooperfbi         Julien Viet
+richarzk                Klaus Richarz
+chussenet               Claude Hussenet
+aclute                  Andrew Clute
+juntao                  Juntao Yuan
+kevconner               Kevin Conner
+mlavergn                Marc Lavergne
+triathlon98             Joachim Van der Auwera
+ivelin                  Ivelin Atanasoff Ivanov
+kimptoc,kimptonc        Chris Kimpton
+marshall_law,mculpepper Marshall Culpepper
+tpeuss                  Thomas Peuss
+essington               Jason Essington
+posselt                 Dietmar Posselt
+juhalindfors,juha       Juha Lindfors
+lqd                     Christian Riege
+scoy                    Stephen Coy
+cgjung                  Christoph Georg Jung
+rnjn5                   Neil Dattani
+luke_t,negaton          Luke Taylor
+sreich                  Stefan Reich
+thomasra                Thomas Roka-Aardal
+mikefinn                Mike Finn
+d_jencks                David Jencks
+jules_gosnell           Jules Gosnell
+dsundstrom              Dain Sundstrom
+gregwilkins             Greg Wilkins
+janb                    Jan Bartel
+eli201                  Eli Tilevich
+harald_gliebe           Harald Gliebe
+mnewcomb                Michael Newcomb
+andygodwin              Andy Godwin
+chirino,hiram           Hiram Chirino
+user57                  Jason Dillon
+nphelps                 Nathan W. Phelps
+sasp                    Spyridon Samothrakis
+igorfie                 Igor Fedorenko
+jboynes                 Jeremy Boynes
+kbirch                  Kevin Birch
+yanikc                  Yanik Crepeau
+alindsey                Aaron Lindsey
+mclaugs                 Scott McLaughlin
+austinchau              Austin Chau
+binaryfeed              Jeffrey Wescott
+pra                     Peter Antman
+jcooley                 James Cooley
+gropi                   Tobias Frech
+mattmunz                Matthew Munz
+stormy_sky,schaefera    Andreas Schaefer
+peter_f                 Peter Fagerlunds
+sparre,osh              Ole Husgaard
+bartmann                Michael Bartmann
+lsanders                Larry Sanderson
+thesitesman             Seth Sites
+azakkerman              Anatoly Akkerman
+sgturner                Greg Turner
+fbrier                  Frederick N. Brier
+biorn_steedom,simone    Simone Bordet
+yarrumretep             Peter M. Murray
+peterbraswell           Peter Braswell
+jwalters                Jay Walters
+danch                   Dan Christopherson
+fhanik                  Filip Hanik
+squirest                Trevor Squires
+olegnitz,oleg           Oleg Nitz
+neales                  Neale Swinnerton
+mikesr                  Mike Swainston-Rainford
+dbudworth               David Budworth
+weave                   Brian Weaver
+vharcq                  Vincent Harcq
+dmaplesden              David Maplesden
+boissier                Guillaume Boissiere
+plevart                 Peter Levart
+thedug                  Doug Ferguson
+lepe,lennart            Lennart Petersson
+charles_chan            Charles Chan
+pkendall                Paul Kendall
+vlada                   Vladimir Blagojevic
+rickardoberg,oberg      Rickard Öberg
+jayeshpk                Jayesh Parayali
+deerwood                Georg Rehfeld
+tobyallsopp,allsopp     Toby Allsopp
+kvvinaymenon            KV Vinay Menon
+docodan                 Daniel OConnor
+stacycurl               Stacy Curl
+phox                    Fulco Muriglio
+dmcnair                 Dewayne McNair
+vladimir                Vladimir Ivanovic
+joel                    Joel Phillips
+Luc Boudreau(JIRA)      Luc Boudreau
+
+-------------------------------------------------------------------------------
+* JBoss is a registered trademark of Red Hat Middleware LLC.
+ 

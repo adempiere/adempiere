@@ -1,0 +1,11 @@
+<security-service ...>
+	<auth-realm name="adempiere" classname="org.adempiere.as.glassfish.AdempiereRealm">
+		<property name="jaas-context" value="adempiere" />
+		<property name="auth-type" value="adempiere" />
+	</auth-realm>
+</security-service>
+
+<java-config ...>
+	...
+	<jvm-options>-DADEMPIERE_HOME=YourAdempiereHome</jvm-options>
+</java-config>

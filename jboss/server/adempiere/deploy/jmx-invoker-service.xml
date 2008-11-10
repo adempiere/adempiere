@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- $Id: jmx-invoker-service.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: jboss-service.xml 59448 2007-01-09 19:05:54Z dimitris@jboss.org $ -->
 <server>
 
    <!-- The JRMP invoker proxy configuration for the InvokerAdaptorService -->
@@ -24,6 +24,15 @@
              <interceptor>org.jboss.invocation.InvokerInterceptor</interceptor>
           </interceptors>
       </attribute>
+      <depends>jboss:service=Naming</depends>
+   </mbean>
+
+   <!--
+      Choose the remote proxy to expose mbean proxies over
+   -->
+   <mbean code="org.jboss.jmx.connector.invoker.MBeanProxyRemote"
+          name="jboss.jmx:type=adaptor,name=MBeanProxyRemote,protocol=jrmp">
+      <depends optional-attribute-name="MBeanServerConnection">jboss.jmx:type=adaptor,name=Invoker,protocol=jrmp,service=proxyFactory</depends>
    </mbean>
 
    <!-- Create a mapping from the legacy jmx-rmi-adaptor.sar binding to the
@@ -33,6 +42,7 @@
    <mbean code="org.jboss.naming.NamingAlias" name="jboss.jmx:alias=jmx/rmi/RMIAdaptor">
       <attribute name="FromName">jmx/rmi/RMIAdaptor</attribute>
       <attribute name="ToName">jmx/invoker/RMIAdaptor</attribute>
+      <depends>jboss:service=Naming</depends>
    </mbean>
 
    <!-- This is the service that handles the RMIAdaptor invocations by routing
@@ -99,16 +109,20 @@
                <type>org.jboss.invocation.Invocation</type>
             </parameter>
             <return-type>java.lang.Object</return-type>
-            <!-- Uncomment to require authenticated users
             <descriptors>
                <interceptors>
+                  <!-- Uncomment to require authenticated users
                   <interceptor code="org.jboss.jmx.connector.invoker.AuthenticationInterceptor"
                      securityDomain="java:/jaas/jmx-console"/>
+                  -->               
+                  <!-- Interceptor that deals with non-serializable results -->
+                  <interceptor code="org.jboss.jmx.connector.invoker.SerializableInterceptor"
+                     policyClass="StripModelMBeanInfoPolicy"/>
                </interceptors>
-            </descriptors>
-            -->
+            </descriptors>            
          </operation>
       </xmbean>
+      
       <attribute name="ExportedInterfaces">org.jboss.jmx.adaptor.rmi.RMIAdaptor,
          org.jboss.jmx.adaptor.rmi.RMIAdaptorExt
       </attribute>

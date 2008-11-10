@@ -5,7 +5,7 @@
 ##                                                                          ##
 ### ====================================================================== ###
 
-### $Id: twiddle.sh,v 1.3 2005/09/04 17:52:33 jjanke Exp $ ###
+### $Id: twiddle.sh 57032 2006-09-20 22:03:16Z dimitris@jboss.org $ ###
 
 DIRNAME=`dirname $0`
 PROGNAME=`basename $0`
@@ -57,23 +57,25 @@ if [ "x$JBOSS_CLASSPATH" = "x" ]; then
     JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/client/getopt.jar"
     JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/client/log4j.jar"
     JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/lib/jboss-jmx.jar"
-    JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/lib/xml-apis.jar"
-    JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/lib/xercesImpl.jar"
-    JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_HOME/lib/dom4j.jar"    
 else
     JBOSS_CLASSPATH="$JBOSS_CLASSPATH:$JBOSS_BOOT_CLASSPATH"
 fi
+
+# Setup the java endorsed dirs
+JBOSS_ENDORSED_DIRS="$JBOSS_HOME/lib/endorsed"
 
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
     JBOSS_HOME=`cygpath --path --windows "$JBOSS_HOME"`
     JAVA_HOME=`cygpath --path --windows "$JAVA_HOME"`
     JBOSS_CLASSPATH=`cygpath --path --windows "$JBOSS_CLASSPATH"`
+    JBOSS_ENDORSED_DIRS=`cygpath --path --windows "$JBOSS_ENDORSED_DIRS"`    
 fi
 
 # Execute the JVM
-exec $JAVA \
+exec "$JAVA" \
     $JAVA_OPTS \
+    -Djava.endorsed.dirs="$JBOSS_ENDORSED_DIRS" \
     -Dprogram.name="$PROGNAME" \
     -classpath $JBOSS_CLASSPATH \
     org.jboss.console.twiddle.Twiddle "$@"

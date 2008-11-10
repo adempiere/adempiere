@@ -316,27 +316,5 @@
   	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
-	<taglib>
-		<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
-		<taglib-location>/WEB-INF/c.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
-		<taglib-location>/WEB-INF/fmt.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>http://java.sun.com/jsp/jstl/sql</taglib-uri>
-		<taglib-location>/WEB-INF/sql.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>http://java.sun.com/jsp/jstl/xml</taglib-uri>
-		<taglib-location>/WEB-INF/x.tld</taglib-location>
-	</taglib>
-	<taglib>
-		<taglib-uri>webStore.tld</taglib-uri>
-		<taglib-location>/WEB-INF/webStore.tld</taglib-location>
-	</taglib>
-  	
+	</welcome-file-list>	
 </web-app>

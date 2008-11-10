@@ -371,12 +371,12 @@ public class WProcessCtl extends Thread
 				if (server != null)
 				{	//	See ServerBean
 					log.info("running on the server");
-					m_pi = server.workflow (m_wscctx, m_pi, AD_Workflow_ID);
+					m_pi = server.workflow (Env.getRemoteCallCtx(m_wscctx), m_pi, AD_Workflow_ID);
 					log.finest("server => " + m_pi);
 					started = true;
 				}
 			}
-			catch (RemoteException ex)
+			catch (Exception ex)
 			{
 				log.log(Level.SEVERE, "AppsServer error", ex);
 				started = false;
@@ -417,7 +417,7 @@ public class WProcessCtl extends Thread
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.process (m_wscctx, m_pi);
+					m_pi = server.process (Env.getRemoteCallCtx(m_wscctx), m_pi);
 					log.finest("server => " + m_pi);
 					started = true;		
 				}
@@ -437,14 +437,6 @@ public class WProcessCtl extends Thread
 				else
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
 						+ m_pi, ex);
-				started = false;
-			}
-			catch (RemoteException ex)
-			{
-				Throwable cause = ex.getCause();
-				if (cause == null)
-					cause = ex;
-				log.log(Level.SEVERE, "AppsServer error - " + m_pi, cause);
 				started = false;
 			}
 		}

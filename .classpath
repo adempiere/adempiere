@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" path="glassfishfacet/src"/>
+	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
 	<classpathentry kind="src" path="looks/src"/>
@@ -29,15 +31,10 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/j2ee.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-common-client.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jboss-j2ee.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc14.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jnlp.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging.jar"/>
@@ -91,10 +88,6 @@
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xdoclet-1.2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xdoclet-ejb-module-1.2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xdoclet-web-module-1.2.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xdoclet-xdoclet-module-1.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xercesImpl.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
@@ -120,5 +113,9 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javaee.jar"/>
+	<classpathentry kind="lib" path="jboss/client/jbosssx-client.jar"/>
+	<classpathentry kind="lib" path="jboss/client/jnp-client.jar"/>
+	<classpathentry kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

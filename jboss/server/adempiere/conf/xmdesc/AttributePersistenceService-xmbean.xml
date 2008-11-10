@@ -3,7 +3,7 @@
    "-//JBoss//DTD JBOSS XMBEAN 1.1//EN"
    "http://www.jboss.org/j2ee/dtd/jboss_xmbean_1_1.dtd">
 
-<!-- $Id: AttributePersistenceService-xmbean.xml,v 1.1 2006/04/21 17:58:45 jjanke Exp $ -->
+<!-- $Id: AttributePersistenceService-xmbean.xml 23167 2004-08-23 16:57:19Z andd $ -->
 
 <mbean>
    <!-- MBean Info -->

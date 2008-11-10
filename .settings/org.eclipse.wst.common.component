@@ -20,6 +20,8 @@
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReports/src"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/JasperReportsWebApp/src"/>
 <wb-resource deploy-path="/WEB-INF/classes" source-path="/webCM/src/main/servlet"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/jbossfacet/src"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/glassfishfacet/src"/>
 <property name="context-root" value="webui"/>
 <property name="java-output-path" value="build/classes"/>
 </wb-module>

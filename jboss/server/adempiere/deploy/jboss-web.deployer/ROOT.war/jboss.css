@@ -1,0 +1,143 @@
+body {
+	margin: 13px 0px 10px 0px;
+	background-color: #ffffff;
+	font-size: 10px;
+	font-family: verdana, arial, "sans-serif";
+	color: #606060;
+	}
+img {
+	border: 0px;
+	}
+#header {
+	background-color: #003D6E;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 80px;
+	}
+#header #banner {
+	float: right;
+	margin: 8px 5px 0px 0px;
+	}
+#logo {
+	position: absolute;
+	top: 2px;
+	left: 4px;
+	z-index: 200;
+}
+#navigation_bar {
+	background-color: #f0f0f0;
+	border-bottom: 1px dotted #999999;
+	height: 20px;
+	}
+#items {
+	font-size: 12px;
+	width: 600px;
+	margin: 5px 5px 5px 170px;
+	position: relative;
+	z-index: 300;
+	}
+#items .item {
+	margin-right: 10px;
+	}
+.side_block {
+	margin: 15px 5px 10px 5px;
+	background-color: #fbfbfb;
+	border: 1px solid #f0f0f0;
+	}
+.side_block h3 {
+	font-size: 11px;
+	font-weight: 100;
+	width: 100%;
+	margin: 0px 0px 5px 0px;
+	padding: 4px 4px 4px 10x;
+	background-color: #f0f0f0;
+	}
+.side_block h4 {
+	font-size: 11px;
+	color: #003D6E;
+	font-weight: bold;
+	margin: 10px 5px 4px 5px;
+	}
+.side_block p {
+	margin: 5px 5px 3px 5px;
+	}
+.side_block form {
+	margin: 0px 0px 0px 5px;
+	}
+.side_block #login {
+	font-size: 9px;
+	}
+.side_block p img {
+	text-align: center;
+	}
+#content {
+	width: 90%; 
+	margin: 10px auto;
+	}
+#left {
+	float: left;
+	width: 14%;
+	}
+#right {
+	float: right;
+	width: 14%;
+	}
+.content_block {
+	text-align: justify;
+	border: 1px solid #999999;
+	margin: 5px;
+	width: 31%;
+	float: left;
+	}
+.content_block p {
+	margin: 0px 5px 3px 5px;
+	}
+.content_block h3 {
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+	margin: 0px 0px 5px 0px;
+	padding: 4px 4px 4px 4x;
+	text-align: center;
+	background-color: #f0f0f0;
+	border-bottom: 1px solid #999999
+	}
+.content_block h4 {
+	font-size: 11px;
+	color: #003D6E;
+	text-align: left;
+	font-weight: bold;
+	margin: 10px 5px 4px 5px;
+	}
+#footer {
+	clear: both;
+	border-top: 1px dotted #999999;
+	}
+#credits {
+	background-color: #f0f0f0;
+	padding: 5px;
+	text-align: center;
+	}
+#footer_bar {
+	height: 20px;
+	width: 100%;
+	background-color: #003D6E;
+	}
+.hide {
+	display: none;
+	}
+.spacer {
+	clear: both;
+	}
+.spacer hr {
+	display: none;
+	}
+.center {
+	text-align: center;
+	}
+#youcandoit {
+	background-image: url("youcandoit.jpg");
+	background-repeat: repeat-x;
+	height: 165px;
+	margin: 0px 30px 0px 30px;
+	}

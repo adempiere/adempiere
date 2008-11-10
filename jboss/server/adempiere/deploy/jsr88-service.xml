@@ -1,0 +1,19 @@
+<!-- $Id: jsr88-service.xml 60132 2007-01-31 12:43:12Z thomas.diesler@jboss.com $
+The JSR-88 DeploymentManager support services
+-->
+<server>
+   <mbean code="org.jboss.deployment.services.DeploymentManagerService"
+      name="jboss.management.local:type=JSR88DeploymentManager,name=DefaultManager">
+      <attribute name="EARDeployer">jboss.j2ee:service=EARDeployer</attribute>
+      <attribute name="EJBDeployer">jboss.ejb:service=EJBDeployer</attribute>
+      <attribute name="RARDeployer">jboss.jca:service=RARDeployer</attribute>
+      <attribute name="WARDeployer">jboss.web:service=WebServer</attribute>
+      <attribute name="CARDeployer">jboss.j2ee:service=ClientDeployer</attribute>
+      <attribute name="UploadDir">${jboss.server.temp.dir}/jsr88</attribute>
+      <depends optional-attribute-name="MainDeployer">jboss.system:service=MainDeployer</depends>
+      <!-- If false, the an existing deployment may exist in the upload dir  -->
+      <attribute name="FailOnCollision">false</attribute>
+      <!-- If false, the deployment is retained in the upload dir -->
+      <attribute name="DeleteOnUndeploy">false</attribute>
+   </mbean>
+</server>

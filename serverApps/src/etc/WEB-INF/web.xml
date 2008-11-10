@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+   version="2.4">
   <display-name>Adempiere Application</display-name>
   <description>Adempiere Web Application $Id: web.xml,v 1.1 2006/04/21 18:03:35 jjanke Exp $</description>
   <context-param>
@@ -29,22 +31,18 @@
   </servlet>
   <servlet>
     <servlet-name>WAccount</servlet-name>
-    <description>Adempiere Account</description>
     <servlet-class>org.compiere.www.WAccount</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WChat</servlet-name>
-    <description>Adempiere Chat</description>
     <servlet-class>org.compiere.www.WChat</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WValuePreference</servlet-name>
-    <description>Adempiere Value Preference</description>
     <servlet-class>org.compiere.www.WValuePreference</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WZoom</servlet-name>
-    <description>Adempiere Zoom</description>
     <servlet-class>org.compiere.www.WZoom</servlet-class>
   </servlet>
   <servlet>
@@ -54,58 +52,44 @@
   </servlet>
   <servlet>
     <servlet-name>WFieldUpdate</servlet-name>
-    <display-name>Adempiere Field Update</display-name>
-    <description>Adempiere Field Update Command Window</description>
     <servlet-class>org.compiere.www.WFieldUpdate</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WLocation</servlet-name>
-    <description>Adempiere Location</description>
     <servlet-class>org.compiere.www.WLocation</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WLogin</servlet-name>
-    <description>Adempiere Login</description>
     <servlet-class>org.compiere.www.WLogin</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WLookup</servlet-name>
-    <description>Adempiere Lookup</description>
     <servlet-class>org.compiere.www.WLookup</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WMenu</servlet-name>
-    <description>Adempiere Menu</description>
     <servlet-class>org.compiere.www.WMenu</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WProcess</servlet-name>
-    <description>Adempiere Process</description>
     <servlet-class>org.compiere.www.WProcess</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WReport</servlet-name>
-    <description>Adempiere Report</description>
     <servlet-class>org.compiere.www.WReport</servlet-class>
   </servlet>  
   <servlet>
     <servlet-name>WRequest</servlet-name>
-    <display-name>Requests</display-name>
-    <description>Adempiere Requets</description>
     <servlet-class>org.compiere.wstore.WRequest</servlet-class>
     <load-on-startup>10</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>WStart</servlet-name>
-    <display-name>Adempiere Start</display-name>
-    <description>Adempiere Start - Creates the windows required</description>
     <servlet-class>org.compiere.www.WStart</servlet-class>
     <load-on-startup>10</load-on-startup>
   </servlet>
   <servlet>
     <servlet-name>WStatus</servlet-name>
-    <display-name>Adempiere Status</display-name>
-    <description>Adempiere Status - First Servlet loaded</description>
     <servlet-class>org.compiere.www.WStatus</servlet-class>
     <init-param>
       <param-name>StatusInfo</param-name>
@@ -115,18 +99,14 @@
   </servlet>
   <servlet>
     <servlet-name>WTask</servlet-name>
-    <description>Adempiere Task</description>
     <servlet-class>org.compiere.www.WTask</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WWindow</servlet-name>
-    <display-name>Adempiere Application Window</display-name>
-    <description>Adempiere Application Window</description>
     <servlet-class>org.compiere.www.WWindow</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>WWorkflow</servlet-name>
-    <description>Adempiere Workflow</description>
     <servlet-class>org.compiere.www.WWorkflow</servlet-class>
   </servlet>
   <servlet-mapping>
@@ -212,12 +192,4 @@
   <session-config>
     <session-timeout>15</session-timeout>
   </session-config>
-  <taglib>
-    <taglib-uri>http://jakarta.apache.org/tomcat/debug-taglib</taglib-uri>
-    <taglib-location>/store/debug-taglib.tld</taglib-location>
-  </taglib>
-  <taglib>
-    <taglib-uri>http://jakarta.apache.org/tomcat/examples-taglib</taglib-uri>
-    <taglib-location>/store/example-taglib.tld</taglib-location>
-  </taglib>
 </web-app>

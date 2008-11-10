@@ -71,7 +71,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
         logger.info("Starting ADempiere...");
         try
         {
-            CLogMgt.initialize(true); 
+            CLogMgt.initialize(false); 
         }
         catch(Exception ex)
         {

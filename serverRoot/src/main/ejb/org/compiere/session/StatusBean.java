@@ -17,41 +17,33 @@
 package org.compiere.session;
 
 import java.util.logging.*;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.security.PermitAll;
 import javax.ejb.*;
 
 import org.compiere.*;
 import org.compiere.db.*;
+import org.compiere.interfaces.Status;
+import org.compiere.interfaces.StatusLocal;
+import org.compiere.interfaces.StatusRemote;
 import org.compiere.util.*;
 
 
 /**
  * 	Adempiere Status Bean
  *
- *  @ejb.bean name="adempiere/Status"
- *		display-name="Adempiere Status Session Bean"
- *		type="Stateless"
- *		view-type="both"
- *		transaction-type="Bean"
- *		jndi-name="adempiere/Status"
- *      local-jndi-name="adempiere/StatusLocal"
- *
- *  @ejb.ejb-ref ejb-name="adempiere/Status"
- *  	view-type="both"
- *		ref-name="adempiere/Status"
- *  @ejb.ejb-ref ejb-name="adempiere/Status"
- *  	view-type="local"
- *		ref-name="adempiere/StatusLocal"
- *  @ejb.permission unchecked="true"
- *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: StatusBean.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
-public class StatusBean implements SessionBean
+@Stateless(mappedName=Status.JNDI_NAME, name=Status.EJB_NAME)
+@Local({StatusLocal.class})
+@Remote({StatusRemote.class})
+@PermitAll
+public class StatusBean implements StatusRemote, StatusLocal
 {
 	private static final String ALLOW_CLIENT_QUERY_DB_PWD = "adempiere.client.getDBPwd";
 	
-	/**	Context				*/
-	private SessionContext 	m_Context;
 	/**	Logging				*/
 	private static CLogger	log = CLogger.getCLogger(StatusBean.class);
 
@@ -64,7 +56,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 * 	Get Version (Date)
-	 *  @ejb.interface-method view-type="both"
 	 *  @return version e.g. 2002-09-02
 	 */
 	public String getDateVersion()
@@ -76,7 +67,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 * 	Get Main Version
-	 *  @ejb.interface-method view-type="both"
 	 *  @return main version - e.g. Version 2.4.3b
 	 */
 	public String getMainVersion()
@@ -86,7 +76,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database Type
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database Type
 	 */
 	public String getDbType()
@@ -96,7 +85,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database Host
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database Host Name
 	 */
 	public String getDbHost()
@@ -108,7 +96,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database Port
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database Port
 	 */
 	public int getDbPort()
@@ -118,7 +105,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database SID
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database SID
 	 */
 	public String getDbName()
@@ -128,7 +114,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database URL
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database URL
 	 */
 	public String getConnectionURL()
@@ -138,7 +123,6 @@ public class StatusBean implements SessionBean
 	
 	/**
 	 *  Get Database UID
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database User Name
 	 */
 	public String getDbUid()
@@ -148,7 +132,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Database PWD
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Database User Password
 	 */
 	public String getDbPwd()
@@ -162,7 +145,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Connection Manager Host
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Connection Manager Host
 	 */
 	public String getFwHost()
@@ -172,7 +154,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 *  Get Connection Manager Port
-	 *  @ejb.interface-method view-type="both"
 	 *  @return Connection Manager Port
 	 */
 	public int getFwPort()
@@ -193,7 +174,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 * 	Get Database Count
-	 *  @ejb.interface-method view-type="both"
 	 * 	@return number of database inquiries
 	 */
 	public int getDatabaseCount()
@@ -203,7 +183,6 @@ public class StatusBean implements SessionBean
 
 	/**
 	 * 	Describes the instance and its content for debugging purpose
-	 *  @ejb.interface-method view-type="both"
 	 * 	@return Debugging information about the instance and its content
 	 */
 	public String getStatus()
@@ -229,11 +208,9 @@ public class StatusBean implements SessionBean
 	
 	/**************************************************************************
 	 * 	Create the Session Bean
-	 * 	@throws EJBException
-	 * 	@throws CreateException
-	 *  @ejb.create-method view-type="both"
 	 */
-	public void ejbCreate() throws EJBException, CreateException
+	@PostConstruct
+	public void ejbCreate() 
 	{
 		m_no = ++s_no;
 		try
@@ -248,49 +225,4 @@ public class StatusBean implements SessionBean
 		}
 		log.info("#" + m_no + " - " + getStatus());
 	}	//	ejbCreate
-
-
-	// -------------------------------------------------------------------------
-	// Framework Callbacks
-	// -------------------------------------------------------------------------
-
-	/**
-	 * 	Set Session Context
-	 * 	@param aContext context
-	 * 	@throws EJBException
-	 */
-	public void setSessionContext (SessionContext aContext) throws EJBException
-	{
-		m_Context = aContext;
-	}
-
-	/**
-	 * 	Ejb Activate
-	 *	@throws EJBException
-	 */
-	public void ejbActivate() throws EJBException
-	{
-		if (log == null)
-			log = CLogger.getCLogger(getClass());
-		log.fine("ejbActivate");
-	}
-
-	/**
-	 * 	Ejb Passivate
-	 *	@throws EJBException
-	 */
-	public void ejbPassivate() throws EJBException
-	{
-		log.fine("ejbPassivate");
-	}
-
-	/**
-	 * 	Ejb Remove
-	 *	@throws EJBException
-	 */
-	public void ejbRemove() throws EJBException
-	{
-		log.fine("ejbRemove");
-	}
-
 }	//	StatusBean

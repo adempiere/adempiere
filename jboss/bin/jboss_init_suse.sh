@@ -29,11 +29,8 @@ JBOSS_HOME=${JBOSS_HOME:-"/opt/jboss"}
 #make java is on your path
 JAVAPTH=${JAVAPTH:-"/usr/java/j2sdk1.4.1/bin"}
 
-#define the classpath for the shutdown class
-JBOSSCP=${JBOSSCP:-"$JBOSS_HOME/bin/shutdown.jar:$JBOSS_HOME/client/jnet.jar"}
-
 #define the script to use to start jboss
-JBOSSSH=${JBOSSSH:-"$JBOSS_HOME/bin/run.sh -c all"}
+JBOSSSH=${JBOSSSH:-"$JBOSS_HOME/bin/run.sh -c default"}
 
 # Shell functions sourced from /etc/rc.status:
 #      rc_check         check and set local and overall rc status
@@ -80,7 +77,6 @@ JBOSS_CONSOLE=${JBOSS_CONSOLE:-"/opt/jboss/log/jboss.log"}
 JBOSSUS=${JBOSSUS:-"jboss"}
 
 CMD_START="cd $JBOSS_HOME/bin; $JBOSSSH"
-CMD_STOP="java -classpath $JBOSSCP org.jboss.Shutdown --shutdown"
 
 if [ "$JBOSSUS" = "RUNASIS" ]; then
   SUBIT=""
@@ -97,6 +93,64 @@ if [ ! -d "$JBOSS_HOME" ]; then
   exit 1
 fi
 
+function procrunning() {
+   procid=0
+   JBOSSSCRIPT=$(echo $JBOSSSH | awk '{print $1}' | sed 's/\//\\\//g')
+   for procid in `/sbin/pidof -x "$JBOSSSCRIPT"`; do
+       ps -fp $procid | grep "${JBOSSSH% *}" > /dev/null && pid=$procid
+   done
+}
+
+
+stop() {
+    pid=0
+    procrunning
+    if [ $pid = '0' ]; then
+        echo -n -e "\nNo JBossas is currently running\n"
+        exit 1
+    fi
+
+    RETVAL=1
+
+    # If process is still running
+
+    # First, try to kill it nicely
+    for id in `ps --ppid $pid | awk '{print $1}' | grep -v "^PID$"`; do
+       if [ -z "$SUBIT" ]; then
+           kill -15 $id
+       else
+           $SUBIT "kill -15 $id"
+       fi
+    done
+
+    sleep=0
+    while [ $sleep -lt 120 -a $RETVAL -eq 1 ]; do
+        echo -n -e "\nwaiting for processes to stop";
+        sleep 10
+        sleep=`expr $sleep + 10`
+        pid=0
+        procrunning
+        if [ $pid == '0' ]; then
+            RETVAL=0
+        fi
+    done
+
+    # Still not dead... kill it
+
+    count=0
+    pid=0
+    procrunning
+
+    if [ $RETVAL != 0 ] ; then
+        echo -e "\nTimeout: Shutdown command was sent, but process is still running with PID $pid"
+        exit 1
+    fi
+
+    echo
+    exit 0
+}
+
+
 case "$1" in
 start)
     echo -n "Starting JBoss application server: "
@@ -112,11 +166,7 @@ start)
     ;;
 stop)
     echo -n "Shutting down JBoss application server: "
-    if [ -z "$SUBIT" ]; then
-        $CMD_STOP
-    else
-        $SUBIT "$CMD_STOP"
-    fi
+    stop
 
     # Remember status and be verbose
     rc_status -v

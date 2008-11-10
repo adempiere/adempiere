@@ -12,7 +12,6 @@ import java.util.Hashtable;
 import javax.naming.InitialContext;
 
 import org.compiere.interfaces.MD5;
-import org.compiere.interfaces.MD5Home;
 /**
  * @author rlemeill
  */
@@ -56,12 +55,10 @@ public class MD5EjbTest {
 	public static void testEjb(String serverName, InitialContext context, String Filename)
 	{
 		try{
-			System.out.println("MD5Home Creation at: "+MD5Home.JNDI_NAME);
-			MD5Home home = (MD5Home)context.lookup(MD5Home.JNDI_NAME);
-			MD5 md5 = home.create();
+			System.out.println("MD5 Creation at: "+MD5.JNDI_NAME);
+			MD5 md5 = (MD5) context.lookup(MD5.JNDI_NAME);
 			System.out.println("Creation OK");
 			System.out.println("MD5 for " + Filename + " is " +md5.getFileMD5(Filename));
-			md5.remove();
 		}
 		catch(Exception e)
 		{
