@@ -22,13 +22,9 @@
 package org.adempiere.webui.apps.form;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PipedReader;
-import java.io.Reader;
-import java.io.StringBufferInputStream;
 import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
