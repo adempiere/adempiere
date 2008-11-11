@@ -789,7 +789,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				}
 				else if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Tools))
 				{
-					componentToDeliverQty = qtyBom; // TODO; set Number scale
+					componentToDeliverQty = qtyBom; // TODO; set Number scale 
 					if (componentToDeliverQty.signum() != 0)
 					{
 						componentQtyReq = qtyBom;
@@ -800,7 +800,8 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				}
 				else
 				{
-					throw new AdempiereException("@NotSupported@ @ComponentType@ "+componentType);
+					issue.setValueAt(Env.ZERO, row, 6); //  QtyRequiered
+					issue.setValueAt(Env.ZERO, row, 8); //  QtyToDelivery
 				}
 				
 				row++;
