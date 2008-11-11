@@ -66,6 +66,11 @@ public class UserPanel extends Vbox  implements EventListener
     {
     	this.setStyle("text-align:right");
     	
+    	// Elaine 2008/11/07 - fix the layout problem in IE7
+    	this.setWidth("100%");
+    	this.setAlign("right");
+    	//
+    	
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
     	lblUserNameValue.setStyle("text-align:right");
     	LayoutUtils.addSclass("headerFont", lblUserNameValue);

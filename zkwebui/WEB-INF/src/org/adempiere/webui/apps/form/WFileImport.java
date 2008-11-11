@@ -26,6 +26,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PipedReader;
+import java.io.Reader;
 import java.io.StringBufferInputStream;
 import java.nio.charset.Charset;
 import java.sql.PreparedStatement;
@@ -44,6 +46,7 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.ReaderInputStream;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.impexp.ImpFormat;
 import org.compiere.impexp.ImpFormatRow;
@@ -96,7 +99,7 @@ public class WFileImport extends ADForm implements EventListener
 	private Button bPrevious = new Button();
 
 	private InputStream m_file_istream;
-
+	
 	private Textbox rawData = new Textbox();
 	private Textbox[] m_fields;
 	
@@ -200,7 +203,7 @@ public class WFileImport extends ADForm implements EventListener
 		
 		previewPanel.setWidth("100%");
 		
-		//rawDataPane.appendChild(rawData);
+		centerPanel.setWidth("100%"); // Elaine 2008/11/07 - fix text area is not expanded in IE7
 		centerPanel.appendChild(rawData);
 		centerPanel.appendChild(new Separator());
 		centerPanel.appendChild(previewPanel);
@@ -342,20 +345,13 @@ public class WFileImport extends ADForm implements EventListener
 			e.printStackTrace();
 		}
 	
-		//JFileChooser chooser = new JFileChooser(directory);
-		//chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		//chooser.setMultiSelectionEnabled(false);
-		//chooser.setDialogTitle(Msg.getMsg(Env.getCtx(), "FileImportFileInfo"));
-		//if (chooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
-		//	return;
-		
 		if (media == null)
 			return;
 		
-		if (Env.isWindows())
-			m_file_istream = new ByteArrayInputStream(media.getByteData());
+		if (media.isBinary())
+			m_file_istream = media.getStreamData();
 		else
-			m_file_istream = new StringBufferInputStream(media.getStringData());
+			m_file_istream = new ReaderInputStream(media.getReaderData());
 		
 		log.config(media.getName());
 		bFile.setLabel(media.getName());
