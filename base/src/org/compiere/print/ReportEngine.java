@@ -1186,6 +1186,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " c.IsMultiLingualDocument,bp.AD_Language, 0 , d.DocumentNo "
 				+ "FROM PP_Order d"
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
+				+ " LEFT OUTER JOIN AD_User u ON (u.AD_User_ID=d.Planner_ID)"
+				+ " LEFT OUTER JOIN C_BPartner bp ON (u.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
 				+ "WHERE d.PP_Order_ID=?"					//	info from PrintForm
 				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) ORDER BY pf.AD_Org_ID DESC";
