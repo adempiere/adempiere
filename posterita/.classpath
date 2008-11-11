@@ -25,7 +25,6 @@
 	<classpathentry kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
-	<classpathentry kind="lib" path="/tools/lib/j2ee.jar"/>
 	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>

@@ -10,8 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mail.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/j2ee.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/xdoclet-1.2.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jpayment.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/bsh-2.0b5.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/script-api.jar"/>
@@ -22,5 +20,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/jython-engine.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javaee.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
