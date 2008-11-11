@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/appserv-admin.jar"/>
+	<classpathentry kind="lib" path="lib/appserv-deployment-client.jar"/>
+	<classpathentry kind="lib" path="lib/appserv-ext.jar"/>
+	<classpathentry kind="lib" path="lib/appserv-rt.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/looks"/>
+	<classpathentry kind="lib" path="/base/Base.jar"/>
+	<classpathentry kind="src" path="/base"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
