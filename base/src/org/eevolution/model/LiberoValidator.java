@@ -15,8 +15,6 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.util.List;
-
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -32,6 +30,9 @@ import org.compiere.util.CLogger;
  *	LiberoValidator 
  *	
  *	@author Victor Perez
+ *	@author Trifon Trifonov
+ *		<li>[ 2270421 ] Can not complete Shipment (Customer)</li>
+ *
  *	@version $Id: LiberoValidator.java,v 1 vpj-cd Exp $
  */
 public class LiberoValidator implements ModelValidator
@@ -125,7 +126,7 @@ public class LiberoValidator implements ModelValidator
 				   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyOrdered)   ||
 				   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyDelivered)
 				  )
-					MPPMRP.C_Order((MOrder)po, false);
+					MPPMRP.C_Order(order, false);
 			}
 			//Update MRP when Sales Order have document status in process or complete 
 			//You change DatePromised , Product , Qty Ordered, Qty Delivered
@@ -139,7 +140,7 @@ public class LiberoValidator implements ModelValidator
 						   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyOrdered)   ||
 						   ol.is_ValueChanged(MOrderLine.COLUMNNAME_QtyDelivered)
 						)
-								MPPMRP.C_Order((MOrder)po, false);
+								MPPMRP.C_Order(order, false);
 				  }
 			}
 			
@@ -195,7 +196,7 @@ public class LiberoValidator implements ModelValidator
 		if (po.get_TableName().equals(MDDOrderLine.Table_Name))
 		{
 			MDDOrderLine ol = (MDDOrderLine)po;
-			if(type == TYPE_AFTER_NEW)
+			if (type == TYPE_AFTER_NEW)
 			{	
 				MPPMRP.DD_Order_Line(ol , false);
 			}
