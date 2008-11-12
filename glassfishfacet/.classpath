@@ -7,7 +7,6 @@
 	<classpathentry kind="lib" path="lib/appserv-rt.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/looks"/>
-	<classpathentry kind="lib" path="/base/Base.jar"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
