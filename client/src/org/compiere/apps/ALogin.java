@@ -213,11 +213,13 @@ public final class ALogin extends CDialog
 		languageLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		languageLabel.setText("Language");
 		languageLabel.setLabelFor(languageCombo);
+		languageCombo.addActionListener(this);
+		// @Trifon - begin
 		connectionPanel.add(languageLabel,        new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		languageCombo.addActionListener(this);
 		connectionPanel.add(languageCombo,          new GridBagConstraints(1, 5, 3, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
+		// @Trifon - end
 		copy0Label.setHorizontalAlignment(SwingConstants.RIGHT);
 		connectionPanel.add(copy0Label,       new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -275,14 +277,25 @@ public final class ALogin extends CDialog
 		printerLabel.setText("Printer");
 		printerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		printerLabel.setLabelFor(printerField);
+		
 		defaultPanel.add(printerLabel,        new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 12, 5), 0, 0));
 		defaultPanel.add(printerField,        new GridBagConstraints(1, 5, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 12, 12), 0, 0));
+		
 		defaultPanel.add(warehouseLabel,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		defaultPanel.add(warehouseCombo,   new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
+		
+		// @Trifon - begin
+/*		
+		defaultPanel.add(languageLabel, new GridBagConstraints(0, 6, 1, 1, 0.0, 0.0
+				, GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
+		defaultPanel.add(languageCombo,    new GridBagConstraints(1, 6, 3, 1, 1.0, 0.0
+				, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
+*/
+		// @Trifon - end
 		//
 		loginTabPane.add(defaultPanel, res.getString("Defaults"));
 
