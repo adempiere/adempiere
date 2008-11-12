@@ -125,6 +125,9 @@ public final class VTreePanel extends CPanel
 		//  Get Tree
 		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, m_editable, true, null);
 		m_root = vTree.getRoot();
+		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ) ); // translate name of menu.
+		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.
+		
 		log.config("root=" + m_root);
 		m_nodeTableName = vTree.getNodeTableName();
 		treeModel = new DefaultTreeModel(m_root, true);
@@ -136,7 +139,7 @@ public final class VTreePanel extends CPanel
 			for (JToolBar jt : toolbar)
 				jt.removeAll();
 			toolbarMap = new HashMap<Integer, JToolBar>();
-			Enumeration enTop =m_root.children();
+			Enumeration enTop = m_root.children();
 			JToolBar jt = null;	
 			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
 			while (enTop.hasMoreElements())
