@@ -20,12 +20,14 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -137,6 +139,7 @@ public class MCost extends X_M_Cost
 			+ " AND (ce.CostingMethod IS NULL OR ce.CostingMethod=?) "	//	#7
 			+ "GROUP BY ce.CostElementType, ce.CostingMethod, c.Percent, c.M_CostElement_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, trxName);
@@ -147,7 +150,7 @@ public class MCost extends X_M_Cost
 			pstmt.setInt (5, M_CostType_ID);
 			pstmt.setInt (6, as.getC_AcctSchema_ID());
 			pstmt.setString (7, costingMethod);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				currentCostPrice = rs.getBigDecimal(1);
@@ -171,23 +174,15 @@ public class MCost extends X_M_Cost
 					percentage = percentage.add(percent);
 				count++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		if (count > 1)	//	Print summary
@@ -498,6 +493,7 @@ public class MCost extends X_M_Cost
 		sql += " ORDER BY o.DateOrdered DESC, ol.Line DESC";
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, product.get_TrxName());
@@ -508,30 +504,22 @@ public class MCost extends X_M_Cost
 				pstmt.setInt (4, AD_Org_ID);
 			else if (M_ASI_ID != 0)
 				pstmt.setInt(4, M_ASI_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = rs.getBigDecimal(1);
 				if (retValue == null || retValue.signum() == 0)
 					retValue = rs.getBigDecimal(2);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		if (retValue != null)
@@ -561,36 +549,29 @@ public class MCost extends X_M_Cost
 			+ " AND o.IsSOTrx='N'";
 		//
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, product.get_TrxName());
 			pstmt.setInt (1, C_Currency_ID);
 			pstmt.setInt (2, C_Currency_ID);
 			pstmt.setInt (3, C_OrderLine_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				retValue = rs.getBigDecimal(1);
 				if (retValue == null || retValue.signum() == 0)
 					retValue = rs.getBigDecimal(2);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			s_log.log (Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		if (retValue != null)
@@ -739,8 +720,10 @@ public class MCost extends X_M_Cost
 				}	//	for all orgs
 			}
 			else
+			{
 				s_log.warning("Not created: Std.Cost for " + product.getName() 
 					+ " - Costing Level on Batch/Lot");
+			}
 		}	//	accounting schema loop
 
 	}	//	create
@@ -771,6 +754,7 @@ public class MCost extends X_M_Cost
 		sql += " ORDER BY t.M_Transaction_ID";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		BigDecimal newStockQty = Env.ZERO;
 		//
 		BigDecimal newAverageAmt = Env.ZERO;
@@ -783,7 +767,7 @@ public class MCost extends X_M_Cost
 				pstmt.setInt (2, AD_Org_ID);
 			else if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt (2, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				BigDecimal oldStockQty = newStockQty;
@@ -819,23 +803,15 @@ public class MCost extends X_M_Cost
 				s_log.finer("Movement=" + movementQty + ", StockQty=" + newStockQty
 					+ ", Match=" + matchQty + ", Cost=" + cost + ", NewAvg=" + newAverageAmt);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		if (newAverageAmt != null && newAverageAmt.signum() != 0)
@@ -872,6 +848,7 @@ public class MCost extends X_M_Cost
 		sql += " ORDER BY t.M_Transaction_ID";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		BigDecimal newStockQty = Env.ZERO;
 		//
 		BigDecimal newAverageAmt = Env.ZERO;
@@ -884,7 +861,7 @@ public class MCost extends X_M_Cost
 				pstmt.setInt (2, AD_Org_ID);
 			else if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt (2, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				BigDecimal oldStockQty = newStockQty;
@@ -922,23 +899,15 @@ public class MCost extends X_M_Cost
 				s_log.finer("Movement=" + movementQty + ", StockQty=" + newStockQty
 					+ ", Match=" + matchQty + ", Cost=" + cost + ", NewAvg=" + newAverageAmt);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//
 		if (newAverageAmt != null && newAverageAmt.signum() != 0)
@@ -974,6 +943,7 @@ public class MCost extends X_M_Cost
 		sql += " ORDER BY t.M_Transaction_ID";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		//
 		int oldTransaction_ID = 0;
 		ArrayList<QtyCost> fifo = new ArrayList<QtyCost>();
@@ -985,7 +955,7 @@ public class MCost extends X_M_Cost
 				pstmt.setInt (2, AD_Org_ID);
 			else if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt (2, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				BigDecimal movementQty = rs.getBigDecimal(1);
@@ -1065,26 +1035,21 @@ public class MCost extends X_M_Cost
 				}
 				s_log.finer("Movement=" + movementQty + ", Size=" + fifo.size());
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		if (fifo.size() == 0)
+		{
 			return null;
+		}
 		QtyCost pp = (QtyCost)fifo.get(0);
 		s_log.finer(product.getName() + " = " + pp.Cost);
 		return pp.Cost;
@@ -1116,6 +1081,7 @@ public class MCost extends X_M_Cost
 		sql += " ORDER BY t.M_Transaction_ID DESC";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		//
 		int oldTransaction_ID = 0;
 		ArrayList<QtyCost> lifo = new ArrayList<QtyCost>();
@@ -1127,7 +1093,7 @@ public class MCost extends X_M_Cost
 				pstmt.setInt (2, AD_Org_ID);
 			else if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt (2, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				BigDecimal movementQty = rs.getBigDecimal(1);
@@ -1188,26 +1154,21 @@ public class MCost extends X_M_Cost
 				lifo.add(pp);
 				s_log.finer("Movement=" + movementQty + ", Size=" + lifo.size());
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log (Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
 		if (lifo.size() == 0)
+		{
 			return null;
+		}
 		QtyCost pp = (QtyCost)lifo.get(lifo.size()-1);
 		s_log.finer(product.getName() + " = " + pp.Cost);
 		return pp.Cost;
@@ -1217,7 +1178,7 @@ public class MCost extends X_M_Cost
 	/**************************************************************************
 	 *	MCost Qty-Cost Pair
 	 */
-	static class QtyCost
+	public static class QtyCost
 	{
 		/**
 		 * 	Constructor
@@ -1301,22 +1262,18 @@ public class MCost extends X_M_Cost
 		int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
 		int M_AttributeSetInstance_ID)
 	{
-		MCost retValue = null;
-		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "AD_Client_ID=? AND AD_Org_ID=? AND M_Product_ID=?"
-			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=? AND M_CostElement_ID=?"
-			+ " AND M_AttributeSetInstance_ID=?";
-		retValue = new Query(ctx, MCost.Table_Name, whereClause, null)
-		.setParameters(new Object[]{
-				AD_Client_ID, 
-				AD_Org_ID, 
-				M_Product_ID, 
-				M_CostType_ID, 
-				C_AcctSchema_ID, 
-				M_CostElement_ID, 
-				M_AttributeSetInstance_ID})
-		.first();
-		return retValue;
+		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
+									+" AND "+COLUMNNAME_M_Product_ID+"=?"
+									+" AND "+COLUMNNAME_M_CostType_ID+"=?"
+									+" AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
+									+" AND "+COLUMNNAME_M_CostElement_ID+"=?"
+									+" AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?";
+		final Object[] params = new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID,
+												M_CostType_ID, C_AcctSchema_ID,
+												M_CostElement_ID, M_AttributeSetInstance_ID};
+		return new Query(ctx, Table_Name, whereClause, null)
+					.setParameters(params)
+					.first();
 	}	//	get
 	
 	/**
