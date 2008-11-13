@@ -183,13 +183,12 @@ public class MAccount extends X_C_ValidCombination
 			whereClause.append(" AND UserElement2_ID=?");
 			params.add(UserElement2_ID);
 		}
-		whereClause.append(" AND IsActive='Y'");
 		//	whereClause.append(" ORDER BY IsFullyQualified DESC");
 		
-		
-		
-		MAccount existingAccount = new Query(ctx,MAccount.Table_Name,whereClause.toString(),null)
-		.setParameters(params).first();
+		MAccount existingAccount = new Query(ctx, MAccount.Table_Name, whereClause.toString(), null)
+										.setParameters(params)
+										.setOnlyActiveRecords(true)
+										.first();
 
 		//	Existing
 		if (existingAccount != null)
