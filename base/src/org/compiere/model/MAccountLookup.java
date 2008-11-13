@@ -36,6 +36,8 @@ import org.compiere.util.NamePair;
  */
 public final class MAccountLookup extends Lookup implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *	Constructor
 	 *  @param ctx context
@@ -175,15 +177,11 @@ public final class MAccountLookup extends Lookup implements Serializable
 		ArrayList<Object> params = new ArrayList<Object>();
 		String whereClause = "AD_Client_ID=?";
 		params.add(Env.getAD_Client_ID(m_ctx));
-		if (onlyActive)
-		{	
-			whereClause+=" AND IsActive=?";
-			params.add("Y");
-		}
 		
 		List<MAccount> accounts = new Query(Env.getCtx(),MAccount.Table_Name,whereClause,null)
 		.setParameters(params)
-		.setOrderBy("Combination")
+		.setOrderBy(MAccount.COLUMNNAME_Combination)
+		.setOnlyActiveRecords(onlyActive)
 		.list();
 		
 		for(MAccount account :accounts)
