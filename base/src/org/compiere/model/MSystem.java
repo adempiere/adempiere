@@ -16,12 +16,31 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.lang.management.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.db.*;
-import org.compiere.util.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryPoolMXBean;
+import java.lang.management.RuntimeMXBean;
+import java.lang.management.ThreadMXBean;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
+import org.compiere.db.CConnection;
+import org.compiere.db.Database;
+import org.compiere.db.LDAP;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	System Record (just one)
@@ -31,6 +50,8 @@ import org.compiere.util.*;
  */
 public class MSystem extends X_AD_System
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Load System Record
 	 *	@param ctx context
@@ -170,31 +191,7 @@ public class MSystem extends X_AD_System
 				+ "||'L'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM C_InvoiceLine)"
 				+ "||'M'|| (SELECT " + DB.TO_CHAR("COUNT(*)", DisplayType.Number, Env.getAD_Language(Env.getCtx())) + " FROM M_Transaction)"
 				+ " FROM AD_System";
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery ();
-				if (rs.next ())
-					s = rs.getString(1);
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			s = DB.getSQLValueString(null, sql);
 		}
 		return s;
 	}	//	getStatisticsInfo
@@ -209,33 +206,28 @@ public class MSystem extends X_AD_System
 		String s = super.getProfileInfo ();
 		if (s == null || recalc)
 		{
-			String sql = "SELECT Value FROM AD_Client "
-				+ "WHERE IsActive='Y' ORDER BY AD_Client_ID DESC";
+			final String sql = "SELECT Value FROM AD_Client "
+								+ " WHERE IsActive='Y' ORDER BY AD_Client_ID DESC";
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			StringBuffer sb = new StringBuffer();
 			try
 			{
 				pstmt = DB.prepareStatement (sql, null);
-				ResultSet rs = pstmt.executeQuery ();
+				rs = pstmt.executeQuery ();
 				while (rs.next ())
+				{
 					sb.append(rs.getString(1)).append('|');
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
+				}
 			}
-			catch (Exception e)
+			catch (SQLException e)
 			{
-				log.log (Level.SEVERE, sql, e);
+				throw new DBException(e, sql);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			s = sb.toString();
 		}
@@ -250,34 +242,31 @@ public class MSystem extends X_AD_System
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Mandatory Values
-		if (get_Value("IsAutoErrorReport") == null)
+		if (get_Value(COLUMNNAME_IsAutoErrorReport) == null)
 			setIsAutoErrorReport (true);
 		//
 		boolean userChange = Ini.isClient() &&
-			(is_ValueChanged("Name")
-			|| is_ValueChanged("UserName")
-			|| is_ValueChanged("Password")
-			|| is_ValueChanged("LDAPHost")
-			|| is_ValueChanged("LDAPDomain")
-			|| is_ValueChanged("CustomPrefix")
+			(is_ValueChanged(COLUMNNAME_Name)
+			|| is_ValueChanged(COLUMNNAME_UserName)
+			|| is_ValueChanged(COLUMNNAME_Password)
+			|| is_ValueChanged(COLUMNNAME_LDAPHost)
+			|| is_ValueChanged(COLUMNNAME_LDAPDomain)
+			|| is_ValueChanged(COLUMNNAME_CustomPrefix)
 			);
 		if (userChange)
 		{
 			String name = getName();
 			if (name.equals("?") || name.length() < 2)
 			{
-				log.saveError("Error", "Define a unique System name (e.g. Company name) not " + name);
-				return false;
+				throw new AdempiereException("Define a unique System name (e.g. Company name) not " + name);
 			}
 			if (getUserName().equals("?") || getUserName().length() < 2)
 			{
-				log.saveError("Error", "Use the same EMail address as in the Adempiere Web Store");
-				return false;
+				throw new AdempiereException("Use the same EMail address as in the Adempiere Web Store");
 			}
 			if (getPassword().equals("?") || getPassword().length() < 2)
 			{
-				log.saveError("Error", "Use the same Password as in the Adempiere Web Store");
-				return false;
+				throw new AdempiereException("Use the same Password as in the Adempiere Web Store");
 			}
 		}
 		//
@@ -310,7 +299,7 @@ public class MSystem extends X_AD_System
 
 	
 	/**************************************************************************
-	 * 	Check valididity
+	 * 	Check validity
 	 *	@return true if valid
 	 */
 	public boolean isValid()
@@ -350,7 +339,6 @@ public class MSystem extends X_AD_System
 	 */
 	public boolean setInfo()
 	{
-	//	log.severe("setInfo");
 		if (!TimeUtil.getDay(getUpdated()).before(TimeUtil.getDay(null)))
 			return false;	
 		try
@@ -377,39 +365,13 @@ public class MSystem extends X_AD_System
 	 */
 	private void setInternalUsers()
 	{
-		String sql = "SELECT COUNT(DISTINCT (u.AD_User_ID)) AS iu "
+		final String sql = "SELECT COUNT(DISTINCT (u.AD_User_ID)) AS iu "
 			+ "FROM AD_User u"
 			+ " INNER JOIN AD_User_Roles ur ON (u.AD_User_ID=ur.AD_User_ID) "
 			+ "WHERE u.AD_Client_ID<>11"			//	no Demo
 			+ " AND u.AD_User_ID NOT IN (0,100)";	//	no System/SuperUser
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				int internalUsers = rs.getInt (1);
-				setSupportUnits(internalUsers);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		int internalUsers = DB.getSQLValue(null, sql);
+		setSupportUnits(internalUsers);
 	}	//	setInternalUsers
 
 	/**
@@ -428,36 +390,29 @@ public class MSystem extends X_AD_System
 		//
 		String dbName = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		String sql = null;
 		try
 		{
 			String dbType = CConnection.get().getDatabase().getName();
 			sql = getDBInfoSQL(dbType);
 			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next())
 			{
 			//	dbAddress = rs.getString(1);
 				dbName = rs.getString(2);
 				setDBInstance(dbName.toLowerCase());
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	setDBInfo
 	
@@ -496,7 +451,7 @@ public class MSystem extends X_AD_System
 		if (CLogMgt.isLevelFiner())
 		{
 			List<MemoryPoolMXBean> list = ManagementFactory.getMemoryPoolMXBeans();
-			Iterator it = list.iterator();
+			Iterator<MemoryPoolMXBean> it = list.iterator();
 			while (it.hasNext())
 			{
 				MemoryPoolMXBean pool = (MemoryPoolMXBean)it.next();
