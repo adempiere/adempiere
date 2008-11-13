@@ -22,7 +22,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
@@ -45,15 +44,11 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	 */
 	public static MAcctProcessor[] getActive (Properties ctx)
 	{
-		String whereClause = "IsActive=?";
-		List<MAcctProcessor> list = new Query(ctx, MAcctProcessor.Table_Name,whereClause,null)
-		.setParameters(new Object[]{"Y"}).list();
+		List<MAcctProcessor> list = new Query(ctx, MAcctProcessor.Table_Name, null, null)
+										.setOnlyActiveRecords(true)
+										.list();
 		return list.toArray(new MAcctProcessor[list.size()]);		
 	}	//	getActive
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MAcctProcessor.class);
-
 	
 	/**
 	 * 	Standard Construvtor
