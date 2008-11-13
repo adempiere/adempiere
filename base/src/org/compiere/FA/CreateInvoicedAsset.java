@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.model.X_C_InvoiceLine;				
 import org.compiere.model.X_M_Product;
-import org.compiere.model.X_M_Product_Category;
 import org.compiere.model.X_C_BPartner;
 import org.compiere.process.*;
 import org.compiere.util.DB;
@@ -73,20 +72,26 @@ public class CreateInvoicedAsset extends SvrProcess
 		int uselifeyears = 0;
 		int C_Period_ID=0;
 		int invoiceAcct=0;
+		//Yvonne: add in recordInsertedCount
+		int recordInsertedCount = 0;
+		//Yvonne: changed A_Processed is null to A_Processed='N'
+		String sql =" SELECT * FROM C_InvoiceLine WHERE A_Processed='N' and AD_Client_ID = ?" 
+			+ " and A_CreateAsset = 'Y' and Processed = 'Y'";
 		
-		String sql =" SELECT * FROM C_InvoiceLine WHERE A_Processed is null and AD_Client_ID = ?" 
-				+ " and A_CreateAsset = 'Y' and Processed = 'Y'";
 		log.info("sql"+sql+p_client);
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql,get_TrxName());
+		ResultSet rs = null;
 		try {
 			pstmt.setInt(1, p_client);	
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			int i=0;
+
 			while (rs.next()){
 				i=i+1;
 				log.info("here is the counter "+i);
 				X_A_Asset asset = new X_A_Asset (getCtx(), rs.getInt("A_Asset_ID"), get_TrxName());
+				
 				X_C_Invoice Invoice = new X_C_Invoice (getCtx(), rs.getInt("C_Invoice_ID"), get_TrxName());
 				X_C_InvoiceLine InvoiceLine = new X_C_InvoiceLine (getCtx(), rs, get_TrxName());				
 				X_M_Product product = new X_M_Product (getCtx(), InvoiceLine.getM_Product_ID(), get_TrxName());
@@ -193,6 +198,7 @@ public class CreateInvoicedAsset extends SvrProcess
 								assetacct.setA_Depreciation_Table_Header_ID(assetgrpacct.getA_Depreciation_Table_Header_ID());
 								assetacct.setA_Depreciation_Variable_Perc(assetgrpacct.getA_Depreciation_Variable_Perc());
 								assetacct.setProcessing(false);
+								assetacct.getAD_Client_ID();
 								assetacct.save();
 								
 								MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());						
@@ -298,8 +304,7 @@ public class CreateInvoicedAsset extends SvrProcess
 								ResultSet rs4 = pstmt4.executeQuery();
 								if (rs4.next())
 									 C_Period_ID = rs4.getInt(1);
-								rs4.close();
-								pstmt4.close();
+								DB.close(rs4, pstmt4);
 								pstmt4 = null;
 							}
 							catch (SQLException e)
@@ -369,6 +374,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							depexp2.setA_Period(C_Period_ID);
 							depexp2.setA_Entry_Type("NEW");
 							depexp2.save();
+							recordInsertedCount++;
 							
 							X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());
 							depexp3.setPostingType(assetacct.getPostingType());
@@ -381,109 +387,11 @@ public class CreateInvoicedAsset extends SvrProcess
 							depexp3.setA_Period(C_Period_ID);			
 							depexp3.setA_Entry_Type("NEW");
 							depexp3.save();
+							recordInsertedCount++;
 							
 							//Determine if tax adjustment is necessary
 							if (InvoiceLine.getTaxAmt().compareTo(new BigDecimal (0))!=0){
 								
-							invoiceAcct = determineTaxAcct (assetacct.getC_AcctSchema_ID(), InvoiceLine.getC_Tax_ID());
-							
-							X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());						 			
-							depexp4.setPostingType(assetacct.getPostingType());
-							depexp4.setA_Asset_ID(asset.getA_Asset_ID());
-							depexp4.setExpense(InvoiceLine.getTaxAmt().multiply(new BigDecimal (-1)));
-							depexp4.setDateAcct(Invoice.getDateAcct());
-							depexp4.setA_Account_Number(invoiceAcct);
-							depexp4.setDescription("Create Asset from Invoice");
-							depexp4.setIsDepreciated(false);
-							depexp4.setA_Period(C_Period_ID);
-							depexp4.setA_Entry_Type("NEW");
-							depexp4.save();							
-							}
-					    }											
-						else
-						{		
-						sql2 ="SELECT * FROM A_Depreciation_Workfile WHERE A_Asset_ID = ? and PostingType = ?";		
-						PreparedStatement pstmt2 = null;
-						pstmt2 = DB.prepareStatement(sql2,get_TrxName());
-					
-						try {
-							pstmt2.setInt(1, asset.getA_Asset_ID());
-							pstmt2.setString(2, assetgrpacct.getPostingType());
-							ResultSet rs3 = pstmt2.executeQuery();						
-							while (rs3.next()){	
-								X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs3, get_TrxName());
-								assetwk.setA_Asset_ID(asset.getA_Asset_ID());		
-								assetwk.setA_Life_Period(assetgrpacct.getUseLifeMonths());
-								assetwk.setA_Asset_Life_Years(assetgrpacct.getUseLifeYears());
-								assetwk.setA_Asset_Cost(assetwk.getA_Asset_Cost().add(InvoiceLine.getLineTotalAmt()));
-								assetwk.setIsDepreciated(assetgrpacct.isProcessing());
-								assetwk.setA_QTY_Current(InvoiceLine.getQtyEntered());							
-								assetwk.save();
-								
-								X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
-								assetadd.setA_Asset_ID(asset.getA_Asset_ID());							
-								assetadd.setAssetValueAmt(InvoiceLine.getLineTotalAmt());
-								assetadd.setA_SourceType("INV");
-								assetadd.setA_CapvsExp("Cap");
-								assetadd.setM_InOutLine_ID(rs.getInt("C_Invoice_ID"));				
-								assetadd.setC_Invoice_ID(rs.getInt("C_Invoice_ID"));
-								assetadd.setDocumentNo(Invoice.getDocumentNo());
-								assetadd.setLine(InvoiceLine.getLine());
-								assetadd.setDescription(InvoiceLine.getDescription());
-								assetadd.setA_QTY_Current(InvoiceLine.getQtyEntered());
-								assetadd.setPostingType(assetwk.getPostingType());
-								assetadd.save();
-								
-								
-					            asset.setA_QTY_Original(assetadd.getA_QTY_Current().add(asset.getA_QTY_Original()));
-					            asset.setA_QTY_Current(assetadd.getA_QTY_Current().add(asset.getA_QTY_Current()));
-					            asset.save();
-					            
-					            MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
-					            change.setA_Asset_ID(asset.getA_Asset_ID());            
-					            change.setA_QTY_Current(assetadd.getA_QTY_Current());           
-					            change.setChangeType("ADD");
-					            MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
-					        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
-					            change.setPostingType(assetwk.getPostingType());
-					            change.setAssetValueAmt(assetadd.getAssetValueAmt());
-					            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
-					            change.save();
-					            
-					            
-					            
-					            
-								//Determine non tax accounts to credit
-								invoiceAcct = determineAcct (assetacct.getC_AcctSchema_ID(), InvoiceLine.getM_Product_ID(), InvoiceLine.getC_Charge_ID(), InvoiceLine.getLineNetAmt());	
-															
-								//Create Journal Entries for the new asset
-								X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());						 			
-								depexp2.setPostingType(assetacct.getPostingType());
-								depexp2.setA_Asset_ID(asset.getA_Asset_ID());
-								depexp2.setExpense(InvoiceLine.getLineTotalAmt());
-								depexp2.setDateAcct(Invoice.getDateAcct());
-								depexp2.setA_Account_Number(assetacct.getA_Asset_Acct());
-								depexp2.setDescription("Create Asset from Invoice");
-								depexp2.setIsDepreciated(false);
-								depexp2.setA_Period(C_Period_ID);
-								depexp2.setA_Entry_Type("NEW");
-								depexp2.save();
-								
-								X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());
-								depexp3.setPostingType(assetacct.getPostingType());
-								depexp3.setA_Asset_ID(asset.getA_Asset_ID());
-								depexp3.setExpense(InvoiceLine.getLineNetAmt().multiply(new BigDecimal (-1)));
-								depexp3.setDateAcct(Invoice.getDateAcct());
-								depexp3.setA_Account_Number(invoiceAcct);
-								depexp3.setDescription("Create Asset from Invoice");
-								depexp3.setIsDepreciated(false);
-								depexp3.setA_Period(C_Period_ID);			
-								depexp3.setA_Entry_Type("NEW");
-								depexp3.save();
-								
-								//Determine if tax adjustment is necessary
-								if (InvoiceLine.getTaxAmt().compareTo(new BigDecimal (0))!=0){
-									
 								invoiceAcct = determineTaxAcct (assetacct.getC_AcctSchema_ID(), InvoiceLine.getC_Tax_ID());
 								
 								X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());						 			
@@ -497,13 +405,113 @@ public class CreateInvoicedAsset extends SvrProcess
 								depexp4.setA_Period(C_Period_ID);
 								depexp4.setA_Entry_Type("NEW");
 								depexp4.save();							
-								}					            
-	
+								recordInsertedCount++;
+
 							}
-						
-							rs3.close();
-							pstmt2.close();
-							pstmt2 = null;
+					    }											
+						else
+						{		
+							sql2 ="SELECT * FROM A_Depreciation_Workfile WHERE A_Asset_ID = ? and PostingType = ?";		
+							PreparedStatement pstmt2 = null;
+							pstmt2 = DB.prepareStatement(sql2,get_TrxName());
+							ResultSet rs3 = null;
+							try {
+								pstmt2.setInt(1, asset.getA_Asset_ID());
+								pstmt2.setString(2, assetgrpacct.getPostingType());
+								rs3 = pstmt2.executeQuery();						
+								while (rs3.next()){	
+									X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), rs3, get_TrxName());
+									assetwk.setA_Asset_ID(asset.getA_Asset_ID());		
+									assetwk.setA_Life_Period(assetgrpacct.getUseLifeMonths());
+									assetwk.setA_Asset_Life_Years(assetgrpacct.getUseLifeYears());
+									assetwk.setA_Asset_Cost(assetwk.getA_Asset_Cost().add(InvoiceLine.getLineTotalAmt()));
+									assetwk.setIsDepreciated(assetgrpacct.isProcessing());
+									assetwk.setA_QTY_Current(InvoiceLine.getQtyEntered());							
+									assetwk.save();
+									
+									X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
+									assetadd.setA_Asset_ID(asset.getA_Asset_ID());							
+									assetadd.setAssetValueAmt(InvoiceLine.getLineTotalAmt());
+									assetadd.setA_SourceType("INV");
+									assetadd.setA_CapvsExp("Cap");
+									assetadd.setM_InOutLine_ID(rs.getInt("C_Invoice_ID"));				
+									assetadd.setC_Invoice_ID(rs.getInt("C_Invoice_ID"));
+									assetadd.setDocumentNo(Invoice.getDocumentNo());
+									assetadd.setLine(InvoiceLine.getLine());
+									assetadd.setDescription(InvoiceLine.getDescription());
+									assetadd.setA_QTY_Current(InvoiceLine.getQtyEntered());
+									assetadd.setPostingType(assetwk.getPostingType());
+									assetadd.save();
+									
+									
+						            asset.setA_QTY_Original(assetadd.getA_QTY_Current().add(asset.getA_QTY_Original()));
+						            asset.setA_QTY_Current(assetadd.getA_QTY_Current().add(asset.getA_QTY_Current()));
+						            asset.save();
+						            
+						            MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
+						            change.setA_Asset_ID(asset.getA_Asset_ID());            
+						            change.setA_QTY_Current(assetadd.getA_QTY_Current());           
+						            change.setChangeType("ADD");
+						            MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+						        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
+						            change.setPostingType(assetwk.getPostingType());
+						            change.setAssetValueAmt(assetadd.getAssetValueAmt());
+						            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
+						            change.save();
+						            
+						            
+						            
+						            
+									//Determine non tax accounts to credit
+									invoiceAcct = determineAcct (assetacct.getC_AcctSchema_ID(), InvoiceLine.getM_Product_ID(), InvoiceLine.getC_Charge_ID(), InvoiceLine.getLineNetAmt());	
+																
+									//Create Journal Entries for the new asset
+									X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());						 			
+									depexp2.setPostingType(assetacct.getPostingType());
+									depexp2.setA_Asset_ID(asset.getA_Asset_ID());
+									depexp2.setExpense(InvoiceLine.getLineTotalAmt());
+									depexp2.setDateAcct(Invoice.getDateAcct());
+									depexp2.setA_Account_Number(assetacct.getA_Asset_Acct());
+									depexp2.setDescription("Create Asset from Invoice");
+									depexp2.setIsDepreciated(false);
+									depexp2.setA_Period(C_Period_ID);
+									depexp2.setA_Entry_Type("NEW");
+									depexp2.save();
+									recordInsertedCount++;
+									
+									X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());
+									depexp3.setPostingType(assetacct.getPostingType());
+									depexp3.setA_Asset_ID(asset.getA_Asset_ID());
+									depexp3.setExpense(InvoiceLine.getLineNetAmt().multiply(new BigDecimal (-1)));
+									depexp3.setDateAcct(Invoice.getDateAcct());
+									depexp3.setA_Account_Number(invoiceAcct);
+									depexp3.setDescription("Create Asset from Invoice");
+									depexp3.setIsDepreciated(false);
+									depexp3.setA_Period(C_Period_ID);			
+									depexp3.setA_Entry_Type("NEW");
+									depexp3.save();
+									recordInsertedCount++;
+									
+									//Determine if tax adjustment is necessary
+									if (InvoiceLine.getTaxAmt().compareTo(new BigDecimal (0))!=0){
+										
+									invoiceAcct = determineTaxAcct (assetacct.getC_AcctSchema_ID(), InvoiceLine.getC_Tax_ID());
+									
+									X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());						 			
+									depexp4.setPostingType(assetacct.getPostingType());
+									depexp4.setA_Asset_ID(asset.getA_Asset_ID());
+									depexp4.setExpense(InvoiceLine.getTaxAmt().multiply(new BigDecimal (-1)));
+									depexp4.setDateAcct(Invoice.getDateAcct());
+									depexp4.setA_Account_Number(invoiceAcct);
+									depexp4.setDescription("Create Asset from Invoice");
+									depexp4.setIsDepreciated(false);
+									depexp4.setA_Period(C_Period_ID);
+									depexp4.setA_Entry_Type("NEW");
+									depexp4.save();							
+									recordInsertedCount++;
+									}					            
+		
+								}
 							}
 							catch (Exception e)
 							{
@@ -511,21 +519,14 @@ public class CreateInvoicedAsset extends SvrProcess
 							}
 							finally
 							{
-								try
-								{
-									if (pstmt2 != null)
-										pstmt2.close ();
-								}
-								catch (Exception e)
-								{}
+								DB.close(rs3, pstmt2);
 								pstmt2 = null;
-								}
-					    	}
-						}
+							}
+					    }
+					}
 									
 					}
-					rs2.close();
-					pstmt1.close();
+					DB.close(rs2, pstmt1);
 					pstmt1 = null;	
 				}
 				else if (rs.getString("A_CapvsExp").equals("Exp"))				
@@ -558,9 +559,7 @@ public class CreateInvoicedAsset extends SvrProcess
 				InvoiceLine.set_ValueOfColumn(I_CustomColumn.A_Processed, Boolean.TRUE);
 				InvoiceLine.save();
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+
 			}
 			catch (Exception e)
 			{
@@ -568,17 +567,18 @@ public class CreateInvoicedAsset extends SvrProcess
 			}
 			finally
 			{
-				try
-				{
-					if (pstmt != null)
-						pstmt.close ();
-				}
-				catch (Exception e)
-				{}
+				DB.close(rs, pstmt);
 				pstmt = null;
 			}
 			
-			return "";
+			if (recordInsertedCount > 0) 
+			{
+				return recordInsertedCount + " record(s) inserted.";
+			}
+			else 
+			{
+				return "Zero record inserted.";
+			}
 	}	//	doIt
 	
 	/**

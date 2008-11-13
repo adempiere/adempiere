@@ -125,7 +125,7 @@ public class MAssetAcct extends X_A_Asset_Acct {
 
 		} else {
 			X_A_Asset_Acct assetacct = new X_A_Asset_Acct(getCtx(),
-					p_actasset_ID, null);
+					p_actasset_ID, this.get_TrxName());
 			assetacct.setPostingType(getPostingType());
 			assetacct.setA_Split_Percent(getA_Split_Percent());
 			assetacct.setA_Depreciation_Conv_ID(getA_Depreciation_Conv_ID());
