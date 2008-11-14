@@ -103,7 +103,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
