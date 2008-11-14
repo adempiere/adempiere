@@ -25,7 +25,7 @@
     <pathelement path="${jar.path}/oracle.jar"/>
     <pathelement path="${jar.path}/postgresql.jar"/>
     <pathelement path="${jar.path}/jboss.jar"/>
-  	<pathelement path="${jar.path}/GlassFish.jar"/>
+  	<pathelement path="${jar.path}/glassfish.jar"/>
     <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
