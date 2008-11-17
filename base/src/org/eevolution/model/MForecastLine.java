@@ -15,18 +15,16 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.X_M_ForecastLine;
 
 /**
- *	Forcast Line Model
+ *	Forecast Line Model
  *	
  *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MForcastLine.java,v 1.11 2005/05/17 05:29:52 vpj-cd Exp $
+ *  @version $Id: MForecastLine.java,v 1.11 2005/05/17 05:29:52 vpj-cd Exp $
  */
 public class MForecastLine extends  X_M_ForecastLine
 {
@@ -38,11 +36,7 @@ public class MForecastLine extends  X_M_ForecastLine
 	public MForecastLine (Properties ctx, int M_ForecastLine_ID, String trxName)
 	{
 		super (ctx, M_ForecastLine_ID, trxName);
-		if (M_ForecastLine_ID == 0)
-		{		
-		}
-		
-	}	//	MForcastLine
+	}	//	MForecastLine
 
 	/**
 	 * 	Load Constructor
@@ -54,19 +48,6 @@ public class MForecastLine extends  X_M_ForecastLine
 		super(ctx, rs, trxName);
 	}	//	MRequisitionLine
 
-	
-	
-	
-	/**************************************************************************
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
-	 */
-	protected boolean beforeSave (boolean newRecord)
-	{
-		return true;
-	}	//	beforeSave
-	
 	/**
 	 * 	After Save.
 	 * 	Update Total on Header
@@ -77,9 +58,9 @@ public class MForecastLine extends  X_M_ForecastLine
 	{
 		if (!success)
 			return success;
-                //begin e-evolution vpj-cd 10/30/2004
-                MPPMRP.M_ForecastLine(this,false);
-                //end e-evolution vpj-cd 10/30/2004
+		//begin e-evolution vpj-cd 10/30/2004
+		MPPMRP.M_ForecastLine(this,false);
+		//end e-evolution vpj-cd 10/30/2004
 
 		return true;
 	}	//	afterSave
@@ -94,10 +75,10 @@ public class MForecastLine extends  X_M_ForecastLine
 	{
 		if (!success)
 			return success;
-        //begin e-evolution vpj-cd 10/30/2004
-        MPPMRP.M_ForecastLine(this,true);
-        //end e-evolution vpj-cd 10/30/2004
+		//begin e-evolution vpj-cd 10/30/2004
+		MPPMRP.M_ForecastLine(this,true);
+		//end e-evolution vpj-cd 10/30/2004
 		return true;
 	}	//	afterDelete	
 	
-}	//	MForcastLine
+}	//	MForecastLine
