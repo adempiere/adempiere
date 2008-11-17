@@ -30,9 +30,11 @@
 
 package org.compiere.model;
 
-import java.util.*;
-import org.compiere.util.*;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.Env;
 /**
  *
  * @author Daniel Tamm
@@ -66,16 +68,15 @@ public class MFreightCategory extends X_M_FreightCategory {
      * Reads a freight category from database based on the value (key) of the category.
      * No cache is used.
      * 
-     * @param ctx       Context. The context is used to match only categories within the
-     *                  client and organization context.
+     * @param ctx       Context. The context is used to match only categories within the client.
      * @param value
      * @param trxName
      * @return      If a match is found, the freight category. No match returns null.
      */
     public static MFreightCategory getByValue(Properties ctx, String value, String trxName) {
         
-        Query q = new Query(ctx, MFreightCategory.Table_Name, "value=? and ad_client_id=? and (ad_org_id=? or ad_org_id=0)", trxName);
-        q.setParameters(new Object[]{value, Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx)});
+        Query q = new Query(ctx, MFreightCategory.Table_Name, "Value=? AND AD_Client_ID=?", trxName);
+        q.setParameters(new Object[]{value, Env.getAD_Client_ID(ctx)});
         List<MFreightCategory> list = q.list();
         if (list.size()>0) {
             return(list.get(0));
