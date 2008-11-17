@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -82,6 +82,7 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  *  @author 	Jorg Janke
  *  @version 	$Id: VPanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ *               Carlos Ruiz - globalqss / Fix bug 2307133 - Swing client hiding fields incorrectly
  */
 public final class VPanel extends CTabbedPane
 {
@@ -173,6 +174,10 @@ public final class VPanel extends CTabbedPane
 	private String              m_oldFieldGroup = null;
 	/** Previous Field Group Type */
 	private String              m_oldFieldGroupType = null;
+	/** Previous Field Is Same Line */
+	private boolean				m_oldSameLine = false;
+	/** Previous Field Size */
+	private boolean				m_oldLongField = false;
 	//[ 1757088 ]  	
 	private java.util.Hashtable<String, JPanel> m_tablist = new java.util.Hashtable<String, JPanel>();
 	private java.util.Hashtable<Integer, CollapsiblePanel> m_tabincludelist = new java.util.Hashtable<Integer, CollapsiblePanel>();
@@ -257,11 +262,14 @@ public final class VPanel extends CTabbedPane
 			return;
 
 		boolean sameLine = mField.isSameLine();
+		if (sameLine && (m_oldSameLine || m_oldLongField))
+			sameLine = false;
+			
 		//[ 1757088 ]              		//	sets top
 		String fieldGroup = mField.getFieldGroup();
 		String fieldGroupType = mField.getFieldGroupType();
 		if (Util.isEmpty(fieldGroup))
-		{	
+		{
 			fieldGroup = m_oldFieldGroup;
 			fieldGroupType = m_oldFieldGroupType;
 		}
@@ -294,9 +302,9 @@ public final class VPanel extends CTabbedPane
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;	//	required for right justified
 			//	Set column #
 			if (m_leftToRight)
-				m_gbc.gridx = sameLine ? 2 : 0;
+				m_gbc.gridx = mField.isSameLine() ? 2 : 0;
 			else
-				m_gbc.gridx = sameLine | mField.isLongField() ? 3 : 1;
+				m_gbc.gridx = mField.isSameLine() | mField.isLongField() ? 3 : 1;
 			if (m_gbc.gridx == 0)
 				m_gbc.insets = m_firstLabelInset;
 			//	Weight factor for Label
@@ -341,9 +349,9 @@ public final class VPanel extends CTabbedPane
 			m_gbc.fill = GridBagConstraints.HORIZONTAL;
 			//	Set column #
 			if (m_leftToRight)
-				m_gbc.gridx = sameLine ? 3 : 1;
+				m_gbc.gridx = mField.isSameLine() ? 3 : 1;
 			else
-				m_gbc.gridx = sameLine ? 2 : 0;
+				m_gbc.gridx = mField.isSameLine() ? 2 : 0;
 			//	Weight factor for Fields
 			m_gbc.weightx = 1;
 			//	Add Field
@@ -394,6 +402,8 @@ public final class VPanel extends CTabbedPane
 			else if (mField.isCreateMnemonic())
 				setMnemonic(editor, mField.getMnemonic());
 		}
+		m_oldSameLine = sameLine;
+		m_oldLongField = mField.isLongField();
 	}	//	addField
 
 	/**
