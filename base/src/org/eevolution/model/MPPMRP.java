@@ -34,7 +34,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_M_Forecast;
-import org.compiere.model.X_M_ForecastLine;
+import org.eevolution.model.MForecastLine;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -113,10 +113,10 @@ public class MPPMRP extends X_PP_MRP
 
 	/**
 	 * Create MRP record based in Forecast Line 
-	 * @param X_M_ForecastLine Forecast Line
+	 * @param MForecastLine Forecast Line
 	 * @param delete Indicate if this record is delete
 	 */
-	public static void M_ForecastLine(X_M_ForecastLine fl, boolean delete)
+	public static void M_ForecastLine(MForecastLine fl, boolean delete)
 	{
 		String trxName = fl.get_TrxName();
 		Properties ctx = fl.getCtx();
