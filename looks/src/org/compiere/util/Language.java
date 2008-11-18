@@ -38,7 +38,7 @@ public class Language implements Serializable
 	 *  Languages
 	 *      http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt
 	 *  Countries
-	 *      http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	 *      http://www.iso.org/iso/country_codes/iso_3166_code_lists/english_country_names_and_code_elements.htm
 	 *************************************************************************/
 
 	/** Base Language               */
@@ -64,6 +64,7 @@ public class Language implements Serializable
 	private static final String AD_Language_pt_BR = "pt_BR";
 	private static final String AD_Language_ru_RU = "ru_RU";
 	private static final String AD_Language_sl_SI = "sl_SI";
+	private static final String AD_Language_sr_RS = "sr_RS";
 	private static final String AD_Language_sv_SE = "sv_SE";
 	private static final String AD_Language_vi_VN = "vi_VN";
 	private static final String AD_Language_zh_CN = "zh_CN";
@@ -174,6 +175,9 @@ public class Language implements Serializable
 			MediaSize.ISO.A4),
 		new Language ("Slovenski",
 			AD_Language_sl_SI, new Locale("sl", "SI"), null, "dd.MM.yyyy",
+			MediaSize.ISO.A4),
+		new Language ("\u0421\u0440\u043F\u0441\u043A\u0438 (RS)",
+			AD_Language_sr_RS, new Locale("sr", "RS"), null, "dd.MM.yyyy",
 			MediaSize.ISO.A4),
 		new Language ("Svenska",
 			AD_Language_sv_SE,  new Locale("sv","SE"),  new Boolean(false), "yyyy-MM-dd",
