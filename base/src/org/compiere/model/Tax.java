@@ -33,6 +33,8 @@ import org.compiere.util.Msg;
  *	Tax Handling
  *
  * 	@author 	Jorg Janke
+ *  @author		Trifon Trifonov
+ *  			<li> [ 2311165 ] Tax rate Extension; https://sourceforge.net/tracker/index.php?func=detail&aid=2311165&group_id=176962&atid=879335
  * 	@version 	$Id: Tax.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  */
 public class Tax
@@ -125,10 +127,13 @@ public class Tax
 		int billFromC_Location_ID = 0;
 		int billToC_Location_ID = 0;
 		String IsTaxExempt = null;
-
+		int C_BPartner_ID = 0; // @Trifon
+		int C_BP_Group_ID = 0; // @Trifon
+		
 		//	Get all at once
 		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
 			 + " w.C_Location_ID, sl.C_Location_ID "
+			 + " , b.C_BPartner_ID, b.C_BP_Group_ID " // #7, #8 @Trifon
 			 + "FROM C_Charge c, AD_OrgInfo o,"
 			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID),"
 			 + " M_Warehouse w, C_BPartner_Location sl "
@@ -157,6 +162,8 @@ public class Tax
 				IsTaxExempt = rs.getString (4);
 				shipFromC_Location_ID = rs.getInt (5);
 				shipToC_Location_ID = rs.getInt (6);
+				C_BPartner_ID = rs.getInt( 7 ); // @Trifon
+				C_BP_Group_ID = rs.getInt( 8 ); // @Trifon
 				found = true;
 			}
 			DB.close(rs, pstmt);
@@ -200,7 +207,9 @@ public class Tax
 		  + ", shipToC_Location_ID=" + shipToC_Location_ID);
 		return get (ctx, C_TaxCategory_ID, IsSOTrx,
 		  shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-		  billDate, billFromC_Location_ID, billToC_Location_ID);
+		  billDate, billFromC_Location_ID, billToC_Location_ID // @Trifon
+		  , -1, -1 // @Trifon; mProductCategoryId, mProductId
+		  , C_BP_Group_ID, C_BPartner_ID); // @Trifon
 	}	//	getCharge
 
 
@@ -240,6 +249,9 @@ public class Tax
 		int shipToC_Location_ID = 0;
 		int billFromC_Location_ID = 0;
 		int billToC_Location_ID = 0;
+		int M_Product_Category_ID = 0; // @Trifon
+		int cBPGroupId = 0; // @Trifon
+		int cBpartnerId = 0; // @Trifon
 		String IsTaxExempt = null;
 
 		PreparedStatement  pstmt = null;
@@ -249,6 +261,8 @@ public class Tax
 			//	Get all at once
 			String sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
 				+ " w.C_Location_ID, sl.C_Location_ID "
+				+ " , p.M_Product_Category_ID " // #7 @Trifon
+				+ " , b.C_BPartner_ID, b.C_BP_Group_ID " // #8, #9 @Trifon
 				+ "FROM M_Product p, AD_OrgInfo o,"
 				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID),"
 				+ " M_Warehouse w, C_BPartner_Location sl "
@@ -273,6 +287,10 @@ public class Tax
 				IsTaxExempt = rs.getString(4);
 				shipFromC_Location_ID = rs.getInt(5);
 				shipToC_Location_ID = rs.getInt(6);
+				M_Product_Category_ID = rs.getInt( X_M_Product.COLUMNNAME_M_Product_Category_ID ); // @Trifon
+				cBpartnerId = rs.getInt( X_C_BPartner.COLUMNNAME_C_BPartner_ID ); // @Trifon
+				cBPGroupId = rs.getInt( X_C_BPartner.COLUMNNAME_C_BP_Group_ID ); // @Trifon
+				
 				found = true;
 			}
 			DB.close(rs, pstmt);
@@ -300,7 +318,9 @@ public class Tax
 					+ ", shipToC_Location_ID=" + shipToC_Location_ID);
 				return get(ctx, C_TaxCategory_ID, IsSOTrx,
 					shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-					billDate, billFromC_Location_ID, billToC_Location_ID);
+					billDate, billFromC_Location_ID, billToC_Location_ID
+					, M_Product_Category_ID, M_Product_ID // @Trifon
+					, cBPGroupId, cBpartnerId); // @Trifon
 			}
 
 			// ----------------------------------------------------------------
@@ -308,7 +328,9 @@ public class Tax
 			//	Detail for error isolation
 
 		//	M_Product_ID				->	C_TaxCategory_ID
-			sql = "SELECT C_TaxCategory_ID FROM M_Product "
+			sql = "SELECT C_TaxCategory_ID "
+				+ ", M_Product_Category_ID " // #2 @Trifon
+				+ " FROM M_Product "
 				+ "WHERE M_Product_ID=?";
 			variable = "M_Product_ID";
 			pstmt = DB.prepareStatement(sql, null);
@@ -318,6 +340,7 @@ public class Tax
 			if (rs.next())
 			{
 				C_TaxCategory_ID = rs.getInt(1);
+				M_Product_Category_ID = rs.getInt( 2 ); // @Trifon
 				found = true;
 			}
 			DB.close(rs, pstmt);
@@ -452,7 +475,9 @@ public class Tax
 
 		return get (ctx, C_TaxCategory_ID, IsSOTrx,
 			shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-			billDate, billFromC_Location_ID, billToC_Location_ID);
+			billDate, billFromC_Location_ID, billToC_Location_ID
+			, M_Product_Category_ID, M_Product_ID  // @Trifon
+			, cBPGroupId, cBpartnerId); // @Trifon
 	}	//	getProduct
 
 	/**
@@ -516,7 +541,9 @@ public class Tax
 	protected static int get (Properties ctx,
 		int C_TaxCategory_ID, boolean IsSOTrx,
 		Timestamp shipDate, int shipFromC_Locction_ID, int shipToC_Location_ID,
-		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID)
+		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID
+		, int mProductCategoryId, int mProductId  // @Trifon
+		, int cBPGroupId, int cBpartnerId)  // @Trifon
 	{
 		//	C_TaxCategory contains CommodityCode
 		
@@ -524,7 +551,7 @@ public class Tax
 
 		if (CLogMgt.isLevelFine())
 		{
-			log.info("get(Detail) - Category=" + C_TaxCategory_ID 
+			log.info("get(Detail) - Tax Category=" + C_TaxCategory_ID 
 				+ ", SOTrx=" + IsSOTrx);
 			log.config("get(Detail) - BillFrom=" + billFromC_Location_ID 
 				+ ", BillTo=" + billToC_Location_ID + ", BillDate=" + billDate);
@@ -559,7 +586,14 @@ public class Tax
 			log.finest("To Region - " + (tax.getTo_Region_ID() == lTo.getC_Region_ID() 
 				|| tax.getTo_Region_ID() == 0));
 			log.finest("Date valid - " + (!tax.getValidFrom().after(billDate)));
-			
+			log.finest("Product Category - " + (tax.getM_Product_Category_ID() == mProductCategoryId 
+					|| tax.getM_Product_Category_ID() == 0));
+			log.finest("Product - " + (tax.getM_Product_ID() == mProductId 
+					|| tax.getM_Product_ID() == 0));
+			log.finest("Business Partner Group - " + (tax.getC_BP_Group_ID() == cBPGroupId 
+					|| tax.getC_BP_Group_ID() == 0));
+			log.finest("Business Partner - " + (tax.getC_BPartner_ID() == cBpartnerId 
+					|| tax.getC_BPartner_ID() == 0));
 				//	From Country
 			if ((tax.getC_Country_ID() == lFrom.getC_Country_ID() 
 					|| tax.getC_Country_ID() == 0)
@@ -574,6 +608,18 @@ public class Tax
 					|| tax.getTo_Region_ID() == 0)
 				//	Date
 				&& !tax.getValidFrom().after(billDate)
+				// Product Category @Trifon
+				&& (tax.getM_Product_Category_ID() == mProductCategoryId 
+					|| tax.getM_Product_Category_ID() == 0)
+				// Product @Trifon
+				&& (tax.getM_Product_ID() == mProductId 
+						|| tax.getM_Product_ID() == 0)
+				// Business Partner Group @Trifon
+				&& (tax.getC_BP_Group_ID() == cBPGroupId 
+						|| tax.getC_BP_Group_ID() == 0)
+				// Business Partner @Trifon
+				&& (tax.getC_BPartner_ID() == cBpartnerId 
+						|| tax.getC_BPartner_ID() == 0)
 				)
 			{
 				if (!tax.isPostal())
