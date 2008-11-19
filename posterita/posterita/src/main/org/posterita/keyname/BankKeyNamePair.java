@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 import org.posterita.core.KeyNamePairUtil;
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MBank;
+import org.compiere.model.MBank;
 
 
 public class BankKeyNamePair extends KeyNamePairUtil

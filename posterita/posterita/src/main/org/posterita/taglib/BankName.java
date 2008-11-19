@@ -30,7 +30,7 @@ import org.apache.struts.taglib.bean.WriteTag;
 import org.apache.struts.util.RequestUtils;
 
 import org.posterita.core.TmkJSPEnv;
-import org.posterita.model.MBank;
+import org.compiere.model.MBank;
 
 public class BankName extends WriteTag
 { 

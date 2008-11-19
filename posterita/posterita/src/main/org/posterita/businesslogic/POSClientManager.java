@@ -69,7 +69,7 @@ import org.posterita.factory.GenericSystemObjectsFactory;
 import org.posterita.factory.POSMenuFactory;
 import org.posterita.factory.SystemObjectsFactory;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MBank;
+import org.compiere.model.MBank;
 import org.posterita.model.MWebMenu;
 import org.posterita.util.PoManager;
 

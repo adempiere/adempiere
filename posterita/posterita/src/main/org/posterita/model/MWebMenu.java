@@ -28,7 +28,12 @@ import org.compiere.model.X_U_WebMenu;
 public class MWebMenu extends X_U_WebMenu
 {
 	
-	public MWebMenu(Properties ctx, int U_WebMenu_ID, String trxName) 
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public MWebMenu(Properties ctx, int U_WebMenu_ID, String trxName) 
 	{
 		super(ctx, U_WebMenu_ID, trxName);
 	}

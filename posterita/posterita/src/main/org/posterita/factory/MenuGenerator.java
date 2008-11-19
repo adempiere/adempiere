@@ -26,7 +26,7 @@ import org.compiere.model.X_U_RoleMenu;
 import org.compiere.util.Env;
 import org.posterita.businesslogic.MenuManager;
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MRoleMenu;
+import org.compiere.model.MRoleMenu;
 import org.posterita.util.PoManager;
 
 

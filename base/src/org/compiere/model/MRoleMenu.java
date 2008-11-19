@@ -21,6 +21,7 @@
  */
 package org.compiere.model;
 
+import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.X_U_RoleMenu;
@@ -38,4 +39,8 @@ public class MRoleMenu extends X_U_RoleMenu
 		super(ctx, U_RoleMenu_ID, trxName);
 	}
 
+	public MRoleMenu(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
+	}
+	
 }

@@ -43,7 +43,7 @@ import org.posterita.core.CheckDuplicateEntities;
 import org.posterita.exceptions.BankAlreadyExistException;
 import org.posterita.exceptions.OperationException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MBank;
+import org.compiere.model.MBank;
 import org.posterita.util.PoManager;
 
 
