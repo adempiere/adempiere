@@ -60,7 +60,7 @@ import org.posterita.exceptions.UserInactiveException;
 import org.posterita.exceptions.UserNotFoundException;
 import org.posterita.exceptions.WrongPasswordException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
 import org.posterita.user.WebUserInfo;

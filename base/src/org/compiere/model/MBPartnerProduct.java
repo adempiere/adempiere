@@ -16,31 +16,37 @@
  *  You should have received a copy of the GNU General Public License along
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * Created on May 10, 2006
  */
-package org.posterita.model;
+
+
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_U_WebMenu;
+import org.compiere.model.X_C_BPartner_Product;
 
 
-public class MWebMenu extends X_U_WebMenu
+public class MBPartnerProduct extends X_C_BPartner_Product
 {
-	
 	/**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    public MWebMenu(Properties ctx, int U_WebMenu_ID, String trxName) 
-	{
-		super(ctx, U_WebMenu_ID, trxName);
-	}
-
-	public MWebMenu(Properties ctx, ResultSet rs, String trxName) 
+	
+	public MBPartnerProduct(Properties ctx, int C_BpartnerProduct_ID, String m_trxName)
+    {
+        super(ctx, C_BpartnerProduct_ID, m_trxName);
+        
+    }
+	
+	public MBPartnerProduct(Properties ctx, ResultSet rs, String trxName) 
 	{
 		super(ctx, rs, trxName);
 	}
+
 	
 }

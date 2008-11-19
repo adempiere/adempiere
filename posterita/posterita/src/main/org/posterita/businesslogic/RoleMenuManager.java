@@ -25,7 +25,7 @@ import java.util.Properties;
 
 import org.compiere.model.MRoleMenu;
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.util.PoManager;
 
 

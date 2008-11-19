@@ -40,7 +40,7 @@ import org.posterita.exceptions.BankAlreadyExistException;
 import org.posterita.exceptions.OperationException;
 import org.posterita.exceptions.ProductNotFoundException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MBlackListCheque;
+import org.compiere.model.MBlackListCheque;
 import org.posterita.util.PoManager;
 
 

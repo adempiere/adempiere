@@ -38,7 +38,7 @@ import org.compiere.model.MTaxCategory;
 import org.compiere.model.MUser;
 import org.compiere.util.Env;
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 
 
 public class SystemObjects

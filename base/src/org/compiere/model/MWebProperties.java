@@ -17,19 +17,19 @@
  *  with this program; if not, write to the Free Software Foundation, Inc.,
  *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * 
- * Created on May 10, 2006
+ * Created on 12-Oct-2005
  */
 
 
-package org.posterita.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_C_BPartner_Product;
+import org.compiere.model.X_U_Web_Properties;
 
 
-public class MBPartnerProduct extends X_C_BPartner_Product
+public class MWebProperties extends X_U_Web_Properties
 {
 	/**
 	 * 
@@ -37,16 +37,16 @@ public class MBPartnerProduct extends X_C_BPartner_Product
 	private static final long serialVersionUID = 1L;
 
 	
-	public MBPartnerProduct(Properties ctx, int C_BpartnerProduct_ID, String m_trxName)
+	public MWebProperties(Properties ctx, int uWebProperties , String trxName)
     {
-        super(ctx, C_BpartnerProduct_ID, m_trxName);
-        
+        super(ctx,uWebProperties,trxName);
     }
 	
-	public MBPartnerProduct(Properties ctx, ResultSet rs, String trxName) 
-	{
+    public MWebProperties(Properties ctx, ResultSet rs, String trxName) 
+    {
 		super(ctx, rs, trxName);
 	}
 
 	
+
 }

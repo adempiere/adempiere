@@ -32,7 +32,6 @@ import org.compiere.model.MOrg;
 import org.compiere.model.MRole;
 import org.compiere.model.MRoleMenu;
 import org.compiere.model.MRoleOrgAccess;
-import org.compiere.model.MUserRoles;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -49,7 +48,7 @@ import org.posterita.exceptions.OperationException;
 import org.posterita.exceptions.RoleAlreadyExistsException;
 import org.posterita.exceptions.SystemException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.util.PoManager;
 
 

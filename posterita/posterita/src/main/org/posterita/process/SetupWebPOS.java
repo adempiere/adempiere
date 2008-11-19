@@ -29,7 +29,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.posterita.factory.POSMenuFactory;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.util.PoManager;
 
 

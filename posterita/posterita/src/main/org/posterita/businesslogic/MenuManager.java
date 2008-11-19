@@ -49,7 +49,7 @@ import org.posterita.exceptions.SystemException;
 import org.posterita.factory.AbstractFactory;
 import org.posterita.factory.POSMenuFactory;
 import org.posterita.keyname.MenuKeyNamePair;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.util.PoManager;
 
 

@@ -27,7 +27,7 @@ import java.util.Properties;
 
 import org.compiere.model.X_U_WebMenu;
 import org.posterita.factory.AbstractFactory;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 
 public class MenuItem
 {

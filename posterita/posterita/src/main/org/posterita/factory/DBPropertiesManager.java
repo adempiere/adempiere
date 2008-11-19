@@ -28,7 +28,7 @@ import java.util.Properties;
 import org.compiere.util.Env;
 
 import org.posterita.exceptions.OperationException;
-import org.posterita.model.MWebProperties;
+import org.compiere.model.MWebProperties;
 
 
 public class DBPropertiesManager implements WebProperties

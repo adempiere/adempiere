@@ -19,7 +19,7 @@
  * Created on 07-Jul-2005 by alok
  *
  */
-package org.posterita.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;

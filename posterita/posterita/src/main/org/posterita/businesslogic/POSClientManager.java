@@ -59,7 +59,6 @@ import org.posterita.businesslogic.administration.RoleManager;
 import org.posterita.businesslogic.administration.TaxManager;
 import org.posterita.businesslogic.administration.UserManager;
 import org.posterita.businesslogic.administration.WarehouseManager;
-import org.posterita.businesslogic.core.ApplicationManager;
 import org.posterita.core.FileManager;
 import org.posterita.core.bean.ClientBean;
 import org.posterita.exceptions.ClientAlreadyExistException;
@@ -70,7 +69,7 @@ import org.posterita.factory.POSMenuFactory;
 import org.posterita.factory.SystemObjectsFactory;
 import org.posterita.lib.UdiConstants;
 import org.compiere.model.MBank;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.util.PoManager;
 
 public class POSClientManager extends ClientManager
