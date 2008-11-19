@@ -115,7 +115,7 @@ public class MStatus extends X_R_Status
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
+			while (rs.next ())
 				list.add(new MStatus (ctx, rs, null));
 			rs.close ();
 			pstmt.close ();
