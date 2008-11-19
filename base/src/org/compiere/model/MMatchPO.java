@@ -40,6 +40,9 @@ import org.compiere.util.Env;
  *  
  *  @author Bayu Cahya, Sistematika
  *  		<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2314749 ] MatchPO not considering currency PriceMatchDifference
  */
 public class MMatchPO extends X_M_MatchPO
 {
@@ -485,10 +488,28 @@ public class MMatchPO extends X_M_MatchPO
 	}	//	getOrderLine
 	
 	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true
+	 * Get PriceActual from Invoice and convert it to Order Currency
+	 * @return Price Actual in Order Currency
 	 */
+	public BigDecimal getInvoicePriceActual()
+	{
+		MInvoiceLine iLine = getInvoiceLine();
+		MInvoice invoice = iLine.getParent();
+		MOrder order = getOrderLine().getParent();
+
+		BigDecimal priceActual = iLine.getPriceActual();
+		int invoiceCurrency_ID = invoice.getC_Currency_ID();
+		int orderCurrency_ID = order.getC_Currency_ID();
+		if (invoiceCurrency_ID != orderCurrency_ID)
+		{
+			priceActual = MConversionRate.convert(getCtx(), priceActual, invoiceCurrency_ID, orderCurrency_ID,
+										invoice.getDateInvoiced(), invoice.getC_ConversionType_ID(),
+										getAD_Client_ID(), getAD_Org_ID());
+		}
+		return priceActual;
+	}
+	
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Set Trx Date
@@ -559,7 +580,7 @@ public class MMatchPO extends X_M_MatchPO
 				is_ValueChanged("C_OrderLine_ID") || is_ValueChanged("C_InvoiceLine_ID")))
 		{
 			BigDecimal poPrice = getOrderLine().getPriceActual();
-			BigDecimal invPrice = getInvoiceLine().getPriceActual();
+			BigDecimal invPrice = getInvoicePriceActual();
 			BigDecimal difference = poPrice.subtract(invPrice);
 			if (difference.signum() != 0)
 			{
@@ -598,6 +619,7 @@ public class MMatchPO extends X_M_MatchPO
 	 *	@param success success
 	 *	@return success
 	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (newRecord && success)
@@ -690,6 +712,7 @@ public class MMatchPO extends X_M_MatchPO
 	 * 	Before Delete
 	 *	@return true if acct was deleted
 	 */
+	@Override
 	protected boolean beforeDelete ()
 	{
 		if (isPosted())
@@ -708,6 +731,7 @@ public class MMatchPO extends X_M_MatchPO
 	 *	@param success success
 	 *	@return success
 	 */
+	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		//	Order Delivered/Invoiced
