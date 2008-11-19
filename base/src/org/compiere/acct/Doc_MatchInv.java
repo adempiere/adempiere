@@ -205,6 +205,24 @@ public class Doc_MatchInv extends Doc
 			{
 				log.fine("Line Net Amt=0 - M_Product_ID=" + getM_Product_ID()
 					+ ",Qty=" + getQty() + ",InOutQty=" + m_receiptLine.getMovementQty());
+				
+				//  Invoice Price Variance
+				BigDecimal ipv = dr.getSourceBalance().negate();
+				if (ipv.signum() != 0)
+				{
+					MInvoice m_invoice = m_invoiceLine.getParent();
+					int C_Currency_ID = m_invoice.getC_Currency_ID();
+					FactLine pv = fact.createLine(null,
+							m_pc.getAccount(ProductCost.ACCTTYPE_P_IPV, as),
+							C_Currency_ID, ipv);
+					pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+					pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
+					pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
+					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+				}
+				log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
 				facts.add(fact);
 				return facts;
 			}
