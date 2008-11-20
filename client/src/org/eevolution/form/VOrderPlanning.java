@@ -11,7 +11,7 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
- * Contributor(s): Victor Perez www.e-evolution.com                           *
+ * Contributor(s): victor.perez@e-evolution.com www.e-evolution.com                           *
  *****************************************************************************/
 
 package org.eevolution.form;
@@ -67,7 +67,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.eevolution.model.MPPOrder;
-import org.eevolution.model.X_PP_Order;
 /**
  *
  * @author  vpj-cd
@@ -321,7 +320,7 @@ public class VOrderPlanning extends CPanel
                              Integer PP_Order_ID = id.getRecord_ID();                                                          
                              MPPOrder order = new MPPOrder(Env.getCtx(), PP_Order_ID.intValue(),null);
                              order.setDocStatus(order.prepareIt());
-                             order.setDocAction(X_PP_Order.DOCACTION_Prepare);
+                             order.setDocAction(MPPOrder.DOCACTION_Prepare);
                              order.save();
                              }
                     }        
@@ -612,17 +611,8 @@ public class VOrderPlanning extends CPanel
 		public void run()
 		{
 			log.fine("Info.Worker.run");
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			//setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-
-			//  Clear Table
-			p_table.setRowCount(0);
-			//
-                        //System.out.println("########" + m_sqlMain);
-                        
-			StringBuffer sql = new StringBuffer (m_sqlMain);
-                        
-			//String dynWhere = "" ;//find ();
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));                      
+			StringBuffer sql = new StringBuffer (m_sqlMain);                    
 			String dynWhere = find ();
 			if (dynWhere.length() > 0)
 				sql.append(" AND " + dynWhere);   //  includes first AND
@@ -635,10 +625,7 @@ public class VOrderPlanning extends CPanel
 			{
 				PreparedStatement pstmt = DB.prepareStatement(xSql,null);
 				log.fine("SQL=" + xSql);
-				//setParameters (pstmt);
-			//	Log.trace(Log.l6_Database, "Info.Worker.run - start query");
 				ResultSet rs = pstmt.executeQuery();
-			//	Log.trace(Log.l6_Database, "Info.Worker.run - end query");
 				while (!isInterrupted() & rs.next())
 				{
 					int row = p_table.getRowCount();
@@ -653,10 +640,8 @@ public class VOrderPlanning extends CPanel
                         {                                                       
                             IDColumn id = new IDColumn(rs.getInt(colIndex));
                             id.setSelected(true);
-							//data = new IDColumn(rs.getInt(colIndex));
                             data = id;                                                        
                             p_table.setColumnReadOnly(0, false);
-                            //p_table.setColumnReadOnly(1, false);
                         }        
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(rs.getString(colIndex)));
@@ -679,8 +664,6 @@ public class VOrderPlanning extends CPanel
 							data = rs.getString(colIndex);
 						//  store
 						p_table.setValueAt(data, row, col);
-					//	Log.trace(Log.l6_Database, "r=" + row + ", c=" + col + " " + m_layout[col].getColHeader(),
-					//  	"data=" + data.toString() + " " + data.getClass().getName() + " * " + m_table.getCellRenderer(row, col));
 					}
 				}
 				log.config("Interrupted=" + isInterrupted());
@@ -694,9 +677,7 @@ public class VOrderPlanning extends CPanel
 			p_table.autoSize();
 			//
 			setCursor(Cursor.getDefaultCursor());
-			int no = p_table.getRowCount();
-			//setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-			//setStatusDB(Integer.toString(no));
+
 		}   //  run
 	}   //  Worker
         
