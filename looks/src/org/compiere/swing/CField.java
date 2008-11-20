@@ -87,7 +87,7 @@ public class CField extends JComboBox
 	 *  @param cFieldPopup  the popup dialog
 	 *  @param title    title for popup
 	 */
-	public CField (CFieldEditor editor, Class cFieldPopup, String title)
+	public CField (CFieldEditor editor, Class<?> cFieldPopup, String title)
 	{
 		super(new Object[] {"1", "2"});
 		if (editor != null)
@@ -98,7 +98,7 @@ public class CField extends JComboBox
 		//  Check popup
 		if (cFieldPopup != null)
 		{
-			Class[] interfaces = cFieldPopup.getInterfaces();
+			Class<?>[] interfaces = cFieldPopup.getInterfaces();
 			boolean found = false;
 			for (int i = 0; i < interfaces.length; i++)
 			{
@@ -115,7 +115,7 @@ public class CField extends JComboBox
 	}   //  CField
 
 	private CFieldEditor    m_editor = null;
-	private Class           m_popupClass = null;
+	private Class<?>           m_popupClass = null;
 	private String          m_title = null;
 	private Object          m_oldValue = null;
 
@@ -170,14 +170,14 @@ public class CField extends JComboBox
 			CFieldPopup popup = null;
 			if (win instanceof Dialog)
 			{
-				Constructor constructor = m_popupClass.getConstructor
-					(new Class[] {Dialog.class, String.class, Boolean.class});
+				Constructor<?> constructor = m_popupClass.getConstructor
+					(new Class<?>[] {Dialog.class, String.class, Boolean.class});
 				popup = (CFieldPopup)constructor.newInstance(new Object[]
 					{(Dialog)win, m_title, new Boolean(true)});
 			}
 			else if (win instanceof Frame)
 			{
-				Constructor constructor = m_popupClass.getConstructor
+				Constructor<?> constructor = m_popupClass.getConstructor
 					(new Class[] {Frame.class, String.class, Boolean.class});
 				popup = (CFieldPopup)constructor.newInstance(new Object[]
 					{(Frame)win, m_title, new Boolean(true)});
