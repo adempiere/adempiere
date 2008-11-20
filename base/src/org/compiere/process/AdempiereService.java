@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.model.PO;
 
 /**
  *	Adempiere Service.
@@ -34,7 +35,7 @@ public class AdempiereService extends StateEngine
 	 * 	@param processor Processor instance
 	 *	@param serverClass server class
 	 */
-	public AdempiereService (PO processor, Class serverClass)
+	public AdempiereService (PO processor, Class<?> serverClass)
 	{
 		super ();
 		m_processor = processor;
@@ -44,7 +45,7 @@ public class AdempiereService extends StateEngine
 	/**	Adempiere Server(s)			*/
 	private AdempiereServer	m_server = null;
 	/**	Adempiere Server	Class		*/
-	private Class			m_serverClass = null;
+	private Class<?>			m_serverClass = null;
 	/** Adempiere Server Processor Instance	*/ 
 	private PO				m_processor = null;
 	
