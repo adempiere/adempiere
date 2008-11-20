@@ -55,7 +55,7 @@ public class HeaderPanel extends Panel implements EventListener
     {
     	LayoutUtils.addSclass("header", this);
     	
-    	UserPanel userPanel = new UserPanel();    	
+    	UserPanel userPanel = new UserPanel();    
 
     	String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
     	image.setSrc(logoURL);
@@ -71,7 +71,7 @@ public class HeaderPanel extends Panel implements EventListener
     	Vbox vb = new Vbox();
         vb.setParent(west);
         vb.setHeight("100%");
-        vb.setWidth("100%");
+//        vb.setWidth("100%"); // Elaine 2008/11/19 the role and logout links don't work if width is set to 100% 
         vb.setPack("center");
         vb.setAlign("left");
         
@@ -92,10 +92,14 @@ public class HeaderPanel extends Panel implements EventListener
     }
 
 	public void onEvent(Event event) throws Exception {
+		System.out.println(event.getTarget());
 		if (Events.ON_CLICK.equals(event.getName())) {
-			AboutWindow w = new AboutWindow();
-			w.setPage(this.getPage());			
-			w.doModal();
+			if(event.getTarget() == image)
+			{
+				AboutWindow w = new AboutWindow();
+				w.setPage(this.getPage());			
+				w.doModal();
+			}
 		}
 		
 	}

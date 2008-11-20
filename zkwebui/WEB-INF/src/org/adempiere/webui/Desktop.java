@@ -17,19 +17,22 @@
 
 package org.adempiere.webui;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.apps.graph.BarGraphColumn;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessDialog;
-import org.adempiere.webui.apps.graph.WPAPanel;
+import org.adempiere.webui.apps.graph.WBarGraph;
 import org.adempiere.webui.apps.wf.WFPanel;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
@@ -39,19 +42,22 @@ import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.HeaderPanel;
-import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.part.WindowContainer;
 import org.adempiere.webui.window.ADWindow;
-import org.adempiere.webui.window.InfoSchedule;
 import org.adempiere.webui.window.WTask;
+import org.compiere.model.MAchievement;
+import org.compiere.model.MGoal;
+import org.compiere.model.MMeasureCalc;
 import org.compiere.model.MMenu;
+import org.compiere.model.MProjectType;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRequestType;
 import org.compiere.model.MRole;
 import org.compiere.model.MTask;
-import org.compiere.model.MTree;
-import org.compiere.model.MTreeNode;
+import org.compiere.model.X_AD_Menu;
+import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -59,10 +65,10 @@ import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
 import org.zkoss.lang.Threads;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
-import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -72,18 +78,12 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zkmax.zul.Portalchildren;
 import org.zkoss.zkmax.zul.Portallayout;
-import org.zkoss.zul.Box;
+import org.zkoss.zul.Html;
 import org.zkoss.zul.Iframe;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
-import org.zkoss.zul.Separator;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabpanels;
-import org.zkoss.zul.Toolbar;
-import org.zkoss.zul.Treeitem;
-import org.zkoss.zul.Treerow;
-import org.zkoss.zul.Vbox;
 
 /**
  * 
@@ -108,16 +108,21 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	private Borderlayout layout;
 
 	private WindowContainer windowContainer;
+	
+	private List<DashboardPanel> dashboardPanels;
 
-	private Button btnNotice, btnRequest, btnWorkflow;
+	private MGoal[] m_goals = null;
 	
-	private int m_AD_Tree_ID;
+	private List<MQuery> queryZoom = null;
 	
-	private Box bxFav;
+	private static final String key = "queryZoom";
 
     public Desktop()
     {
     	windows = new ArrayList<Object>();
+    	dashboardPanels = new ArrayList<DashboardPanel>();
+    	m_goals = MGoal.getUserGoals(Env.getCtx(), Env.getAD_User_ID(Env.getCtx()));
+    	queryZoom = new ArrayList<MQuery>();
     }
     
     protected Component doCreatePart(Component parent)
@@ -172,92 +177,174 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
         Portallayout layout = new Portallayout();
+        layout.setWidth("100%");
         homeTab.appendChild(layout);
+                
+        // Dashboard content
+        Portalchildren portalchildren = null;
+        int currentColumnNo = 0;
         
-        Portalchildren left = new Portalchildren();
-        left.setWidth("30%");
-        left.setStyle("padding: 5px");
-        layout.appendChild(left);
+        String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
+        	+ "FROM PA_DASHBOARDCONTENT "
+        	+ "WHERE (AD_CLIENT_ID=0 OR AD_CLIENT_ID=?) AND ISACTIVE='Y'";
         
-        Panel favPanel = new Panel();
-        favPanel.setStyle("margin-bottom:10px");
-        favPanel.setTitle("Favourites");
-        favPanel.setCollapsible(true);
-        favPanel.setBorder("normal");
-        left.appendChild(favPanel);
-        Panelchildren favContent = new Panelchildren();
-        favPanel.appendChild(favContent);
-        favContent.appendChild(createFavouritesPanel());
-        Toolbar favToolbar = new Toolbar();
-        favPanel.appendChild(favToolbar);
-        // Elaine 2008/07/24
-        Image img = new Image("/images/Delete24.png");
-        favToolbar.appendChild(img);
-        img.setAlign("right");
-        img.setDroppable("deleteFav");
-        img.addEventListener(Events.ON_DROP, this);
+        int noOfCols = DB.getSQLValue(null, sql, 
+        		Env.getAD_Client_ID(Env.getCtx()));
         
-        favContent.setDroppable("favourite"); 
-        favContent.addEventListener(Events.ON_DROP, this);
+        int width = noOfCols <= 0 ? 100 : 100/noOfCols;
 
-        Panel viewPanel = new Panel();
-        viewPanel.setStyle("margin-bottom:10px");
-        left.appendChild(viewPanel);
-        viewPanel.setTitle("Views");
-        viewPanel.setCollapsible(true);
-        viewPanel.setBorder("normal");
-        Panelchildren viewContent = new Panelchildren();
-        viewPanel.appendChild(viewContent);
-        viewContent.appendChild(createViewPanel());      
-        
-        Portalchildren center = new Portalchildren();
-        layout.appendChild(center);
-        center.setWidth("45%");
-        center.setStyle("padding: 5px");
-        
-        Panel calPanel = new Panel();
-        calPanel.setStyle("margin-bottom:10px");
-        calPanel.setTitle("Calendar");
-        calPanel.setCollapsible(true);
-        calPanel.setBorder("normal");
-        center.appendChild(calPanel);
-        Panelchildren calContent = new Panelchildren();
-        calPanel.appendChild(calContent);
-        
-        Iframe iframe = new Iframe("http://www.google.com/calendar/embed?showTitle=0&showTabs=0&height=300&wkst=1&bgcolor=%23FFFFFF&color=%232952A3");
-        iframe.setStyle("border-width: 0;");
-        iframe.setScrolling("no");
-        iframe.setWidth("300px");
-        iframe.setHeight("300px");
-        calContent.appendChild(iframe);
-        
-        Panel actPanel = new Panel();
-        actPanel.setStyle("margin-bottom:10px");
-        actPanel.setTitle("Activities");
-        actPanel.setCollapsible(true);
-        actPanel.setBorder("normal");
-        center.appendChild(actPanel);
-        Panelchildren actContent = new Panelchildren();
-        actPanel.appendChild(actContent);
-        actContent.appendChild(createActivitiesPanel());
-        
-        Portalchildren right = new Portalchildren();
-        layout.appendChild(right);
-        right.setWidth("25%");
-        right.setStyle("padding: 5px");
-        
-        WPAPanel paPanel = WPAPanel.get();
-        if (paPanel != null) {
-        	Panel  wpaPanel = new Panel();
-        	wpaPanel.setStyle("margin-bottom:10px");
-        	wpaPanel.setCollapsible(true);
-        	wpaPanel.setBorder("normal");
-        	wpaPanel.setTitle("Performance");
-        	right.appendChild(wpaPanel);
-        	Panelchildren wpaContent = new Panelchildren();
-        	wpaPanel.appendChild(wpaContent);
-        	wpaContent.appendChild(paPanel);
-        }
+		sql =  "SELECT x.*, m.AD_MENU_ID "
+			+ "FROM PA_DASHBOARDCONTENT x "
+			+ "LEFT OUTER JOIN AD_MENU m ON x.AD_WINDOW_ID=m.AD_WINDOW_ID " 
+			+ "WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' "
+			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) 
+			{	
+	        	int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
+	        	if(portalchildren == null || currentColumnNo != columnNo)
+	        	{
+	        		portalchildren = new Portalchildren();
+	                layout.appendChild(portalchildren);
+	                portalchildren.setWidth(width + "%");
+	                portalchildren.setStyle("padding: 5px");
+	                
+	                currentColumnNo = columnNo;
+	        	}
+	        	
+	        	Panel panel = new Panel();
+	        	panel.setStyle("margin-bottom:10px");
+	        	panel.setTitle(rs.getString(X_PA_DashboardContent.COLUMNNAME_Name));
+            	
+	        	String description = rs.getString(X_PA_DashboardContent.COLUMNNAME_Description);
+            	if(description != null)
+            		panel.setTooltiptext(description);
+	        	
+            	panel.setCollapsible(true);
+	        	panel.setBorder("normal");
+	        	portalchildren.appendChild(panel);
+	            Panelchildren content = new Panelchildren();
+	            panel.appendChild(content);
+	            
+	            boolean panelEmpty = true;
+
+	            // HTML content
+	            String htmlContent = rs.getString(X_PA_DashboardContent.COLUMNNAME_HTML);
+	            if(htmlContent != null)
+	            {
+		            StringBuffer result = new StringBuffer("<html><head>");
+		            
+		    		URL url = getClass().getClassLoader().
+					getResource("org/compiere/images/PAPanel.css");
+					InputStreamReader ins;
+					try {
+						ins = new InputStreamReader(url.openStream());
+						BufferedReader bufferedReader = new BufferedReader( ins );
+						String cssLine;
+						while ((cssLine = bufferedReader.readLine()) != null) 
+							result.append(cssLine + "\n");
+					} catch (IOException e1) {
+						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
+					}
+					
+					result.append("</head><body><div class=\"content\">\n");
+				
+//	            	if(description != null)
+//	            		result.append("<h2>" + description + "</h2>\n");
+	            	result.append(stripHtml(htmlContent, false) + "<br>\n");
+	            	result.append("</div>\n</body>\n</html>\n</html>");
+	            	
+		            Html html = new Html();
+		            html.setContent(result.toString());
+		            content.appendChild(html);
+		            panelEmpty = false;
+	            }
+	            
+	        	// Window
+	        	int AD_Window_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Window_ID);
+	        	if(AD_Window_ID > 0)
+	        	{
+		        	int AD_Menu_ID = rs.getInt(X_AD_Menu.COLUMNNAME_AD_Menu_ID);
+					ToolBarButton btn = new ToolBarButton(String.valueOf(AD_Menu_ID));
+//					if(description == null)
+//					{
+						MMenu menu = new MMenu(Env.getCtx(), AD_Menu_ID, null);
+						btn.setLabel(menu.getName());
+//					}
+//					else
+//					{
+//						btn.setLabel(description);						
+//					}
+					btn.addEventListener(Events.ON_CLICK, this);
+					content.appendChild(btn);
+					panelEmpty = false;
+	        	}
+	            
+	        	// Goal
+	        	int PA_Goal_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_Goal_ID);
+	        	if(PA_Goal_ID > 0)
+	        	{
+	        		StringBuffer result = new StringBuffer("<html><head>");
+		            
+		    		URL url = getClass().getClassLoader().
+					getResource("org/compiere/images/PAPanel.css");
+					InputStreamReader ins;
+					try {
+						ins = new InputStreamReader(url.openStream());
+						BufferedReader bufferedReader = new BufferedReader( ins );
+						String cssLine;
+						while ((cssLine = bufferedReader.readLine()) != null) 
+							result.append(cssLine + "\n");
+					} catch (IOException e1) {
+						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
+					}
+					
+					result.append("</head><body><div class=\"content\">\n");
+	        		result.append(goalsDetail(PA_Goal_ID, content));
+	        		result.append("</div>\n</body>\n</html>\n</html>");
+
+	            	Html html = new Html();
+		            html.setContent(result.toString());
+		            content.appendChild(html);
+		            panelEmpty = false;
+	        	}
+	            
+	            // ZUL file url
+	        	String url = rs.getString(X_PA_DashboardContent.COLUMNNAME_ZulFilePath);
+	        	if(url != null)
+	        	{
+		        	try {
+		                Component component = Executions.createComponents(url, content, null);
+		                if(component != null && component instanceof DashboardPanel) 
+		                {
+		                	DashboardPanel dashboardPanel = (DashboardPanel) component;
+		                	if (!dashboardPanel.getChildren().isEmpty()) {
+		                		content.appendChild(dashboardPanel);
+		                		dashboardPanels.add(dashboardPanel);
+		                		panelEmpty = false;
+		                	}
+		                }
+					} catch (Exception e) {
+						logger.log(Level.WARNING, "Failed to create components", e);
+					}
+	        	}
+	        	
+	        	if (panelEmpty)
+	        		panel.detach();
+	        }
+		} catch(Exception e) {
+			logger.log(Level.WARNING, "Failed to create dashboard content", e);
+		} finally {
+			DB.close(rs, pstmt);
+		}
+        //
         
         //register as 0
         registerWindow(homeTab);
@@ -268,6 +355,118 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         updateInfo();
         
         new Thread(new UpdateInfoRunnable(layout.getDesktop())).start();
+	}
+	
+	private String goalsDetail(int AD_Table_ID, Panelchildren panel) 
+	{
+		String output = "";
+		if (m_goals == null)
+			return output;
+		
+		for (int i = 0; i < m_goals.length; i++) 
+		{
+			MMeasureCalc mc = MMeasureCalc.get(Env.getCtx(), m_goals[i].getMeasure().getPA_MeasureCalc_ID());
+			
+			if (AD_Table_ID == m_goals[i].getPA_Goal_ID()) 
+			{
+				output += "<table class=\"dataGrid\"><tr>\n<th colspan=\"3\" class=\"label\"><b>"
+						+ m_goals[i].getName() + "</b></th></tr>\n";
+				output += "<tr><td class=\"label\">Target</td><td colspan=\"2\" class=\"tdcontent\">"
+						+ m_goals[i].getMeasureTarget() + "</td></tr>\n";
+				output += "<tr><td class=\"label\">Actual</td><td colspan=\"2\" class=\"tdcontent\">"
+						+ m_goals[i].getMeasureActual() + "</td></tr>\n";
+
+				WBarGraph barPanel = new WBarGraph(m_goals[i]);
+				BarGraphColumn[] bList = barPanel.getBarGraphColumnList();
+				MQuery query = null;
+				output += "<tr><td rowspan=\"" + bList.length
+						+ "\" class=\"label\" valign=\"top\">"
+						+ m_goals[i].getXAxisText() + "</td>\n";
+				
+				for (int k = 0; k < bList.length; k++) 
+				{
+					BarGraphColumn bgc = bList[k];
+					if (k > 0)
+						output += "<tr>";
+					if (bgc.getAchievement() != null) // Single Achievement
+					{
+						MAchievement a = bgc.getAchievement();
+						query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
+					} 
+					else if (bgc.getGoal() != null) // Multiple Achievements
+					{
+						MGoal goal = bgc.getGoal();
+						query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
+					} 
+					else if (bgc.getMeasureCalc() != null) // Document
+					{
+						mc = bgc.getMeasureCalc();
+						query = mc.getQuery(m_goals[i].getRestrictions(false), bgc.getMeasureDisplay(), 
+								bgc.getDate(), MRole.getDefault()); // logged in role
+					} 
+					else if (bgc.getProjectType() != null) // Document
+					{
+						MProjectType pt = bgc.getProjectType();
+						query = pt.getQuery(m_goals[i].getRestrictions(false), bgc.getMeasureDisplay(), 
+								bgc.getDate(), bgc.getID(), MRole.getDefault()); // logged in role
+					} 
+					else if (bgc.getRequestType() != null) // Document
+					{
+						MRequestType rt = bgc.getRequestType();
+						query = rt.getQuery(m_goals[i].getRestrictions(false), bgc.getMeasureDisplay(), 
+								bgc.getDate(), bgc.getID(), MRole.getDefault()); // logged in role
+					}
+					output += "<td class=\"tdcontent\">" + bgc.getLabel()
+							+ "</td><td  class=\"tdcontent\">";
+					if (query != null) {
+						Button btn = new Button();
+						btn.setId(String.valueOf(key + queryZoom.size()));
+						btn.addEventListener(Events.ON_CLICK, this);
+						btn.setVisible(false);
+						panel.appendChild(btn);
+
+						output += "<a class=\"hrefZoom\" id=\"" + key +
+								+ queryZoom.size()
+								+ "\" href=\"javascript:;\" onclick=\"$('" + btn.getUuid() + "').click()\">"
+								+ bgc.getValue()
+								+ "</a><br>\n";						
+						
+						queryZoom.add(query);
+					} else {
+						logger.info("Nothing to zoom to - " + bgc);
+						output += bgc.getValue();
+					}
+					output += "</td></tr>";
+				}
+				output += "</tr>"
+						+ "<tr><td colspan=\"3\">"
+						+ m_goals[i].getDescription()
+						+ "<br>"
+						+ stripHtml(m_goals[i].getColorSchema()
+								.getDescription(), true) + "</td></tr>"
+						+ "</table>\n";
+				bList = null;
+				barPanel = null;
+			}
+		}
+		
+		return output;
+	}
+	
+	private String stripHtml(String htmlString, boolean all) {
+		htmlString = htmlString
+		.replace("<html>", "")
+		.replace("</html>", "")
+		.replace("<body>", "")
+		.replace("</body>", "")
+		.replace("<head>", "")
+		.replace("</head>", "");
+		
+		if (all)
+			htmlString = htmlString
+			.replace(">", "&gt;")
+			.replace("<", "&lt;");
+		return htmlString;
 	}
 	
 	private class UpdateInfoRunnable implements Runnable {
@@ -295,250 +494,6 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		}
 	}
 	
-	private Box createActivitiesPanel()
-	{
-		Vbox vbox = new Vbox();
-		
-        btnNotice = new Button();
-        vbox.appendChild(btnNotice);
-        btnNotice.setLabel("Notice : 0");
-        btnNotice.setTooltiptext("Notice");
-        btnNotice.setImage("/images/GetMail16.png");
-        int AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Notice' AND IsSummary = 'N'");
-        btnNotice.setName(String.valueOf(AD_Menu_ID));
-        btnNotice.addEventListener(Events.ON_CLICK, this);
-        
-        btnRequest = new Button();
-        vbox.appendChild(btnRequest);
-        btnRequest.setLabel("Request : 0");
-        btnRequest.setTooltiptext("Request");
-        btnRequest.setImage("/images/Request16.png");
-        AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Request' AND IsSummary = 'N'");
-        btnRequest.setName(String.valueOf(AD_Menu_ID));
-        btnRequest.addEventListener(Events.ON_CLICK, this);
-        
-        btnWorkflow = new Button();
-        vbox.appendChild(btnWorkflow);
-        btnWorkflow.setLabel("Workflow Activities : 0");
-        btnWorkflow.setTooltiptext("Workflow Activities");
-        btnWorkflow.setImage("/images/Assignment16.png");
-        AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
-        btnWorkflow.setName(String.valueOf(AD_Menu_ID));
-        btnWorkflow.addEventListener(Events.ON_CLICK, this);
-        
-        return vbox;
-	}
-
-	private Box createFavouritesPanel()
-	{
-		bxFav = new Vbox();
-		
-		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
-		int AD_Tree_ID = DB.getSQLValue(null,
-			"SELECT COALESCE(r.AD_Tree_Menu_ID, ci.AD_Tree_Menu_ID)" 
-			+ "FROM AD_ClientInfo ci" 
-			+ " INNER JOIN AD_Role r ON (ci.AD_Client_ID=r.AD_Client_ID) "
-			+ "WHERE AD_Role_ID=?", AD_Role_ID);
-		if (AD_Tree_ID <= 0)
-			AD_Tree_ID = 10;	//	Menu
-		
-		m_AD_Tree_ID = AD_Tree_ID;
-		
-		MTree vTree = new MTree(Env.getCtx(), AD_Tree_ID, false, true, null);
-		MTreeNode m_root = vTree.getRoot();
-		Enumeration enTop = m_root.children();		
-		while(enTop.hasMoreElements())
-		{
-			MTreeNode ndTop = (MTreeNode)enTop.nextElement();
-			Enumeration en = ndTop.preorderEnumeration();
-			while (en.hasMoreElements())
-			{
-				MTreeNode nd = (MTreeNode)en.nextElement();
-				if (nd.isOnBar()) {				
-					String label = nd.toString().trim();
-					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
-					btnFavItem.setLabel(label);
-					btnFavItem.setDraggable("deleteFav");
-					btnFavItem.addEventListener(Events.ON_CLICK, this);
-					btnFavItem.addEventListener(Events.ON_DROP, this);
-					bxFav.appendChild(btnFavItem);
-				}
-			}
-		}
-		
-		return bxFav;
-	}
-	
-	private Box createViewPanel()
-	{
-		Vbox vbox = new Vbox();
-				
-		if (MRole.getDefault().isAllow_Info_Product())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoProduct");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoProduct"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_BPartner())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoBPartner");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isShowAcct() && MRole.getDefault().isAllow_Info_Account())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoAccount");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAccount"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_Schedule())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoSchedule");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoSchedule"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		vbox.appendChild(new Separator("horizontal"));
-		if (MRole.getDefault().isAllow_Info_Order())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoOrder");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoOrder"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_Invoice())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoInvoice");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_InOut())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoInOut");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInOut"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_Payment())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoPayment");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoPayment"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_CashJournal())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoCashLine");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoCashLine"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_Resource())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoAssignment");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		if (MRole.getDefault().isAllow_Info_Asset())
-		{
-			ToolBarButton btnViewItem = new ToolBarButton("InfoAsset");
-			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAsset"));
-			btnViewItem.addEventListener(Events.ON_CLICK, this);
-			vbox.appendChild(btnViewItem);
-		}
-		
-		return vbox;
-	}
-	
-	private int getNoticeCount()
-	{
-		String sql = "SELECT COUNT(1) FROM AD_Note "
-			+ "WHERE AD_Client_ID=? AND AD_User_ID IN (0,?)"
-			+ " AND Processed='N'";
-		int retValue = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()), Env.getAD_User_ID(Env.getCtx()));
-		return retValue;
-	}
-	
-	private int getRequestCount()
-	{
-		String sql = MRole.getDefault().addAccessSQL ("SELECT COUNT(1) FROM R_Request "
-				+ "WHERE (SalesRep_ID=? OR AD_Role_ID=?) AND Processed='N'"
-				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction) <= TRUNC(SysDate))"
-				+ " AND (R_Status_ID IS NULL OR R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N'))",
-					"R_Request", false, true);	//	not qualified - RW
-		int retValue = DB.getSQLValue(null, sql, Env.getAD_User_ID(Env.getCtx()), Env.getAD_Role_ID(Env.getCtx())); 
-		return retValue;
-	}
-	
-	public int getWorkflowCount() 
-	{
-		int count = 0;
-		
-		String sql = "SELECT count(*) FROM AD_WF_Activity a "
-			+ "WHERE a.Processed='N' AND a.WFState='OS' AND ("
-			//	Owner of Activity
-			+ " a.AD_User_ID=?"	//	#1
-			//	Invoker (if no invoker = all)
-			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID"
-			+ " AND COALESCE(r.AD_User_ID,0)=0 AND COALESCE(r.AD_Role_ID,0)=0 AND (a.AD_User_ID=? OR a.AD_User_ID IS NULL))"	//	#2
-			// Responsible User
-			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID"
-			+ " AND r.AD_User_ID=?)"		//	#3
-			//	Responsible Role
-			+ " OR EXISTS (SELECT * FROM AD_WF_Responsible r INNER JOIN AD_User_Roles ur ON (r.AD_Role_ID=ur.AD_Role_ID)"
-			+ " WHERE a.AD_WF_Responsible_ID=r.AD_WF_Responsible_ID AND ur.AD_User_ID=?))";	//	#4
-			//
-			//+ ") ORDER BY a.Priority DESC, Created";
-		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_User_ID);
-			pstmt.setInt (2, AD_User_ID);
-			pstmt.setInt (3, AD_User_ID);
-			pstmt.setInt (4, AD_User_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ()) {
-				count = rs.getInt(1);
-			}
-		}
-		catch (Exception e)
-		{
-			logger.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
-		return count;
-	}
-	
-    private void updateInfo()
-	{
-    	int noOfNotice = getNoticeCount();
-    	int noOfRequest = getRequestCount();
-    	int noOfWorkflow = getWorkflowCount();
-    	int total = noOfNotice + noOfRequest + noOfWorkflow;
-    	
-		btnNotice.setLabel("Notice : " + noOfNotice);
-		btnRequest.setLabel("Request : " + noOfRequest);
-		btnWorkflow.setLabel("Workflow Activities : " + noOfWorkflow);
-		windowContainer.setTabTitle(0, "Home (" + total + ")", 
-				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
-	}
-    
-    /**
-     * @param event
-     */
     public void onEvent(Event event)
     {
         Component comp = event.getTarget();
@@ -560,155 +515,34 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 				}
             	
             	if(menuId > 0) onMenuSelected(menuId);
-            	else
-            	{
-            		String actionCommand = btn.getName();
-            		int WindowNo = 0;
-            		
-            		if (actionCommand.equals("InfoProduct") && AEnv.canAccessInfo("PRODUCT"))
-            		{
-            			InfoPanel.showProduct(WindowNo);
-            		}
-            		else if (actionCommand.equals("InfoBPartner") && AEnv.canAccessInfo("BPARTNER"))
-            		{
-            			InfoPanel.showBPartner(WindowNo);
-            		}
-            		else if (actionCommand.equals("InfoAsset") && AEnv.canAccessInfo("ASSET"))
-            		{
-            			InfoPanel.showAsset(WindowNo);
-            		}
-            		else if (actionCommand.equals("InfoAccount") && 
-            				  MRole.getDefault().isShowAcct() &&
-            				  AEnv.canAccessInfo("ACCOUNT"))
-            		{
-            			new org.adempiere.webui.acct.WAcctViewer();
-            		}
-            		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
-            		{
-            			new InfoSchedule(null, false);
-            		}
-            		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
-            		{
-            			InfoPanel.showOrder(WindowNo, "");
-            		}
-            		else if (actionCommand.equals("InfoInvoice") && AEnv.canAccessInfo("INVOICE"))
-            		{
-            			InfoPanel.showInvoice(WindowNo, "");
-            		}
-            		else if (actionCommand.equals("InfoInOut") && AEnv.canAccessInfo("INOUT"))
-            		{
-            			InfoPanel.showInOut(WindowNo, "");
-            		}
-            		else if (actionCommand.equals("InfoPayment") && AEnv.canAccessInfo("PAYMENT"))
-            		{
-            			InfoPanel.showPayment(WindowNo, "");
-            		}
-            		else if (actionCommand.equals("InfoCashLine") && AEnv.canAccessInfo("CASHJOURNAL"))
-            		{
-            			InfoPanel.showCashLine(WindowNo, "");
-            		}
-            		else if (actionCommand.equals("InfoAssignment") && AEnv.canAccessInfo("RESOURCE"))
-            		{
-            			InfoPanel.showAssignment(WindowNo, "");
-            		}
-            	}
             }
             else if(comp instanceof Button)
             {
-            	Button btn = (Button) comp;
-            	
-            	int menuId = 0;
-            	try
+            	String id = comp.getId();
+            	String key = "queryZoom";
+            	if(id.startsWith(key))
             	{
-            		menuId = Integer.valueOf(btn.getName());            		
+            		String ss = id.substring(key.length());
+	        		int index = Integer.parseInt(String.valueOf(ss));
+	            	if ((index >= 0) && (index < queryZoom.size()))
+	                	AEnv.zoom(queryZoom.get(index));
             	}
-            	catch (Exception e) {
-					
-				}
-            	
-            	if(menuId > 0) onMenuSelected(menuId);
             }
         }
-        // Elaine 2008/07/24
-        else if(eventName.equals(Events.ON_DROP))
-        {
-        	DropEvent de = (DropEvent) event;
-    		Component dragged = de.getDragged();
-        	
-        	if(comp instanceof Panelchildren)
-        	{
-        		if(dragged instanceof Treerow)
-        		{
-        			Treerow treerow = (Treerow) dragged;
-        			Treeitem treeitem = (Treeitem) treerow.getParent();
-        			
-        			Object value = treeitem.getValue();
-        			if(value != null)
-        			{
-        				int Node_ID = Integer.valueOf(value.toString());
-        				if(barDBupdate(true, Node_ID))
-        				{
-        					String label = treeitem.getLabel().trim();
-        					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
-        					btnFavItem.setLabel(label);
-        					btnFavItem.setDraggable("deleteFav");
-        					btnFavItem.addEventListener(Events.ON_CLICK, this);
-        					btnFavItem.addEventListener(Events.ON_DROP, this);
-        					bxFav.appendChild(btnFavItem);
-        					bxFav.invalidate();
-        				}
-        			}
-        		}
-        	}
-        	else if(comp instanceof Image)
-        	{
-        		if(dragged instanceof ToolBarButton)
-        		{
-        			ToolBarButton btn = (ToolBarButton) dragged;
-        			String value = btn.getName();
-        			
-        			if(value != null)
-        			{
-        				int Node_ID = Integer.valueOf(value.toString());
-        				if(barDBupdate(false, Node_ID))
-        				{
-        					bxFav.removeChild(btn);
-        					bxFav.invalidate();
-        				}
-        			}
-        		}
-        	}
-        }
-        //
-	}
-    
-    /**
-	 *	Make Bar add/remove persistent
-	 *  @param add true if add - otherwise remove
-	 *  @param Node_ID Node ID
-	 *  @return true if updated
-	 */
-    private boolean barDBupdate(boolean add, int Node_ID)
+    }
+
+    private void updateInfo()
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		int AD_Org_ID = Env.getContextAsInt(Env.getCtx(), "#AD_Org_ID");
-		int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
-		StringBuffer sql = new StringBuffer();
-		if (add)
-			sql.append("INSERT INTO AD_TreeBar "
-				+ "(AD_Tree_ID,AD_User_ID,Node_ID, "
-				+ "AD_Client_ID,AD_Org_ID, "
-				+ "IsActive,Created,CreatedBy,Updated,UpdatedBy)VALUES (")
-				.append(m_AD_Tree_ID).append(",").append(AD_User_ID).append(",").append(Node_ID).append(",")
-				.append(AD_Client_ID).append(",").append(AD_Org_ID).append(",")
-				.append("'Y',SysDate,").append(AD_User_ID).append(",SysDate,").append(AD_User_ID).append(")");
-			//	if already exist, will result in ORA-00001: unique constraint (ADEMPIERE.AD_TREEBAR_KEY)
-		else
-			sql.append("DELETE AD_TreeBar WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
-				.append(" AND AD_User_ID=").append(AD_User_ID)
-				.append(" AND Node_ID=").append(Node_ID);
-		int no = DB.executeUpdate(sql.toString(), false, null);
-		return no == 1;
+    	for(int i = 0; i < dashboardPanels.size(); i++)
+    		dashboardPanels.get(i).updateInfo();
+    	
+    	int noOfNotice = DPActivities.getNoticeCount();
+    	int noOfRequest = DPActivities.getRequestCount();
+    	int noOfWorkflow = DPActivities.getWorkflowCount();
+    	int total = noOfNotice + noOfRequest + noOfWorkflow;
+    	
+		windowContainer.setTabTitle(0, "Home (" + total + ")", 
+				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
     
     /**

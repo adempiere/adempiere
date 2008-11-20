@@ -54,7 +54,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
     }
 
     /** AccessLevel
-      * @return 1 - Org 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -75,7 +75,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       return sb.toString();
     }
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -86,7 +86,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -109,6 +109,26 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public int getAD_Window_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Column No.
+		@param ColumnNo 
+		Dashboard content column number
+	  */
+	public void setColumnNo (int ColumnNo)
+	{
+		set_Value (COLUMNNAME_ColumnNo, Integer.valueOf(ColumnNo));
+	}
+
+	/** Get Column No.
+		@return Dashboard content column number
+	  */
+	public int getColumnNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ColumnNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -211,7 +231,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws Exception 
+	public I_PA_Goal getPA_Goal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
         I_PA_Goal result = null;
@@ -222,7 +242,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -248,5 +268,22 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set ZUL File Path.
+		@param ZulFilePath 
+		Absolute path to zul file
+	  */
+	public void setZulFilePath (String ZulFilePath)
+	{
+		set_Value (COLUMNNAME_ZulFilePath, ZulFilePath);
+	}
+
+	/** Get ZUL File Path.
+		@return Absolute path to zul file
+	  */
+	public String getZulFilePath () 
+	{
+		return (String)get_Value(COLUMNNAME_ZulFilePath);
 	}
 }

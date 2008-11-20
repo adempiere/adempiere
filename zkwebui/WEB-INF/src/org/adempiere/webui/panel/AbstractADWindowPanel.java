@@ -615,6 +615,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private void updateToolbar() {
 		toolbar.enableChanges(curTab.isReadOnly());
 		toolbar.enabledNew(curTab.isInsertRecord());
+		toolbar.enableCopy(curTab.isInsertRecord());
 
 		toolbar.enableTabNavigation(curTabIndex > 0, 
 		        curTabIndex < (adTab.getTabCount() - 1));
@@ -825,10 +826,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             return;
         }
         
-        newRecord = curTab.dataNew (false);
+        newRecord = curTab.dataNew(false);
         if (newRecord)
         {
-            
         	curTabpanel.editRecord(true);
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
@@ -843,8 +843,39 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             logger.severe("Could not create new record");
         }
-        
     }
+    
+    // Elaine 2008/11/19
+    /**
+     * @see ToolbarListener#onCopy()
+     */
+    public void onCopy()
+    {
+        if (!curTab.isInsertRecord())
+        {
+            logger.warning("Insert Record disabled for Tab");
+            return;
+        }
+        
+        newRecord = curTab.dataNew(true);
+        if (newRecord)
+        {
+        	curTabpanel.editRecord(true);
+            curTabpanel.dynamicDisplay(0);
+            toolbar.enableChanges(false);
+            toolbar.enableDelete(false);
+            toolbar.enableNavigation(false);
+            toolbar.enableTabNavigation(false);
+            toolbar.enableIgnore(true);
+            toolbar.enablePrint(true);
+            toolbar.enableReport(true);
+        }
+        else
+        {
+            logger.severe("Could not create new record");
+        }
+    }
+    //
     
     /**
      * @see ToolbarListener#onFind()
@@ -903,6 +934,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         curTabpanel.editRecord(true);
         toolbar.enableIgnore(true);
         toolbar.enabledNew(false);
+        toolbar.enableCopy(false);
         toolbar.enableDelete(false);
         toolbar.enableNavigation(false);
         toolbar.enableTabNavigation(false);

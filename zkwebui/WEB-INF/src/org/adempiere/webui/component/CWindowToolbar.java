@@ -56,7 +56,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private ToolBarButton btnIgnore;
 
-    private ToolBarButton btnHelp, btnNew, btnDelete, btnSave;
+    private ToolBarButton btnHelp, btnNew, btnCopy, btnDelete, btnSave;
 
     private ToolBarButton btnRefresh, btnFind, btnAttachment;
     
@@ -93,6 +93,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         addSeparator();
         btnHelp = createButton("Help", "Help24.png","Help");
         btnNew = createButton("New", "New24.png", "New");
+        btnCopy = createButton("Copy", "Copy24.png", "Copy");
         btnDelete = createButton("Delete", "Delete24.png", "Delete");
         btnSave = createButton("Save", "Save24.png", "Save");
         addSeparator();
@@ -325,6 +326,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public void enableChanges(boolean enabled)
     {
         this.btnNew.setDisabled(!enabled);
+        this.btnCopy.setDisabled(!enabled);
     }
     
     public void enableIgnore(boolean enabled)
@@ -354,6 +356,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     public void enableCopy(boolean enabled)
     {
+    	this.btnCopy.setDisabled(!enabled);
     }
     
     public void enableFind(boolean enabled)

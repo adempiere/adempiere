@@ -46,9 +46,9 @@ public interface I_PA_DashboardContent
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 1 - Org 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -65,7 +65,20 @@ public interface I_PA_DashboardContent
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name ColumnNo */
+    public static final String COLUMNNAME_ColumnNo = "ColumnNo";
+
+	/** Set Column No.
+	  * Dashboard content column number
+	  */
+	public void setColumnNo (int ColumnNo);
+
+	/** Get Column No.
+	  * Dashboard content column number
+	  */
+	public int getColumnNo();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -137,5 +150,18 @@ public interface I_PA_DashboardContent
 	  */
 	public int getPA_Goal_ID();
 
-	public I_PA_Goal getPA_Goal() throws Exception;
+	public I_PA_Goal getPA_Goal() throws RuntimeException;
+
+    /** Column name ZulFilePath */
+    public static final String COLUMNNAME_ZulFilePath = "ZulFilePath";
+
+	/** Set ZUL File Path.
+	  * Absolute path to zul file
+	  */
+	public void setZulFilePath (String ZulFilePath);
+
+	/** Get ZUL File Path.
+	  * Absolute path to zul file
+	  */
+	public String getZulFilePath();
 }

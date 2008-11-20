@@ -141,6 +141,7 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 							+ " FROM PA_DASHBOARDCONTENT x"
 							+ " LEFT OUTER JOIN AD_MENU m ON x.ad_window_id=m.ad_window_id" 
 							+ " WHERE (x.AD_Client_ID=0 OR x.AD_Client_ID=?) AND x.IsActive='Y'"
+							+ " AND x.ZulFilePath IS NULL" // Elaine 2008/11/19 - available in WebUI only at the moment
 							+ " ORDER BY LINE";
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
