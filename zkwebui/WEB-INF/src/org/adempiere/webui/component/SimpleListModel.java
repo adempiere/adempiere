@@ -1,4 +1,5 @@
 /******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution    
  * Copyright (C) 2008 Low Heng Sin  All Rights Reserved.                      *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -31,18 +32,18 @@ import org.zkoss.zul.event.ListDataEvent;
  */
 public class SimpleListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 
-	protected List list;
-	
+	protected List<Object> list;
+
 	private int[] maxLength;
 
 	public SimpleListModel() {
-		this(new ArrayList());
+		this(new ArrayList<Object>());
 	}
-	
-	public SimpleListModel(List list) {
+
+	public SimpleListModel(List<Object> list) {
 		this.list = list;
 	}
-	
+
 	public Object getElementAt(int index) {
 		if (index >= 0 && index < list.size())
 			return list.get(index);
@@ -59,9 +60,9 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 		while (j > 0 && Character.isWhitespace(src.charAt(j - 1)))
 			--j;
 		return new StringBuffer(j + 3)
-			.append(src.substring(0, j)).append("...");
+		.append(src.substring(0, j)).append("...");
 	}
-	
+
 	public void render(Listitem item, Object data) throws Exception {
 		if (data instanceof Object[]) {
 			renderArray(item, (Object[])data);
@@ -72,7 +73,7 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 			renderCell(0, item, value);
 		}		
 	}
-	
+
 	protected void renderCell(int col, Listitem item, String value) {
 		String tooltip = null;
 		if (maxLength != null && maxLength.length > col && maxLength[col] > 0 && value.length() > maxLength[col]) {
@@ -85,7 +86,7 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 			listCell.setTooltiptext(tooltip);
 	}
 
-	private void renderCollection(Listitem item, Collection data) {
+	private void renderCollection(Listitem item, Collection<Object> data) {
 		int i = 0;
 		for (Object col : data) {
 			String value = (col != null ? col.toString() : "");
@@ -116,17 +117,17 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 		item.applyProperties();
 		return item;
 	}
-	
+
 	public void setMaxLength(int[] maxLength) {
 		this.maxLength = maxLength;
 	}
-	
+
 	public void addElement(Object obj) {
 		list.add(obj);
 		int index = list.size() - 1;
 		fireEvent(ListDataEvent.INTERVAL_ADDED, index, index);
 	}
-	
+
 	public void add(int index, Object obj) {
 		list.add(index, obj);
 		fireEvent(ListDataEvent.INTERVAL_ADDED, index, index);
