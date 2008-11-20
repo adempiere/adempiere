@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -1955,6 +1955,14 @@ public class MOrder extends X_C_Order implements DocAction
 		if (!createReversals())
 			return false;
 		
+		/* globalqss - 2317928 - Reactivating/Voiding order must reset posted */
+		int no = MFactAcct.delete(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
+		if (no < 0) {
+			m_processMsg = "Cannot delete order accounting";
+			return false;
+		}
+		setPosted(false);
+		
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
@@ -2237,6 +2245,15 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			log.info("Existing documents not modified - SubType=" + DocSubTypeSO);
 		}
+
+		/* globalqss - 2317928 - Reactivating/Voiding order must reset posted */
+		int no = MFactAcct.delete(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
+		if (no < 0) {
+			m_processMsg = "Cannot delete order accounting";
+			return false;
+		}
+		setPosted(false);
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
