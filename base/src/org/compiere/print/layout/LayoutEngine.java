@@ -16,20 +16,58 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.print.*;
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.print.*;
-import javax.print.attribute.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.attribute.DocAttributeSet;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.ArchiveEngine;
+import org.compiere.print.CPaper;
+import org.compiere.print.DataEngine;
+import org.compiere.print.MPrintColor;
+import org.compiere.print.MPrintFont;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.print.MPrintPaper;
+import org.compiere.print.MPrintTableFormat;
+import org.compiere.print.PrintData;
+import org.compiere.print.PrintDataElement;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Adempiere Print Engine.
@@ -459,7 +497,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		int pages = m_pages.size();
 		for (int i = 0; i < pages; i++)
 		{
-			Page page = (Page)m_pages.get(i);
+			Page page = m_pages.get(i);
 			int pageNo = page.getPageNo();
 			pageInfo = String.valueOf(pageNo) + getPageInfo(pageNo);
 			page.setPageInfo(pageInfo);
@@ -617,7 +655,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			log.log(Level.SEVERE, "No page #" + pageNo);
 			return null;
 		}
-		Page retValue = (Page)m_pages.get(pageNo-1);
+		Page retValue = m_pages.get(pageNo-1);
 		return retValue;
 	}	//	getPage
 
@@ -625,7 +663,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 * 	Get Pages
 	 * 	@return Pages in ArrayList
 	 */
-	public ArrayList getPages()
+	public ArrayList<Page> getPages()
 	{
 		return m_pages;
 	}	//	getPages
@@ -650,7 +688,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			log.log(Level.SEVERE, "No page #" + pageNo);
 			return;
 		}
-		Page retValue = (Page)m_pages.get(pageNo-1);
+		Page retValue = m_pages.get(pageNo-1);
 		m_currPage = retValue;
 	}	//	setPage
 
