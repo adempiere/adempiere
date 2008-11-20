@@ -16,18 +16,30 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.awt.Frame;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MCashLine;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookupFactory;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Info Payment
@@ -80,12 +92,6 @@ public class InfoCashLine extends Info
 		fName.requestFocus();
 	}   //  InfoCashLine
 
-	/** list of query columns           */
-	private ArrayList 	m_queryColumns = new ArrayList();
-	/** Table Name              */
-	private String      m_tableName;
-	/** Key Column Name         */
-	private String      m_keyColumn;
 
 	//  Static Info
 	private CLabel lName = new CLabel(Msg.translate(Env.getCtx(), "Name"));
@@ -154,11 +160,6 @@ public class InfoCashLine extends Info
 		fName.setBackground(AdempierePLAF.getInfoBackground());
 		fName.addActionListener(this);
 		//
-	//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
-	//		MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
-	//		DisplayType.TableDir, m_WindowNo);
-	//	lOrg_ID.setLabelFor(fOrg_ID);
-	//	fOrg_ID.setBackground(AdempierePLAF.getInfoBackground());
 		//	5249 - C_Cash.C_CashBook_ID
 		fCashBook_ID = new VLookup("C_CashBook_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5249, DisplayType.TableDir));
@@ -215,8 +216,6 @@ public class InfoCashLine extends Info
 		parameterPanel.add(fAmtFrom, null);
 		parameterPanel.add(lAmtTo, null);
 		parameterPanel.add(fAmtTo, null);
-	//	parameterPanel.add(lOrg_ID, null);
-	//	parameterPanel.add(fOrg_ID, null);
 		// 4th Row
 		parameterPanel.add(lCharge_ID, new ALayoutConstraint(3,0));
 		parameterPanel.add(fCharge_ID, null);
