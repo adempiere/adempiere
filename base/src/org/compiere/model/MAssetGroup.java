@@ -44,7 +44,7 @@ public class MAssetGroup extends X_A_Asset_Group
 	}	//	get
 
 	/**	Categopry Cache				*/
-	private static CCache	s_cache = new CCache ("A_Asset_Group", 10);
+	private static CCache<MAssetGroup, Object>	s_cache = new CCache<MAssetGroup, Object> ("A_Asset_Group", 10);
 
 	/**
 	 * 	Standard Constructor
