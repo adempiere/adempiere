@@ -29,8 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -55,24 +54,20 @@ import org.compiere.apps.search.Info_Column;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridField;
-import org.compiere.model.GridFieldVO;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
-import org.compiere.model.MColumn;
+import org.compiere.model.MTab;
 import org.compiere.model.MTable;
 import org.compiere.model.MWindow;
-import org.compiere.model.MTab;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.*;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
-import org.adempiere.plaf.*;
+import org.eevolution.model.X_PP_Order;
 /**
  *
  * @author  vpj-cd
@@ -101,8 +96,7 @@ public class VOrderPlanning extends CPanel
 		try
 		{
 			//	UI
-            AD_Client_ID = Env.getContextAsInt(Env.getCtx(),"#AD_Client_ID");
-			fillPicks();
+  			fillPicks();
 			jbInit();
                         //
 			dynInit();
@@ -125,8 +119,7 @@ public class VOrderPlanning extends CPanel
     private MTable table = null;
     private int AD_Window_ID = MWindow.getWindow_ID("Manufacturing Order");
     private int AD_Tab_ID = MTab.getTab_ID(AD_Window_ID, "Order");
-    private int AD_Client_ID = 0;
-                 
+                  
         /** Master (owning) Window  */
 	protected int				p_WindowNo;
 	/** Table Name              */
@@ -142,13 +135,6 @@ public class VOrderPlanning extends CPanel
 	protected MiniTable         p_table = new MiniTable();
 	/** Model Index of Key Column   */
 	private int                 m_keyColumnIndex = -1;
-	/** OK pressed                  */
-	private boolean			    m_ok = false;
-	/** Cancel pressed - need to differentiate between OK - Cancel - Exit	*/
-	private boolean			    m_cancel = false;
-	/** Result IDs              */
-	private ArrayList			m_results = new ArrayList(3);
-
 	/** Layout of Grid          */
 	protected Info_Column[]     p_layout;
 	/** Main SQL Statement      */
@@ -335,7 +321,7 @@ public class VOrderPlanning extends CPanel
                              Integer PP_Order_ID = id.getRecord_ID();                                                          
                              MPPOrder order = new MPPOrder(Env.getCtx(), PP_Order_ID.intValue(),null);
                              order.setDocStatus(order.prepareIt());
-                             order.setDocAction(order.DOCACTION_Prepare);
+                             order.setDocAction(X_PP_Order.DOCACTION_Prepare);
                              order.save();
                              }
                     }        
@@ -661,7 +647,7 @@ public class VOrderPlanning extends CPanel
 					for (int col = 0; col < p_layout.length; col++)
 					{
 						Object data = null;
-						Class c = p_layout[col].getColClass();
+						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
 						if (c == IDColumn.class)
                         {                                                       
