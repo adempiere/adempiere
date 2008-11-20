@@ -1,5 +1,16 @@
-/*
- */
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *                      *
+ *****************************************************************************/
 package org.compiere.report;
 
 import java.io.File;
@@ -79,9 +90,6 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	private static JasperPrint jasperPrint;
 
     static {
-//        System.setProperty( "javax.xml.parsers.SAXParserFactory", "org.apache.xerces.jaxp.SAXParserFactoryImpl");
-//        System.setProperty( "org.xml.sax.driver", "org.apache.xerces.parsers.SAXParser");
-
         String reportPath = System.getProperty("org.compiere.report.path");
         if (reportPath == null) {
         	REPORT_HOME = new File(Ini.getAdempiereHome() + File.separator + "reports");
@@ -130,7 +138,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     {
     	try
 		{
-    		Class md5Class = Class.forName("org.compiere.interfaces.MD5");
+    		Class.forName("org.compiere.interfaces.MD5");
     		log.info("EJB client for MD5 remote hashing is present");
     		return true;
 		}
@@ -153,7 +161,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     	try {
     		URL requestURL = new URL(requestedURLString);
     		//String requestURLHost = requestURL.getHost();
-    		Hashtable env = new Hashtable();
+    		Hashtable<String, String> env = new Hashtable<String, String>();
     		env.put(InitialContext.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
     		env.put(InitialContext.URL_PKG_PREFIXES, "org.jboss.naming:org.jnp.interfaces");
     		env.put(InitialContext.PROVIDER_URL, requestURL.getHost() + ":" + CConnection.get().getAppsPort());
@@ -200,9 +208,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 			
 			byte buf[] = new byte[1024];
 			int s = 0;
-			long tl = 0;
-			
-			while((s = in.read(buf, 0, 1024)) > 0)
+ 			while((s = in.read(buf, 0, 1024)) > 0)
 				fout.write(buf, 0, s);
 			
     		in.close();
@@ -373,7 +379,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 		JasperData data = null;
 		File reportFile = null;
 		String fileExtension = "";
-		HashMap params = new HashMap( ctx);
+		HashMap<String, Object> params = new HashMap<String, Object>();
 		
 		addProcessParameters( AD_PInstance_ID, params, trxName);
 		
@@ -599,8 +605,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 					subreports.add(reportFile);
 			}
 		}
-		File[] files = new File[subreports.size()];
-		File[] subreportsTemp = new File[0];
+ 		File[] subreportsTemp = new File[0];
 		subreportsTemp = subreports.toArray(subreportsTemp);
 		return subreportsTemp;
 	}
@@ -936,8 +941,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 
 					byte buf[] = new byte[1024];
 					int s = 0;
-					long tl = 0;
-
+ 
 					while((s = in.read(buf, 0, 1024)) > 0)
 						fout.write(buf, 0, s);
 
