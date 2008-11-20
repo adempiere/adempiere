@@ -1542,11 +1542,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	Calculate Tax and Total
 	 * 	@return true if calculated
 	 */
-	private boolean calculateTaxTotal()
+	public boolean calculateTaxTotal()
 	{
 		log.fine("");
 		//	Delete Taxes
-		DB.executeUpdate("DELETE C_InvoiceTax WHERE C_Invoice_ID=" + getC_Invoice_ID(), get_TrxName());
+		DB.executeUpdateEx("DELETE C_InvoiceTax WHERE C_Invoice_ID=" + getC_Invoice_ID(), get_TrxName());
 		m_taxes = null;
 		
 		//	Lines
@@ -1556,25 +1556,16 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		for (int i = 0; i < lines.length; i++)
 		{
 			MInvoiceLine line = lines[i];
-			/**	Sync ownership for SO
-			if (isSOTrx() && line.getAD_Org_ID() != getAD_Org_ID())
+			if (!taxList.contains(line.getC_Tax_ID()))
 			{
-				line.setAD_Org_ID(getAD_Org_ID());
-				line.save();
-			}	**/
-			Integer taxID = new Integer(line.getC_Tax_ID());
-			if (!taxList.contains(taxID))
-			{
-				MInvoiceTax iTax = MInvoiceTax.get (line, getPrecision(), 
-					false, get_TrxName());	//	current Tax
+				MInvoiceTax iTax = MInvoiceTax.get (line, getPrecision(), false, get_TrxName()); //	current Tax
 				if (iTax != null)
 				{
 					iTax.setIsTaxIncluded(isTaxIncluded());
 					if (!iTax.calculateTaxFromLines())
 						return false;
-					if (!iTax.save())
-						return false;
-					taxList.add(taxID);
+					iTax.saveEx();
+					taxList.add(line.getC_Tax_ID());
 				}
 			}
 			totalLines = totalLines.add(line.getLineNetAmt());
@@ -1603,14 +1594,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					newITax.setIsTaxIncluded(isTaxIncluded());
 					newITax.setTaxBaseAmt(iTax.getTaxBaseAmt());
 					newITax.setTaxAmt(taxAmt);
-					if (!newITax.save(get_TrxName()))
-						return false;
+					newITax.saveEx(get_TrxName());
 					//
 					if (!isTaxIncluded())
 						grandTotal = grandTotal.add(taxAmt);
 				}
-				if (!iTax.delete(true, get_TrxName()))
-					return false;
+				iTax.deleteEx(true, get_TrxName());
 			}
 			else
 			{
