@@ -51,14 +51,14 @@ public class QueryDB {
 	public static Object newInstance(String classname, int id, String trxName ) 
 	{
 		Object result = null;
-		Class args;
+		Class<?> args;
 		int begin = classname.indexOf("X_") + 2 ;
 		String table = classname.substring(begin);
-		Class[] intArgsClass = new Class[] {Properties.class , int.class, String.class};
+		Class<?>[] intArgsClass = new Class[] {Properties.class , int.class, String.class};
 		//Integer height = new Integer(12);
 		Integer ID = new Integer(id);
 		Object[] intArgs = new Object[] {Env.getCtx(), ID,table};
-		Constructor intArgsConstructor;
+		Constructor<?> intArgsConstructor;
 
 		try 
 		{
@@ -81,10 +81,11 @@ public class QueryDB {
 		}
 	}
 
-	public static Object createObject(Constructor constructor, 
+	public static Object createObject(Constructor<?> constructor, 
 			Object[] arguments) {
+ 
+		log.fine("Constructor: " + constructor.toString());
 
-		//System.out.println ("Constructor: " + constructor.toString());
 		Object object = null;
 
 		try {
@@ -104,9 +105,8 @@ public class QueryDB {
 	}
 
 	public List<Object> execute(String filter) {
+		log.fine((new Integer(classname.indexOf("X_"))).toString());
 
-		//String tablename = POClass.getName();     
-		//System.out.print(classname.indexOf("X_"));   
 		int begin = classname.indexOf("X_") + 2 ;
 		String table = classname.substring(begin);
 		StringBuffer sql = new StringBuffer("SELECT ").append(table).append("_ID FROM " + table);
@@ -115,15 +115,14 @@ public class QueryDB {
 		else
 			sql.append(" WHERE ").append(filter);
 
-		//System.out.println("Query " + sql.toString());
+		log.fine("Query =" + sql.toString());		 
 
 		List<Object> results = new ArrayList<Object>();
 
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			//pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+ 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int id = rs.getInt(1);
@@ -143,26 +142,17 @@ public class QueryDB {
 
 
 	public List<Object> execute() {
-
-		//String tablename = POClass.getName();     
-		//System.out.print(classname.indexOf("X_"));   
+  
 		int begin = classname.indexOf("X_") + 2 ;
 		String table = classname.substring(begin);
 		StringBuffer sql = new StringBuffer("SELECT ").append(table).append("_ID FROM " + table);
-		//if (filter.equals(""))
-		//System.out.println("not exist filter");
-		//else
-		//sql.append(" WHERE ").append(filter);
-
-		//System.out.println("Query " + sql.toString());
 
 		List<Object> results = new ArrayList<Object>();
 
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			//pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+ 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int id = rs.getInt(1);
