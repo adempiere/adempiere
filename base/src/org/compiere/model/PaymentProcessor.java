@@ -16,14 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
-import java.net.*;
-import javax.net.ssl.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import javax.net.ssl.HttpsURLConnection;
+
+import org.compiere.util.CLogger;
 
 /**
  *  Payment Processor Abstract Class
@@ -72,7 +79,7 @@ public abstract class PaymentProcessor
 		PaymentProcessor myProcessor = null;
 		try
 		{
-			Class ppClass = Class.forName(className);
+			Class<?> ppClass = Class.forName(className);
 			if (ppClass != null)
 				myProcessor = (PaymentProcessor)ppClass.newInstance();
 		}
