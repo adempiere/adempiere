@@ -18,7 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import org.compiere.model.MAssetChange;
-import org.compiere.model.MRefList_Ext;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_A_Asset_Disposed;
 import org.compiere.model.X_A_Depreciation_Exp;
 import org.compiere.process.ProcessInfoParameter;
@@ -196,7 +196,7 @@ public class AssetDisposed extends SvrProcess
 		    MAssetChange change = new MAssetChange (getCtx(), 0, null);
 			change.setA_Asset_ID(AssetDisposed.getA_Asset_ID());			
 			change.setChangeType("DIS");
-		    MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, null);	
+		    MRefList RefList = new MRefList (getCtx(), 0, null);	
 			change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "DIS"));   
 			change.setAssetDisposalDate(AssetDisposed.getA_Disposed_Date());
 			change.setAssetAccumDepreciationAmt(v_Balance);

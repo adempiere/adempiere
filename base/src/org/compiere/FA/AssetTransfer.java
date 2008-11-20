@@ -18,7 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import org.compiere.model.MAssetChange;
-import org.compiere.model.MRefList_Ext;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_A_Asset_Transfer;
 import org.compiere.model.X_A_Depreciation_Exp;
 import org.compiere.process.ProcessInfoParameter;
@@ -233,7 +233,7 @@ public class AssetTransfer extends SvrProcess
 				
 				MAssetChange change = new MAssetChange (getCtx(), 0, null);
 				change.setChangeType("TRN");	
-				MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, null);	
+				MRefList RefList = new MRefList (getCtx(), 0, null);	
 				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "TRN"));    
 				change.setPostingType(AssetTransfer.getPostingType());
 				change.setA_Split_Percent(AssetTransfer.getA_Split_Percent());

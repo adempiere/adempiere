@@ -18,7 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import org.compiere.model.MAssetChange;
-import org.compiere.model.MRefList_Ext;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_A_Asset_Acct;
 import org.compiere.model.X_A_Asset_Addition;
@@ -286,7 +286,7 @@ public class AssetSplit extends SvrProcess
 				change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
 				change.setA_Parent_Asset_ID(Asset.getA_Parent_Asset_ID());
 			    change.setChangeType("SPL");
-			    MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, null);	
+			    MRefList RefList = new MRefList (getCtx(), 0, null);	
 				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
 				change.setSerno(AssetNew.getSerNo());
@@ -410,7 +410,7 @@ public class AssetSplit extends SvrProcess
 				change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
 				change.setA_Parent_Asset_ID(Asset.getA_Parent_Asset_ID());
 			    change.setChangeType("SPL");
-			    MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, null);	
+			    MRefList RefList = new MRefList (getCtx(), 0, null);	
 				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
 				change.setSerno(AssetNew.getSerNo());
@@ -464,7 +464,7 @@ public class AssetSplit extends SvrProcess
 			
 			MAssetChange change1 = new MAssetChange (getCtx(), 0, null);
 			change1.setChangeType("SPL");
-		    MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, null);	
+		    MRefList RefList = new MRefList (getCtx(), 0, null);	
 			change1.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));
 			change1.setAssetValueAmt(v_CostBalance_New.multiply(new BigDecimal(-1)));
 			change1.setPostingType(assetacct.getPostingType());

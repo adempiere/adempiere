@@ -19,7 +19,7 @@ import java.sql.ResultSet;
 
 import org.compiere.model.MAssetAcct;
 import org.compiere.model.MAssetChange;
-import org.compiere.model.MRefList_Ext;
+import org.compiere.model.MRefList;
 import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_A_Asset_Addition;
 import org.compiere.model.X_A_Asset_Group_Acct;
@@ -219,7 +219,7 @@ public class CreateGLAsset extends SvrProcess
 										change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
 										change.setA_Parent_Asset_ID(asset.getA_Parent_Asset_ID());
 									    change.setChangeType("CRT");
-									    MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+									    MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
 										change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "CRT"));		    
 									    change.setIsInPosession(asset.isOwned());
 										change.setIsDisposed(asset.isDisposed());
@@ -315,7 +315,7 @@ public class CreateGLAsset extends SvrProcess
 					            MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
 					            change.setA_Asset_ID(asset.getA_Asset_ID());					                       
 					            change.setChangeType("ADD");
-					            MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+					            MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
 					        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
 					            change.setPostingType(assetwk.getPostingType());
 					            change.setAssetValueAmt(assetadd.getAssetValueAmt());
@@ -357,7 +357,7 @@ public class CreateGLAsset extends SvrProcess
 		            change.setA_Asset_ID(asset.getA_Asset_ID());            
 		            change.setA_QTY_Current(assetadd.getA_QTY_Current());           
 		            change.setChangeType("EXP");
-		            MRefList_Ext RefList = new MRefList_Ext (getCtx(), 0, get_TrxName());	
+		            MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
 		        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "EXP"));
 		        	assetadd.setPostingType("A");
 		            change.setAssetValueAmt(assetadd.getAssetValueAmt());
