@@ -639,7 +639,7 @@ public class CreateAdempiere
 	 *	@param list list
 	 *	@return true if constraints enabled/created
 	 */
-	private boolean enableConstraints (ArrayList list)
+	private boolean enableConstraints (ArrayList<String> list)
 	{
 		log.info("");
 		return false;
