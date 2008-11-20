@@ -16,12 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Process Information (Value Object)
@@ -262,7 +268,7 @@ public class ProcessInfo implements Serializable
 			else if (i > 0)
 				sb.append("\n");
 			//
-			ProcessInfoLog log = (ProcessInfoLog)m_logs.get(i);
+			ProcessInfoLog log = m_logs.get(i);
 			/**
 			if (log.getP_ID() != 0)
 				sb.append(html ? "<td>" : "")
@@ -575,7 +581,7 @@ public class ProcessInfo implements Serializable
 			return null;
 		int[] ids = new int[m_logs.size()];
 		for (int i = 0; i < m_logs.size(); i++)
-			ids[i] = ((ProcessInfoLog)m_logs.get(i)).getP_ID();
+			ids[i] = m_logs.get(i).getP_ID();
 		return ids;
 	}	//	getIDs
 
@@ -583,7 +589,7 @@ public class ProcessInfo implements Serializable
 	 * Method getLogList
 	 * @return ArrayList
 	 */
-	public ArrayList getLogList()
+	public ArrayList<ProcessInfoLog> getLogList()
 	{
 		return m_logs;
 	}
