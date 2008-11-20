@@ -851,6 +851,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	 */
 	private boolean updateHeaderTax()
 	{
+		// Update header only if the document is not processed - teo_sarca BF [ 2317305 ] 
+		if (isProcessed() && !is_ValueChanged(COLUMNNAME_Processed))
+			return true;
+		
 		//	Recalculate Tax for this Tax
 		if (!updateInvoiceTax(false))
 			return false;
@@ -859,21 +863,21 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		String sql = "UPDATE C_Invoice i"
 			+ " SET TotalLines="
 				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID) "
-			+ "WHERE C_Invoice_ID=" + getC_Invoice_ID();
-		int no = DB.executeUpdate(sql, get_TrxName());
+			+ "WHERE C_Invoice_ID=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());
 		if (no != 1)
 			log.warning("(1) #" + no);
 
 		if (isTaxIncluded())
 			sql = "UPDATE C_Invoice i "
 				+ " SET GrandTotal=TotalLines "
-				+ "WHERE C_Invoice_ID=" + getC_Invoice_ID();
+				+ "WHERE C_Invoice_ID=?";
 		else
 			sql = "UPDATE C_Invoice i "
 				+ " SET GrandTotal=TotalLines+"
 					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_InvoiceTax it WHERE i.C_Invoice_ID=it.C_Invoice_ID) "
-					+ "WHERE C_Invoice_ID=" + getC_Invoice_ID();
-		no = DB.executeUpdate(sql, get_TrxName());
+					+ "WHERE C_Invoice_ID=?";
+		no = DB.executeUpdateEx(sql, new Object[]{getC_Invoice_ID()}, get_TrxName());
 		if (no != 1)
 			log.warning("(2) #" + no);
 		m_parent = null;
