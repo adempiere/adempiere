@@ -1182,27 +1182,6 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *	Get Tree ID of this tab
 	 *  @return ID
 	 */
-	private int getTreeID()
-	{
-		log.fine(m_vo.TableName);
-		String SQL = "SELECT * FROM AD_ClientInfo WHERE AD_Client="
-			+ Env.getContext(m_vo.ctx, m_vo.WindowNo, "AD_Client_ID")
-			+ " ORDER BY AD_Org DESC";
-		//
-		if (m_vo.TableName.equals("AD_Menu"))
-			return 10;		//	MM
-		else if (m_vo.TableName.equals("C_ElementValue"))
-			return 20;		//	EV
-		else if (m_vo.TableName.equals("M_Product"))
-			return 30;     	//	PR
-		else if (m_vo.TableName.equals("C_BPartner"))
-			return 40;    	//	BP
-		else if (m_vo.TableName.equals("AD_Org"))
-			return 50;     	//	OO
-		else if (m_vo.TableName.equals("C_Project"))
-			return 60;		//	PJ
-		return 0;
-	}	//	getTreeID
 
 	/**
 	 *	Returns true if this is a detail record
