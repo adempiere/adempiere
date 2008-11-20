@@ -16,14 +16,34 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.report.core.*;
-import org.compiere.util.*;
+import javax.swing.JComboBox;
+
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MFactAcct;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MRefList;
+import org.compiere.report.core.RColumn;
+import org.compiere.report.core.RModel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 
 /**
@@ -294,7 +314,7 @@ class AcctViewerData
 		else
 		{
 			//  get values (Queries)
-			Iterator it = whereInfo.values().iterator();
+			Iterator<String> it = whereInfo.values().iterator();
 			while (it.hasNext())
 			{
 				String where = (String)it.next();
@@ -401,7 +421,7 @@ class AcctViewerData
 		Properties ctx = Env.getCtx();
 		RModel rm = new RModel("Fact_Acct");
 		//  Add Key (Lookups)
-		ArrayList keys = createKeyColumns();
+		ArrayList<String> keys = createKeyColumns();
 		int max = m_leadingColumns;
 		if (max == 0)
 			max = keys.size();
@@ -471,7 +491,7 @@ class AcctViewerData
 	 *  Create the key columns in sequence
 	 *  @return List of Key Columns
 	 */
-	private ArrayList createKeyColumns()
+	private ArrayList<String> createKeyColumns()
 	{
 		ArrayList<String> columns = new ArrayList<String>();
 		m_leadingColumns = 0;
