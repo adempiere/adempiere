@@ -80,7 +80,7 @@ public class PriceList
 		String key = String.valueOf(AD_Client_ID) + "_" + M_PriceList_ID;
 		PriceList retValue = null;
 		if (search == null && M_Product_Category_ID == 0 && allRecords)
-			retValue = (PriceList)s_cache.get(key);
+			retValue = s_cache.get(key);
 
 		//	create New
 		if (retValue == null)
@@ -375,7 +375,7 @@ public class PriceList
 	 * 	Get Prices
 	 * 	@return Price Array List
 	 */
-	public ArrayList getPrices()
+	public ArrayList<PriceListProduct> getPrices()
 	{
 		return m_prices;
 	}	//	getPrices
@@ -390,7 +390,7 @@ public class PriceList
 	{
 		for (int i = 0; i < m_prices.size (); i++)
 		{
-			PriceListProduct plp = (PriceListProduct)m_prices.get (i);
+			PriceListProduct plp = m_prices.get (i);
 			if (plp.getId () == M_Product_ID)
 				return plp;
 		}
