@@ -16,13 +16,16 @@
 //package org.compiere.mfg.model;
 package org.eevolution.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.X_M_Product_Costing;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Product Costing Model
@@ -96,7 +99,7 @@ public class MPPProductCosting extends X_M_Product_Costing
 	public static MPPProductCosting[] getElements (int M_Product_ID, int C_AcctSchema_ID, int PP_Cost_Group_ID , int M_Warehouse_ID, int S_Resource_ID)
 	{
 		
-		ArrayList list = new ArrayList();
+		ArrayList<MPPProductCosting> list = new ArrayList<MPPProductCosting>();
                 
                 
 		String sql = "SELECT * FROM PP_Product_Costing WHERE AD_Client_ID = ? AND M_Product_ID=? AND  C_Acctschema_ID = ? AND PP_Cost_Group_ID = ? AND M_Warehouse_ID = ? AND S_Resource_ID = ?  ";
@@ -104,7 +107,7 @@ public class MPPProductCosting extends X_M_Product_Costing
 		try
 		{
 			int AD_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));			
-			pstmt = DB.prepareStatement(sql);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			pstmt.setInt(2, M_Product_ID);
             pstmt.setInt(3, C_AcctSchema_ID);
@@ -152,16 +155,12 @@ public class MPPProductCosting extends X_M_Product_Costing
 	 */
 	public boolean getElement(int M_Product_ID, int C_AcctSchema_ID, int PP_Cost_Group_ID , int PP_Cost_Element_ID , int M_Warehouse_ID, int S_Resource_ID)
 	{
-		//if (m_lines != null && !requery)
-		//return m_lines;
-		//ArrayList list = new ArrayList();
-                MPPProductCosting pc = null; 
 		String sql = "SELECT * FROM PP_Product_Costing WHERE AD_Client_ID =? AND  M_Product_ID=? AND ( C_Acctschema_ID = ? AND PP_Cost_Group_ID = ? AND PP_Cost_Element_ID = ?  AND M_Warehouse_ID = ? AND S_Resource_ID = ?)";
 		PreparedStatement pstmt = null;
 		try
 		{
 			int AD_Client_ID = Integer.parseInt(Env.getContext(Env.getCtx(), "#AD_Client_ID"));			
-			pstmt = DB.prepareStatement(sql);
+			pstmt = DB.prepareStatement(sql, null);
 						pstmt.setInt(1, AD_Client_ID);
 						pstmt.setInt(2, M_Product_ID);
                         pstmt.setInt(3, C_AcctSchema_ID);
