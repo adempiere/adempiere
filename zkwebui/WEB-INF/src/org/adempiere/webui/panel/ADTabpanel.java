@@ -117,9 +117,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
     private ArrayList<WEditor> editors = new ArrayList<WEditor>();
     
     private ArrayList<String> editorIds = new ArrayList<String>();
-    
-    private ArrayList<String> fieldGroupIds = new ArrayList<String>();
-    
+       
     private boolean           editing;
     
     private boolean			  uiCreated = false;
@@ -449,7 +447,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         {
             GridField changedField = gridTab.getField(col);
             String columnName = changedField.getColumnName();
-            ArrayList dependants = gridTab.getDependantFields(columnName);
+            ArrayList<GridField> dependants = gridTab.getDependantFields(columnName);
             logger.config("(" + gridTab.toString() + ") "
                 + columnName + " - Dependents=" + dependants.size());
             if (dependants.size() == 0 && changedField.getCallout().length() > 0)
@@ -736,7 +734,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
             }
             
             // Refresh the list on dependant fields
-    		ArrayList list = gridTab.getDependantFields(mField.getColumnName());
+    		ArrayList<GridField> list = gridTab.getDependantFields(mField.getColumnName());
     		for (int i = 0; i < list.size(); i++)
     		{
     			GridField dependentField = (GridField)list.get(i);
