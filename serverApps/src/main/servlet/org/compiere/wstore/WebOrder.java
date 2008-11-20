@@ -16,10 +16,17 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.math.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.compiere.model.MCurrency;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MPayment;
+import org.compiere.util.CLogger;
+import org.compiere.util.WebUser;
 
 /**
  *  Web Order
@@ -94,10 +101,10 @@ public class WebOrder
 		log.fine("ID=" + m_order.getC_Order_ID()
 			+ ", DocNo=" + m_order.getDocumentNo());
 
-		ArrayList lines = wb.getLines();
+		ArrayList<WebBasketLine> lines = wb.getLines();
 		for (int i = 0; i < lines.size(); i++)
 		{
-			WebBasketLine wbl = (WebBasketLine)lines.get(i);
+			WebBasketLine wbl = lines.get(i);
 			MOrderLine ol = new MOrderLine(m_order);
 			ol.setM_Product_ID(wbl.getM_Product_ID(), true);
 			ol.setQty(wbl.getQuantity());
