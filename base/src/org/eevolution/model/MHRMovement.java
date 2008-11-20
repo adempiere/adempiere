@@ -14,13 +14,13 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 package org.eevolution.model;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.util.DB;
 
 /**
  *	Payroll Concept for HRayroll Module
@@ -73,7 +73,7 @@ public class MHRMovement extends X_HR_Movement
 	 */
 	public MHRMovement[] getmovEmployeeok (int payroll, int department, int employee, String sqlWhere)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList<MHRMovement> list = new ArrayList<MHRMovement>();
 		String sql = "SELECT * FROM HR_Concept WHERE  IsActive='Y'  AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)";
 		if (department != 0 )
 			sql += " AND HR_Department_ID = " + department + " ";
@@ -121,7 +121,7 @@ public class MHRMovement extends X_HR_Movement
 	 */
 	public MHRMovement[] getMovementOk (int HR_Process_ID)
 	{
-		ArrayList list = new ArrayList();
+		ArrayList<MHRMovement> list = new ArrayList<MHRMovement>();
 		String sql = "SELECT * FROM HR_Movement m" +
 					 " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.IsActive = 'Y')"+
 					 " WHERE HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) ";
