@@ -17,15 +17,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.lang.reflect.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.lang.reflect.Constructor;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.model.GenericPO;
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Persistent Table Model
@@ -51,7 +56,7 @@ public class MTable extends X_AD_Table
 	public static MTable get (Properties ctx, int AD_Table_ID)
 	{
 		Integer key = new Integer (AD_Table_ID);
-		MTable retValue = (MTable) s_cache.get (key);
+		MTable retValue = s_cache.get (key);
 		if (retValue != null && retValue.getCtx() == ctx) {
 			return retValue;
 		}
@@ -72,10 +77,10 @@ public class MTable extends X_AD_Table
 	{
 		if (tableName == null)
 			return null;
-		Iterator it = s_cache.values().iterator();
+		Iterator<MTable> it = s_cache.values().iterator();
 		while (it.hasNext())
 		{
-			MTable retValue = (MTable)it.next();
+			MTable retValue = it.next();
 			if (tableName.equalsIgnoreCase(retValue.getTableName()) 
 					&& retValue.getCtx() == ctx 
 				) 
@@ -135,7 +140,7 @@ public class MTable extends X_AD_Table
 	
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
-	private static CCache<String,Class> s_classCache = new CCache<String,Class>("PO_Class", 20);
+	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MTable.class);
@@ -172,7 +177,7 @@ public class MTable extends X_AD_Table
 	 *	@param tableName table name
 	 *	@return class or null
 	 */
-	public static Class getClass (String tableName)
+	public static Class<?> getClass (String tableName)
 	{
 		//	Not supported
 		if (tableName == null || tableName.endsWith("_Trl"))
@@ -181,7 +186,7 @@ public class MTable extends X_AD_Table
 		//	Import Tables (Name conflict)
 		if (tableName.startsWith("I_"))
 		{
-			Class clazz = getPOclass("org.compiere.model.X_" + tableName);
+			Class<?> clazz = getPOclass("org.compiere.model.X_" + tableName);
 			if (clazz != null)
 				return clazz;
 			s_log.warning("No class for table: " + tableName);
@@ -191,7 +196,7 @@ public class MTable extends X_AD_Table
 
 		
 		//check cache
-		Class cache = s_classCache.get(tableName);
+		Class<?> cache = s_classCache.get(tableName);
 		if (cache != null) 
 		{
 			//Object.class indicate no generated PO class for tableName
@@ -206,7 +211,7 @@ public class MTable extends X_AD_Table
 		{
 			if (s_special[i++].equals(tableName))
 			{
-				Class clazz = getPOclass(s_special[i]);
+				Class<?> clazz = getPOclass(s_special[i]);
 				if (clazz != null)
 				{
 					s_classCache.put(tableName, clazz);
@@ -228,7 +233,7 @@ public class MTable extends X_AD_Table
 					String modelpackage = entityTypes[i].getModelPackage(); 
 					if (modelpackage != null)
 					{						
-						Class clazz = getPOclass(entityTypes[i].getModelPackage() + ".M" + Util.replace(tableName, "_", ""));
+						Class<?> clazz = getPOclass(entityTypes[i].getModelPackage() + ".M" + Util.replace(tableName, "_", ""));
 						if (clazz != null) {
 							s_classCache.put(tableName, clazz);
 							return clazz;
@@ -268,7 +273,7 @@ public class MTable extends X_AD_Table
 		for (int i = 0; i < s_packages.length; i++)
 		{
 			StringBuffer name = new StringBuffer(s_packages[i]).append(".M").append(className);
-			Class clazz = getPOclass(name.toString());
+			Class<?> clazz = getPOclass(name.toString());
 			if (clazz != null)
 			{
 				s_classCache.put(tableName, clazz);
@@ -278,7 +283,7 @@ public class MTable extends X_AD_Table
 		
 		
 		//	Adempiere Extension
-		Class clazz = getPOclass("adempiere.model.X_" + tableName);
+		Class<?> clazz = getPOclass("adempiere.model.X_" + tableName);
 		if (clazz != null)
 		{
 			s_classCache.put(tableName, clazz);
@@ -312,13 +317,13 @@ public class MTable extends X_AD_Table
 	 *	@param className fully qualified class name
 	 *	@return class or null
 	 */
-	private static Class getPOclass (String className)
+	private static Class<?> getPOclass (String className)
 	{
 		try
 		{
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			//	Make sure that it is a PO class
-			Class superClazz = clazz.getSuperclass();
+			Class<?> superClazz = clazz.getSuperclass();
 			while (superClazz != null)
 			{
 				if (superClazz == PO.class)
@@ -483,7 +488,7 @@ public class MTable extends X_AD_Table
 			log.log(Level.WARNING, "(id) - Multi-Key " + tableName);
 			return null;
 		}
-		Class clazz = getClass(tableName);
+		Class<?> clazz = getClass(tableName);
 		if (clazz == null)
 		{
 			//log.log(Level.WARNING, "(id) - Class not found for " + tableName);
@@ -496,7 +501,7 @@ public class MTable extends X_AD_Table
 		boolean errorLogged = false;
 		try
 		{
-			Constructor constructor = null;
+			Constructor<?> constructor = null;
 			try
 			{
 				constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
@@ -548,7 +553,7 @@ public class MTable extends X_AD_Table
 	public PO getPO (ResultSet rs, String trxName)
 	{
 		String tableName = getTableName();
-		Class clazz = getClass(tableName);
+		Class<?> clazz = getClass(tableName);
 		if (clazz == null)
 		{
 			//log.log(Level.SEVERE, "(rs) - Class not found for " + tableName);
@@ -561,7 +566,7 @@ public class MTable extends X_AD_Table
 		boolean errorLogged = false;
 		try
 		{
-			Constructor constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
+			Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
 			PO po = (PO)constructor.newInstance(new Object[] {getCtx(), rs, trxName});
 			return po;
 		}
