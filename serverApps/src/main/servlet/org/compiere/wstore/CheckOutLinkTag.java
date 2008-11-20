@@ -15,12 +15,20 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.wstore;
-import java.util.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.util.*;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.hr;
+import org.apache.ecs.xhtml.img;
+import org.apache.ecs.xhtml.p;
+import org.compiere.util.CLogger;
+import org.compiere.util.HtmlCode;
 
 /**
  *  CheckOut Links.
@@ -89,7 +97,7 @@ public class CheckOutLinkTag extends TagSupport
 				//	List Content
 				p p = new p();
 				p.setClass("Cbasket");
-				ArrayList lines = wb.getLines();
+				ArrayList<WebBasketLine> lines = wb.getLines();
 				for (int i = 0; i < lines.size(); i++)
 				{
 					p.addElement("<br>");
