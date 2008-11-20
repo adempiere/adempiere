@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -937,6 +937,7 @@ public final class DB
 		}
 		catch (Exception e)
 		{
+			e = getSQLException(e);
 			if (ignoreError)
 				log.log(Level.SEVERE, cs.getSql() + " [" + trxName + "] - " +  e.getMessage());
 			else
@@ -1116,19 +1117,11 @@ public final class DB
 	 */
 	public static RowSet getRowSet (String sql)
 	{
-		RowSet retValue = null;
-		              // Bugfix Gunther Hoppe, 02.09.2005 add vpj-cd e-evolution
-                // Begin		
-		//		CStatementVO info = new CStatementVO ( 
-		//	RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, sql);
+		// Bugfix Gunther Hoppe, 02.09.2005, vpj-cd e-evolution
 		CStatementVO info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
-                // End add vpj-cd e-evolution
 		CPreparedStatement stmt = ProxyFactory.newCPreparedStatement(info);
-		retValue = stmt.getRowSet();
-		try {
-			stmt.close();
-		} catch (SQLException e) {
-		}
+		RowSet retValue = stmt.getRowSet();
+		close(stmt);
 		return retValue;
 	}	//	getRowSet
 
@@ -1156,7 +1149,7 @@ public final class DB
     	}
     	catch (Exception e)
     	{
-    		log.log(Level.SEVERE, sql, e);
+    		log.log(Level.SEVERE, sql, getSQLException(e));
     	}
     	finally
     	{
@@ -1204,7 +1197,7 @@ public final class DB
     	}
     	catch (Exception e)
     	{
-    		log.log(Level.SEVERE, sql, e);
+    		log.log(Level.SEVERE, sql, getSQLException(e));
     	}
     	finally
     	{
@@ -1252,7 +1245,7 @@ public final class DB
     	}
     	catch (Exception e)
     	{
-    		log.log(Level.SEVERE, sql, e);
+    		log.log(Level.SEVERE, sql, getSQLException(e));
     	}
     	finally
     	{
@@ -1300,7 +1293,7 @@ public final class DB
     	}
     	catch (Exception e)
     	{
-    		log.log(Level.SEVERE, sql, e);
+    		log.log(Level.SEVERE, sql, getSQLException(e));
     	}
     	finally
     	{
@@ -1376,7 +1369,7 @@ public final class DB
         }
         catch (Exception e)
         {
-            log.log(Level.SEVERE, sql, e);
+            log.log(Level.SEVERE, sql, getSQLException(e));
         }
         finally
         {
@@ -1442,12 +1435,12 @@ public final class DB
                 }
                 catch (Exception ee)
                 {
+                	ee = getSQLException(ee);
                     log.log(Level.FINEST, sql + " - " + e.getMessage(), ee);
                 }
                 finally
                 {
-                    close(rs2);
-                    close(pstmt2);
+                    close(rs2, pstmt2);
                     rs= null;
                     pstmt = null;
                 }
@@ -1803,6 +1796,23 @@ public final class DB
     public static void close(POResultSet<?> rs) {
     	if (rs != null)
     		rs.close();
+    }
+    
+	/**
+	 * Try to get the SQLException from Exception
+	 * @param e Exception
+	 * @return SQLException if found or provided exception elsewhere
+	 */
+    private static Exception getSQLException(Exception e)
+    {
+    	Throwable e1 = e;
+    	while (e1 != null)
+    	{
+	    	if (e1 instanceof SQLException)
+	    		return (SQLException)e1;
+	    	e1 = e1.getCause();
+    	}
+    	return e;
     }
     
 	/** Quote			*/
