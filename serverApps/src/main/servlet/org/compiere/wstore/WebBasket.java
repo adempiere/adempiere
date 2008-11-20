@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.math.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+import org.compiere.util.Env;
 
 
 /**
@@ -39,8 +40,6 @@ public class WebBasket
 	/**	Attribute Name - also in JSPs	*/
 	public static final String		NAME = "webBasket";
 
-	/**	Logging						*/
-	private CLogger			log = CLogger.getCLogger(getClass());
 	/**	Lines						*/
 	private ArrayList<WebBasketLine>	m_lines = new ArrayList<WebBasketLine>();
 	/** Total w/o tax				*/
@@ -107,7 +106,7 @@ public class WebBasket
 	 *	Get Lines
 	 * 	@return lines
 	 */
-	public ArrayList getLines()
+	public ArrayList<WebBasketLine> getLines()
 	{
 		return m_lines;
 	}	//	getLines
