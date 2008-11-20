@@ -17,43 +17,24 @@
 package org.eevolution.process;
 
 
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderNode;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductPlanning;
-import org.eevolution.model.MPPOrderBOMLine;
-import org.eevolution.model.MPPOrderWorkflow;
-//import compiere.model.*;
-import org.eevolution.model.*;
-
-import org.compiere.model.MNote;
-import org.compiere.model.MProduct;
-import org.compiere.model.MRequisition;
-import org.compiere.model.MRequisitionLine;
-import org.compiere.model.MSequence;
-import org.compiere.model.*;
-
-
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
-
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.logging.*;
-import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+
+import org.compiere.model.MResource;
+import org.compiere.model.MResourceType;
+import org.compiere.model.MUOM;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.eevolution.model.X_T_MRP_CRP;
 
 /**
  *	Re-Open Order Process (from Closed to Completed)
@@ -369,7 +350,7 @@ public class CRPSummary extends SvrProcess
  		 	hours  = 24;
 		 
 		 boolean available = false;
-		 ArrayList list = new ArrayList();
+		 ArrayList<Col> list = new ArrayList<Col>();
 		 
 		 int col = 0;
 		 int row =  1;
