@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
-import java.io.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.compiere.util.CLogger;
 
 /**
  *  Report Model.
@@ -32,6 +34,11 @@ import org.compiere.util.*;
  */
 public class RModel implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1283407521250413019L;
+
 	/**
 	 *  Constructor. Creates RModelData
 	 *  @param TableName
@@ -298,7 +305,7 @@ public class RModel implements Serializable
 	 *  @param col index
 	 *  @return Column Class
 	 */
-	public Class getColumnClass (int col)
+	public Class<?> getColumnClass (int col)
 	{
 		if (col < 0 || col > m_data.cols.size())
 			throw new java.lang.IllegalArgumentException("Column invalid");
@@ -335,7 +342,7 @@ public class RModel implements Serializable
 			return null;
 	//		throw new java.lang.IllegalArgumentException("Column invalid");
 		//
-		ArrayList myRow = (ArrayList)m_data.rows.get(row);
+		ArrayList<Object> myRow = (ArrayList<Object>)m_data.rows.get(row);
 		//  invalid column
 		if (myRow == null || col >= myRow.size())
 			return null;

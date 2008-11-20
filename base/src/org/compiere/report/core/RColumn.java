@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Properties;
+
+import org.compiere.model.MLookupFactory;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  *  Report Column
@@ -189,7 +193,7 @@ public class RColumn
 	 *  @param colSQL    SQL select code for column
 	 *  @param colClass  class of column - determines display
 	 */
-	public RColumn (String colHeader, String colSQL, Class colClass)
+	public RColumn (String colHeader, String colSQL, Class<?> colClass)
 	{
 		m_colHeader = colHeader;
 		m_colSQL = colSQL;
@@ -206,7 +210,7 @@ public class RColumn
 	/** Column Display SQL          */
 	private String      m_displaySQL;
 	/** Column Display Class        */
-	private Class       m_colClass;
+	private Class<?>       m_colClass;
 
 	/** Display Type                */
 	private int         m_displayType = 0;
@@ -267,11 +271,11 @@ public class RColumn
 	/**
 	 *  Column Display Class
 	 */
-	public Class getColClass()
+	public Class<?> getColClass()
 	{
 		return m_colClass;
 	}
-	public void setColClass(Class colClass)
+	public void setColClass(Class<?> colClass)
 	{
 		m_colClass = colClass;
 	}
