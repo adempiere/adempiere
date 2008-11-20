@@ -275,9 +275,12 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				listcell.appendChild(checkbox);
 				ZkCssHelper.appendStyle(listcell, "text-align:center");
 			}
-			else if (field instanceof BigDecimal)
+			else if (field instanceof Number)
 			{
-				DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Amount);
+				DecimalFormat format = field instanceof BigDecimal
+					? DisplayType.getNumberFormat(DisplayType.Amount)
+				    : DisplayType.getNumberFormat(DisplayType.Integer);
+					
 				// set cell value to allow sorting
 				listcell.setValue(field.toString());
 
@@ -285,7 +288,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				{
 					NumberBox numberbox = new NumberBox(false);
 					numberbox.setFormat(format);
-					numberbox.setValue((BigDecimal)field);
+					numberbox.setValue(field);
 					numberbox.setWidth("100px");
 					numberbox.setEnabled(true);
 					numberbox.setStyle("text-align:right; "
@@ -295,7 +298,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				}
 				else
 				{
-					listcell.setLabel(format.format(((BigDecimal)field).doubleValue()));
+					listcell.setLabel(format.format(((Number)field).doubleValue()));
 					ZkCssHelper.appendStyle(listcell, "text-align:right");
 				}
 			}

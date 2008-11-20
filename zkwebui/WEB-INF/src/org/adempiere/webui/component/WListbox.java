@@ -1008,6 +1008,10 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
         {
             this.repaint();
         }
+        else
+        {
+        	this.setModel(this.getModel());
+        }
 
         return;
     }
