@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -35,22 +35,26 @@ import org.compiere.util.Ini;
  */
 public class MUOM extends X_C_UOM
 {
+	private static final long serialVersionUID = 1L;
+	
+	/** X12 Element 355 Code	Second	*/
+	public static final String		X12_SECOND = "03";
 	/** X12 Element 355 Code	Minute	*/
-	static final String		X12_MINUTE = "MJ";
+	public static final String		X12_MINUTE = "MJ";
 	/** X12 Element 355 Code	Hour	*/
-	static final String		X12_HOUR = "HR";
+	public static final String		X12_HOUR = "HR";
 	/** X12 Element 355 Code	Day 	*/
-	static final String		X12_DAY = "DA";
+	public static final String		X12_DAY = "DA";
 	/** X12 Element 355 Code	Work Day (8 hours / 5days)	 	*/
-	static final String		X12_DAY_WORK = "WD";
+	public static final String		X12_DAY_WORK = "WD";
 	/** X12 Element 355 Code	Week 	*/
-	static final String		X12_WEEK = "WK";
+	public static final String		X12_WEEK = "WK";
 	/** X12 Element 355 Code	Month 	*/
-	static final String		X12_MONTH = "MO";
+	public static final String		X12_MONTH = "MO";
 	/** X12 Element 355 Code	Work Month (20 days / 4 weeks) 	*/
-	static final String		X12_MONTH_WORK = "WM";
+	public static final String		X12_MONTH_WORK = "WM";
 	/** X12 Element 355 Code	Year 	*/
-	static final String		X12_YEAR = "YR";
+	public static final String		X12_YEAR = "YR";
 
 	/**
 	 * 	Get Minute C_UOM_ID
@@ -91,7 +95,7 @@ public class MUOM extends X_C_UOM
 	/*************************************************************************/
 
 	/**	UOM Cache				*/
-	private static CCache<Integer,MUOM>	s_cache = new CCache<Integer,MUOM>("C_UOM", 30);
+	private static CCache<Integer,MUOM>	s_cache = new CCache<Integer,MUOM>(Table_Name, 30);
 
 	/**
 	 * 	Get UOM from Cache
@@ -214,6 +218,14 @@ public class MUOM extends X_C_UOM
 		return qty;
 	}	//	round
 
+	/**
+	 * 	Second
+	 *	@return true if UOM is second
+	 */
+	public boolean isSecond()
+	{
+		return X12_SECOND.equals(getX12DE355());
+	}
 	/**
 	 * 	Minute
 	 *	@return true if UOM is minute
