@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JCheckBox;
@@ -47,16 +47,17 @@ import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.compiere.model.X_C_UOM;
-import org.compiere.model.X_M_Product;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.eevolution.model.QueryDB;
-import org.eevolution.model.X_PP_Product_BOM;
-import org.eevolution.model.X_PP_Product_BOMLine;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
+
 
 
 public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
@@ -113,40 +114,40 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 	/**
 	 * 	Action: Fill Tree with all nodes
 	 */
-	public DefaultMutableTreeNode action_loadBOM(X_M_Product Product, boolean setRoot)
+	public DefaultMutableTreeNode action_loadBOM(MProduct Product, boolean setRoot)
 	{
 		int M_Product_ID = Product.get_ID(); 
-		X_M_Product M_Product = new X_M_Product(Env.getCtx(), M_Product_ID,"M_Product");
-		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(), "C_UOM");
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName(), M_Product, null, null));
+		MProduct M_Product =  MProduct.get(Env.getCtx(), M_Product_ID);
+		MUOM UOM = new MUOM(Env.getCtx() , M_Product.getC_UOM_ID(), null);
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + UOM.getName(), M_Product, null, null));
 		if(setRoot) {
 			this.root = root;
 		}
 		dataBOM.clear();
 		if (false)
 		{
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
-			String filter = "M_Product_ID=" + M_Product_ID;
-			java.util.List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			String whereClause = "M_Product_ID=?";
+			List<MPPProductBOMLine> bomlines = new Query(Env.getCtx(),MPPProductBOMLine.Table_Name,whereClause, null)
+			.setParameters(new Object[]{M_Product_ID})
+			.list();    
+			for (MPPProductBOMLine bomline : bomlines)
 			{
-				X_PP_Product_BOMLine bomline =  (X_PP_Product_BOMLine) select.next();                      
-				root.add(parent(bomline));               
-			}     
+				 root.add(parent(bomline)); 
+			}
 		}
 		else
 		{
-			QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-			String filter = " IsActive='Y' AND M_Product_ID =" + M_Product_ID;
-			java.util.List<Object> results = query.execute(filter);
-			Iterator<Object> select = results.iterator();
-			while (select.hasNext())
+			String whereClause = "M_Product_ID=?";
+			List<MPPProductBOM> boms = new Query(Env.getCtx(),MPPProductBOM.Table_Name,whereClause, null)
+			.setParameters(new Object[]{M_Product_ID})
+			.setOnlyActiveRecords(true)
+			.list();    
+			for (MPPProductBOM bom : boms)
 			{
-				X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();                                     
 				DefaultMutableTreeNode child = parent(bom);
-				root.add(child);                    
-			}      
+				root.add(child);  
+			}
+    
 		}
 		log.fine("root.getChildCount: " + root.getChildCount());
 		if(root.getChildCount() > 0) {
@@ -160,15 +161,15 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 
 	}	//	action_fillTree
 
-	public DefaultMutableTreeNode  parent(X_PP_Product_BOMLine bomline) 
+	public DefaultMutableTreeNode  parent(MPPProductBOMLine bomline) 
 	{
 		log.fine("In parent with X_PP_Product_BOMLine");
 
-		X_M_Product M_Product = new X_M_Product(Env.getCtx(), bomline.getM_Product_ID(),"M_Product");
-		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(),"C_UOM"); 
+		MProduct M_Product = MProduct.get(Env.getCtx(), bomline.getM_Product_ID());
+		MUOM UOM = new MUOM(Env.getCtx() , M_Product.getC_UOM_ID(),null); 
 
-		X_PP_Product_BOM bomproduct = new X_PP_Product_BOM(Env.getCtx(),bomline.getPP_Product_BOM_ID(),"PP_Product_BOM");
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "key") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName(), M_Product, bomproduct, bomline));
+		MPPProductBOM bomproduct = new MPPProductBOM(Env.getCtx(),bomline.getPP_Product_BOM_ID(),null);
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "M_Product_ID") + Msg.translate(Env.getCtx(), "key") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + UOM.getName(), M_Product, bomproduct, bomline));
 
 
 		Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
@@ -193,37 +194,36 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 		line.add( (BigDecimal) bomline.getForecast()); // 16 Forecast
 		dataBOM.add(line);
 
-		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-		String filter = "M_Product_ID = " +  bomproduct.getM_Product_ID();
-		java.util.List<Object> results = query.execute(filter);
-		Iterator<Object> select = results.iterator();
-		while (select.hasNext())
-		{
-			X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();             
-			X_M_Product component = new X_M_Product(Env.getCtx(), bom.getM_Product_ID(),"M_Product");
-			return component(component, bom, bomline);
+		String whereClause = "M_Product_ID=?";
+		List<MPPProductBOM> boms = new Query(Env.getCtx(),MPPProductBOM.Table_Name,whereClause, null)
+		.setParameters(new Object[]{bomproduct.getM_Product_ID()})
+		.setOnlyActiveRecords(true)
+		.list();    
+		for (MPPProductBOM bom : boms)
+		{        
+			MProduct component = MProduct.get(Env.getCtx(), bom.getM_Product_ID());
+			return component(component, bom, bomline); 
 		}
 		return parent;
 	}
 
-	public DefaultMutableTreeNode  parent(X_PP_Product_BOM bom) 
+	public DefaultMutableTreeNode  parent(MPPProductBOM bom) 
 	{
 
 		log.fine("Parent:" + bom.getName());
-		X_M_Product product = new X_M_Product(Env.getCtx(), bom.getM_Product_ID(),"M_Product");
+		MProduct product = MProduct.get(Env.getCtx(), bom.getM_Product_ID());
 
 		//vparent.setValue(m_product_id);
 		String data = Msg.translate(Env.getCtx(), "PP_Product_BOM_ID") + " " + Msg.translate(Env.getCtx(), "Value") + ":"+ bom.getValue()+ " " + Msg.translate(Env.getCtx(), "Name")  +  ": " + bom.getName(); 
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(new nodeUserObject(data, product, bom, null)); 
 
-		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOMLine");
-		String filter = "PP_Product_BOM_ID=" + bom.getPP_Product_BOM_ID();
-		java.util.List<Object> results = query.execute(filter);
-		Iterator<Object> select = results.iterator();
-		while (select.hasNext())
-		{
-			X_PP_Product_BOMLine bomline =  (X_PP_Product_BOMLine) select.next();             
-			X_M_Product component = new X_M_Product(Env.getCtx(), bomline.getM_Product_ID(),"M_Product");
+		String whereClause = "PP_Product_BOM_ID=?";
+		List<MPPProductBOMLine> bomlines = new Query(Env.getCtx(),MPPProductBOMLine.Table_Name,whereClause, null)
+		.setParameters(new Object[]{bom.getPP_Product_BOM_ID()})
+		.list();    
+		for (MPPProductBOMLine bomline : bomlines)
+		{            
+			MProduct component = MProduct.get(Env.getCtx(), bomline.getM_Product_ID());
 			//System.out.println("Componente :" + component.getValue() + "[" + component.getName() + "]");
 			//component(component);
 			Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
@@ -249,7 +249,6 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 			//line.add(this.);
 			dataBOM.add(line);
 			parent.add(component(component, bom, bomline));
-
 		}
 		return parent;
 	}
@@ -257,23 +256,20 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 
 
 
-	public DefaultMutableTreeNode component(X_M_Product M_Product, X_PP_Product_BOM bomPassed, X_PP_Product_BOMLine bomlinePassed) 
+	public DefaultMutableTreeNode component(MProduct M_Product, MPPProductBOM bomPassed, MPPProductBOMLine bomlinePassed) 
 	{   
 
-		//System.out.print("--------------------------------------Componet Product:" +  M_Product.getName());
-		QueryDB query = new QueryDB("org.eevolution.model.X_PP_Product_BOM");
-		String filter = "Value='" + M_Product.getValue() + "'";
-		X_C_UOM C_UOM = new X_C_UOM(Env.getCtx() , M_Product.getC_UOM_ID(),"C_UOM");
-		java.util.List<Object> results = query.execute(filter);
-		Iterator<Object> select = results.iterator();
-		while (select.hasNext())
+		MUOM UOM = new MUOM(Env.getCtx() , M_Product.getC_UOM_ID(),null);
+		String whereClause = "Value=?";
+		List<MPPProductBOM> boms = new Query(Env.getCtx(),MPPProductBOM.Table_Name,whereClause, null)
+		.setParameters(new Object[]{M_Product.getValue()})
+		.setOnlyActiveRecords(true)
+		.list();    
+		for (MPPProductBOM bom : boms)
 		{
-			X_PP_Product_BOM bom =  (X_PP_Product_BOM) select.next();
-			//System.out.print("--------------------------------------Componet BOM:" + bom.getName());
-			return parent(bom);
-		}  
-
-		return new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + C_UOM.getName(), M_Product, bomPassed, bomlinePassed));
+			return parent(bom);  
+		}
+		return new DefaultMutableTreeNode(new nodeUserObject(Msg.translate(Env.getCtx(), "Value") + ": " + M_Product.getValue() + " " + Msg.translate(Env.getCtx(), "Name") + ": "  +M_Product.getName() + " " +  Msg.translate(Env.getCtx(), "C_UOM_ID") + ": " + UOM.getName(), M_Product, bomPassed, bomlinePassed));
 	}
 
 	public boolean isOnHotspot(int x, int y) {
@@ -418,7 +414,7 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 
 						log.fine("m_nodeUserObjectParent.bom.pp_product_bom_id: " + m_nodeUserObjectParent.bom.get_ID());
 						log.fine("m_nodeUserObject.M_Product.get_ID: " + m_nodeUserObject.M_Product.get_ID());
-						if(getComponentTypeUsingBOMParent(m_nodeUserObjectParent.bom.get_ID(), m_nodeUserObject.M_Product.get_ID()).equals(X_PP_Product_BOMLine.COMPONENTTYPE_Variant) || getComponentTypeUsingBOMParent(m_nodeUserObjectParent.bom.get_ID(), m_nodeUserObject.M_Product.get_ID()).equals(X_PP_Product_BOMLine.COMPONENTTYPE_Component)) {
+						if(getComponentTypeUsingBOMParent(m_nodeUserObjectParent.bom.get_ID(), m_nodeUserObject.M_Product.get_ID()).equals(MPPProductBOMLine.COMPONENTTYPE_Variant) || getComponentTypeUsingBOMParent(m_nodeUserObjectParent.bom.get_ID(), m_nodeUserObject.M_Product.get_ID()).equals(MPPProductBOMLine.COMPONENTTYPE_Component)) {
 							log.fine("Type is checkbox");
 							if(!m_nodeUserObject.isCheckbox) {
 								m_nodeUserObject.isCheckbox = true;
