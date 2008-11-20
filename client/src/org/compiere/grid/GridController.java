@@ -887,7 +887,7 @@ public class GridController extends CPanel
 		{
 			GridField changedField = m_mTab.getField(col);
 			String columnName = changedField.getColumnName();
-			ArrayList dependants = m_mTab.getDependantFields(columnName);
+			ArrayList<GridField> dependants = m_mTab.getDependantFields(columnName);
 			log.config("(" + m_mTab.toString() + ") "
 				+ columnName + " - Dependents=" + dependants.size());
 			//	No Dependents and no Callout - Set just Background
@@ -917,7 +917,7 @@ public class GridController extends CPanel
 		log.config(m_mTab.toString() + " - Rows=" + m_mTab.getRowCount());
 		//  All Components in vPanel (Single Row)
 		
-		Set hiddens = new HashSet<String>();
+		Set<String> hiddens = new HashSet<String>();
 		Component[] comps = vPanel.getComponentsRecursive();
 		for (int i = 0; i < comps.length; i++)
 		{
