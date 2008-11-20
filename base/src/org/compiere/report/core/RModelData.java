@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MRole;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /**
  *  Report Model Data - ValueObject.
@@ -96,7 +106,7 @@ class RModelData
 		int size = cols.size();
 		for (int i = 0; i < size; i++)
 		{
-			rc = (RColumn)cols.get(i);
+			rc = cols.get(i);
 			if (i > 0)
 				sql.append(",");
 			sql.append(rc.getColSQL());
@@ -124,7 +134,7 @@ class RModelData
 				//  Columns
 				for (int i = 0; i < size; i++)
 				{
-					rc = (RColumn)cols.get(i);
+					rc = cols.get(i);
 					//  Get ID
 					if (rc.isIDcol())
 						row.add(new KeyNamePair (rs.getInt(index++), rs.getString(index++)));
@@ -185,7 +195,7 @@ class RModelData
 		Object INITVALUE = new Object();
 		for (int i = 0; i < gSize; i++)
 		{
-			groupBys[i] = ((Integer)groups.get(i)).intValue();
+			groupBys[i] = groups.get(i).intValue();
 			groupBysValue[i] = INITVALUE;
 			log.fine("GroupBy level=" + i + " col=" + groupBys[i]);
 		}
@@ -203,7 +213,7 @@ class RModelData
 		int[] funcCols = new int[fSize];
 		String[] funcFuns = new String[fSize];
 		int index = 0;
-		Iterator it = functions.keySet().iterator();
+		Iterator<Integer> it = functions.keySet().iterator();
 		while (it.hasNext())
 		{
 			Object key = it.next();
@@ -358,7 +368,7 @@ class RModelData
 		}
 		if (row < 0 || row >= m_groupRowsIndicator.size())
 			return false;
-		return ((Boolean)m_groupRowsIndicator.get(row)).booleanValue();
+		return m_groupRowsIndicator.get(row).booleanValue();
 	}   // isGroupRow
 
 	/**
