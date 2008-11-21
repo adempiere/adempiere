@@ -382,7 +382,7 @@
 		<copy file="${basedir}/lib/webui/WEB-INF/web-2.5.xml" tofile="${basedir}/lib/webui/WEB-INF/web.xml" overwrite="true" />
 		<delete file="${basedir}/lib/webui.war"/>
 		<zip destfile="${basedir}/lib/webui.war" basedir="${basedir}/lib/webui" />
-		<deltree dir="${basedir}/lib/webui"/>
+		<delete dir="${basedir}/lib/webui"/>
 		
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
