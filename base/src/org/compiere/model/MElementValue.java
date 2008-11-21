@@ -16,15 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
 
 /**
  * 	Natural Account
  *
  *  @author Jorg Janke
  *  @version $Id: MElementValue.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
+ *  
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			BF [ 1883533 ] Change to summary - valid combination issue
+ * 			BF [ 2320411 ] Translate "Already posted to" message
  */
 public class MElementValue extends X_C_ElementValue
 {
@@ -191,36 +197,43 @@ public class MElementValue extends X_C_ElementValue
 	
 	
 	
-	/**
-	 * 	Before Save
-	 *	@param newRecord
-	 *	@return true if ir can be saved
-	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);
 		//
-		if (!newRecord && isSummary() 
-			&& is_ValueChanged("IsSummary"))
+		// Transform to summary level account
+		if (!newRecord && isSummary() && is_ValueChanged(COLUMNNAME_IsSummary))
 		{
-			String sql = "SELECT COUNT(*) FROM Fact_Acct WHERE Account_ID=?";
-			int no = DB.getSQLValue(get_TrxName(), sql, getC_ElementValue_ID());
-			if (no != 0)
+			//
+			// Check if we have accounting facts
+			boolean match = new Query(getCtx(), MFactAcct.Table_Name, MFactAcct.COLUMNNAME_Account_ID+"=?", get_TrxName())
+								.setParameters(new Object[]{getC_ElementValue_ID()})
+								.match();
+			if (match)
 			{
-				log.saveError("Error", "Already posted to");
-				return false;
+				throw new AdempiereException("@AlreadyPostedTo@");
+			}
+			//
+			// Check Valid Combinations - teo_sarca FR [ 1883533 ]
+			String whereClause = MAccount.COLUMNNAME_Account_ID+"=?";
+			POResultSet<MAccount> rs = new Query(getCtx(), MAccount.Table_Name, whereClause, get_TrxName())
+					.setParameters(new Object[]{get_ID()})
+					.scroll();
+			try {
+				while(rs.hasNext()) {
+					rs.next().deleteEx(true);
+				}
+			}
+			finally {
+				rs.close();
 			}
 		}
 		return true;
 	}	//	beforeSave
 	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (newRecord)
@@ -234,7 +247,7 @@ public class MElementValue extends X_C_ElementValue
 		}
 		
 		//	Value/Name change
-		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
+		if (!newRecord && (is_ValueChanged(COLUMNNAME_Value) || is_ValueChanged(COLUMNNAME_Name)))
 		{
 			MAccount.updateValueDescription(getCtx(), "Account_ID=" + getC_ElementValue_ID(),get_TrxName());
 			if ("Y".equals(Env.getContext(getCtx(), "$Element_U1"))) 
@@ -246,11 +259,7 @@ public class MElementValue extends X_C_ElementValue
 		return success;
 	}	//	afterSave
 	
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
-	 */
+	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		if (success)
