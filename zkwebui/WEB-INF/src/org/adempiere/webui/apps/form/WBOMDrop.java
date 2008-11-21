@@ -37,8 +37,6 @@ import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
-import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
@@ -56,7 +54,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -82,14 +79,12 @@ public class WBOMDrop extends ADForm implements EventListener
 	/** BOM Qty						*/
 	private BigDecimal m_qty = Env.ONE;
 	
-	/**	Line Counter				*/
-	private int m_bomLine = 0;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WBOMDrop.class);
 	
 	/**	List of all selectors		*/
-	private ArrayList m_selectionList = new ArrayList();
+	private ArrayList<org.zkoss.zul.Checkbox> m_selectionList = new ArrayList<org.zkoss.zul.Checkbox>();
 	
 	/**	List of all quantities		*/
 	private ArrayList<Decimalbox> m_qtyList = new ArrayList<Decimalbox>();
@@ -99,8 +94,6 @@ public class WBOMDrop extends ADForm implements EventListener
 	
 	/** Alternative Group Lists		*/
 	private HashMap<String, Radiogroup> m_buttonGroups = new HashMap<String,Radiogroup>();
-
-	private static final int WINDOW_WIDTH = 600;	//	width of the window
 	
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Grid selectionPanel = GridFactory.newGridLayout();
@@ -397,7 +390,6 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (m_product.getDescription() != null && m_product.getDescription().length() > 0)
 				;//this.setsetToolTipText(m_product.getDescription());
 			
-			m_bomLine = 0;
 			addBOMLines(m_product, m_qty);
 		}
 	}	//	createMainPanel
@@ -500,7 +492,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			Radio b = new Radio();
 			b.setLabel(title);
 			String groupName = String.valueOf(parentM_Product_ID) + "_" + bomType;
-			Radiogroup group = (Radiogroup)m_buttonGroups.get(groupName);
+			Radiogroup group = m_buttonGroups.get(groupName);
 			
 			if (group == null)
 			{
@@ -555,11 +547,11 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (source instanceof Radio)
 			{
 				//	find Button Group
-				Iterator it = m_buttonGroups.values().iterator();
+				Iterator<Radiogroup> it = m_buttonGroups.values().iterator();
 				
 				while (it.hasNext())
 				{
-					Radiogroup group = (Radiogroup)it.next();
+					Radiogroup group = it.next();
 					Enumeration en = (Enumeration) group.getChildren();
 				
 					while (en.hasMoreElements())
@@ -800,7 +792,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
 				BigDecimal qty = m_qtyList.get(i).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
+				int M_Product_ID = m_productList.get(i).intValue();
 				//	Create Line
 				MOrderLine ol = new MOrderLine (order);
 				ol.setM_Product_ID(M_Product_ID, true);
@@ -842,7 +834,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
 				BigDecimal qty = m_qtyList.get(i).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
+				int M_Product_ID = m_productList.get(i).intValue();
 				//	Create Line
 				MInvoiceLine il = new MInvoiceLine (invoice);
 				il.setM_Product_ID(M_Product_ID, true);
@@ -883,7 +875,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (isSelectionSelected(m_selectionList.get(i)))
 			{
 				BigDecimal qty = m_qtyList.get(i).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
+				int M_Product_ID = m_productList.get(i).intValue();
 				//	Create Line
 				MProjectLine pl = new MProjectLine (project);
 				pl.setM_Product_ID(M_Product_ID);
