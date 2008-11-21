@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.compiere.model.X_A_Depreciation;
+import org.compiere.model.X_A_Depreciation_Build;
 import org.compiere.model.X_A_Depreciation_Convention;
 import org.compiere.model.X_A_Depreciation_Exp;
 import org.compiere.model.X_A_Depreciation_Forecast;
@@ -87,7 +88,7 @@ public class BuildDepWorkFile extends SvrProcess
 		//}
 		
 		
-		X_A_Depreciation_Forecast DepBuild = new X_A_Depreciation_Forecast (getCtx(), p_Depreciation_Build_ID, null);
+		X_A_Depreciation_Build DepBuild = new X_A_Depreciation_Build (getCtx(), p_Depreciation_Build_ID, null);
 		String sql = null;
 		sql = "DELETE FROM A_DEPRECIATION_EXP WHERE PostingType"
 			+ " = '" + DepBuild.getPostingType() + "' and A_Asset_ID"
@@ -119,7 +120,7 @@ public class BuildDepWorkFile extends SvrProcess
 			+ " A_DEPRECIATION_BUILD.CREATEDBY, A_DEPRECIATION_BUILD.UPDATEDBY, A_DEPRECIATION_BUILD.POSTINGTYPE as v_PostingType, "
 			+ " A_DEPRECIATION_BUILD.DATEACCT, A_DEPRECIATION_BUILD.C_PERIOD_ID, A_DEPRECIATION_WORKFILE.A_DEPRECIATION_WORKFILE_ID, "
 			+ " A_DEPRECIATION_BUILD.DATEDOC "
-			+ " FROM COMPIERE.A_DEPRECIATION_WORKFILE, COMPIERE.A_ASSET, COMPIERE.A_DEPRECIATION_BUILD "
+			+ " FROM A_DEPRECIATION_WORKFILE, A_ASSET, A_DEPRECIATION_BUILD "
 			+ " WHERE A_ASSET.A_ASSET_ID = A_DEPRECIATION_WORKFILE.A_ASSET_ID AND A_ASSET.ISOWNED = 'Y' AND "
 			+ " A_DEPRECIATION_BUILD.DATEACCT >= A_ASSET.ASSETSERVICEDATE AND A_DEPRECIATION_BUILD.A_START_ASSET_ID  <= A_ASSET.A_ASSET_ID "
 			+ " AND A_DEPRECIATION_BUILD.A_END_ASSET_ID >= A_ASSET.A_ASSET_ID AND A_ASSET.ISFULLYDEPRECIATED = 'N' AND A_ASSET.ISDEPRECIATED = 'Y' "

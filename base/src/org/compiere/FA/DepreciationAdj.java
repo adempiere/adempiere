@@ -65,7 +65,7 @@ public class DepreciationAdj {
 		  BigDecimal A_Dep_Adj = new BigDecimal(0.0);  
 		  
 		  StringBuffer sqlB = new StringBuffer ("SELECT A_DEPRECIATION_WORKFILE.A_LIFE_PERIOD, A_DEPRECIATION_WORKFILE.A_PERIOD_POSTED"			
-			+ " FROM COMPIERE.A_DEPRECIATION_WORKFILE"
+			+ " FROM A_DEPRECIATION_WORKFILE"
 			+ " WHERE A_DEPRECIATION_WORKFILE.A_ASSET_ID = " + p_A_ASSET_ID						
 			+ " AND A_DEPRECIATION_WORKFILE.POSTINGTYPE = '" +  p_POSTINGTYPE +"'");
 					
@@ -112,7 +112,7 @@ public class DepreciationAdj {
 		  BigDecimal A_Dep_Adj = new BigDecimal(0.0);  
 		  
 		  StringBuffer sqlB = new StringBuffer ("SELECT A_DEPRECIATION_WORKFILE.A_LIFE_PERIOD, A_DEPRECIATION_WORKFILE.A_PERIOD_POSTED"			
-			+ " FROM COMPIERE.A_DEPRECIATION_WORKFILE"
+			+ " FROM A_DEPRECIATION_WORKFILE"
 			+ " WHERE A_DEPRECIATION_WORKFILE.A_ASSET_ID = " + p_A_ASSET_ID						
 			+ " AND A_DEPRECIATION_WORKFILE.POSTINGTYPE = '" +  p_POSTINGTYPE +"'");
 					

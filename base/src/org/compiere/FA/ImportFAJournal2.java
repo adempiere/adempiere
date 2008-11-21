@@ -21,11 +21,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import org.compiere.model.MAccount;
+import org.compiere.model.MAssetChange;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
 import org.compiere.model.MXIFAJournal;
-import org.compiere.model.X_AD_Sequence;
 import org.compiere.model.X_I_FAJournal;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -178,85 +178,68 @@ public class ImportFAJournal2 extends SvrProcess
 			{
 				
 				X_I_FAJournal FAInsert = new X_I_FAJournal (getCtx (), 0, get_TrxName());			
-				if  (v_FirstTime == 0){
-									
-					int v_sequence = 0;					
-					String sql3 =  "SELECT	AD_SEQUENCE_ID"
-								  + " FROM	AD_Sequence " 
-								  + " WHERE	Name = 'DocumentNo_GL_JournalBatch' "
-								  + " AND	IsActive = 'Y' "
-								  + " AND	IsTableID = 'N' "
-								  + " AND	IsAutoSequence = 'Y' "
-								  + " AND	AD_Client_ID = ? ";
-								
-					v_sequence = DB.getSQLValue(get_TrxName(), sql3, m_AD_Client_ID);
-					X_AD_Sequence Sequence = new X_AD_Sequence (getCtx(), v_sequence, get_TrxName());
+				if  (v_FirstTime == 0)
+				{
+					v_C_BatchNo = DB.getDocumentNo(rs.getInt("C_DOCTYPE_ID"), get_TrxName(), true, FAInsert);
 					
-					if (Sequence.getCurrentNextSys() != -1 & m_AD_Client_ID < 1000000){
-						v_C_BatchNo = String.valueOf(Sequence.getCurrentNextSys() + 1);					
-						Sequence.setCurrentNextSys(Sequence.getCurrentNextSys() + 1);						
-					}
-					else{
-						v_C_BatchNo = String.valueOf(Sequence.getCurrentNext() + 1);					
-						Sequence.setCurrentNext( Sequence.getCurrentNext() + 1);
-					}
-				Sequence.save();
-				v_FirstTime = 1;
+					v_FirstTime = 1;
 				}
 
-			  String v_Line_Description = rs.getString("DESCRIPTION") + " - FA # " + rs.getInt("A_ASSET_ID");			  
+				String v_Line_Description = rs.getString("DESCRIPTION") + " - FA # " + rs.getInt("A_ASSET_ID");			  
 			  
-			  if (rs.getBigDecimal("EXPENSE").compareTo(new BigDecimal("0.0"))== 1){
-			    v_AMTSOURCEDR = rs.getBigDecimal("EXPENSE") ;
-			    v_AMTSOURCECR = Env.ZERO;
-			  }
-			  else{
-			    v_AMTSOURCECR = (rs.getBigDecimal("EXPENSE").multiply(new BigDecimal("-1.0")));
-			    v_AMTSOURCEDR = Env.ZERO;
-			  }		 
+				if (rs.getBigDecimal("EXPENSE").compareTo(new BigDecimal("0.0"))== 1)
+				{
+					v_AMTSOURCEDR = rs.getBigDecimal("EXPENSE") ;
+					v_AMTSOURCECR = Env.ZERO;
+				}
+				else
+				{
+					v_AMTSOURCECR = (rs.getBigDecimal("EXPENSE").multiply(new BigDecimal("-1.0")));
+					v_AMTSOURCEDR = Env.ZERO;
+				}		 
 			  
-			  FAInsert.setI_IsImported(false);			  
-			  FAInsert.setProcessed(false);
-			  FAInsert.setBatchDocumentNo(v_C_BatchNo);
-			  FAInsert.setBatchDescription (rs.getString("DESCRIPTION"));
-			  FAInsert.setPostingType(rs.getString("POSTINGTYPE"));
-			  FAInsert.setC_AcctSchema_ID(rs.getInt("C_ACCTSCHEMA_ID"));
-			  FAInsert.setC_DocType_ID( rs.getInt("C_DOCTYPE_ID"));
-			  FAInsert.setGL_Category_ID(rs.getInt("GL_CATEGORY_ID"));
-			  FAInsert.setLine( v_ID_START);
-			  FAInsert.setDateAcct (rs.getTimestamp("DATEACCT"));
-			  FAInsert.setC_Period_ID(rs.getInt("A_Period"));
-			  FAInsert.setDescription ( v_Line_Description);
-			  FAInsert.setAmtSourceDr ( v_AMTSOURCEDR);
-			  FAInsert.setAmtSourceCr ( v_AMTSOURCECR);
-			  FAInsert.setC_Currency_ID ( rs.getInt("C_CURRENCY_ID"));
-			  FAInsert.setQty (Env.ZERO);
- 		  	  FAInsert.setC_ValidCombination_ID ( rs.getInt("A_ACCOUNT_NUMBER"));
-			  FAInsert.setA_Asset_ID ( rs.getInt("A_ASSET_ID"));	
-			  FAInsert.setIsDepreciated ( rs.getString("ISDEPRECIATED"));
+				FAInsert.setI_IsImported(false);			  
+				FAInsert.setProcessed(false);
+				FAInsert.setBatchDocumentNo(v_C_BatchNo);
+				FAInsert.setBatchDescription (rs.getString("DESCRIPTION"));
+				FAInsert.setPostingType(rs.getString("POSTINGTYPE"));
+				FAInsert.setC_AcctSchema_ID(rs.getInt("C_ACCTSCHEMA_ID"));
+				FAInsert.setC_DocType_ID( rs.getInt("C_DOCTYPE_ID"));
+				FAInsert.setGL_Category_ID(rs.getInt("GL_CATEGORY_ID"));
+				FAInsert.setLine( v_ID_START);
+				FAInsert.setDateAcct (rs.getTimestamp("DATEACCT"));
+				FAInsert.setC_Period_ID(rs.getInt("A_Period"));
+				FAInsert.setDescription ( v_Line_Description);
+				FAInsert.setAmtSourceDr ( v_AMTSOURCEDR);
+				FAInsert.setAmtSourceCr ( v_AMTSOURCECR);
+				FAInsert.setC_Currency_ID ( rs.getInt("C_CURRENCY_ID"));
+				FAInsert.setQty (Env.ZERO);
+ 		  	  	FAInsert.setC_ValidCombination_ID ( rs.getInt("A_ACCOUNT_NUMBER"));
+ 		  	  	FAInsert.setA_Asset_ID ( rs.getInt("A_ASSET_ID"));	
+ 		  	  	FAInsert.setIsDepreciated ( rs.getString("ISDEPRECIATED"));
 
-			  v_ID_START = v_ID_START+10;
-			  FAInsert.save();
+ 		  	  	v_ID_START = v_ID_START+10;
+ 		  	  	FAInsert.save();
 
-			  String sql4 = "UPDATE A_DEPRECIATION_EXP SET PROCESSED = 'Y' "
+ 		  	  	String sql4 = "UPDATE A_DEPRECIATION_EXP SET PROCESSED = 'Y' "
 			  		+ " WHERE A_DEPRECIATION_EXP_ID = " + rs.getInt("A_DEPRECIATION_EXP_ID");
-			  no = DB.executeUpdate (sql4,get_TrxName());
+ 		  	  	no = DB.executeUpdate (sql4,get_TrxName());
 			  
-			  sql4 = new String ("UPDATE A_DEPRECIATION_ENTRY SET PROCESSED = 'Y', ISACTIVE = 'N' "
+ 		  	  	sql4 = new String ("UPDATE A_DEPRECIATION_ENTRY SET PROCESSED = 'Y', ISACTIVE = 'N' "
 			  		+ " WHERE A_DEPRECIATION_ENTRY_ID = " + rs.getInt("A_DEPRECIATION_ENTRY_ID"));
-			  no = DB.executeUpdate (sql4,get_TrxName());			 
+ 		  	  	no = DB.executeUpdate (sql4,get_TrxName());			 
 			}
-		}catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			log.info("ImportFAJournal2"+ e);
 		}
-		  finally
-		  {
-			  DB.close(rs, pstmt);
-			  rs = null; pstmt = null;
-		  }
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		
-
 		//	Set IsActive, Created/Updated
 		sql = new StringBuffer ("UPDATE I_FAJournal "
 			+ "SET IsActive = COALESCE (IsActive, 'Y'),"
@@ -868,88 +851,71 @@ public class ImportFAJournal2 extends SvrProcess
 					imp.setGL_JournalLine_ID(line.getGL_JournalLine_ID());
 					imp.setI_IsImported(true);
 					imp.setProcessed(true);
-                                        sql = new StringBuffer ("UPDATE A_DEPRECIATION_WORKFILE "
-                                             +"SET A_ACCUMULATED_DEPR = A_ACCUMULATED_DEPR + ")
-                                             .append(imp.getExpenseDr()).append(" - ").append(imp.getExpenseCr())
-                                             .append(", A_PERIOD_POSTED = A_CURRENT_PERIOD")
-											 .append(",	ASSETDEPRECIATIONDATE = ").append (DB.TO_DATE(imp.getDateAcct()))
-                                             .append(" WHERE A_ASSET_ID = ").append(imp.getA_Asset_ID())
-                                             .append(" AND ISACTIVE = '").append(imp.getIsDepreciated())
-                                             .append("' AND POSTINGTYPE = '").append(imp.getPostingType())
-                                             .append("'");
-                                         no = DB.executeUpdate(sql.toString(),get_TrxName());
-                                         log.info("doIt - SET Accumulated Depreciation =" + no);
+                    sql = new StringBuffer ("UPDATE A_DEPRECIATION_WORKFILE "
+                         +"SET A_ACCUMULATED_DEPR = A_ACCUMULATED_DEPR + ")
+                         .append(imp.getExpenseDr()).append(" - ").append(imp.getExpenseCr())
+                         .append(", A_PERIOD_POSTED = A_CURRENT_PERIOD")
+						 .append(",	ASSETDEPRECIATIONDATE = ").append (DB.TO_DATE(imp.getDateAcct()))
+                         .append(" WHERE A_ASSET_ID = ").append(imp.getA_Asset_ID())
+                         .append(" AND ISACTIVE = '").append(imp.getIsDepreciated())
+                         .append("' AND POSTINGTYPE = '").append(imp.getPostingType())
+                         .append("'");
+                    no = DB.executeUpdate(sql.toString(),get_TrxName());
+                    log.info("doIt - SET Accumulated Depreciation =" + no);
 
-                                          //	Copy Expense Worktable to Import Worktable
-                                          String impgetIsDepreciated = imp.getIsDepreciated();
-                                          //impgetIsDepreciated = impgetIsDepreciated + "STOP";
+                    //	Copy Expense Worktable to Import Worktable
+                    String impgetIsDepreciated = imp.getIsDepreciated();
+                    //impgetIsDepreciated = impgetIsDepreciated + "STOP";
 
-                                          if(impgetIsDepreciated.equals("Y")){
-                                          cs = DB.prepareCall("{call AD_Sequence_Next(?,?,?)}");
-                                          cs.setString(1, "A_Asset_Change");
-                                          cs.setInt(2,imp.getAD_Client_ID());
-                                          cs.registerOutParameter(3, java.sql.Types.INTEGER);
-                                          cs.execute();
-
-
-                                          //java.util.Date jdate = new java.util.Date();
-                                          //java.sql.Date sqlDate = new java.sql.Date(jdate.getTime());
-
-                                          sql = new StringBuffer ("INSERT INTO A_ASSET_CHANGE "
-                                             +"(A_ASSET_CHANGE_ID,AD_CLIENT_ID,AD_ORG_ID,CREATEDBY,"
-                                             +"UPDATEDBY,CHANGETYPE, CHANGEAMT, A_ASSET_ID, TEXTDETAILS,"
-                                             +"C_VALIDCOMBINATION_ID, DATEACCT, POSTINGTYPE)"
-                                             +"VALUES(?,?,?,?,?,?,?,?,?,?,?,? )");
-
-                                             pstmt = DB.prepareStatement(sql.toString(),get_TrxName());
-                                             pstmt.setInt(1,cs.getInt(3));
-                                             pstmt.setInt(2,imp.getAD_Client_ID());
-                                             pstmt.setInt(3,imp.getAD_OrgDoc_ID());
-                                             pstmt.setInt(4,getAD_User_ID());
-                                             pstmt.setInt(5,getAD_User_ID());
-                                             pstmt.setString(6,"DEP");
-                                             pstmt.setBigDecimal(7,imp.getAmtAcctTotal());
-                                             pstmt.setInt(8,imp.getA_Asset_ID());
-                                             pstmt.setString(9,imp.getDescription());
-                                             pstmt.setInt(10,imp.getC_ValidCombination_ID());
-                                             pstmt.setTimestamp(11,imp.getDateAcct());
-                                             pstmt.setString(12,imp.getPostingType());
-                                             no = pstmt.executeUpdate();
-                                          log.info("doIt - SET Change Log Update =" + no );
-                                          }
-                                          else if(impgetIsDepreciated.equals("B")){
-                                          cs = DB.prepareCall("{call AD_Sequence_Next(?,?,?)}");
-                                          cs.setString(1, "A_Asset_Change");
-                                          cs.setInt(2,imp.getAD_Client_ID());
-                                          cs.registerOutParameter(3, java.sql.Types.INTEGER);
-                                          cs.execute();
-
-
-                                          //java.util.Date jdate = new java.util.Date();
-                                          //java.sql.Date sqlDate = new java.sql.Date(jdate.getTime());
-
-                                          sql = new StringBuffer ("INSERT INTO A_ASSET_CHANGE "
-                                             +"(A_ASSET_CHANGE_ID,AD_CLIENT_ID,AD_ORG_ID,CREATEDBY,"
-                                             +"UPDATEDBY,CHANGETYPE, CHANGEAMT, A_ASSET_ID, TEXTDETAILS,"
-                                             +"C_VALIDCOMBINATION_ID, DATEACCT, POSTINGTYPE)"
-                                             +"VALUES(?,?,?,?,?,?,?,?,?,?,?,? )");
-
-                                             pstmt = DB.prepareStatement(sql.toString(),get_TrxName());
-                                             pstmt.setInt(1,cs.getInt(3));
-                                             pstmt.setInt(2,imp.getAD_Client_ID());
-                                             pstmt.setInt(3,imp.getAD_OrgDoc_ID());
-                                             pstmt.setInt(4,getAD_User_ID());
-                                             pstmt.setInt(5,getAD_User_ID());
-                                             pstmt.setString(6,"BUD");
-                                             pstmt.setBigDecimal(7,imp.getAmtAcctTotal());
-                                             pstmt.setInt(8,imp.getA_Asset_ID());
-                                             pstmt.setString(9,imp.getDescription());
-                                             pstmt.setInt(10,imp.getC_ValidCombination_ID());
-                                             pstmt.setTimestamp(11,imp.getDateAcct());
-                                             pstmt.setString(12,imp.getPostingType());
-                                             no = pstmt.executeUpdate();
-                                          log.info("doIt - SET Change Log Update =" + no );
-                                          }
+                    if(impgetIsDepreciated.equals("Y"))
+                    {
+                    	cs = DB.prepareCall("{call AD_Sequence_Next(?,?,?)}");
+	                    cs.setString(1, "A_Asset_Change");
+	                    cs.setInt(2,imp.getAD_Client_ID());
+	                    cs.registerOutParameter(3, java.sql.Types.INTEGER);
+	                    cs.execute();
+	
+	
+	                    MAssetChange assetChange = new MAssetChange (getCtx(), 0, get_TrxName());
+	                    assetChange.setA_Asset_Change_ID(cs.getInt(3));
+	                    assetChange.set_ValueOfColumn("AD_CLIENT_ID", imp.getAD_Client_ID());
+	                    assetChange.setAD_Org_ID(imp.getAD_OrgDoc_ID());
+	                    assetChange.set_ValueOfColumn("CREATEDBY", getAD_User_ID());
+	                    assetChange.set_ValueOfColumn("UPDATEDBY", getAD_User_ID());
+	                    assetChange.setChangeType("DEP");
+	                    assetChange.setChangeAmt(imp.getAmtAcctTotal());
+	                    assetChange.setA_Asset_ID(imp.getA_Asset_ID());
+	                    assetChange.setTextDetails(imp.getDescription());
+	                    assetChange.setC_ValidCombination_ID(imp.getC_ValidCombination_ID());
+	                    assetChange.setDateAcct(imp.getDateAcct());
+	                    assetChange.setPostingType(imp.getPostingType());
+	                    assetChange.saveEx();
+	                      
+                    }
+	                else if(impgetIsDepreciated.equals("B"))
+	                {
+	                	cs = DB.prepareCall("{call AD_Sequence_Next(?,?,?)}");
+	                    cs.setString(1, "A_Asset_Change");
+	                    cs.setInt(2,imp.getAD_Client_ID());
+	                    cs.registerOutParameter(3, java.sql.Types.INTEGER);
+	                    cs.execute();
+	
+	                    MAssetChange assetChange = new MAssetChange (getCtx(), 0, get_TrxName());
+	                    assetChange.setA_Asset_Change_ID(cs.getInt(3));
+	                    assetChange.set_ValueOfColumn("AD_CLIENT_ID", imp.getAD_Client_ID());
+	                    assetChange.setAD_Org_ID(imp.getAD_OrgDoc_ID());
+	                    assetChange.set_ValueOfColumn("CREATEDBY", getAD_User_ID());
+	                    assetChange.set_ValueOfColumn("UPDATEDBY", getAD_User_ID());
+	                    assetChange.setChangeType("BUD");
+	                    assetChange.setChangeAmt(imp.getAmtAcctTotal());
+	                    assetChange.setA_Asset_ID(imp.getA_Asset_ID());
+	                    assetChange.setTextDetails(imp.getDescription());
+	                    assetChange.setC_ValidCombination_ID(imp.getC_ValidCombination_ID());
+	                    assetChange.setDateAcct(imp.getDateAcct());
+	                    assetChange.setPostingType(imp.getPostingType());
+	                    assetChange.saveEx();
+	                      
+	                }
 
 
 					if (imp.save())
@@ -959,14 +925,14 @@ public class ImportFAJournal2 extends SvrProcess
 		}
 		catch (Exception e)
 		{
-			log.info("doIt"+ e);
+			log.severe("doIt"+ e);
 		}
 		//	clean up
 		finally
-		 {
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
-		 }
+		}
 
 		//	Set Error to indicator to not imported
 		sql = new StringBuffer ("UPDATE I_FAJournal "
@@ -985,7 +951,7 @@ public class ImportFAJournal2 extends SvrProcess
 		
 		sql3 = "SELECT A_ASSET.A_ASSET_ID, A_ASSET.ISFULLYDEPRECIATED, A_DEPRECIATION_WORKFILE.A_PERIOD_POSTED, "
 		+ "A_DEPRECIATION_WORKFILE.A_LIFE_PERIOD "
-		+ "FROM COMPIERE.A_DEPRECIATION_WORKFILE,COMPIERE.A_ASSET "
+		+ "FROM A_DEPRECIATION_WORKFILE,A_ASSET "
 		+ "WHERE A_ASSET.A_ASSET_ID = A_DEPRECIATION_WORKFILE.A_ASSET_ID "
 		+ "AND A_DEPRECIATION_WORKFILE.A_PERIOD_POSTED = A_DEPRECIATION_WORKFILE.A_LIFE_PERIOD ";
 		
@@ -1003,11 +969,11 @@ public class ImportFAJournal2 extends SvrProcess
 		{
 			log.info("Post Depreciation"+ e);
 		}
-		  finally
-		  {
-			  DB.close(rs, pstmt);
-			  rs = null; pstmt = null;
-		  }
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 		return "";
 	}	//	doIt
 
