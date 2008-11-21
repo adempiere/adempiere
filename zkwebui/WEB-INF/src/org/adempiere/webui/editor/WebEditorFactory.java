@@ -76,7 +76,7 @@ public class WebEditorFactory
             }
             else
             {
-                editor = new WStringEditor(gridField);
+                editor = new WStringEditor(gridField, tableEditor);
             }
         }
         /** File */

@@ -29,7 +29,7 @@ import org.zkoss.zk.ui.event.Events;
 
 public class WUrlEditor extends WEditor 
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_FOCUS};
 	
 	public WUrlEditor(GridField gridField) 
 	{
@@ -108,6 +108,10 @@ public class WUrlEditor extends WEditor
             FDialog.warn(0, this.getComponent(), "URLnotValid", message);
                        
 		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 	
 	public String[] getEvents()

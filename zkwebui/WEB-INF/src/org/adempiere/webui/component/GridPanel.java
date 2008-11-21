@@ -27,9 +27,11 @@ import org.adempiere.webui.LayoutUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
@@ -68,6 +70,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	private GridTableListModel listModel;
 
 	private Paging paging;
+
+	private GridTabListItemRenderer renderer;
 	
 	public GridPanel()
 	{
@@ -136,11 +140,19 @@ public class GridPanel extends Borderlayout implements EventListener
 			}
 			if (paging.getActivePage() != pgNo)
 				paging.setActivePage(pgNo);
-			if (listbox.getSelectedIndex() != pgIndex)
-				listbox.setSelectedIndex(pgIndex);
+			if (listbox.getSelectedIndex() != pgIndex) {
+				renderer.stopEditing(false);
+				listModel.updateComponent(listbox.getSelectedIndex());
+				listModel.updateComponent(pgIndex);
+				listbox.setSelectedIndex(pgIndex);				
+			}
 		} else {
-			if (listbox.getSelectedIndex() != rowIndex)
-				listbox.setSelectedIndex(rowIndex);
+			if (listbox.getSelectedIndex() != rowIndex) {
+				renderer.stopEditing(false);
+				listModel.updateComponent(listbox.getSelectedIndex());
+				listModel.updateComponent(rowIndex);
+				listbox.setSelectedIndex(rowIndex);				
+			}
 		}
 	}
 
@@ -207,7 +219,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		center.appendChild(listbox);
 		this.appendChild(center);
 		
-		if (pageSize > 0) {
+		if (pageSize > 0) 
+		{
 			paging = new Paging();
 			paging.setPageSize(pageSize);
 			paging.setTotalSize(tableModel.getRowCount());
@@ -216,13 +229,25 @@ public class GridPanel extends Borderlayout implements EventListener
 			south.appendChild(paging);
 			this.appendChild(south);
 			paging.addEventListener(ZulEvents.ON_PAGING, this);
-		}
+			//workaround for layout problem
+			this.setVisible(false);
+			Clients.response(new AuEcho(this, "postRender", null));
+		}		
+	}
+	
+	public void postRender()
+	{
+		this.setVisible(true);
+		this.getParent().invalidate();
 	}
 
 	private void updateModel() {
 		listModel = new GridTableListModel((GridTable)tableModel, windowNo);		
 		listModel.setPageSize(pageSize);
-		listbox.setItemRenderer(listModel);
+		if (renderer != null)
+			renderer.stopEditing(false);
+		renderer = new GridTabListItemRenderer(gridTab, windowNo);
+		listbox.setItemRenderer(renderer);
 		listbox.setModel(listModel);
 	}
 	
@@ -239,7 +264,8 @@ public class GridPanel extends Borderlayout implements EventListener
 			return;		
 		else if (event.getTarget() == listbox)
 		{
-			updateModelIndex();
+			int index = listbox.getSelectedIndex();
+			onSelectedRowChange(index);				
         }
 		else if (event.getTarget() == paging)
 		{
@@ -249,20 +275,34 @@ public class GridPanel extends Borderlayout implements EventListener
 				listbox.clearSelection();
 				listModel.setPage(pgNo);
 				listbox.setSelectedIndex(0);
-				updateModelIndex();
+				onSelectedRowChange(0);
 			}
 		}
 	}
 
-	private void updateModelIndex() {
+	private void onSelectedRowChange(int index) {
+		if (updateModelIndex()) {			
+			listModel.updateComponent(index);
+			listbox.setSelectedIndex(index);
+		} else if (!renderer.isInitialize()) {
+			listModel.updateComponent(index);
+			listbox.setSelectedIndex(index);
+		}
+	}
+
+	private boolean updateModelIndex() {
 		int rowIndex = listbox.getSelectedIndex();
 		if (pageSize > 0) {
 			int start = listModel.getPage() * listModel.getPageSize();
 			rowIndex = start + rowIndex;
 		} 
 		
-		if (gridTab.getCurrentRow() != rowIndex)
+		if (gridTab.getCurrentRow() != rowIndex) {
+			renderer.stopEditing(true);
 			gridTab.navigate(rowIndex);
+			return true;
+		}
+		return false;
 	}
 	
 	public Listbox getListbox() {

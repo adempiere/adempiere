@@ -292,6 +292,11 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         listeners.add(listener);
     }
     
+    public boolean removeValuechangeListener(ValueChangeListener listener)
+    {
+    	return listeners.remove(listener);
+    }
+    
     protected void fireValueChange(ValueChangeEvent event)
     {
         for (ValueChangeListener listener : listeners)

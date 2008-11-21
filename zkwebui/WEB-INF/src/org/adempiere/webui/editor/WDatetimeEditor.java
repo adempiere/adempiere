@@ -29,7 +29,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WDatetimeEditor extends WEditor
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_FOCUS};
     private static final CLogger logger;
     
     static
@@ -98,17 +98,24 @@ public class WDatetimeEditor extends WEditor
 	
 	public void onEvent(Event event)
     {
-        Date date = getComponent().getValue();
-        Timestamp newValue = null;
-        
-        if (date != null)
-        {
-            newValue = new Timestamp(date.getTime());
-        }        
-        
-        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
-        super.fireValueChange(changeEvent);
-        oldValue = newValue;
+		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
+		{
+	        Date date = getComponent().getValue();
+	        Timestamp newValue = null;
+	        
+	        if (date != null)
+	        {
+	            newValue = new Timestamp(date.getTime());
+	        }        
+	        
+	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+	        super.fireValueChange(changeEvent);
+	        oldValue = newValue;
+		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
     }
 
     @Override

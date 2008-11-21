@@ -49,7 +49,7 @@ import org.zkoss.zk.ui.event.Events;
 
 public class WLocatorEditor extends WEditor implements EventListener, PropertyChangeListener
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
     
 	private String m_columnName;
 	private MLocatorLookup m_mLocator;
@@ -178,42 +178,48 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 
 	public void onEvent(Event event) throws Exception
 	{
-		//	Warehouse/Product
-		
-		int only_Warehouse_ID = getOnly_Warehouse_ID();
-		int only_Product_ID = getOnly_Product_ID();
-		
-		log.config("Only Warehouse_ID=" + only_Warehouse_ID	+ ", Product_ID=" + only_Product_ID);
-
-		//	Text Entry ok
-		
-		if (event.getTarget() == getComponent() && actionText(only_Warehouse_ID, only_Product_ID))
-			return;
-
-		//	 Button - Start Dialog
-		
-		int M_Locator_ID = 0;
-		
-		if (m_value instanceof Integer)
-			M_Locator_ID = ((Integer)m_value).intValue();
-
-		m_mLocator.setOnly_Warehouse_ID(only_Warehouse_ID);
-		m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
-		
-		WLocatorDialog ld = new WLocatorDialog(Msg.translate(Env.getCtx(), m_columnName),
-			m_mLocator, M_Locator_ID, isMandatory(), only_Warehouse_ID, this.m_WindowNo);
-		
-		//	display
-		ld.setVisible(true);
-		AEnv.showWindow(ld);
-		
-		m_mLocator.setOnly_Warehouse_ID(0);
-
-		//	redisplay
-		
-		if (!ld.isChanged())
-			return;
-		setValue (ld.getValue(), true);
+		if (Events.ON_CLICK.equalsIgnoreCase(event.getName()))
+		{
+			//	Warehouse/Product		
+			int only_Warehouse_ID = getOnly_Warehouse_ID();
+			int only_Product_ID = getOnly_Product_ID();
+			
+			log.config("Only Warehouse_ID=" + only_Warehouse_ID	+ ", Product_ID=" + only_Product_ID);
+	
+			//	Text Entry ok
+			
+			if (event.getTarget() == getComponent() && actionText(only_Warehouse_ID, only_Product_ID))
+				return;
+	
+			//	 Button - Start Dialog
+			
+			int M_Locator_ID = 0;
+			
+			if (m_value instanceof Integer)
+				M_Locator_ID = ((Integer)m_value).intValue();
+	
+			m_mLocator.setOnly_Warehouse_ID(only_Warehouse_ID);
+			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
+			
+			WLocatorDialog ld = new WLocatorDialog(Msg.translate(Env.getCtx(), m_columnName),
+				m_mLocator, M_Locator_ID, isMandatory(), only_Warehouse_ID, this.m_WindowNo);
+			
+			//	display
+			ld.setVisible(true);
+			AEnv.showWindow(ld);
+			
+			m_mLocator.setOnly_Warehouse_ID(0);
+	
+			//	redisplay
+			
+			if (!ld.isChanged())
+				return;
+			setValue (ld.getValue(), true);
+		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 	
 	/**

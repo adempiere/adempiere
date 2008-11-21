@@ -22,6 +22,8 @@ import org.zkoss.zk.ui.event.Events;
 public class WAssignmentEditor extends WEditor {
 	
 	private final static CLogger log = CLogger.getCLogger(WAssignmentEditor.class);
+	
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
 		
 	private boolean m_readWrite;
 	private Object m_value;
@@ -39,9 +41,14 @@ public class WAssignmentEditor extends WEditor {
 	private void initComponents() {
 		getComponent().getTextbox().setReadonly(true);
 		getComponent().setButtonImage("images/Assignment10.png");
-		getComponent().addEventListener(Events.ON_CLICK, this);		
 	}
 
+	
+
+	@Override
+	public String[] getEvents() {
+		return LISTENER_EVENTS;
+	}
 
 	@Override
 	public EditorBox getComponent() {
@@ -119,30 +126,37 @@ public class WAssignmentEditor extends WEditor {
 
 	public void onEvent(Event event) throws Exception {
 		//
-		Integer oldValue = (Integer)getValue();
-		int S_ResourceAssignment_ID = oldValue == null ? 0 : oldValue.intValue();
-		MResourceAssignment ma = new MResourceAssignment(Env.getCtx(), S_ResourceAssignment_ID, null);
-
-		//	Start VAssignment Dialog
-		if (S_ResourceAssignment_ID != 0)
+		if (Events.ON_CLICK.equalsIgnoreCase(event.getName()))
 		{
-			WAssignmentDialog vad = new WAssignmentDialog (ma, true, true);
-			ma = vad.getMResourceAssignment();
+			Integer oldValue = (Integer)getValue();
+			int S_ResourceAssignment_ID = oldValue == null ? 0 : oldValue.intValue();
+			MResourceAssignment ma = new MResourceAssignment(Env.getCtx(), S_ResourceAssignment_ID, null);
+	
+			//	Start VAssignment Dialog
+			if (S_ResourceAssignment_ID != 0)
+			{
+				WAssignmentDialog vad = new WAssignmentDialog (ma, true, true);
+				ma = vad.getMResourceAssignment();
+			}
+			//	Start InfoSchedule directly
+			else
+			{
+				InfoSchedule is = new InfoSchedule(ma, true);
+				ma = is.getMResourceAssignment();
+			}
+	
+			//	Set Value
+			if (ma != null && ma.getS_ResourceAssignment_ID() != 0)
+			{
+				setValue(new Integer(ma.getS_ResourceAssignment_ID()));
+				ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), oldValue, getValue());
+				fireValueChange(vce);
+			}
 		}
-		//	Start InfoSchedule directly
-		else
-		{
-			InfoSchedule is = new InfoSchedule(ma, true);
-			ma = is.getMResourceAssignment();
-		}
-
-		//	Set Value
-		if (ma != null && ma.getS_ResourceAssignment_ID() != 0)
-		{
-			setValue(new Integer(ma.getS_ResourceAssignment_ID()));
-			ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), oldValue, getValue());
-			fireValueChange(vce);
-		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 
 }

@@ -48,7 +48,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WButtonEditor extends WEditor
 {
-    private static final String[] LISTENER_EVENTS = {};
+    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
     
     private static final CLogger logger;
     
@@ -100,7 +100,6 @@ public class WButtonEditor extends WEditor
         label.setValue(" ");
         getComponent().setLabel(gridField.getHeader());
         getComponent().setTooltiptext(gridField.getDescription());
-        getComponent().addEventListener(Events.ON_CLICK, this);
         
         String columnName = super.getColumnName();
         if (columnName.equals("PaymentRule"))
@@ -275,5 +274,9 @@ public class WButtonEditor extends WEditor
 				evtListener.actionPerformed(actionEvent);
 			}
 		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 }

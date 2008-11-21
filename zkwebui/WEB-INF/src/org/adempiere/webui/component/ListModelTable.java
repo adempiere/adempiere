@@ -27,8 +27,10 @@ import java.util.Vector;
 
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.event.ListDataEvent;
 
 /**
  * This is a ListModel to be used with Listbox.
@@ -361,5 +363,25 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 */
 	public int getRowCount() {
 		return getSize();
+	}
+	
+	/**
+	 * Request components that attached to this model to re-render a row.
+	 * @param row
+	 */
+	public void updateComponent(int row) {
+		updateComponent(row, row);
+	}
+	
+	/**
+	 * Request components that attached to this model to re-render a range of row.
+	 * @param fromRow
+	 * @param toRow
+	 */
+	public void updateComponent(int fromRow, int toRow) {
+		//must run from the UI thread
+		if (Executions.getCurrent() != null) {
+			fireEvent(ListDataEvent.CONTENTS_CHANGED, fromRow, toRow);
+		}
 	}
 }

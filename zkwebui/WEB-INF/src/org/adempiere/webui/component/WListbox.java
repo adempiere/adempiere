@@ -89,7 +89,7 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 	    rowRenderer.addTableValueChangeListener(this);
 
 		setItemRenderer(rowRenderer);
-		setModel(new ListModelTable());
+		setModel(new ListModelTable());		
 	}
 
 	/**
@@ -936,18 +936,21 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 
 		// if the event was caused by an ID Column and the value is a boolean
 		// then set the IDColumn's select field
-		if (this.getValueAt(row, col) instanceof IDColumn
-			&& event.getNewValue() instanceof Boolean)
+		if (col >= 0 && row >=0) 
 		{
-			newBoolean = ((Boolean)event.getNewValue()).booleanValue();
-			idColumn = (IDColumn)this.getValueAt(row, col);
-			idColumn.setSelected(newBoolean);
-			this.setValueAt(idColumn, row, col);
-		}
-		// othewise just set the value in the model to the new value
-		else
-		{
-			this.setValueAt(event.getNewValue(), row, col);
+			if (this.getValueAt(row, col) instanceof IDColumn
+				&& event.getNewValue() instanceof Boolean)
+			{
+				newBoolean = ((Boolean)event.getNewValue()).booleanValue();
+				idColumn = (IDColumn)this.getValueAt(row, col);
+				idColumn.setSelected(newBoolean);
+				this.setValueAt(idColumn, row, col);
+			}
+			// othewise just set the value in the model to the new value
+			else
+			{
+				this.setValueAt(event.getNewValue(), row, col);
+			}
 		}
 
 		return;
@@ -964,7 +967,7 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
 
 	    // this causes re-rendering of the Listbox
 		this.setModel(this.getModel());
-
+		
 		return;
 	}
 
@@ -1008,14 +1011,25 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
         {
             this.repaint();
         }
-        else
+        else if ((event.getType() == WTableModelEvent.CONTENTS_CHANGED)
+        		&& event.getFirstRow() != WTableModelEvent.ALL_ROWS
+        		&& !m_readWriteColumn.isEmpty())
         {
-        	this.setModel(this.getModel());
+        	int[] indices = this.getSelectedIndices();
+        	ListModelTable model = this.getModel();
+        	if (event.getLastRow() > event.getFirstRow())
+        		model.updateComponent(event.getFirstRow(), event.getLastRow());
+        	else
+        		model.updateComponent(event.getFirstRow());
+        	if (indices != null && indices.length > 0) 
+        	{
+        		this.setSelectedIndices(indices);
+        	}
         }
 
         return;
     }
-
+    
     /**
      * no op, to ease porting of swing form
      */

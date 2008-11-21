@@ -40,7 +40,7 @@ import org.zkoss.zk.ui.event.Events;
  **/
 public class WLocationEditor extends WEditor implements EventListener, PropertyChangeListener
 {
-    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
+    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
     
     private static CLogger log = CLogger.getCLogger(WLocationEditor.class);
     private static final long serialVersionUID = 1L;
@@ -163,6 +163,10 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
             }
             setValue(ii); 
         }
+        else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
     }
     
     /**

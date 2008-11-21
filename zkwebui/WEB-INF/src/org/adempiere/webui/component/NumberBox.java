@@ -23,6 +23,9 @@ import java.text.ParseException;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Decimalbox;
@@ -67,20 +70,40 @@ public class NumberBox extends Div
     
     private void init()
     {
-    	decimalBox = new Decimalbox();
+    	Table grid = new Table();
+		appendChild(grid);
+		grid.setStyle("border: none; padding: 0px; margin: 0px;");
+		grid.setDynamicProperty("border", "0");
+		grid.setDynamicProperty("cellpadding", "0");
+		grid.setDynamicProperty("cellspacing", "0");
+		
+		Tr tr = new Tr();
+		grid.appendChild(tr);
+		tr.setStyle("border: none; padding: 0px; margin: 0px; white-space:nowrap; ");
+
+		Td td = new Td();
+		tr.appendChild(td);
+		td.setStyle("border: none; padding: 0px; margin: 0px;");
+		decimalBox = new Decimalbox();
     	if (integral)
     		decimalBox.setScale(0);
     	decimalBox.setStyle("display: inline;");
-    	
-    	btn = new Button();
+		td.appendChild(decimalBox);
+		
+		Td btnColumn = new Td();
+		tr.appendChild(btnColumn);
+		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
+		btnColumn.setSclass("editor-button");
+		btn = new Button();
         btn.setImage("/images/Calculator10.png");
+		btn.setTabindex(-1);
+		LayoutUtils.addSclass("editor-button", btn);
+		btnColumn.appendChild(btn);
         
         popup = getCalculatorPopup();
         LayoutUtils.addSclass("editor-button", btn);
         btn.setPopup(popup);
         btn.setStyle("text-align: center;");
-        appendChild(decimalBox);
-        appendChild(btn);
         appendChild(popup);
      
         String style = AEnv.isFirefox2() ? "display: inline" : "display: inline-block"; 

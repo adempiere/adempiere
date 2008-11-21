@@ -44,11 +44,13 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 {
     private static final String EDITOR_EVENT = "EDITOR";
 
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_FOCUS};
     
     private String oldText;
     
     private WEditorPopupMenu	popupMenu;
+    
+    private boolean tableEditor = false;
     
     /**
      * to ease porting of swing form
@@ -58,10 +60,14 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     	this("String", false, false, true, 30, 30, "", null);
     }
     
-    public WStringEditor(GridField gridField)
+    public WStringEditor(GridField gridField) {
+    	this(gridField, false);
+    }
+    
+    public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(new Textbox(), gridField);
-        
+        this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
     
@@ -111,20 +117,23 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        }
 	        getComponent().setCols(displayLength);    
 	        
-	        if (gridField.getDisplayType() == DisplayType.Text)
+	        if (!tableEditor)
 	        {
-	            getComponent().setMultiline(true);
-	            getComponent().setRows(3);
-	        }
-	        else if (gridField.getDisplayType() == DisplayType.TextLong)
-	        {
-	            getComponent().setMultiline(true);
-	            getComponent().setRows(5);
-	        }
-	        else if (gridField.getDisplayType() == DisplayType.Memo)
-	        {
-	            getComponent().setMultiline(true);
-	            getComponent().setRows(8);
+		        if (gridField.getDisplayType() == DisplayType.Text)
+		        {
+		            getComponent().setMultiline(true);
+		            getComponent().setRows(3);
+		        }
+		        else if (gridField.getDisplayType() == DisplayType.TextLong)
+		        {
+		            getComponent().setMultiline(true);
+		            getComponent().setRows(5);
+		        }
+		        else if (gridField.getDisplayType() == DisplayType.Memo)
+		        {
+		            getComponent().setMultiline(true);
+		            getComponent().setRows(8);
+		        }
 	        }
 	        
 	        getComponent().setObscureType(obscureType);
@@ -147,6 +156,10 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
 	        super.fireValueChange(changeEvent);
 	        oldText = newText;
+    	} 
+    	else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
     	}
     }
 

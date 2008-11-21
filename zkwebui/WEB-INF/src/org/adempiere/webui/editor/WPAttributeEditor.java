@@ -38,7 +38,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WPAttributeEditor extends WEditor implements ContextMenuListener
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_FOCUS};
 	
 	private static final CLogger log = CLogger.getCLogger(WPAttributeEditor.class);
 
@@ -130,6 +130,10 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		{
 			cmd_dialog();			
 		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 	
 	/**

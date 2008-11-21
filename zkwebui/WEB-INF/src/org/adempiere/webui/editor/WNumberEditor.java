@@ -39,7 +39,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WNumberEditor extends WEditor
 {
-    public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+    public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_FOCUS};
     
     public static final int MAX_DISPLAY_LENGTH = 20;
 
@@ -105,10 +105,17 @@ public class WNumberEditor extends WEditor
 	 */
     public void onEvent(Event event)
     {
-        BigDecimal newValue = getComponent().getValue();
-        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
-        super.fireValueChange(changeEvent);
-        oldValue = newValue;
+    	if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
+    	{
+	        BigDecimal newValue = getComponent().getValue();
+	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+	        super.fireValueChange(changeEvent);
+	        oldValue = newValue;
+    	}
+    	else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
     }
     
     @Override

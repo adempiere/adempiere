@@ -26,7 +26,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WBinaryEditor extends WEditor
 {
-    private static final String[] LISTENER_EVENTS = {};
+    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
     
     /**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WBinaryEditor.class);
@@ -45,8 +45,6 @@ public class WBinaryEditor extends WEditor
         label.setValue(" ");
         getComponent().setLabel("-");
         getComponent().setTooltiptext(gridField.getDescription());
-        getComponent().addEventListener(Events.ON_CLICK, this);
-        
     }
 
      @Override
@@ -129,5 +127,9 @@ public class WBinaryEditor extends WEditor
 			if (!dialog.isCancel() && dialog.isChange())
 				m_data = dialog.getData();
 		}
+		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
+    	{
+    		this.setReadWrite(gridField.isEditable(true));
+    	}
 	}
 }

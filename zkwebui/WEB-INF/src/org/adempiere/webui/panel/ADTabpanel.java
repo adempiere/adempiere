@@ -45,14 +45,12 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MLookup;
 import org.compiere.model.MTree;
@@ -94,7 +92,7 @@ import org.zkoss.zul.Treeitem;
  * @author Low Heng Sin 
  */
 public class ADTabpanel extends Div implements Evaluatee, EventListener, 
-DataStatusListener, ValueChangeListener, IADTabpanel
+DataStatusListener, IADTabpanel
 {
     
     private static final CLogger logger;
@@ -134,6 +132,8 @@ DataStatusListener, ValueChangeListener, IADTabpanel
 	
 	private Tree tree = null;
 
+	private GridTabDataBinder dataBinder;
+
 	public ADTabpanel() 
 	{
         init();
@@ -169,6 +169,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
         this.gridTab = gridTab;
         this.windowPanel = winPanel;
         gridTab.addDataStatusListener(this);
+        this.dataBinder = new GridTabDataBinder(gridTab);
         
         this.getChildren().clear();
                 
@@ -373,7 +374,7 @@ DataStatusListener, ValueChangeListener, IADTabpanel
                     }
                     else
                     {
-                    	editor.addValueChangeListener(this);
+                    	editor.addValueChangeListener(dataBinder);
                     }
                     
                     if (editor.getComponent() instanceof HtmlBasedComponent) {
@@ -834,57 +835,6 @@ DataStatusListener, ValueChangeListener, IADTabpanel
 			addNewNode();
 		}
 	}
-
-	public void valueChange(ValueChangeEvent e)
-    {
-        if (gridTab.isProcessed())       //  only active records
-        {
-            Object source = e.getSource();
-            if (source instanceof WEditor)
-            {
-                if (!((WEditor)source).isReadWrite())
-                {
-                    logger.config("(" + gridTab.toString() + ") " + e.getPropertyName());
-                    return;
-                }
-            }
-            else
-            {
-                logger.config("(" + gridTab.toString() + ") " + e.getPropertyName());
-                return;
-            }
-        }   //  processed
-        logger.config("(" + gridTab.toString() + ") "
-            + e.getPropertyName() + "=" + e.getNewValue() + " (" + e.getOldValue() + ") "
-            + (e.getOldValue() == null ? "" : e.getOldValue().getClass().getName()));
-        
-
-        //  Get Row/Col Info
-        GridTable mTable = gridTab.getTableModel();
-        int row = gridTab.getCurrentRow();
-        int col = mTable.findColumn(e.getPropertyName());
-        //
-        if (e.getNewValue() == null && e.getOldValue() != null 
-            && e.getOldValue().toString().length() > 0)     //  some editors return "" instead of null
-//        	  this is the original code from GridController, don't know what it does there but it breaks ignore button for web ui        
-//            mTable.setChanged (true);  
-        	mTable.setValueAt (e.getNewValue(), row, col);
-        else
-        {
-        //  mTable.setValueAt (e.getNewValue(), row, col, true);
-           	mTable.setValueAt (e.getNewValue(), row, col);  //  -> dataStatusChanged -> dynamicDisplay
-            //  Force Callout
-            if ( e.getPropertyName().equals("S_ResourceAssignment_ID") )
-            {
-                GridField mField = gridTab.getField(col);
-                if (mField != null && mField.getCallout().length() > 0)
-                {
-                    gridTab.processFieldChange(mField);     //  Dependencies & Callout
-                }
-            }
-        }
-
-    } // ValueChange 
 
 	public void switchRowPresentation() {
 		if (formComponent.isVisible()) {
