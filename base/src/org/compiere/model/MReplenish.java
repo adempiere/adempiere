@@ -22,6 +22,7 @@
  *                                                                    *
  * Contributors:                                                      *
  * - Daniel Tamm     (usrdno@users.sourceforge.net)                   *
+ * - Victor Perez    (victor.perez@e-evolution.com)					  *
  *                                                                    *
  * Sponsors:                                                          *
  * - Company (http://www.notima.se)                                   *
@@ -31,6 +32,7 @@
 package org.compiere.model;
 
 import java.util.*;
+
 import org.compiere.util.*;
 import java.sql.*;
 
@@ -70,13 +72,10 @@ public class MReplenish extends X_M_Replenish {
      * @return  A list of active replenish lines for given product.
      */
     public static List<MReplenish> getForProduct(Properties ctx, int M_ProductID, String trxName) {
-        
-        Query q = new Query(ctx, Table_Name, "M_Product_ID=? and AD_Client_ID=? and AD_Org_ID in (0, ?) and isactive='Y'", trxName).setOrderBy("AD_Org_ID");
-        q.setParameters(new Object[]{M_ProductID, Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx)});
-        List<MReplenish> result = q.list();
-        return(result);
-        
+    	String whereClause= "M_Product_ID=? AND AD_Client_ID=? AND AD_Org_ID IN (0, ?) ";         
+    	return (List<MReplenish>) new Query(ctx, Table_Name, whereClause, trxName)
+    	.setParameters(new Object[]{M_ProductID, Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx)})
+    	.setOrderBy("AD_Org_ID")
+    	.setOnlyActiveRecords(true);
     }
-    
-    
 }
