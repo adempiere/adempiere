@@ -155,7 +155,7 @@ public class AboutWindow extends Window implements EventListener {
 		hbox.appendChild(btnErrorEmail);
 		vbox.appendChild(hbox);
 				
-		Vector columnNames = CLogErrorBuffer.get(true).getColumnNames(Env.getCtx());
+		Vector<String> columnNames = CLogErrorBuffer.get(true).getColumnNames(Env.getCtx());
 		
 		logTable = new Listbox();
 		ListHead listHead = new ListHead();
@@ -178,7 +178,7 @@ public class AboutWindow extends Window implements EventListener {
 	}
 
 	private void updateLogTable() {
-		Vector data = CLogErrorBuffer.get(true).getLogData(bErrorsOnly.isChecked());
+		Vector<Vector> data = CLogErrorBuffer.get(true).getLogData(bErrorsOnly.isChecked());
 		SimpleListModel model = new SimpleListModel(data);
 		model.setMaxLength(new int[]{0, 0, 0, 200, 0, 200});
 		logTable.setItemRenderer(model);
