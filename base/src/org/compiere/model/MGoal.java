@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.Color;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	Performance Goal
@@ -33,6 +40,7 @@ import org.compiere.util.*;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1887674 ] Deadlock when try to modify PA Goal's Measure Target
  * 			<li>BF [ 1760482 ] New Dashboard broke old functionality
+ * 			<li>BF [ 1887691 ] I get NPE if the PA Goal's target is 0
  */
 public class MGoal extends X_PA_Goal
 {
@@ -455,13 +463,11 @@ public class MGoal extends X_PA_Goal
 	
     /**
      * Get the color schema for this goal.
-     * 
-     * @return the color schema, or null if the measure targer is 0
+     * @return the color schema
      */
     public MColorSchema getColorSchema()
     {
-        return (getMeasureTarget().signum() == 0) ?
-            null : MColorSchema.get(getCtx(), getPA_ColorSchema_ID());
+    	return MColorSchema.get(getCtx(), getPA_ColorSchema_ID());
     }
 	
 	/**
