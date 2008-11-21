@@ -780,7 +780,7 @@ public class DistributionRun extends SvrProcess
 			 	   			if(p_M_Warehouse_ID>0)
 			 	   			line.setDescription(Msg.translate(getCtx(), "PlannedQty"));
 			 	   			else 
-			 	   			line.setDescription(m_run.getDescription());
+			 	   			line.setDescription(m_run.getName());
 			 	   			line.save();
 			 	   			break;
 			 	   			//addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 

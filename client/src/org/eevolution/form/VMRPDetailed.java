@@ -813,12 +813,19 @@ public class VMRPDetailed
 		 try
 		 {                 
 			 StringBuffer sql = new StringBuffer("SELECT ")
-			 	.append("bomqtyonhandasi("+M_Product_ID+","+M_AttributeSetInstance_ID+","+M_Warehouse_ID+",0) as qtyonhand, ")
-			 	.append("bomqtyreservedasi("+M_Product_ID+","+M_AttributeSetInstance_ID+","+M_Warehouse_ID+",0) as qtyreserved, ")
-			 	.append("bomqtyavailableasi("+M_Product_ID+","+M_AttributeSetInstance_ID+","+M_Warehouse_ID+",0) as qtyavailable, ")
-			 	.append("bomqtyorderedasi("+M_Product_ID+","+M_AttributeSetInstance_ID+","+M_Warehouse_ID+",0) as qtyordered")
-			 	.append(" FROM M_Product WHERE M_Product_ID="+M_Product_ID);
-			 pstmt = DB.prepareStatement(sql.toString(),null);                       
+			 	.append("BOMQtyOnHandASI(M_Product_ID,?,?,?) as qtyonhand, ")
+			 	.append("BOMQtyReservedASI(M_Product_ID,?,?,?) as qtyreserved, ")
+			 	.append("BOMQtyAvailableASI(M_Product_ID,?,?,?) as qtyavailable, ")
+			 	.append("BOMQtyOrderedASI(M_Product_ID,?,?,?) as qtyordered")
+			 	.append(" FROM M_Product WHERE M_Product_ID=?");
+			 pstmt = DB.prepareStatement(sql.toString(),null);
+			 DB.setParameters(pstmt, new Object[]{
+					 getM_AttributeSetInstance_ID(),getM_Warehouse_ID(),0,
+					 getM_AttributeSetInstance_ID(),getM_Warehouse_ID(),0,
+					 getM_AttributeSetInstance_ID(),getM_Warehouse_ID(),0,
+					 getM_AttributeSetInstance_ID(),getM_Warehouse_ID(),0,
+					 getM_Product_ID()
+					 });
 			 rs = pstmt.executeQuery();	
 			 while (rs.next())
 			 {	
