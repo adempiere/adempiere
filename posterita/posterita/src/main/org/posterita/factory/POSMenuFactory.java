@@ -20,8 +20,9 @@
  **/
 
 /**
-	@author ashley
- */
+*	@author ashley
+*	@author mjudd - BF2319969 - https://sourceforge.net/tracker/index.php?func=detail&aid=2319969&group_id=176962&atid=879332
+*/
 
 package org.posterita.factory;
 
@@ -37,7 +38,7 @@ import org.posterita.businesslogic.MenuManager;
 import org.posterita.businesslogic.performanceanalysis.POSReportManager;
 import org.posterita.exceptions.OperationException;
 import org.posterita.lib.UdiConstants;
-import org.posterita.model.MWebMenu;
+import org.compiere.model.MWebMenu;
 import org.posterita.order.UDIOrderTypes;
 
 public class POSMenuFactory extends AbstractFactory
