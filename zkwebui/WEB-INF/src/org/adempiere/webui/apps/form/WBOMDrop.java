@@ -54,6 +54,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -79,6 +80,8 @@ public class WBOMDrop extends ADForm implements EventListener
 	/** BOM Qty						*/
 	private BigDecimal m_qty = Env.ONE;
 	
+	/**	Line Counter				*/
+	private int m_bomLine = 0;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WBOMDrop.class);
@@ -94,6 +97,8 @@ public class WBOMDrop extends ADForm implements EventListener
 	
 	/** Alternative Group Lists		*/
 	private HashMap<String, Radiogroup> m_buttonGroups = new HashMap<String,Radiogroup>();
+
+	private static final int WINDOW_WIDTH = 600;	//	width of the window
 	
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Grid selectionPanel = GridFactory.newGridLayout();
@@ -390,6 +395,7 @@ public class WBOMDrop extends ADForm implements EventListener
 			if (m_product.getDescription() != null && m_product.getDescription().length() > 0)
 				;//this.setsetToolTipText(m_product.getDescription());
 			
+			m_bomLine = 0;
 			addBOMLines(m_product, m_qty);
 		}
 	}	//	createMainPanel
