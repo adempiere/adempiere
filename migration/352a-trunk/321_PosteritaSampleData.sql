@@ -1,3 +1,5 @@
+SET DEFINE OFF;
+
 -- Nov 15, 2008 10:11:57 AM EET
 -- Posterita Integration
 UPDATE AD_Column SET AD_Element_ID=102, AD_Reference_ID=19, AD_Val_Rule_ID=129, DefaultValue='@AD_Client_ID@', EntityType='A', FieldLength=22, IsUpdateable='N',Updated=TO_DATE('2008-11-15 10:11:57','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=52042

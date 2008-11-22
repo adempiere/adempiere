@@ -1,3 +1,5 @@
+SET DEFINE OFF;
+
 --------------------------------
 -- Nov 15, 2008 2:08:42 PM EET
 -- Posterita Sample Data
