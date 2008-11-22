@@ -72,17 +72,20 @@ public class GridPanel extends Borderlayout implements EventListener
 	private Paging paging;
 
 	private GridTabListItemRenderer renderer;
+
+	private South south;
 	
 	public GridPanel()
 	{
-		super();
-		listbox = new Listbox();
+		this(0);
 	}
 	
 	public GridPanel(int windowNo)
 	{
 		this.windowNo = windowNo;
 		listbox = new Listbox();
+		south = new South();
+		this.appendChild(south);
 	}
 	
 	public void init(GridTab gridTab)
@@ -225,22 +228,12 @@ public class GridPanel extends Borderlayout implements EventListener
 			paging.setPageSize(pageSize);
 			paging.setTotalSize(tableModel.getRowCount());
 			paging.setDetailed(true);
-			South south = new South();
 			south.appendChild(paging);
-			this.appendChild(south);
 			paging.addEventListener(ZulEvents.ON_PAGING, this);
-			//workaround for layout problem
-			this.setVisible(false);
-			Clients.response(new AuEcho(this, "postRender", null));
+			this.getParent().invalidate();
 		}		
 	}
 	
-	public void postRender()
-	{
-		this.setVisible(true);
-		this.getParent().invalidate();
-	}
-
 	private void updateModel() {
 		listModel = new GridTableListModel((GridTable)tableModel, windowNo);		
 		listModel.setPageSize(pageSize);
