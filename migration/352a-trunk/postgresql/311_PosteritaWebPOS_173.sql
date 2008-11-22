@@ -1276,9 +1276,6 @@ ALTER TABLE C_Payment
 ADD CONSTRAINT C_Payment__C_CashBo_C_CashBook 
 FOREIGN KEY(C_CashBook_ID)  REFERENCES C_CashBook(C_CashBook_ID);
 
---------------------------------------------------------------------------------
-ALTER TABLE C_CashLine 
-ADD C_Payment_ID NUMERIC(10);
 
 --- Migration scripts ----------------------------------------------------------
 -- Aug 26, 2008 11:49:31 AM MUT
