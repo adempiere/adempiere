@@ -36,7 +36,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>
 <%@ taglib uri="/WEB-INF/pos.tld" prefix="pos"%>
 
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <logic:notPresent name="<%=WebUserInfo.NAME%>" scope="session">
 	<jsp:forward page="/POSLogin.do"/>
 </logic:notPresent>

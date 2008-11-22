@@ -23,7 +23,7 @@
 <%@ page import="org.posterita.Constants" %>
 <%@ page import="org.posterita.user.*" %>
 <%@ page import="org.compiere.model.MOrg" %>
-<%@ page import="org.posterita.model.MBlackListCheque" %>
+<%@ page import="org.compiere.model.MBlackListCheque" %>
 <%@ page import="org.posterita.beans.BlackListedBean" %>
 <%@ page import="org.posterita.struts.pos.BlackListedAction" %>
 

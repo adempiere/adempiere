@@ -193,7 +193,14 @@ public class MenuManager
     
     public static MWebMenu createParentMenu(Properties ctx, String menuName, String moduleName, int sequence) throws OperationException
     {
-    	MWebMenu menu = new MWebMenu(ctx, 0, null);
+    	//MWebMenu menu = new MWebMenu(ctx, 0, null);
+        MWebMenu menu;
+        try {
+            menu = new MWebMenu(ctx, getMenuId(ctx, menuName), null);
+        } catch (SystemException e)
+        {
+            menu = new MWebMenu(ctx, 0, null);
+        }
        
         menu.setMenuLink("GetMenuItemsAction.do?action=getMenuItems&menuId=");        
         menu.setModule(moduleName);

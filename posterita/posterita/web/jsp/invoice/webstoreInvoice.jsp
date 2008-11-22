@@ -12,7 +12,7 @@
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles"%>	
 <%@ taglib uri="/WEB-INF/dcs.tld" prefix="dcs" %>
-<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <bean:define id="title">Invoice</bean:define>
 

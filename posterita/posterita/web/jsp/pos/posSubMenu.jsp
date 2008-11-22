@@ -28,7 +28,7 @@
 <%@ page import="org.posterita.user.*" %>
 <%@ page import="org.posterita.lib.UdiConstants" %>
 <%@ page import="java.util.Properties"%>
-<%@ page import="org.posterita.model.MWebMenu" %>
+<%@ page import="org.compiere.model.MWebMenu" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="org.posterita.core.MenuItem" %>
