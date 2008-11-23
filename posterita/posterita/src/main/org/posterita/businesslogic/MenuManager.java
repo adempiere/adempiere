@@ -218,7 +218,13 @@ public class MenuManager
     
     public static MWebMenu createSubMenu(Properties ctx,String menuName, String menuLink, String moduleName, int parentId, int sequence, String category) throws OperationException
     {
-    	MWebMenu menu = new MWebMenu(ctx, 0, null);        
+        MWebMenu menu;
+        try {
+            menu = new MWebMenu(ctx, getMenuId(ctx, menuName), null);
+        } catch (SystemException e)
+        {
+            menu = new MWebMenu(ctx, 0, null);
+        }
         menu.setParentMenu_ID(parentId);
         
         if(!menuLink.contains("javascript"))

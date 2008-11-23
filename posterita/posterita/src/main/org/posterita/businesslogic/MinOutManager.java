@@ -242,7 +242,7 @@ public class MinOutManager extends AbstractDocumentManager
         
         MOrder salesOrder = new MOrder(ctx,salesOrderId,trxName);
         
-        MInOut inOut = new MInOut(salesOrder,MDocType.C_DOCTYPESHIPMENT_ID_AD_Reference_ID,stamp);
+        MInOut inOut = new MInOut(salesOrder, MDocType.C_DOCTYPESHIPMENT_ID_AD_Reference_ID, stamp);
         try
         {
            int [] invoiceIds = MInvoice.getAllIDs(MInvoice.Table_Name,"AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+" and c_order_id="+salesOrderId,trxName);
@@ -260,9 +260,20 @@ public class MinOutManager extends AbstractDocumentManager
             inOut.setIsSOTrx(true);
             inOut.setDescription("Shipment");
             
-            inOut.setC_DocType_ID(MDocType.DOCBASETYPE_MaterialDelivery);
+            //inOut.setC_DocType_ID(MDocType.DOCBASETYPE_MaterialDelivery); // @Trifon
+            int [] docTypeShipmentIndirectId = MInvoice.getAllIDs(MDocType.Table_Name, 
+                      "AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)
+                    + " AND DocBaseType='"+MDocType.DOCBASETYPE_MaterialDelivery+"' "
+                    + " AND IsActive='Y' "
+                    + " AND IsSOTrx='Y' "
+                    + " AND Name = 'MM Shipment Indirect'", trxName);
+            if (docTypeShipmentIndirectId.length > 0)
+            {
+                inOut.setC_DocType_ID( docTypeShipmentIndirectId[0] ); 
+            } else {
+                inOut.setC_DocType_ID(MDocType.DOCBASETYPE_MaterialDelivery); // @Trifon; old behavior
+            }
             
-                 
             PoManager.save(inOut);
               
             MInOutLine [] line=new MInOutLine[salesOrderLineid.length];
