@@ -77,13 +77,7 @@ public class MFreightCategory extends X_M_FreightCategory {
         
         Query q = new Query(ctx, MFreightCategory.Table_Name, "Value=? AND AD_Client_ID=?", trxName);
         q.setParameters(new Object[]{value, Env.getAD_Client_ID(ctx)});
-        List<MFreightCategory> list = q.list();
-        if (list.size()>0) {
-            return(list.get(0));
-        } else {
-            return(null);
-        }
-        
+        return q.first();
     }
     
 }
