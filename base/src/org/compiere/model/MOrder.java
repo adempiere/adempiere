@@ -1956,11 +1956,7 @@ public class MOrder extends X_C_Order implements DocAction
 			return false;
 		
 		/* globalqss - 2317928 - Reactivating/Voiding order must reset posted */
-		int no = MFactAcct.delete(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
-		if (no < 0) {
-			m_processMsg = "Cannot delete order accounting";
-			return false;
-		}
+		MFactAcct.deleteEx(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
 		setPosted(false);
 		
 		// After Void
@@ -2247,11 +2243,7 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 
 		/* globalqss - 2317928 - Reactivating/Voiding order must reset posted */
-		int no = MFactAcct.delete(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
-		if (no < 0) {
-			m_processMsg = "Cannot delete order accounting";
-			return false;
-		}
+		MFactAcct.deleteEx(MOrder.Table_ID, getC_Order_ID(), get_TrxName());
 		setPosted(false);
 		
 		// After reActivate
