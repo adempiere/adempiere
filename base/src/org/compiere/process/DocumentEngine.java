@@ -1174,9 +1174,6 @@ public class DocumentEngine implements DocAction
 
 	/**
 	 * Checks the access rights of the given role/client for the given document actions.
-	 * If no access rules can be found for a doctype/client/document action combination
-	 * every role can access this combination (so no definition is needed for the default
-	 * access rights).
 	 * @param clientId
 	 * @param roleId
 	 * @param docTypeId
@@ -1185,34 +1182,47 @@ public class DocumentEngine implements DocAction
 	 * @return number of valid actions in the String[] options
 	 */
 	public static int checkActionAccess(int clientId, int roleId, int docTypeId, String[] options, int maxIndex) {
+		if (maxIndex <= 0)
+			return maxIndex;
+		//
 		final Vector<String> validOptions = new Vector<String>();
-		String sql = "SELECT AD_Role_ID FROM AD_Document_Action_Access "
-				+ "WHERE IsActive='Y' AND AD_Client_ID=? AND C_DocType_ID=? AND AD_Ref_List_ID=" +
-						"(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=135" +
-						" AND Value=?)";
+		StringBuffer sql_values = new StringBuffer();
+		for (int i = 0; i < maxIndex; i++) {
+			if (sql_values.length() > 0)
+				sql_values.append(",");
+			sql_values.append("?");
+		}
+		String sql = "SELECT rl.Value FROM AD_Document_Action_Access a"
+				+ " INNER JOIN AD_Ref_List rl ON (rl.AD_Reference_ID=135 and rl.AD_Ref_List_ID=a.AD_Ref_List_ID)"
+				+ " WHERE a.IsActive='Y' AND a.AD_Client_ID=? AND a.C_DocType_ID=? AND a.AD_Role_ID=?" // #1,2,3
+					+ " AND rl.Value IN ("+sql_values.toString()+")"; // #4...
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
+			int para_idx = 1; 
+			pstmt.setInt(para_idx++, clientId);
+			pstmt.setInt(para_idx++, docTypeId);
+			pstmt.setInt(para_idx++, roleId);
 			for (int i = 0; i < maxIndex; i++) {
-				pstmt.setInt(1, clientId);
-				pstmt.setInt(2, docTypeId);
-				pstmt.setString(3, options[i]);
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next()) {
-					if(rs.getInt(1) == roleId){
-						//is valid for role
-						validOptions.add(options[i]);
-						continue;
-					}
-				}
-				rs.close();
+				pstmt.setString(para_idx++, options[i]);
+			}
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				String op = rs.getString(1);
+				validOptions.add(op);
 			}
 			validOptions.toArray(options);
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return validOptions.size();
 	}
