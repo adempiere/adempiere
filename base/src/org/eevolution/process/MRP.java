@@ -343,7 +343,6 @@ public class MRP extends SvrProcess
 						+" WHERE mrp.TypeMRP=? AND mrp.AD_Client_ID = ? AND mrp.AD_Org_ID=? "
 						+ " AND M_Warehouse_ID=? "
 						+ " AND mrp.DatePromised <= ?"
-						//+ " AND mrp.M_Product_ID=1004253 "
 						+ " AND COALESCE(p.LowLevel,0) = ? "
 						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised  ";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
