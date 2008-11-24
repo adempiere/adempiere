@@ -148,6 +148,19 @@ public class CWindowToolbar extends FToolbar implements EventListener
         configureKeyMap();
     }
     
+    /**
+     * set embedded mode on/off, embedded panel toolbar should show less button
+     * @param embedded
+     */
+    public void setEmbedded(boolean embedded)
+    {
+		btnParentRecord.setVisible(!embedded);
+		btnDetailRecord.setVisible(!embedded);
+		btnActiveWorkflows.setVisible(!embedded);
+		btnHistoryRecords.setVisible(!embedded);
+		btnProductInfo.setVisible(!embedded);
+    }
+    
     private ToolBarButton createButton(String name, String image, String tooltip)
     {
     	ToolBarButton btn = new ToolBarButton("");
@@ -157,6 +170,11 @@ public class CWindowToolbar extends FToolbar implements EventListener
         buttons.put(name, btn);
         this.appendChild(btn);
         return btn;
+    }
+    
+    public ToolBarButton getButton(String name)
+    {
+    	return buttons.get(name);
     }
 
     private void configureKeyMap() {

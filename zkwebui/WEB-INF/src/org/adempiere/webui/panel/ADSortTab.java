@@ -847,10 +847,6 @@ public class ADSortTab extends Panel implements IADTabpanel
 		return gridTab != null ? gridTab.isCurrent() : false;
 	}
 
-	public boolean isEditing() {
-		return true;
-	}
-
 	public void query() {
 		loadData();
 	}

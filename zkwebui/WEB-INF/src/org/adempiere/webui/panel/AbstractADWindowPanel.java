@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.panel;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -120,10 +122,40 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	private boolean m_findCancelled;
 
+	private int embeddedTabindex = -1;
+	
+	protected Map<Integer, ADTabpanel> includedMap = new HashMap<Integer, ADTabpanel>();
+
+	private IADTabpanel embeddedTabPanel; 
+
+	/**
+	 * Constructor for non-embedded mode
+	 * @param ctx
+	 * @param windowNo
+	 */
     public AbstractADWindowPanel(Properties ctx, int windowNo)
+    {
+        this(ctx, windowNo, null, -1, null);
+    }
+    
+    /**
+     * Constructor for embedded mode
+     * @param ctx
+     * @param windowNo
+     * @param gridWindow
+     * @param tabIndex
+     * @param tabPanel
+     */
+    public AbstractADWindowPanel(Properties ctx, int windowNo, GridWindow gridWindow, int tabIndex, IADTabpanel tabPanel)
     {
         this.ctx = ctx;
         this.curWindowNo = windowNo;
+        this.gridWindow = gridWindow;
+        this.embeddedTabindex = tabIndex;
+        this.embeddedTabPanel = tabPanel;
+        curTabpanel = tabPanel;
+        if (gridWindow != null && tabIndex >= 0)
+        	curTab = gridWindow.getTab(tabIndex);
         
         initComponents();
     }
@@ -134,7 +166,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			this.parent = (Component) parent;
 		
 		adTab = createADTab();
-        adTab.addSelectionEventListener(this);
+		adTab.addSelectionEventListener(this);
         
         return super.createPart(parent);
     }
@@ -143,6 +175,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     {
     	return statusBar;
     }
+	
+	public boolean isEmbedded() {
+		return embeddedTabindex >= 0;
+	}
     
     private void initComponents()
     {
@@ -150,6 +186,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         toolbar = new CWindowToolbar();
         toolbar.addListener(this);
         toolbar.setWidth("100%");
+        toolbar.setEmbedded(isEmbedded());
 
         statusBar = new StatusBarPanel();                
     }
@@ -159,112 +196,169 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	public boolean initPanel(int adWindowId, MQuery query)
     {
         // Set AutoCommit for this Window
-        Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
-        boolean autoNew = Env.isAutoNew(ctx);
-        Env.setAutoNew(ctx, curWindowNo, autoNew);
+		if (embeddedTabindex < 0)
+		{
+			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
+			boolean autoNew = Env.isAutoNew(ctx);
+			Env.setAutoNew(ctx, curWindowNo, autoNew);
 
-        GridWindowVO gWindowVO = AEnv.getMWindowVO(curWindowNo, adWindowId, 0);
-        if (gWindowVO == null)
-        {
-            throw new ApplicationException(Msg.getMsg(ctx,
-                    "AccessTableNoView")
-                    + "(No Window Model Info)");
-        }
-        gridWindow = new GridWindow(gWindowVO);
-        title = gridWindow.getName();
-        
-        // Set SO/AutoNew for Window
-        Env.setContext(ctx, curWindowNo, "IsSOTrx", gridWindow.isSOTrx());
-        if (!autoNew && gridWindow.isTransaction())
-        {
-            Env.setAutoNew(ctx, curWindowNo, true);
-        }
+	        GridWindowVO gWindowVO = AEnv.getMWindowVO(curWindowNo, adWindowId, 0);
+	        if (gWindowVO == null)
+	        {
+	            throw new ApplicationException(Msg.getMsg(ctx,
+	                    "AccessTableNoView")
+	                    + "(No Window Model Info)");
+	        }
+	        gridWindow = new GridWindow(gWindowVO);
+	        title = gridWindow.getName();
+	        
+	        // Set SO/AutoNew for Window
+	        Env.setContext(ctx, curWindowNo, "IsSOTrx", gridWindow.isSOTrx());
+	        if (!autoNew && gridWindow.isTransaction())
+	        {
+	            Env.setAutoNew(ctx, curWindowNo, true);
+	        }
+		}
 
-        m_onlyCurrentRows =  gridWindow.isTransaction();
+        m_onlyCurrentRows =  embeddedTabindex < 0 && gridWindow.isTransaction();
         
         /**
          * Window Tabs
          */
-        int tabSize = gridWindow.getTabCount();
-        
-        for (int tab = 0; tab < tabSize; tab++)
+        if (embeddedTabindex < 0)
         {
-            gridWindow.initTab(tab);
-
-            GridTab gTab = gridWindow.getTab(tab);
-            Env.setContext(ctx, curWindowNo, tab, "TabLevel", Integer
-                    .toString(gTab.getTabLevel()));
-
-            
-            
-            gTab.addDataStatusListener(this);
-            
-                        // Query first tab
-            if (tab == 0)
-            {
-                query = initialQuery(query, gTab);
-                if (gTab.isHighVolume() && m_findCancelled)
-                	return false;
-                	
-                if (query != null && query.getRecordCount() <= 1)
-                {
-                    // goSingleRow = true;
-                }
-                // Set initial Query on first tab
-                if (query != null)
-                {
-                    m_onlyCurrentRows = false;
-                    gTab.setQuery(query);
-                }
-                
-                curTab = gTab;                
-                curTabIndex = tab;
-            }
-            
-            if (gTab.isSortTab())
-            {
-            	ADSortTab sortTab = new ADSortTab(curWindowNo, gTab);
-            	adTab.addTab(gTab, sortTab);
-            	sortTab.registerAPanel(this);
-            	if (tab == 0) {
-            		curTabpanel = sortTab;
-            		curTabpanel.createUI();
-            		curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
-            		curTabpanel.activate(true);
-            	}
-            }
-            else
-            {
-            	ADTabpanel fTabPanel = new ADTabpanel();
-                fTabPanel.init(this, curWindowNo, gTab, gridWindow);
-                adTab.addTab(gTab, fTabPanel);
-                if (tab == 0) {
-                	fTabPanel.createUI();                
-	            	curTabpanel = fTabPanel;
-	            	curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
-	                curTabpanel.activate(true);
-                }
-            }
+	        int tabSize = gridWindow.getTabCount();
+	        
+	        for (int tab = 0; tab < tabSize; tab++)
+	        {
+	            initTab(query, tab);
+	        }
+	        Env.setContext(ctx, curWindowNo, "WindowName", gridWindow.getName());
         }
-        
-        Env.setContext(ctx, curWindowNo, "WindowName", gridWindow.getName());
-        curTab.getTableModel().setChanged(false);
-        curTabIndex = 0;        
-
-        adTab.setSelectedIndex(0);
-        toolbar.enableTabNavigation(adTab.getTabCount() > 1);
-        toolbar.enableFind(true);
-        adTab.evaluate(null);
-        
-        if (gridWindow.isTransaction())
+        else
         {
-        	toolbar.enableHistoryRecords(true);
+        	initEmbeddedTab(query, embeddedTabindex);
+        }
+                
+        curTab.getTableModel().setChanged(false);
+        if (embeddedTabindex < 0)
+        {
+	        curTabIndex = 0;        
+	
+	        adTab.setSelectedIndex(0);
+	        toolbar.enableTabNavigation(adTab.getTabCount() > 1);
+	        toolbar.enableFind(true);
+	        adTab.evaluate(null);
+	        
+	        if (gridWindow.isTransaction())
+	        {
+	        	toolbar.enableHistoryRecords(true);
+	        }
+        }
+        else 
+        {
+        	curTabIndex = embeddedTabindex;
+        	toolbar.enableTabNavigation(false);
+	        toolbar.enableFind(true);
+	        toolbar.enableHistoryRecords(false);
         }
 
         updateToolbar();
         
         return true;
     }
+
+	private void initEmbeddedTab(MQuery query, int tabIndex) {
+		GridTab gTab = gridWindow.getTab(tabIndex);
+		gTab.addDataStatusListener(this);
+		adTab.addTab(gTab, embeddedTabPanel);
+		if (gTab.isSortTab()) {
+			((ADSortTab)embeddedTabPanel).registerAPanel(this);
+		} else {
+			((ADTabpanel)embeddedTabPanel).init(this, curWindowNo, gTab, gridWindow);
+		}
+	}
+
+	protected void initTab(MQuery query, int tabIndex) {
+		gridWindow.initTab(tabIndex);
+
+		GridTab gTab = gridWindow.getTab(tabIndex);
+		Env.setContext(ctx, curWindowNo, tabIndex, "TabLevel", Integer
+		        .toString(gTab.getTabLevel()));
+		            
+		// Query first tab
+		if (tabIndex == 0)
+		{
+		    query = initialQuery(query, gTab);
+		    if (gTab.isHighVolume() && m_findCancelled)
+		    	return;
+		    	
+		    if (query != null && query.getRecordCount() <= 1)
+		    {
+		        // goSingleRow = true;
+		    }
+		    // Set initial Query on first tab
+		    if (query != null)
+		    {
+		        m_onlyCurrentRows = false;
+		        gTab.setQuery(query);
+		    }
+		    
+		    curTab = gTab;                
+		    curTabIndex = tabIndex;
+		}
+				
+		if (gTab.isSortTab())
+		{
+			ADSortTab sortTab = new ADSortTab(curWindowNo, gTab);
+			if (includedMap.containsKey(gTab.getAD_Tab_ID()))
+		    {
+		    	includedMap.get(gTab.getAD_Tab_ID()).embed(ctx, curWindowNo, gridWindow, gTab.getAD_Tab_ID(), tabIndex, sortTab);
+		    }
+			else
+			{
+				adTab.addTab(gTab, sortTab);
+				sortTab.registerAPanel(this);
+				if (tabIndex == 0) {
+					curTabpanel = sortTab;
+					curTabpanel.createUI();
+					curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+					curTabpanel.activate(true);
+				}
+				gTab.addDataStatusListener(this);
+			}
+		}
+		else
+		{
+			//build embedded tab map
+			ADTabpanel fTabPanel = new ADTabpanel();
+			GridField[] fields = gTab.getTableModel().getFields();
+		    for(int i = 0; i < fields.length; i++)
+		    {
+		    	if (fields[i].getIncluded_Tab_ID() > 0)
+		    	{
+		    		includedMap.put(fields[i].getIncluded_Tab_ID(), fTabPanel);
+		    	}
+		    }
+		    
+		    if (includedMap.containsKey(gTab.getAD_Tab_ID()))
+		    {
+		    	includedMap.get(gTab.getAD_Tab_ID()).embed(ctx, curWindowNo, gridWindow, gTab.getAD_Tab_ID(), tabIndex, fTabPanel);
+		    }
+		    else
+		    {	
+		    	gTab.addDataStatusListener(this);
+		    	fTabPanel.init(this, curWindowNo, gTab, gridWindow);
+		    	adTab.addTab(gTab, fTabPanel);
+			    if (tabIndex == 0) {
+			    	fTabPanel.createUI();                
+			    	curTabpanel = fTabPanel;
+			    	curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+			        curTabpanel.activate(true);
+			    }
+		    }
+		}
+	}
 
     /**
      * Initial Query
@@ -623,37 +717,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
     public void dataStatusChanged(DataStatusEvent e)
     {
-    	//TODO: ignore non-ui thread event for now.
+    	//ignore non-ui thread event for now.
     	if (Executions.getCurrent() == null)
     		return;
     	
-       /* // update Navigation
-        boolean firstRow = e.isFirstRow();
-        boolean lastRow = e.isLastRow();
-        toolbar.enableFirstNavigation(!firstRow);
-        toolbar.enableLastNavigation(!lastRow);
-
-        // update Change
-        boolean changed = e.isChanged() || e.isInserting();
-        boolean readOnly = curTab.isReadOnly();
-        boolean insertRecord = !readOnly;
-        if (insertRecord)
-        {
-            insertRecord = curTab.isInsertRecord();
-        }
-
-        toolbar.enabledNew(!changed && insertRecord);
-        toolbar.enableRefresh(!changed);
-        toolbar.enableDelete(!changed && !readOnly);
-
-        if (readOnly && curTab.isAlwaysUpdateField())
-        {
-            readOnly = false;
-        }
-
-        lblRecords.setValue(e.getMessage());
-        tabbox.evaluate(e);*/
-        
         logger.info(e.getMessage());
         String dbInfo = e.getMessage();
         if (curTab != null && curTab.isQueryActive())
@@ -739,13 +806,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.enableDeleteSelection(true);
         }
 
-        //  Single-Multi
-//        aMulti.setPressed(!m_curGC.isSingleRow());
-
         //  History (on first Tab only)
         if (isFirstTab())
         {
-//            aHistory.setPressed(!curTab.isOnlyCurrentRows());
+            toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
         }
 
         //  Transaction info
@@ -770,15 +834,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (canHaveAttachment)
         {
             toolbar.enableAttachment(true);
-            /*aAttachment.setPressed(m_curTab.hasAttachment());
-            aChat.setEnabled(true);
-            aChat.setPressed(m_curTab.hasChat());*/
+            toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
         }
         else
         {
             toolbar.enableAttachment(false);
-//            aChat.setEnabled(false);
         }
+        
+        toolbar.getButton("Find").setPressed(curTab.isQueryActive());
         //  Lock Indicator
        /* if (m_isPersonalLock)
         {
@@ -829,7 +892,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         newRecord = curTab.dataNew(false);
         if (newRecord)
         {
-        	curTabpanel.editRecord(true);
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
@@ -860,7 +922,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         newRecord = curTab.dataNew(true);
         if (newRecord)
         {
-        	curTabpanel.editRecord(true);
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
@@ -921,25 +982,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        curTab.dataIgnore();
 	        curTab.dataRefresh();
 	        curTabpanel.dynamicDisplay(0);
-	        curTabpanel.editRecord(false);
 	        toolbar.enableIgnore(false);
     	}
-    }
-    
-    /**
-     * @see ToolbarListener#onEdit()
-     */
-    public void onEdit()
-    {
-        curTabpanel.editRecord(true);
-        toolbar.enableIgnore(true);
-        toolbar.enabledNew(false);
-        toolbar.enableCopy(false);
-        toolbar.enableDelete(false);
-        toolbar.enableNavigation(false);
-        toolbar.enableTabNavigation(false);
-        toolbar.enablePrint(true);
-        toolbar.enableReport(true);
     }
     
     /**

@@ -36,9 +36,21 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 		if (disabled) {
 			this.setSclass("disableFilter");
 		} else {
-			this.setSclass("");
+			if (this.getSclass() != null && this.getSclass().indexOf("disableFilter") >= 0)
+				this.setSclass(this.getSclass().replace("disableFilter", ""));
 		}
 	}
+    
+    public void setPressed(boolean pressed) {
+    	if (!isDisabled()) {
+    		if (pressed)
+    			setSclass("depressed");
+    		else {
+    			if (this.getSclass() != null && this.getSclass().indexOf("depressed") >= 0)
+    				this.setSclass(this.getSclass().replace("depressed", ""));
+    		}
+    	}
+    }
 
 	public ToolBarButton(String name) {
     	super();

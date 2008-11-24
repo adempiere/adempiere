@@ -27,6 +27,8 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.model.GridWindow;
+import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -63,12 +65,21 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	private Borderlayout layout;
 
 	private Center contentArea;
+
+	private West west;
 	
     public ADWindowPanel(Properties ctx, int windowNo)
     {
         super(ctx, windowNo);
     }
     
+    
+	public ADWindowPanel(Properties ctx, int windowNo, GridWindow gridWindow,
+			int tabIndex, IADTabpanel tabPanel) {
+		super(ctx, windowNo, gridWindow, tabIndex, tabPanel);
+	}
+
+
 	protected Component doCreatePart(Component parent)
     {				
         layout = new Borderlayout();
@@ -94,14 +105,14 @@ public class ADWindowPanel extends AbstractADWindowPanel
         statusBar.setParent(s);      
         LayoutUtils.addSclass("adwindow-status", statusBar);
         
-        if (adTab.isUseExternalSelection())
+        if (!isEmbedded() && adTab.isUseExternalSelection())
         {
-	        West w = new West();
-	        layout.appendChild(w);
-	        w.setSplittable(false);
-	        w.setAutoscroll(true);
-	        LayoutUtils.addSclass("adwindow-nav", w);
-	        adTab.getTabSelectionComponent().setParent(w);
+	        west = new West();
+	        layout.appendChild(west);
+	        west.setSplittable(false);
+	        west.setAutoscroll(true);
+	        LayoutUtils.addSclass("adwindow-nav", west);
+	        adTab.getTabSelectionComponent().setParent(west);
 	        LayoutUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }
         
@@ -116,7 +127,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	((Tabpanel)parent).setOnCloseHandler(handler);
         }
         
-        if (adTab.getComponent() instanceof Window) {
+        if (!isEmbedded() && adTab.getComponent() instanceof Window) {
         	Window w = (Window) adTab.getComponent();
         	w.addEventListener(Events.ON_CTRL_KEY, toolbar);
         }
@@ -134,6 +145,18 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		return layout;
 	}
 	
+	
+	
+	@Override
+	public boolean initPanel(int adWindowId, MQuery query) {
+		boolean retValue = super.initPanel(adWindowId, query);
+		if (adTab.getTabCount() == 1 && west != null)
+			west.setVisible(false);
+		return retValue;
+	}
+
+
+
 	class TabOnCloseHanlder implements ITabOnCloseHandler {
 		
 		public void onClose(Tabpanel tabPanel) {

@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
- * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
+ * Copyright (C) 2008 Low Heng Sin                                            *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,11 +9,7 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
  *****************************************************************************/
-
 package org.adempiere.webui.component;
 
 
@@ -27,11 +22,9 @@ import org.adempiere.webui.LayoutUtils;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
-import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
@@ -231,7 +224,11 @@ public class GridPanel extends Borderlayout implements EventListener
 			south.appendChild(paging);
 			paging.addEventListener(ZulEvents.ON_PAGING, this);
 			this.getParent().invalidate();
-		}		
+		}
+		else
+		{
+			south.setVisible(false);
+		}
 	}
 	
 	private void updateModel() {

@@ -45,10 +45,5 @@ public interface IADTabpanel extends Component, Evaluatee {
 
 	public void switchRowPresentation();
 
-	public boolean isEditing();
-
 	public void dynamicDisplay(int i);
-
-	public void editRecord(boolean b);
-
 }

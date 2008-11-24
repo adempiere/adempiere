@@ -36,11 +36,6 @@ public interface ToolbarListener
     public void onNew();
     
     /**
-     * Edit current record
-     */
-    public void onEdit();
-    
-    /**
      * Navigate to first record
      */
     public void onFirst();
