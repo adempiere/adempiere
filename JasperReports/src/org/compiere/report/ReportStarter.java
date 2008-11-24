@@ -462,23 +462,16 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                 	resFile = getResourcesForResourceFile(jasperName, currLang);
             // TODO: Implement file:/ for resources
             } else {
-                File[] resources = reportDir.listFiles( new FileFilter( jasperName, reportDir, ".properties"));                
-                // try baseName + "_" + language
-                for( int i=0; i<resources.length; i++) {
-                    if ( resources[i].getName().equals( jasperName+currLang.getLocale().getLanguage()+".properties")) {
-                        resFile=resources[i];
-                        break;
-                    }
-                }
-                if (resFile==null) {
-                    // try baseName only
-                    for( int i=0; i<resources.length; i++) {
-                        if ( resources[i].getName().equals( jasperName+".properties")) {
-                            resFile=resources[i];
-                            break;
-                        }
-                    }
-                }
+            	resFile = new File(jasperName+"_"+currLang.getLocale().getLanguage()+".properties");
+            	if (!resFile.exists()) {
+            		resFile = null;
+            	}
+            	if (resFile == null) {
+            		resFile = new File(jasperName+".properties");
+            		if (!resFile.exists()) {
+            			resFile = null;
+            		}
+            	}
             }
             if (resFile!=null) {
                 try {
