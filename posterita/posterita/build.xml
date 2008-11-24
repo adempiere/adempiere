@@ -23,7 +23,7 @@
 	<property name="reference.adempiere.lib" value="../../lib" />
 	<property name="reference.aspectj.dir" value="../reference/aspectJ" />
 	<property name="posteritadevhome.exists" value="false" />
-
+	<property file="${posterita.dev.home}/AdempiereEnv.properties" />
 	
   	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
 	    <classpath>
@@ -135,7 +135,16 @@
 	</target>
 
 	<available type="dir" file="${posterita.dev.home}/jboss/server/adempiere/deploy/adempiere.ear" property="${posteritadevhome.exists}" />
-
+	
+	<!-- Sign Posterita Jar -->
+	<!-- printOrderApplet.jar -->
+	<target name="signPrintApplet">
+		<fail unless="${posteritadevhome.exists}" message="Posterita Development home not set correctly in build.properties" />
+		
+		<signjar jar="${src.web.dir}/applets/printOrderApplet.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
+			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
+	</target>
+		
 	<target name="explode">
 		<fail unless="${posteritadevhome.exists}" message="Posterita Development home not set correctly in build.properties" />
 		<copy todir="${posterita.dev.home}/jboss/server/adempiere/deploy/adempiere.ear/posterita.war">
