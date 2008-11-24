@@ -47,5 +47,4 @@ BEGIN
 	RETURN v_Price;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;

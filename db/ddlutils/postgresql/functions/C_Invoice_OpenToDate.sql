@@ -122,4 +122,4 @@ BEGIN
  RETURN v_TotalOpenAmt;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
+  LANGUAGE 'plpgsql' ;

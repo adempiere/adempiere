@@ -23,5 +23,4 @@ BEGIN
 	RETURN bomQtyOnHand(Product_ID, Warehouse_ID, Locator_ID) - bomQtyReserved(Product_ID, Warehouse_ID, Locator_ID);
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;
