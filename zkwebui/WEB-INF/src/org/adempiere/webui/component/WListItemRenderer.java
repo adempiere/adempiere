@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,11 +39,13 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.SelectEvent;
+import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
+import org.zkoss.zul.impl.NumberInputElement;
 
 /**
  * Renderer for {@link org.adempiere.webui.component.ListItems}
@@ -243,12 +246,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
 
-/*		Color fgColor = getForegroundColour(table, rowIndex);
-		Color bgColor = getBackgroundColour(table, rowIndex, columnIndex);
-
-		ZkCssHelper.appendStyle(listcell, "color:#" + ZkCssHelper.createHexColorString(fgColor)
-						+ "; bgcolor:#" + ZkCssHelper.createHexColorString(bgColor));
-*/
         // TODO put this in factory method for generating cell renderers, which 
         // are assigned to Table Columns
 		if (field != null)
@@ -307,7 +304,33 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
 				listcell.setValue(dateFormat.format((Timestamp)field));
-				listcell.setLabel(dateFormat.format((Timestamp)field));
+				if (isCellEditable)
+				{
+					Datebox datebox = new Datebox();
+					datebox.setFormat(dateFormat.toPattern());
+					datebox.setValue(new Date(((Timestamp)field).getTime()));
+					datebox.addEventListener(Events.ON_CHANGE, this);
+					listcell.appendChild(datebox);
+				}
+				else
+				{
+					listcell.setLabel(dateFormat.format((Timestamp)field));
+				}
+			}
+			else if (field instanceof String)
+			{
+				listcell.setValue(field.toString());
+				if (isCellEditable)
+				{
+					Textbox textbox = new Textbox();
+					textbox.setValue(field.toString());
+					textbox.addEventListener(Events.ON_CHANGE, this);
+					listcell.appendChild(textbox);
+				}
+				else
+				{
+					listcell.setLabel(field.toString());
+				}
 			}
 			// if ID column make it invisible
 			else if (field instanceof IDColumn)
@@ -567,7 +590,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			}
 		}
 
-		else if (source.getParent() instanceof Listcell)
+		else if (isWithinListCell(source))
 		{
 			row = getRowPosition(source);
 			col = getColumnPosition(source);
@@ -578,9 +601,17 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			{
 				value = Boolean.valueOf(((Checkbox)source).isChecked());
 			}
-			else if (source instanceof NumberBox)
+			else if (source instanceof Decimalbox)
 			{
-				value = ((NumberBox)source).getValue();
+				value = ((Decimalbox)source).getValue();
+			}
+			else if (source instanceof Datebox)
+			{
+				value = ((Datebox)source).getValue();
+			}
+			else if (source instanceof Textbox)
+			{
+				value = ((Textbox)source).getValue();
 			}
 
 			if(value != null)
@@ -597,6 +628,18 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		return;
 	}
 
+	private boolean isWithinListCell(Component source) {
+		if (source instanceof Listcell)
+			return true;
+		Component c = source.getParent();
+		while(c != null) {
+			if (c instanceof Listcell)
+				return true;
+			c = c.getParent();
+		}
+		return false;
+	}
+
 	/**
 	 * Get the row index of the given <code>source</code> component.
 	 *
@@ -609,12 +652,24 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		ListItem item;
 		int row = -1;
 
-		cell = (Listcell)source.getParent();
+		cell = findListcell(source);
 		item = (ListItem)cell.getParent();
 
 		row = item.getIndex();
 
 		return row;
+	}
+
+	private Listcell findListcell(Component source) {
+		if (source instanceof Listcell)
+			return (Listcell) source;
+		Component c = source.getParent();
+		while(c != null) {
+			if (c instanceof Listcell)
+				return (Listcell) c;
+			c = c.getParent();
+		}
+		return null;
 	}
 
 	/**
@@ -628,7 +683,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		Listcell cell;
 		int col = -1;
 
-		cell = (Listcell)source.getParent();
+		cell = findListcell(source);
 		col = cell.getColumnIndex();
 
 		return col;
