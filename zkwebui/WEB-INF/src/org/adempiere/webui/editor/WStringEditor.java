@@ -44,7 +44,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 {
     private static final String EDITOR_EVENT = "EDITOR";
 
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     
     private String oldText;
     
@@ -157,10 +157,6 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        super.fireValueChange(changeEvent);
 	        oldText = newText;
     	} 
-    	else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
     }
 
     @Override

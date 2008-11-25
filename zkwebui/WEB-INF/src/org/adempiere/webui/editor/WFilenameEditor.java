@@ -35,7 +35,7 @@ import org.zkoss.zul.Fileupload;
  */
 public class WFilenameEditor extends WEditor 
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	
 	private static final CLogger log = CLogger.getCLogger(WFilenameEditor.class);
 	
@@ -98,10 +98,6 @@ public class WFilenameEditor extends WEditor
 		{
 			cmd_file();			
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 	
 	/**

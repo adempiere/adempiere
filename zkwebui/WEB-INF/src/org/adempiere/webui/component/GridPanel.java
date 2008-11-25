@@ -14,11 +14,13 @@ package org.adempiere.webui.component;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.table.AbstractTableModel;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.editor.WEditor;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
@@ -297,5 +299,36 @@ public class GridPanel extends Borderlayout implements EventListener
 	
 	public Listbox getListbox() {
 		return listbox;
+	}
+	
+	public void dynamicDisplay(int col) {
+		if (!gridTab.isOpen())
+        {
+            return;
+        }
+        
+        //  Selective
+        if (col > 0)
+        	return;
+
+        boolean noData = gridTab.getRowCount() == 0;
+        List<WEditor> list =  renderer.getEditors();
+        for (WEditor comp : list)
+        {
+            GridField mField = comp.getGridField();
+            if (mField != null && mField.getIncluded_Tab_ID() <= 0)
+            {
+                if (noData)
+                {
+                    comp.setReadWrite(false);
+                }
+                else
+                {
+                	comp.dynamicDisplay();
+                    boolean rw = mField.isEditable(true);   //  r/w - check Context
+                    comp.setReadWrite(rw);
+                }
+            }
+        }   //  all components
 	}
 }

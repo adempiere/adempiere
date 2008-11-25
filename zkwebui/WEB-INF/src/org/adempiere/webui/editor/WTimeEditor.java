@@ -30,7 +30,7 @@ import org.zkoss.zul.Timebox;
  */
 public class WTimeEditor extends WEditor
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     private static final CLogger logger;
     
     static
@@ -104,10 +104,6 @@ public class WTimeEditor extends WEditor
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
     }
 
     @Override

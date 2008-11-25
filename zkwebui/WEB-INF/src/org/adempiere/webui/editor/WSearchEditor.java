@@ -56,7 +56,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WSearchEditor extends WEditor implements ContextMenuListener, ValueChangeListener, IZoomableEditor
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
 	private Lookup 				lookup;
 	private String				m_tableName = null;
 	private String				m_keyColumnName = null;
@@ -223,11 +223,6 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			}
 			actionButton("");
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(e.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
-
 	}
 	
 	@Override

@@ -37,7 +37,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WYesNoEditor extends WEditor
 {
-    public static final String[] LISTENER_EVENTS = {Events.ON_CHECK, Events.ON_FOCUS};
+    public static final String[] LISTENER_EVENTS = {Events.ON_CHECK};
     private static final CLogger logger;
     
     static
@@ -68,10 +68,6 @@ public class WYesNoEditor extends WEditor
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
-    	}
-    	else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
     	}
     }
 

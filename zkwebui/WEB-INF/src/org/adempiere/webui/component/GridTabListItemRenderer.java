@@ -14,7 +14,9 @@ package org.adempiere.webui.component;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -116,6 +118,9 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		if (editor != null)  {
 			editor.addValueChangeListener(dataBinder);			
 			cell.appendChild(editor.getComponent());
+			if (editor.getComponent() instanceof Checkbox) {
+				cell.setStyle("text-align:center");
+			}
 			gridField.addPropertyChangeListener(editor);
 			editor.setValue(gridField.getValue());
 			WEditorPopupMenu popupMenu = editor.getPopupMenu();
@@ -254,5 +259,17 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 	 */
 	public boolean isInitialize() {
 		return !editors.isEmpty();
+	}
+
+	/**
+	 * 
+	 * @return active editor list
+	 */
+	public List<WEditor> getEditors() {
+		List<WEditor> editorList = new ArrayList<WEditor>();
+		if (!editors.isEmpty())
+			editorList.addAll(editors.values());
+		
+		return editorList;
 	}
 }

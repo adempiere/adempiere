@@ -33,7 +33,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WImageEditor extends WEditor
 {
-    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
+    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
     private static final CLogger logger;
     
@@ -150,9 +150,5 @@ public class WImageEditor extends WEditor
 			ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), oldValue, newValue);
 			fireValueChange(vce);
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 }

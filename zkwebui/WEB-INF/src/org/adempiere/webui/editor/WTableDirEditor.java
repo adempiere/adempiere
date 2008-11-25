@@ -50,7 +50,7 @@ import org.zkoss.zk.ui.event.Events;
 public class WTableDirEditor extends WEditor implements ListDataListener, 
 ContextMenuListener, IZoomableEditor
 {
-    public final static String[] LISTENER_EVENTS = {Events.ON_SELECT, Events.ON_FOCUS};
+    public final static String[] LISTENER_EVENTS = {Events.ON_SELECT};
     
     private static final CLogger logger;
     
@@ -265,10 +265,6 @@ ContextMenuListener, IZoomableEditor
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
-    	}
-    	else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
     	}
     }
     

@@ -63,7 +63,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
-import org.zkoss.lang.Threads;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zhtml.Button;
 import org.zkoss.zk.ui.Component;
@@ -114,6 +113,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	private MGoal[] m_goals = null;
 	
 	private List<MQuery> queryZoom = null;
+
+	private Thread updateInfoThread;
+
+	private UpdateInfoRunnable updateInfoRunnable;
 	
 	private static final String key = "queryZoom";
 
@@ -355,9 +358,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         
         updateInfo();
         
-        Thread infoThread = new Thread(new UpdateInfoRunnable(layout.getDesktop()), "UpdateInfo");
-        infoThread.setDaemon(true);
-        infoThread.start();
+        updateInfoRunnable = new UpdateInfoRunnable(layout.getDesktop());
+        updateInfoThread = new Thread(updateInfoRunnable, "UpdateInfo");
+        updateInfoThread.setDaemon(true);
+        updateInfoThread.start();
 	}
 	
 	private String goalsDetail(int AD_Table_ID, Panelchildren panel) 
@@ -474,27 +478,35 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	
 	private class UpdateInfoRunnable implements Runnable {
 		private org.zkoss.zk.ui.Desktop desktop;
+		private boolean stop = false;
 		UpdateInfoRunnable(org.zkoss.zk.ui.Desktop desktop) {
 			this.desktop = desktop;
 		}
 		public void run() 
 		{
-			while(true) {
+			while(!stop) {
+				try {
+					Thread.sleep(60000); // Update every one minutes
+				} catch (InterruptedException e1) {
+					if (stop) break;
+				}
+				
 				try {
 					// get full control of desktop
 					Executions.activate(desktop);
 					try {
-						updateInfo();
-						Threads.sleep(5000);// Update each 5 seconds
+						updateInfo();						
 					} catch (Error ex) {
-						throw ex;
+						logger.log(Level.SEVERE, "UpdateInfo Thread error="+ex.getLocalizedMessage(), ex);
+						break;
 					} finally {
 						// release full control of desktop
 						Executions.deactivate(desktop);
 					}
-				} catch (Exception e) {
-					logger.log(Level.WARNING, "Failed to run UpdateInfo", e);
-				}
+				} catch (Throwable e) {
+					logger.log(Level.SEVERE, "UpdateInfo Thread error="+e.getLocalizedMessage(), e);
+					break;
+				}				
 			}
 		}
 	}
@@ -983,5 +995,12 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	 */
 	public Component getComponent() {
 		return layout;
+	}
+	
+	public void logout() {
+		if (updateInfoThread != null && updateInfoThread.isAlive()) {
+			updateInfoRunnable.stop = true;
+			updateInfoThread.interrupt();
+		}
 	}
 }

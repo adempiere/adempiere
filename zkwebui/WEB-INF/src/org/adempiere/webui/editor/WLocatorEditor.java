@@ -49,7 +49,7 @@ import org.zkoss.zk.ui.event.Events;
 
 public class WLocatorEditor extends WEditor implements EventListener, PropertyChangeListener
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
 	private String m_columnName;
 	private MLocatorLookup m_mLocator;
@@ -216,10 +216,6 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 				return;
 			setValue (ld.getValue(), true);
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 	
 	/**

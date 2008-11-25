@@ -36,7 +36,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WAccountEditor extends WEditor 
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	
 	private MAccountLookup		m_mAccount;
 
@@ -173,10 +173,6 @@ public class WAccountEditor extends WEditor
 		{
 			cmd_button();
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 	
 	public String[] getEvents()

@@ -230,6 +230,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        for (int tab = 0; tab < tabSize; tab++)
 	        {
 	            initTab(query, tab);
+	            if (tab == 0 && curTab == null && m_findCancelled)
+	            	return false;
 	        }
 	        Env.setContext(ctx, curWindowNo, "WindowName", gridWindow.getName());
         }
@@ -238,7 +240,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         	initEmbeddedTab(query, embeddedTabindex);
         }
                 
-        curTab.getTableModel().setChanged(false);
+        if (curTab != null)
+        	curTab.getTableModel().setChanged(false);
+        
         if (embeddedTabindex < 0)
         {
 	        curTabIndex = 0;        

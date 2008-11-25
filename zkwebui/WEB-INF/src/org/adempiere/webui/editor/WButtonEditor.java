@@ -48,7 +48,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WButtonEditor extends WEditor
 {
-    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
+    private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
     private static final CLogger logger;
     
@@ -274,9 +274,5 @@ public class WButtonEditor extends WEditor
 				evtListener.actionPerformed(actionEvent);
 			}
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 }

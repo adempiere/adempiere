@@ -23,7 +23,7 @@ public class WAssignmentEditor extends WEditor {
 	
 	private final static CLogger log = CLogger.getCLogger(WAssignmentEditor.class);
 	
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_FOCUS};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
 		
 	private boolean m_readWrite;
 	private Object m_value;
@@ -153,10 +153,6 @@ public class WAssignmentEditor extends WEditor {
 				fireValueChange(vce);
 			}
 		}
-		else if (Events.ON_FOCUS.equalsIgnoreCase(event.getName()) && gridField != null)
-    	{
-    		this.setReadWrite(gridField.isEditable(true));
-    	}
 	}
 
 }

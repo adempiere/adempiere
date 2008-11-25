@@ -493,31 +493,7 @@ DataStatusListener, IADTabpanel
         
         //  Selective
         if (col > 0)
-        {
-            GridField changedField = gridTab.getField(col);
-            String columnName = changedField.getColumnName();
-            ArrayList<GridField> dependants = gridTab.getDependantFields(columnName);
-            logger.config("(" + gridTab.toString() + ") "
-                + columnName + " - Dependents=" + dependants.size());
-            if (dependants.size() == 0 && changedField.getCallout().length() > 0)
-            {
-                for (WEditor comp : editors)
-                {
-                    if (columnName.equals(comp.getColumnName()))
-                    {
-                        boolean manMissing = false;
-                        boolean noValue = changedField.getValue() == null || changedField.getValue().toString().length() == 0;
-                        if (noValue && changedField.isEditable(true) && changedField.isMandatory(true))
-                        {
-                            manMissing = true;
-                        }
-                        comp.setBackground(manMissing || changedField.isError());
-                        break;
-                    }
-                }
-                return;
-            }
-        }
+        	return;
 
         boolean noData = gridTab.getRowCount() == 0;
         logger.config(gridTab.toString() + " - Rows=" + gridTab.getRowCount());
@@ -802,6 +778,7 @@ DataStatusListener, IADTabpanel
         
         if (listPanel.isVisible()) {
         	listPanel.updateListIndex();
+        	listPanel.dynamicDisplay(col);
         }
         
         if (!includedPanel.isEmpty()) {

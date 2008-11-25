@@ -181,6 +181,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     		mSession.logout();
     	}
     	
+    	appDesktop.logout();
+    	
         SessionManager.clearSession();
         super.getChildren().clear();
         Page page = this.getPage();
