@@ -25,7 +25,7 @@ BEGIN
       cmdsys :=
             'SELECT  MAX ('
          || r.tablename
-         || '_id) currentnextsys FROM '
+         || '_id) as currentnextsys FROM '
          || r.tablename
          || ' where '
          || r.tablename
@@ -46,15 +46,15 @@ BEGIN
          currentnextsys := 0;
       END IF;
 
-      SELECT INTO currentnextsys DECODE (SIGN (currentnextsys - 50000),
-                     -1, 50000,
-                     NVL (currentnextsys + 1, 50000)
-                    );
+      SELECT INTO currentnextsys CASE SIGN (currentnextsys - 50000)
+                     WHEN -1 THEN 50000
+                     ELSE coalesce (currentnextsys + 1, 50000)
+                     END;
 
       cmdnosys :=
             'SELECT  MAX ('
          || r.tablename
-         || '_id) currentnext FROM '
+         || '_id) as currentnext FROM '
          || r.tablename
          || ' where '
          || r.tablename
@@ -67,10 +67,10 @@ BEGIN
          currentnext := 0;
       END IF;
 
-      SELECT INTO currentnext DECODE (SIGN (currentnext - 1000000),
-                     -1, 1000000,
-                     NVL (currentnext + 1, 1000000)
-                    );
+      SELECT INTO currentnext CASE SIGN (currentnext - 1000000)
+                     WHEN -1 THEN 1000000
+                     ELSE coalesce (currentnext + 1, 1000000)
+                     END ;
 
       cmdseq :=
             'SELECT currentnext, currentnextsys FROM AD_Sequence '
