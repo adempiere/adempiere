@@ -125,7 +125,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * Update listbox index to sync with grid current row pointer changes
 	 */
 	public void updateListIndex() {
-		int rowIndex  = gridTab.getCurrentRow();
+		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
 		if (pageSize > 0) {			
 			if (paging.getTotalSize() != gridTab.getRowCount())
 				paging.setTotalSize(gridTab.getRowCount());

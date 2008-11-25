@@ -183,10 +183,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     private void initComponents()
     {
         /** Initalise toolbar */
-        toolbar = new CWindowToolbar();
+        toolbar = new CWindowToolbar(isEmbedded());
         toolbar.addListener(this);
-        toolbar.setWidth("100%");
-        toolbar.setEmbedded(isEmbedded());
 
         statusBar = new StatusBarPanel();                
     }

@@ -73,6 +73,7 @@ import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Group;
 import org.zkoss.zul.Groupfoot;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
@@ -276,6 +277,7 @@ DataStatusListener, IADTabpanel
         			rows.appendChild(row);
         			
             		row = new Group();
+            		row.setSpans("2,3");
             		rows.appendChild(row);
             		includedTab .put(field.getIncluded_Tab_ID(), (Group)row);
             		row = new Row();
@@ -927,7 +929,15 @@ DataStatusListener, IADTabpanel
 			grid.getRows().insertBefore(row, next);			
 			panel.createPart(row);
 			panel.getComponent().setWidth("99%");
-			group.setLabel(gridWindow.getTab(tabIndex).getName());			
+			
+			Label title = new Label(gridWindow.getTab(tabIndex).getName());
+			group.appendChild(title);
+			group.appendChild(panel.getToolbar());
+			panel.getStatusBar().setZclass("z-group-foot");
+			if (!group.isOpen()) {
+				panel.getToolbar().setVisible(false);
+			}
+			
 			panel.initPanel(-1, null);			
 			if (active)
 				activateChild(true, ep);

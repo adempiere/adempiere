@@ -80,8 +80,16 @@ public class CWindowToolbar extends FToolbar implements EventListener
     
     private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
 
-    public CWindowToolbar()
+	private boolean embedded;
+
+    public CWindowToolbar() 
     {
+    	this(false);
+    }
+    
+    public CWindowToolbar(boolean embedded)
+    {
+    	this.embedded = embedded;
         init();
     }
 
@@ -89,36 +97,36 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	LayoutUtils.addSclass("adwindow-toolbar", this);
 
-        btnIgnore = createButton("Ignore", "Ignore24.png", "Ignore");
+        btnIgnore = createButton("Ignore", "Ignore", "Ignore");
         addSeparator();
-        btnHelp = createButton("Help", "Help24.png","Help");
-        btnNew = createButton("New", "New24.png", "New");
-        btnCopy = createButton("Copy", "Copy24.png", "Copy");
-        btnDelete = createButton("Delete", "Delete24.png", "Delete");
-        btnSave = createButton("Save", "Save24.png", "Save");
+        btnHelp = createButton("Help", "Help","Help");
+        btnNew = createButton("New", "New", "New");
+        btnCopy = createButton("Copy", "Copy", "Copy");
+        btnDelete = createButton("Delete", "Delete", "Delete");
+        btnSave = createButton("Save", "Save", "Save");
         addSeparator();
-        btnRefresh = createButton("Refresh", "Refresh24.png", "Refresh");
-        btnFind = createButton("Find", "Find24.png", "Find");
-        btnAttachment = createButton("Attachment", "Attachment24.png", "Attachment");
-        btnGridToggle = createButton("Toggle", "Multi24.png", "Multi");
+        btnRefresh = createButton("Refresh", "Refresh", "Refresh");
+        btnFind = createButton("Find", "Find", "Find");
+        btnAttachment = createButton("Attachment", "Attachment", "Attachment");
+        btnGridToggle = createButton("Toggle", "Multi", "Multi");
         addSeparator();
-        btnHistoryRecords = createButton("HistoryRecords", "HistoryX24.png", "History");
-        btnParentRecord = createButton("ParentRecord", "Parent24.png", "Parent");
-        btnDetailRecord = createButton("DetailRecord", "Detail24.png", "Detail");
+        btnHistoryRecords = createButton("HistoryRecords", "HistoryX", "History");
+        btnParentRecord = createButton("ParentRecord", "Parent", "Parent");
+        btnDetailRecord = createButton("DetailRecord", "Detail", "Detail");
         addSeparator();
-        btnFirst = createButton("First", "First24.png", "First");
-        btnPrevious = createButton("Previous", "Previous24.png", "Previous");
-        btnNext = createButton("Next", "Next24.png", "Next");
-        btnLast = createButton("Last", "Last24.png", "Last");
+        btnFirst = createButton("First", "First", "First");
+        btnPrevious = createButton("Previous", "Previous", "Previous");
+        btnNext = createButton("Next", "Next", "Next");
+        btnLast = createButton("Last", "Last", "Last");
         addSeparator();
-        btnReport = createButton("Report", "Report24.png", "Report");
-        btnArchive = createButton("Archive", "Archive24.png", "Archive");
-        btnPrint = createButton("Print", "Print24.png", "Print");
+        btnReport = createButton("Report", "Report", "Report");
+        btnArchive = createButton("Archive", "Archive", "Archive");
+        btnPrint = createButton("Print", "Print", "Print");
         addSeparator();
-        btnZoomAcross = createButton("ZoomAcross", "ZoomAcross24.png", "ZoomAcross");
-        btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow24.png", "WorkFlow");
-        btnRequests = createButton("Requests", "Request24.png", "Request");
-        btnProductInfo = createButton("ProductInfo", "Product24.png", "InfoProduct");
+        btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
+        btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
+        btnRequests = createButton("Requests", "Request", "Request");
+        btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
         
         for (Object obj : this.getChildren())
         {
@@ -146,27 +154,33 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnArchive.setDisabled(false); // Elaine 2008/07/28
         
         configureKeyMap();
+        
+        if (embedded)
+        {
+        	btnParentRecord.setVisible(false);
+    		btnDetailRecord.setVisible(false);
+    		btnActiveWorkflows.setVisible(false);
+    		btnHistoryRecords.setVisible(false);
+    		btnProductInfo.setVisible(false);
+    		setAlign("end");
+    		setWidth("100%");
+    		setStyle("background: transparent none");
+        }
+        else
+        {
+        	setWidth("100%");
+        }
     }
     
-    /**
-     * set embedded mode on/off, embedded panel toolbar should show less button
-     * @param embedded
-     */
-    public void setEmbedded(boolean embedded)
-    {
-		btnParentRecord.setVisible(!embedded);
-		btnDetailRecord.setVisible(!embedded);
-		btnActiveWorkflows.setVisible(!embedded);
-		btnHistoryRecords.setVisible(!embedded);
-		btnProductInfo.setVisible(!embedded);
-    }
     
     private ToolBarButton createButton(String name, String image, String tooltip)
     {
     	ToolBarButton btn = new ToolBarButton("");
         btn.setName("btn"+name);
-        btn.setImage("/images/"+image);
+        btn.setImage("/images/"+image + (embedded ? "16.png" : "24.png"));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
+        if (embedded)
+        	btn.setStyle("background: transparent none");
         buttons.put(name, btn);
         this.appendChild(btn);
         return btn;

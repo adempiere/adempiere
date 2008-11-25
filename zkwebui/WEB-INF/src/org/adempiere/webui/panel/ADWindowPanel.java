@@ -92,17 +92,20 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	layout.setPage(page);
         }
         
-        North n = new North();
-        n.setParent(layout);
-        n.setCollapsible(false);
-        n.setHeight("30px");
-        toolbar.setHeight("30px");
-        toolbar.setParent(n);
+        if (!isEmbedded())
+        {
+	        North n = new North();
+	        n.setParent(layout);
+	        n.setCollapsible(false);
+	        n.setHeight("30px");
+	        toolbar.setHeight("30px");
+	        toolbar.setParent(n);	        	        
+        }
         
         South s = new South();        
         layout.appendChild(s);
         s.setCollapsible(false);
-        statusBar.setParent(s);      
+        statusBar.setParent(s);
         LayoutUtils.addSclass("adwindow-status", statusBar);
         
         if (!isEmbedded() && adTab.isUseExternalSelection())
