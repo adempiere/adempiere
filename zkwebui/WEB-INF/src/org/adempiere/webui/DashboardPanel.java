@@ -27,7 +27,8 @@ public abstract class DashboardPanel extends Window implements IDashboardPanel {
 	}
 	
 	/**
-	 * Desktop.UpdateInfoRunnable will call this method at a certain interval
+	 * Desktop.UpdateInfoRunnable will call this method at a certain interval.
+	 * Subclass should overwrite this method to support server push.
 	 */
 	public void updateInfo() {
 		

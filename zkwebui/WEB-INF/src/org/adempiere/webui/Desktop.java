@@ -273,15 +273,8 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	        	{
 		        	int AD_Menu_ID = rs.getInt(X_AD_Menu.COLUMNNAME_AD_Menu_ID);
 					ToolBarButton btn = new ToolBarButton(String.valueOf(AD_Menu_ID));
-//					if(description == null)
-//					{
-						MMenu menu = new MMenu(Env.getCtx(), AD_Menu_ID, null);
-						btn.setLabel(menu.getName());
-//					}
-//					else
-//					{
-//						btn.setLabel(description);						
-//					}
+					MMenu menu = new MMenu(Env.getCtx(), AD_Menu_ID, null);
+					btn.setLabel(menu.getName());
 					btn.addEventListener(Events.ON_CLICK, this);
 					content.appendChild(btn);
 					panelEmpty = false;
@@ -322,17 +315,25 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	        	{
 		        	try {
 		                Component component = Executions.createComponents(url, content, null);
-		                if(component != null && component instanceof DashboardPanel) 
+		                if(component != null) 
 		                {
-		                	DashboardPanel dashboardPanel = (DashboardPanel) component;
-		                	if (!dashboardPanel.getChildren().isEmpty()) {
-		                		content.appendChild(dashboardPanel);
-		                		dashboardPanels.add(dashboardPanel);
+		                	if (component instanceof DashboardPanel)
+		                	{
+			                	DashboardPanel dashboardPanel = (DashboardPanel) component;
+			                	if (!dashboardPanel.getChildren().isEmpty()) {
+			                		content.appendChild(dashboardPanel);
+			                		dashboardPanels.add(dashboardPanel);
+			                		panelEmpty = false;
+			                	}
+		                	}
+		                	else
+		                	{
+		                		content.appendChild(component);
 		                		panelEmpty = false;
 		                	}
 		                }
 					} catch (Exception e) {
-						logger.log(Level.WARNING, "Failed to create components", e);
+						logger.log(Level.WARNING, "Failed to create components. zul="+url, e);
 					}
 	        	}
 	        	
@@ -354,7 +355,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
         
         updateInfo();
         
-        new Thread(new UpdateInfoRunnable(layout.getDesktop())).start();
+        Thread infoThread = new Thread(new UpdateInfoRunnable(layout.getDesktop()), "UpdateInfo");
+        infoThread.setDaemon(true);
+        infoThread.start();
 	}
 	
 	private String goalsDetail(int AD_Table_ID, Panelchildren panel) 
@@ -476,20 +479,22 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		}
 		public void run() 
 		{
-			try {
-				// get full control of desktop
-				Executions.activate(desktop);
+			while(true) {
 				try {
-					updateInfo();
-					Threads.sleep(500);// Update each 0.5 seconds
-				} catch (Error ex) {
-					throw ex;
-				} finally {
-					// release full control of desktop
-					Executions.deactivate(desktop);
+					// get full control of desktop
+					Executions.activate(desktop);
+					try {
+						updateInfo();
+						Threads.sleep(5000);// Update each 5 seconds
+					} catch (Error ex) {
+						throw ex;
+					} finally {
+						// release full control of desktop
+						Executions.deactivate(desktop);
+					}
+				} catch (Exception e) {
+					logger.log(Level.WARNING, "Failed to run UpdateInfo", e);
 				}
-			} catch (Exception e) {
-				logger.log(Level.WARNING, "Failed to run NRW", e);
 			}
 		}
 	}
@@ -935,7 +940,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	{
 		Tabbox tabbox = windowContainer.getComponent();
 		Tabpanels panels = tabbox.getTabpanels();
-		List childrens = panels.getChildren();
+		List<?> childrens = panels.getChildren();
 		for (Object child : childrens)
 		{
 			Tabpanel panel = (Tabpanel) child;

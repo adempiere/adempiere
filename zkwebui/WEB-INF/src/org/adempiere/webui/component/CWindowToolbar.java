@@ -89,7 +89,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     {
     	LayoutUtils.addSclass("adwindow-toolbar", this);
 
-        btnIgnore = createButton("Ignore", "Ignore16.png", "Ignore");
+        btnIgnore = createButton("Ignore", "Ignore24.png", "Ignore");
         addSeparator();
         btnHelp = createButton("Help", "Help24.png","Help");
         btnNew = createButton("New", "New24.png", "New");
