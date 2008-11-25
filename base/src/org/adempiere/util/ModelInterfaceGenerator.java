@@ -22,9 +22,11 @@
 *                                                                     *
 * Contributors:                                                       *
 * - Trifon Trifonov (trifonnt@users.sourceforge.net)                  *
+* - Teo Sarca (teo.sarca@arhipac.ro)                                  *
 *                                                                     *
 * Sponsors:                                                           *
 * - Company (http://www.d3-soft.com)                                  *
+* - ARHIPAC (http://www.arhipac.ro)                                   *
 ***********************************************************************/
 
 package org.adempiere.util;
@@ -35,10 +37,12 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.model.MEntityType;
 import org.compiere.model.MTable;
@@ -59,10 +63,12 @@ import org.compiere.util.Env;
  * 				<li>better formating of generated source  
  * 				<li>BF [ 1787833 ] ModelInterfaceGenerator: don't write timestamp
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
+ * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
-public class ModelInterfaceGenerator {
+public class ModelInterfaceGenerator
+{
 	
 	private String packageName = "";
 	
@@ -70,34 +76,22 @@ public class ModelInterfaceGenerator {
 	
 	/** File Header			*/
 	public static final String COPY = 
-		 "/**********************************************************************\n"
-	   + " * This file is part of Adempiere ERP Bazaar                          *\n"
-	   + " * http://www.adempiere.org                                           *\n"
-	   + " *                                                                    *\n"
-	   + " * Copyright (C) Trifon Trifonov.                                     *\n"
-	   + " * Copyright (C) Contributors                                         *\n"
-	   + " *                                                                    *\n"
-	   + " * This program is free software, you can redistribute it and/or      *\n"
-	   + " * modify it under the terms of the GNU General Public License        *\n"
-	   + " * as published by the Free Software Foundation, either version 2     *\n"
-	   + " * of the License, or (at your option) any later version.             *\n"
-	   + " *                                                                    *\n"
-	   + " * This program is distributed in the hope that it will be useful,    *\n"
-	   + " * but WITHOUT ANY WARRANTY, without even the implied warranty of     *\n"
-	   + " * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *\n"
-	   + " * GNU General Public License for more details.                       *\n"
-	   + " *                                                                    *\n"
-	   + " * You should have received a copy of the GNU General Public License  *\n"
-	   + " * along with this program, if not, write to the Free Software        *\n"
-	   + " * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *\n"
-	   + " * MA 02110-1301, USA.                                                *\n"
-	   + " *                                                                    *\n"
-	   + " * Contributors:                                                      *\n"
-	   + " * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *\n"
-	   + " *                                                                    *\n"
-	   + " * Sponsors:                                                          *\n"
-	   + " * - Company (http://www.site.com)                                    *\n"
-	   + " **********************************************************************/\n";
+		 "/******************************************************************************\n"
+		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
+		+" * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *\n"
+		+" * This program is free software; you can redistribute it and/or modify it    *\n"
+		+" * under the terms version 2 of the GNU General Public License as published   *\n"
+		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
+		+" * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *\n"
+		+" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *\n"
+		+" * See the GNU General Public License for more details.                       *\n"
+		+" * You should have received a copy of the GNU General Public License along    *\n"
+		+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
+		+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
+		+" * For the text or an alternative of this public license, you may reach us    *\n"
+		+" * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *\n"
+		+" * or via info@compiere.org or http://www.compiere.org/license.html           *\n"
+		+" *****************************************************************************/\n";
 	
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ModelInterfaceGenerator.class);
@@ -140,26 +134,25 @@ public class ModelInterfaceGenerator {
 		int accessLevel = 0;
 		String sql = "SELECT TableName, AccessLevel FROM AD_Table WHERE AD_Table_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
+			rs = pstmt.executeQuery();
+			if (rs.next())
+			{
 				tableName = rs.getString(1);
 				accessLevel = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, sql, e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
-			pstmt = null;
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (tableName == null)
 			throw new RuntimeException("TableName not found for ID=" + AD_Table_ID);
@@ -237,17 +230,18 @@ public class ModelInterfaceGenerator {
 				+ "FROM AD_Column c "
 				+ "WHERE c.AD_Table_ID=?"
 				+ " AND c.ColumnName <> 'AD_Client_ID'"
-				+ " AND c.ColumnName <> 'AD_Org_ID'"
+//				+ " AND c.ColumnName <> 'AD_Org_ID'"
 				+ " AND c.ColumnName <> 'IsActive'"
 				+ " AND c.ColumnName NOT LIKE 'Created%'"
 				+ " AND c.ColumnName NOT LIKE 'Updated%' "
 				+ " AND c.IsActive='Y'"
 				+ " ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String columnName = rs.getString(1);
 				boolean isUpdateable = "Y".equals(rs.getString(2));
@@ -282,18 +276,15 @@ public class ModelInterfaceGenerator {
 						ValueMin, ValueMax, VFormat, Callout, Name,
 						Description, virtualColumn, IsEncrypted, IsKey));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, sql, e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
-			pstmt = null;
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return sb;
 	}
@@ -324,39 +315,12 @@ public class ModelInterfaceGenerator {
 			int displayType, int AD_Reference_ID, int fieldLength,
 			String defaultValue, String ValueMin, String ValueMax,
 			String VFormat, String Callout, String Name, String Description,
-			boolean virtualColumn, boolean IsEncrypted, boolean IsKey) {
-		Class<?> clazz = DisplayType.getClass(displayType, true);
+			boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
+	{
+		Class<?> clazz = getClass(columnName, displayType, AD_Reference_ID);
+		String dataType = getDataTypeName(clazz, displayType);
 		if (defaultValue == null)
 			defaultValue = "";
-		// Handle Posted
-		if (columnName.equalsIgnoreCase("Posted")
-				|| columnName.equalsIgnoreCase("Processed")
-				|| columnName.equalsIgnoreCase("Processing")) {
-			clazz = Boolean.class;
-			AD_Reference_ID = 0;
-		}
-		// Record_ID
-		else if (columnName.equalsIgnoreCase("Record_ID")) {
-			clazz = Integer.class;
-			AD_Reference_ID = 0;
-		}
-		// String Key
-		else if (columnName.equalsIgnoreCase("AD_Language")) {
-			clazz = String.class;
-		// String Key
-		} else if (columnName.equalsIgnoreCase("EntityType")) {
-			clazz = String.class;
-		}
-		// Data Type
-		String dataType = clazz.getName();
-		dataType = dataType.substring(dataType.lastIndexOf('.') + 1);
-		if (dataType.equals("Boolean")) {
-			dataType = "boolean";
-		} else if (dataType.equals("Integer"))
-			dataType = "int";
-		else if (displayType == DisplayType.Binary
-				|| displayType == DisplayType.Image)
-			dataType = "byte[]";
 
 		StringBuffer sb = new StringBuffer();
 
@@ -382,8 +346,13 @@ public class ModelInterfaceGenerator {
 		sb.append("();");
 		//
 		
-		if (DisplayType.isID(displayType) && !IsKey) {
-			if (displayType == DisplayType.TableDir
+		if (DisplayType.isID(displayType) && !IsKey)
+		{
+			if ("AD_Org_ID".equalsIgnoreCase(columnName))
+			{
+				; // do nothing
+			}
+			else if (displayType == DisplayType.TableDir
 					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
 			{
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
@@ -497,7 +466,7 @@ public class ModelInterfaceGenerator {
 	 * Add class to class import list 
 	 * @param cl
 	 */
-	private void addImportClass(Class cl) {
+	private void addImportClass(Class<?> cl) {
 		if (cl.isArray()) {
 			cl = cl.getComponentType();
 		}
@@ -514,6 +483,86 @@ public class ModelInterfaceGenerator {
 			sb.append("import ").append(name).append(";"); //.append(NL);
 		}
 		sb.append(NL);
+	}
+	
+	
+	/**
+	 * Get class for given display type and reference
+	 * @param displayType
+	 * @param AD_Reference_ID
+	 * @return class
+	 */
+	public static Class<?> getClass(String columnName, int displayType, int AD_Reference_ID)
+	{
+		// Handle Posted
+		// TODO: hardcoded
+		if (columnName.equalsIgnoreCase("Posted")
+				|| columnName.equalsIgnoreCase("Processed")
+				|| columnName.equalsIgnoreCase("Processing"))
+		{
+			return Boolean.class;
+		}
+		// Record_ID
+		// TODO: hardcoded
+		else if (columnName.equalsIgnoreCase("Record_ID"))
+		{
+			return Integer.class;
+		}
+		// Reference Table
+		else if ((DisplayType.Table == displayType || DisplayType.Search == displayType)
+				&& AD_Reference_ID > 0)
+		{
+			String sql = "SELECT c.AD_Reference_ID, c.AD_Reference_Value_ID"
+						+" FROM AD_Ref_Table rt"
+						+" INNER JOIN AD_Column c ON (c.AD_Column_ID=rt.AD_Key)"
+						+" WHERE rt.AD_Reference_ID=?";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, AD_Reference_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					displayType = rs.getInt(1);
+					AD_Reference_ID = rs.getInt(2);
+				}
+				else
+				{
+					throw new IllegalStateException("Not found AD_Ref_Table/AD_Column - DisplayType="+displayType+", AD_Reference_ID="+AD_Reference_ID);
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new DBException(e, sql);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+			//
+			return getClass(columnName, displayType, AD_Reference_ID); // recursive call with new parameters
+		}
+		else
+		{
+			return DisplayType.getClass(displayType, true);
+		}
+	}
+	
+	public static String getDataTypeName(Class<?> cl, int displayType)
+	{
+		String dataType = cl.getName();
+		dataType = dataType.substring(dataType.lastIndexOf('.')+1);
+		if (dataType.equals("Boolean")) {
+			dataType = "boolean";
+		} else if (dataType.equals("Integer")) {
+			dataType = "int";
+		} else if (displayType == DisplayType.Binary || displayType == DisplayType.Image) {
+			dataType = "byte[]";
+		}
+		return dataType;
 	}
 
 	/**
@@ -598,25 +647,24 @@ public class ModelInterfaceGenerator {
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;
-		try {
+		ResultSet rs = null;
+		try
+		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				new ModelInterfaceGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.severe("main - " + e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
-			pstmt = null;
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql.toString());
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.info("Generated = " + count);
 

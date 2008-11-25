@@ -14,7 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  * Contributor(s): Carlos Ruiz - globalqss                                    *
- *                 Teo Sarca                                                  *
+ *                 Teo Sarca - www.arhipac.ro                                 *
  *                 Trifon Trifonov                                            *
  *****************************************************************************/
 package org.adempiere.util;
@@ -26,11 +26,13 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.model.MEntityType;
 import org.compiere.model.MTable;
@@ -55,6 +57,7 @@ import org.compiere.util.Env;
  * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * 				<li>FR [ 1990848 ] Generated Models: remove hardcoded field length
+ * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -83,28 +86,6 @@ public class ModelClassGenerator
 	
 	public static final String NL = "\n";
 	
-	/** File Header			*/
-	public static final String COPY = 
-		 "/******************************************************************************\n"
-		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
-		+" * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *\n"
-		+" * This program is free software; you can redistribute it and/or modify it    *\n"
-		+" * under the terms version 2 of the GNU General Public License as published   *\n"
-		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
-		+" * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *\n"
-		+" * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *\n"
-		+" * See the GNU General Public License for more details.                       *\n"
-		+" * You should have received a copy of the GNU General Public License along    *\n"
-		+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
-		+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
-		+" * For the text or an alternative of this public license, you may reach us    *\n"
-		+" * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *\n"
-		+" * or via info@compiere.org or http://www.compiere.org/license.html           *\n"
-		+" *****************************************************************************/\n";
-	
-	/**	Generated on					*/
-//	private Timestamp 		s_run = new Timestamp(System.currentTimeMillis());
-	
 	/**	Logger			*/
 	private static CLogger	log	= CLogger.getCLogger (ModelClassGenerator.class);
 	
@@ -129,34 +110,26 @@ public class ModelClassGenerator
 		int accessLevel = 0;
 		String sql = "SELECT TableName, AccessLevel FROM AD_Table WHERE AD_Table_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				tableName = rs.getString(1);
 				accessLevel = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (tableName == null)
 			throw new RuntimeException ("TableName not found for ID=" + AD_Table_ID);
@@ -174,7 +147,7 @@ public class ModelClassGenerator
 		String className = "X_" + tableName;
 		//
 		StringBuffer start = new StringBuffer ()
-			.append (COPY)
+			.append (ModelInterfaceGenerator.COPY)
 			.append ("/** Generated Model - DO NOT CHANGE */").append(NL)
 			.append("package " + packageName + ";").append(NL)
 			.append(NL)
@@ -304,11 +277,12 @@ public class ModelClassGenerator
 			+ " ORDER BY c.ColumnName";
 		boolean isKeyNamePairCreated = false; // true if the method "getKeyNamePair" is already generated
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String columnName = rs.getString(1);
@@ -350,24 +324,15 @@ public class ModelClassGenerator
 					}
 				}
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return sb;
 	}	//	createColumns
@@ -399,42 +364,12 @@ public class ModelClassGenerator
 		String Callout, String Name, String Description, 
 		boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
 	{
-		Class<?> clazz = DisplayType.getClass(displayType, true);
+		Class<?> clazz = ModelInterfaceGenerator.getClass(columnName, displayType, AD_Reference_ID);
+		String dataType = ModelInterfaceGenerator.getDataTypeName(clazz, displayType);
 		if (defaultValue == null)
 			defaultValue = "";
 		if (DisplayType.isLOB(displayType))		//	No length check for LOBs
 			fieldLength = 0;
-
-		//	Handle Posted
-		if (columnName.equalsIgnoreCase("Posted") 
-			|| columnName.equalsIgnoreCase("Processed")
-			|| columnName.equalsIgnoreCase("Processing"))
-		{
-			clazz = Boolean.class;
-			AD_Reference_ID = 0;
-		}
-		//	Record_ID
-		else if (columnName.equalsIgnoreCase("Record_ID"))
-		{
-			clazz = Integer.class;
-			AD_Reference_ID = 0;
-		}
-		//	String Key
-		else if (columnName.equalsIgnoreCase("AD_Language")
-			|| columnName.equalsIgnoreCase("EntityType"))
-		{
-			clazz = String.class;
-		}	
-		//	Data Type
-		String dataType = clazz.getName();
-		dataType = dataType.substring(dataType.lastIndexOf('.')+1);
-		if (dataType.equals("Boolean")) {
-			dataType = "boolean";
-		} else if (dataType.equals("Integer")) {
-			dataType = "int";
-		} else if (displayType == DisplayType.Binary || displayType == DisplayType.Image) {
-			dataType = "byte[]";
-		}
 
 		//	Set	********
 		String setValue = "\t\tset_Value";
@@ -452,7 +387,8 @@ public class ModelClassGenerator
 		
 		// TODO - New functionality
 		// 1) Must understand which class to reference
-		if (DisplayType.isID(displayType) && !IsKey) {
+		if (DisplayType.isID(displayType) && !IsKey)
+		{
 			if (displayType == DisplayType.TableDir
 					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
 			{	
@@ -461,6 +397,8 @@ public class ModelClassGenerator
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				
 				MTable table = MTable.get(Env.getCtx(), tableName);
+				if (table == null)
+					throw new RuntimeException("No table found for "+tableName);
 				String entityType = table.getEntityType();
 				if (!"D".equals(entityType))
 				{	
@@ -519,7 +457,7 @@ public class ModelClassGenerator
 			.append("\t{").append(NL)
 		;
 		//	List Validation
-		if (AD_Reference_ID != 0)
+		if (AD_Reference_ID != 0 && String.class == clazz)
 		{
 			String staticVar = addListValidation (sb, AD_Reference_ID, columnName, !isMandatory);
 			sb.insert(0, staticVar);
@@ -717,11 +655,12 @@ public class ModelClassGenerator
 		//
 		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=? ORDER BY AD_Ref_List_ID";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Reference_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				String value = rs.getString(1);
@@ -790,25 +729,15 @@ public class ModelClassGenerator
 					.append("_").append(nameClean)
 					.append(" = \"").append(value).append("\";");
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
-			found = false;
+			throw new DBException(e, sql);
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		statement.append(")"
 			+ "; "
@@ -916,7 +845,7 @@ public class ModelClassGenerator
 	 * Add class to class import list 
 	 * @param cl
 	 */
-	private void addImportClass(Class cl) {
+	private void addImportClass(Class<?> cl) {
 		if (cl.isArray()) {
 			cl = cl.getComponentType();
 		}
@@ -1015,37 +944,31 @@ public class ModelClassGenerator
 			+ " OR IsView='N')"
 			+ " AND IsActive = 'Y' AND TableName NOT LIKE '%_Trl' AND ");
 		sql.append(" AND TableName LIKE ").append(tableLike);
-		//sql.append(" AND TableName IN (").append( tableLike ).append(")");
 
 		sql.append(" ORDER BY TableName");
 		
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				new ModelClassGenerator(rs.getInt(1), directory, packageName);
 				count++;
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.severe("main - " + e);
+			throw new DBException(e, sql.toString());
 		}
 		finally
 		{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			} catch (Exception e) { /* ignored */ }
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.info("Generated = " + count);
 	}
