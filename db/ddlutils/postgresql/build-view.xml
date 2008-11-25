@@ -1,0 +1,62 @@
+<project name="create-db" default="load-views" basedir=".">
+	<property file="build.properties" />
+	<path id="lib.path">
+		<fileset dir="../lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<fileset dir="../lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+
+	<target name="init">
+		<echo message="============================================================" />
+		<echo message="     PostgreSQL database create tool for Adempiere ERP" />
+		<echo message="	  	Adempiere Licese is GNU GPL License" />
+		<echo message="============================================================" />
+		<echo message="" file="log/psql.log" append="false" />
+		<echo append="false" file="log/build.log" message="#Build log:${line.separator}${line.separator}" />
+	</target>
+        
+	<target name="load-views" depends="init">
+		<echo message="----- Loading views  -----" />
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [1st Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+		<echo file="log/psql.log" append="true" message="${line.separator}#Create Views [2nd Pass]:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="views">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
+
+	</target>
+
+	<target name="load">
+		<echo message="Loading file ${file.name}" />
+		<exec dir="${postgresql.home}/bin" executable="${postgresql.home}/bin/psql" resultproperty="psql.result" output="log/psql.log" append="true">
+			<arg line="-d ${postgresql.database} -q" />
+			<arg line="-U ${postgresql.user}" />                       
+			<arg line="-f ${file.name}" />
+			<env key="PGPASSWORD" value="${postgresql.password}" />
+		</exec>
+		<echo message="File ${file.name} status ${psql.result}" />
+		<echo append="true" file="log/build.log">File ${file.name} status ${psql.result}</echo>
+		<echo append="true" file="log/build.log" message="${line.separator}" />
+	</target>
+
+</project>
+
+
