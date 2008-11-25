@@ -495,7 +495,7 @@ INSERT INTO M_Warehouse_Acct (M_Warehouse_ID, C_AcctSchema_ID, AD_Client_ID,AD_O
 
 -- Sep 22, 2008 1:30:24 PM CDT
 -- Manufacturing Demo
-INSERT INTO C_Location (AD_Client_ID,AD_Org_ID,Address1,Address2,Address3,Address4,C_Country_ID,C_Location_ID,City,Created,CreatedBy,IsActive,Postal,Postal_Add,Updated,UpdatedBy) VALUES (11,0,'Schillerstrabe 18d',NULL,NULL,NULL,101,50004,'Múnich',TO_TIMESTAMP('2008-09-22 13:23:56','YYYY-MM-DD HH24:MI:SS'),100,'Y','47445',NULL,TO_TIMESTAMP('2008-09-22 13:23:56','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO C_Location (AD_Client_ID,AD_Org_ID,Address1,Address2,Address3,Address4,C_Country_ID,C_Location_ID,City,Created,CreatedBy,IsActive,Postal,Postal_Add,Updated,UpdatedBy) VALUES (11,0,'Schillerstrabe 18d',NULL,NULL,NULL,101,50004,'Munich',TO_TIMESTAMP('2008-09-22 13:23:56','YYYY-MM-DD HH24:MI:SS'),100,'Y','47445',NULL,TO_TIMESTAMP('2008-09-22 13:23:56','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Sep 22, 2008 1:30:33 PM CDT
