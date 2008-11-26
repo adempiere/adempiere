@@ -107,8 +107,7 @@ BEGIN
 	RETURN v_Price;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -170,7 +169,7 @@ BEGIN
 	RETURN v_Price;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -231,7 +230,7 @@ BEGIN
 	RETURN v_Price;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -259,8 +258,7 @@ BEGIN
 	RETURN bomQtyOnHand(Product_ID, Warehouse_ID, Locator_ID) - bomQtyReserved(Product_ID, Warehouse_ID, Locator_ID);
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -288,8 +286,7 @@ BEGIN
 	       bomQtyReservedASI(Product_ID, AttributeSetInstance_ID, Warehouse_ID, Locator_ID);
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -425,7 +422,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -564,7 +561,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -707,7 +704,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -852,7 +849,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -993,7 +990,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 /*
  *This file is part of Adempiere ERP Bazaar
@@ -1138,7 +1135,7 @@ BEGIN
 	RETURN 0;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 CREATE OR REPLACE FUNCTION bpartnerRemitLocation(p_C_BPartner_ID C_BPartner.C_BPartner_ID%TYPE) 
 RETURNS numeric AS $body$

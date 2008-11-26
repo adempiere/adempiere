@@ -184,7 +184,7 @@ BEGIN
  RETURN v_TotalOpenAmt;
 END;
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT;
+  LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -256,7 +256,7 @@ BEGIN
 	RETURN	ROUND(COALESCE(v_PaymentAmt,0), 2) * v_MultiplierAP;
 END;	
 $BODY$
-LANGUAGE 'plpgsql' STABLE STRICT;
+LANGUAGE 'plpgsql' ;
 
 
 /*
@@ -308,8 +308,7 @@ BEGIN
 	RETURN v_DocumentNo;
 END;	
 $BODY$
-  LANGUAGE 'plpgsql' STABLE STRICT
-  COST 100;
+  LANGUAGE 'plpgsql' ;
 
 
 CREATE OR REPLACE FUNCTION nextidfunc(
