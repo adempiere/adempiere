@@ -954,7 +954,7 @@ public class MSequence extends X_AD_Sequence
 				next_id = 1000000;
 			}
 			
-			if(CConnection.get().getDatabase().createSequence(TableName+"_SEQ", 1, 0 , 9999999,  next_id))
+			if(CConnection.get().getDatabase().createSequence(TableName+"_SEQ", 1, 0 , 99999999,  next_id))
 				return true;
 			
 			return false;		
