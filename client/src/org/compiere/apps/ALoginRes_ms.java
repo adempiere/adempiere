@@ -22,7 +22,7 @@ import java.util.*;
  *  Base Resource Bundle
  *
  * 	@author 	Jorg Janke
- * 	@version 	$Id: ALoginRes_ml.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 	@version 	$Id: ALoginRes_ms.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
 public final class ALoginRes_ms extends ListResourceBundle
 {
@@ -60,7 +60,7 @@ public final class ALoginRes_ms extends ListResourceBundle
 	{ "Cancel",             "Batal" },
 	{ "VersionConflict",    "Versi Bercanggah:" },
 	{ "VersionInfo",        "Pelayan <> Pengguna" },
-	{ "PleaseUpgrade",      "Sila gunakan program upgrade" }
+	{ "PleaseUpgrade",      "Sila gunakan program upgred" }
 	};
 
 	/**
