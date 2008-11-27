@@ -243,7 +243,6 @@ ContextMenuListener, IZoomableEditor
     	{
     		if (lookup != null)
 	        {
-    			lookup.removeAllElements();
     			NamePair pair = lookup.getDirect(oldValue, false, false);
     			if (pair instanceof KeyNamePair) {
     				int key = ((KeyNamePair)pair).getKey();
