@@ -27,6 +27,13 @@ public interface IDesktop {
 	 * @return windowNo
 	 */
 	public int registerWindow(Object window);
+	
+	/**
+	 * 
+	 * @param WindowNo
+	 * @return Object
+	 */
+	public Object findWindow(int WindowNo);
 
 	/**
 	 * close active window

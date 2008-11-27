@@ -20,11 +20,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.adempiere.webui.panel.AbstractADWindowPanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.GridTabDataBinder;
+import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAccountLookup;
@@ -33,6 +37,7 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.NamePair;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -95,6 +100,9 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 				} else {
 					cell = new Listcell(getDisplayText(values[i], i), null);
 					cell.setParent(listitem);
+					if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
+						cell.setStyle("text-align:right");
+					}
 				}
 			}
 			CellListener listener = new CellListener((Listbox) listitem.getParent());
@@ -116,10 +124,25 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		Listcell cell = new Listcell("", null);
 		WEditor editor = editors.get(gridField);
 		if (editor != null)  {
-			editor.addValueChangeListener(dataBinder);			
+			if (editor instanceof WButtonEditor)
+            {
+				Object window = SessionManager.getAppDesktop().findWindow(windowNo);
+            	if (window != null && window instanceof ADWindow)
+            	{
+            		AbstractADWindowPanel windowPanel = ((ADWindow)window).getADWindowPanel();
+            		((WButtonEditor)editor).addActionListener(windowPanel);
+            	}            		
+            }
+			else
+			{
+				editor.addValueChangeListener(dataBinder);
+			}
 			cell.appendChild(editor.getComponent());
 			if (editor.getComponent() instanceof Checkbox) {
 				cell.setStyle("text-align:center");
+			}
+			else if (DisplayType.isNumeric(gridField.getDisplayType())) {
+				cell.setStyle("text-align:right");
 			}
 			gridField.addPropertyChangeListener(editor);
 			editor.setValue(gridField.getValue());
@@ -129,6 +152,24 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
             {
             	popupMenu.addMenuListener((ContextMenuListener)editor);
             	cell.appendChild(popupMenu);
+            }
+            
+            //streach component to fill grid cell
+            if (editor.getComponent() instanceof HtmlBasedComponent) {
+            	//can't stretch bandbox & datebox
+            	if (!(editor.getComponent() instanceof Bandbox) && 
+            		!(editor.getComponent() instanceof Datebox)) {
+            		String width = "100%";    
+            		if (editor.getComponent() instanceof Button) {
+            			Button btn = (Button) editor.getComponent();
+            			String zclass = btn.getZclass();
+            			if (!zclass.contains("form-button ")) {
+            				btn.setZclass("form-button " + zclass);
+            			}
+            		} else {
+            			((HtmlBasedComponent)editor.getComponent()).setWidth(width);
+            		}
+            	}
             }
 		}
 		
@@ -201,36 +242,35 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 			return "";
 		
 		GridField[] gridField = gridTab.getFields();
-		if (gridTab.getTableModel().getColumnClass(columnIndex).equals(Integer.class))
+		if (gridField[columnIndex].isLookup())
     	{
-    		if (gridField[columnIndex].isLookup())
-    		{
-    			NamePair namepair = null;
-    			if (gridField[columnIndex].getDisplayType() == DisplayType.Account)
-    			{
-    				MAccountLookup lookup = new MAccountLookup(Env.getCtx(), windowNo);
-    				namepair = lookup.get(value);
-    			}
-    			else
-    			{
-	    			MLookup lookup = MLookupFactory.get(
-	    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
-	    						gridField[columnIndex].getDisplayType());
-	    					
-	    			namepair = lookup.get(value);
-    			}
-    			if (namepair != null)
-    				return namepair.getName();
-    			else
-    				return "";
-    		}
-    		else
-    			return value.toString();
+			NamePair namepair = null;
+			if (gridField[columnIndex].getDisplayType() == DisplayType.Account)
+			{
+				MAccountLookup lookup = new MAccountLookup(Env.getCtx(), windowNo);
+				namepair = lookup.get(value);
+			}
+			else
+			{
+    			MLookup lookup = MLookupFactory.get(
+    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
+    						gridField[columnIndex].getDisplayType());
+    					
+    			namepair = lookup.get(value);
+			}
+			if (namepair != null)
+				return namepair.getName();
+			else
+				return "";
     	}
     	else if (gridTab.getTableModel().getColumnClass(columnIndex).equals(Timestamp.class))
     	{
     		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
     		return dateFormat.format((Timestamp)value);
+    	}
+    	else if (DisplayType.isNumeric(gridField[columnIndex].getDisplayType()))
+    	{
+    		return DisplayType.getNumberFormat(gridField[columnIndex].getDisplayType()).format(value);
     	}
     	else
     		return value.toString();

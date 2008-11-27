@@ -24,6 +24,7 @@ import org.adempiere.webui.editor.WEditor;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
+import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -190,7 +191,10 @@ public class GridPanel extends Borderlayout implements EventListener
 				ListHeader colHeader = new ListHeader();
 				colHeader.setSort("auto");
 				colHeader.setLabel(gridField[i].getHeader());
-				int l = gridField[i].getDisplayLength() * 10;
+				int l = DisplayType.isNumeric(gridField[i].getDisplayType()) 
+					? 100 : gridField[i].getDisplayLength() * 9;
+				if (gridField[i].getHeader().length() * 9 > l)
+					l = gridField[i].getHeader().length() * 9;
 				if (l > MAX_COLUMN_WIDTH) 
 					l = MAX_COLUMN_WIDTH;
 				else if ( l < MIN_COLUMN_WIDTH)
@@ -330,5 +334,13 @@ public class GridPanel extends Borderlayout implements EventListener
                 }
             }
         }   //  all components
+	}
+
+	/**
+	 * 
+	 * @param windowNo
+	 */
+	public void setWindowNo(int windowNo) {
+		this.windowNo = windowNo;
 	}
 }

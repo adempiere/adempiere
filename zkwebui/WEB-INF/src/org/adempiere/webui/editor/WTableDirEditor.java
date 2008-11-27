@@ -24,8 +24,7 @@ import javax.swing.event.ListDataListener;
 
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.ListItem;
-import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -40,6 +39,7 @@ import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Comboitem;
 
 /**
  *
@@ -52,7 +52,8 @@ ContextMenuListener, IZoomableEditor
 {
     public final static String[] LISTENER_EVENTS = {Events.ON_SELECT};
     
-    private static final CLogger logger;
+    @SuppressWarnings("unused")
+	private static final CLogger logger;
     
     static
     {
@@ -65,7 +66,7 @@ ContextMenuListener, IZoomableEditor
        
     public WTableDirEditor(GridField gridField)
     {
-        super(new Listbox(), gridField);
+        super(new Combobox(), gridField);
         lookup = gridField.getLookup();
         init();
     }
@@ -82,7 +83,7 @@ ContextMenuListener, IZoomableEditor
 	 */   
     public WTableDirEditor(Lookup lookup, String label, String description, boolean mandatory, boolean readonly, boolean updateable)
 	{
-		super(new Listbox(), label, description, mandatory, readonly, updateable);
+		super(new Combobox(), label, description, mandatory, readonly, updateable);
 		
 		if (lookup == null)
 		{
@@ -105,7 +106,7 @@ ContextMenuListener, IZoomableEditor
     public WTableDirEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
     		Lookup lookup)
     {
-    	super(new Listbox(), columnName, null, null, mandatory, isReadOnly, isUpdateable);
+    	super(new Combobox(), columnName, null, null, mandatory, isReadOnly, isUpdateable);
     	if (lookup == null)
 		{
 			throw new IllegalArgumentException("Lookup cannot be null");
@@ -116,11 +117,10 @@ ContextMenuListener, IZoomableEditor
     
     private void init()
     {
-    	getComponent().setRows(0);
-        getComponent().setMultiple(false);
-        getComponent().setMold("select");
         getComponent().setWidth("200px"); 
-        getComponent().addPropertyChangeListener(this);
+        getComponent().setAutocomplete(true);
+        getComponent().setAutodrop(true);
+        getComponent().addEventListener(Events.ON_BLUR, this);
 
         boolean zoom= false;
         if (lookup != null)
@@ -153,7 +153,7 @@ ContextMenuListener, IZoomableEditor
     {
 
         String display = null;
-        ListItem selItem = getComponent().getSelectedItem();
+        Comboitem selItem = getComponent().getSelectedItem();
         if (selItem != null)
         {
         	display = selItem.getLabel();
@@ -165,7 +165,7 @@ ContextMenuListener, IZoomableEditor
     public Object getValue()
     {
         Object retVal = null;
-        ListItem selItem = getComponent().getSelectedItem();
+        Comboitem selItem = getComponent().getSelectedItem();
         if (selItem != null)
         {
             retVal = selItem.getValue();
@@ -198,8 +198,8 @@ ContextMenuListener, IZoomableEditor
     }
     
     @Override
-	public Listbox getComponent() {
-		return (Listbox) component;
+	public Combobox getComponent() {
+		return (Combobox) component;
 	}
 
 	@Override
@@ -265,6 +265,13 @@ ContextMenuListener, IZoomableEditor
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
+    	}
+    	else if (Events.ON_BLUR.equalsIgnoreCase(event.getName()))
+    	{
+    		if (getComponent().getSelectedItem() == null) 
+    		{
+    			setValue(null);
+    		}
     	}
     }
     

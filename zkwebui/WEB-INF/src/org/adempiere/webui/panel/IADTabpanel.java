@@ -23,27 +23,70 @@ import org.zkoss.zk.ui.Component;
  */
 public interface IADTabpanel extends Component, Evaluatee {
 
+	/**
+	 * @return display logic
+	 */
 	public String getDisplayLogic();
 
+	/**
+	 * @return tab level
+	 */
 	public int getTabLevel();
 
+	/**
+	 * @return true if refresh is not needed
+	 */
 	public boolean isCurrent();
 
+	/**
+	 * 
+	 * @return title
+	 */
 	public String getTitle();
 
+	/**
+	 * Render the panel
+	 */
 	public void createUI();
 
+	/**
+	 * 
+	 * @return GridTab
+	 */
 	public GridTab getGridTab();
 
+	/**
+	 * activate/deactivate the panel
+	 * @param b
+	 */
 	public void activate(boolean b);
 
+	/**
+	 * retrieve data from db
+	 */
 	public void query();
 
+	/**
+	 * Refresh from db
+	 */
 	public void refresh();
 
-	public void query(boolean currentRows, int currentDays, int i);
+	/**
+	 * retrieve data from db
+	 * @param currentRows
+	 * @param currentDays
+	 * @param maxRows
+	 */
+	public void query(boolean currentRows, int currentDays, int maxRows);
 
+	/**
+	 * Toggle between grid and form view
+	 */
 	public void switchRowPresentation();
 
+	/**
+	 * Dynamic update of field properties ( visibility, filter and mandatory )  
+	 * @param i
+	 */
 	public void dynamicDisplay(int i);
 }

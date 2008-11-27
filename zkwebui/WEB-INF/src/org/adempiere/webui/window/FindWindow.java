@@ -51,7 +51,6 @@ import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WNumberEditor;
-import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -138,14 +137,6 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private boolean         hasDocNo = false;
     private boolean         hasName = false;
     private boolean         hasDescription = false;
-    /** Line in Simple Content      */
-//    private int             sLine = 6;    
-    /** Value 2(to)             */
-    private boolean         m_valueToColumn;
-    /** Between selected        */
-    private boolean         m_between = false;
-    /** Editor                  */
-    private WEditor         m_editor = null;    
     /** List of WEditors            */
     private ArrayList<WEditor>          m_sEditors = new ArrayList<WEditor>();
     /** Target Fields with AD_Column_ID as key  */
@@ -155,7 +146,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     /** Length of Fields on first tab   */
     public static final int     FIELDLENGTH = 20;
     
-    private int m_AD_Tab_ID = 1;
+    private int m_AD_Tab_ID = 0;
 	private MUserQuery[] userQueries;
 	private Rows contentSimpleRows;
 	private Row pnlDocument;
@@ -184,16 +175,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
      * @param whereExtended whereExtended
      * @param findFields findFields
      * @param minRecords minRecords
+     * @param adTabId 
     **/    
     public FindWindow (int targetWindowNo, String title, 
             int AD_Table_ID, String tableName, String whereExtended,
-            GridField[] findFields, int minRecords)
+            GridField[] findFields, int minRecords, int adTabId)
     {
         m_targetWindowNo = targetWindowNo;
         m_AD_Table_ID = AD_Table_ID;
         m_tableName = tableName;
         m_whereExtended = whereExtended;
         m_findFields = findFields;
+        m_AD_Tab_ID = adTabId;
         //
         m_query = new MQuery (m_tableName);
         m_query.addRestriction(m_whereExtended);
@@ -213,8 +206,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         this.setBorder("normal");
         this.setWidth("700px");
         this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
-        this.setAttribute("modal", Boolean.TRUE);
-//        this.setAttribute("mode", "modal");
+        this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
         this.setClosable(true);
         this.setSizable(true);
     }
@@ -252,19 +244,19 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 
         Button btnNew = new Button();
         btnNew.setName("btnNew");
-        btnNew.setSrc("/images/New24.png");
+        btnNew.setImage("/images/New24.png");
         btnNew.addEventListener(Events.ON_CLICK,this);
         LayoutUtils.addSclass("action-button", btnNew);
         
         Button btnOk = new Button();
         btnOk.setName("btnOkSimple");
-        btnOk.setSrc("/images/Ok24.png");
+        btnOk.setImage("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK,this);
         LayoutUtils.addSclass("action-button", btnOk);
         
         Button btnCancel = new Button();
         btnCancel.setName("btnCancel");
-        btnCancel.setSrc("/images/Cancel24.png");
+        btnCancel.setImage("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK,this);
         LayoutUtils.addSclass("action-button", btnCancel);
         
@@ -327,18 +319,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private void initAdvanced()
     {
         ToolBarButton btnNew = new ToolBarButton();
-        btnNew.setSrc("/images/New24.png");
+        btnNew.setImage("/images/New24.png");
         btnNew.setAttribute("name", "btnNewAdv");
         btnNew.addEventListener(Events.ON_CLICK, this);
         
         ToolBarButton btnDelete = new ToolBarButton();
         btnDelete.setAttribute("name","btnDeleteAdv");
-        btnDelete.setSrc("/images/Delete24.png");
+        btnDelete.setImage("/images/Delete24.png");
         btnDelete.addEventListener(Events.ON_CLICK, this);
 
         ToolBarButton btnSave = new ToolBarButton();
         btnSave.setAttribute("name","btnSaveAdv");
-        btnSave.setSrc("/images/Save24.png");
+        btnSave.setImage("/images/Save24.png");
         btnSave.addEventListener(Events.ON_CLICK, this);
 
         fQueryName = new Combobox();
@@ -355,13 +347,15 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		
         Button btnOk = new Button();
         btnOk.setName("btnOkAdv");
-        btnOk.setSrc("/images/Ok24.png");
+        btnOk.setImage("/images/Ok24.png");
         btnOk.addEventListener(Events.ON_CLICK, this);
+        LayoutUtils.addSclass("action-button", btnOk);
         
         Button btnCancel = new Button();
         btnCancel.setName("btnCancel");
-        btnCancel.setSrc("/images/Cancel24.png");
+        btnCancel.setImage("/images/Cancel24.png");
         btnCancel.addEventListener(Events.ON_CLICK, this);
+        LayoutUtils.addSclass("action-button", btnCancel);
         
         Panel pnlButtonRight = new Panel();
         pnlButtonRight.appendChild(btnOk);
@@ -370,10 +364,13 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             
         ToolBar toolBar = new ToolBar();
         toolBar.appendChild(btnNew);
-        toolBar.appendChild(btnDelete);
+        toolBar.appendChild(btnDelete);        
         toolBar.appendChild(fQueryName);
         toolBar.appendChild(btnSave);
         toolBar.setWidth("100%");
+        fQueryName.setStyle("margin-left: 3px; margin-right: 3px; position: relative; top: 5px;");
+        
+        btnSave.setDisabled(m_AD_Tab_ID <= 0);
         
         Hbox confirmPanel = new Hbox();
         confirmPanel.appendChild(pnlButtonRight);
@@ -739,27 +736,6 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                     dispose();
                 }
             }
-            else if (event.getTarget() instanceof Label)
-            {
-                Label label = (Label)event.getTarget();
-                String value = label.getValue();
-                ListCell listcell = (ListCell)label.getParent();
-                ListItem row = (ListItem)listcell.getParent();
-                advancedPanel.setSelectedItem(row);                
-                
-                if (listcell.getId().equals("cellQueryFrom"+row.getId()))
-                {
-                    Component component = getEditorCompQueryFrom(row);
-                    addRowEditor(component, listcell);
-                    m_editor.setValue(value);
-                }
-                else if (listcell.getId().equals("cellQueryTo"+row.getId()))
-                {
-                    Component component = getEditorCompQueryTo(row);
-                    addRowEditor(component,listcell);
-                    m_editor.setValue(value);
-                }
-            }
         }   
         else if (Events.ON_OK.equals(event.getName()))
         {
@@ -782,7 +758,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		String code = userQuery.getCode();
 		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR));
 
-        List rowList = advancedPanel.getChildren();    
+        List<?> rowList = advancedPanel.getChildren();    
         for (int rowIndex = rowList.size() - 1; rowIndex >= 1; rowIndex--)
         	rowList.remove(rowIndex);
 		
@@ -792,6 +768,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			
 	        ListItem listItem = new ListItem();
 	        listItem.setWidth("100%");
+	        advancedPanel.appendChild(listItem);
 	        
 	        Listbox listColumn = new Listbox();
 	        listColumn.setId("listColumn"+listItem.getId());
@@ -832,17 +809,14 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         	String value = fields.length > INDEX_VALUE ? fields[INDEX_VALUE] : "";
         	if(value.length() > 0)
         	{
-    	        cellQueryFrom.appendChild(parseString(getTargetMField(columnName), value));
+    	        cellQueryFrom.appendChild(parseString(getTargetMField(columnName), value, listItem, false));
         	}
         	
         	String value2 = fields.length > INDEX_VALUE2 ? fields[INDEX_VALUE2] : "";
         	if(value2.length() > 0)
         	{
-        		cellQueryTo.appendChild(parseString(getTargetMField(columnName), value2));
+        		cellQueryTo.appendChild(parseString(getTargetMField(columnName), value2, listItem, true));
         	}
-
-	        advancedPanel.appendChild(listItem);
-//	        advancedPanel.setSelectedItem(listItem);			
 		}
 		
 		advancedPanel.invalidate();
@@ -852,33 +826,36 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	 * 	Parse String
 	 * 	@param field column
 	 * 	@param in value
+	 * @param to 
+	 * @param listItem 
 	 * 	@return data type corected value
 	 */
-	private Label parseString(GridField field, String in)
+	private Component parseString(GridField field, String in, ListItem listItem, boolean to)
 	{
 		if (in == null)
 			return null;
 		int dt = field.getDisplayType();
 		try
 		{
+			WEditor editor = null;
 			if (field.isKey())
-	            m_editor = new WNumberEditor(field);
+	            editor = new WNumberEditor(field);
 	        else
-	            m_editor = WebEditorFactory.getEditor(field, true);
-	        if (m_editor == null)
-	            m_editor = new WStringEditor(field);
+	            editor = WebEditorFactory.getEditor(field, true);
+	        if (editor == null)
+	            editor = new WStringEditor(field);
 	        
 			//	Return Integer
 			if (dt == DisplayType.Integer
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-		        m_editor.setValue(new Integer(i));
+		        editor.setValue(new Integer(i));
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
 			{
-				m_editor.setValue(DisplayType.getNumberFormat(dt).parse(in));
+				editor.setValue(DisplayType.getNumberFormat(dt).parse(in));
 			}
 			//	Return Timestamp
 			else if (DisplayType.isDate(dt))
@@ -887,7 +864,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				try
 				{
 					time = DisplayType.getDateFormat_JDBC().parse(in).getTime();
-					m_editor.setValue(new Timestamp(time));
+					editor.setValue(new Timestamp(time));
 				}
 				catch (Exception e)
 				{
@@ -895,26 +872,30 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 					time = DisplayType.getDateFormat(dt).parse(in).getTime();
 				}
 				
-				m_editor.setValue(new Timestamp(time));
+				editor.setValue(new Timestamp(time));
 			}
 			else if (dt == DisplayType.YesNo)
-				m_editor.setValue(Boolean.valueOf(in));
+				editor.setValue(Boolean.valueOf(in));
 			else
-				m_editor.setValue(in);
+				editor.setValue(in);
 			
-            Label label = new Label();
-            if(m_editor instanceof WSearchEditor)
-            {
-            	WSearchEditor se = (WSearchEditor) m_editor;
-            	String display = se.getGridField().getLookup().getDisplay(m_editor.getValue().toString());
-            	label.setValue(display);            	
-            }
-            else
-            {
-            	label.setValue(m_editor.getDisplay());
-            }            
-            label.setAttribute("value", m_editor.getValue());
-			return label;
+			editor.addValueChangeListener(this);
+			
+			boolean between = false;
+	        Listbox listOp = (Listbox) listItem.getFellow("listOperator"+listItem.getId());
+	        String betweenValue = listOp.getSelectedItem().getValue().toString();
+	        String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
+	        if (to &&  betweenValue != null 
+	            && betweenValue.equals(opValue))
+	            between = true;
+
+	        boolean enabled = !to || (to && between);
+	        
+			editor.setReadWrite(enabled);
+	        editor.setVisible(enabled);
+	        editor.dynamicDisplay();
+	        
+			return editor.getComponent();
 		}
 		catch (Exception ex)
 		{
@@ -926,12 +907,11 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	
     private void cmd_save(boolean saveQuery)
 	{
-//		advancedTable.stopEditor(true);
 		//
 		m_query = new MQuery(m_tableName);
 		StringBuffer code = new StringBuffer();
 		
-        List rowList = advancedPanel.getChildren();
+        List<?> rowList = advancedPanel.getChildren();
         
         for (int rowIndex = 1; rowIndex < rowList.size() ; rowIndex++)
         {
@@ -955,12 +935,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             
             //  Value   ******
             ListCell cellQueryFrom = (ListCell)row.getFellow("cellQueryFrom"+row.getId());
-            // Elaine 2008/07/29
-            if(!(cellQueryFrom.getChildren().get(0) instanceof Label))
-            	continue;
-            //
-            Label labelFrom = (Label)(cellQueryFrom.getChildren().get(0));
-            Object value = labelFrom.getAttribute("value");
+            Object value = cellQueryFrom.getAttribute("value");
             if (value == null)
                 continue;
             Object parsedValue = parseValue(field, value);
@@ -976,12 +951,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
             {
                 ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
-                // Elaine 2008/07/29
-                if(!(cellQueryTo.getChildren().get(0) instanceof Label))
-                	continue;
-                //
-                Label labelTo = (Label)(cellQueryTo.getChildren().get(0));
-                value2 = labelTo.getAttribute("value");
+                value2 = cellQueryTo.getAttribute("value");
                 if (value2 == null)
                     continue;
                 Object parsedValue2 = parseValue(field, value2);
@@ -1075,9 +1045,6 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private String getColumnName(ListItem row)
     {
-        /*List list = row.getChildren();
-        Panel pnlColumn = (Panel)list.get(0);
-        List lstColumn = pnlColumn.getChildren();*/
         Listbox listColumn = (Listbox)row.getFellow("listColumn"+row.getId());
         String columnName = listColumn.getSelectedItem().getValue().toString();
         
@@ -1092,8 +1059,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private Component getEditorCompQueryFrom(ListItem row)
     {
-        m_valueToColumn = false;
-        return getEditorComponent(row);
+        return getEditorComponent(row, false);
     }
     
     /**
@@ -1103,8 +1069,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private Component getEditorCompQueryTo(ListItem row)
     {
-        m_valueToColumn = true;
-        return getEditorComponent(row);
+        return getEditorComponent(row, true);
     }
     
     /**
@@ -1149,7 +1114,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private void addOperators(ValueNamePair[] op, Listbox listOperator)
     {
-        List itemList = listOperator.getChildren();
+        List<?> itemList = listOperator.getChildren();
         itemList.clear();
         for (ValueNamePair item: op)
         {
@@ -1163,39 +1128,39 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
      *  @param row row
      *  @return Editor component
     **/
-    public Component getEditorComponent(ListItem row)
+    public Component getEditorComponent(ListItem row, boolean to)
     {
         String columnName = getColumnName(row);
-        m_between = false;
+        boolean between = false;
         Listbox listOp = (Listbox) row.getFellow("listOperator"+row.getId());
         String betweenValue = listOp.getSelectedItem().getValue().toString();
         String opValue = MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue();
-        if (m_valueToColumn &&  betweenValue != null 
+        if (to &&  betweenValue != null 
             && betweenValue.equals(opValue))
-            m_between = true;
+            between = true;
 
-        boolean enabled = !m_valueToColumn || (m_valueToColumn && m_between); 
+        boolean enabled = !to || (to && between); 
         
         //  Create Editor
         GridField field = getTargetMField(columnName);
-    //  log.fine( "Field=" + field.toStringX());
         if(field == null) return new Label("");
         	
+        WEditor editor = null;
         if (field.isKey())
-            m_editor = new WNumberEditor(field);
+            editor = new WNumberEditor(field);
         else
-            m_editor = WebEditorFactory.getEditor(field, true);
-        if (m_editor == null)
-            m_editor = new WStringEditor(field);
+            editor = WebEditorFactory.getEditor(field, true);
+        if (editor == null)
+            editor = new WStringEditor(field);
         
-        field.addPropertyChangeListener(m_editor);
-        m_editor.addValueChangeListener(this);
-        m_editor.setValue(null);
-        m_editor.setReadWrite(enabled);
-        m_editor.setVisible(enabled);
-        m_editor.dynamicDisplay();
+        field.addPropertyChangeListener(editor);
+        editor.addValueChangeListener(this);
+        editor.setValue(null);
+        editor.setReadWrite(enabled);
+        editor.setVisible(enabled);
+        editor.dynamicDisplay();
         //
-        return m_editor.getComponent();
+        return editor.getComponent();
         
     }   //  getTableCellEditorComponent
     
@@ -1339,7 +1304,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         log.info("");
         //
         m_query = new MQuery(m_tableName);
-        List rowList = advancedPanel.getChildren();
+        List<?> rowList = advancedPanel.getChildren();
         
         for (int rowIndex = 1; rowIndex < rowList.size() ; rowIndex++)
         {
@@ -1363,12 +1328,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             
             //  Value   ******
             ListCell cellQueryFrom = (ListCell)row.getFellow("cellQueryFrom"+row.getId());
-            // Elaine 2008/07/29
-            if(!(cellQueryFrom.getChildren().get(0) instanceof Label))
-            	continue;
-            //
-            Label labelFrom = (Label)(cellQueryFrom.getChildren().get(0));
-            Object value = labelFrom.getAttribute("value");
+            Object value = cellQueryFrom.getAttribute("value");
             if (value == null)
                 continue;
             Object parsedValue = parseValue(field, value);
@@ -1383,12 +1343,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
             {
                 ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
-                // Elaine 2008/07/29
-                if(!(cellQueryTo.getChildren().get(0) instanceof Label))
-                	continue;
-                //
-                Label labelTo = (Label)(cellQueryTo.getChildren().get(0));
-                Object value2 = labelTo.getAttribute("value");
+                Object value2 = cellQueryTo.getAttribute("value");
                 if (value2 == null)
                     continue;
                 Object parsedValue2 = parseValue(field, value2);
@@ -1539,7 +1494,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     **/
     private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
         String ret = "";
-        final Iterator iter = categories.iterator();
+        final Iterator<SimpleTreeNode> iter = categories.iterator();
         while (iter.hasNext()) {
             SimpleTreeNode node = (SimpleTreeNode) iter.next();
             if (node.getParentId() == productCategoryId) {
@@ -1682,25 +1637,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             // Editor component
             Component component = editor.getComponent();
             ListCell listcell = (ListCell)component.getParent();
-            
-            // Elaine 2008/07/29
-            Label label = new Label();
-            if(evt.getSource() instanceof WSearchEditor)
-            {
-            	WSearchEditor se = (WSearchEditor) evt.getSource();
-            	se.setValue(evt.getNewValue());
-            	label.setValue(se.getDisplay());            	
-            }
-            else
-            {
-            	label.setValue(editor.getDisplay());
-            }            
-            label.setAttribute("value", evt.getNewValue());
-            //
-            
-            listcell.appendChild(label);
-            listcell.removeChild(component);
-            label.addEventListener(Events.ON_CLICK,this);            
+            listcell.setAttribute("value", evt.getNewValue());
         }
     }
     

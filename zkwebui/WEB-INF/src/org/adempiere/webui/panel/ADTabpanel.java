@@ -72,8 +72,6 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Group;
-import org.zkoss.zul.Groupfoot;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
@@ -97,7 +95,9 @@ public class ADTabpanel extends Div implements Evaluatee, EventListener,
 DataStatusListener, IADTabpanel
 {
     
-    private static final CLogger logger;
+	private static final long serialVersionUID = 212250368715189455L;
+
+	private static final CLogger logger;
     
     static
     {
@@ -215,6 +215,7 @@ DataStatusListener, IADTabpanel
 		}
         this.appendChild(listPanel);
         listPanel.setVisible(false);
+        listPanel.setWindowNo(windowNo);
     }
 
     public void createUI()

@@ -858,7 +858,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			bFind.setVisible(false);
 		else
 		{
-            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1);
+            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1, AD_Tab_ID);
             find.setVisible(true);
             AEnv.showWindow(find);
             m_reportEngine.setQuery(find.getQuery());  

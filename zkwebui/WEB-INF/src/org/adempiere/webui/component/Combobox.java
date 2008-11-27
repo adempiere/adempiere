@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.component;
 
+import java.util.List;
+
 import org.zkoss.zul.Comboitem;
 
 /**
@@ -28,7 +30,7 @@ import org.zkoss.zul.Comboitem;
 public class Combobox extends org.zkoss.zul.Combobox
 {
     private static final long serialVersionUID = 1L;
-
+    
     public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
@@ -40,4 +42,66 @@ public class Combobox extends org.zkoss.zul.Combobox
         item.setParent(this);
         return item;
     }
+
+	public boolean isEnabled() {
+		return !isDisabled();
+	}
+	
+	/**
+	 * remove all items, to ease porting of swing form
+	 */
+	public void removeAllItems() {
+		int cnt = getItemCount();
+		for (int i = cnt - 1; i >=0; i--) {
+			removeItemAt(i);
+		}
+	}
+
+	public void appendItem(String name, Object value) {
+		ComboItem item = new ComboItem(name, value);
+		this.appendChild(item);
+	}
+	
+	 /** 
+     * Set selected item for the list box based on the value of list item
+     * set selected to none if no item found matching the value given or 
+     * value is null
+     * @param value Value of ListItem to set as selected
+     */
+    public void setValue(Object value)
+    {
+        setSelectedItem(null);
+        
+        if (value == null)
+        {
+            return ;
+        }
+        
+        List<Comboitem> items = getItems();
+        for (Comboitem item : items)
+        {
+        	if (value.getClass() != item.getValue().getClass()) {
+        		// if the classes of value and item are different convert both to String
+        		String stringValue = value.toString();
+        		String stringItem = item.getValue().toString();
+                if (stringValue.equals(stringItem))
+                {
+                    setSelectedItem(item);
+                    break;
+                }
+        	} else {
+                if (value.equals(item.getValue()))
+                {
+                    setSelectedItem(item);
+                    break;
+                }
+        	}
+        }
+    }
+    
+    /** Returns RS_NO_WIDTH|RS_NO_HEIGHT.
+	 */
+	protected int getRealStyleFlags() {
+		return super.getRealStyleFlags() & 0x0006;
+	}
 }

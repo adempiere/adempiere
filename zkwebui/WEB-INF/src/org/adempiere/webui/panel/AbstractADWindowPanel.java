@@ -415,7 +415,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             GridField[] findFields = mTab.getFields();
             FindWindow find = new FindWindow(curWindowNo,
                     mTab.getName(), mTab.getAD_Table_ID(), mTab.getTableName(),
-                    where.toString(), findFields, 10); // no query below 10
+                    where.toString(), findFields, 10, mTab.getAD_Tab_ID()); // no query below 10
             if (find.getTitle() != null && find.getTitle().length() > 0) {
             	// Title is not set when the number of rows is below the minRecords parameter (10)
                 find.setVisible(true);
@@ -952,7 +952,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         GridField[] findFields = GridField.createFields(ctx, curTab.getWindowNo(), 0,curTab.getAD_Tab_ID());
         FindWindow find = new FindWindow (curTab.getWindowNo(), curTab.getName(),
             curTab.getAD_Table_ID(), curTab.getTableName(), 
-            curTab.getWhereExtended(), findFields, 1);
+            curTab.getWhereExtended(), findFields, 1, curTab.getAD_Tab_ID());
         AEnv.showWindow(find);
         MQuery query = find.getQuery();
         

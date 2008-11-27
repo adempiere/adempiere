@@ -24,6 +24,7 @@ import java.math.*;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -158,7 +159,7 @@ public abstract class WCreateFrom extends Window
 	protected Label bankAccountLabel = new Label();
 	protected Panel parameterStdPanel = new Panel();
 	protected Label bPartnerLabel = new Label();
-	protected Listbox bankAccountField;
+	protected Combobox bankAccountField;
 	//RF [1811114]
 	protected Label authorizationLabel = new Label();
 	protected WStringEditor authorizationField = new WStringEditor();

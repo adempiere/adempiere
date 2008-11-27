@@ -17,8 +17,6 @@
 
 package org.adempiere.webui.component;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +38,6 @@ import org.zkoss.zul.Listitem;
 public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
 	private static final long serialVersionUID = 1L;
-    private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
     
     private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
@@ -98,11 +95,6 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
     {
         return (List<ListItem>)super.getItems();
     }
-    
-    public synchronized void addPropertyChangeListener(PropertyChangeListener l)
-	{
-		m_propertyChangeListeners.addPropertyChangeListener(l);
-	}
     
     /** 
      * Set selected item for the list box based on the value of list item

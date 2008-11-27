@@ -27,21 +27,14 @@ public class ComboItem extends org.zkoss.zul.Comboitem
 {
     private static final long serialVersionUID = 1L;
     
-    private Object obj;
-
     public ComboItem(String label)
     {
         super(label);
     }
     
-    public ComboItem(String label, String object)
+    public ComboItem(String label, Object value)
     {
         super(label);
-        this.obj = object;
-    }
-    
-    public Object getObject()
-    {
-        return obj;
-    }
+        this.setValue(value);
+    }    
 }
