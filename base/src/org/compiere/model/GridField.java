@@ -1702,7 +1702,7 @@ public class GridField
 	 * with the actual AD_Org_ID and AD_Client_ID.
 	 * @return List of existing entries for this field
 	 */
-	public List getEntries() {
+	public List<String> getEntries() {
 		ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement pstmt1;
 		PreparedStatement pstmt2;
