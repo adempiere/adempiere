@@ -17,7 +17,10 @@
 
 package org.adempiere.webui.editor;
 
+import java.util.List;
+
 import org.adempiere.webui.ValuePreference;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ContextMenuEvent;
@@ -66,7 +69,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
-        super(new Textbox(), gridField);
+        super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
@@ -91,8 +94,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     }
     
     @Override
-    public Textbox getComponent() {
-    	return (Textbox) component;
+    public org.zkoss.zul.Textbox getComponent() {
+    	return (org.zkoss.zul.Textbox) component;
     }
             
     @Override
@@ -136,7 +139,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		        }
 	        }
 	        
-	        getComponent().setObscureType(obscureType);
+	        if (getComponent() instanceof Textbox)
+	        	((Textbox)getComponent()).setObscureType(obscureType);
 	        
 	        popupMenu = new WEditorPopupMenu(false, false, true);
 	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
@@ -145,6 +149,17 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        popupMenu.appendChild(editor);
 	        
 	        getComponent().setContext(popupMenu.getId());
+	        
+	        if (gridField.isAutocomplete()) {
+	        	Combobox combo = (Combobox)getComponent();
+	        	combo.setAutodrop(true);
+	        	combo.setAutocomplete(true);
+	        	combo.setButtonVisible(false);
+	        	List<String> items = gridField.getEntries();
+	        	for(String s : items) {
+	        		combo.appendItem(s);
+	        	}	        		        	
+	        }
 		}
     }
 
@@ -231,4 +246,22 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 			}
 		}
 	}
+
+	@Override
+	public void dynamicDisplay() {
+		//referesh auto complete list
+		if (gridField.isAutocomplete()) {
+        	Combobox combo = (Combobox)getComponent();
+        	List<String> items = gridField.getEntries();
+        	if (items.size() != combo.getItemCount())
+        	{
+        		combo.removeAllItems();
+        		for(String s : items) {
+            		combo.appendItem(s);
+            	}
+        	}        		        		        	
+        }
+	}
+    
+    
 }
