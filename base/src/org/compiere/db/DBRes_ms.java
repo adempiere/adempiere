@@ -24,34 +24,34 @@ import java.util.*;
  *  @author     .
  *  @version    $Id: DBRes_ml.java,v 1.2 2006/07/30 00:55:13 jjanke Exp $
  */
-public class DBRes_ml extends ListResourceBundle
+public class DBRes_ms extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Adempiere Connection" },
-	{ "Name",               "Name" },
-	{ "AppsHost",           "Application Host" },
-	{ "AppsPort",           "Application Port" },
-	{ "TestApps",           "Test Application" },
-	{ "DBHost",             "Database Host" },
-	{ "DBPort",             "Database Port" },
-	{ "DBName",             "Database Name" },
-	{ "DBUidPwd",           "User / Password" },
-	{ "ViaFirewall",        "via Firewall" },
-	{ "FWHost",             "Firewall Host" },
-	{ "FWPort",             "Firewall Port" },
-	{ "TestConnection",     "Test Database" },
-	{ "Type",               "Database Type" },
-	{ "BequeathConnection", "Bequeath Connection" },
-	{ "Overwrite",          "Overwrite" },
-	{ "ConnectionProfile",	"Connection" },
-	{ "LAN",		 		"LAN" },
-	{ "TerminalServer",		"Terminal Server" },
-	{ "VPN",		 		"VPN" },
-	{ "WAN", 				"WAN" },
-	{ "ConnectionError",    "Connection Error" },
-	{ "ServerNotActive",    "Server Not Active" }
+	{ "CConnectionDialog",  "Kotak Sambungan" },
+	{ "Name",               "Nama" },
+	{ "AppsHost",           "Aplikasi Induk" },
+	{ "AppsPort",           "Port Aplikasi" },
+	{ "TestApps",           "Uji Aplikasi" },
+	{ "DBHost",             "Hos Pengkalan Data" },
+	{ "DBPort",             "Port Pengkalan Data" },
+	{ "DBName",             "Nama Pengkalan Data" },
+	{ "DBUidPwd",           "Pengguna / Kata-laluan" },
+	{ "ViaFirewall",        "menerusi Pendinding" },
+	{ "FWHost",             "Hos Pendinding" },
+	{ "FWPort",             "Port Pendinding" },
+	{ "TestConnection",     "Uji Pengkalan Data" },
+	{ "Type",               "Jenis Pengkalan Data" },
+	{ "BequeathConnection", "Memberi Sambungan" },
+	{ "Overwrite",          "Mengatasi" },
+	{ "ConnectionProfile",	"Sambungan" },
+	{ "LAN",		 		"Rangkaian Dalaman" },
+	{ "TerminalServer",		"Pelayan Terminal" },
+	{ "VPN",		 		"Rangkaian Maya" },
+	{ "WAN", 				"Rangkaian Luar" },
+	{ "ConnectionError",    "Kesilapan Sambungan" },
+	{ "ServerNotActive",    "Pelayan Tidak Aktif" }
 	};
 
 	/**

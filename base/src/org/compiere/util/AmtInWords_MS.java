@@ -39,12 +39,12 @@ package org.compiere.util;
  *  END TEST
  *  @version $Id: AmtInWords_MY.java,v 1.3 2006/07/30 00:54:35 jjanke Exp $
  */
-public class AmtInWords_MY implements AmtInWords
+public class AmtInWords_MS implements AmtInWords
 {
 	/**
 	 * 	AmtInWords_MY
 	 */
-	public AmtInWords_MY ()
+	public AmtInWords_MS ()
 	{
 		super ();
 	}	//	AmtInWords_MY
@@ -218,7 +218,7 @@ public class AmtInWords_MY implements AmtInWords
 	 */
 	public static void main (String[] args)
 	{
-		AmtInWords_MY aiw = new AmtInWords_MY();
+		AmtInWords_MS aiw = new AmtInWords_MS();
 	//	aiw.print (".23");	Error
 		aiw.print ("0.23");
 		aiw.print ("1.23");
