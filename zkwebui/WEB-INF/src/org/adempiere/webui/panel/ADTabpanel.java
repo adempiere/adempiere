@@ -354,7 +354,7 @@ DataStatusListener, IADTabpanel
             		}
             	}
             	
-                if (!field.isSameLine())
+                if (!field.isSameLine() || field.isLongField())
                 {
                 	//next line
                 	if(row.getChildren().size() > 0)
