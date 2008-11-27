@@ -126,38 +126,14 @@ public class Doc_MatchPO extends Doc
 		MInOut inOut = receiptLine.getParent(); 
 		boolean isReturnTrx = inOut.getMovementType().equals(X_M_InOut.MOVEMENTTYPE_VendorReturns);
 		
-// Elaine 2008/6/20
-/* Source move to MInOut.createMatchPOCostDetail()
-		//	Create PO Cost Detail Record first
-		// MZ Goodwill
-		// Create Cost Detail Matched PO using Total Amount and Total Qty based on OrderLine
-		MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), m_oLine.getC_OrderLine_ID(), getTrxName());
-		BigDecimal tQty = Env.ZERO;
-		BigDecimal tAmt = Env.ZERO;
-		for (int i = 0 ; i < mPO.length ; i++)
-		{
-			if (mPO[i].isPosted()
-				&& mPO[i].getM_AttributeSetInstance_ID() == m_M_AttributeSetInstance_ID
-				&& mPO[i].getM_MatchPO_ID() != get_ID())
-			{
-				BigDecimal qty = (isReturnTrx ? mPO[i].getQty().negate() : mPO[i].getQty()); 
-				tQty = tQty.add(qty);
-				tAmt = tAmt.add(poCost.multiply(qty));
-			}
-		}
+		// calculate po cost
 		poCost = poCost.multiply(getQty());			//	Delivered so far
-		tAmt = tAmt.add(isReturnTrx ? poCost.negate() : poCost);
-		tQty = tQty.add(isReturnTrx ? getQty().negate() : getQty());
 		
 		//	Different currency
-		String costingMethod = as.getCostingMethod();
 		if (m_oLine.getC_Currency_ID() != as.getC_Currency_ID())
 		{
 			MOrder order = m_oLine.getParent();
 			Timestamp dateAcct = order.getDateAcct();
-			if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
-					MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
-				dateAcct = inOut.getDateAcct(); 	//Movement Date
 			BigDecimal rate = MConversionRate.getRate(
 				order.getC_Currency_ID(), as.getC_Currency_ID(),
 				dateAcct, order.getC_ConversionType_ID(),
@@ -170,19 +146,8 @@ public class Doc_MatchPO extends Doc
 			poCost = poCost.multiply(rate);
 			if (poCost.scale() > as.getCostingPrecision())
 				poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			tAmt = tAmt.multiply(rate);
-			if (tAmt.scale() > as.getCostingPrecision())
-				tAmt = tAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);			
 		}
 
-		// Set Total Amount and Total Quantity from Matched PO 
-		MCostDetail.createOrder(as, m_oLine.getAD_Org_ID(), 
-				getM_Product_ID(), m_M_AttributeSetInstance_ID,
-				m_C_OrderLine_ID, 0,		//	no cost element
-				tAmt, tQty,			//	Delivered
-				m_oLine.getDescription(), getTrxName());
-		// end MZ
-*/
 		//	Calculate PPV for standard costing
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		String costingMethod = product.getCostingMethod(as);
