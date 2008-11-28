@@ -308,23 +308,54 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 *         *Copyright � ConSerTi
 	 */
 	public void processOrder()
-	{
-		
+	{		
 		p_posPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MOrder order = p_posPanel.f_curLine.getOrder();
 		if (order != null)
-			if (order.getDocStatus().equals("DR"))
+			// check if order completed OK
+			if (order.getDocStatus().equals("DR") )
 			{ 
 				order.setDocAction(DocAction.ACTION_Complete);
-				order.processIt(DocAction.ACTION_Complete);
-				order.save();
-	
-				order = null;
-				p_posPanel.newOrder();
-				f_cashGiven.setValue(Env.ZERO);
+				try
+				{
+					if (order.processIt(DocAction.ACTION_Complete) )
+					{
+						order.save();
+					}
+					else
+					{
+						log.info( "SubCheckout - processOrder FAILED");	
+						p_posPanel.f_status.setStatusLine("Order can not be completed.");				
+					}
+				}
+				catch (Exception e)
+				{
+					log.severe("Order can not be completed - " + e.getMessage());
+					p_posPanel.f_status.setStatusLine("Error when processing order.");
+				}
+				finally
+				{ // When order failed convert it back to draft so it can be processed
+				  if( order.getDocStatus().equals("IN") )
+				  {
+					order.setDocStatus("DR");
+				  }
+				  else if( order.getDocStatus().equals("CO") )
+				  {
+					order = null;
+					p_posPanel.newOrder();
+					f_cashGiven.setValue(Env.ZERO);
+					log.info( "SubCheckout - processOrder OK");
+					p_posPanel.f_status.setStatusLine("Order completed.");	 
+				  }			
+				  else
+				  {
+					log.info( "SubCheckout - processOrder - unrecognized DocStatus");
+					p_posPanel.f_status.setStatusLine("Orden was not completed correctly.");	 
+				  }					
+				} // try-finally
 			}
 		p_posPanel.setCursor(Cursor.getDefaultCursor());
-	}	
+	}	// processOrder
 	
 	/**
 	 * 	Print Ticket
@@ -373,8 +404,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			BigDecimal total = new BigDecimal(0);
 			if (order != null)
 				total = order.getGrandTotal();
-			double vuelta = given.doubleValue() - total.doubleValue();
-			f_cashReturn.setValue(new BigDecimal(vuelta));
+			double cashReturn = given.doubleValue() - total.doubleValue();
+			f_cashReturn.setValue(new BigDecimal(cashReturn));
 		}
 	}	
 

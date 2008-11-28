@@ -65,8 +65,8 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 		if (fKeys.get_ID() == 0)
 			return;
 		
-		int COLUMNS = 3;	//	Min Columns
-		int ROWS = 6;		//	Min Rows
+		int COLUMNS = 4;	//	Min Columns
+		int ROWS = 5;		//	Min Rows
 		m_keys = fKeys.getKeys(false);
 		int noKeys = m_keys.length;
 		int rows = Math.max (((noKeys-1) / COLUMNS) + 1, ROWS);
@@ -106,7 +106,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 			button.setFocusable(false);
 			content.add (button);
 		}
-		content.setPreferredSize(new Dimension(cols*70, rows*50));
+		content.setPreferredSize(new Dimension(cols*150, rows*50));
 		add (content);
 	}	//	init
 

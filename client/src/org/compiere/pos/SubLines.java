@@ -214,6 +214,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 			if (row < 0)
 				row = 0;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			return;
 		}
 		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
 		{
@@ -225,6 +226,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 			if (row >= rows)
 				row = rows - 1;
 			m_table.getSelectionModel().setSelectionInterval(row, row);
+			return;
 		}
 		//	Delete
 		else if (action.equals("Delete"))

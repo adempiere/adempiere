@@ -34,6 +34,7 @@ import org.compiere.util.*;
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright � Jorg Janke
  * @version $Id: SubCurrentLine.java,v 1.3 2004/07/24 04:31:52 jjanke Exp $
+ * red1 - [2093355 ] Small bugs in OpenXpertya POS
  */
 public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	/**
@@ -227,9 +228,9 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * 
 	 * @param qty
 	 */
-	public void setQty(BigDecimal price) {
-		f_quantity.setValue(price);
-	} //	setPrice
+	public void setQty(BigDecimal qty) {
+		f_quantity.setValue(qty);
+	} //	setQty
 
 	/**
 	 * Get Qty
@@ -238,7 +239,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 */
 	public BigDecimal getQty() {
 		return (BigDecimal) f_quantity.getValue();
-	} //	getPrice
+	} //	getQty
 
 	/***************************************************************************
 	 * New Line
@@ -282,6 +283,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			if (numLineas > row)
 			{
 				//delete line from order
+				lineas[row].setQtyReserved(Env.ZERO); //red1 - [2093355 ] Small bugs in OpenXpertya POS
 				lineas[row].delete(true);
 				for (int i = row; i < (numLineas - 1); i++)
 					lineas[i] = lineas[i + 1];
@@ -437,31 +439,45 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 		if (!order.getDocStatus().equals("DR"))
 			return null;
 		//add new line or increase qty
-		MOrderLine[] lineas = order.getLines();
-		int numLineas = lineas.length;
-		for (int i = 0; i < numLineas; i++)
+		
+		// catch Exceptions at order.getLines()
+		int numLineas = 0;
+		MOrderLine[] lineas = null;
+		try
 		{
-			if (lineas[i].getM_Product_ID() == product.getM_Product_ID())
+			lineas = order.getLines();
+			numLineas = lineas.length;
+			for (int i = 0; i < numLineas; i++)
 			{
-				//increase qty
-				double current = lineas[i].getQtyEntered().doubleValue();
-				double toadd = QtyOrdered.doubleValue();
-				double total = current + toadd;
-				lineas[i].setQty(new BigDecimal(total));
-				lineas[i].setPrice(); //	sets List/limit
-				lineas[i].save();
-				return lineas[i];
+				if (lineas[i].getM_Product_ID() == product.getM_Product_ID())
+				{
+					//increase qty
+					double current = lineas[i].getQtyEntered().doubleValue();
+					double toadd = QtyOrdered.doubleValue();
+					double total = current + toadd;
+					lineas[i].setQty(new BigDecimal(total));
+					lineas[i].setPrice(); //	sets List/limit
+					lineas[i].save();
+					return lineas[i];
+				}
 			}
 		}
-		//create new line
+		catch (Exception e)
+		{
+			log.severe("Order lines cannot be created - " + e.getMessage());
+		}
+
+        //create new line
 		MOrderLine line = new MOrderLine(order);
 		line.setProduct(product);
 		line.setQty(QtyOrdered);
+			
 		line.setPrice(); //	sets List/limit
 		line.setPrice(PriceActual);
 		line.save();
 		return line;
-	} //	getLine
+			
+	} //	createLine
 
 	/**
 	 * @param m_c_order_id
