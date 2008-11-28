@@ -33,7 +33,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
@@ -44,22 +43,18 @@ import javax.xml.xpath.XPathExpressionException;
 import org.adempiere.server.rpl.XMLHelper;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
-import org.eevolution.model.MEXPFormat;
-import org.eevolution.model.MEXPFormatLine;
-import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Client;
-import org.compiere.model.X_AD_ReplicationDocument;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
-import org.eevolution.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.eevolution.model.MEXPFormat;
+import org.eevolution.model.MEXPFormatLine;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -225,8 +220,8 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "EDIMultiColumnNotSupported"));
 		}
 		
-		StringBuffer orderBy = new StringBuffer(X_EXP_FormatLine.COLUMNNAME_IsMandatory).append(" DESC ")
-			.append(", ").append(X_EXP_FormatLine.COLUMNNAME_Position)
+		StringBuffer orderBy = new StringBuffer(MEXPFormatLine.COLUMNNAME_IsMandatory).append(" DESC ")
+			.append(", ").append(MEXPFormatLine.COLUMNNAME_Position)
 		;
 		MEXPFormatLine[] formatLines = expFormat.getFormatLinesOrderedBy(orderBy.toString());
 		if (formatLines == null || formatLines.length < 1) {
@@ -390,7 +385,7 @@ public class ImportHelper {
 								) 
 						{
 							//
-							if(!value.toString().isEmpty())
+							if (! Util.isEmpty(value.toString()))
 							{
 								int intValue = Integer.parseInt(value.toString());
 								value = new Integer( intValue );
@@ -406,7 +401,7 @@ public class ImportHelper {
 								) 
 						{
 							//
-							if(!value.toString().isEmpty())
+							if (! Util.isEmpty(value.toString()))
 							{
 								double doubleValue = Double.parseDouble(value.toString());
 								value = new BigDecimal(doubleValue);
