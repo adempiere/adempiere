@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,15 +16,32 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
+import org.compiere.model.X_M_Cost;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 /**
  *	Merge Dialog.
@@ -300,7 +317,7 @@ public class VMerge extends CPanel
 			+ "WHERE t.IsView='N'"
 				+ " AND t.TableName NOT IN ('C_TaxDeclarationAcct')"
 				+ " AND ("
-				+ "(c.ColumnName=? AND c.IsKey='N')"		//	#1 - direct
+				+ "(c.ColumnName=? AND c.IsKey='N' AND c.ColumnSQL IS NULL)"		//	#1 - direct
 			+ " OR "
 				+ "c.AD_Reference_Value_ID IN "				//	Table Reference
 					+ "(SELECT rt.AD_Reference_ID FROM AD_Ref_Table rt"
