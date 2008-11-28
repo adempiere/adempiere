@@ -192,7 +192,7 @@ public class ImportHelper {
 		} else {
 			// Failed in save
 			throw new Exception(Msg.getMsg(ctx, "EXPFormatFailedSave"));
-		}
+		}*/
 	}
 
 	/**
