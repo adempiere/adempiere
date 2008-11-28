@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by sunan (sohu) -->
+<!--Adempiere(tm) Release 2.5.1f_2004-09-09 - Smart ERP & CRM - Copyright (c) 1999-2004 Jorg Janke; Implementation: 2.5.1f 20040910-0117 - Adempiere Inc. (C) 1999-2004 Jorg Janke-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="zh_CN" table="C_Tax">
+	<row id="104" trl="Y">
+		<value column="Name" original="Standard">标准</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original=""/>
+	</row>
+	<row id="105" trl="Y">
+		<value column="Name" original="CT Sales">CT 销售</value>
+		<value column="Description" original=""/>
+		<value column="TaxIndicator" original="6%CT">6% CT</value>
+	</row>
+	<row id="106" trl="Y">
+		<value column="Name" original="GST">GST</value>
+		<value column="Description" original="Canadian Federal Sales Tax">加拿大人联邦的销售税</value>
+		<value column="TaxIndicator" original="GST">GST</value>
+	</row>
+	<row id="107" trl="Y">
+		<value column="Name" original="PST">PST</value>
+		<value column="Description" original="Canadian Provintial Tax">加拿大的州税</value>
+		<value column="TaxIndicator" original="PST">PST</value>
+	</row>
+	<row id="108" trl="Y">
+		<value column="Name" original="GST/PST">GST PST</value>
+		<value column="Description" original="Canadian Federal &amp; State Tax">联邦的加拿大人 &amp;州税</value>
+		<value column="TaxIndicator" original="Tax">Tax</value>
+	</row>
+	<row id="109" trl="Y">
+		<value column="Name" original="Exempt">免税</value>
+		<value column="Description" original="Used when Business Partners are exempt from tax">Used when Business Partners are exempt from tax</value>
+		<value column="TaxIndicator" original=""/>
+	</row>
+</adempiereTrl>
