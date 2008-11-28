@@ -207,7 +207,7 @@ public class TopicListener implements MessageListener {
 		{
 			if(conn.getClientID().equals(clientID))
 			{
-				log.config("Connection with clientID '" + clientID
+				log.warning("Connection with clientID '" + clientID
 						+ "' already exists");
 				return;
 			}else

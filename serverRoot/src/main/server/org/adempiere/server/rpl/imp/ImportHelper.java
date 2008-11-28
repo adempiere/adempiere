@@ -46,9 +46,14 @@ import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.eevolution.model.MEXPFormat;
 import org.eevolution.model.MEXPFormatLine;
+import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
+import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Client;
+import org.compiere.model.X_AD_ReplicationDocument;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
 import org.eevolution.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -58,7 +63,6 @@ import org.compiere.util.Msg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 /**
  * @author Trifon N. Trifonov
 * @author Antonio Cañaveral, e-Evolution
@@ -124,8 +128,13 @@ public class ImportHelper {
 		if (version == null || "".equals(version)) {
 			throw new Exception(Msg.getMsg(ctx, "XMLVersionAttributeMandatory"));
 		}
-		boolean isDelete=false;
-		isDelete=rootElement.getAttribute("deleted").equals("Y");
+		///Getting Attributes.
+		
+		;
+		
+		int ReplicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
+		String ReplicationType = rootElement.getAttribute("ReplicationType");
+		int ReplicationEvent = new Integer(rootElement.getAttribute("ReplicationEvent"));
 		
 		MClient client = null;
 		client = getAD_ClientByValue(ctx, AD_Client_Value, trxName);
@@ -157,16 +166,28 @@ public class ImportHelper {
 		log.info("expFormat = " + expFormat.toString());
 		
 		PO po = importElement(ctx, result, rootElement, expFormat, trxName);
-		
 		// Here must invoke other method else we get cycle...
 		boolean resultSave=false;
-		if(isDelete)
+		if(ReplicationEvent == ModelValidator.TYPE_BEFORE_DELETE ||
+		   ReplicationEvent == ModelValidator.TYPE_BEFORE_DELETE_REPLICATION ||
+		   ReplicationEvent == ModelValidator.TYPE_DELETE)
 			resultSave=po.delete(true);
 		else
 			resultSave = po.saveReplica(true);
 		
 		result.append("ResultSave=").append(resultSave).append("; ");
-		if (resultSave) {
+		/*if (resultSave) 
+		{
+			if(ReplicationMode == MReplicationStrategy.REPLICATION_DOCUMENT && 
+			   ReplicationType == X_AD_ReplicationDocument.REPLICATIONTYPE_Merge)
+			{
+				String status = po.get_ValueAsString("DocStatus");
+				String action = po.get_ValueAsString("DocAction");
+				DocAction	m_document;
+				m_document=(DocAction) po;
+				DocumentEngine engine = new DocumentEngine (m_document, status);
+				engine.processIt (action);
+			}
 			// Success in save
 		} else {
 			// Failed in save
@@ -251,11 +272,17 @@ public class ImportHelper {
 				//referencedNode = (Element)nodeList.item(0);
 				
 				log.info("referencedNode = " + referencedNode);
-				
-				refRecord_ID = getID(ctx, referencedExpFormat, referencedNode, formatLines[i].getValue(), trxName);
-				log.info("refRecord_ID = " + refRecord_ID);
-				
-				value = new Integer(refRecord_ID);
+				if(referencedNode!=null)
+				{
+					refRecord_ID = getID(ctx, referencedExpFormat, referencedNode, formatLines[i].getValue(), trxName);
+					log.info("refRecord_ID = " + refRecord_ID);
+					value = new Integer(refRecord_ID);
+				}
+				else
+				{
+					log.info("NULL VALUE FOR " + xPath.toString());
+					value=null;
+				}
 				log.info("value=[" + value + "]");
 			} else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(formatLines[i].getType())) {
 				boolean resSave = false;
@@ -363,10 +390,14 @@ public class ImportHelper {
 								) 
 						{
 							//
-							int intValue = Integer.parseInt(value.toString());
-							value = new Integer( intValue );
+							if(!value.toString().isEmpty())
+							{
+								int intValue = Integer.parseInt(value.toString());
+								value = new Integer( intValue );
+							}else
+								value=null;
 							log.info("Abut to set int value of column ["+column.getColumnName()+"]=["+value+"]");
-							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), intValue);
+							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
 							log.info("Set int value of column ["+column.getColumnName()+"]=["+value+"]");
 						} else if (column.getAD_Reference_ID() == DisplayType.Amount
 									|| column.getAD_Reference_ID() == DisplayType.Number
@@ -375,8 +406,12 @@ public class ImportHelper {
 								) 
 						{
 							//
-							double doubleValue = Double.parseDouble(value.toString());
-							value = new BigDecimal(doubleValue);
+							if(!value.toString().isEmpty())
+							{
+								double doubleValue = Double.parseDouble(value.toString());
+								value = new BigDecimal(doubleValue);
+							}else
+								value=null;
 							//value = new Double( doubleValue );
 							log.info("About to set BigDecimal value of column ["+column.getColumnName()+"]=["+value+"]");
 							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
@@ -390,7 +425,10 @@ public class ImportHelper {
 							//
 							try {
 								log.info("About to set value of column ["+column.getColumnName()+"]=["+value+"]");
-								po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), clazz.cast(value));
+								if(clazz == Boolean.class)
+									po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
+								else
+									po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), clazz.cast(value));
 								log.info("Set value of column ["+column.getColumnName()+"]=["+value+"]");
 							} catch (ClassCastException ex) {
 								ex.printStackTrace();
@@ -486,6 +524,14 @@ public class ImportHelper {
 			log.info("--- iterate unique column with index = ["+i+"]");
 			MColumn column = MColumn.get(ctx, uniqueFormatLines[i].getAD_Column_ID());
 			log.info("column = ["+column+"]");
+			String valuecol=column.getColumnName();
+			if(column.getAD_Reference_ID() == DisplayType.Amount 
+					|| column.getAD_Reference_ID() == DisplayType.Number 
+					|| column.getAD_Reference_ID() == DisplayType.CostPrice
+					|| column.getAD_Reference_ID() == DisplayType.Quantity)
+			{
+				valuecol="Round("+valuecol+",2)";
+			}
 			
 			if (MEXPFormatLine.TYPE_XMLElement.equals(uniqueFormatLines[i].getType())) {
 				// XML Element
@@ -529,9 +575,9 @@ public class ImportHelper {
 				throw new Exception(Msg.getMsg(ctx, "EXPFormatLineNonValidType"));
 			}
 			if (i == 0) {
-				sql.append(" ").append(column.getColumnName()).append(" = ? ");
+				sql.append(" ").append(valuecol).append(" = ? ");
 			} else {
-				sql.append(" AND ").append(column.getColumnName()).append(" = ? ");
+				sql.append(" AND ").append(valuecol).append(" = ? ");
 			}
 			
 		}
@@ -544,12 +590,24 @@ public class ImportHelper {
 				MColumn col = MColumn.get(ctx, uniqueFormatLines[i].getAD_Column_ID());
 				
 				if (col.getAD_Reference_ID() == DisplayType.DateTime 
-						|| col.getAD_Reference_ID() == DisplayType.Date
-					) 
+						|| col.getAD_Reference_ID() == DisplayType.Date) 
 				{
 					
 					Timestamp value = (Timestamp)handleDateTime(values[i], col , uniqueFormatLines[i]);
 					pstmt.setTimestamp(i+1, value);
+				}
+				else if(col.getAD_Reference_ID() == DisplayType.String)
+				{
+					String value = (String)values[i];
+					pstmt.setString(i+1, value);
+				}
+				else if(col.getAD_Reference_ID() == DisplayType.Amount 
+						|| col.getAD_Reference_ID() == DisplayType.Number 
+						|| col.getAD_Reference_ID() == DisplayType.CostPrice
+						|| col.getAD_Reference_ID() == DisplayType.Quantity)
+				{
+					BigDecimal value = new BigDecimal((String)values[i]);
+					pstmt.setBigDecimal(i+1, value.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
 				else
 				{	
@@ -590,10 +648,11 @@ public class ImportHelper {
 					result = new Timestamp(m_customDateFormat.parse(valueString).getTime());
 					log.info("Custom Date Format; Parsed value = " + result.toString());
 				} else {
-					result = new Timestamp(m_dateFormat.parse(valueString).getTime());
-					log.info("Custom Date Format; Parsed value = " + result.toString());
-				}
-						
+					//result = new Timestamp(m_dateFormat.parse(valueString).getTime());
+					//log.info("Custom Date Format; Parsed value = " + result.toString());
+					//NOW Using Standard Japanese Format yyyy-mm-dd hh:mi:ss.mil so don't care about formats....
+					result = Timestamp.valueOf(valueString);
+				}				
 			}
 		} else if (column.getAD_Reference_ID() == DisplayType.DateTime) {
 			if (valueString != null) {
@@ -602,12 +661,15 @@ public class ImportHelper {
 					result = new Timestamp(m_customDateFormat.parse(valueString).getTime());
 					log.info("Custom Date Format; Parsed value = " + result.toString());
 				} else {
-					result = new Timestamp(m_dateTimeFormat.parse(valueString).getTime());
-					log.info("Custom Date Format; Parsed value = " + result.toString());
+					//result = new Timestamp(m_dateTimeFormat.parse(valueString).getTime());
+					//log.info("Custom Date Format; Parsed value = " + result.toString());
+					//NOW Using Standard Japanese Format yyyy-mm-dd hh:mi:ss.mil so don't care about formats....
+				    result = Timestamp.valueOf(valueString);
 				}
+				
 			}
+			
 		}
-		
 		return result;
 	}
 

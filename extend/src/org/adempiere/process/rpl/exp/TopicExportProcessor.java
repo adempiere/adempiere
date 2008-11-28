@@ -156,12 +156,12 @@ public class TopicExportProcessor implements IExportProcessor {
 				connection = connectionFactory.createConnection();
 			}
 			
-			// connection.setClientID( clientID ); Commented by Victor as he had issue!
+			connection.setClientID( clientID );// Commented by Victor as he had issue!
 			connection.start();
 			
 			// Create a Session
 			session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE); //TODO - Trifon could be EXP_ProcessorParameter
-
+			
 			// Create the destination (Topic or Queue)
 			Destination destination = session.createTopic(topicName);
 			
@@ -185,7 +185,7 @@ public class TopicExportProcessor implements IExportProcessor {
 			// Tell the producer to send the message
 			try
 			{
-				producer.send(message);
+				producer.send(destination, message);
 				session.commit();
 				log.info("JMS Message sent!");
 			}catch(JMSException ex)
@@ -198,12 +198,13 @@ public class TopicExportProcessor implements IExportProcessor {
 		} finally {
 			// Clean up
 			if (session != null) { 
-				try { session.close(); } catch (JMSException ex) { /* ignored */ }
+				try { session.close(); } catch (JMSException ex) {}
 			}
 			if (connection != null) {
-				try { connection.close(); } catch (JMSException ex) { /* ignored */ }
+				try { connection.close(); } catch (JMSException ex) {}
 			}
 		}
 	}
+
 
 }

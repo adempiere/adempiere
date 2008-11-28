@@ -107,12 +107,12 @@ public class ExportHelper {
 		m_dateFormat 	 = DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(ctx)));
 	}
 	
-	/**
+		/**
 	 * 	Process - Generate Export Format
 	 *	@return info
 	 */
 	@SuppressWarnings("unchecked")
-	public String exportRecord (PO po, boolean isDeleted) throws Exception
+	public String exportRecord (PO po, Integer ReplicationMode , String ReplicationType, Integer ReplicationEvent) throws Exception
 	{
 		MClient client = MClient.get (po.getCtx(), m_AD_Client_ID);
 		log.info("Client = " + client.toString());
@@ -178,9 +178,9 @@ public class ExportHelper {
 				}
 				rootElement.setAttribute("AD_Client_Value", client.getValue());
 				rootElement.setAttribute("Version", exportFormat.getVersion());
-				if (isDeleted) {
-					rootElement.setAttribute("deleted", "Y");
-				}
+				rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
+				rootElement.setAttribute("ReplicationType", ReplicationType);
+				rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
 				outDocument.appendChild(rootElement);
 				generateExportFormat(rootElement, exportFormat, rs, po, po.get_ID(), variableMap);
 			}
@@ -225,7 +225,7 @@ public class ExportHelper {
 	 *	@return Document
 	 */
 	@SuppressWarnings("unchecked")
-	public Document exportRecord (MEXPFormat exportFormat, String where, boolean isDeleted) throws Exception
+	public Document exportRecord (MEXPFormat exportFormat, String where , Integer ReplicationMode , String ReplicationType, Integer ReplicationEvent) throws Exception
 	{
 		MClient client = MClient.get (exportFormat.getCtx(), m_AD_Client_ID);
 		MTable table = MTable.get(exportFormat.getCtx(), exportFormat.getAD_Table_ID());
@@ -278,9 +278,9 @@ public class ExportHelper {
 						}
 						rootElement.setAttribute("AD_Client_Value", client.getValue());
 						rootElement.setAttribute("Version", exportFormat.getVersion());
-						if (isDeleted) {
-							rootElement.setAttribute("deleted", "true");
-						}
+						rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
+						rootElement.setAttribute("ReplicationType", ReplicationType);
+						rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
 						outDocument.appendChild(rootElement);
 						generateExportFormat(rootElement, exportFormat, rs, po, po.get_ID(), variableMap);
 					}
@@ -346,8 +346,10 @@ public class ExportHelper {
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else {
-							valueString = m_dateFormat.format (Timestamp.valueOf (valueString));
-							newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
+							//valueString = m_dateFormat.format (Timestamp.valueOf (valueString));
+							//newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
+							//Standard Japanese Format (default) works better (yyyy-mm-dd)
+							newElement.setAttribute("DateFormat", valueString);	
 						}
 								
 					}
@@ -359,8 +361,10 @@ public class ExportHelper {
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else {
-							valueString = m_dateTimeFormat.format (Timestamp.valueOf (valueString));
-							newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
+							//valueString = m_dateTimeFormat.format (Timestamp.valueOf (valueString));
+							//newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
+							//Standard Japanese Format (default) works better (yyyy-mm-dd hh:mm:ss m.mm)
+							newElement.setAttribute("DateFormat", valueString);	
 						}
 					}
 				}

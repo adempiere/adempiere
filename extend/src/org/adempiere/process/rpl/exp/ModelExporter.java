@@ -32,6 +32,9 @@ import javax.xml.transform.stream.StreamResult;
 
 //import org.adempiere.server.rpl.XMLHelper;
 import org.compiere.Adempiere;
+import org.compiere.model.MReplicationStrategy;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -118,7 +121,7 @@ public class ModelExporter extends SvrProcess {
 		ExportHelper expHelper =  new ExportHelper(getCtx(),p_AD_Client_ID);
 		MEXPFormat exportFormat = new MEXPFormat (getCtx(), p_EXP_Format_ID, get_TrxName() );
 		File file = new File(p_FileName);
-		Document doc = expHelper.exportRecord(exportFormat,"", false);
+		Document doc = expHelper.exportRecord(exportFormat,"", MReplicationStrategy.REPLICATION_TABLE, X_AD_ReplicationTable.REPLICATIONTYPE_Merge,ModelValidator.TYPE_AFTER_CHANGE);
 		// Save the document to the disk file
         TransformerFactory tranFactory = TransformerFactory.newInstance();
         

@@ -65,9 +65,11 @@ public class ExportModelValidator implements ModelValidator
 	/** User			*/
 	private int m_AD_User_ID = -1;
 	
-	/** Export Helper				*/
-	ExportHelper expHelper = null;
+	/** Replication Strategy **/
+	private int m_AD_ReplicationStrategy_ID = -1;
 	
+	/** Export Helper				*/
+	ExportHelper expHelper = null;	
 	
 	/**
 	 *	Constructor.
@@ -89,10 +91,12 @@ public class ExportModelValidator implements ModelValidator
 		log.info(client.toString());
 		
 		MReplicationStrategy rplStrategy = null;
-		log.info("client.getAD_ReplicationStrategy_ID() = " + client.getAD_ReplicationStrategy_ID());
 		
-		if (client.getAD_ReplicationStrategy_ID() > 0) {
-			rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
+		m_AD_ReplicationStrategy_ID =  client.getAD_ReplicationStrategy_ID();
+		log.info("client.getAD_ReplicationStrategy_ID() = " + m_AD_ReplicationStrategy_ID);
+		
+		if (m_AD_ReplicationStrategy_ID > 0) {
+			rplStrategy = new MReplicationStrategy(client.getCtx(), m_AD_ReplicationStrategy_ID, null);
 			expHelper = new ExportHelper(client, rplStrategy);
 		}
 		// Add Tables
@@ -101,16 +105,12 @@ public class ExportModelValidator implements ModelValidator
 		//engine.addModelChange(MOrder.Table_Name, this);
 		//engine.addModelChange(MOrderLine.Table_Name, this);
 		if (rplStrategy != null) {
-			X_AD_ReplicationTable[] rplTables = rplStrategy.getReplicationTables();
-			for (int i = 0; i < rplTables.length; i++) {
-				String rplType = rplTables[i].getReplicationType();
-				
-				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplType)
-							|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplType)
-					) 
+
+			for (X_AD_ReplicationTable rplTable : rplStrategy.getReplicationTables()) {
+				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
+					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
 				{
-					MTable table = MTable.get (client.getCtx(), rplTables[i].getAD_Table_ID());
-					
+					MTable table = MTable.get (client.getCtx(), rplTable.getAD_Table_ID());
 					engine.addModelChange(table.getTableName(), this);
 				}
 			}
@@ -118,17 +118,12 @@ public class ExportModelValidator implements ModelValidator
 		// Add Documents
 		// We want to be informed when Replication documents are created/updated/deleted!
 		if (rplStrategy != null) {
-			X_AD_ReplicationDocument[] rplDocuments = rplStrategy.getReplicationDocuments();
-			for (int i = 0; i < rplDocuments.length; i++) {
-				String rplType = rplDocuments[i].getReplicationType();
-				
-				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplType)
-							|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplType)
-					) 
+			for (X_AD_ReplicationDocument rplDocument : rplStrategy.getReplicationDocuments()) {				
+				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplDocument.getReplicationType())
+					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType())) 
 				{
 					//MDocType docType = MDocType.get(client.getCtx(), rplDocuments[i].getC_DocType_ID());
-					MTable table = MTable.get (client.getCtx(), rplDocuments[i].getAD_Table_ID());
-					
+					MTable table = MTable.get (client.getCtx(), rplDocument.getAD_Table_ID());			
 					engine.addDocValidate(table.getTableName(), this);
 				}
 			}
@@ -146,16 +141,18 @@ public class ExportModelValidator implements ModelValidator
      */
 	public String modelChange (PO po, int type) throws Exception
 	{
+		String Mode = "Table";
 		log.info("po.get_TableName() = " + po.get_TableName());
 		if (expHelper != null) {
-			
-			if ( type == TYPE_AFTER_CHANGE || type == TYPE_AFTER_NEW ) // After Change or After New
+		if (   type == TYPE_AFTER_CHANGE 
+			|| type == TYPE_AFTER_NEW 
+			|| type == TYPE_BEFORE_DELETE) // After Change or After New
 			{
-				expHelper.exportRecord(po, false);
-			} else if ( type == TYPE_BEFORE_DELETE ) // Before delete
-			{
-				expHelper.exportRecord(po, true);
-			}
+				expHelper.exportRecord(	po, 
+						MReplicationStrategy.REPLICATION_TABLE,
+						MReplicationStrategy.getReplicationDocument(po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID()).getReplicationType(),
+						type);
+			}			
 		}
 
 		return null;
@@ -176,13 +173,19 @@ public class ExportModelValidator implements ModelValidator
 		String result = null;
 		if (expHelper != null) {
 			try {
-				if ( type == TIMING_AFTER_COMPLETE 
-						|| type == TIMING_AFTER_CLOSE 
-						|| type == TIMING_AFTER_REVERSECORRECT 
-						|| type == TIMING_AFTER_VOID
+				if (   type == TIMING_AFTER_COMPLETE 
+					|| type == TIMING_AFTER_CLOSE 
+					|| type == TIMING_AFTER_REVERSECORRECT 
+					|| type == TIMING_AFTER_VOID
+					|| type == TIMING_AFTER_VOID
+					|| type == TIMING_AFTER_PREPARE
 				)
 				{
-					expHelper.exportRecord(po, false);
+					expHelper.exportRecord(	po, 
+											MReplicationStrategy.REPLICATION_DOCUMENT ,
+											MReplicationStrategy.getReplicationDocument(po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID()).getReplicationType(),
+											type);
+									
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
