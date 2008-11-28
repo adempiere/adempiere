@@ -501,4 +501,11 @@ public class MReportColumn extends X_PA_ReportColumn
 		return retValue;
 	}	//	copy
 
+	public boolean isNatural() {
+		String at = getAmountType();
+		if (at == null)
+			return false;
+		return AMOUNTTYPE_NaturalBalance.equals(at);
+	}
+
 }	//	MReportColumn

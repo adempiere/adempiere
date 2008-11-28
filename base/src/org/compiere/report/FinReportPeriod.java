@@ -147,4 +147,13 @@ public class FinReportPeriod
 		return m_YearStartDate;
 	}
 
+	public String getNaturalWhere(String alias) {
+		String yearWhere = getYearWhere();
+		String totalWhere = getTotalWhere();
+		String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = " + alias + ".Account_ID AND AccountType NOT IN ('R', 'E'))";
+		String full = totalWhere + " AND ( " + bs + " OR TRUNC(" + alias + ".DateAcct) " + yearWhere + " ) ";
+		
+		return full;
+	}
+
 }	//	FinReportPeriod

@@ -343,6 +343,12 @@ public class FinReport extends SvrProcess
 					info.append("Total");
 					select.append(sql);
 				}
+				else if (m_lines[line].isNatural())
+				{
+					String sql = frp.getNaturalWhere("Fact_Acct");
+					info.append("Natural");
+					select.append(sql);
+				}
 				else
 				{
 					log.log(Level.SEVERE, "No valid Line AmountType");
@@ -368,6 +374,12 @@ public class FinReport extends SvrProcess
 				{
 					String sql = frp.getTotalWhere();
 					info.append("Total");
+					select.append(sql);
+				}
+				else if (m_columns[col].isNatural())
+				{
+					String sql = frp.getNaturalWhere("Fact_Acct");
+					info.append("Natural");
 					select.append(sql);
 				}
 				else
@@ -883,6 +895,8 @@ public class FinReport extends SvrProcess
 					select.append(frp.getPeriodWhere());
 				else if (m_lines[line].isYear())
 					select.append(frp.getYearWhere());
+				else if (m_lines[line].isNatural())
+					select.append(frp.getNaturalWhere("fb"));
 				else
 					select.append(frp.getTotalWhere());
 			}
@@ -892,6 +906,8 @@ public class FinReport extends SvrProcess
 					select.append(frp.getPeriodWhere());
 				else if (m_columns[col].isYear())
 					select.append(frp.getYearWhere());
+				else if (m_columns[col].isNatural())
+					select.append(frp.getNaturalWhere("fb"));
 				else
 					select.append(frp.getTotalWhere());
 			}

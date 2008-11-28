@@ -241,6 +241,20 @@ public class MReportLine extends X_PA_ReportLine
 			|| AMOUNTTYPE_TotalDebitOnly.equals(at)
 			|| AMOUNTTYPE_TotalQuantity.equals(at);
 	}	//	isTotal
+	
+	/**
+	 * Is it natural balance ?
+	 * Natural balance means year balance for profit and loss a/c, total balance for balance sheet account
+	 * @return true if Natural Balance Amount Type
+	 */
+	public boolean isNatural()
+	{
+		String at = getAmountType();
+		if (at == null)
+			return false;
+		
+		return AMOUNTTYPE_NaturalBalance.equals(at);
+	}
 
 	/**
 	 * 	Get SQL where clause (sources, posting type)
