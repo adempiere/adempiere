@@ -34,6 +34,7 @@ import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
@@ -333,9 +334,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		statusBar.setStatusDB(text);
 	}	//	setStatusDB
 
-
-	
-	
 	protected void prepareTable (ColumnInfo[] layout, 
             String from, 
             String where, 
@@ -699,6 +697,25 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     {
         return InfoPanel.lISTENER_EVENTS;
     }
+	
+	// Elaine 2008/11/28
+	/**
+	 *  Enable OK, History, Zoom if row/s selected
+     *  ---
+     *  Changes: Changed the logic for accomodating multiple selection
+     *  @author ashley
+	 */
+	protected void enableButtons ()
+	{
+		boolean enable = (contentPanel.getSelectedCount() == 1);
+		confirmPanel.getOKButton().setEnabled(contentPanel.getSelectedCount() > 0);
+		
+		if (hasHistory())
+			confirmPanel.getButton(ConfirmPanel.A_HISTORY).setEnabled(enable);
+		if (hasZoom())
+			confirmPanel.getButton(ConfirmPanel.A_ZOOM).setEnabled(enable);
+	}   //  enableButtons
+	//
 		
 	/**************************************************************************
 	 *  Get dynamic WHERE part of SQL
@@ -860,6 +877,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             }
         }
     }  //  onEvent
+    
+    public void tableChanged(WTableModelEvent event)
+    {
+    	enableButtons();
+    }
     
     public void zoom()
     {

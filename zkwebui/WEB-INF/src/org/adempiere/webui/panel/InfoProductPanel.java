@@ -39,43 +39,54 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Tab;
+import org.adempiere.webui.component.Tabbox;
+import org.adempiere.webui.component.Tabpanel;
+import org.adempiere.webui.component.Tabpanels;
+import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
-import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
 import org.compiere.model.MRole;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
- *	Search Product and return selection
- *  This class is based on org.compiere.apps.search.InfoProduct written by Jorg Janke
- *  @author     Sendy Yagambrum
- *  
+ * Search Product and return selection
+ * This class is based on org.compiere.apps.search.InfoPAttribute written by Jorg Janke
+ * @author Elaine
+ *
  */
 public final class InfoProductPanel extends InfoPanel implements EventListener
 {
-	
-	/**
-     * 
-    **/
     private static final long serialVersionUID = 1L;
 
     private Label lblValue = new Label();
@@ -92,7 +103,31 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	private Listbox pickWarehouse = new Listbox();
 	private Label lblVendor = new Label();
 	private Textbox fieldVendor = new Textbox();
-	private Button p_attributeInfo;
+	// Elaine 2008/11/21
+	private Label lblProductCategory = new Label();
+	private Listbox pickProductCategory = new Listbox();
+	//
+	
+	// Elaine 2008/11/25
+	private Borderlayout borderlayout = new Borderlayout();
+	private Textbox fieldDescription = new Textbox();
+	Tabbox tabbedPane = new Tabbox();
+	WListbox warehouseTbl = ListboxFactory.newDataTable();
+    String m_sqlWarehouse;
+    WListbox substituteTbl = ListboxFactory.newDataTable();
+    String m_sqlSubstitute;
+    WListbox relatedTbl = ListboxFactory.newDataTable();
+    String m_sqlRelated;
+    //Available to Promise Tab
+	private WListbox 			m_tableAtp = ListboxFactory.newDataTable();
+	private int 				m_M_Product_ID = 0;
+    int mWindowNo = 0;
+    //
+    
+	/**	Search Button				*/
+	private Button	m_InfoPAttributeButton = new Button();
+	/** Instance Button				*/
+	private Button	m_PAttributeButton = null;
 	/** SQL From				*/
 	private static final String s_productFrom =
 		"M_Product p"
@@ -145,12 +180,12 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			executeQuery();
             renderItems();
         }
+
+		tabbedPane.setSelectedIndex(0);
+
 		p_loadedOK = true;
-		
-		
 	}	//	InfoProductPanel
-	
-	
+		
 	/**
 	 *	initialize fields
 	 */
@@ -166,15 +201,18 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		lblSKU.setValue(Msg.translate(Env.getCtx(), "SKU"));
 		lblPriceList = new Label();
 		lblPriceList.setValue(Msg.getMsg(Env.getCtx(), "PriceListVersion"));
+		// Elaine 2008/11/21
+		lblProductCategory = new Label();
+		lblProductCategory.setValue(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
+		//
 		lblWarehouse = new Label();
 		lblWarehouse.setValue(Msg.getMsg(Env.getCtx(), "Warehouse").substring(1));
 		lblVendor = new Label();
 		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));	
 		
-	/*	p_attributeInfo = new Button();
-		p_attributeInfo.setImage("/images/PAttribute16.png");
-		p_attributeInfo.setTooltiptext("Poduct Atribute Info");
-		p_attributeInfo.addEventListener(Events.ON_CLICK,this);*/
+		m_InfoPAttributeButton.setImage("/images/PAttribute16.png");
+		m_InfoPAttributeButton.setTooltiptext(Msg.getMsg(Env.getCtx(), "PAttribute"));
+		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);		
 		
 		fieldValue = new Textbox();
 		fieldValue.setMaxlength(40);
@@ -191,6 +229,15 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		pickPriceList.setWidth("150px");
 		pickPriceList.addEventListener(Events.ON_SELECT, this);
 		
+		// Elaine 2008/11/21
+		pickProductCategory = new Listbox();
+		pickProductCategory.setRows(0);
+		pickProductCategory.setMultiple(false);
+		pickProductCategory.setMold("select");
+		pickProductCategory.setWidth("150px");
+		pickProductCategory.addEventListener(Events.ON_SELECT, this);
+		//
+		
 		pickWarehouse = new Listbox();
 		pickWarehouse.setRows(0);
 		pickWarehouse.setMultiple(false);
@@ -203,13 +250,11 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
         
         contentPanel = new WListbox();
         contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
         contentPanel.setVflex(true);
 	}	//	initComponents
 	
 	private void init()
 	{
-
 		Panel pnlValue = new Panel();
 		pnlValue.appendChild(lblValue);
 		pnlValue.appendChild(fieldValue);		
@@ -235,6 +280,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		pnlPriceList.appendChild(pickPriceList);
 		pnlPriceList.setAlign("right");
 		
+		// Elaine 2008/11/21
+		Panel pnlProductCategory = new Panel();
+		pnlProductCategory.appendChild(lblProductCategory);
+		pnlProductCategory.appendChild(pickProductCategory);
+		pnlProductCategory.setAlign("right");
+		//
+		
 		Panel pnlWarehouse = new Panel();
 		pnlWarehouse.appendChild(lblWarehouse);
 		pnlWarehouse.appendChild(pickWarehouse);
@@ -245,9 +297,9 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		pnlVendor.appendChild(fieldVendor);
 		pnlVendor.setAlign("right");
 		
-		/*Panel pnlButton = new Panel();
-		pnlButton.appendChild(p_attributeInfo);
-		pnlButton.setAlign("left");*/
+		Panel pnlButton = new Panel();
+		pnlButton.appendChild(m_InfoPAttributeButton);
+		pnlButton.setAlign("left");
 				
 		Vbox vbox1 = new Vbox();
 		vbox1.appendChild(pnlValue);
@@ -262,28 +314,267 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		vbox3.appendChild(pnlVendor);
 		
 		Vbox vbox4 = new Vbox();
-		/*vbox4.appendChild(pnlButton);*/
 		vbox4.appendChild(pnlPriceList);
+		vbox4.appendChild(pnlProductCategory); // Elaine 2008/11/21
 		
+		Vbox vbox5 = new Vbox();
+		vbox5.appendChild(pnlButton);
 		
 		Hbox parameterPanel = new Hbox();
         parameterPanel.appendChild(vbox1);
         parameterPanel.appendChild(vbox2);
         parameterPanel.appendChild(vbox3);
         parameterPanel.appendChild(vbox4);
+        parameterPanel.appendChild(vbox5);
+        
+        // Product Attribute Instance
+		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
+		confirmPanel.addComponentsLeft(m_PAttributeButton);
+		m_PAttributeButton.addActionListener(this);
+		m_PAttributeButton.setEnabled(false);
+		
+        // Elaine 2008/11/25
+        fieldDescription.setMultiline(true);
+		fieldDescription.setReadonly(true);
+        
+		//		
+        ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "sum(QtyOnHand)", Double.class),
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "sum(QtyReserved)", Double.class)};
+        /**	From Clause							*/
+        String s_sqlFrom = " M_PRODUCT_STOCK_V ";
+        /** Where Clause						*/
+        String s_sqlWhere = "Value = ?";
+        m_sqlWarehouse = warehouseTbl.prepareTable(s_layoutWarehouse, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_STOCK_V");
+		m_sqlWarehouse += " Group By Warehouse, documentnote ";
+		warehouseTbl.setMultiSelection(false);
+        warehouseTbl.autoSize();
+        warehouseTbl.getModel().addTableModelListener(this);
+        
+        ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
+        		new ColumnInfo(
+    					Msg.translate(Env.getCtx(), "Value"),
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
+    					String.class), 
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
+    	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
+        s_sqlFrom = "M_PRODUCT_SUBSTITUTERELATED_V";
+        s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'S'";
+        m_sqlSubstitute = substituteTbl.prepareTable(s_layoutSubstitute, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_SUBSTITUTERELATED_V");
+        substituteTbl.setMultiSelection(false);
+        substituteTbl.autoSize();
+        substituteTbl.getModel().addTableModelListener(this);
+        
+        ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
+        		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
+        		new ColumnInfo(
+    					Msg.translate(Env.getCtx(), "Value"),
+    					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
+    					String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+    			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
+    	        new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "QtyReserved", Double.class),
+  	        	new ColumnInfo(Msg.translate(Env.getCtx(), "PriceStd"), "PriceStd", Double.class)};
+        s_sqlFrom = "M_PRODUCT_SUBSTITUTERELATED_V";
+        s_sqlWhere = "M_Product_ID = ? AND M_PriceList_Version_ID = ? and RowType = 'R'";
+        m_sqlRelated = relatedTbl.prepareTable(s_layoutRelated, s_sqlFrom, s_sqlWhere, false, "M_PRODUCT_SUBSTITUTERELATED_V");
+        relatedTbl.setMultiSelection(false);
+        relatedTbl.autoSize();
+        relatedTbl.getModel().addTableModelListener(this);
+        
+        //Available to Promise Tab
+        m_tableAtp.setMultiSelection(false);
+        
+        tabbedPane.setHeight("100%");
+		Tabpanels tabPanels = new Tabpanels();
+		tabbedPane.appendChild(tabPanels);
+		Tabs tabs = new Tabs();
+		tabbedPane.appendChild(tabs);
+		
+		Tab tab = new Tab(Msg.translate(Env.getCtx(), "Warehouse"));
+		tabs.appendChild(tab);
+		Tabpanel desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(warehouseTbl);
+		tabPanels.appendChild(desktopTabPanel);		
+		
+		tab = new Tab(Msg.translate(Env.getCtx(), "Description"));
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		fieldDescription.setWidth("99%");
+		fieldDescription.setHeight("99%");
+		desktopTabPanel.appendChild(fieldDescription);
+		tabPanels.appendChild(desktopTabPanel);
+		
+		tab = new Tab(Msg.translate(Env.getCtx(), "Substitute_ID"));
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(substituteTbl);
+		tabPanels.appendChild(desktopTabPanel);
+		
+		tab = new Tab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"));
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(relatedTbl);
+		tabPanels.appendChild(desktopTabPanel);
+		
+		tab = new Tab(Msg.getMsg(Env.getCtx(), "ATP"));
+		tabs.appendChild(tab);
+		desktopTabPanel = new Tabpanel();
+		desktopTabPanel.setHeight("100%");
+		desktopTabPanel.appendChild(m_tableAtp);
+		tabPanels.appendChild(desktopTabPanel);
+		//
+		
+        borderlayout.setWidth("100%");
+        borderlayout.setHeight("400px");
+        borderlayout.setStyle("border: none; position: relative");
+        Center center = new Center();
+        center.setAutoscroll(true);
+        center.setFlex(true);
+		borderlayout.appendChild(center);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		center.appendChild(div);
+		South south = new South();
+		south.setHeight("120px");
+		south.setCollapsible(true);
+		south.setSplittable(true);
+		south.setFlex(true);
+		south.setTitle(Msg.translate(Env.getCtx(), "WarehouseStock"));
+		south.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
+		borderlayout.appendChild(south);
+		south.appendChild(tabbedPane);
 		
 		Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
         mainPanel.appendChild(parameterPanel);
         mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(contentPanel);
+        mainPanel.appendChild(borderlayout);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
 		
 		this.appendChild(mainPanel);
 		this.setBorder("normal");
 		this.setWidth("1000px");
+		
+		contentPanel.addActionListener(new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				int row = contentPanel.getSelectedRow();
+				
+				int M_Warehouse_ID = 0;
+				ListItem listitem = pickWarehouse.getSelectedItem();
+				if (listitem != null)
+					M_Warehouse_ID = (Integer)listitem.getValue();
+
+				int M_PriceList_Version_ID = 0;
+				listitem = pickPriceList.getSelectedItem();
+				if (listitem != null)
+					M_PriceList_Version_ID = (Integer)listitem.getValue();
+
+        		refresh(contentPanel.getValueAt(row,2), M_Warehouse_ID, M_PriceList_Version_ID);
+        		borderlayout.getSouth().setOpen(true);
+			}
+		});				
 	}
+	
+	/**
+	 * 	Refresh Query
+	 */
+	private void refresh(Object obj, int M_Warehouse_ID, int M_PriceList_Version_ID)
+	{
+		//int M_Product_ID = 0;
+		String sql = m_sqlWarehouse;
+		//Add description to the query
+		sql = sql.replace(" FROM", ", DocumentNote FROM");
+		log.finest(sql);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setString(1, (String)obj);
+			rs = pstmt.executeQuery();
+			fieldDescription.setText("");
+			warehouseTbl.loadTable(rs);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+				if(rs.getString("DocumentNote") != null)
+					fieldDescription.setText(rs.getString("DocumentNote"));
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+				
+		try {
+			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setString(1, (String)obj);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+				m_M_Product_ID = rs.getInt(1);
+		} catch (Exception e) {
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		sql = m_sqlSubstitute;
+		log.finest(sql);
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(2, M_PriceList_Version_ID);
+			rs = pstmt.executeQuery();
+			substituteTbl.loadTable(rs);
+			rs.close();
+		} catch (Exception e) {
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		sql = m_sqlRelated;
+		log.finest(sql);
+		try {
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(2, M_PriceList_Version_ID);
+			rs = pstmt.executeQuery();
+			relatedTbl.loadTable(rs);
+			rs.close();
+		} catch (Exception e) {
+			log.log(Level.WARNING, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		initAtpTab(M_Warehouse_ID);
+	}	//	refresh
 
 	/**
 	 *	Dynamic Init
@@ -329,6 +620,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		//
 		pickWarehouse.addEventListener(Events.ON_SELECT,this);
 		pickPriceList.addEventListener(Events.ON_SELECT,this);
+		pickProductCategory.addEventListener(Events.ON_SELECT, this); // Elaine 2008/11/21
 	}	//	initInfo
 
 	/**
@@ -383,6 +675,17 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			}
 			rs.close();
 			pstmt.close();
+			
+			// Elaine 2008/11/21
+			//	Product Category
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_Product_Category_ID, Value || ' - ' || Name FROM M_Product_Category WHERE IsActive='Y'",
+					"M_Product_Category", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Value";
+			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+				pickProductCategory.addItem(kn);
+			}
+			//
 		}
 		catch (SQLException e)
 		{
@@ -502,6 +805,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		if (M_PriceList_Version_ID != 0)
 			where.append(" AND pr.M_PriceList_Version_ID=?");
 		
+		// Elaine 2008/11/29
+		//  Optional Product Category
+		if (getM_Product_Category_ID() > 0) {
+			where.append(" AND p.M_Product_Category_ID=?");
+		}
+		//
+		
 		//	Product Attribute Search
 		if (m_pAttributeWhere != null)
 		{
@@ -572,6 +882,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			pstmt.setInt(index++, M_PriceList_Version_ID);
 			log.fine("M_PriceList_Version_ID=" + M_PriceList_Version_ID);
 		}
+		// Elaine 2008/11/29
+		//  => Product Category
+		int M_Product_Category_ID = getM_Product_Category_ID();
+		if (M_Product_Category_ID > 0) {
+			pstmt.setInt(index++, M_Product_Category_ID);
+			log.fine("M_Product_Category_ID=" + M_Product_Category_ID);
+		}
+		//
 		//	Rest of Parameter in Query for Attribute Search
 		if (m_pAttributeWhere != null)
 			return;
@@ -625,11 +943,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			pstmt.setString(index++, vendor);
 			log.fine("Vendor: " + vendor);
 		}
-
 	}   //  setParameters
-
-	
-	
 
 	/**
 	 * 	Query per Product Attribute.
@@ -642,10 +956,10 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	private void cmd_InfoPAttribute()
 	{
-		/*InfoPAttributePanel ia = new InfoPAttributePanel();
+		InfoPAttributePanel ia = new InfoPAttributePanel(this);
 		m_pAttributeWhere = ia.getWhereClause();
 		if (m_pAttributeWhere != null)
-			executeQuery();*/
+			executeQuery();
 	}	//	cmdInfoAttribute
 
 	/**
@@ -822,12 +1136,256 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		return no > 0;
 	}	//	isUnconfirmed
 
-    public void tableChanged(WTableModelEvent event)
+    public void onEvent(Event e)
     {
-        // TODO Auto-generated method stub
-        
+    	Component component = e.getTarget();
+    	
+    	if(component == m_InfoPAttributeButton)
+    	{
+    		cmd_InfoPAttribute();
+    	}
+    	
+    	m_pAttributeWhere = null;
+    	// Query Product Attribure Instance
+		int row = contentPanel.getSelectedRow();
+		if (component.equals(m_PAttributeButton) && row != -1)
+		{
+			Integer productInteger = getSelectedRowKey();
+			String productName = (String)contentPanel.getValueAt(row, INDEX_NAME);
+			
+			ListItem warehouse = pickWarehouse.getSelectedItem();
+			if (productInteger == null || productInteger.intValue() == 0 || warehouse == null)
+				return;
+			
+			int M_Warehouse_ID = 0;
+			if(warehouse.getValue() != null)
+				M_Warehouse_ID = ((Integer)warehouse.getValue()).intValue();
+
+			String title = warehouse.getLabel() + " - " + productName;
+			InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel(this, title,  
+				M_Warehouse_ID, 0, productInteger.intValue(), m_C_BPartner_ID);
+			m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
+			m_M_Locator_ID = pai.getM_Locator_ID();
+			if (m_M_AttributeSetInstance_ID != -1)
+				dispose(true);
+			return;			
+		}
+		//
+		super.onEvent(e);
     }
+        
+	/**
+	 *  Enable PAttribute if row selected/changed
+	 */
+	protected void enableButtons ()
+	{
+		m_M_AttributeSetInstance_ID = -1;
+		if (m_PAttributeButton != null)
+		{
+			int row = contentPanel.getSelectedRow();
+			boolean enabled = false;
+			if (row >= 0)
+			{
+				Object value = contentPanel.getValueAt(row, INDEX_PATTRIBUTE);
+				enabled = Boolean.TRUE.equals(value);
+			}
+			m_PAttributeButton.setEnabled(enabled);
+		}
+		
+		super.enableButtons();
+	}   //  enableButtons
+    
+    // Elaine 2008/11/26
+	/**
+	 *	Query ATP
+	 */
+	private void initAtpTab (int  m_M_Warehouse_ID)
+	{
+		//	Header
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 
+		//	Fill Storage Data
+		boolean showDetail = CLogMgt.isLevelFine();
+		String sql = "SELECT s.QtyOnHand, s.QtyReserved, s.QtyOrdered,"
+			+ " productAttribute(s.M_AttributeSetInstance_ID), s.M_AttributeSetInstance_ID,";
+		if (!showDetail)
+			sql = "SELECT SUM(s.QtyOnHand), SUM(s.QtyReserved), SUM(s.QtyOrdered),"
+				+ " productAttribute(s.M_AttributeSetInstance_ID), 0,";
+		sql += " w.Name, l.Value "
+			+ "FROM M_Storage s"
+			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
+			+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID) "
+			+ "WHERE M_Product_ID=?";
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND l.M_Warehouse_ID=?";
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND s.M_AttributeSetInstance_ID=?";
+		sql += " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
+		if (!showDetail)
+			sql += " GROUP BY productAttribute(s.M_AttributeSetInstance_ID), w.Name, l.Value";
+		sql += " ORDER BY l.Value";
+		
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		double qty = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			if (m_M_Warehouse_ID != 0)
+				pstmt.setInt(2, m_M_Warehouse_ID);
+			if (m_M_AttributeSetInstance_ID > 0)
+				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>(9);
+				line.add(null);							//  Date
+				double qtyOnHand = rs.getDouble(1);
+				qty += qtyOnHand;
+				line.add(new Double(qtyOnHand));  		//  Qty
+				line.add(null);							//  BPartner
+				line.add(new Double(rs.getDouble(3)));  //  QtyOrdered
+				line.add(new Double(rs.getDouble(2)));  //  QtyReserved
+				line.add(rs.getString(7));      		//  Locator
+				String asi = rs.getString(4);
+				if (showDetail && (asi == null || asi.length() == 0))
+					asi = "{" + rs.getInt(5) + "}";
+				line.add(asi);							//  ASI
+				line.add(null);							//  DocumentNo
+				line.add(rs.getString(6));  			//	Warehouse
+				data.add(line);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 
+		//	Orders
+		sql = "SELECT o.DatePromised, ol.QtyReserved,"
+			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
+			+ " dt.DocBaseType, bp.Name,"
+			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name "
+			+ "FROM C_Order o"
+			+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
+			+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+			+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
+			+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
+			+ "WHERE ol.QtyReserved<>0"
+			+ " AND ol.M_Product_ID=?";
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND ol.M_Warehouse_ID=?";
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND ol.M_AttributeSetInstance_ID=?";
+		sql += " ORDER BY o.DatePromised";
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			if (m_M_Warehouse_ID != 0)
+				pstmt.setInt(2, m_M_Warehouse_ID);
+			if (m_M_AttributeSetInstance_ID > 0)
+				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				Vector<Object> line = new Vector<Object>(9);
+				line.add(rs.getTimestamp(1));			//  Date
+				double oq = rs.getDouble(2);
+				String DocBaseType = rs.getString(5);
+				Double qtyReserved = null;
+				Double qtyOrdered = null;
+				if (MDocType.DOCBASETYPE_PurchaseOrder.equals(DocBaseType))
+				{
+					qtyOrdered = new Double(oq);
+					qty += oq;
+				}
+				else
+				{
+					qtyReserved = new Double(oq);
+					qty -= oq;
+				}
+				line.add(new Double(qty)); 		 		//  Qty
+				line.add(rs.getString(6));				//  BPartner
+				line.add(qtyOrdered);					//  QtyOrdered
+				line.add(qtyReserved);					//  QtyReserved
+				line.add(null);				      		//  Locator
+				String asi = rs.getString(3);
+				if (showDetail && (asi == null || asi.length() == 0))
+					asi = "{" + rs.getInt(4) + "}";
+				line.add(asi);							//  ASI
+				line.add(rs.getString(7));				//  DocumentNo
+				line.add(rs.getString(8));  			//	Warehouse
+				data.add(line);
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
 
+		//  Table		
+		m_tableAtp = ListboxFactory.newDataTable();
+		m_tableAtp.setMultiSelection(false);
+		
+		m_tableAtp.getModel().setNoColumns(columnNames.size());
+		for(int i = 0; i < columnNames.size(); i++)
+			m_tableAtp.addColumn(columnNames.get(i));
+		//
+		m_tableAtp.setColumnClass(0, Timestamp.class, true);   //  Date
+		m_tableAtp.setColumnClass(1, Double.class, true);      //  Quantity
+		m_tableAtp.setColumnClass(2, String.class, true);      //  Partner
+		m_tableAtp.setColumnClass(3, Double.class, true);      //  Quantity
+		m_tableAtp.setColumnClass(4, Double.class, true);      //  Quantity
+		m_tableAtp.setColumnClass(5, String.class, true);   	  //  Locator
+		m_tableAtp.setColumnClass(6, String.class, true);   	  //  ASI
+		m_tableAtp.setColumnClass(7, String.class, true);      //  DocNo
+		m_tableAtp.setColumnClass(8, String.class, true);   	  //  Warehouse
+		//
+		m_tableAtp.autoSize();
+		
+		m_tableAtp.setRowCount(data.size());
+		for(int i = 0; i < data.size(); i++)
+		{
+			Vector<Object> record = data.get(i);
+			for(int j = 0; j < record.size(); j++)
+			{
+				Object value = record.get(j);
+				m_tableAtp.getModel().setDataAt(value, i, j);
+			}
+		}
+	}	//	initAtpTab
+	//
+
+    // Elaine 2008/11/21
+    public int getM_Product_Category_ID() 
+    {
+		int M_Product_Category_ID = 0;
+		
+		ListItem pickPC = (ListItem)pickProductCategory.getSelectedItem();
+		if (pickPC!=null)
+			M_Product_Category_ID = Integer.parseInt(pickPC.getValue().toString());
+		
+		return M_Product_Category_ID;
+	}
+    //
 }	//	InfoProduct
