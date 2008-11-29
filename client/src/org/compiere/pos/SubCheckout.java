@@ -85,74 +85,68 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = INSETS2;
 		
-		//	--	0
+		//	BOX	1 - CASH 
 		gbc.gridx = 0;
-		f_register = createButtonAction("Register", null);
-		gbc.gridy = 0;
-		add (f_register, gbc);
-		//
-		f_summary = createButtonAction("Summary", null);
-		gbc.gridy = 1;
-		gbc.gridheight = 1;
-		add (f_summary, gbc);
-		//
-		f_process = createButtonAction("Process", null);
-		gbc.gridy = 2;
-		gbc.gridheight = 1;
-		add (f_process, gbc);
-		//
-		f_print = createButtonAction("Print", null);
-		gbc.gridy = 3;
-		gbc.gridheight =1;
-		add (f_print, gbc);
-
-		//	--	1 -- Cash 
-		gbc.gridx = 1;
 		gbc.gridheight = 2;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = .1;
 		CPanel cash = new CPanel(new GridBagLayout());
 		cash.setBorder(new TitledBorder(Msg.getMsg(Env.getCtx(), "Cash")));
-		gbc.gridy = 1;
+		gbc.gridy = 0;
 		add (cash, gbc);
 		GridBagConstraints gbc0 = new GridBagConstraints();
 		gbc0.insets = INSETS2;
-		gbc0.anchor = GridBagConstraints.WEST;
+//		gbc0.anchor = GridBagConstraints.EAST;
 		//
 		f_lcashGiven = new CLabel(Msg.getMsg(Env.getCtx(),"CashGiven"));
 		cash.add (f_lcashGiven, gbc0);
-		f_cashGiven = new VNumber("CashGiven", false, false, true, DisplayType.Amount, 
-			Msg.translate(Env.getCtx(), "CashGiven"));
-		f_cashGiven.setColumns(10, 25);
+		f_cashGiven = new VNumber("CashGiven", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "CashGiven"));
+		f_cashGiven.setColumns(14, 25);
 		cash.add (f_cashGiven, gbc0);
 		f_cashGiven.setValue(Env.ZERO);
-		f_cashGiven.addActionListener(this);  //para que actualice el cambio con el dinero entregado
+		f_cashGiven.addActionListener(this);  //to update the change with the money
 		//
 		f_lcashReturn = new CLabel(Msg.getMsg(Env.getCtx(),"CashReturn"));
 		cash.add (f_lcashReturn, gbc0);
-		f_cashReturn = new VNumber("CashReturn", false, true, false, DisplayType.Amount, 
-			"CashReturn");
+		f_cashReturn = new VNumber("CashReturn", false, true, false, DisplayType.Amount, "CashReturn");
 		f_cashReturn.setColumns(10, 25);
 		cash.add (f_cashReturn, gbc0);
 		f_cashReturn.setValue(Env.ZERO);
 		f_cashPayment = createButtonAction("Payment", null);
 		f_cashPayment.setActionCommand("Cash");
-		gbc0.anchor = GridBagConstraints.EAST;
 		gbc0.weightx = 0.1;		
 		cash.add (f_cashPayment, gbc0);  
-
-		gbc.gridx=1;
-		gbc.gridy=3;
-		gbc.gridheight=1;
-		CPanel caja = new CPanel();
-		add(caja,gbc);
-		caja.setPreferredSize(new Dimension(30,30)); 
+		
+		//	BOX 2 - UTILS
+		CPanel utils = new CPanel(new GridBagLayout());
+		utils.setBorder(new TitledBorder(Msg.getMsg(Env.getCtx(), "Utils")));
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.weightx = .1;
+		add (utils, gbc);
+		GridBagConstraints gbcU = new GridBagConstraints();
+		gbcU.insets = INSETS2;
+		gbcU.anchor = GridBagConstraints.EAST;
+		//CASH FUNCTIONS
 		f_cashRegisterFunctions = createButtonAction("CashRegisterFunction", null);
-		f_cashRegisterFunctions.setText("Cash Drawer\n Movements");
-	    f_cashRegisterFunctions.setPreferredSize(new Dimension(160,30));
-	    f_cashRegisterFunctions.setMaximumSize(new Dimension(160,30));
-		f_cashRegisterFunctions.setMinimumSize(new Dimension(160,30));
-		caja.add(f_cashRegisterFunctions);
+		f_cashRegisterFunctions.setText("Cash Functions");
+	    f_cashRegisterFunctions.setPreferredSize(new Dimension(130,37));
+	    f_cashRegisterFunctions.setMaximumSize(new Dimension(130,37));
+		f_cashRegisterFunctions.setMinimumSize(new Dimension(130,37));
+		utils.add(f_cashRegisterFunctions, gbcU);
+		//REGISTER
+		f_register = createButtonAction("Register", null);
+ 		utils.add (f_register, gbcU);
+		//SUMMARY
+		f_summary = createButtonAction("Summary", null);
+ 		utils.add (f_summary, gbcU);
+		//PROCESS
+		f_process = createButtonAction("Process", null);
+ 		utils.add (f_process, gbcU);
+		//PRINT
+		f_print = createButtonAction("Print", null);
+ 		utils.add (f_print, gbcU);
+
 
 		
 	

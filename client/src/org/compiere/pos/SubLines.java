@@ -122,7 +122,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 		m_table.setMultiSelection(false);
 	//	m_table.addMouseListener(this);
 	//	m_table.getSelectionModel().addListSelectionListener(this);
-		scroll.setPreferredSize(new Dimension(100,100));
+		scroll.setPreferredSize(new Dimension(100,120));
 		add (scroll, BorderLayout.CENTER);
 		
 		//	Right side
@@ -149,7 +149,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 		CLabel lNet = new CLabel (Msg.translate(Env.getCtx(), "TotalLines"));
 		summary.add(lNet);
 		f_net = new VNumber("TotalLines", false, true, false, DisplayType.Amount, "TotalLines");
-		f_net.setColumns(6, 22);
+		f_net.setColumns(11, 22);
 		lNet.setLabelFor(f_net);
 		summary.add(f_net);
 		f_net.setValue (Env.ZERO);
@@ -165,7 +165,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 		CLabel lTotal = new CLabel (Msg.translate(Env.getCtx(), "GrandTotal"));
 		summary.add(lTotal);
 		f_total = new VNumber("GrandTotal", false, true, false, DisplayType.Amount, "GrandTotal");
-		f_total.setColumns(6, 22);
+		f_total.setColumns(11, 22);
 		lTotal.setLabelFor(f_total);
 		summary.add(f_total);
 		f_total.setValue (Env.ZERO);

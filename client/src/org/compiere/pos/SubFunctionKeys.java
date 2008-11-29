@@ -66,7 +66,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 			return;
 		
 		int COLUMNS = 4;	//	Min Columns
-		int ROWS = 5;		//	Min Rows
+		int ROWS = 6;		//	Min Rows
 		m_keys = fKeys.getKeys(false);
 		int noKeys = m_keys.length;
 		int rows = Math.max (((noKeys-1) / COLUMNS) + 1, ROWS);
@@ -106,7 +106,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 			button.setFocusable(false);
 			content.add (button);
 		}
-		content.setPreferredSize(new Dimension(cols*150, rows*50));
+		content.setPreferredSize(new Dimension(cols*180, rows*50));
 		add (content);
 	}	//	init
 
@@ -118,7 +118,8 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 		GridBagConstraints gbc = super.getGridBagConstraints();
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		gbc.gridheight = 2;  //added by ConSerTi so that the panel takes up more space
+		gbc.gridheight = 3;  //added by ConSerTi so that the panel takes up more space
+//		gbc.fill = GridBagConstraints.HORIZONTAL;
 		return gbc;
 	}	//	getGridBagConstraints
 	
