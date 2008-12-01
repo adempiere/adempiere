@@ -17,15 +17,18 @@
 package compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MRole;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 
 /**
@@ -48,6 +51,10 @@ public class MyValidator implements ModelValidator
 	private static CLogger log = CLogger.getCLogger(MyValidator.class);
 	/** Client			*/
 	private int		m_AD_Client_ID = -1;
+	/** User	*/
+	private int		m_AD_User_ID = -1;
+	/** Role	*/
+	private int		m_AD_Role_ID = -1;
 	
 	/**
 	 *	Initialize Validation
@@ -186,6 +193,8 @@ public class MyValidator implements ModelValidator
 	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
 	{
 		log.info("AD_User_ID=" + AD_User_ID);
+		m_AD_User_ID = AD_User_ID;
+		m_AD_Role_ID = AD_Role_ID;
 		return null;
 	}	//	login
 
@@ -209,5 +218,47 @@ public class MyValidator implements ModelValidator
 		sb.append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
+	/**
+	 * Sample Validator Before Save Properties - to set mandatory properties on users
+	 * avoid users changing properties
+	 */
+	public void beforeSaveProperties() {
+		// not for SuperUser or role SysAdmin
+		if (   m_AD_User_ID == 0  // System
+			|| m_AD_User_ID == 100   // SuperUser
+			|| m_AD_Role_ID == 0  // System Administrator
+			|| m_AD_Role_ID == 1000000)  // ECO Admin
+			return;
+
+		log.info("Setting default Properties");
+
+		MRole role = MRole.get(Env.getCtx(), m_AD_Role_ID);
+
+		// Example - if you don't want user to select auto commit property
+		// Ini.setProperty(Ini.P_A_COMMIT, false);
+		
+		// Example - if you don't want user to select auto login
+		// Ini.setProperty(Ini.P_A_LOGIN, false);
+
+		// Example - if you don't want user to select store password
+		// Ini.setProperty(Ini.P_STORE_PWD, false);
+
+		// Example - if you want your user inherit ALWAYS the show accounting from role
+		// Ini.setProperty(Ini.P_SHOW_ACCT, role.isShowAcct());
+		
+		// Example - if you want to avoid your user from changing the working date
+		/*
+		Timestamp DEFAULT_TODAY =	new Timestamp(System.currentTimeMillis());
+		//  Date (remove seconds)
+		DEFAULT_TODAY.setHours(0);
+		DEFAULT_TODAY.setMinutes(0);
+		DEFAULT_TODAY.setSeconds(0);
+		DEFAULT_TODAY.setNanos(0);
+		Ini.setProperty(Ini.P_TODAY, DEFAULT_TODAY.toString());
+		Env.setContext(Env.getCtx(), "#Date", DEFAULT_TODAY);
+		*/
+
+	}	// beforeSaveProperties
+
 }	//	MyValidator
