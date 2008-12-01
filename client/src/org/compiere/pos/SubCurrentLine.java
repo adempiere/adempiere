@@ -278,7 +278,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	public void deleteLine (int row) {
 		if (m_order != null && row != -1 )
 		{
-			MOrderLine[] lineas = m_order.getLines();
+			MOrderLine[] lineas = m_order.getLines(true, null);
 			int numLineas = lineas.length;
 			if (numLineas > row)
 			{
