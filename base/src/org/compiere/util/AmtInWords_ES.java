@@ -152,6 +152,10 @@ public class AmtInWords_ES implements AmtInWords
 			if (n != 0)
 			{
 				String s = convertLessThanOneThousand (n);
+				if (s.startsWith ("UN CIENTO", 1))
+				{
+					s = s.replaceFirst ("UN CIENTO", "CIEN");
+				}
 				if (s.startsWith ("CINCO CIENTOS", 1))
 				{
 					s = s.replaceFirst ("CINCO CIENTOS", "QUINIENTOS");
