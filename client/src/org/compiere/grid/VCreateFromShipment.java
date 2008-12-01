@@ -149,6 +149,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
            + " AND i.C_Invoice_ID IN "
                + "(SELECT il.C_Invoice_ID FROM C_InvoiceLine il"
                + " LEFT OUTER JOIN M_MatchInv mi ON (il.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) "
+               + " JOIN C_Invoice i2 ON (il.C_Invoice_ID = i2.C_Invoice_ID) "
+               + " WHERE i2.C_BPartner_ID=? AND i2.IsSOTrx='N' AND i2.DocStatus IN ('CL','CO') "
                + "GROUP BY il.C_Invoice_ID,mi.C_InvoiceLine_ID,il.QtyInvoiced "
                + "HAVING (il.QtyInvoiced<>SUM(mi.Qty) AND mi.C_InvoiceLine_ID IS NOT NULL)"
                + " OR mi.C_InvoiceLine_ID IS NULL) "
@@ -158,6 +160,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
         {
             PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
             pstmt.setInt(1, C_BPartner_ID);
+            pstmt.setInt(2, C_BPartner_ID);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next())
             {
@@ -342,7 +345,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			.append(" LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND inv.C_BPartner_ID = po.C_BPartner_ID)")
 			.append(" LEFT OUTER JOIN M_MatchInv mi ON (l.C_InvoiceLine_ID=mi.C_InvoiceLine_ID)")
 			
-			.append(" WHERE l.C_Invoice_ID=? ")	
+			.append(" WHERE l.C_Invoice_ID=? AND l.QtyInvoiced<>0 ")
 			.append("GROUP BY l.QtyInvoiced,l.QtyEntered/l.QtyInvoiced,"
 				+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"
 				+ "l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID ")
