@@ -5,7 +5,7 @@
 
 <%@ page import="org.posterita.beans.ProductBean" %>
 <%@ page import="org.posterita.beans.OrderLineBean" %>
-<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html"%>
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>	

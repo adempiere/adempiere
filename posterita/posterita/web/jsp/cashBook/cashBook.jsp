@@ -28,7 +28,7 @@
 <%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic"%>	
 <%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean"%>
 <%@ taglib uri="/WEB-INF/struts-tiles.tld" prefix="tiles"%>	
-<%@ taglib uri="/WEB-INF/fmt.tld" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="/WEB-INF/pos.tld" prefix="pos"%>
 
 <%@page import="org.posterita.struts.pos.CashBookAction"%>
