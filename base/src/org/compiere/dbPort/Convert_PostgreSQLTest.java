@@ -417,7 +417,19 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
-	
+
+	public void test2371805_GetDate() {
+		sql = "SELECT getdate() FROM DUAL";
+		sqe = "SELECT CURRENT_TIMESTAMP";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+
+		sql = "SELECT SYSDATE FROM DUAL";
+		sqe = "SELECT CURRENT_TIMESTAMP";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
+
 	/**
 	 *  Test BF [ 1824256 ] Convert sql casts
 	 */
