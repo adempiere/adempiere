@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
+
 -- Nov 28, 2008 4:45:06 PM MYT
 -- [ 2353794 ] Financial Report: Add Natural Balance amount type
 INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53441,235,TO_DATE('2008-11-28 16:44:54','YYYY-MM-DD HH24:MI:SS'),100,'BY for P & L account, BT for Balance Sheet account','D','Y','Natural Balance',TO_DATE('2008-11-28 16:44:54','YYYY-MM-DD HH24:MI:SS'),100,'BN')
