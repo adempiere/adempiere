@@ -24,13 +24,17 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.webui.component.Column;
+import org.adempiere.webui.component.Columns;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WebEditorFactory;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.window.FDialog;
@@ -58,6 +62,8 @@ import org.zkoss.zul.Label;
 public class ProcessParameterPanel extends Panel 
 implements ValueChangeListener, IProcessParameter 
 {
+		private String width;
+
 		/**
 		 *	Dynamic generated Parameter panel.
 		 *  @param WindowNo window
@@ -65,16 +71,41 @@ implements ValueChangeListener, IProcessParameter
 		 */
 		public ProcessParameterPanel(int WindowNo, ProcessInfo pi)
 		{
+			this(WindowNo, pi, "100%");
+		}	//	ProcessParameterPanel
+		
+		/**
+		 *	Dynamic generated Parameter panel.
+		 *  @param WindowNo window
+		 *  @param pi process info
+		 */
+		public ProcessParameterPanel(int WindowNo, ProcessInfo pi, String width)
+		{
 			//
 			m_WindowNo = WindowNo;
 			m_processInfo = pi;
+			this.width = width;
 			//
 			initComponent();
 		}	//	ProcessParameterPanel
 
 		private void initComponent() {
 			centerPanel = GridFactory.newGridLayout();
+			centerPanel.setInnerWidth(width);
 			this.appendChild(centerPanel);
+			
+			//setup columns
+	    	Columns columns = new Columns();
+	    	centerPanel.appendChild(columns);
+	    	Column col = new Column();
+	    	col.setWidth("30%");
+	    	columns.appendChild(col);
+	    	col = new Column();
+	    	col.setWidth("65%");
+	    	columns.appendChild(col);
+	    	col = new Column();
+	    	col.setWidth("5%");
+	    	columns.appendChild(col);
 		}
 
 		private int			m_WindowNo;
@@ -87,6 +118,7 @@ implements ValueChangeListener, IProcessParameter
 		private ArrayList<WEditor>	m_wEditors2 = new ArrayList<WEditor>();		//	for ranges
 		private ArrayList<GridField>	m_mFields = new ArrayList<GridField>();
 		private ArrayList<GridField>	m_mFields2 = new ArrayList<GridField>();
+		private ArrayList<Label> m_separators = new ArrayList<Label>();
 		//
 		private Grid centerPanel = null;
 
@@ -207,6 +239,7 @@ implements ValueChangeListener, IProcessParameter
 			if (hasFields)
 			{
 				centerPanel.appendChild(rows);
+				dynamicDisplay();
 			}
 			else
 				dispose();
@@ -235,46 +268,66 @@ implements ValueChangeListener, IProcessParameter
 			Row row = new Row();
 			
 			//	The Editor
-			WEditor wEditor = WebEditorFactory.getEditor(mField, false);
-			wEditor.addValueChangeListener(this);
-			wEditor.dynamicDisplay();
+			WEditor editor = WebEditorFactory.getEditor(mField, false);
+			editor.addValueChangeListener(this);
+			editor.dynamicDisplay();
 			//  MField => VEditor - New Field value to be updated to editor
-			mField.addPropertyChangeListener(wEditor);
+			mField.addPropertyChangeListener(editor);
 			//  Set Default
 			Object defaultObject = mField.getDefault();
 			mField.setValue (defaultObject, true);
+			//streach component to fill grid cell
+            editor.fillHorizontal();
+            //setup editor context menu
+            WEditorPopupMenu popupMenu = editor.getPopupMenu();                    
+            if (popupMenu != null)
+            {
+            	popupMenu.addMenuListener((ContextMenuListener)editor);
+                this.appendChild(popupMenu);
+            }
 			//
-			m_wEditors.add (wEditor);                   //  add to Editors
+			m_wEditors.add (editor);                   //  add to Editors
 			
-			row.appendChild(wEditor.getLabel());
+			row.appendChild(editor.getLabel().rightAlign());
 			//
 			if (voF.isRange)
 			{
 				Hbox box = new Hbox();
-				box.appendChild(wEditor.getComponent());
+				box.appendChild(editor.getComponent());
 				//
 				GridFieldVO voF2 = GridFieldVO.createParameter(voF);
 				GridField mField2 = new GridField (voF2);
 				m_mFields2.add (mField2);
 				//	The Editor
-				WEditor wEditor2 = WebEditorFactory.getEditor(mField2, false);
+				WEditor editor2 = WebEditorFactory.getEditor(mField2, false);
 				//  New Field value to be updated to editor
-				mField2.addPropertyChangeListener(wEditor2);
-				wEditor2.dynamicDisplay();
+				mField2.addPropertyChangeListener(editor2);
+				editor2.dynamicDisplay();
+				editor2.fillHorizontal();
+				//setup editor context menu
+                popupMenu = editor2.getPopupMenu();                    
+                if (popupMenu != null)
+                {
+                	popupMenu.addMenuListener((ContextMenuListener)editor2);
+                    this.appendChild(popupMenu);
+                }
 				//  Set Default
 				Object defaultObject2 = mField2.getDefault();
 				mField2.setValue (defaultObject2, true);
 				//
-				m_wEditors2.add (wEditor2);
-				box.appendChild(new Label(" - "));
-				box.appendChild(wEditor2.getComponent());
+				m_wEditors2.add (editor2);
+				Label separator = new Label(" - ");
+				m_separators.add(separator);
+				box.appendChild(separator);
+				box.appendChild(editor2.getComponent());
 				row.appendChild(box);
 			}
 			else
 			{
-				row.appendChild(wEditor.getComponent());
+				row.appendChild(editor.getComponent());
 				m_mFields2.add (null);
 				m_wEditors2.add (null);
+				m_separators.add(null);
 			}
 			rows.appendChild(row);
 		}	//	createField
@@ -422,10 +475,58 @@ implements ValueChangeListener, IProcessParameter
 		
 		public void valueChange(ValueChangeEvent evt) 
 		{
-			String value = evt.getNewValue() == null ? "" : evt.getNewValue().toString();
-			Env.setContext(Env.getCtx(), m_WindowNo, evt.getPropertyName(), value);
-			
+			processNewValue(evt.getNewValue(), evt.getPropertyName());
 		}
+		
+		private void processNewValue(Object value, String name) {
+			if (value == null)
+				value = new String("");
+
+			if (value instanceof String)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, (String) value);
+			else if (value instanceof Integer)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, ((Integer) value)
+						.intValue());
+			else if (value instanceof Boolean)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, ((Boolean) value)
+						.booleanValue());
+			else if (value instanceof Timestamp)
+				Env.setContext(Env.getCtx(), m_WindowNo, name, (Timestamp) value);
+			else
+				Env.setContext(Env.getCtx(), m_WindowNo, name, value.toString());
+
+			dynamicDisplay();
+		}
+		
+		private void dynamicDisplay() {
+			for(int i = 0; i < m_wEditors.size(); i++) {
+				WEditor editor = m_wEditors.get(i);
+				GridField mField = editor.getGridField();
+				if (mField.isDisplayed(true)) {
+					if (!editor.isVisible()) {
+						editor.setVisible(true);
+						if (mField.getVO().isRange) {
+							m_separators.get(i).setVisible(true);
+							m_wEditors2.get(i).setVisible(true);
+						}
+					}
+					boolean rw = mField.isEditablePara(true); // r/w - check if field is Editable
+					editor.setReadWrite(rw);
+					editor.dynamicDisplay();
+					if (mField.getVO().isRange) {
+						m_wEditors2.get(i).setReadWrite(rw);
+						m_wEditors2.get(i).dynamicDisplay();
+					}
+				} else if (editor.isVisible()) {
+					editor.setVisible(false);
+					if (mField.getVO().isRange) {
+						m_separators.get(i).setVisible(false);
+						m_wEditors2.get(i).setVisible(false);
+					}
+				}
+			}			
+		}
+
 		/**
 		 * Restore window context.
 		 * @author teo_sarca [ 1699826 ]

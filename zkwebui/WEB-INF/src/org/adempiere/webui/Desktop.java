@@ -94,6 +94,8 @@ import org.zkoss.zul.Tabpanels;
 public class Desktop extends AbstractUIPart implements MenuListener, Serializable, IDesktop, EventListener
 {
 
+	public static final String WINDOWNO_ATTRIBUTE = "desktop.windowno";
+
 	private static final long serialVersionUID = 9056511175189603883L;
 
 	private static final CLogger logger = CLogger.getCLogger(Desktop.class);
@@ -625,10 +627,11 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	public ProcessDialog openProcessDialog(int processId, boolean soTrx) {
 		ProcessDialog pd = new ProcessDialog (processId, soTrx);
 		if (pd.isValid()) {
-			pd.setPage(page);
-			pd.setClosable(true);
-			pd.setWidth("500px");
-			pd.doHighlighted();
+			DesktopTabpanel tabPanel = new DesktopTabpanel();
+			pd.setParent(tabPanel);
+			String title = pd.getTitle();
+			pd.setTitle(null);
+			windowContainer.addWindow(tabPanel, title, true);
 		}
 		return pd;
 	}
@@ -925,14 +928,26 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 	 */
 	public boolean closeActiveWindow()
 	{
-		if ( windowContainer.closeActiveWindow() )
+		if (windowContainer.getSelectedTab() != null)
 		{
-			return true;
+			Tabpanel panel = (Tabpanel) windowContainer.getSelectedTab().getLinkedPanel();
+			Component component = panel.getFirstChild();
+			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
+			if (att != null && (att instanceof Integer))
+			if ( windowContainer.closeActiveWindow() )
+			{
+				if (att != null && (att instanceof Integer))
+				{
+					unregisterWindow((Integer) att);
+				}
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
@@ -957,7 +972,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 		{
 			Tabpanel panel = (Tabpanel) child;
 			Component component = panel.getFirstChild();
-			Object att = component.getAttribute("desktop.windowno");
+			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
 			if (att != null && (att instanceof Integer))
 			{
 				if (windowNo == (Integer)att)
@@ -966,6 +981,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 					panel.getLinkedTab().onClose();
 					if (tab.getParent() == null) 
 					{
+						unregisterWindow(windowNo);
 						return true;
 					}
 					else

@@ -27,11 +27,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.component.Bandbox;
-import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
-import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
@@ -62,7 +59,6 @@ import org.compiere.util.Evaluatee;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -420,22 +416,7 @@ DataStatusListener, IADTabpanel
                     }
                     
                     //streach component to fill grid cell
-                    if (editor.getComponent() instanceof HtmlBasedComponent) {
-                    	//can't stretch bandbox & datebox
-                    	if (!(editor.getComponent() instanceof Bandbox) && 
-                    		!(editor.getComponent() instanceof Datebox)) {
-                    		String width = "100%";    
-                    		if (editor.getComponent() instanceof Button) {
-                    			Button btn = (Button) editor.getComponent();
-                    			String zclass = btn.getZclass();
-                    			if (!zclass.contains("form-button ")) {
-                    				btn.setZclass("form-button " + zclass);
-                    			}
-                    		} else {
-                    			((HtmlBasedComponent)editor.getComponent()).setWidth(width);
-                    		}
-                    	}
-                    }
+                    editor.fillHorizontal();
                     
                     //setup editor context menu
                     WEditorPopupMenu popupMenu = editor.getPopupMenu();                    

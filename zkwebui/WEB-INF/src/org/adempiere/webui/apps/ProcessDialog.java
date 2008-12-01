@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.webui.Desktop;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
@@ -40,7 +41,6 @@ import org.zkoss.zul.Html;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfCopy;
 import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
@@ -94,6 +94,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		log.info("Process=" + AD_Process_ID );
 		m_ctx = Env.getCtx();;
 		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
+		this.setAttribute(Desktop.WINDOWNO_ATTRIBUTE, m_WindowNo);
 		m_AD_Process_ID = AD_Process_ID;
 		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", isSOTrx ? "Y" : "N");
 		try
@@ -118,9 +119,9 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		centerPanel = new Panel();
 		vbox.appendChild(centerPanel);
 		div = new Div();
-		div.setAlign("right");
+		div.setAlign("center");
 		Hbox hbox = new Hbox();
-		String label = Msg.getMsg(Env.getCtx(), "Ok");
+		String label = Msg.getMsg(Env.getCtx(), "Start");
 		bOK = new Button(label.replaceAll("&", ""));
 		bOK.setImage("/images/Ok16.png");
 		bOK.setId("Ok");
@@ -136,15 +137,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		hbox.appendChild(btn);
 		div.appendChild(hbox);
 		vbox.appendChild(div);		
-		this.appendChild(vbox);
-		
-		this.setBorder("normal");
+		this.appendChild(vbox);		
 	}
 
 	private int m_WindowNo;
 	private Properties m_ctx;
 	private int 		    m_AD_Process_ID;
 	private String		    m_Name = null;
+	@SuppressWarnings("unused")
 	private boolean		    m_IsReport = false;
 	private int[]		    m_ids = null;
 	private StringBuffer	m_messageText = new StringBuffer();
@@ -163,6 +163,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	
 	private ProcessInfo m_pi = null;
 	private boolean m_isLocked = false;
+	private boolean isResult;
+	private String initialMessage;
 
 	
 	/**
@@ -180,10 +182,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	 */
 	public void dispose()
 	{
-		Env.clearWinContext(m_WindowNo);
-		SessionManager.getAppDesktop().unregisterWindow(m_WindowNo);
+		SessionManager.getAppDesktop().closeWindow(m_WindowNo);
 		valid = false;
-		this.detach();
 	}//	dispose
 
 	/**
@@ -242,14 +242,15 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			return false;
 		//
 		this.setTitle(m_Name);
-		message.setContent(m_messageText.toString());
+		initialMessage = m_messageText.toString();
+		message.setContent(initialMessage);
 		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Start"));
 
 		//	Move from APanel.actionButton
 		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
+		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi, "70%");
 		centerPanel.getChildren().clear();
 		if ( parameterPanel.init() ) {
 			centerPanel.appendChild(parameterPanel);
@@ -303,10 +304,10 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		if (component instanceof Button) {
 			Button element = (Button)component;
 			if ("Ok".equalsIgnoreCase(element.getId())) {
-				if (element.getLabel().length() > 0)
+				if (!isResult)
 					this.startProcess();
 				else
-					this.dispose();
+					restart();
 			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
@@ -377,24 +378,37 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_messageText.append(pi.getLogInfo(true));
 		message.setContent(m_messageText.toString());
 		
-		bOK.setLabel("");
+		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Parameter"));
+		bOK.setImage("/images/Reset16.png");
+		isResult = true;
 		
 		m_ids = pi.getIDs();
 		
 		//no longer needed, hide to give more space to display log
-		centerPanel.detach();
+		centerPanel.setVisible(false);
 		invalidate();
 		
 		Clients.response(new AuEcho(this, "onAfterProcess", null));
+	}
+	
+	private void restart() {
+		m_messageText = new StringBuffer(initialMessage);
+		message.setContent(initialMessage);
+		
+		centerPanel.setVisible(true);
+		
+		isResult = false;
+		
+		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Start"));
+		bOK.setImage("/images/Ok16.png");
+		
+		invalidate();
 	}
 	
 	public void onAfterProcess() 
 	{
 		//
 		afterProcessTask();
-		//	Close automatically
-		if (m_IsReport && !m_pi.isError())
-			this.dispose();
 		
 		// If the process is a silent one and no errors occured, close the dialog
 		if(m_ShowHelp != null && m_ShowHelp.equals("S"))

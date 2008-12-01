@@ -19,6 +19,7 @@ package org.adempiere.webui.window;
 
 import java.util.Properties;
 
+import org.adempiere.webui.Desktop;
 import org.adempiere.webui.panel.ADWindowPanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.session.SessionManager;
@@ -76,7 +77,7 @@ public class ADWindow extends AbstractUIPart
     {
     	windowPanelComponent = windowPanel.createPart(parent);
     	windowPanelComponent.setAttribute("ADWindow", this);
-    	windowPanelComponent.setAttribute("desktop.windowno", windowNo);
+    	windowPanelComponent.setAttribute(Desktop.WINDOWNO_ATTRIBUTE, windowNo);
     	if (windowPanel.initPanel(adWindowId, query))
     	{
     		_title = windowPanel.getTitle();    	

@@ -22,6 +22,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+import org.adempiere.webui.component.Bandbox;
+import org.adempiere.webui.component.Button;
+import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -420,5 +423,28 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
      */
     public void dynamicDisplay()
     {    	
+    }
+    
+    /**
+     * Stretch editor component to fill container
+     */
+    public void fillHorizontal() {
+    	//streach component to fill grid cell
+        if (getComponent() instanceof HtmlBasedComponent) {
+        	//can't stretch bandbox & datebox
+        	if (!(getComponent() instanceof Bandbox) && 
+        		!(getComponent() instanceof Datebox)) {
+        		String width = "100%";    
+        		if (getComponent() instanceof Button) {
+        			Button btn = (Button) getComponent();
+        			String zclass = btn.getZclass();
+        			if (!zclass.contains("form-button ")) {
+        				btn.setZclass("form-button " + zclass);
+        			}
+        		} else {
+        			((HtmlBasedComponent)getComponent()).setWidth(width);
+        		}
+        	}
+        }
     }
 }
