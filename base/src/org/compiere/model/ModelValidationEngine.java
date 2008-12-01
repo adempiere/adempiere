@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -736,5 +736,35 @@ public class ModelValidationEngine
 			}
 		}
 	}
-	
+
+	/**
+	 * Before Save Properties for selected client.
+	 */
+	public void beforeSaveProperties ()
+	{
+		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		for (int i = 0; i < m_validators.size(); i++)
+		{
+			ModelValidator validator = (ModelValidator)m_validators.get(i);
+			if (AD_Client_ID == validator.getAD_Client_ID()
+				|| m_globalValidators.contains(validator))
+			{
+				java.lang.reflect.Method m = null;
+				try {
+					m = validator.getClass().getMethod("beforeSaveProperties");
+				}
+				catch(NoSuchMethodException e) {
+					// ignore
+				}
+				try {
+					if (m != null)
+						m.invoke(validator);
+				}
+				catch (Exception e) {
+					log.warning("" + validator + ": " + e.getLocalizedMessage());
+				}
+			}
+		}
+	}
+
 }	//	ModelValidatorEngine

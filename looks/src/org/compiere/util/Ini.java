@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,14 +16,25 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.io.*;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.FileContents;
@@ -31,7 +42,9 @@ import javax.jnlp.PersistenceService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 
-import org.adempiere.plaf.*;
+import org.adempiere.plaf.AdempiereLookAndFeel;
+import org.adempiere.plaf.AdempiereThemeInnova;
+import org.compiere.model.ModelValidationEngine;
 
 
 /**
@@ -231,6 +244,11 @@ public final class Ini implements Serializable
 	 */
 	public static void saveProperties (boolean tryUserHome)
 	{
+		if (Ini.isClient() && DB.isConnected()) {
+			// Call ModelValidators beforeSaveProperties
+			ModelValidationEngine.get().beforeSaveProperties();
+		}
+
 		if (isWebStartClient())
 		{
 			saveWebStartProperties();
