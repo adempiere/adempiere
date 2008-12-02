@@ -56,7 +56,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private ToolBarButton btnIgnore;
 
-    private ToolBarButton btnHelp, btnNew, btnCopy, btnDelete, btnSave;
+    private ToolBarButton btnHelp, btnNew, btnCopy, btnDelete, btnDeleteSelection, btnSave;
 
     private ToolBarButton btnRefresh, btnFind, btnAttachment;
     
@@ -103,6 +103,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnNew = createButton("New", "New", "New");
         btnCopy = createButton("Copy", "Copy", "Copy");
         btnDelete = createButton("Delete", "Delete", "Delete");
+        btnDeleteSelection = createButton("DeleteSelection", "DeleteSelection", "DeleteSelection");
         btnSave = createButton("Save", "Save", "Save");
         addSeparator();
         btnRefresh = createButton("Refresh", "Refresh", "Refresh");
@@ -350,10 +351,12 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.btnDelete.setDisabled(!enabled);
     }
     
+    // Elaine 2008/12/01
     public void enableDeleteSelection(boolean enabled)
     {
-        // TODO add delete selection button
+        this.btnDeleteSelection.setDisabled(!enabled);
     }
+    //
     
     public void enableChanges(boolean enabled)
     {

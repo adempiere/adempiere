@@ -17,9 +17,14 @@
 
 package org.adempiere.webui.panel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.webui.WArchive;
@@ -33,6 +38,8 @@ import org.adempiere.webui.apps.form.WPayment;
 import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.IADTabList;
+import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.event.ActionEvent;
 import org.adempiere.webui.event.ActionListener;
@@ -48,6 +55,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
+import org.compiere.model.Lookup;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.process.DocAction;
@@ -56,6 +64,7 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
@@ -65,6 +74,10 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Listitem;
 
 /**
  * 
@@ -708,7 +721,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		return true;
 	}
 
-	private void updateToolbar() {
+	private void updateToolbar() 
+	{
 		toolbar.enableChanges(curTab.isReadOnly());
 		toolbar.enabledNew(curTab.isInsertRecord());
 		toolbar.enableCopy(curTab.isInsertRecord());
@@ -897,6 +911,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
+            toolbar.enableDeleteSelection(false);
             toolbar.enableNavigation(false);
             toolbar.enableTabNavigation(false);
             toolbar.enableIgnore(true);
@@ -927,6 +942,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
+            toolbar.enableDeleteSelection(false); // Elaine 2008/12/02
             toolbar.enableNavigation(false);
             toolbar.enableTabNavigation(false);
             toolbar.enableIgnore(true);
@@ -1039,6 +1055,158 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         curTabpanel.dynamicDisplay(0);
     }
+    
+    // Elaine 2008/12/01
+	/**
+	 * @see ToolbarListener#onDelete()
+	 */
+    public void onDeleteSelection()
+	{
+		if (curTab.isReadOnly())
+        {
+            return;
+        }
+		
+		//show table with deletion rows -> value, name...
+		final Window messagePanel = new Window();
+		messagePanel.setBorder("normal");
+		messagePanel.setWidth("600px");
+		messagePanel.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
+        messagePanel.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+        messagePanel.setClosable(true);
+        messagePanel.setSizable(true);
+		
+		final Listbox listbox = new Listbox();
+		listbox.setHeight("400px");
+		
+		// Display the first 5 fields data exclude Organization, Client and YesNo field data
+		Vector<String> columnNames = new Vector<String>();
+		GridField[] fields = curTab.getFields();
+		for(int i = 0, count = 0; i < fields.length && count < 5; i++)
+		{
+			GridField field = fields[i];
+			if(field.getColumnName().equalsIgnoreCase("AD_Org_ID") 
+					|| field.getColumnName().equalsIgnoreCase("AD_Client_ID")
+					|| field.getDisplayType() == DisplayType.YesNo)
+				continue;
+			columnNames.add(field.getColumnName());
+			count++;
+		}
+		
+		Vector<String> data = new Vector<String>();
+		int noOfRows = curTab.getRowCount();
+		for(int i=0; i<noOfRows; i++)
+		{
+			StringBuffer displayValue = new StringBuffer();
+			if("".equals(curTab.getKeyColumnName()))
+			{
+				ArrayList<String> parentColumnNames = curTab.getParentColumnNames();
+				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();) 
+				{
+					String columnName = iter.next();
+					GridField field = curTab.getField(columnName);
+					if(field.isLookup()){
+						Lookup lookup = field.getLookup();
+						if (lookup != null){
+							displayValue = displayValue.append(lookup.getDisplay(curTab.getValue(i,columnName))).append(" | ");
+						} else {
+							displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
+						}
+					} else {
+						displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
+					}
+				}
+			} else {
+				displayValue = displayValue.append(curTab.getValue(i,curTab.getKeyColumnName()));
+			}
+
+			for(int j=0; j < columnNames.size(); j++)
+			{
+				Object value = curTab.getValue(i, columnNames.get(j));
+				if(value == null) continue; // skip when value is null
+				String text = value.toString().trim();
+				if(text.length() == 0) continue; // skip when value is empty
+				if(text.length() > 30)
+					text = text.substring(0, 30); // display the first 30 characters
+				displayValue = displayValue.append(" | ").append(text);
+			}
+
+			data.add(displayValue.toString());
+		}
+		
+		for(int i = 0; i < data.size(); i++)
+		{
+			String record = data.get(i);
+			listbox.appendItem(record, record);
+		}
+		
+		listbox.setMultiple(true);
+		messagePanel.appendChild(listbox);
+
+		Div div = new Div();
+		div.setAlign("center");
+		messagePanel.appendChild(div);
+		
+		Hbox hbox = new Hbox();
+		div.appendChild(hbox);
+		
+		Button btnOk = new Button();
+		btnOk.setLabel("OK");
+		btnOk.setImage("/images/Ok16.png");
+		btnOk.addEventListener(Events.ON_CLICK, new EventListener() 
+		{
+			public void onEvent(Event event) throws Exception 
+			{
+				if (FDialog.ask(curWindowNo, messagePanel, "DeleteSelection"))
+		        {
+					logger.fine("ok");
+					Set selectedValues = listbox.getSelectedItems();
+					if(selectedValues != null)
+					{
+						for(Iterator<Listitem> iter = selectedValues.iterator(); iter.hasNext();)
+						{
+							Listitem li = iter.next();
+							if(li != null)
+								logger.fine((String) li.getValue());
+						}
+					}
+					
+					int[] indices = listbox.getSelectedIndices();
+					Arrays.sort(indices);
+					int offset = 0;
+					for (int i = 0; i < indices.length; i++) 
+					{
+						curTab.navigate(indices[i]-offset);
+						if (curTab.dataDelete())
+						{
+							offset++;
+						}
+					}
+					curTabpanel.dynamicDisplay(0);
+					
+		            messagePanel.dispose();
+		        } else {
+					logger.fine("cancel");
+				}
+			}
+		});
+		hbox.appendChild(btnOk);
+			
+		Button btnCancel = new Button();
+		btnCancel.setLabel("Cancel");
+		btnCancel.setImage("/images/Cancel16.png");
+		btnCancel.addEventListener(Events.ON_CLICK, new EventListener() 
+		{
+			public void onEvent(Event event) throws Exception 
+			{
+				messagePanel.dispose();
+			}
+		});
+		hbox.appendChild(btnCancel);
+				
+		AEnv.showWindow(messagePanel);
+	}
+	//
 
     /**
      * @see ToolbarListener#onPrint()
