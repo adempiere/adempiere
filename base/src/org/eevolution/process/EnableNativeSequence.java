@@ -24,11 +24,13 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
 import org.compiere.model.MSequence;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_Table;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.model.Query;
 
 /**
@@ -48,14 +50,27 @@ public class EnableNativeSequence extends SvrProcess
 	
 	protected String doIt()              
 	{
-	
+		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",true,Env.getAD_Client_ID(Env.getCtx()));
+		
+		if(SYSTEM_NATIVE_SEQUENCE)
+			throw new AdempiereException("Native Sequence is Actived");
+		else
+		{
+			DB.executeUpdateEx("UPDATE AD_SysConfig SET Value='Y' WHERE Name='SYSTEM_NATIVE_SEQUENCE'",null);
+			MSysConfig.resetCache();
+		}
+		
 		List<MTable> tables = new Query(getCtx(),X_AD_Table.Table_Name,"", get_TrxName()).list();
 		for(MTable table : tables)
 		{
 			if(!table.isView())
 			{	
-				if(MSequence.createTableSequence(getCtx(), table.getTableName(), get_TrxName()))
+				if(!MSequence.createTableSequence(getCtx(), table.getTableName(), get_TrxName()))
+				{	
+					DB.executeUpdateEx("UPDATE AD_SysConfig SET Value='N' WHERE Name='SYSTEM_NATIVE_SEQUENCE'",null);
+					MSysConfig.resetCache();
 					new AdempiereException("Can not create Native Sequence");
+				}	
 				else
 				{	
 					this.addLog("Create Native Sequence for : "+table.getTableName());		
@@ -63,7 +78,7 @@ public class EnableNativeSequence extends SvrProcess
 			}
 		}
 		
-		DB.executeUpdateEx("UPDATE AD_SysConfig SET Value='Y' WHERE Name='SYSTEM_NATIVE_SEQUENCE'",null);
+		
 		return "@OK@";
 	} 
 	

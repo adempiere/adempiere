@@ -769,14 +769,14 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		return m_sequence_id;
 	}
 
-	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start) 
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start, String trxName) 
 	{
 
 		int no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
 							+ " INCREMENT " + increment 
 							+ " MINVALUE " + minvalue 
 							+ " MAXVALUE " + maxvalue 
-							+ " START " + start , null);
+							+ " START " + start , trxName);
 		if(no == -1 )
 			return false;
 		else 

@@ -1090,14 +1090,14 @@ public class DB_Oracle implements AdempiereDatabase
 		return m_sequence_id;
 	}
 
-	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start) 
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start , String trxName) 
 	{
 
-		int no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
+		int no = DB.executeUpdateEx("CREATE SEQUENCE "+name.toUpperCase()
 							+ " INCREMENT BY " + increment 
 							+ " START WITH " + start 
 							+ " MIN VALUE " + minvalue 
-							+ " MAX VALUE " + maxvalue, null);
+							+ " MAX VALUE " + maxvalue, trxName);
 		if(no == -1 )
 			return false;
 		else 

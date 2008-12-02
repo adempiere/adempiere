@@ -950,11 +950,11 @@ public class MSequence extends X_AD_Sequence
 				seq.setName(TableName);
 				seq.setDescription("Table " + TableName);
 				seq.setIsTableID(true);
-				seq.save();
+				seq.saveEx();
 				next_id = 1000000;
 			}
 			
-			if(CConnection.get().getDatabase().createSequence(TableName+"_SEQ", 1, 0 , 99999999,  next_id))
+			if(CConnection.get().getDatabase().createSequence(TableName+"_SEQ", 1, 0 , 99999999,  next_id, trxName))
 				return true;
 			
 			return false;		

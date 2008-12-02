@@ -208,7 +208,7 @@ public interface AdempiereDatabase
 	 * Create Native Sequence
 	 * @param Sequence Name
 	 */
-	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start);
+	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start, String trxName);
 	
 	
 	/** Create User commands					*/
