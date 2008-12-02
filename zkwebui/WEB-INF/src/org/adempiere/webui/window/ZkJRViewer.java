@@ -60,5 +60,5 @@ public class ZkJRViewer extends Window {
 		this.appendChild(grid);
 		
 		this.setBorder("normal");
-	}	
+	}		
 }

@@ -30,8 +30,6 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 
 	public void openViewer(ReportEngine report) {
 		Window viewer = new ZkReportViewer(report, report.getName());
-		viewer.setAttribute("mode", "overlapped");
-		viewer.setClosable(true);
 		viewer.setWidth("95%");
 		
 		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
