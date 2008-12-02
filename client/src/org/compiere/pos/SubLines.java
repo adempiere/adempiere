@@ -47,6 +47,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.model.Query;
 
 
 /**
@@ -288,7 +289,7 @@ public class SubLines extends PosSubPanel implements ActionListener
 	{
 		int noLines = m_table.getRowCount();
 		p_posPanel.f_status.setStatusDB(noLines);
-		if (order == null)
+		if (order == null || noLines == 0) //red1 WORKAROUND (noLines == 0) means total and tax in order head is false.
 		{
 			f_net.setValue(Env.ZERO);
 			f_total.setValue(Env.ZERO);
@@ -296,10 +297,14 @@ public class SubLines extends PosSubPanel implements ActionListener
 		}
 		else
 		{
-			order.prepareIt();
-			f_net.setValue(order.getTotalLines());
-			f_total.setValue(order.getGrandTotal());
-			f_tax.setValue(order.getGrandTotal().subtract(order.getTotalLines()));
+//			order.prepareIt(); //red1 Avoid Reserving Inventory until final process and update context directly from DB.
+			p_posPanel.f_curLine.setOrder(order.getC_Order_ID());
+			MOrder retValue = p_posPanel.f_curLine.getOrder();
+			//red1 - end -
+			f_net.setValue(retValue.getTotalLines());
+			f_total.setValue(retValue.getGrandTotal());
+			f_tax.setValue(retValue.getGrandTotal().subtract(retValue.getTotalLines()));
+
 		}
 	}	//	setSums
 }	//	PosSubAllLines

@@ -283,7 +283,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			if (numLineas > row)
 			{
 				//delete line from order
-				lineas[row].setQtyReserved(Env.ZERO); //red1 - [2093355 ] Small bugs in OpenXpertya POS
+//illegal!		lineas[row].setQtyReserved(Env.ZERO); //red1 - [2093355 ] Small bugs in OpenXpertya POS
 				lineas[row].delete(true);
 				for (int i = row; i < (numLineas - 1); i++)
 					lineas[i] = lineas[i + 1];
@@ -488,5 +488,12 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 		m_order = new MOrder(p_ctx , m_c_order_id, null);
 		p_posPanel.updateInfo();
 	}
-
+	
+	/**
+	 * @param m_c_order_id
+	 */
+	public void setOrder(int m_c_order_id) 
+	{
+		m_order = new MOrder(p_ctx , m_c_order_id, null);
+	}
 } //	PosSubCurrentLine

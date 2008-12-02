@@ -274,7 +274,7 @@ public class QueryTicket extends PosSubPanel
 				sql += " AND o.C_Order_ID = " + id;
 			if (doc != null && !doc.equalsIgnoreCase(""))
 				sql += " AND o.DocumentNo = '" + doc + "'";
-			sql += " AND o.DateOrdered = ?";
+			sql += " AND o.DateOrdered = ? Order By o.DocumentNo";
 			
 			PreparedStatement pstm = DB.prepareStatement(sql, null);
 			pstm.setTimestamp(1, date);
@@ -348,7 +348,9 @@ public class QueryTicket extends PosSubPanel
 		
 		if (m_c_order_id > 0)
 		{
-			p_posPanel.f_curLine.setOldOrder(m_c_order_id);
+			p_posPanel.f_curLine.setOrder(m_c_order_id);
+			p_posPanel.updateInfo();
+
 		}
 		p_posPanel.closeQuery(this);
 	}	//	close

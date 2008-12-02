@@ -251,7 +251,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			}
 			else
 			{
-				p_posPanel.f_status.setStatusLine("Order not fully pay.");
+				p_posPanel.f_status.setStatusLine("PAYMENT NOT FULL.");
 			}
 		}
 		//	Print
@@ -396,7 +396,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		{
 			MOrder order = p_posPanel.f_curLine.getOrder();
 			BigDecimal total = new BigDecimal(0);
-			if (order != null)
+			if (order != null && !order.getTotalLines().equals(Env.ZERO))
 				total = order.getGrandTotal();
 			double cashReturn = given.doubleValue() - total.doubleValue();
 			f_cashReturn.setValue(new BigDecimal(cashReturn));

@@ -153,7 +153,7 @@ public class SubBPartner extends PosSubPanel
 		log.info( "PosSubCustomer - actionPerformed: " + action);
 		//	New
 		if (action.equals("New"))
-			setC_BPartner_ID(0);
+				p_posPanel.newOrder(); //red1 New POS Order instead - B_Partner already has direct field
 		//	Edit
 		else if (action.equals("Edit"))
 		{
