@@ -349,6 +349,11 @@ public class MInOut extends X_M_InOut implements DocAction
 		setUser1_ID(order.getUser1_ID());
 		setUser2_ID(order.getUser2_ID());
 		setPriorityRule(order.getPriorityRule());
+		// Drop shipment
+		setIsDropShip(order.isDropShip());
+		setDropShip_BPartner_ID(order.getDropShip_BPartner_ID());
+		setDropShip_Location_ID(order.getDropShip_Location_ID());
+		setDropShip_User_ID(order.getDropShip_User_ID());
 	}	//	MInOut
 
 	/**
@@ -410,6 +415,12 @@ public class MInOut extends X_M_InOut implements DocAction
 			setM_Shipper_ID(order.getM_Shipper_ID());
 			setFreightCostRule (order.getFreightCostRule());
 			setFreightAmt(order.getFreightAmt());
+			
+			// Drop Shipment
+			setIsDropShip(order.isDropShip());
+			setDropShip_BPartner_ID(order.getDropShip_BPartner_ID());
+			setDropShip_Location_ID(order.getDropShip_Location_ID());
+			setDropShip_User_ID(order.getDropShip_User_ID());
 		}
 	}	//	MInOut
 	
@@ -462,6 +473,13 @@ public class MInOut extends X_M_InOut implements DocAction
 		setAD_OrgTrx_ID(original.getAD_OrgTrx_ID());
 		setUser1_ID(original.getUser1_ID());
 		setUser2_ID(original.getUser2_ID());
+		
+		// DropShipment
+		setIsDropShip(original.isDropShip());
+		setDropShip_BPartner_ID(original.getDropShip_BPartner_ID());
+		setDropShip_Location_ID(original.getDropShip_Location_ID());
+		setDropShip_User_ID(original.getDropShip_User_ID());
+		
 	}	//	MInOut
 
 	
@@ -1509,6 +1527,11 @@ public class MInOut extends X_M_InOut implements DocAction
 		MInOut counter = createCounterDoc();
 		if (counter != null)
 			info.append(" - @CounterDoc@: @M_InOut_ID@=").append(counter.getDocumentNo());
+		
+		//  Drop Shipments
+		MInOut dropShipment = createDropShipment();
+		if (dropShipment != null)
+			info.append(" - @DropShipment@: @M_InOut_ID@=").append(dropShipment.getDocumentNo());
 		//	User Validation
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
@@ -1526,6 +1549,78 @@ public class MInOut extends X_M_InOut implements DocAction
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
 	
+	/**
+	 * Automatically creates a customer shipment for any
+	 * drop shipment material receipt
+	 * Based on createCounterDoc() by JJ
+	 * @return shipment if created else null
+	 */
+	private MInOut createDropShipment() {
+		
+		if ( isSOTrx() || !isDropShip() || getC_Order_ID() == 0 )
+			return null;
+
+		//	Document Type
+		int C_DocTypeTarget_ID = 0;
+		MDocType[] shipmentTypes = MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_MaterialDelivery);
+		
+		for (int i = 0; i < shipmentTypes.length; i++ )
+		{
+			if (shipmentTypes[i].isSOTrx() && ( C_DocTypeTarget_ID == 0 || shipmentTypes[i].isDefault() ) )
+				C_DocTypeTarget_ID = shipmentTypes[i].getC_DocType_ID();
+		}
+
+		//	Deep Copy
+		MInOut dropShipment = copyFrom(this, getMovementDate(), 
+			C_DocTypeTarget_ID, !isSOTrx(), false, get_TrxName(), true);
+		
+		int linkedOrderID = new MOrder (getCtx(), getC_Order_ID(), get_TrxName()).getLink_Order_ID();
+		if (linkedOrderID != 0)
+		{
+			dropShipment.setC_Order_ID(linkedOrderID);
+					
+			// get invoice id from linked order
+			int invID = new MOrder (getCtx(), linkedOrderID, get_TrxName()).getC_Invoice_ID();
+			if ( invID != 0 )
+				dropShipment.setC_Invoice_ID(invID);
+		}
+		else
+			return null;
+		
+		dropShipment.setC_BPartner_ID(getDropShip_BPartner_ID());
+		dropShipment.setC_BPartner_Location_ID(getDropShip_Location_ID());
+		dropShipment.setAD_User_ID(getDropShip_User_ID());
+		dropShipment.setIsDropShip(false);
+		dropShipment.setDropShip_BPartner_ID(0);
+		dropShipment.setDropShip_Location_ID(0);
+		dropShipment.setDropShip_User_ID(0);
+		dropShipment.setMovementType(MOVEMENTTYPE_CustomerShipment);
+		
+		//	References (Should not be required
+		dropShipment.setSalesRep_ID(getSalesRep_ID());
+		dropShipment.save(get_TrxName());
+		
+		//		Update line order references to linked sales order lines
+		MInOutLine[] lines = dropShipment.getLines(true);
+		for (int i = 0; i < lines.length; i++)
+		{
+			MInOutLine dropLine = lines[i];
+			MOrderLine ol = new MOrderLine(getCtx(), dropLine.getC_OrderLine_ID(), null);
+			if ( ol.getC_OrderLine_ID() != 0 ) {
+				dropLine.setC_OrderLine_ID(ol.getLink_OrderLine_ID());
+				dropLine.save();
+			}
+		}
+		
+		log.fine(dropShipment.toString());
+		
+		dropShipment.setDocAction(DocAction.ACTION_Complete);
+		dropShipment.processIt(DocAction.ACTION_Complete);
+		dropShipment.save();
+
+		return dropShipment;
+	}
+
 	/**
 	 * 	Set the definite document number after completed
 	 */
@@ -1749,6 +1844,15 @@ public class MInOut extends X_M_InOut implements DocAction
 		counter.setM_Warehouse_ID(counterOrgInfo.getM_Warehouse_ID());
 		//
 		counter.setBPartner(counterBP);
+				
+		if ( isDropShip() )
+		{
+			counter.setIsDropShip(true );
+			counter.setDropShip_BPartner_ID(getDropShip_BPartner_ID());
+			counter.setDropShip_Location_ID(getDropShip_Location_ID());
+			counter.setDropShip_User_ID(getDropShip_User_ID());
+		}
+		
 		//	Refernces (Should not be required
 		counter.setSalesRep_ID(getSalesRep_ID());
 		counter.save(get_TrxName());

@@ -663,6 +663,15 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			inout.setC_Activity_ID(p_order.getC_Activity_ID());
 			inout.setUser1_ID(p_order.getUser1_ID());
 			inout.setUser2_ID(p_order.getUser2_ID());
+			
+			if ( p_order.isDropShip() ) 
+			{
+				inout.setM_Warehouse_ID( p_order.getM_Warehouse_ID() );
+				inout.setIsDropShip(p_order.isDropShip());
+				inout.setDropShip_BPartner_ID(p_order.getDropShip_BPartner_ID());
+				inout.setDropShip_Location_ID(p_order.getDropShip_Location_ID());
+				inout.setDropShip_User_ID(p_order.getDropShip_User_ID());
+			}
 		}
 		if (m_invoice != null && m_invoice.getC_Invoice_ID() != 0)
 		{

@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.awt.geom.IllegalPathStateException;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,6 +25,9 @@ import java.util.logging.Level;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrgInfo;
+import org.compiere.model.MTable;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 
 /**
@@ -47,7 +49,7 @@ public class OrderPOCreate extends SvrProcess
 	/**	Sales Order			*/
 	private int			p_C_Order_ID;
 	/** Drop Ship			*/
-	private String		p_IsDropShip;
+	private boolean		p_IsDropShip = false;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -72,14 +74,19 @@ public class OrderPOCreate extends SvrProcess
 			else if (name.equals("C_Order_ID"))
 				p_C_Order_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("IsDropShip"))
-				p_IsDropShip = (String)para[i].getParameter();
+				p_IsDropShip = ((String) para[i].getParameter()).equals("Y");
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
+		
+		// called from order window w/o parameters
+		if ( getTable_ID() == MOrder.Table_ID && getRecord_ID() > 0 )
+			p_C_Order_ID = getRecord_ID();
+		
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message 
 	 *  @throws Exception if not successful
 	 */
@@ -88,10 +95,10 @@ public class OrderPOCreate extends SvrProcess
 		log.info("DateOrdered=" + p_DateOrdered_From + " - " + p_DateOrdered_To 
 			+ " - C_BPartner_ID=" + p_C_BPartner_ID + " - Vendor_ID=" + p_Vendor_ID
 			+ " - IsDropShip=" + p_IsDropShip + " - C_Order_ID=" + p_C_Order_ID);
-		if (p_C_Order_ID == 0 && p_IsDropShip == null
+		if (p_C_Order_ID == 0
 			&& p_DateOrdered_From == null && p_DateOrdered_To == null
 			&& p_C_BPartner_ID == 0 && p_Vendor_ID == 0)
-			throw new IllegalPathStateException("You need to restrict selection");
+			throw new AdempiereUserError("You need to restrict selection");
 		//
 		String sql = "SELECT * FROM C_Order o "
 			+ "WHERE o.IsSOTrx='Y'"
@@ -105,8 +112,6 @@ public class OrderPOCreate extends SvrProcess
 		{
 			if (p_C_BPartner_ID != 0)
 				sql += " AND o.C_BPartner_ID=?";
-			if (p_IsDropShip != null)
-				sql += " AND o.IsDropShip=?";
 			if (p_Vendor_ID != 0)
 				sql += " AND EXISTS (SELECT * FROM C_OrderLine ol"
 					+ " INNER JOIN M_Product_PO po ON (ol.M_Product_ID=po.M_Product_ID) "
@@ -131,8 +136,6 @@ public class OrderPOCreate extends SvrProcess
 				int index = 1;
 				if (p_C_BPartner_ID != 0)
 					pstmt.setInt (index++, p_C_BPartner_ID);
-				if (p_IsDropShip != null)
-					pstmt.setString(index++, p_IsDropShip);
 				if (p_Vendor_ID != 0)
 					pstmt.setInt (index++, p_Vendor_ID);
 				if (p_DateOrdered_From != null && p_DateOrdered_To != null)
@@ -271,12 +274,26 @@ public class OrderPOCreate extends SvrProcess
 		MBPartner vendor = new MBPartner (getCtx(), C_BPartner_ID, get_TrxName());
 		po.setBPartner(vendor);
 		//	Drop Ship
-		po.setIsDropShip(so.isDropShip());
-		if (so.isDropShip())
+		if ( p_IsDropShip )
 		{
-			po.setShip_BPartner_ID(so.getC_BPartner_ID());
-			po.setShip_Location_ID(so.getC_BPartner_Location_ID());
-			po.setShip_User_ID(so.getAD_User_ID());
+			po.setIsDropShip(p_IsDropShip);
+			
+			if (so.isDropShip() && so.getDropShip_BPartner_ID() != 0 )	{
+				po.setDropShip_BPartner_ID(so.getDropShip_BPartner_ID());
+				po.setDropShip_Location_ID(so.getDropShip_Location_ID());
+				po.setDropShip_User_ID(so.getDropShip_User_ID());
+		}
+			else {
+				po.setDropShip_BPartner_ID(so.getC_BPartner_ID());
+				po.setDropShip_Location_ID(so.getC_BPartner_Location_ID());
+				po.setDropShip_User_ID(so.getAD_User_ID());
+			}
+			// get default drop ship warehouse
+			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID());
+			if (orginfo.getDropShip_Warehouse_ID() != 0 )
+				po.setM_Warehouse_ID(orginfo.getDropShip_Warehouse_ID());
+			else
+				log.log(Level.SEVERE, "Must specify drop ship warehouse in org info.");
 		}
 		//	References
 		po.setC_Activity_ID(so.getC_Activity_ID());

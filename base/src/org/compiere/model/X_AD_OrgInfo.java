@@ -74,7 +74,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_OrgType getAD_OrgType() throws Exception 
+	public I_AD_OrgType getAD_OrgType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_OrgType.Table_Name);
         I_AD_OrgType result = null;
@@ -85,7 +85,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -155,7 +155,30 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	/** Set Drop Ship Warehouse.
+		@param DropShip_Warehouse_ID 
+		The (logical) warehouse to use for recording drop ship receipts and shipments.
+	  */
+	public void setDropShip_Warehouse_ID (int DropShip_Warehouse_ID)
+	{
+		if (DropShip_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_DropShip_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_DropShip_Warehouse_ID, Integer.valueOf(DropShip_Warehouse_ID));
+	}
+
+	/** Get Drop Ship Warehouse.
+		@return The (logical) warehouse to use for recording drop ship receipts and shipments.
+	  */
+	public int getDropShip_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DropShip_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -166,7 +189,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -194,8 +217,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Parent_Org_ID AD_Reference_ID=130 */
-	public static final int PARENT_ORG_ID_AD_Reference_ID=130;
 	/** Set Parent Organization.
 		@param Parent_Org_ID 
 		Parent (superior) Organization 
@@ -238,8 +259,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
 	}
 
-	/** Supervisor_ID AD_Reference_ID=286 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
@@ -282,8 +301,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_TaxID);
 	}
 
-	/** TransferBank_ID AD_Reference_ID=52001 */
-	public static final int TRANSFERBANK_ID_AD_Reference_ID=52001;
 	/** Set Bank for transfers.
 		@param TransferBank_ID 
 		Bank account depending on currency will be used from this bank for doing transfers
@@ -307,8 +324,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** TransferCashBook_ID AD_Reference_ID=52004 */
-	public static final int TRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
 	/** Set CashBook for transfers.
 		@param TransferCashBook_ID CashBook for transfers	  */
 	public void setTransferCashBook_ID (int TransferCashBook_ID)

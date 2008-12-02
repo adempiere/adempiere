@@ -114,6 +114,9 @@ public class MOrder extends X_C_Order implements DocAction
 		if (to.copyLinesFrom(from, counter, copyASI) == 0)
 			throw new IllegalStateException("Could not create Order Lines");
 		
+		// don't copy linked PO/SO
+		to.setLink_Order_ID(0);
+		
 		return to;
 	}	//	copyFrom
 	
@@ -509,6 +512,8 @@ public class MOrder extends X_C_Order implements DocAction
 			line.setQtyReserved(Env.ZERO);
 			line.setDateDelivered(null);
 			line.setDateInvoiced(null);
+			// don't copy linked lines
+			line.setLink_OrderLine_ID(0);
 			//	Tax
 			if (getC_BPartner_ID() != otherOrder.getC_BPartner_ID())
 				line.setTax();		//	recalculate
@@ -1350,7 +1355,7 @@ public class MOrder extends X_C_Order implements DocAction
 			//	Closing Binding Quotation
 			|| (MDocType.DOCSUBTYPESO_Quotation.equals(dt.getDocSubTypeSO()) 
 				&& DOCACTION_Close.equals(getDocAction())) 
-			|| isDropShip() )
+			) // || isDropShip() )
 			binding = false;
 		boolean isSOTrx = isSOTrx();
 		log.fine("Binding=" + binding + " - IsSOTrx=" + isSOTrx);
