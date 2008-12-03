@@ -12,6 +12,8 @@
  *****************************************************************************/
 package org.adempiere.as;
 
+import java.util.Hashtable;
+
 /**
  * 
  * @author Low Heng Sin
@@ -44,6 +46,22 @@ public class ASFactory {
 			} catch (Throwable t) {
 			}
 		}
+		if (applicationServer == null) {
+			applicationServer = new IApplicationServer() {
+
+				@Override
+				public int getDefaultNamingServicePort() {
+					return 0;
+				}
+
+				@Override
+				public Hashtable<String, String> getInitialContextEnvironment(
+						String AppsHost, int AppsPort, String principal,
+						String credential) {
+					return new Hashtable<String, String>();
+				}			
+			};
+		}
 	}
 
 	/**
@@ -51,5 +69,5 @@ public class ASFactory {
 	 */
 	public static IApplicationServer getApplicationServer() {
 		return applicationServer;
-	}
+	}	
 }
