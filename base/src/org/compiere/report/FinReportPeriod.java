@@ -147,6 +147,11 @@ public class FinReportPeriod
 		return m_YearStartDate;
 	}
 
+	/**
+	 * Get natural balance dateacct filter
+	 * @param alias table name or alias name
+	 * @return is balance sheet a/c and <= end or BETWEEN start AND end 
+	 */
 	public String getNaturalWhere(String alias) {
 		String yearWhere = getYearWhere();
 		String totalWhere = getTotalWhere();

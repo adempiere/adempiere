@@ -134,6 +134,17 @@ public class MReportColumn extends X_PA_ReportColumn
 			|| AMOUNTTYPE_TotalQuantity.equals(at);
 	}	//	isTotalBalance
 
+	/**
+	 * Is it natural balance ?
+	 * Natural balance means year balance for profit and loss a/c, total balance for balance sheet account
+	 * @return true if Natural Balance Amount Type
+	 */
+	public boolean isNatural() {
+		String at = getAmountType();
+		if (at == null)
+			return false;
+		return AMOUNTTYPE_NaturalBalance.equals(at);
+	}
 
 	/**
 	 * 	Get Segment Value Where Clause
@@ -500,12 +511,4 @@ public class MReportColumn extends X_PA_ReportColumn
 		retValue.setOper_2_ID(0);
 		return retValue;
 	}	//	copy
-
-	public boolean isNatural() {
-		String at = getAmountType();
-		if (at == null)
-			return false;
-		return AMOUNTTYPE_NaturalBalance.equals(at);
-	}
-
 }	//	MReportColumn
