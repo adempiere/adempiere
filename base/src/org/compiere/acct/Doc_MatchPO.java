@@ -50,7 +50,9 @@ public class Doc_MatchPO extends Doc
 	private MOrderLine	m_oLine = null;
 	//
 	private int         m_M_InOutLine_ID = 0;
+	private MInOutLine		m_ioLine = null;
 	private int         m_C_InvoiceLine_ID = 0;
+	
 	private ProductCost m_pc;
 	private int			m_M_AttributeSetInstance_ID = 0;
 
@@ -71,7 +73,10 @@ public class Doc_MatchPO extends Doc
 		m_oLine = new MOrderLine (getCtx(), m_C_OrderLine_ID, getTrxName());
 		//
 		m_M_InOutLine_ID = matchPO.getM_InOutLine_ID();
+		m_ioLine = new MInOutLine (getCtx(), m_M_InOutLine_ID, null);	
+		
 		m_C_InvoiceLine_ID = matchPO.getC_InvoiceLine_ID();
+		
 		//
 		m_pc = new ProductCost (Env.getCtx(), 
 			getM_Product_ID(), m_M_AttributeSetInstance_ID, getTrxName());
@@ -116,6 +121,7 @@ public class Doc_MatchPO extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		setC_Currency_ID(as.getC_Currency_ID());
+		boolean isInterOrg = isInterOrg(as);
 		
 		//	Purchase Order Line
 		BigDecimal poCost = m_oLine.getPriceCost();
@@ -206,6 +212,26 @@ public class Doc_MatchPO extends Doc
 				dr.setUser2_ID(m_oLine.getUser2_ID());
 			}
 			
+			// Avoid usage of clearing accounts
+			// If both accounts Purchase Price Variance and Purchase Price Variance Offset are equal
+			// then remove the posting
+			
+			MAccount acct_db =  dr.getAccount(); // PPV
+			MAccount acct_cr = cr.getAccount(); // PPV Offset
+			
+			if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr) && (!isInterOrg)) {
+				
+				BigDecimal debit = dr.getAmtSourceDr();
+				BigDecimal credit = cr.getAmtSourceCr();
+				
+				if (debit.compareTo(credit) == 0) {
+					fact.remove(dr);
+					fact.remove(cr);
+				}
+			
+			}
+			// End Avoid usage of clearing accounts
+			
 			//
 			facts.add(fact);
 			return facts;
@@ -215,6 +241,25 @@ public class Doc_MatchPO extends Doc
 			return facts;
 		}
 	}   //  createFact
+	
+	/** Verify if the posting involves two or more organizations
+	@return true if there are more than one org involved on the posting
+	 */
+	private boolean isInterOrg(MAcctSchema as) {
+		MAcctSchemaElement elementorg = as.getAcctSchemaElement(MAcctSchemaElement.ELEMENTTYPE_Organization);
+		if (elementorg == null || !elementorg.isBalanced()) {
+			// no org element or not need to be balanced
+			return false;
+		}
+
+		// verify if org of receipt line is different from org of order line
+		// ignoring invoice line org as not used in posting
+		if (m_ioLine != null && m_oLine != null
+				&& m_ioLine.getAD_Org_ID() != m_oLine.getAD_Org_ID())
+			return true;
+		
+		return false;
+	}
 
 	/**
 	 *  Update Product Info (old).
