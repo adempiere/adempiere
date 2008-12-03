@@ -561,7 +561,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		{
 			if (isOnlyReceipt())
 			{
-				disableToDeliver();
+				enableToDeliver();
 				locatorLabel.setVisible(true);
 				locatorField.setVisible(true);
 				attribute.setVisible(true);
