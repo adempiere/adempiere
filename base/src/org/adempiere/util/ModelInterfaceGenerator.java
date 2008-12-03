@@ -360,27 +360,29 @@ public class ModelInterfaceGenerator
 				String tableName = columnName.substring(0, columnName.length()-3);
 				
 				MTable table = MTable.get(Env.getCtx(), tableName);
-				String entityType = table.getEntityType();
-				if (!"D".equals(entityType))
-				{	
-					for (int i = 0; i < entityTypes.length; i++)
-					{
-						if (entityTypes[i].getEntityType().equals(entityType))
+				if (table != null) {
+					String entityType = table.getEntityType();
+					if (!"D".equals(entityType))
+					{	
+						for (int i = 0; i < entityTypes.length; i++)
 						{
-							String modelpackage = entityTypes[i].getModelPackage(); 
-							if (modelpackage != null)
-							{						
-								referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
-							    break; 
+							if (entityTypes[i].getEntityType().equals(entityType))
+							{
+								String modelpackage = entityTypes[i].getModelPackage(); 
+								if (modelpackage != null)
+								{						
+									referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
+								    break; 
+								}
 							}
 						}
-					}
-				}	
-				//end [ 1785001 ]
-				
-				sb.append("\n")
-				  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException;")
-				;
+					}	
+					//end [ 1785001 ]
+					
+					sb.append("\n")
+					  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException;")
+					;
+				}
 			} else {
 				// TODO - Handle other types
 				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");

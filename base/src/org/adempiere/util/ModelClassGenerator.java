@@ -397,48 +397,49 @@ public class ModelClassGenerator
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
 				
 				MTable table = MTable.get(Env.getCtx(), tableName);
-				if (table == null)
-					throw new RuntimeException("No table found for "+tableName);
-				String entityType = table.getEntityType();
-				if (!"D".equals(entityType))
-				{	
-					for (int i = 0; i < entityTypes.length; i++)
-					{
-						if (entityTypes[i].getEntityType().equals(entityType))
+				if (table != null)
+				{
+					String entityType = table.getEntityType();
+					if (!"D".equals(entityType))
+					{	
+						for (int i = 0; i < entityTypes.length; i++)
 						{
-							String modelpackage = entityTypes[i].getModelPackage(); 
-							if (modelpackage != null)
-							{						
-								referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
-							    break; 
+							if (entityTypes[i].getEntityType().equals(entityType))
+							{
+								String modelpackage = entityTypes[i].getModelPackage(); 
+								if (modelpackage != null)
+								{						
+									referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
+								    break; 
+								}
 							}
 						}
-					}
-				}	
-				//end [ 1785001 ]				
-				sb.append(NL)
-					.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException ").append(NL)
-					.append("    {").append(NL)
-				// TODO - here we can implement Lazy loading or Cache of class
-					.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(NL)
-					.append("        ").append(referenceClassName).append(" result = null;").append(NL)
-					.append("        try	{").append(NL)
-					.append("	        Constructor<?> constructor = null;").append(NL)
-//					.append("    	    try	{").append(NL)
-					.append("	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});").append(NL)
-//					.append("	        } catch (NoSuchMethodException e) {").append(NL)
-//					.append("		        log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");").append(NL)
-//					.append("        	}").append(NL)
-					// TODO - here we can implement Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
-					.append("    	    result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});").append(NL)
-					.append("        } catch (Exception e) {").append(NL)
-					.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(NL)
-					.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(NL)
-					.append("           throw new RuntimeException( e );").append(NL)					
-					.append("        }").append(NL)
-					.append("        return result;").append(NL)
-					.append("    }").append(NL)
-				;
+					}	
+					//end [ 1785001 ]				
+					sb.append(NL)
+						.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException ").append(NL)
+						.append("    {").append(NL)
+					// TODO - here we can implement Lazy loading or Cache of class
+						.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(NL)
+						.append("        ").append(referenceClassName).append(" result = null;").append(NL)
+						.append("        try	{").append(NL)
+						.append("	        Constructor<?> constructor = null;").append(NL)
+	//					.append("    	    try	{").append(NL)
+						.append("	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});").append(NL)
+	//					.append("	        } catch (NoSuchMethodException e) {").append(NL)
+	//					.append("		        log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");").append(NL)
+	//					.append("        	}").append(NL)
+						// TODO - here we can implement Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
+						.append("    	    result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});").append(NL)
+						.append("        } catch (Exception e) {").append(NL)
+						.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(NL)
+						.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(NL)
+						.append("           throw new RuntimeException( e );").append(NL)					
+						.append("        }").append(NL)
+						.append("        return result;").append(NL)
+						.append("    }").append(NL)
+					;
+				}
 				// Add imports:
 				addImportClass(java.lang.reflect.Constructor.class);
 				addImportClass(java.util.logging.Level.class);
