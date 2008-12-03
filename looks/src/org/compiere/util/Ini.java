@@ -44,8 +44,9 @@ import javax.jnlp.UnavailableServiceException;
 
 import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.adempiere.plaf.AdempiereThemeInnova;
+/* FR2373679 Validator for beforeSaveProperties
 import org.compiere.model.ModelValidationEngine;
-
+*/
 
 /**
  *	Load & Save INI Settings fopm property file
@@ -237,10 +238,12 @@ public final class Ini implements Serializable
 	 */
 	public static void saveProperties (boolean tryUserHome)
 	{
+		/* FR2373679 Validator for beforeSaveProperties
 		if (Ini.isClient() && DB.isConnected()) {
 			// Call ModelValidators beforeSaveProperties
 			ModelValidationEngine.get().beforeSaveProperties();
 		}
+		*/
 
 		if (isWebStartClient())
 		{
