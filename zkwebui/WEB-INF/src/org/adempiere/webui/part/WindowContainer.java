@@ -42,6 +42,11 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     {
     }
     
+    /**
+     * 
+     * @param tb
+     * @return WindowContainer
+     */
     public static WindowContainer createFrom(Tabbox tb) 
     {
     	WindowContainer wc = new WindowContainer();
@@ -53,7 +58,6 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     protected Component doCreatePart(Component parent)
     {
         tabbox = new Tabbox();
-//        tabbox.setSclass("desktop-tb");
         
         Tabpanels tabpanels = new Tabpanels();
         Tabs tabs = new Tabs();
@@ -72,13 +76,39 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         
         return tabbox;
     }
-
+    
+    /**
+     * 
+     * @param comp
+     * @param title
+     * @param closeable
+     */
     public void addWindow(Component comp, String title, boolean closeable)
     {
         addWindow(comp, title, closeable, true);
     }
-
-    public void addWindow(Component comp, String title, boolean closeable, boolean enable)
+    
+    /**
+     * 
+     * @param comp
+     * @param title
+     * @param closeable
+     * @param enable
+     */
+    public void addWindow(Component comp, String title, boolean closeable, boolean enable) 
+    {
+    	insertBefore(null, comp, title, closeable, enable);
+    }
+    
+    /**
+     * 
+     * @param refTab
+     * @param comp
+     * @param title
+     * @param closeable
+     * @param enable
+     */
+    public void insertBefore(Tab refTab, Component comp, String title, boolean closeable, boolean enable)
     {
         Tab tab = new Tab();
         title = title.replaceAll("[&]", "");
@@ -93,7 +123,6 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         	tab.setLabel(title);
         }
         tab.setClosable(closeable);
-//        tab.setHeight("20px");
 
         Tabpanel tabpanel = null;
         if (comp instanceof Tabpanel) {
@@ -107,20 +136,53 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         tabpanel.setZclass("desktop-tabpanel");
         tabpanel.setStyle("position: absolute;");
         
-        tabbox.getTabs().appendChild(tab);
-        tabbox.getTabpanels().appendChild(tabpanel);
+        if (refTab == null)  
+        {
+        	tabbox.getTabs().appendChild(tab);
+        	tabbox.getTabpanels().appendChild(tabpanel);
+        }
+        else
+        {
+        	org.zkoss.zul.Tabpanel refpanel = refTab.getLinkedPanel();
+        	tabbox.getTabs().insertBefore(tab, refTab);
+        	tabbox.getTabpanels().insertBefore(tabpanel, refpanel);
+        }
 
         if (enable)
         	setSelectedTab(tab);
         
         deferLayout();
     }
+    
+    /**
+     * 
+     * @param refTab
+     * @param comp
+     * @param title
+     * @param closeable
+     * @param enable
+     */
+    public void insertAfter(Tab refTab, Component comp, String title, boolean closeable, boolean enable)
+    {
+    	if (refTab == null)
+    		addWindow(comp, title, closeable, enable);
+    	else
+    		insertBefore((Tab)refTab.getNextSibling(), comp, title, closeable, enable);
+    }
 
+    /**
+     * 
+     * @param tab
+     */
     public void setSelectedTab(Tab tab)
     {
     	tabbox.setSelectedTab(tab);
     }
 
+    /**
+     * 
+     * @return true if successfully close the active window
+     */
     public boolean closeActiveWindow()
     {
     	Tab tab = (Tab) tabbox.getSelectedTab();
@@ -131,11 +193,20 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     		return false;
     }
     
+    /**
+     * 
+     * @return Tab
+     */
     public Tab getSelectedTab() {
     	return (Tab) tabbox.getSelectedTab();
     }
     
     // Elaine 2008/07/21
+    /**
+     * @param tabNo
+     * @param title
+     * @param tooltip 
+     */
     public void setTabTitle(int tabNo, String title, String tooltip)
     {
     	org.zkoss.zul.Tabs tabs = tabbox.getTabs();
@@ -145,6 +216,9 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     }
     //
 
+    /**
+     * @param event
+     */
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_SELECT.equals(event.getName()))
 			deferLayout();
@@ -159,6 +233,9 @@ public class WindowContainer extends AbstractUIPart implements EventListener
 		}
 	}
 
+	/**
+	 * @return Tabbox
+	 */
 	public Tabbox getComponent() {
 		return tabbox;
 	}

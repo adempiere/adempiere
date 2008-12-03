@@ -752,7 +752,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	
     	DesktopTabpanel tabPanel = new DesktopTabpanel();
     	wnd.createPart(tabPanel);
-    	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
+    	windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, wnd.getTitle(), true, true);
 	}
     
     /**
@@ -874,7 +874,10 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
     	window.setParent(tabPanel);
     	String title = window.getTitle();
     	window.setTitle(null);
-    	windowContainer.addWindow(tabPanel, title, true);
+    	if (Window.INSERT_NEXT.equals(window.getAttribute(Window.INSERT_POSITION_KEY)))
+    		windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, title, true, true);
+    	else
+    		windowContainer.addWindow(tabPanel, title, true);
    	}
 	
 	/**

@@ -15,6 +15,7 @@ public class ZkJRViewerProvider implements JRViewerProvider {
 		viewer.setWidth("95%");
 		
 		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+		viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 		SessionManager.getAppDesktop().showWindow(viewer);
 	}
 

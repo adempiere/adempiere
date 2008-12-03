@@ -27,17 +27,25 @@ public class Window extends org.zkoss.zul.Window
 {
     private static final long serialVersionUID = 1L;
     
+    /*** Show as modal window ***/
     public static final String MODE_MODAL = "modal";
-    
+    /*** Show as popup window ***/
     public static final String MODE_POPUP =  "popup";
-    
+    /*** Show as floating window ***/
     public static final String MODE_OVERLAPPED =  "overlapped";
-    
+    /*** Add to the tabbed window container ***/
     public static final String MODE_EMBEDDED =  "embedded";
-    
+    /*** Show as fake modal window ***/
     public static final String MODE_HIGHLIGHTED = "highlighted";
-    
+    /*** attribute key to store window display mode ***/
     public static final String MODE_KEY = "mode";
+    
+    /*** attribute key to store insert position for embedded mode window ***/
+    public static final String INSERT_POSITION_KEY = "insertPosition";
+    /*** Append to the end of tabs of the tabbed window container ***/
+    public static final String INSERT_END = "insertEnd";
+    /*** Insert next to the active tab of the tabbed window container ***/
+    public static final String INSERT_NEXT = "insertNext";
     
     public Window()
     {
