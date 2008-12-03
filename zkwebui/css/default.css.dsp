@@ -30,11 +30,11 @@ html,body {
 	-moz-opacity: 0.2;			
 }
 
-.depressed {
+.depressed img {
 	border-style: inset;
 	border-width: 1px;
-	border-color: #CCCCCC;
-	background-color: #E4E3DC;
+	border-color: #9CBDFF;
+	background-color: #C4DCFB;
 	-moz-border-radius: 5px;
 	padding: 1px 4px 1px 4px;
 }
@@ -76,85 +76,6 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: white;
 }
 
-<%-- desktop tabbox --%>
-.desktop-tb {
-	position:absolute;
-}
-	
-td.tab-desktop-tb-first1 {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-first2.gif')});
-	width: 1px; height: 1px;
-}
-td.tab-desktop-tb-first2 {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-first2.gif')});
-	width: 3px; height: 1px;
-}
-td.tab-desktop-tb-last1 {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-last1.gif')});
-	width: 3px; height: 1px;
-}
-td.tab-desktop-tb-last2 {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-last1.gif')});
-	width: 1px; height: 1px;
-}
-
-td.tab-desktop-tb-tl-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tl-sel.gif')});
-	width: 5px; height: 6px;
-}
-td.tab-desktop-tb-tl-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tl-uns.gif')});
-	width: 5px; height: 6px;
-}
-td.tab-desktop-tb-tm-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tm-sel.gif')});
-	height: 6px;
-}
-td.tab-desktop-tb-tm-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tm-uns.gif')});
-	height: 6px;
-}
-td.tab-desktop-tb-tr-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tr-sel.gif')});
-	width: 5px; height: 6px;
-}
-td.tab-desktop-tb-tr-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-tr-uns.gif')});
-	width: 5px; height: 6px;
-}
-
-td.tab-desktop-tb-ml-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-ml-sel.gif')});
-	width: 5px;
-}
-td.tab-desktop-tb-ml-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-ml-uns.gif')});
-	width: 5px;
-}
-td.tab-desktop-tb-mm-sel, td.tab-desktop-tb-mm-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-white.gif')});
-}
-td.tab-desktop-tb-mr-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-mr-sel.gif')});
-	width: 5px;
-}
-td.tab-desktop-tb-mr-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-mr-uns.gif')});
-	width: 5px;
-}
-
-td.tab-desktop-tb-bl-sel, td.tab-desktop-tb-bm-sel, td.tab-desktop-tb-br-sel {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-white.gif')});
-	width: 5px; height: 1px;
-}
-td.tab-desktop-tb-bl-uns, td.tab-desktop-tb-bm-uns, td.tab-desktop-tb-br-uns {
-	background-image: url(${c:encodeURL('~./zul/img/tab/lite-last1.gif')});
-	width: 5px; height: 1px;
-}
-
-tr.tab-desktop-tb-m {
-	height: 21px;
-}
 .desktop-tabpanel {
 	margin: 0;
 	padding: 0;

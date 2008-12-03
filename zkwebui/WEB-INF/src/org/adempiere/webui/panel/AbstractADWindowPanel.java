@@ -565,7 +565,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 							curTab.getAD_Table_ID(), record_ID, null);
 		
 		curTab.loadAttachments();				//	reload
-		//aAttachment.setPressed(m_curTab.hasAttachment());
+		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
 	}
     
     /**
@@ -729,6 +729,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		toolbar.enableTabNavigation(curTabIndex > 0, 
 		        curTabIndex < (adTab.getTabCount() - 1));
+		
+		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
+		if (isFirstTab())
+        {
+            toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
+        }
+		toolbar.getButton("Find").setPressed(curTab.isQueryActive());
+		//TODO: personal lock
 	}
 
     public void dataStatusChanged(DataStatusEvent e)
@@ -1009,6 +1017,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public void onSave()
     {
+    	onSave(true);
+    }
+    
+    /**
+     * @param onSaveEvent
+     */
+    private void onSave(boolean onSaveEvent)
+    {
     	if (curTab.isSortTab())
     	{
     		((ADSortTab)curTabpanel).saveData();
@@ -1024,7 +1040,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     				return;
     			}
     		}
-	    	boolean retValue = curTab.dataSave(true);
+	    	boolean retValue = curTab.dataSave(onSaveEvent);
 	        
 	        if (!retValue)
 	        {
@@ -1224,8 +1240,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		//TODO: cmd_save(false) -> onSave ?
-		//onSave();
+		onSave(false);
 		//
 		int table_ID = curTab.getAD_Table_ID();
 		int record_ID = curTab.getRecord_ID();
@@ -1256,7 +1271,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 		
-		//TODO: cmd_save(false); -> onSave ?
+		onSave(false);
 
 		//	Query
 		MQuery query = new MQuery(curTab.getTableName());

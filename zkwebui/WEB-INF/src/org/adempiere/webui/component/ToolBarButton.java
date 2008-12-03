@@ -25,7 +25,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 {
     
     private static final long serialVersionUID = 0L;
-
+    
     private String name;
     
     public ToolBarButton() {}
@@ -42,14 +42,14 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 	}
     
     public void setPressed(boolean pressed) {
-    	if (!isDisabled()) {
-    		if (pressed)
-    			setSclass("depressed");
-    		else {
-    			if (this.getSclass() != null && this.getSclass().indexOf("depressed") >= 0)
-    				this.setSclass(this.getSclass().replace("depressed", ""));
-    		}
-    	}
+		if (!isDisabled()) {
+			if (pressed) {
+				this.setSclass("depressed");
+			} else {
+				if (this.getSclass() != null && this.getSclass().indexOf("depressed") >= 0)
+					this.setSclass(this.getSclass().replace("depressed", ""));
+			}
+		}
     }
 
 	public ToolBarButton(String name) {
