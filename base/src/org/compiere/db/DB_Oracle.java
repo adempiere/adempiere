@@ -1086,18 +1086,19 @@ public class DB_Oracle implements AdempiereDatabase
     }
 
 	public int getNextID(String Name) {
-		int m_sequence_id = DB.getSQLValue(null, "SELECT "+Name.toUpperCase()+".nextid FROM DUAL");
+		int m_sequence_id = DB.getSQLValue(null, "SELECT "+Name.toUpperCase()+".nextval FROM DUAL");
 		return m_sequence_id;
 	}
 
 	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start , String trxName) 
 	{
 
-		int no = DB.executeUpdateEx("CREATE SEQUENCE "+name.toUpperCase()
-							+ " INCREMENT BY " + increment 
+		int no = DB.executeUpdateEx("CREATE SEQUENCE "+name.toUpperCase()													
+							+ " MINVALUE " + minvalue 
+							+ " MAXVALUE " + maxvalue
 							+ " START WITH " + start 
-							+ " MIN VALUE " + minvalue 
-							+ " MAX VALUE " + maxvalue, trxName);
+							+ " INCREMENT BY " + increment +" CACHE 20", trxName)
+							;
 		if(no == -1 )
 			return false;
 		else 
