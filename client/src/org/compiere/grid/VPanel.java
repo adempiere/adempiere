@@ -403,7 +403,7 @@ public final class VPanel extends CTabbedPane
 				setMnemonic(editor, mField.getMnemonic());
 		}
 		m_oldSameLine = sameLine;
-		m_oldLongField = mField.isLongField();
+		m_oldLongField = (mField.isLongField() || mField.isSameLine());
 	}	//	addField
 
 	/**
