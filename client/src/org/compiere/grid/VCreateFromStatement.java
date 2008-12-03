@@ -136,6 +136,10 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 		+ " AND p.DocStatus IN ('CO','CL','RE','VO') AND p.PayAmt<>0" 
 		+ " AND p.C_BankAccount_ID = ?");
 		
+	    sql.append( " AND NOT EXISTS (SELECT * FROM C_BankStatementLine l " 
+		//	Voided Bank Statements have 0 StmtAmt
+			+ "WHERE p.C_Payment_ID=l.C_Payment_ID AND l.StmtAmt <> 0)");
+		
 		if (documentNoField.getText().length() > 0)
 			sql.append(" AND UPPER(p.DocumentNo) LIKE ?");
 		//
