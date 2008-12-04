@@ -14,18 +14,30 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
+import java.awt.Event;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.KeyStroke;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrderTax;
+import org.compiere.model.MProduct;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * Current Line Sub Panel
@@ -445,7 +457,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 		MOrderLine[] lineas = null;
 		try
 		{
-			lineas = order.getLines();
+			lineas = order.getLines("","");
 			numLineas = lineas.length;
 			for (int i = 0; i < numLineas; i++)
 			{
