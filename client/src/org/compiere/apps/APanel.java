@@ -57,6 +57,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
 import org.compiere.grid.GridController;
@@ -77,6 +78,7 @@ import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
 import org.compiere.model.Lookup;
+import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
@@ -2337,6 +2339,7 @@ public final class APanel extends CPanel
 
 		/**
 		 *  Start Process ----
+		 *  or invoke user form
 		 */
 
 		log.config("Process_ID=" + vButton.getProcess_ID() + ", Record_ID=" + record_ID);
@@ -2346,45 +2349,40 @@ public final class APanel extends CPanel
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
-
-		// hengsin - [ 1639242 ] Inconsistent appearance of Process/Report Dialog
-		// globalqss - Add support for Don't ShowHelp option in Process
-		// this code must be changed if integrated the parameters and help in only one window
-		/*
+		
+		// call form
 		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
-		if (pr.getShowHelp() != null && pr.getShowHelp().equals("N")) {
-			startWOasking = true;
-		}
-		// end globalqss
-		
-		//	Ask user to start process, if Description and Help is not empty
-		
-		if (!startWOasking && !(vButton.getDescription().equals("") && vButton.getHelp().equals("")))
-			if (!ADialog.ask(m_curWindowNo, this, "StartProcess?", 
-				//	"<b><i>" + vButton.getText() + "</i></b><br>" +
-				vButton.getDescription() + "\n" + vButton.getHelp()))
-				return;
-		//
-		String title = vButton.getDescription();
-		if (title == null || title.length() == 0)
-			title = vButton.getName();
-		ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
-		pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
-		pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-		pi.setIsBatch(batch);
-
-	//	Trx trx = Trx.get(Trx.createTrxName("AppsPanel"), true);
-		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
-		*/
-		
-		ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
-				this, m_curWindowNo, vButton.getProcess_ID(), table_ID, 
-				record_ID, startWOasking);
-		if (dialog.isValid())
+		int form_ID = pr.getAD_Form_ID();
+		if (form_ID != 0 ) 
 		{
-			dialog.validate();
-			dialog.pack();
-			AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+			
+			if (m_curTab.needSave(true, false))
+				if (!cmd_save(true))
+					return;
+			
+			FormFrame ff = new FormFrame(); 
+			String title = vButton.getDescription();
+			if (title == null || title.length() == 0)
+				title = vButton.getName();
+			ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
+			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
+			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
+			ff.setProcessInfo(pi);
+			ff.openForm(form_ID); 
+			ff.pack(); 
+			AEnv.showCenterScreen(ff); 
+			return; 
+		}		
+		else {
+			ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
+					this, m_curWindowNo, vButton.getProcess_ID(), table_ID, 
+					record_ID, startWOasking);
+			if (dialog.isValid())
+			{
+				dialog.validate();
+				dialog.pack();
+				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+			}
 		}
 	}	//	actionButton
 

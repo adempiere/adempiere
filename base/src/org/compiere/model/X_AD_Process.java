@@ -40,8 +40,8 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
       super (ctx, AD_Process_ID, trxName);
       /** if (AD_Process_ID == 0)
         {
-			setAccessLevel (null);
 			setAD_Process_ID (0);
+			setAccessLevel (null);
 			setEntityType (null);
 // U
 			setIsBetaFunctionality (false);
@@ -80,39 +80,46 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
       return sb.toString();
     }
 
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
+	public I_AD_Form getAD_Form() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
+        I_AD_Form result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Special Form.
+		@param AD_Form_ID 
+		Special Form
 	  */
-	public void setAccessLevel (String AccessLevel)
+	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+		if (AD_Form_ID < 1) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
-	/** Get Data Access Level.
-		@return Access Level required
+	/** Get Special Form.
+		@return Special Form
 	  */
-	public String getAccessLevel () 
+	public int getAD_Form_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Form_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -123,7 +130,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -173,7 +180,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -184,7 +191,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -212,7 +219,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -223,7 +230,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -249,6 +256,38 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Classname.

@@ -44,6 +44,8 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trace;
+import org.compiere.process.ProcessInfo;
+
 
 /**
  *	Form Framework
@@ -85,6 +87,8 @@ public class FormFrame extends CFrame
 		}
 	}	//	FormFrame
 
+	private ProcessInfo  m_pi;
+	
 	/**	WindowNo					*/
 	private int			m_WindowNo;
 	/** The GlassPane           	*/
@@ -407,6 +411,21 @@ public class FormFrame extends CFrame
 		}
    }	//	formWindowOpened
 
+// Add window and tab no called from
+	
+	public void setProcessInfo(ProcessInfo pi)
+	{
+		m_pi = pi;
+		
+	}
+	
+	public ProcessInfo getProcessInfo()
+	{
+		return m_pi;
+	}
+
+	// End
+	
 	/**
 	 * 	Start Batch
 	 *	@param process
