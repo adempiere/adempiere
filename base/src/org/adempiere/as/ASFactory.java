@@ -49,12 +49,10 @@ public class ASFactory {
 		if (applicationServer == null) {
 			applicationServer = new IApplicationServer() {
 
-				@Override
 				public int getDefaultNamingServicePort() {
 					return 0;
 				}
 
-				@Override
 				public Hashtable<String, String> getInitialContextEnvironment(
 						String AppsHost, int AppsPort, String principal,
 						String credential) {
