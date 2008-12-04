@@ -260,7 +260,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel
     {
     	BigDecimal utilizationDec = r.getPercentUtilization().divide(Env.ONEHUNDRED, 2, RoundingMode.HALF_UP);
     	int precision = 2; // TODO: hardcoded
-    	return r.getDailyCapacity().divide(utilizationDec, precision, RoundingMode.HALF_UP);
+    	return r.getDailyCapacity().multiply(utilizationDec).setScale(precision, RoundingMode.HALF_UP);
     }
     
     public CategoryDataset getDataset()
