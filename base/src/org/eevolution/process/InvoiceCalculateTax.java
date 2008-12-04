@@ -17,53 +17,73 @@ package org.eevolution.process;
 
 
 
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MPeriod;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 
 
 /**
- * Invoice Calculate Tax let re calculate Tax Invoice
+ * Re-calculate Invoice Tax (and unpost the document)
  * @author Victor Perez
  * @author Teo Sarca, www.arhipac.ro
  */
-
 public class InvoiceCalculateTax extends SvrProcess
 {
-    private int p_C_Invoice_ID = 0;
+	public static final String PARAM_C_Invoice_ID = "C_Invoice_ID";
+	
+	private int p_C_Invoice_ID = 0;
 
-    @Override
-    protected void prepare() 
-    {
-    	for (ProcessInfoParameter para : getParameter())
-    	{
-    		String name = para.getParameterName();
-    		if (para.getParameter() == null)
-    		{
-    			;
-    		}
-    		else if (name.equals("C_Invoice_ID"))
-    		{
-    			p_C_Invoice_ID = para.getParameterAsInt();
-    		}
-    	}
+	@Override
+	protected void prepare() 
+	{
+		for (ProcessInfoParameter para : getParameter())
+		{
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
+			{
+				;
+			}
+			else if (name.equals(PARAM_C_Invoice_ID))
+			{
+				p_C_Invoice_ID = para.getParameterAsInt();
+			}
+		}
+		
+		if (p_C_Invoice_ID <= 0)
+		{
+			throw new FillMandatoryException(PARAM_C_Invoice_ID);
+		}
+	}
 
-    } //        prepare
-
-    @Override
-    protected String doIt() throws Exception
-    {
+	@Override
+	protected String doIt() throws Exception
+	{
 		MInvoice invoice = new MInvoice(getCtx(), p_C_Invoice_ID, get_TrxName());
+		recalculateTax(invoice);
+		//
+		return "@ProcessOK@";
+	}
+	
+	public static void recalculateTax(MInvoice invoice)
+	{
+		//
+		// Delete accounting /UnPost
+		MPeriod.testPeriodOpen(invoice.getCtx(), invoice.getDateAcct(), invoice.getC_DocType_ID());
+		MFactAcct.deleteEx(MInvoice.Table_ID, invoice.get_ID(), invoice.get_TrxName());
+		//
+		// Update Invoice
 		invoice.calculateTaxTotal();
+		invoice.setPosted(false);
 		invoice.saveEx();
 		//
 		// Update balance
-		MBPartner bp = new MBPartner (getCtx(), invoice.getC_BPartner_ID(), get_TrxName());
+		MBPartner bp = new MBPartner (invoice.getCtx(), invoice.getC_BPartner_ID(), invoice.get_TrxName());
 		bp.setTotalOpenBalance();
 		bp.setSOCreditStatus();
 		bp.saveEx();
-		//
-        return "@ProcessOK@";
-    } //        doIt
+	}
 }
