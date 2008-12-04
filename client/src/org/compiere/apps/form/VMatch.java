@@ -115,13 +115,15 @@ public class VMatch extends CPanel
 	private static final int		I_Product = 5;
 	private static final int		I_QTY = 6;
 	private static final int		I_MATCHED = 7;
+	private static final int        I_Org = 8; //JAVIER 
+	
 
 
 	private StringBuffer    m_sql = null;
 	private String          m_dateColumn = "";
 	private String          m_qtyColumn = "";
 	private String          m_groupBy = "";
-	private StringBuffer			m_linetype = null;
+	private StringBuffer	m_linetype = null;
 	private BigDecimal      m_xMatched = Env.ZERO;
 	private BigDecimal      m_xMatchedTo = Env.ZERO;
 
@@ -282,7 +284,8 @@ public class VMatch extends CPanel
 			new ColumnInfo(Msg.translate(Env.getCtx(), "Line"),         ".", KeyNamePair.class, "."),
 			new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), ".", KeyNamePair.class, "."),   //  5
 			new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"),          ".", Double.class),
-			new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", Double.class)
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", Double.class),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "AD_Org_ID"),    ".", KeyNamePair.class, ".") //JAVIER
 		};
 
 		xMatchedTable.prepareTable(layout, "", "", false, "");
@@ -537,6 +540,7 @@ public class VMatch extends CPanel
 			tableInit (display, matchToType);	//	sets m_sql
 			//  ** Add Where Clause **
 			KeyNamePair BPartner = (KeyNamePair)xMatchedTable.getValueAt(row, I_BPartner);
+			KeyNamePair Org = (KeyNamePair)xMatchedTable.getValueAt(row, I_Org); //JAVIER
 			KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(row, I_Product);
 			log.fine("BPartner=" + BPartner + " - Product=" + Product);
 			//
@@ -619,7 +623,7 @@ public class VMatch extends CPanel
 
 	
 	/**************************************************************************
-	 *  Initialise Table access - create SQL, dateColumn.
+	 *  Initialize Table access - create SQL, dateColumn.
 	 *  <br>
 	 *  The driving table is "hdr", e.g. for hdr.C_BPartner_ID=..
 	 *  The line table is "lin", e.g. for lin.M_Product_ID=..
@@ -645,8 +649,9 @@ public class VMatch extends CPanel
 			m_qtyColumn = "lin.QtyInvoiced";
 			m_sql.append("SELECT hdr.C_Invoice_ID,hdr.DocumentNo, hdr.DateInvoiced, bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_InvoiceLine_ID, p.Name,lin.M_Product_ID,"
-				+ " lin.QtyInvoiced,SUM(NVL(mi.Qty,0)) "
+				+ " lin.QtyInvoiced,SUM(NVL(mi.Qty,0)), org.Name, hdr.AD_Org_ID "  //JAVIER
 				+ "FROM C_Invoice hdr"
+				+ " INNER JOIN AD_Org org ON (hdr.AD_Org_ID=org.AD_Org_ID)" //JAVIER
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_InvoiceLine lin ON (hdr.C_Invoice_ID=lin.C_Invoice_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
@@ -654,7 +659,7 @@ public class VMatch extends CPanel
 				+ " FULL JOIN M_MatchInv mi ON (lin.C_InvoiceLine_ID=mi.C_InvoiceLine_ID) "
 				+ "WHERE hdr.DocStatus IN ('CO','CL')");
 			m_groupBy = " GROUP BY hdr.C_Invoice_ID,hdr.DocumentNo,hdr.DateInvoiced,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.C_InvoiceLine_ID,p.Name,lin.M_Product_ID,lin.QtyInvoiced "
+				+ " lin.Line,lin.C_InvoiceLine_ID,p.Name,lin.M_Product_ID,lin.QtyInvoiced, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
 				+ (matched ? "0" : "lin.QtyInvoiced")
 				+ "<>SUM(NVL(mi.Qty,0))";
@@ -665,8 +670,9 @@ public class VMatch extends CPanel
 			m_qtyColumn = "lin.QtyOrdered";
 			m_sql.append("SELECT hdr.C_Order_ID,hdr.DocumentNo, hdr.DateOrdered, bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_OrderLine_ID, p.Name,lin.M_Product_ID,"
-				+ " lin.QtyOrdered,SUM(COALESCE(mo.Qty,0)) "
+				+ " lin.QtyOrdered,SUM(COALESCE(mo.Qty,0)), org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "FROM C_Order hdr"
+				+ " INNER JOIN AD_Org org ON (hdr.AD_Org_ID=org.AD_Org_ID)" //JAVIER
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_OrderLine lin ON (hdr.C_Order_ID=lin.C_Order_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
@@ -688,7 +694,7 @@ public class VMatch extends CPanel
 			}
 			m_sql.append( " AND hdr.DocStatus IN ('CO','CL')" );
 			m_groupBy = " GROUP BY hdr.C_Order_ID,hdr.DocumentNo,hdr.DateOrdered,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered "
+				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
 				+ (matched ? "0" : "lin.QtyOrdered")
 				+ "<>SUM(COALESCE(mo.Qty,0))";
@@ -699,8 +705,9 @@ public class VMatch extends CPanel
 			m_qtyColumn = "lin.MovementQty";
 			m_sql.append("SELECT hdr.M_InOut_ID,hdr.DocumentNo, hdr.MovementDate, bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.M_InOutLine_ID, p.Name,lin.M_Product_ID,"
-				+ " lin.MovementQty,SUM(NVL(m.Qty,0)) "
+				+ " lin.MovementQty,SUM(NVL(m.Qty,0)),org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "FROM M_InOut hdr"
+				+ " INNER JOIN AD_Org org ON (hdr.AD_Org_ID=org.AD_Org_ID)" //JAVIER
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN M_InOutLine lin ON (hdr.M_InOut_ID=lin.M_InOut_ID)"
 				+ " INNER JOIN M_Product p ON (lin.M_Product_ID=p.M_Product_ID)"
@@ -710,7 +717,7 @@ public class VMatch extends CPanel
 				.append(" m ON (lin.M_InOutLine_ID=m.M_InOutLine_ID) "
 				+ "WHERE hdr.DocStatus IN ('CO','CL')");
 			m_groupBy = " GROUP BY hdr.M_InOut_ID,hdr.DocumentNo,hdr.MovementDate,bp.Name,hdr.C_BPartner_ID,"
-				+ " lin.Line,lin.M_InOutLine_ID,p.Name,lin.M_Product_ID,lin.MovementQty "
+				+ " lin.Line,lin.M_InOutLine_ID,p.Name,lin.M_Product_ID,lin.MovementQty, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
 				+ (matched ? "0" : "lin.MovementQty")
 				+ "<>SUM(NVL(m.Qty,0))";
