@@ -40,9 +40,8 @@ import org.compiere.util.Env;
  *  
  *  @author Bayu Cahya, Sistematika
  *  		<li>BF [ 2240484 ] Re MatchingPO, MMatchPO doesn't contains Invoice info
- *  
- *  @author Teo Sarca, www.arhipac.ro
- *  		<li>BF [ 2314749 ] MatchPO not considering currency PriceMatchDifference
+ *  @author Armen Rizal, Goodwill Consulting
+ *  		<li>BF [ 2215840 ] MatchPO Bug Collection
  */
 public class MMatchPO extends X_M_MatchPO
 {
@@ -488,28 +487,10 @@ public class MMatchPO extends X_M_MatchPO
 	}	//	getOrderLine
 	
 	/**
-	 * Get PriceActual from Invoice and convert it to Order Currency
-	 * @return Price Actual in Order Currency
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
 	 */
-	public BigDecimal getInvoicePriceActual()
-	{
-		MInvoiceLine iLine = getInvoiceLine();
-		MInvoice invoice = iLine.getParent();
-		MOrder order = getOrderLine().getParent();
-
-		BigDecimal priceActual = iLine.getPriceActual();
-		int invoiceCurrency_ID = invoice.getC_Currency_ID();
-		int orderCurrency_ID = order.getC_Currency_ID();
-		if (invoiceCurrency_ID != orderCurrency_ID)
-		{
-			priceActual = MConversionRate.convert(getCtx(), priceActual, invoiceCurrency_ID, orderCurrency_ID,
-										invoice.getDateInvoiced(), invoice.getC_ConversionType_ID(),
-										getAD_Client_ID(), getAD_Org_ID());
-		}
-		return priceActual;
-	}
-	
-	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Set Trx Date
@@ -580,7 +561,7 @@ public class MMatchPO extends X_M_MatchPO
 				is_ValueChanged("C_OrderLine_ID") || is_ValueChanged("C_InvoiceLine_ID")))
 		{
 			BigDecimal poPrice = getOrderLine().getPriceActual();
-			BigDecimal invPrice = getInvoicePriceActual();
+			BigDecimal invPrice = getInvoiceLine().getPriceActual();
 			BigDecimal difference = poPrice.subtract(invPrice);
 			if (difference.signum() != 0)
 			{
@@ -609,6 +590,17 @@ public class MMatchPO extends X_M_MatchPO
 			}
 		}
 		
+		if (newRecord || m_isInOutLineChange)
+		{	
+			// Elaine 2008/6/20	
+			String err = createMatchPOCostDetail();
+			if(err != null && err.length() > 0) 
+			{
+				s_log.warning(err);
+				return false;
+			}
+		}
+		
 		return true;
 	}	//	beforeSave	
 	
@@ -619,19 +611,8 @@ public class MMatchPO extends X_M_MatchPO
 	 *	@param success success
 	 *	@return success
 	 */
-	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		if (newRecord && success)
-		{	
-			// Elaine 2008/6/20	
-			String err = createMatchPOCostDetail();
-			if(err != null && err.length() > 0) 
-			{
-				s_log.warning(err);
-				return false;
-			}
-		}
 		//	Purchase Order Delivered/Invoiced
 		//	(Reserved in VMatch and MInOut.completeIt)
 		if (success && getC_OrderLine_ID() != 0)
@@ -712,7 +693,6 @@ public class MMatchPO extends X_M_MatchPO
 	 * 	Before Delete
 	 *	@return true if acct was deleted
 	 */
-	@Override
 	protected boolean beforeDelete ()
 	{
 		if (isPosted())
@@ -731,7 +711,6 @@ public class MMatchPO extends X_M_MatchPO
 	 *	@param success success
 	 *	@return success
 	 */
-	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		//	Order Delivered/Invoiced
@@ -885,8 +864,7 @@ public class MMatchPO extends X_M_MatchPO
 				BigDecimal tAmt = Env.ZERO;
 				for (int i = 0 ; i < mPO.length ; i++)
 				{
-					if (mPO[i].isPosted()
-						&& mPO[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID()
+					if (mPO[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID()
 						&& mPO[i].getM_MatchPO_ID() != get_ID())
 					{
 						BigDecimal qty = (isReturnTrx ? mPO[i].getQty().negate() : mPO[i].getQty()); 
@@ -900,14 +878,17 @@ public class MMatchPO extends X_M_MatchPO
 				tQty = tQty.add(isReturnTrx ? getQty().negate() : getQty());
 						
 				//	Different currency
-				String costingMethod = as.getCostingMethod();
 				if (oLine.getC_Currency_ID() != as.getC_Currency_ID())
 				{
 					MOrder order = oLine.getParent();
 					Timestamp dateAcct = order.getDateAcct();
+					//get costing method for product
+					MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+					String costingMethod = product.getCostingMethod(as);					
 					if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
 							MAcctSchema.COSTINGMETHOD_LastPOPrice.equals(costingMethod) )
 						dateAcct = inOut.getDateAcct(); 	//Movement Date
+					//
 					BigDecimal rate = MConversionRate.getRate(
 						order.getC_Currency_ID(), as.getC_Currency_ID(),
 						dateAcct, order.getC_ConversionType_ID(),
@@ -962,19 +943,23 @@ public class MMatchPO extends X_M_MatchPO
 					getC_OrderLine_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), get_TrxName());
 			if (cd != null)
 			{
-				BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
-				cd.setDeltaAmt(price.multiply(getQty().negate()));
-				cd.setDeltaQty(getQty().negate());
-				cd.setProcessed(false);
-				//
-				cd.setAmt(price.multiply(cd.getQty().subtract(getQty())));
-				cd.setQty(cd.getQty().subtract(getQty()));
-				if (!cd.isProcessed())
+				if (cd.getQty().compareTo(Env.ZERO) > 0)
 				{
-					MClient client = MClient.get(getCtx(), getAD_Client_ID());
-					if (client.isCostImmediate())
-						cd.process();
+					BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
+					cd.setDeltaAmt(price.multiply(getQty().negate()));
+					cd.setDeltaQty(getQty().negate());
+					cd.setProcessed(false);
+					//
+					cd.setAmt(price.multiply(cd.getQty().subtract(getQty())));
+					cd.setQty(cd.getQty().subtract(getQty()));
+					if (!cd.isProcessed())
+					{
+						MClient client = MClient.get(getCtx(), getAD_Client_ID());
+						if (client.isCostImmediate())
+							cd.process();
+					}
 				}
+				//after process clean-up
 				if (cd.getQty().compareTo(Env.ZERO) == 0)
 				{
 					cd.setProcessed(false);
