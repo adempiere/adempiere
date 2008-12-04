@@ -25,5 +25,7 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/jfreechart.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry kind="lib" path="/tools/lib/javaee.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
