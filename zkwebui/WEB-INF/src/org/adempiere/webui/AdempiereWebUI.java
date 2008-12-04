@@ -176,12 +176,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void logout()
     {
+    	appDesktop.logout();
+    	
     	MSession mSession = MSession.get(Env.getCtx(), false);
     	if (mSession != null) {
     		mSession.logout();
     	}
-    	
-    	appDesktop.logout();
     	
         SessionManager.clearSession();
         super.getChildren().clear();
