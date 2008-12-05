@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -39,6 +39,9 @@ import org.compiere.util.ValueNamePair;
  */
 public class MRefList extends X_AD_Ref_List
 {
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get Reference List 
 	 *	@param ctx context
@@ -55,11 +58,11 @@ public class MRefList extends X_AD_Ref_List
 	}	//	get
 
 	/**
-	 * 	Get Reference List Value Name (cached)
-	 *	@param ctx context
-	 *	@param AD_Reference_ID reference
-	 *	@param Value value
-	 *	@return List or null
+	 * Get Reference List Value Name (cached)
+	 * @param ctx context
+	 * @param AD_Reference_ID reference
+	 * @param Value value
+	 * @return List or ""
 	 */
 	public static String getListName (Properties ctx, int AD_Reference_ID, String Value)
 	{
@@ -91,18 +94,19 @@ public class MRefList extends X_AD_Ref_List
 		}
 		catch (SQLException ex)
 		{
-			s_log.log(Level.SEVERE, sql + " - " + key, ex);
+			s_log.log(Level.SEVERE, sql + " -- " + key, ex);
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-
+		
 		//	Save into Cache
 		if (retValue == null)
 		{
 			retValue = "";
-			s_log.warning("getListName - Not found " + key);
+			s_log.warning("Not found " + key);
 		}
 		s_cache.put(key, retValue);
 		//
@@ -110,13 +114,13 @@ public class MRefList extends X_AD_Ref_List
 	}	//	getListName
 
 	/**
-	 * 	Get Reference List Value Description (cached)
-	 *	@param ctx context
-	 *	@param ListName reference
-	 *	@param Value value
-	 *	@return List or null
+	 * Get Reference List Value Description (cached)
+	 * @param ctx context
+	 * @param ListName reference
+	 * @param Value value
+	 * @return List or null
 	 */
-	public String getListDescription (Properties ctx, String ListName, String Value)
+	public static String getListDescription (Properties ctx, String ListName, String Value)
 	{
 		String AD_Language = Env.getAD_Language(ctx);
 		String key = AD_Language + "_" + ListName + "_" + Value;
@@ -133,16 +137,14 @@ public class MRefList extends X_AD_Ref_List
 				+ " INNER JOIN AD_Ref_List r ON (r.AD_Ref_List_ID=t.AD_Ref_List_ID) "
 				+ " WHERE b.Name=? AND a.Value=?" 
 				+ " AND a.AD_Reference_ID = b.AD_Reference_ID AND t.AD_Language=?";
-		
-		log.info (sql);
-		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql,null);
 			pstmt.setString (1, ListName);
 			pstmt.setString(2, Value);			
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = rs.getString(1);
 			rs.close ();
@@ -151,23 +153,19 @@ public class MRefList extends X_AD_Ref_List
 		}
 		catch (SQLException ex)
 		{
-			log.info("getListDescription - " + sql + " - " + key+ ex);
+			s_log.log(Level.SEVERE, sql + " -- " + key, ex);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-			   pstmt.close ();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 
 		//	Save into Cache
 		if (retValue == null)
 		{
 			retValue = "";
-			log.info("getListDescription - Not found " + key);
+			s_log.info("getListDescription - Not found " + key);
 		}
 		s_cache.put(key, retValue);
 		//
@@ -229,7 +227,7 @@ public class MRefList extends X_AD_Ref_List
 	/**	Logger							*/
 	private static CLogger		s_log = CLogger.getCLogger (MRefList.class);
 	/** Value Cache						*/
-	private static CCache<String,String> s_cache = new CCache<String,String>("AD_Ref_List", 20);
+	private static CCache<String,String> s_cache = new CCache<String,String>(Table_Name, 20);
 
 
 	/**************************************************************************
