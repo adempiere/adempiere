@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.util.Env;
 
 
 /**
@@ -52,19 +54,19 @@ public class MShipper extends X_M_Shipper
 	}	//	MShipper
 	
 
-        /**
-         * @param ctx
-         * @param FreightCategory_ID
-         * @param trxName
-         * @return      A list of shippers having the given freight category
-         */
-        public static List<MShipper> getShippersForFreightCategory(Properties ctx, int FreightCategory_ID, String trxName) {
-            Query q = new Query(ctx, MShipper.Table_Name,
-                    "M_Shipper.AD_Client_ID=? and M_Shipper.AD_Org_ID in (0,?) and M_Shipper_ID " +
-                    "in (select M_Shipper_ID from M_Freight where M_FreightCategory_ID=?)", trxName);
-            q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx), FreightCategory_ID});
-            List<MShipper> result = q.list();
-            return(result);
-        }
+	/**
+	 * @param ctx
+	 * @param FreightCategory_ID
+	 * @param trxName
+	 * @return      A list of shippers having the given freight category
+	 */
+	public static List<MShipper> getShippersForFreightCategory(Properties ctx, int FreightCategory_ID, String trxName) {
+		Query q = new Query(ctx, MShipper.Table_Name,
+				"M_Shipper.AD_Client_ID=? AND M_Shipper.AD_Org_ID IN (0,?) AND M_Shipper_ID " +
+				"IN (SELECT M_Shipper_ID FROM M_Freight WHERE M_FreightCategory_ID=?)", trxName);
+		q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx), FreightCategory_ID});
+		List<MShipper> result = q.list();
+		return(result);
+	}
 
 }	//	MShipper
