@@ -207,7 +207,10 @@ public class WImageDialog extends Window implements EventListener
 		//  Save info
 		m_mImage.setName(fileName);
 		m_mImage.setImageURL(fileName);
-		m_mImage.setBinaryData(image.getContent().getByteData());
+		if (image.getContent() != null)
+			m_mImage.setBinaryData(image.getContent().getByteData());
+		else
+			m_mImage.setBinaryData(null);
 	}   //  cmd_file
 
 	/**
