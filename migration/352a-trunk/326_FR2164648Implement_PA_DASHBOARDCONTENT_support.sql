@@ -253,6 +253,11 @@ INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,C
 UPDATE AD_Column SET DefaultValue='@#AD_Org_ID@', IsMandatory='Y',Updated=TO_DATE('2008-11-19 16:49:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=51006
 ;
 
+-- Nov 19, 2008 3:55:41 PM SGT
+-- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
+ALTER TABLE PA_DashboardContent ADD ColumnNo NUMBER(10) DEFAULT 0
+;
+
 -- Nov 19, 2008 4:57:13 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
 INSERT INTO PA_DashboardContent (AD_Client_ID,AD_Org_ID,ColumnNo,Created,CreatedBy,Description,IsActive,Line,Name,PA_DashboardContent_ID,Updated,UpdatedBy,ZulFilePath) VALUES (0,0,0,TO_DATE('2008-11-19 16:57:08','YYYY-MM-DD HH24:MI:SS'),100,'Workflow activities, notices and requests','Y',0,'Activities',50000,TO_DATE('2008-11-19 16:57:08','YYYY-MM-DD HH24:MI:SS'),100,'/zul/activities.zul')
@@ -313,10 +318,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56469 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
 ;
 
--- Nov 19, 2008 3:55:41 PM SGT
--- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-ALTER TABLE PA_DashboardContent ADD ColumnNo NUMBER(10) DEFAULT 0
-;
 
 -- Nov 19, 2008 3:59:41 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
