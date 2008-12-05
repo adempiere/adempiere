@@ -142,7 +142,7 @@ public class GenerateModel
  		}
 		catch (Exception e)
 		{
-			log.severe("main - " + e);
+			log.log(Level.SEVERE, sql.toString(), e);
 		}
 		finally
 		{
