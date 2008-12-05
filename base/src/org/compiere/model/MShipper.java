@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.*;
 import java.util.*;
+import org.compiere.util.*;
 
 
 /**
@@ -50,4 +51,20 @@ public class MShipper extends X_M_Shipper
 		super(ctx, rs, trxName);
 	}	//	MShipper
 	
+
+        /**
+         * @param ctx
+         * @param FreightCategory_ID
+         * @param trxName
+         * @return      A list of shippers having the given freight category
+         */
+        public static List<MShipper> getShippersForFreightCategory(Properties ctx, int FreightCategory_ID, String trxName) {
+            Query q = new Query(ctx, MShipper.Table_Name,
+                    "M_Shipper.AD_Client_ID=? and M_Shipper.AD_Org_ID in (0,?) and M_Shipper_ID " +
+                    "in (select M_Shipper_ID from M_Freight where M_FreightCategory_ID=?)", trxName);
+            q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx), FreightCategory_ID});
+            List<MShipper> result = q.list();
+            return(result);
+        }
+
 }	//	MShipper
