@@ -14,15 +14,18 @@
 package org.adempiere.webui.editor;
 
 
-import org.adempiere.webui.component.Button;
+import java.util.logging.Level;
+
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WImageDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Image;
 
 /**
  * This class is based on org.compiere.grid.ed.VImage written by Jorg Janke.
@@ -35,7 +38,8 @@ public class WImageEditor extends WEditor
 {
     private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
-    private static final CLogger logger;
+    @SuppressWarnings("unused")
+	private static final CLogger logger;
     
     static
     {
@@ -48,24 +52,29 @@ public class WImageEditor extends WEditor
 	private String	m_columnName = "AD_Image_ID";
 	
     private boolean         m_mandatory;
+
+	private Object readWrite;
+
+	private boolean readwrite;
     
     /**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WImageEditor.class);
     
     public WImageEditor(GridField gridField)
     {
-        super(new Button(), gridField);
+        super(new Image(), gridField);
         init();
     }
 
     @Override
-    public Button getComponent() {
-    	return (Button) component;
+    public Image getComponent() {
+    	return (Image) component;
     }
     
     private void init()
     {
-        getComponent().setLabel("-");
+    	AImage img = null;
+        getComponent().setContent(img);
     }
 
      @Override
@@ -97,12 +106,16 @@ public class WImageEditor extends WEditor
     
     @Override
 	public boolean isReadWrite() {
-		return getComponent().isEnabled();
+		return readwrite;
 	}
 
 	@Override
 	public void setReadWrite(boolean readWrite) {
-		getComponent().setEnabled(readWrite);
+		this.readwrite = readWrite;
+		if (readWrite)
+			getComponent().setStyle("cursor: pointer; border: 1px solid;");
+		else
+			getComponent().setStyle("cursor: default; border: none;");
 	}
 
 	@Override
@@ -114,7 +127,8 @@ public class WImageEditor extends WEditor
 		if (newValue == 0)
 		{
 			m_mImage = null;
-			getComponent().setLabel("-");
+			AImage img = null;
+			getComponent().setContent(img);
 			return;
 		}
 		//  Get/Create Image
@@ -122,9 +136,15 @@ public class WImageEditor extends WEditor
 			m_mImage = MImage.get (Env.getCtx(), newValue);
 		//
 		log.fine(m_mImage.toString());
-		getComponent().setLabel(m_mImage.getName());
-		if (m_mImage.getDescription() != null)
-			getComponent().setTooltiptext(m_mImage.getDescription());
+		AImage img = null;
+		byte[] data = m_mImage.getData();
+		if (data != null && data.length > 0) {
+			try {
+				img = new AImage(null, data);				
+			} catch (Exception e) {		
+				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
+			}
+		}
     }
     
     @Override
@@ -135,20 +155,22 @@ public class WImageEditor extends WEditor
 
 	public void onEvent(Event event) throws Exception 
 	{
-		if (Events.ON_CLICK.equals(event.getName()))
+		if (Events.ON_CLICK.equals(event.getName()) && readwrite)
 		{
 			WImageDialog vid = new WImageDialog(m_mImage);
-			int AD_Image_ID = vid.getAD_Image_ID();
-			Object oldValue = getValue();
-			Integer newValue = null;
-			if (AD_Image_ID != 0)
-				newValue = new Integer (AD_Image_ID);
-			//
-			m_mImage = null;	//	force reload
-			setValue(newValue);	//	set explicitly
-			//
-			ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), oldValue, newValue);
-			fireValueChange(vce);
+			if (!vid.isCancel()) {
+				int AD_Image_ID = vid.getAD_Image_ID();
+				Object oldValue = getValue();
+				Integer newValue = null;
+				if (AD_Image_ID != 0)
+					newValue = new Integer (AD_Image_ID);
+				//
+				m_mImage = null;	//	force reload
+				setValue(newValue);	//	set explicitly
+				//
+				ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), oldValue, newValue);
+				fireValueChange(vce);
+			}
 		}
 	}
 }

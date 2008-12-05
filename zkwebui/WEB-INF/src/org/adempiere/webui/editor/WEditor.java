@@ -30,9 +30,11 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Image;
 
 /**
  *
@@ -438,9 +440,17 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
         			String zclass = btn.getZclass();
-        			if (!zclass.contains("form-button ")) {
+        			if (gridField.getDisplayType() == DisplayType.Image) {
+        				if (!zclass.contains("image-button-field ")) {
+            				btn.setZclass("image-button-field " + zclass);
+        				}
+        			} else if (!zclass.contains("form-button ")) {
         				btn.setZclass("form-button " + zclass);
         			}
+        		} else if (getComponent() instanceof Image) {
+        			Image image = (Image) getComponent();
+        			image.setWidth("48px");
+        			image.setHeight("48px");
         		} else {
         			((HtmlBasedComponent)getComponent()).setWidth(width);
         		}

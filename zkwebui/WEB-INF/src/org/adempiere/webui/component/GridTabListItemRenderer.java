@@ -37,10 +37,10 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.NamePair;
-import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
@@ -138,7 +138,7 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 				editor.addValueChangeListener(dataBinder);
 			}
 			cell.appendChild(editor.getComponent());
-			if (editor.getComponent() instanceof Checkbox) {
+			if (editor.getComponent() instanceof Checkbox || editor.getComponent() instanceof Image) {
 				cell.setStyle("text-align:center");
 			}
 			else if (DisplayType.isNumeric(gridField.getDisplayType())) {
@@ -155,22 +155,7 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
             }
             
             //streach component to fill grid cell
-            if (editor.getComponent() instanceof HtmlBasedComponent) {
-            	//can't stretch bandbox & datebox
-            	if (!(editor.getComponent() instanceof Bandbox) && 
-            		!(editor.getComponent() instanceof Datebox)) {
-            		String width = "100%";    
-            		if (editor.getComponent() instanceof Button) {
-            			Button btn = (Button) editor.getComponent();
-            			String zclass = btn.getZclass();
-            			if (!zclass.contains("form-button ")) {
-            				btn.setZclass("form-button " + zclass);
-            			}
-            		} else {
-            			((HtmlBasedComponent)editor.getComponent()).setWidth(width);
-            		}
-            	}
-            }
+            editor.fillHorizontal();
 		}
 		
 		return cell;

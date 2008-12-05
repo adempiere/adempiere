@@ -98,7 +98,8 @@ public class WImageDialog extends Window implements EventListener
 	private Label fileLabel = new Label();
 	private Button fileButton = new Button();
 	private Image image = new Image();
-	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
+	private ConfirmPanel confirmPanel = new ConfirmPanel(true,false,true,false,false,false);
+	private boolean cancel = false;
 
 	/**
 	 *  Static Init
@@ -147,18 +148,31 @@ public class WImageDialog extends Window implements EventListener
 		if (e.getTarget() == fileButton)
 			cmd_file();
 
-		else if (e.getTarget().getId().equals("Ok"))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
 			if (m_mImage.save())
 				detach();
 			else
 				FDialog.error(-1, "Failed to save image");
 		}
-		else if (e.getTarget().getId().equals("Cancel"))
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
-			m_mImage = null;	//	reset
+			cancel = true;
 			detach();
 		}
+		else if (e.getTarget().getId().equals(ConfirmPanel.A_RESET))
+		{
+			m_mImage = null;
+			AImage img = null;
+			image.setContent(img);
+		}
+	}
+	
+	/**
+	 * @return true if dialog cancel by user
+	 */
+	public boolean isCancel() {
+		return cancel;
 	}
 	
 	/**
