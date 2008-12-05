@@ -73,7 +73,7 @@ public class MReplenish extends X_M_Replenish {
      */
     public static List<MReplenish> getForProduct(Properties ctx, int M_ProductID, String trxName) {
     	String whereClause= "M_Product_ID=? AND AD_Client_ID=? AND AD_Org_ID IN (0, ?) ";         
-    	return new Query(ctx, Table_Name, whereClause, trxName)
+    	return new Query(ctx, MReplenish.Table_Name, whereClause, trxName)
     	.setParameters(new Object[]{M_ProductID, Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx)})
     	.setOrderBy("AD_Org_ID")
     	.setOnlyActiveRecords(true)
