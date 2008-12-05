@@ -269,7 +269,9 @@ public class WButtonEditor extends WEditor
 		if (Events.ON_CLICK.equals(event.getName()))
 		{
 			ActionEvent actionEvent = new ActionEvent(this, getColumnName(), Events.ON_CLICK);
-			for (ActionListener evtListener : actionListeners)
+			ActionListener[] listeners = new ActionListener[0];
+			listeners = actionListeners.toArray(listeners);
+			for (ActionListener evtListener : listeners)
 			{
 				evtListener.actionPerformed(actionEvent);
 			}

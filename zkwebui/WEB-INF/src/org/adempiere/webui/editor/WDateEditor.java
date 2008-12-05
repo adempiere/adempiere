@@ -38,7 +38,8 @@ import org.zkoss.zk.ui.event.Events;
 public class WDateEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
-    private static final CLogger logger;
+    @SuppressWarnings("unused")
+	private static final CLogger logger;
     
     static
     {

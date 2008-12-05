@@ -71,6 +71,17 @@ public class WImageDialog extends Window implements EventListener
 		//  load data
 		if (m_mImage == null)
 			m_mImage = MImage.get (Env.getCtx(), 0);
+		else
+		{
+			try {
+				AImage aImage = new AImage(m_mImage.getName(), m_mImage.getData());
+				
+				image.setContent(aImage);
+			} catch (Exception e) {
+				log.log(Level.WARNING, "load image", e);
+			}
+		}
+		
 		fileButton.setLabel(m_mImage.getName());
 //		imageLabel.setIcon(m_mImage.getIcon());
 		AEnv.showCenterScreen(this);
@@ -172,7 +183,6 @@ public class WImageDialog extends Window implements EventListener
 		}
 
 		String fileName = imageFile.getName();
-		byte[] data = null;
 		
 		//  See if we can load & display it
 		try
@@ -197,7 +207,7 @@ public class WImageDialog extends Window implements EventListener
 		//  Save info
 		m_mImage.setName(fileName);
 		m_mImage.setImageURL(fileName);
-		m_mImage.setBinaryData(data);
+		m_mImage.setBinaryData(image.getContent().getByteData());
 	}   //  cmd_file
 
 	/**
