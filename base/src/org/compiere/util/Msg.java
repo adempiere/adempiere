@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.*;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
 
 /**
  *	Reads all Messages and stores them in a HashMap
@@ -142,7 +146,8 @@ public final class Msg
 			s_log.log(Level.SEVERE, "initMsg", e);
 			return null;
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
@@ -165,11 +170,11 @@ public final class Msg
 			return;
 
 		//  clear all languages
-		Iterator iterator = m_languages.values().iterator();
+		Iterator<CCache<String, String>> iterator = m_languages.values().iterator();
 		while (iterator.hasNext())
 		{
-			HashMap hm = (HashMap)iterator.next();
-			hm.clear();
+			CCache<String, String> hm = iterator.next();
+			hm.reset();
 		}
 		m_languages.clear();
 	}   //  reset
@@ -227,7 +232,7 @@ public final class Msg
 		if (text.equals("CopyRight"))
 			return Adempiere.COPYRIGHT;
 		//
-		HashMap langMap = getMsgMap(AD_Language);
+		CCache<String, String> langMap = getMsgMap(AD_Language);
 		if (langMap == null)
 			return null;
 		return (String)langMap.get(text);
@@ -404,7 +409,7 @@ public final class Msg
 		try
 		{
 			className += language.getLanguageCode().toUpperCase();
-			Class clazz = Class.forName(className);
+			Class<?> clazz = Class.forName(className);
 			AmtInWords aiw = (AmtInWords)clazz.newInstance();
 			return aiw.getAmtInWords(amount);
 		}
@@ -504,7 +509,8 @@ public final class Msg
 			s_log.log(Level.SEVERE, "getElement", e);
 			return "";
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
