@@ -27,6 +27,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
@@ -111,14 +112,13 @@ public class MHRProcess extends X_HR_Process implements DocAction {
      * 	Set Processed.
      *	@param processed processed
      */
-    public void setProcessed(boolean processed) {
+    public void setProcessed(boolean processed)
+    {
         super.setProcessed(processed);
         if (get_ID() == 0)
             return;
-        String set = "SET Processed='"
-        	+ (processed ? "Y" : "N")
-        	+ "' WHERE HR_Process_ID=" + getHR_Process_ID();
-        int noLine = DB.executeUpdate("UPDATE HR_Process " + set , get_TrxName());
+        final String sql = "UPDATE HR_Process SET Processed=? WHERE HR_Process_ID=?";
+        DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
     }	//	setProcessed
     
     
@@ -126,19 +126,21 @@ public class MHRProcess extends X_HR_Process implements DocAction {
      * 	before Save
      * 	Create lines From concept payment
      */    
-    protected boolean beforeSave(boolean newRecord) {
-        if (getAD_Client_ID() == 0) {
-            m_processMsg = "AD_Client_ID = 0";
-            return false;
+    protected boolean beforeSave(boolean newRecord)
+    {
+        if (getAD_Client_ID() == 0)
+		{
+            throw new AdempiereException("@AD_Client_ID@ = 0");
         }
-        if (getAD_Org_ID() == 0) {
+        if (getAD_Org_ID() == 0)
+		{
             int context_AD_Org_ID = Env.getAD_Org_ID(getCtx());
-            if (context_AD_Org_ID == 0) {
-                m_processMsg = "AD_Org_ID = 0";
-                return false;
+            if (context_AD_Org_ID == 0)
+			{
+            	throw new AdempiereException("@AD_Org_ID@ = *");
             }
             setAD_Org_ID(context_AD_Org_ID);
-            log.warning("beforeSave - Changed Org to Context=" + context_AD_Org_ID);
+            log.warning("Changed Org to Context=" + context_AD_Org_ID);
         }
         setC_DocType_ID(getC_DocTypeTarget_ID());
         
@@ -198,10 +200,9 @@ public class MHRProcess extends X_HR_Process implements DocAction {
  		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		org.compiere.model.MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
-
+		
 		//	Std Period open?
-		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), dt.getDocBaseType());
+		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), getC_DocTypeTarget_ID());
 		
 		//	New or in Progress/Invalid
 		if (   DOCSTATUS_Drafted.equals(getDocStatus()) 
@@ -236,23 +237,20 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 			Env.setContext(Env.getCtx(), "_To", period.getEndDate());				
 		}
 	
-		// RE-Process, delete movement exept concept type Incidence 
+		// RE-Process, delete movement except concept type Incidence 
 		int delete = DB.executeUpdate("DELETE FROM HR_Movement m WHERE HR_Process_ID = " +getHR_Process_ID()+ " AND IsRegistered != 'Y' ", get_TrxName());
 		log.info("info HR_Movement deleted = "+ delete + " records");
-		// Concepts
+		
 		linesConcept = MHRPayrollConcept.getPayrollConcepts(this);
-		// Employees 
-		linesEmployee = new MHREmployee(Env.getCtx(),0,get_TrxName()).getEmployees(this);
+		linesEmployee = MHREmployee.getEmployees(this);
 		//
 		int count = 1;
 		for(MBPartner bp: linesEmployee)	//=============================================================== Employee
 		{
 			log.info("Employee " + count + "  ---------------------- " + bp.getName());
 			count++;
-			m_bpartner             = bp.getC_BPartner_ID();
-			int employee_ID=0;
-			employee_ID        = DB.getSQLValue(get_TrxName(), "SELECT HR_Employee_ID FROM HR_Employee WHERE  HR_Employee.IsActive='Y' AND 	C_BPartner_ID="+m_bpartner);
-			X_HR_Employee employee = new X_HR_Employee(Env.getCtx(),employee_ID,get_TrxName());
+			m_bpartner = bp.getC_BPartner_ID();
+			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_bpartner, get_TrxName());
 			//Env.setContext(Env.getCtx(), "_DateBirth", employee.getDateBirth());
 			Env.setContext(Env.getCtx(), "_DateStart", employee.getStartDate());
 			Env.setContext(Env.getCtx(), "_DateEnd", employee.getEndDate() == null ? "2999-12-31 00:00:00 0.0" : employee.getEndDate().toString());
@@ -275,8 +273,12 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 				 		 + " AND att.isActive ='Y'"
 				 		 + " AND EXISTS (SELECT * FROM HR_Concept conc WHERE conc.HR_Concept_ID = att.HR_Concept_ID )";
 				if (concept.isEmployee())
+				{
 					attSql += " AND att.C_BPartner_ID = " + employee.getC_BPartner_ID();
+					attSql += " AND (att.HR_Employee_ID =" + employee.get_ID() + " OR att.HR_Employee_ID IS NULL)";
+				}
 
+				attSql += " ORDER BY att.ValidFrom DESC";
 				m_attribute = DB.getSQLValue(get_TrxName(),attSql);
 				if (m_attribute < 0 || concept.isRegistered())
 				{
@@ -284,10 +286,9 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 					continue;
 				}
 				MHRAttribute att =  new MHRAttribute(Env.getCtx(),m_attribute,get_TrxName());
-			
+				log.info("Concept - " + concept.getName());
 				if(!concept.getType().equals(MHRConcept.TYPE_RuleEngine)) // Not Rule Engine - Only put HashTable
 				{
-					log.info("Concept - " + concept.getName());
 					MHRMovement movement = new MHRMovement (Env.getCtx(), 0, get_TrxName());
 					movement.setQty(att.getQty()); 
 					movement.setAmount(att.getAmount());
@@ -307,7 +308,7 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 					movement.setIsRegistered(concept.isRegistered());
 					movement.setC_Activity_ID(employee.getC_Activity_ID());
 					movement.setProcessed(true);
-					m_movement.put(new Integer(m_concept), movement);
+					m_movement.put(m_concept, movement);
 				}
 				else												// Rule Engine, Process and put HashTable
 				{
@@ -372,20 +373,20 @@ public class MHRProcess extends X_HR_Process implements DocAction {
 					movement.setIsRegistered(concept.isRegistered());
 					movement.setC_Activity_ID(employee.getC_Activity_ID());
 					movement.setProcessed(true);
-					m_movement.put(new Integer(m_concept), movement);
+					m_movement.put(m_concept, movement);
 				} // Attribute Rule Engine
 			} // concept
 
 			
 			for (MHRPayrollConcept pc: linesConcept)
 			{
-				MHRMovement m =  m_movement.get(new Integer(pc.getHR_Concept_ID()));
-				MHRConcept  c = new MHRConcept(Env.getCtx(),pc.getHR_Concept_ID(),get_TrxName());
+				MHRMovement m = m_movement.get(pc.getHR_Concept_ID());
 				if(m == null)
 					continue;
+				MHRConcept  c = MHRConcept.get(getCtx(), pc.getHR_Concept_ID());
 				if( !c.isRegistered() &&
-						(m.getQty().signum() > 0
-						|| m.getAmount().signum() > 0
+						(m.getQty().signum() >= 0
+						|| m.getAmount().signum() >= 0
 						|| !Util.isEmpty(m.getTextMsg()))
 					)
 				{	

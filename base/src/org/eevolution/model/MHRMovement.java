@@ -30,6 +30,8 @@ import org.compiere.util.DB;
  */
 public class MHRMovement extends X_HR_Movement
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -51,17 +53,6 @@ public class MHRMovement extends X_HR_Movement
 	{
 		super(ctx, rs, trxName);
 	}	// End Load Constructor	
-
-	/**
-	 * 	Before Save
-	 *	@param newRecord
-	 *	@return true
-	 */
-/*	protected boolean beforeSave (boolean newRecord)
-	{
-		return true;
-	}	//	beforeSave*/
-	
 	
 	/**
 	 * 	Get Employee's of Payroll Type
@@ -119,6 +110,7 @@ public class MHRMovement extends X_HR_Movement
 	 * 	@param sqlwhere Clause SQLWhere
 	 * 	@return lines
 	 */
+	@Deprecated
 	public MHRMovement[] getMovementOk (int HR_Process_ID)
 	{
 		ArrayList<MHRMovement> list = new ArrayList<MHRMovement>();

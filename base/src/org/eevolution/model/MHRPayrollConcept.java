@@ -16,13 +16,11 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.Query;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  *	Payroll Concept for HRayroll Module
@@ -73,25 +71,18 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 
 	/**
 	 * 	Get Concept's of Payroll Type
-	 * 	@param payroll: payroll Type
-	 *  @param sqlWhere: clausule SQL Where
-	 * 	@return array Concept
+	 * 	@param p HR process
+	 * 	@return array of HR concepts
 	 */
 	public static MHRPayrollConcept[] getPayrollConcepts (MHRProcess p)
 	{
-		StringBuffer whereClause = new StringBuffer();
-		List<Object> params = new ArrayList<Object>();
-		
-		whereClause.append("IsActive='Y' AND HR_Payroll_ID=?");
-		params.add(p.getHR_Payroll_ID());
-		
-		List<MHRPayrollConcept> list = new Query(Env.getCtx(), Table_Name, whereClause.toString(), null)
-												.setParameters(params)
+		List<MHRPayrollConcept> list = new Query(p.getCtx(), Table_Name, COLUMNNAME_HR_Payroll_ID+"=?", null)
+												.setOnlyActiveRecords(true)
+												.setParameters(new Object[]{p.getHR_Payroll_ID()})
 												.setOrderBy(COLUMNNAME_SeqNo)
-												.list();
-		
+												.list();	
 		return list.toArray(new MHRPayrollConcept[list.size()]);
-	}	//	getConcept
+	}
 
 	public MHRConcept getConcept()
 	{

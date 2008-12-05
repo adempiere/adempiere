@@ -15,29 +15,115 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
 import org.compiere.util.Env;
 
 
 /**
- *	Invoice Line Model
+ * HR Employee Model
  *
- *  @version $Id: MInvoiceLine.java,v 1.54 2005/05/29 06:34:11 jjanke Exp $
+ * @author Victor Perez
+ * @author Cristina Ghita, www.arhipac.ro
  */
 public class MHREmployee extends X_HR_Employee //--
 {
+	private static final long serialVersionUID = 1L;
 	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MHREmployee.class);
+	public static MHREmployee get(Properties ctx, int HR_Employee_ID)
+	{
+		if (HR_Employee_ID <= 0)
+			return null;
+		//
+		MHREmployee employee = s_cache.get(HR_Employee_ID);
+		if (employee != null)
+			return employee;
+		//
+		employee = new MHREmployee(ctx, HR_Employee_ID, null);
+		if (employee.get_ID() != HR_Employee_ID)
+		{
+			employee = null;
+		}
+		else
+		{
+			s_cache.put(HR_Employee_ID, employee);
+		}
+		return employee; 
+	}
+	
+	/**
+	 * 	Get Employees of Process
+	 *  @param p HR Process
+	 * 	@return Array of Business Partners
+	 */
+	public static MBPartner[] getEmployees (MHRProcess p)
+	{
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		whereClause.append(" EXISTS (SELECT 1 FROM HR_Employee e WHERE e.C_BPartner_ID = C_BPartner.C_BPartner_ID ");
+		
+		// Just active employee
+		whereClause.append(" AND e.IsActive=? ");
+		params.add(true);
 
+		
+		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0) // this payroll not content periods, NOT IS a Regular Payroll    > ogi-cd 28Nov2007
+		{
+			whereClause.append(" AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=?) " );
+			params.add(p.getHR_Payroll_ID());
+		}
+		
+		if(p.getHR_Period_ID() != 0)
+		{
+			whereClause.append(" AND e.StartDate <=? ");
+			params.add(new X_HR_Period(p.getCtx(), p.getHR_Period_ID(), null).getEndDate());
+		}
+		else
+		{
+			whereClause.append(" AND e.StartDate <=? ");
+			params.add(p.getDateAcct());
+		}
+		
+		if (p.getHR_Department_ID() != 0) // Selected Department 
+		{
+			whereClause.append(" AND e.HR_Department_ID =? ");
+			params.add(p.getHR_Department_ID());
+		}
+		
+		whereClause.append(" ) "); // end select from HR_Employee
+		
+		if (p.getC_BPartner_ID() != 0 )   // Selected Employee
+		{
+			whereClause.append(" AND C_BPartner_ID =? ");
+			params.add(p.getC_BPartner_ID());
+		}
+		
+		List<MBPartner> list = new Query(p.getCtx(), MBPartner.Table_Name, whereClause.toString(), p.get_TrxName())
+								.setParameters(params)
+								.setOnlyActiveRecords(true)
+								.setOrderBy(COLUMNNAME_Name)
+								.list();
+
+		return list.toArray(new MBPartner[list.size()]);
+	}	//	getEmployees
+	
+	public static MHREmployee getActiveEmployee(Properties ctx, int C_BPartner_ID, String trxName)
+	{
+		return new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
+							.setOnlyActiveRecords(true)
+							.setParameters(new Object[]{C_BPartner_ID})
+							.setOrderBy(COLUMNNAME_HR_Employee_ID+" DESC") // just in case...
+							.first();
+	}
+
+	/** Cache */
+	private static CCache<Integer, MHREmployee> s_cache = new CCache<Integer, MHREmployee>(Table_Name, 1000);
 	
 	/**************************************************************************
 	 * 	Invoice Line Constructor
@@ -63,63 +149,4 @@ public class MHREmployee extends X_HR_Employee //--
 	{
 		super(ctx, rs, trxName);
 	}	//	MHREmployee
-
-	
-	
-	/**
-	 * 	Get Employee's of Payroll Type
-	 *  @param payroll Payroll ID
-	 *  @param department Department ID
-	 *  @param employee Employee ID
-	 * 	@param sqlwhere Clause SQLWhere
-	 * 	@return lines
-	 */
-	public MBPartner[] getEmployees (MHRProcess p) //, String columnSql) //int process, int payroll, int period, int department, int employee,String columnsql)
-	{
-		log.log(Level.INFO,"period: " +p.getHR_Period_ID()+ ", payroll: " +p.getHR_Payroll_ID()+ ", department: " +p.getHR_Department_ID()+ ", employee: " + p.getC_BPartner_ID());
-		ArrayList<MBPartner> list = new ArrayList<MBPartner>();
-		String sql = "SELECT bp.C_BPartner_ID FROM C_BPartner bp  INNER JOIN HR_Employee e ON(e.C_BPartner_ID=bp.C_BPartner_ID)" +
-					 	 " WHERE  bp.IsActive = 'Y' AND e.IsActive = 'Y'";
-		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0) // this payroll not content periods, NOT IS a Regular Payroll    > ogi-cd 28Nov2007
-			sql += " AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=" + p.getHR_Payroll_ID() + ") ";
-		if(p.getHR_Period_ID() != 0)
-			sql += " AND e.StartDate <= " + DB.TO_DATE(new X_HR_Period(Env.getCtx(),p.getHR_Period_ID(),null).getEndDate());
-			else
-				sql += " AND e.StartDate <= " + p.getDateAcct();
-		if (p.getHR_Department_ID() != 0 ) // Department Selected
-			sql += " AND e.HR_Department_ID = " + p.getHR_Department_ID();
-		if (p.getC_BPartner_ID() != 0 )   // Employee Selected
-			sql += " AND bp.C_BPartner_ID = " + p.getC_BPartner_ID();
-		sql += " ORDER BY bp.Name";
-
-		s_log.log(Level.INFO, sql);
-		PreparedStatement pstmt = null;
-		try	{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MBPartner Employee = new MBPartner(getCtx(), rs.getInt("C_BPartner_ID"), get_TrxName());
-				list.add(Employee);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getEmployee's", e);
-		}
-		finally
-		{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			}catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		MBPartner[] linesEmployee = new MBPartner[list.size()];
-		list.toArray(linesEmployee);
-		return linesEmployee;
-	}	//	getEmployees
 }	//	MHREmployee
