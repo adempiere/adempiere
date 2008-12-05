@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,23 +16,44 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.math.*;
-import java.net.*;
-import java.sql.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.math.BigDecimal;
+import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.RepaintManager;
+import javax.swing.SwingUtilities;
 
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.model.MClient;
+import org.compiere.model.MLookupCache;
+import org.compiere.model.MRole;
+import org.compiere.model.MSession;
+import org.compiere.model.PO;
+import org.compiere.swing.CFrame;
 
 
 /**
@@ -41,9 +62,10 @@ import org.compiere.swing.*;
  *  @author     Jorg Janke
  *  @version    $Id: Env.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 1619390 ] Use default desktop browser as external browser
  * 			<li>BF [ 2017987 ] Env.getContext(TAB_INFO) should NOT use global context
+ * 			<li>FR [ 2392044 ] Introduce Env.WINDOW_MAIN
  */
 public final class Env
 {
@@ -166,6 +188,8 @@ public final class Env
 	/**************************************************************************
 	 *  Application Context
 	 */
+	/** WindowNo for Main           */
+	public static final int     WINDOW_MAIN = 0;
 	/** WindowNo for Find           */
 	public static final int     WINDOW_FIND = 1110;
 	/** WinowNo for MLookup         */
@@ -299,7 +323,6 @@ public final class Env
 	{
 		if (ctx == null || context == null)
 			return;
-		boolean logit = WindowNo != WINDOW_FIND && WindowNo != WINDOW_MLOOKUP;
 		if (value == null)
 		{
 			ctx.remove(WindowNo+"|"+context);
@@ -924,7 +947,7 @@ public final class Env
 		if (ctx != null)
 		{
 			String lang = getContext(ctx, LANGUAGE);
-			if (lang != null || lang.length() > 0)
+			if (!Util.isEmpty(lang))
 				return lang;
 		}
 		return Language.getBaseAD_Language();
@@ -940,7 +963,7 @@ public final class Env
 		if (ctx != null)
 		{
 			String lang = getContext(ctx, LANGUAGE);
-			if (lang != null || lang.length() > 0)
+			if (!Util.isEmpty(lang))
 				return Language.getLanguage(lang);
 		}
 		return Language.getBaseLanguage();
@@ -1037,7 +1060,7 @@ public final class Env
 	{
 		if (ctx == null)
 			throw new IllegalArgumentException ("Require Context");
-		Iterator keyIterator = ctx.keySet().iterator();
+		Iterator<?> keyIterator = ctx.keySet().iterator();
 		String[] sList = new String[ctx.size()];
 		int i = 0;
 		while (keyIterator.hasNext())
