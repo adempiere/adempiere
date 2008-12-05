@@ -90,6 +90,20 @@ public class MProduct extends X_M_Product
 	
 	
 	/**
+         *      Get MProduct using UPC/EAN (case sensitive)
+         *      @param  ctx     Context
+         *      @param  upc     The upc to look for
+         *      @return List of MProduct
+         *
+         */
+        public static List<MProduct> getByUPC(Properties ctx, String upc, String trxName) {
+            String whereClause = "AD_Client_ID=? AND UPC=?";
+            Query q = new Query(ctx, Table_Name, whereClause, trxName);
+            q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), upc});
+            return(q.list());
+        }
+
+	/**
 	 * 	Is Product Stocked
 	 * 	@param ctx context
 	 *	@param M_Product_ID id
