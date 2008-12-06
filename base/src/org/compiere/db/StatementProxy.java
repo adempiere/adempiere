@@ -13,6 +13,7 @@
 package org.compiere.db;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -94,7 +95,14 @@ public class StatementProxy implements InvocationHandler {
 		}
 		
 		Method m = p_stmt.getClass().getMethod(name, method.getParameterTypes());
-		return m.invoke(p_stmt, args);
+		try
+		{
+			return m.invoke(p_stmt, args);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw DB.getSQLException(e);
+		}
 	}
 	
 	/**

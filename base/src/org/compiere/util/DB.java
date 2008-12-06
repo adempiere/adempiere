@@ -1803,7 +1803,7 @@ public final class DB
 	 * @param e Exception
 	 * @return SQLException if found or provided exception elsewhere
 	 */
-    private static Exception getSQLException(Exception e)
+    public static Exception getSQLException(Exception e)
     {
     	Throwable e1 = e;
     	while (e1 != null)
