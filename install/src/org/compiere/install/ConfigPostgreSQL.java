@@ -72,10 +72,10 @@ public class ConfigPostgreSQL extends Config
 	{
 		//	Database Server
 		String server = p_data.getDatabaseServer();
-	boolean pass = server != null && server.length() > 0
-			// vpj-cd e-evolution && server.toLowerCase().indexOf("localhost") == -1                        
-			// vpj-cd e-evolution && !server.equals("127.0.0.1");
-                        ;
+		boolean pass = server != null && server.length() > 0;
+		// vpj-cd e-evolution && server.toLowerCase().indexOf("localhost") == -1                        
+		// vpj-cd e-evolution && !server.equals("127.0.0.1");
+                        
 		String error = "Not correct: DB Server = " + server;
 		InetAddress databaseServer = null;
 		try
@@ -156,28 +156,6 @@ public class ConfigPostgreSQL extends Config
 		setProperty(ConfigurationData.ADEMPIERE_DB_USER, databaseUser);
 		setProperty(ConfigurationData.ADEMPIERE_DB_PASSWORD, databasePassword);
 
-		/**
-		//	TNS Name Info
-		String sqlplus = "sqlplus system/" + systemPassword + "@" + databaseName
-			+ " @utils/oracle/Test.sql";
-		log.config(sqlplus);
-		pass = testSQL(sqlplus);
-		error = "Error connecting via: " + sqlplus;
-		signalOK(getPanel().okDatabaseSQL, "ErrorTNS", 
-			pass, true, error);
-		if (pass)
-			log.info("OK: Database SQL Connection");
-		
-		//	OCI Test
-		url = "jdbc:oracle:oci8:@" + databaseName;
-		pass = testJDBC(url, "system", systemPassword);
-		if (pass)
-			log.info("OK: Connection = " + url);
-		else
-			log.warning("Cannot connect via Net8: " + url);
-		setProperty(ConfigurationData.COMPIERE_DB_TNS, databaseName);
-		
-		**/
 		return null;
 	}	//	test
 	
@@ -192,6 +170,7 @@ public class ConfigPostgreSQL extends Config
 	{
 		try
 		{
+			@SuppressWarnings("unused")
 			Connection conn = p_db.getDriverConnection(url, uid, pwd);
 		}
 		catch (Exception e)
