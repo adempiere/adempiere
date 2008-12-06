@@ -265,7 +265,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			}
 			else
 			{
-				p_posPanel.f_status.setStatusLine("Order not fully pay.");
+				p_posPanel.f_status.setStatusLine("Order not fully paid.");
 			}
 		}
 		//	Cash (Payment)

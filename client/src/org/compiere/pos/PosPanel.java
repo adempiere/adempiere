@@ -339,13 +339,11 @@ public class PosPanel extends CPanel
 	 */
 	public void openQuery (CPanel panel)
 	{
-		if (panel.equals(f_cashfunctions))
-		{
 			f_bpartner.setVisible(false);
 			f_salesRep.setVisible(false);
 			f_curLine.setVisible(false);
 			f_product.setVisible(false);
-		}
+
 		f_checkout.setVisible(false);
 //		f_basicKeys.setVisible(false);  removed by ConSerTi upon not appreciating its functionality
 		f_lines.setVisible(false);
@@ -386,7 +384,7 @@ public class PosPanel extends CPanel
 	 */
 	public void newOrder()
 	{
-		log.info( "PosPabel.newOrder");
+		log.info( "PosPanel.newOrder");
 		f_bpartner.setC_BPartner_ID(0);
 		f_curLine.newOrder();
 		f_curLine.newLine();
