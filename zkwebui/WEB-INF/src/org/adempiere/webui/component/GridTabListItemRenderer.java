@@ -54,6 +54,7 @@ import org.zkoss.zul.ListitemRendererExt;
  */
 public class GridTabListItemRenderer implements ListitemRenderer, ListitemRendererExt {
 
+	private static final int MAX_TEXT_LENGTH = 60;
 	private GridTab gridTab;
 	private int windowNo;
 	private GridTabDataBinder dataBinder;
@@ -98,10 +99,18 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 					cell.setStyle("text-align:center");
 					createReadonlyCheckbox(values[i], cell);
 				} else {
-					cell = new Listcell(getDisplayText(values[i], i), null);
+					String text = getDisplayText(values[i], i);
+					String display = text;
+					if (text != null && text.length() > MAX_TEXT_LENGTH)
+						display = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
+					cell = new Listcell(display, null);
 					cell.setParent(listitem);
+					if (text != null && text.length() > MAX_TEXT_LENGTH)
+						cell.setTooltiptext(text);
 					if (DisplayType.isNumeric(gridField[i].getDisplayType())) {
 						cell.setStyle("text-align:right");
+					} else if (gridField[i].getDisplayType() == DisplayType.Image) {
+						cell.setStyle("text-align:center");
 					}
 				}
 			}
@@ -256,6 +265,17 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
     	else if (DisplayType.isNumeric(gridField[columnIndex].getDisplayType()))
     	{
     		return DisplayType.getNumberFormat(gridField[columnIndex].getDisplayType()).format(value);
+    	}
+    	else if (DisplayType.Button == gridField[columnIndex].getDisplayType())
+    	{
+    		return "";
+    	}
+    	else if (DisplayType.Image == gridField[columnIndex].getDisplayType())
+    	{
+    		if (value == null || (Integer)value <= 0)
+    			return "";
+    		else
+    			return "...";
     	}
     	else
     		return value.toString();

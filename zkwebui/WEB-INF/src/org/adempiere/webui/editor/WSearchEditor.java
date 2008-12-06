@@ -523,11 +523,6 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
             if (queryValue.length() == 0 && getComponent().getText().length() > 0)
                 queryValue = getComponent().getText();
 
-			boolean isSOTrx = true;     //  default
-
-			if (Env.getContext(Env.getCtx(), lookup.getWindowNo(), "IsSOTrx").equals("N"))
-				isSOTrx = false;
-
 			InfoPanel ig = InfoPanel.create(lookup.getWindowNo(), m_tableName,m_keyColumnName,queryValue, false, whereClause);
 			ig.setVisible(true);
 			ig.setStyle("border: 2px");

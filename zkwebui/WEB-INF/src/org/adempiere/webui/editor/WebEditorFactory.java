@@ -36,7 +36,8 @@ import org.compiere.util.DisplayType;
 public class WebEditorFactory
 {
 
-    private final static CLogger logger;
+    @SuppressWarnings("unused")
+	private final static CLogger logger;
     
     static
     {
@@ -126,9 +127,7 @@ public class WebEditorFactory
                 displayType == DisplayType.Table || displayType == DisplayType.List
                 || displayType == DisplayType.ID )
         {
-            boolean integralValue = (displayType == DisplayType.TableDir || displayType == DisplayType.ID); 
             editor = new WTableDirEditor(gridField);
-            
         }
                    
         else if (displayType == DisplayType.URL)

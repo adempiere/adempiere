@@ -17,8 +17,6 @@
 
 package org.adempiere.webui.editor;
 
-import java.net.URL;
-
 import org.adempiere.webui.component.Urlbox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.FDialog;
@@ -96,7 +94,6 @@ public class WUrlEditor extends WEditor
 			{
 				try
                 {
-                    URL url = new URL(urlString);
                     Env.startBrowser(urlString);
                     return;
                 }

@@ -105,13 +105,11 @@ public class WButtonEditor extends WEditor
         if (columnName.equals("PaymentRule"))
         {
             readReference(195);
-//            this.setForeground(Color.blue);
             getComponent().setImage("/images/Payment16.png");    //  29*14
         }
         else if (columnName.equals("DocAction"))
         {
             readReference(135);
-//            this.setForeground(Color.blue);
             getComponent().setImage("/images/Process16.png");    //  16*16
         }
         else if (columnName.equals("CreateFrom"))
@@ -126,7 +124,6 @@ public class WButtonEditor extends WEditor
         else if (columnName.equals("Posted"))
         {
             readReference(234);
-//            this.setForeground(Color.magenta);
             getComponent().setImage("/images/InfoAccount16.png");    //  16*16
         }
         
@@ -207,7 +204,7 @@ public class WButtonEditor extends WEditor
 		getComponent().setEnabled(readWrite);
 	}
 
-	public HashMap getValues()
+	public HashMap<String, String> getValues()
     {
     	return m_values;
     }	//	getValues

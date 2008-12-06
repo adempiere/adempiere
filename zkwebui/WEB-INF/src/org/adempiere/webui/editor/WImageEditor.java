@@ -38,7 +38,6 @@ public class WImageEditor extends WEditor
 {
     private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
-    @SuppressWarnings("unused")
 	private static final CLogger logger;
     
     static
@@ -48,12 +47,8 @@ public class WImageEditor extends WEditor
     
     /** The Image Model         */
 	private MImage  m_mImage = null;
-	/** Column Name             */
-	private String	m_columnName = "AD_Image_ID";
 	
-    private boolean         m_mandatory;
-
-	private Object readWrite;
+    private boolean m_mandatory;
 
 	private boolean readwrite;
     
@@ -145,6 +140,7 @@ public class WImageEditor extends WEditor
 				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 			}
 		}
+		getComponent().setContent(img);
     }
     
     @Override

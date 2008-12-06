@@ -19,7 +19,6 @@ package org.adempiere.webui.editor;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.logging.Level;
 
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.event.ValueChangeEvent;

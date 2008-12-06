@@ -138,14 +138,12 @@ public class LoginPanel extends Window implements EventListener
 
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
-        txtUserId.setConstraint("no empty");
         txtUserId.setCols(25);
         txtUserId.setMaxlength(40);
         txtUserId.setWidth("220px");
 
         txtPassword = new Textbox();
         txtPassword.setId("txtPassword");
-        txtPassword.setConstraint("no empty");
         txtPassword.setType("password");
         txtPassword.setCols(25);
         txtPassword.setMaxlength(40);
