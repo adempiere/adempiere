@@ -255,7 +255,12 @@ UPDATE AD_Column SET DefaultValue='@#AD_Org_ID@', IsMandatory='Y',Updated=TO_DAT
 
 -- Nov 19, 2008 3:55:41 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-ALTER TABLE PA_DashboardContent ADD ColumnNo NUMBER(10) DEFAULT 0
+ALTER TABLE PA_DashboardContent ADD ColumnNo NUMBER(10) DEFAULT 1
+;
+
+-- Nov 19, 2008 4:00:41 PM SGT
+-- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
+ALTER TABLE PA_DashboardContent ADD ZulFilePath NVARCHAR2(255)
 ;
 
 -- Nov 19, 2008 4:57:13 PM SGT
@@ -339,11 +344,6 @@ INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Refe
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=56470 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
 ;
 
--- Nov 19, 2008 4:00:41 PM SGT
--- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-ALTER TABLE PA_DashboardContent ADD ZulFilePath NVARCHAR2(255)
-;
-
 -- Nov 19, 2008 4:01:04 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,Description,DisplayLength,EntityType,Help,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,56469,56485,0,50010,TO_DATE('2008-11-19 16:01:03','YYYY-MM-DD HH24:MI:SS'),100,'Dashboard content column number',14,'D','Dashboard content column number, not used by the swing client at the moment.','Y','Y','Y','N','N','N','N','N','Column No',TO_DATE('2008-11-19 16:01:03','YYYY-MM-DD HH24:MI:SS'),100)
@@ -407,10 +407,5 @@ UPDATE AD_Field SET DisplayLength=255,Updated=TO_DATE('2008-11-19 16:01:54','YYY
 -- Nov 19, 2008 4:09:07 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
 UPDATE AD_Column SET DefaultValue='1',Updated=TO_DATE('2008-11-19 16:09:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=56469
-;
-
--- Nov 19, 2008 4:09:12 PM SGT
--- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-ALTER TABLE PA_DashboardContent MODIFY ColumnNo NUMBER(10) DEFAULT 1
 ;
 
