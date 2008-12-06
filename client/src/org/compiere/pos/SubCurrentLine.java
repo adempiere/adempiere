@@ -294,8 +294,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			int numLineas = lineas.length;
 			if (numLineas > row)
 			{
-				//delete line from order
-//illegal!		lineas[row].setQtyReserved(Env.ZERO); //red1 - [2093355 ] Small bugs in OpenXpertya POS
+				//delete line from order - true only when DRAFT is not PREPARE-IT()
 				lineas[row].delete(true);
 				for (int i = row; i < (numLineas - 1); i++)
 					lineas[i] = lineas[i + 1];

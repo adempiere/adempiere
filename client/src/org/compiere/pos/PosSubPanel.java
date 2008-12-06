@@ -14,16 +14,20 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Properties;
 
-import javax.swing.*;
+import javax.swing.KeyStroke;
 
-import org.compiere.swing.*;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.apps.AppsAction;
+import org.compiere.model.MPOS;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CPanel;
+import org.compiere.util.Env;
 
 /**
  *	POS Sub Panel Base Class.

@@ -14,15 +14,23 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.border.*;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import org.compiere.model.MPOSKey;
+import org.compiere.model.MPOSKeyLayout;
+import org.compiere.print.MPrintColor;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**

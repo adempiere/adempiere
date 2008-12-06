@@ -14,19 +14,28 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MOrder;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.process.DocAction;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Checkout Sub Panel
@@ -76,10 +85,6 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 */
 	public void init()
 	{
-		//	Title
-		TitledBorder border = new TitledBorder(Msg.getMsg(Env.getCtx(), "Checkout"));
-		setBorder(border);
-		
 		//	Content
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -91,7 +96,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = .1;
 		CPanel cash = new CPanel(new GridBagLayout());
-		cash.setBorder(new TitledBorder(Msg.getMsg(Env.getCtx(), "Cash")));
+		cash.setBackground(java.awt.Color.lightGray);
+		cash.setBorder(new TitledBorder(Msg.getMsg(Env.getCtx(), "Checkout")));
 		gbc.gridy = 0;
 		add (cash, gbc);
 		GridBagConstraints gbc0 = new GridBagConstraints();
