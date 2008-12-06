@@ -16,17 +16,23 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.math.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Synchronize Column with Database
  *	
- *  @author Victor P�rez, Jorg Janke
+ *  @author Victor Perez, Jorg Janke
  *  @version $Id: ColumnSync.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
 public class ColumnSync extends SvrProcess
@@ -77,14 +83,14 @@ public class ColumnSync extends SvrProcess
 			String catalog = DB.getDatabase().getCatalog();
 			String schema = DB.getDatabase().getSchema();
 			String tableName = table.getTableName();
-			if (DB.isOracle())
+			if (md.storesUpperCaseIdentifiers())
+			{
 				tableName = tableName.toUpperCase();
-	                
-	                // begin vpj-cd e-evolution 08/01/2005 PostgreSQL
-	                if (DB.isPostgreSQL())                
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
 				tableName = tableName.toLowerCase();
-	                // end vpj-cd e-evolution 08/01/2005 PostgreSQL 
-	                
+			}
 			int noColumns = 0;
 			String sql = null;
 			//
