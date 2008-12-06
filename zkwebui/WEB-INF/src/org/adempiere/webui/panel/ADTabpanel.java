@@ -475,7 +475,17 @@ DataStatusListener, IADTabpanel
         
         //  Selective
         if (col > 0)
-        	return;
+        {
+            GridField changedField = gridTab.getField(col);
+            String columnName = changedField.getColumnName();
+            ArrayList<?> dependants = gridTab.getDependantFields(columnName);
+            logger.config("(" + gridTab.toString() + ") "
+                + columnName + " - Dependents=" + dependants.size());
+            if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+            {
+                return;
+            }
+        }
 
         boolean noData = gridTab.getRowCount() == 0;
         logger.config(gridTab.toString() + " - Rows=" + gridTab.getRowCount());
