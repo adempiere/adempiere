@@ -33,7 +33,7 @@ find . -name '*.sh' -exec chmod a+x '{}' \;
 
 # Sign database build
 cd utils
-. RUN_SignDatabaseBuild.sh > /dev/null 2>&1
+. RUN_SignDatabaseBuild.sh 
 
 . RUN_UnixEnv.sh
 
