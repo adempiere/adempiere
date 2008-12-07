@@ -35,7 +35,7 @@ public class SignDatabaseBuild
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (SignDatabaseBuild.class);
 
-	public static void main(String[] args) throws Exception 
+	public static void main(String[] args) 
 	{
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.FINE);
@@ -52,7 +52,7 @@ public class SignDatabaseBuild
 			updateStmt.executeUpdate();
 
 		} catch (Exception ex) {
-			throw ex;
+			ex.printStackTrace();
 		} finally {
 			DB.close(updateStmt);
 		}
