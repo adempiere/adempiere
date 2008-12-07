@@ -50,7 +50,7 @@ public class MImage extends X_AD_Image
 		if (retValue != null)
 			return retValue;
 		retValue = new MImage (ctx, AD_Image_ID, null);
-		if (retValue.get_ID () != 0)
+		if (retValue.get_ID () != 0 && Ini.isClient())
 			s_cache.put (key, retValue);
 		return retValue;
 	} //	get
