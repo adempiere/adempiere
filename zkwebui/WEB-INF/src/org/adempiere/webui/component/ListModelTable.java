@@ -244,14 +244,14 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	 * Set the number of rows in the table and initialise new rows.
 	 * For each new row, an empty collection of the size specified by
 	 * {@link #setNoColumns(int)} is created.
-	 * Please note that the number of rows in a table cannot be decreased.
 	 * @param rowCount	The number of rows to be contained in the table
 	 */
 	public void setNoRows(int rowCount)
 	{
 		List<Object> newRow = null;
 		
-		if (rowCount >= getSize())
+		int currentSize = getSize();
+		if (rowCount >= currentSize)
 		{
 			boolean vector = (getInnerList() instanceof Vector) ? true : false;
 			while (getSize() < rowCount)
@@ -275,7 +275,7 @@ public class ListModelTable extends ListModelList implements ListModelExt
 		}
 		else
 		{
-			throw new IllegalArgumentException("The ListModelTable cannot be shrunk");
+			removeRange(rowCount, currentSize);
 		}
 	}
 

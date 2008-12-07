@@ -27,10 +27,12 @@ import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.DesktopTabpanel;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
-import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanels;
@@ -102,6 +104,8 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 			south.appendChild(statusBar);
 			LayoutUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");
+			
+			executeQuery();
 		}
 		catch(Exception ex)
 		{
@@ -117,7 +121,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	//
 	private Tabbox tabbedPane = new Tabbox();
 	private Borderlayout selPanel = new Borderlayout();
-	private Panel selNorthPanel = new Panel();
+	private Grid selNorthPanel = GridFactory.newGridLayout();
 	private Label lWarehouse = new Label();
 	private WTableDirEditor fWarehouse;
 	private Label lBPartner = new Label();
@@ -171,12 +175,13 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		North north = new North();
 		selPanel.appendChild(north);
 		north.appendChild(selNorthPanel);
-		selNorthPanel.appendChild(lWarehouse);
-		selNorthPanel.appendChild(fWarehouse.getComponent());
-		selNorthPanel.appendChild(new Space());
-		selNorthPanel.appendChild(lBPartner);
-		selNorthPanel.appendChild(fBPartner.getComponent());
-		selNorthPanel.appendChild(new Space());
+		Row row = selNorthPanel.newRows().newRow();
+		row.appendChild(lWarehouse.rightAlign());
+		row.appendChild(fWarehouse.getComponent());
+		row.appendChild(new Space());
+		row.appendChild(lBPartner.rightAlign());
+		row.appendChild(fBPartner.getComponent());
+		row.appendChild(new Space());
 		
 		South south = new South();
 		selPanel.appendChild(south);
@@ -207,8 +212,10 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		south.appendChild(confirmPanelGen);
 		confirmPanelGen.addActionListener(this);
 		
-		selNorthPanel.appendChild(lDocType);
-		selNorthPanel.appendChild(cmbDocType);
+		row = new Row();
+		selNorthPanel.getRows().appendChild(row);
+		row.appendChild(lDocType.rightAlign());
+		row.appendChild(cmbDocType);
 	}	//	jbInit
 
 	/**

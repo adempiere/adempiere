@@ -38,14 +38,12 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.SelectEvent;
 import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
-import org.zkoss.zul.impl.NumberInputElement;
 
 /**
  * Renderer for {@link org.adempiere.webui.component.ListItems}
@@ -61,7 +59,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             new ArrayList<TableValueChangeListener>();
 
 	/** A list containing the indices of the currently selected ListItems. */
-	private Set m_selectedItems = new HashSet<ListItem>();
+	private Set<ListItem> m_selectedItems = new HashSet<ListItem>();
 	/**	Array of table details. */
 	private ArrayList<WTableColumn> m_tableColumns = new ArrayList<WTableColumn>();
 	/** Array of {@link ListHeader}s for the list head. */
@@ -542,55 +540,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		int row = -1;
 		Object value = null;
 		TableValueChangeEvent vcEvent = null;
-		Set newlyUnselectedItems = new HashSet<Listitem>();
-		Set newlySelectedItems = new HashSet<Listitem>();
 		WTableColumn tableColumn;
 
 		Component source = event.getTarget();
 
-		if (source instanceof WListbox)
-		{
-			if (event instanceof SelectEvent)
-			{
-				col = 0;
-				tableColumn = m_tableColumns.get(col);
-
-				newlyUnselectedItems.addAll(m_selectedItems);
-				newlyUnselectedItems.removeAll(((SelectEvent)event).getSelectedItems());
-
-				newlySelectedItems.addAll(((SelectEvent)event).getSelectedItems());
-				newlySelectedItems.removeAll(m_selectedItems);
-
-				m_selectedItems.clear();
-				m_selectedItems.addAll(((SelectEvent)event).getSelectedItems());
-
-				for (Object item : newlySelectedItems)
-				{
-					row =((ListItem)item).getIndex();
-					value = Boolean.TRUE;
-					vcEvent = new TableValueChangeEvent(source,
-														tableColumn.getHeaderValue().toString(),
-														row, col,
-														value, value);
-					fireTableValueChange(vcEvent);
-				}
-
-
-				for (Object item : newlyUnselectedItems)
-				{
-					row =((ListItem)item).getIndex();
-					value = Boolean.FALSE;
-					vcEvent = new TableValueChangeEvent(source,
-														tableColumn.getHeaderValue().toString(),
-														row, col,
-														value, value);
-
-					fireTableValueChange(vcEvent);
-				}
-			}
-		}
-
-		else if (isWithinListCell(source))
+		if (isWithinListCell(source))
 		{
 			row = getRowPosition(source);
 			col = getColumnPosition(source);

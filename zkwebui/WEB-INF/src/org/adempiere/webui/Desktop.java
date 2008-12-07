@@ -936,7 +936,7 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 			Tabpanel panel = (Tabpanel) windowContainer.getSelectedTab().getLinkedPanel();
 			Component component = panel.getFirstChild();
 			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
-			if (att != null && (att instanceof Integer))
+			
 			if ( windowContainer.closeActiveWindow() )
 			{
 				if (att != null && (att instanceof Integer))
