@@ -552,8 +552,11 @@ public class MRP extends SvrProcess
 						break;
 					}
 				}
-				if(C_BPartner_ID == 0)
+				if(C_BPartner_ID <= 0)
+				{
+					createMRPNote("MRP-130", 0, product);
 					m_product_planning.setIsCreatePlan(false);
+				}
 			}
 			if (product.isBOM())
 			{	
