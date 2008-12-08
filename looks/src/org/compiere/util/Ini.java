@@ -52,17 +52,18 @@ import org.compiere.model.ModelValidationEngine;
  *	Load & Save INI Settings fopm property file
  *	Initiated in Adempiere.startup
  *	Settings activated in ALogin.getIni
- * <p>
- * Change log:
- * <ul>
- * <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
- * </ul>
  * 
  *  @author     Jorg Janke
  *  @version    $Id$
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 1658127 ] Select charset encoding on import
+ * 			<li>FR [ 2406123 ] Ini.saveProperties fails if target directory does not exist
  */
 public final class Ini implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	/** Property file name				*/
 	public static final String	ADEMPIERE_PROPERTY_FILE = "Adempiere.properties";
 
@@ -256,6 +257,7 @@ public final class Ini implements Serializable
 			try
 			{
 				File f = new File(fileName);
+				f.getParentFile().mkdirs(); // Create all dirs if not exist - teo_sarca FR [ 2406123 ]
 				fos = new FileOutputStream(f);
 				s_prop.store(fos, "Adempiere");
 				fos.flush();
