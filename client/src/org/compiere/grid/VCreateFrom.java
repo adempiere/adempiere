@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.TableModelEvent;
@@ -217,6 +218,8 @@ public abstract class VCreateFrom extends CDialog
 	protected JComboBox invoiceField = new JComboBox();
 	protected JLabel shipmentLabel = new JLabel();
 	protected JComboBox shipmentField = new JComboBox();
+    protected JLabel upcLabel = new JLabel();
+    protected JTextField upcField = new JTextField();
 	private JScrollPane dataPane = new JScrollPane();
 	private CPanel southPanel = new CPanel();
 	private BorderLayout southLayout = new BorderLayout();
@@ -276,6 +279,7 @@ public abstract class VCreateFrom extends CDialog
     	rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
     	sameWarehouseCb.setText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", true));
     	sameWarehouseCb.setToolTipText(Msg.getMsg(Env.getCtx(), "FromSameWarehouseOnly", false));
+        upcLabel.setText(Msg.getElement(Env.getCtx(), "UPC", false));
     	documentTypeLabel.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
     	tenderTypeLabel.setText(Msg.translate(Env.getCtx(), "TenderType"));
 
@@ -384,6 +388,13 @@ public abstract class VCreateFrom extends CDialog
     			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
     	parameterStdPanel.add(sameWarehouseCb, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
     			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+        if (this instanceof VCreateFromShipment) {
+            parameterStdPanel.add(upcLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+                    ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+            parameterStdPanel.add(upcField, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+                    ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+        }
+
 
     	// Add RMA document selection to panel
     	parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0
@@ -648,7 +659,7 @@ public abstract class VCreateFrom extends CDialog
 				line.add(qtyEntered);  //  1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
-				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
+                                pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
 				line.add(rs.getString(7));				// 4-VendorProductNo
 				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));

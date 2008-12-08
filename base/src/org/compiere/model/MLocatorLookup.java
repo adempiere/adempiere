@@ -41,6 +41,7 @@ import org.compiere.util.NamePair;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1892920 ] Locators fieldshould be ordered by Warehouse/Value
+ *              <li>FR [ 2306161 ] Removed limit of 200 on max number of locators.
  */
 public final class MLocatorLookup extends Lookup implements Serializable
 {
@@ -70,8 +71,6 @@ public final class MLocatorLookup extends Lookup implements Serializable
 
 	/** Storage of data  MLookups		*/
 	private volatile LinkedHashMap<Integer,MLocator> m_lookup = new LinkedHashMap<Integer,MLocator>();
-	/** Max Locators per Lookup			*/
-	private static int			s_maxRows = 200;	//	how many rows to read
 
 	/**
 	 *  Dispose
@@ -356,12 +355,6 @@ public final class MLocatorLookup extends Lookup implements Serializable
 				//
 				while (rs.next())
 				{
-					//	Max out
-					if (rows++ > s_maxRows)
-					{
-						log.warning("Over Max Rows - " + rows);
-						break;
-					}
 					MLocator loc = new MLocator(m_ctx, rs, null);
 					int M_Locator_ID = loc.getM_Locator_ID();
 					m_lookup.put(new Integer(M_Locator_ID), loc);
