@@ -300,30 +300,30 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && 
 				getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
 		{
-				for(MPPOrderBOMLine line : getLines())
-				{
-					line.deleteEx(true);
-				}
-				MPPOrderBOM bom = getMPPOrderBOM();
-				if(bom != null)
-					bom.deleteEx(true, get_TrxName());
-				
-				MPPOrderWorkflow PP_Order_Workflow = getMPPOrderWorkflow();
-				if (PP_Order_Workflow != null)
+			for(MPPOrderBOMLine line : getLines())
+			{
+				line.deleteEx(true);
+			}
+			MPPOrderBOM bom = getMPPOrderBOM();
+			if(bom != null)
+				bom.deleteEx(true, get_TrxName());
+
+			MPPOrderWorkflow PP_Order_Workflow = getMPPOrderWorkflow();
+			if (PP_Order_Workflow != null)
+			{	
+				PP_Order_Workflow.setPP_Order_Node_ID(0);
+				PP_Order_Workflow.saveEx();
+				for(MPPOrderNode node : PP_Order_Workflow.getNodes(true, getAD_Client_ID()))
 				{	
-					PP_Order_Workflow.setPP_Order_Node_ID(0);
-					PP_Order_Workflow.saveEx();
-					for(MPPOrderNode node : PP_Order_Workflow.getNodes(true, getAD_Client_ID()))
-					{	
-						for(MPPOrderNodeNext next : node.getTransitions(getAD_Client_ID()))
-						{
-							next.deleteEx(true);
-						}
-						node.deleteEx(true);
-					}		
-					PP_Order_Workflow.deleteEx(true);
-				}	
-				explotion();
+					for(MPPOrderNodeNext next : node.getTransitions(getAD_Client_ID()))
+					{
+						next.deleteEx(true);
+					}
+					node.deleteEx(true);
+				}		
+				PP_Order_Workflow.deleteEx(true);
+			}	
+			explotion();
 		}
 		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && !getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
 		{

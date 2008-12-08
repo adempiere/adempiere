@@ -180,7 +180,9 @@ public class MPPMRP extends X_PP_MRP
 		
 		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO) || !o.isSOTrx())
 		{		
-			if((o.getDocStatus().equals(MOrder.DOCSTATUS_InProgress) || o.getDocStatus().equals(MOrder.DOCSTATUS_Completed)) || !o.isSOTrx())
+			if((o.getDocStatus().equals(MOrder.DOCSTATUS_InProgress)
+					|| o.getDocStatus().equals(MOrder.DOCSTATUS_Completed))
+					|| !o.isSOTrx())
 			{
 				for(MOrderLine line : o.getLines())
 				{
@@ -580,7 +582,7 @@ public class MPPMRP extends X_PP_MRP
 	{	
 		final String sql = "SELECT SUM(bomQtyOnHand (M_Product_ID,?,0)) AS OnHand FROM M_Product"
 							+" WHERE AD_Client_ID=? AND M_Product_ID=?";
-		BigDecimal QtyOnHand = DB.getSQLValueBD(trxName, sql, new Object[]{M_Warehouse_ID,Env.getAD_Client_ID(ctx),M_Product_ID});
+		BigDecimal QtyOnHand = DB.getSQLValueBDEx(trxName, sql, new Object[]{M_Warehouse_ID,Env.getAD_Client_ID(ctx),M_Product_ID});
 		if (QtyOnHand == null)
 			QtyOnHand = Env.ZERO;
 		return QtyOnHand;
@@ -599,7 +601,7 @@ public class MPPMRP extends X_PP_MRP
 	{
     	StringBuffer  sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP=? AND DocStatus IN ('IN','CO')");
     	sql.append(" AND OrderType IN ('SOO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{MPPMRP.TYPEMRP_Demand,Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
+		BigDecimal qty = DB.getSQLValueBDEx(trxName, sql.toString(), new Object[]{MPPMRP.TYPEMRP_Demand,Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;
@@ -633,7 +635,7 @@ public class MPPMRP extends X_PP_MRP
 	{
     	StringBuffer sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP='S' AND DocStatus IN ('IN','CO')");	
 		sql.append(" AND OrderType IN ('POO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBD(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
+		BigDecimal qty = DB.getSQLValueBDEx(trxName, sql.toString(), new Object[]{Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;
@@ -667,7 +669,7 @@ public class MPPMRP extends X_PP_MRP
 		//
 		final String sql = "SELECT MAX("+MProduct.COLUMNNAME_LowLevel+") FROM M_Product"
 							+" WHERE AD_Client_ID=? AND "+MProduct.COLUMNNAME_LowLevel+" IS NOT NULL";                      
-		int LowLevel = DB.getSQLValue(trxName, sql, AD_Client_ID);
+		int LowLevel = DB.getSQLValueEx(trxName, sql, AD_Client_ID);
 		return LowLevel + 1;
 	}
 

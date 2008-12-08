@@ -99,8 +99,8 @@ public class MRP extends SvrProcess
 	private int DocTypeMO = 0; 
 	private int DocTypeDO = 0;
 	
-	private static CCache<String ,Integer				>   dd_order_id_cache 	= new CCache<String,Integer>(MDDOrder.COLUMNNAME_DD_Order_ID, 50);
-	private static CCache<Integer,MBPartner				>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
+	private static CCache<String ,Integer>   dd_order_id_cache 	= new CCache<String,Integer>(MDDOrder.COLUMNNAME_DD_Order_ID, 50);
+	private static CCache<Integer,MBPartner>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
 
 
 
@@ -583,7 +583,7 @@ public class MRP extends SvrProcess
 										AD_Client_ID, AD_Org_ID,
 										m_product_planning.getM_Warehouse_ID()
 		};
-		QtyScheduledReceipts = DB.getSQLValueBD(null, "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
+		QtyScheduledReceipts = DB.getSQLValueBDEx(null, "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
 		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable = 'N' WHERE "+whereClause, params, get_TrxName());
 		log.info("QtyScheduledReceipts :" + QtyScheduledReceipts);
 
@@ -615,10 +615,11 @@ public class MRP extends SvrProcess
 
 		QtyNetReqs = ((QtyScheduledReceipts).add(QtyProjectOnHand)).subtract(QtyGrossReqs);
 
-		log.info("             Planning Data :" + product.getName() + " Create Plan:" + m_product_planning.isCreatePlan() + " OrderPlan:" + QtyPlanned);
+		m_product_planning.dump();
+		log.info("                    Product:" + product.getName());
 		log.info(" Demand Date Start Schedule:" + DemandDateStartSchedule);
-		log.info("     Delivery Time Promised:" + m_product_planning.getDeliveryTime_Promised());
 		log.info("           DatePromisedFrom:" + DatePromisedFrom + " DatePromisedTo:" +   DatePromisedTo);    
+		log.info("                Qty Planned:" + QtyPlanned);
 		log.info("     Qty Scheduled Receipts:" + QtyScheduledReceipts);
 		log.info("           QtyProjectOnHand:" + QtyProjectOnHand);
 		log.info("               QtyGrossReqs:" + QtyGrossReqs);
@@ -696,6 +697,10 @@ public class MRP extends SvrProcess
 				else if (product.isBOM())
 				{
 					createPPOrder(AD_Org_ID,PP_MPR_ID, product, DemandDateStartSchedule);
+				}
+				else
+				{
+					// TODO: throw error ?
 				}
 			} // end for oqf
 		}       
@@ -970,16 +975,17 @@ public class MRP extends SvrProcess
 		String key = AD_Org_ID+"#"+M_Warehouse_ID+"#"+M_Shipper_ID+"#"+C_BPartner_ID+"#"+DatePromised+"DR";
 		Integer order_id = dd_order_id_cache.get(key.toString());
 		if ( order_id == null)
-		{	
-			 order_id = DB.getSQLValue(get_TrxName(), "SELECT DD_Order_ID FROM DD_Order WHERE AD_Org_ID=? AND M_Warehouse_ID=? AND M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?", 
-					 new Object[]{	AD_Org_ID,
-				 					M_Warehouse_ID,
-				 					M_Shipper_ID,
-				 					C_BPartner_ID,
-				 					DatePromised,
-				 					"DR"});
-			 if(order_id > 0)
-				 dd_order_id_cache.put(key,order_id);
+		{
+			String sql = "SELECT DD_Order_ID FROM DD_Order WHERE AD_Org_ID=? AND M_Warehouse_ID=? AND M_Shipper_ID = ? AND C_BPartner_ID=? AND DatePromised=? AND DocStatus=?";
+			order_id = DB.getSQLValueEx(get_TrxName(), sql, 
+				new Object[]{	AD_Org_ID,
+								M_Warehouse_ID,
+								M_Shipper_ID,
+								C_BPartner_ID,
+								DatePromised,
+								MDDOrder.DOCSTATUS_Drafted });
+			if(order_id > 0)
+				dd_order_id_cache.put(key,order_id);
 		}
 		return order_id;
 	}
