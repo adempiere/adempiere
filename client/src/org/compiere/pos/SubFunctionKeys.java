@@ -114,6 +114,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 		{
 			CButton button = new CButton("");
 			button.setFocusable(false);
+			button.setBackground(Color.cyan);
 			content.add (button);
 		}
 		content.setPreferredSize(new Dimension(cols*180, rows*50));

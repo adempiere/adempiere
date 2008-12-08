@@ -32,6 +32,7 @@ import org.compiere.process.DocAction;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -47,6 +48,11 @@ import org.compiere.util.Msg;
  */
 public class SubCheckout extends PosSubPanel implements ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
@@ -70,6 +76,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	private CTextField f_creditCardVV = null;
 	private CButton f_creditPayment = null;
 */
+	private CLabel f_lDocumentNo = null;
+	private CTextField f_DocumentNo;
 	private CLabel f_lcashGiven = null;
 	private VNumber f_cashGiven;
 	private CLabel f_lcashReturn = null;
@@ -104,10 +112,15 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		gbc0.insets = INSETS2;
 //		gbc0.anchor = GridBagConstraints.EAST;
 		//
+		f_lDocumentNo = new CLabel(Msg.getMsg(Env.getCtx(),"DocumentNo"));
+		cash.add (f_lDocumentNo, gbc0);
+		f_DocumentNo = new CTextField("");
+		f_DocumentNo.setName("DocumentNo");
+		cash.add (f_DocumentNo, gbc0);
 		f_lcashGiven = new CLabel(Msg.getMsg(Env.getCtx(),"CashGiven"));
 		cash.add (f_lcashGiven, gbc0);
 		f_cashGiven = new VNumber("CashGiven", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "CashGiven"));
-		f_cashGiven.setColumns(14, 25);
+		f_cashGiven.setColumns(12, 25);
 		cash.add (f_cashGiven, gbc0);
 		f_cashGiven.setValue(Env.ZERO);
 		f_cashGiven.addActionListener(this);  //to update the change with the money
@@ -115,7 +128,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		f_lcashReturn = new CLabel(Msg.getMsg(Env.getCtx(),"CashReturn"));
 		cash.add (f_lcashReturn, gbc0);
 		f_cashReturn = new VNumber("CashReturn", false, true, false, DisplayType.Amount, "CashReturn");
-		f_cashReturn.setColumns(10, 25);
+		f_cashReturn.setColumns(8, 25);
 		cash.add (f_cashReturn, gbc0);
 		f_cashReturn.setValue(Env.ZERO);
 		f_cashPayment = createButtonAction("Payment", null);
@@ -251,8 +264,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			if (isOrderFullyPay())
 			{
 				displaySummary();
-				printTicket();
 				processOrder();
+				printTicket();
 				openCashDrawer();
 			}
 			else
@@ -398,12 +411,15 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	public void displayReturn()
 	{
 		BigDecimal given = new BigDecimal(f_cashGiven.getValue().toString());
-		if (p_posPanel != null && p_posPanel.f_curLine != null)
+ 		if (p_posPanel != null && p_posPanel.f_curLine != null)
 		{
 			MOrder order = p_posPanel.f_curLine.getOrder();
 			BigDecimal total = new BigDecimal(0);
-			if (order != null && !order.getTotalLines().equals(Env.ZERO))
+			if (order != null)
+				{
+  				f_DocumentNo.setText(order.getDocumentNo());
 				total = order.getGrandTotal();
+				}				
 			double cashReturn = given.doubleValue() - total.doubleValue();
 			f_cashReturn.setValue(new BigDecimal(cashReturn));
 		}
