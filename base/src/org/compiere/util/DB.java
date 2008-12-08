@@ -825,6 +825,8 @@ public final class DB
 			pstmt.setTimestamp(index, (Timestamp)param);
 		else if (param instanceof Boolean)
 			pstmt.setString(index, ((Boolean)param).booleanValue() ? "Y" : "N");
+		else
+			throw new DBException("Unknown parameter type "+index+" - "+param);
 	}
 
 	/**
@@ -1130,9 +1132,10 @@ public final class DB
      * @param trxName trx
      * @param sql sql
      * @param params array of parameters
-     * @return first value or -1
+     * @return first value or -1 if not found
+     * @throws DBException if there is any SQLException
      */
-    public static int getSQLValue (String trxName, String sql, Object... params)
+    public static int getSQLValueEx (String trxName, String sql, Object... params) throws DBException
     {
     	int retValue = -1;
     	PreparedStatement pstmt = null;
@@ -1147,9 +1150,9 @@ public final class DB
     		else
     			log.info("No Value " + sql);
     	}
-    	catch (Exception e)
+    	catch (SQLException e)
     	{
-    		log.log(Level.SEVERE, sql, getSQLException(e));
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1159,6 +1162,27 @@ public final class DB
     	return retValue;
     }
 
+    /**
+     * Get int Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or -1 if not found or error
+     */
+    public static int getSQLValue (String trxName, String sql, Object... params)
+    {
+    	int retValue = -1;
+    	try
+    	{
+    		retValue = getSQLValueEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, getSQLException(e));
+    	}
+    	return retValue;
+    }
+	
     /**
      * Get int Value from sql
      * @param trxName trx
@@ -1226,9 +1250,10 @@ public final class DB
      * @param trxName trx
      * @param sql sql
      * @param params array of parameters
-     * @return first value or null
+     * @return first value or null if not found
+     * @throws DBException if there is any SQLException
      */
-    public static BigDecimal getSQLValueBD (String trxName, String sql, Object... params)
+    public static BigDecimal getSQLValueBDEx (String trxName, String sql, Object... params) throws DBException
     {
     	BigDecimal retValue = null;
     	PreparedStatement pstmt = null;
@@ -1243,9 +1268,10 @@ public final class DB
     		else
     			log.info("No Value " + sql);
     	}
-    	catch (Exception e)
+    	catch (SQLException e)
     	{
-    		log.log(Level.SEVERE, sql, getSQLException(e));
+    		//log.log(Level.SEVERE, sql, getSQLException(e));
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1254,6 +1280,27 @@ public final class DB
     	}
     	return retValue;
     }
+    
+    /**
+     * Get BigDecimal Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static BigDecimal getSQLValueBD (String trxName, String sql, Object... params)
+    {
+    	try
+    	{
+    		return getSQLValueBDEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, getSQLException(e));
+    	}
+    	return null;
+    }
+
 
     /**
      * Get BigDecimal Value from sql

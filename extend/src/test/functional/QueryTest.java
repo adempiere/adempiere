@@ -10,6 +10,8 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.model.MTable;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
@@ -17,20 +19,25 @@ import test.AdempiereTestCase;
  * Test {@link org.compiere.model.Query} class
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class QueryTest extends AdempiereTestCase {
-	
-	public void testQuery_NoTable() throws Exception {
+public class QueryTest extends AdempiereTestCase
+{	
+	public void testQuery_NoTable() throws Exception
+	{
 		boolean exThrowed = false;
-		try {
+		try
+		{
 			new Query(getCtx(), "NO_TABLE_DEFINED", null, getTrxName());
 		}
-		catch (RuntimeException e) {
+		catch (RuntimeException e)
+		{
 			exThrowed = true;
+			//e.printStackTrace();
 		}
 		assertTrue("No Error Was Throwed", exThrowed);
 	}
 	
-	public void testList() throws Exception {
+	public void testList() throws Exception
+	{
 		List<MTable> list = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 								.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 								.setOrderBy("TableName")
@@ -40,50 +47,61 @@ public class QueryTest extends AdempiereTestCase {
 		assertEquals("Invalid object 2", list.get(1).getTableName(), "M_InOut");
 	}
 
-	public void testScroll() throws Exception {
-		POResultSet<MTable> rs = null;
-		try {
-			rs = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
-							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
-							.setOrderBy("TableName")
-							.scroll();
+	public void testScroll() throws Exception
+	{
+		POResultSet<MTable> rs = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
+									.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+									.setOrderBy("TableName")
+									.scroll();
+		try
+		{
 			int i = 0;
-			for(MTable t = rs.next(); t != null; t = rs.next()) {
-				if (i == 0) {
+			while (rs.hasNext())
+			{
+				MTable t = rs.next();
+				if (i == 0)
+				{
 					assertEquals("Invalid object "+i, "C_Invoice", t.getTableName());
 				}
-				else if (i == 1) {
+				else if (i == 1)
+				{
 					assertEquals("Invalid object "+i, "M_InOut", t.getTableName());
 				}
-				else {
+				else
+				{
 					assertFalse("More objects retrived than expected", true);
 				}
 				i++;
 			}
 		}
-		finally {
-			if (rs != null)
-				rs.close();
+		finally
+		{
+			DB.close(rs);
 			rs = null;
 		}
 		
 	}
 
-	public void testIterate() throws Exception {
+	public void testIterate() throws Exception
+	{
 		Iterator<MTable> it = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 							.setOrderBy("TableName")
 							.iterate();
 		int i = 0;
-		while(it.hasNext()) {
+		while(it.hasNext())
+		{
 			MTable t = it.next();
-			if (i == 0) {
+			if (i == 0)
+			{
 				assertEquals("Invalid object "+i, "C_Invoice", t.getTableName());
 			}
-			else if (i == 1) {
+			else if (i == 1)
+			{
 				assertEquals("Invalid object "+i, "M_InOut", t.getTableName());
 			}
-			else {
+			else
+			{
 				assertFalse("More objects retrived than expected", true);
 			}
 			i++;
@@ -91,7 +109,8 @@ public class QueryTest extends AdempiereTestCase {
 		
 	}
 
-	public void testCount() throws Exception {
+	public void testCount() throws Exception
+	{
 		int count = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 						.setOrderBy("TableName")
@@ -99,26 +118,31 @@ public class QueryTest extends AdempiereTestCase {
 		assertEquals("Invalid count", 2, count);
 	}
 	
-	public void testCount_BadSQL() throws Exception {
+	public void testCount_BadSQL() throws Exception
+	{
 		boolean exThrowed = false;
-		try {
+		try
+		{
 			new Query(getCtx(), "AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
 							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 							.setOrderBy("TableName")
 							.count();
 		}
-		catch (DBException e) {
+		catch (DBException e)
+		{
 			exThrowed = true;
 		}
 		assertTrue("No Error Was Throwed", exThrowed);
 	}
 	
-	public void testCount_NoValues() throws Exception {
+	public void testCount_NoValues() throws Exception
+	{
 		int count = new Query(getCtx(), "AD_Table", "1=2", getTrxName()).count();
 		assertEquals("Counter should be ZERO", 0, count);
 	}
 
-	public void testFirst() throws Exception {
+	public void testFirst() throws Exception
+	{
 		MTable t = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
 						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 						.setOrderBy("TableName")
