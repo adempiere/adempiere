@@ -195,11 +195,12 @@ public class Doc_Inventory extends Doc
 			}
 
 			//	Cost Detail
+			 /* Source move to MInventory.createCostDetail()
 			MCostDetail.createInventory(as, line.getAD_Org_ID(), 
 				line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
 				line.get_ID(), 0, 
 				costs, line.getQty(), 
-				line.getDescription(), getTrxName());
+				line.getDescription(), getTrxName());*/
 		}
 		//
 		ArrayList<Fact> facts = new ArrayList<Fact>();

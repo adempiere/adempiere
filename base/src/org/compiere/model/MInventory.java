@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -467,13 +468,21 @@ public class MInventory extends X_M_Inventory implements DocAction
 						mtrx = new MTransaction (getCtx(), line.getAD_Org_ID(), m_MovementType,
 								line.getM_Locator_ID(), line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
 								QtyMA.negate(), getMovementDate(), get_TrxName());
-						mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
-						if (!mtrx.save())
-						{
-							m_processMsg = "Transaction not inserted(2)";
-							return DocAction.STATUS_Invalid;
-						}
-						qtyDiff = QtyNew;						
+						
+							mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+							if (!mtrx.save())
+							{
+								m_processMsg = "Transaction not inserted(2)";
+								return DocAction.STATUS_Invalid;
+							}
+							if(QtyMA.signum() != 0)
+							{	
+								String err = createCostDetail(line, ma.getM_AttributeSetInstance_ID() , QtyMA.negate());
+								if(err != null && err.length() > 0) return err;
+							}
+							
+							qtyDiff = QtyNew;						
+
 					}	
 				}
 
@@ -521,9 +530,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 						m_processMsg = "Transaction not inserted(2)";
 						return DocAction.STATUS_Invalid;
 					}
+					
+					if(qtyDiff.signum() != 0)
+					{	
+						String err = createCostDetail(line, line.getM_AttributeSetInstance_ID(), qtyDiff);
+						if(err != null && err.length() > 0) return err;
+					}
 				}	//	Fallback
 			}	//	stock movement
-
 
 		}	//	for all lines
 
@@ -943,4 +957,54 @@ public class MInventory extends X_M_Inventory implements DocAction
 		return m_reversal;
 	}	//	isReversal
 	
+	/**
+	 * Create Cost Detail
+	 * @param line
+	 * @param Qty
+	 * @return
+	 */
+	private String createCostDetail(MInventoryLine  line,int M_AttributeSetInstance_ID, BigDecimal qty)
+	{
+		// Get Account Schemas to create MCostDetail
+		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for(int asn = 0; asn < acctschemas.length; asn++)
+		{
+			MAcctSchema as = acctschemas[asn];
+			
+			boolean skip = false;
+			if (as.getAD_OrgOnly_ID() != 0)
+			{
+				if (as.getOnlyOrgs() == null)
+					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
+						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+						as.getAD_OrgOnly_ID()));
+
+				//	Header Level Org
+				skip = as.isSkipOrg(getAD_Org_ID());
+				//	Line Level Org
+				skip = as.isSkipOrg(line.getAD_Org_ID());
+			}
+			if (skip)
+				continue;
+			
+			ProductCost pc = new ProductCost (Env.getCtx(), 
+					line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());
+			pc.setQty(qty);
+			BigDecimal costs = pc.getProductCosts(as, line.getAD_Org_ID(), as.getCostingMethod(), 
+					0,false);			
+			if (costs == null || costs.signum() == 0)
+			{
+				return "No Costs for " + line.getProduct().getName();
+			}
+			
+			// Set Total Amount and Total Quantity from Inventory
+			MCostDetail.createInventory(as, line.getAD_Org_ID(), 
+					line.getM_Product_ID(), M_AttributeSetInstance_ID,
+					line.getM_InventoryLine_ID(), 0,	//	no cost element
+					costs.multiply(qty), qty,			
+					line.getDescription(), line.get_TrxName());
+		}
+		
+		return "";
+	}
 }	//	MInventory
