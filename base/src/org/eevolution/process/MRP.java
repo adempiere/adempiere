@@ -453,14 +453,16 @@ public class MRP extends SvrProcess
 				} // end while
 
 				//if exist QtyGrossReq of last Demand after finish while verify plan
-				if (QtyGrossReqs.signum() != 0)
+				if (QtyGrossReqs.signum() != 0 && product != null)
 				{   
-					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()) &&  POQDateStartSchedule.compareTo(Planning_Horizon) < 0) 
+					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy())
+							&&  POQDateStartSchedule.compareTo(Planning_Horizon) < 0) 
 					{
 						BeforeDateStartSchedule =  POQDateStartSchedule; 
 						calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule);
 					}
-					else if (MPPProductPlanning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy()) && BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0 )
+					else if (MPPProductPlanning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy())
+							&& BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0 )
 					{
 						calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule );
 					}	
