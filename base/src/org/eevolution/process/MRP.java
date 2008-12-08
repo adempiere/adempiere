@@ -340,10 +340,12 @@ public class MRP extends SvrProcess
 							+ ", mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule"
 						+" FROM PP_MRP mrp"
 						+" INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID)"
-						+" WHERE mrp.TypeMRP=? AND mrp.AD_Client_ID = ? AND mrp.AD_Org_ID=? "
-						+ " AND M_Warehouse_ID=? "
-						+ " AND mrp.DatePromised <= ?"
-						+ " AND COALESCE(p.LowLevel,0) = ? "
+						+" WHERE mrp.TypeMRP=?"
+						+" AND mrp.AD_Client_ID=?"
+						+" AND mrp.AD_Org_ID=? "
+						+" AND M_Warehouse_ID=? "
+						+" AND mrp.DatePromised<=?"
+						+" AND COALESCE(p.LowLevel,0)=? "
 						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised  ";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				pstmt.setString(1, MPPMRP.TYPEMRP_Demand);
@@ -417,7 +419,7 @@ public class MRP extends SvrProcess
 					// Create Notice for Demand due
 					if(DatePromised.compareTo(Today) < 0)
 					{
-						createMRPNote("MRP-040", rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID), product);
+						createMRPNote("MRP-040", AD_Org_ID, rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID), product);
 					}
 					
 					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
@@ -530,7 +532,8 @@ public class MRP extends SvrProcess
 		}
 		else
 		{
-			createMRPNote("MRP-120", 0, product);
+			m_product_planning = null;
+			createMRPNote("MRP-120", AD_Org_ID, 0, product);
 			return;
 		}
 
@@ -554,7 +557,7 @@ public class MRP extends SvrProcess
 				}
 				if(C_BPartner_ID <= 0)
 				{
-					createMRPNote("MRP-130", 0, product);
+					createMRPNote("MRP-130", AD_Org_ID, 0, product);
 					m_product_planning.setIsCreatePlan(false);
 				}
 			}
@@ -651,14 +654,14 @@ public class MRP extends SvrProcess
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
 			if (m_product_planning.getOrder_Min().compareTo(QtyPlanned) > 0)
 			{
-				createMRPNote("MRP-080", PP_MPR_ID, product);
+				createMRPNote("MRP-080", AD_Org_ID, PP_MPR_ID, product);
 			}
 		}
 
 		// Check Order Max                                                
 		if(QtyPlanned.compareTo(m_product_planning.getOrder_Max()) > 0 && m_product_planning.getOrder_Max().signum() > 0)
 		{    
-			createMRPNote("MRP-090", PP_MPR_ID, product); 
+			createMRPNote("MRP-090", AD_Org_ID, PP_MPR_ID, product); 
 		}                        
 		// Check Order Pack
 		if (m_product_planning.getOrder_Pack().signum() > 0 && QtyPlanned.signum() > 0)
@@ -713,9 +716,8 @@ public class MRP extends SvrProcess
 		}
 	}
 	
-	private void createDDOrder(int AD_Org_ID,int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
-	{
-		
+	private void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
+	{		
 		MDDNetworkDistribution network = MDDNetworkDistribution.get(getCtx(),m_product_planning.getDD_NetworkDistribution_ID());
 		MDDNetworkDistributionLine[] network_lines = network.getLines(m_product_planning.getM_Warehouse_ID());
 		int M_Shipper_ID = 0;
@@ -740,7 +742,7 @@ public class MRP extends SvrProcess
 
 			if (locator == null || locator_to == null)
 			{
-				createMRPNote("DRP-001", PP_MRP_ID, product);
+				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product);
 				continue;
 			}
 			//get the warehouse in transit
@@ -748,13 +750,13 @@ public class MRP extends SvrProcess
 
 			if (wsts == null)
 			{
-				createMRPNote("DRP-010", PP_MRP_ID, product);
+				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product);
 				continue;
 			}
 
 			if(network_line.getM_Shipper_ID()==0)
 			{
-				createMRPNote("DRP-030", PP_MRP_ID, product);
+				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product);
 				continue;
 			}
 			
@@ -766,7 +768,7 @@ public class MRP extends SvrProcess
 				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 				if (C_BPartner_ID == 0)
 				{
-					createMRPNote("DRP-020", PP_MRP_ID, product);
+					createMRPNote("DRP-020", AD_Org_ID, PP_MRP_ID, product);
 					continue;
 				}
 				
@@ -951,7 +953,7 @@ public class MRP extends SvrProcess
 		commit();
 	}
 
-	private void createMRPNote(String code, int PP_MRP_ID, MProduct product)
+	private void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product)
 	{
 		MMessage msg = MMessage.get(getCtx(), code);
 		int user_id = 0;
@@ -967,8 +969,9 @@ public class MRP extends SvrProcess
 							product.getValue() + " " + product.getName(),
 							Msg.getMsg(getCtx(), msg.getValue()),
 							get_TrxName());
+		note.setAD_Org_ID(AD_Org_ID);
 		note.saveEx();
-		commit();
+		commit(); 
 		log.info(code+": "+note.getTextMsg());  
 		count_Msg += 1;
 	}
