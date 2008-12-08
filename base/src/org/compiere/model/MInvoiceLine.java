@@ -1196,4 +1196,17 @@ public class MInvoiceLine extends X_C_InvoiceLine
         setC_Activity_ID(rmaLine.getC_Activity_ID());
         setC_Campaign_ID(rmaLine.getC_Campaign_ID());
 	}
+	
+	/**
+	 * @return matched qty
+	 */
+	public BigDecimal getMatchedQty()
+	{
+		String sql = "SELECT COALESCE(SUM("+MMatchInv.COLUMNNAME_Qty+"),0)"
+						+" FROM "+MMatchInv.Table_Name
+						+" WHERE "+MMatchInv.COLUMNNAME_C_InvoiceLine_ID+"=?"
+							+" AND "+MMatchInv.COLUMNNAME_Processed+"=?";
+		return DB.getSQLValueBDEx(get_TrxName(), sql, getC_InvoiceLine_ID(), true);
+	}
+
 }	//	MInvoiceLine
