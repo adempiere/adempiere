@@ -62,7 +62,6 @@
 	      <pathelement path="../base/Base.jar"/>
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
-	      <pathelement path="../looks/CLooks.jar"/>
 	      <pathelement path="../lib/oracle.jar"/>
 		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>

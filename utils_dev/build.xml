@@ -18,7 +18,6 @@
 	</target>
 	<target name="jar" depends="init">
 		<ant inheritAll="false" dir="tools"/>
-		<ant inheritAll="false" dir="looks"/>
 		<ant inheritAll="false" dir="base"/>
 		<ant inheritAll="false" dir="extend"/>
 		<ant inheritAll="false" dir="client"/>
@@ -37,7 +36,6 @@
 	</target>	
 	<target name="clean">
 		<ant inheritAll="false" dir="tools" target="clean"/>
-		<ant inheritAll="false" dir="looks" target="clean"/>
 		<ant inheritAll="false" dir="base" target="clean"/>
 		<ant inheritAll="false" dir="extend" target="clean"/>
 		<ant inheritAll="false" dir="JasperReports" target="clean"/>
@@ -58,7 +56,6 @@
   </target>
 
     <target name="update-adempiere-jar" depends="init">
-		<ant inheritAll="false" dir="looks" target="looksCompile"/>
 		<ant inheritAll="false" dir="base" target="compile"/>
 		<ant inheritAll="false" dir="extend" target="compile"/>
 		<ant inheritAll="false" dir="client"/>

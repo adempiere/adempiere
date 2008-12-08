@@ -23,7 +23,6 @@
     <pathelement path="${jar.path}/CCTools.jar"/>
 	<pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="../base/build"/>
-    <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
   </path>
@@ -77,7 +76,6 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/build"/>
-    <pathelement path="../looks/CLooks.jar"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
     <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
