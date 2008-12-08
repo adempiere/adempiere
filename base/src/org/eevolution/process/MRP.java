@@ -255,7 +255,7 @@ public class MRP extends SvrProcess
 				result = result + "<br> " +Msg.translate(getCtx(), "PP_Order_ID")+":"+count_MO;
 				result = result + "<br> " +Msg.translate(getCtx(), "DD_Order_ID")+":"+count_DO;
 				result = result + "<br> " +Msg.translate(getCtx(), "M_Requisition_ID")+":"+count_MR;
-				result = result + "<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_MR;
+				result = result + "<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_Msg;
 				result = result + "<br>finish MRP to Plant " +plant.getName();
 		}		
 			
