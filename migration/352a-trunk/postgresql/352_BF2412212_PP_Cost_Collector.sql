@@ -45,3 +45,8 @@ UPDATE AD_Column SET AD_Val_Rule_ID=52036,Updated=TO_TIMESTAMP('2008-12-09 20:14
 ;
 
 update AD_Val_Rule set entitytype='EE01' where AD_Val_Rule_ID in (52035, 52036);
+
+ -- 09.12.2008 21:53:16 EET
+-- [ 2412212 ] Fix Activity Control Report Window
+UPDATE AD_Column SET AD_Val_Rule_ID=164,Updated=TO_TIMESTAMP('2008-12-09 21:53:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=53806
+;
