@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,20 +16,46 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import java.awt.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.VetoableChangeListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JTable;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.grid.ed.VLocator;
+import org.compiere.model.GridTab;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MLocator;
+import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.MRMA;
+import org.compiere.model.MRMALine;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *  Create Shipments Transactions - from PO Orders or AP Invoices
@@ -39,80 +65,82 @@ import org.compiere.util.*;
  */
 public class VCreateFromShipment extends VCreateFrom implements VetoableChangeListener
 {
-    
-    
-        /**
-         * Cell editor specific for the MLocator in this form's table.
-         * 
-         */
-        public class InnerLocatorTableCellEditor extends AbstractCellEditor implements TableCellEditor, CellEditorListener {
+	private static final long serialVersionUID = 1L;
 
-            private KeyNamePair        m_locatorKey;
-            private VLocator           v_loc;
-            private JTable             m_table;
-            private int                m_row;
-            private int                m_column;
+	/**
+	 * Cell editor specific for the MLocator in this form's table.
+	 * 
+	 */
+	public class InnerLocatorTableCellEditor extends AbstractCellEditor
+	implements TableCellEditor, CellEditorListener
+	{
+		private static final long serialVersionUID = 1L;
+		private KeyNamePair        m_locatorKey;
+		private VLocator           v_loc;
+		private JTable             m_table;
+		private int                m_row;
+		private int                m_column;
 
-            public InnerLocatorTableCellEditor() {
-                addCellEditorListener(this);
-            }
+		public InnerLocatorTableCellEditor() {
+			addCellEditorListener(this);
+		}
 
-            public Object getCellEditorValue() {
-                return(m_locatorKey);
-            }
+		public Object getCellEditorValue() {
+			return(m_locatorKey);
+		}
 
-            /**
-             * 
-             * @param table
-             * @param value         The current value in the cell. In this case, a KeyName pair of the locator
-             * @param isSelected
-             * @param row
-             * @param column
-             * @return
-             */
-            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-                m_table = table;
-                m_row = row;
-                m_column = column;
-                m_locatorKey = (KeyNamePair)value;
-                MLocatorLookup mLocatorLookup = new MLocatorLookup(Env.getCtx(), 0);
-                v_loc = new VLocator("M_Locator_ID", true, false, true, mLocatorLookup, 0);
-                v_loc.setValue(m_locatorKey.getKey());
-                return(v_loc);
-            }
+		/**
+		 * 
+		 * @param table
+		 * @param value         The current value in the cell. In this case, a KeyName pair of the locator
+		 * @param isSelected
+		 * @param row
+		 * @param column
+		 * @return
+		 */
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+			m_table = table;
+			m_row = row;
+			m_column = column;
+			m_locatorKey = (KeyNamePair)value;
+			MLocatorLookup mLocatorLookup = new MLocatorLookup(Env.getCtx(), 0);
+			v_loc = new VLocator("M_Locator_ID", true, false, true, mLocatorLookup, 0);
+			v_loc.setValue(m_locatorKey.getKey());
+			return(v_loc);
+		}
 
-            /**
-             * When editing stops (editing done), save the value in the table model
-             * and update the product's default locator.
-             * 
-             * @param e
-             */
-            public void editingStopped(ChangeEvent e) {
-                // Editing ends, save value
-                if (v_loc.getValue()!=null) {
-                    int key = ((Integer)v_loc.getValue()).intValue();
-                    MLocator locator = new MLocator(Env.getCtx(), key, null);
-                    m_locatorKey = new KeyNamePair(key, locator.getValue());
-                    m_table.getModel().setValueAt(m_locatorKey, m_row, m_column);
+		/**
+		 * When editing stops (editing done), save the value in the table model
+		 * and update the product's default locator.
+		 * 
+		 * @param e
+		 */
+		public void editingStopped(ChangeEvent e) {
+			// Editing ends, save value
+			if (v_loc.getValue()!=null) {
+				int key = ((Integer)v_loc.getValue()).intValue();
+				MLocator locator = new MLocator(Env.getCtx(), key, null);
+				m_locatorKey = new KeyNamePair(key, locator.getValue());
+				m_table.getModel().setValueAt(m_locatorKey, m_row, m_column);
 
-                    // Get product and save new locator
-                    KeyNamePair prodKey = (KeyNamePair)m_table.getModel().getValueAt(m_row, m_column + 1);
-                    MProduct prod = new MProduct(Env.getCtx(), prodKey.getKey(), null);
-                    prod.setM_Locator_ID(key);
-                    prod.save();
-                }
-            }
+				// Get product and save new locator
+				KeyNamePair prodKey = (KeyNamePair)m_table.getModel().getValueAt(m_row, m_column + 1);
+				MProduct prod = new MProduct(Env.getCtx(), prodKey.getKey(), null);
+				prod.setM_Locator_ID(key);
+				prod.save();
+			}
+		}
 
-            /**
-             * When editing stops, do nothing.
-             * @param e
-             */
-            public void editingCanceled(ChangeEvent e) {
-                
-            }
+		/**
+		 * When editing stops, do nothing.
+		 * @param e
+		 */
+		public void editingCanceled(ChangeEvent e) {
 
-        }
-        // == END OF INNER CLASS InnerLocatorTableCellEditor
+		}
+
+	}
+	// == END OF INNER CLASS InnerLocatorTableCellEditor
     
     
 	/**
@@ -399,58 +427,60 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
         else if (e.getSource().equals(sameWarehouseCb))
         {
         	initBPartnerOIS(((Integer)bPartnerField.getValue()).intValue(), false);
-        } else if (e.getSource().equals(upcField)) {
-            checkProductUsingUpc();
+        }
+        else if (e.getSource().equals(upcField))
+        {
+            checkProductUsingUPC();
         }
                 
 	}   //  actionPerformed
 
-        
-        /**
-         * Checks the UPC value and checks if the UPC matches any of the products in the
-         * list.
-         */
-        private void checkProductUsingUpc() {
-            String upc = upcField.getText();
-            DefaultTableModel model = (DefaultTableModel)dataTable.getModel();
-            // Lookup UPC
-            java.util.List<MProduct> products = MProduct.getByUPC(Env.getCtx(), upc, null);
-            MProduct product;
-            int row;
-            BigDecimal qty;
-            for (Iterator<MProduct> it = products.iterator(); it.hasNext();) {
-                product = it.next();
-                row = findProductRow(product.get_ID());
-                if (row>=0) {
-                    qty = (BigDecimal)model.getValueAt(row, COL_QTY);
-                    model.setValueAt(qty, row, COL_QTY);
-                    model.setValueAt(Boolean.TRUE, row, COL_SELECT);
-                    model.fireTableRowsUpdated(row, row);
-                }
-            }
-            upcField.setText("");
-            upcField.requestFocusInWindow();
-        }
 
-        /**
-         * Finds the row where a given product is. If the product is not found
-         * in the table -1 is returned.
-         * @param M_Product_ID
-         * @return  Row of the product or -1 if non existing.
-         * 
-         */
-        private int findProductRow(int M_Product_ID) {
-            DefaultTableModel model = (DefaultTableModel)dataTable.getModel();
-            KeyNamePair kp;
-            for (int i=0; i<model.getRowCount(); i++) {
-                kp = (KeyNamePair)model.getValueAt(i, COL_PRODUCT_ID);
-                if (kp.getKey()==M_Product_ID) {
-                    return(i);
-                }
-            }
-            return(-1);
-        }
-        
+	/**
+	 * Checks the UPC value and checks if the UPC matches any of the products in the
+	 * list.
+	 */
+	private void checkProductUsingUPC()
+	{
+		String upc = upcField.getText();
+		DefaultTableModel model = (DefaultTableModel)dataTable.getModel();
+		// Lookup UPC
+		List<MProduct> products = MProduct.getByUPC(Env.getCtx(), upc, null);
+		for (MProduct product : products)
+		{
+			int row = findProductRow(product.get_ID());
+			if (row >= 0)
+			{
+				BigDecimal qty = (BigDecimal)model.getValueAt(row, COL_QTY);
+				model.setValueAt(qty, row, COL_QTY);
+				model.setValueAt(Boolean.TRUE, row, COL_SELECT);
+				model.fireTableRowsUpdated(row, row);
+			}
+		}
+		upcField.setText("");
+		upcField.requestFocusInWindow();
+	}
+
+	/**
+	 * Finds the row where a given product is. If the product is not found
+	 * in the table -1 is returned.
+	 * @param M_Product_ID
+	 * @return  Row of the product or -1 if non existing.
+	 * 
+	 */
+	private int findProductRow(int M_Product_ID)
+	{
+		DefaultTableModel model = (DefaultTableModel)dataTable.getModel();
+		KeyNamePair kp;
+		for (int i=0; i<model.getRowCount(); i++) {
+			kp = (KeyNamePair)model.getValueAt(i, COL_PRODUCT_ID);
+			if (kp.getKey()==M_Product_ID) {
+				return(i);
+			}
+		}
+		return(-1);
+	}
+
 	/**
 	 *  Change Listener
 	 *  @param e event
@@ -462,7 +492,9 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		//  BPartner - load Order/Invoice/Shipment
 		if (e.getPropertyName().equals("C_BPartner_ID"))
 		{
-			int C_BPartner_ID = ((Integer)e.getNewValue()).intValue();
+			int C_BPartner_ID = 0;
+			if (e.getNewValue() instanceof Number)
+				C_BPartner_ID = ((Number)e.getNewValue()).intValue();
 			initBPartnerOIS (C_BPartner_ID, false);
 		}
 		tableChanged(null);
@@ -489,12 +521,12 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		log.config("C_Order_ID=" + C_Order_ID);
 		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);      //  save
 
-		Vector<Vector> data = new Vector<Vector>();
+		Vector<Vector<?>> data = new Vector<Vector<?>>();
 		StringBuffer sql = new StringBuffer("SELECT "
 			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
 			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
 			+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"			//	3..4
-                        + " p.M_Locator_ID, COALESCE(loc.value,''), " // 5..6
+                        + " p.M_Locator_ID, loc.Value, " // 5..6
                         + " COALESCE(l.M_Product_ID,0),COALESCE(p.Name,c.Name), " //	7..8
                         + " po.VendorProductNo, " // 9
 			+ " l.C_OrderLine_ID,l.Line "	//	10..11
@@ -514,16 +546,18 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		//
 		sql.append(" WHERE l.C_Order_ID=? "			//	#1
 			+ "GROUP BY l.QtyOrdered,CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END, "
-			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name), p.m_locator_id, COALESCE(loc.value,''), po.VendorProductNo, "
+			+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name), p.M_Locator_ID, loc.Value, po.VendorProductNo, "
 				+ "l.M_Product_ID,COALESCE(p.Name,c.Name), l.Line,l.C_OrderLine_ID "
 			+ "ORDER BY l.Line");
 		//
 		log.finer(sql.toString());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_Order_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>();
@@ -547,12 +581,16 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				line.add(null);                         //  8-Invoice
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+			//throw new DBException(e, sql.toString());
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		loadTableOIS (data);
 	}   //  LoadOrder
@@ -571,17 +609,18 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
      *  ShipmentLine    - 7
      *  InvoiceLine     - 8
 	 */
-	private void loadInvoice(int C_Invoice_ID) {
+	private void loadInvoice(int C_Invoice_ID)
+	{
 		log.config("C_Invoice_ID=" + C_Invoice_ID);
 		m_invoice = new MInvoice(Env.getCtx(), C_Invoice_ID, null); // save
 		p_order = null;
         m_rma = null;
 
-		Vector<Vector> data = new Vector<Vector>();
+		Vector<Vector<?>> data = new Vector<Vector<?>>();
 		StringBuffer sql = new StringBuffer("SELECT " // Entered UOM
 				+ "l.QtyInvoiced-SUM(NVL(mi.Qty,0)),l.QtyEntered/l.QtyInvoiced,"
 				+ " l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name)," // 3..4
-                + " p.M_Locator_ID, COALESCE(loc.value,''), " // 5..6
+                + " p.M_Locator_ID, loc.Value, " // 5..6
 				+ " l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line," // 7..11
 				+ " l.C_OrderLine_ID " // 12
 				+ " FROM C_InvoiceLine l "); 
@@ -600,15 +639,18 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			.append(" WHERE l.C_Invoice_ID=? AND l.QtyInvoiced<>0 ")
 			.append("GROUP BY l.QtyInvoiced,l.QtyEntered/l.QtyInvoiced,"
 				+ "l.C_UOM_ID,COALESCE(uom.UOMSymbol,uom.Name),"
-                + "p.M_Locator_ID, COALESCE(loc.value,''), "
+                + "p.M_Locator_ID, loc.Value, "
 				+ "l.M_Product_ID,p.Name, po.VendorProductNo, l.C_InvoiceLine_ID,l.Line,l.C_OrderLine_ID ")
 			.append("ORDER BY l.Line");
-		
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_Invoice_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
 				Vector<Object> line = new Vector<Object>(7);
 				line.add(new Boolean(false)); // 0-Selection
 				BigDecimal qtyInvoiced = rs.getBigDecimal(1);
@@ -634,10 +676,16 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				line.add(pp); // 8-Invoice
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
-		} catch (SQLException e) {
+		}
+		catch (SQLException e)
+		{
 			log.log(Level.SEVERE, sql.toString(), e);
+			//throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		loadTableOIS(data);
 	} // loadInvoice
@@ -653,7 +701,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
         
         m_rma = new MRMA(Env.getCtx(), M_RMA_ID, null);
         
-        Vector<Vector> data = new Vector<Vector>();
+        Vector<Vector<?>> data = new Vector<Vector<?>>();
         StringBuffer sqlStmt = new StringBuffer();
         sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
         sqlStmt.append("FROM M_RMALine rl INNER JOIN M_InOutLine iol ON rl.M_InOutLine_ID=iol.M_InOutLine_ID ");
@@ -804,7 +852,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 					C_InvoiceLine_ID = pp.getKey();
 				if (C_InvoiceLine_ID != 0)
 					il = new MInvoiceLine (Env.getCtx(), C_InvoiceLine_ID, null);
-				boolean isInvoiced = (C_InvoiceLine_ID != 0);
+				//boolean isInvoiced = (C_InvoiceLine_ID != 0);
 				//	Precision of Qty UOM
 				int precision = 2;
 				if (M_Product_ID != 0)
