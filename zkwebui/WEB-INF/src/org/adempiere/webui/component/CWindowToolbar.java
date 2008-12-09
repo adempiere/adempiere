@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
+import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -58,7 +59,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
     private ToolBarButton btnHelp, btnNew, btnCopy, btnDelete, btnDeleteSelection, btnSave;
 
-    private ToolBarButton btnRefresh, btnFind, btnAttachment;
+    private ToolBarButton btnRefresh, btnFind, btnLock, btnAttachment;
     
     private ToolBarButton btnGridToggle;
 
@@ -81,6 +82,13 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
 
 	private boolean embedded;
+	
+	// Elaine 2008/12/04
+	/** Show Personal Lock								*/
+	public boolean			isPersonalLock = MRole.getDefault().isPersonalLock();
+	/**	Last Modifier of Action Event					*/
+//	public int 				lastModifiers;
+	//
 
     public CWindowToolbar() 
     {
@@ -124,6 +132,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnArchive = createButton("Archive", "Archive", "Archive");
         btnPrint = createButton("Print", "Print", "Print");
         addSeparator();
+		if (isPersonalLock) btnLock = createButton("Lock", "Lock", "Lock"); // Elaine 2008/12/04		
         btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
@@ -153,6 +162,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnRequests.setDisabled(false); // Elaine 2008/07/22
         btnProductInfo.setDisabled(false); // Elaine 2008/07/22
         btnArchive.setDisabled(false); // Elaine 2008/07/28
+        btnLock.setDisabled(false); // Elaine 2008/12/04
         
         configureKeyMap();
         
@@ -192,7 +202,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	return buttons.get(name);
     }
 
-    private void configureKeyMap() {
+    private void configureKeyMap() 
+    {
 		keyMap.put(KeyEvent.F1, btnHelp);		
 		keyMap.put(KeyEvent.F2, btnNew);
 		keyMap.put(KeyEvent.F3, btnDelete);
@@ -226,7 +237,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     }
 
     public void onEvent(Event event)
-    {    	
+    {
         String eventName = event.getName();
         Component eventComp = event.getTarget();
         
@@ -397,12 +408,19 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public void enableFind(boolean enabled)
     {
         this.btnFind.setDisabled(!enabled);
-        
     }
     
     public void enableGridToggle(boolean enabled)
     {
     	btnGridToggle.setDisabled(!enabled);
+    }
+    
+    public void lock(boolean locked)
+    {
+    	this.btnLock.setPressed(locked);
+    	
+    	String imgURL = "/images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
+		this.btnLock.setImage(imgURL);
     }
     
     public Event getEvent() 

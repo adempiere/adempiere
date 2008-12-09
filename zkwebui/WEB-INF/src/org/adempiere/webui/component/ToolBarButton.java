@@ -28,6 +28,8 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
     
     private String name;
     
+    private boolean pressed; // Elaine 2008/12/09
+    
     public ToolBarButton() {}
     
     @Override
@@ -42,6 +44,7 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 	}
     
     public void setPressed(boolean pressed) {
+    	this.pressed = pressed; // Elaine 2008/12/09
 		if (!isDisabled()) {
 			if (pressed) {
 				this.setSclass("depressed");
@@ -51,6 +54,13 @@ public class ToolBarButton extends org.zkoss.zul.Toolbarbutton
 			}
 		}
     }
+    
+    // Elaine 2008/12/09
+    public boolean isPressed()
+    {
+    	return pressed;
+    }
+    //
 
 	public ToolBarButton(String name) {
     	super();

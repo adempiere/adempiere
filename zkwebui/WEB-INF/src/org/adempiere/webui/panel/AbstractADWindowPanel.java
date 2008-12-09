@@ -49,6 +49,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.FindWindow;
+import org.adempiere.webui.window.WRecordAccessDialog;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
@@ -73,11 +74,16 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.InputEvent;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Menuitem;
+import org.zkoss.zul.Menupopup;
+import org.zkoss.zul.Toolbarbutton;
 
 /**
  * 
@@ -504,6 +510,72 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     {
         curTab.navigateRelative(-1);
     }
+    
+    // Elaine 2008/12/04
+	private Menupopup 	m_popup = null;
+	private Menuitem 	m_lock = null;
+	private Menuitem 	m_access = null;
+
+	/**
+	 *	@see ToolbarListener#onLock()
+	 */
+	public void onLock()
+	{
+		if (!toolbar.isPersonalLock)
+			return;
+		final int record_ID = curTab.getRecord_ID();
+		if (record_ID == -1)	//	No Key
+			return;
+		
+		if(m_popup == null)
+		{
+			m_popup = new Menupopup();
+			
+			m_lock = new Menuitem(Msg.translate(Env.getCtx(), "Lock"));
+			m_popup.appendChild(m_lock);
+			m_lock.addEventListener(Events.ON_CLICK, new EventListener() 
+			{
+				public void onEvent(Event event) throws Exception 
+				{
+					curTab.lock(Env.getCtx(), record_ID, !toolbar.getButton("Lock").isPressed());
+					curTab.loadAttachments();			//	reload
+					
+					toolbar.lock(curTab.isLocked());
+				}
+			});	
+				
+			m_access = new Menuitem(Msg.translate(Env.getCtx(), "RecordAccessDialog"));
+			m_popup.appendChild(m_access);
+			m_access.addEventListener(Events.ON_CLICK, new EventListener() 
+			{
+				public void onEvent(Event event) throws Exception 
+				{
+					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), record_ID);
+					
+					toolbar.lock(curTab.isLocked());
+				}
+			});	
+			
+			m_popup.setPage(toolbar.getButton("Lock").getPage());
+		}
+		m_popup.open(toolbar.getButton("Lock"));
+		
+		/*
+		//	Control Pressed
+		if (toolbar.getEvent().getName() == Events.ON_CTRL_KEY)
+		{
+			new WRecordAccessDialog(null, curTab.getAD_Table_ID(), record_ID);
+		}
+		else
+		{
+			curTab.lock(Env.getCtx(), record_ID, !toolbar.getButton("Lock").isPressed());
+			curTab.loadAttachments();			//	reload
+		}
+		
+		toolbar.lock(curTab.isLocked());
+		*/
+	}	//	lock
+	//
 
     /**
      * @see ToolbarListener#onHistoryRecords()
@@ -736,7 +808,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.getButton("HistoryRecords").setPressed(!curTab.isOnlyCurrentRows());
         }
 		toolbar.getButton("Find").setPressed(curTab.isQueryActive());
-		//TODO: personal lock
+		
+		if (toolbar.isPersonalLock)
+		{
+			toolbar.lock(curTab.isLocked());
+		}
 	}
 
     public void dataStatusChanged(DataStatusEvent e)
@@ -866,11 +942,14 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         
         toolbar.getButton("Find").setPressed(curTab.isQueryActive());
+        
+        // Elaine 2008/12/05
         //  Lock Indicator
-       /* if (m_isPersonalLock)
+        if (toolbar.isPersonalLock)
         {
-            aLock.setPressed(m_curTab.isLocked());
-        }*/
+			toolbar.lock(curTab.isLocked());
+        }
+        //
 
         adTab.evaluate(e);
         
