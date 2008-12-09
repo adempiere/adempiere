@@ -65,7 +65,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 19, 2008 3:55:33 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56469,53709,0,11,50010,'ColumnNo',TO_TIMESTAMP('2008-11-19 15:55:28','YYYY-MM-DD HH24:MI:SS'),100,'0','Dashboard content column number','D',14,'Dashboard content column number, not used by the swing client at the moment.','Y','N','N','N','N','N','N','N','N','N','N','Y','Column No',0,TO_TIMESTAMP('2008-11-19 15:55:28','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56469,53709,0,11,50010,'ColumnNo',TO_TIMESTAMP('2008-11-19 15:55:28','YYYY-MM-DD HH24:MI:SS'),100,'0','Dashboard content column number','D',14,'Dashboard content column number, not used by the swing client at the moment.','Y','N','N','N','N','N','N','N','N','N','Y','Column No',0,TO_TIMESTAMP('2008-11-19 15:55:28','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Nov 19, 2008 3:55:33 PM SGT
@@ -86,7 +86,7 @@ INSERT INTO AD_Element_Trl (AD_Language,AD_Element_ID, Description,Help,Name,PO_
 
 -- Nov 19, 2008 4:00:37 PM SGT
 -- [ 2164648 ] FR:Implement PA_DASHBOARDCONTENT support
-INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56470,53710,0,10,50010,'ZulFilePath',TO_TIMESTAMP('2008-11-19 16:00:36','YYYY-MM-DD HH24:MI:SS'),100,'Absolute path to zul file','D',255,'Absolute path to zul file that is use to generate dashboard content','Y','N','N','N','N','N','N','N','N','N','N','Y','ZUL File Path',0,TO_TIMESTAMP('2008-11-19 16:00:36','YYYY-MM-DD HH24:MI:SS'),100,0)
+INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,Description,EntityType,FieldLength,Help,IsActive,IsAlwaysUpdateable,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56470,53710,0,10,50010,'ZulFilePath',TO_TIMESTAMP('2008-11-19 16:00:36','YYYY-MM-DD HH24:MI:SS'),100,'Absolute path to zul file','D',255,'Absolute path to zul file that is use to generate dashboard content','Y','N','N','N','N','N','N','N','N','N','Y','ZUL File Path',0,TO_TIMESTAMP('2008-11-19 16:00:36','YYYY-MM-DD HH24:MI:SS'),100,0)
 ;
 
 -- Nov 19, 2008 4:00:37 PM SGT
