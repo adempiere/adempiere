@@ -46,6 +46,7 @@ public class DunningRunCreate extends SvrProcess
 	private int			p_C_BPartner_ID = 0;
 	private int			p_C_BP_Group_ID = 0;
 	private int			p_C_DunningRun_ID = 0;
+	private int			p_AD_Org_ID = 0;
 	
 	private MDunningRun m_run = null;
 	private MDunningLevel m_level = null;
@@ -75,6 +76,8 @@ public class DunningRunCreate extends SvrProcess
 				p_C_BPartner_ID = para[i].getParameterAsInt();
 			else if (name.equals("C_BP_Group_ID"))
 				p_C_BP_Group_ID = para[i].getParameterAsInt();
+			else if (name.equals("AD_Org_ID"))
+				p_AD_Org_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -149,6 +152,8 @@ public class DunningRunCreate extends SvrProcess
 			sql += " AND i.IsSOTrx='Y'";
 		if (!p_IsAllCurrencies) 
 			sql += " AND i.C_Currency_ID=" + p_C_Currency_ID;
+		if ( p_AD_Org_ID != 0 )
+			sql += " AND i.AD_Org_ID=" + p_AD_Org_ID;
 	//	log.info(sql);
 		
 		String sql2=null;
@@ -326,6 +331,8 @@ public class DunningRunCreate extends SvrProcess
 				+ "WHERE p.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=?)";	//	##3
 		if (p_OnlySOTrx)
 			sql += " AND IsReceipt='Y'";
+		if ( p_AD_Org_ID != 0 )
+			sql += " AND i.AD_Org_ID=" + p_AD_Org_ID;
 		
 		int count = 0;
 		PreparedStatement pstmt = null;
