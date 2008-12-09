@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 
 
@@ -30,6 +31,7 @@ import org.compiere.util.CCache;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 2051056 ] MResource[Type] should be cached
+ * 				<li>BF [ 2227901 ] MRP (Calculate Material Plan) fails if resource is empty
  */
 public class MResource extends X_S_Resource
 {
@@ -129,6 +131,14 @@ public class MResource extends X_S_Resource
 				setValue(getName());
 			m_product = new MProduct(this, getResourceType());
 			m_product.saveEx(get_TrxName());
+		}
+		//
+		// Validate Manufacturing Resource
+		if (isManufacturingResource()
+				&& MANUFACTURINGRESOURCETYPE_Plant.equals(getManufacturingResourceType())
+				&& getPlanningHorizon() <= 0)
+		{
+			throw new AdempiereException("@"+COLUMNNAME_PlanningHorizon+"@ <= @0@ !");
 		}
 		return true;
 	}	//	beforeSave
