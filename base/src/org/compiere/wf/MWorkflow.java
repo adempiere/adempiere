@@ -176,6 +176,7 @@ public class MWorkflow extends X_AD_Workflow
 			setCost (0);
 			setWaitingTime (0);
 			setWorkingTime (0);
+			setIsBetaFunctionality(false);
 		}
 		loadTrl();
 		loadNodes();

@@ -116,6 +116,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			
 			m_Workflow.setValue(atts.getValue("Value"));
 			m_Workflow.setName(workflowName);
+			m_Workflow.setIsBetaFunctionality (Boolean.valueOf(atts.getValue("isBetaFunctionality")).booleanValue());
 			m_Workflow.setAccessLevel(atts.getValue("AccessLevel"));
 			m_Workflow.setDescription(getStringValue(atts,"Description"));
 			m_Workflow.setHelp(getStringValue(atts,"Help"));
@@ -404,7 +405,9 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		} else
 			atts.addAttribute("", "", "ADWorkflowProcessorNameID", "CDATA", "");
 		
-		atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Workflow
+        atts.addAttribute("","","isBetaFunctionality","CDATA",(m_Workflow.isBetaFunctionality()== true ? "true":"false"));
+
+        atts.addAttribute("", "", "AccessLevel", "CDATA", (m_Workflow
 				.getAccessLevel() != null ? m_Workflow.getAccessLevel() : ""));
 		atts
 				.addAttribute("", "", "DurationUnit", "CDATA", (m_Workflow

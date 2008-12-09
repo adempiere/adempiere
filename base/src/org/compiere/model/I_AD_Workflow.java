@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -66,6 +57,19 @@ public interface I_AD_Workflow
 	  */
 	public String getAccessLevel();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
@@ -79,7 +83,7 @@ public interface I_AD_Workflow
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -94,7 +98,7 @@ public interface I_AD_Workflow
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception;
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name AD_WF_Responsible_ID */
     public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
@@ -109,7 +113,7 @@ public interface I_AD_Workflow
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -137,7 +141,7 @@ public interface I_AD_Workflow
 	  */
 	public int getAD_WorkflowProcessor_ID();
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception;
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -258,6 +262,19 @@ public interface I_AD_Workflow
 	  */
 	public String getHelp();
 
+    /** Column name IsBetaFunctionality */
+    public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
+
+	/** Set Beta Functionality.
+	  * This functionality is considered Beta
+	  */
+	public void setIsBetaFunctionality (boolean IsBetaFunctionality);
+
+	/** Get Beta Functionality.
+	  * This functionality is considered Beta
+	  */
+	public boolean isBetaFunctionality();
+
     /** Column name IsDefault */
     public static final String COLUMNNAME_IsDefault = "IsDefault";
 
@@ -300,10 +317,10 @@ public interface I_AD_Workflow
     /** Column name MovingTime */
     public static final String COLUMNNAME_MovingTime = "MovingTime";
 
-	/** Set MovingTime	  */
+	/** Set Moving Time	  */
 	public void setMovingTime (int MovingTime);
 
-	/** Get MovingTime	  */
+	/** Get Moving Time	  */
 	public int getMovingTime();
 
     /** Column name Name */
@@ -335,10 +352,10 @@ public interface I_AD_Workflow
     /** Column name ProcessType */
     public static final String COLUMNNAME_ProcessType = "ProcessType";
 
-	/** Set ProcessType	  */
+	/** Set Process Type	  */
 	public void setProcessType (String ProcessType);
 
-	/** Get ProcessType	  */
+	/** Get Process Type	  */
 	public String getProcessType();
 
     /** Column name PublishStatus */
@@ -357,19 +374,19 @@ public interface I_AD_Workflow
     /** Column name QtyBatchSize */
     public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
 
-	/** Set QtyBatchSize	  */
+	/** Set Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize);
 
-	/** Get QtyBatchSize	  */
+	/** Get Qty Batch Size	  */
 	public BigDecimal getQtyBatchSize();
 
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set QueuingTime	  */
+	/** Set Queuing Time	  */
 	public void setQueuingTime (int QueuingTime);
 
-	/** Get QueuingTime	  */
+	/** Get Queuing Time	  */
 	public int getQueuingTime();
 
     /** Column name SetupTime */
@@ -398,7 +415,7 @@ public interface I_AD_Workflow
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name ValidateWorkflow */
     public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";

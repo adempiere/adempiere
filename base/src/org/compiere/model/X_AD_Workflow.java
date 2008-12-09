@@ -50,6 +50,8 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 			setDuration (0);
 			setEntityType (null);
 // U
+			setIsBetaFunctionality (false);
+// N
 			setIsDefault (false);
 			setIsValid (false);
 			setName (null);
@@ -124,7 +126,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -135,7 +137,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -163,7 +165,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -174,7 +176,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -202,7 +204,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
         I_AD_WF_Responsible result = null;
@@ -213,7 +215,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -263,7 +265,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws Exception 
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WorkflowProcessor.Table_Name);
         I_AD_WorkflowProcessor result = null;
@@ -274,7 +276,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -480,6 +482,30 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Beta Functionality.
+		@param IsBetaFunctionality 
+		This functionality is considered Beta
+	  */
+	public void setIsBetaFunctionality (boolean IsBetaFunctionality)
+	{
+		set_Value (COLUMNNAME_IsBetaFunctionality, Boolean.valueOf(IsBetaFunctionality));
+	}
+
+	/** Get Beta Functionality.
+		@return This functionality is considered Beta
+	  */
+	public boolean isBetaFunctionality () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBetaFunctionality);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Default.
 		@param IsDefault 
 		Default value
@@ -548,15 +574,15 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MovingTime.
-		@param MovingTime MovingTime	  */
+	/** Set Moving Time.
+		@param MovingTime Moving Time	  */
 	public void setMovingTime (int MovingTime)
 	{
 		set_Value (COLUMNNAME_MovingTime, Integer.valueOf(MovingTime));
 	}
 
-	/** Get MovingTime.
-		@return MovingTime	  */
+	/** Get Moving Time.
+		@return Moving Time	  */
 	public int getMovingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_MovingTime);
@@ -626,16 +652,16 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public static final String PROCESSTYPE_MixedRepetitiveFlow = "MR";
 	/** Plant = PL */
 	public static final String PROCESSTYPE_Plant = "PL";
-	/** Set ProcessType.
-		@param ProcessType ProcessType	  */
+	/** Set Process Type.
+		@param ProcessType Process Type	  */
 	public void setProcessType (String ProcessType)
 	{
 
 		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL")); else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");		set_Value (COLUMNNAME_ProcessType, ProcessType);
 	}
 
-	/** Get ProcessType.
-		@return ProcessType	  */
+	/** Get Process Type.
+		@return Process Type	  */
 	public String getProcessType () 
 	{
 		return (String)get_Value(COLUMNNAME_ProcessType);
@@ -669,15 +695,15 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_PublishStatus);
 	}
 
-	/** Set QtyBatchSize.
-		@param QtyBatchSize QtyBatchSize	  */
+	/** Set Qty Batch Size.
+		@param QtyBatchSize Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize)
 	{
 		set_Value (COLUMNNAME_QtyBatchSize, QtyBatchSize);
 	}
 
-	/** Get QtyBatchSize.
-		@return QtyBatchSize	  */
+	/** Get Qty Batch Size.
+		@return Qty Batch Size	  */
 	public BigDecimal getQtyBatchSize () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
@@ -686,15 +712,15 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return bd;
 	}
 
-	/** Set QueuingTime.
-		@param QueuingTime QueuingTime	  */
+	/** Set Queuing Time.
+		@param QueuingTime Queuing Time	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
-	/** Get QueuingTime.
-		@return QueuingTime	  */
+	/** Get Queuing Time.
+		@return Queuing Time	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
@@ -723,7 +749,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -734,7 +760,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
