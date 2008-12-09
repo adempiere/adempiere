@@ -688,24 +688,6 @@ public final class MSetup
 		createDocType("Manufacturing Order Planning","Order Planning", 
 			MDocType.DOCBASETYPE_ManufacturingOrder, null, 
 			0, 0, 81000, GL_Manufacturing);
-		createDocType("Manufacturing Order Receipt", "Order Receipt", 
-			MDocType.DOCBASETYPE_ManufacturingOrderReceipt, null, 
-			0, 0, 82000, GL_Manufacturing);
-		createDocType("Manufacturing Order Issue","Order Issue", 
-			MDocType.DOCBASETYPE_ManufacturingOrderIssue, null,
-			0, 0, 83000, GL_Manufacturing);
-		createDocType("Manufacturing Order Method Variance", "Method Variance", 
-			MDocType.DOCBASETYPE_ManufacturingOrderMethodVariance, null,
-			0, 0, 84000, GL_Manufacturing);
-		createDocType("Manufacturing Order Use Variance", "Use Variance", 
-			MDocType.DOCBASETYPE_ManufacturingOrderUseVariance, null, 
-			0, 0, 84100, GL_Manufacturing);
-		createDocType("Manufacturing Order Rate Variance","Rate Variance", 
-			MDocType.DOCBASETYPE_ManufacturingOrderRateVariance, null,
-			0, 0, 84200, GL_Manufacturing);
-		createDocType("Manufacturing Operation Activity","Operation Activity", 
-			MDocType.DOCBASETYPE_ManufacturingOperationActivity, null,
-			0, 0, 85000, GL_Manufacturing);
 		createDocType("Maintenance Order","Maintenance Order",
 			MDocType.DOCBASETYPE_MaintenanceOrder, null,
 			0, 0, 86000, GL_Manufacturing);

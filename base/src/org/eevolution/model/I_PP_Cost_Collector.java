@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -67,6 +58,19 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getAD_OrgTrx_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -80,7 +84,7 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws Exception;
+	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -95,7 +99,7 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -110,20 +114,7 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_DocTypeTarget_ID */
     public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
@@ -138,6 +129,19 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_DocTypeTarget_ID();
 
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -151,7 +155,7 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -166,7 +170,20 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name CostCollectorType */
+    public static final String COLUMNNAME_CostCollectorType = "CostCollectorType";
+
+	/** Set Cost Collector Type.
+	  * Transaction Type for Manufacturing Management
+	  */
+	public void setCostCollectorType (String CostCollectorType);
+
+	/** Get Cost Collector Type.
+	  * Transaction Type for Manufacturing Management
+	  */
+	public String getCostCollectorType();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -223,19 +240,19 @@ public interface I_PP_Cost_Collector
     /** Column name DurationReal */
     public static final String COLUMNNAME_DurationReal = "DurationReal";
 
-	/** Set DurationReal	  */
+	/** Set Duration Real	  */
 	public void setDurationReal (BigDecimal DurationReal);
 
-	/** Get DurationReal	  */
+	/** Get Duration Real	  */
 	public BigDecimal getDurationReal();
 
     /** Column name IsBatchTime */
     public static final String COLUMNNAME_IsBatchTime = "IsBatchTime";
 
-	/** Set IsBatchTime	  */
+	/** Set Is BatchTime	  */
 	public void setIsBatchTime (boolean IsBatchTime);
 
-	/** Get IsBatchTime	  */
+	/** Get Is BatchTime	  */
 	public boolean isBatchTime();
 
     /** Column name M_AttributeSetInstance_ID */
@@ -264,6 +281,36 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getM_Locator_ID();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
 
@@ -290,48 +337,58 @@ public interface I_PP_Cost_Collector
 	  */
 	public BigDecimal getMovementQty();
 
-    /** Column name MovementType */
-    public static final String COLUMNNAME_MovementType = "MovementType";
+    /** Column name PP_Cost_Collector_ID */
+    public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
 
-	/** Set Movement Type.
-	  * Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType);
+	/** Set Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID);
 
-	/** Get Movement Type.
-	  * Method of moving the inventory
-	  */
-	public String getMovementType();
+	/** Get Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID();
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+    /** Column name PP_Order_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
 
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
+	/** Set Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
 
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
+	/** Get Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
+	/** Set Manufacturing Order	  */
+	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
+	/** Get Manufacturing Order	  */
+	public int getPP_Order_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws Exception;
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name PP_Order_Node_ID */
+    public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
+
+	/** Set Manufacturing Order Activity	  */
+	public void setPP_Order_Node_ID (int PP_Order_Node_ID);
+
+	/** Get Manufacturing Order Activity	  */
+	public int getPP_Order_Node_ID();
+
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
+
+    /** Column name PP_Order_Workflow_ID */
+    public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
+
+	/** Set Manufacturing Order Workflow	  */
+	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID);
+
+	/** Get Manufacturing Order Workflow	  */
+	public int getPP_Order_Workflow_ID();
+
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException;
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";
@@ -345,59 +402,6 @@ public interface I_PP_Cost_Collector
 	  * Posting status
 	  */
 	public boolean isPosted();
-
-    /** Column name PP_Cost_Collector_ID */
-    public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
-
-	/** Set PP_Cost_Collector_ID	  */
-	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID);
-
-	/** Get PP_Cost_Collector_ID	  */
-	public int getPP_Cost_Collector_ID();
-
-    /** Column name PP_Order_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
-
-	/** Set PP_Order_BOMLine_ID	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
-
-	/** Get PP_Order_BOMLine_ID	  */
-	public int getPP_Order_BOMLine_ID();
-
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception;
-
-    /** Column name PP_Order_ID */
-    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
-
-	/** Set PP_Order_ID	  */
-	public void setPP_Order_ID (int PP_Order_ID);
-
-	/** Get PP_Order_ID	  */
-	public int getPP_Order_ID();
-
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception;
-
-    /** Column name PP_Order_Node_ID */
-    public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
-
-	/** Set Manufacturing Order Activity	  */
-	public void setPP_Order_Node_ID (int PP_Order_Node_ID);
-
-	/** Get Manufacturing Order Activity	  */
-	public int getPP_Order_Node_ID();
-
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception;
-
-    /** Column name PP_Order_Workflow_ID */
-    public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
-
-	/** Set PP_Order_Workflow_ID	  */
-	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID);
-
-	/** Get PP_Order_Workflow_ID	  */
-	public int getPP_Order_Workflow_ID();
-
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws Exception;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -424,10 +428,10 @@ public interface I_PP_Cost_Collector
     /** Column name QtyReject */
     public static final String COLUMNNAME_QtyReject = "QtyReject";
 
-	/** Set QtyReject	  */
+	/** Set Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject);
 
-	/** Get QtyReject	  */
+	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
     /** Column name Reversal_ID */
@@ -442,6 +446,21 @@ public interface I_PP_Cost_Collector
 	  * ID of document reversal
 	  */
 	public int getReversal_ID();
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name ScrappedQty */
     public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
@@ -459,26 +478,11 @@ public interface I_PP_Cost_Collector
     /** Column name SetupTimeReal */
     public static final String COLUMNNAME_SetupTimeReal = "SetupTimeReal";
 
-	/** Set SetupTimeReal	  */
+	/** Set Setup Time Real	  */
 	public void setSetupTimeReal (BigDecimal SetupTimeReal);
 
-	/** Get SetupTimeReal	  */
+	/** Get Setup Time Real	  */
 	public BigDecimal getSetupTimeReal();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws Exception;
 
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";

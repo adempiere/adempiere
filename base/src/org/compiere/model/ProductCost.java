@@ -137,7 +137,26 @@ public class ProductCost
 	public static final int ACCTTYPE_P_CostAdjustment = 9;
 	/** Inventory Clearing		*/
 	public static final int ACCTTYPE_P_InventoryClearing = 10;
-	
+	/** Work in Process  */
+	public static final int ACCTTYPE_P_WorkInProcess = 11;
+	/** Method Change Variance  */
+	public static final int ACCTTYPE_P_MethodChangeVariance = 12;
+	/** Material Usage Variance  */
+	public static final int ACCTTYPE_P_UsageVariance = 13;
+	/** Material Rate Variance  */
+	public static final int ACCTTYPE_P_RateVariance = 14;
+	/** Mix Variance  */
+	public static final int ACCTTYPE_P_MixVariance = 15;
+	/** Floor Stock  */
+	public static final int ACCTTYPE_P_FloorStock = 16;
+	/** Cost Production */
+	public static final int ACCTTYPE_P_CostOfProduction = 16;
+	/** Labor  */
+	public static final int ACCTTYPE_P_Labor = 14;
+	/** Burden  */
+	public static final int ACCTTYPE_P_Burden = 15;
+
+
 	/**
 	 *  Line Account from Product
 	 *

@@ -1110,9 +1110,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 					getM_AttributeSetInstance_ID(),
 					movementDate,
 					toDeliverQty, scrapQty, rejectQty,
-					getDocType(X_C_DocType.DOCBASETYPE_ManufacturingOrderReceipt),
+					getDocType(MDocType.DOCBASETYPE_ManufacturingOrder),
 					0, // PP_Order_BOMLine_ID
-					MPPCostCollector.MOVEMENTTYPE_ProductionPlus);
+					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt);
 		}
 
 		if (ADialog.ask(m_WindowNo, this,
@@ -1173,17 +1173,18 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			MPPOrderBOMLine PP_orderbomLine = new MPPOrderBOMLine(Env.getCtx(), PP_OrderBOMLine_ID, null);
 			if (issue.signum() > 0 || qtyScrap.signum() > 0 || qtyReject.signum() > 0)
 			{
-				int C_DocType_ID = 0;
+				String CostCollectorType = null;
+				int C_DocType_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder);
 				// Method Variance
 				if (PP_orderbomLine.getQtyBatch().signum() == 0
 						&& PP_orderbomLine.getQtyBOM().signum() == 0)
 				{
-					C_DocType_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrderMethodVariance);
+					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance;
 				}
 				// Order Issue
 				else
 				{
-					C_DocType_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrderIssue);
+					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue;
 				}
 				//
 				createCollector (
@@ -1194,7 +1195,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 						issue, qtyScrap, qtyReject,
 						C_DocType_ID,
 						PP_OrderBOMLine_ID,
-						MPPCostCollector.MOVEMENTTYPE_Production_ // Production "-"
+						CostCollectorType // Production "-"
 				);
 
 			}
@@ -1221,7 +1222,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			BigDecimal reject,
 			int C_DocType_ID,
 			int PP_Order_BOMLine_ID,
-			String MovementType
+			String CostCollectorType
 	)
 	{
 		MPPOrder pp_order = getPP_Order();
@@ -1233,7 +1234,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		PP_Cost_Collector.setC_Campaign_ID(pp_order.getC_Campaign_ID());
 		PP_Cost_Collector.setC_DocType_ID(C_DocType_ID);
 		PP_Cost_Collector.setC_DocTypeTarget_ID(C_DocType_ID);
-		PP_Cost_Collector.setMovementType(MovementType);
+		PP_Cost_Collector.setCostCollectorType(CostCollectorType);
 		PP_Cost_Collector.setC_Project_ID(pp_order.getC_Project_ID());
 		PP_Cost_Collector.setDescription(pp_order.getDescription());
 		PP_Cost_Collector.setDocAction(MPPCostCollector.ACTION_Complete);

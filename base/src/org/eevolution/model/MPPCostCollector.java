@@ -214,8 +214,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		}
 
 		//	Update Order Line
-		MDocType doctype = MDocType.get(getCtx(), getC_DocType_ID());
-		if(!doctype.getDocBaseType().equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
+		if(getCostCollectorType() == MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
 		{
 			//	Stock Movement 
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
@@ -323,7 +322,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			}
 		}
 		// Operation Activity
-		if(doctype.getDocBaseType().equals(MDocType.DOCBASETYPE_ManufacturingOperationActivity))
+		if(getCostCollectorType() == MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
 		{
 			MPPOrderNode onodeact = getPP_Order_Node();
 			onodeact.setDocStatus(DOCSTATUS_Completed);
@@ -546,7 +545,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			costnew.setDateAcct(getDateAcct());
 			costnew.setMovementQty(getMovementQty());
 			//costnew.setDurationUnit(getDurationUnit());
-			costnew.setMovementType(getMovementType());
+			costnew.setCostCollectorType(getCostCollectorType());
 			//
 			costnew.setPP_Order_Node_ID(PP_Order_Node_ID);
 			costnew.setDurationReal(duration);
@@ -573,8 +572,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	private void closeNew(int PP_Order_ID, int PP_Order_Node_ID)
 	{
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if(MDocType.DOCBASETYPE_ManufacturingOperationActivity.equals(dt.getDocBaseType()))
+		if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?";
 			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
@@ -592,8 +590,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	protected void completeNew(int PP_Order_ID)
 	{
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if(MDocType.DOCBASETYPE_ManufacturingOperationActivity.equals(dt.getDocBaseType()))
+		if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?"
 			+" AND "+COLUMNNAME_DocStatus+"<>'"+DOCSTATUS_Completed+"'"
@@ -795,5 +792,15 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	public boolean isReceipt()
 	{
 		return getMovementType().charAt(1) == '+';
+	}
+	
+	public String getMovementType()
+	{
+		if (getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt)
+			return MTransaction.MOVEMENTTYPE_WorkOrderPlus;
+		else if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue)
+			return MTransaction.MOVEMENTTYPE_WorkOrder_;	
+		
+		return null;
 	}
 }	//	MPPCostCollector
