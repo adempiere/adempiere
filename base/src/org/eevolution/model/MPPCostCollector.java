@@ -213,8 +213,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			QtyReceipt = Qty.negate();
 		}
 
+		//
 		//	Update Order Line
-		if(getCostCollectorType() == MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
+		if(!isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
 		{
 			//	Stock Movement 
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
@@ -321,8 +322,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				log.fine("Order -> Delivered=" + order.getQtyDelivered());										
 			}
 		}
+		//
 		// Operation Activity
-		if(getCostCollectorType() == MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
+		else // isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport)
 		{
 			MPPOrderNode onodeact = getPP_Order_Node();
 			onodeact.setDocStatus(DOCSTATUS_Completed);
@@ -572,7 +574,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	private void closeNew(int PP_Order_ID, int PP_Order_Node_ID)
 	{
-		if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?";
 			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
@@ -590,7 +592,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	protected void completeNew(int PP_Order_ID)
 	{
-		if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ActivityControlReport)
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?"
 			+" AND "+COLUMNNAME_DocStatus+"<>'"+DOCSTATUS_Completed+"'"
@@ -796,11 +798,27 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	
 	public String getMovementType()
 	{
-		if (getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt)
+		if (isCostCollectorType(COSTCOLLECTORTYPE_MaterialReceipt))
 			return MTransaction.MOVEMENTTYPE_WorkOrderPlus;
-		else if(getCostCollectorType()==MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue)
+		else if(isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue))
 			return MTransaction.MOVEMENTTYPE_WorkOrder_;	
 		
 		return null;
+	}
+	
+	/**
+	 * Check if CostCollectorType is equal with any of provided types
+	 * @param types
+	 * @return 
+	 */
+	public boolean isCostCollectorType(String ... types)
+	{
+		String type = getCostCollectorType();
+		for (String t : types)
+		{
+			if (type.equals(t))
+				return true;
+		}
+		return false;
 	}
 }	//	MPPCostCollector
