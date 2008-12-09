@@ -38,8 +38,7 @@ begin
 					WHEN v_Saturday THEN 2
 					WHEN v_Sunday THEN 1
 					ELSE 0
-				END INTO v_offset
-		FROM adempiere.test;
+				END INTO v_offset;
 		v_nextDate := v_nextDate + v_offset::integer;
 		v_isHoliday := false;
 		FOR nbd IN	SELECT * 

@@ -31,13 +31,13 @@ ALTER TABLE pp_wf_node_asset
 ALTER TABLE pp_wf_node_asset
     ADD CONSTRAINT adwfnode_ppwfnodeasset
 	FOREIGN KEY(ad_wf_node_id)
-	REFERENCES adempiere.ad_wf_node(ad_wf_node_id)
+	REFERENCES ad_wf_node(ad_wf_node_id)
 ;
 
-ALTER TABLE adempiere.pp_wf_node_asset
+ALTER TABLE pp_wf_node_asset
     ADD CONSTRAINT aasset_ppwfnodeasset
 	FOREIGN KEY(a_asset_id)
-	REFERENCES adempiere.a_asset(a_asset_id)
+	REFERENCES a_asset(a_asset_id)
 ;
 
 -- 29.08.2008 18:32:06 EEST

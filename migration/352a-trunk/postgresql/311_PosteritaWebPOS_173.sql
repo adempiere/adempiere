@@ -140,12 +140,6 @@ updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52468 , 0, 0, 'Y', TO_TIMESTAMP('2008-04-25 14:30:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-04-25 14:30:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.delete.price.on.pricelist', 'Delete Price On Price List', ' ', 'I', 'D'); 
 
-INSERT INTO AD_MESSAGE
-(ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
-updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
-VALUES(52469 , 0, 0, 'Y', TO_TIMESTAMP('2008-04-25 14:30:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-04-25 14:30:00','YYYY-MM-DD HH24:MI:SS'), 100, 
-'smenu.organisation', 'Organisation', ' ', 'I', 'D'); 
-
 
 -- 1.6/postgresql/003_C_Currency.sql
 -----------------------------
@@ -1072,91 +1066,91 @@ updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52472 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'csv', 'CSV', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52473 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.sales.report', 'Sales Report', ' ', 'I', 'D');
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52474 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.best.selling.items', 'Best Selling Items', ' ', 'I', 'D');  
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52475 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.stock.sales.report', 'Stock Sales Report', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52476 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.transfer.stock', 'Stock Transfer', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52477 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.inventory.move', 'Inventory Move', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52478 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.move.confirmation', 'Move Confirmation', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52479 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'smenu.barcode.printing', 'Barcode Printing', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52480 , 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'basePriceList', 'Base Price List', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52481, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'isDeleteOldRecords', 'Delete Old Records', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52482, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'sales.price.list', 'Sales Price List', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52483, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'purchase.price.list', 'Purchase Price List', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52484, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'pos.terminal', 'Terminal', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52485, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'pos.version', 'Version', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52486, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
 'pmenu.new.reports', 'Reports', ' ', 'I', 'D'); 
 
-INSERT INTO adempiere.AD_MESSAGE
+INSERT INTO AD_MESSAGE
 (ad_message_id, ad_client_id, ad_org_id, isactive, created, createdby, 
 updated, updatedby, VALUE, msgtext, msgtip, msgtype, entitytype)
 VALUES(52487, 0, 0, 'Y', TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, TO_TIMESTAMP('2008-06-20 10:40:00','YYYY-MM-DD HH24:MI:SS'), 100, 
