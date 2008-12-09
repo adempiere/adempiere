@@ -35,12 +35,17 @@ public class SignDatabaseBuild
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (SignDatabaseBuild.class);
 
-	public static void main(String[] args) 
+	public static void main(String[] args)
 	{
 		Adempiere.startupEnvironment(false);
 		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Sign Database Build");
 		s_log.info("-------------------");
+		
+		if (! DB.isConnected()) {
+			s_log.info("No DB Connection");
+			System.exit(1);
+		}
 		
 		PreparedStatement updateStmt = null;
 		try {
