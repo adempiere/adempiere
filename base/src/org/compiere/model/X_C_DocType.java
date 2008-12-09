@@ -19,7 +19,6 @@ package org.compiere.model;
 
 import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
@@ -132,14 +131,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getAD_PrintFormat_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Difference Document.
 		@param C_DocTypeDifference_ID 
 		Document type for generating in dispute Shipments
@@ -158,14 +149,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeDifference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getC_DocTypeDifference_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -194,14 +177,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getC_DocTypeInvoice_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeInvoice_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Type for ProForma.
 		@param C_DocTypeProforma_ID 
 		Document type used for pro forma invoices generated from this sales document
@@ -220,14 +195,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeProforma_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeProforma_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getC_DocTypeProforma_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeProforma_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -256,14 +223,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getC_DocTypeShipment_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeShipment_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -281,14 +240,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getC_DocType_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -314,14 +265,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getDefiniteSequence_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DefiniteSequence_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -337,11 +280,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	public String getDescription (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_Description,timeLine);
 	}
 
 	/** DocBaseType AD_Reference_ID=183 */
@@ -420,11 +358,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-	public String getDocBaseType (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_DocBaseType,timeLine);
-	}
-
 	/** Set Document Sequence.
 		@param DocNoSequence_ID 
 		Document sequence determines the numbering of documents
@@ -443,14 +376,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getDocNoSequence_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DocNoSequence_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getDocNoSequence_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DocNoSequence_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -492,11 +417,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocSubTypeSO);
 	}
 
-	public String getDocSubTypeSO (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_DocSubTypeSO,timeLine);
-	}
-
 	/** Set Document Copies.
 		@param DocumentCopies 
 		Number of copies to be printed
@@ -517,14 +437,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getDocumentCopies (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DocumentCopies,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Note.
 		@param DocumentNote 
 		Additional information for a Document
@@ -540,11 +452,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public String getDocumentNote () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNote);
-	}
-
-	public String getDocumentNote (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_DocumentNote,timeLine);
 	}
 
 	public I_GL_Category getGL_Category() throws RuntimeException 
@@ -585,14 +492,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	public int getGL_Category_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Category_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Charges.
 		@param HasCharges 
 		Charges can be added to the document
@@ -608,18 +507,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isHasCharges () 
 	{
 		Object oo = get_Value(COLUMNNAME_HasCharges);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isHasCharges (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_HasCharges,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -653,18 +540,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isHasProforma (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_HasProforma,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Create Counter Document.
 		@param IsCreateCounter 
 		Create Counter Document
@@ -680,18 +555,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isCreateCounter () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsCreateCounter);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isCreateCounter (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsCreateCounter,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -725,18 +588,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isDefault (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDefault,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Default Counter Document.
 		@param IsDefaultCounterDoc 
 		The document type is the default counter document type
@@ -752,18 +603,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isDefaultCounterDoc () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDefaultCounterDoc);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isDefaultCounterDoc (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDefaultCounterDoc,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -797,18 +636,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isDocNoControlled (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDocNoControlled,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set In Transit.
 		@param IsInTransit 
 		Movement is in transit
@@ -824,18 +651,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isInTransit () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsInTransit);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isInTransit (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsInTransit,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -869,18 +684,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isIndexed (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsIndexed,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Overwrite Date on Complete.
 		@param IsOverwriteDateOnComplete Overwrite Date on Complete	  */
 	public void setIsOverwriteDateOnComplete (boolean IsOverwriteDateOnComplete)
@@ -902,18 +705,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isOverwriteDateOnComplete (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsOverwriteDateOnComplete,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Overwrite Sequence on Complete.
 		@param IsOverwriteSeqOnComplete Overwrite Sequence on Complete	  */
 	public void setIsOverwriteSeqOnComplete (boolean IsOverwriteSeqOnComplete)
@@ -926,18 +717,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isOverwriteSeqOnComplete () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsOverwriteSeqOnComplete);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isOverwriteSeqOnComplete (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsOverwriteSeqOnComplete,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -971,18 +750,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isPickQAConfirm (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsPickQAConfirm,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -998,18 +765,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isSOTrx (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1043,18 +798,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return false;
 	}
 
-	public boolean isShipConfirm (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsShipConfirm,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Split when Difference.
 		@param IsSplitWhenDifference 
 		Split document when there is a difference
@@ -1070,18 +813,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isSplitWhenDifference () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSplitWhenDifference);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isSplitWhenDifference (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSplitWhenDifference,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1110,11 +841,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public String getName (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_Name,timeLine);
-	}
-
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
@@ -1140,10 +866,5 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public String getPrintName () 
 	{
 		return (String)get_Value(COLUMNNAME_PrintName);
-	}
-
-	public String getPrintName (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_PrintName,timeLine);
 	}
 }

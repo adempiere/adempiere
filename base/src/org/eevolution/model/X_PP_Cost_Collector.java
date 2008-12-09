@@ -114,14 +114,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getAD_OrgTrx_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -156,14 +148,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getAD_User_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -208,14 +192,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getC_Activity_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
@@ -255,14 +231,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getC_Campaign_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Target Document Type.
 		@param C_DocTypeTarget_ID 
 		Target document type for conversing documents
@@ -285,14 +253,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getC_DocTypeTarget_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -310,14 +270,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getC_DocType_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -362,14 +314,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getC_Project_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
@@ -409,14 +353,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getC_UOM_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** CostCollectorType AD_Reference_ID=53287 */
 	public static final int COSTCOLLECTORTYPE_AD_Reference_ID=53287;
 	/** Material Receipt = 100 */
@@ -451,11 +387,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return (String)get_Value(COLUMNNAME_CostCollectorType);
 	}
 
-	public String getCostCollectorType (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_CostCollectorType,timeLine);
-	}
-
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -475,11 +406,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
-	public Timestamp getDateAcct (Timestamp timeLine) 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateAcct,timeLine);
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -495,11 +421,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	public String getDescription (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_Description,timeLine);
 	}
 
 	/** DocAction AD_Reference_ID=135 */
@@ -550,11 +471,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
-	public String getDocAction (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_DocAction,timeLine);
-	}
-
 	/** DocStatus AD_Reference_ID=131 */
 	public static final int DOCSTATUS_AD_Reference_ID=131;
 	/** Drafted = DR */
@@ -599,11 +515,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return (String)get_Value(COLUMNNAME_DocStatus);
 	}
 
-	public String getDocStatus (Timestamp timeLine) 
-	{
-		return (String)get_Value(COLUMNNAME_DocStatus,timeLine);
-	}
-
 	/** Set Duration Real.
 		@param DurationReal Duration Real	  */
 	public void setDurationReal (BigDecimal DurationReal)
@@ -621,14 +532,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return bd;
 	}
 
-	public BigDecimal getDurationReal (Timestamp timeLine) 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DurationReal,timeLine);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Is BatchTime.
 		@param IsBatchTime Is BatchTime	  */
 	public void setIsBatchTime (boolean IsBatchTime)
@@ -641,18 +544,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public boolean isBatchTime () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBatchTime);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isBatchTime (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_IsBatchTime,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -685,14 +576,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getM_AttributeSetInstance_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Locator.
 		@param M_Locator_ID 
 		Warehouse Locator
@@ -710,14 +593,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getM_Locator_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getM_Locator_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -756,14 +631,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getM_Product_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -815,14 +682,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getM_Warehouse_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Movement Date.
 		@param MovementDate 
 		Date a product was moved in or out of inventory
@@ -840,11 +699,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public Timestamp getMovementDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-	public Timestamp getMovementDate (Timestamp timeLine) 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate,timeLine);
 	}
 
 	/** Set Movement Quantity.
@@ -869,14 +723,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return bd;
 	}
 
-	public BigDecimal getMovementQty (Timestamp timeLine) 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty,timeLine);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Manufacturing Cost Collector.
 		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
 	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
@@ -891,14 +737,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getPP_Cost_Collector_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getPP_Cost_Collector_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -940,14 +778,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getPP_Order_BOMLine_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
@@ -978,14 +808,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getPP_Order_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1027,14 +849,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getPP_Order_Node_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Workflow.Table_Name);
@@ -1071,14 +885,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getPP_Order_Workflow_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Workflow_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Posted.
 		@param Posted 
 		Posting status
@@ -1094,18 +900,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public boolean isPosted () 
 	{
 		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isPosted (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_Posted,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1139,18 +933,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return false;
 	}
 
-	public boolean isProcessed (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_Processed,timeLine);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
@@ -1163,18 +945,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	public boolean isProcessing (Timestamp timeLine) 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing,timeLine);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1201,14 +971,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return bd;
 	}
 
-	public BigDecimal getQtyReject (Timestamp timeLine) 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyReject,timeLine);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Reversal ID.
 		@param Reversal_ID 
 		ID of document reversal
@@ -1227,14 +989,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getReversal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getReversal_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1278,14 +1032,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getS_Resource_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Scrapped Quantity.
 		@param ScrappedQty 
 		The Quantity scrapped due to QA issues
@@ -1306,14 +1052,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return bd;
 	}
 
-	public BigDecimal getScrappedQty (Timestamp timeLine) 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ScrappedQty,timeLine);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Setup Time Real.
 		@param SetupTimeReal Setup Time Real	  */
 	public void setSetupTimeReal (BigDecimal SetupTimeReal)
@@ -1326,14 +1064,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public BigDecimal getSetupTimeReal () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public BigDecimal getSetupTimeReal (Timestamp timeLine) 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal,timeLine);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -1362,14 +1092,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public int getUser1_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID,timeLine);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2
@@ -1388,14 +1110,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public int getUser2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public int getUser2_ID (Timestamp timeLine) 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID,timeLine);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
