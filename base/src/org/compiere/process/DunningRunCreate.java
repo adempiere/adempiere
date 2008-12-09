@@ -332,7 +332,7 @@ public class DunningRunCreate extends SvrProcess
 		if (p_OnlySOTrx)
 			sql += " AND IsReceipt='Y'";
 		if ( p_AD_Org_ID != 0 )
-			sql += " AND i.AD_Org_ID=" + p_AD_Org_ID;
+			sql += " AND p.AD_Org_ID=" + p_AD_Org_ID;
 		
 		int count = 0;
 		PreparedStatement pstmt = null;
