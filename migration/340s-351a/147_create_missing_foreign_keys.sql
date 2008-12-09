@@ -88,7 +88,7 @@ ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADPrintFormat_ADPackageExpDeta
 
 ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADProcess_ADPackageExpDetail FOREIGN KEY (AD_Process_ID) REFERENCES AD_Process);
 
-ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADReference_ADPackageExpDetail FOREIGN KEY (AD_Reference_ID) REFERENCES AD_Reference);
+-- ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADReference_ADPackageExpDetail FOREIGN KEY (AD_Reference_ID) REFERENCES AD_Reference);
 
 ALTER TABLE AD_Package_Exp_Detail ADD (CONSTRAINT ADReportView_ADPackageExpDetai FOREIGN KEY (AD_ReportView_ID) REFERENCES AD_ReportView);
 
