@@ -242,7 +242,7 @@ public class MinOutManager extends AbstractDocumentManager
         
         MOrder salesOrder = new MOrder(ctx,salesOrderId,trxName);
         
-        MInOut inOut = new MInOut(salesOrder, MDocType.C_DOCTYPESHIPMENT_ID_AD_Reference_ID, stamp);
+        MInOut inOut = new MInOut(salesOrder, 0, stamp);
         try
         {
            int [] invoiceIds = MInvoice.getAllIDs(MInvoice.Table_Name,"AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+" and c_order_id="+salesOrderId,trxName);
