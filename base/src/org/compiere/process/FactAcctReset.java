@@ -211,13 +211,6 @@ public class FactAcctReset extends SvrProcess
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrder 
 				+ "','" + MPeriodControl.DOCBASETYPE_MaintenanceOrder
 				+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrderIssue 
-				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderMethodVariation
-				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderRateVariation
-				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderReceipt
-				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOrderUseVariation
-				+ "','" + MPeriodControl.DOCBASETYPE_ManufacturingOperationActivity + "')";
 		else if (AD_Table_ID == MDDOrder.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
 		else if (AD_Table_ID == MHRProcess.Table_ID)
