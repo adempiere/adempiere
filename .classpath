@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
-	<classpathentry kind="src" path="looks/src"/>
 	<classpathentry kind="src" path="install/src"/>
 	<classpathentry kind="src" path="extend/src"/>
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
