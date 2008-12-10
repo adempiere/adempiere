@@ -74,8 +74,6 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.InputEvent;
-import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
@@ -83,7 +81,6 @@ import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
-import org.zkoss.zul.Toolbarbutton;
 
 /**
  * 
@@ -558,22 +555,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			
 			m_popup.setPage(toolbar.getButton("Lock").getPage());
 		}
-		m_popup.open(toolbar.getButton("Lock"));
-		
-		/*
-		//	Control Pressed
-		if (toolbar.getEvent().getName() == Events.ON_CTRL_KEY)
-		{
-			new WRecordAccessDialog(null, curTab.getAD_Table_ID(), record_ID);
-		}
-		else
-		{
-			curTab.lock(Env.getCtx(), record_ID, !toolbar.getButton("Lock").isPressed());
-			curTab.loadAttachments();			//	reload
-		}
-		
-		toolbar.lock(curTab.isLocked());
-		*/
+		m_popup.open(toolbar.getButton("Lock"));		
 	}	//	lock
 	//
 
@@ -1128,6 +1110,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
 	        }
 	        curTabpanel.dynamicDisplay(0);
+	        curTabpanel.afterSave(onSaveEvent);
     	}
     }
     
@@ -1250,12 +1233,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, new EventListener() 
 		{
+			@SuppressWarnings("unchecked")
 			public void onEvent(Event event) throws Exception 
 			{
 				if (FDialog.ask(curWindowNo, messagePanel, "DeleteSelection"))
 		        {
 					logger.fine("ok");
-					Set selectedValues = listbox.getSelectedItems();
+					Set<Listitem> selectedValues = listbox.getSelectedItems();
 					if(selectedValues != null)
 					{
 						for(Iterator<Listitem> iter = selectedValues.iterator(); iter.hasNext();)

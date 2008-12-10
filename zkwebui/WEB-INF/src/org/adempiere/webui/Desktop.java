@@ -499,14 +499,14 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
 					try {
 						updateInfo();						
 					} catch (Error ex) {
-						logger.log(Level.SEVERE, "UpdateInfo Thread error="+ex.getLocalizedMessage(), ex);
+						logger.log(Level.WARNING, "UpdateInfo Thread error="+ex.getLocalizedMessage(), ex);
 						break;
 					} finally {
 						// release full control of desktop
 						Executions.deactivate(desktop);
 					}
 				} catch (Throwable e) {
-					logger.log(Level.SEVERE, "UpdateInfo Thread error="+e.getLocalizedMessage(), e);
+					logger.log(Level.WARNING, "UpdateInfo Thread error="+e.getLocalizedMessage(), e);
 					break;
 				}				
 			}

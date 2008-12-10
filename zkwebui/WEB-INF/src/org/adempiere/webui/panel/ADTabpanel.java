@@ -68,6 +68,7 @@ import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Group;
+import org.zkoss.zul.Groupfoot;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
@@ -132,10 +133,13 @@ DataStatusListener, IADTabpanel
 	private GridTabDataBinder dataBinder;
 
 	private Map<Integer, Group> includedTab = new HashMap<Integer, Group>();
+	private Map<Integer, Groupfoot> includedTabFooter = new HashMap<Integer, Groupfoot>();
 	
 	private List<EmbeddedPanel> includedPanel = new ArrayList<EmbeddedPanel>();
 	
 	private boolean active = false;
+
+	private Group currentGroup;
 
 	public ADTabpanel() 
 	{
@@ -260,15 +264,22 @@ DataStatusListener, IADTabpanel
                         rows.appendChild(row);
                         if (rowList != null)
             				rowList.add(row);
-                        row = new Row();
         			} else if (row.getChildren().size() > 0) 
         			{
         				rows.appendChild(row);
         				if (rowList != null)
-            				rowList.add(row);
-        				row = new Row();
+            				rowList.add(row);        				
         			}
             		
+            		//end current field group
+            		if (currentGroup != null) {
+            			row = new Groupfoot();
+            			rows.appendChild(row);
+            			currentGroup = null;
+            			currentFieldGroup = null;
+            		}
+            		
+            		row = new Row();
             		row.setSpans("5");
         			row.appendChild(new Separator());
         			rows.appendChild(row);
@@ -276,7 +287,11 @@ DataStatusListener, IADTabpanel
             		row = new Group();
             		row.setSpans("2,3");
             		rows.appendChild(row);
-            		includedTab .put(field.getIncluded_Tab_ID(), (Group)row);
+            		includedTab.put(field.getIncluded_Tab_ID(), (Group)row);
+            		row = new Groupfoot();
+            		rows.appendChild(row);
+            		includedTabFooter.put(field.getIncluded_Tab_ID(), (Groupfoot)row);
+            		
             		row = new Row();
             		continue;
             	}
@@ -342,6 +357,7 @@ DataStatusListener, IADTabpanel
             				{
             					((Group)row).setOpen(false);
             				}
+            				currentGroup = (Group)row;
             				rows.appendChild(row);
             				headerRows.add(row);
             			}
@@ -894,19 +910,18 @@ DataStatusListener, IADTabpanel
 			ep.windowPanel = panel;
 			org.zkoss.zul.Row row = new Row();
 			row.setSpans("5");
-			Component next = group.getNextSibling();
-			grid.getRows().insertBefore(row, next);			
-			panel.createPart(row);
-			panel.getComponent().setWidth("99%");
+			grid.getRows().insertBefore(row, includedTabFooter.get(adTabId));			
+			panel.createPart(row);		
+			
+			panel.getComponent().setWidth("100%");
+			panel.getComponent().setStyle("position: relative");
+			panel.getComponent().setHeight("400px");
 			
 			Label title = new Label(gridWindow.getTab(tabIndex).getName());
 			group.appendChild(title);
 			group.appendChild(panel.getToolbar());
 			panel.getStatusBar().setZclass("z-group-foot");
-			if (!group.isOpen()) {
-				panel.getToolbar().setVisible(false);
-			}
-			
+						
 			panel.initPanel(-1, null);			
 			if (active)
 				activateChild(true, ep);
@@ -917,6 +932,16 @@ DataStatusListener, IADTabpanel
 		ADWindowPanel windowPanel;
 		IADTabpanel tabPanel;
 		int adTabId;
+	}
+
+	/**
+	 * @see IADTabpanel#afterSave(boolean)
+	 */
+	public void afterSave(boolean onSaveEvent) {
+		if (!includedPanel.isEmpty()) {
+        	for (EmbeddedPanel panel : includedPanel)
+        		panel.tabPanel.query(false, 0, 0);
+        }	        	
 	}
 }
 

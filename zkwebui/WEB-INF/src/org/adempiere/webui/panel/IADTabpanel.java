@@ -89,4 +89,10 @@ public interface IADTabpanel extends Component, Evaluatee {
 	 * @param i
 	 */
 	public void dynamicDisplay(int i);
+
+	/**
+	 * After save event
+	 * @param onSaveEvent
+	 */
+	public void afterSave(boolean onSaveEvent);
 }

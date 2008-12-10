@@ -866,5 +866,8 @@ public class ADSortTab extends Panel implements IADTabpanel
 		return Env.getContext(Env.getCtx(), m_WindowNo, variableName);
 	}
 
+	public void afterSave(boolean onSaveEvent) {
+	}
+
 }	//ADSortTab
 
