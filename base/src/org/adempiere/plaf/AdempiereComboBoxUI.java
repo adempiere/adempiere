@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.plaf.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.plaf.metal.*;
-
+import com.jgoodies.looks.plastic.PlasticComboBoxUI;
 
 /**
  *  Compiere ComboBox UI.
@@ -27,7 +27,7 @@ import javax.swing.plaf.metal.*;
  *  @author     Jorg Janke
  *  @version    $Id: CompiereComboBoxUI.java,v 1.10 2005/10/09 19:01:37 jjanke Exp $
  */
-public class AdempiereComboBoxUI extends com.jgoodies.looks.plastic.PlasticComboBoxUI
+public class AdempiereComboBoxUI extends PlasticComboBoxUI
 {
 	/**
 	 *  Create UI
