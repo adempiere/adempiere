@@ -34,6 +34,7 @@
 		<tstamp />
 		<available file="${envFile}" property="envFileExists" />
 		<available file="lib/AdempiereOriginal.jar" type="file" property="adempiereOriginal.exists"/>
+		<available file="lib/webuiOriginal.war" type="file" property="webuiOriginal.exists"/>
 		<fail message="**** RUN_setup was not successful - please re-run ****" unless="envFileExists" />
 		<property file="${envFile}" />
 		<filter filtersfile="${envFile}" />
@@ -122,12 +123,16 @@
 	<target name="backupAdempiereOriginal" unless="adempiereOriginal.exists">
 		<copy file="lib/Adempiere.jar" tofile="lib/AdempiereOriginal.jar" overwrite="yes" />
 	</target>
-	<!-- rebuild Adempiere.jar to include possible customization and patches -->
+	<target name="backupWebuiOriginal" unless="webuiOriginal.exists">
+		<copy file="lib/webui.war" tofile="lib/webuiOriginal.war" overwrite="yes" />
+	</target>
+
+	<!-- rebuild Adempiere.jar and webui.war to include possible customization and patches -->
 	<target name="setupALib" depends="setupInit, backupAdempiereOriginal">
 		<delete file="lib/packages.jar" failonerror="false"/>
 		<jar jarfile="lib/packages.jar" duplicate="preserve">
 			<!-- 2pack packages -->
-			<zipgroupfileset dir="packages" includes="**/lib/*.jar">
+			<zipgroupfileset dir="packages" includes="**/lib/*.jar" casesensitive="no">
 				<patternset refid="manifest.exclude"/>
 			</zipgroupfileset>
 		</jar>
@@ -136,15 +141,15 @@
 			<zipfileset src="lib/customization.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
+			<!-- 2pack packages -->
+			<zipfileset src="lib/packages.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
 			<zipfileset src="lib/patches.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- posterita packages -->
 			<zipfileset src="lib/posterita.jar" >
-				<patternset refid="manifest.exclude"/>
-			</zipfileset>
-			<!-- 2pack packages -->
-			<zipfileset src="lib/packages.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<zipfileset src="lib/AdempiereOriginal.jar" >
@@ -166,7 +171,7 @@
 		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
     		</manifest>
 	    </jar>
-		
+
 		<!-- Sign Adempiere Jar -->
 		<signjar jar="lib/Adempiere1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
@@ -183,13 +188,44 @@
 		<signjar jar="lib/customization1.jar" alias="${ADEMPIERE_KEYSTORECODEALIAS}" 
 			storepass="${ADEMPIERE_KEYSTOREPASS}" keystore="${ADEMPIERE_KEYSTORE}" />
 		<copy file="lib/customization1.jar" tofile="lib/customization.jar" overwrite="yes" />
-		
+
 		<!-- clean up -->
 		<delete  file="lib/Adempiere1.jar"/>
 		<delete  file="lib/patches1.jar"/>
 		<delete  file="lib/customization1.jar"/>
 	</target>
-		
+
+	<!-- rebuild Adempiere.jar and webui.war to include possible customization and patches -->
+	<target name="setupWLib" depends="setupInit, backupWebuiOriginal">
+		<delete file="lib/zkpackages.jar" failonerror="false"/>
+		<jar jarfile="lib/zkpackages.jar" duplicate="preserve">
+			<!-- 2pack zkpackages -->
+			<zipgroupfileset dir="zkpackages" includes="**/lib/*.jar" casesensitive="no">
+				<patternset refid="manifest.exclude"/>
+			</zipgroupfileset>
+		</jar>
+		<zip destfile="lib/webui1.war" duplicate="preserve">
+			<!-- pack zkpatches.jar and zkcustomization.jar into webui.war -->
+			<zipfileset src="lib/zkcustomization.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<!-- 2pack zkpackages -->
+			<zipfileset src="lib/zkpackages.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/zkpatches.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/webuiOriginal.war" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+	    </zip>
+
+		<copy file="lib/webui1.war" tofile="lib/webui.war" overwrite="yes" />
+		<!-- clean up -->
+		<delete  file="lib/webui1.war"/>
+	</target>
+
 	<!-- ==================================================== -->
 	<!-- Adempiere Client Lib                                  -->
 	<!-- ==================================================== -->
@@ -302,7 +338,7 @@
 	<!-- ==================================================== -->
 	<!-- Setup Lib                                            -->
 	<!-- ==================================================== -->
-	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupCLib, setupSLib, setupALib, signOtherJars" 
+	<target name="setupLib" depends="setupInit, setupWin, setupNonWin, setupCLib, setupSLib, setupALib, setupWLib, signOtherJars" 
 		description="Setup Adempiere Lib directory">
 
 		<!--	Filter files Overwrite			-->
@@ -333,7 +369,7 @@
 	</target>
 	
 	<!-- Update application library -->
-	<target name="updateLib" depends="setupInit, setupWin, setupNonWin, setupALib, signOtherJars">
+	<target name="updateLib" depends="setupInit, setupWin, setupNonWin, setupALib, setupWLib, signOtherJars">
 		<!--	Create Client Zip		-->
 		<zip zipfile="${basedir}/lib/AdempiereClient.zip">
 			<zipfileset dir="." prefix="Adempiere" 

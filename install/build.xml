@@ -143,6 +143,7 @@
 	<mkdir dir="${build.dir}/Adempiere"/>
 	<mkdir dir="${build.dir}/Adempiere/images"/>
   	<mkdir dir="${build.dir}/Adempiere/packages"/>
+  	<mkdir dir="${build.dir}/Adempiere/zkpackages"/>
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">
