@@ -106,18 +106,18 @@ public interface I_PA_DashboardContent
 	/** Get HTML	  */
 	public String getHTML();
 
-    /** Column name IsCollapsable */
-    public static final String COLUMNNAME_IsCollapsable = "IsCollapsable";
+    /** Column name IsCollapsible */
+    public static final String COLUMNNAME_IsCollapsible = "IsCollapsible";
 
-	/** Set Collapsable.
-	  * Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	/** Set Collapsible.
+	  * Flag to indicate the state of the dashboard panel
 	  */
-	public void setIsCollapsable (boolean IsCollapsable);
+	public void setIsCollapsible (boolean IsCollapsible);
 
-	/** Get Collapsable.
-	  * Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	/** Get Collapsible.
+	  * Flag to indicate the state of the dashboard panel
 	  */
-	public boolean isCollapsable();
+	public boolean isCollapsible();
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";

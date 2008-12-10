@@ -42,7 +42,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       super (ctx, PA_DashboardContent_ID, trxName);
       /** if (PA_DashboardContent_ID == 0)
         {
-			setIsCollapsable (true);
+			setIsCollapsible (true);
 // Y
 			setName (null);
 			setPA_DashboardContent_ID (0);
@@ -167,21 +167,21 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return (String)get_Value(COLUMNNAME_HTML);
 	}
 
-	/** Set Collapsable.
-		@param IsCollapsable 
-		Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	/** Set Collapsible.
+		@param IsCollapsible 
+		Flag to indicate the state of the dashboard panel
 	  */
-	public void setIsCollapsable (boolean IsCollapsable)
+	public void setIsCollapsible (boolean IsCollapsible)
 	{
-		set_Value (COLUMNNAME_IsCollapsable, Boolean.valueOf(IsCollapsable));
+		set_Value (COLUMNNAME_IsCollapsible, Boolean.valueOf(IsCollapsible));
 	}
 
-	/** Get Collapsable.
-		@return Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	/** Get Collapsible.
+		@return Flag to indicate the state of the dashboard panel
 	  */
-	public boolean isCollapsable () 
+	public boolean isCollapsible () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsCollapsable);
+		Object oo = get_Value(COLUMNNAME_IsCollapsible);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
