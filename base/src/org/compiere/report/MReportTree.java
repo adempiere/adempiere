@@ -108,6 +108,8 @@ public class MReportTree
 			|| MAcctSchemaElement.ELEMENTTYPE_UserList1.equals(m_ElementType)
 			|| MAcctSchemaElement.ELEMENTTYPE_UserList2.equals(m_ElementType) )
 			m_TreeType = MTree.TREETYPE_ElementValue;
+		if (MAcctSchemaElement.ELEMENTTYPE_OrgTrx.equals(m_ElementType))
+				m_TreeType = MTree.TREETYPE_Organization;
 		m_PA_Hierarchy_ID = PA_Hierarchy_ID;
 		m_ctx = ctx;
 		//
