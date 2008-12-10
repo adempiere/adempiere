@@ -232,7 +232,9 @@ public class Desktop extends AbstractUIPart implements MenuListener, Serializabl
             	if(description != null)
             		panel.setTooltiptext(description);
 	        	
-            	panel.setCollapsible(true);
+            	boolean collapsible = rs.getString(X_PA_DashboardContent.COLUMNNAME_IsCollapsable).equals("Y");
+            	panel.setCollapsible(collapsible);
+            	
 	        	panel.setBorder("normal");
 	        	portalchildren.appendChild(panel);
 	            Panelchildren content = new Panelchildren();

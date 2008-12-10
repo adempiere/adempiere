@@ -42,6 +42,8 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       super (ctx, PA_DashboardContent_ID, trxName);
       /** if (PA_DashboardContent_ID == 0)
         {
+			setIsCollapsable (true);
+// Y
 			setName (null);
 			setPA_DashboardContent_ID (0);
         } */
@@ -163,6 +165,30 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public String getHTML () 
 	{
 		return (String)get_Value(COLUMNNAME_HTML);
+	}
+
+	/** Set Collapsable.
+		@param IsCollapsable 
+		Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	  */
+	public void setIsCollapsable (boolean IsCollapsable)
+	{
+		set_Value (COLUMNNAME_IsCollapsable, Boolean.valueOf(IsCollapsable));
+	}
+
+	/** Get Collapsable.
+		@return Flag to indicate the state of dashboard panel (i.e. collapsable or static)
+	  */
+	public boolean isCollapsable () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCollapsable);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Line No.
