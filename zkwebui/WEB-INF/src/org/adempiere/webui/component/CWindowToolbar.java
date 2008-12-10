@@ -132,7 +132,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnArchive = createButton("Archive", "Archive", "Archive");
         btnPrint = createButton("Print", "Print", "Print");
         addSeparator();
-		if (isPersonalLock) btnLock = createButton("Lock", "Lock", "Lock"); // Elaine 2008/12/04		
+        btnLock = createButton("Lock", "Lock", "Lock"); // Elaine 2008/12/04
+		btnLock.setVisible(isPersonalLock);	
         btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
@@ -162,7 +163,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnRequests.setDisabled(false); // Elaine 2008/07/22
         btnProductInfo.setDisabled(false); // Elaine 2008/07/22
         btnArchive.setDisabled(false); // Elaine 2008/07/28
-        btnLock.setDisabled(false); // Elaine 2008/12/04
+        btnLock.setDisabled(!isPersonalLock); // Elaine 2008/12/04
         
         configureKeyMap();
         
