@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
 import org.compiere.model.CalloutEngine;
@@ -37,11 +38,12 @@ public class CalloutCostCollector extends CalloutEngine
 			return "";
 		//
 		MPPOrder order =  new MPPOrder(ctx, PP_Order_ID, null);
+		mTab.setValue(MPPCostCollector.COLUMNNAME_C_DocTypeTarget_ID, order.getC_DocType_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_S_Resource_ID, order.getS_Resource_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_M_Product_ID, order.getM_Product_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_M_AttributeSetInstance_ID, order.getM_AttributeSetInstance_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_M_Warehouse_ID, order.getM_Warehouse_ID());
-		mTab.setValue(MPPCostCollector.COLUMNNAME_MovementQty, order.getQtyEntered());
+		mTab.setValue(MPPCostCollector.COLUMNNAME_MovementQty, order.getQtyOrdered());
 		//
 		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
 		mTab.setValue(MPPCostCollector.COLUMNNAME_PP_Order_Workflow_ID, owf.getPP_Order_Workflow_ID());
@@ -52,21 +54,41 @@ public class CalloutCostCollector extends CalloutEngine
 
 	public String node (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
-		/*
 		Integer PP_Order_Node_ID = (Integer)value;
-		// 
 		if (PP_Order_Node_ID == null || PP_Order_Node_ID <= 0)
 			return "";
-		MPPOrderNode ordernode =  new MPPOrderNode(ctx, PP_Order_Node_ID, null);
-		mTab.setValue(MPPCostCollector.COLUMNNAME_IsSubcontracting, ordernode.isSubcontracting() ? "Y" : "N");
-		*/
+		//
+		MPPOrderNode node = getPP_Order_Node(ctx, PP_Order_Node_ID);
+		mTab.setValue(MPPCostCollector.COLUMNNAME_S_Resource_ID, node.getS_Resource_ID());
+		
+		BigDecimal qtyToDeliver = node.getQtyRequiered()
+										.subtract(node.getQtyDelivered())
+										.subtract(node.getQtyScrap())
+										.subtract(node.getQtyReject());
+		mTab.setValue(MPPCostCollector.COLUMNNAME_MovementQty, qtyToDeliver);
+		//
+		int duration = node.getDuration();
+		BigDecimal durationReal = qtyToDeliver.multiply(BigDecimal.valueOf(duration));
+		mTab.setValue(MPPCostCollector.COLUMNNAME_DurationReal, durationReal);
+		
 		return "";
 	}  
 
 	public String MovementType (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		return "";
-	}  
+	}
+	
+	private MPPOrderNode m_node = null;
+	private MPPOrderNode getPP_Order_Node(Properties ctx, int PP_Order_Node_ID)
+	{
+		if (m_node != null && m_node.get_ID() == PP_Order_Node_ID)
+		{
+			return m_node;
+		}
+		m_node = new MPPOrderNode(ctx, PP_Order_Node_ID, null);
+		return m_node;
+	}
 }
 
 

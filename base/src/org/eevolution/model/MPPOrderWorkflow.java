@@ -59,7 +59,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	}	//	get
 
 	/**	Single Cache					*/
-	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>("PP_Order_Workflow", 20);
+	private static CCache<Integer,MPPOrderWorkflow>	s_cache = new CCache<Integer,MPPOrderWorkflow>(Table_Name, 20);
 
 	/**************************************************************************
 	 * 	Create/Load Workflow

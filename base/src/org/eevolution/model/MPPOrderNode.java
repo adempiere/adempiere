@@ -209,6 +209,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	
 	public void setQtyOrdered(BigDecimal qtyOrdered)
 	{
+		setQtyRequiered(qtyOrdered);
 		BigDecimal time = new BigDecimal(getDuration()).multiply(qtyOrdered);
 		setDurationRequiered(time.intValue());
 	}

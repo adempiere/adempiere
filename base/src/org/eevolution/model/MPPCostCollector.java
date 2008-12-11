@@ -151,7 +151,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 		
-		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocType_ID());
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocTypeTarget_ID());
+		//	Convert/Check DocType
+		setC_DocType_ID(getC_DocTypeTarget_ID());
 		
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
@@ -532,7 +534,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 								.match();
 		if (!exists)
 		{
-			MPPCostCollector costnew = new MPPCostCollector(Env.getCtx(), 0, get_TrxName());
+			MPPCostCollector costnew = new MPPCostCollector(getCtx(), 0, get_TrxName());
 			costnew.setPP_Order_ID(getPP_Order_ID());
 			costnew.setC_DocTypeTarget_ID(getC_DocTypeTarget_ID());
 			costnew.setC_DocType_ID(getC_DocType_ID());
