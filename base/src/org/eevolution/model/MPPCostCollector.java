@@ -328,9 +328,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		{
 			MPPOrderNode onodeact = getPP_Order_Node();
 			onodeact.setDocStatus(DOCSTATUS_Completed);
+			onodeact.setQtyDelivered(onodeact.getQtyDelivered().add(getMovementQty()));
 			onodeact.setQtyScrap(onodeact.getQtyScrap().add(getScrappedQty()));
 			onodeact.setQtyReject(onodeact.getQtyReject().add(getQtyReject()));
-			onodeact.setQtyDelivered(onodeact.getQtyDelivered().add(getMovementQty()));
 			onodeact.setDurationReal(onodeact.getDurationReal()+getDurationReal().intValue());
 			onodeact.setSetupTimeReal(onodeact.getSetupTimeReal()+getSetupTimeReal().intValue());
 			onodeact.saveEx();
@@ -788,12 +788,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	
 	public boolean isIssue()
 	{
-		return getMovementType().charAt(1) == '-';
+		return isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue);
 	}
 	
 	public boolean isReceipt()
 	{
-		return getMovementType().charAt(1) == '+';
+		return isCostCollectorType(COSTCOLLECTORTYPE_MaterialReceipt);
 	}
 	
 	public String getMovementType()
@@ -802,8 +802,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			return MTransaction.MOVEMENTTYPE_WorkOrderPlus;
 		else if(isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue))
 			return MTransaction.MOVEMENTTYPE_WorkOrder_;	
-		
-		return null;
+		else
+			return null;
 	}
 	
 	/**
