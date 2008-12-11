@@ -87,21 +87,21 @@ public class MProduct extends X_M_Product
 								.list();
 		return list.toArray(new MProduct[list.size()]);
 	}	//	get
-	
-	
+
+
 	/**
-         *      Get MProduct using UPC/EAN (case sensitive)
-         *      @param  ctx     Context
-         *      @param  upc     The upc to look for
-         *      @return List of MProduct
-         *
-         */
-        public static List<MProduct> getByUPC(Properties ctx, String upc, String trxName) {
-            String whereClause = "AD_Client_ID=? AND UPC=?";
-            Query q = new Query(ctx, Table_Name, whereClause, trxName);
-            q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), upc});
-            return(q.list());
-        }
+	 * Get MProduct using UPC/EAN (case sensitive)
+	 * @param  ctx     Context
+	 * @param  upc     The upc to look for
+	 * @return List of MProduct
+	 */
+	public static List<MProduct> getByUPC(Properties ctx, String upc, String trxName)
+	{
+		String whereClause = "AD_Client_ID=? AND UPC=?";
+		Query q = new Query(ctx, Table_Name, whereClause, trxName);
+		q.setParameters(new Object[]{Env.getAD_Client_ID(ctx), upc});
+		return(q.list());
+	}
 
 	/**
 	 * 	Is Product Stocked
@@ -116,7 +116,7 @@ public class MProduct extends X_M_Product
 	}	//	isProductStocked
 	
 	/**	Cache						*/
-	private static CCache<Integer,MProduct>	s_cache	= new CCache<Integer,MProduct>("M_Product", 40, 5);	//	5 minutes
+	private static CCache<Integer,MProduct> s_cache	= new CCache<Integer,MProduct>(Table_Name, 40, 5);	//	5 minutes
 	
 	/**************************************************************************
 	 * 	Standard Constructor
