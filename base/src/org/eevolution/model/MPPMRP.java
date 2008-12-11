@@ -259,16 +259,14 @@ public class MPPMRP extends X_PP_MRP
 		{
 			MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
 									.setParameters(params)
-									.first();		
+									.first();
 			if (order == null)
 			{
-				String where = MPPProductBOM.COLUMNNAME_BOMType + "='" + 
-							   MPPProductBOM.BOMTYPE_Make_To_Order + "' AND "+
-							   MPPProductBOM.COLUMNNAME_M_Product_ID + "=?";
+				String where = MPPProductBOM.COLUMNNAME_BOMType+"=?"
+							   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
 				MPPProductBOM bom = new Query(ctx, MPPProductBOM.Table_Name, where, trxName)
-				.setParameters(new Object[]{ol.getM_Product_ID()})
-				.first();	
-	
+							.setParameters(new Object[]{MPPProductBOM.BOMTYPE_Make_To_Order, ol.getM_Product_ID()})
+							.first();	
 				if (bom != null) 
 				{		
 						MProduct product = MProduct.get(ctx,ol.getM_Product_ID());   
@@ -726,7 +724,7 @@ public class MPPMRP extends X_PP_MRP
 									+ wf.getWaitingTime()
 									+ wf.getMovingTime()
 								)
-								* ( wf.getDurationBaseSec() / 60 / 60 ) // convert to hours
+								* ( (double)wf.getDurationBaseSec() / 60 / 60 ) // convert to hours
 		);
 		// TODO: implement here, Victor's suggestion - https://sourceforge.net/forum/message.php?msg_id=5179460
 
