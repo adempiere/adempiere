@@ -177,7 +177,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		{
 			PP_Product_BOM_ID = pp.getPP_Product_BOM_ID();
 		}
-		if (PP_Product_BOM_ID < 0)
+		if (PP_Product_BOM_ID <= 0)
 		{
 			PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), product);
 		}
@@ -190,7 +190,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
 			// get the rate for this resource     
-			for (MCost cost : getCosts(product.get_ID()))
+			for (MCost cost : getCosts(bomline.getM_Product_ID()))
 			{                 
 				MCostElement element = cost.getCostElement();
 				// check if current cost element type is specified cost element type
