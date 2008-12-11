@@ -830,9 +830,9 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				BigDecimal QtyEntered = (BigDecimal) model.getValueAt(i, COL_QTY); // Qty
 				KeyNamePair pp = (KeyNamePair) model.getValueAt(i, COL_UOM); // UOM
 				int C_UOM_ID = pp.getKey();
-                                pp = (KeyNamePair) model.getValueAt(i, COL_LOCATOR_ID); // Locator
-                                // If a locator is specified on the product, choose that otherwise default locator
-                                M_Locator_ID = pp!=null ? pp.getKey() : defaultLoc.intValue();
+                pp = (KeyNamePair) model.getValueAt(i, COL_LOCATOR_ID); // Locator
+                // If a locator is specified on the product, choose that otherwise default locator
+                M_Locator_ID = pp!=null && pp.getKey()!=0 ? pp.getKey() : defaultLoc.intValue();
                                 
 				pp = (KeyNamePair) model.getValueAt(i, COL_PRODUCT_ID); // Product
 				int M_Product_ID = pp.getKey();
