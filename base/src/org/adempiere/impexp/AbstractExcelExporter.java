@@ -30,6 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFFooter;
 import org.apache.poi.hssf.usermodel.HSSFHeader;
 import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -211,11 +212,10 @@ public abstract class AbstractExcelExporter
 
 	private void fixColumnWidth(HSSFSheet sheet, int lastColumnIndex)
 	{
-		/* POI 3.0.1 *
-		for (short colnum = 0; colnum < lastColumnIndex; colnum++) {
+		for (short colnum = 0; colnum < lastColumnIndex; colnum++)
+		{
 			sheet.autoSizeColumn(colnum);
 		}
-		/**/
 	}
 
 	private void closeTableSheet(HSSFSheet prevSheet, String prevSheetName, int colCount)
@@ -266,11 +266,7 @@ public abstract class AbstractExcelExporter
 				HSSFCellStyle style = getHeaderStyle(col);
 				cell.setCellStyle(style);
 				String str = fixString(getHeaderName(col));
-				/* POI 3.0.1 *
 				cell.setCellValue(new HSSFRichTextString(str));
-				/* POI 2.0 */
-				cell.setCellValue(str);
-				/**/
 				colnum++;
 			}	//	printed
 		}	//	for all columns
@@ -353,15 +349,11 @@ public abstract class AbstractExcelExporter
 							value = (Boolean)obj;
 						else
 							value = "Y".equals(obj);
-						cell.setCellValue(Msg.getMsg(getLanguage(), value == true ? "Y" : "N"));
+						cell.setCellValue(new HSSFRichTextString(Msg.getMsg(getLanguage(), value == true ? "Y" : "N")));
 					}
 					else {
 						String value = fixString(obj.toString());	//	formatted
-						/* POI 3.0.1 *
-							cell.setCellValue(new HSSFRichTextString(value));
-						/* POI 2.0 */
-						cell.setCellValue(value);
-						/**/
+						cell.setCellValue(new HSSFRichTextString(value));
 					}
 					//
 					HSSFCellStyle style = getStyle(rownum, col);
@@ -369,7 +361,7 @@ public abstract class AbstractExcelExporter
 					// Page break
 					if (isPageBreak(rownum, col)) {
 						isPageBreak = true;
-						sheetName = fixString(cell.getStringCellValue());
+						sheetName = fixString(cell.getRichStringCellValue().getString());
 					}
 					//
 					colnum++;
