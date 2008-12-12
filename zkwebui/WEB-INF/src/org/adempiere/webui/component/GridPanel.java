@@ -248,10 +248,6 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	public void deactivate() {
-		ListitemRenderer lr = null;
-		listModel = null;
-		listbox.setItemRenderer(lr);
-		listbox.setModel(listModel);
 	}
 
 	public void onEvent(Event event) throws Exception
