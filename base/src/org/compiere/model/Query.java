@@ -39,10 +39,11 @@ import org.compiere.util.Util;
  * @author Low Heng Sin
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1981760 ] Improve Query class
- * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access fielter issue
+ * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access filter issue
  * 			<li>FR [ 2041894 ] Add Query.match() method
- * 			<li>FR [ 2107068 ] Query.setOrderBy should be more error tollerant
+ * 			<li>FR [ 2107068 ] Query.setOrderBy should be more error tolerant
  * 			<li>FR [ 2107109 ] Add method Query.setOnlyActiveRecords
+ * 			<li>FR [ 2421313 ] Introduce Query.firstOnly convenient method
  */
 public class Query
 {
@@ -225,6 +226,58 @@ public class Query
 			rs = null; pstmt = null;
 		}
 		return po;
+	}
+	
+	/**
+	 * Return first PO that match query criteria.
+	 * If there are more records that match criteria an exception will be throwed 
+	 * @return first PO
+	 * @throws DBException
+	 * @see {@link #first()}
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends PO> T firstOnly() throws DBException
+	{
+		T po = null;
+		String sql = buildSQL(null, true);
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, trxName);
+			rs = createResultSet(pstmt);
+			if (rs.next())
+			{
+				po = (T)table.getPO(rs, trxName);
+			}
+			if (rs.next())
+			{
+				throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		return po;
+	}
+
+	
+	/**
+	 * red1 - returns full SQL string - for caller needs
+	 * @return buildSQL(null,true)
+	 * 
+	 */
+	public String getSQL() throws DBException
+	{
+ 		return buildSQL(null, true);
 	}
 	
 	/**

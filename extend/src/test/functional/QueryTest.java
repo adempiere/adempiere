@@ -11,7 +11,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
@@ -148,5 +147,27 @@ public class QueryTest extends AdempiereTestCase
 						.setOrderBy("TableName")
 						.first();
 		assertEquals("Invalid object", "C_Invoice", t.getTableName());
+	}
+
+	public void testFirstOnly() throws Exception
+	{
+		MTable t = new Query(getCtx(), "AD_Table", "AD_Table_ID=?", getTrxName())
+						.setParameters(new Object[]{318})
+						.firstOnly();
+		assertEquals("Invalid table ID", 318, t.get_ID());
+		//
+		Exception ex = null;
+		try
+		{
+			t = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
+							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+							.setOrderBy("TableName")
+							.firstOnly();
+		}
+		catch (DBException e)
+		{
+			ex = e;
+		}
+		assertNotNull("Exception should be throwed", ex);
 	}
 }
