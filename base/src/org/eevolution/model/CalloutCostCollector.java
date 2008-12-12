@@ -62,9 +62,7 @@ public class CalloutCostCollector extends CalloutEngine
 		mTab.setValue(MPPCostCollector.COLUMNNAME_S_Resource_ID, node.getS_Resource_ID());
 		
 		BigDecimal qtyToDeliver = node.getQtyRequiered()
-										.subtract(node.getQtyDelivered())
-										.subtract(node.getQtyScrap())
-										.subtract(node.getQtyReject());
+										.subtract(node.getQtyDelivered());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_MovementQty, qtyToDeliver);
 		//
 		int duration = node.getDuration();
