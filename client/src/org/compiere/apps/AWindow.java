@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,13 +16,14 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.event.WindowEvent;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.swing.*;
-import org.compiere.db.*;
+import org.compiere.model.MQuery;
+import org.compiere.swing.CFrame;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *  Main Application Window.
@@ -31,9 +32,14 @@ import org.compiere.db.*;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: AWindow.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 				<li>BF [ 1836908 ] Report customize NPE when no window access
  */
 public class AWindow extends CFrame
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *	Standard Constructor - requires initWindow
 	 */
@@ -80,7 +86,10 @@ public class AWindow extends CFrame
 		setAD_Window_ID(AD_Window_ID);
 		//
 		boolean loadedOK = m_APanel.initPanel (0, AD_Window_ID, query);
-		commonInit();
+		if (loadedOK)
+		{
+			commonInit();
+		}
 		return loadedOK;
 	}	//	initWindow
 
