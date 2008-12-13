@@ -85,7 +85,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 		CPanel content = new CPanel (new GridLayout(Math.max(rows, 3), Math.max(cols, 3)));
 		for (int i = 0; i < m_keys.length; i++)
 		{
-			Color keyColor = null;
+			Color keyColor = Color.lightGray;
 			MPOSKey key = m_keys[i];
 			StringBuffer buttonHTML = new StringBuffer("<html><p>");
 			if (key.getAD_PrintColor_ID() != 0)
