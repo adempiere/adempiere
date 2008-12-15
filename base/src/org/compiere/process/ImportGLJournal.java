@@ -508,14 +508,17 @@ public class ImportGLJournal extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning ("Zero Acct Balance=" + no);
+		//AZ Goodwill
+		//BF: 2391401 Remove account balance limitation in Import GL Journal 
+		/*
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
 			+ "SET I_ErrorMsg=I_ErrorMsg||'WARN=Check Acct Balance, ' "
 			+ "WHERE ABS(AmtAcctDr-AmtAcctCr)>100000000"	//	100 mio
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
-			log.warning ("Chack Acct Balance=" + no);
-
+			log.warning ("Check Acct Balance=" + no);
+		*/
 
 		/*********************************************************************/
 
