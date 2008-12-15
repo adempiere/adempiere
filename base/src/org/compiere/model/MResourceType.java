@@ -18,11 +18,13 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.util.CCache;
 import org.compiere.util.TimeUtil;
 
@@ -36,6 +38,7 @@ import org.compiere.util.TimeUtil;
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 2051056 ] MResource[Type] should be cached
  * 				<li>added manufacturing related methods (getDayStart, getDayEnd etc)
+ * 				<li>BF [ 2431049 ] If Time Slot then Time Slot Start/End should be mandatory
  */
 public class MResourceType extends X_S_ResourceType
 {
@@ -89,7 +92,13 @@ public class MResourceType extends X_S_ResourceType
 	{
 		if (isTimeSlot())
 		{
-			if (getTimeSlotStart().compareTo(getTimeSlotEnd()) >= 0)
+			Timestamp start = getTimeSlotStart();
+			if (start == null)
+				throw new FillMandatoryException(COLUMNNAME_TimeSlotStart);
+			Timestamp end = getTimeSlotEnd();
+			if (end == null)
+				throw new FillMandatoryException(COLUMNNAME_TimeSlotEnd);
+			if (start.compareTo(end) >= 0)
 			{
 				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@"); 
 			}
@@ -218,5 +227,37 @@ public class MResourceType extends X_S_ResourceType
 		}
 		return isOnMonday() || isOnTuesday() || isOnWednesday() || isOnThursday() || isOnFriday()
 				|| isOnSaturday() || isOnSunday();
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("MResourceType[")
+			.append(get_ID())
+			.append(",Value=").append(getValue())
+			.append(",Name=").append(getName());
+		if (isTimeSlot())
+		{
+			SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+			sb.append(",TimeSlot=");
+			Timestamp start = getTimeSlotStart();
+			Timestamp end = getTimeSlotEnd();
+			sb.append(start != null ? df.format(start) : " - ");
+			sb.append("-");
+			sb.append(end != null ? df.format(end) : " - ");
+		}
+		if (isDateSlot())
+		{
+			sb.append(",DaySlot=")
+				.append(isOnMonday()	?	"M" : "-")
+				.append(isOnTuesday()	?	"T" : "-")
+				.append(isOnWednesday()	?	"W" : "-")
+				.append(isOnThursday()	?	"T" : "-")
+				.append(isOnFriday()	?	"F" : "-")
+				.append(isOnSaturday()	?	"S" : "-")
+				.append(isOnSunday()	?	"S" : "-");
+		}
+		return sb.append("]").toString();
 	}
 }	//	MResourceType
