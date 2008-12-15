@@ -8,7 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/install"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jboss"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/looks"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/serverApps"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/serverRoot"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/sqlj"/>
