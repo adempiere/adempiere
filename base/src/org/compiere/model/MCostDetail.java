@@ -30,6 +30,9 @@ import org.compiere.util.Env;
  * 	Cost Detail Model
  *	
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ *  	<li>BF: 2431123 Return Trx changes weighted average cost
+ *  	<li>BF: 1568752 Average invoice costing: landed costs incorrectly applied
  *  @author Armen Rizal & Bayu Cahya
  *  	<li>BF [ 2129781 ] Cost Detail not created properly for multi acc schema
  *  @version $Id: MCostDetail.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
@@ -824,29 +827,6 @@ public class MCostDetail extends X_M_CostDetail
 	//			as, Org_ID, ce.getM_CostElement_ID());
 		
 		// MZ Goodwill
-		// reset non Material Cost Element when CurrentQty is ZERO and from Matched Invoice
-		if (ce.getCostingMethod() != null)	
-		{
-			if (cost.getCurrentQty().signum() == 0	// CurrentQty is ZERO
-					&& getC_InvoiceLine_ID() != 0 && !product.isService() // from Matched Invoice
-					&& ce.getCostingMethod().equals(as.getCostingMethod())) // based on Accounting Schema Costing Method 	
-			{
-				MCostElement[] nce = MCostElement.getNonCostingMethods(this);
-				for (int i = 0 ; i < nce.length ; i++)
-				{
-					MCost ncost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), nce[i].getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID());
-					if (ncost != null)
-					{
-						ncost.setCurrentCostPrice(Env.ZERO);
-						ncost.setCurrentQty(Env.ZERO);
-						ncost.save();
-					}
-				}
-			}
-		}
-		// end MZ
-		
-		// MZ Goodwill
 		// used deltaQty and deltaAmt if exist 
 		BigDecimal qty = Env.ZERO;
 		BigDecimal amt = Env.ZERO;
@@ -881,20 +861,28 @@ public class MCostDetail extends X_M_CostDetail
 		
 		//	*** Purchase Order Detail Record ***
 		if (getC_OrderLine_ID() != 0)
-		{
+		{		
+			boolean isReturnTrx = qty.signum() < 0;
+			
 			if (ce.isAveragePO())
 			{
-				cost.setWeightedAverage(amt, qty);
+				if (!isReturnTrx)
+					cost.setWeightedAverage(amt, qty);
+				else
+					cost.add(amt, qty);
 				log.finer("PO - AveragePO - " + cost);
 			}
 			else if (ce.isLastPOPrice())
 			{
-				if (qty.signum() != 0)
-					cost.setCurrentCostPrice(price);
-				else
+				if(!isReturnTrx)
 				{
-					BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
-					cost.setCurrentCostPrice(cCosts);
+					if (qty.signum() != 0)
+						cost.setCurrentCostPrice(price);
+					else
+					{
+						BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
+						cost.setCurrentCostPrice(cCosts);
+					}
 				}
 				cost.add(amt, qty);
 				log.finer("PO - LastPO - " + cost);
@@ -915,9 +903,14 @@ public class MCostDetail extends X_M_CostDetail
 		//	*** AP Invoice Detail Record ***
 		else if (getC_InvoiceLine_ID() != 0)
 		{
+			boolean isReturnTrx = qty.signum() < 0;
+			
 			if (ce.isAverageInvoice())
 			{
-				cost.setWeightedAverage(amt, qty);
+				if (!isReturnTrx)
+					cost.setWeightedAverage(amt, qty);
+				else
+					cost.add(amt, qty);
 				log.finer("Inv - AverageInv - " + cost);
 			}
 			else if (ce.isFifo()
@@ -938,12 +931,15 @@ public class MCostDetail extends X_M_CostDetail
 			}
 			else if (ce.isLastInvoice())
 			{
-				if (qty.signum() != 0)
-					cost.setCurrentCostPrice(price);
-				else
+				if (!isReturnTrx)
 				{
-					BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
-					cost.setCurrentCostPrice(cCosts);
+					if (qty.signum() != 0)
+						cost.setCurrentCostPrice(price);
+					else
+					{
+						BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
+						cost.setCurrentCostPrice(cCosts);
+					}
 				}
 				cost.add(amt, qty);
 				log.finer("Inv - LastInv - " + cost);
@@ -971,15 +967,38 @@ public class MCostDetail extends X_M_CostDetail
 			}
 			else if (!ce.isCostingMethod())		//	Cost Adjustments
 			{
-				// MZ Goodwill
-				// Current Cost is using average
-				BigDecimal cCosts = cost.getCurrentCostPrice().multiply(cost.getCurrentQty()).add(amt);
-				BigDecimal cQty = cost.getCurrentQty().add(qty);
-				if (cQty.signum() != 0)
-				cCosts = cCosts.divide(cQty, precision, BigDecimal.ROUND_HALF_UP);
-				// end MZ
-				cost.setCurrentCostPrice(cCosts);
-				cost.add(amt, qty);
+				// AZ Goodwill
+				//get costing method for product
+				String costingMethod = product.getCostingMethod(as);				
+				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
+					MAcctSchema.COSTINGMETHOD_AverageInvoice.equals(costingMethod))
+				{
+					if (cost.getCurrentQty().compareTo(Env.ZERO) == 0)
+					{
+						//initialize current qty for new landed cost element 
+						String sql = "SELECT QtyOnHand FROM M_Storage"					
+							+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
+							+ " AND AD_Org_ID=" + cost.getAD_Org_ID()
+							+ " AND M_Product_ID=" + cost.getM_Product_ID()
+							+ " AND M_AttributeSetInstance_ID=" + M_ASI_ID;				
+						if (M_ASI_ID == 0)
+							sql = "SELECT SUM(QtyOnHand) FROM M_Storage"
+								+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
+								+ " AND AD_Org_ID=" + cost.getAD_Org_ID()
+								+ " AND M_Product_ID=" + cost.getM_Product_ID();
+						BigDecimal bd = DB.getSQLValueBD(get_TrxName(), sql);
+						if (bd != null)
+							cost.setCurrentQty(bd.subtract(qty)); // (initial qty = onhand qty - allocated qty)
+					}
+					cost.setWeightedAverage(amt, qty); //also get averaged
+				}
+				else //original logic from Compiere
+				{
+					BigDecimal cCosts = cost.getCurrentCostPrice().add(amt);
+					cost.setCurrentCostPrice(cCosts);
+					cost.add(amt, qty);
+				}
+				// end AZ
 				log.finer("Inv - none - " + cost);
 			}
 		//	else
