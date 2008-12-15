@@ -6,7 +6,6 @@
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/jboss"/>
-	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/serverApps"/>
 	<classpathentry kind="src" path="/serverRoot"/>
 	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>

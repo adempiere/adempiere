@@ -6,7 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/base"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/looks"/>
 	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>

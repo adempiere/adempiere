@@ -19,7 +19,6 @@
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/struts.jar"/>
 	<classpathentry kind="src" path="/base"/>
-	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>

@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="src" path="/client"/>
-	<classpathentry kind="src" path="/looks"/>
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
