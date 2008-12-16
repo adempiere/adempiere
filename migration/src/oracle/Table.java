@@ -191,7 +191,7 @@ public class Table {
 	}
 
 	/**
-	 * Adds a missing colum that will be included in the alter statement.
+	 * Adds a missing column that will be included in the alter statement.
 	 * 
 	 * @param column
 	 */
@@ -202,7 +202,7 @@ public class Table {
 	}
 
 	/**
-	 * Adds a colum that will be dropped from the table.
+	 * Adds a column that will be dropped from the table.
 	 * 
 	 * @param column
 	 */

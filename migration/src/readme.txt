@@ -12,7 +12,7 @@ Installation of reference database (target)
 	from console: tnsping c253b
 3. 	Download Compiere253b (the version to migrate to)
 4.	Import the compiere reference into the new database
-	Replace COMPIERE_DB_PASSWORD wíth the password of the new oracle
+	Replace COMPIERE_DB_PASSWORD with the password of the new oracle
 	database system user password and COMPIERE253b_DIRECTORY with
 	the directory of the downloaded Compiere253b
 	
@@ -68,7 +68,7 @@ CHECK THE GENERATED SCRIPT CAREFULLY!
 	values.
 
 APPLY THE SCRIPT TO YOUR DATABASE - BUT MAKE A BACKUP FIRST !
-If you do this with the compared (source) database you have to reimport the db dump first,
+If you do this with the compared (source) database you have to re-import the db dump first,
 because the db is changed by the application.
 And please test it in a testing environment...
 After testing - please share script with the community!
