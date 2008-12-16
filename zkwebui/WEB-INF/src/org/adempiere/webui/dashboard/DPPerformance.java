@@ -1,5 +1,6 @@
 /******************************************************************************
  * Copyright (C) 2008 Elaine Tan                                              *
+ * Copyright (C) 2008 Idalica Corporation
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,28 +11,24 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.adempiere.webui;
+package org.adempiere.webui.dashboard;
 
-import org.adempiere.webui.component.Window;
+import org.adempiere.webui.apps.graph.WPAPanel;
 
 /**
- * Custom dashboard item base class
+ * Dashboard item: Performance Indicators
  * @author Elaine
  * @date November 20, 2008
  */
-public abstract class DashboardPanel extends Window implements IDashboardPanel {
+public class DPPerformance extends DashboardPanel {
 
-	public DashboardPanel()
+	private static final long serialVersionUID = 1L;
+		
+	public DPPerformance()
 	{
 		super();
-	}
-	
-	/**
-	 * Desktop.UpdateInfoRunnable will call this method at a certain interval.
-	 * Subclass should overwrite this method to support server push.
-	 */
-	public void updateInfo() {
-		
-	}
-	
+        
+        WPAPanel paPanel = WPAPanel.get();
+        if (paPanel != null) this.appendChild(paPanel);
+	}	
 }

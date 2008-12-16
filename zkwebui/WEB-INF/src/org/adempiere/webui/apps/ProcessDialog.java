@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.webui.Desktop;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
@@ -94,7 +94,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		log.info("Process=" + AD_Process_ID );
 		m_ctx = Env.getCtx();;
 		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
-		this.setAttribute(Desktop.WINDOWNO_ATTRIBUTE, m_WindowNo);
+		this.setAttribute(IDesktop.WINDOWNO_ATTRIBUTE, m_WindowNo);
 		m_AD_Process_ID = AD_Process_ID;
 		Env.setContext(Env.getCtx(), m_WindowNo, "IsSOTrx", isSOTrx ? "Y" : "N");
 		try

@@ -21,8 +21,12 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
+import org.adempiere.webui.desktop.DefaultDesktop;
+import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MSession;
+import org.compiere.model.MSysConfig;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.zkoss.zk.ui.Executions;
@@ -43,6 +47,8 @@ import org.zkoss.zul.Window;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
+ * 
+ * @author hengsin
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
@@ -50,15 +56,17 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     public static final String APP_NAME = "Adempiere ZK webUI";
 
-    public static final String UID          = "0.2";
+    public static final String UID          = "1.0";
 
     private WLogin             loginDesktop;
 
-    private Desktop            appDesktop;
+    private IDesktop           appDesktop;
 
     private ClientInfo		   clientInfo;
 
 	private String langSession;
+	
+	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
     public AdempiereWebUI()
     {
@@ -128,12 +136,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(ctx, "#ShowAdvanced", true);
         
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
-		if (d != null && d instanceof Desktop) 
+		if (d != null && d instanceof IDesktop) 
 		{
 			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute("execution.carryover");
 			if (eco != null) {
 				//try restore
-				appDesktop = (Desktop) d;
+				appDesktop = (IDesktop) d;
 				
 				ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
 				ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
@@ -162,7 +170,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		if (appDesktop == null) 
 		{
 			//create new desktop
-			appDesktop = new Desktop();
+			createDesktop();
 			appDesktop.setClientInfo(clientInfo);
 			appDesktop.createPart(this.getPage());
 			currSess.setAttribute("application.desktop", appDesktop);
@@ -171,7 +179,28 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		}
     }
 
-    /* (non-Javadoc)
+    private void createDesktop() 
+    {
+    	appDesktop = null;
+		String className = MSysConfig.getValue(IDesktop.CLASS_NAME_KEY);
+		if ( className != null && className.trim().length() > 0) 
+		{
+			try 
+			{
+				Class<?> clazz = this.getClass().getClassLoader().loadClass(className);
+				appDesktop = (IDesktop) clazz.newInstance();
+			} 
+			catch (Throwable t)
+			{
+				logger.warning("Failed to instantiate desktop. Class=" + className);
+			}
+		}		
+		//fallback to default
+		if (appDesktop == null)
+			appDesktop = new DefaultDesktop();
+	}
+
+	/* (non-Javadoc)
 	 * @see org.adempiere.webui.IWebClient#logout()
 	 */
     public void logout()
@@ -190,7 +219,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         Executions.sendRedirect("index.zul");
     }
 
-    public Desktop getAppDeskop()
+    public IDesktop getAppDeskop()
     {
     	return appDesktop;
     }

@@ -1,5 +1,6 @@
 /******************************************************************************
  * Copyright (C) 2008 Elaine Tan                                              *
+ * Copyright (C) 2008 Idalica Corporation
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,24 +11,19 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.adempiere.webui;
-
-import org.adempiere.webui.apps.graph.WPAPanel;
+package org.adempiere.webui.dashboard;
 
 /**
- * Dashboard item: Performance Indicators
+ * Interface for dashboard panel
  * @author Elaine
- * @date November 20, 2008
+ * @author hengsin
+ *
  */
-public class DPPerformance extends DashboardPanel {
+public interface IDashboardPanel {
 
-	private static final long serialVersionUID = 1L;
-		
-	public DPPerformance()
-	{
-		super();
-        
-        WPAPanel paPanel = WPAPanel.get();
-        if (paPanel != null) this.appendChild(paPanel);
-	}	
+	/**
+	 * Refresh content of panel
+	 */
+	public void refresh();
+	
 }

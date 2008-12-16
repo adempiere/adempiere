@@ -19,8 +19,8 @@ package org.adempiere.webui.session;
 
 import java.util.Properties;
 
-import org.adempiere.webui.IDesktop;
 import org.adempiere.webui.IWebClient;
+import org.adempiere.webui.desktop.IDesktop;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;

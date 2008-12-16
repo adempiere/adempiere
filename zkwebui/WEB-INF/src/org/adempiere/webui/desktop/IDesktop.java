@@ -1,14 +1,39 @@
-package org.adempiere.webui;
+/******************************************************************************
+ * Copyright (C) 2008 Low Heng Sin                                            *
+ * Copyright (C) 2008 Idalica Corporation                                     *		
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
+package org.adempiere.webui.desktop;
 
+import org.adempiere.webui.ClientInfo;
 import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.part.UIPart;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.WebDoc;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Page;
 
-public interface IDesktop {
+/**
+ * Desktop interface
+ * @author hengsin
+ *
+ */
+public interface IDesktop extends UIPart {
 
+	public static final String WINDOWNO_ATTRIBUTE = "desktop.windowno";
+	public static final String CLASS_NAME_KEY = "ZK_DESKTOP_CLASS";
+	
 	/**
 	 * 
 	 * @return ClientInfo
@@ -122,4 +147,31 @@ public interface IDesktop {
 	 * @param workflow_ID
 	 */
 	public void openWorkflow(int workflow_ID);
+
+	/**
+	 * Get the root component of the desktop
+	 * @return Component
+	 */
+	public Component getComponent();
+
+	/**
+	 * Attached to page
+	 * @param page
+	 */
+	public void setPage(Page page);
+
+	/**
+	 * @param clientInfo
+	 */
+	public void setClientInfo(ClientInfo clientInfo);
+
+	/**
+	 * User logout from desktop, do clean up
+	 */
+	public void logout();
+
+	/**
+	 * Invoke by the server push thread.
+	 */
+	public void onServerPush();
 }
