@@ -17,15 +17,17 @@
 package org.adempiere.webui.panel;
 
 import java.text.DateFormat;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.logging.Level;
 
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.window.InfoSchedule;
 import org.adempiere.webui.window.WAssignmentDialog;
 import org.compiere.model.MResourceAssignment;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.zkforge.timeline.Bandinfo;
 import org.zkforge.timeline.Timeline;
 import org.zkforge.timeline.event.BandScrollEvent;
@@ -153,8 +155,12 @@ public class WSchedule extends Panel implements EventListener
 	public void recreate (int S_Resource_ID, Date date)
 	{
 		hourBand.setDate(date);
-		if (m_center == null || date.getTime() != m_center.getTime())
-			hourBand.scrollToCenter(date);
+		// Elaine 2008/12/12
+		dayBand.setDate(date);
+		mthBand.setDate(date);
+//		if (m_center == null || date.getTime() != m_center.getTime())
+//			hourBand.scrollToCenter(date);
+		//
 		
 		String feedUrl = "timeline?S_Resource_ID=" + S_Resource_ID + "&date=" + DateFormat.getInstance().format(date)
 			+ "&uuid=" + button.getUuid() + "&tlid=" + timeLine.getUuid();

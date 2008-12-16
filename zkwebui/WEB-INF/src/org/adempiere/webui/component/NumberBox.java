@@ -408,4 +408,13 @@ public class NumberBox extends Div
 	{
 		decimalBox.focus();
 	}
+	
+	/**
+	 * 
+	 * @return decimalBox
+	 */
+	public Decimalbox getDecimalbox()
+	{
+		return decimalBox;
+	}
 }

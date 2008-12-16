@@ -21,14 +21,17 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -37,6 +40,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -51,26 +55,16 @@ import org.zkoss.zul.Separator;
 *  
 * @author 	Niraj Sohun
 * 			Aug, 02, 2007
+* 
+* Zk Port
+* @author Elaine
+* @version	InfoPayment.java Adempiere Swing UI 3.4.1
 */
 
 public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**  String Array of Column Info    */
-	private ColumnInfo[] m_generalLayout;
-	
-	/** list of query columns           */
-	private ArrayList 	m_queryColumns = new ArrayList();
-	
-	/** Table Name              */
-	private String m_tableName;
-	
-	/** Key Column Name         */
-	private String m_keyColumn;
-
-	//private WListbox p_table = new WListbox();
-
 	private Textbox fDocumentNo = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();
@@ -153,11 +147,6 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			fDocumentNo .setValue(value);
 			executeQuery();
 		}
-
-		//pack();
-		
-		//	Focus
-		//fDocumentNo.requestFocus();
 	} // InfoPaymentPanel
 
 	/**
@@ -167,91 +156,64 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	
 	private void statInit() throws Exception
 	{
-		Hbox boxDocumentNo = new Hbox();
+		fDocumentNo.setWidth("100%");
+		fDateFrom.setWidth("165px");
+		fDateTo.setWidth("165px");
+		fAmtFrom.setWidth("180px");
+		fAmtTo.setWidth("180px");
 		
 		fDocumentNo.addEventListener(Events.ON_CHANGE, this);
-		
-		boxDocumentNo.setWidth("100%");
-		boxDocumentNo.setWidths("40%, 60%");
-		boxDocumentNo.appendChild(lDocumentNo);
-		boxDocumentNo.appendChild(fDocumentNo);
 		
 		fIsReceipt.setLabel(Msg.translate(Env.getCtx(), "IsReceipt"));
 		fIsReceipt.addEventListener(Events.ON_CHECK, this);
 		fIsReceipt.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
-		
-		Hbox boxBPartner = new Hbox();
 		
 		fBPartner_ID = new WSearchEditor(	
 				MLookupFactory.get(Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
 		
-		boxBPartner.appendChild(fBPartner_ID.getLabel());
-		boxBPartner.appendChild(fBPartner_ID.getComponent());
+		Grid grid = GridFactory.newGridLayout();
 		
-		Hbox boxDateFrom = new Hbox();
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		//fDateFrom.setValue(new Date(System.currentTimeMillis()));
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lDocumentNo.rightAlign());
+		row.appendChild(fDocumentNo);
+		row.appendChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendChild(fBPartner_ID.getComponent());
+		row.appendChild(fIsReceipt);
 		
-		boxDateFrom.setWidth("100%");
-		boxDateFrom.setWidths("40%, 60%");
-		boxDateFrom.appendChild(lDateFrom);
-		boxDateFrom.appendChild(fDateFrom);
+		row = new Row();
+		row.setSpans("3, 2");
+		rows.appendChild(row);
+		row.appendChild(lDateFrom.rightAlign());
+		Hbox hbox = new Hbox();
+		hbox.appendChild(fDateFrom);
+		hbox.appendChild(lDateTo);
+		hbox.appendChild(fDateTo);
+		row.appendChild(hbox);
 		
-		Hbox boxDateTo = new Hbox();
+		row = new Row();
+		row.setSpans("3, 2");
+		rows.appendChild(row);
+		row.appendChild(lAmtFrom.rightAlign());
+		hbox = new Hbox();
+		hbox.appendChild(fAmtFrom);
+		hbox.appendChild(lAmtTo);
+		hbox.appendChild(fAmtTo);
+		row.appendChild(hbox);
 		
-		//fDateTo.setValue(new Date(System.currentTimeMillis()));
-		
-		boxDateTo.setWidth("100%");
-		boxDateTo.setWidths("10%, 90%");
-		boxDateTo.appendChild(lDateTo);
-		boxDateTo.appendChild(fDateTo);
-		
-		Hbox boxAmtFrom = new Hbox();
-		boxAmtFrom.setWidth("100%");
-		boxAmtFrom.setWidths("40%, 60%");
-		boxAmtFrom.appendChild(lAmtFrom);
-		boxAmtFrom.appendChild(fAmtFrom);
-		
-		Hbox boxAmtTo = new Hbox();
-		boxAmtTo.setWidth("100%");
-		boxAmtTo.setWidths("10%, 90%");
-		boxAmtTo.appendChild(lAmtTo);
-		boxAmtTo.appendChild(fAmtTo);
-		
-		VerticalBox boxCol1 = new VerticalBox();
-		//boxCol1.setWidth("100%");
-		boxCol1.appendChild(boxDocumentNo);
-		
-		VerticalBox boxCol2 = new VerticalBox();
-		//boxCol2.setWidth("100%");
-		boxCol2.appendChild(boxBPartner);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxDateFrom);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxAmtFrom);
-		
-		VerticalBox boxCol3 = new VerticalBox();
-		//boxCol3.setWidth("100%");
-		boxCol3.appendChild(fIsReceipt);
-		boxCol3.appendChild(new Separator());
-		boxCol3.appendChild(boxDateTo);
-		boxCol3.appendChild(new Separator());
-		boxCol3.appendChild(boxAmtTo);
-	
-		Hbox mainBox = new Hbox();
-		mainBox.setWidth("100%");
-		mainBox.setWidths("42%, 50%, 8%");
-		mainBox.appendChild(boxCol1);
-		mainBox.appendChild(boxCol2);
-		mainBox.appendChild(boxCol3);
-		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
+        
 		this.setWidth("850px");
-//		this.setTitle("Payment Info");
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.appendChild(mainBox);
+		this.appendChild(grid);
 		this.appendChild(new Separator());
 		this.appendChild(contentPanel);
 		this.appendChild(new Separator());
@@ -280,8 +242,6 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			where.append(" AND ").append(Util.replace(p_whereClause, "C_Payment.", "p."));
 		
 		prepareTable(s_paymentLayout, " C_Payment_v p", where.toString(), "2,3,4");
-		
-		//	MPayment.setIsAllocated(Env.getCtx(), 0, null);
 		
 		return true;
 	} // initInfo
@@ -420,11 +380,11 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		return s;
 	} // getSQLText
 
+	// Elaine 2008/12/16
 	/**
 	 *	Zoom
 	 */
-	
-/*	void zoom()
+	public void zoom()
 	{
 		log.info( "InfoPayment.zoom");
 		Integer C_Payment_ID = getSelectedRowKey();
@@ -434,9 +394,10 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		query.addRestriction("C_Payment_ID", MQuery.EQUAL, C_Payment_ID);
 		query.setRecordCount(1);
 		int AD_WindowNo = getAD_Window_ID("C_Payment", fIsReceipt.isSelected());
-		zoom (AD_WindowNo, query);
+		AEnv.zoom (AD_WindowNo, query);
 	}	//	zoom
-*/
+	//
+	
 	/**
 	 *	Has Zoom
 	 *  @return true
@@ -456,7 +417,6 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	}
 
 	public void tableChanged(WTableModelEvent event) {
-		// TODO Auto-generated method stub
 		
 	}
 

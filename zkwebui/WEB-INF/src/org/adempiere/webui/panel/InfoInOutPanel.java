@@ -20,14 +20,17 @@ package org.adempiere.webui.panel;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -36,6 +39,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -50,24 +54,16 @@ import org.zkoss.zul.Separator;
 *  
 * @author 	Niraj Sohun
 * 			Aug 03, 2007
+* 
+* Zk Port
+* @author Elaine
+* @version	InfoInOut.java Adempiere Swing UI 3.4.1
 */
 
 public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, EventListener
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**  String Array of Column Info    */
-	private ColumnInfo[] m_generalLayout;
-	
-	/** list of query columns           */
-	private ArrayList m_queryColumns = new ArrayList();
-	
-	/** Table Name              */
-	private String m_tableName;
-	
-	/** Key Column Name         */
-	private String m_keyColumn;
-
 	private Textbox fDocumentNo = new Textbox();
 
 	private WEditor fBPartner_ID;
@@ -133,11 +129,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 			fDocumentNo.setValue(value);
 			executeQuery();
 		}
-
-		//pack();
-		
-		//	Focus
-		//fDocumentNo.requestFocus();
 	} // InfoInOutPanel
 
 	/**
@@ -147,94 +138,65 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	
 	private void statInit() throws Exception
 	{
-		Hbox boxDocumentNo = new Hbox();
-		
+		fDocumentNo.setWidth("100%");
+		fDescription.setWidth("100%");
+		fPOReference.setWidth("100%");
+		fDateFrom.setWidth("165px");
+		fDateTo.setWidth("165px");
+    	
 		fDocumentNo.addEventListener(Events.ON_CHANGE, this);
-		
-		boxDocumentNo.setWidth("100%");
-		boxDocumentNo.setWidths("40%, 60%");
-		boxDocumentNo.appendChild(lDocumentNo);
-		boxDocumentNo.appendChild(fDocumentNo);
-
-		Hbox boxDescription = new Hbox();
-		
 		fDescription.addEventListener(Events.ON_CHANGE, this);
-		
-		boxDescription.setWidth("100%");
-		boxDescription.setWidths("40%, 60%");
-		boxDescription.appendChild(lDescription);
-		boxDescription.appendChild(fDescription);
-				
-		Hbox boxPORef = new Hbox();
-		
 		fPOReference.addEventListener(Events.ON_CHANGE, this);
-		
-		boxPORef.setWidth("100%");
-		boxPORef.setWidths("40%, 60%");
-		boxPORef.appendChild(lPOReference);
-		boxPORef.appendChild(fPOReference);
 
 		fIsSOTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
 		fIsSOTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
 		fIsSOTrx.addEventListener(Events.ON_CHECK, this);
-
-		//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
-		//	MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
-		//	DisplayType.TableDir, m_WindowNo);
-		//	lOrg_ID.setLabelFor(fOrg_ID);
-		//	fOrg_ID.setBackground(AdempierePLAF.getInfoBackground());
-		
-		Hbox boxBPartner = new Hbox();
 		
 		fBPartner_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 3499, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "BPartner"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
-
-		boxBPartner.appendChild(fBPartner_ID.getLabel());
-		boxBPartner.appendChild(fBPartner_ID.getComponent());
 		
-		Hbox boxDateFrom = new Hbox();
-		boxDateFrom.setWidth("100%");
-		boxDateFrom.setWidths("40%, 60%");
-		boxDateFrom.appendChild(lDateFrom);
-		boxDateFrom.appendChild(fDateFrom);
+		Grid grid = GridFactory.newGridLayout();
 		
-		Hbox boxDateTo = new Hbox();
-		boxDateTo.setWidth("100%");
-		boxDateTo.setWidths("10%, 90%");
-		boxDateTo.appendChild(lDateTo);
-		boxDateTo.appendChild(fDateTo);
-
-		VerticalBox boxCol1 = new VerticalBox();
-		boxCol1.appendChild(boxDocumentNo);
-		boxCol1.appendChild(new Separator());
-		boxCol1.appendChild(boxDescription);
-		boxCol1.appendChild(new Separator());
-		boxCol1.appendChild(boxPORef);
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		VerticalBox boxCol2 = new VerticalBox();
-		boxCol2.appendChild(boxBPartner);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxDateFrom);
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lDocumentNo.rightAlign());
+		row.appendChild(fDocumentNo);
+		row.appendChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendChild(fBPartner_ID.getComponent());
+		row.appendChild(fIsSOTrx);
 		
-		VerticalBox boxCol3 = new VerticalBox();
-		boxCol3.appendChild(fIsSOTrx);
-		boxCol3.appendChild(new Separator());
-		boxCol3.appendChild(boxDateTo);
+		row = new Row();
+		row.setSpans("1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(lDescription.rightAlign());
+		row.appendChild(fDescription);
+		row.appendChild(lDateFrom.rightAlign());
+		Hbox hbox = new Hbox();
+		hbox.appendChild(fDateFrom);
+		hbox.appendChild(lDateTo);
+		hbox.appendChild(fDateTo);
+		row.appendChild(hbox);
 		
-		Hbox mainBox = new Hbox();
-		mainBox.setWidth("100%");
-		mainBox.setWidths("40%, 50%, 10%");
-		mainBox.appendChild(boxCol1);
-		mainBox.appendChild(boxCol2);
-		mainBox.appendChild(boxCol3);
+		row = new Row();
+		row.setSpans("1, 1, 3");
+		rows.appendChild(row);
+		row.appendChild(lPOReference.rightAlign());
+		row.appendChild(fPOReference);		
+		row.appendChild(new Label());
 		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
+        
 		this.setWidth("850px");
-//		this.setTitle("InOut Info");
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.appendChild(mainBox);
+		this.appendChild(grid);
 		this.appendChild(new Separator());
 		this.appendChild(contentPanel);
 		this.appendChild(new Separator());
@@ -310,7 +272,6 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		}
 		sql.append(" AND i.IsSOTrx=?");
 
-		//	log.fine( "InfoInOut.setWhereClause", sql.toString());
 		return sql.toString();
 	} // getSQLWhere
 
@@ -382,6 +343,24 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		return s;
 	} // getSQLText
 
+	// Elaine 2008/12/16
+	/**
+	 *	Zoom
+	 */
+	public void zoom()
+	{
+		log.info( "InfoInOut.zoom");
+		Integer M_InOut_ID = getSelectedRowKey();
+		if (M_InOut_ID == null)
+			return;
+		MQuery query = new MQuery("M_InOut");
+		query.addRestriction("M_InOut_ID", MQuery.EQUAL, M_InOut_ID);
+		query.setRecordCount(1);
+		int AD_WindowNo = getAD_Window_ID("M_InOut", fIsSOTrx.isSelected());
+		AEnv.zoom (AD_WindowNo, query);
+	}	//	zoom
+	//
+	
 	/**
 	 *	Has Zoom
 	 *  @return true

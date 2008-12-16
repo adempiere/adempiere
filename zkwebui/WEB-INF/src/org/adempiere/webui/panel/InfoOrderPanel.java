@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.component.Grid;
@@ -33,7 +34,6 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -42,11 +42,13 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 
 /**
@@ -55,16 +57,17 @@ import org.zkoss.zul.Separator;
  * 
  * @author Sendy Yagambrum
  * @date July 27, 2007
+ * 
+ * Zk Port
+ * @author Elaine
+ * @version	InfoOrder.java Adempiere Swing UI 3.4.1
  **/
 public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 {
-
     private static final long serialVersionUID = 1L;
    
     private Label lblDocumentNo;
     private Label lblDescription;
-    private Label lblBPartner;
-    private Label lblSalesTransaction;
     private Label lblDateOrdered;
     private Label lblOrderRef;
     private Label lblGrandTotal;
@@ -100,33 +103,38 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     protected InfoOrderPanel(int WindowNo, String value,
             boolean multiSelection, String whereClause)
     {
-            super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause);
-            log.info( "InfoOrder");
-            setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
-            //
-            initComponents();
-            init();
-           
-            p_loadedOK = initInfo ();
-            int no = contentPanel.getRowCount();
-            setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
-            setStatusDB(Integer.toString(no));
-            //
-            if (value != null && value.length() > 0)
-            {
-                String values[] = value.split("_");
-                txtDocumentNo.setText(values[0]);
-                executeQuery();
-                renderItems();
-            }
+        super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause);
+        log.info( "InfoOrder");
+        setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+        //
+  
+		try
+		{
+	        initComponents();
+	        init();
+	        p_loadedOK = initInfo ();
+		}
+		catch (Exception e)
+		{
+			return;
+		}
+		
+        int no = contentPanel.getRowCount();
+        setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+        setStatusDB(Integer.toString(no));
+        //
+        if (value != null && value.length() > 0)
+        {
+            String values[] = value.split("_");
+            txtDocumentNo.setText(values[0]);
+            executeQuery();
+            renderItems();
+        }
     }
     public void initComponents()
     {
-
         lblDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo").substring(1));
         lblDescription = new Label(Msg.translate(Env.getCtx(), "Description"));
-        lblBPartner = new Label(Msg.translate(Env.getCtx(), "BPartner").substring(1));
-        lblSalesTransaction = new Label(Msg.translate(Env.getCtx(), "IsSOTrx"));
         lblDateOrdered = new Label(Msg.translate(Env.getCtx(), "DateOrdered"));
         lblOrderRef = new Label(Msg.translate(Env.getCtx(), "POReference"));
         lblGrandTotal = new Label(Msg.translate(Env.getCtx(), "GrandTotal"));
@@ -142,67 +150,69 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         amountTo = new NumberBox(false);
         
         isSoTrx = new Checkbox();
+        isSoTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
         isSoTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
         MLookup lookupBP = MLookupFactory.get(Env.getCtx(), p_WindowNo,
                 0, 3499, DisplayType.Search);
         editorBPartner = new WSearchEditor(lookupBP, Msg.translate(
                 Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
         editorBPartner.addValueChangeListener(this);
-        contentPanel = new WListbox();
+        
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setVflex(true);
-        contentPanel.setFixedLayout(true);
     }
     
     public void init()
     {
-        Grid parameterPanel = GridFactory.newGridLayout();
-        Rows rows = parameterPanel.newRows();
-        Row row = rows.newRow();
-        row.appendChild(lblDocumentNo.rightAlign());
-        row.appendChild(txtDocumentNo);
-        row.appendChild(lblBPartner.rightAlign());
-        row.appendChild(editorBPartner.getComponent());
-        Panel pnlSalesTrx = new Panel();
-        pnlSalesTrx.appendChild(isSoTrx);
-        isSoTrx.setStyle("margin-left: 5px");
-        pnlSalesTrx.appendChild(lblSalesTransaction);
-        lblSalesTransaction.setStyle("margin-left: 2px");
-        row.appendChild(pnlSalesTrx);
-        
-        row = rows.newRow();
-        row.appendChild(lblDescription.rightAlign());
-        row.appendChild(txtDescription);
-        row.appendChild(lblDateOrdered.rightAlign());
-        Panel pnlDate = new Panel();
-        pnlDate.appendChild(dateFrom);
-        Label symbol = new Label("-");
-        symbol.setStyle("margin-left: 5px; margin-right: 5px");
-        pnlDate.appendChild(symbol);
-        pnlDate.appendChild(dateTo);        
-        row.appendChild(pnlDate);        
-        row.setSpans("1,1,1,2");
-        
-        row = rows.newRow();
-        row.appendChild(lblOrderRef.rightAlign());
-        row.appendChild(txtOrderRef);
-        row.appendChild(lblGrandTotal.rightAlign());
-        Panel pnlamt = new Panel();
-        pnlamt.appendChild(amountFrom);
-        symbol = new Label("-");
-        symbol.setStyle("margin-left: 5px; margin-right: 5px");
-        pnlamt.appendChild(symbol);
-        pnlamt.appendChild(amountTo);
-        row.appendChild(pnlamt);
-        row.setSpans("1,1,1,2");
-        
-        parameterPanel.setWidth("100%");
-        parameterPanel.setInnerWidth("auto");
+    	txtDocumentNo.setWidth("100%");
+    	txtDescription.setWidth("100%");
+    	txtOrderRef.setWidth("100%");
+    	dateFrom.setWidth("165px");
+		dateTo.setWidth("165px");
+		amountFrom.getDecimalbox().setWidth("155px");
+		amountTo.getDecimalbox().setWidth("155px");
+		
+    	Grid grid = GridFactory.newGridLayout();
+		
+		Rows rows = new Rows();
+		grid.appendChild(rows);
+		
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblDocumentNo.rightAlign());
+		row.appendChild(txtDocumentNo);
+		row.appendChild(editorBPartner.getLabel().rightAlign());
+		row.appendChild(editorBPartner.getComponent());
+		row.appendChild(isSoTrx);
+		
+		row = new Row();
+		row.setSpans("1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(lblDescription.rightAlign());
+		row.appendChild(txtDescription);
+		row.appendChild(lblDateOrdered.rightAlign());
+		Hbox hbox = new Hbox();
+		hbox.appendChild(dateFrom);
+		hbox.appendChild(new Label("-"));
+		hbox.appendChild(dateTo);
+		row.appendChild(hbox);
+		
+		row = new Row();
+		row.setSpans("1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(lblOrderRef.rightAlign());
+		row.appendChild(txtOrderRef);
+		row.appendChild(lblGrandTotal.rightAlign());
+		hbox = new Hbox();
+		hbox.appendChild(amountFrom);
+		hbox.appendChild(new Label("-"));
+		hbox.appendChild(amountTo);
+		row.appendChild(hbox);
         
         Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
-        mainPanel.appendChild(parameterPanel);
+        mainPanel.appendChild(grid);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
         mainPanel.appendChild(new Separator());
@@ -211,7 +221,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         mainPanel.appendChild(statusBar);
         
         this.appendChild(mainPanel);
-        this.setBorder("normal");
+        this.setClosable(true);
+		this.setBorder("normal");
         this.setWidth("850px");         
     }
 
@@ -450,10 +461,35 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         return s;
     }   //  getSQLText
     
+    // Elaine 2008/12/16
+	/**
+	 *	Zoom
+	 */
+	public void zoom()
+	{
+		log.info("");
+		Integer C_Order_ID = getSelectedRowKey();
+		if (C_Order_ID == null)
+			return;
+		MQuery query = new MQuery("C_Order");
+		query.addRestriction("C_Order_ID", MQuery.EQUAL, C_Order_ID);
+		query.setRecordCount(1);
+		int AD_WindowNo = getAD_Window_ID("C_Order", isSoTrx.isSelected());
+		AEnv.zoom (AD_WindowNo, query);
+	}	//	zoom
+
+	/**
+	 *	Has Zoom
+	 *  @return true
+	 */
+	protected boolean hasZoom()
+	{
+		return true;
+	}	//	hasZoom
+	//
 
     public void tableChanged(WTableModelEvent event)
     {
-        // TODO Auto-generated method stub
         
     }
     

@@ -26,8 +26,11 @@ import java.util.logging.Level;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.VerticalBox;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -44,7 +47,7 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
 
 /**
@@ -52,6 +55,10 @@ import org.zkoss.zul.Separator;
 *  
 * @author 	Niraj Sohun
 * 			Aug 06, 2007
+* 
+* Zk Port
+* @author Elaine
+* @version	InfoAssignment.java Adempiere Swing UI 3.4.1
 */
 
 public class InfoAssignmentPanel extends InfoPanel implements EventListener, ValueChangeListener
@@ -115,14 +122,8 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		int no = contentPanel.getRowCount();
 		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
 		setStatusDB(Integer.toString(no));
-
-		// AutoQuery
-		//	if (value != null && value.length() > 0)
-		//		executeQuery();
 		
 		p_loadedOK = true;
-
-		//AEnv.positionCenterWindow(frame, this);
 	} // InfoAssignmentPanel
 	
 	/**
@@ -166,44 +167,46 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	
 	private void statInit()
 	{
-		VerticalBox boxResourceType = new VerticalBox();
-		boxResourceType.appendChild(fieldResourceType.getLabel());
-		boxResourceType.appendChild(fieldResourceType.getComponent());
-		
-		VerticalBox boxResource = new VerticalBox();
-		boxResource.appendChild(fieldResource.getLabel());
-		boxResource.appendChild(fieldResource.getComponent());
-		
-		VerticalBox boxFrom = new VerticalBox();
-		boxFrom.appendChild(labelFrom);
-		boxFrom.appendChild(fieldFrom);
-		
-		VerticalBox boxTo = new VerticalBox();
-		boxTo.appendChild(labelTo);
-		boxTo.appendChild(fieldTo);
-		
-		//	parameterPanel.add(labelPhone, null);
-		//	parameterPanel.add(checkFuzzy, null);
-
-		Hbox mainBox = new Hbox();
+		fieldFrom.setWidth("180px");
+		fieldTo.setWidth("180px");
 		
 		bNew.addEventListener(Events.ON_CLICK, this);
 		
-		mainBox.setWidth("100%");
-		mainBox.setWidths("30%, 30%, 17%, 17%, 6%");
-		mainBox.appendChild(boxResourceType);
-		mainBox.appendChild(boxResource);
-		mainBox.appendChild(boxFrom);
-		mainBox.appendChild(boxTo);
-		mainBox.appendChild(bNew);
+		Grid grid = GridFactory.newGridLayout();
 		
-		//	parameterPanel.add(checkCustomer, null);
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(fieldResourceType.getLabel().rightAlign());
+		row.appendChild(fieldResource.getLabel().rightAlign());
+		row.appendChild(labelFrom.rightAlign());
+		row.appendChild(labelTo.rightAlign());
+		row.appendChild(new Label());
+		
+		row = new Row();
+		rows.appendChild(row);
+		row.appendChild(fieldResourceType.getComponent());
+		row.appendChild(fieldResource.getComponent());
+		Div div = new Div();
+		div.setAlign("right");
+		div.appendChild(fieldFrom);
+		row.appendChild(div);
+		div = new Div();
+		div.setAlign("right");
+		div.appendChild(fieldTo);
+		row.appendChild(div);
+		row.appendChild(bNew);
+		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
+        
 		this.setWidth("850px");
-//		this.setTitle("Info Asset");
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.appendChild(mainBox);
+		this.appendChild(grid);
 		this.appendChild(new Separator());
 		this.appendChild(contentPanel);
 		this.appendChild(new Separator());

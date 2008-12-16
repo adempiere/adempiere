@@ -17,15 +17,21 @@
 package org.adempiere.webui.window;
 
 import java.math.BigDecimal;
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.*;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.DatetimeBox;
 import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
@@ -34,12 +40,21 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.panel.WSchedule;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAssignmentSlot;
+import org.compiere.model.MResourceAssignment;
+import org.compiere.model.MRole;
+import org.compiere.model.ScheduleUtil;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Vbox;
 
 
@@ -51,8 +66,12 @@ import org.zkoss.zul.Vbox;
  * 
  *  Zk Port
  *  @author Low Heng Sin
+ *  
+ *  Zk Port
+ *  @author		Elaine
+ *  @version	InfoSchedule.java Adempiere Swing UI 3.4.1 
  */
-public class InfoSchedule extends Window implements EventListener //, ChangeListener
+public class InfoSchedule extends Window implements EventListener
 {
 	/**
 	 *  Constructor
@@ -68,7 +87,8 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		else
 			setAttribute("mode", "overlapped");
 		this.setWidth("600px");
-		this.setHeight("600px");
+//		this.setHeight("600px");
+		this.setClosable(true);
 		this.setBorder("normal");
 		this.setStyle("position: absolute");
 		if (mAssignment == null)
@@ -113,12 +133,17 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 	private static CLogger log = CLogger.getCLogger(InfoSchedule.class);
 
 	private Vbox mainLayout = new Vbox();
-	private Grid parameterPanel = new Grid();
+	private Grid parameterPanel = GridFactory.newGridLayout();
 	private Label labelResourceType = new Label();
 	private Listbox fieldResourceType = new Listbox();
 	private Label labelResource = new Label();
 	private Listbox fieldResource = new Listbox();
+	// Elaine 2008/12/12
+	private Button bPrevious = new Button();
 	private Label labelDate = new Label();
+	private DatetimeBox fieldDate = new DatetimeBox();
+	private Button bNext = new Button();
+	//
 	private WSchedule schedulePane = new WSchedule(this);
 	private StatusBarPanel statusBar = new StatusBarPanel();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
@@ -137,6 +162,11 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		labelResource.setValue(Msg.translate(Env.getCtx(), "S_Resource_ID"));
 		labelDate.setValue(Msg.translate(Env.getCtx(), "Date"));
 		
+		// Elaine 2008/12/12
+		bPrevious.setLabel("<");
+		bNext.setLabel(">");
+		//
+		
 		mainLayout.appendChild(parameterPanel);
 		
 		Rows rows = new Rows();
@@ -151,6 +181,16 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		rows.appendChild(row);
 		row.appendChild(labelResource);
 		row.appendChild(fieldResource);
+		
+		// Elaine 2008/12/12
+		row = new Row();
+		rows.appendChild(row);		
+		row.appendChild(labelDate);
+		Hbox hbox = new Hbox();
+		hbox.appendChild(bPrevious);
+		hbox.appendChild(fieldDate);
+		hbox.appendChild(bNext);
+		row.appendChild(hbox);
 		//
 		
 		mainLayout.appendChild(schedulePane);
@@ -178,6 +218,15 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		fieldResourceType.addEventListener(Events.ON_SELECT, this);
 		fieldResource.addEventListener(Events.ON_SELECT, this);
 
+		//	Date - Elaine 2008/12/12
+		fieldDate.setValue(m_dateFrom);
+		fieldDate.getDatebox().addEventListener(Events.ON_BLUR, this);
+		fieldDate.getTimebox().addEventListener(Events.ON_BLUR, this);
+//		fieldDate.addEventListener(Events.ON_BLUR, this);
+		bPrevious.addEventListener(Events.ON_CLICK, this);
+		bNext.addEventListener(Events.ON_CLICK, this);
+		//
+		
 		//
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
 		if (createNew) {
@@ -322,8 +371,12 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 		KeyNamePair pp = new KeyNamePair((Integer)listItem.getValue(), listItem.getLabel());
 		int S_Resource_ID = pp.getKey();
 		m_mAssignment.setS_Resource_ID(S_Resource_ID);
-//		Date date = fieldDate.getValue();
-		Date date = m_dateFrom;
+
+		// Elaine 2008/12/12
+		Date date = fieldDate.getValue();
+		if (date == null) date = new Timestamp(System.currentTimeMillis());
+//		Date date = m_dateFrom;
+		//
 
 		//	Set Info
 		m_loading = true;
@@ -379,12 +432,45 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 			fillResource();
 			displayCalendar();
 		}
+		// Elaine 2008/12/12
+		else if (event.getTarget()== fieldResource 
+				|| event.getTarget() == fieldDate.getDatebox() 
+				|| event.getTarget() == fieldDate.getTimebox())
+			displayCalendar();
+		//
+		else if (event.getTarget() == bPrevious)
+			adjustDate(-1);
+		else if (event.getTarget() == bNext)
+			adjustDate(+1);
 		//
 		else if (event.getTarget().getId().equals("New"))
 			doAdd();
 		//
 		
 	}
+	
+	// Elaine 2008/12/12
+	/**
+	 * 	Adjust Date
+	 * 	@param diff difference
+	 */
+	private void adjustDate (int diff)
+	{
+		Date date = fieldDate.getValue();
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(date);
+		
+//		if (timePane.getSelectedIndex() == 0)
+			cal.add(java.util.Calendar.DAY_OF_YEAR, diff);
+//		else if (timePane.getSelectedIndex() == 1)
+//			cal.add(java.util.Calendar.WEEK_OF_YEAR, diff);
+//		else
+//			cal.add(java.util.Calendar.MONTH, diff);
+		//
+		fieldDate.setValue(new Timestamp(cal.getTimeInMillis()));
+		displayCalendar ();
+	}	//	adjustDate
+	//
 
 	private void doAdd() {
 		ListItem listItem = fieldResource.getSelectedItem();
@@ -461,6 +547,7 @@ public class InfoSchedule extends Window implements EventListener //, ChangeList
 	 */
 	public void dateCallback(Date date) {
 		m_dateFrom = new Timestamp(date.getTime());
+		fieldDate.setValue(m_dateFrom); // Elaine 2008/12/15
 	}
 	
 

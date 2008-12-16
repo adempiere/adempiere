@@ -42,13 +42,19 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
@@ -60,6 +66,7 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
@@ -75,15 +82,16 @@ import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
  * Search Product and return selection
  * This class is based on org.compiere.apps.search.InfoPAttribute written by Jorg Janke
  * @author Elaine
- *
+ * 
+ * Zk Port
+ * @author Elaine
+ * @version	InfoPayment.java Adempiere Swing UI 3.4.1
  */
 public final class InfoProductPanel extends InfoPanel implements EventListener
 {
@@ -184,6 +192,11 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		tabbedPane.setSelectedIndex(0);
 
 		p_loadedOK = true;
+		
+		//Begin - fer_luck @ centuryon
+		mWindowNo = windowNo; // Elaine 2008/12/16
+		//End - fer_luck @ centuryon
+		
 	}	//	InfoProductPanel
 		
 	/**
@@ -248,84 +261,41 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		fieldVendor = new Textbox();
 		fieldVendor.setMaxlength(40);	
         
-        contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setVflex(true);
 	}	//	initComponents
 	
 	private void init()
 	{
-		Panel pnlValue = new Panel();
-		pnlValue.appendChild(lblValue);
-		pnlValue.appendChild(fieldValue);		
-		pnlValue.setAlign("right");
+    	Grid grid = GridFactory.newGridLayout();
 		
-		Panel pnlName = new Panel();
-		pnlName.appendChild(lblName);
-		pnlName.appendChild(fieldName);
-		pnlName.setAlign("right");
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		Panel pnlUPC = new Panel();
-		pnlUPC.appendChild(lblUPC);
-		pnlUPC.appendChild(fieldUPC);
-		pnlUPC.setAlign("right");
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblValue.rightAlign());
+		row.appendChild(fieldValue);
+		row.appendChild(lblUPC.rightAlign());
+		row.appendChild(fieldUPC);
+		row.appendChild(lblWarehouse.rightAlign());
+		row.appendChild(pickWarehouse);
+		row.appendChild(lblPriceList.rightAlign());
+		row.appendChild(pickPriceList);
+		row.appendChild(m_InfoPAttributeButton);
 		
-		Panel pnlSKU = new Panel();
-		pnlSKU.appendChild(lblSKU);
-		pnlSKU.appendChild(fieldSKU);
-		pnlSKU.setAlign("right");
-		
-		Panel pnlPriceList = new Panel();
-		pnlPriceList.appendChild(lblPriceList);
-		pnlPriceList.appendChild(pickPriceList);
-		pnlPriceList.setAlign("right");
-		
-		// Elaine 2008/11/21
-		Panel pnlProductCategory = new Panel();
-		pnlProductCategory.appendChild(lblProductCategory);
-		pnlProductCategory.appendChild(pickProductCategory);
-		pnlProductCategory.setAlign("right");
+		row = new Row();
+		row.setSpans("1, 1, 1, 1, 1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(lblName.rightAlign());
+		row.appendChild(fieldName);
+		row.appendChild(lblSKU.rightAlign());
+		row.appendChild(fieldSKU);
+		row.appendChild(lblVendor.rightAlign());
+		row.appendChild(fieldVendor);
+		row.appendChild(lblProductCategory.rightAlign());
+		row.appendChild(pickProductCategory);
 		//
-		
-		Panel pnlWarehouse = new Panel();
-		pnlWarehouse.appendChild(lblWarehouse);
-		pnlWarehouse.appendChild(pickWarehouse);
-		pnlWarehouse.setAlign("right");
-		
-		Panel pnlVendor = new Panel();
-		pnlVendor.appendChild(lblVendor);
-		pnlVendor.appendChild(fieldVendor);
-		pnlVendor.setAlign("right");
-		
-		Panel pnlButton = new Panel();
-		pnlButton.appendChild(m_InfoPAttributeButton);
-		pnlButton.setAlign("left");
-				
-		Vbox vbox1 = new Vbox();
-		vbox1.appendChild(pnlValue);
-		vbox1.appendChild(pnlName);
-		
-		Vbox vbox2 = new Vbox();
-		vbox2.appendChild(pnlUPC);
-		vbox2.appendChild(pnlSKU);
-		
-		Vbox vbox3 = new Vbox();
-		vbox3.appendChild(pnlWarehouse);
-		vbox3.appendChild(pnlVendor);
-		
-		Vbox vbox4 = new Vbox();
-		vbox4.appendChild(pnlPriceList);
-		vbox4.appendChild(pnlProductCategory); // Elaine 2008/11/21
-		
-		Vbox vbox5 = new Vbox();
-		vbox5.appendChild(pnlButton);
-		
-		Hbox parameterPanel = new Hbox();
-        parameterPanel.appendChild(vbox1);
-        parameterPanel.appendChild(vbox2);
-        parameterPanel.appendChild(vbox3);
-        parameterPanel.appendChild(vbox4);
-        parameterPanel.appendChild(vbox5);
         
         // Product Attribute Instance
 		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
@@ -458,13 +428,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		
 		Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
-        mainPanel.appendChild(parameterPanel);
+        mainPanel.appendChild(grid);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(borderlayout);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
 		
 		this.appendChild(mainPanel);
+		this.setClosable(true);
 		this.setBorder("normal");
 		this.setWidth("1000px");
 		
@@ -651,7 +622,6 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				KeyNamePair kn = new KeyNamePair (rs.getInt(1), rs.getString(2));
 				pickPriceList.appendItem(rs.getString(2),new Integer(rs.getInt(1)));
 			}
 			rs.close();
@@ -669,8 +639,6 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				KeyNamePair kn = new KeyNamePair
-					(rs.getInt("M_Warehouse_ID"), rs.getString("ValueName"));
 				pickWarehouse.appendItem(rs.getString("ValueName"), new Integer(rs.getInt("M_Warehouse_ID")));
 			}
 			rs.close();
@@ -841,7 +809,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		//	=> Vendor
 		String vendor = fieldVendor.getText().toUpperCase();
 		if (!(vendor.equals("") || vendor.equals("%")))
-			where.append(" AND UPPER(bp.Name) LIKE ?");
+			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y'"); // Elaine 2008/12/16
 		
 		return where.toString();
 	}	//	getSQLWhere
@@ -967,12 +935,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 */
 	protected void showHistory()
 	{
-		/*log.info("");
+		log.info("");
 		Integer M_Product_ID = getSelectedRowKey();
 		if (M_Product_ID == null)
 			return;
-		KeyNamePair kn = (KeyNamePair)pickWarehouse.getSelectedItem();
-		int M_Warehouse_ID = kn.getKey();
+		int M_Warehouse_ID = 0;
+		ListItem listitem = pickWarehouse.getSelectedItem();
+		if (listitem != null)
+			M_Warehouse_ID = (Integer)listitem.getValue();
 		int M_AttributeSetInstance_ID = m_M_AttributeSetInstance_ID;
 		if (m_M_AttributeSetInstance_ID < -1)	//	not selected
 			M_AttributeSetInstance_ID = 0;
@@ -980,7 +950,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		InvoiceHistory ih = new InvoiceHistory (this, 0, 
 			M_Product_ID.intValue(), M_Warehouse_ID, M_AttributeSetInstance_ID);
 		ih.setVisible(true);
-		ih = null;*/
+		ih = null;
 	}	//	showHistory
 
 	/**
@@ -993,6 +963,25 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		return true;
 	}	//	hasHistory
 
+	// Elaine 2008/12/16
+	/**
+	 *	Zoom
+	 */
+	public void zoom()
+	{
+		log.info("");
+		Integer M_Product_ID = getSelectedRowKey();
+		if (M_Product_ID == null)
+			return;
+		
+		MQuery query = new MQuery("M_Product");
+		query.addRestriction("M_Product_ID", MQuery.EQUAL, M_Product_ID);
+		query.setRecordCount(1);
+		int AD_WindowNo = getAD_Window_ID("M_Product", true);	//	SO
+		AEnv.zoom (AD_WindowNo, query);
+	}	//	zoom
+	//
+	
 	/**
 	 *	Has Zoom
 	 *  @return (has zoom)
@@ -1067,7 +1056,6 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		{
 			final ColumnInfo[] frieLayout = {
 				new ColumnInfo(" ", "p.M_Product_ID", IDColumn.class),
-		//		new Info_Column(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class),
 				new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class),
 				new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "bomQtyAvailable(p.M_Product_ID,?,0) AS QtyAvailable", Double.class, true, true, null),
 				new ColumnInfo(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class),
@@ -1139,6 +1127,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
     public void onEvent(Event e)
     {
     	Component component = e.getTarget();
+    	
+    	// Elaine 2008/12/16
+		//  don't requery if fieldValue and fieldName are empty
+		if ((e.getTarget() == pickWarehouse || e.getTarget() == pickPriceList)
+			&& (fieldValue.getText().length() == 0 && fieldName.getText().length() == 0))
+			return;
+		//
     	
     	if(component == m_InfoPAttributeButton)
     	{
@@ -1343,13 +1338,9 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			rs = null; pstmt = null;
 		}
 
-		//  Table		
-		m_tableAtp = ListboxFactory.newDataTable();
-		m_tableAtp.setMultiSelection(false);
-		
-		m_tableAtp.getModel().setNoColumns(columnNames.size());
-		for(int i = 0; i < columnNames.size(); i++)
-			m_tableAtp.addColumn(columnNames.get(i));
+		//  Table
+		ListModelTable model = new ListModelTable(data);
+		m_tableAtp.setData(model, columnNames);
 		//
 		m_tableAtp.setColumnClass(0, Timestamp.class, true);   //  Date
 		m_tableAtp.setColumnClass(1, Double.class, true);      //  Quantity
@@ -1362,17 +1353,6 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		m_tableAtp.setColumnClass(8, String.class, true);   	  //  Warehouse
 		//
 		m_tableAtp.autoSize();
-		
-		m_tableAtp.setRowCount(data.size());
-		for(int i = 0; i < data.size(); i++)
-		{
-			Vector<Object> record = data.get(i);
-			for(int j = 0; j < record.size(); j++)
-			{
-				Object value = record.get(j);
-				m_tableAtp.getModel().setDataAt(value, i, j);
-			}
-		}
 	}	//	initAtpTab
 	//
 

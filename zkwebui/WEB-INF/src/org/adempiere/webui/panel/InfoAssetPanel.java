@@ -21,9 +21,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -32,12 +36,12 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 
 /**
@@ -45,6 +49,10 @@ import org.zkoss.zul.Separator;
 *  
 * @author 	Niraj Sohun
 * 			Aug, 02, 2007
+* 
+* Zk Port
+* @author Elaine
+* @version	InfoAsset.java Adempiere Swing UI 3.4.1 
 */
 
 public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, EventListener
@@ -105,16 +113,10 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		setStatusDB(Integer.toString(no));
 		
 		//	AutoQuery
-		
 		if (value != null && value.length() > 0)
 			executeQuery();
 		
 		p_loadedOK = true;
-		
-		//	Focus
-		//	fieldValue.requestFocus();
-
-		//AEnv.positionCenterWindow(frame, this);
 	} // InfoProduct
 	
 	/**
@@ -123,73 +125,52 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	
 	private void statInit()
 	{
-		Hbox boxValue = new Hbox();
-				
+		fieldValue.setWidth("100%");
+		fieldName.setWidth("100%");
+		
 		labelValue.setValue(Msg.getMsg(Env.getCtx(), "Value"));
 		fieldValue.addEventListener(Events.ON_CHANGE, this);
 		
-		boxValue.setWidth("100%");
-		boxValue.setWidths("40%, 60%");
-		boxValue.appendChild(labelValue);
-		boxValue.appendChild(fieldValue);
-		
-		Hbox boxName = new Hbox();
-				
 		labelName.setValue(Msg.getMsg(Env.getCtx(), "Name"));
 		fieldName.addEventListener(Events.ON_CANCEL, this);
-		
-		boxName.setWidth("100%");
-		boxName.setWidths("40%, 60%");
-		boxName.appendChild(labelName);
-		boxName.appendChild(fieldName);
-		
-		//	From A_Asset.
-		
-		Hbox boxBPartner = new Hbox();
-				
+		// From A_Asset.
 		fBPartner_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8065, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
 		
-		boxBPartner.setWidth("100%");
-		boxBPartner.setWidths("40%, ");
-		
-		boxBPartner.appendChild(fBPartner_ID.getLabel());
-		boxBPartner.appendChild(fBPartner_ID.getComponent());
-		
-		
-		Hbox boxProduct = new Hbox();
-				
 		fProduct_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 8047, DisplayType.Search), 
 				Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
 		fProduct_ID.addValueChangeListener(this);
 		
-		boxProduct.appendChild(fProduct_ID.getLabel());
-		boxProduct.appendChild(fProduct_ID.getComponent());
+		Grid grid = GridFactory.newGridLayout();
 		
-		VerticalBox boxCol1 = new VerticalBox(); 
-		boxCol1.appendChild(boxValue);
-		boxCol1.appendChild(new Separator());
-		boxCol1.appendChild(boxName);
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		VerticalBox boxCol2 = new VerticalBox();
-		boxCol2.appendChild(boxBPartner);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxProduct);
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(labelValue.rightAlign());
+		row.appendChild(fieldValue);
+		row.appendChild(fBPartner_ID.getLabel().rightAlign());
+		row.appendChild(fBPartner_ID.getComponent());
 		
-		Hbox mainBox = new Hbox();
-		mainBox.setWidth("100%");
-		mainBox.setWidths("30%, 70%");
-		mainBox.appendChild(boxCol1);
-		mainBox.appendChild(boxCol2);
+		row = new Row();
+		rows.appendChild(row);
+		row.appendChild(labelName.rightAlign());
+		row.appendChild(fieldName);
+		row.appendChild(fProduct_ID.getLabel().rightAlign());
+		row.appendChild(fProduct_ID.getComponent());
 		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
+        
 		this.setWidth("850px");
-//		this.setTitle("Info Asset");
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.appendChild(mainBox);
+		this.appendChild(grid);
 		this.appendChild(new Separator());
 		this.appendChild(contentPanel);
 		this.appendChild(new Separator());
@@ -207,7 +188,6 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	private void initInfo (String value, int A_Asset_ID, String whereClause)
 	{
 		//	Create Grid
-		
 		StringBuffer where = new StringBuffer();
 		where.append("a.IsActive='Y'");
 		
@@ -217,7 +197,6 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		prepareTable(s_assetLayout, s_assetFROM, where.toString(), "a.Value");
 
 		//  Set Value
-		
 		if (value == null)
 			value = "%";
 		
@@ -352,11 +331,11 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		return false;
 	} // hasHistory
 
+	// Elaine 2008/12/16
 	/**
 	 *	Zoom
 	 */
-	
-/*	public void zoom()
+	public void zoom()
 	{
 		log.info( "InfoAsset.zoom");
 		Integer A_Asset_ID = getSelectedRowKey();
@@ -369,9 +348,10 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		query.setRecordCount(1);
 		
 		int AD_WindowNo = getAD_Window_ID("A_Asset", true);
-		super.zoom (AD_WindowNo, query);
+		AEnv.zoom(AD_WindowNo, query);
 	} // zoom
-*/
+	//
+
 	/**
 	 *	Has Zoom
 	 *  @return true

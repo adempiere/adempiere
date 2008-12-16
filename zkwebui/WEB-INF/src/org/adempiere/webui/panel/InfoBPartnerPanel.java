@@ -22,30 +22,36 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
 *	Search Business Partner and return selection
 *   Based on InfoBPartner written by Jorg Janke
-* 	@author Sendy Yagambrum 	
+* 	@author Sendy Yagambrum
+* 
+* 	Zk Port
+* 	@author Elaine
+* 	@version	InfoBPartner.java Adempiere Swing UI 3.4.1 
 */
 
 
@@ -69,7 +75,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	private Checkbox checkAND ;
 	private Checkbox checkCustomer; 
 	private Checkbox checkVendor;
-        		
+	
+	private int m_AD_User_ID_index = -1; // Elaine 2008/12/16
     private int m_C_BPartner_Location_ID_index = -1;
 		
 	/** SalesOrder Trx          */
@@ -109,14 +116,13 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 *  @param whereClause where clause
 	 */
 	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause)
-	{
-		
+	{		
 		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause);
+		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
 		m_isSOTrx = isSOTrx;
         initComponents();
         init();
 		initInfo(queryValue, whereClause);
-		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
         
         int no = contentPanel.getRowCount();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
@@ -160,16 +166,18 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		fieldPhone.setMaxlength(40);
 		
 		checkAND = new Checkbox();
-		checkAND.addEventListener(Events.ON_CHECK, this);
+		checkAND.setLabel(Msg.getMsg(Env.getCtx(), "SearchAND"));
 		checkAND.setChecked(true);
+		checkAND.addEventListener(Events.ON_CHECK, this);
 		checkCustomer = new Checkbox();
+		checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyCustomers"));
 		checkCustomer.setChecked(true);
 		checkCustomer.addEventListener(Events.ON_CHECK, this);
 		checkVendor = new Checkbox();
 		checkVendor.setChecked(true);
+		checkVendor.setLabel(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
 		checkVendor.addEventListener(Events.ON_CHECK, this);
         
-		contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setVflex(true);       
@@ -177,101 +185,48 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	
 	private void init()
 	{
+		fieldValue.setWidth("100%");
+		fieldContact.setWidth("100%");
+		fieldPhone.setWidth("100%");
 		
-		Panel pnlValue = new Panel();
-		pnlValue.appendChild(lblValue);
-		pnlValue.appendChild(fieldValue);		
-		pnlValue.setAlign("right");
+		fieldName.setWidth("100%");
+		fieldEMail.setWidth("100%");
+		fieldPostal.setWidth("100%");
 		
-		Panel pnlName = new Panel();
-		pnlName.appendChild(lblName);
-		pnlName.appendChild(fieldName);
-		pnlName.setAlign("right");
+		Grid grid = GridFactory.newGridLayout();
 		
-		Panel pnlContact = new Panel();
-		pnlContact.appendChild(lblContact);
-		pnlContact.appendChild(fieldContact);
-		pnlContact.setAlign("right");
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		Panel pnlEMail = new Panel();
-		pnlEMail.appendChild(lblEMail);
-		pnlEMail.appendChild(fieldEMail);
-		pnlEMail.setAlign("right");
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblValue.rightAlign());
+		row.appendChild(fieldValue);
+		row.appendChild(lblContact.rightAlign());
+		row.appendChild(fieldContact);
+		row.appendChild(lblPhone.rightAlign());
+		row.appendChild(fieldPhone);
+		row.appendChild(m_isSOTrx ? checkCustomer : checkVendor);
 		
-		Panel pnlPostal = new Panel();
-		pnlPostal.appendChild(lblPostal);
-		pnlPostal.appendChild(fieldPostal);
-		pnlPostal.setAlign("right");
-		
-		Panel pnlPhone = new Panel();
-		pnlPhone.appendChild(lblPhone);
-		pnlPhone.appendChild(fieldPhone);
-		pnlPhone.setAlign("right");
-		
-		Panel pnlCheckAND = new Panel();
-		Label lblAND = new Label();
-		lblAND.setValue("All/Any");
-		pnlCheckAND.appendChild(checkAND);
-		pnlCheckAND.appendChild(lblAND);
-		pnlCheckAND.setAlign("left");
-				
-		Panel pnlCheckCust = new Panel();
-		Label lblCheckCust = new Label();
-		lblCheckCust.setValue("Customers Only");
-		pnlCheckCust.appendChild(checkCustomer);
-		pnlCheckCust.appendChild(lblCheckCust);
-		pnlCheckCust.setAlign("right");
-		
-		Panel pnlCheckVendor = new Panel();
-		Label lblCheckVendor = new Label();
-		lblCheckVendor.setValue("Vendors Only");
-		pnlCheckVendor.appendChild(checkVendor);
-		pnlCheckVendor.appendChild(lblCheckVendor);
-		pnlCheckVendor.setAlign("right");
-						
-		Vbox vbox1 = new Vbox();
-		vbox1.appendChild(pnlValue);
-		vbox1.appendChild(pnlName);
-		
-		Vbox vbox2 = new Vbox();
-		vbox2.appendChild(pnlContact);
-		vbox2.appendChild(pnlEMail);
-		
-		Vbox vbox3 = new Vbox();
-		vbox3.appendChild(pnlPostal);
-		vbox3.appendChild(pnlPhone);
-		
-		Vbox vbox4 = new Vbox();
-		vbox4.appendChild(pnlCheckAND);
-		
-		if (m_isSOTrx)
-		{
-			vbox4.appendChild(pnlCheckCust);
-		}
-		else
-		{
-			vbox4.appendChild(pnlCheckVendor);
-		}
-		
-		Hbox parameterPanel = new Hbox();
-        parameterPanel.appendChild(vbox1);
-        parameterPanel.appendChild(vbox2);
-        parameterPanel.appendChild(vbox3);
-        parameterPanel.appendChild(vbox4);
-	
-        Panel mainPanel = new Panel();
-        mainPanel.appendChild(parameterPanel);
+		row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblName.rightAlign());
+		row.appendChild(fieldName);
+		row.appendChild(lblEMail.rightAlign());
+		row.appendChild(fieldEMail);
+		row.appendChild(lblPostal.rightAlign());
+		row.appendChild(fieldPostal);
+		row.appendChild(checkAND);
         
-        mainPanel.setWidth("100%");
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(contentPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(confirmPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(statusBar);
+		this.appendChild(grid);
+        this.appendChild(new Separator());
+        this.appendChild(contentPanel);
+        this.appendChild(new Separator());
+        this.appendChild(confirmPanel);
+        this.appendChild(new Separator());
+        this.appendChild(statusBar);
         
-        this.appendChild(mainPanel);
-        
+        this.setClosable(true);
 		this.setBorder("normal");
 		this.setWidth("1000px");
 		
@@ -301,9 +256,13 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
                           
 			prepareTable(s_partnerLayout, s_partnerFROM, where.toString(), "C_BPartner.Value");
 			
-//        Get indexes
+			// Get indexes
             for (int i = 0; i < p_layout.length; i++)
             {
+            	// Elaine 2008/12/16
+            	if (p_layout[i].getKeyPairColSQL().indexOf("AD_User_ID") != -1)
+    				m_AD_User_ID_index = i;
+            	//
                 if (p_layout[i].getKeyPairColSQL().indexOf("C_BPartner_Location_ID") != -1)
                     m_C_BPartner_Location_ID_index = i;
             }
@@ -478,10 +437,15 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 
         int AD_User_ID = 0;
         int C_BPartner_Location_ID = 0;
-
         
-        AD_User_ID = ((KeyNamePair)contentPanel.getValueAt(row, 3)).getKey();
-       
+        // Elaine 2008/12/16
+        if (m_AD_User_ID_index != -1)
+        {
+            Object data =contentPanel.getValueAt(row, m_AD_User_ID_index);
+            if (data instanceof KeyNamePair)
+            	AD_User_ID = ((KeyNamePair)data).getKey();
+        }
+        //
         if (m_C_BPartner_Location_ID_index != -1)
         {
             Object data =contentPanel.getValueAt(row, m_C_BPartner_Location_ID_index);
@@ -495,7 +459,77 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
         Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_BPartner_Location_ID", String.valueOf(C_BPartner_Location_ID));
        
     }   //  saveSelectionDetail
-		   
+    
+    // Elaine 2008/12/16
+	/**************************************************************************
+	 *	Show History
+	 */
+	protected void showHistory()
+	{
+		log.info("");
+		Integer C_BPartner_ID = getSelectedRowKey();
+		if (C_BPartner_ID == null)
+			return;
+		InvoiceHistory ih = new InvoiceHistory (this, C_BPartner_ID.intValue(), 
+			0, 0, 0);
+		ih.setVisible(true);
+		ih = null;
+	}	//	showHistory
+
+	/**
+	 *	Has History
+	 *  @return true
+	 */
+	protected boolean hasHistory()
+	{
+		return true;
+	}	//	hasHistory
+
+	/**
+	 *	Zoom
+	 */
+	public void zoom()
+	{
+		log.info( "InfoBPartner.zoom");
+		Integer C_BPartner_ID = getSelectedRowKey();
+		if (C_BPartner_ID == null)
+			return;
+	//	AEnv.zoom(MBPartner.Table_ID, C_BPartner_ID.intValue(), true);	//	SO
+
+		MQuery query = new MQuery("C_BPartner");
+		query.addRestriction("C_BPartner_ID", MQuery.EQUAL, C_BPartner_ID);
+		query.setRecordCount(1);
+		int AD_WindowNo = getAD_Window_ID("C_BPartner", true);	//	SO
+		AEnv.zoom (AD_WindowNo, query);
+	}	//	zoom
+
+	/**
+	 *	Has Zoom
+	 *  @return true
+	 */
+	protected boolean hasZoom()
+	{
+		return true;
+	}	//	hasZoom
+
+	/**
+	 *	Customize
+	 */
+	protected void customize()
+	{
+		log.info( "InfoBPartner.customize");
+	}	//	customize
+
+	/**
+	 *	Has Customize
+	 *  @return false
+	 */
+	protected boolean hasCustomize()
+	{
+		return false;	//	for now
+	}	//	hasCustomize
+	//
+	
     public void tableChanged(WTableModelEvent event)
     {
         

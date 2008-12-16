@@ -23,13 +23,17 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -38,6 +42,7 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -46,13 +51,16 @@ import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
  * Search Invoice and return selection
  * Based on InfoInvoice by Jorg Janke
  * @author Sendy Yagambrum
  * @date July 30, 2007
+ *
+ * Zk Port
+ * @author Elaine
+ * @version	InfoInvoice.java Adempiere Swing UI 3.4.1 
  **/
 public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 {
@@ -89,10 +97,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 
     private Label lblDocumentNo;
     private Label lblDescription;
-    private Label lblBPartner;
-    private Label lblOrder;
-    private Label lblIsSOTrx;
-    private Label lblIsPaid;
     private Label lblDateInvoiced;
     private Label lblGrandTotal;
     
@@ -134,32 +138,25 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 
     private void initComponents()
     {
-
         lblDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo").substring(1));
         lblDescription = new Label(Msg.translate(Env.getCtx(), "Description"));
-        lblBPartner = new Label(Msg.translate(Env.getCtx(), "BPartner").substring(1));
-        lblIsSOTrx = new Label(Msg.translate(Env.getCtx(), "IsSOTrx"));
-        lblIsPaid = new Label(Msg.translate(Env.getCtx(), "IsPaid"));
         lblDateInvoiced = new Label(Msg.translate(Env.getCtx(), "DateInvoiced"));
-        lblOrder = new Label(Msg.translate(Env.getCtx(), "POReference"));
         lblGrandTotal = new Label(Msg.translate(Env.getCtx(), "GrandTotal"));
         
         txtDocumentNo = new Textbox();
         txtDescription = new Textbox();
         
         dateFrom = new Datebox();
-        dateFrom.setWidth("180px");
         dateTo= new Datebox();
-        dateTo.setWidth("180px");
         
         amountFrom = new NumberBox(false);
-        amountFrom.setWidth("180px");
         amountTo = new NumberBox(false);
-        amountTo.setWidth("180px");
         
         isPaid = new Checkbox();
+        isPaid.setLabel(Msg.translate(Env.getCtx(), "IsPaid"));
         isPaid.setChecked(false);
         isSoTrx = new Checkbox();
+        isSoTrx.setLabel(Msg.translate(Env.getCtx(), "IsSOTrx"));
         isSoTrx.setChecked(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
         MLookup lookupBP = MLookupFactory.get(Env.getCtx(), p_WindowNo,
                 0, 3499, DisplayType.Search);
@@ -173,7 +170,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
                 Env.getCtx(), "C_Order_ID"), "", false, false, true);
         editorOrder.addValueChangeListener(this);
         
-        contentPanel = new WListbox();
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setVflex(true);
@@ -181,94 +177,54 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     
     private void init()
     {
-        Hbox pnlDocumentNo = new Hbox();
-        pnlDocumentNo.appendChild(lblDocumentNo);
-        pnlDocumentNo.appendChild(txtDocumentNo);
-        pnlDocumentNo.setStyle("text-align:right");
-        
-        Hbox pnlDescription = new Hbox();
-        pnlDescription.appendChild(lblDescription);
-        pnlDescription.appendChild(txtDescription);
-        pnlDescription.setStyle("text-align:right");
-        pnlDescription.setWidth("100%");
-        
-        Hbox pnlOrder = new Hbox();
-        pnlOrder.appendChild(editorOrder.getLabel());
-        pnlOrder.appendChild(editorOrder.getComponent());
-        pnlOrder.setStyle("text-align:right");
-        pnlOrder.setWidth("100%");
-        
-        Hbox pnlBPartner = new Hbox();
-        pnlBPartner.appendChild(lblBPartner);
-        pnlBPartner.appendChild(editorBPartner.getComponent()); 
-        pnlBPartner.setStyle("text-align:right");
-        pnlBPartner.setWidth("100%");
-        
-        Hbox hboxDateOrdered = new Hbox();
-        Panel pnlDateOrdered = new Panel();
-        pnlDateOrdered.appendChild(lblDateInvoiced);
-        pnlDateOrdered.appendChild(dateFrom);
-        pnlDateOrdered.setAlign("right");
-        hboxDateOrdered.appendChild(pnlDateOrdered);
-        hboxDateOrdered.setStyle("text-align:right");
-        hboxDateOrdered.setWidth("100%");
-        
-        Hbox pnlGrandTotal = new Hbox();
-        pnlGrandTotal.appendChild(lblGrandTotal);
-        pnlGrandTotal.appendChild(amountFrom);
-        pnlGrandTotal.setStyle("text-align:right");
-        pnlGrandTotal.setWidth("100%");
-        
-        Hbox pnlCheckbox = new Hbox();
-        Panel pnlIsSoTrx = new Panel();
-        pnlIsSoTrx.appendChild(isSoTrx);
-        pnlIsSoTrx.appendChild(lblIsSOTrx);
-        pnlIsSoTrx.setAlign("left");
-        
-        Panel pnlIsPaid = new Panel();
-        pnlIsPaid.appendChild(isPaid);
-        pnlIsPaid.appendChild(lblIsPaid);
-        pnlIsPaid.setAlign("left");
-        
-        pnlCheckbox.appendChild(pnlIsSoTrx);
-        pnlCheckbox.appendChild(pnlIsPaid);
-        
-
-        Panel pnlDateTo = new Panel();
-        pnlDateTo.appendChild(dateTo);
-        pnlDateTo.setAlign("left");
-        
-        Panel pnlAmountTo = new Panel();
-        pnlAmountTo.appendChild(amountTo);     
-        pnlAmountTo.setAlign("left");
-        
-        Vbox vbox1 = new Vbox();
-        vbox1.setWidth("100%");
-        vbox1.appendChild(pnlDocumentNo);
-        vbox1.appendChild(pnlDescription);
-        vbox1.appendChild(pnlOrder);
-        
-        Vbox vbox2 = new Vbox();
-        vbox2.setWidth("100%");
-        vbox2.appendChild(pnlBPartner);
-        vbox2.appendChild(pnlDateOrdered);
-        vbox2.appendChild(pnlGrandTotal);
-        
-        Vbox vbox3 = new Vbox();
-        vbox3.setWidth("100%");
-        vbox3.appendChild(pnlCheckbox);
-        vbox3.appendChild(pnlDateTo);
-        vbox3.appendChild(pnlAmountTo);
-        
-        Hbox parameterPanel = new Hbox();
-        parameterPanel.appendChild(vbox1);
-        parameterPanel.appendChild(vbox2);
-        parameterPanel.appendChild(vbox3);
-        parameterPanel.setWidth("100%");
-        
+    	txtDocumentNo.setWidth("100%");
+    	txtDescription.setWidth("100%");
+    	dateFrom.setWidth("165px");
+		dateTo.setWidth("165px");
+		amountFrom.getDecimalbox().setWidth("155px");
+		amountTo.getDecimalbox().setWidth("155px");
+    	
+        Grid grid = GridFactory.newGridLayout();
+		
+		Rows rows = new Rows();
+		grid.appendChild(rows);
+		
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblDocumentNo.rightAlign());
+		row.appendChild(txtDocumentNo);
+		row.appendChild(editorBPartner.getLabel().rightAlign());
+		row.appendChild(editorBPartner.getComponent());
+		row.appendChild(isSoTrx);
+		row.appendChild(isPaid);
+		
+		row = new Row();
+		row.setSpans("1, 1, 1, 3");
+		rows.appendChild(row);
+		row.appendChild(lblDescription.rightAlign());
+		row.appendChild(txtDescription);
+		row.appendChild(lblDateInvoiced.rightAlign());
+		Hbox hbox = new Hbox();
+		hbox.appendChild(dateFrom);
+		hbox.appendChild(new Label("-"));
+		hbox.appendChild(dateTo);
+		row.appendChild(hbox);
+		
+		row = new Row();
+		row.setSpans("1, 1, 1, 3");
+		rows.appendChild(row);
+		row.appendChild(editorOrder.getLabel().rightAlign());
+		row.appendChild(editorOrder.getComponent());
+		row.appendChild(lblGrandTotal.rightAlign());
+		hbox = new Hbox();
+		hbox.appendChild(amountFrom);
+		hbox.appendChild(new Label("-"));
+		hbox.appendChild(amountTo);
+		row.appendChild(hbox);
+		
         Panel mainPanel = new Panel();
         mainPanel.setWidth("100%");
-        mainPanel.appendChild(parameterPanel);
+        mainPanel.appendChild(grid);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
         mainPanel.appendChild(new Separator());
@@ -277,7 +233,8 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         mainPanel.appendChild(statusBar);
         
         this.appendChild(mainPanel);
-        this.setBorder("normal");
+        this.setClosable(true);
+		this.setBorder("normal");
         this.setWidth("850px");         
     }
     
@@ -301,7 +258,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
             where.toString(),
             "2,3,4");
         //
-    //  MAllocationLine.setIsPaid(Env.getCtx(), 0, null);
         return true;
            
     }   //  initInfo
@@ -313,8 +269,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
             sql.append(" AND UPPER(i.DocumentNo) LIKE ?");
         if (txtDescription.getText().length() > 0)
             sql.append(" AND UPPER(i.Description) LIKE ?");
-    //  if (fPOReference.getText().length() > 0)
-    //      sql.append(" AND UPPER(i.POReference) LIKE ?");
         //
         if (editorBPartner.getValue() != null)
             sql.append(" AND i.C_BPartner_ID=?");
@@ -525,6 +479,33 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         return s;
     }   //  getSQLText
     
+    // Elaine 2008/12/16
+	/**
+	 *	Zoom
+	 */
+	public void zoom()
+	{
+		log.info( "InfoInvoice.zoom");
+		Integer C_Invoice_ID = getSelectedRowKey();
+		if (C_Invoice_ID == null)
+			return;
+		MQuery query = new MQuery("C_Invoice");
+		query.addRestriction("C_Invoice_ID", MQuery.EQUAL, C_Invoice_ID);
+		query.setRecordCount(1);
+		int AD_WindowNo = getAD_Window_ID("C_Invoice", isSoTrx.isSelected());
+		AEnv.zoom (AD_WindowNo, query);
+	}	//	zoom
+
+	/**
+	 *	Has Zoom
+	 *  @return true
+	 */
+	protected boolean hasZoom()
+	{
+		return true;
+	}	//	hasZoom
+	//
+    
     public void tableChanged(WTableModelEvent event)
     {
         
@@ -560,7 +541,4 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		else
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
 	}
-    
-    
-
 }

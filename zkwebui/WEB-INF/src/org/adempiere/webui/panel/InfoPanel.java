@@ -56,6 +56,10 @@ import org.zkoss.zul.event.ZulEvents;
  *  Based on Info written by Jorg Janke
  *  
  *  @author Sendy Yagambrum
+ *  
+ * Zk Port
+ * @author Elaine
+ * @version	Info.java Adempiere Swing UI 3.4.1
  */
 public abstract class InfoPanel extends Window implements EventListener, WTableModelListener
 {
@@ -250,10 +254,16 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	
 	private void init()
 	{
-        confirmPanel = new ConfirmPanel(true,true,false,false,true,true); 
+        confirmPanel = new ConfirmPanel(true, true, false, true, true, true);  // Elaine 2008/12/16
         confirmPanel.addActionListener(Events.ON_CLICK, this);
         confirmPanel.setStyle("border-top: 2px groove #444; padding-top: 4px");
         
+        // Elaine 2008/12/16
+		confirmPanel.getButton(ConfirmPanel.A_CUSTOMIZE).setVisible(hasCustomize());
+		confirmPanel.getButton(ConfirmPanel.A_HISTORY).setVisible(hasHistory());
+		confirmPanel.getButton(ConfirmPanel.A_ZOOM).setVisible(hasZoom());
+		//
+		
         this.setSizable(true);        
         
         this.addEventListener(Events.ON_OK, this);
@@ -488,10 +498,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         int no = line.size();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
-        
-        //better performance
-//        contentPanel.setFixedLayout(true);
-        
+                
         //workaround for scrollbar position problem
         contentPanel.renderAll();
     }
@@ -822,24 +829,40 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     {
         if  (event!=null)
         {
-            if (event.getTarget().equals(confirmPanel.getButton("Ok")))
+            if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
             {
                 if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
                 {
                     dispose(true);
                 }
             }
-            else if (event.getTarget().equals(confirmPanel.getButton("Refresh")))
+            else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
             {
                 executeQuery();
                 renderItems();
             }
-            else if (event.getTarget().equals(confirmPanel.getButton("Cancel")))
+            else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_CANCEL)))
             {
             	m_cancel = true;
                 dispose(false);
             }
-            else if (event.getTarget().equals(confirmPanel.getButton("Zoom")))
+            // Elaine 2008/12/16
+            else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_HISTORY)))
+            {
+            	if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
+                {
+            		showHistory();
+                }
+            }
+    		else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_CUSTOMIZE)))
+    		{
+            	if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
+                {
+            		customize();
+                }
+    		}
+            //
+            else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_ZOOM)))
             {
                 if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
                 {

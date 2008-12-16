@@ -25,10 +25,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.ColumnInfo;
@@ -38,9 +41,13 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
 
+/**
+ * Zk Port
+ * @author Elaine
+ * @version	InfoGeneral.java Adempiere Swing UI 3.4.1 
+ */
 public class InfoGeneralPanel extends InfoPanel implements EventListener
 {
 	private static final long serialVersionUID = 1L;
@@ -67,16 +74,26 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	public InfoGeneralPanel(String queryValue, int windowNo,String tableName,String keyColumn, boolean isSOTrx, String whereClause) 
 	{
 		super(windowNo, tableName, keyColumn, false,whereClause);
-		
-		//log.info(tableName + " - " + keyColumn + " - " + whereClause);
 				
 		setTitle(Msg.getMsg(Env.getCtx(), "Info"));
 
-		init();
-		initComponents();
-		
-		p_loadedOK = initInfo ();
-				
+		try
+		{
+			init();
+			initComponents();
+			
+			p_loadedOK = initInfo ();
+		}
+		catch (Exception e)
+		{
+			return;
+		}
+
+		// Elaine 2008/12/15
+		int no = contentPanel.getRowCount();
+		setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
+		setStatusDB(Integer.toString(no));
+		//
 		
 		if (queryValue != null && queryValue.length() > 0)
         {
@@ -88,34 +105,39 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	
 	private void initComponents()
 	{
-		Hbox parameterPanel = new Hbox();
-		parameterPanel.setWidth("100%");
-        parameterPanel.appendChild(lbl1);
-        parameterPanel.appendChild(txt1);
-        parameterPanel.appendChild(lbl2);
-        parameterPanel.appendChild(txt2);
-        parameterPanel.appendChild(lbl3);
-        parameterPanel.appendChild(txt3);
-        parameterPanel.appendChild(lbl4);
-        parameterPanel.appendChild(txt4);
+		Grid grid = GridFactory.newGridLayout();
+		
+		Rows rows = new Rows();
+		grid.appendChild(rows);
+		
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lbl1.rightAlign());
+		row.appendChild(txt1);
+		row.appendChild(lbl2.rightAlign());
+		row.appendChild(txt2);
+		row.appendChild(lbl3.rightAlign());
+		row.appendChild(txt3);
+		row.appendChild(lbl4.rightAlign());
+		row.appendChild(txt4);
 		
 		Panel mainPanel = new Panel();
 		mainPanel.setWidth("100%");
-        mainPanel.appendChild(parameterPanel);
+        mainPanel.appendChild(grid);
         
-        contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);
- 
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(contentPanel);
         mainPanel.appendChild(new Separator());
         mainPanel.appendChild(confirmPanel);
+        // Elaine 2008/12/15
+        mainPanel.appendChild(new Separator());
+        mainPanel.appendChild(statusBar);
+        //
 		
 		this.appendChild(mainPanel);
-        this.setBorder("normal");
+		this.setClosable(true);
+		this.setBorder("normal");
 		this.setWidth("900px");
-		//this.setHeight("500px");
 	}
 
 	private void init()
@@ -129,9 +151,10 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		lbl2 = new Label();
 		lbl3 = new Label();
 		lbl4 = new Label();
-        
-        contentPanel = new WListbox();
-        contentPanel.setWidth("100%");
+		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
 	}
 	
 	private boolean initInfo ()
@@ -150,12 +173,10 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		//	Set & enable Fields
 		
 		lbl1.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString()).substring(1));
-		//txt1.addActionListener(this);
 		
 		if (m_queryColumns.size() > 1)
 		{
 			lbl2.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(1).toString()));
-			//txt2.addActionListener(this);
 		}
 		else
 		{
@@ -166,7 +187,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		if (m_queryColumns.size() > 2)
 		{
 			lbl3.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(2).toString()));
-			//txt3.addActionListener(this);
 		}
 		else
 		{
@@ -177,7 +197,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		if (m_queryColumns.size() > 3)
 		{
 			lbl4.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(3).toString()));
-			//txt4.addActionListener(this);
 		}
 		else
 		{
@@ -271,7 +290,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 			+ " INNER JOIN AD_Field f ON (tab.AD_Tab_ID=f.AD_Tab_ID AND f.AD_Column_ID=c.AD_Column_ID) "
 			+ "WHERE t.AD_Table_ID=? "
 			+ " AND (c.IsKey='Y' OR "
-			//	+ " (f.IsDisplayed='Y' AND f.IsEncrypted='N' AND f.ObscureType IS NULL)) "
 				+ " (f.IsEncrypted='N' AND f.ObscureType IS NULL)) "
 			+ "ORDER BY c.IsKey DESC, f.SeqNo";
 		
@@ -313,9 +331,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 				else if (DisplayType.isDate(displayType))
 					colClass = Timestamp.class;
 				//  ignore Binary, Button, ID, RowID
-				//	else if (displayType == DisplayType.Account)
-				//	else if (displayType == DisplayType.Location)
-				//	else if (displayType == DisplayType.Locator)
 				else if (displayType == DisplayType.List)
 				{
 					if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
@@ -330,8 +345,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 							.append("') AS ").append(columnName);
 					colClass = String.class;
 				}
-				//	else if (displayType == DisplayType.Table)
-				//	else if (displayType == DisplayType.TableDir || displayType == DisplayType.Search)
 
 				if (colClass != null)
 				{
@@ -393,7 +406,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	@Override
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException 
 	{
-		int index = 1;
 	}
 
     public void tableChanged(WTableModelEvent event)

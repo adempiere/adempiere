@@ -15,7 +15,6 @@ package org.adempiere.webui.component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Timebox;
@@ -126,5 +125,21 @@ public class DatetimeBox extends Panel {
 	 */
 	public void setDateFormat(SimpleDateFormat dateFormat) {
 		dateBox.setFormat(dateFormat.toPattern());
+	}
+	
+	/**
+	 * @return dateBox
+	 */
+	public Datebox getDatebox()
+	{
+		return dateBox;
+	}
+	
+	/**
+	 * @return timeBox
+	 */
+	public Timebox getTimebox()
+	{
+		return timeBox;
 	}
 }

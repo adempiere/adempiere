@@ -21,14 +21,16 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.Grid;
+import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.Row;
+import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -52,21 +54,16 @@ import org.zkoss.zul.Separator;
 *  
 * @author 	Niraj Sohun
 * 			Aug 03, 2007
+* 
+* Zk Port
+* @author Elaine
+* @version	InfoCashLine.java Adempiere Swing UI 3.4.1 
 */
 
 public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener, EventListener
 {
 	private static final long serialVersionUID = 1L;
-	
-	/** list of query columns           */
-	private ArrayList m_queryColumns = new ArrayList();
-	
-	/** Table Name              */
-	private String m_tableName;
-	
-	/** Key Column Name         */
-	private String m_keyColumn;
-	
+		
 	private Textbox fName = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();
@@ -97,8 +94,6 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			"c.StatementDate", Timestamp.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Line"),
 			"cl.Line", Integer.class),
-		//	new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"),
-		//		"(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=cl.C_Currency_ID)", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Amount"),
 			"cl.Amount",  BigDecimal.class, true, true, null),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Invoice_ID"),
@@ -152,11 +147,6 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 			fName .setValue(value);
 			executeQuery();
 		}
-
-		//pack();
-
-		// Focus
-		// fName.requestFocus();
 	} // InfoCashLinePanel
 	
 	/**
@@ -166,33 +156,19 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 	
 	private void statInit() throws Exception
 	{
-		Hbox boxName = new Hbox();
+		fName.setWidth("180px");
+		fDateFrom.setWidth("165px");
+		fDateTo.setWidth("165px");
+		fAmtFrom.setWidth("180px");
+		fAmtTo.setWidth("180px");
 		
 		fName.addEventListener(Events.ON_CHANGE, this);
 		
-		boxName.setWidth("100%");
-		boxName.setWidths("40%, 60%");
-		boxName.appendChild(lName );
-		boxName.appendChild(fName);
-		
-		//	fOrg_ID = new VLookup("AD_Org_ID", false, false, true,
-		//	MLookupFactory.create(Env.getCtx(), 3486, m_WindowNo, DisplayType.TableDir, false),
-		//	DisplayType.TableDir, m_WindowNo);
-		//	lOrg_ID.setLabelFor(fOrg_ID);
-		//	fOrg_ID.setBackground(AdempierePLAF.getInfoBackground());
-		//	5249 - C_Cash.C_CashBook_ID
-		
-		Hbox boxCashBook = new Hbox();
-		
+		// 5249 - C_Cash.C_CashBook_ID
 		fCashBook_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5249, DisplayType.TableDir), 
 				Msg.translate(Env.getCtx(), "C_CashBook_ID"), "", false, false, true);
 		fCashBook_ID.addValueChangeListener(this);
-		
-		boxCashBook.appendChild(fCashBook_ID.getLabel());
-		boxCashBook.appendChild(fCashBook_ID.getComponent());
-
-		Hbox boxInvoice = new Hbox();
 		
 		// 5354 - C_CashLine.C_Invoice_ID
 		fInvoice_ID = new WSearchEditor(
@@ -200,19 +176,11 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 				Msg.translate(Env.getCtx(), "C_Invoice_ID"), "", false, false, true);
 		fInvoice_ID.addValueChangeListener(this);
 		
-		boxInvoice.appendChild(fInvoice_ID.getLabel());
-		boxInvoice.appendChild(fInvoice_ID.getComponent());
-
-		Hbox boxBankAcct = new Hbox();
-		
 		//	5295 - C_CashLine.C_BankAccount_ID
 		fBankAccount_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 5295, DisplayType.TableDir), 
 				Msg.translate(Env.getCtx(), "C_BankAccount_ID"), "", false, false, true);
 		fBankAccount_ID.addValueChangeListener(this);
-		
-		boxBankAcct.appendChild(fBankAccount_ID.getLabel());
-		boxBankAcct.appendChild(fBankAccount_ID.getComponent());
 		
 		//	5296 - C_CashLine.C_Charge_ID
 		//	5291 - C_CashLine.C_Cash_ID
@@ -220,66 +188,51 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 		cbAbsolute.setLabel(Msg.translate(Env.getCtx(), "AbsoluteAmt"));
 		cbAbsolute.addEventListener(Events.ON_CHECK, this);
 		
-		Hbox boxDateFrom = new Hbox();
-		boxDateFrom.setWidth("100%");
-		boxDateFrom.setWidths("40%, 60%");
-		boxDateFrom.appendChild(lDateFrom);
-		boxDateFrom.appendChild(fDateFrom);
-
-		Hbox boxDateTo = new Hbox();
-		boxDateTo.setWidth("100%");
-		boxDateTo.setWidths("10%, 90%");
-		boxDateTo.appendChild(lDateTo);
-		boxDateTo.appendChild(fDateTo);
-
-		Hbox boxAmtFrom = new Hbox();
-		boxAmtFrom.setWidth("100%");
-		boxAmtFrom.setWidths("40%, 60%");
-		boxAmtFrom.appendChild(lAmtFrom);
-		boxAmtFrom.appendChild(fAmtFrom);
-
-		Hbox boxAmtTo = new Hbox();
-		boxAmtTo.setWidth("100%");
-		boxAmtTo.setWidths("10%, 90%");
-		boxAmtTo.appendChild(lAmtTo);
-		boxAmtTo.appendChild(fAmtTo);
-
-		VerticalBox boxCol1 = new VerticalBox();
-		boxCol1.appendChild(boxCashBook);
-		boxCol1.appendChild(new Separator());
-		boxCol1.appendChild(boxInvoice);
-		boxCol1.appendChild(new Separator());
-		boxCol1.appendChild(boxBankAcct);
+		Grid grid = GridFactory.newGridLayout();
 		
-		VerticalBox boxCol2 = new VerticalBox();
-		boxCol2.appendChild(boxName);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxDateFrom);
-		boxCol2.appendChild(new Separator());
-		boxCol2.appendChild(boxAmtFrom);
+		Rows rows = new Rows();
+		grid.appendChild(rows);
 		
-		VerticalBox boxCol3 = new VerticalBox();
-		boxCol3.appendChild(cbAbsolute);
-		boxCol3.appendChild(new Separator());
-		boxCol3.appendChild(boxDateTo);
-		boxCol3.appendChild(new Separator());
-		boxCol3.appendChild(boxAmtTo);
+		Row row = new Row();
+		rows.appendChild(row);
+		row.appendChild(fCashBook_ID.getLabel().rightAlign());
+		row.appendChild(fCashBook_ID.getComponent());
+		row.appendChild(lName.rightAlign());
+		row.appendChild(fName);
+		row.appendChild(cbAbsolute);
 		
-		//	parameterPanel.add(lOrg_ID, null);
-		//	parameterPanel.add(fOrg_ID, null);
+		row = new Row();
+		row.setSpans("1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(fInvoice_ID.getLabel().rightAlign());
+		row.appendChild(fInvoice_ID.getComponent());
+		row.appendChild(lDateFrom.rightAlign());
+		Hbox hbox = new Hbox();
+		hbox.appendChild(fDateFrom);
+		hbox.appendChild(lDateTo);		
+		hbox.appendChild(fDateTo);
+		row.appendChild(hbox);
 		
-		Hbox mainBox = new Hbox();
-		mainBox.setWidth("100%");
-		mainBox.setWidths("40%, 50%, 10%");
-		mainBox.appendChild(boxCol1);
-		mainBox.appendChild(boxCol2);
-		mainBox.appendChild(boxCol3);
+		row = new Row();
+		row.setSpans("1, 1, 1, 2");
+		rows.appendChild(row);
+		row.appendChild(fBankAccount_ID.getLabel().rightAlign());
+		row.appendChild(fBankAccount_ID.getComponent());
+		row.appendChild(lAmtFrom.rightAlign());
+		hbox = new Hbox();
+		hbox.appendChild(fAmtFrom);
+		hbox.appendChild(lAmtTo);
+		hbox.appendChild(fAmtTo);
+		row.appendChild(hbox);
 		
+		contentPanel.setWidth("99%");
+        contentPanel.setHeight("400px");
+        contentPanel.setVflex(true);
+        
 		this.setWidth("850px");
-//		this.setTitle("CashLine Info");
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.appendChild(mainBox);
+		this.appendChild(grid);
 		this.appendChild(new Separator());
 		this.appendChild(contentPanel);
 		this.appendChild(new Separator());
