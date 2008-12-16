@@ -1,13 +1,13 @@
 <project name="migrate-db-oracle" default="run-scripts" basedir=".">
-	<property file="../oracle.properties" />
+	<property file="../../oracle.properties" />
 	<path id="lib.path">
-		<fileset dir="../../tools/lib">
+		<fileset dir="../../../tools/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
-			<fileset dir="../../tools/lib">
+			<fileset dir="../../../tools/lib">
 				<include name="**/*.jar" />
 			</fileset>
 		</classpath>
