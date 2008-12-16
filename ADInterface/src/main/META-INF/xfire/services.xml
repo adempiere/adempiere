@@ -1,0 +1,15 @@
+<!-- START SNIPPET: services -->
+<beans xmlns="http://xfire.codehaus.org/config/1.0">
+
+  <service>   
+   <name>ADService</name>
+   <namespace>http://3e.pl/ADInterface</namespace>
+    <serviceClass>com._3e.ADInterface.ADService</serviceClass>
+    <implementationClass>com._3e.ADInterface.ADServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>session</scope>
+	<style>rpc</style>
+  </service>
+    
+</beans>
+<!-- END SNIPPET: services -->

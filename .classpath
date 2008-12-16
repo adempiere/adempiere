@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ADInterface/src/main"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/patches_340"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/adempiere340"/>
+	<classpathentry kind="lib" path="lib/pl3xE.jar"/>
+	<classpathentry kind="lib" path="lib/xbean.jar"/>
+	<classpathentry kind="lib" path="lib/xfire-all-1.2.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
