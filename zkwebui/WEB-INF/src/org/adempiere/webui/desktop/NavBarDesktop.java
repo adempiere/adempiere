@@ -58,12 +58,14 @@ import org.zkoss.zul.Panelchildren;
 /**
  * @author hengsin 
  */
-public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Serializable, EventListener
+public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener
 {
 
 	private static final String FAVOURITES_PATH = "/zul/favourites.zul";
 
 	private static final String ACTIVITIES_PATH = "/zul/activities.zul";
+	
+	private static final String VIEWS_PATH = "/zul/views.zul";
 
 	private static final long serialVersionUID = 9056511175189603883L;
 
@@ -77,9 +79,11 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
 
 	private DashboardRunnable dashboardRunnable;
 
-	private Accordion shortcutPanel;
+	private Accordion navigationPanel;
 
-    public LeftBar2Desktop()
+	private West leftRegion;
+	
+    public NavBarDesktop()
     {    	    	
     	super();    	
     }
@@ -109,41 +113,24 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
         n.setCollapsible(false);
         pnlHead.setParent(n);
         
-        West w = new West();
-        layout.appendChild(w);
-        w.setWidth("300px");
-        w.setCollapsible(true);
-        w.setSplittable(true);
-        w.setTitle("Menu");
-        w.setFlex(true);
-        pnlSide.setParent(w);
-        w.setOpen(false);
-        
-        Center center = new Center();
-        center.setParent(layout);
-        center.setFlex(true);
-        
-        Borderlayout innerLayout = new Borderlayout();
-        innerLayout.setHeight("100%");
-        innerLayout.setWidth("100%");
-        innerLayout.setParent(center);
-        
-        West innerW = new West();
-        innerW.setWidth("200px");
-        innerW.setCollapsible(true);
-        innerW.setTitle("Navigation");
-        innerW.setSplittable(true);
-        innerW.setCollapsible(true);
-        innerW.setParent(innerLayout);
-        
-        shortcutPanel = new Accordion();
-        shortcutPanel.setWidth("100%");
-        shortcutPanel.setHeight("100%");
-        innerW.appendChild(shortcutPanel);
+        leftRegion = new West();
+        layout.appendChild(leftRegion);
+        leftRegion.setWidth("300px");
+        leftRegion.setCollapsible(true);
+        leftRegion.setSplittable(true);
+        leftRegion.setTitle("Navigation");
+        leftRegion.setFlex(true);
+        navigationPanel = new Accordion();
+        navigationPanel.setParent(leftRegion);
+        leftRegion.setOpen(true);
+                
+        navigationPanel.setWidth("100%");
+        navigationPanel.setHeight("100%");
+        navigationPanel.add(pnlSide, "Application Menu");
         
         Div div = new Div();
         Executions.createComponents(FAVOURITES_PATH, div, null);
-        shortcutPanel.add(div, "Favourites");                
+        navigationPanel.add(div, "Favourites");                
         
         div = new Div();
         Component component = Executions.createComponents(ACTIVITIES_PATH, div, null);
@@ -152,12 +139,16 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
         	DashboardPanel dashboardPanel = (DashboardPanel) component;
         	dashboardRunnable.add(dashboardPanel);
     	}
-        shortcutPanel.add(div, "Activities");
+        navigationPanel.add(div, "Activities");
         
-        shortcutPanel.setSelectedIndex(0);
+        div = new Div();
+        Executions.createComponents(VIEWS_PATH, div, null);
+        navigationPanel.add(div, "Views");
+        
+        navigationPanel.setSelectedIndex(0);
 
         windowArea = new Center();
-        windowArea.setParent(innerLayout);
+        windowArea.setParent(layout);
         windowArea.setFlex(true);
         
         windowContainer.createPart(windowArea);        
@@ -193,7 +184,7 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
 			+ "FROM PA_DASHBOARDCONTENT x "
 			+ "LEFT OUTER JOIN AD_MENU m ON x.AD_WINDOW_ID=m.AD_WINDOW_ID " 
 			+ "WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' "
-			+ "AND x.zulfilepath not in (?, ?) "
+			+ "AND x.zulfilepath not in (?, ?, ?) "
 			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -203,6 +194,7 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
 			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
 			pstmt.setString(2, ACTIVITIES_PATH);
 			pstmt.setString(3, FAVOURITES_PATH);
+			pstmt.setString(4, VIEWS_PATH);
 			rs = pstmt.executeQuery();
 									
 			while (rs.next()) 
@@ -392,9 +384,9 @@ public class LeftBar2Desktop extends TabbedDesktop implements MenuListener, Seri
     	int noOfRequest = DPActivities.getRequestCount();
     	int noOfWorkflow = DPActivities.getWorkflowCount();
     	int total = noOfNotice + noOfRequest + noOfWorkflow;
-    	
-    	shortcutPanel.setLabel(1, "Activities (" + total + ")");
-    	shortcutPanel.setTooltiptext(1, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
+    
+    	navigationPanel.setLabel(2, "Activities (" + total + ")");
+    	navigationPanel.setTooltiptext(2, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
     
 	/**
