@@ -176,6 +176,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         
         Portallayout portalLayout = new Portallayout();
         portalLayout.setWidth("100%");
+        portalLayout.setHeight("100%");
+        portalLayout.setStyle("position: absolute; overflow: auto");
         homeTab.appendChild(portalLayout);
                 
         // Dashboard content
