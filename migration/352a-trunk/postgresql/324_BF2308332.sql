@@ -1,0 +1,5 @@
+-- 18.11.2008 09:46:47 EET
+-- 
+UPDATE AD_Field SET IsMandatory='Y',Updated=TO_TIMESTAMP('2008-11-18 09:46:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=2200
+;
+
