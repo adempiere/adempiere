@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Accordion;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.dashboard.DPActivities;
+import org.adempiere.webui.dashboard.DPFavourites;
 import org.adempiere.webui.dashboard.DashboardPanel;
 import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
@@ -41,6 +42,7 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -54,6 +56,8 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
+import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.Treerow;
 
 /**
  * @author hengsin 
@@ -82,6 +86,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	private Accordion navigationPanel;
 
 	private West leftRegion;
+
+	private DPFavourites favPanel;
 	
     public NavBarDesktop()
     {    	    	
@@ -129,8 +135,13 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         navigationPanel.add(pnlSide, "Application Menu");
         
         Div div = new Div();
-        Executions.createComponents(FAVOURITES_PATH, div, null);
-        navigationPanel.add(div, "Favourites");                
+        favPanel = (DPFavourites) Executions.createComponents(FAVOURITES_PATH, div, null);
+        navigationPanel.add(div, "Favourites");
+        
+        //setup drag and drop for favourites
+        div = navigationPanel.getHeader(1);
+        div.setDroppable(DPFavourites.FAVOURITE_DROPPABLE);
+        div.addEventListener(Events.ON_DROP, this);
         
         div = new Div();
         Component component = Executions.createComponents(ACTIVITIES_PATH, div, null);
@@ -375,6 +386,19 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
             	
             	if(menuId > 0) onMenuSelected(menuId);
             }
+        }
+        else if(eventName.equals(Events.ON_DROP))
+        {
+        	DropEvent de = (DropEvent) event;
+    		Component dragged = de.getDragged();
+        	
+    		if(dragged instanceof Treerow)
+    		{
+    			Treerow treerow = (Treerow) dragged;
+    			Treeitem treeitem = (Treeitem) treerow.getParent();
+    			
+    			favPanel.addItem(treeitem);
+    		}
         }
     }
 

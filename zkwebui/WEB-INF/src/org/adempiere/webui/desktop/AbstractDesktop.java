@@ -59,8 +59,7 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
 	
 	private static final String ZOOM_KEY = "queryZoom";	
 	
-	public AbstractDesktop() {
-		m_goals = MGoal.getUserGoals(Env.getCtx(), Env.getAD_User_ID(Env.getCtx()));
+	public AbstractDesktop() {		
 		windows = new ArrayList<Object>();
 		queryZoom = new ArrayList<MQuery>();
 	}
@@ -270,7 +269,11 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
 	{
 		String output = "";
 		if (m_goals == null)
-			return output;
+		{
+			m_goals = MGoal.getUserGoals(Env.getCtx(), Env.getAD_User_ID(Env.getCtx()));
+			if (m_goals == null)
+				return output;
+		}
 		
 		for (int i = 0; i < m_goals.length; i++) 
 		{

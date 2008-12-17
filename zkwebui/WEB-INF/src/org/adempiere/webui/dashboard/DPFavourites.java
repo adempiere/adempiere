@@ -43,6 +43,10 @@ import org.zkoss.zul.Vbox;
  */
 public class DPFavourites extends DashboardPanel implements EventListener {
 
+	public static final String FAVOURITE_DROPPABLE = "favourite";
+
+	public static final String DELETE_FAV_DROPPABLE = "deleteFav";
+
 	private static final long serialVersionUID = 1L;
 
 	private Box bxFav;
@@ -69,11 +73,11 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		Image img = new Image("/images/Delete24.png");
 		favToolbar.appendChild(img);
 		img.setAlign("right");
-		img.setDroppable("deleteFav");
+		img.setDroppable(DELETE_FAV_DROPPABLE);
 		img.addEventListener(Events.ON_DROP, this);
 		//
         
-        favContent.setDroppable("favourite"); 
+        favContent.setDroppable(FAVOURITE_DROPPABLE); 
         favContent.addEventListener(Events.ON_DROP, this);
 	}
 	
@@ -106,7 +110,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 					String label = nd.toString().trim();
 					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(nd.getNode_ID()));
 					btnFavItem.setLabel(label);
-					btnFavItem.setDraggable("deleteFav");
+					btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
 					btnFavItem.addEventListener(Events.ON_CLICK, this);
 					btnFavItem.addEventListener(Events.ON_DROP, this);
 					bxFav.appendChild(btnFavItem);
@@ -185,23 +189,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
         			Treerow treerow = (Treerow) dragged;
         			Treeitem treeitem = (Treeitem) treerow.getParent();
         			
-        			Object value = treeitem.getValue();
-        			if(value != null)
-        			{
-        				int Node_ID = Integer.valueOf(value.toString());
-        				if(barDBupdate(true, Node_ID))
-        				{
-        					String label = treeitem.getLabel().trim();
-        					ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
-        					btnFavItem.setLabel(label);
-        					btnFavItem.setDraggable("deleteFav");
-        					btnFavItem.addEventListener(Events.ON_CLICK, this);
-        					btnFavItem.addEventListener(Events.ON_DROP, this);
-        					bxFav.appendChild(btnFavItem);
-        					bxFav.removeChild(lblMsg);        					
-        					bxFav.invalidate();
-        				}
-        			}
+        			addItem(treeitem);
         		}
         	}
         	else if(comp instanceof Image)
@@ -209,24 +197,52 @@ public class DPFavourites extends DashboardPanel implements EventListener {
         		if(dragged instanceof ToolBarButton)
         		{
         			ToolBarButton btn = (ToolBarButton) dragged;
-        			String value = btn.getName();
-        			
-        			if(value != null)
-        			{
-        				int Node_ID = Integer.valueOf(value.toString());
-        				if(barDBupdate(false, Node_ID))
-        				{
-        					bxFav.removeChild(btn);
-        					
-        					if(bxFav.getChildren().isEmpty())
-        						bxFav.appendChild(lblMsg);
-        					
-        					bxFav.invalidate();
-        				}
-        			}
+        			removeLink(btn);
         		}
         	}
         }
         //
+	}
+
+	private void removeLink(ToolBarButton btn) {
+		String value = btn.getName();
+		
+		if(value != null)
+		{
+			int Node_ID = Integer.valueOf(value.toString());
+			if(barDBupdate(false, Node_ID))
+			{
+				bxFav.removeChild(btn);
+				
+				if(bxFav.getChildren().isEmpty())
+					bxFav.appendChild(lblMsg);
+				
+				bxFav.invalidate();
+			}
+		}
+	}
+
+    /**
+     * Add menu treeitem into the user favourite panel
+     * @param treeitem
+     */
+	public void addItem(Treeitem treeitem) {
+		Object value = treeitem.getValue();
+		if(value != null)
+		{
+			int Node_ID = Integer.valueOf(value.toString());
+			if(barDBupdate(true, Node_ID))
+			{
+				String label = treeitem.getLabel().trim();
+				ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
+				btnFavItem.setLabel(label);
+				btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
+				btnFavItem.addEventListener(Events.ON_CLICK, this);
+				btnFavItem.addEventListener(Events.ON_DROP, this);
+				bxFav.appendChild(btnFavItem);
+				bxFav.removeChild(lblMsg);        					
+				bxFav.invalidate();
+			}
+		}
 	}
 }

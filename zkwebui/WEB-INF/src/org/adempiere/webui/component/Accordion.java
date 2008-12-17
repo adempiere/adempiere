@@ -40,7 +40,7 @@ public class Accordion extends Borderlayout implements EventListener {
 	private Vbox northBox;
 	
 	private List<String> labelList = new ArrayList<String>();
-	private List<ToolBarButton> buttonList = new ArrayList<ToolBarButton>();
+	private List<Div> headerList = new ArrayList<Div>();
 	private List<Component> componentList = new ArrayList<Component>();
 	private int selectedIndex = -1;
 	
@@ -83,7 +83,7 @@ public class Accordion extends Borderlayout implements EventListener {
 		northBox.appendChild(div);
 		
 		labelList.add(label);
-		buttonList.add(button);
+		headerList.add(div);
 		componentList.add(component);
 	}
 	
@@ -94,7 +94,7 @@ public class Accordion extends Borderlayout implements EventListener {
 	 */
 	public void setLabel(int index, String label) {
 		labelList.set(index, label);
-		buttonList.get(index).setLabel(label);
+		((ToolBarButton)headerList.get(index).getFirstChild()).setLabel(label);
 		if (selectedIndex == index) {
 			getCenter().setTitle(label);
 		}
@@ -127,22 +127,14 @@ public class Accordion extends Borderlayout implements EventListener {
 		getCenter().getChildren().clear();
 		
 		for (int i = 0; i < index; i++) {
-			Div div = new Div();
-			div.setClass("z-center-header");
-			div.appendChild(buttonList.get(i));
-			div.setWidth("100%");
-			northBox.appendChild(div);
+			northBox.appendChild(headerList.get(i));
 		}
 		
 		getCenter().setTitle(labelList.get(index));
 		getCenter().appendChild(componentList.get(index));
 		
 		for (int i = index + 1; i < labelList.size(); i++) {
-			Div div = new Div();
-			div.setClass("z-center-header");
-			div.appendChild(buttonList.get(i));
-			div.setWidth("100%");
-			southBox.appendChild(div);
+			southBox.appendChild(headerList.get(i));
 		}
 		
 		this.invalidate();
@@ -153,7 +145,16 @@ public class Accordion extends Borderlayout implements EventListener {
 	 * @param tooltiptext
 	 */
 	public void setTooltiptext(int index, String tooltiptext) {
-		buttonList.get(index).setTooltiptext(tooltiptext);
+		headerList.get(index).setTooltiptext(tooltiptext);
+	}
+	
+	/**
+	 * Get the header div component
+	 * @param index
+	 * @return Div
+	 */
+	public Div getHeader(int index) {
+		return headerList.get(index);
 	}
 
 }
