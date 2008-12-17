@@ -171,6 +171,16 @@ public class MReportSource extends X_PA_ReportSource
 		} else
 			if (isIncludeNullsOrg())
 				whcomb.append(" AND AD_Org_ID IS NULL");
+		
+		if (getAD_OrgTrx_ID() > 0) {
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_OrgTrx, getAD_OrgTrx_ID());
+			if (isIncludeNullsOrgTrx())
+				whcomb.append(" AND (AD_OrgTrx_ID IS NULL OR ").append(whtree).append(")");
+			else
+				whcomb.append(" AND ").append(whtree);
+		} else
+			if (isIncludeNullsOrgTrx())
+				whcomb.append(" AND AD_OrgTrx_ID IS NULL");
 
 		if (getM_Product_ID() > 0) {
 			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Product, getM_Product_ID());

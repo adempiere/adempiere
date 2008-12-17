@@ -56,6 +56,8 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 // N
 			setIsIncludeNullsOrg (false);
 // N
+			setIsIncludeNullsOrgTrx (false);
+// N
 			setIsIncludeNullsProduct (false);
 // N
 			setIsIncludeNullsProject (false);
@@ -105,6 +107,29 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** AmountType AD_Reference_ID=235 */
 	public static final int AMOUNTTYPE_AD_Reference_ID=235;
@@ -836,6 +861,30 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in Org Trx.
+		@param IsIncludeNullsOrgTrx 
+		Include nulls in the selection of the organization transaction
+	  */
+	public void setIsIncludeNullsOrgTrx (boolean IsIncludeNullsOrgTrx)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsOrgTrx, Boolean.valueOf(IsIncludeNullsOrgTrx));
+	}
+
+	/** Get Include Nulls in Org Trx.
+		@return Include nulls in the selection of the organization transaction
+	  */
+	public boolean isIncludeNullsOrgTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsOrgTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Include Nulls in Product.
 		@param IsIncludeNullsProduct 
 		Include nulls in the selection of the product
@@ -1046,8 +1095,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Oper_1_ID AD_Reference_ID=239 */
-	public static final int OPER_1_ID_AD_Reference_ID=239;
 	/** Set Operand 1.
 		@param Oper_1_ID 
 		First operand for calculation
@@ -1071,8 +1118,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	/** Oper_2_ID AD_Reference_ID=239 */
-	public static final int OPER_2_ID_AD_Reference_ID=239;
 	/** Set Operand 2.
 		@param Oper_2_ID 
 		Second operand for calculation
@@ -1096,8 +1141,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	/** Org_ID AD_Reference_ID=130 */
-	public static final int ORG_ID_AD_Reference_ID=130;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client

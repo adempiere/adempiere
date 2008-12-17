@@ -53,6 +53,8 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 // N
 			setIsIncludeNullsOrg (false);
 // N
+			setIsIncludeNullsOrgTrx (false);
+// N
 			setIsIncludeNullsProduct (false);
 // N
 			setIsIncludeNullsProject (false);
@@ -96,7 +98,30 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
       return sb.toString();
     }
 
-	public I_C_Activity getC_Activity() throws Exception 
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -107,7 +132,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -135,7 +160,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -146,7 +171,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -174,7 +199,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -185,7 +210,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -213,8 +238,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	/** C_ElementValue_ID AD_Reference_ID=182 */
-	public static final int C_ELEMENTVALUE_ID_AD_Reference_ID=182;
 	/** Set Account Element.
 		@param C_ElementValue_ID 
 		Account Element
@@ -261,7 +284,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -272,7 +295,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -300,7 +323,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -311,7 +334,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -562,6 +585,30 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return false;
 	}
 
+	/** Set Include Nulls in Org Trx.
+		@param IsIncludeNullsOrgTrx 
+		Include nulls in the selection of the organization transaction
+	  */
+	public void setIsIncludeNullsOrgTrx (boolean IsIncludeNullsOrgTrx)
+	{
+		set_Value (COLUMNNAME_IsIncludeNullsOrgTrx, Boolean.valueOf(IsIncludeNullsOrgTrx));
+	}
+
+	/** Get Include Nulls in Org Trx.
+		@return Include nulls in the selection of the organization transaction
+	  */
+	public boolean isIncludeNullsOrgTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeNullsOrgTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Include Nulls in Product.
 		@param IsIncludeNullsProduct 
 		Include nulls in the selection of the product
@@ -682,7 +729,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -693,7 +740,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -721,8 +768,6 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	/** Org_ID AD_Reference_ID=322 */
-	public static final int ORG_ID_AD_Reference_ID=322;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
@@ -746,7 +791,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLine getPA_ReportLine() throws Exception 
+	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLine.Table_Name);
         I_PA_ReportLine result = null;
@@ -757,7 +802,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
