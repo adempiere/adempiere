@@ -1,0 +1,5 @@
+-- Fix I_Product.X12DE355 FieldLength:
+ALTER TABLE I_Product MODIFY X12DE355 NVARCHAR2(4);
+UPDATE AD_Column SET FieldLength=4 WHERE AD_Column_ID=7862;
+COMMIT;
+
