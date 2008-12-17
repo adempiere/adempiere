@@ -1,2 +1,0 @@
--- placeholder
--- migration script just for postgresql
