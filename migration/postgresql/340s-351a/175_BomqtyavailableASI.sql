@@ -1,1 +1,0 @@
--- placeholder for postgresl - script is just for oracle
