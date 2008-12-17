@@ -19,11 +19,14 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
+import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInventory;
 import org.compiere.model.MInvoice;
@@ -38,6 +41,7 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MRequisition;
 import org.compiere.model.X_M_Production;
 import org.compiere.util.DB;
+import org.compiere.util.TimeUtil;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.MPPCostCollector;
@@ -60,6 +64,8 @@ public class FactAcctReset extends SvrProcess
 	
 	private int		m_countReset = 0;
 	private int		m_countDelete = 0;
+	private Timestamp p_DateAcct_From = null ;
+	private Timestamp p_DateAcct_To = null;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -78,6 +84,11 @@ public class FactAcctReset extends SvrProcess
 				p_AD_Table_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("DeletePosting"))
 				p_DeletePosting = "Y".equals(para[i].getParameter());
+			else if (name.equals("DateAcct"))
+			{
+				p_DateAcct_From = (Timestamp)para[i].getParameter();
+				p_DateAcct_To = (Timestamp)para[i].getParameter_To();
+			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -164,6 +175,20 @@ public class FactAcctReset extends SvrProcess
 	 */
 	private void delete (String TableName, int AD_Table_ID)
 	{
+		Timestamp today = TimeUtil.trunc(new Timestamp (System.currentTimeMillis()), TimeUtil.TRUNC_DAY);
+		
+		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
+		boolean autoPeriod = as != null && as.isAutoPeriodControl();
+		if (autoPeriod)
+		{
+			Timestamp temp = TimeUtil.addDays(today, - as.getPeriod_OpenHistory());
+			if ( p_DateAcct_From == null || p_DateAcct_From.before(temp) )
+				p_DateAcct_From = temp;
+			temp = TimeUtil.addDays(today, as.getPeriod_OpenFuture());
+			if ( p_DateAcct_To == null || p_DateAcct_To.after(temp) )
+				p_DateAcct_To = temp;
+		}
+			
 		reset(TableName);
 		m_countReset = 0;
 		//
@@ -234,26 +259,39 @@ public class FactAcctReset extends SvrProcess
 			+ " AND (Posted<>'N' OR Posted IS NULL OR Processing<>'N' OR Processing IS NULL)"
 			+ " AND EXISTS (SELECT * FROM C_PeriodControl pc"
 				+ " INNER JOIN Fact_Acct fact ON (fact.C_Period_ID=pc.C_Period_ID) "
-				+ "WHERE pc.PeriodStatus = 'O'" + docBaseType
-				+ " AND fact.AD_Table_ID=" + AD_Table_ID
-				+ " AND fact.Record_ID=doc." + TableName + "_ID)";
+			+ " WHERE fact.AD_Table_ID=" + AD_Table_ID
+			+ " AND fact.Record_ID=doc." + TableName + "_ID";
+			if ( !autoPeriod )
+				sql1 += " AND pc.PeriodStatus = 'O'" + docBaseType;
+			if (p_DateAcct_From != null)
+				sql1 += " AND TRIM(fact.DateAcct) >= " + DB.TO_DATE(p_DateAcct_From);
+			if (p_DateAcct_To != null)
+				sql1 += " AND TRIM(fact.DateAcct) <= " + DB.TO_DATE(p_DateAcct_To);
+			sql1 += ")";
+
+		log.log(Level.FINE, sql1);
+
 		int reset = DB.executeUpdate(sql1, get_TrxName()); 
 		//	Fact
 		String sql2 = "DELETE Fact_Acct fact "
 			+ "WHERE AD_Client_ID=" + p_AD_Client_ID
-			+ " AND AD_Table_ID=" + AD_Table_ID
-			+ " AND EXISTS (SELECT * FROM C_PeriodControl pc "
+			+ " AND AD_Table_ID=" + AD_Table_ID;
+		if ( !autoPeriod )
+			sql2 += " AND EXISTS (SELECT * FROM C_PeriodControl pc"
 				+ "WHERE pc.PeriodStatus = 'O'" + docBaseType
 				+ " AND fact.C_Period_ID=pc.C_Period_ID)";
+		if (p_DateAcct_From != null)
+			sql2 += " AND TRIM(fact.DateAcct) >= " + DB.TO_DATE(p_DateAcct_From);
+		if (p_DateAcct_To != null)
+			sql2 += " AND TRIM(fact.DateAcct) <= " + DB.TO_DATE(p_DateAcct_To);
+		
+		log.log(Level.FINE, sql2);
+		
 		int deleted = DB.executeUpdate(sql2, get_TrxName());
 		//
 		log.info(TableName + "(" + AD_Table_ID + ") - Reset=" + reset + " - Deleted=" + deleted);
 		String s = TableName + " - Reset=" + reset + " - Deleted=" + deleted;
 		addLog(s);
-		if (reset == 0)
-			log.finest(sql1);
-		if (deleted == 0)
-			log.finest(sql2);
 		//
 		m_countReset += reset;
 		m_countDelete += deleted;
