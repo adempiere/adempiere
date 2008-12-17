@@ -618,23 +618,29 @@ public class MWorkflow extends X_AD_Workflow
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		log.fine("Success=" + success);
-		if (success && newRecord)
+		if (!success)
+		{
+			return false;
+		}
+		if (newRecord)
 		{
 			//	save all nodes -- Creating new Workflow
 			MWFNode[] nodes = getNodesInOrder(0);
 			for (int i = 0; i < nodes.length; i++)
-				nodes[i].save(get_TrxName());
+			{
+				nodes[i].saveEx(get_TrxName());
+			}
 		}
 		
 		if (newRecord)
 		{
 			int AD_Role_ID = Env.getAD_Role_ID(getCtx());
 			MWorkflowAccess wa = new MWorkflowAccess(this, AD_Role_ID);
-			wa.save();
+			wa.saveEx();
 		}
 		//	Menu/Workflow
-		else if (is_ValueChanged("IsActive") || is_ValueChanged("Name") 
-			|| is_ValueChanged("Description") || is_ValueChanged("Help"))
+		else if (is_ValueChanged("IsActive") || is_ValueChanged(COLUMNNAME_Name) 
+			|| is_ValueChanged(COLUMNNAME_Description) || is_ValueChanged(COLUMNNAME_Help))
 		{
 			MMenu[] menues = MMenu.get(getCtx(), "AD_Workflow_ID=" + getAD_Workflow_ID(), get_TrxName());
 			for (int i = 0; i < menues.length; i++)
@@ -642,7 +648,7 @@ public class MWorkflow extends X_AD_Workflow
 				menues[i].setIsActive(isActive());
 				menues[i].setName(getName());
 				menues[i].setDescription(getDescription());
-				menues[i].save();
+				menues[i].saveEx();
 			}
 			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Workflow_ID=" + getAD_Workflow_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
@@ -661,7 +667,7 @@ public class MWorkflow extends X_AD_Workflow
 					changed = true;
 				}
 				if (changed)
-					nodes[i].save();
+					nodes[i].saveEx();
 			}
 		}
 
