@@ -1,0 +1,2 @@
+UPDATE AD_Table SET EntityType='EE01' WHERE AD_Table_ID=53041;
+UPDATE AD_Column SET EntityType='EE01' WHERE AD_Table_ID=53041;
