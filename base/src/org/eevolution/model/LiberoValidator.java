@@ -15,15 +15,21 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.util.Collection;
+
 import org.compiere.model.MClient;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.eevolution.model.MForecastLine;
 import org.compiere.util.CLogger;
+import org.compiere.util.Msg;
 
 
 /**
@@ -69,6 +75,7 @@ public class LiberoValidator implements ModelValidator
 		engine.addModelChange(MDDOrderLine.Table_Name, this);
 		engine.addModelChange(MPPOrder.Table_Name, this);
 		engine.addModelChange(MPPOrderBOMLine.Table_Name, this);
+		engine.addDocValidate(MInOut.Table_Name, this);
 	}	//	initialize
 
 	public String modelChange (PO po, int type) throws Exception
@@ -263,6 +270,30 @@ public class LiberoValidator implements ModelValidator
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
+		if (po.get_TableName().equals(MInOut.Table_Name) && timing == TIMING_AFTER_COMPLETE)
+		{
+			MInOut inout = (MInOut)po;
+			for (MInOutLine line : inout.getLines())
+			{
+				String whereClause = "C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
+				Collection<MOrderLine> olines = new Query(po.getCtx(), MOrderLine.Table_Name, whereClause, po.get_TrxName())
+				.setParameters(new Object[]{line.getC_OrderLine_ID()}).list();
+				
+				for (MOrderLine oline:  olines)
+				{
+					if(oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
+					{	
+						MPPCostCollector cc = new MPPCostCollector(po.getCtx(), oline.getPP_Cost_Collector_ID(), po.get_TrxName());
+						cc.completeIt();
+						cc.setDocStatus(MPPCostCollector.DOCSTATUS_Completed);
+						cc.setDocAction(MPPCostCollector.DOCACTION_Close);
+						cc.saveEx();
+						return Msg.translate(po.getCtx(), "PP_Order_ID")+":"+cc.getPPOrder().getDocumentNo()+Msg.translate(po.getCtx(),"PP_Order_Node_ID")+":"+cc.getPPOrderNode().getValue();
+						}
+				}
+				
+			}
+		}
 		return null;
 	}	//	docValidate
 	

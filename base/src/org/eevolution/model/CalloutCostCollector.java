@@ -22,6 +22,8 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MOrder;
+import org.compiere.util.Env;
 
 /**
  * Cost Collector Callout
@@ -38,6 +40,7 @@ public class CalloutCostCollector extends CalloutEngine
 			return "";
 		//
 		MPPOrder order =  new MPPOrder(ctx, PP_Order_ID, null);
+		mTab.setValue(MPPCostCollector.COLUMNNAME_AD_Org_ID, order.getAD_Org_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_C_DocTypeTarget_ID, order.getC_DocType_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_S_Resource_ID, order.getS_Resource_ID());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_M_Product_ID, order.getM_Product_ID());
@@ -59,6 +62,7 @@ public class CalloutCostCollector extends CalloutEngine
 			return "";
 		//
 		MPPOrderNode node = getPP_Order_Node(ctx, PP_Order_Node_ID);
+		mTab.setValue(MPPCostCollector.COLUMNNAME_IsSubcontracting, node.isSubcontracting());
 		mTab.setValue(MPPCostCollector.COLUMNNAME_S_Resource_ID, node.getS_Resource_ID());
 		
 		BigDecimal qtyToDeliver = node.getQtyRequiered()
@@ -87,6 +91,7 @@ public class CalloutCostCollector extends CalloutEngine
 		m_node = new MPPOrderNode(ctx, PP_Order_Node_ID, null);
 		return m_node;
 	}
+
 }
 
 

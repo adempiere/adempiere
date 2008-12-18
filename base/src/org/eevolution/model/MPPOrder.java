@@ -928,6 +928,26 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						nodenext.setAD_Org_ID(getAD_Org_ID());
 						nodenext.saveEx();
 					}// for NodeNext
+					
+					for (MPPWFNodeProduct wfnp : MPPWFNodeProduct.get(getCtx(), AD_WF_Node.get_ID() , get_TrxName()))
+					{
+						MPPOrderNodeProduct nodeorderproduct = new MPPOrderNodeProduct(wfnp);
+						nodeorderproduct.setAD_Org_ID(getAD_Org_ID());
+						nodeorderproduct.setPP_Order_ID(getPP_Order_ID());
+						nodeorderproduct.setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
+						nodeorderproduct.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
+						nodeorderproduct.saveEx();
+					}// for NodeNext
+					
+					for (MPPWFNodeAsset wfna : MPPWFNodeAsset.get(getCtx(), AD_WF_Node.get_ID() , get_TrxName()))
+					{
+						MPPOrderNodeAsset nodeorderasset = new MPPOrderNodeAsset(wfna);
+						nodeorderasset.setAD_Org_ID(getAD_Org_ID());
+						nodeorderasset.setPP_Order_ID(getPP_Order_ID());
+						nodeorderasset.setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
+						nodeorderasset.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
+						nodeorderasset.saveEx();
+					}					
 				}// for node 
 
 			}

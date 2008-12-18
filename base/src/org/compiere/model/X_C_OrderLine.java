@@ -47,8 +47,8 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 // @C_BPartner_Location_ID@
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_Order_ID (0);
 			setC_OrderLine_ID (0);
+			setC_Order_ID (0);
 			setC_Tax_ID (0);
 			setC_UOM_ID (0);
 // @#C_UOM_ID@
@@ -107,8 +107,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -132,7 +130,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -143,7 +141,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -171,7 +169,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -182,7 +180,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -210,7 +208,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -221,7 +219,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -248,7 +246,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -259,7 +257,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -287,7 +285,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -298,7 +296,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -326,7 +324,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -337,7 +335,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -364,7 +362,29 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1)
+			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -375,7 +395,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -410,68 +430,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Order_ID()));
     }
 
-	/** Set Sales Order Line.
-		@param C_OrderLine_ID 
-		Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID)
-	{
-		if (C_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
-	}
-
-	/** Get Sales Order Line.
-		@return Sales Order Line
-	  */
-	public int getC_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Project getC_Project() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
-        I_C_Project result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -482,7 +441,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -510,7 +469,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -521,7 +480,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -549,7 +508,46 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
+        I_C_Project result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -560,7 +558,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -587,7 +585,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -598,7 +596,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -820,8 +818,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return bd;
 	}
 
-	/** Link_OrderLine_ID AD_Reference_ID=271 */
-	public static final int LINK_ORDERLINE_ID_AD_Reference_ID=271;
 	/** Set Linked Order Line.
 		@param Link_OrderLine_ID 
 		This field links a sales order line to the purchase order line that is generated from it.
@@ -867,7 +863,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -878,7 +874,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -906,7 +902,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -917,7 +913,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -945,8 +941,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_Warehouse_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSE_ID_AD_Reference_ID=197;
 	/** Set Warehouse.
 		@param M_Warehouse_ID 
 		Storage Warehouse and Service Point
@@ -964,6 +958,42 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public int getM_Warehouse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Cost_Collector.Table_Name);
+        org.eevolution.model.I_PP_Cost_Collector result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_PP_Cost_Collector)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Cost_Collector_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Manufacturing Cost Collector.
+		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
+	{
+		if (PP_Cost_Collector_ID < 1) 
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
+	}
+
+	/** Get Manufacturing Cost Collector.
+		@return Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1233,31 +1263,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return bd;
 	}
 
-	/** Ref_OrderLine_ID AD_Reference_ID=271 */
-	public static final int REF_ORDERLINE_ID_AD_Reference_ID=271;
-	/** Set Referenced Order Line.
-		@param Ref_OrderLine_ID 
-		Reference to corresponding Sales/Purchase Order
-	  */
-	public void setRef_OrderLine_ID (int Ref_OrderLine_ID)
-	{
-		if (Ref_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_Ref_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ref_OrderLine_ID, Integer.valueOf(Ref_OrderLine_ID));
-	}
-
-	/** Get Referenced Order Line.
-		@return Reference to corresponding Sales/Purchase Order
-	  */
-	public int getRef_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Revenue Recognition Amt.
 		@param RRAmt 
 		Revenue Recognition Amount
@@ -1295,6 +1300,29 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
 	}
 
+	/** Set Referenced Order Line.
+		@param Ref_OrderLine_ID 
+		Reference to corresponding Sales/Purchase Order
+	  */
+	public void setRef_OrderLine_ID (int Ref_OrderLine_ID)
+	{
+		if (Ref_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_Ref_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_Ref_OrderLine_ID, Integer.valueOf(Ref_OrderLine_ID));
+	}
+
+	/** Get Referenced Order Line.
+		@return Reference to corresponding Sales/Purchase Order
+	  */
+	public int getRef_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Resource Assignment.
 		@param S_ResourceAssignment_ID 
 		Resource Assignment
@@ -1318,8 +1346,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -1343,8 +1369,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

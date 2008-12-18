@@ -23,18 +23,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductPO;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTransaction;
 import org.compiere.model.ModelValidationEngine;
@@ -43,8 +46,10 @@ import org.compiere.model.Query;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
 /**
@@ -125,6 +130,15 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	private String		m_processMsg = null;
 	/**	Just Prepared Flag			*/
 	private boolean		m_justPrepared = false;
+	
+	/** Manufacturing Order **/
+	private MPPOrder m_pporder = null;
+	
+	/** Manufacturing Order Activity **/
+	private MPPOrderNode m_orderNode = null;
+	
+	/** Manufacturing Order BOM Line **/
+	private MPPOrderBOMLine m_bomLine = null;
 
 //	@Override
 	public boolean unlockIt()
@@ -154,6 +168,57 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocTypeTarget_ID());
 		//	Convert/Check DocType
 		setC_DocType_ID(getC_DocTypeTarget_ID());
+		
+		//
+		// Operation Activity
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		{
+			MPPOrderNode activity = getPPOrderNode();
+			if(activity.getDocStatus().equals(MPPOrderNode.DOCACTION_Complete))
+			{	
+				m_processMsg = "Activity was completed before";
+				return DocAction.STATUS_Invalid;
+			}
+			
+			if (activity.isSubcontracting())
+			{
+				if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_InProgress) && getDocStatus().equals(MPPCostCollector.DOCSTATUS_InProgress))
+				{			
+					return MPPOrderNode.DOCSTATUS_InProgress;
+				}
+				else if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_InProgress) && getDocStatus().equals(MPPCostCollector.DOCSTATUS_Drafted))
+				{
+					m_processMsg = "Activity was processed before";
+					return DocAction.STATUS_Invalid;
+				}				
+				createPOrder(activity);
+			}
+			
+			activity.setDocStatus(DOCSTATUS_InProgress);
+			activity.setQtyDelivered(activity.getQtyDelivered().add(getMovementQty()));
+			activity.setQtyScrap(activity.getQtyScrap().add(getScrappedQty()));
+			activity.setQtyReject(activity.getQtyReject().add(getQtyReject()));
+			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValue());
+			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValue());
+			activity.saveEx();
+
+			if (MPPOrderNode.isLastNode(getCtx(), getPP_Order_Node_ID(), get_TrxName()))
+			{
+				String whereClause ="AND PP_Order_ID=? AND PP_Order_Node_ID<>?"
+									+" AND NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc "
+									+" WHERE cc.PP_Order_ID=PP_Order_Node.PP_Order_ID AND cc.PP_Order_Node_ID=PP_Order_Node.PP_Order_Node_ID)";
+				
+				List<MPPOrderNode> nodes = new Query(getCtx(), MPPOrderNode.Table_Name, whereClause, this.get_TrxName())
+				.setParameters(new Object[]{getPP_Order_ID(),getPP_Order_Node_ID()})
+				.setOnlyActiveRecords(true)
+				.list();
+				for (MPPOrderNode node : nodes)
+				{
+					createNewNode(node);  
+				}
+			}
+		} 
+
 		
 		m_justPrepared = true;
 		if (!DOCACTION_Complete.equals(getDocAction()))
@@ -226,7 +291,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				// Only for Production Issue records
 				if (isIssue())
 				{
-					checkMaterialPolicy(getPP_Order_BOMLine(), getMovementQty());
+					checkMaterialPolicy(getPPOrderBOMLine(), getMovementQty());
 				}
 
 				log.fine("Material Transaction");
@@ -293,10 +358,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				}										
 			}	//	stock movement
 
+
 			if (isIssue())				
 			{
 				//	Update PP Order Line
-				MPPOrderBOMLine obomline = getPP_Order_BOMLine();
+				MPPOrderBOMLine obomline = getPPOrderBOMLine();
 				if (obomline != null)
 				{
 					obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
@@ -313,7 +379,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			else if  (isReceipt())
 			{
 				//	Update PP Order 
-				MPPOrder order = getPP_Order();
+				MPPOrder order = getPPOrder();
 				order.setQtyDelivered(order.getQtyDelivered().add(getMovementQty()));                
 				order.setQtyScrap(order.getQtyScrap().add(getScrappedQty()));
 				order.setQtyReject(order.getQtyReject().add(getQtyReject()));                
@@ -324,60 +390,60 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				log.fine("Order -> Delivered=" + order.getQtyDelivered());										
 			}
 		}
-		//
-		// Operation Activity
-		else // isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport)
+		else if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
 		{
-			MPPOrderNode onodeact = getPP_Order_Node();
-			onodeact.setDocStatus(DOCSTATUS_Completed);
-			onodeact.setQtyDelivered(onodeact.getQtyDelivered().add(getMovementQty()));
-			onodeact.setQtyScrap(onodeact.getQtyScrap().add(getScrappedQty()));
-			onodeact.setQtyReject(onodeact.getQtyReject().add(getQtyReject()));
-			onodeact.setDurationReal(onodeact.getDurationReal()+getDurationReal().intValue());
-			onodeact.setSetupTimeReal(onodeact.getSetupTimeReal()+getSetupTimeReal().intValue());
-			onodeact.saveEx();
-
-			if (MPPOrderNode.isLastNode(getCtx(), getPP_Order_Node_ID(), get_TrxName()))
+			MPPOrderNode activity = getPPOrderNode();
+			if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_Completed))
 			{
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				try
-				{
-					String sql = "SELECT DocStatus,PP_Order_Node_ID,DurationRequiered FROM PP_Order_Node n"
-						+ " WHERE IsActive='Y' AND PP_Order_ID=? AND PP_Order_Node_ID<>?"
-							+" AND NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc "
-								+" WHERE cc.PP_Order_ID=n.PP_Order_ID AND cc.PP_Order_Node_ID=n.PP_Order_Node_ID)";
-								
-					pstmt = DB.prepareStatement(sql, get_TrxName());
-					pstmt.setInt(1, getPP_Order_ID());
-					pstmt.setInt(2, getPP_Order_Node_ID());
-					rs = pstmt.executeQuery();
-					while (rs.next())
-					{
-						createNewNode(rs.getInt(2), rs.getBigDecimal(3));  
-					}
-				}
-				catch (SQLException e)
-				{
-					throw new DBException(e);
-				}
-				finally
-				{
-					DB.close(rs, pstmt);
-					rs = null; pstmt = null;
-				}
+				m_processMsg = "Activity was completed before";
+				return DocAction.STATUS_Invalid;
 			}
+				
 			
-			if (onodeact.isSubcontracting())
-			{
-				createPOrder();
+			if(isSubcontracting())
+			{	
+				String whereClause = "PP_Cost_Collector_ID =?";
+				Collection<MOrderLine> olines = new Query(getCtx(), MOrderLine.Table_Name, whereClause, get_TrxName())
+				.setParameters(new Object[]{this.getPP_Cost_Collector_ID()}).list();
+				String DocStatus = MPPOrderNode.DOCSTATUS_Completed;
+				StringBuffer msg = new StringBuffer("The quantity do not is complete for next Purchase Order :");
+				for (MOrderLine oline:  olines)
+				{
+					if(oline.getQtyDelivered().compareTo(oline.getQtyOrdered()) < 0)	
+						DocStatus = MPPOrderNode.DOCSTATUS_InProgress;
+					
+					msg.append(oline.getParent().getDocumentNo()).append(",");
+				}
+				
+				if(DocStatus.equals(MPPOrderNode.DOCSTATUS_InProgress))
+				{	
+					m_processMsg = msg.toString();
+					return DocStatus;
+				}
+				setProcessed(true);
+				setDocAction(DOCACTION_Close);
+				setDocStatus(DOCSTATUS_Completed);
+				activity.setDocStatus(DOCSTATUS_Completed);
+				activity.saveEx();
+				
+				setDocAction(DOCACTION_Complete);
+				setDocStatus(DOCSTATUS_InProgress);
+				return DOCSTATUS_InProgress;
 			}
-		} 
-
+			else
+			{
+				if(activity.getQtyDelivered().compareTo(activity.getQtyRequiered()) >= 0)
+				{
+					activity.setDocStatus(DOCSTATUS_Completed);
+					activity.saveEx();									
+				}
+			}
+		
+		}	
 		//	for all lines	
 		setProcessed(true);
 		setDocAction(DOCACTION_Close);
-		setDocStatus(DOCSTATUS_Completed);    //fjv e-evolution set DocStatus
+		setDocStatus(DOCSTATUS_Completed);
 		
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
@@ -525,12 +591,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return "" + get_ID();
 	}    
 
-	private void createNewNode(int PP_Order_Node_ID, BigDecimal duration)
+	private void createNewNode(MPPOrderNode node)
 	{
 		String whereClause = COLUMNNAME_PP_Order_ID+"=? AND "+COLUMNNAME_PP_Order_Node_ID+"=?";
 		boolean exists = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
 								.setOnlyActiveRecords(true)
-								.setParameters(new Object[]{getPP_Order_ID(), PP_Order_Node_ID})
+								.setParameters(new Object[]{getPP_Order_ID(), node.getPP_Order_Node_ID()})
 								.match();
 		if (!exists)
 		{
@@ -550,10 +616,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			costnew.setMovementQty(getMovementQty());
 			//costnew.setDurationUnit(getDurationUnit());
 			costnew.setCostCollectorType(getCostCollectorType());
-			//
-			costnew.setPP_Order_Node_ID(PP_Order_Node_ID);
-			costnew.setDurationReal(duration);
-			//
+			costnew.setPP_Order_Node_ID(node.getPP_Order_Node_ID());
+			costnew.setDurationReal(new BigDecimal(node.getDuration()));
 			costnew.saveEx();
 			//    costnew.completeIt();
 		}
@@ -567,10 +631,10 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
-		if (newRecord)
+		/*if (newRecord)
 		{
 			setDocStatus(DOCSTATUS_InProgress);
-		}
+		}*/
 		return true;
 	}
 
@@ -685,7 +749,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		}	//	outgoing Trx
 	}	//	checkMaterialPolicy
 	
-	public MPPOrderNode getPP_Order_Node()
+	public MPPOrderNode getPPOrderNode()
 	{
 		int node_id = getPP_Order_Node_ID();
 		if (node_id <= 0)
@@ -701,9 +765,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		return m_orderNode;
 	}
 	
-	private MPPOrderNode m_orderNode = null;
 
-	public MPPOrderBOMLine getPP_Order_BOMLine()
+
+	public MPPOrderBOMLine getPPOrderBOMLine()
 	{
 		int id = getPP_Order_BOMLine_ID();
 		if (id <= 0)
@@ -718,9 +782,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		m_bomLine.set_TrxName(get_TrxName());
 		return m_bomLine;
 	}
-	private MPPOrderBOMLine m_bomLine = null;
+
 	
-	public MPPOrder getPP_Order()
+	public MPPOrder getPPOrder()
 	{
 		int id = getPP_Order_ID();
 		if (id <= 0)
@@ -735,59 +799,108 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		m_pporder.set_TrxName(get_TrxName());
 		return m_pporder;
 	}
-	private MPPOrder m_pporder = null;
+
 
 	
 	/**
 	 * Create Purchase Order (in case of Subcontracting)
 	 */
-	private void createPOrder()
+	private void createPOrder(MPPOrderNode activity)
 	{
-		// create purchase order on complete
-		BigDecimal m_MovementQty = getMovementQty();
-
-		// if(isSubcontracting())
-
-		int M_Product_ID = DB.getSQLValue(get_TrxName(),
-				"SELECT M_Product_ID FROM PP_Order_Node WHERE IsActive='Y' AND PP_Order_Node_ID=?",
-				getPP_Order_Node_ID());
-		if (M_Product_ID <= 0)
-		{
-			throw new AdempiereException("There is no service associated to this subcontract");
-		}
+		// create purchase order on complete		
+		String whereClause = "PP_Order_ID=? AND PP_Order_Node_ID=? AND IsSubcontracting=?";
+		Collection<MPPOrderNodeProduct> subctracts = new Query(getCtx(),MPPOrderNodeProduct.Table_Name,whereClause, get_TrxName())
+		.setParameters(new Object[]{getPP_Order_ID(), activity.getPP_Order_Node_ID(),"Y"})
+		.setOnlyActiveRecords(true)
+		.list();
 		
-		BigDecimal DeliveryTime = DB.getSQLValueBD(get_TrxName(),
-				"SELECT DeliveryTime_Promised FROM PP_Product_Planning WHERE IsActive='Y' AND M_Product_ID=?",
-				M_Product_ID);
+		int C_BPartner_ID = -1 ;
+		CCache<Integer,MOrder> orders	= new CCache<Integer,MOrder>(MOrder.Table_Name, 5);
 
-		int C_BPartner_ID = DB.getSQLValue(get_TrxName(),
-				"SELECT C_BPartner_ID FROM M_Product_PO WHERE IsActive='Y' AND M_Product_ID=? ",
-				M_Product_ID);;
-		if (C_BPartner_ID <= 0)
+		
+		for (MPPOrderNodeProduct subctract: subctracts )
 		{
-			throw new AdempiereException("There is no vendor associated with this subcontract");
+			MProduct product = MProduct.get(getCtx(), subctract.getM_Product_ID());
+			MProductPO m_product_po = null;
+			if(product.isPurchased() && product.getProductType().equals(MProduct.PRODUCTTYPE_Service))
+			{    
+				C_BPartner_ID = activity.getC_BPartner_ID();
+				
+				MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), get_TrxName());
+				for (MProductPO ppo : ppos)
+				{
+					if(C_BPartner_ID == ppo.getC_BPartner_ID())
+					{
+						C_BPartner_ID = ppo.getC_BPartner_ID();
+						m_product_po = ppo;
+						break;
+					}
+					if (ppo.isCurrentVendor() && ppo.getC_BPartner_ID() != 0)
+					{
+						C_BPartner_ID = ppo.getC_BPartner_ID();
+						m_product_po = ppo;
+						break;
+					}
+				}
+				
+				if(C_BPartner_ID == -1)
+					throw new AdempiereException(Msg.getMsg(getCtx(), "no.vendor.was.found.for")+" "
+							  +Msg.getMsg(getCtx(),"M_Product_ID") + ":" + product.getName());
+					
+				Timestamp today = new Timestamp(System.currentTimeMillis());
+				Timestamp datePromised = TimeUtil.addDays(today, m_product_po.getDeliveryTime_Promised()); 
+				
+				MOrder order = orders.get(C_BPartner_ID);
+				if(order == null)
+				{
+					order = new MOrder(getCtx(), 0, get_TrxName());
+					MBPartner vendor = new MBPartner (getCtx(), C_BPartner_ID, get_TrxName());
+					order.setBPartner(vendor);
+					order.setIsSOTrx(false);
+					order.setC_DocTypeTarget_ID();
+					order.setDatePromised(datePromised);
+					order.setDescription(getPPOrder().getDocumentNo());
+					order.setDocStatus(MOrder.DOCSTATUS_Drafted);
+					order.setDocAction(MOrder.DOCACTION_Complete);
+					order.setAD_User_ID(getAD_User_ID());
+					//order.setSalesRep_ID(getAD_User_ID());
+					order.saveEx();
+					setDescription(getDescription() == null ? order.getDocumentNo() : 
+								   getDescription().concat(Msg.translate(getCtx(), "C_Order_ID")+":"+order.getDocumentNo()));
+					orders.put(C_BPartner_ID, order);
+				}				
+			
+				BigDecimal QtyOrdered = Env.ZERO;
+				// Check Order Min 
+				if(subctract.getQty().signum() > 0 && m_product_po.getOrder_Min().signum() > 0)
+				{    
+					QtyOrdered = QtyOrdered.max(m_product_po.getOrder_Min());
+				}
+				
+				// Check Order Pack
+				if (m_product_po.getOrder_Pack().signum() > 0 && QtyOrdered.signum() > 0)
+				{
+					QtyOrdered = m_product_po.getOrder_Pack().multiply(QtyOrdered.divide(m_product_po.getOrder_Pack(), 0 , BigDecimal.ROUND_UP));
+				}
+						
+				MOrderLine oline = new MOrderLine(order);
+				oline.setM_Product_ID(product.getM_Product_ID());
+				oline.setDescription(activity.getDescription());
+				oline.setQty(QtyOrdered);
+				//line.setPrice(m_product_po.getPricePO());
+				//oline.setPriceList(m_product_po.getPriceList());
+				oline.setPP_Cost_Collector_ID(get_ID());			
+				oline.setDatePromised(datePromised);
+				oline.saveEx();
+				setProcessed(true);
+			}
 		}
 
-		Timestamp today = new Timestamp(System.currentTimeMillis());
-		Timestamp datePromised = TimeUtil.addDays(today, DeliveryTime.intValue()); 
 
-		MOrder order = new MOrder(getCtx(), 0, get_TrxName());
-		order.setC_BPartner_ID(C_BPartner_ID);
-		order.setIsSOTrx(false);
-		order.setC_DocTypeTarget_ID();
-		order.setDatePromised(datePromised);
-		order.setDescription(getPP_Order().getDocumentNo());
-		order.saveEx();
-
-		MOrderLine oline = new MOrderLine(order);
-		oline.setM_Product_ID(M_Product_ID);
-		oline.setQty(m_MovementQty);
-		oline.setDatePromised(datePromised);
-		oline.saveEx();
 		
-		setDescription(order.getDocumentNo());
+		
 	}
-	
+
 	public boolean isIssue()
 	{
 		return isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue);

@@ -90,6 +90,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 			setWaitingTime (0);
 			setXPosition (0);
 			setYPosition (0);
+			setDocStatus(MPPOrderNode.DOCSTATUS_Drafted);
 		}
 		//	Save to Cache
 		if (get_ID() != 0)
@@ -131,6 +132,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setAD_WF_Node_ID(wfNode.getAD_WF_Node_ID());
 		setAD_WF_Responsible_ID(wfNode.getAD_WF_Responsible_ID());
 		setAD_Workflow_ID(wfNode.getAD_Workflow_ID());
+		this.setIsSubcontracting(wfNode.isSubcontracting());
+		this.setC_BPartner_ID(wfNode.getC_BPartner_ID());
 		setCost(wfNode.getCost());
 		setDuration(wfNode.getDuration());
 		setEntityType(wfNode.getEntityType());
@@ -166,6 +169,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setValidTo(wfNode.getValidTo());
 		//
 		setQtyOrdered(qtyOrdered);
+		setDocStatus(MPPOrderNode.DOCSTATUS_Drafted);
 	}
 	
 	/**
@@ -196,9 +200,10 @@ public class MPPOrderNode extends X_PP_Order_Node
 	private void loadNext()
 	{
 		boolean splitAnd = SPLITELEMENT_AND.equals(getSplitElement());
-		String whereClause = "PP_Order_Node_ID=? AND IsActive='Y'";
+		String whereClause = "PP_Order_Node_ID=? ";
 		m_next = new Query(getCtx(), MPPOrderNodeNext.Table_Name, whereClause, get_TrxName())
 											.setParameters(new Object[]{get_ID()})
+											.setOnlyActiveRecords(true)
 											.setOrderBy(MPPOrderNodeNext.COLUMNNAME_SeqNo)
 											.list();
 		for (MPPOrderNodeNext next : m_next) {

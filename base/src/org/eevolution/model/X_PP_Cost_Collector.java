@@ -46,6 +46,8 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
         {
 			setC_DocTypeTarget_ID (0);
 			setC_DocType_ID (0);
+// 0
+			setCostCollectorType (null);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setM_Locator_ID (0);
@@ -275,6 +277,45 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
+	public I_C_Order getC_Order() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
+        I_C_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
@@ -375,8 +416,8 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setCostCollectorType (String CostCollectorType)
 	{
-
-		if (CostCollectorType == null || CostCollectorType.equals("100") || CostCollectorType.equals("110") || CostCollectorType.equals("120") || CostCollectorType.equals("130") || CostCollectorType.equals("140") || CostCollectorType.equals("150") || CostCollectorType.equals("160")); else throw new IllegalArgumentException ("CostCollectorType Invalid value - " + CostCollectorType + " - Reference_ID=53287 - 100 - 110 - 120 - 130 - 140 - 150 - 160");		set_Value (COLUMNNAME_CostCollectorType, CostCollectorType);
+		if (CostCollectorType == null) throw new IllegalArgumentException ("CostCollectorType is mandatory");
+		if (CostCollectorType.equals("100") || CostCollectorType.equals("110") || CostCollectorType.equals("120") || CostCollectorType.equals("130") || CostCollectorType.equals("140") || CostCollectorType.equals("150") || CostCollectorType.equals("160")); else throw new IllegalArgumentException ("CostCollectorType Invalid value - " + CostCollectorType + " - Reference_ID=53287 - 100 - 110 - 120 - 130 - 140 - 150 - 160");		set_Value (COLUMNNAME_CostCollectorType, CostCollectorType);
 	}
 
 	/** Get Cost Collector Type.
@@ -544,6 +585,27 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public boolean isBatchTime () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsBatchTime);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Subcontracting.
+		@param IsSubcontracting Is Subcontracting	  */
+	public void setIsSubcontracting (boolean IsSubcontracting)
+	{
+		set_ValueNoCheck (COLUMNNAME_IsSubcontracting, Boolean.valueOf(IsSubcontracting));
+	}
+
+	/** Get Is Subcontracting.
+		@return Is Subcontracting	  */
+	public boolean isSubcontracting () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSubcontracting);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -742,7 +804,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException 
+	public org.eevolution.model.I_PP_Order_BOMLine getPPOrderBOMLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
         org.eevolution.model.I_PP_Order_BOMLine result = null;
@@ -778,7 +840,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
+	public org.eevolution.model.I_PP_Order getPPOrder() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -813,7 +875,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
+	public org.eevolution.model.I_PP_Order_Node getPPOrderNode() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
         org.eevolution.model.I_PP_Order_Node result = null;

@@ -18,10 +18,12 @@
 package org.eevolution.model;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_Node_Product
  *  @author Adempiere (generated) 
@@ -76,7 +78,28 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
       return sb.toString();
     }
 
-	public I_M_Product getM_Product() throws Exception 
+	/** Set Is Subcontracting.
+		@param IsSubcontracting Is Subcontracting	  */
+	public void setIsSubcontracting (boolean IsSubcontracting)
+	{
+		set_Value (COLUMNNAME_IsSubcontracting, Boolean.valueOf(IsSubcontracting));
+	}
+
+	/** Get Is Subcontracting.
+		@return Is Subcontracting	  */
+	public boolean isSubcontracting () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSubcontracting);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -87,7 +110,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +137,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -125,13 +148,13 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -139,8 +162,8 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -149,7 +172,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
         org.eevolution.model.I_PP_Order_Node result = null;
@@ -160,7 +183,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -184,8 +207,8 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_Node_Product_ID.
-		@param PP_Order_Node_Product_ID PP_Order_Node_Product_ID	  */
+	/** Set Manufacturing Order Activity Product.
+		@param PP_Order_Node_Product_ID Manufacturing Order Activity Product	  */
 	public void setPP_Order_Node_Product_ID (int PP_Order_Node_Product_ID)
 	{
 		if (PP_Order_Node_Product_ID < 1)
@@ -193,8 +216,8 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_Product_ID, Integer.valueOf(PP_Order_Node_Product_ID));
 	}
 
-	/** Get PP_Order_Node_Product_ID.
-		@return PP_Order_Node_Product_ID	  */
+	/** Get Manufacturing Order Activity Product.
+		@return Manufacturing Order Activity Product	  */
 	public int getPP_Order_Node_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_Product_ID);
@@ -203,7 +226,7 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws Exception 
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Workflow.Table_Name);
         org.eevolution.model.I_PP_Order_Workflow result = null;
@@ -214,13 +237,13 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_Workflow_ID.
-		@param PP_Order_Workflow_ID PP_Order_Workflow_ID	  */
+	/** Set Manufacturing Order Workflow.
+		@param PP_Order_Workflow_ID Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID)
 	{
 		if (PP_Order_Workflow_ID < 1)
@@ -228,11 +251,51 @@ public class X_PP_Order_Node_Product extends PO implements I_PP_Order_Node_Produ
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
 	}
 
-	/** Get PP_Order_Workflow_ID.
-		@return PP_Order_Workflow_ID	  */
+	/** Get Manufacturing Order Workflow.
+		@return Manufacturing Order Workflow	  */
 	public int getPP_Order_Workflow_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Quantity.
+		@param Qty 
+		Quantity
+	  */
+	public void setQty (BigDecimal Qty)
+	{
+		set_Value (COLUMNNAME_Qty, Qty);
+	}
+
+	/** Get Quantity.
+		@return Quantity
+	  */
+	public BigDecimal getQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo)
+	{
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
+	}
+
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
+	  */
+	public int getSeqNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -78,7 +78,7 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
       return sb.toString();
     }
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -89,7 +89,7 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,7 +161,28 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	/** Set Is Subcontracting.
+		@param IsSubcontracting Is Subcontracting	  */
+	public void setIsSubcontracting (boolean IsSubcontracting)
+	{
+		set_Value (COLUMNNAME_IsSubcontracting, Boolean.valueOf(IsSubcontracting));
+	}
+
+	/** Get Is Subcontracting.
+		@return Is Subcontracting	  */
+	public boolean isSubcontracting () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSubcontracting);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -172,7 +193,7 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -199,8 +220,8 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 		return ii.intValue();
 	}
 
-	/** Set PP_WF_Node_Product_ID.
-		@param PP_WF_Node_Product_ID PP_WF_Node_Product_ID	  */
+	/** Set Workflow Node Product.
+		@param PP_WF_Node_Product_ID Workflow Node Product	  */
 	public void setPP_WF_Node_Product_ID (int PP_WF_Node_Product_ID)
 	{
 		if (PP_WF_Node_Product_ID < 1)
@@ -208,8 +229,8 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 		set_ValueNoCheck (COLUMNNAME_PP_WF_Node_Product_ID, Integer.valueOf(PP_WF_Node_Product_ID));
 	}
 
-	/** Get PP_WF_Node_Product_ID.
-		@return PP_WF_Node_Product_ID	  */
+	/** Get Workflow Node Product.
+		@return Workflow Node Product	  */
 	public int getPP_WF_Node_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_WF_Node_Product_ID);
@@ -253,6 +274,23 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield.
+		@param Yield Yield	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield.
+		@return Yield	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

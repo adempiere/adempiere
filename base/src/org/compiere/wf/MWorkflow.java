@@ -833,6 +833,11 @@ public class MWorkflow extends X_AD_Workflow
 			errors.append(" - No Document Value Logic");
 		//
 		
+		//
+		if (getWorkflowType().equals(MWorkflow.WORKFLOWTYPE_Manufacturing))
+		{
+			this.setAD_Table_ID(0);
+		}
 			
 		//	final
 		boolean valid = errors.length() == 0;

@@ -81,29 +81,29 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	{
 		this(bomLine.getCtx(), 0, trxName);
 		
-		this.setPP_Order_BOM_ID(PP_Order_BOM_ID);
-		this.setPP_Order_ID(PP_Order_ID);
-		this.setM_Warehouse_ID(M_Warehouse_ID);
+		setPP_Order_BOM_ID(PP_Order_BOM_ID);
+		setPP_Order_ID(PP_Order_ID);
+		setM_Warehouse_ID(M_Warehouse_ID);
 		//
-		this.setM_ChangeNotice_ID(bomLine.getM_ChangeNotice_ID());
-		this.setDescription(bomLine.getDescription());
-		this.setHelp(bomLine.getHelp());
-		this.setAssay(bomLine.getAssay());
-		this.setQtyBatch(bomLine.getQtyBatch());
-		this.setQtyBOM(bomLine.getQtyBOM());
-		this.setIsQtyPercentage(bomLine.isQtyPercentage());
-		this.setComponentType(bomLine.getComponentType());
-		this.setC_UOM_ID(bomLine.getC_UOM_ID());
-		this.setForecast(bomLine.getForecast());
-		this.setIsCritical(bomLine.isCritical());
-		this.setIssueMethod(bomLine.getIssueMethod());
-		this.setLeadTimeOffset(bomLine.getLeadTimeOffset());
-		this.setM_AttributeSetInstance_ID(bomLine.getM_AttributeSetInstance_ID());
-		this.setM_Product_ID(bomLine.getM_Product_ID());
-		this.setScrap(bomLine.getScrap());
-		this.setValidFrom(bomLine.getValidFrom());
-		this.setValidTo(bomLine.getValidTo());
-		this.setBackflushGroup(bomLine.getBackflushGroup());		
+		setM_ChangeNotice_ID(bomLine.getM_ChangeNotice_ID());
+		setDescription(bomLine.getDescription());
+		setHelp(bomLine.getHelp());
+		setAssay(bomLine.getAssay());
+		setQtyBatch(bomLine.getQtyBatch());
+		setQtyBOM(bomLine.getQtyBOM());
+		setIsQtyPercentage(bomLine.isQtyPercentage());
+		setComponentType(bomLine.getComponentType());
+		setC_UOM_ID(bomLine.getC_UOM_ID());
+		setForecast(bomLine.getForecast());
+		setIsCritical(bomLine.isCritical());
+		setIssueMethod(bomLine.getIssueMethod());
+		setLeadTimeOffset(bomLine.getLeadTimeOffset());
+		setM_AttributeSetInstance_ID(bomLine.getM_AttributeSetInstance_ID());
+		setM_Product_ID(bomLine.getM_Product_ID());
+		setScrap(bomLine.getScrap());
+		setValidFrom(bomLine.getValidFrom());
+		setValidTo(bomLine.getValidTo());
+		setBackflushGroup(bomLine.getBackflushGroup());		
 	}
 	
 	private MPPOrder m_parent = null;
@@ -190,53 +190,53 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	public void setQtyOrdered(BigDecimal QtyOrdered)
 	{
 		// Set Qty Required
-		if (this.isQtyPercentage())
+		if (isQtyPercentage())
 		{
-			BigDecimal qty = this.getQtyBatch().multiply(QtyOrdered);
-			if (this.getComponentType().equals(COMPONENTTYPE_Component)
-					|| this.getComponentType().equals(COMPONENTTYPE_Phantom))
+			BigDecimal qty = getQtyBatch().multiply(QtyOrdered);
+			if (getComponentType().equals(COMPONENTTYPE_Component)
+					|| getComponentType().equals(COMPONENTTYPE_Phantom))
 			{
-				this.setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
+				setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
 			}
-			else if (this.getComponentType().equals(COMPONENTTYPE_Packing))
+			else if (getComponentType().equals(COMPONENTTYPE_Packing))
 			{
-				this.setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
+				setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
 			}
-			else if (this.getComponentType().equals(COMPONENTTYPE_Tools))
+			else if (getComponentType().equals(COMPONENTTYPE_Tools))
 			{
-				this.setQtyRequiered(this.getQtyBOM());
+				setQtyRequiered(getQtyBOM());
 			}
 			else
 			{
-				throw new AdempiereException("@NotSupported@ @ComponentType@ "+this.getComponentType());
+				throw new AdempiereException("@NotSupported@ @ComponentType@ "+getComponentType());
 			}
 		}
 		else
 		{
-			if (this.getComponentType().equals(COMPONENTTYPE_Component)
-					|| this.getComponentType().equals(COMPONENTTYPE_Phantom))
+			if (getComponentType().equals(COMPONENTTYPE_Component)
+					|| getComponentType().equals(COMPONENTTYPE_Phantom))
 			{
-				this.setQtyRequiered(this.getQtyBOM().multiply(QtyOrdered));
+				setQtyRequiered(getQtyBOM().multiply(QtyOrdered));
 			}
-			else if (this.getComponentType().equals(COMPONENTTYPE_Packing))
+			else if (getComponentType().equals(COMPONENTTYPE_Packing))
 			{
-				this.setQtyRequiered(this.getQtyBOM().multiply(QtyOrdered));
+				setQtyRequiered(getQtyBOM().multiply(QtyOrdered));
 			}
-			else if (this.getComponentType().equals(COMPONENTTYPE_Tools))
+			else if (getComponentType().equals(COMPONENTTYPE_Tools))
 			{
-				this.setQtyRequiered(this.getQtyBOM());
+				setQtyRequiered(getQtyBOM());
 			}
 			else
 			{
-				throw new AdempiereException("@NotSupported@ @ComponentType@ "+this.getComponentType());
+				throw new AdempiereException("@NotSupported@ @ComponentType@ "+getComponentType());
 			}
 		}
 		
 		// Set Scrap of Component
-		BigDecimal Scrap = this.getScrap();
+		BigDecimal Scrap = getScrap();
 		if (Scrap.signum() != 0) {
 			Scrap = Scrap.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
-			this.setQtyRequiered(this.getQtyRequiered().divide(Env.ONE.subtract(Scrap), 8, BigDecimal.ROUND_HALF_UP));
+			setQtyRequiered(getQtyRequiered().divide(Env.ONE.subtract(Scrap), 8, BigDecimal.ROUND_HALF_UP));
 		}
 	}
 }
