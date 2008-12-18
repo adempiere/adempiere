@@ -1,1 +1,0 @@
--- placeholder - script just affect postgres

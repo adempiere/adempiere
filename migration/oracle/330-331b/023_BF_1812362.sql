@@ -1,1 +1,0 @@
-update C_Currency set CurSymbol='KR' where C_Currency_ID=285;

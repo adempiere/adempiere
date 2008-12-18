@@ -1,1 +1,0 @@
-update ad_ref_table set orderbyclause='SeqNo' where ad_reference_id=240;

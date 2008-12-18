@@ -1,1 +1,0 @@
-CREATE UNIQUE INDEX PPProductBOMUnique ON PP_Product_BOM (AD_Client_ID,Value);

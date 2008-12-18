@@ -1,4 +1,0 @@
--- BF [ 1824260 ] TRUNC function not working like in Oracle
--- http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1824260&group_id=176962
---
--- Nothing to do for Oracle, this is just a sequence placeholder
