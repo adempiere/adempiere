@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -39,9 +39,13 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version $Id: MLanguage.java,v 1.4 2006/07/30 00:58:36 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2444851 ] MLanguage should throw an exception if there is an error
  */
 public class MLanguage extends X_AD_Language
 {
+	private static final long	serialVersionUID	= 1L;
 
 	/**
 	 * 	Get Language Model from Language
@@ -87,7 +91,9 @@ public class MLanguage extends X_AD_Language
 	 */
 	public static void maintain (Properties ctx)
 	{
-		List<MLanguage> list = new Query(ctx, Table_Name, "IsSystemLanguage='Y' AND IsBaseLanguage='N' AND IsActive='Y'", null)
+		List<MLanguage> list = new Query(ctx, Table_Name, "IsSystemLanguage=? AND IsBaseLanguage=?", null)
+								.setParameters(new Object[]{true, false})
+								.setOnlyActiveRecords(true)
 								.list();
 		for (MLanguage language : list) {
 			language.maintain(true);
@@ -336,9 +342,6 @@ public class MLanguage extends X_AD_Language
 				else
 					retNo += deleteTable (rs.getString(1));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException e)
 		{
@@ -359,9 +362,8 @@ public class MLanguage extends X_AD_Language
 	 */
 	private int deleteTable (String tableName)
 	{
-		String sql = "DELETE  FROM  " + tableName 
-			+ " WHERE AD_Language='" + getAD_Language() + "'";
-		int no = DB.executeUpdate(sql, get_TrxName());
+		String sql = "DELETE  FROM  "+tableName+" WHERE AD_Language=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{getAD_Language()}, get_TrxName());
 		log.fine(tableName + " #" + no);
 		return no;
 	}	//	deleteTable
@@ -389,10 +391,9 @@ public class MLanguage extends X_AD_Language
 			pstmt.setString(1, baseTable);
 			rs = pstmt.executeQuery();
 			while (rs.next())
+			{
 				columns.add(rs.getString(1));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
+			}
 		}
 		catch (SQLException e)
 		{
@@ -429,7 +430,7 @@ public class MLanguage extends X_AD_Language
 				+ " WHERE AD_Language='" + getAD_Language() + "')";
 		//	+ " WHERE (" + keyColumn + ",'" + getAD_Language()+ "') NOT IN (SELECT " 
 		//		+ keyColumn + ",AD_Language FROM " + tableName + ")";
-		int no = DB.executeUpdate(insert, get_TrxName());
+		int no = DB.executeUpdateEx(insert, null, get_TrxName());
 		log.fine(tableName + " #" + no);
 		return no;
 	}	//	addTable
