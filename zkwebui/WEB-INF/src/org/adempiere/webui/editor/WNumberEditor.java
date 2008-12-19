@@ -18,6 +18,7 @@
 package org.adempiere.webui.editor;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.NumberBox;
@@ -46,6 +47,8 @@ public class WNumberEditor extends WEditor
     private BigDecimal oldValue;
     
     private boolean mandatory = false;
+
+	private int displayType;
     
     public WNumberEditor() 
     {
@@ -60,6 +63,7 @@ public class WNumberEditor extends WEditor
     {
         super(new NumberBox(gridField.getDisplayType() == DisplayType.Integer),
                 gridField);
+        this.displayType = gridField.getDisplayType();
         init();
     }
     
@@ -71,6 +75,7 @@ public class WNumberEditor extends WEditor
     public WNumberEditor(GridField gridField, boolean integral)
     {
         super(new NumberBox(integral), gridField);
+        this.displayType = integral ? DisplayType.Integer : DisplayType.Number;
         init();
     }
 
@@ -88,6 +93,7 @@ public class WNumberEditor extends WEditor
     {
 		super(new NumberBox(displayType == DisplayType.Integer), columnName, title, null, mandatory, 
 				readonly, updateable);
+		this.displayType = displayType;
 		init();
 	}
 
@@ -97,6 +103,11 @@ public class WNumberEditor extends WEditor
 		{
 			getComponent().setTooltiptext(gridField.getDescription());
 		}        
+		
+		if (!DisplayType.isNumeric(displayType))
+			displayType = DisplayType.Number;
+		DecimalFormat format = DisplayType.getNumberFormat(displayType);
+		getComponent().getDecimalbox().setFormat(format.toPattern());
     }
     
 	/**
