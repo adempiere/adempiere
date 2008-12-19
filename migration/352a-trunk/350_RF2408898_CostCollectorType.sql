@@ -219,24 +219,13 @@ DELETE FROM AD_Ref_List WHERE AD_Ref_List_ID=53238
 UPDATE AD_Ref_Table SET WhereClause='C_DocType.AD_Client_ID=@#AD_Client_ID@  AND C_DocType.DocBaseType IN  (''MOP'',''MOF'',''MQO'') ',Updated=TO_DATE('2008-12-08 22:08:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Reference_ID=53233
 ;
 
-
-
-
-
-
-
-
-
-
 ALTER TABLE PP_Cost_Collector ADD CostCollectorType NVARCHAR2(3);
-update PP_Cost_Collector set CostCollectorType='100' where MovementType in ('P+','W+');
-update PP_Cost_Collector set CostCollectorType='110' where CostCollectorType is null;
-alter table PP_Cost_Collector drop column MovementType;
 
--- 09.12.2008 19:25:45 EET
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
-ALTER TABLE PP_Cost_Collector ADD CostCollectorType NVARCHAR2(2)
-;
+update PP_Cost_Collector set CostCollectorType='100' where MovementType in ('P+','W+');
+
+update PP_Cost_Collector set CostCollectorType='110' where CostCollectorType is null;
+
+alter table PP_Cost_Collector drop column MovementType;
 
 -- 09.12.2008 19:27:54 EET
 -- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
