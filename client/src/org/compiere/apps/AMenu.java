@@ -51,6 +51,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.adempiere.apps.graph.PAPanel;
+import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.Adempiere;
 import org.compiere.apps.wf.WFActivity;
 import org.compiere.apps.wf.WFPanel;
@@ -88,12 +89,21 @@ public final class AMenu extends CFrame
 	implements ActionListener, PropertyChangeListener, ChangeListener
 {
 	/**
+	 * generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 5255914306969824011L;
+
+	static {
+		AdempierePLAF.setPLAF ();
+	}
+	
+	/**
 	 *	Application Start and Menu
 	 */
 	public AMenu ()
 	{
 		super();
-		log.info("CodeBase=" + Adempiere.getCodeBase());
+		log.info("CodeBase=" + Adempiere.getCodeBase());		
 		Splash splash = Splash.getSplash();
 		//
 		m_WindowNo = Env.createWindowNo(this);

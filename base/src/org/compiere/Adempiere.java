@@ -27,7 +27,6 @@ import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.ImageIcon;
 
-import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.db.CConnection;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
@@ -475,8 +474,7 @@ public final class Adempiere
 		if (isClient)
 		{
 			if (CLogMgt.isLevelAll())
-				log.log(Level.FINEST, System.getProperties().toString());
-			AdempierePLAF.setPLAF ();
+				log.log(Level.FINEST, System.getProperties().toString());			
 		}
 
 		//  Set Default Database Connection from Ini
