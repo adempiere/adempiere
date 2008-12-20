@@ -16,12 +16,25 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCurrency;
+import org.compiere.model.MFactAcct;
+import org.compiere.model.MMovement;
+import org.compiere.model.MRevenueRecognitionPlan;
+import org.compiere.model.X_C_AcctSchema_Element;
+import org.compiere.model.X_Fact_Acct;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Accounting Fact Entry.
