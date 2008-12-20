@@ -617,7 +617,7 @@ public class GridController extends CPanel
 
 	/**
 	 *  Register ESC Actions
-	 *  - overwrite VTable's Keystroks assignment for ESC
+	 *  - overwrite VTable's Keystrokes assignment for ESC
 	 *  @param aIgnore ignore
 	 */
 	public void registerESCAction (AppsAction aIgnore)
