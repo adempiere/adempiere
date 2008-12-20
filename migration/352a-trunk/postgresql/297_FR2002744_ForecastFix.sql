@@ -270,10 +270,6 @@ DELETE FROM AD_Element_Trl WHERE AD_Element_ID=53654
 DELETE FROM AD_Element WHERE AD_Element_ID=53654
 ;
 
-DROP VIEW RV_M_Forecast_Period;
-
-DROP VIEW RV_M_Forecast;
-
 CREATE OR REPLACE VIEW RV_M_Forecast AS
 SELECT 
 f.AD_Client_ID , 
