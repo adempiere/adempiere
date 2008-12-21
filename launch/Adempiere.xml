@@ -11,6 +11,7 @@
   <supportUrl></supportUrl>
   <customProcName>true</customProcName>
   <stayAlive>false</stayAlive>
+  <manifest></manifest>
   <icon>Adempiere.ico</icon>
   <classPath>
     <mainClass>org.compiere.Adempiere</mainClass>
@@ -24,7 +25,7 @@
     <path></path>
     <minVersion>1.5.0</minVersion>
     <maxVersion></maxVersion>
-    <dontUsePrivateJres>false</dontUsePrivateJres>
+    <jdkPreference>preferJre</jdkPreference>
     <initialHeapSize>48</initialHeapSize>
     <maxHeapSize>512</maxHeapSize>
   </jre>
