@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Persistent 
 {
 
@@ -91,15 +91,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
       return sb.toString();
     }
 
-	/** Set A_Accumdepreciation_Acct.
-		@param A_Accumdepreciation_Acct A_Accumdepreciation_Acct	  */
+	/** Set Accumulated Depreciation.
+		@param A_Accumdepreciation_Acct Accumulated Depreciation	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct)
 	{
 		set_Value (COLUMNNAME_A_Accumdepreciation_Acct, Integer.valueOf(A_Accumdepreciation_Acct));
 	}
 
-	/** Get A_Accumdepreciation_Acct.
-		@return A_Accumdepreciation_Acct	  */
+	/** Get Accumulated Depreciation.
+		@return Accumulated Depreciation	  */
 	public int getA_Accumdepreciation_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Accumdepreciation_Acct);
@@ -108,15 +108,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Accumdepreciation_Acct_New.
-		@param A_Accumdepreciation_Acct_New A_Accumdepreciation_Acct_New	  */
+	/** Set New Accum Depreciation Acct.
+		@param A_Accumdepreciation_Acct_New New Accum Depreciation Acct	  */
 	public void setA_Accumdepreciation_Acct_New (int A_Accumdepreciation_Acct_New)
 	{
 		set_Value (COLUMNNAME_A_Accumdepreciation_Acct_New, Integer.valueOf(A_Accumdepreciation_Acct_New));
 	}
 
-	/** Get A_Accumdepreciation_Acct_New.
-		@return A_Accumdepreciation_Acct_New	  */
+	/** Get New Accum Depreciation Acct.
+		@return New Accum Depreciation Acct	  */
 	public int getA_Accumdepreciation_Acct_New () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Accumdepreciation_Acct_New);
@@ -125,29 +125,29 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Accumdepreciation_Acct_Str.
-		@param A_Accumdepreciation_Acct_Str A_Accumdepreciation_Acct_Str	  */
+	/** Set Old Accum Depreciation Acct.
+		@param A_Accumdepreciation_Acct_Str Old Accum Depreciation Acct	  */
 	public void setA_Accumdepreciation_Acct_Str (String A_Accumdepreciation_Acct_Str)
 	{
 		set_Value (COLUMNNAME_A_Accumdepreciation_Acct_Str, A_Accumdepreciation_Acct_Str);
 	}
 
-	/** Get A_Accumdepreciation_Acct_Str.
-		@return A_Accumdepreciation_Acct_Str	  */
+	/** Get Old Accum Depreciation Acct.
+		@return Old Accum Depreciation Acct	  */
 	public String getA_Accumdepreciation_Acct_Str () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Accumdepreciation_Acct_Str);
 	}
 
-	/** Set A_Asset_Acct.
-		@param A_Asset_Acct A_Asset_Acct	  */
+	/** Set Asset Cost Account.
+		@param A_Asset_Acct Asset Cost Account	  */
 	public void setA_Asset_Acct (int A_Asset_Acct)
 	{
 		set_Value (COLUMNNAME_A_Asset_Acct, Integer.valueOf(A_Asset_Acct));
 	}
 
-	/** Get A_Asset_Acct.
-		@return A_Asset_Acct	  */
+	/** Get Asset Cost Account.
+		@return Asset Cost Account	  */
 	public int getA_Asset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct);
@@ -176,15 +176,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Acct_New.
-		@param A_Asset_Acct_New A_Asset_Acct_New	  */
+	/** Set New Asset Cost Acct.
+		@param A_Asset_Acct_New New Asset Cost Acct	  */
 	public void setA_Asset_Acct_New (int A_Asset_Acct_New)
 	{
 		set_Value (COLUMNNAME_A_Asset_Acct_New, Integer.valueOf(A_Asset_Acct_New));
 	}
 
-	/** Get A_Asset_Acct_New.
-		@return A_Asset_Acct_New	  */
+	/** Get New Asset Cost Acct.
+		@return New Asset Cost Acct	  */
 	public int getA_Asset_Acct_New () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct_New);
@@ -193,15 +193,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Acct_Str.
-		@param A_Asset_Acct_Str A_Asset_Acct_Str	  */
+	/** Set Old Asset Cost Acct.
+		@param A_Asset_Acct_Str Old Asset Cost Acct	  */
 	public void setA_Asset_Acct_Str (String A_Asset_Acct_Str)
 	{
 		set_Value (COLUMNNAME_A_Asset_Acct_Str, A_Asset_Acct_Str);
 	}
 
-	/** Get A_Asset_Acct_Str.
-		@return A_Asset_Acct_Str	  */
+	/** Get Old Asset Cost Acct.
+		@return Old Asset Cost Acct	  */
 	public String getA_Asset_Acct_Str () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Asset_Acct_Str);
@@ -257,15 +257,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Transfer_ID()));
     }
 
-	/** Set A_Depreciation_Acct.
-		@param A_Depreciation_Acct A_Depreciation_Acct	  */
+	/** Set Depreciation Expense Account.
+		@param A_Depreciation_Acct Depreciation Expense Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Acct, Integer.valueOf(A_Depreciation_Acct));
 	}
 
-	/** Get A_Depreciation_Acct.
-		@return A_Depreciation_Acct	  */
+	/** Get Depreciation Expense Account.
+		@return Depreciation Expense Account	  */
 	public int getA_Depreciation_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Acct);
@@ -274,15 +274,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Acct_New.
-		@param A_Depreciation_Acct_New A_Depreciation_Acct_New	  */
+	/** Set New Depreciation Exp Acct.
+		@param A_Depreciation_Acct_New New Depreciation Exp Acct	  */
 	public void setA_Depreciation_Acct_New (int A_Depreciation_Acct_New)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Acct_New, Integer.valueOf(A_Depreciation_Acct_New));
 	}
 
-	/** Get A_Depreciation_Acct_New.
-		@return A_Depreciation_Acct_New	  */
+	/** Get New Depreciation Exp Acct.
+		@return New Depreciation Exp Acct	  */
 	public int getA_Depreciation_Acct_New () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Acct_New);
@@ -291,29 +291,29 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Acct_Str.
-		@param A_Depreciation_Acct_Str A_Depreciation_Acct_Str	  */
+	/** Set Old Depreciation Exp Acct.
+		@param A_Depreciation_Acct_Str Old Depreciation Exp Acct	  */
 	public void setA_Depreciation_Acct_Str (String A_Depreciation_Acct_Str)
 	{
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Acct_Str, A_Depreciation_Acct_Str);
 	}
 
-	/** Get A_Depreciation_Acct_Str.
-		@return A_Depreciation_Acct_Str	  */
+	/** Get Old Depreciation Exp Acct.
+		@return Old Depreciation Exp Acct	  */
 	public String getA_Depreciation_Acct_Str () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Acct_Str);
 	}
 
-	/** Set A_Disposal_Loss.
-		@param A_Disposal_Loss A_Disposal_Loss	  */
+	/** Set Loss on Disposal.
+		@param A_Disposal_Loss Loss on Disposal	  */
 	public void setA_Disposal_Loss (int A_Disposal_Loss)
 	{
 		set_Value (COLUMNNAME_A_Disposal_Loss, Integer.valueOf(A_Disposal_Loss));
 	}
 
-	/** Get A_Disposal_Loss.
-		@return A_Disposal_Loss	  */
+	/** Get Loss on Disposal.
+		@return Loss on Disposal	  */
 	public int getA_Disposal_Loss () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss);
@@ -322,15 +322,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Disposal_Loss_New.
-		@param A_Disposal_Loss_New A_Disposal_Loss_New	  */
+	/** Set New Disposal Loss.
+		@param A_Disposal_Loss_New New Disposal Loss	  */
 	public void setA_Disposal_Loss_New (int A_Disposal_Loss_New)
 	{
 		set_Value (COLUMNNAME_A_Disposal_Loss_New, Integer.valueOf(A_Disposal_Loss_New));
 	}
 
-	/** Get A_Disposal_Loss_New.
-		@return A_Disposal_Loss_New	  */
+	/** Get New Disposal Loss.
+		@return New Disposal Loss	  */
 	public int getA_Disposal_Loss_New () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Loss_New);
@@ -339,29 +339,29 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Disposal_Loss_Str.
-		@param A_Disposal_Loss_Str A_Disposal_Loss_Str	  */
+	/** Set Old Disposal Loss.
+		@param A_Disposal_Loss_Str Old Disposal Loss	  */
 	public void setA_Disposal_Loss_Str (String A_Disposal_Loss_Str)
 	{
 		set_ValueNoCheck (COLUMNNAME_A_Disposal_Loss_Str, A_Disposal_Loss_Str);
 	}
 
-	/** Get A_Disposal_Loss_Str.
-		@return A_Disposal_Loss_Str	  */
+	/** Get Old Disposal Loss.
+		@return Old Disposal Loss	  */
 	public String getA_Disposal_Loss_Str () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Disposal_Loss_Str);
 	}
 
-	/** Set A_Disposal_Revenue.
-		@param A_Disposal_Revenue A_Disposal_Revenue	  */
+	/** Set Disposal Revenue.
+		@param A_Disposal_Revenue Disposal Revenue	  */
 	public void setA_Disposal_Revenue (int A_Disposal_Revenue)
 	{
 		set_Value (COLUMNNAME_A_Disposal_Revenue, Integer.valueOf(A_Disposal_Revenue));
 	}
 
-	/** Get A_Disposal_Revenue.
-		@return A_Disposal_Revenue	  */
+	/** Get Disposal Revenue.
+		@return Disposal Revenue	  */
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
@@ -370,15 +370,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Disposal_Revenue_New.
-		@param A_Disposal_Revenue_New A_Disposal_Revenue_New	  */
+	/** Set New Disposal Revenue.
+		@param A_Disposal_Revenue_New New Disposal Revenue	  */
 	public void setA_Disposal_Revenue_New (int A_Disposal_Revenue_New)
 	{
 		set_Value (COLUMNNAME_A_Disposal_Revenue_New, Integer.valueOf(A_Disposal_Revenue_New));
 	}
 
-	/** Get A_Disposal_Revenue_New.
-		@return A_Disposal_Revenue_New	  */
+	/** Get New Disposal Revenue.
+		@return New Disposal Revenue	  */
 	public int getA_Disposal_Revenue_New () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue_New);
@@ -387,29 +387,29 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Disposal_Revenue_Str.
-		@param A_Disposal_Revenue_Str A_Disposal_Revenue_Str	  */
+	/** Set Old Disposal Revenue.
+		@param A_Disposal_Revenue_Str Old Disposal Revenue	  */
 	public void setA_Disposal_Revenue_Str (String A_Disposal_Revenue_Str)
 	{
 		set_ValueNoCheck (COLUMNNAME_A_Disposal_Revenue_Str, A_Disposal_Revenue_Str);
 	}
 
-	/** Get A_Disposal_Revenue_Str.
-		@return A_Disposal_Revenue_Str	  */
+	/** Get Old Disposal Revenue.
+		@return Old Disposal Revenue	  */
 	public String getA_Disposal_Revenue_Str () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Disposal_Revenue_Str);
 	}
 
-	/** Set A_Period_End.
-		@param A_Period_End A_Period_End	  */
+	/** Set Period End.
+		@param A_Period_End Period End	  */
 	public void setA_Period_End (int A_Period_End)
 	{
 		set_Value (COLUMNNAME_A_Period_End, Integer.valueOf(A_Period_End));
 	}
 
-	/** Get A_Period_End.
-		@return A_Period_End	  */
+	/** Get Period End.
+		@return Period End	  */
 	public int getA_Period_End () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_End);
@@ -418,15 +418,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Period_Start.
-		@param A_Period_Start A_Period_Start	  */
+	/** Set Period Start.
+		@param A_Period_Start Period Start	  */
 	public void setA_Period_Start (int A_Period_Start)
 	{
 		set_Value (COLUMNNAME_A_Period_Start, Integer.valueOf(A_Period_Start));
 	}
 
-	/** Get A_Period_Start.
-		@return A_Period_Start	  */
+	/** Get Period Start.
+		@return Period Start	  */
 	public int getA_Period_Start () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_Start);
@@ -435,8 +435,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Split_Percent.
-		@param A_Split_Percent A_Split_Percent	  */
+	/** Set Split Percentage.
+		@param A_Split_Percent Split Percentage	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent)
 	{
 		if (A_Split_Percent == null)
@@ -444,8 +444,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		set_Value (COLUMNNAME_A_Split_Percent, A_Split_Percent);
 	}
 
-	/** Get A_Split_Percent.
-		@return A_Split_Percent	  */
+	/** Get Split Percentage.
+		@return Split Percentage	  */
 	public BigDecimal getA_Split_Percent () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Split_Percent);
@@ -454,15 +454,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return bd;
 	}
 
-	/** Set A_Transfer_Balance.
-		@param A_Transfer_Balance A_Transfer_Balance	  */
+	/** Set Transfer Balance Sheet.
+		@param A_Transfer_Balance Transfer Balance Sheet	  */
 	public void setA_Transfer_Balance (boolean A_Transfer_Balance)
 	{
 		set_Value (COLUMNNAME_A_Transfer_Balance, Boolean.valueOf(A_Transfer_Balance));
 	}
 
-	/** Get A_Transfer_Balance.
-		@return A_Transfer_Balance	  */
+	/** Get Transfer Balance Sheet.
+		@return Transfer Balance Sheet	  */
 	public boolean isA_Transfer_Balance () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Transfer_Balance);
@@ -475,15 +475,15 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
-	/** Set A_Transfer_Balance_IS.
-		@param A_Transfer_Balance_IS A_Transfer_Balance_IS	  */
+	/** Set Transfer Balance IS.
+		@param A_Transfer_Balance_IS Transfer Balance IS	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS)
 	{
 		set_Value (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
 	}
 
-	/** Get A_Transfer_Balance_IS.
-		@return A_Transfer_Balance_IS	  */
+	/** Get Transfer Balance IS.
+		@return Transfer Balance IS	  */
 	public boolean isA_Transfer_Balance_IS () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Transfer_Balance_IS);
@@ -496,8 +496,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
-	/** C_AcctSchema_ID AD_Reference_ID=136 */
-	public static final int C_ACCTSCHEMA_ID_AD_Reference_ID=136;
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
 		Rules for accounting
@@ -521,8 +519,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** C_Period_ID AD_Reference_ID=233 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=233;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar

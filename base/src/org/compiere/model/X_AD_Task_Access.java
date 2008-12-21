@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_Task_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -84,7 +84,7 @@ public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -122,7 +122,7 @@ public class X_AD_Task_Access extends PO implements I_AD_Task_Access, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

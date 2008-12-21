@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Field getAD_Field() throws Exception 
+	public I_AD_Field getAD_Field() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Field.Table_Name);
         I_AD_Field result = null;
@@ -85,7 +85,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -113,7 +113,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws Exception 
+	public I_AD_Tab getAD_Tab() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
         I_AD_Tab result = null;
@@ -124,7 +124,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -151,7 +151,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws Exception 
+	public I_ASP_Level getASP_Level() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
         I_ASP_Level result = null;
@@ -162,7 +162,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

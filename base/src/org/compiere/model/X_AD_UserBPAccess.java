@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -106,7 +106,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -207,22 +207,10 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	public static final String DOCBASETYPE_MatchPO = "MXP";
 	/** Project Issue = PJI */
 	public static final String DOCBASETYPE_ProjectIssue = "PJI";
-	/** Manufacturing Operation Activity = MOA */
-	public static final String DOCBASETYPE_ManufacturingOperationActivity = "MOA";
 	/** Maintenance Order = MOF */
 	public static final String DOCBASETYPE_MaintenanceOrder = "MOF";
-	/** Manufacturing Order Issue = MOI */
-	public static final String DOCBASETYPE_ManufacturingOrderIssue = "MOI";
-	/** Manufacturing Order Method Variation  = MOM */
-	public static final String DOCBASETYPE_ManufacturingOrderMethodVariation = "MOM";
 	/** Manufacturing Order = MOP */
 	public static final String DOCBASETYPE_ManufacturingOrder = "MOP";
-	/** Manufacturing Order Receipt = MOR */
-	public static final String DOCBASETYPE_ManufacturingOrderReceipt = "MOR";
-	/** Manufacturing Order Use Variation  = MOU */
-	public static final String DOCBASETYPE_ManufacturingOrderUseVariation = "MOU";
-	/** Manufacturing Order Rate Variation  = MOV */
-	public static final String DOCBASETYPE_ManufacturingOrderRateVariation = "MOV";
 	/** Quality Order = MQO */
 	public static final String DOCBASETYPE_QualityOrder = "MQO";
 	/** Payroll = HRP */
@@ -236,7 +224,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	public void setDocBaseType (String DocBaseType)
 	{
 
-		if (DocBaseType == null || DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOA") || DocBaseType.equals("MOF") || DocBaseType.equals("MOI") || DocBaseType.equals("MOM") || DocBaseType.equals("MOP") || DocBaseType.equals("MOR") || DocBaseType.equals("MOU") || DocBaseType.equals("MOV") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOA - MOF - MOI - MOM - MOP - MOR - MOU - MOV - MQO - HRP - DOO");		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
+		if (DocBaseType == null || DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOF") || DocBaseType.equals("MOP") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOF - MOP - MQO - HRP - DOO");		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
 	/** Get Document BaseType.
@@ -247,7 +235,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
-	public I_R_RequestType getR_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -258,7 +246,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

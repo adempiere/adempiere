@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -84,7 +84,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -213,7 +213,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
-	public I_R_MailText getR_MailText() throws Exception 
+	public I_R_MailText getR_MailText() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
         I_R_MailText result = null;
@@ -224,7 +224,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -269,7 +269,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_Subject);
 	}
 
-	public I_W_MailMsg getW_MailMsg() throws Exception 
+	public I_W_MailMsg getW_MailMsg() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_MailMsg.Table_Name);
         I_W_MailMsg result = null;
@@ -280,7 +280,7 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

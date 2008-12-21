@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationAttribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAttribute, I_Persistent 
 {
 
@@ -75,8 +75,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
       return sb.toString();
     }
 
-	/** AD_Reference_ID AD_Reference_ID=1 */
-	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -99,8 +97,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 		return ii.intValue();
 	}
 
-	/** AD_Reference_Value_ID AD_Reference_ID=4 */
-	public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
 		Required to specify, if data type is Table or List

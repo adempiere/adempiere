@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AlertProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_AlertProcessor extends PO implements I_AD_AlertProcessor, I_Persistent 
 {
 
@@ -264,8 +264,6 @@ public class X_AD_AlertProcessor extends PO implements I_AD_AlertProcessor, I_Pe
 		return false;
 	}
 
-	/** Supervisor_ID AD_Reference_ID=316 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

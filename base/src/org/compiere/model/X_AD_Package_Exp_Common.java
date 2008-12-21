@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
@@ -72,7 +72,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
       return sb.toString();
     }
 
-	public I_AD_Form getAD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -83,7 +83,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_ImpFormat getAD_ImpFormat() throws Exception 
+	public I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ImpFormat.Table_Name);
         I_AD_ImpFormat result = null;
@@ -122,7 +122,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -147,7 +147,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Menu getAD_Menu() throws Exception 
+	public I_AD_Menu getAD_Menu() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Menu.Table_Name);
         I_AD_Menu result = null;
@@ -158,7 +158,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -213,7 +213,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Common_ID()));
     }
 
-	public I_AD_Process getAD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -224,7 +224,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -252,7 +252,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -263,7 +263,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -291,7 +291,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -302,7 +302,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -330,7 +330,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -341,7 +341,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -369,7 +369,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -380,7 +380,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -408,7 +408,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Workbench getAD_Workbench() throws Exception 
+	public I_AD_Workbench getAD_Workbench() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
         I_AD_Workbench result = null;
@@ -419,7 +419,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -447,7 +447,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -458,7 +458,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

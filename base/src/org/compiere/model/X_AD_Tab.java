@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent 
 {
 
@@ -90,7 +90,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -101,7 +101,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -129,8 +129,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_ColumnSortOrder_ID AD_Reference_ID=257 */
-	public static final int AD_COLUMNSORTORDER_ID_AD_Reference_ID=257;
 	/** Set Order Column.
 		@param AD_ColumnSortOrder_ID 
 		Column determining the order
@@ -154,8 +152,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_ColumnSortYesNo_ID AD_Reference_ID=258 */
-	public static final int AD_COLUMNSORTYESNO_ID_AD_Reference_ID=258;
 	/** Set Included Column.
 		@param AD_ColumnSortYesNo_ID 
 		Column determining if a Table Column is included in Ordering
@@ -179,7 +175,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -190,7 +186,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -218,7 +214,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -229,7 +225,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -279,7 +275,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -290,7 +286,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -317,7 +313,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -328,7 +324,7 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -483,8 +479,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return (String)get_Value(COLUMNNAME_ImportFields);
 	}
 
-	/** Included_Tab_ID AD_Reference_ID=278 */
-	public static final int INCLUDED_TAB_ID_AD_Reference_ID=278;
 	/** Set Included Tab.
 		@param Included_Tab_ID 
 		Included Tab in this Tab (Master Dateail)

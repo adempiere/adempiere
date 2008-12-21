@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent 
 {
 
@@ -71,8 +71,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
       return sb.toString();
     }
 
-	/** AD_Tree_Activity_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_ACTIVITY_ID_AD_Reference_ID=184;
 	/** Set Activity Tree.
 		@param AD_Tree_Activity_ID 
 		Tree to determine activity hierarchy
@@ -96,8 +94,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_BPartner_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_BPARTNER_ID_AD_Reference_ID=184;
 	/** Set BPartner Tree.
 		@param AD_Tree_BPartner_ID 
 		Tree to determine business partner hierarchy
@@ -121,8 +117,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_Campaign_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_CAMPAIGN_ID_AD_Reference_ID=184;
 	/** Set Campaign Tree.
 		@param AD_Tree_Campaign_ID 
 		Tree to determine marketing campaign hierarchy
@@ -146,8 +140,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_Menu_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_MENU_ID_AD_Reference_ID=184;
 	/** Set Menu Tree.
 		@param AD_Tree_Menu_ID 
 		Tree of the menu
@@ -171,8 +163,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_Org_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_ORG_ID_AD_Reference_ID=184;
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
 		Tree to determine organizational hierarchy
@@ -196,8 +186,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_Product_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_PRODUCT_ID_AD_Reference_ID=184;
 	/** Set Product Tree.
 		@param AD_Tree_Product_ID 
 		Tree to determine product hierarchy
@@ -221,8 +209,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_Project_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_PROJECT_ID_AD_Reference_ID=184;
 	/** Set Project Tree.
 		@param AD_Tree_Project_ID 
 		Tree to determine project hierarchy
@@ -246,8 +232,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Tree_SalesRegion_ID AD_Reference_ID=184 */
-	public static final int AD_TREE_SALESREGION_ID_AD_Reference_ID=184;
 	/** Set Sales Region Tree.
 		@param AD_Tree_SalesRegion_ID 
 		Tree to determine sales regional hierarchy
@@ -271,8 +255,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_AcctSchema1_ID AD_Reference_ID=136 */
-	public static final int C_ACCTSCHEMA1_ID_AD_Reference_ID=136;
 	/** Set Primary Accounting Schema.
 		@param C_AcctSchema1_ID 
 		Primary rules for accounting
@@ -296,8 +278,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_BPartnerCashTrx_ID AD_Reference_ID=138 */
-	public static final int C_BPARTNERCASHTRX_ID_AD_Reference_ID=138;
 	/** Set Template B.Partner.
 		@param C_BPartnerCashTrx_ID 
 		Business Partner used for creating new Business Partners on the fly
@@ -321,7 +301,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -332,7 +312,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -360,8 +340,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_UOM_Length_ID AD_Reference_ID=114 */
-	public static final int C_UOM_LENGTH_ID_AD_Reference_ID=114;
 	/** Set UOM for Length.
 		@param C_UOM_Length_ID 
 		Standard Unit of Measure for Length
@@ -385,8 +363,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_UOM_Time_ID AD_Reference_ID=114 */
-	public static final int C_UOM_TIME_ID_AD_Reference_ID=114;
 	/** Set UOM for Time.
 		@param C_UOM_Time_ID 
 		Standard Unit of Measure for Time
@@ -410,8 +386,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_UOM_Volume_ID AD_Reference_ID=114 */
-	public static final int C_UOM_VOLUME_ID_AD_Reference_ID=114;
 	/** Set UOM for Volume.
 		@param C_UOM_Volume_ID 
 		Standard Unit of Measure for Volume
@@ -435,8 +409,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_UOM_Weight_ID AD_Reference_ID=114 */
-	public static final int C_UOM_WEIGHT_ID_AD_Reference_ID=114;
 	/** Set UOM for Weight.
 		@param C_UOM_Weight_ID 
 		Standard Unit of Measure for Weight
@@ -504,8 +476,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_ProductFreight_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCTFREIGHT_ID_AD_Reference_ID=162;
 	/** Set Product for Freight.
 		@param M_ProductFreight_ID Product for Freight	  */
 	public void setM_ProductFreight_ID (int M_ProductFreight_ID)

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
       return sb.toString();
     }
 
-	public I_AD_Replication getAD_Replication() throws Exception 
+	public I_AD_Replication getAD_Replication() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Replication.Table_Name);
         I_AD_Replication result = null;
@@ -87,7 +87,7 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent 
 {
 
@@ -78,8 +78,6 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
       return sb.toString();
     }
 
-	/** AD_Display AD_Reference_ID=3 */
-	public static final int AD_DISPLAY_AD_Reference_ID=3;
 	/** Set Display column.
 		@param AD_Display 
 		Column that will display
@@ -100,8 +98,6 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Key AD_Reference_ID=3 */
-	public static final int AD_KEY_AD_Reference_ID=3;
 	/** Set Key column.
 		@param AD_Key 
 		Unique identifier of a record
@@ -122,7 +118,7 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws Exception 
+	public I_AD_Reference getAD_Reference() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
         I_AD_Reference result = null;
@@ -133,7 +129,7 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -168,7 +164,7 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Reference_ID()));
     }
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -179,7 +175,7 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       return sb.toString();
     }
 
-	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws Exception 
+	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_RegistrationAttribute.Table_Name);
         I_A_RegistrationAttribute result = null;
@@ -85,7 +85,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -120,7 +120,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID()));
     }
 
-	public I_A_Registration getA_Registration() throws Exception 
+	public I_A_Registration getA_Registration() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Registration.Table_Name);
         I_A_Registration result = null;
@@ -131,7 +131,7 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for A_Depreciation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persistent 
 {
 
@@ -73,8 +73,8 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
       return sb.toString();
     }
 
-	/** Set A_Depreciation_ID.
-		@param A_Depreciation_ID A_Depreciation_ID	  */
+	/** Set Depreciation Type.
+		@param A_Depreciation_ID Depreciation Type	  */
 	public void setA_Depreciation_ID (int A_Depreciation_ID)
 	{
 		if (A_Depreciation_ID < 1)
@@ -82,8 +82,8 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_ID, Integer.valueOf(A_Depreciation_ID));
 	}
 
-	/** Get A_Depreciation_ID.
-		@return A_Depreciation_ID	  */
+	/** Get Depreciation Type.
+		@return Depreciation Type	  */
 	public int getA_Depreciation_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_ID);

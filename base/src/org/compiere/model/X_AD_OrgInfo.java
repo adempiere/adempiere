@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
@@ -136,25 +136,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS)
-	{
-		if (DUNS == null)
-			throw new IllegalArgumentException ("DUNS is mandatory.");
-		set_Value (COLUMNNAME_DUNS, DUNS);
-	}
-
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
-	  */
-	public String getDUNS () 
-	{
-		return (String)get_Value(COLUMNNAME_DUNS);
-	}
-
 	/** Set Drop Ship Warehouse.
 		@param DropShip_Warehouse_ID 
 		The (logical) warehouse to use for recording drop ship receipts and shipments.
@@ -176,6 +157,25 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		if (DUNS == null)
+			throw new IllegalArgumentException ("DUNS is mandatory.");
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
@@ -240,7 +240,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set ReceiptFooterMsg.
+	/** Set Receipt Footer Msg.
 		@param ReceiptFooterMsg 
 		This message will be displayed at the bottom of a receipt when doing a sales or purchase
 	  */
@@ -251,7 +251,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
 	}
 
-	/** Get ReceiptFooterMsg.
+	/** Get Receipt Footer Msg.
 		@return This message will be displayed at the bottom of a receipt when doing a sales or purchase
 	  */
 	public String getReceiptFooterMsg () 

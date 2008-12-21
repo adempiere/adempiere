@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, I_Persistent 
 {
 
@@ -84,7 +84,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
       return sb.toString();
     }
 
-	public I_AD_Image getAD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -95,7 +95,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -213,8 +213,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_FooterRight);
 	}
 
-	/** FunctBG_PrintColor_ID AD_Reference_ID=266 */
-	public static final int FUNCTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Function BG Color.
 		@param FunctBG_PrintColor_ID 
 		Function Background Color
@@ -238,8 +236,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** FunctFG_PrintColor_ID AD_Reference_ID=266 */
-	public static final int FUNCTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Function Color.
 		@param FunctFG_PrintColor_ID 
 		Function Foreground Color
@@ -263,8 +259,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** Funct_PrintFont_ID AD_Reference_ID=267 */
-	public static final int FUNCT_PRINTFONT_ID_AD_Reference_ID=267;
 	/** Set Function Font.
 		@param Funct_PrintFont_ID 
 		Function row Font
@@ -288,8 +282,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** HdrLine_PrintColor_ID AD_Reference_ID=266 */
-	public static final int HDRLINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Line Color.
 		@param HdrLine_PrintColor_ID 
 		Table header row line color
@@ -313,8 +305,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** Hdr_PrintFont_ID AD_Reference_ID=267 */
-	public static final int HDR_PRINTFONT_ID_AD_Reference_ID=267;
 	/** Set Header Row Font.
 		@param Hdr_PrintFont_ID 
 		Header row Font
@@ -386,8 +376,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_HdrStrokeType);
 	}
 
-	/** HdrTextBG_PrintColor_ID AD_Reference_ID=266 */
-	public static final int HDRTEXTBG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Row BG Color.
 		@param HdrTextBG_PrintColor_ID 
 		Background color of header row
@@ -411,8 +399,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** HdrTextFG_PrintColor_ID AD_Reference_ID=266 */
-	public static final int HDRTEXTFG_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Header Row Color.
 		@param HdrTextFG_PrintColor_ID 
 		Foreground color if the table header row
@@ -696,8 +682,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return false;
 	}
 
-	/** Line_PrintColor_ID AD_Reference_ID=266 */
-	public static final int LINE_PRINTCOLOR_ID_AD_Reference_ID=266;
 	/** Set Line Color.
 		@param Line_PrintColor_ID 
 		Table line color

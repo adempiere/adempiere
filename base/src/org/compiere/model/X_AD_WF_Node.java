@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent 
 {
 
@@ -138,7 +138,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_Action);
 	}
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -149,7 +149,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -177,7 +177,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -188,7 +188,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -216,7 +216,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws Exception 
+	public I_AD_Image getAD_Image() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
         I_AD_Image result = null;
@@ -227,7 +227,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -255,7 +255,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -266,7 +266,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -294,7 +294,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -305,7 +305,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -333,7 +333,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Block getAD_WF_Block() throws Exception 
+	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Block.Table_Name);
         I_AD_WF_Block result = null;
@@ -344,7 +344,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -394,7 +394,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
         I_AD_WF_Responsible result = null;
@@ -405,7 +405,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -433,7 +433,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -444,7 +444,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -472,7 +472,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -483,7 +483,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -544,7 +544,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_AttributeValue);
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -555,7 +555,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -863,15 +863,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return false;
 	}
 
-	/** Set IsMilestone.
-		@param IsMilestone IsMilestone	  */
+	/** Set Is Milestone.
+		@param IsMilestone Is Milestone	  */
 	public void setIsMilestone (boolean IsMilestone)
 	{
 		set_Value (COLUMNNAME_IsMilestone, Boolean.valueOf(IsMilestone));
 	}
 
-	/** Get IsMilestone.
-		@return IsMilestone	  */
+	/** Get Is Milestone.
+		@return Is Milestone	  */
 	public boolean isMilestone () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMilestone);
@@ -884,15 +884,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return false;
 	}
 
-	/** Set IsSubcontracting.
-		@param IsSubcontracting IsSubcontracting	  */
+	/** Set Is Subcontracting.
+		@param IsSubcontracting Is Subcontracting	  */
 	public void setIsSubcontracting (boolean IsSubcontracting)
 	{
 		set_Value (COLUMNNAME_IsSubcontracting, Boolean.valueOf(IsSubcontracting));
 	}
 
-	/** Get IsSubcontracting.
-		@return IsSubcontracting	  */
+	/** Get Is Subcontracting.
+		@return Is Subcontracting	  */
 	public boolean isSubcontracting () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSubcontracting);
@@ -949,15 +949,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MovingTime.
-		@param MovingTime MovingTime	  */
+	/** Set Moving Time.
+		@param MovingTime Moving Time	  */
 	public void setMovingTime (int MovingTime)
 	{
 		set_Value (COLUMNNAME_MovingTime, Integer.valueOf(MovingTime));
 	}
 
-	/** Get MovingTime.
-		@return MovingTime	  */
+	/** Get Moving Time.
+		@return Moving Time	  */
 	public int getMovingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_MovingTime);
@@ -993,15 +993,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set OverlapUnits.
-		@param OverlapUnits OverlapUnits	  */
+	/** Set Overlap Units.
+		@param OverlapUnits Overlap Units	  */
 	public void setOverlapUnits (int OverlapUnits)
 	{
 		set_Value (COLUMNNAME_OverlapUnits, Integer.valueOf(OverlapUnits));
 	}
 
-	/** Get OverlapUnits.
-		@return OverlapUnits	  */
+	/** Get Overlap Units.
+		@return Overlap Units	  */
 	public int getOverlapUnits () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_OverlapUnits);
@@ -1030,15 +1030,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set QueuingTime.
-		@param QueuingTime QueuingTime	  */
+	/** Set Queuing Time.
+		@param QueuingTime Queuing Time	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
-	/** Get QueuingTime.
-		@return QueuingTime	  */
+	/** Get Queuing Time.
+		@return Queuing Time	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
@@ -1047,7 +1047,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_MailText getR_MailText() throws Exception 
+	public I_R_MailText getR_MailText() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
         I_R_MailText result = null;
@@ -1058,7 +1058,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1130,7 +1130,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SplitElement);
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -1141,7 +1141,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1217,15 +1217,15 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
 	}
 
-	/** Set UnitsCycles.
-		@param UnitsCycles UnitsCycles	  */
+	/** Set Units Cycles.
+		@param UnitsCycles Units Cycles	  */
 	public void setUnitsCycles (BigDecimal UnitsCycles)
 	{
 		set_Value (COLUMNNAME_UnitsCycles, UnitsCycles);
 	}
 
-	/** Get UnitsCycles.
-		@return UnitsCycles	  */
+	/** Get Units Cycles.
+		@return Units Cycles	  */
 	public BigDecimal getUnitsCycles () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnitsCycles);
@@ -1327,8 +1327,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Workflow_ID AD_Reference_ID=174 */
-	public static final int WORKFLOW_ID_AD_Reference_ID=174;
 	/** Set Workflow.
 		@param Workflow_ID 
 		Workflow or tasks

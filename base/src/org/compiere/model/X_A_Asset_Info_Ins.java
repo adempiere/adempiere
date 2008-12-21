@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Persistent 
 {
 
@@ -123,15 +123,15 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Info_Ins_ID()));
     }
 
-	/** Set A_Ins_Premium.
-		@param A_Ins_Premium A_Ins_Premium	  */
+	/** Set Insurance Premium.
+		@param A_Ins_Premium Insurance Premium	  */
 	public void setA_Ins_Premium (BigDecimal A_Ins_Premium)
 	{
 		set_Value (COLUMNNAME_A_Ins_Premium, A_Ins_Premium);
 	}
 
-	/** Get A_Ins_Premium.
-		@return A_Ins_Premium	  */
+	/** Get Insurance Premium.
+		@return Insurance Premium	  */
 	public BigDecimal getA_Ins_Premium () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Ins_Premium);
@@ -140,29 +140,29 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set A_Insurance_Co.
-		@param A_Insurance_Co A_Insurance_Co	  */
+	/** Set Insurance Company.
+		@param A_Insurance_Co Insurance Company	  */
 	public void setA_Insurance_Co (String A_Insurance_Co)
 	{
 		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
 	}
 
-	/** Get A_Insurance_Co.
-		@return A_Insurance_Co	  */
+	/** Get Insurance Company.
+		@return Insurance Company	  */
 	public String getA_Insurance_Co () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
 	}
 
-	/** Set A_Ins_Value.
-		@param A_Ins_Value A_Ins_Value	  */
+	/** Set Insured Value.
+		@param A_Ins_Value Insured Value	  */
 	public void setA_Ins_Value (BigDecimal A_Ins_Value)
 	{
 		set_Value (COLUMNNAME_A_Ins_Value, A_Ins_Value);
 	}
 
-	/** Get A_Ins_Value.
-		@return A_Ins_Value	  */
+	/** Get Insured Value.
+		@return Insured Value	  */
 	public BigDecimal getA_Ins_Value () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Ins_Value);
@@ -171,43 +171,43 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set A_Policy_No.
-		@param A_Policy_No A_Policy_No	  */
+	/** Set Policy Number.
+		@param A_Policy_No Policy Number	  */
 	public void setA_Policy_No (String A_Policy_No)
 	{
 		set_Value (COLUMNNAME_A_Policy_No, A_Policy_No);
 	}
 
-	/** Get A_Policy_No.
-		@return A_Policy_No	  */
+	/** Get Policy Number.
+		@return Policy Number	  */
 	public String getA_Policy_No () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Policy_No);
 	}
 
-	/** Set A_Renewal_Date.
-		@param A_Renewal_Date A_Renewal_Date	  */
+	/** Set Policy Renewal Date.
+		@param A_Renewal_Date Policy Renewal Date	  */
 	public void setA_Renewal_Date (Timestamp A_Renewal_Date)
 	{
 		set_Value (COLUMNNAME_A_Renewal_Date, A_Renewal_Date);
 	}
 
-	/** Get A_Renewal_Date.
-		@return A_Renewal_Date	  */
+	/** Get Policy Renewal Date.
+		@return Policy Renewal Date	  */
 	public Timestamp getA_Renewal_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Renewal_Date);
 	}
 
-	/** Set A_Replace_Cost.
-		@param A_Replace_Cost A_Replace_Cost	  */
+	/** Set Replacement Costs.
+		@param A_Replace_Cost Replacement Costs	  */
 	public void setA_Replace_Cost (BigDecimal A_Replace_Cost)
 	{
 		set_Value (COLUMNNAME_A_Replace_Cost, A_Replace_Cost);
 	}
 
-	/** Get A_Replace_Cost.
-		@return A_Replace_Cost	  */
+	/** Get Replacement Costs.
+		@return Replacement Costs	  */
 	public BigDecimal getA_Replace_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Replace_Cost);

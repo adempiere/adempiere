@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Fin
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Persistent 
 {
 
@@ -123,15 +123,15 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Info_Fin_ID()));
     }
 
-	/** Set A_Contract_Date.
-		@param A_Contract_Date A_Contract_Date	  */
+	/** Set Contract Date.
+		@param A_Contract_Date Contract Date	  */
 	public void setA_Contract_Date (Timestamp A_Contract_Date)
 	{
 		set_Value (COLUMNNAME_A_Contract_Date, A_Contract_Date);
 	}
 
-	/** Get A_Contract_Date.
-		@return A_Contract_Date	  */
+	/** Get Contract Date.
+		@return Contract Date	  */
 	public Timestamp getA_Contract_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Contract_Date);
@@ -147,30 +147,30 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 	public static final String A_DUE_ON_BeginningOfEveryMonth = "BEG";
 	/** Yearly on or before contract date = YER */
 	public static final String A_DUE_ON_YearlyOnOrBeforeContractDate = "YER";
-	/** Set A_Due_On.
-		@param A_Due_On A_Due_On	  */
+	/** Set Payment Due Date.
+		@param A_Due_On Payment Due Date	  */
 	public void setA_Due_On (String A_Due_On)
 	{
 
 		if (A_Due_On == null || A_Due_On.equals("15T") || A_Due_On.equals("1st") || A_Due_On.equals("BEG") || A_Due_On.equals("YER")); else throw new IllegalArgumentException ("A_Due_On Invalid value - " + A_Due_On + " - Reference_ID=53272 - 15T - 1st - BEG - YER");		set_Value (COLUMNNAME_A_Due_On, A_Due_On);
 	}
 
-	/** Get A_Due_On.
-		@return A_Due_On	  */
+	/** Get Payment Due Date.
+		@return Payment Due Date	  */
 	public String getA_Due_On () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Due_On);
 	}
 
-	/** Set A_Expired_Date.
-		@param A_Expired_Date A_Expired_Date	  */
+	/** Set Contract Expiration Date.
+		@param A_Expired_Date Contract Expiration Date	  */
 	public void setA_Expired_Date (Timestamp A_Expired_Date)
 	{
 		set_Value (COLUMNNAME_A_Expired_Date, A_Expired_Date);
 	}
 
-	/** Get A_Expired_Date.
-		@return A_Expired_Date	  */
+	/** Get Contract Expiration Date.
+		@return Contract Expiration Date	  */
 	public Timestamp getA_Expired_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Expired_Date);
@@ -186,30 +186,30 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 	public static final String A_FINANCE_METH_Owned = "OW";
 	/** Rented = RE */
 	public static final String A_FINANCE_METH_Rented = "RE";
-	/** Set A_Finance_Meth.
-		@param A_Finance_Meth A_Finance_Meth	  */
+	/** Set Finance Method.
+		@param A_Finance_Meth Finance Method	  */
 	public void setA_Finance_Meth (String A_Finance_Meth)
 	{
 
 		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
 	}
 
-	/** Get A_Finance_Meth.
-		@return A_Finance_Meth	  */
+	/** Get Finance Method.
+		@return Finance Method	  */
 	public String getA_Finance_Meth () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Finance_Meth);
 	}
 
-	/** Set A_Monthly_Payment.
-		@param A_Monthly_Payment A_Monthly_Payment	  */
+	/** Set Monthly Payment.
+		@param A_Monthly_Payment Monthly Payment	  */
 	public void setA_Monthly_Payment (BigDecimal A_Monthly_Payment)
 	{
 		set_Value (COLUMNNAME_A_Monthly_Payment, A_Monthly_Payment);
 	}
 
-	/** Get A_Monthly_Payment.
-		@return A_Monthly_Payment	  */
+	/** Get Monthly Payment.
+		@return Monthly Payment	  */
 	public BigDecimal getA_Monthly_Payment () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Monthly_Payment);
@@ -218,15 +218,15 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 		return bd;
 	}
 
-	/** Set A_Purchase_Option.
-		@param A_Purchase_Option A_Purchase_Option	  */
+	/** Set Purchase Option.
+		@param A_Purchase_Option Purchase Option	  */
 	public void setA_Purchase_Option (boolean A_Purchase_Option)
 	{
 		set_Value (COLUMNNAME_A_Purchase_Option, Boolean.valueOf(A_Purchase_Option));
 	}
 
-	/** Get A_Purchase_Option.
-		@return A_Purchase_Option	  */
+	/** Get Purchase Option.
+		@return Purchase Option	  */
 	public boolean isA_Purchase_Option () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Purchase_Option);
@@ -239,15 +239,15 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 		return false;
 	}
 
-	/** Set A_Purchase_Option_Credit.
-		@param A_Purchase_Option_Credit A_Purchase_Option_Credit	  */
+	/** Set Purchase Option Credit.
+		@param A_Purchase_Option_Credit Purchase Option Credit	  */
 	public void setA_Purchase_Option_Credit (int A_Purchase_Option_Credit)
 	{
 		set_Value (COLUMNNAME_A_Purchase_Option_Credit, Integer.valueOf(A_Purchase_Option_Credit));
 	}
 
-	/** Get A_Purchase_Option_Credit.
-		@return A_Purchase_Option_Credit	  */
+	/** Get Purchase Option Credit.
+		@return Purchase Option Credit	  */
 	public int getA_Purchase_Option_Credit () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Purchase_Option_Credit);
@@ -256,15 +256,15 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Purchase_Option_Credit_Per.
-		@param A_Purchase_Option_Credit_Per A_Purchase_Option_Credit_Per	  */
+	/** Set Purchase Option Credit %.
+		@param A_Purchase_Option_Credit_Per Purchase Option Credit %	  */
 	public void setA_Purchase_Option_Credit_Per (BigDecimal A_Purchase_Option_Credit_Per)
 	{
 		set_Value (COLUMNNAME_A_Purchase_Option_Credit_Per, A_Purchase_Option_Credit_Per);
 	}
 
-	/** Get A_Purchase_Option_Credit_Per.
-		@return A_Purchase_Option_Credit_Per	  */
+	/** Get Purchase Option Credit %.
+		@return Purchase Option Credit %	  */
 	public BigDecimal getA_Purchase_Option_Credit_Per () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Purchase_Option_Credit_Per);
@@ -273,15 +273,15 @@ public class X_A_Asset_Info_Fin extends PO implements I_A_Asset_Info_Fin, I_Pers
 		return bd;
 	}
 
-	/** Set A_Purchase_Price.
-		@param A_Purchase_Price A_Purchase_Price	  */
+	/** Set Option Purchase Price.
+		@param A_Purchase_Price Option Purchase Price	  */
 	public void setA_Purchase_Price (BigDecimal A_Purchase_Price)
 	{
 		set_Value (COLUMNNAME_A_Purchase_Price, A_Purchase_Price);
 	}
 
-	/** Get A_Purchase_Price.
-		@return A_Purchase_Price	  */
+	/** Get Option Purchase Price.
+		@return Option Purchase Price	  */
 	public BigDecimal getA_Purchase_Price () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Purchase_Price);

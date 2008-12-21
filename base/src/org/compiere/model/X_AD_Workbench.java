@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Workbench
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent 
 {
 
@@ -97,8 +97,6 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Column_ID AD_Reference_ID=244 */
-	public static final int AD_COLUMN_ID_AD_Reference_ID=244;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Backup, I_Persistent 
 {
 
@@ -72,8 +72,6 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
       return sb.toString();
     }
 
-	/** AD_Column_ID AD_Reference_ID=251 */
-	public static final int AD_COLUMN_ID_AD_Reference_ID=251;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -190,8 +188,6 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Org_Dir);
 	}
 
-	/** AD_Reference_ID AD_Reference_ID=1 */
-	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Persistent 
 {
 
@@ -130,30 +130,30 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 	public static final String A_FINANCE_METH_Owned = "OW";
 	/** Rented = RE */
 	public static final String A_FINANCE_METH_Rented = "RE";
-	/** Set A_Finance_Meth.
-		@param A_Finance_Meth A_Finance_Meth	  */
+	/** Set Finance Method.
+		@param A_Finance_Meth Finance Method	  */
 	public void setA_Finance_Meth (String A_Finance_Meth)
 	{
 
 		if (A_Finance_Meth == null || A_Finance_Meth.equals("CL") || A_Finance_Meth.equals("NL") || A_Finance_Meth.equals("OW") || A_Finance_Meth.equals("RE")); else throw new IllegalArgumentException ("A_Finance_Meth Invalid value - " + A_Finance_Meth + " - Reference_ID=53271 - CL - NL - OW - RE");		set_Value (COLUMNNAME_A_Finance_Meth, A_Finance_Meth);
 	}
 
-	/** Get A_Finance_Meth.
-		@return A_Finance_Meth	  */
+	/** Get Finance Method.
+		@return Finance Method	  */
 	public String getA_Finance_Meth () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Finance_Meth);
 	}
 
-	/** Set A_Investment_CR.
-		@param A_Investment_CR A_Investment_CR	  */
+	/** Set Investment Credit.
+		@param A_Investment_CR Investment Credit	  */
 	public void setA_Investment_CR (int A_Investment_CR)
 	{
 		set_Value (COLUMNNAME_A_Investment_CR, Integer.valueOf(A_Investment_CR));
 	}
 
-	/** Get A_Investment_CR.
-		@return A_Investment_CR	  */
+	/** Get Investment Credit.
+		@return Investment Credit	  */
 	public int getA_Investment_CR () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Investment_CR);
@@ -162,15 +162,15 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_New_Used.
-		@param A_New_Used A_New_Used	  */
+	/** Set Purchased New?.
+		@param A_New_Used Purchased New?	  */
 	public void setA_New_Used (boolean A_New_Used)
 	{
 		set_Value (COLUMNNAME_A_New_Used, Boolean.valueOf(A_New_Used));
 	}
 
-	/** Get A_New_Used.
-		@return A_New_Used	  */
+	/** Get Purchased New?.
+		@return Purchased New?	  */
 	public boolean isA_New_Used () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_New_Used);
@@ -200,15 +200,15 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 		return (String)get_Value(COLUMNNAME_A_State);
 	}
 
-	/** Set A_Tax_Entity.
-		@param A_Tax_Entity A_Tax_Entity	  */
+	/** Set Tax Entity.
+		@param A_Tax_Entity Tax Entity	  */
 	public void setA_Tax_Entity (String A_Tax_Entity)
 	{
 		set_Value (COLUMNNAME_A_Tax_Entity, A_Tax_Entity);
 	}
 
-	/** Get A_Tax_Entity.
-		@return A_Tax_Entity	  */
+	/** Get Tax Entity.
+		@return Tax Entity	  */
 	public String getA_Tax_Entity () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Tax_Entity);

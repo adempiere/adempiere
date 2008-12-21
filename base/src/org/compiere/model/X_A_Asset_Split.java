@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent 
 {
 
@@ -166,17 +166,15 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	/** A_Asset_ID_To AD_Reference_ID=53258 */
-	public static final int A_ASSET_ID_TO_AD_Reference_ID=53258;
-	/** Set A_Asset_ID_To.
-		@param A_Asset_ID_To A_Asset_ID_To	  */
+	/** Set To Asset ID.
+		@param A_Asset_ID_To To Asset ID	  */
 	public void setA_Asset_ID_To (int A_Asset_ID_To)
 	{
 		set_Value (COLUMNNAME_A_Asset_ID_To, Integer.valueOf(A_Asset_ID_To));
 	}
 
-	/** Get A_Asset_ID_To.
-		@return A_Asset_ID_To	  */
+	/** Get To Asset ID.
+		@return To Asset ID	  */
 	public int getA_Asset_ID_To () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID_To);
@@ -265,8 +263,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return bd;
 	}
 
-	/** Set A_QTY_Current.
-		@param A_QTY_Current A_QTY_Current	  */
+	/** Set Quantity.
+		@param A_QTY_Current Quantity	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		if (A_QTY_Current == null)
@@ -274,8 +272,8 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get A_QTY_Current.
-		@return A_QTY_Current	  */
+	/** Get Quantity.
+		@return Quantity	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
@@ -309,30 +307,30 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public static final String A_SPLIT_TYPE_Percentage = "PER";
 	/** Quantity = QTY */
 	public static final String A_SPLIT_TYPE_Quantity = "QTY";
-	/** Set A_Split_Type.
-		@param A_Split_Type A_Split_Type	  */
+	/** Set Split Type.
+		@param A_Split_Type Split Type	  */
 	public void setA_Split_Type (String A_Split_Type)
 	{
 		if (A_Split_Type == null) throw new IllegalArgumentException ("A_Split_Type is mandatory");
 		if (A_Split_Type.equals("AMT") || A_Split_Type.equals("PER") || A_Split_Type.equals("QTY")); else throw new IllegalArgumentException ("A_Split_Type Invalid value - " + A_Split_Type + " - Reference_ID=53263 - AMT - PER - QTY");		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
 	}
 
-	/** Get A_Split_Type.
-		@return A_Split_Type	  */
+	/** Get Split Type.
+		@return Split Type	  */
 	public String getA_Split_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Split_Type);
 	}
 
-	/** Set A_Transfer_Balance_IS.
-		@param A_Transfer_Balance_IS A_Transfer_Balance_IS	  */
+	/** Set Transfer Balance IS.
+		@param A_Transfer_Balance_IS Transfer Balance IS	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS)
 	{
 		set_Value (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
 	}
 
-	/** Get A_Transfer_Balance_IS.
-		@return A_Transfer_Balance_IS	  */
+	/** Get Transfer Balance IS.
+		@return Transfer Balance IS	  */
 	public boolean isA_Transfer_Balance_IS () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Transfer_Balance_IS);
@@ -345,8 +343,6 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return false;
 	}
 
-	/** C_Period_ID AD_Reference_ID=233 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=233;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar

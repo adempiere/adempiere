@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Table_Header
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciation_Table_Header, I_Persistent 
 {
 
@@ -75,8 +75,8 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
       return sb.toString();
     }
 
-	/** Set A_Depreciation_Table_Code.
-		@param A_Depreciation_Table_Code A_Depreciation_Table_Code	  */
+	/** Set Depreciation Code.
+		@param A_Depreciation_Table_Code Depreciation Code	  */
 	public void setA_Depreciation_Table_Code (String A_Depreciation_Table_Code)
 	{
 		if (A_Depreciation_Table_Code == null)
@@ -84,8 +84,8 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 		set_Value (COLUMNNAME_A_Depreciation_Table_Code, A_Depreciation_Table_Code);
 	}
 
-	/** Get A_Depreciation_Table_Code.
-		@return A_Depreciation_Table_Code	  */
+	/** Get Depreciation Code.
+		@return Depreciation Code	  */
 	public String getA_Depreciation_Table_Code () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Table_Code);
@@ -124,16 +124,16 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public static final String A_TABLE_RATE_TYPE_Amount = "AM";
 	/** Rate = RT */
 	public static final String A_TABLE_RATE_TYPE_Rate = "RT";
-	/** Set A_Table_Rate_Type.
-		@param A_Table_Rate_Type A_Table_Rate_Type	  */
+	/** Set Type.
+		@param A_Table_Rate_Type Type	  */
 	public void setA_Table_Rate_Type (String A_Table_Rate_Type)
 	{
 		if (A_Table_Rate_Type == null) throw new IllegalArgumentException ("A_Table_Rate_Type is mandatory");
 		if (A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
 	}
 
-	/** Get A_Table_Rate_Type.
-		@return A_Table_Rate_Type	  */
+	/** Get Type.
+		@return Type	  */
 	public String getA_Table_Rate_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Table_Rate_Type);
@@ -145,16 +145,16 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public static final String A_TERM_Period = "PR";
 	/** Yearly = YR */
 	public static final String A_TERM_Yearly = "YR";
-	/** Set A_Term.
-		@param A_Term A_Term	  */
+	/** Set Period/Yearly.
+		@param A_Term Period/Yearly	  */
 	public void setA_Term (String A_Term)
 	{
 		if (A_Term == null) throw new IllegalArgumentException ("A_Term is mandatory");
 		if (A_Term.equals("PR") || A_Term.equals("YR")); else throw new IllegalArgumentException ("A_Term Invalid value - " + A_Term + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Term, A_Term);
 	}
 
-	/** Get A_Term.
-		@return A_Term	  */
+	/** Get Period/Yearly.
+		@return Period/Yearly	  */
 	public String getA_Term () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Term);

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Note
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Note extends PO implements I_AD_Note, I_Persistent 
 {
 
@@ -73,8 +73,6 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
       return sb.toString();
     }
 
-	/** AD_Message_ID AD_Reference_ID=102 */
-	public static final int AD_MESSAGE_ID_AD_Reference_ID=102;
 	/** Set Message.
 		@param AD_Message_ID 
 		System Message
@@ -127,7 +125,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -138,7 +136,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -166,7 +164,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -177,7 +175,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -205,7 +203,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws Exception 
+	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Activity.Table_Name);
         I_AD_WF_Activity result = null;
@@ -216,7 +214,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

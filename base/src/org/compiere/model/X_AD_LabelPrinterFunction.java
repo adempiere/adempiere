@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFunction, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 		return ii.intValue();
 	}
 
-	public I_AD_LabelPrinter getAD_LabelPrinter() throws Exception 
+	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_LabelPrinter.Table_Name);
         I_AD_LabelPrinter result = null;
@@ -108,7 +108,7 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

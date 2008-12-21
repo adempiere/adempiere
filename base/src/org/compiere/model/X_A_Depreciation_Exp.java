@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_Persistent 
 {
 
@@ -161,30 +161,30 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	public static final String A_ENTRY_TYPE_Splits = "SPL";
 	/** Transfers = TRN */
 	public static final String A_ENTRY_TYPE_Transfers = "TRN";
-	/** Set A_Entry_Type.
-		@param A_Entry_Type A_Entry_Type	  */
+	/** Set Entry Type.
+		@param A_Entry_Type Entry Type	  */
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
 		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
 		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
-	/** Get A_Entry_Type.
-		@return A_Entry_Type	  */
+	/** Get Entry Type.
+		@return Entry Type	  */
 	public String getA_Entry_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Entry_Type);
 	}
 
-	/** Set A_Period.
-		@param A_Period A_Period	  */
+	/** Set Period/Yearly.
+		@param A_Period Period/Yearly	  */
 	public void setA_Period (int A_Period)
 	{
 		set_Value (COLUMNNAME_A_Period, Integer.valueOf(A_Period));
 	}
 
-	/** Get A_Period.
-		@return A_Period	  */
+	/** Get Period/Yearly.
+		@return Period/Yearly	  */
 	public int getA_Period () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period);

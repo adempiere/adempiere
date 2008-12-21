@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for A_Asset_Info_Oth
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Info_Oth extends PO implements I_A_Asset_Info_Oth, I_Persistent 
 {
 

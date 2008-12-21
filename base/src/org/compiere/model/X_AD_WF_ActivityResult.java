@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ActivityResult
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
       return sb.toString();
     }
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws Exception 
+	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Activity.Table_Name);
         I_AD_WF_Activity result = null;
@@ -85,7 +85,7 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

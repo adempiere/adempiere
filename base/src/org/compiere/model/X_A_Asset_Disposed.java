@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Persistent 
 {
 
@@ -133,8 +133,6 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
-	/** A_Asset_Trade_ID AD_Reference_ID=53258 */
-	public static final int A_ASSET_TRADE_ID_AD_Reference_ID=53258;
 	/** Set A_Asset_Trade_ID.
 		@param A_Asset_Trade_ID A_Asset_Trade_ID	  */
 	public void setA_Asset_Trade_ID (int A_Asset_Trade_ID)
@@ -155,8 +153,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Disposed_Date.
-		@param A_Disposed_Date A_Disposed_Date	  */
+	/** Set Disposed Date.
+		@param A_Disposed_Date Disposed Date	  */
 	public void setA_Disposed_Date (Timestamp A_Disposed_Date)
 	{
 		if (A_Disposed_Date == null)
@@ -164,8 +162,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		set_Value (COLUMNNAME_A_Disposed_Date, A_Disposed_Date);
 	}
 
-	/** Get A_Disposed_Date.
-		@return A_Disposed_Date	  */
+	/** Get Disposed Date.
+		@return Disposed Date	  */
 	public Timestamp getA_Disposed_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Disposed_Date);
@@ -181,16 +179,16 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	public static final String A_DISPOSED_METHOD_Trade = "T1";
 	/** Trade w/cash = T2 */
 	public static final String A_DISPOSED_METHOD_TradeWCash = "T2";
-	/** Set A_Disposed_Method.
-		@param A_Disposed_Method A_Disposed_Method	  */
+	/** Set Disposal Method.
+		@param A_Disposed_Method Disposal Method	  */
 	public void setA_Disposed_Method (String A_Disposed_Method)
 	{
 		if (A_Disposed_Method == null) throw new IllegalArgumentException ("A_Disposed_Method is mandatory");
 		if (A_Disposed_Method.equals("C") || A_Disposed_Method.equals("S") || A_Disposed_Method.equals("T1") || A_Disposed_Method.equals("T2")); else throw new IllegalArgumentException ("A_Disposed_Method Invalid value - " + A_Disposed_Method + " - Reference_ID=53270 - C - S - T1 - T2");		set_Value (COLUMNNAME_A_Disposed_Method, A_Disposed_Method);
 	}
 
-	/** Get A_Disposed_Method.
-		@return A_Disposed_Method	  */
+	/** Get Disposal Method.
+		@return Disposal Method	  */
 	public String getA_Disposed_Method () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Disposed_Method);
@@ -210,16 +208,16 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	public static final String A_DISPOSED_REASON_SoldWTrade = "S2";
 	/** Theft = T */
 	public static final String A_DISPOSED_REASON_Theft = "T";
-	/** Set A_Disposed_Reason.
-		@param A_Disposed_Reason A_Disposed_Reason	  */
+	/** Set Disposed Reason Code.
+		@param A_Disposed_Reason Disposed Reason Code	  */
 	public void setA_Disposed_Reason (String A_Disposed_Reason)
 	{
 		if (A_Disposed_Reason == null) throw new IllegalArgumentException ("A_Disposed_Reason is mandatory");
 		if (A_Disposed_Reason.equals("C") || A_Disposed_Reason.equals("D") || A_Disposed_Reason.equals("S") || A_Disposed_Reason.equals("S1") || A_Disposed_Reason.equals("S2") || A_Disposed_Reason.equals("T")); else throw new IllegalArgumentException ("A_Disposed_Reason Invalid value - " + A_Disposed_Reason + " - Reference_ID=53269 - C - D - S - S1 - S2 - T");		set_Value (COLUMNNAME_A_Disposed_Reason, A_Disposed_Reason);
 	}
 
-	/** Get A_Disposed_Reason.
-		@return A_Disposed_Reason	  */
+	/** Get Disposed Reason Code.
+		@return Disposed Reason Code	  */
 	public String getA_Disposed_Reason () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Disposed_Reason);
@@ -242,8 +240,6 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return bd;
 	}
 
-	/** C_Period_ID AD_Reference_ID=233 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=233;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column_Access
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -87,7 +87,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -122,7 +122,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Column_ID()));
     }
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -133,7 +133,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -160,7 +160,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -171,7 +171,7 @@ public class X_AD_Column_Access extends PO implements I_AD_Column_Access, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

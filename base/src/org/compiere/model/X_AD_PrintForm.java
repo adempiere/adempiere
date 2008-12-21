@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintForm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent 
 {
 
@@ -110,8 +110,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Distrib_Order_MailText_ID AD_Reference_ID=274 */
-	public static final int DISTRIB_ORDER_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Distribution Order Mail Text.
 		@param Distrib_Order_MailText_ID 
 		Email text used for sending Distribution Order
@@ -135,8 +133,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Distrib_Order_PrintFormat_ID AD_Reference_ID=53282 */
-	public static final int DISTRIB_ORDER_PRINTFORMAT_ID_AD_Reference_ID=53282;
 	/** Set Distribution Order Print Format.
 		@param Distrib_Order_PrintFormat_ID 
 		Print Format for printing Distribution Order
@@ -160,8 +156,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Invoice_MailText_ID AD_Reference_ID=274 */
-	public static final int INVOICE_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Invoice Mail Text.
 		@param Invoice_MailText_ID 
 		Email text used for sending invoices
@@ -185,8 +179,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Invoice_PrintFormat_ID AD_Reference_ID=261 */
-	public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=261;
 	/** Set Invoice Print Format.
 		@param Invoice_PrintFormat_ID 
 		Print Format for printing Invoices
@@ -210,8 +202,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Manuf_Order_MailText_ID AD_Reference_ID=274 */
-	public static final int MANUF_ORDER_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Manufacturing Order Mail Text.
 		@param Manuf_Order_MailText_ID 
 		Email text used for sending Manufacturing Order
@@ -235,8 +225,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Manuf_Order_PrintFormat_ID AD_Reference_ID=53281 */
-	public static final int MANUF_ORDER_PRINTFORMAT_ID_AD_Reference_ID=53281;
 	/** Set Manufacturing Order Print Format.
 		@param Manuf_Order_PrintFormat_ID 
 		Print Format for printing Manufacturing Order
@@ -287,8 +275,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Order_MailText_ID AD_Reference_ID=274 */
-	public static final int ORDER_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Order Mail Text.
 		@param Order_MailText_ID 
 		Email text used for sending order acknowledgements or quotations
@@ -312,8 +298,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Order_PrintFormat_ID AD_Reference_ID=262 */
-	public static final int ORDER_PRINTFORMAT_ID_AD_Reference_ID=262;
 	/** Set Order Print Format.
 		@param Order_PrintFormat_ID 
 		Print Format for Orders, Quotes, Offers
@@ -337,8 +321,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Project_MailText_ID AD_Reference_ID=274 */
-	public static final int PROJECT_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Project Mail Text.
 		@param Project_MailText_ID 
 		Standard text for Project EMails
@@ -362,8 +344,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Project_PrintFormat_ID AD_Reference_ID=259 */
-	public static final int PROJECT_PRINTFORMAT_ID_AD_Reference_ID=259;
 	/** Set Project Print Format.
 		@param Project_PrintFormat_ID 
 		Standard Project Print Format
@@ -387,8 +367,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Remittance_MailText_ID AD_Reference_ID=274 */
-	public static final int REMITTANCE_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Remittance Mail Text.
 		@param Remittance_MailText_ID 
 		Email text used for sending payment remittances
@@ -412,8 +390,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Remittance_PrintFormat_ID AD_Reference_ID=268 */
-	public static final int REMITTANCE_PRINTFORMAT_ID_AD_Reference_ID=268;
 	/** Set Remittance Print Format.
 		@param Remittance_PrintFormat_ID 
 		Print Format for separate Remittances
@@ -437,8 +413,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Shipment_MailText_ID AD_Reference_ID=274 */
-	public static final int SHIPMENT_MAILTEXT_ID_AD_Reference_ID=274;
 	/** Set Shipment Mail Text.
 		@param Shipment_MailText_ID 
 		Email text used for sending delivery notes
@@ -462,8 +436,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Shipment_PrintFormat_ID AD_Reference_ID=263 */
-	public static final int SHIPMENT_PRINTFORMAT_ID_AD_Reference_ID=263;
 	/** Set Shipment Print Format.
 		@param Shipment_PrintFormat_ID 
 		Print Format for Shipments, Receipts, Pick Lists

@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Forecast, I_Persistent 
 {
 
@@ -102,10 +102,8 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
         return new KeyNamePair(get_ID(), String.valueOf(getA_Depreciation_Forecast_ID()));
     }
 
-	/** A_End_Asset_ID AD_Reference_ID=53258 */
-	public static final int A_END_ASSET_ID_AD_Reference_ID=53258;
-	/** Set A_End_Asset_ID.
-		@param A_End_Asset_ID A_End_Asset_ID	  */
+	/** Set End Aset ID.
+		@param A_End_Asset_ID End Aset ID	  */
 	public void setA_End_Asset_ID (int A_End_Asset_ID)
 	{
 		if (A_End_Asset_ID < 1)
@@ -113,8 +111,8 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		set_Value (COLUMNNAME_A_End_Asset_ID, Integer.valueOf(A_End_Asset_ID));
 	}
 
-	/** Get A_End_Asset_ID.
-		@return A_End_Asset_ID	  */
+	/** Get End Aset ID.
+		@return End Aset ID	  */
 	public int getA_End_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_End_Asset_ID);
@@ -123,8 +121,6 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		return ii.intValue();
 	}
 
-	/** A_Start_Asset_ID AD_Reference_ID=53258 */
-	public static final int A_START_ASSET_ID_AD_Reference_ID=53258;
 	/** Set A_Start_Asset_ID.
 		@param A_Start_Asset_ID A_Start_Asset_ID	  */
 	public void setA_Start_Asset_ID (int A_Start_Asset_ID)

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationStrategy
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStrategy, I_Persistent 
 {
 
@@ -133,7 +133,7 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws Exception 
+	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Processor.Table_Name);
         org.eevolution.model.I_EXP_Processor result = null;
@@ -144,13 +144,13 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set EXP_Processor_ID.
-		@param EXP_Processor_ID EXP_Processor_ID	  */
+	/** Set Export Processor.
+		@param EXP_Processor_ID Export Processor	  */
 	public void setEXP_Processor_ID (int EXP_Processor_ID)
 	{
 		if (EXP_Processor_ID < 1) 
@@ -159,8 +159,8 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 			set_Value (COLUMNNAME_EXP_Processor_ID, Integer.valueOf(EXP_Processor_ID));
 	}
 
-	/** Get EXP_Processor_ID.
-		@return EXP_Processor_ID	  */
+	/** Get Export Processor.
+		@return Export Processor	  */
 	public int getEXP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_ID);

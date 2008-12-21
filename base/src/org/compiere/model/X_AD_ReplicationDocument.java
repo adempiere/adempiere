@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_ReplicationDocument
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocument, I_Persistent 
 {
 
@@ -75,8 +75,8 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
       return sb.toString();
     }
 
-	/** Set AD_ReplicationDocument_ID.
-		@param AD_ReplicationDocument_ID AD_ReplicationDocument_ID	  */
+	/** Set Replication Document.
+		@param AD_ReplicationDocument_ID Replication Document	  */
 	public void setAD_ReplicationDocument_ID (int AD_ReplicationDocument_ID)
 	{
 		if (AD_ReplicationDocument_ID < 1)
@@ -84,8 +84,8 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 		set_ValueNoCheck (COLUMNNAME_AD_ReplicationDocument_ID, Integer.valueOf(AD_ReplicationDocument_ID));
 	}
 
-	/** Get AD_ReplicationDocument_ID.
-		@return AD_ReplicationDocument_ID	  */
+	/** Get Replication Document.
+		@return Replication Document	  */
 	public int getAD_ReplicationDocument_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationDocument_ID);
@@ -116,7 +116,7 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -127,7 +127,7 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -154,7 +154,7 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -165,7 +165,7 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

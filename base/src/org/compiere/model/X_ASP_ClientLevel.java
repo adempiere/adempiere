@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persistent 
 {
 
@@ -92,7 +92,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws Exception 
+	public I_ASP_Level getASP_Level() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
         I_ASP_Level result = null;
@@ -103,7 +103,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -127,7 +127,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Module getASP_Module() throws Exception 
+	public I_ASP_Module getASP_Module() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_ASP_Module.Table_Name);
         I_ASP_Module result = null;
@@ -138,7 +138,7 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

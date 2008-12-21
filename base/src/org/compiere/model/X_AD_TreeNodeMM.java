@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for AD_TreeNodeMM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_TreeNodeMM extends PO implements I_AD_TreeNodeMM, I_Persistent 
 {
 
@@ -72,7 +72,7 @@ public class X_AD_TreeNodeMM extends PO implements I_AD_TreeNodeMM, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getAD_Tree() throws Exception 
+	public I_AD_Tree getAD_Tree() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tree.Table_Name);
         I_AD_Tree result = null;
@@ -83,7 +83,7 @@ public class X_AD_TreeNodeMM extends PO implements I_AD_TreeNodeMM, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

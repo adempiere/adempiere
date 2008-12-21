@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Log
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_Persistent 
 {
 
@@ -97,7 +97,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws Exception 
+	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Replication_Run.Table_Name);
         I_AD_Replication_Run result = null;
@@ -108,7 +108,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -143,7 +143,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
     }
 
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws Exception 
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationTable.Table_Name);
         I_AD_ReplicationTable result = null;
@@ -154,7 +154,7 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

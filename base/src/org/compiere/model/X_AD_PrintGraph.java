@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent 
 {
 
@@ -78,7 +78,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -89,7 +89,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -138,32 +138,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Data_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA_PRINTFORMATITEM_ID_AD_Reference_ID=264;
-	/** Set Data Column.
-		@param Data_PrintFormatItem_ID 
-		Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
-	{
-		if (Data_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
-		set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
-	}
-
-	/** Get Data Column.
-		@return Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Data1_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA1_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 2.
 		@param Data1_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -187,8 +161,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Data2_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA2_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 3.
 		@param Data2_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -212,8 +184,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Data3_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA3_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 4.
 		@param Data3_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -237,8 +207,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Data4_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DATA4_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Data Column 5.
 		@param Data4_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -262,6 +230,28 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Data Column.
+		@param Data_PrintFormatItem_ID 
+		Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
+	{
+		if (Data_PrintFormatItem_ID < 1)
+			 throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
+		set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
+	}
+
+	/** Get Data Column.
+		@return Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -279,8 +269,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Description_PrintFormatItem_ID AD_Reference_ID=264 */
-	public static final int DESCRIPTION_PRINTFORMATITEM_ID_AD_Reference_ID=264;
 	/** Set Description Column.
 		@param Description_PrintFormatItem_ID 
 		Description Column for Pie/Line/Bar Charts

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientException
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_ASP_ClientException extends PO implements I_ASP_ClientException, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
       return sb.toString();
     }
 
-	public I_AD_Field getAD_Field() throws Exception 
+	public I_AD_Field getAD_Field() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Field.Table_Name);
         I_AD_Field result = null;
@@ -84,7 +84,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws Exception 
+	public I_AD_Form getAD_Form() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
         I_AD_Form result = null;
@@ -123,7 +123,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -151,7 +151,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -162,7 +162,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -190,7 +190,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Process_Para getAD_Process_Para() throws Exception 
+	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process_Para.Table_Name);
         I_AD_Process_Para result = null;
@@ -201,7 +201,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -226,7 +226,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws Exception 
+	public I_AD_Tab getAD_Tab() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
         I_AD_Tab result = null;
@@ -237,7 +237,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -265,7 +265,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws Exception 
+	public I_AD_Task getAD_Task() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
         I_AD_Task result = null;
@@ -276,7 +276,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -304,7 +304,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -315,7 +315,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -343,7 +343,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -354,7 +354,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -382,7 +382,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -393,7 +393,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

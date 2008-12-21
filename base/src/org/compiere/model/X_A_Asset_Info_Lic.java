@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Lic
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Persistent 
 {
 
@@ -123,29 +123,29 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Info_Lic_ID()));
     }
 
-	/** Set A_Issuing_Agency.
-		@param A_Issuing_Agency A_Issuing_Agency	  */
+	/** Set Issuing Agency.
+		@param A_Issuing_Agency Issuing Agency	  */
 	public void setA_Issuing_Agency (String A_Issuing_Agency)
 	{
 		set_Value (COLUMNNAME_A_Issuing_Agency, A_Issuing_Agency);
 	}
 
-	/** Get A_Issuing_Agency.
-		@return A_Issuing_Agency	  */
+	/** Get Issuing Agency.
+		@return Issuing Agency	  */
 	public String getA_Issuing_Agency () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Issuing_Agency);
 	}
 
-	/** Set A_License_Fee.
-		@param A_License_Fee A_License_Fee	  */
+	/** Set License Fee.
+		@param A_License_Fee License Fee	  */
 	public void setA_License_Fee (BigDecimal A_License_Fee)
 	{
 		set_Value (COLUMNNAME_A_License_Fee, A_License_Fee);
 	}
 
-	/** Get A_License_Fee.
-		@return A_License_Fee	  */
+	/** Get License Fee.
+		@return License Fee	  */
 	public BigDecimal getA_License_Fee () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_License_Fee);
@@ -154,29 +154,29 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return bd;
 	}
 
-	/** Set A_License_No.
-		@param A_License_No A_License_No	  */
+	/** Set License No.
+		@param A_License_No License No	  */
 	public void setA_License_No (String A_License_No)
 	{
 		set_Value (COLUMNNAME_A_License_No, A_License_No);
 	}
 
-	/** Get A_License_No.
-		@return A_License_No	  */
+	/** Get License No.
+		@return License No	  */
 	public String getA_License_No () 
 	{
 		return (String)get_Value(COLUMNNAME_A_License_No);
 	}
 
-	/** Set A_Renewal_Date.
-		@param A_Renewal_Date A_Renewal_Date	  */
+	/** Set Policy Renewal Date.
+		@param A_Renewal_Date Policy Renewal Date	  */
 	public void setA_Renewal_Date (Timestamp A_Renewal_Date)
 	{
 		set_Value (COLUMNNAME_A_Renewal_Date, A_Renewal_Date);
 	}
 
-	/** Get A_Renewal_Date.
-		@return A_Renewal_Date	  */
+	/** Get Policy Renewal Date.
+		@return Policy Renewal Date	  */
 	public Timestamp getA_Renewal_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Renewal_Date);

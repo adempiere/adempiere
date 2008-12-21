@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_DesktopWorkbench
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
       return sb.toString();
     }
 
-	public I_AD_Desktop getAD_Desktop() throws Exception 
+	public I_AD_Desktop getAD_Desktop() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Desktop.Table_Name);
         I_AD_Desktop result = null;
@@ -86,7 +86,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -132,7 +132,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 		return ii.intValue();
 	}
 
-	public I_AD_Workbench getAD_Workbench() throws Exception 
+	public I_AD_Workbench getAD_Workbench() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
         I_AD_Workbench result = null;
@@ -143,7 +143,7 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

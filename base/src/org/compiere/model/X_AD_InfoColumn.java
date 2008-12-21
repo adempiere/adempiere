@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Element getAD_Element() throws Exception 
+	public I_AD_Element getAD_Element() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
         I_AD_Element result = null;
@@ -92,7 +92,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -142,7 +142,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_InfoWindow getAD_InfoWindow() throws Exception 
+	public I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_InfoWindow.Table_Name);
         I_AD_InfoWindow result = null;
@@ -153,7 +153,7 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -180,8 +180,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Reference_ID AD_Reference_ID=1 */
-	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation

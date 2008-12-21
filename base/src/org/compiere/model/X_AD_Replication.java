@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Replication extends PO implements I_AD_Replication, I_Persistent 
 {
 
@@ -106,7 +106,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws Exception 
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationStrategy.Table_Name);
         I_AD_ReplicationStrategy result = null;
@@ -117,7 +117,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -363,8 +363,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return false;
 	}
 
-	/** Remote_Client_ID AD_Reference_ID=129 */
-	public static final int REMOTE_CLIENT_ID_AD_Reference_ID=129;
 	/** Set Remote Client.
 		@param Remote_Client_ID 
 		Remote Client to be used to replicate / synchronize data with.
@@ -387,8 +385,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Remote_Org_ID AD_Reference_ID=276 */
-	public static final int REMOTE_ORG_ID_AD_Reference_ID=276;
 	/** Set Remote Organization.
 		@param Remote_Org_ID 
 		Remote Organization to be used to replicate / synchronize data with.

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Method
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Method, I_Persistent 
 {
 
@@ -72,8 +72,8 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
       return sb.toString();
     }
 
-	/** Set A_Depreciation_Method_ID.
-		@param A_Depreciation_Method_ID A_Depreciation_Method_ID	  */
+	/** Set Depreciation Calculation Type.
+		@param A_Depreciation_Method_ID Depreciation Calculation Type	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID)
 	{
 		if (A_Depreciation_Method_ID < 1)
@@ -81,8 +81,8 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Method_ID, Integer.valueOf(A_Depreciation_Method_ID));
 	}
 
-	/** Get A_Depreciation_Method_ID.
-		@return A_Depreciation_Method_ID	  */
+	/** Get Depreciation Calculation Type.
+		@return Depreciation Calculation Type	  */
 	public int getA_Depreciation_Method_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Method_ID);

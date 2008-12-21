@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Table extends PO implements I_AD_Table, I_Persistent 
 {
 
@@ -141,7 +141,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws Exception 
+	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
         I_AD_Val_Rule result = null;
@@ -152,7 +152,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws Exception 
+	public I_AD_Window getAD_Window() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
         I_AD_Window result = null;
@@ -191,7 +191,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -459,8 +459,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** PO_Window_ID AD_Reference_ID=284 */
-	public static final int PO_WINDOW_ID_AD_Reference_ID=284;
 	/** Set PO Window.
 		@param PO_Window_ID 
 		Purchase Order Window

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent 
 {
 
@@ -82,7 +82,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Process getAD_Process() throws Exception 
+	public I_AD_Process getAD_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
         I_AD_Process result = null;
@@ -93,7 +93,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -353,8 +353,6 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 		return (String)get_Value(COLUMNNAME_ScheduleType);
 	}
 
-	/** Supervisor_ID AD_Reference_ID=316 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=316;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
@@ -88,7 +88,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -99,7 +99,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_FieldGroup getAD_FieldGroup() throws Exception 
+	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_FieldGroup.Table_Name);
         I_AD_FieldGroup result = null;
@@ -137,7 +137,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -187,8 +187,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Reference_ID AD_Reference_ID=1 */
-	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -212,8 +210,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_Reference_Value_ID AD_Reference_ID=4 */
-	public static final int AD_REFERENCE_VALUE_ID_AD_Reference_ID=4;
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
 		Required to specify, if data type is Table or List
@@ -237,7 +233,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws Exception 
+	public I_AD_Tab getAD_Tab() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
         I_AD_Tab result = null;
@@ -248,7 +244,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -275,7 +271,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws Exception 
+	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
         I_AD_Val_Rule result = null;
@@ -286,7 +282,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

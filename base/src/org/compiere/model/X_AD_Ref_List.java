@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_List
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent 
 {
 
@@ -78,7 +78,7 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Reference getAD_Reference() throws Exception 
+	public I_AD_Reference getAD_Reference() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
         I_AD_Reference result = null;
@@ -89,7 +89,7 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

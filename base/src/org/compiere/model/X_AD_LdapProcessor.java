@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LdapProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Persistent 
 {
 
@@ -238,8 +238,6 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 		return false;
 	}
 
-	/** Supervisor_ID AD_Reference_ID=110 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=110;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

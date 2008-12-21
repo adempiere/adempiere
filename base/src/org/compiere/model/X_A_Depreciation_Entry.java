@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry, I_Persistent 
 {
 
@@ -131,22 +131,22 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	public static final String A_ENTRY_TYPE_Splits = "SPL";
 	/** Transfers = TRN */
 	public static final String A_ENTRY_TYPE_Transfers = "TRN";
-	/** Set A_Entry_Type.
-		@param A_Entry_Type A_Entry_Type	  */
+	/** Set Entry Type.
+		@param A_Entry_Type Entry Type	  */
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
 		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
 		if (A_Entry_Type.equals("DEP") || A_Entry_Type.equals("DIS") || A_Entry_Type.equals("FOR") || A_Entry_Type.equals("NEW") || A_Entry_Type.equals("SPL") || A_Entry_Type.equals("TRN")); else throw new IllegalArgumentException ("A_Entry_Type Invalid value - " + A_Entry_Type + " - Reference_ID=53257 - DEP - DIS - FOR - NEW - SPL - TRN");		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
-	/** Get A_Entry_Type.
-		@return A_Entry_Type	  */
+	/** Get Entry Type.
+		@return Entry Type	  */
 	public String getA_Entry_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Entry_Type);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -157,7 +157,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -184,7 +184,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -195,7 +195,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -222,7 +222,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -233,7 +233,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -260,8 +260,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	/** C_Period_ID AD_Reference_ID=233 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=233;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar
@@ -360,7 +358,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public I_GL_Category getGL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -371,7 +369,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
