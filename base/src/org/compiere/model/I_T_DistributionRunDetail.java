@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -33,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_T_DistributionRunDetail 
 {
@@ -52,6 +43,19 @@ public interface I_T_DistributionRunDetail
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -65,7 +69,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -80,7 +84,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
@@ -95,7 +99,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionList_ID();
 
-	public I_M_DistributionList getM_DistributionList() throws Exception;
+	public I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
     /** Column name M_DistributionListLine_ID */
     public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
@@ -110,7 +114,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionListLine_ID();
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws Exception;
+	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
 
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
@@ -125,7 +129,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionRun_ID();
 
-	public I_M_DistributionRun getM_DistributionRun() throws Exception;
+	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
 
     /** Column name M_DistributionRunLine_ID */
     public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
@@ -140,7 +144,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_DistributionRunLine_ID();
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception;
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
 
     /** Column name MinQty */
     public static final String COLUMNNAME_MinQty = "MinQty";
@@ -168,7 +172,7 @@ public interface I_T_DistributionRunDetail
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

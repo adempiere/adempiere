@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Persistent 
 {
 
@@ -131,30 +131,30 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public static final String A_CAPVSEXP_Capital = "Cap";
 	/** Expense = Exp */
 	public static final String A_CAPVSEXP_Expense = "Exp";
-	/** Set A_CapvsExp.
-		@param A_CapvsExp A_CapvsExp	  */
+	/** Set Capital vs Expense.
+		@param A_CapvsExp Capital vs Expense	  */
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
 		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
-	/** Get A_CapvsExp.
-		@return A_CapvsExp	  */
+	/** Get Capital vs Expense.
+		@return Capital vs Expense	  */
 	public String getA_CapvsExp () 
 	{
 		return (String)get_Value(COLUMNNAME_A_CapvsExp);
 	}
 
-	/** Set A_QTY_Current.
-		@param A_QTY_Current A_QTY_Current	  */
+	/** Set Quantity.
+		@param A_QTY_Current Quantity	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get A_QTY_Current.
-		@return A_QTY_Current	  */
+	/** Get Quantity.
+		@return Quantity	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);
@@ -173,16 +173,16 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public static final String A_SOURCETYPE_JournalEntry = "JRN";
 	/** Manual = MAN */
 	public static final String A_SOURCETYPE_Manual = "MAN";
-	/** Set A_SourceType.
-		@param A_SourceType A_SourceType	  */
+	/** Set Source of Entry.
+		@param A_SourceType Source of Entry	  */
 	public void setA_SourceType (String A_SourceType)
 	{
 
 		if (A_SourceType == null || A_SourceType.equals("IMP") || A_SourceType.equals("INV") || A_SourceType.equals("JRN") || A_SourceType.equals("MAN")); else throw new IllegalArgumentException ("A_SourceType Invalid value - " + A_SourceType + " - Reference_ID=53276 - IMP - INV - JRN - MAN");		set_Value (COLUMNNAME_A_SourceType, A_SourceType);
 	}
 
-	/** Get A_SourceType.
-		@return A_SourceType	  */
+	/** Get Source of Entry.
+		@return Source of Entry	  */
 	public String getA_SourceType () 
 	{
 		return (String)get_Value(COLUMNNAME_A_SourceType);
@@ -210,9 +210,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return bd;
 	}
 
-	/** C_Invoice_ID AD_Reference_ID=53275 */
-	public static final int C_INVOICE_ID_AD_Reference_ID=53275;
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -223,7 +221,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -287,7 +285,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -298,7 +296,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

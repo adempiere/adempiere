@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PA_ReportColumn 
 {
@@ -43,19 +43,6 @@ public interface I_PA_ReportColumn
 
     /** Load Meta Data */
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -68,6 +55,19 @@ public interface I_PA_ReportColumn
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AmountType */
     public static final String COLUMNNAME_AmountType = "AmountType";
@@ -96,6 +96,15 @@ public interface I_PA_ReportColumn
 	public int getC_Activity_ID();
 
 	public I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name CalculationType */
+    public static final String COLUMNNAME_CalculationType = "CalculationType";
+
+	/** Set Calculation	  */
+	public void setCalculationType (String CalculationType);
+
+	/** Get Calculation	  */
+	public String getCalculationType();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -170,6 +179,15 @@ public interface I_PA_ReportColumn
 	  */
 	public int getC_Location_ID();
 
+    /** Column name ColumnType */
+    public static final String COLUMNNAME_ColumnType = "ColumnType";
+
+	/** Set Column Type	  */
+	public void setColumnType (String ColumnType);
+
+	/** Get Column Type	  */
+	public String getColumnType();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -199,24 +217,6 @@ public interface I_PA_ReportColumn
 	public int getC_SalesRegion_ID();
 
 	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
-    /** Column name CalculationType */
-    public static final String COLUMNNAME_CalculationType = "CalculationType";
-
-	/** Set Calculation	  */
-	public void setCalculationType (String CalculationType);
-
-	/** Get Calculation	  */
-	public String getCalculationType();
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
 
     /** Column name CurrencyType */
     public static final String COLUMNNAME_CurrencyType = "CurrencyType";
@@ -543,6 +543,19 @@ public interface I_PA_ReportColumn
 	  */
 	public int getOrg_ID();
 
+    /** Column name PA_ReportColumn_ID */
+    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
+
+	/** Set Report Column.
+	  * Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
+
+	/** Get Report Column.
+	  * Column in Report
+	  */
+	public int getPA_ReportColumn_ID();
+
     /** Column name PA_ReportColumnSet_ID */
     public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 
@@ -557,19 +570,6 @@ public interface I_PA_ReportColumn
 	public int getPA_ReportColumnSet_ID();
 
 	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
-
-    /** Column name PA_ReportColumn_ID */
-    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
-
-	/** Set Report Column.
-	  * Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
-
-	/** Get Report Column.
-	  * Column in Report
-	  */
-	public int getPA_ReportColumn_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

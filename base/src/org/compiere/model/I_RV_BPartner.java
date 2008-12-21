@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_RV_BPartner 
 {
@@ -144,6 +135,19 @@ public interface I_RV_BPartner
 	  */
 	public int getAD_OrgBP_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -170,7 +174,7 @@ public interface I_RV_BPartner
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws Exception;
+	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -237,7 +241,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception;
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -252,7 +256,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_BP_Group_ID();
 
-	public I_C_BP_Group getC_BP_Group() throws Exception;
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -267,7 +271,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Country_ID();
 
-	public I_C_Country getC_Country() throws Exception;
+	public I_C_Country getC_Country() throws RuntimeException;
 
     /** Column name C_Dunning_ID */
     public static final String COLUMNNAME_C_Dunning_ID = "C_Dunning_ID";
@@ -282,7 +286,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getC_Dunning() throws Exception;
+	public I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name C_Greeting_ID */
     public static final String COLUMNNAME_C_Greeting_ID = "C_Greeting_ID";
@@ -297,7 +301,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Greeting_ID();
 
-	public I_C_Greeting getC_Greeting() throws Exception;
+	public I_C_Greeting getC_Greeting() throws RuntimeException;
 
     /** Column name C_InvoiceSchedule_ID */
     public static final String COLUMNNAME_C_InvoiceSchedule_ID = "C_InvoiceSchedule_ID";
@@ -312,7 +316,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_InvoiceSchedule_ID();
 
-	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws Exception;
+	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -392,7 +396,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception;
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
@@ -407,7 +411,7 @@ public interface I_RV_BPartner
 	  */
 	public int getC_Region_ID();
 
-	public I_C_Region getC_Region() throws Exception;
+	public I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -769,7 +773,7 @@ public interface I_RV_BPartner
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws Exception;
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -784,7 +788,7 @@ public interface I_RV_BPartner
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws Exception;
+	public I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";

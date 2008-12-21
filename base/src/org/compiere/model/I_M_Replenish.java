@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_M_Replenish 
 {

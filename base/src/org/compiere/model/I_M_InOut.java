@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOut
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_M_InOut 
 {
@@ -44,19 +44,6 @@ public interface I_M_InOut
 
     /** Load Meta Data */
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -69,6 +56,19 @@ public interface I_M_InOut
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -171,6 +171,19 @@ public interface I_M_InOut
 	  */
 	public int getC_DocType_ID();
 
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -215,19 +228,6 @@ public interface I_M_InOut
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
 
     /** Column name CreateConfirm */
     public static final String COLUMNNAME_CreateConfirm = "CreateConfirm";
@@ -559,6 +559,32 @@ public interface I_M_InOut
 	  */
 	public int getM_InOut_ID();
 
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
+
+    /** Column name MovementType */
+    public static final String COLUMNNAME_MovementType = "MovementType";
+
+	/** Set Movement Type.
+	  * Method of moving the inventory
+	  */
+	public void setMovementType (String MovementType);
+
+	/** Get Movement Type.
+	  * Method of moving the inventory
+	  */
+	public String getMovementType();
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -604,32 +630,6 @@ public interface I_M_InOut
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
-    /** Column name MovementType */
-    public static final String COLUMNNAME_MovementType = "MovementType";
-
-	/** Set Movement Type.
-	  * Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType);
-
-	/** Get Movement Type.
-	  * Method of moving the inventory
-	  */
-	public String getMovementType();
-
     /** Column name NoPackages */
     public static final String COLUMNNAME_NoPackages = "NoPackages";
 
@@ -643,19 +643,6 @@ public interface I_M_InOut
 	  */
 	public int getNoPackages();
 
-    /** Column name POReference */
-    public static final String COLUMNNAME_POReference = "POReference";
-
-	/** Set Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference);
-
-	/** Get Order Reference.
-	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference();
-
     /** Column name PickDate */
     public static final String COLUMNNAME_PickDate = "PickDate";
 
@@ -668,6 +655,19 @@ public interface I_M_InOut
 	  * Date/Time when picked for Shipment
 	  */
 	public Timestamp getPickDate();
+
+    /** Column name POReference */
+    public static final String COLUMNNAME_POReference = "POReference";
+
+	/** Set Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference);
+
+	/** Get Order Reference.
+	  * Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

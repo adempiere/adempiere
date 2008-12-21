@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -33,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_M_InOutLine 
 {
@@ -51,6 +42,19 @@ public interface I_M_InOutLine
     BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -78,7 +82,7 @@ public interface I_M_InOutLine
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -93,7 +97,7 @@ public interface I_M_InOutLine
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -108,7 +112,20 @@ public interface I_M_InOutLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws RuntimeException;
+
+    /** Column name ConfirmedQty */
+    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
+
+	/** Set Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty);
+
+	/** Get Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty();
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -123,37 +140,7 @@ public interface I_M_InOutLine
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws Exception;
-
-    /** Column name C_ProjectPhase_ID */
-    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
-
-	/** Set Project Phase.
-	  * Phase of a Project
-	  */
-	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
-
-	/** Get Project Phase.
-	  * Phase of a Project
-	  */
-	public int getC_ProjectPhase_ID();
-
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception;
-
-    /** Column name C_ProjectTask_ID */
-    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
-
-	/** Set Project Task.
-	  * Actual Project Task in a Phase
-	  */
-	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
-
-	/** Get Project Task.
-	  * Actual Project Task in a Phase
-	  */
-	public int getC_ProjectTask_ID();
-
-	public I_C_ProjectTask getC_ProjectTask() throws Exception;
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -168,7 +155,37 @@ public interface I_M_InOutLine
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_ProjectPhase_ID */
+    public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
+
+	/** Set Project Phase.
+	  * Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID);
+
+	/** Get Project Phase.
+	  * Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID();
+
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
+
+    /** Column name C_ProjectTask_ID */
+    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
+
+	/** Set Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
+
+	/** Get Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID();
+
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -183,20 +200,7 @@ public interface I_M_InOutLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
-
-    /** Column name ConfirmedQty */
-    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
-
-	/** Set Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty);
-
-	/** Get Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty();
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -263,19 +267,6 @@ public interface I_M_InOutLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -289,7 +280,20 @@ public interface I_M_InOutLine
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getM_InOut() throws Exception;
+	public I_M_InOut getM_InOut() throws RuntimeException;
+
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -304,6 +308,19 @@ public interface I_M_InOutLine
 	  */
 	public int getM_Locator_ID();
 
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -317,7 +334,7 @@ public interface I_M_InOutLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_RMALine_ID */
     public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
@@ -332,20 +349,7 @@ public interface I_M_InOutLine
 	  */
 	public int getM_RMALine_ID();
 
-	public I_M_RMALine getM_RMALine() throws Exception;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
+	public I_M_RMALine getM_RMALine() throws RuntimeException;
 
     /** Column name PickedQty */
     public static final String COLUMNNAME_PickedQty = "PickedQty";

@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_R_RequestAction 
 {
@@ -66,7 +57,20 @@ public interface I_R_RequestAction
 	  */
 	public int getA_Asset_ID();
 
-	public I_A_Asset getA_Asset() throws Exception;
+	public I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -81,7 +85,7 @@ public interface I_R_RequestAction
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws Exception;
+	public I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -96,7 +100,7 @@ public interface I_R_RequestAction
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws Exception;
+	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -111,7 +115,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -126,7 +130,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -141,7 +145,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws Exception;
+	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
@@ -169,7 +173,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws Exception;
+	public I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -184,7 +188,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws Exception;
+	public I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -199,7 +203,7 @@ public interface I_R_RequestAction
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name DateCompletePlan */
     public static final String COLUMNNAME_DateCompletePlan = "DateCompletePlan";
@@ -305,7 +309,7 @@ public interface I_R_RequestAction
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getM_InOut() throws Exception;
+	public I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -320,7 +324,7 @@ public interface I_R_RequestAction
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_ProductSpent_ID */
     public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
@@ -348,7 +352,7 @@ public interface I_R_RequestAction
 	  */
 	public int getM_RMA_ID();
 
-	public I_M_RMA getM_RMA() throws Exception;
+	public I_M_RMA getM_RMA() throws RuntimeException;
 
     /** Column name NullColumns */
     public static final String COLUMNNAME_NullColumns = "NullColumns";
@@ -441,7 +445,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_Category_ID();
 
-	public I_R_Category getR_Category() throws Exception;
+	public I_R_Category getR_Category() throws RuntimeException;
 
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
@@ -456,7 +460,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_Group_ID();
 
-	public I_R_Group getR_Group() throws Exception;
+	public I_R_Group getR_Group() throws RuntimeException;
 
     /** Column name R_RequestAction_ID */
     public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
@@ -484,7 +488,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getR_Request() throws Exception;
+	public I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -499,7 +503,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getR_RequestType() throws Exception;
+	public I_R_RequestType getR_RequestType() throws RuntimeException;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
@@ -514,7 +518,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_Resolution_ID();
 
-	public I_R_Resolution getR_Resolution() throws Exception;
+	public I_R_Resolution getR_Resolution() throws RuntimeException;
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -529,7 +533,7 @@ public interface I_R_RequestAction
 	  */
 	public int getR_Status_ID();
 
-	public I_R_Status getR_Status() throws Exception;
+	public I_R_Status getR_Status() throws RuntimeException;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
