@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -33,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_AD_PrintFormat 
 {
@@ -52,6 +43,19 @@ public interface I_AD_PrintFormat
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_PrintColor_ID */
     public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
 
@@ -65,7 +69,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception;
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -80,7 +84,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getAD_PrintFont() throws Exception;
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
@@ -108,7 +112,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_PrintPaper_ID();
 
-	public I_AD_PrintPaper getAD_PrintPaper() throws Exception;
+	public I_AD_PrintPaper getAD_PrintPaper() throws RuntimeException;
 
     /** Column name AD_PrintTableFormat_ID */
     public static final String COLUMNNAME_AD_PrintTableFormat_ID = "AD_PrintTableFormat_ID";
@@ -123,7 +127,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_PrintTableFormat_ID();
 
-	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws Exception;
+	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws RuntimeException;
 
     /** Column name AD_ReportView_ID */
     public static final String COLUMNNAME_AD_ReportView_ID = "AD_ReportView_ID";
@@ -138,7 +142,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_ReportView_ID();
 
-	public I_AD_ReportView getAD_ReportView() throws Exception;
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -153,7 +157,7 @@ public interface I_AD_PrintFormat
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Args */
     public static final String COLUMNNAME_Args = "Args";
@@ -164,14 +168,18 @@ public interface I_AD_PrintFormat
 	/** Get Args	  */
 	public String getArgs();
 
-    /** Column name ClassName */
-    public static final String COLUMNNAME_ClassName = "ClassName";
+    /** Column name Classname */
+    public static final String COLUMNNAME_Classname = "Classname";
 
-	/** Set ClassName	  */
-	public void setClassName (String ClassName);
+	/** Set Classname.
+	  * Java Classname
+	  */
+	public void setClassname (String Classname);
 
-	/** Get ClassName	  */
-	public String getClassName();
+	/** Get Classname.
+	  * Java Classname
+	  */
+	public String getClassname();
 
     /** Column name CreateCopy */
     public static final String COLUMNNAME_CreateCopy = "CreateCopy";

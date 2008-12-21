@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Fin
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_A_Asset_Info_Fin 
 {
@@ -78,82 +69,95 @@ public interface I_A_Asset_Info_Fin
     /** Column name A_Contract_Date */
     public static final String COLUMNNAME_A_Contract_Date = "A_Contract_Date";
 
-	/** Set A_Contract_Date	  */
+	/** Set Contract Date	  */
 	public void setA_Contract_Date (Timestamp A_Contract_Date);
 
-	/** Get A_Contract_Date	  */
+	/** Get Contract Date	  */
 	public Timestamp getA_Contract_Date();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name A_Due_On */
     public static final String COLUMNNAME_A_Due_On = "A_Due_On";
 
-	/** Set A_Due_On	  */
+	/** Set Payment Due Date	  */
 	public void setA_Due_On (String A_Due_On);
 
-	/** Get A_Due_On	  */
+	/** Get Payment Due Date	  */
 	public String getA_Due_On();
 
     /** Column name A_Expired_Date */
     public static final String COLUMNNAME_A_Expired_Date = "A_Expired_Date";
 
-	/** Set A_Expired_Date	  */
+	/** Set Contract Expiration Date	  */
 	public void setA_Expired_Date (Timestamp A_Expired_Date);
 
-	/** Get A_Expired_Date	  */
+	/** Get Contract Expiration Date	  */
 	public Timestamp getA_Expired_Date();
 
     /** Column name A_Finance_Meth */
     public static final String COLUMNNAME_A_Finance_Meth = "A_Finance_Meth";
 
-	/** Set A_Finance_Meth	  */
+	/** Set Finance Method	  */
 	public void setA_Finance_Meth (String A_Finance_Meth);
 
-	/** Get A_Finance_Meth	  */
+	/** Get Finance Method	  */
 	public String getA_Finance_Meth();
 
     /** Column name A_Monthly_Payment */
     public static final String COLUMNNAME_A_Monthly_Payment = "A_Monthly_Payment";
 
-	/** Set A_Monthly_Payment	  */
+	/** Set Monthly Payment	  */
 	public void setA_Monthly_Payment (BigDecimal A_Monthly_Payment);
 
-	/** Get A_Monthly_Payment	  */
+	/** Get Monthly Payment	  */
 	public BigDecimal getA_Monthly_Payment();
 
     /** Column name A_Purchase_Option */
     public static final String COLUMNNAME_A_Purchase_Option = "A_Purchase_Option";
 
-	/** Set A_Purchase_Option	  */
+	/** Set Purchase Option	  */
 	public void setA_Purchase_Option (boolean A_Purchase_Option);
 
-	/** Get A_Purchase_Option	  */
+	/** Get Purchase Option	  */
 	public boolean isA_Purchase_Option();
 
     /** Column name A_Purchase_Option_Credit */
     public static final String COLUMNNAME_A_Purchase_Option_Credit = "A_Purchase_Option_Credit";
 
-	/** Set A_Purchase_Option_Credit	  */
+	/** Set Purchase Option Credit	  */
 	public void setA_Purchase_Option_Credit (int A_Purchase_Option_Credit);
 
-	/** Get A_Purchase_Option_Credit	  */
+	/** Get Purchase Option Credit	  */
 	public int getA_Purchase_Option_Credit();
 
     /** Column name A_Purchase_Option_Credit_Per */
     public static final String COLUMNNAME_A_Purchase_Option_Credit_Per = "A_Purchase_Option_Credit_Per";
 
-	/** Set A_Purchase_Option_Credit_Per	  */
+	/** Set Purchase Option Credit %	  */
 	public void setA_Purchase_Option_Credit_Per (BigDecimal A_Purchase_Option_Credit_Per);
 
-	/** Get A_Purchase_Option_Credit_Per	  */
+	/** Get Purchase Option Credit %	  */
 	public BigDecimal getA_Purchase_Option_Credit_Per();
 
     /** Column name A_Purchase_Price */
     public static final String COLUMNNAME_A_Purchase_Price = "A_Purchase_Price";
 
-	/** Set A_Purchase_Price	  */
+	/** Set Option Purchase Price	  */
 	public void setA_Purchase_Price (BigDecimal A_Purchase_Price);
 
-	/** Get A_Purchase_Price	  */
+	/** Get Option Purchase Price	  */
 	public BigDecimal getA_Purchase_Price();
 
     /** Column name C_BPartner_ID */

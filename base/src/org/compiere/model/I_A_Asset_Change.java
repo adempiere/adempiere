@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Change
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_A_Asset_Change 
 {
@@ -56,19 +47,19 @@ public interface I_A_Asset_Change
     /** Column name A_Accumdepreciation_Acct */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct = "A_Accumdepreciation_Acct";
 
-	/** Set A_Accumdepreciation_Acct	  */
+	/** Set Accumulated Depreciation	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct);
 
-	/** Get A_Accumdepreciation_Acct	  */
+	/** Get Accumulated Depreciation	  */
 	public int getA_Accumdepreciation_Acct();
 
     /** Column name A_Asset_Acct */
     public static final String COLUMNNAME_A_Asset_Acct = "A_Asset_Acct";
 
-	/** Set A_Asset_Acct	  */
+	/** Set Asset Cost Account	  */
 	public void setA_Asset_Acct (int A_Asset_Acct);
 
-	/** Get A_Asset_Acct	  */
+	/** Get Asset Cost Account	  */
 	public int getA_Asset_Acct();
 
     /** Column name A_Asset_Acct_ID */
@@ -154,19 +145,19 @@ public interface I_A_Asset_Change
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
-	/** Set A_Depreciation_Acct	  */
+	/** Set Depreciation Expense Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct);
 
-	/** Get A_Depreciation_Acct	  */
+	/** Get Depreciation Expense Account	  */
 	public int getA_Depreciation_Acct();
 
     /** Column name A_Depreciation_Calc_Type */
     public static final String COLUMNNAME_A_Depreciation_Calc_Type = "A_Depreciation_Calc_Type";
 
-	/** Set A_Depreciation_Calc_Type	  */
+	/** Set Depreciation Calculation Type	  */
 	public void setA_Depreciation_Calc_Type (int A_Depreciation_Calc_Type);
 
-	/** Get A_Depreciation_Calc_Type	  */
+	/** Get Depreciation Calculation Type	  */
 	public int getA_Depreciation_Calc_Type();
 
     /** Column name A_Depreciation_Manual_Amount */
@@ -208,20 +199,33 @@ public interface I_A_Asset_Change
     /** Column name A_Disposal_Loss */
     public static final String COLUMNNAME_A_Disposal_Loss = "A_Disposal_Loss";
 
-	/** Set A_Disposal_Loss	  */
+	/** Set Loss on Disposal	  */
 	public void setA_Disposal_Loss (int A_Disposal_Loss);
 
-	/** Get A_Disposal_Loss	  */
+	/** Get Loss on Disposal	  */
 	public int getA_Disposal_Loss();
 
     /** Column name A_Disposal_Revenue */
     public static final String COLUMNNAME_A_Disposal_Revenue = "A_Disposal_Revenue";
 
-	/** Set A_Disposal_Revenue	  */
+	/** Set Disposal Revenue	  */
 	public void setA_Disposal_Revenue (int A_Disposal_Revenue);
 
-	/** Get A_Disposal_Revenue	  */
+	/** Get Disposal Revenue	  */
 	public int getA_Disposal_Revenue();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name Ad_User_ID */
     public static final String COLUMNNAME_Ad_User_ID = "Ad_User_ID";
@@ -235,118 +239,118 @@ public interface I_A_Asset_Change
     /** Column name A_Parent_Asset_ID */
     public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
 
-	/** Set A_Parent_Asset_ID	  */
+	/** Set Asset ID	  */
 	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
 
-	/** Get A_Parent_Asset_ID	  */
+	/** Get Asset ID	  */
 	public int getA_Parent_Asset_ID();
 
     /** Column name A_Period_End */
     public static final String COLUMNNAME_A_Period_End = "A_Period_End";
 
-	/** Set A_Period_End	  */
+	/** Set Period End	  */
 	public void setA_Period_End (int A_Period_End);
 
-	/** Get A_Period_End	  */
+	/** Get Period End	  */
 	public int getA_Period_End();
 
     /** Column name A_Period_Start */
     public static final String COLUMNNAME_A_Period_Start = "A_Period_Start";
 
-	/** Set A_Period_Start	  */
+	/** Set Period Start	  */
 	public void setA_Period_Start (int A_Period_Start);
 
-	/** Get A_Period_Start	  */
+	/** Get Period Start	  */
 	public int getA_Period_Start();
 
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set A_QTY_Current	  */
+	/** Set Quantity	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get A_QTY_Current	  */
+	/** Get Quantity	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_QTY_Original */
     public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
 
-	/** Set A_QTY_Original	  */
+	/** Set Original Qty	  */
 	public void setA_QTY_Original (BigDecimal A_QTY_Original);
 
-	/** Get A_QTY_Original	  */
+	/** Get Original Qty	  */
 	public BigDecimal getA_QTY_Original();
 
     /** Column name A_Reval_Accumdep_Offset_Cur */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Cur = "A_Reval_Accumdep_Offset_Cur";
 
-	/** Set A_Reval_Accumdep_Offset_Cur	  */
+	/** Set Revaluation Accumulated Depreciation Offset for Current Year	  */
 	public void setA_Reval_Accumdep_Offset_Cur (int A_Reval_Accumdep_Offset_Cur);
 
-	/** Get A_Reval_Accumdep_Offset_Cur	  */
+	/** Get Revaluation Accumulated Depreciation Offset for Current Year	  */
 	public int getA_Reval_Accumdep_Offset_Cur();
 
     /** Column name A_Reval_Accumdep_Offset_Prior */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Prior = "A_Reval_Accumdep_Offset_Prior";
 
-	/** Set A_Reval_Accumdep_Offset_Prior	  */
+	/** Set Revaluation Accumulated Depreciation Offset for Prior Year	  */
 	public void setA_Reval_Accumdep_Offset_Prior (int A_Reval_Accumdep_Offset_Prior);
 
-	/** Get A_Reval_Accumdep_Offset_Prior	  */
+	/** Get Revaluation Accumulated Depreciation Offset for Prior Year	  */
 	public int getA_Reval_Accumdep_Offset_Prior();
 
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
 
-	/** Set A_Reval_Cal_Method	  */
+	/** Set Revaluation Calculation Method	  */
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method);
 
-	/** Get A_Reval_Cal_Method	  */
+	/** Get Revaluation Calculation Method	  */
 	public String getA_Reval_Cal_Method();
 
     /** Column name A_Reval_Cost_Offset */
     public static final String COLUMNNAME_A_Reval_Cost_Offset = "A_Reval_Cost_Offset";
 
-	/** Set A_Reval_Cost_Offset	  */
+	/** Set Revaluation Cost Offset for Current Year	  */
 	public void setA_Reval_Cost_Offset (int A_Reval_Cost_Offset);
 
-	/** Get A_Reval_Cost_Offset	  */
+	/** Get Revaluation Cost Offset for Current Year	  */
 	public int getA_Reval_Cost_Offset();
 
     /** Column name A_Reval_Cost_Offset_Prior */
     public static final String COLUMNNAME_A_Reval_Cost_Offset_Prior = "A_Reval_Cost_Offset_Prior";
 
-	/** Set A_Reval_Cost_Offset_Prior	  */
+	/** Set Revaluation Cost Offset for Prior Year	  */
 	public void setA_Reval_Cost_Offset_Prior (int A_Reval_Cost_Offset_Prior);
 
-	/** Get A_Reval_Cost_Offset_Prior	  */
+	/** Get Revaluation Cost Offset for Prior Year	  */
 	public int getA_Reval_Cost_Offset_Prior();
 
     /** Column name A_Reval_Depexp_Offset */
     public static final String COLUMNNAME_A_Reval_Depexp_Offset = "A_Reval_Depexp_Offset";
 
-	/** Set A_Reval_Depexp_Offset	  */
+	/** Set Revaluation Expense Offs	  */
 	public void setA_Reval_Depexp_Offset (int A_Reval_Depexp_Offset);
 
-	/** Get A_Reval_Depexp_Offset	  */
+	/** Get Revaluation Expense Offs	  */
 	public int getA_Reval_Depexp_Offset();
 
     /** Column name A_Salvage_Value */
     public static final String COLUMNNAME_A_Salvage_Value = "A_Salvage_Value";
 
-	/** Set A_Salvage_Value	  */
+	/** Set Salvage Value	  */
 	public void setA_Salvage_Value (BigDecimal A_Salvage_Value);
 
-	/** Get A_Salvage_Value	  */
+	/** Get Salvage Value	  */
 	public BigDecimal getA_Salvage_Value();
 
     /** Column name A_Split_Percent */
     public static final String COLUMNNAME_A_Split_Percent = "A_Split_Percent";
 
-	/** Set A_Split_Percent	  */
+	/** Set Split Percentage	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent);
 
-	/** Get A_Split_Percent	  */
+	/** Get Split Percentage	  */
 	public BigDecimal getA_Split_Percent();
 
     /** Column name AssetAccumDepreciationAmt */
@@ -445,7 +449,7 @@ public interface I_A_Asset_Change
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";

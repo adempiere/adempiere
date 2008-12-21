@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_AD_OrgInfo 
 {
@@ -43,6 +43,19 @@ public interface I_AD_OrgInfo
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgType_ID */
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
@@ -58,19 +71,6 @@ public interface I_AD_OrgInfo
 
 	public I_AD_OrgType getAD_OrgType() throws RuntimeException;
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -84,19 +84,6 @@ public interface I_AD_OrgInfo
 	  */
 	public int getC_Location_ID();
 
-    /** Column name DUNS */
-    public static final String COLUMNNAME_DUNS = "DUNS";
-
-	/** Set D-U-N-S.
-	  * Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS);
-
-	/** Get D-U-N-S.
-	  * Dun & Bradstreet Number
-	  */
-	public String getDUNS();
-
     /** Column name DropShip_Warehouse_ID */
     public static final String COLUMNNAME_DropShip_Warehouse_ID = "DropShip_Warehouse_ID";
 
@@ -109,6 +96,19 @@ public interface I_AD_OrgInfo
 	  * The (logical) warehouse to use for recording drop ship receipts and shipments.
 	  */
 	public int getDropShip_Warehouse_ID();
+
+    /** Column name DUNS */
+    public static final String COLUMNNAME_DUNS = "DUNS";
+
+	/** Set D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS);
+
+	/** Get D-U-N-S.
+	  * Dun & Bradstreet Number
+	  */
+	public String getDUNS();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -141,12 +141,12 @@ public interface I_AD_OrgInfo
     /** Column name ReceiptFooterMsg */
     public static final String COLUMNNAME_ReceiptFooterMsg = "ReceiptFooterMsg";
 
-	/** Set ReceiptFooterMsg.
+	/** Set Receipt Footer Msg.
 	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
 	  */
 	public void setReceiptFooterMsg (String ReceiptFooterMsg);
 
-	/** Get ReceiptFooterMsg.
+	/** Get Receipt Footer Msg.
 	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
 	  */
 	public String getReceiptFooterMsg();
