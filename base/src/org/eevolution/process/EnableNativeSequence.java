@@ -50,7 +50,7 @@ public class EnableNativeSequence extends SvrProcess
 	
 	protected String doIt()              
 	{
-		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false,Env.getAD_Client_ID(Env.getCtx()));
+		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false);
 		
 		if(SYSTEM_NATIVE_SEQUENCE)
 			throw new AdempiereException("Native Sequence is Actived");
