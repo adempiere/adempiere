@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_I_BankStatement 
 {
@@ -52,6 +43,19 @@ public interface I_I_BankStatement
     BigDecimal accessLevel = BigDecimal.valueOf(2);
 
     /** Load Meta Data */
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name BankAccountNo */
     public static final String COLUMNNAME_BankAccountNo = "BankAccountNo";
@@ -92,7 +96,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws Exception;
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name C_BankStatement_ID */
     public static final String COLUMNNAME_C_BankStatement_ID = "C_BankStatement_ID";
@@ -107,7 +111,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_BankStatement_ID();
 
-	public I_C_BankStatement getC_BankStatement() throws Exception;
+	public I_C_BankStatement getC_BankStatement() throws RuntimeException;
 
     /** Column name C_BankStatementLine_ID */
     public static final String COLUMNNAME_C_BankStatementLine_ID = "C_BankStatementLine_ID";
@@ -122,7 +126,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_BankStatementLine_ID();
 
-	public I_C_BankStatementLine getC_BankStatementLine() throws Exception;
+	public I_C_BankStatementLine getC_BankStatementLine() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -137,7 +141,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -152,7 +156,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws Exception;
+	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -167,7 +171,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name ChargeAmt */
     public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
@@ -208,7 +212,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws Exception;
+	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -223,7 +227,7 @@ public interface I_I_BankStatement
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws Exception;
+	public I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name CreatePayment */
     public static final String COLUMNNAME_CreatePayment = "CreatePayment";

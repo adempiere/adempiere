@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -33,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_C_LandedCost 
 {
@@ -52,6 +43,19 @@ public interface I_C_LandedCost
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 
@@ -65,7 +69,7 @@ public interface I_C_LandedCost
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception;
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name C_LandedCost_ID */
     public static final String COLUMNNAME_C_LandedCost_ID = "C_LandedCost_ID";
@@ -119,7 +123,7 @@ public interface I_C_LandedCost
 	  */
 	public int getM_CostElement_ID();
 
-	public I_M_CostElement getM_CostElement() throws Exception;
+	public I_M_CostElement getM_CostElement() throws RuntimeException;
 
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
@@ -134,7 +138,7 @@ public interface I_C_LandedCost
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getM_InOut() throws Exception;
+	public I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
@@ -149,7 +153,7 @@ public interface I_C_LandedCost
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws Exception;
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -164,7 +168,7 @@ public interface I_C_LandedCost
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for Fact_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_Fact_Acct 
 {
@@ -79,6 +70,19 @@ public interface I_Fact_Acct
 	  */
 	public int getAccount_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -105,7 +109,7 @@ public interface I_Fact_Acct
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws Exception;
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -172,7 +176,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -187,7 +191,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -202,7 +206,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -217,7 +221,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -232,7 +236,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
@@ -273,7 +277,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws Exception;
+	public I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -288,7 +292,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -303,7 +307,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_ProjectPhase_ID();
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception;
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException;
 
     /** Column name C_ProjectTask_ID */
     public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
@@ -318,7 +322,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_ProjectTask_ID();
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception;
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -333,7 +337,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name C_SubAcct_ID */
     public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
@@ -348,7 +352,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_SubAcct_ID();
 
-	public I_C_SubAcct getC_SubAcct() throws Exception;
+	public I_C_SubAcct getC_SubAcct() throws RuntimeException;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -363,7 +367,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getC_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -378,7 +382,7 @@ public interface I_Fact_Acct
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -441,7 +445,7 @@ public interface I_Fact_Acct
 	  */
 	public int getGL_Budget_ID();
 
-	public I_GL_Budget getGL_Budget() throws Exception;
+	public I_GL_Budget getGL_Budget() throws RuntimeException;
 
     /** Column name GL_Category_ID */
     public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
@@ -456,7 +460,7 @@ public interface I_Fact_Acct
 	  */
 	public int getGL_Category_ID();
 
-	public I_GL_Category getGL_Category() throws Exception;
+	public I_GL_Category getGL_Category() throws RuntimeException;
 
     /** Column name Line_ID */
     public static final String COLUMNNAME_Line_ID = "Line_ID";
@@ -484,7 +488,7 @@ public interface I_Fact_Acct
 	  */
 	public int getM_Locator_ID();
 
-	public I_M_Locator getM_Locator() throws Exception;
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -499,7 +503,7 @@ public interface I_Fact_Acct
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -540,32 +544,6 @@ public interface I_Fact_Acct
 	  */
 	public int getRecord_ID();
 
-    /** Column name UserElement1_ID */
-    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
-
-	/** Set User Element 1.
-	  * User defined accounting Element
-	  */
-	public void setUserElement1_ID (int UserElement1_ID);
-
-	/** Get User Element 1.
-	  * User defined accounting Element
-	  */
-	public int getUserElement1_ID();
-
-    /** Column name UserElement2_ID */
-    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
-
-	/** Set User Element 2.
-	  * User defined accounting Element
-	  */
-	public void setUserElement2_ID (int UserElement2_ID);
-
-	/** Get User Element 2.
-	  * User defined accounting Element
-	  */
-	public int getUserElement2_ID();
-
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";
 
@@ -591,4 +569,30 @@ public interface I_Fact_Acct
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+    /** Column name UserElement1_ID */
+    public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";
+
+	/** Set User Element 1.
+	  * User defined accounting Element
+	  */
+	public void setUserElement1_ID (int UserElement1_ID);
+
+	/** Get User Element 1.
+	  * User defined accounting Element
+	  */
+	public int getUserElement1_ID();
+
+    /** Column name UserElement2_ID */
+    public static final String COLUMNNAME_UserElement2_ID = "UserElement2_ID";
+
+	/** Set User Element 2.
+	  * User defined accounting Element
+	  */
+	public void setUserElement2_ID (int UserElement2_ID);
+
+	/** Get User Element 2.
+	  * User defined accounting Element
+	  */
+	public int getUserElement2_ID();
 }

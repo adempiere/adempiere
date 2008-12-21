@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -33,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_C_AcctSchema_Element 
 {
@@ -65,7 +56,20 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_AcctSchema_Element_ID */
     public static final String COLUMNNAME_C_AcctSchema_Element_ID = "C_AcctSchema_Element_ID";
@@ -89,7 +93,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception;
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -104,7 +108,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -119,7 +123,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -134,7 +138,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Element_ID */
     public static final String COLUMNNAME_C_Element_ID = "C_Element_ID";
@@ -149,7 +153,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Element_ID();
 
-	public I_C_Element getC_Element() throws Exception;
+	public I_C_Element getC_Element() throws RuntimeException;
 
     /** Column name C_ElementValue_ID */
     public static final String COLUMNNAME_C_ElementValue_ID = "C_ElementValue_ID";
@@ -164,7 +168,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_ElementValue_ID();
 
-	public I_C_ElementValue getC_ElementValue() throws Exception;
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -192,7 +196,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -207,7 +211,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getC_SalesRegion_ID();
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception;
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name ElementType */
     public static final String COLUMNNAME_ElementType = "ElementType";
@@ -257,7 +261,7 @@ public interface I_C_AcctSchema_Element
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

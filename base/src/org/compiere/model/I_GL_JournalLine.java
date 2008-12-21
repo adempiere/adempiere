@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_GL_JournalLine 
 {
@@ -66,7 +57,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getA_Asset_Group_ID();
 
-	public I_A_Asset_Group getA_Asset_Group() throws Exception;
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -84,11 +75,24 @@ public interface I_GL_JournalLine
     /** Column name A_CreateAsset */
     public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
 
-	/** Set A_CreateAsset	  */
+	/** Set Asset Related?	  */
 	public void setA_CreateAsset (boolean A_CreateAsset);
 
-	/** Get A_CreateAsset	  */
+	/** Get Asset Related?	  */
 	public boolean isA_CreateAsset();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -164,7 +168,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws Exception;
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -179,7 +183,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws Exception;
+	public I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -194,7 +198,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name CurrencyRate */
     public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
@@ -261,7 +265,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getGL_Journal_ID();
 
-	public I_GL_Journal getGL_Journal() throws Exception;
+	public I_GL_Journal getGL_Journal() throws RuntimeException;
 
     /** Column name GL_JournalLine_ID */
     public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
