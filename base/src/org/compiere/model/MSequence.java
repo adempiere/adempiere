@@ -938,7 +938,7 @@ public class MSequence extends X_AD_Sequence
 	 */
 	public static boolean createTableSequence (Properties ctx, String TableName, String trxName)
 	{
-		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",true,Env.getAD_Client_ID(Env.getCtx()));
+		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false,Env.getAD_Client_ID(Env.getCtx()));
 	
 		if(SYSTEM_NATIVE_SEQUENCE)
 		{
