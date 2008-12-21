@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Concept_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -87,7 +87,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -125,7 +125,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -153,8 +153,8 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set HR_Concept_Acct_ID.
-		@param HR_Concept_Acct_ID HR_Concept_Acct_ID	  */
+	/** Set Payroll Concept Account.
+		@param HR_Concept_Acct_ID Payroll Concept Account	  */
 	public void setHR_Concept_Acct_ID (int HR_Concept_Acct_ID)
 	{
 		if (HR_Concept_Acct_ID < 1)
@@ -162,8 +162,8 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		set_ValueNoCheck (COLUMNNAME_HR_Concept_Acct_ID, Integer.valueOf(HR_Concept_Acct_ID));
 	}
 
-	/** Get HR_Concept_Acct_ID.
-		@return HR_Concept_Acct_ID	  */
+	/** Get Payroll Concept Account.
+		@return Payroll Concept Account	  */
 	public int getHR_Concept_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Acct_ID);
@@ -172,7 +172,7 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws Exception 
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept.Table_Name);
         org.eevolution.model.I_HR_Concept result = null;
@@ -183,13 +183,13 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Concept.
-		@param HR_Concept_ID Concept	  */
+	/** Set Payroll Concept.
+		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1)
@@ -197,8 +197,8 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Concept.
-		@return Concept	  */
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -207,15 +207,15 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set HR_Expense_Acct.
-		@param HR_Expense_Acct HR_Expense_Acct	  */
+	/** Set Payroll Expense Account.
+		@param HR_Expense_Acct Payroll Expense Account	  */
 	public void setHR_Expense_Acct (int HR_Expense_Acct)
 	{
 		set_Value (COLUMNNAME_HR_Expense_Acct, Integer.valueOf(HR_Expense_Acct));
 	}
 
-	/** Get HR_Expense_Acct.
-		@return HR_Expense_Acct	  */
+	/** Get Payroll Expense Account.
+		@return Payroll Expense Account	  */
 	public int getHR_Expense_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Expense_Acct);
@@ -224,15 +224,15 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set HR_Revenue_Acct.
-		@param HR_Revenue_Acct HR_Revenue_Acct	  */
+	/** Set Payroll Revenue Account.
+		@param HR_Revenue_Acct Payroll Revenue Account	  */
 	public void setHR_Revenue_Acct (int HR_Revenue_Acct)
 	{
 		set_Value (COLUMNNAME_HR_Revenue_Acct, Integer.valueOf(HR_Revenue_Acct));
 	}
 
-	/** Get HR_Revenue_Acct.
-		@return HR_Revenue_Acct	  */
+	/** Get Payroll Revenue Account.
+		@return Payroll Revenue Account	  */
 	public int getHR_Revenue_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Revenue_Acct);
@@ -265,8 +265,6 @@ public class X_HR_Concept_Acct extends PO implements I_HR_Concept_Acct, I_Persis
 		return false;
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1

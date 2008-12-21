@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_WF_Node_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_WF_Node_Product 
 {

@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent 
 {
 
@@ -79,8 +79,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -104,7 +102,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Rule getAD_Rule() throws Exception 
+	public I_AD_Rule getAD_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
         I_AD_Rule result = null;
@@ -115,7 +113,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -160,7 +158,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return bd;
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -171,7 +169,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -199,7 +197,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -210,7 +208,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -238,7 +236,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -249,7 +247,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -302,7 +300,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -313,7 +311,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -341,7 +339,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -352,7 +350,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -380,7 +378,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -391,7 +389,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -436,7 +434,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws Exception 
+	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept_Category.Table_Name);
         org.eevolution.model.I_HR_Concept_Category result = null;
@@ -447,7 +445,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -472,7 +470,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws Exception 
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept.Table_Name);
         org.eevolution.model.I_HR_Concept result = null;
@@ -483,13 +481,13 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Concept.
-		@param HR_Concept_ID Concept	  */
+	/** Set Payroll Concept.
+		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1)
@@ -497,8 +495,8 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Concept.
-		@return Concept	  */
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -507,7 +505,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
         org.eevolution.model.I_HR_Department result = null;
@@ -518,13 +516,13 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Department.
-		@param HR_Department_ID Department	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -533,8 +531,8 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -543,7 +541,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws Exception 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Job.Table_Name);
         org.eevolution.model.I_HR_Job result = null;
@@ -554,13 +552,13 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Job.
-		@param HR_Job_ID Job	  */
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
 	{
 		if (HR_Job_ID < 1) 
@@ -569,8 +567,8 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
 	}
 
-	/** Get Job.
-		@return Job	  */
+	/** Get Payroll Job.
+		@return Payroll Job	  */
 	public int getHR_Job_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
@@ -598,7 +596,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Process getHR_Process() throws Exception 
+	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Process.Table_Name);
         org.eevolution.model.I_HR_Process result = null;
@@ -609,7 +607,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -690,7 +688,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return false;
 	}
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
         org.eevolution.model.I_PP_Order_Node result = null;
@@ -701,7 +699,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -804,8 +802,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -829,8 +825,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

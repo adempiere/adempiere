@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_Planning
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_Product_Planning 
 {
@@ -53,6 +44,19 @@ public interface I_PP_Product_Planning
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -66,7 +70,7 @@ public interface I_PP_Product_Planning
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws Exception;
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
@@ -77,7 +81,7 @@ public interface I_PP_Product_Planning
 	/** Get Network Distribution	  */
 	public int getDD_NetworkDistribution_ID();
 
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws Exception;
+	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -163,7 +167,7 @@ public interface I_PP_Product_Planning
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -178,15 +182,15 @@ public interface I_PP_Product_Planning
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Order_Max */
     public static final String COLUMNNAME_Order_Max = "Order_Max";
 
-	/** Set Order_Max	  */
+	/** Set Order Max	  */
 	public void setOrder_Max (BigDecimal Order_Max);
 
-	/** Get Order_Max	  */
+	/** Get Order Max	  */
 	public BigDecimal getOrder_Max();
 
     /** Column name Order_Min */
@@ -242,6 +246,15 @@ public interface I_PP_Product_Planning
 	/** Get Order Qty	  */
 	public BigDecimal getOrder_Qty();
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner	  */
+	public int getPlanner_ID();
+
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -255,25 +268,29 @@ public interface I_PP_Product_Planning
 	  */
 	public int getPP_Product_BOM_ID();
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception;
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name PP_Product_Planning_ID */
     public static final String COLUMNNAME_PP_Product_Planning_ID = "PP_Product_Planning_ID";
 
-	/** Set PP_Product_Planning_ID	  */
+	/** Set Product Planning	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID);
 
-	/** Get PP_Product_Planning_ID	  */
+	/** Get Product Planning	  */
 	public int getPP_Product_Planning_ID();
 
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+    /** Column name SafetyStock */
+    public static final String COLUMNNAME_SafetyStock = "SafetyStock";
 
-	/** Set Planner	  */
-	public void setPlanner_ID (int Planner_ID);
+	/** Set Safety Stock Qty.
+	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public void setSafetyStock (BigDecimal SafetyStock);
 
-	/** Get Planner	  */
-	public int getPlanner_ID();
+	/** Get Safety Stock Qty.
+	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public BigDecimal getSafetyStock();
 
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
@@ -288,20 +305,7 @@ public interface I_PP_Product_Planning
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws Exception;
-
-    /** Column name SafetyStock */
-    public static final String COLUMNNAME_SafetyStock = "SafetyStock";
-
-	/** Set Safety Stock Qty.
-	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock);
-
-	/** Get Safety Stock Qty.
-	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock();
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";

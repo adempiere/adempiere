@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxBase
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent 
 {
 
@@ -88,13 +88,7 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	public void setBase (String Base)
 	{
 
-		if (Base == null || Base.equals("C") || Base.equals("P") || Base.equals("Q")); else throw new IllegalArgumentException ("Base Invalid value - " + Base + " - Reference_ID=53240 - C - P - Q");
-		if (Base != null && Base.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			Base = Base.substring(0, 1);
-		}
-		set_Value (COLUMNNAME_Base, Base);
+		if (Base == null || Base.equals("C") || Base.equals("P") || Base.equals("Q")); else throw new IllegalArgumentException ("Base Invalid value - " + Base + " - Reference_ID=53240 - C - P - Q");		set_Value (COLUMNNAME_Base, Base);
 	}
 
 	/** Get Base.
@@ -105,8 +99,8 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 		return (String)get_Value(COLUMNNAME_Base);
 	}
 
-	/** Set C_TaxBase_ID.
-		@param C_TaxBase_ID C_TaxBase_ID	  */
+	/** Set Tax Base.
+		@param C_TaxBase_ID Tax Base	  */
 	public void setC_TaxBase_ID (int C_TaxBase_ID)
 	{
 		if (C_TaxBase_ID < 1)
@@ -114,8 +108,8 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_C_TaxBase_ID, Integer.valueOf(C_TaxBase_ID));
 	}
 
-	/** Get C_TaxBase_ID.
-		@return C_TaxBase_ID	  */
+	/** Get Tax Base.
+		@return Tax Base	  */
 	public int getC_TaxBase_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxBase_ID);
@@ -130,12 +124,6 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -153,12 +141,6 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -178,12 +160,6 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -231,12 +207,6 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

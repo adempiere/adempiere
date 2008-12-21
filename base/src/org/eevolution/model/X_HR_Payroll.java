@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws Exception 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
         I_AD_PrintFormat result = null;
@@ -87,7 +87,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -126,7 +126,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -171,7 +171,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Contract getHR_Contract() throws Exception 
+	public org.eevolution.model.I_HR_Contract getHR_Contract() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Contract.Table_Name);
         org.eevolution.model.I_HR_Contract result = null;
@@ -182,7 +182,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -264,6 +264,8 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	public static final String PAYMENTRULE_DirectDebit = "D";
 	/** Account = T */
 	public static final String PAYMENTRULE_Account = "T";
+	/** Cash = X */
+	public static final String PAYMENTRULE_Cash = "X";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
@@ -271,7 +273,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T") || PaymentRule.equals("X")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T - X");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

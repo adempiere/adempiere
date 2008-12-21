@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_Persistent 
 {
 
@@ -90,8 +90,8 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set EXP_Processor_Type_ID.
-		@param EXP_Processor_Type_ID EXP_Processor_Type_ID	  */
+	/** Set Export Processor Type.
+		@param EXP_Processor_Type_ID Export Processor Type	  */
 	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID)
 	{
 		if (EXP_Processor_Type_ID < 1)
@@ -99,8 +99,8 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		set_ValueNoCheck (COLUMNNAME_EXP_Processor_Type_ID, Integer.valueOf(EXP_Processor_Type_ID));
 	}
 
-	/** Get EXP_Processor_Type_ID.
-		@return EXP_Processor_Type_ID	  */
+	/** Get Export Processor Type.
+		@return Export Processor Type	  */
 	public int getEXP_Processor_Type_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_Type_ID);
@@ -126,8 +126,8 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set JavaClass.
-		@param JavaClass JavaClass	  */
+	/** Set Java Class.
+		@param JavaClass Java Class	  */
 	public void setJavaClass (String JavaClass)
 	{
 		if (JavaClass == null)
@@ -135,8 +135,8 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		set_Value (COLUMNNAME_JavaClass, JavaClass);
 	}
 
-	/** Get JavaClass.
-		@return JavaClass	  */
+	/** Get Java Class.
+		@return Java Class	  */
 	public String getJavaClass () 
 	{
 		return (String)get_Value(COLUMNNAME_JavaClass);

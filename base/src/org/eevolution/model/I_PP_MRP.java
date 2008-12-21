@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_MRP 
 {
@@ -54,6 +45,19 @@ public interface I_PP_MRP
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -67,7 +71,7 @@ public interface I_PP_MRP
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -82,7 +86,7 @@ public interface I_PP_MRP
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws Exception;
+	public I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -97,7 +101,7 @@ public interface I_PP_MRP
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws Exception;
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
@@ -179,7 +183,7 @@ public interface I_PP_MRP
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception;
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
@@ -190,7 +194,7 @@ public interface I_PP_MRP
 	/** Get Distribution Order Line	  */
 	public int getDD_OrderLine_ID();
 
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws Exception;
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -244,7 +248,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Forecast_ID();
 
-	public I_M_Forecast getM_Forecast() throws Exception;
+	public I_M_Forecast getM_Forecast() throws RuntimeException;
 
     /** Column name M_ForecastLine_ID */
     public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
@@ -259,7 +263,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_ForecastLine_ID();
 
-	public I_M_ForecastLine getM_ForecastLine() throws Exception;
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -274,7 +278,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
@@ -289,7 +293,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Requisition_ID();
 
-	public I_M_Requisition getM_Requisition() throws Exception;
+	public I_M_Requisition getM_Requisition() throws RuntimeException;
 
     /** Column name M_RequisitionLine_ID */
     public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
@@ -304,7 +308,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_RequisitionLine_ID();
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws Exception;
+	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -319,7 +323,7 @@ public interface I_PP_MRP
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -355,33 +359,33 @@ public interface I_PP_MRP
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
 
-	/** Set PP_MRP_ID	  */
+	/** Set Material Requirement Planning	  */
 	public void setPP_MRP_ID (int PP_MRP_ID);
 
-	/** Get PP_MRP_ID	  */
+	/** Get Material Requirement Planning	  */
 	public int getPP_MRP_ID();
 
     /** Column name PP_Order_BOMLine_ID */
     public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
 
-	/** Set PP_Order_BOMLine_ID	  */
+	/** Set Manufacturing Order BOM Line	  */
 	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
 
-	/** Get PP_Order_BOMLine_ID	  */
+	/** Get Manufacturing Order BOM Line	  */
 	public int getPP_Order_BOMLine_ID();
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception;
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set PP_Order_ID	  */
+	/** Set Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get PP_Order_ID	  */
+	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception;
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
@@ -422,7 +426,7 @@ public interface I_PP_MRP
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name TypeMRP */
     public static final String COLUMNNAME_TypeMRP = "TypeMRP";

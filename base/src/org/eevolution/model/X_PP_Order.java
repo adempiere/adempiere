@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order extends PO implements I_PP_Order, I_Persistent 
 {
 
@@ -117,8 +117,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -142,7 +140,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -153,7 +151,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -200,7 +198,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -211,7 +209,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -239,7 +237,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -250,7 +248,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -278,8 +276,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_DocType_ID AD_Reference_ID=53233 */
-	public static final int C_DOCTYPE_ID_AD_Reference_ID=53233;
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -303,8 +299,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_DocTypeTarget_ID AD_Reference_ID=53233 */
-	public static final int C_DOCTYPETARGET_ID_AD_Reference_ID=53233;
 	/** Set Target Document Type.
 		@param C_DocTypeTarget_ID 
 		Target document type for conversing documents
@@ -344,7 +338,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -355,7 +349,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -383,7 +377,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -394,7 +388,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -422,7 +416,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -433,7 +427,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -726,15 +720,15 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	/** Set FloatAfter.
-		@param FloatAfter FloatAfter	  */
+	/** Set Float After.
+		@param FloatAfter Float After	  */
 	public void setFloatAfter (BigDecimal FloatAfter)
 	{
 		set_Value (COLUMNNAME_FloatAfter, FloatAfter);
 	}
 
-	/** Get FloatAfter.
-		@return FloatAfter	  */
+	/** Get Float After.
+		@return Float After	  */
 	public BigDecimal getFloatAfter () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FloatAfter);
@@ -743,15 +737,15 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set FloatBefored.
-		@param FloatBefored FloatBefored	  */
+	/** Set Float Befored.
+		@param FloatBefored Float Befored	  */
 	public void setFloatBefored (BigDecimal FloatBefored)
 	{
 		set_Value (COLUMNNAME_FloatBefored, FloatBefored);
 	}
 
-	/** Get FloatBefored.
-		@return FloatBefored	  */
+	/** Get Float Befored.
+		@return Float Befored	  */
 	public BigDecimal getFloatBefored () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FloatBefored);
@@ -937,22 +931,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -975,7 +953,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -986,7 +964,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1027,8 +1005,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	/** Planner_ID AD_Reference_ID=286 */
-	public static final int PLANNER_ID_AD_Reference_ID=286;
 	/** Set Planner.
 		@param Planner_ID Planner	  */
 	public void setPlanner_ID (int Planner_ID)
@@ -1073,8 +1049,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -1082,8 +1058,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -1092,7 +1068,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -1103,7 +1079,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1205,15 +1181,15 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set QtyBatchs.
-		@param QtyBatchs QtyBatchs	  */
+	/** Set Qty Batchs.
+		@param QtyBatchs Qty Batchs	  */
 	public void setQtyBatchs (BigDecimal QtyBatchs)
 	{
 		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
 	}
 
-	/** Get QtyBatchs.
-		@return QtyBatchs	  */
+	/** Get Qty Batchs.
+		@return Qty Batchs	  */
 	public BigDecimal getQtyBatchs () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
@@ -1222,15 +1198,15 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyBatchSize.
-		@param QtyBatchSize QtyBatchSize	  */
+	/** Set Qty Batch Size.
+		@param QtyBatchSize Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize)
 	{
 		set_ValueNoCheck (COLUMNNAME_QtyBatchSize, QtyBatchSize);
 	}
 
-	/** Get QtyBatchSize.
-		@return QtyBatchSize	  */
+	/** Get Qty Batch Size.
+		@return Qty Batch Size	  */
 	public BigDecimal getQtyBatchSize () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
@@ -1303,8 +1279,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyReject.
-		@param QtyReject QtyReject	  */
+	/** Set Qty Reject.
+		@param QtyReject Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject)
 	{
 		if (QtyReject == null)
@@ -1312,8 +1288,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		set_Value (COLUMNNAME_QtyReject, QtyReject);
 	}
 
-	/** Get QtyReject.
-		@return QtyReject	  */
+	/** Get Qty Reject.
+		@return Qty Reject	  */
 	public BigDecimal getQtyReject () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyReject);
@@ -1343,7 +1319,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	}
 
 	/** Set QtyScrap.
-		@param QtyScrap QtyScrap	  */
+		@param QtyScrap 
+		Scrap Quantity for this componet
+	  */
 	public void setQtyScrap (BigDecimal QtyScrap)
 	{
 		if (QtyScrap == null)
@@ -1352,7 +1330,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	}
 
 	/** Get QtyScrap.
-		@return QtyScrap	  */
+		@return Scrap Quantity for this componet
+	  */
 	public BigDecimal getQtyScrap () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyScrap);
@@ -1395,7 +1374,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_SerNo);
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -1406,7 +1385,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1433,8 +1412,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -1458,8 +1435,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

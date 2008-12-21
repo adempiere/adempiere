@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_HR_Attribute 
 {
@@ -54,6 +45,19 @@ public interface I_HR_Attribute
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_Rule_ID */
     public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
 
@@ -63,7 +67,7 @@ public interface I_HR_Attribute
 	/** Get Rule	  */
 	public int getAD_Rule_ID();
 
-	public I_AD_Rule getAD_Rule() throws Exception;
+	public I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
@@ -91,7 +95,7 @@ public interface I_HR_Attribute
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name ColumnType */
     public static final String COLUMNNAME_ColumnType = "ColumnType";
@@ -118,14 +122,10 @@ public interface I_HR_Attribute
     /** Column name HR_Attribute_Acct */
     public static final String COLUMNNAME_HR_Attribute_Acct = "HR_Attribute_Acct";
 
-	/** Set Account Payroll Employee Attribute.
-	  * Account for Employee Attribute
-	  */
+	/** Set Payroll Attribute Account	  */
 	public void setHR_Attribute_Acct (int HR_Attribute_Acct);
 
-	/** Get Account Payroll Employee Attribute.
-	  * Account for Employee Attribute
-	  */
+	/** Get Payroll Attribute Account	  */
 	public int getHR_Attribute_Acct();
 
     /** Column name HR_Attribute_ID */
@@ -140,46 +140,46 @@ public interface I_HR_Attribute
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
-	/** Set Concept	  */
+	/** Set Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID);
 
-	/** Get Concept	  */
+	/** Get Payroll Concept	  */
 	public int getHR_Concept_ID();
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws Exception;
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
-	/** Set Department	  */
+	/** Set Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID);
 
-	/** Get Department	  */
+	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception;
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_Employee_ID */
     public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
 
-	/** Set Employee	  */
+	/** Set Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID);
 
-	/** Get Employee	  */
+	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws Exception;
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
 
-	/** Set Job	  */
+	/** Set Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID);
 
-	/** Get Job	  */
+	/** Get Payroll Job	  */
 	public int getHR_Job_ID();
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws Exception;
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
@@ -190,7 +190,7 @@ public interface I_HR_Attribute
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws Exception;
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
@@ -208,19 +208,19 @@ public interface I_HR_Attribute
     /** Column name MaxValue */
     public static final String COLUMNNAME_MaxValue = "MaxValue";
 
-	/** Set MaxValue	  */
+	/** Set Max Value	  */
 	public void setMaxValue (int MaxValue);
 
-	/** Get MaxValue	  */
+	/** Get Max Value	  */
 	public int getMaxValue();
 
     /** Column name MinValue */
     public static final String COLUMNNAME_MinValue = "MinValue";
 
-	/** Set MinValue	  */
+	/** Set Min Value	  */
 	public void setMinValue (int MinValue);
 
-	/** Get MinValue	  */
+	/** Get Min Value	  */
 	public int getMinValue();
 
     /** Column name Qty */

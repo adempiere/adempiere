@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_Persistent 
 {
 
@@ -156,7 +156,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return (String)get_Value(COLUMNNAME_ComponentType);
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -167,7 +167,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -401,7 +401,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -412,7 +412,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -440,7 +440,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -451,7 +451,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -478,7 +478,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -489,7 +489,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -538,7 +538,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return ii.intValue();
 	}
 
-	/** Set Quantity %.
+	/** Set Quantity in %.
 		@param QtyBatch 
 		Indicate the Quantity % use in this Formula
 	  */
@@ -547,7 +547,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		set_Value (COLUMNNAME_QtyBatch, QtyBatch);
 	}
 
-	/** Get Quantity %.
+	/** Get Quantity in %.
 		@return Indicate the Quantity % use in this Formula
 	  */
 	public BigDecimal getQtyBatch () 
@@ -578,17 +578,17 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return bd;
 	}
 
-	/** Set Scrap.
+	/** Set % Scrap.
 		@param Scrap 
-		Indicate the Scrap Quantity that is generate in a manufacturing process
+		Indicate the % Scrap  for calculate the Scrap Quantity
 	  */
 	public void setScrap (BigDecimal Scrap)
 	{
 		set_Value (COLUMNNAME_Scrap, Scrap);
 	}
 
-	/** Get Scrap.
-		@return Indicate the Scrap Quantity that is generate in a manufacturing process
+	/** Get % Scrap.
+		@return Indicate the % Scrap  for calculate the Scrap Quantity
 	  */
 	public BigDecimal getScrap () 
 	{

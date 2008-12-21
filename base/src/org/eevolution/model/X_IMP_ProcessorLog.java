@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Persistent 
 {
 
@@ -126,7 +126,7 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws Exception 
+	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_IMP_Processor.Table_Name);
         org.eevolution.model.I_IMP_Processor result = null;
@@ -137,13 +137,13 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set IMP_Processor_ID.
-		@param IMP_Processor_ID IMP_Processor_ID	  */
+	/** Set Import Processor.
+		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
 		if (IMP_Processor_ID < 1)
@@ -151,8 +151,8 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
-	/** Get IMP_Processor_ID.
-		@return IMP_Processor_ID	  */
+	/** Get Import Processor.
+		@return Import Processor	  */
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
@@ -161,8 +161,8 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set IMP_ProcessorLog_ID.
-		@param IMP_ProcessorLog_ID IMP_ProcessorLog_ID	  */
+	/** Set Import Processor Log.
+		@param IMP_ProcessorLog_ID Import Processor Log	  */
 	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
 	{
 		if (IMP_ProcessorLog_ID < 1)
@@ -170,8 +170,8 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
 	}
 
-	/** Get IMP_ProcessorLog_ID.
-		@return IMP_ProcessorLog_ID	  */
+	/** Get Import Processor Log.
+		@return Import Processor Log	  */
 	public int getIMP_ProcessorLog_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);

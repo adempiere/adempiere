@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for T_MRP_CRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent 
 {
 
@@ -72,7 +72,7 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -83,7 +83,7 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -148,8 +148,8 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set T_MRP_CRP_ID.
-		@param T_MRP_CRP_ID T_MRP_CRP_ID	  */
+	/** Set Temporal MRP & CRP.
+		@param T_MRP_CRP_ID Temporal MRP & CRP	  */
 	public void setT_MRP_CRP_ID (int T_MRP_CRP_ID)
 	{
 		if (T_MRP_CRP_ID < 1)
@@ -157,8 +157,8 @@ public class X_T_MRP_CRP extends PO implements I_T_MRP_CRP, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_T_MRP_CRP_ID, Integer.valueOf(T_MRP_CRP_ID));
 	}
 
-	/** Get T_MRP_CRP_ID.
-		@return T_MRP_CRP_ID	  */
+	/** Get Temporal MRP & CRP.
+		@return Temporal MRP & CRP	  */
 	public int getT_MRP_CRP_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_T_MRP_CRP_ID);

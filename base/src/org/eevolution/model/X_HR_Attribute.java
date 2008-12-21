@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws Exception 
+	public I_AD_Rule getAD_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
         I_AD_Rule result = null;
@@ -88,7 +88,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -133,7 +133,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -144,7 +144,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -214,18 +214,15 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Account Payroll Employee Attribute.
-		@param HR_Attribute_Acct 
-		Account for Employee Attribute
-	  */
+	/** Set Payroll Attribute Account.
+		@param HR_Attribute_Acct Payroll Attribute Account	  */
 	public void setHR_Attribute_Acct (int HR_Attribute_Acct)
 	{
 		set_Value (COLUMNNAME_HR_Attribute_Acct, Integer.valueOf(HR_Attribute_Acct));
 	}
 
-	/** Get Account Payroll Employee Attribute.
-		@return Account for Employee Attribute
-	  */
+	/** Get Payroll Attribute Account.
+		@return Payroll Attribute Account	  */
 	public int getHR_Attribute_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Attribute_Acct);
@@ -253,7 +250,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws Exception 
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept.Table_Name);
         org.eevolution.model.I_HR_Concept result = null;
@@ -264,13 +261,13 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Concept.
-		@param HR_Concept_ID Concept	  */
+	/** Set Payroll Concept.
+		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
 		if (HR_Concept_ID < 1)
@@ -278,8 +275,8 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Concept.
-		@return Concept	  */
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -288,7 +285,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
         org.eevolution.model.I_HR_Department result = null;
@@ -299,13 +296,13 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Department.
-		@param HR_Department_ID Department	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -314,8 +311,8 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -324,7 +321,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws Exception 
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Employee.Table_Name);
         org.eevolution.model.I_HR_Employee result = null;
@@ -335,13 +332,13 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Employee.
-		@param HR_Employee_ID Employee	  */
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
 	{
 		if (HR_Employee_ID < 1) 
@@ -350,8 +347,8 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 			set_Value (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
 	}
 
-	/** Get Employee.
-		@return Employee	  */
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
@@ -360,7 +357,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws Exception 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Job.Table_Name);
         org.eevolution.model.I_HR_Job result = null;
@@ -371,13 +368,13 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Job.
-		@param HR_Job_ID Job	  */
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
 	{
 		if (HR_Job_ID < 1) 
@@ -386,8 +383,8 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
 	}
 
-	/** Get Job.
-		@return Job	  */
+	/** Get Payroll Job.
+		@return Payroll Job	  */
 	public int getHR_Job_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
@@ -396,7 +393,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws Exception 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
         org.eevolution.model.I_HR_Payroll result = null;
@@ -407,7 +404,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -456,15 +453,15 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return false;
 	}
 
-	/** Set MaxValue.
-		@param MaxValue MaxValue	  */
+	/** Set Max Value.
+		@param MaxValue Max Value	  */
 	public void setMaxValue (int MaxValue)
 	{
 		set_Value (COLUMNNAME_MaxValue, Integer.valueOf(MaxValue));
 	}
 
-	/** Get MaxValue.
-		@return MaxValue	  */
+	/** Get Max Value.
+		@return Max Value	  */
 	public int getMaxValue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_MaxValue);
@@ -473,15 +470,15 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MinValue.
-		@param MinValue MinValue	  */
+	/** Set Min Value.
+		@param MinValue Min Value	  */
 	public void setMinValue (int MinValue)
 	{
 		set_Value (COLUMNNAME_MinValue, Integer.valueOf(MinValue));
 	}
 
-	/** Get MinValue.
-		@return MinValue	  */
+	/** Get Min Value.
+		@return Min Value	  */
 	public int getMinValue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_MinValue);

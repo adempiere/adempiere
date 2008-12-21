@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Cost_Collector
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_Cost_Collector 
 {
@@ -45,19 +45,6 @@ public interface I_PP_Cost_Collector
 
     /** Load Meta Data */
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +57,19 @@ public interface I_PP_Cost_Collector
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -116,19 +116,6 @@ public interface I_PP_Cost_Collector
 
 	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name C_DocTypeTarget_ID */
-    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
-
-	/** Set Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
-
-	/** Get Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID();
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -142,20 +129,31 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_DocType_ID();
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name C_DocTypeTarget_ID */
+    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
 
-	/** Set Order.
-	  * Order
+	/** Set Target Document Type.
+	  * Target document type for conversing documents
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
 
-	/** Get Order.
-	  * Order
+	/** Get Target Document Type.
+	  * Target document type for conversing documents
 	  */
-	public int getC_Order_ID();
+	public int getC_DocTypeTarget_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+    /** Column name CostCollectorType */
+    public static final String COLUMNNAME_CostCollectorType = "CostCollectorType";
+
+	/** Set Cost Collector Type.
+	  * Transaction Type for Manufacturing Management
+	  */
+	public void setCostCollectorType (String CostCollectorType);
+
+	/** Get Cost Collector Type.
+	  * Transaction Type for Manufacturing Management
+	  */
+	public String getCostCollectorType();
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -186,19 +184,6 @@ public interface I_PP_Cost_Collector
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
-
-    /** Column name CostCollectorType */
-    public static final String COLUMNNAME_CostCollectorType = "CostCollectorType";
-
-	/** Set Cost Collector Type.
-	  * Transaction Type for Manufacturing Management
-	  */
-	public void setCostCollectorType (String CostCollectorType);
-
-	/** Get Cost Collector Type.
-	  * Transaction Type for Manufacturing Management
-	  */
-	public String getCostCollectorType();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -305,6 +290,32 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getM_Locator_ID();
 
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -335,31 +346,18 @@ public interface I_PP_Cost_Collector
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
 
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
+	/** Set Posted.
+	  * Posting status
 	  */
-	public void setMovementDate (Timestamp MovementDate);
+	public void setPosted (boolean Posted);
 
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
+	/** Get Posted.
+	  * Posting status
 	  */
-	public Timestamp getMovementDate();
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
+	public boolean isPosted();
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
@@ -379,7 +377,7 @@ public interface I_PP_Cost_Collector
 	/** Get Manufacturing Order BOM Line	  */
 	public int getPP_Order_BOMLine_ID();
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPPOrderBOMLine() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
@@ -390,7 +388,7 @@ public interface I_PP_Cost_Collector
 	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPPOrder() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
@@ -401,7 +399,7 @@ public interface I_PP_Cost_Collector
 	/** Get Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID();
 
-	public org.eevolution.model.I_PP_Order_Node getPPOrderNode() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
 
     /** Column name PP_Order_Workflow_ID */
     public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
@@ -413,19 +411,6 @@ public interface I_PP_Cost_Collector
 	public int getPP_Order_Workflow_ID();
 
 	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException;
-
-    /** Column name Posted */
-    public static final String COLUMNNAME_Posted = "Posted";
-
-	/** Set Posted.
-	  * Posting status
-	  */
-	public void setPosted (boolean Posted);
-
-	/** Get Posted.
-	  * Posting status
-	  */
-	public boolean isPosted();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -471,21 +456,6 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getReversal_ID();
 
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws RuntimeException;
-
     /** Column name ScrappedQty */
     public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 
@@ -507,6 +477,21 @@ public interface I_PP_Cost_Collector
 
 	/** Get Setup Time Real	  */
 	public BigDecimal getSetupTimeReal();
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";

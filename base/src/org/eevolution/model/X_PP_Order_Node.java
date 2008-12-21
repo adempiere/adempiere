@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
@@ -44,10 +44,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
       super (ctx, PP_Order_Node_ID, trxName);
       /** if (PP_Order_Node_ID == 0)
         {
+			setAction (null);
+// Z
 			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
-			setAction (null);
-// N
 			setCost (Env.ZERO);
 			setEntityType (null);
 // U
@@ -98,394 +98,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Column.
-		@param AD_Column_ID 
-		Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID)
-	{
-		if (AD_Column_ID < 1) 
-			set_Value (COLUMNNAME_AD_Column_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
-	}
-
-	/** Get Column.
-		@return Column in the table
-	  */
-	public int getAD_Column_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Form getAD_Form() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
-        I_AD_Form result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Special Form.
-		@param AD_Form_ID 
-		Special Form
-	  */
-	public void setAD_Form_ID (int AD_Form_ID)
-	{
-		if (AD_Form_ID < 1) 
-			set_Value (COLUMNNAME_AD_Form_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
-	}
-
-	/** Get Special Form.
-		@return Special Form
-	  */
-	public int getAD_Form_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Form_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Image getAD_Image() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
-        I_AD_Image result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Image)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Image_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Image.
-		@param AD_Image_ID 
-		Image or Icon
-	  */
-	public void setAD_Image_ID (int AD_Image_ID)
-	{
-		if (AD_Image_ID < 1) 
-			set_Value (COLUMNNAME_AD_Image_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
-	}
-
-	/** Get Image.
-		@return Image or Icon
-	  */
-	public int getAD_Image_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Process getAD_Process() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Process.
-		@param AD_Process_ID 
-		Process or Report
-	  */
-	public void setAD_Process_ID (int AD_Process_ID)
-	{
-		if (AD_Process_ID < 1) 
-			set_Value (COLUMNNAME_AD_Process_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
-	}
-
-	/** Get Process.
-		@return Process or Report
-	  */
-	public int getAD_Process_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Task getAD_Task() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
-        I_AD_Task result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Task)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Task_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set OS Task.
-		@param AD_Task_ID 
-		Operation System Task
-	  */
-	public void setAD_Task_ID (int AD_Task_ID)
-	{
-		if (AD_Task_ID < 1) 
-			set_Value (COLUMNNAME_AD_Task_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
-	}
-
-	/** Get OS Task.
-		@return Operation System Task
-	  */
-	public int getAD_Task_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_WF_Block getAD_WF_Block() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Block.Table_Name);
-        I_AD_WF_Block result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Block)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Block_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Workflow Block.
-		@param AD_WF_Block_ID 
-		Workflow Transaction Execution Block
-	  */
-	public void setAD_WF_Block_ID (int AD_WF_Block_ID)
-	{
-		if (AD_WF_Block_ID < 1) 
-			set_Value (COLUMNNAME_AD_WF_Block_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
-	}
-
-	/** Get Workflow Block.
-		@return Workflow Transaction Execution Block
-	  */
-	public int getAD_WF_Block_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Block_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
-        I_AD_WF_Node result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Node_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Node.
-		@param AD_WF_Node_ID 
-		Workflow Node (activity), step or process
-	  */
-	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
-	{
-		if (AD_WF_Node_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
-	}
-
-	/** Get Node.
-		@return Workflow Node (activity), step or process
-	  */
-	public int getAD_WF_Node_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Node_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
-        I_AD_WF_Responsible result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Responsible)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Responsible_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Workflow Responsible.
-		@param AD_WF_Responsible_ID 
-		Responsible for Workflow Execution
-	  */
-	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
-	{
-		if (AD_WF_Responsible_ID < 1) 
-			set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
-	}
-
-	/** Get Workflow Responsible.
-		@return Responsible for Workflow Execution
-	  */
-	public int getAD_WF_Responsible_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Responsible_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Window getAD_Window() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Window.
-		@param AD_Window_ID 
-		Data entry or display window
-	  */
-	public void setAD_Window_ID (int AD_Window_ID)
-	{
-		if (AD_Window_ID < 1) 
-			set_Value (COLUMNNAME_AD_Window_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
-	}
-
-	/** Get Window.
-		@return Data entry or display window
-	  */
-	public int getAD_Window_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Workflow getAD_Workflow() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
-        I_AD_Workflow result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Workflow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workflow_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Workflow.
-		@param AD_Workflow_ID 
-		Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID)
-	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
-	}
-
-	/** Get Workflow.
-		@return Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Action AD_Reference_ID=302 */
 	public static final int ACTION_AD_Reference_ID=302;
 	/** Wait (Sleep) = Z */
@@ -530,6 +142,394 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_Action);
 	}
 
+	public I_AD_Column getAD_Column() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
+        I_AD_Column result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Column.
+		@param AD_Column_ID 
+		Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID)
+	{
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+	}
+
+	/** Get Column.
+		@return Column in the table
+	  */
+	public int getAD_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Form getAD_Form() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
+        I_AD_Form result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Special Form.
+		@param AD_Form_ID 
+		Special Form
+	  */
+	public void setAD_Form_ID (int AD_Form_ID)
+	{
+		if (AD_Form_ID < 1) 
+			set_Value (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+	}
+
+	/** Get Special Form.
+		@return Special Form
+	  */
+	public int getAD_Form_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Form_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Image getAD_Image() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
+        I_AD_Image result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Image)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Image_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Process getAD_Process() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
+        I_AD_Process result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Process.
+		@param AD_Process_ID 
+		Process or Report
+	  */
+	public void setAD_Process_ID (int AD_Process_ID)
+	{
+		if (AD_Process_ID < 1) 
+			set_Value (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+	}
+
+	/** Get Process.
+		@return Process or Report
+	  */
+	public int getAD_Process_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Task getAD_Task() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
+        I_AD_Task result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Task)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Task_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set OS Task.
+		@param AD_Task_ID 
+		Operation System Task
+	  */
+	public void setAD_Task_ID (int AD_Task_ID)
+	{
+		if (AD_Task_ID < 1) 
+			set_Value (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+	}
+
+	/** Get OS Task.
+		@return Operation System Task
+	  */
+	public int getAD_Task_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Task_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_WF_Block.Table_Name);
+        I_AD_WF_Block result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_WF_Block)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Block_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Workflow Block.
+		@param AD_WF_Block_ID 
+		Workflow Transaction Execution Block
+	  */
+	public void setAD_WF_Block_ID (int AD_WF_Block_ID)
+	{
+		if (AD_WF_Block_ID < 1) 
+			set_Value (COLUMNNAME_AD_WF_Block_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
+	}
+
+	/** Get Workflow Block.
+		@return Workflow Transaction Execution Block
+	  */
+	public int getAD_WF_Block_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Block_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
+        I_AD_WF_Node result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_WF_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Node_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Node.
+		@param AD_WF_Node_ID 
+		Workflow Node (activity), step or process
+	  */
+	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
+	{
+		if (AD_WF_Node_ID < 1)
+			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+	}
+
+	/** Get Node.
+		@return Workflow Node (activity), step or process
+	  */
+	public int getAD_WF_Node_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Node_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_WF_Responsible.Table_Name);
+        I_AD_WF_Responsible result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_WF_Responsible)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Responsible_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Workflow Responsible.
+		@param AD_WF_Responsible_ID 
+		Responsible for Workflow Execution
+	  */
+	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID)
+	{
+		if (AD_WF_Responsible_ID < 1) 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Responsible_ID, Integer.valueOf(AD_WF_Responsible_ID));
+	}
+
+	/** Get Workflow Responsible.
+		@return Responsible for Workflow Execution
+	  */
+	public int getAD_WF_Responsible_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_Responsible_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Window getAD_Window() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
+        I_AD_Window result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Window.
+		@param AD_Window_ID 
+		Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID)
+	{
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+	}
+
+	/** Get Window.
+		@return Data entry or display window
+	  */
+	public int getAD_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
+        I_AD_Workflow result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_Workflow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workflow_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Workflow.
+		@param AD_Workflow_ID 
+		Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID)
+	{
+		if (AD_Workflow_ID < 1)
+			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
+		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+	}
+
+	/** Get Workflow.
+		@return Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Attribute Name.
 		@param AttributeName 
 		Name of the Attribute
@@ -564,7 +564,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_AttributeValue);
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -575,7 +575,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -813,15 +813,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set DurationReal.
-		@param DurationReal DurationReal	  */
+	/** Set Duration Real.
+		@param DurationReal Duration Real	  */
 	public void setDurationReal (int DurationReal)
 	{
 		set_Value (COLUMNNAME_DurationReal, Integer.valueOf(DurationReal));
 	}
 
-	/** Get DurationReal.
-		@return DurationReal	  */
+	/** Get Duration Real.
+		@return Duration Real	  */
 	public int getDurationReal () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DurationReal);
@@ -830,15 +830,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set DurationRequiered.
-		@param DurationRequiered DurationRequiered	  */
+	/** Set Duration Requiered.
+		@param DurationRequiered Duration Requiered	  */
 	public void setDurationRequiered (int DurationRequiered)
 	{
 		set_Value (COLUMNNAME_DurationRequiered, Integer.valueOf(DurationRequiered));
 	}
 
-	/** Get DurationRequiered.
-		@return DurationRequiered	  */
+	/** Get Duration Requiered.
+		@return Duration Requiered	  */
 	public int getDurationRequiered () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DurationRequiered);
@@ -931,15 +931,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return false;
 	}
 
-	/** Set IsMilestone.
-		@param IsMilestone IsMilestone	  */
+	/** Set Is Milestone.
+		@param IsMilestone Is Milestone	  */
 	public void setIsMilestone (boolean IsMilestone)
 	{
 		set_Value (COLUMNNAME_IsMilestone, Boolean.valueOf(IsMilestone));
 	}
 
-	/** Get IsMilestone.
-		@return IsMilestone	  */
+	/** Get Is Milestone.
+		@return Is Milestone	  */
 	public boolean isMilestone () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMilestone);
@@ -952,15 +952,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return false;
 	}
 
-	/** Set IsSubcontracting.
-		@param IsSubcontracting IsSubcontracting	  */
+	/** Set Is Subcontracting.
+		@param IsSubcontracting Is Subcontracting	  */
 	public void setIsSubcontracting (boolean IsSubcontracting)
 	{
 		set_Value (COLUMNNAME_IsSubcontracting, Boolean.valueOf(IsSubcontracting));
 	}
 
-	/** Get IsSubcontracting.
-		@return IsSubcontracting	  */
+	/** Get Is Subcontracting.
+		@return Is Subcontracting	  */
 	public boolean isSubcontracting () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSubcontracting);
@@ -1017,15 +1017,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MovingTime.
-		@param MovingTime MovingTime	  */
+	/** Set Moving Time.
+		@param MovingTime Moving Time	  */
 	public void setMovingTime (int MovingTime)
 	{
 		set_Value (COLUMNNAME_MovingTime, Integer.valueOf(MovingTime));
 	}
 
-	/** Get MovingTime.
-		@return MovingTime	  */
+	/** Get Moving Time.
+		@return Moving Time	  */
 	public int getMovingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_MovingTime);
@@ -1061,15 +1061,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set OverlapUnits.
-		@param OverlapUnits OverlapUnits	  */
+	/** Set Overlap Units.
+		@param OverlapUnits Overlap Units	  */
 	public void setOverlapUnits (int OverlapUnits)
 	{
 		set_Value (COLUMNNAME_OverlapUnits, Integer.valueOf(OverlapUnits));
 	}
 
-	/** Get OverlapUnits.
-		@return OverlapUnits	  */
+	/** Get Overlap Units.
+		@return Overlap Units	  */
 	public int getOverlapUnits () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_OverlapUnits);
@@ -1078,7 +1078,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -1089,13 +1089,13 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -1103,8 +1103,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -1132,7 +1132,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws Exception 
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Workflow.Table_Name);
         org.eevolution.model.I_PP_Order_Workflow result = null;
@@ -1143,13 +1143,13 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_Workflow_ID.
-		@param PP_Order_Workflow_ID PP_Order_Workflow_ID	  */
+	/** Set Manufacturing Order Workflow.
+		@param PP_Order_Workflow_ID Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID)
 	{
 		if (PP_Order_Workflow_ID < 1)
@@ -1157,8 +1157,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
 	}
 
-	/** Get PP_Order_Workflow_ID.
-		@return PP_Order_Workflow_ID	  */
+	/** Get Manufacturing Order Workflow.
+		@return Manufacturing Order Workflow	  */
 	public int getPP_Order_Workflow_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Workflow_ID);
@@ -1207,15 +1207,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyReject.
-		@param QtyReject QtyReject	  */
+	/** Set Qty Reject.
+		@param QtyReject Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject)
 	{
 		set_Value (COLUMNNAME_QtyReject, QtyReject);
 	}
 
-	/** Get QtyReject.
-		@return QtyReject	  */
+	/** Get Qty Reject.
+		@return Qty Reject	  */
 	public BigDecimal getQtyReject () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyReject);
@@ -1224,15 +1224,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyRequiered.
-		@param QtyRequiered QtyRequiered	  */
+	/** Set Qty Requiered.
+		@param QtyRequiered Qty Requiered	  */
 	public void setQtyRequiered (BigDecimal QtyRequiered)
 	{
 		set_Value (COLUMNNAME_QtyRequiered, QtyRequiered);
 	}
 
-	/** Get QtyRequiered.
-		@return QtyRequiered	  */
+	/** Get Qty Requiered.
+		@return Qty Requiered	  */
 	public BigDecimal getQtyRequiered () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyRequiered);
@@ -1242,14 +1242,17 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	}
 
 	/** Set QtyScrap.
-		@param QtyScrap QtyScrap	  */
+		@param QtyScrap 
+		Scrap Quantity for this componet
+	  */
 	public void setQtyScrap (BigDecimal QtyScrap)
 	{
 		set_Value (COLUMNNAME_QtyScrap, QtyScrap);
 	}
 
 	/** Get QtyScrap.
-		@return QtyScrap	  */
+		@return Scrap Quantity for this componet
+	  */
 	public BigDecimal getQtyScrap () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyScrap);
@@ -1258,57 +1261,18 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return bd;
 	}
 
-	/** Set QueuingTime.
-		@param QueuingTime QueuingTime	  */
+	/** Set Queuing Time.
+		@param QueuingTime Queuing Time	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
-	/** Get QueuingTime.
-		@return QueuingTime	  */
+	/** Get Queuing Time.
+		@return Queuing Time	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_S_Resource getS_Resource() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1334,15 +1298,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set SetupTimeReal.
-		@param SetupTimeReal SetupTimeReal	  */
+	/** Set Setup Time Real.
+		@param SetupTimeReal Setup Time Real	  */
 	public void setSetupTimeReal (int SetupTimeReal)
 	{
 		set_Value (COLUMNNAME_SetupTimeReal, Integer.valueOf(SetupTimeReal));
 	}
 
-	/** Get SetupTimeReal.
-		@return SetupTimeReal	  */
+	/** Get Setup Time Real.
+		@return Setup Time Real	  */
 	public int getSetupTimeReal () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeReal);
@@ -1351,15 +1315,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set SetupTimeRequiered.
-		@param SetupTimeRequiered SetupTimeRequiered	  */
+	/** Set Setup Time Requiered.
+		@param SetupTimeRequiered Setup Time Requiered	  */
 	public void setSetupTimeRequiered (int SetupTimeRequiered)
 	{
 		set_Value (COLUMNNAME_SetupTimeRequiered, Integer.valueOf(SetupTimeRequiered));
 	}
 
-	/** Get SetupTimeRequiered.
-		@return SetupTimeRequiered	  */
+	/** Get Setup Time Requiered.
+		@return Setup Time Requiered	  */
 	public int getSetupTimeRequiered () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTimeRequiered);
@@ -1390,6 +1354,45 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
+	}
+
+	public I_S_Resource getS_Resource() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1440,15 +1443,15 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
 	}
 
-	/** Set UnitsCycles.
-		@param UnitsCycles UnitsCycles	  */
+	/** Set Units Cycles.
+		@param UnitsCycles Units Cycles	  */
 	public void setUnitsCycles (int UnitsCycles)
 	{
 		set_Value (COLUMNNAME_UnitsCycles, Integer.valueOf(UnitsCycles));
 	}
 
-	/** Get UnitsCycles.
-		@return UnitsCycles	  */
+	/** Get Units Cycles.
+		@return Units Cycles	  */
 	public int getUnitsCycles () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_UnitsCycles);
@@ -1530,8 +1533,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Workflow_ID AD_Reference_ID=174 */
-	public static final int WORKFLOW_ID_AD_Reference_ID=174;
 	/** Set Workflow.
 		@param Workflow_ID 
 		Workflow or tasks

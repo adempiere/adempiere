@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParameter, I_Persistent 
 {
 
@@ -109,7 +109,7 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws Exception 
+	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_IMP_Processor.Table_Name);
         org.eevolution.model.I_IMP_Processor result = null;
@@ -120,13 +120,13 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set IMP_Processor_ID.
-		@param IMP_Processor_ID IMP_Processor_ID	  */
+	/** Set Import Processor.
+		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
 		if (IMP_Processor_ID < 1)
@@ -134,8 +134,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
-	/** Get IMP_Processor_ID.
-		@return IMP_Processor_ID	  */
+	/** Get Import Processor.
+		@return Import Processor	  */
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
@@ -144,8 +144,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return ii.intValue();
 	}
 
-	/** Set IMP_ProcessorParameter_ID.
-		@param IMP_ProcessorParameter_ID IMP_ProcessorParameter_ID	  */
+	/** Set Import Processor Parameter.
+		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
 	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
 	{
 		if (IMP_ProcessorParameter_ID < 1)
@@ -153,8 +153,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
 	}
 
-	/** Get IMP_ProcessorParameter_ID.
-		@return IMP_ProcessorParameter_ID	  */
+	/** Get Import Processor Parameter.
+		@return Import Processor Parameter	  */
 	public int getIMP_ProcessorParameter_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
@@ -182,15 +182,15 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set ParameterValue.
-		@param ParameterValue ParameterValue	  */
+	/** Set Parameter Value.
+		@param ParameterValue Parameter Value	  */
 	public void setParameterValue (String ParameterValue)
 	{
 		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
 	}
 
-	/** Get ParameterValue.
-		@return ParameterValue	  */
+	/** Get Parameter Value.
+		@return Parameter Value	  */
 	public String getParameterValue () 
 	{
 		return (String)get_Value(COLUMNNAME_ParameterValue);

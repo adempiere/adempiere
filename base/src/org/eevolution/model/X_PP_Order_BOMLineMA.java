@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_BOMLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_Persistent 
 {
 
@@ -121,7 +121,7 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		return bd;
 	}
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception 
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
         org.eevolution.model.I_PP_Order_BOMLine result = null;
@@ -132,13 +132,13 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_BOMLine_ID.
-		@param PP_Order_BOMLine_ID PP_Order_BOMLine_ID	  */
+	/** Set Manufacturing Order BOM Line.
+		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
 	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
 	{
 		if (PP_Order_BOMLine_ID < 1)
@@ -146,8 +146,8 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		set_Value (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
 	}
 
-	/** Get PP_Order_BOMLine_ID.
-		@return PP_Order_BOMLine_ID	  */
+	/** Get Manufacturing Order BOM Line.
+		@return Manufacturing Order BOM Line	  */
 	public int getPP_Order_BOMLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
@@ -156,8 +156,8 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_BOMLineMA_ID.
-		@param PP_Order_BOMLineMA_ID PP_Order_BOMLineMA_ID	  */
+	/** Set Manufacturing Order BOM Line MA.
+		@param PP_Order_BOMLineMA_ID Manufacturing Order BOM Line MA	  */
 	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID)
 	{
 		if (PP_Order_BOMLineMA_ID < 1)
@@ -165,8 +165,8 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLineMA_ID, Integer.valueOf(PP_Order_BOMLineMA_ID));
 	}
 
-	/** Get PP_Order_BOMLineMA_ID.
-		@return PP_Order_BOMLineMA_ID	  */
+	/** Get Manufacturing Order BOM Line MA.
+		@return Manufacturing Order BOM Line MA	  */
 	public int getPP_Order_BOMLineMA_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLineMA_ID);

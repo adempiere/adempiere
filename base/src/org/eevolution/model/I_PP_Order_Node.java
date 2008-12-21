@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_Order_Node 
 {
@@ -54,6 +45,19 @@ public interface I_PP_Order_Node
 
     /** Load Meta Data */
 
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
+
     /** Column name AD_Column_ID */
     public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 
@@ -67,7 +71,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -82,7 +86,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws Exception;
+	public I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -97,7 +101,20 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws Exception;
+	public I_AD_Image getAD_Image() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
@@ -112,7 +129,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws Exception;
+	public I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -127,7 +144,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws Exception;
+	public I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name AD_WF_Block_ID */
     public static final String COLUMNNAME_AD_WF_Block_ID = "AD_WF_Block_ID";
@@ -142,7 +159,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_WF_Block_ID();
 
-	public I_AD_WF_Block getAD_WF_Block() throws Exception;
+	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -157,7 +174,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception;
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name AD_WF_Responsible_ID */
     public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
@@ -172,7 +189,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -187,7 +204,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -202,20 +219,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws Exception;
-
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
@@ -256,7 +260,7 @@ public interface I_PP_Order_Node
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -366,19 +370,19 @@ public interface I_PP_Order_Node
     /** Column name DurationReal */
     public static final String COLUMNNAME_DurationReal = "DurationReal";
 
-	/** Set DurationReal	  */
+	/** Set Duration Real	  */
 	public void setDurationReal (int DurationReal);
 
-	/** Get DurationReal	  */
+	/** Get Duration Real	  */
 	public int getDurationReal();
 
     /** Column name DurationRequiered */
     public static final String COLUMNNAME_DurationRequiered = "DurationRequiered";
 
-	/** Set DurationRequiered	  */
+	/** Set Duration Requiered	  */
 	public void setDurationRequiered (int DurationRequiered);
 
-	/** Get DurationRequiered	  */
+	/** Get Duration Requiered	  */
 	public int getDurationRequiered();
 
     /** Column name EntityType */
@@ -438,19 +442,19 @@ public interface I_PP_Order_Node
     /** Column name IsMilestone */
     public static final String COLUMNNAME_IsMilestone = "IsMilestone";
 
-	/** Set IsMilestone	  */
+	/** Set Is Milestone	  */
 	public void setIsMilestone (boolean IsMilestone);
 
-	/** Get IsMilestone	  */
+	/** Get Is Milestone	  */
 	public boolean isMilestone();
 
     /** Column name IsSubcontracting */
     public static final String COLUMNNAME_IsSubcontracting = "IsSubcontracting";
 
-	/** Set IsSubcontracting	  */
+	/** Set Is Subcontracting	  */
 	public void setIsSubcontracting (boolean IsSubcontracting);
 
-	/** Get IsSubcontracting	  */
+	/** Get Is Subcontracting	  */
 	public boolean isSubcontracting();
 
     /** Column name JoinElement */
@@ -482,10 +486,10 @@ public interface I_PP_Order_Node
     /** Column name MovingTime */
     public static final String COLUMNNAME_MovingTime = "MovingTime";
 
-	/** Set MovingTime	  */
+	/** Set Moving Time	  */
 	public void setMovingTime (int MovingTime);
 
-	/** Get MovingTime	  */
+	/** Get Moving Time	  */
 	public int getMovingTime();
 
     /** Column name Name */
@@ -504,22 +508,22 @@ public interface I_PP_Order_Node
     /** Column name OverlapUnits */
     public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
 
-	/** Set OverlapUnits	  */
+	/** Set Overlap Units	  */
 	public void setOverlapUnits (int OverlapUnits);
 
-	/** Get OverlapUnits	  */
+	/** Get Overlap Units	  */
 	public int getOverlapUnits();
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set PP_Order_ID	  */
+	/** Set Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get PP_Order_ID	  */
+	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception;
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
@@ -533,13 +537,13 @@ public interface I_PP_Order_Node
     /** Column name PP_Order_Workflow_ID */
     public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
 
-	/** Set PP_Order_Workflow_ID	  */
+	/** Set Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID);
 
-	/** Get PP_Order_Workflow_ID	  */
+	/** Get Manufacturing Order Workflow	  */
 	public int getPP_Order_Workflow_ID();
 
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws Exception;
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException;
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
@@ -570,53 +574,42 @@ public interface I_PP_Order_Node
     /** Column name QtyReject */
     public static final String COLUMNNAME_QtyReject = "QtyReject";
 
-	/** Set QtyReject	  */
+	/** Set Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject);
 
-	/** Get QtyReject	  */
+	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
     /** Column name QtyRequiered */
     public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
 
-	/** Set QtyRequiered	  */
+	/** Set Qty Requiered	  */
 	public void setQtyRequiered (BigDecimal QtyRequiered);
 
-	/** Get QtyRequiered	  */
+	/** Get Qty Requiered	  */
 	public BigDecimal getQtyRequiered();
 
     /** Column name QtyScrap */
     public static final String COLUMNNAME_QtyScrap = "QtyScrap";
 
-	/** Set QtyScrap	  */
+	/** Set QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public void setQtyScrap (BigDecimal QtyScrap);
 
-	/** Get QtyScrap	  */
+	/** Get QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public BigDecimal getQtyScrap();
 
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set QueuingTime	  */
+	/** Set Queuing Time	  */
 	public void setQueuingTime (int QueuingTime);
 
-	/** Get QueuingTime	  */
+	/** Get Queuing Time	  */
 	public int getQueuingTime();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws Exception;
 
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";
@@ -634,19 +627,19 @@ public interface I_PP_Order_Node
     /** Column name SetupTimeReal */
     public static final String COLUMNNAME_SetupTimeReal = "SetupTimeReal";
 
-	/** Set SetupTimeReal	  */
+	/** Set Setup Time Real	  */
 	public void setSetupTimeReal (int SetupTimeReal);
 
-	/** Get SetupTimeReal	  */
+	/** Get Setup Time Real	  */
 	public int getSetupTimeReal();
 
     /** Column name SetupTimeRequiered */
     public static final String COLUMNNAME_SetupTimeRequiered = "SetupTimeRequiered";
 
-	/** Set SetupTimeRequiered	  */
+	/** Set Setup Time Requiered	  */
 	public void setSetupTimeRequiered (int SetupTimeRequiered);
 
-	/** Get SetupTimeRequiered	  */
+	/** Get Setup Time Requiered	  */
 	public int getSetupTimeRequiered();
 
     /** Column name SplitElement */
@@ -661,6 +654,21 @@ public interface I_PP_Order_Node
 	  * Semantics for multiple outgoing Transitions
 	  */
 	public String getSplitElement();
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name StartMode */
     public static final String COLUMNNAME_StartMode = "StartMode";
@@ -691,10 +699,10 @@ public interface I_PP_Order_Node
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
-	/** Set UnitsCycles	  */
+	/** Set Units Cycles	  */
 	public void setUnitsCycles (int UnitsCycles);
 
-	/** Get UnitsCycles	  */
+	/** Get Units Cycles	  */
 	public int getUnitsCycles();
 
     /** Column name ValidFrom */

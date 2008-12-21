@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_Cost
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -88,7 +88,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -116,7 +116,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -127,7 +127,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -212,15 +212,15 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set CumulatedAmtPost.
-		@param CumulatedAmtPost CumulatedAmtPost	  */
+	/** Set Cumulated Amt Post.
+		@param CumulatedAmtPost Cumulated Amt Post	  */
 	public void setCumulatedAmtPost (BigDecimal CumulatedAmtPost)
 	{
 		set_ValueNoCheck (COLUMNNAME_CumulatedAmtPost, CumulatedAmtPost);
 	}
 
-	/** Get CumulatedAmtPost.
-		@return CumulatedAmtPost	  */
+	/** Get Cumulated Amt Post.
+		@return Cumulated Amt Post	  */
 	public BigDecimal getCumulatedAmtPost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedAmtPost);
@@ -249,15 +249,15 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set CumulatedQtyPost.
-		@param CumulatedQtyPost CumulatedQtyPost	  */
+	/** Set Cumulated Qty Post.
+		@param CumulatedQtyPost Cumulated Qty Post	  */
 	public void setCumulatedQtyPost (BigDecimal CumulatedQtyPost)
 	{
 		set_ValueNoCheck (COLUMNNAME_CumulatedQtyPost, CumulatedQtyPost);
 	}
 
-	/** Get CumulatedQtyPost.
-		@return CumulatedQtyPost	  */
+	/** Get Cumulated Qty Post.
+		@return Cumulated Qty Post	  */
 	public BigDecimal getCumulatedQtyPost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CumulatedQtyPost);
@@ -286,15 +286,15 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return bd;
 	}
 
-	/** Set CurrentCostPriceLL.
-		@param CurrentCostPriceLL CurrentCostPriceLL	  */
+	/** Set Current Cost Price Lower Level.
+		@param CurrentCostPriceLL Current Cost Price Lower Level	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
 	{
 		set_ValueNoCheck (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
-	/** Get CurrentCostPriceLL.
-		@return CurrentCostPriceLL	  */
+	/** Get Current Cost Price Lower Level.
+		@return Current Cost Price Lower Level	  */
 	public BigDecimal getCurrentCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
@@ -346,7 +346,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getM_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -357,7 +357,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -385,7 +385,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostType getM_CostType() throws Exception 
+	public I_M_CostType getM_CostType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_CostType.Table_Name);
         I_M_CostType result = null;
@@ -396,7 +396,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -424,7 +424,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -435,7 +435,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -462,8 +462,8 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_Cost_ID.
-		@param PP_Order_Cost_ID PP_Order_Cost_ID	  */
+	/** Set Manufacturing Order Cost.
+		@param PP_Order_Cost_ID Manufacturing Order Cost	  */
 	public void setPP_Order_Cost_ID (int PP_Order_Cost_ID)
 	{
 		if (PP_Order_Cost_ID < 1)
@@ -471,8 +471,8 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Cost_ID, Integer.valueOf(PP_Order_Cost_ID));
 	}
 
-	/** Get PP_Order_Cost_ID.
-		@return PP_Order_Cost_ID	  */
+	/** Get Manufacturing Order Cost.
+		@return Manufacturing Order Cost	  */
 	public int getPP_Order_Cost_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Cost_ID);
@@ -481,7 +481,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -492,13 +492,13 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -506,8 +506,8 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);

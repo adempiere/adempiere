@@ -1,35 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software;
- you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation;
- either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY;
- without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program;
- if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -38,8 +25,8 @@ import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDefinition
- *  @author Trifon Trifonov (generated) 
- *  @version Release 3.5.0
+ *  @author Adempiere (generated) 
+ *  @version Release 3.5.3a
  */
 public interface I_C_TaxDefinition 
 {
@@ -58,6 +45,19 @@ public interface I_C_TaxDefinition
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgType_ID */
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
@@ -71,22 +71,7 @@ public interface I_C_TaxDefinition
 	  */
 	public int getAD_OrgType_ID();
 
-	public I_AD_OrgType getAD_OrgType() throws Exception;
-
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws Exception;
+	public I_AD_OrgType getAD_OrgType() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -101,18 +86,33 @@ public interface I_C_TaxDefinition
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_TaxBase_ID */
     public static final String COLUMNNAME_C_TaxBase_ID = "C_TaxBase_ID";
 
-	/** Set C_TaxBase_ID	  */
+	/** Set Tax Base	  */
 	public void setC_TaxBase_ID (int C_TaxBase_ID);
 
-	/** Get C_TaxBase_ID	  */
+	/** Get Tax Base	  */
 	public int getC_TaxBase_ID();
 
-	public org.eevolution.model.I_C_TaxBase getC_TaxBase() throws Exception;
+	public org.eevolution.model.I_C_TaxBase getC_TaxBase() throws RuntimeException;
 
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
@@ -127,15 +127,15 @@ public interface I_C_TaxDefinition
 	  */
 	public int getC_TaxCategory_ID();
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception;
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name C_TaxDefinition_ID */
     public static final String COLUMNNAME_C_TaxDefinition_ID = "C_TaxDefinition_ID";
 
-	/** Set C_TaxDefinition_ID	  */
+	/** Set Tax Definition	  */
 	public void setC_TaxDefinition_ID (int C_TaxDefinition_ID);
 
-	/** Get C_TaxDefinition_ID	  */
+	/** Get Tax Definition	  */
 	public int getC_TaxDefinition_ID();
 
     /** Column name C_TaxGroup_ID */
@@ -147,18 +147,7 @@ public interface I_C_TaxDefinition
 	/** Get Tax Group	  */
 	public int getC_TaxGroup_ID();
 
-	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws Exception;
-
-    /** Column name C_TaxType_ID */
-    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
-
-	/** Set C_TaxType_ID	  */
-	public void setC_TaxType_ID (int C_TaxType_ID);
-
-	/** Get C_TaxType_ID	  */
-	public int getC_TaxType_ID();
-
-	public org.eevolution.model.I_C_TaxType getC_TaxType() throws Exception;
+	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException;
 
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
@@ -173,7 +162,18 @@ public interface I_C_TaxDefinition
 	  */
 	public int getC_Tax_ID();
 
-	public I_C_Tax getC_Tax() throws Exception;
+	public I_C_Tax getC_Tax() throws RuntimeException;
+
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type	  */
+	public int getC_TaxType_ID();
+
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -214,6 +214,24 @@ public interface I_C_TaxDefinition
 	  */
 	public boolean isInvoiced();
 
+    /** Column name MaxTaxable */
+    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
+
+	/** Set Max Taxable	  */
+	public void setMaxTaxable (int MaxTaxable);
+
+	/** Get Max Taxable	  */
+	public int getMaxTaxable();
+
+    /** Column name MinTaxable */
+    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
+
+	/** Set Min Taxable	  */
+	public void setMinTaxable (int MinTaxable);
+
+	/** Get Min Taxable	  */
+	public int getMinTaxable();
+
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -227,7 +245,7 @@ public interface I_C_TaxDefinition
 	  */
 	public int getM_Product_Category_ID();
 
-	public I_M_Product_Category getM_Product_Category() throws Exception;
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -242,25 +260,7 @@ public interface I_C_TaxDefinition
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
-
-    /** Column name MaxTaxable */
-    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
-
-	/** Set MaxTaxable	  */
-	public void setMaxTaxable (int MaxTaxable);
-
-	/** Get MaxTaxable	  */
-	public int getMaxTaxable();
-
-    /** Column name MinTaxable */
-    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
-
-	/** Set MinTaxable	  */
-	public void setMinTaxable (int MinTaxable);
-
-	/** Get MinTaxable	  */
-	public int getMinTaxable();
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

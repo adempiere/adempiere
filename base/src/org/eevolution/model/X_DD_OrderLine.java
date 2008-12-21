@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent 
 {
 
@@ -46,17 +46,17 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         {
 			setC_UOM_ID (0);
 // @#C_UOM_ID@
-			setDD_OrderLine_ID (0);
 			setDD_Order_ID (0);
+			setDD_OrderLine_ID (0);
 			setIsDescription (false);
 // N
 			setIsInvoiced (false);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM DD_OrderLine WHERE DD_OrderLine_ID=@DD_OrderLine_ID@
-			setM_LocatorTo_ID (0);
-// @M_LocatorTo_ID@
 			setM_Locator_ID (0);
 // @M_Locator_ID@
+			setM_LocatorTo_ID (0);
+// @M_LocatorTo_ID@
 			setProcessed (false);
 			setQtyEntered (Env.ZERO);
 // 1
@@ -93,8 +93,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -118,7 +116,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -129,7 +127,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -157,7 +155,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -168,7 +166,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -196,7 +194,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -207,7 +205,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -235,7 +233,27 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	/** Set Confirmed Quantity.
+		@param ConfirmedQty 
+		Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty)
+	{
+		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+	}
+
+	/** Get Confirmed Quantity.
+		@return Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -246,7 +264,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -274,7 +292,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -285,7 +303,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -307,80 +325,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Distribution Order Line.
-		@param DD_OrderLine_ID Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
-	{
-		if (DD_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("DD_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
-	}
-
-	/** Get Distribution Order Line.
-		@return Distribution Order Line	  */
-	public int getDD_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
-        org.eevolution.model.I_DD_Order result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_DD_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_Order_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Distribution Order.
-		@param DD_Order_ID Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID)
-	{
-		if (DD_Order_ID < 1)
-			 throw new IllegalArgumentException ("DD_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
-	}
-
-	/** Get Distribution Order.
-		@return Distribution Order	  */
-	public int getDD_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -435,6 +379,60 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public Timestamp getDatePromised () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
+	}
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
+        org.eevolution.model.I_DD_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_DD_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Distribution Order.
+		@param DD_Order_ID Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID)
+	{
+		if (DD_Order_ID < 1)
+			 throw new IllegalArgumentException ("DD_Order_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+	}
+
+	/** Get Distribution Order.
+		@return Distribution Order	  */
+	public int getDD_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Distribution Order Line.
+		@param DD_OrderLine_ID Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
+	{
+		if (DD_OrderLine_ID < 1)
+			 throw new IllegalArgumentException ("DD_OrderLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+	}
+
+	/** Get Distribution Order Line.
+		@return Distribution Order Line	  */
+	public int getDD_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -570,29 +568,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return bd;
 	}
 
-	/** Set Attribute Set Instance To.
-		@param M_AttributeSetInstanceTo_ID 
-		Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
-	{
-		if (M_AttributeSetInstanceTo_ID < 1) 
-			set_Value (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
-	}
-
-	/** Get Attribute Set Instance To.
-		@return Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstanceTo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -616,31 +591,30 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_LocatorTo_ID AD_Reference_ID=191 */
-	public static final int M_LOCATORTO_ID_AD_Reference_ID=191;
-	/** Set Locator To.
-		@param M_LocatorTo_ID 
-		Location inventory is moved to
+	/** Set Attribute Set Instance To.
+		@param M_AttributeSetInstanceTo_ID 
+		Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID)
 	{
-		if (M_LocatorTo_ID < 1)
-			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
-		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+		if (M_AttributeSetInstanceTo_ID < 1) 
+			set_Value (COLUMNNAME_M_AttributeSetInstanceTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstanceTo_ID, Integer.valueOf(M_AttributeSetInstanceTo_ID));
 	}
 
-	/** Get Locator To.
-		@return Location inventory is moved to
+	/** Get Attribute Set Instance To.
+		@return Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID () 
+	public int getM_AttributeSetInstanceTo_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstanceTo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -651,7 +625,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -678,8 +652,28 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_Product_ID AD_Reference_ID=171 */
-	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
+	/** Set Locator To.
+		@param M_LocatorTo_ID 
+		Location inventory is moved to
+	  */
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
+	{
+		if (M_LocatorTo_ID < 1)
+			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
+		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+	}
+
+	/** Get Locator To.
+		@return Location inventory is moved to
+	  */
+	public int getM_LocatorTo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_LocatorTo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -786,15 +780,15 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyInTransit.
-		@param QtyInTransit QtyInTransit	  */
+	/** Set Qty In Transit.
+		@param QtyInTransit Qty In Transit	  */
 	public void setQtyInTransit (BigDecimal QtyInTransit)
 	{
 		set_Value (COLUMNNAME_QtyInTransit, QtyInTransit);
 	}
 
-	/** Get QtyInTransit.
-		@return QtyInTransit	  */
+	/** Get Qty In Transit.
+		@return Qty In Transit	  */
 	public BigDecimal getQtyInTransit () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyInTransit);
@@ -885,8 +879,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return bd;
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -910,8 +902,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

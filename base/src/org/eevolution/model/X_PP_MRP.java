@@ -29,7 +29,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -91,7 +91,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -119,7 +119,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -130,7 +130,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -169,7 +169,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -305,7 +305,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
 	}
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception 
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
         org.eevolution.model.I_DD_Order result = null;
@@ -316,7 +316,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -341,7 +341,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws Exception 
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
         org.eevolution.model.I_DD_OrderLine result = null;
@@ -352,7 +352,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -394,13 +394,40 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** DocStatus AD_Reference_ID=131 */
+	public static final int DOCSTATUS_AD_Reference_ID=131;
+	/** Drafted = DR */
+	public static final String DOCSTATUS_Drafted = "DR";
+	/** Completed = CO */
+	public static final String DOCSTATUS_Completed = "CO";
+	/** Approved = AP */
+	public static final String DOCSTATUS_Approved = "AP";
+	/** Not Approved = NA */
+	public static final String DOCSTATUS_NotApproved = "NA";
+	/** Voided = VO */
+	public static final String DOCSTATUS_Voided = "VO";
+	/** Invalid = IN */
+	public static final String DOCSTATUS_Invalid = "IN";
+	/** Reversed = RE */
+	public static final String DOCSTATUS_Reversed = "RE";
+	/** Closed = CL */
+	public static final String DOCSTATUS_Closed = "CL";
+	/** Unknown = ?? */
+	public static final String DOCSTATUS_Unknown = "??";
+	/** In Progress = IP */
+	public static final String DOCSTATUS_InProgress = "IP";
+	/** Waiting Payment = WP */
+	public static final String DOCSTATUS_WaitingPayment = "WP";
+	/** Waiting Confirmation = WC */
+	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
 		@param DocStatus 
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -435,7 +462,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return false;
 	}
 
-	public I_M_Forecast getM_Forecast() throws Exception 
+	public I_M_Forecast getM_Forecast() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Forecast.Table_Name);
         I_M_Forecast result = null;
@@ -446,7 +473,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -474,7 +501,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ForecastLine getM_ForecastLine() throws Exception 
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ForecastLine.Table_Name);
         I_M_ForecastLine result = null;
@@ -485,7 +512,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -513,7 +540,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -524,7 +551,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -552,7 +579,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Requisition getM_Requisition() throws Exception 
+	public I_M_Requisition getM_Requisition() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Requisition.Table_Name);
         I_M_Requisition result = null;
@@ -563,7 +590,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -591,7 +618,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws Exception 
+	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RequisitionLine.Table_Name);
         I_M_RequisitionLine result = null;
@@ -602,7 +629,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -630,7 +657,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -641,7 +668,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -722,8 +749,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	/** Planner_ID AD_Reference_ID=286 */
-	public static final int PLANNER_ID_AD_Reference_ID=286;
 	/** Set Planner.
 		@param Planner_ID Planner	  */
 	public void setPlanner_ID (int Planner_ID)
@@ -744,8 +769,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set PP_MRP_ID.
-		@param PP_MRP_ID PP_MRP_ID	  */
+	/** Set Material Requirement Planning.
+		@param PP_MRP_ID Material Requirement Planning	  */
 	public void setPP_MRP_ID (int PP_MRP_ID)
 	{
 		if (PP_MRP_ID < 1)
@@ -753,8 +778,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_PP_MRP_ID, Integer.valueOf(PP_MRP_ID));
 	}
 
-	/** Get PP_MRP_ID.
-		@return PP_MRP_ID	  */
+	/** Get Material Requirement Planning.
+		@return Material Requirement Planning	  */
 	public int getPP_MRP_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_MRP_ID);
@@ -763,7 +788,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws Exception 
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
         org.eevolution.model.I_PP_Order_BOMLine result = null;
@@ -774,13 +799,13 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_BOMLine_ID.
-		@param PP_Order_BOMLine_ID PP_Order_BOMLine_ID	  */
+	/** Set Manufacturing Order BOM Line.
+		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
 	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
 	{
 		if (PP_Order_BOMLine_ID < 1) 
@@ -789,8 +814,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 			set_Value (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
 	}
 
-	/** Get PP_Order_BOMLine_ID.
-		@return PP_Order_BOMLine_ID	  */
+	/** Get Manufacturing Order BOM Line.
+		@return Manufacturing Order BOM Line	  */
 	public int getPP_Order_BOMLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
@@ -799,7 +824,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -810,13 +835,13 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -825,8 +850,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 			set_Value (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -872,7 +897,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return bd;
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -883,7 +908,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

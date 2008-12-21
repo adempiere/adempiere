@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_WF_Node_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Persistent 
 {
 
@@ -43,6 +43,7 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
 			setA_Asset_ID (0);
 			setAD_WF_Node_ID (0);
 			setPP_WF_Node_Asset_ID (0);
+			setSeqNo (0);
         } */
     }
 
@@ -74,7 +75,7 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -85,7 +86,7 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +113,7 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -123,7 +124,7 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -150,8 +151,8 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set PP_WF_Node_Asset_ID.
-		@param PP_WF_Node_Asset_ID PP_WF_Node_Asset_ID	  */
+	/** Set Workflow Node Asset.
+		@param PP_WF_Node_Asset_ID Workflow Node Asset	  */
 	public void setPP_WF_Node_Asset_ID (int PP_WF_Node_Asset_ID)
 	{
 		if (PP_WF_Node_Asset_ID < 1)
@@ -159,8 +160,8 @@ public class X_PP_WF_Node_Asset extends PO implements I_PP_WF_Node_Asset, I_Pers
 		set_ValueNoCheck (COLUMNNAME_PP_WF_Node_Asset_ID, Integer.valueOf(PP_WF_Node_Asset_ID));
 	}
 
-	/** Get PP_WF_Node_Asset_ID.
-		@return PP_WF_Node_Asset_ID	  */
+	/** Get Workflow Node Asset.
+		@return Workflow Node Asset	  */
 	public int getPP_WF_Node_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_WF_Node_Asset_ID);

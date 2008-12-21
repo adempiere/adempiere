@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_Processor_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_Persistent 
 {
 
@@ -107,8 +107,8 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set IMP_Processor_Type_ID.
-		@param IMP_Processor_Type_ID IMP_Processor_Type_ID	  */
+	/** Set Import Processor Type.
+		@param IMP_Processor_Type_ID Import Processor Type	  */
 	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID)
 	{
 		if (IMP_Processor_Type_ID < 1)
@@ -116,8 +116,8 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		set_ValueNoCheck (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
 	}
 
-	/** Get IMP_Processor_Type_ID.
-		@return IMP_Processor_Type_ID	  */
+	/** Get Import Processor Type.
+		@return Import Processor Type	  */
 	public int getIMP_Processor_Type_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_Type_ID);
@@ -126,8 +126,8 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		return ii.intValue();
 	}
 
-	/** Set JavaClass.
-		@param JavaClass JavaClass	  */
+	/** Set Java Class.
+		@param JavaClass Java Class	  */
 	public void setJavaClass (String JavaClass)
 	{
 		if (JavaClass == null)
@@ -135,8 +135,8 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		set_Value (COLUMNNAME_JavaClass, JavaClass);
 	}
 
-	/** Get JavaClass.
-		@return JavaClass	  */
+	/** Get Java Class.
+		@return Java Class	  */
 	public String getJavaClass () 
 	{
 		return (String)get_Value(COLUMNNAME_JavaClass);

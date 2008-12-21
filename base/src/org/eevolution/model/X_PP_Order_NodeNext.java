@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_Order_NodeNext
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Persistent 
 {
 
@@ -78,8 +78,6 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
       return sb.toString();
     }
 
-	/** AD_WF_Next_ID AD_Reference_ID=109 */
-	public static final int AD_WF_NEXT_ID_AD_Reference_ID=109;
 	/** Set Next Node.
 		@param AD_WF_Next_ID 
 		Next Node in workflow
@@ -103,7 +101,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws Exception 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
         I_AD_WF_Node result = null;
@@ -114,7 +112,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -201,7 +199,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return false;
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -212,13 +210,13 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -226,8 +224,8 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -236,10 +234,8 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	/** PP_Order_Next_ID AD_Reference_ID=53232 */
-	public static final int PP_ORDER_NEXT_ID_AD_Reference_ID=53232;
-	/** Set PP_Order_Next_ID.
-		@param PP_Order_Next_ID PP_Order_Next_ID	  */
+	/** Set Manufacturing Order Activity Next.
+		@param PP_Order_Next_ID Manufacturing Order Activity Next	  */
 	public void setPP_Order_Next_ID (int PP_Order_Next_ID)
 	{
 		if (PP_Order_Next_ID < 1) 
@@ -248,8 +244,8 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 			set_Value (COLUMNNAME_PP_Order_Next_ID, Integer.valueOf(PP_Order_Next_ID));
 	}
 
-	/** Get PP_Order_Next_ID.
-		@return PP_Order_Next_ID	  */
+	/** Get Manufacturing Order Activity Next.
+		@return Manufacturing Order Activity Next	  */
 	public int getPP_Order_Next_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Next_ID);
@@ -258,27 +254,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_NodeNext_ID.
-		@param PP_Order_NodeNext_ID PP_Order_NodeNext_ID	  */
-	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
-	{
-		if (PP_Order_NodeNext_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
-	}
-
-	/** Get PP_Order_NodeNext_ID.
-		@return PP_Order_NodeNext_ID	  */
-	public int getPP_Order_NodeNext_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
         org.eevolution.model.I_PP_Order_Node result = null;
@@ -289,7 +265,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -313,8 +289,26 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	/** SeqNo AD_Reference_ID=110 */
-	public static final int SEQNO_AD_Reference_ID=110;
+	/** Set Manufacturing Order Activity Next.
+		@param PP_Order_NodeNext_ID Manufacturing Order Activity Next	  */
+	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
+	{
+		if (PP_Order_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
+	}
+
+	/** Get Manufacturing Order Activity Next.
+		@return Manufacturing Order Activity Next	  */
+	public int getPP_Order_NodeNext_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Sequence.
 		@param SeqNo 
 		Method of ordering records; lowest number comes first

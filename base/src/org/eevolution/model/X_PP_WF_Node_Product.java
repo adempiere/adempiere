@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_WF_Node_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_Persistent 
 {
 

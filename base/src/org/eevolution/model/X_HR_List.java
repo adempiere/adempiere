@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_List
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_List extends PO implements I_HR_List, I_Persistent 
 {
 
@@ -92,7 +92,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
         org.eevolution.model.I_HR_Department result = null;
@@ -103,13 +103,13 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Department.
-		@param HR_Department_ID Department	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1) 
@@ -118,8 +118,8 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 			set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -128,7 +128,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws Exception 
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Employee.Table_Name);
         org.eevolution.model.I_HR_Employee result = null;
@@ -139,13 +139,13 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Employee.
-		@param HR_Employee_ID Employee	  */
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
 	{
 		if (HR_Employee_ID < 1) 
@@ -154,8 +154,8 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 			set_Value (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
 	}
 
-	/** Get Employee.
-		@return Employee	  */
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
@@ -183,7 +183,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_ListType getHR_ListType() throws Exception 
+	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_ListType.Table_Name);
         org.eevolution.model.I_HR_ListType result = null;
@@ -194,7 +194,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -219,7 +219,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws Exception 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
         org.eevolution.model.I_HR_Payroll result = null;
@@ -230,7 +230,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

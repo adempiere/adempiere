@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for PP_Order_Node_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -87,7 +87,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
         org.eevolution.model.I_PP_Order result = null;
@@ -125,13 +125,13 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_ID.
-		@param PP_Order_ID PP_Order_ID	  */
+	/** Set Manufacturing Order.
+		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1)
@@ -139,8 +139,8 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
-	/** Get PP_Order_ID.
-		@return PP_Order_ID	  */
+	/** Get Manufacturing Order.
+		@return Manufacturing Order	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -149,8 +149,8 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		return ii.intValue();
 	}
 
-	/** Set PP_Order_Node_Asset_ID.
-		@param PP_Order_Node_Asset_ID PP_Order_Node_Asset_ID	  */
+	/** Set Manufacturing Order Activity Asset.
+		@param PP_Order_Node_Asset_ID Manufacturing Order Activity Asset	  */
 	public void setPP_Order_Node_Asset_ID (int PP_Order_Node_Asset_ID)
 	{
 		if (PP_Order_Node_Asset_ID < 1)
@@ -158,8 +158,8 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_Asset_ID, Integer.valueOf(PP_Order_Node_Asset_ID));
 	}
 
-	/** Get PP_Order_Node_Asset_ID.
-		@return PP_Order_Node_Asset_ID	  */
+	/** Get Manufacturing Order Activity Asset.
+		@return Manufacturing Order Activity Asset	  */
 	public int getPP_Order_Node_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_Asset_ID);
@@ -168,7 +168,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws Exception 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
         org.eevolution.model.I_PP_Order_Node result = null;
@@ -179,7 +179,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -203,7 +203,7 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws Exception 
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Workflow.Table_Name);
         org.eevolution.model.I_PP_Order_Workflow result = null;
@@ -214,13 +214,13 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set PP_Order_Workflow_ID.
-		@param PP_Order_Workflow_ID PP_Order_Workflow_ID	  */
+	/** Set Manufacturing Order Workflow.
+		@param PP_Order_Workflow_ID Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID)
 	{
 		if (PP_Order_Workflow_ID < 1)
@@ -228,8 +228,8 @@ public class X_PP_Order_Node_Asset extends PO implements I_PP_Order_Node_Asset, 
 		set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
 	}
 
-	/** Get PP_Order_Workflow_ID.
-		@return PP_Order_Workflow_ID	  */
+	/** Get Manufacturing Order Workflow.
+		@return Manufacturing Order Workflow	  */
 	public int getPP_Order_Workflow_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Workflow_ID);

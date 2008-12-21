@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -88,7 +88,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,8 +115,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** AD_Reference_ID AD_Reference_ID=1 */
-	public static final int AD_REFERENCE_ID_AD_Reference_ID=1;
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -170,10 +168,8 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** EXP_EmbeddedFormat_ID AD_Reference_ID=53242 */
-	public static final int EXP_EMBEDDEDFORMAT_ID_AD_Reference_ID=53242;
-	/** Set EXP_EmbeddedFormat_ID.
-		@param EXP_EmbeddedFormat_ID EXP_EmbeddedFormat_ID	  */
+	/** Set Embedded Format.
+		@param EXP_EmbeddedFormat_ID Embedded Format	  */
 	public void setEXP_EmbeddedFormat_ID (int EXP_EmbeddedFormat_ID)
 	{
 		if (EXP_EmbeddedFormat_ID < 1) 
@@ -182,8 +178,8 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 			set_Value (COLUMNNAME_EXP_EmbeddedFormat_ID, Integer.valueOf(EXP_EmbeddedFormat_ID));
 	}
 
-	/** Get EXP_EmbeddedFormat_ID.
-		@return EXP_EmbeddedFormat_ID	  */
+	/** Get Embedded Format.
+		@return Embedded Format	  */
 	public int getEXP_EmbeddedFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_EmbeddedFormat_ID);
@@ -192,7 +188,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_EXP_Format getEXP_Format() throws Exception 
+	public org.eevolution.model.I_EXP_Format getEXP_Format() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Format.Table_Name);
         org.eevolution.model.I_EXP_Format result = null;
@@ -203,13 +199,13 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Export Format ID.
-		@param EXP_Format_ID Export Format ID	  */
+	/** Set Export Format.
+		@param EXP_Format_ID Export Format	  */
 	public void setEXP_Format_ID (int EXP_Format_ID)
 	{
 		if (EXP_Format_ID < 1) 
@@ -218,8 +214,8 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_EXP_Format_ID, Integer.valueOf(EXP_Format_ID));
 	}
 
-	/** Get Export Format ID.
-		@return Export Format ID	  */
+	/** Get Export Format.
+		@return Export Format	  */
 	public int getEXP_Format_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
@@ -228,8 +224,8 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set EXP_FormatLine_ID.
-		@param EXP_FormatLine_ID EXP_FormatLine_ID	  */
+	/** Set Format Line.
+		@param EXP_FormatLine_ID Format Line	  */
 	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
 	{
 		if (EXP_FormatLine_ID < 1)
@@ -237,8 +233,8 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
 	}
 
-	/** Get EXP_FormatLine_ID.
-		@return EXP_FormatLine_ID	  */
+	/** Get Format Line.
+		@return Format Line	  */
 	public int getEXP_FormatLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
@@ -288,15 +284,15 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return false;
 	}
 
-	/** Set IsPartUniqueIndex.
-		@param IsPartUniqueIndex IsPartUniqueIndex	  */
+	/** Set Is Part Unique Index.
+		@param IsPartUniqueIndex Is Part Unique Index	  */
 	public void setIsPartUniqueIndex (boolean IsPartUniqueIndex)
 	{
 		set_Value (COLUMNNAME_IsPartUniqueIndex, Boolean.valueOf(IsPartUniqueIndex));
 	}
 
-	/** Get IsPartUniqueIndex.
-		@return IsPartUniqueIndex	  */
+	/** Get Is Part Unique Index.
+		@return Is Part Unique Index	  */
 	public boolean isPartUniqueIndex () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPartUniqueIndex);

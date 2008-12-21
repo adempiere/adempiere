@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent 
 {
 
@@ -230,7 +230,7 @@ public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_ListVersion getHR_ListVersion() throws Exception 
+	public org.eevolution.model.I_HR_ListVersion getHR_ListVersion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_ListVersion.Table_Name);
         org.eevolution.model.I_HR_ListVersion result = null;
@@ -241,7 +241,7 @@ public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -266,15 +266,15 @@ public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set MaxValue.
-		@param MaxValue MaxValue	  */
+	/** Set Max Value.
+		@param MaxValue Max Value	  */
 	public void setMaxValue (BigDecimal MaxValue)
 	{
 		set_Value (COLUMNNAME_MaxValue, MaxValue);
 	}
 
-	/** Get MaxValue.
-		@return MaxValue	  */
+	/** Get Max Value.
+		@return Max Value	  */
 	public BigDecimal getMaxValue () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxValue);
@@ -283,15 +283,15 @@ public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent
 		return bd;
 	}
 
-	/** Set MinValue.
-		@param MinValue MinValue	  */
+	/** Set Min Value.
+		@param MinValue Min Value	  */
 	public void setMinValue (BigDecimal MinValue)
 	{
 		set_Value (COLUMNNAME_MinValue, MinValue);
 	}
 
-	/** Get MinValue.
-		@return MinValue	  */
+	/** Get Min Value.
+		@return Min Value	  */
 	public BigDecimal getMinValue () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinValue);

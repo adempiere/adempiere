@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_Product_Planning
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
       return sb.toString();
     }
 
-	public I_AD_Workflow getAD_Workflow() throws Exception 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
         I_AD_Workflow result = null;
@@ -92,7 +92,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -120,7 +120,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws Exception 
+	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_NetworkDistribution.Table_Name);
         org.eevolution.model.I_DD_NetworkDistribution result = null;
@@ -131,7 +131,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -305,7 +305,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -316,7 +316,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -343,7 +343,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -354,7 +354,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -382,15 +382,15 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set Order_Max.
-		@param Order_Max Order_Max	  */
+	/** Set Order Max.
+		@param Order_Max Order Max	  */
 	public void setOrder_Max (BigDecimal Order_Max)
 	{
 		set_Value (COLUMNNAME_Order_Max, Order_Max);
 	}
 
-	/** Get Order_Max.
-		@return Order_Max	  */
+	/** Get Order Max.
+		@return Order Max	  */
 	public BigDecimal getOrder_Max () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Order_Max);
@@ -496,7 +496,27 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return bd;
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -507,7 +527,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -535,8 +555,8 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set PP_Product_Planning_ID.
-		@param PP_Product_Planning_ID PP_Product_Planning_ID	  */
+	/** Set Product Planning.
+		@param PP_Product_Planning_ID Product Planning	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID)
 	{
 		if (PP_Product_Planning_ID < 1)
@@ -544,8 +564,8 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, Integer.valueOf(PP_Product_Planning_ID));
 	}
 
-	/** Get PP_Product_Planning_ID.
-		@return PP_Product_Planning_ID	  */
+	/** Get Product Planning.
+		@return Product Planning	  */
 	public int getPP_Product_Planning_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_Planning_ID);
@@ -554,29 +574,27 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Planner_ID AD_Reference_ID=110 */
-	public static final int PLANNER_ID_AD_Reference_ID=110;
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
+	/** Set Safety Stock Qty.
+		@param SafetyStock 
+		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public void setSafetyStock (BigDecimal SafetyStock)
 	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
 	}
 
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
+	/** Get Safety Stock Qty.
+		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public BigDecimal getSafetyStock () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -587,7 +605,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -613,26 +631,6 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Safety Stock Qty.
-		@param SafetyStock 
-		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock)
-	{
-		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
-	}
-
-	/** Get Safety Stock Qty.
-		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Time Fence.

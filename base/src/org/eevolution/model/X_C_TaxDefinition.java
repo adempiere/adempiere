@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.0 - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
       return sb.toString();
     }
 
-	public I_AD_OrgType getAD_OrgType() throws Exception 
+	public I_AD_OrgType getAD_OrgType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_OrgType.Table_Name);
         I_AD_OrgType result = null;
@@ -87,7 +87,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,46 +115,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -165,7 +126,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -193,7 +154,46 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_C_TaxBase getC_TaxBase() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_C_TaxBase getC_TaxBase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_C_TaxBase.Table_Name);
         org.eevolution.model.I_C_TaxBase result = null;
@@ -204,13 +204,13 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set C_TaxBase_ID.
-		@param C_TaxBase_ID C_TaxBase_ID	  */
+	/** Set Tax Base.
+		@param C_TaxBase_ID Tax Base	  */
 	public void setC_TaxBase_ID (int C_TaxBase_ID)
 	{
 		if (C_TaxBase_ID < 1) 
@@ -219,8 +219,8 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 			set_Value (COLUMNNAME_C_TaxBase_ID, Integer.valueOf(C_TaxBase_ID));
 	}
 
-	/** Get C_TaxBase_ID.
-		@return C_TaxBase_ID	  */
+	/** Get Tax Base.
+		@return Tax Base	  */
 	public int getC_TaxBase_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxBase_ID);
@@ -229,7 +229,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -240,7 +240,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -268,8 +268,8 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set C_TaxDefinition_ID.
-		@param C_TaxDefinition_ID C_TaxDefinition_ID	  */
+	/** Set Tax Definition.
+		@param C_TaxDefinition_ID Tax Definition	  */
 	public void setC_TaxDefinition_ID (int C_TaxDefinition_ID)
 	{
 		if (C_TaxDefinition_ID < 1)
@@ -277,8 +277,8 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		set_ValueNoCheck (COLUMNNAME_C_TaxDefinition_ID, Integer.valueOf(C_TaxDefinition_ID));
 	}
 
-	/** Get C_TaxDefinition_ID.
-		@return C_TaxDefinition_ID	  */
+	/** Get Tax Definition.
+		@return Tax Definition	  */
 	public int getC_TaxDefinition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDefinition_ID);
@@ -287,7 +287,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws Exception 
+	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_C_TaxGroup.Table_Name);
         org.eevolution.model.I_C_TaxGroup result = null;
@@ -298,7 +298,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -323,43 +323,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_C_TaxType getC_TaxType() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_C_TaxType.Table_Name);
-        org.eevolution.model.I_C_TaxType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_C_TaxType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_TaxType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set C_TaxType_ID.
-		@param C_TaxType_ID C_TaxType_ID	  */
-	public void setC_TaxType_ID (int C_TaxType_ID)
-	{
-		if (C_TaxType_ID < 1) 
-			set_Value (COLUMNNAME_C_TaxType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_TaxType_ID, Integer.valueOf(C_TaxType_ID));
-	}
-
-	/** Get C_TaxType_ID.
-		@return C_TaxType_ID	  */
-	public int getC_TaxType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -370,7 +334,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -398,18 +362,48 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_C_TaxType.Table_Name);
+        org.eevolution.model.I_C_TaxType result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_C_TaxType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_TaxType_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Tax Type.
+		@param C_TaxType_ID Tax Type	  */
+	public void setC_TaxType_ID (int C_TaxType_ID)
+	{
+		if (C_TaxType_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxType_ID, Integer.valueOf(C_TaxType_ID));
+	}
+
+	/** Get Tax Type.
+		@return Tax Type	  */
+	public int getC_TaxType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
 	{
-
-		if (Description != null && Description.length() > 255)
-		{
-			log.warning("Length > 255 - truncated");
-			Description = Description.substring(0, 255);
-		}
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -427,12 +421,6 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	  */
 	public void setHelp (String Help)
 	{
-
-		if (Help != null && Help.length() > 2000)
-		{
-			log.warning("Length > 2000 - truncated");
-			Help = Help.substring(0, 2000);
-		}
 		set_Value (COLUMNNAME_Help, Help);
 	}
 
@@ -468,7 +456,41 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return false;
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	/** Set Max Taxable.
+		@param MaxTaxable Max Taxable	  */
+	public void setMaxTaxable (int MaxTaxable)
+	{
+		set_Value (COLUMNNAME_MaxTaxable, Integer.valueOf(MaxTaxable));
+	}
+
+	/** Get Max Taxable.
+		@return Max Taxable	  */
+	public int getMaxTaxable () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MaxTaxable);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Min Taxable.
+		@param MinTaxable Min Taxable	  */
+	public void setMinTaxable (int MinTaxable)
+	{
+		set_Value (COLUMNNAME_MinTaxable, Integer.valueOf(MinTaxable));
+	}
+
+	/** Get Min Taxable.
+		@return Min Taxable	  */
+	public int getMinTaxable () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MinTaxable);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -479,7 +501,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -507,7 +529,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -518,7 +540,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -546,40 +568,6 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set MaxTaxable.
-		@param MaxTaxable MaxTaxable	  */
-	public void setMaxTaxable (int MaxTaxable)
-	{
-		set_Value (COLUMNNAME_MaxTaxable, Integer.valueOf(MaxTaxable));
-	}
-
-	/** Get MaxTaxable.
-		@return MaxTaxable	  */
-	public int getMaxTaxable () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MaxTaxable);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set MinTaxable.
-		@param MinTaxable MinTaxable	  */
-	public void setMinTaxable (int MinTaxable)
-	{
-		set_Value (COLUMNNAME_MinTaxable, Integer.valueOf(MinTaxable));
-	}
-
-	/** Get MinTaxable.
-		@return MinTaxable	  */
-	public int getMinTaxable () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MinTaxable);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -588,12 +576,6 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	{
 		if (Name == null)
 			throw new IllegalArgumentException ("Name is mandatory.");
-
-		if (Name.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			Name = Name.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -675,12 +657,6 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	{
 		if (Value == null)
 			throw new IllegalArgumentException ("Value is mandatory.");
-
-		if (Value.length() > 40)
-		{
-			log.warning("Length > 40 - truncated");
-			Value = Value.substring(0, 40);
-		}
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

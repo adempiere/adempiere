@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_DD_OrderLine 
 {
@@ -53,6 +44,19 @@ public interface I_DD_OrderLine
     BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -80,7 +84,7 @@ public interface I_DD_OrderLine
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -95,7 +99,7 @@ public interface I_DD_OrderLine
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -110,37 +114,7 @@ public interface I_DD_OrderLine
 	  */
 	public int getC_Charge_ID();
 
-	public I_C_Charge getC_Charge() throws Exception;
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public I_C_Project getC_Project() throws Exception;
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_Charge getC_Charge() throws RuntimeException;
 
     /** Column name ConfirmedQty */
     public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
@@ -155,25 +129,35 @@ public interface I_DD_OrderLine
 	  */
 	public BigDecimal getConfirmedQty();
 
-    /** Column name DD_OrderLine_ID */
-    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Set Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
 
-	/** Get Distribution Order Line	  */
-	public int getDD_OrderLine_ID();
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
 
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+	public I_C_Project getC_Project() throws RuntimeException;
 
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
 
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception;
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -213,6 +197,26 @@ public interface I_DD_OrderLine
 	  * Date Order was promised
 	  */
 	public Timestamp getDatePromised();
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -292,19 +296,6 @@ public interface I_DD_OrderLine
 	  */
 	public BigDecimal getLineNetAmt();
 
-    /** Column name M_AttributeSetInstanceTo_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
-
-	/** Set Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
-
-	/** Get Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID();
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -318,18 +309,18 @@ public interface I_DD_OrderLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
-    /** Column name M_LocatorTo_ID */
-    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+    /** Column name M_AttributeSetInstanceTo_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
-	/** Set Locator To.
-	  * Location inventory is moved to
+	/** Set Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
 
-	/** Get Locator To.
-	  * Location inventory is moved to
+	/** Get Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID();
+	public int getM_AttributeSetInstanceTo_ID();
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -344,7 +335,20 @@ public interface I_DD_OrderLine
 	  */
 	public int getM_Locator_ID();
 
-	public I_M_Locator getM_Locator() throws Exception;
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+
+	/** Set Locator To.
+	  * Location inventory is moved to
+	  */
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+
+	/** Get Locator To.
+	  * Location inventory is moved to
+	  */
+	public int getM_LocatorTo_ID();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -410,10 +414,10 @@ public interface I_DD_OrderLine
     /** Column name QtyInTransit */
     public static final String COLUMNNAME_QtyInTransit = "QtyInTransit";
 
-	/** Set QtyInTransit	  */
+	/** Set Qty In Transit	  */
 	public void setQtyInTransit (BigDecimal QtyInTransit);
 
-	/** Get QtyInTransit	  */
+	/** Get Qty In Transit	  */
 	public BigDecimal getQtyInTransit();
 
     /** Column name QtyOrdered */

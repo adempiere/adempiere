@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_Order_BOMLine 
 {
@@ -53,6 +44,19 @@ public interface I_PP_Order_BOMLine
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -119,7 +123,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -277,7 +281,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception;
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -305,7 +309,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -320,48 +324,48 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PP_Order_BOM_ID */
     public static final String COLUMNNAME_PP_Order_BOM_ID = "PP_Order_BOM_ID";
 
-	/** Set PP_Order_BOM_ID	  */
+	/** Set Manufacturing Order BOM	  */
 	public void setPP_Order_BOM_ID (int PP_Order_BOM_ID);
 
-	/** Get PP_Order_BOM_ID	  */
+	/** Get Manufacturing Order BOM	  */
 	public int getPP_Order_BOM_ID();
 
-	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws Exception;
+	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException;
 
     /** Column name PP_Order_BOMLine_ID */
     public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
 
-	/** Set PP_Order_BOMLine_ID	  */
+	/** Set Manufacturing Order BOM Line	  */
 	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
 
-	/** Get PP_Order_BOMLine_ID	  */
+	/** Get Manufacturing Order BOM Line	  */
 	public int getPP_Order_BOMLine_ID();
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set PP_Order_ID	  */
+	/** Set Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get PP_Order_ID	  */
+	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws Exception;
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name QtyBatch */
     public static final String COLUMNNAME_QtyBatch = "QtyBatch";
 
-	/** Set Quantity %.
+	/** Set Quantity in %.
 	  * Indicate the Quantity % use in this Formula
 	  */
 	public void setQtyBatch (BigDecimal QtyBatch);
 
-	/** Get Quantity %.
+	/** Get Quantity in %.
 	  * Indicate the Quantity % use in this Formula
 	  */
 	public BigDecimal getQtyBatch();
@@ -408,28 +412,28 @@ public interface I_PP_Order_BOMLine
     /** Column name QtyPost */
     public static final String COLUMNNAME_QtyPost = "QtyPost";
 
-	/** Set QtyPost	  */
+	/** Set Qty Post	  */
 	public void setQtyPost (BigDecimal QtyPost);
 
-	/** Get QtyPost	  */
+	/** Get Qty Post	  */
 	public BigDecimal getQtyPost();
 
     /** Column name QtyReject */
     public static final String COLUMNNAME_QtyReject = "QtyReject";
 
-	/** Set QtyReject	  */
+	/** Set Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject);
 
-	/** Get QtyReject	  */
+	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
     /** Column name QtyRequiered */
     public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
 
-	/** Set QtyRequiered	  */
+	/** Set Qty Requiered	  */
 	public void setQtyRequiered (BigDecimal QtyRequiered);
 
-	/** Get QtyRequiered	  */
+	/** Get Qty Requiered	  */
 	public BigDecimal getQtyRequiered();
 
     /** Column name QtyReserved */
@@ -448,22 +452,26 @@ public interface I_PP_Order_BOMLine
     /** Column name QtyScrap */
     public static final String COLUMNNAME_QtyScrap = "QtyScrap";
 
-	/** Set QtyScrap	  */
+	/** Set QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public void setQtyScrap (BigDecimal QtyScrap);
 
-	/** Get QtyScrap	  */
+	/** Get QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public BigDecimal getQtyScrap();
 
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";
 
-	/** Set Scrap.
-	  * Indicate the Scrap Quantity that is generate in a manufacturing process
+	/** Set % Scrap.
+	  * Indicate the % Scrap  for calculate the Scrap Quantity
 	  */
 	public void setScrap (BigDecimal Scrap);
 
-	/** Get Scrap.
-	  * Indicate the Scrap Quantity that is generate in a manufacturing process
+	/** Get % Scrap.
+	  * Indicate the % Scrap  for calculate the Scrap Quantity
 	  */
 	public BigDecimal getScrap();
 

@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_EXP_ProcessorParameter 
 {
@@ -53,6 +44,19 @@ public interface I_EXP_ProcessorParameter
 
     /** Load Meta Data */
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -69,21 +73,21 @@ public interface I_EXP_ProcessorParameter
     /** Column name EXP_Processor_ID */
     public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
 
-	/** Set EXP_Processor_ID	  */
+	/** Set Export Processor	  */
 	public void setEXP_Processor_ID (int EXP_Processor_ID);
 
-	/** Get EXP_Processor_ID	  */
+	/** Get Export Processor	  */
 	public int getEXP_Processor_ID();
 
-	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws Exception;
+	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws RuntimeException;
 
     /** Column name EXP_ProcessorParameter_ID */
     public static final String COLUMNNAME_EXP_ProcessorParameter_ID = "EXP_ProcessorParameter_ID";
 
-	/** Set EXP_ProcessorParameter_ID	  */
+	/** Set Processor Parameter	  */
 	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID);
 
-	/** Get EXP_ProcessorParameter_ID	  */
+	/** Get Processor Parameter	  */
 	public int getEXP_ProcessorParameter_ID();
 
     /** Column name Help */
@@ -115,10 +119,10 @@ public interface I_EXP_ProcessorParameter
     /** Column name ParameterValue */
     public static final String COLUMNNAME_ParameterValue = "ParameterValue";
 
-	/** Set ParameterValue	  */
+	/** Set Parameter Value	  */
 	public void setParameterValue (String ParameterValue);
 
-	/** Get ParameterValue	  */
+	/** Get Parameter Value	  */
 	public String getParameterValue();
 
     /** Column name Value */

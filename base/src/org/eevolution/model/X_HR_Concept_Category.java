@@ -24,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Concept_Category extends PO implements I_HR_Concept_Category, I_Persistent 
 {
 
@@ -89,15 +89,15 @@ public class X_HR_Concept_Category extends PO implements I_HR_Concept_Category, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set HR_Concept_Acct.
-		@param HR_Concept_Acct HR_Concept_Acct	  */
+	/** Set Payroll Concept Account.
+		@param HR_Concept_Acct Payroll Concept Account	  */
 	public void setHR_Concept_Acct (int HR_Concept_Acct)
 	{
 		set_Value (COLUMNNAME_HR_Concept_Acct, Integer.valueOf(HR_Concept_Acct));
 	}
 
-	/** Get HR_Concept_Acct.
-		@return HR_Concept_Acct	  */
+	/** Get Payroll Concept Account.
+		@return Payroll Concept Account	  */
 	public int getHR_Concept_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Acct);

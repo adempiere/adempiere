@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_NetworkDistribution
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribution, I_Persistent 
 {
 
@@ -163,7 +163,7 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -174,7 +174,7 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

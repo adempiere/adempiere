@@ -28,7 +28,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDistributionLine, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
       return sb.toString();
     }
 
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws Exception 
+	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_NetworkDistribution.Table_Name);
         org.eevolution.model.I_DD_NetworkDistribution result = null;
@@ -91,7 +91,7 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,8 +115,8 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	/** Set DD_NetworkDistributionLine_ID.
-		@param DD_NetworkDistributionLine_ID DD_NetworkDistributionLine_ID	  */
+	/** Set Network Distribution Line.
+		@param DD_NetworkDistributionLine_ID Network Distribution Line	  */
 	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID)
 	{
 		if (DD_NetworkDistributionLine_ID < 1)
@@ -124,8 +124,8 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, Integer.valueOf(DD_NetworkDistributionLine_ID));
 	}
 
-	/** Get DD_NetworkDistributionLine_ID.
-		@return DD_NetworkDistributionLine_ID	  */
+	/** Get Network Distribution Line.
+		@return Network Distribution Line	  */
 	public int getDD_NetworkDistributionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_NetworkDistributionLine_ID);
@@ -134,7 +134,7 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -145,7 +145,7 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -172,8 +172,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	/** M_Warehouse_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSE_ID_AD_Reference_ID=197;
 	/** Set Warehouse.
 		@param M_Warehouse_ID 
 		Storage Warehouse and Service Point
@@ -196,8 +194,6 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		return ii.intValue();
 	}
 
-	/** M_WarehouseSource_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 
 		Optional Warehouse to replenish from

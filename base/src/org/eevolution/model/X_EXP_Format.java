@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for EXP_Format
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -87,7 +87,7 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -131,8 +131,8 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Export Format ID.
-		@param EXP_Format_ID Export Format ID	  */
+	/** Set Export Format.
+		@param EXP_Format_ID Export Format	  */
 	public void setEXP_Format_ID (int EXP_Format_ID)
 	{
 		if (EXP_Format_ID < 1)
@@ -140,8 +140,8 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_EXP_Format_ID, Integer.valueOf(EXP_Format_ID));
 	}
 
-	/** Get Export Format ID.
-		@return Export Format ID	  */
+	/** Get Export Format.
+		@return Export Format	  */
 	public int getEXP_Format_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
@@ -221,15 +221,15 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 		return (String)get_Value(COLUMNNAME_TestExportModel);
 	}
 
-	/** Set TestImportModel.
-		@param TestImportModel TestImportModel	  */
+	/** Set Test Import Model.
+		@param TestImportModel Test Import Model	  */
 	public void setTestImportModel (String TestImportModel)
 	{
 		set_Value (COLUMNNAME_TestImportModel, TestImportModel);
 	}
 
-	/** Get TestImportModel.
-		@return TestImportModel	  */
+	/** Get Test Import Model.
+		@return Test Import Model	  */
 	public String getTestImportModel () 
 	{
 		return (String)get_Value(COLUMNNAME_TestImportModel);

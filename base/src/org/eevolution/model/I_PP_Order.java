@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.eevolution.model;
 
 import java.math.BigDecimal;
@@ -35,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_PP_Order 
 {
@@ -53,6 +44,19 @@ public interface I_PP_Order
     BigDecimal accessLevel = BigDecimal.valueOf(1);
 
     /** Load Meta Data */
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -80,7 +84,7 @@ public interface I_PP_Order
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws Exception;
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
@@ -108,7 +112,7 @@ public interface I_PP_Order
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws Exception;
+	public I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -123,7 +127,7 @@ public interface I_PP_Order
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws Exception;
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -177,7 +181,7 @@ public interface I_PP_Order
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws Exception;
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -192,7 +196,7 @@ public interface I_PP_Order
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws Exception;
+	public I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -207,7 +211,7 @@ public interface I_PP_Order
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws Exception;
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
@@ -352,19 +356,19 @@ public interface I_PP_Order
     /** Column name FloatAfter */
     public static final String COLUMNNAME_FloatAfter = "FloatAfter";
 
-	/** Set FloatAfter	  */
+	/** Set Float After	  */
 	public void setFloatAfter (BigDecimal FloatAfter);
 
-	/** Get FloatAfter	  */
+	/** Get Float After	  */
 	public BigDecimal getFloatAfter();
 
     /** Column name FloatBefored */
     public static final String COLUMNNAME_FloatBefored = "FloatBefored";
 
-	/** Set FloatBefored	  */
+	/** Set Float Befored	  */
 	public void setFloatBefored (BigDecimal FloatBefored);
 
-	/** Get FloatBefored	  */
+	/** Get Float Befored	  */
 	public BigDecimal getFloatBefored();
 
     /** Column name IsApproved */
@@ -480,8 +484,6 @@ public interface I_PP_Order
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws Exception;
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -495,7 +497,7 @@ public interface I_PP_Order
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws Exception;
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name OrderType */
     public static final String COLUMNNAME_OrderType = "OrderType";
@@ -531,10 +533,10 @@ public interface I_PP_Order
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set PP_Order_ID	  */
+	/** Set Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get PP_Order_ID	  */
+	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
     /** Column name PP_Product_BOM_ID */
@@ -550,7 +552,7 @@ public interface I_PP_Order
 	  */
 	public int getPP_Product_BOM_ID();
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception;
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -590,19 +592,19 @@ public interface I_PP_Order
     /** Column name QtyBatchs */
     public static final String COLUMNNAME_QtyBatchs = "QtyBatchs";
 
-	/** Set QtyBatchs	  */
+	/** Set Qty Batchs	  */
 	public void setQtyBatchs (BigDecimal QtyBatchs);
 
-	/** Get QtyBatchs	  */
+	/** Get Qty Batchs	  */
 	public BigDecimal getQtyBatchs();
 
     /** Column name QtyBatchSize */
     public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
 
-	/** Set QtyBatchSize	  */
+	/** Set Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize);
 
-	/** Get QtyBatchSize	  */
+	/** Get Qty Batch Size	  */
 	public BigDecimal getQtyBatchSize();
 
     /** Column name QtyDelivered */
@@ -647,10 +649,10 @@ public interface I_PP_Order
     /** Column name QtyReject */
     public static final String COLUMNNAME_QtyReject = "QtyReject";
 
-	/** Set QtyReject	  */
+	/** Set Qty Reject	  */
 	public void setQtyReject (BigDecimal QtyReject);
 
-	/** Get QtyReject	  */
+	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
     /** Column name QtyReserved */
@@ -669,10 +671,14 @@ public interface I_PP_Order
     /** Column name QtyScrap */
     public static final String COLUMNNAME_QtyScrap = "QtyScrap";
 
-	/** Set QtyScrap	  */
+	/** Set QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public void setQtyScrap (BigDecimal QtyScrap);
 
-	/** Get QtyScrap	  */
+	/** Get QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
 	public BigDecimal getQtyScrap();
 
     /** Column name ScheduleType */
@@ -714,7 +720,7 @@ public interface I_PP_Order
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";

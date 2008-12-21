@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListVersion
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persistent 
 {
 
@@ -93,8 +93,6 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** HR_ListBase_ID AD_Reference_ID=53246 */
-	public static final int HR_LISTBASE_ID_AD_Reference_ID=53246;
 	/** Set Payroll List Base.
 		@param HR_ListBase_ID Payroll List Base	  */
 	public void setHR_ListBase_ID (int HR_ListBase_ID)
@@ -115,7 +113,7 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_List getHR_List() throws Exception 
+	public org.eevolution.model.I_HR_List getHR_List() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_List.Table_Name);
         org.eevolution.model.I_HR_List result = null;
@@ -126,7 +124,7 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

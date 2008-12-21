@@ -23,7 +23,7 @@ import org.compiere.model.*;
 
 /** Generated Model for RV_PP_WIP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_RV_PP_WIP extends PO implements I_RV_PP_WIP, I_Persistent 
 {
 

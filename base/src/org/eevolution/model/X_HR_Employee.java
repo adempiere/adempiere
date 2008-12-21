@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Employee
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent 
 {
 
@@ -42,6 +42,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
       super (ctx, HR_Employee_ID, trxName);
       /** if (HR_Employee_ID == 0)
         {
+			setC_BPartner_ID (0);
 			setHR_Department_ID (0);
 			setHR_Employee_ID (0);
 			setHR_Job_ID (0);
@@ -77,7 +78,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -88,7 +89,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -116,7 +117,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -127,7 +128,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -138,10 +139,9 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1)
+			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
+		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -189,7 +189,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
         org.eevolution.model.I_HR_Department result = null;
@@ -200,13 +200,13 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Department.
-		@param HR_Department_ID Department	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1)
@@ -214,8 +214,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -224,8 +224,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Employee.
-		@param HR_Employee_ID Employee	  */
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
 	{
 		if (HR_Employee_ID < 1)
@@ -233,8 +233,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
 	}
 
-	/** Get Employee.
-		@return Employee	  */
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
@@ -243,7 +243,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws Exception 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Job.Table_Name);
         org.eevolution.model.I_HR_Job result = null;
@@ -254,13 +254,13 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Job.
-		@param HR_Job_ID Job	  */
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
 	{
 		if (HR_Job_ID < 1)
@@ -268,8 +268,8 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
 	}
 
-	/** Get Job.
-		@return Job	  */
+	/** Get Payroll Job.
+		@return Payroll Job	  */
 	public int getHR_Job_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
@@ -278,7 +278,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws Exception 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
         org.eevolution.model.I_HR_Payroll result = null;
@@ -289,7 +289,7 @@ public class X_HR_Employee extends PO implements I_HR_Employee, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

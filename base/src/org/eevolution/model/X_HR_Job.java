@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_Job extends PO implements I_HR_Job, I_Persistent 
 {
 
@@ -92,7 +92,7 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws Exception 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
         org.eevolution.model.I_HR_Department result = null;
@@ -103,13 +103,13 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Department.
-		@param HR_Department_ID Department	  */
+	/** Set Payroll Department.
+		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
 	{
 		if (HR_Department_ID < 1)
@@ -117,8 +117,8 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
 		set_Value (COLUMNNAME_HR_Department_ID, Integer.valueOf(HR_Department_ID));
 	}
 
-	/** Get Department.
-		@return Department	  */
+	/** Get Payroll Department.
+		@return Payroll Department	  */
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
@@ -127,8 +127,8 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Job.
-		@param HR_Job_ID Job	  */
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
 	{
 		if (HR_Job_ID < 1)
@@ -136,8 +136,8 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
 	}
 
-	/** Get Job.
-		@return Job	  */
+	/** Get Payroll Job.
+		@return Payroll Job	  */
 	public int getHR_Job_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
@@ -214,8 +214,6 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Next_Job_ID AD_Reference_ID=53244 */
-	public static final int NEXT_JOB_ID_AD_Reference_ID=53244;
 	/** Set Next Job.
 		@param Next_Job_ID Next Job	  */
 	public void setNext_Job_ID (int Next_Job_ID)
@@ -236,8 +234,6 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Supervisor_ID AD_Reference_ID=286 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

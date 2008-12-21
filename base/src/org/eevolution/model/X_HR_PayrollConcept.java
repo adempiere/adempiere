@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Persistent 
 {
 
@@ -41,7 +41,9 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       super (ctx, HR_PayrollConcept_ID, trxName);
       /** if (HR_PayrollConcept_ID == 0)
         {
+			setHR_Concept_ID (0);
 			setHR_PayrollConcept_ID (0);
+			setHR_Payroll_ID (0);
 			setIsPrinted (false);
 // N
         } */
@@ -75,7 +77,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws Exception 
+	public I_AD_Rule getAD_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
         I_AD_Rule result = null;
@@ -86,7 +88,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -111,7 +113,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws Exception 
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept.Table_Name);
         org.eevolution.model.I_HR_Concept result = null;
@@ -122,23 +124,22 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set Concept.
-		@param HR_Concept_ID Concept	  */
+	/** Set Payroll Concept.
+		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
-		if (HR_Concept_ID < 1) 
-			set_Value (COLUMNNAME_HR_Concept_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
+		if (HR_Concept_ID < 1)
+			 throw new IllegalArgumentException ("HR_Concept_ID is mandatory.");
+		set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
-	/** Get Concept.
-		@return Concept	  */
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
 	public int getHR_Concept_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
@@ -166,7 +167,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws Exception 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
         org.eevolution.model.I_HR_Payroll result = null;
@@ -177,7 +178,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -186,10 +187,9 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
-		if (HR_Payroll_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
+		if (HR_Payroll_ID < 1)
+			 throw new IllegalArgumentException ("HR_Payroll_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
 	}
 
 	/** Get Payroll.

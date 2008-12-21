@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for IMP_Processor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent 
 {
 
@@ -222,8 +222,8 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		return (String)get_Value(COLUMNNAME_Host);
 	}
 
-	/** Set IMP_Processor_ID.
-		@param IMP_Processor_ID IMP_Processor_ID	  */
+	/** Set Import Processor.
+		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
 		if (IMP_Processor_ID < 1)
@@ -231,8 +231,8 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
-	/** Get IMP_Processor_ID.
-		@return IMP_Processor_ID	  */
+	/** Get Import Processor.
+		@return Import Processor	  */
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
@@ -241,7 +241,7 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_IMP_Processor_Type getIMP_Processor_Type() throws Exception 
+	public org.eevolution.model.I_IMP_Processor_Type getIMP_Processor_Type() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_IMP_Processor_Type.Table_Name);
         org.eevolution.model.I_IMP_Processor_Type result = null;
@@ -252,13 +252,13 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set IMP_Processor_Type_ID.
-		@param IMP_Processor_Type_ID IMP_Processor_Type_ID	  */
+	/** Set Import Processor Type.
+		@param IMP_Processor_Type_ID Import Processor Type	  */
 	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID)
 	{
 		if (IMP_Processor_Type_ID < 1)
@@ -266,8 +266,8 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		set_Value (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
 	}
 
-	/** Get IMP_Processor_Type_ID.
-		@return IMP_Processor_Type_ID	  */
+	/** Get Import Processor Type.
+		@return Import Processor Type	  */
 	public int getIMP_Processor_Type_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_Type_ID);
@@ -315,15 +315,15 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set PasswordInfo.
-		@param PasswordInfo PasswordInfo	  */
+	/** Set Password Info.
+		@param PasswordInfo Password Info	  */
 	public void setPasswordInfo (String PasswordInfo)
 	{
 		set_Value (COLUMNNAME_PasswordInfo, PasswordInfo);
 	}
 
-	/** Get PasswordInfo.
-		@return PasswordInfo	  */
+	/** Get Password Info.
+		@return Password Info	  */
 	public String getPasswordInfo () 
 	{
 		return (String)get_Value(COLUMNNAME_PasswordInfo);

@@ -25,7 +25,7 @@ import org.compiere.model.*;
 
 /** Generated Model for T_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -84,7 +84,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -167,7 +167,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Levels);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -178,7 +178,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -206,7 +206,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -217,7 +217,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -245,7 +245,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOMLine.Table_Name);
         org.eevolution.model.I_PP_Product_BOMLine result = null;
@@ -256,7 +256,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -284,8 +284,8 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Sel_Product_ID.
-		@param Sel_Product_ID Sel_Product_ID	  */
+	/** Set Selected Product.
+		@param Sel_Product_ID Selected Product	  */
 	public void setSel_Product_ID (int Sel_Product_ID)
 	{
 		if (Sel_Product_ID < 1)
@@ -293,8 +293,8 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		set_Value (COLUMNNAME_Sel_Product_ID, Integer.valueOf(Sel_Product_ID));
 	}
 
-	/** Get Sel_Product_ID.
-		@return Sel_Product_ID	  */
+	/** Get Selected Product.
+		@return Selected Product	  */
 	public int getSel_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Sel_Product_ID);
@@ -323,8 +323,8 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set T_BOMLine_ID.
-		@param T_BOMLine_ID T_BOMLine_ID	  */
+	/** Set Temporal BOM Line.
+		@param T_BOMLine_ID Temporal BOM Line	  */
 	public void setT_BOMLine_ID (int T_BOMLine_ID)
 	{
 		if (T_BOMLine_ID < 1)
@@ -332,8 +332,8 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_T_BOMLine_ID, Integer.valueOf(T_BOMLine_ID));
 	}
 
-	/** Get T_BOMLine_ID.
-		@return T_BOMLine_ID	  */
+	/** Get Temporal BOM Line.
+		@return Temporal BOM Line	  */
 	public int getT_BOMLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_T_BOMLine_ID);

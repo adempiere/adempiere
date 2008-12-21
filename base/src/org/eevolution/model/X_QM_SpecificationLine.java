@@ -26,7 +26,7 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine, I_Persistent 
 {
 
@@ -100,7 +100,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_AndOr);
 	}
 
-	public I_M_Attribute getM_Attribute() throws Exception 
+	public I_M_Attribute getM_Attribute() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
         I_M_Attribute result = null;
@@ -111,7 +111,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -176,7 +176,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_Operation);
 	}
 
-	public org.eevolution.model.I_QM_Specification getQM_Specification() throws Exception 
+	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_QM_Specification.Table_Name);
         org.eevolution.model.I_QM_Specification result = null;
@@ -187,13 +187,13 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
 
-	/** Set QM_Specification_ID.
-		@param QM_Specification_ID QM_Specification_ID	  */
+	/** Set Quality Specification.
+		@param QM_Specification_ID Quality Specification	  */
 	public void setQM_Specification_ID (int QM_Specification_ID)
 	{
 		if (QM_Specification_ID < 1) 
@@ -202,8 +202,8 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 			set_ValueNoCheck (COLUMNNAME_QM_Specification_ID, Integer.valueOf(QM_Specification_ID));
 	}
 
-	/** Get QM_Specification_ID.
-		@return QM_Specification_ID	  */
+	/** Get Quality Specification.
+		@return Quality Specification	  */
 	public int getQM_Specification_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QM_Specification_ID);
