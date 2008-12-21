@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_Group extends PO implements I_R_Group, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -118,7 +118,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -173,7 +173,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -184,7 +184,7 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

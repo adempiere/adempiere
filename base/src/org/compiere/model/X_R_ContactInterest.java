@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_ContactInterest
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -86,7 +86,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -138,7 +138,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_OptOutDate);
 	}
 
-	public I_R_InterestArea getR_InterestArea() throws Exception 
+	public I_R_InterestArea getR_InterestArea() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
         I_R_InterestArea result = null;
@@ -149,7 +149,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

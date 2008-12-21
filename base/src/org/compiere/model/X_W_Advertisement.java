@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persistent 
 {
 
@@ -98,7 +98,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return (String)get_Value(COLUMNNAME_AdText);
 	}
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -109,7 +109,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -136,8 +136,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	/** C_BPartner_ID AD_Reference_ID=232 */
-	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -387,7 +385,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_ClickCount getW_ClickCount() throws Exception 
+	public I_W_ClickCount getW_ClickCount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
         I_W_ClickCount result = null;
@@ -398,7 +396,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -426,7 +424,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws Exception 
+	public I_W_CounterCount getW_CounterCount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
         I_W_CounterCount result = null;
@@ -437,7 +435,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

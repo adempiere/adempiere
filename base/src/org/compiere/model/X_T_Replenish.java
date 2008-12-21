@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -90,7 +90,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -117,7 +117,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -128,7 +128,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -155,7 +155,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -166,7 +166,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -238,7 +238,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -249,7 +249,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -276,7 +276,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -287,7 +287,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -314,8 +314,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_WarehouseSource_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 
 		Optional Warehouse to replenish from

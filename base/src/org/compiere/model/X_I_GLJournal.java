@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_GLJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent 
 {
 
@@ -76,8 +76,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
       return sb.toString();
     }
 
-	/** Account_ID AD_Reference_ID=132 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -135,8 +133,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_AcctSchemaName);
 	}
 
-	/** AD_OrgDoc_ID AD_Reference_ID=130 */
-	public static final int AD_ORGDOC_ID_AD_Reference_ID=130;
 	/** Set Document Org.
 		@param AD_OrgDoc_ID 
 		Document Organization (independent from account organization)
@@ -160,8 +156,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -316,7 +310,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -327,7 +321,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -355,7 +349,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -366,7 +360,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -411,7 +405,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CategoryName);
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -422,7 +416,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -450,7 +444,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -461,7 +455,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -489,7 +483,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -500,7 +494,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -528,7 +522,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -539,7 +533,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -567,7 +561,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -578,7 +572,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -623,8 +617,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_ClientValue);
 	}
 
-	/** C_LocFrom_ID AD_Reference_ID=133 */
-	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -648,8 +640,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_LocTo_ID AD_Reference_ID=133 */
-	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
@@ -690,7 +680,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
 	}
 
-	public I_C_Period getC_Period() throws Exception 
+	public I_C_Period getC_Period() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -701,7 +691,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -729,7 +719,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -740,7 +730,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -768,7 +758,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -779,7 +769,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -807,7 +797,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -818,7 +808,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -866,7 +856,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return bd;
 	}
 
-	public I_C_ValidCombination getC_ValidCombination() throws Exception 
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
         I_C_ValidCombination result = null;
@@ -877,7 +867,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -956,7 +946,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocTypeName);
 	}
 
-	public I_GL_Budget getGL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -967,7 +957,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -995,7 +985,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Category getGL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -1006,7 +996,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1034,7 +1024,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -1045,7 +1035,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1073,7 +1063,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getGL_Journal() throws Exception 
+	public I_GL_Journal getGL_Journal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
         I_GL_Journal result = null;
@@ -1084,7 +1074,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1112,7 +1102,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalLine getGL_JournalLine() throws Exception 
+	public I_GL_JournalLine getGL_JournalLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalLine.Table_Name);
         I_GL_JournalLine result = null;
@@ -1123,7 +1113,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1324,7 +1314,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -1335,7 +1325,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1560,8 +1550,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_UPC);
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -1585,8 +1573,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

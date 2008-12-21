@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InventoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -88,7 +88,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -126,7 +126,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -273,7 +273,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getM_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -284,7 +284,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -312,7 +312,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
+	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
         I_M_PriceList_Version result = null;
@@ -323,7 +323,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -351,7 +351,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -362,7 +362,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -389,7 +389,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -400,7 +400,7 @@ public class X_T_InventoryValue extends PO implements I_T_InventoryValue, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

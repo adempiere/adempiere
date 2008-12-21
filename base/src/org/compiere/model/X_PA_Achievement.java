@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Achievement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persistent 
 {
 
@@ -226,7 +226,7 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getPA_Measure() throws Exception 
+	public I_PA_Measure getPA_Measure() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
         I_PA_Measure result = null;
@@ -237,7 +237,7 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

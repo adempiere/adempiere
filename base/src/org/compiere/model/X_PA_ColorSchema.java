@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ColorSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persistent 
 {
 
@@ -77,8 +77,6 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
       return sb.toString();
     }
 
-	/** AD_PrintColor1_ID AD_Reference_ID=266 */
-	public static final int AD_PRINTCOLOR1_ID_AD_Reference_ID=266;
 	/** Set Color 1.
 		@param AD_PrintColor1_ID 
 		First color used
@@ -101,8 +99,6 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 		return ii.intValue();
 	}
 
-	/** AD_PrintColor2_ID AD_Reference_ID=266 */
-	public static final int AD_PRINTCOLOR2_ID_AD_Reference_ID=266;
 	/** Set Color 2.
 		@param AD_PrintColor2_ID 
 		Second color used
@@ -125,8 +121,6 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 		return ii.intValue();
 	}
 
-	/** AD_PrintColor3_ID AD_Reference_ID=266 */
-	public static final int AD_PRINTCOLOR3_ID_AD_Reference_ID=266;
 	/** Set Color 3.
 		@param AD_PrintColor3_ID 
 		Third color used
@@ -150,8 +144,6 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 		return ii.intValue();
 	}
 
-	/** AD_PrintColor4_ID AD_Reference_ID=266 */
-	public static final int AD_PRINTCOLOR4_ID_AD_Reference_ID=266;
 	/** Set Color 4.
 		@param AD_PrintColor4_ID 
 		Forth color used

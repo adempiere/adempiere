@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
@@ -121,7 +121,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_Classification);
 	}
 
-	public I_C_RevenueRecognition getC_RevenueRecognition() throws Exception 
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_RevenueRecognition.Table_Name);
         I_C_RevenueRecognition result = null;
@@ -132,7 +132,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -183,7 +183,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -194,7 +194,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -221,7 +221,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -232,7 +232,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -758,7 +758,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSet getM_AttributeSet() throws Exception 
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
         I_M_AttributeSet result = null;
@@ -769,7 +769,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -819,7 +819,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_FreightCategory getM_FreightCategory() throws Exception 
+	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
         I_M_FreightCategory result = null;
@@ -830,7 +830,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -881,9 +881,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_Product_Category_ID AD_Reference_ID=163 */
-	public static final int M_PRODUCT_CATEGORY_ID_AD_Reference_ID=163;
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -894,7 +892,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1013,7 +1011,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProductType);
 	}
 
-	public I_R_MailText getR_MailText() throws Exception 
+	public I_R_MailText getR_MailText() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
         I_R_MailText result = null;
@@ -1024,7 +1022,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1052,8 +1050,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -1077,7 +1073,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_ExpenseType getS_ExpenseType() throws Exception 
+	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_ExpenseType.Table_Name);
         I_S_ExpenseType result = null;
@@ -1088,7 +1084,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1193,7 +1189,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_SKU);
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -1204,7 +1200,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

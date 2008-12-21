@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_BlackListCheque
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Persistent 
 {
 

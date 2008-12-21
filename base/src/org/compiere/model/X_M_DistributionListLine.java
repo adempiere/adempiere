@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionListLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_DistributionListLine extends PO implements I_M_DistributionListLine, I_Persistent 
 {
 
@@ -78,7 +78,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -89,7 +89,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -116,7 +116,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -127,7 +127,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -171,7 +171,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_DistributionList getM_DistributionList() throws Exception 
+	public I_M_DistributionList getM_DistributionList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
         I_M_DistributionList result = null;
@@ -182,7 +182,7 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

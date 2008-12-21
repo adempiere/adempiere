@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_SLA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -90,7 +90,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -184,7 +184,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 		return bd;
 	}
 
-	public I_PA_SLA_Goal getPA_SLA_Goal() throws Exception 
+	public I_PA_SLA_Goal getPA_SLA_Goal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_SLA_Goal.Table_Name);
         I_PA_SLA_Goal result = null;
@@ -195,7 +195,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

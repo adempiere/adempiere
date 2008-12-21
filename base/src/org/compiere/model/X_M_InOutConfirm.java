@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persistent 
 {
 
@@ -106,7 +106,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return bd;
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -117,7 +117,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -436,7 +436,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_InOut getM_InOut() throws Exception 
+	public I_M_InOut getM_InOut() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
         I_M_InOut result = null;
@@ -447,7 +447,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -474,7 +474,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Inventory getM_Inventory() throws Exception 
+	public I_M_Inventory getM_Inventory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
         I_M_Inventory result = null;
@@ -485,7 +485,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent 
 {
 
@@ -101,8 +101,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return false;
 	}
 
-	/** Card_BankAccount_ID AD_Reference_ID=53283 */
-	public static final int CARD_BANKACCOUNT_ID_AD_Reference_ID=53283;
 	/** Set Card Bank Account.
 		@param Card_BankAccount_ID 
 		Bank Account on which card transactions will be processed
@@ -126,8 +124,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CardTransferBankAccount_ID AD_Reference_ID=53283 */
-	public static final int CARDTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
 	/** Set Transfer Card trx to.
 		@param CardTransferBankAccount_ID 
 		Bank account on which to transfer Card transactions
@@ -151,8 +147,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CardTransferCashBook_ID AD_Reference_ID=52004 */
-	public static final int CARDTRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
 	/** Set Transfer Card trx to.
 		@param CardTransferCashBook_ID 
 		Cash Book on which to transfer all Card transactions
@@ -221,8 +215,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CashBookTransferType);
 	}
 
-	/** CashTransferBankAccount_ID AD_Reference_ID=53283 */
-	public static final int CASHTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
 	/** Set Transfer Cash trx to.
 		@param CashTransferBankAccount_ID 
 		Bank Account on which to transfer all Cash transactions
@@ -246,8 +238,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CashTransferCashBook_ID AD_Reference_ID=52004 */
-	public static final int CASHTRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
 	/** Set Transfer Cash trx to.
 		@param CashTransferCashBook_ID 
 		Cash Book on which to transfer all Cash transactions
@@ -271,7 +261,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getC_CashBook() throws Exception 
+	public I_C_CashBook getC_CashBook() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
         I_C_CashBook result = null;
@@ -282,7 +272,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -309,8 +299,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_CashBPartner_ID AD_Reference_ID=173 */
-	public static final int C_CASHBPARTNER_ID_AD_Reference_ID=173;
 	/** Set Cash BPartner.
 		@param C_CashBPartner_ID 
 		BPartner to be used for Cash transactions
@@ -333,8 +321,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Check_BankAccount_ID AD_Reference_ID=53283 */
-	public static final int CHECK_BANKACCOUNT_ID_AD_Reference_ID=53283;
 	/** Set Check Bank Account.
 		@param Check_BankAccount_ID 
 		Bank Account to be used for processing Check transactions
@@ -358,8 +344,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CheckTransferBankAccount_ID AD_Reference_ID=53283 */
-	public static final int CHECKTRANSFERBANKACCOUNT_ID_AD_Reference_ID=53283;
 	/** Set Tranfer Check trx to.
 		@param CheckTransferBankAccount_ID 
 		Bank account on which to transfer Check transactions
@@ -383,8 +367,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CheckTransferCashBook_ID AD_Reference_ID=52004 */
-	public static final int CHECKTRANSFERCASHBOOK_ID_AD_Reference_ID=52004;
 	/** Set Transfer Check trx to.
 		@param CheckTransferCashBook_ID 
 		Cash Book on which to transfer all Check transactions
@@ -429,8 +411,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CheckTransferType);
 	}
 
-	/** C_TemplateBPartner_ID AD_Reference_ID=173 */
-	public static final int C_TEMPLATEBPARTNER_ID_AD_Reference_ID=173;
 	/** Set Template BPartner.
 		@param C_TemplateBPartner_ID 
 		BPartner that is to be used as template when new customers are created
@@ -549,7 +529,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -560,7 +540,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -605,8 +585,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** PO_PriceList_ID AD_Reference_ID=166 */
-	public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner
@@ -647,8 +625,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_PrinterName);
 	}
 
-	/** SalesRep_ID AD_Reference_ID=316 */
-	public static final int SALESREP_ID_AD_Reference_ID=316;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -672,8 +648,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** SO_PriceList_ID AD_Reference_ID=166 */
-	public static final int SO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Sales Pricelist.
 		@param SO_PriceList_ID Sales Pricelist	  */
 	public void setSO_PriceList_ID (int SO_PriceList_ID)

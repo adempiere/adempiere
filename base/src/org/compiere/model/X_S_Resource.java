@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
@@ -46,6 +46,8 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 // Y
 			setM_Warehouse_ID (0);
 			setName (null);
+			setPercentUtilization (Env.ZERO);
+// 100
 			setS_Resource_ID (0);
 			setS_ResourceType_ID (0);
 			setValue (null);
@@ -80,7 +82,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -91,7 +93,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -136,15 +138,15 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return bd;
 	}
 
-	/** Set DailyCapacity.
-		@param DailyCapacity DailyCapacity	  */
+	/** Set Daily Capacity.
+		@param DailyCapacity Daily Capacity	  */
 	public void setDailyCapacity (BigDecimal DailyCapacity)
 	{
 		set_Value (COLUMNNAME_DailyCapacity, DailyCapacity);
 	}
 
-	/** Get DailyCapacity.
-		@return DailyCapacity	  */
+	/** Get Daily Capacity.
+		@return Daily Capacity	  */
 	public BigDecimal getDailyCapacity () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DailyCapacity);
@@ -240,7 +242,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -251,7 +253,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -305,15 +307,17 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set PercentUtilization.
-		@param PercentUtilization PercentUtilization	  */
+	/** Set % Utilization.
+		@param PercentUtilization % Utilization	  */
 	public void setPercentUtilization (BigDecimal PercentUtilization)
 	{
+		if (PercentUtilization == null)
+			throw new IllegalArgumentException ("PercentUtilization is mandatory.");
 		set_Value (COLUMNNAME_PercentUtilization, PercentUtilization);
 	}
 
-	/** Get PercentUtilization.
-		@return PercentUtilization	  */
+	/** Get % Utilization.
+		@return % Utilization	  */
 	public BigDecimal getPercentUtilization () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PercentUtilization);
@@ -342,15 +346,15 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set QueuingTime.
-		@param QueuingTime QueuingTime	  */
+	/** Set Queuing Time.
+		@param QueuingTime Queuing Time	  */
 	public void setQueuingTime (BigDecimal QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, QueuingTime);
 	}
 
-	/** Get QueuingTime.
-		@return QueuingTime	  */
+	/** Get Queuing Time.
+		@return Queuing Time	  */
 	public BigDecimal getQueuingTime () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QueuingTime);
@@ -381,7 +385,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_ResourceType getS_ResourceType() throws Exception 
+	public I_S_ResourceType getS_ResourceType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_ResourceType.Table_Name);
         I_S_ResourceType result = null;
@@ -392,7 +396,7 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_Product_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persistent 
 {
 
@@ -82,7 +82,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -93,7 +93,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -120,7 +120,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -131,7 +131,7 @@ public class X_M_Product_Acct extends PO implements I_M_Product_Acct, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 
@@ -122,8 +122,6 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_EndTime);
 	}
 
-	/** M_ProductSpent_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCTSPENT_ID_AD_Reference_ID=162;
 	/** Set Product Used.
 		@param M_ProductSpent_ID 
 		Product/Resource/Service used in Request
@@ -204,7 +202,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return (String)get_Value(COLUMNNAME_Result);
 	}
 
-	public I_R_Request getR_Request() throws Exception 
+	public I_R_Request getR_Request() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
         I_R_Request result = null;
@@ -215,7 +213,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

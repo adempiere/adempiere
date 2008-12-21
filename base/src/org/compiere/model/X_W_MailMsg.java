@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_MailMsg
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent 
 {
 
@@ -253,7 +253,7 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_Store getW_Store() throws Exception 
+	public I_W_Store getW_Store() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_Store.Table_Name);
         I_W_Store result = null;
@@ -264,7 +264,7 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

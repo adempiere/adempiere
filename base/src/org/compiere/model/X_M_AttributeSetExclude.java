@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclude, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -85,7 +85,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSet getM_AttributeSet() throws Exception 
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
         I_M_AttributeSet result = null;
@@ -169,7 +169,7 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

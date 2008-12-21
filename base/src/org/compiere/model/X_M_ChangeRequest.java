@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ChangeRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persistent 
 {
 
@@ -179,7 +179,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return false;
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -190,7 +190,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -240,8 +240,6 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return ii.intValue();
 	}
 
-	/** M_FixChangeNotice_ID AD_Reference_ID=351 */
-	public static final int M_FIXCHANGENOTICE_ID_AD_Reference_ID=351;
 	/** Set Fixed in.
 		@param M_FixChangeNotice_ID 
 		Fixed in Change Notice
@@ -284,7 +282,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws Exception 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
         org.eevolution.model.I_PP_Product_BOM result = null;
@@ -295,7 +293,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

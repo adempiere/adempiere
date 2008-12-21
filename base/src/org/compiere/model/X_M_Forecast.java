@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Calendar getC_Calendar() throws Exception 
+	public I_C_Calendar getC_Calendar() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
         I_C_Calendar result = null;
@@ -87,7 +87,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getC_Year() throws Exception 
+	public I_C_Year getC_Year() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Year.Table_Name);
         I_C_Year result = null;
@@ -125,7 +125,7 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -227,6 +227,45 @@ public class X_M_Forecast extends PO implements I_M_Forecast, I_Persistent
 	public int getM_Forecast_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
+        I_M_PriceList result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Price List.
+		@param M_PriceList_ID 
+		Unique identifier of a Price List
+	  */
+	public void setM_PriceList_ID (int M_PriceList_ID)
+	{
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+	}
+
+	/** Get Price List.
+		@return Unique identifier of a Price List
+	  */
+	public int getM_PriceList_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

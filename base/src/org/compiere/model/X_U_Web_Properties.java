@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for U_Web_Properties
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Persistent 
 {
 
@@ -50,7 +50,7 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
     }
 
     /** AccessLevel
-      * @return 3 - Client - Org 
+      * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
     {

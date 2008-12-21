@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionRun
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Pe
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -86,7 +86,7 @@ public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -125,7 +125,7 @@ public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

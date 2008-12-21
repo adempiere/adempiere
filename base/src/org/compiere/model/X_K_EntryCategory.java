@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
       return sb.toString();
     }
 
-	public I_K_Category getK_Category() throws Exception 
+	public I_K_Category getK_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
         I_K_Category result = null;
@@ -85,7 +85,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_K_CategoryValue getK_CategoryValue() throws Exception 
+	public I_K_CategoryValue getK_CategoryValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_CategoryValue.Table_Name);
         I_K_CategoryValue result = null;
@@ -123,7 +123,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
     }
 
-	public I_K_Entry getK_Entry() throws Exception 
+	public I_K_Entry getK_Entry() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_Entry.Table_Name);
         I_K_Entry result = null;
@@ -169,7 +169,7 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

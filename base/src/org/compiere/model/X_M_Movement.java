@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Movement extends PO implements I_M_Movement, I_Persistent 
 {
 
@@ -87,8 +87,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -112,8 +110,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_User_ID AD_Reference_ID=286 */
-	public static final int AD_USER_ID_AD_Reference_ID=286;
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -157,7 +153,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return bd;
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -168,7 +164,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -196,7 +192,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -207,7 +203,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -258,7 +254,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -269,7 +265,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -297,7 +293,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -308,7 +304,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -336,7 +332,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -347,7 +343,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -374,7 +370,27 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -385,7 +401,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -413,26 +429,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Create lines from.
 		@param CreateFrom 
 		Process which will generate a new document lines based on an existing document
@@ -450,7 +446,24 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_CreateFrom);
 	}
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws Exception 
+	/** Set Date received.
+		@param DateReceived 
+		Date a product was received
+	  */
+	public void setDateReceived (Timestamp DateReceived)
+	{
+		set_Value (COLUMNNAME_DateReceived, DateReceived);
+	}
+
+	/** Get Date received.
+		@return Date a product was received
+	  */
+	public Timestamp getDateReceived () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
+	}
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
         org.eevolution.model.I_DD_Order result = null;
@@ -461,7 +474,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -484,23 +497,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Date received.
-		@param DateReceived 
-		Date a product was received
-	  */
-	public void setDateReceived (Timestamp DateReceived)
-	{
-		set_Value (COLUMNNAME_DateReceived, DateReceived);
-	}
-
-	/** Get Date received.
-		@return Date a product was received
-	  */
-	public Timestamp getDateReceived () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -815,7 +811,26 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws Exception 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		if (MovementDate == null)
+			throw new IllegalArgumentException ("MovementDate is mandatory.");
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+	public I_M_Shipper getM_Shipper() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -826,7 +841,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -852,25 +867,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Order Reference.
@@ -989,8 +985,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return false;
 	}
 
-	/** Reversal_ID AD_Reference_ID=53252 */
-	public static final int REVERSAL_ID_AD_Reference_ID=53252;
 	/** Set Reversal ID.
 		@param Reversal_ID 
 		ID of document reversal
@@ -1014,8 +1008,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -1039,8 +1031,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -1064,8 +1054,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

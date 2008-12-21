@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent 
 {
 
@@ -44,8 +44,8 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 // Y
 			setLineType (null);
 			setName (null);
-			setPA_ReportLineSet_ID (0);
 			setPA_ReportLine_ID (0);
+			setPA_ReportLineSet_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM PA_ReportLine WHERE PA_ReportLineSet_ID=@PA_ReportLineSet_ID@
         } */
@@ -278,8 +278,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Oper_1_ID AD_Reference_ID=240 */
-	public static final int OPER_1_ID_AD_Reference_ID=240;
 	/** Set Operand 1.
 		@param Oper_1_ID 
 		First operand for calculation
@@ -303,8 +301,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Oper_2_ID AD_Reference_ID=240 */
-	public static final int OPER_2_ID_AD_Reference_ID=240;
 	/** Set Operand 2.
 		@param Oper_2_ID 
 		Second operand for calculation
@@ -323,6 +319,25 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public int getOper_2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Oper_2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Report Line.
+		@param PA_ReportLine_ID Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
+	{
+		if (PA_ReportLine_ID < 1)
+			 throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+	}
+
+	/** Get Report Line.
+		@return Report Line	  */
+	public int getPA_ReportLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -358,25 +373,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Report Line.
-		@param PA_ReportLine_ID Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
-	{
-		if (PA_ReportLine_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
-	}
-
-	/** Get Report Line.
-		@return Report Line	  */
-	public int getPA_ReportLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

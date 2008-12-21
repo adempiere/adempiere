@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_OperationResource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_OperationResource extends PO implements I_M_OperationResource, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -90,7 +90,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -118,7 +118,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_C_Job getC_Job() throws Exception 
+	public I_C_Job getC_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
         I_C_Job result = null;
@@ -129,7 +129,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -213,7 +213,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getM_ProductOperation() throws Exception 
+	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductOperation.Table_Name);
         I_M_ProductOperation result = null;
@@ -224,7 +224,7 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

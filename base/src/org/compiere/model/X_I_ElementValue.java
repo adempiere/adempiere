@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persistent 
 {
 
@@ -131,8 +131,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	/** AD_Column_ID AD_Reference_ID=272 */
-	public static final int AD_COLUMN_ID_AD_Reference_ID=272;
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -156,7 +154,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Element getC_Element() throws Exception 
+	public I_C_Element getC_Element() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -167,7 +165,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -195,7 +193,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -206,7 +204,7 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -413,8 +411,6 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** ParentElementValue_ID AD_Reference_ID=182 */
-	public static final int PARENTELEMENTVALUE_ID_AD_Reference_ID=182;
 	/** Set Parent Account.
 		@param ParentElementValue_ID 
 		The parent (summary) account

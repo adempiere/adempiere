@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_Persistent 
 {
 
@@ -231,7 +231,7 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 		return false;
 	}
 
-	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws Exception 
+	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLineConfirm.Table_Name);
         I_M_InOutLineConfirm result = null;
@@ -242,7 +242,7 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

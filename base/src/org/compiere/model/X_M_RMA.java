@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_RMA extends PO implements I_M_RMA, I_Persistent 
 {
 
@@ -108,7 +108,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -119,7 +119,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -147,7 +147,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -158,7 +158,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -186,8 +186,6 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_DocType_ID AD_Reference_ID=321 */
-	public static final int C_DOCTYPE_ID_AD_Reference_ID=321;
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -210,7 +208,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -221,7 +219,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -419,8 +417,6 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** InOut_ID AD_Reference_ID=337 */
-	public static final int INOUT_ID_AD_Reference_ID=337;
 	/** Set Shipment/Receipt.
 		@param InOut_ID 
 		MaterialShipment Document
@@ -513,7 +509,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMAType getM_RMAType() throws Exception 
+	public I_M_RMAType getM_RMAType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMAType.Table_Name);
         I_M_RMAType result = null;
@@ -524,7 +520,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -615,8 +611,6 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return false;
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

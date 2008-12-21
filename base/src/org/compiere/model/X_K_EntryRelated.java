@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryRelated
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
       return sb.toString();
     }
 
-	public I_K_Entry getK_Entry() throws Exception 
+	public I_K_Entry getK_Entry() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_Entry.Table_Name);
         I_K_Entry result = null;
@@ -84,7 +84,7 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -111,8 +111,6 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
 		return ii.intValue();
 	}
 
-	/** K_EntryRelated_ID AD_Reference_ID=285 */
-	public static final int K_ENTRYRELATED_ID_AD_Reference_ID=285;
 	/** Set Related Entry.
 		@param K_EntryRelated_ID 
 		Related Entry for this Enntry

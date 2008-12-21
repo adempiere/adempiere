@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Locator
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Locator extends PO implements I_M_Locator, I_Persistent 
 {
 
@@ -126,7 +126,7 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -137,7 +137,7 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

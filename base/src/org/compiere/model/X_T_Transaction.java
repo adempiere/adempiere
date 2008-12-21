@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -92,7 +92,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -119,7 +119,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -130,7 +130,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
+	public I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
         I_C_ProjectIssue result = null;
@@ -169,7 +169,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -219,7 +219,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOut getM_InOut() throws Exception 
+	public I_M_InOut getM_InOut() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
         I_M_InOut result = null;
@@ -230,7 +230,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -258,7 +258,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -269,7 +269,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -297,7 +297,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Inventory getM_Inventory() throws Exception 
+	public I_M_Inventory getM_Inventory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
         I_M_Inventory result = null;
@@ -308,7 +308,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -336,7 +336,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
         I_M_InventoryLine result = null;
@@ -347,7 +347,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -397,7 +397,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Movement getM_Movement() throws Exception 
+	public I_M_Movement getM_Movement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Movement.Table_Name);
         I_M_Movement result = null;
@@ -408,7 +408,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -436,7 +436,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws Exception 
+	public I_M_MovementLine getM_MovementLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
         I_M_MovementLine result = null;
@@ -447,7 +447,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -560,7 +560,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return (String)get_Value(COLUMNNAME_MovementType);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -571,7 +571,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -598,7 +598,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Production getM_Production() throws Exception 
+	public I_M_Production getM_Production() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Production.Table_Name);
         I_M_Production result = null;
@@ -609,7 +609,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -637,7 +637,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
         I_M_ProductionLine result = null;
@@ -648,7 +648,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -676,7 +676,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Transaction getM_Transaction() throws Exception 
+	public I_M_Transaction getM_Transaction() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Transaction.Table_Name);
         I_M_Transaction result = null;
@@ -687,7 +687,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -711,8 +711,6 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Search_InOut_ID AD_Reference_ID=295 */
-	public static final int SEARCH_INOUT_ID_AD_Reference_ID=295;
 	/** Set Search Shipment/Receipt.
 		@param Search_InOut_ID 
 		Material Shipment Document
@@ -736,8 +734,6 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Search_Invoice_ID AD_Reference_ID=336 */
-	public static final int SEARCH_INVOICE_ID_AD_Reference_ID=336;
 	/** Set Search Invoice.
 		@param Search_Invoice_ID 
 		Search Invoice Identifier
@@ -761,8 +757,6 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Search_Order_ID AD_Reference_ID=290 */
-	public static final int SEARCH_ORDER_ID_AD_Reference_ID=290;
 	/** Set Search Order.
 		@param Search_Order_ID 
 		Order Identifier

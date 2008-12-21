@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRunDetail, I_Persistent 
 {
 
@@ -83,7 +83,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -94,7 +94,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -121,7 +121,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws Exception 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
         I_C_BPartner_Location result = null;
@@ -132,7 +132,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -159,7 +159,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionList getM_DistributionList() throws Exception 
+	public I_M_DistributionList getM_DistributionList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
         I_M_DistributionList result = null;
@@ -170,7 +170,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -197,7 +197,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws Exception 
+	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionListLine.Table_Name);
         I_M_DistributionListLine result = null;
@@ -208,7 +208,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -235,7 +235,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionRun getM_DistributionRun() throws Exception 
+	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionRun.Table_Name);
         I_M_DistributionRun result = null;
@@ -246,7 +246,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -281,7 +281,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws Exception 
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DistributionRunLine.Table_Name);
         I_M_DistributionRunLine result = null;
@@ -292,7 +292,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -341,7 +341,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -352,7 +352,7 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

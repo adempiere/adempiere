@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine, I_Persistent 
 {
 
@@ -105,7 +105,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -116,7 +116,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -144,7 +144,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -155,7 +155,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -590,7 +590,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return (String)get_Value(COLUMNNAME_List_Rounding);
 	}
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -601,7 +601,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -650,7 +650,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -661,7 +661,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -689,7 +689,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -700,7 +700,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

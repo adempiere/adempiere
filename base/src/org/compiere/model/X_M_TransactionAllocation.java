@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_TransactionAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllocation, I_Persistent 
 {
 
@@ -175,7 +175,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -186,7 +186,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -214,7 +214,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
         I_M_InventoryLine result = null;
@@ -225,7 +225,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -253,7 +253,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -264,7 +264,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -291,7 +291,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
         I_M_ProductionLine result = null;
@@ -302,7 +302,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -330,7 +330,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_Transaction getM_Transaction() throws Exception 
+	public I_M_Transaction getM_Transaction() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Transaction.Table_Name);
         I_M_Transaction result = null;
@@ -341,7 +341,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -365,8 +365,6 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	/** Out_M_InOutLine_ID AD_Reference_ID=295 */
-	public static final int OUT_M_INOUTLINE_ID_AD_Reference_ID=295;
 	/** Set Out Shipment Line.
 		@param Out_M_InOutLine_ID 
 		Outgoing Shipment/Receipt
@@ -390,8 +388,6 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	/** Out_M_InventoryLine_ID AD_Reference_ID=296 */
-	public static final int OUT_M_INVENTORYLINE_ID_AD_Reference_ID=296;
 	/** Set Out Inventory Line.
 		@param Out_M_InventoryLine_ID 
 		Outgoing Inventory Line
@@ -415,8 +411,6 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	/** Out_M_ProductionLine_ID AD_Reference_ID=297 */
-	public static final int OUT_M_PRODUCTIONLINE_ID_AD_Reference_ID=297;
 	/** Set Out Production Line.
 		@param Out_M_ProductionLine_ID 
 		Outgoing Production Line
@@ -440,8 +434,6 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	/** Out_M_Transaction_ID AD_Reference_ID=298 */
-	public static final int OUT_M_TRANSACTION_ID_AD_Reference_ID=298;
 	/** Set Out Transaction.
 		@param Out_M_Transaction_ID 
 		Outgoing Transaction

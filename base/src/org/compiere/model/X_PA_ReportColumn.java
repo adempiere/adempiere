@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persistent 
 {
 
@@ -71,8 +71,8 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 			setIsPrinted (true);
 // Y
 			setName (null);
-			setPA_ReportColumnSet_ID (0);
 			setPA_ReportColumn_ID (0);
+			setPA_ReportColumnSet_ID (0);
 			setPostingType (null);
 // A
 			setSeqNo (0);
@@ -214,6 +214,31 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException 
@@ -395,6 +420,29 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
+	/** ColumnType AD_Reference_ID=237 */
+	public static final int COLUMNTYPE_AD_Reference_ID=237;
+	/** Relative Period = R */
+	public static final String COLUMNTYPE_RelativePeriod = "R";
+	/** Calculation = C */
+	public static final String COLUMNTYPE_Calculation = "C";
+	/** Segment Value = S */
+	public static final String COLUMNTYPE_SegmentValue = "S";
+	/** Set Column Type.
+		@param ColumnType Column Type	  */
+	public void setColumnType (String ColumnType)
+	{
+		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
+		if (ColumnType.equals("R") || ColumnType.equals("C") || ColumnType.equals("S")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=237 - R - C - S");		set_Value (COLUMNNAME_ColumnType, ColumnType);
+	}
+
+	/** Get Column Type.
+		@return Column Type	  */
+	public String getColumnType () 
+	{
+		return (String)get_Value(COLUMNNAME_ColumnType);
+	}
+
 	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
@@ -471,54 +519,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** CalculationType AD_Reference_ID=236 */
-	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
-	/** Add (Op1+Op2) = A */
-	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
-	/** Subtract (Op1-Op2) = S */
-	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
-	/** Percentage (Op1 of Op2) = P */
-	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
-	/** Add Range (Op1 to Op2) = R */
-	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
-	/** Set Calculation.
-		@param CalculationType Calculation	  */
-	public void setCalculationType (String CalculationType)
-	{
-
-		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");		set_Value (COLUMNNAME_CalculationType, CalculationType);
-	}
-
-	/** Get Calculation.
-		@return Calculation	  */
-	public String getCalculationType () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationType);
-	}
-
-	/** ColumnType AD_Reference_ID=237 */
-	public static final int COLUMNTYPE_AD_Reference_ID=237;
-	/** Relative Period = R */
-	public static final String COLUMNTYPE_RelativePeriod = "R";
-	/** Calculation = C */
-	public static final String COLUMNTYPE_Calculation = "C";
-	/** Segment Value = S */
-	public static final String COLUMNTYPE_SegmentValue = "S";
-	/** Set Column Type.
-		@param ColumnType Column Type	  */
-	public void setColumnType (String ColumnType)
-	{
-		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
-		if (ColumnType.equals("R") || ColumnType.equals("C") || ColumnType.equals("S")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=237 - R - C - S");		set_Value (COLUMNNAME_ColumnType, ColumnType);
-	}
-
-	/** Get Column Type.
-		@return Column Type	  */
-	public String getColumnType () 
-	{
-		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
 	/** CurrencyType AD_Reference_ID=238 */
@@ -1164,6 +1164,28 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Report Column.
+		@param PA_ReportColumn_ID 
+		Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
+	{
+		if (PA_ReportColumn_ID < 1)
+			 throw new IllegalArgumentException ("PA_ReportColumn_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
+	}
+
+	/** Get Report Column.
+		@return Column in Report
+	  */
+	public int getPA_ReportColumn_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportColumnSet.Table_Name);
@@ -1197,28 +1219,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public int getPA_ReportColumnSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumnSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Report Column.
-		@param PA_ReportColumn_ID 
-		Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
-	{
-		if (PA_ReportColumn_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportColumn_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
-	}
-
-	/** Get Report Column.
-		@return Column in Report
-	  */
-	public int getPA_ReportColumn_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

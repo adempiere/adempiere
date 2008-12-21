@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor_Route
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcessor_Route, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -86,7 +86,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -130,7 +130,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return (String)get_Value(COLUMNNAME_Keyword);
 	}
 
-	public I_R_RequestProcessor getR_RequestProcessor() throws Exception 
+	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestProcessor.Table_Name);
         I_R_RequestProcessor result = null;
@@ -141,7 +141,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -190,7 +190,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -201,7 +201,7 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

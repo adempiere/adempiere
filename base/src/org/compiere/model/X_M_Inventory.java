@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent 
 {
 
@@ -87,8 +87,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -132,7 +130,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return bd;
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -143,7 +141,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -171,7 +169,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -182,7 +180,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -210,7 +208,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -221,7 +219,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -248,7 +246,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -259,7 +257,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -505,7 +503,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
-	public I_M_PerpetualInv getM_PerpetualInv() throws Exception 
+	public I_M_PerpetualInv getM_PerpetualInv() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PerpetualInv.Table_Name);
         I_M_PerpetualInv result = null;
@@ -516,7 +514,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -544,7 +542,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -555,7 +553,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -651,8 +649,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return false;
 	}
 
-	/** Reversal_ID AD_Reference_ID=53249 */
-	public static final int REVERSAL_ID_AD_Reference_ID=53249;
 	/** Set Reversal ID.
 		@param Reversal_ID 
 		ID of document reversal
@@ -690,8 +686,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return (String)get_Value(COLUMNNAME_UpdateQty);
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -715,8 +709,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

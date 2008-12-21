@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent 
 {
 
@@ -198,7 +198,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	public I_M_Inventory getM_Inventory() throws Exception 
+	public I_M_Inventory getM_Inventory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
         I_M_Inventory result = null;
@@ -209,7 +209,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -237,7 +237,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
         I_M_InventoryLine result = null;
@@ -248,7 +248,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -276,7 +276,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -287,7 +287,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -332,7 +332,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -343,7 +343,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -371,7 +371,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -382,7 +382,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

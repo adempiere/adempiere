@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Freight extends PO implements I_M_Freight, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Country getC_Country() throws Exception 
+	public I_C_Country getC_Country() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -91,7 +91,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -119,7 +119,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -130,7 +130,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -157,7 +157,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getC_Region() throws Exception 
+	public I_C_Region getC_Region() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
         I_C_Region result = null;
@@ -168,7 +168,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -218,7 +218,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return bd;
 	}
 
-	public I_M_FreightCategory getM_FreightCategory() throws Exception 
+	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
         I_M_FreightCategory result = null;
@@ -229,7 +229,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -278,7 +278,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws Exception 
+	public I_M_Shipper getM_Shipper() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
         I_M_Shipper result = null;
@@ -289,7 +289,7 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -324,8 +324,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getM_Shipper_ID()));
     }
 
-	/** To_Country_ID AD_Reference_ID=156 */
-	public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set To.
 		@param To_Country_ID 
 		Receiving Country
@@ -349,8 +347,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	/** To_Region_ID AD_Reference_ID=157 */
-	public static final int TO_REGION_ID_AD_Reference_ID=157;
 	/** Set To.
 		@param To_Region_ID 
 		Receiving Region

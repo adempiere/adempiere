@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PerpetualInv
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persistent 
 {
 
@@ -181,7 +181,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -192,7 +192,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -220,7 +220,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -231,7 +231,7 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent 
 {
 
@@ -50,8 +50,8 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_InOutLine WHERE M_InOut_ID=@M_InOut_ID@
 			setM_AttributeSetInstance_ID (0);
-			setM_InOutLine_ID (0);
 			setM_InOut_ID (0);
+			setM_InOutLine_ID (0);
 			setM_Locator_ID (0);
 // @M_Locator_ID@
 			setMovementQty (Env.ZERO);
@@ -90,8 +90,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -115,7 +113,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -126,7 +124,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -154,7 +152,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -165,7 +163,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -193,7 +191,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -204,7 +202,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -232,7 +230,27 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	/** Set Confirmed Quantity.
+		@param ConfirmedQty 
+		Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty)
+	{
+		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+	}
+
+	/** Get Confirmed Quantity.
+		@return Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -243,7 +261,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -271,85 +289,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
-        I_C_ProjectPhase result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ProjectPhase)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectPhase_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Project Phase.
-		@param C_ProjectPhase_ID 
-		Phase of a Project
-	  */
-	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
-	{
-		if (C_ProjectPhase_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
-	}
-
-	/** Get Project Phase.
-		@return Phase of a Project
-	  */
-	public int getC_ProjectPhase_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
-        I_C_ProjectTask result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ProjectTask)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectTask_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
-
-	/** Set Project Task.
-		@param C_ProjectTask_ID 
-		Actual Project Task in a Phase
-	  */
-	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
-	{
-		if (C_ProjectTask_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectTask_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
-	}
-
-	/** Get Project Task.
-		@return Actual Project Task in a Phase
-	  */
-	public int getC_ProjectTask_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -360,7 +300,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -388,7 +328,85 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
+        I_C_ProjectPhase result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ProjectPhase)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectPhase_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Project Phase.
+		@param C_ProjectPhase_ID 
+		Phase of a Project
+	  */
+	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
+	{
+		if (C_ProjectPhase_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+	}
+
+	/** Get Project Phase.
+		@return Phase of a Project
+	  */
+	public int getC_ProjectPhase_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectPhase_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
+        I_C_ProjectTask result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ProjectTask)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectTask_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Project Task.
+		@param C_ProjectTask_ID 
+		Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
+	{
+		if (C_ProjectTask_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
+	}
+
+	/** Get Project Task.
+		@return Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -399,7 +417,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -424,26 +442,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Description.
@@ -561,29 +559,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Shipment/Receipt Line.
-		@param M_InOutLine_ID 
-		Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID)
-	{
-		if (M_InOutLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
-	}
-
-	/** Get Shipment/Receipt Line.
-		@return Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_InOut getM_InOut() throws Exception 
+	public I_M_InOut getM_InOut() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOut.Table_Name);
         I_M_InOut result = null;
@@ -594,7 +570,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -616,6 +592,28 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	public int getM_InOut_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Shipment/Receipt Line.
+		@param M_InOutLine_ID 
+		Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID)
+	{
+		if (M_InOutLine_ID < 1)
+			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+	}
+
+	/** Get Shipment/Receipt Line.
+		@return Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -643,7 +641,29 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		if (MovementQty == null)
+			throw new IllegalArgumentException ("MovementQty is mandatory.");
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -654,7 +674,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -682,7 +702,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMALine getM_RMALine() throws Exception 
+	public I_M_RMALine getM_RMALine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMALine.Table_Name);
         I_M_RMALine result = null;
@@ -693,7 +713,7 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -719,28 +739,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Picked Quantity.
@@ -826,8 +824,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** ReversalLine_ID AD_Reference_ID=295 */
-	public static final int REVERSALLINE_ID_AD_Reference_ID=295;
 	/** Set Reversal Line.
 		@param ReversalLine_ID 
 		Use to keep the reversal line ID for reversing costing purpose
@@ -891,8 +887,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return bd;
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -916,8 +910,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

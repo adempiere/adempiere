@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -105,7 +105,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -132,7 +132,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Package getM_Package() throws Exception 
+	public I_M_Package getM_Package() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Package.Table_Name);
         I_M_Package result = null;
@@ -143,7 +143,7 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

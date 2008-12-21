@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_Payment extends PO implements I_I_Payment, I_Persistent 
 {
 
@@ -279,7 +279,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -290,7 +290,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -318,7 +318,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -329,7 +329,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -357,7 +357,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -368,7 +368,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -396,7 +396,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -407,7 +407,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -435,7 +435,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -446,7 +446,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -528,7 +528,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_CheckNo);
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -539,7 +539,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -567,7 +567,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -578,7 +578,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1306,6 +1306,8 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public static final String TENDERTYPE_DirectDebit = "D";
 	/** Account = T */
 	public static final String TENDERTYPE_Account = "T";
+	/** Cash = X */
+	public static final String TENDERTYPE_Cash = "X";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment
@@ -1313,7 +1315,7 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public void setTenderType (String TenderType)
 	{
 
-		if (TenderType == null || TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T");		set_Value (COLUMNNAME_TenderType, TenderType);
+		if (TenderType == null || TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T") || TenderType.equals("X")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T - X");		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
 
 	/** Get Tender type.

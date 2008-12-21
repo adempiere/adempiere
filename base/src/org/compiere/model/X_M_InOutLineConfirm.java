@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
       return sb.toString();
     }
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
         I_C_InvoiceLine result = null;
@@ -90,7 +90,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -194,7 +194,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return bd;
 	}
 
-	public I_M_InOutConfirm getM_InOutConfirm() throws Exception 
+	public I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutConfirm.Table_Name);
         I_M_InOutConfirm result = null;
@@ -205,7 +205,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -254,7 +254,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -265,7 +265,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -300,7 +300,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         return new KeyNamePair(get_ID(), String.valueOf(getM_InOutLine_ID()));
     }
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
         I_M_InventoryLine result = null;
@@ -311,7 +311,7 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
@@ -87,7 +87,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -98,7 +98,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -283,8 +283,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return (String)get_Value(COLUMNNAME_APAR);
 	}
 
-	/** C_ConversionTypeReval_ID AD_Reference_ID=352 */
-	public static final int C_CONVERSIONTYPEREVAL_ID_AD_Reference_ID=352;
 	/** Set Revaluation Conversion Type.
 		@param C_ConversionTypeReval_ID 
 		Revaluation Currency Conversion Type
@@ -307,8 +305,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_DocTypeReval_ID AD_Reference_ID=170 */
-	public static final int C_DOCTYPEREVAL_ID_AD_Reference_ID=170;
 	/** Set Revaluation Document Type.
 		@param C_DocTypeReval_ID 
 		Document Type for Revaluation Journal
@@ -332,7 +328,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -343,7 +339,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

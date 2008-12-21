@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_TimeExpenseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Persistent 
 {
 
@@ -83,7 +83,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
       return sb.toString();
     }
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -94,7 +94,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -122,7 +122,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -133,7 +133,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,7 +161,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -172,7 +172,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -200,7 +200,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -211,7 +211,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -239,7 +239,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
         I_C_InvoiceLine result = null;
@@ -250,7 +250,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -298,7 +298,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return bd;
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -309,7 +309,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -337,7 +337,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -348,7 +348,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -376,7 +376,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -387,7 +387,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -415,7 +415,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -426,7 +426,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -454,7 +454,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -465,7 +465,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -645,7 +645,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -656,7 +656,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -848,7 +848,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_S_TimeExpense getS_TimeExpense() throws Exception 
+	public I_S_TimeExpense getS_TimeExpense() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_TimeExpense.Table_Name);
         I_S_TimeExpense result = null;
@@ -859,7 +859,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -908,7 +908,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_S_TimeType getS_TimeType() throws Exception 
+	public I_S_TimeType getS_TimeType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_TimeType.Table_Name);
         I_S_TimeType result = null;
@@ -919,7 +919,7 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

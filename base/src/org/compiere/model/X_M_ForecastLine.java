@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ForecastLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persistent 
 {
 
@@ -82,7 +82,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
       return sb.toString();
     }
 
-	public I_C_Period getC_Period() throws Exception 
+	public I_C_Period getC_Period() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -93,7 +93,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -147,7 +147,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
-	public I_M_Forecast getM_Forecast() throws Exception 
+	public I_M_Forecast getM_Forecast() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Forecast.Table_Name);
         I_M_Forecast result = null;
@@ -158,7 +158,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -207,7 +207,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -218,7 +218,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -245,7 +245,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -256,7 +256,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -325,5 +325,28 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Sales Representative.
+		@param SalesRep_ID 
+		Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID)
+	{
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+	}
+
+	/** Get Sales Representative.
+		@return Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

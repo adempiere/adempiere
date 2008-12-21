@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent 
 {
 
@@ -234,7 +234,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueRecommendation getR_IssueRecommendation() throws Exception 
+	public I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_IssueRecommendation.Table_Name);
         I_R_IssueRecommendation result = null;
@@ -245,7 +245,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -273,7 +273,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueStatus getR_IssueStatus() throws Exception 
+	public I_R_IssueStatus getR_IssueStatus() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_IssueStatus.Table_Name);
         I_R_IssueStatus result = null;
@@ -284,7 +284,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -312,7 +312,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getR_Request() throws Exception 
+	public I_R_Request getR_Request() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
         I_R_Request result = null;
@@ -323,7 +323,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

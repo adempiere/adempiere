@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Period getC_Period() throws Exception 
+	public I_C_Period getC_Period() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -90,7 +90,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -125,7 +125,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_Period_ID()));
     }
 
-	public I_M_Demand getM_Demand() throws Exception 
+	public I_M_Demand getM_Demand() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Demand.Table_Name);
         I_M_Demand result = null;
@@ -136,7 +136,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -185,7 +185,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -196,7 +196,7 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

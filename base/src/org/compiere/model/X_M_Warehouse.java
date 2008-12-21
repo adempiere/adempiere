@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Warehouse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent 
 {
 
@@ -160,8 +160,6 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_WarehouseSource_ID AD_Reference_ID=197 */
-	public static final int M_WAREHOUSESOURCE_ID_AD_Reference_ID=197;
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 
 		Optional Warehouse to replenish from

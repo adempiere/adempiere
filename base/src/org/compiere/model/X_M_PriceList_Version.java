@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws Exception 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
         I_M_DiscountSchema result = null;
@@ -107,7 +107,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -134,7 +134,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -145,7 +145,7 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -172,8 +172,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	/** M_Pricelist_Version_Base_ID AD_Reference_ID=188 */
-	public static final int M_PRICELIST_VERSION_BASE_ID_AD_Reference_ID=188;
 	/** Set Base Price List.
 		@param M_Pricelist_Version_Base_ID 
 		Source for Price list calculations

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_S_Training extends PO implements I_S_Training, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
       return sb.toString();
     }
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -87,7 +87,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -125,7 +125,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -237,7 +237,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -248,7 +248,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

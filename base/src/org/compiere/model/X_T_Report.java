@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_T_Report extends PO implements I_T_Report, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws Exception 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
         I_AD_PInstance result = null;
@@ -88,7 +88,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -550,7 +550,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportLine getPA_ReportLine() throws Exception 
+	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLine.Table_Name);
         I_PA_ReportLine result = null;
@@ -561,7 +561,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

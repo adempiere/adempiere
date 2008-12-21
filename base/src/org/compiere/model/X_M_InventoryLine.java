@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InventoryLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persistent 
 {
 
@@ -85,7 +85,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
       return sb.toString();
     }
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -96,7 +96,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -215,29 +215,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Phys.Inventory Line.
-		@param M_InventoryLine_ID 
-		Unique line in an Inventory document
-	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
-	{
-		if (M_InventoryLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InventoryLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
-	}
-
-	/** Get Phys.Inventory Line.
-		@return Unique line in an Inventory document
-	  */
-	public int getM_InventoryLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Inventory getM_Inventory() throws Exception 
+	public I_M_Inventory getM_Inventory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Inventory.Table_Name);
         I_M_Inventory result = null;
@@ -248,7 +226,7 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -270,6 +248,28 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 	public int getM_Inventory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Phys.Inventory Line.
+		@param M_InventoryLine_ID 
+		Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
+	{
+		if (M_InventoryLine_ID < 1)
+			 throw new IllegalArgumentException ("M_InventoryLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+	}
+
+	/** Get Phys.Inventory Line.
+		@return Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -297,8 +297,6 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		return ii.intValue();
 	}
 
-	/** M_Product_ID AD_Reference_ID=171 */
-	public static final int M_PRODUCT_ID_AD_Reference_ID=171;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -428,8 +426,6 @@ public class X_M_InventoryLine extends PO implements I_M_InventoryLine, I_Persis
 		return bd;
 	}
 
-	/** ReversalLine_ID AD_Reference_ID=296 */
-	public static final int REVERSALLINE_ID_AD_Reference_ID=296;
 	/** Set Reversal Line.
 		@param ReversalLine_ID 
 		Use to keep the reversal line ID for reversing costing purpose

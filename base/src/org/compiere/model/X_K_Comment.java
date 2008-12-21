@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Comment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_K_Comment extends PO implements I_K_Comment, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Session getAD_Session() throws Exception 
+	public I_AD_Session getAD_Session() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Session.Table_Name);
         I_AD_Session result = null;
@@ -88,7 +88,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -170,7 +170,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getK_Comment_ID()));
     }
 
-	public I_K_Entry getK_Entry() throws Exception 
+	public I_K_Entry getK_Entry() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_Entry.Table_Name);
         I_K_Entry result = null;
@@ -181,7 +181,7 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

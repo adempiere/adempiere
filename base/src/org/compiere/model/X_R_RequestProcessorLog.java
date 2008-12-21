@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
@@ -148,7 +148,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return (String)get_Value(COLUMNNAME_Reference);
 	}
 
-	public I_R_RequestProcessor getR_RequestProcessor() throws Exception 
+	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestProcessor.Table_Name);
         I_R_RequestProcessor result = null;
@@ -159,7 +159,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

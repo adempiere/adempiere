@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
@@ -82,7 +82,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
-	public I_A_Asset_Group getA_Asset_Group() throws Exception 
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
         I_A_Asset_Group result = null;
@@ -93,7 +93,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -121,7 +121,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -132,7 +132,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -271,8 +271,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return ii.intValue();
 	}
 
-	/** M_Product_Category_Parent_ID AD_Reference_ID=163 */
-	public static final int M_PRODUCT_CATEGORY_PARENT_ID_AD_Reference_ID=163;
 	/** Set Parent Product Category.
 		@param M_Product_Category_Parent_ID Parent Product Category	  */
 	public void setM_Product_Category_Parent_ID (int M_Product_Category_Parent_ID)

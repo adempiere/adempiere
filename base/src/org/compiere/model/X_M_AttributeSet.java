@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
@@ -368,7 +368,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getM_LotCtl() throws Exception 
+	public I_M_LotCtl getM_LotCtl() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
         I_M_LotCtl result = null;
@@ -379,7 +379,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -407,7 +407,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws Exception 
+	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_SerNoCtl.Table_Name);
         I_M_SerNoCtl result = null;
@@ -418,7 +418,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

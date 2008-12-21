@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -86,7 +86,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -114,7 +114,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -125,7 +125,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -183,7 +183,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return (String)get_Value(COLUMNNAME_GoalRestrictionType);
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws Exception 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
         I_M_Product_Category result = null;
@@ -194,7 +194,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -222,7 +222,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -233,7 +233,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -288,8 +288,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Org_ID AD_Reference_ID=322 */
-	public static final int ORG_ID_AD_Reference_ID=322;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
@@ -313,7 +311,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws Exception 
+	public I_PA_Goal getPA_Goal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
         I_PA_Goal result = null;
@@ -324,7 +322,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

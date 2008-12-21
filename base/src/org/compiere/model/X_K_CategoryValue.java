@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persistent 
 {
 
@@ -91,7 +91,7 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_K_Category getK_Category() throws Exception 
+	public I_K_Category getK_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
         I_K_Category result = null;
@@ -102,7 +102,7 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

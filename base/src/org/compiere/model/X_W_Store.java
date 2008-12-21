@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_W_Store extends PO implements I_W_Store, I_Persistent 
 {
 
@@ -100,7 +100,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
       return sb.toString();
     }
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -111,7 +111,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -470,7 +470,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -481,7 +481,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -508,7 +508,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -519,7 +519,7 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -573,8 +573,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

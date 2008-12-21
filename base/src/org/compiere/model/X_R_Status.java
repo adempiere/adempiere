@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Status
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_R_Status extends PO implements I_R_Status, I_Persistent 
 {
 
@@ -256,8 +256,6 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Next_Status_ID AD_Reference_ID=345 */
-	public static final int NEXT_STATUS_ID_AD_Reference_ID=345;
 	/** Set Next Status.
 		@param Next_Status_ID 
 		Move to next status automatically after timeout
@@ -281,7 +279,7 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_StatusCategory getR_StatusCategory() throws Exception 
+	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_StatusCategory.Table_Name);
         I_R_StatusCategory result = null;
@@ -292,7 +290,7 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -389,8 +387,6 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Update_Status_ID AD_Reference_ID=345 */
-	public static final int UPDATE_STATUS_ID_AD_Reference_ID=345;
 	/** Set Update Status.
 		@param Update_Status_ID 
 		Automatically change the status after entry from web

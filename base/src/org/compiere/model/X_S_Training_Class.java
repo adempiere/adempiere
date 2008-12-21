@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training_Class
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -107,7 +107,7 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -183,7 +183,7 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return ii.intValue();
 	}
 
-	public I_S_Training getS_Training() throws Exception 
+	public I_S_Training getS_Training() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Training.Table_Name);
         I_S_Training result = null;
@@ -194,7 +194,7 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

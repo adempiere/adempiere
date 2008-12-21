@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
@@ -80,8 +80,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
       return sb.toString();
     }
 
-	/** Account_ID AD_Reference_ID=331 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -161,7 +159,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_PA_MeasureCalc getPA_MeasureCalc() throws Exception 
+	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_MeasureCalc.Table_Name);
         I_PA_MeasureCalc result = null;
@@ -172,7 +170,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -222,7 +220,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_PA_Ratio getPA_Ratio() throws Exception 
+	public I_PA_Ratio getPA_Ratio() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
         I_PA_Ratio result = null;
@@ -233,7 +231,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -260,8 +258,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	/** PA_RatioUsed_ID AD_Reference_ID=371 */
-	public static final int PA_RATIOUSED_ID_AD_Reference_ID=371;
 	/** Set Ratio Used.
 		@param PA_RatioUsed_ID 
 		Performace Ratio Used

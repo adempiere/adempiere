@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
@@ -102,7 +102,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -113,7 +113,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
         I_C_InvoiceLine result = null;
@@ -151,7 +151,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -179,7 +179,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -190,7 +190,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -218,7 +218,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
+	public I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
         I_C_ProjectIssue result = null;
@@ -229,7 +229,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -382,7 +382,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_CostElement getM_CostElement() throws Exception 
+	public I_M_CostElement getM_CostElement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
         I_M_CostElement result = null;
@@ -393,7 +393,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -421,7 +421,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -432,7 +432,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -460,7 +460,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws Exception 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
         I_M_InventoryLine result = null;
@@ -471,7 +471,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -499,7 +499,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws Exception 
+	public I_M_MovementLine getM_MovementLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_MovementLine.Table_Name);
         I_M_MovementLine result = null;
@@ -510,7 +510,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -538,7 +538,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -549,7 +549,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -576,7 +576,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
         I_M_ProductionLine result = null;
@@ -587,7 +587,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

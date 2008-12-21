@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
@@ -264,7 +264,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOMAlternative getM_BOMAlternative() throws Exception 
+	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_BOMAlternative.Table_Name);
         I_M_BOMAlternative result = null;
@@ -275,7 +275,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -303,7 +303,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOM getM_BOM() throws Exception 
+	public I_M_BOM getM_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
         I_M_BOM result = null;
@@ -314,7 +314,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -363,7 +363,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws Exception 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
         I_M_ChangeNotice result = null;
@@ -374,7 +374,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -402,8 +402,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_ProductBOM_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCTBOM_ID_AD_Reference_ID=162;
 	/** Set BOM Product.
 		@param M_ProductBOM_ID 
 		Bill of Material Component Product
@@ -427,7 +425,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getM_ProductOperation() throws Exception 
+	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductOperation.Table_Name);
         I_M_ProductOperation result = null;
@@ -438,7 +436,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

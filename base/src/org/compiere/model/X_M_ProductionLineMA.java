@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_Persistent 
 {
 
@@ -120,7 +120,7 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 		return bd;
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws Exception 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
         I_M_ProductionLine result = null;
@@ -131,7 +131,7 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

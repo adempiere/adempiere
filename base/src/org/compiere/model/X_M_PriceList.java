@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent 
 {
 
@@ -82,8 +82,6 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
       return sb.toString();
     }
 
-	/** BasePriceList_ID AD_Reference_ID=166 */
-	public static final int BASEPRICELIST_ID_AD_Reference_ID=166;
 	/** Set Base Pricelist.
 		@param BasePriceList_ID 
 		Pricelist to be used, if product not found on this pricelist
@@ -107,7 +105,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -118,7 +116,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -235,17 +233,14 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	}
 
 	/** Set isPresentForProduct.
-		@param isPresentForProduct 
-		Price List appears in Product Screen
-	  */
+		@param isPresentForProduct isPresentForProduct	  */
 	public void setisPresentForProduct (boolean isPresentForProduct)
 	{
 		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
 	}
 
 	/** Get isPresentForProduct.
-		@return Price List appears in Product Screen
-	  */
+		@return isPresentForProduct	  */
 	public boolean isPresentForProduct () 
 	{
 		Object oo = get_Value(COLUMNNAME_isPresentForProduct);

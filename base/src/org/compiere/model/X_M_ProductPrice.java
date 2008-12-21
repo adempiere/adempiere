@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_ProductPrice
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
       return sb.toString();
     }
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws Exception 
+	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
         I_M_PriceList_Version result = null;
@@ -88,7 +88,7 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -126,7 +126,7 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

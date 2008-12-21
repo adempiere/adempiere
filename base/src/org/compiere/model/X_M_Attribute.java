@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent 
 {
 
@@ -190,7 +190,7 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSearch getM_AttributeSearch() throws Exception 
+	public I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSearch.Table_Name);
         I_M_AttributeSearch result = null;
@@ -201,7 +201,7 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

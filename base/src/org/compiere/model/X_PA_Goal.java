@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
@@ -85,7 +85,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -96,7 +96,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -124,7 +124,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -135,7 +135,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -429,7 +429,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return (String)get_Value(COLUMNNAME_Note);
 	}
 
-	public I_PA_ColorSchema getPA_ColorSchema() throws Exception 
+	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ColorSchema.Table_Name);
         I_PA_ColorSchema result = null;
@@ -440,7 +440,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -489,8 +489,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** PA_GoalParent_ID AD_Reference_ID=230 */
-	public static final int PA_GOALPARENT_ID_AD_Reference_ID=230;
 	/** Set Parent Goal.
 		@param PA_GoalParent_ID 
 		Parent Goal
@@ -514,7 +512,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getPA_Measure() throws Exception 
+	public I_PA_Measure getPA_Measure() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
         I_PA_Measure result = null;
@@ -525,7 +523,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

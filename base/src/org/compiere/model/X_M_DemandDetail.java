@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
       return sb.toString();
     }
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -84,7 +84,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -142,7 +142,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getM_DemandDetail_ID()));
     }
 
-	public I_M_DemandLine getM_DemandLine() throws Exception 
+	public I_M_DemandLine getM_DemandLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_DemandLine.Table_Name);
         I_M_DemandLine result = null;
@@ -153,7 +153,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -180,7 +180,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_ForecastLine getM_ForecastLine() throws Exception 
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_ForecastLine.Table_Name);
         I_M_ForecastLine result = null;
@@ -191,7 +191,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -219,7 +219,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws Exception 
+	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RequisitionLine.Table_Name);
         I_M_RequisitionLine result = null;
@@ -230,7 +230,7 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

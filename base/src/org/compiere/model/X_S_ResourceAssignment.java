@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment, I_Persistent 
 {
 
@@ -217,7 +217,7 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 		return ii.intValue();
 	}
 
-	public I_S_Resource getS_Resource() throws Exception 
+	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
         I_S_Resource result = null;
@@ -228,7 +228,7 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

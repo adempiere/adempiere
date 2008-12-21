@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_BenchmarkData
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Persistent 
 {
 
@@ -186,7 +186,7 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 		return ii.intValue();
 	}
 
-	public I_PA_Benchmark getPA_Benchmark() throws Exception 
+	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Benchmark.Table_Name);
         I_PA_Benchmark result = null;
@@ -197,7 +197,7 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

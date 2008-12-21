@@ -24,7 +24,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for U_WebMenu
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent 
 {
 
@@ -210,8 +210,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** ParentMenu_ID AD_Reference_ID=52000 */
-	public static final int PARENTMENU_ID_AD_Reference_ID=52000;
 	/** Set Parent Menu.
 		@param ParentMenu_ID Parent Menu	  */
 	public void setParentMenu_ID (int ParentMenu_ID)

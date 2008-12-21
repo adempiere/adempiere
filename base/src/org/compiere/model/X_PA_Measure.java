@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return (String)get_Value(COLUMNNAME_CalculationClass);
 	}
 
-	public I_C_ProjectType getC_ProjectType() throws Exception 
+	public I_C_ProjectType getC_ProjectType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectType.Table_Name);
         I_C_ProjectType result = null;
@@ -107,7 +107,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -274,7 +274,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_Benchmark getPA_Benchmark() throws Exception 
+	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Benchmark.Table_Name);
         I_PA_Benchmark result = null;
@@ -285,7 +285,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -313,7 +313,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Hierarchy getPA_Hierarchy() throws Exception 
+	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Hierarchy.Table_Name);
         I_PA_Hierarchy result = null;
@@ -324,7 +324,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -352,7 +352,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_MeasureCalc getPA_MeasureCalc() throws Exception 
+	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_MeasureCalc.Table_Name);
         I_PA_MeasureCalc result = null;
@@ -363,7 +363,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -413,7 +413,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Ratio getPA_Ratio() throws Exception 
+	public I_PA_Ratio getPA_Ratio() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
         I_PA_Ratio result = null;
@@ -424,7 +424,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -452,7 +452,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws Exception 
+	public I_R_RequestType getR_RequestType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
         I_R_RequestType result = null;
@@ -463,7 +463,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

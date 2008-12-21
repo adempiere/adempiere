@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for M_RelatedProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Persistent 
 {
 
@@ -91,7 +91,7 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -102,7 +102,7 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -148,8 +148,6 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** RelatedProduct_ID AD_Reference_ID=162 */
-	public static final int RELATEDPRODUCT_ID_AD_Reference_ID=162;
 	/** Set Related Product.
 		@param RelatedProduct_ID 
 		Related Product

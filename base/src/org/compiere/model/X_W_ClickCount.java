@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_ClickCount
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent 
 {
 
@@ -72,8 +72,6 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
       return sb.toString();
     }
 
-	/** C_BPartner_ID AD_Reference_ID=232 */
-	public static final int C_BPARTNER_ID_AD_Reference_ID=232;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner

@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent 
 {
 
@@ -99,6 +99,8 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public static final String AMOUNTTYPE_YearDebitOnly = "DY";
 	/** Year Quantity = QY */
 	public static final String AMOUNTTYPE_YearQuantity = "QY";
+	/** Natural Balance = BN */
+	public static final String AMOUNTTYPE_NaturalBalance = "BN";
 	/** Set Amount Type.
 		@param AmountType 
 		Type of amount to report
@@ -106,7 +108,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setAmountType (String AmountType)
 	{
 
-		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY");		set_Value (COLUMNNAME_AmountType, AmountType);
+		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY") || AmountType.equals("BN")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY - BN");		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
 
 	/** Get Amount Type.
@@ -142,7 +144,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -153,7 +155,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -372,7 +374,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportLine getPA_ReportLine() throws Exception 
+	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLine.Table_Name);
         I_PA_ReportLine result = null;
@@ -383,7 +385,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -408,7 +410,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws Exception 
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
         I_PA_ReportLineSet result = null;
@@ -419,7 +421,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -444,7 +446,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportSource getPA_ReportSource() throws Exception 
+	public I_PA_ReportSource getPA_ReportSource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportSource.Table_Name);
         I_PA_ReportSource result = null;
@@ -455,7 +457,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

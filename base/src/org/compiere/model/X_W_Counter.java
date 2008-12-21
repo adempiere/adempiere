@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_W_Counter extends PO implements I_W_Counter, I_Persistent 
 {
 
@@ -253,7 +253,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws Exception 
+	public I_W_CounterCount getW_CounterCount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
         I_W_CounterCount result = null;
@@ -264,7 +264,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
