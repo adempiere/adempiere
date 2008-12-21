@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persistent 
 {
 
@@ -86,7 +86,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -97,7 +97,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -124,7 +124,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getAD_PrintFont() throws Exception 
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintFont.Table_Name);
         I_AD_PrintFont result = null;
@@ -135,7 +135,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -184,7 +184,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintPaper getAD_PrintPaper() throws Exception 
+	public I_AD_PrintPaper getAD_PrintPaper() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintPaper.Table_Name);
         I_AD_PrintPaper result = null;
@@ -195,7 +195,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -222,7 +222,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws Exception 
+	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintTableFormat.Table_Name);
         I_AD_PrintTableFormat result = null;
@@ -233,7 +233,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -261,7 +261,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws Exception 
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
         I_AD_ReportView result = null;
@@ -272,7 +272,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -300,7 +300,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -311,7 +311,7 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -352,18 +352,21 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return (String)get_Value(COLUMNNAME_Args);
 	}
 
-	/** Set ClassName.
-		@param ClassName ClassName	  */
-	public void setClassName (String ClassName)
+	/** Set Classname.
+		@param Classname 
+		Java Classname
+	  */
+	public void setClassname (String Classname)
 	{
-		set_Value (COLUMNNAME_ClassName, ClassName);
+		set_Value (COLUMNNAME_Classname, Classname);
 	}
 
-	/** Get ClassName.
-		@return ClassName	  */
-	public String getClassName () 
+	/** Get Classname.
+		@return Java Classname
+	  */
+	public String getClassname () 
 	{
-		return (String)get_Value(COLUMNNAME_ClassName);
+		return (String)get_Value(COLUMNNAME_Classname);
 	}
 
 	/** Set Create Copy.
@@ -533,8 +536,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return false;
 	}
 
-	/** JasperProcess_ID AD_Reference_ID=400 */
-	public static final int JASPERPROCESS_ID_AD_Reference_ID=400;
 	/** Set Jasper Process.
 		@param JasperProcess_ID 
 		The Jasper Process used by the printengine if any process defined

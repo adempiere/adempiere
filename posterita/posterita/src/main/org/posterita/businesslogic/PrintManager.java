@@ -183,7 +183,7 @@ public class PrintManager
         ReportEngine re = ReportEngine.get(ctx,type, recordId);
         MPrintFormat printFormatter = re.getPrintFormat();
         
-        String classname = printFormatter.getClassName();
+        String classname = printFormatter.getClassname();
         
         if (classname != null)
         {
@@ -290,7 +290,7 @@ public class PrintManager
             MPrintFormat printFormatter = re.getPrintFormat();
             
             args = printFormatter.getArgs();
-            className = printFormatter.getClassName();           
+            className = printFormatter.getClassname();           
             
             if(className == null)
             {
@@ -342,7 +342,7 @@ public class PrintManager
             MPrintFormat printFormatter = re.getPrintFormat();
             
             printingArgs = printFormatter.getArgs();
-            className = printFormatter.getClassName();
+            className = printFormatter.getClassname();
             
             if(className == null || className.length() == 0)
             {
