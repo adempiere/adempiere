@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_AD_Workflow 
 {

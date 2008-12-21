@@ -1,31 +1,22 @@
-/**********************************************************************
- * This file is part of Adempiere ERP Bazaar                          *
- * http://www.adempiere.org                                           *
- *                                                                    *
- * Copyright (C) Trifon Trifonov.                                     *
- * Copyright (C) Contributors                                         *
- *                                                                    *
- * This program is free software, you can redistribute it and/or      *
- * modify it under the terms of the GNU General Public License        *
- * as published by the Free Software Foundation, either version 2     *
- * of the License, or (at your option) any later version.             *
- *                                                                    *
- * This program is distributed in the hope that it will be useful,    *
- * but WITHOUT ANY WARRANTY, without even the implied warranty of     *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       *
- * GNU General Public License for more details.                       *
- *                                                                    *
- * You should have received a copy of the GNU General Public License  *
- * along with this program, if not, write to the Free Software        *
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         *
- * MA 02110-1301, USA.                                                *
- *                                                                    *
- * Contributors:                                                      *
- * - Trifon Trifonov (trifonnt@users.sourceforge.net)                 *
- *                                                                    *
- * Sponsors:                                                          *
- * - Company (http://www.site.com)                                    *
- **********************************************************************/
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software;
+ you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY;
+ without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program;
+ if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.math.BigDecimal;
@@ -34,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a
+ *  @version Release 3.5.3a
  */
 public interface I_AD_WF_Node 
 {
@@ -79,7 +70,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws Exception;
+	public I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -94,7 +85,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws Exception;
+	public I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -109,7 +100,20 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws Exception;
+	public I_AD_Image getAD_Image() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_Process_ID */
     public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
@@ -124,7 +128,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws Exception;
+	public I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -139,7 +143,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws Exception;
+	public I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name AD_WF_Block_ID */
     public static final String COLUMNNAME_AD_WF_Block_ID = "AD_WF_Block_ID";
@@ -154,7 +158,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_WF_Block_ID();
 
-	public I_AD_WF_Block getAD_WF_Block() throws Exception;
+	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -182,7 +186,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws Exception;
+	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -197,7 +201,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws Exception;
+	public I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -212,7 +216,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws Exception;
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
@@ -253,7 +257,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws Exception;
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -416,19 +420,19 @@ public interface I_AD_WF_Node
     /** Column name IsMilestone */
     public static final String COLUMNNAME_IsMilestone = "IsMilestone";
 
-	/** Set IsMilestone	  */
+	/** Set Is Milestone	  */
 	public void setIsMilestone (boolean IsMilestone);
 
-	/** Get IsMilestone	  */
+	/** Get Is Milestone	  */
 	public boolean isMilestone();
 
     /** Column name IsSubcontracting */
     public static final String COLUMNNAME_IsSubcontracting = "IsSubcontracting";
 
-	/** Set IsSubcontracting	  */
+	/** Set Is Subcontracting	  */
 	public void setIsSubcontracting (boolean IsSubcontracting);
 
-	/** Get IsSubcontracting	  */
+	/** Get Is Subcontracting	  */
 	public boolean isSubcontracting();
 
     /** Column name JoinElement */
@@ -460,10 +464,10 @@ public interface I_AD_WF_Node
     /** Column name MovingTime */
     public static final String COLUMNNAME_MovingTime = "MovingTime";
 
-	/** Set MovingTime	  */
+	/** Set Moving Time	  */
 	public void setMovingTime (int MovingTime);
 
-	/** Get MovingTime	  */
+	/** Get Moving Time	  */
 	public int getMovingTime();
 
     /** Column name Name */
@@ -482,10 +486,10 @@ public interface I_AD_WF_Node
     /** Column name OverlapUnits */
     public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
 
-	/** Set OverlapUnits	  */
+	/** Set Overlap Units	  */
 	public void setOverlapUnits (int OverlapUnits);
 
-	/** Get OverlapUnits	  */
+	/** Get Overlap Units	  */
 	public int getOverlapUnits();
 
     /** Column name Priority */
@@ -504,10 +508,10 @@ public interface I_AD_WF_Node
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set QueuingTime	  */
+	/** Set Queuing Time	  */
 	public void setQueuingTime (int QueuingTime);
 
-	/** Get QueuingTime	  */
+	/** Get Queuing Time	  */
 	public int getQueuingTime();
 
     /** Column name R_MailText_ID */
@@ -523,7 +527,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getR_MailText() throws Exception;
+	public I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";
@@ -564,7 +568,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws Exception;
+	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name StartMode */
     public static final String COLUMNNAME_StartMode = "StartMode";
@@ -595,10 +599,10 @@ public interface I_AD_WF_Node
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
-	/** Set UnitsCycles	  */
+	/** Set Units Cycles	  */
 	public void setUnitsCycles (BigDecimal UnitsCycles);
 
-	/** Get UnitsCycles	  */
+	/** Get Units Cycles	  */
 	public BigDecimal getUnitsCycles();
 
     /** Column name ValidFrom */
