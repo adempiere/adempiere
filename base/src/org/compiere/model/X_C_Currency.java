@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Currency extends PO implements I_C_Currency, I_Persistent 
 {
 
@@ -275,7 +275,7 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
         return new KeyNamePair(get_ID(), getISO_Code());
     }
 
-	/** Set RoundOffFactor.
+	/** Set Round Off Factor.
 		@param RoundOffFactor 
 		Used to Round Off Payment Amount
 	  */
@@ -286,7 +286,7 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		set_Value (COLUMNNAME_RoundOffFactor, RoundOffFactor);
 	}
 
-	/** Get RoundOffFactor.
+	/** Get Round Off Factor.
 		@return Used to Round Off Payment Amount
 	  */
 	public BigDecimal getRoundOffFactor () 

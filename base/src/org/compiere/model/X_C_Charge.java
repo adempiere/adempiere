@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Charge
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Charge extends PO implements I_C_Charge, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -92,7 +92,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -164,7 +164,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return bd;
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -175,7 +175,7 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

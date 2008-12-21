@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, I_Persistent 
 {
 
@@ -91,8 +91,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       return sb.toString();
     }
 
-	/** Account_ID AD_Reference_ID=132 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -116,8 +114,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -141,7 +137,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -152,7 +148,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -180,7 +176,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -191,7 +187,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -219,7 +215,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -230,7 +226,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -258,8 +254,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	/** C_LocFrom_ID AD_Reference_ID=133 */
-	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -283,8 +277,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	/** C_LocTo_ID AD_Reference_ID=133 */
-	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
@@ -308,7 +300,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -319,7 +311,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -347,7 +339,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -358,7 +350,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -403,7 +395,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Distribution getGL_Distribution() throws Exception 
+	public I_GL_Distribution getGL_Distribution() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Distribution.Table_Name);
         I_GL_Distribution result = null;
@@ -414,7 +406,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -491,7 +483,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -502,7 +494,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -530,8 +522,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	/** Org_ID AD_Reference_ID=130 */
-	public static final int ORG_ID_AD_Reference_ID=130;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client
@@ -889,8 +879,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return bd;
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -914,8 +902,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

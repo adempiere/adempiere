@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
@@ -92,7 +92,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
       return sb.toString();
     }
 
-	public I_A_Asset_Group getA_Asset_Group() throws Exception 
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
         I_A_Asset_Group result = null;
@@ -103,7 +103,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -131,8 +131,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** A_Asset_ID AD_Reference_ID=53258 */
-	public static final int A_ASSET_ID_AD_Reference_ID=53258;
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
@@ -156,15 +154,15 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_CreateAsset.
-		@param A_CreateAsset A_CreateAsset	  */
+	/** Set Asset Related?.
+		@param A_CreateAsset Asset Related?	  */
 	public void setA_CreateAsset (boolean A_CreateAsset)
 	{
 		set_Value (COLUMNNAME_A_CreateAsset, Boolean.valueOf(A_CreateAsset));
 	}
 
-	/** Get A_CreateAsset.
-		@return A_CreateAsset	  */
+	/** Get Asset Related?.
+		@return Asset Related?	  */
 	public boolean isA_CreateAsset () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_CreateAsset);
@@ -286,7 +284,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return false;
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -297,7 +295,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -324,7 +322,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -335,7 +333,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -362,7 +360,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -373,7 +371,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -481,7 +479,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Journal getGL_Journal() throws Exception 
+	public I_GL_Journal getGL_Journal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
         I_GL_Journal result = null;
@@ -492,7 +490,7 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

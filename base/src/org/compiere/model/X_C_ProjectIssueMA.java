@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectIssueMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Pers
       return sb.toString();
     }
 
-	public I_C_ProjectIssue getC_ProjectIssue() throws Exception 
+	public I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectIssue.Table_Name);
         I_C_ProjectIssue result = null;
@@ -87,7 +87,7 @@ public class X_C_ProjectIssueMA extends PO implements I_C_ProjectIssueMA, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

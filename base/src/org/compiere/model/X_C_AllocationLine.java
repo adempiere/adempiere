@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Persistent 
 {
 
@@ -101,7 +101,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return bd;
 	}
 
-	public I_C_AllocationHdr getC_AllocationHdr() throws Exception 
+	public I_C_AllocationHdr getC_AllocationHdr() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AllocationHdr.Table_Name);
         I_C_AllocationHdr result = null;
@@ -112,7 +112,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,7 +161,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -172,7 +172,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -200,7 +200,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_CashLine getC_CashLine() throws Exception 
+	public I_C_CashLine getC_CashLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_CashLine.Table_Name);
         I_C_CashLine result = null;
@@ -211,7 +211,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -239,7 +239,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -250,7 +250,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -286,7 +286,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -297,7 +297,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -325,7 +325,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -336,7 +336,7 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

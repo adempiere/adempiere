@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
       return sb.toString();
     }
 
-	public I_A_Asset_Group getA_Asset_Group() throws Exception 
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
         I_A_Asset_Group result = null;
@@ -105,7 +105,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -133,7 +133,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Asset getA_Asset() throws Exception 
+	public I_A_Asset getA_Asset() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
         I_A_Asset result = null;
@@ -144,7 +144,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -178,30 +178,30 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public static final String A_CAPVSEXP_Capital = "Cap";
 	/** Expense = Exp */
 	public static final String A_CAPVSEXP_Expense = "Exp";
-	/** Set A_CapvsExp.
-		@param A_CapvsExp A_CapvsExp	  */
+	/** Set Capital vs Expense.
+		@param A_CapvsExp Capital vs Expense	  */
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
 		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
-	/** Get A_CapvsExp.
-		@return A_CapvsExp	  */
+	/** Get Capital vs Expense.
+		@return Capital vs Expense	  */
 	public String getA_CapvsExp () 
 	{
 		return (String)get_Value(COLUMNNAME_A_CapvsExp);
 	}
 
-	/** Set A_CreateAsset.
-		@param A_CreateAsset A_CreateAsset	  */
+	/** Set Asset Related?.
+		@param A_CreateAsset Asset Related?	  */
 	public void setA_CreateAsset (boolean A_CreateAsset)
 	{
 		set_Value (COLUMNNAME_A_CreateAsset, Boolean.valueOf(A_CreateAsset));
 	}
 
-	/** Get A_CreateAsset.
-		@return A_CreateAsset	  */
+	/** Get Asset Related?.
+		@return Asset Related?	  */
 	public boolean isA_CreateAsset () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_CreateAsset);
@@ -214,8 +214,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return false;
 	}
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -260,7 +258,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return false;
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -271,7 +269,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -299,7 +297,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -310,7 +308,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -338,7 +336,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -349,7 +347,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -377,7 +375,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -388,7 +386,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -445,7 +443,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws Exception 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
         I_C_OrderLine result = null;
@@ -456,7 +454,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -484,7 +482,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -495,7 +493,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -523,7 +521,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -534,7 +532,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -562,7 +560,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -573,7 +571,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -601,7 +599,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -612,7 +610,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -639,7 +637,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -650,7 +648,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -827,7 +825,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws Exception 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -838,7 +836,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -866,7 +864,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -877,7 +875,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -905,7 +903,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMALine getM_RMALine() throws Exception 
+	public I_M_RMALine getM_RMALine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMALine.Table_Name);
         I_M_RMALine result = null;
@@ -916,7 +914,7 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1200,8 +1198,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return bd;
 	}
 
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -1225,8 +1221,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
 	/** Set User List 2.
 		@param User2_ID 
 		User defined list element #2

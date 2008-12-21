@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persistent 
 {
 
@@ -147,7 +147,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -158,7 +158,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -186,7 +186,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -197,7 +197,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -225,7 +225,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Element getC_Element() throws Exception 
+	public I_C_Element getC_Element() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -236,7 +236,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

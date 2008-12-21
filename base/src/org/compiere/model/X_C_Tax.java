@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Tax extends PO implements I_C_Tax, I_Persistent 
 {
 
@@ -88,7 +88,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws Exception 
+	public I_AD_Rule getAD_Rule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
         I_AD_Rule result = null;
@@ -99,7 +99,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -124,8 +124,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_Country_ID AD_Reference_ID=156 */
-	public static final int C_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set Country.
 		@param C_Country_ID 
 		Country 
@@ -149,8 +147,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_Region_ID AD_Reference_ID=157 */
-	public static final int C_REGION_ID_AD_Reference_ID=157;
 	/** Set Region.
 		@param C_Region_ID 
 		Identifies a geographical Region
@@ -174,7 +170,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws Exception 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
         I_C_TaxCategory result = null;
@@ -185,7 +181,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -398,8 +394,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Parent_Tax_ID AD_Reference_ID=158 */
-	public static final int PARENT_TAX_ID_AD_Reference_ID=158;
 	/** Set Parent Tax.
 		@param Parent_Tax_ID 
 		Parent Tax indicates a tax that is made up of multiple taxes
@@ -512,8 +506,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return (String)get_Value(COLUMNNAME_TaxIndicator);
 	}
 
-	/** To_Country_ID AD_Reference_ID=156 */
-	public static final int TO_COUNTRY_ID_AD_Reference_ID=156;
 	/** Set To.
 		@param To_Country_ID 
 		Receiving Country
@@ -537,8 +529,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	/** To_Region_ID AD_Reference_ID=157 */
-	public static final int TO_REGION_ID_AD_Reference_ID=157;
 	/** Set To.
 		@param To_Region_ID 
 		Receiving Region

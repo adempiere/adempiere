@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent 
 {
 
@@ -209,7 +209,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws Exception 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
         I_C_BP_Group result = null;
@@ -220,7 +220,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -247,7 +247,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getC_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -258,7 +258,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -286,7 +286,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getC_Greeting() throws Exception 
+	public I_C_Greeting getC_Greeting() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
         I_C_Greeting result = null;
@@ -297,7 +297,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -325,7 +325,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws Exception 
+	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceSchedule.Table_Name);
         I_C_InvoiceSchedule result = null;
@@ -336,7 +336,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -364,7 +364,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -375,7 +375,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -403,7 +403,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws Exception 
+	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_C_TaxGroup.Table_Name);
         org.eevolution.model.I_C_TaxGroup result = null;
@@ -414,7 +414,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -630,8 +630,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
 	}
 
-	/** Invoice_PrintFormat_ID AD_Reference_ID=261 */
-	public static final int INVOICE_PRINTFORMAT_ID_AD_Reference_ID=261;
 	/** Set Invoice Print Format.
 		@param Invoice_PrintFormat_ID 
 		Print Format for printing Invoices
@@ -896,8 +894,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return false;
 	}
 
-	/** M_DiscountSchema_ID AD_Reference_ID=325 */
-	public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
 		Schema to calculate the trade discount percentage
@@ -921,7 +917,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -932,7 +928,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1055,6 +1051,8 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
@@ -1062,7 +1060,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public void setPaymentRule (String PaymentRule)
 	{
 
-		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D") || PaymentRule.equals("M")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.
@@ -1087,6 +1085,8 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public static final String PAYMENTRULEPO_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULEPO_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULEPO_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRulePO 
 		Purchase payment option
@@ -1094,7 +1094,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public void setPaymentRulePO (String PaymentRulePO)
 	{
 
-		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRulePO, PaymentRulePO);
+		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D") || PaymentRulePO.equals("M")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_Value (COLUMNNAME_PaymentRulePO, PaymentRulePO);
 	}
 
 	/** Get Payment Rule.
@@ -1105,8 +1105,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_PaymentRulePO);
 	}
 
-	/** PO_DiscountSchema_ID AD_Reference_ID=325 */
-	public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
@@ -1130,8 +1128,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** PO_PaymentTerm_ID AD_Reference_ID=227 */
-	public static final int PO_PAYMENTTERM_ID_AD_Reference_ID=227;
 	/** Set PO Payment Term.
 		@param PO_PaymentTerm_ID 
 		Payment rules for a purchase order
@@ -1155,8 +1151,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** PO_PriceList_ID AD_Reference_ID=166 */
-	public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner
@@ -1251,8 +1245,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

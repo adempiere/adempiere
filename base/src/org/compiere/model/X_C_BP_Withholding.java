@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -85,7 +85,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Withholding getC_Withholding() throws Exception 
+	public I_C_Withholding getC_Withholding() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Withholding.Table_Name);
         I_C_Withholding result = null;
@@ -123,7 +123,7 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_AccessListRole
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Persistent 
 {
 
@@ -72,7 +72,7 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -83,7 +83,7 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -110,7 +110,7 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
 		return ii.intValue();
 	}
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws Exception 
+	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
         I_CM_AccessProfile result = null;
@@ -121,7 +121,7 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

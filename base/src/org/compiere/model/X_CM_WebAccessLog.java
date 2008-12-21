@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persistent 
 {
 
@@ -94,7 +94,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -105,7 +105,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -133,7 +133,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_BroadcastServer getCM_BroadcastServer() throws Exception 
+	public I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_BroadcastServer.Table_Name);
         I_CM_BroadcastServer result = null;
@@ -144,7 +144,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -172,7 +172,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws Exception 
+	public I_CM_Media getCM_Media() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
         I_CM_Media result = null;
@@ -183,7 +183,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -233,7 +233,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -244,7 +244,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

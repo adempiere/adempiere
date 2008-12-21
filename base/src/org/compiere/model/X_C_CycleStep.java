@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CycleStep
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Cycle getC_Cycle() throws Exception 
+	public I_C_Cycle getC_Cycle() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Cycle.Table_Name);
         I_C_Cycle result = null;
@@ -91,7 +91,7 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

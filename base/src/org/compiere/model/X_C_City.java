@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_City
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_City extends PO implements I_C_City, I_Persistent 
 {
 
@@ -112,7 +112,7 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getC_Country() throws Exception 
+	public I_C_Country getC_Country() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -123,7 +123,7 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -168,8 +168,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return (String)get_Value(COLUMNNAME_Coordinates);
 	}
 
-	/** C_Region_ID AD_Reference_ID=157 */
-	public static final int C_REGION_ID_AD_Reference_ID=157;
 	/** Set Region.
 		@param C_Region_ID 
 		Identifies a geographical Region

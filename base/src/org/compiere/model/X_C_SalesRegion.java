@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesRegion
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent 
 {
 
@@ -188,8 +188,6 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

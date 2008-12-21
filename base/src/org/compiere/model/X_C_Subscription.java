@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Subscription extends PO implements I_C_Subscription, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -92,7 +92,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -141,7 +141,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_SubscriptionType getC_SubscriptionType() throws Exception 
+	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SubscriptionType.Table_Name);
         I_C_SubscriptionType result = null;
@@ -152,7 +152,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -203,7 +203,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -214,7 +214,7 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

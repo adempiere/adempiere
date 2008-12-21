@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_Delivery, I_Persistent 
 {
 
@@ -103,7 +103,7 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
         return new KeyNamePair(get_ID(), String.valueOf(getC_Subscription_Delivery_ID()));
     }
 
-	public I_C_Subscription getC_Subscription() throws Exception 
+	public I_C_Subscription getC_Subscription() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Subscription.Table_Name);
         I_C_Subscription result = null;
@@ -114,7 +114,7 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

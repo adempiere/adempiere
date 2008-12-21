@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_SellerFunds
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -88,7 +88,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -167,7 +167,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		return bd;
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -178,7 +178,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -206,7 +206,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -217,7 +217,7 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

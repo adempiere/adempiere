@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Fact_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent 
 {
 
@@ -112,8 +112,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Account_ID AD_Reference_ID=132 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=132;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -136,8 +134,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -161,7 +157,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -172,7 +168,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -287,7 +283,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -298,7 +294,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -325,7 +321,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -336,7 +332,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -364,7 +360,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -375,7 +371,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -403,7 +399,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -414,7 +410,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -442,7 +438,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -453,7 +449,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -480,8 +476,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_LocFrom_ID AD_Reference_ID=133 */
-	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -505,8 +499,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_LocTo_ID AD_Reference_ID=133 */
-	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
@@ -530,7 +522,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Period getC_Period() throws Exception 
+	public I_C_Period getC_Period() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -541,7 +533,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -568,7 +560,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -579,7 +571,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -607,7 +599,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws Exception 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
         I_C_ProjectPhase result = null;
@@ -618,7 +610,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -646,7 +638,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws Exception 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
         I_C_ProjectTask result = null;
@@ -657,7 +649,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -685,7 +677,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -696,7 +688,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -724,7 +716,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getC_SubAcct() throws Exception 
+	public I_C_SubAcct getC_SubAcct() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SubAcct.Table_Name);
         I_C_SubAcct result = null;
@@ -735,7 +727,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -763,7 +755,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -774,7 +766,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -802,7 +794,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -813,7 +805,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -923,7 +915,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getFact_Acct_ID()));
     }
 
-	public I_GL_Budget getGL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -934,7 +926,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -962,7 +954,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Category getGL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -973,7 +965,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1023,7 +1015,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws Exception 
+	public I_M_Locator getM_Locator() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Locator.Table_Name);
         I_M_Locator result = null;
@@ -1034,7 +1026,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1062,7 +1054,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -1073,7 +1065,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -1173,6 +1165,52 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set User List 1.
+		@param User1_ID 
+		User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID)
+	{
+		if (User1_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+	}
+
+	/** Get User List 1.
+		@return User defined list element #1
+	  */
+	public int getUser1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User List 2.
+		@param User2_ID 
+		User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID)
+	{
+		if (User2_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+	}
+
+	/** Get User List 2.
+		@return User defined list element #2
+	  */
+	public int getUser2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set User Element 1.
 		@param UserElement1_ID 
 		User defined accounting Element
@@ -1214,56 +1252,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	public int getUserElement2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
-	/** Set User List 1.
-		@param User1_ID 
-		User defined list element #1
-	  */
-	public void setUser1_ID (int User1_ID)
-	{
-		if (User1_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
-	}
-
-	/** Get User List 1.
-		@return User defined list element #1
-	  */
-	public int getUser1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
-	/** Set User List 2.
-		@param User2_ID 
-		User defined list element #2
-	  */
-	public void setUser2_ID (int User2_ID)
-	{
-		if (User2_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
-	}
-
-	/** Get User List 2.
-		@return User defined list element #2
-	  */
-	public int getUser2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

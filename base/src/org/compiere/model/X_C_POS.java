@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POS
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_POS extends PO implements I_C_POS, I_Persistent 
 {
 
@@ -93,7 +93,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return (String)get_Value(COLUMNNAME_CashDrawer);
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -104,7 +104,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -132,8 +132,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	/** C_BPartnerCashTrx_ID AD_Reference_ID=173 */
-	public static final int C_BPARTNERCASHTRX_ID_AD_Reference_ID=173;
 	/** Set Template B.Partner.
 		@param C_BPartnerCashTrx_ID 
 		Business Partner used for creating new Business Partners on the fly
@@ -157,7 +155,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getC_CashBook() throws Exception 
+	public I_C_CashBook getC_CashBook() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
         I_C_CashBook result = null;
@@ -168,7 +166,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -195,7 +193,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -206,7 +204,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -256,7 +254,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception 
+	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_POSKeyLayout.Table_Name);
         I_C_POSKeyLayout result = null;
@@ -267,7 +265,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -353,7 +351,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -364,7 +362,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -391,7 +389,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws Exception 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
         I_M_Warehouse result = null;
@@ -402,7 +400,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -473,8 +471,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return (String)get_Value(COLUMNNAME_PrinterName);
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

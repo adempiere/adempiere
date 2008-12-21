@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persistent 
 {
 
@@ -87,7 +87,7 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
       return sb.toString();
     }
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -98,7 +98,7 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -137,7 +137,7 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -362,8 +362,6 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 		return false;
 	}
 
-	/** SalesRep_ID AD_Reference_ID=190 */
-	public static final int SALESREP_ID_AD_Reference_ID=190;
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

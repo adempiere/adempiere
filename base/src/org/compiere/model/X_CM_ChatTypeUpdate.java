@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_ChatTypeUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -84,7 +84,7 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -111,7 +111,7 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_CM_ChatType getCM_ChatType() throws Exception 
+	public I_CM_ChatType getCM_ChatType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_ChatType.Table_Name);
         I_CM_ChatType result = null;
@@ -122,7 +122,7 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

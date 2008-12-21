@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_Recurring_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persistent 
 {
 
@@ -73,7 +73,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -84,7 +84,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -123,7 +123,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -151,7 +151,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -162,7 +162,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -190,7 +190,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -201,7 +201,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -229,7 +229,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Recurring getC_Recurring() throws Exception 
+	public I_C_Recurring getC_Recurring() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Recurring.Table_Name);
         I_C_Recurring result = null;
@@ -240,7 +240,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -306,7 +306,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -317,7 +317,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

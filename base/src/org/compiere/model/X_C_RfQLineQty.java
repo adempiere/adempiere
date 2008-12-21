@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent 
 {
 
@@ -125,7 +125,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return bd;
 	}
 
-	public I_C_RfQLine getC_RfQLine() throws Exception 
+	public I_C_RfQLine getC_RfQLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQLine.Table_Name);
         I_C_RfQLine result = null;
@@ -136,7 +136,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -185,7 +185,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -196,7 +196,7 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

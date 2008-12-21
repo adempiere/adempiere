@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persistent 
 {
 
@@ -109,7 +109,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -120,7 +120,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -148,7 +148,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BankStatement getC_BankStatement() throws Exception 
+	public I_C_BankStatement getC_BankStatement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankStatement.Table_Name);
         I_C_BankStatement result = null;
@@ -159,7 +159,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -187,7 +187,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BankStatementLine getC_BankStatementLine() throws Exception 
+	public I_C_BankStatementLine getC_BankStatementLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankStatementLine.Table_Name);
         I_C_BankStatementLine result = null;
@@ -198,7 +198,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -226,7 +226,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -237,7 +237,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -265,7 +265,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws Exception 
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -276,7 +276,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -304,7 +304,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -315,7 +315,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -380,7 +380,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return (String)get_Value(COLUMNNAME_ChargeName);
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -391,7 +391,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -419,7 +419,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -430,7 +430,7 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobRemuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Persistent 
 {
 
@@ -76,7 +76,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
       return sb.toString();
     }
 
-	public I_C_Job getC_Job() throws Exception 
+	public I_C_Job getC_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
         I_C_Job result = null;
@@ -87,7 +87,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -144,7 +144,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Remuneration getC_Remuneration() throws Exception 
+	public I_C_Remuneration getC_Remuneration() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Remuneration.Table_Name);
         I_C_Remuneration result = null;
@@ -155,7 +155,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

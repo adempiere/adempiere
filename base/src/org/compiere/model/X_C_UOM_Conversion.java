@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_UOM_Conversion
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Persistent 
 {
 
@@ -108,9 +108,7 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_UOM_Conversion_ID()));
     }
 
-	/** C_UOM_ID AD_Reference_ID=114 */
-	public static final int C_UOM_ID_AD_Reference_ID=114;
-	public I_C_UOM getC_UOM() throws Exception 
+	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
         I_C_UOM result = null;
@@ -121,7 +119,7 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -148,8 +146,6 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 		return ii.intValue();
 	}
 
-	/** C_UOM_To_ID AD_Reference_ID=114 */
-	public static final int C_UOM_TO_ID_AD_Reference_ID=114;
 	/** Set UoM To.
 		@param C_UOM_To_ID 
 		Target or destination Unit of Measure
@@ -194,7 +190,7 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 		return bd;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -205,7 +201,7 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

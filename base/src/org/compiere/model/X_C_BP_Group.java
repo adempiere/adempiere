@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -90,7 +90,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getC_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -151,7 +151,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -264,8 +264,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return false;
 	}
 
-	/** M_DiscountSchema_ID AD_Reference_ID=325 */
-	public static final int M_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
 		Schema to calculate the trade discount percentage
@@ -289,7 +287,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -300,7 +298,7 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -355,8 +353,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** PO_DiscountSchema_ID AD_Reference_ID=325 */
-	public static final int PO_DISCOUNTSCHEMA_ID_AD_Reference_ID=325;
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
@@ -380,8 +376,6 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	/** PO_PriceList_ID AD_Reference_ID=166 */
-	public static final int PO_PRICELIST_ID_AD_Reference_ID=166;
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner

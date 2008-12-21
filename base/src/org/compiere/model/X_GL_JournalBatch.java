@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persistent 
 {
 
@@ -88,7 +88,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
       return sb.toString();
     }
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -99,7 +99,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -127,7 +127,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -138,7 +138,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -202,8 +202,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
-	/** C_Period_ID AD_Reference_ID=275 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=275;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar
@@ -399,7 +397,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public I_GL_Category getGL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -410,7 +408,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -559,8 +557,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 		return false;
 	}
 
-	/** Reversal_ID AD_Reference_ID=53251 */
-	public static final int REVERSAL_ID_AD_Reference_ID=53251;
 	/** Set Reversal ID.
 		@param Reversal_ID 
 		ID of document reversal

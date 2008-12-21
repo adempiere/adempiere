@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ValidCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_Persistent 
 {
 
@@ -75,8 +75,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
       return sb.toString();
     }
 
-	/** Account_ID AD_Reference_ID=362 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=362;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -99,8 +97,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** AD_OrgTrx_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTRX_ID_AD_Reference_ID=130;
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -141,7 +137,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return (String)get_Value(COLUMNNAME_Alias);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -152,7 +148,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -179,8 +175,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_Activity_ID AD_Reference_ID=142 */
-	public static final int C_ACTIVITY_ID_AD_Reference_ID=142;
 	/** Set Activity.
 		@param C_Activity_ID 
 		Business Activity
@@ -204,8 +198,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_BPartner_ID AD_Reference_ID=138 */
-	public static final int C_BPARTNER_ID_AD_Reference_ID=138;
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -229,8 +221,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_Campaign_ID AD_Reference_ID=143 */
-	public static final int C_CAMPAIGN_ID_AD_Reference_ID=143;
 	/** Set Campaign.
 		@param C_Campaign_ID 
 		Marketing Campaign
@@ -254,8 +244,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_LocFrom_ID AD_Reference_ID=133 */
-	public static final int C_LOCFROM_ID_AD_Reference_ID=133;
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -279,8 +267,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_LocTo_ID AD_Reference_ID=133 */
-	public static final int C_LOCTO_ID_AD_Reference_ID=133;
 	/** Set Location To.
 		@param C_LocTo_ID 
 		Location that inventory was moved to
@@ -329,8 +315,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
         return new KeyNamePair(get_ID(), getCombination());
     }
 
-	/** C_Project_ID AD_Reference_ID=141 */
-	public static final int C_PROJECT_ID_AD_Reference_ID=141;
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
@@ -354,8 +338,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** C_SalesRegion_ID AD_Reference_ID=144 */
-	public static final int C_SALESREGION_ID_AD_Reference_ID=144;
 	/** Set Sales Region.
 		@param C_SalesRegion_ID 
 		Sales coverage region
@@ -379,7 +361,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getC_SubAcct() throws Exception 
+	public I_C_SubAcct getC_SubAcct() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SubAcct.Table_Name);
         I_C_SubAcct result = null;
@@ -390,7 +372,7 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -481,8 +463,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return false;
 	}
 
-	/** M_Product_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCT_ID_AD_Reference_ID=162;
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -501,6 +481,52 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User List 1.
+		@param User1_ID 
+		User defined list element #1
+	  */
+	public void setUser1_ID (int User1_ID)
+	{
+		if (User1_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+	}
+
+	/** Get User List 1.
+		@return User defined list element #1
+	  */
+	public int getUser1_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User List 2.
+		@param User2_ID 
+		User defined list element #2
+	  */
+	public void setUser2_ID (int User2_ID)
+	{
+		if (User2_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+	}
+
+	/** Get User List 2.
+		@return User defined list element #2
+	  */
+	public int getUser2_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -547,56 +573,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	public int getUserElement2_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_UserElement2_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** User1_ID AD_Reference_ID=134 */
-	public static final int USER1_ID_AD_Reference_ID=134;
-	/** Set User List 1.
-		@param User1_ID 
-		User defined list element #1
-	  */
-	public void setUser1_ID (int User1_ID)
-	{
-		if (User1_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_User1_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
-	}
-
-	/** Get User List 1.
-		@return User defined list element #1
-	  */
-	public int getUser1_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** User2_ID AD_Reference_ID=137 */
-	public static final int USER2_ID_AD_Reference_ID=137;
-	/** Set User List 2.
-		@param User2_ID 
-		User defined list element #2
-	  */
-	public void setUser2_ID (int User2_ID)
-	{
-		if (User2_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_User2_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
-	}
-
-	/** Get User List 2.
-		@return User defined list element #2
-	  */
-	public int getUser2_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

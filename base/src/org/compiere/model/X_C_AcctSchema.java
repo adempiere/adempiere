@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent 
 {
 
@@ -97,8 +97,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
       return sb.toString();
     }
 
-	/** AD_OrgOnly_ID AD_Reference_ID=322 */
-	public static final int AD_ORGONLY_ID_AD_Reference_ID=322;
 	/** Set Only Organization.
 		@param AD_OrgOnly_ID 
 		Create posting entries only for this organization
@@ -168,7 +166,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -179,7 +177,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -302,7 +300,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return (String)get_Value(COLUMNNAME_CostingMethod);
 	}
 
-	public I_C_Period getC_Period() throws Exception 
+	public I_C_Period getC_Period() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
         I_C_Period result = null;
@@ -313,7 +311,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -628,7 +626,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return false;
 	}
 
-	public I_M_CostType getM_CostType() throws Exception 
+	public I_M_CostType getM_CostType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_CostType.Table_Name);
         I_M_CostType result = null;
@@ -639,7 +637,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

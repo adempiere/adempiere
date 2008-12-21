@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return bd;
 	}
 
-	public I_C_DunningRunEntry getC_DunningRunEntry() throws Exception 
+	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DunningRunEntry.Table_Name);
         I_C_DunningRunEntry result = null;
@@ -118,7 +118,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -167,7 +167,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -178,7 +178,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -214,7 +214,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws Exception 
+	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoicePaySchedule.Table_Name);
         I_C_InvoicePaySchedule result = null;
@@ -225,7 +225,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -275,7 +275,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return bd;
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -286,7 +286,7 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

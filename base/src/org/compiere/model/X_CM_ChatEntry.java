@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -88,7 +88,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,8 +161,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return (String)get_Value(COLUMNNAME_ChatEntryType);
 	}
 
-	/** CM_ChatEntryGrandParent_ID AD_Reference_ID=399 */
-	public static final int CM_CHATENTRYGRANDPARENT_ID_AD_Reference_ID=399;
 	/** Set Chat Entry Grandparent.
 		@param CM_ChatEntryGrandParent_ID 
 		Link to Grand Parent (root level)
@@ -216,8 +214,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
     }
 
-	/** CM_ChatEntryParent_ID AD_Reference_ID=399 */
-	public static final int CM_CHATENTRYPARENT_ID_AD_Reference_ID=399;
 	/** Set Chat Entry Parent.
 		@param CM_ChatEntryParent_ID 
 		Link to direct Parent
@@ -241,7 +237,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Chat getCM_Chat() throws Exception 
+	public I_CM_Chat getCM_Chat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Chat.Table_Name);
         I_CM_Chat result = null;
@@ -252,7 +248,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

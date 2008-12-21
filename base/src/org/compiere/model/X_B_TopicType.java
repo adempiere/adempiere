@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent 
 {
 
@@ -149,7 +149,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_PriceList getM_PriceList() throws Exception 
+	public I_M_PriceList getM_PriceList() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
         I_M_PriceList result = null;
@@ -160,7 +160,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -187,7 +187,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -198,7 +198,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -225,8 +225,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** M_ProductMember_ID AD_Reference_ID=162 */
-	public static final int M_PRODUCTMEMBER_ID_AD_Reference_ID=162;
 	/** Set Membership.
 		@param M_ProductMember_ID 
 		Product used to deternine the price of the membership for the topic type

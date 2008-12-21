@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_InterOrg_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persistent 
 {
 
@@ -74,8 +74,6 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
       return sb.toString();
     }
 
-	/** AD_OrgTo_ID AD_Reference_ID=130 */
-	public static final int AD_ORGTO_ID_AD_Reference_ID=130;
 	/** Set Inter-Organization.
 		@param AD_OrgTo_ID 
 		Organization valid for intercompany documents
@@ -98,7 +96,7 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -109,7 +107,7 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

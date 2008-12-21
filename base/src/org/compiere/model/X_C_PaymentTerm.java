@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
@@ -43,9 +43,9 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 			setAfterDelivery (false);
 			setC_PaymentTerm_ID (0);
 			setDiscount (Env.ZERO);
+			setDiscount2 (Env.ZERO);
 			setDiscountDays (0);
 			setDiscountDays2 (0);
-			setDiscount2 (Env.ZERO);
 			setGraceDays (0);
 			setIsDueFixed (false);
 			setIsValid (false);
@@ -168,6 +168,28 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 		return bd;
 	}
 
+	/** Set Discount 2 %.
+		@param Discount2 
+		Discount in percent
+	  */
+	public void setDiscount2 (BigDecimal Discount2)
+	{
+		if (Discount2 == null)
+			throw new IllegalArgumentException ("Discount2 is mandatory.");
+		set_Value (COLUMNNAME_Discount2, Discount2);
+	}
+
+	/** Get Discount 2 %.
+		@return Discount in percent
+	  */
+	public BigDecimal getDiscount2 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Discount Days.
 		@param DiscountDays 
 		Number of days from invoice date to be eligible for discount
@@ -206,28 +228,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Discount 2 %.
-		@param Discount2 
-		Discount in percent
-	  */
-	public void setDiscount2 (BigDecimal Discount2)
-	{
-		if (Discount2 == null)
-			throw new IllegalArgumentException ("Discount2 is mandatory.");
-		set_Value (COLUMNNAME_Discount2, Discount2);
-	}
-
-	/** Get Discount 2 %.
-		@return Discount in percent
-	  */
-	public BigDecimal getDiscount2 () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Discount2);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Document Note.

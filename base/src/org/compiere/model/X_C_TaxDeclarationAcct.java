@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct, I_Persistent 
 {
 
@@ -77,8 +77,6 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
       return sb.toString();
     }
 
-	/** Account_ID AD_Reference_ID=331 */
-	public static final int ACCOUNT_ID_AD_Reference_ID=331;
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -174,7 +172,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -185,7 +183,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -212,7 +210,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -223,7 +221,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -247,7 +245,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -258,7 +256,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -304,7 +302,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception 
+	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxDeclaration.Table_Name);
         I_C_TaxDeclaration result = null;
@@ -315,7 +313,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -342,7 +340,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -353,7 +351,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -410,7 +408,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_Fact_Acct getFact_Acct() throws Exception 
+	public I_Fact_Acct getFact_Acct() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_Fact_Acct.Table_Name);
         I_Fact_Acct result = null;
@@ -421,7 +419,7 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

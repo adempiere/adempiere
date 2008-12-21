@@ -24,7 +24,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_AcctProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_Persistent 
 {
 
@@ -90,7 +90,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
-	public I_C_AcctProcessor getC_AcctProcessor() throws Exception 
+	public I_C_AcctProcessor getC_AcctProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctProcessor.Table_Name);
         I_C_AcctProcessor result = null;
@@ -101,7 +101,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

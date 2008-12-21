@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectPhase
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persistent 
 {
 
@@ -107,7 +107,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return bd;
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -118,7 +118,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -146,7 +146,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Phase getC_Phase() throws Exception 
+	public I_C_Phase getC_Phase() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Phase.Table_Name);
         I_C_Phase result = null;
@@ -157,7 +157,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -185,7 +185,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -196,7 +196,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -361,7 +361,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -372,7 +372,7 @@ public class X_C_ProjectPhase extends PO implements I_C_ProjectPhase, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

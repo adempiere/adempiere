@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_BudgetControl
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Persistent 
 {
 
@@ -105,7 +105,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 		return (String)get_Value(COLUMNNAME_BudgetControlScope);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -116,7 +116,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -214,7 +214,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 		return ii.intValue();
 	}
 
-	public I_GL_Budget getGL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -225,7 +225,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

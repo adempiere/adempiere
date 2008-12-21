@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStage
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent 
 {
 
@@ -108,8 +108,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	/** CM_CStageLink_ID AD_Reference_ID=387 */
-	public static final int CM_CSTAGELINK_ID_AD_Reference_ID=387;
 	/** Set Container Link.
 		@param CM_CStageLink_ID 
 		Stage Link to another Container in the Web Project
@@ -133,7 +131,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws Exception 
+	public I_CM_Template getCM_Template() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
         I_CM_Template result = null;
@@ -144,7 +142,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -172,7 +170,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws Exception 
+	public I_CM_WebProject getCM_WebProject() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
         I_CM_WebProject result = null;
@@ -183,7 +181,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

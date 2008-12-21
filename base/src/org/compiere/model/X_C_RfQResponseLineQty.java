@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponseLineQty
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty, I_Persistent 
 {
 
@@ -77,7 +77,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
       return sb.toString();
     }
 
-	public I_C_RfQLineQty getC_RfQLineQty() throws Exception 
+	public I_C_RfQLineQty getC_RfQLineQty() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQLineQty.Table_Name);
         I_C_RfQLineQty result = null;
@@ -88,7 +88,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -115,7 +115,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 		return ii.intValue();
 	}
 
-	public I_C_RfQResponseLine getC_RfQResponseLine() throws Exception 
+	public I_C_RfQResponseLine getC_RfQResponseLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_RfQResponseLine.Table_Name);
         I_C_RfQResponseLine result = null;
@@ -126,7 +126,7 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws Exception 
+	public I_AD_Table getAD_Table() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
         I_AD_Table result = null;
@@ -90,7 +90,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -151,7 +151,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -344,8 +344,6 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		return false;
 	}
 
-	/** Supervisor_ID AD_Reference_ID=286 */
-	public static final int SUPERVISOR_ID_AD_Reference_ID=286;
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

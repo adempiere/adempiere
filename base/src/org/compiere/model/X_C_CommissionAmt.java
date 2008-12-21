@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionAmt
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persistent 
 {
 
@@ -123,7 +123,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionLine getC_CommissionLine() throws Exception 
+	public I_C_CommissionLine getC_CommissionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_CommissionLine.Table_Name);
         I_C_CommissionLine result = null;
@@ -134,7 +134,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,7 +161,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionRun getC_CommissionRun() throws Exception 
+	public I_C_CommissionRun getC_CommissionRun() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_CommissionRun.Table_Name);
         I_C_CommissionRun result = null;
@@ -172,7 +172,7 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

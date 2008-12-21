@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
@@ -88,7 +88,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -99,7 +99,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -126,7 +126,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws Exception 
+	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySelectionCheck.Table_Name);
         I_C_PaySelectionCheck result = null;
@@ -137,7 +137,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -165,7 +165,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getC_PaySelection() throws Exception 
+	public I_C_PaySelection getC_PaySelection() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
         I_C_PaySelection result = null;
@@ -176,7 +176,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -420,6 +420,8 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
@@ -427,7 +429,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D") || PaymentRule.equals("M")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

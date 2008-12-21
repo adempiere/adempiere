@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, I_Persistent 
 {
 
@@ -85,7 +85,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -96,7 +96,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -123,7 +123,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws Exception 
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
         I_C_BP_BankAccount result = null;
@@ -134,7 +134,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -162,8 +162,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	/** C_Payment_ID AD_Reference_ID=343 */
-	public static final int C_PAYMENT_ID_AD_Reference_ID=343;
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
@@ -209,7 +207,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getC_PaySelection() throws Exception 
+	public I_C_PaySelection getC_PaySelection() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
         I_C_PaySelection result = null;
@@ -220,7 +218,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -391,6 +389,8 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
@@ -398,7 +398,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D") || PaymentRule.equals("M")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

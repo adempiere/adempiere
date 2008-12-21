@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DunningLevel
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persistent 
 {
 
@@ -85,7 +85,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
       return sb.toString();
     }
 
-	public I_C_Dunning getC_Dunning() throws Exception 
+	public I_C_Dunning getC_Dunning() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
         I_C_Dunning result = null;
@@ -96,7 +96,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -190,7 +190,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return false;
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -201,7 +201,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -288,8 +288,6 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Dunning_PrintFormat_ID AD_Reference_ID=259 */
-	public static final int DUNNING_PRINTFORMAT_ID_AD_Reference_ID=259;
 	/** Set Dunning Print Format.
 		@param Dunning_PrintFormat_ID 
 		Print Format for printing Dunning Letters

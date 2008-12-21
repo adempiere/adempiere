@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Region
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Region extends PO implements I_C_Region, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Country getC_Country() throws Exception 
+	public I_C_Country getC_Country() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
         I_C_Country result = null;
@@ -85,7 +85,7 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent 
 {
 
@@ -81,8 +81,6 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
       return sb.toString();
     }
 
-	/** Beneficiary AD_Reference_ID=138 */
-	public static final int BENEFICIARY_AD_Reference_ID=138;
 	/** Set Beneficiary.
 		@param Beneficiary 
 		Business Partner to whom payment is made
@@ -103,7 +101,7 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws Exception 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
         I_C_PaymentTerm result = null;
@@ -114,7 +112,7 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

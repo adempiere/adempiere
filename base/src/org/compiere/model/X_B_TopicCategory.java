@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persistent 
 {
 
@@ -96,7 +96,7 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_B_TopicType getB_TopicType() throws Exception 
+	public I_B_TopicType getB_TopicType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_B_TopicType.Table_Name);
         I_B_TopicType result = null;
@@ -107,7 +107,7 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

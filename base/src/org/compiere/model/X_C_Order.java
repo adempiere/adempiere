@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Order extends PO implements I_C_Order, I_Persistent 
 {
 
@@ -47,9 +47,9 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_DocTypeTarget_ID (0);
 			setC_DocType_ID (0);
 // 0
+			setC_DocTypeTarget_ID (0);
 			setC_Order_ID (0);
 			setC_PaymentTerm_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
@@ -82,10 +82,10 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 // N
 			setIsInvoiced (false);
 			setIsPrinted (false);
-			setIsSOTrx (false);
-// @IsSOTrx@
 			setIsSelected (false);
 			setIsSelfService (false);
+			setIsSOTrx (false);
+// @IsSOTrx@
 			setIsTaxIncluded (false);
 			setIsTransferred (false);
 			setM_PriceList_ID (0);
@@ -589,28 +589,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
-		Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
-	{
-		if (C_DocTypeTarget_ID < 1)
-			 throw new IllegalArgumentException ("C_DocTypeTarget_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
-	}
-
-	/** Get Target Document Type.
-		@return Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
@@ -649,6 +627,65 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Target Document Type.
+		@param C_DocTypeTarget_ID 
+		Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
+	{
+		if (C_DocTypeTarget_ID < 1)
+			 throw new IllegalArgumentException ("C_DocTypeTarget_ID is mandatory.");
+		set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+	}
+
+	/** Get Target Document Type.
+		@return Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
 	/** Set Order.
 		@param C_Order_ID 
 		Order
@@ -666,83 +703,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_POS getC_POS() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_POS.Table_Name);
-        I_C_POS result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_POS)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_POS_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set POS Terminal.
-		@param C_POS_ID 
-		Point of Sales Terminal
-	  */
-	public void setC_POS_ID (int C_POS_ID)
-	{
-		if (C_POS_ID < 1) 
-			set_Value (COLUMNNAME_C_POS_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
-	}
-
-	/** Get POS Terminal.
-		@return Point of Sales Terminal
-	  */
-	public int getC_POS_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -787,6 +747,83 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
+        I_C_PaymentTerm result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1)
+			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
+		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_POS getC_POS() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_POS.Table_Name);
+        I_C_POS result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_POS)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_POS_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set POS Terminal.
+		@param C_POS_ID 
+		Point of Sales Terminal
+	  */
+	public void setC_POS_ID (int C_POS_ID)
+	{
+		if (C_POS_ID < 1) 
+			set_Value (COLUMNNAME_C_POS_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_POS_ID, Integer.valueOf(C_POS_ID));
+	}
+
+	/** Get POS Terminal.
+		@return Point of Sales Terminal
+	  */
+	public int getC_POS_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_POS_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
@@ -824,43 +861,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Account Date.
@@ -1465,30 +1465,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Sales Transaction.
-		@param IsSOTrx 
-		This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx)
-	{
-		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
-	}
-
-	/** Get Sales Transaction.
-		@return This is a Sales Transaction
-	  */
-	public boolean isSOTrx () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Selected.
 		@param IsSelected Selected	  */
 	public void setIsSelected (boolean IsSelected)
@@ -1525,6 +1501,30 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public boolean isSelfService () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelfService);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Sales Transaction.
+		@param IsSOTrx 
+		This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx)
+	{
+		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
+	}
+
+	/** Get Sales Transaction.
+		@return This is a Sales Transaction
+	  */
+	public boolean isSOTrx () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSOTrx);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1773,23 +1773,6 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set Payment BPartner.
 		@param Pay_BPartner_ID 
 		Business Partner responsible for the payment
@@ -1868,6 +1851,23 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public String getPaymentRule () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentRule);
+	}
+
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
 	}
 
 	/** Set Posted.

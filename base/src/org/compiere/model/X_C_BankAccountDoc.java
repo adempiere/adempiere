@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Persistent 
 {
 
@@ -98,7 +98,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws Exception 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
         I_C_BankAccount result = null;
@@ -109,7 +109,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -136,8 +136,6 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 		return ii.intValue();
 	}
 
-	/** Check_PrintFormat_ID AD_Reference_ID=268 */
-	public static final int CHECK_PRINTFORMAT_ID_AD_Reference_ID=268;
 	/** Set Check Print Format.
 		@param Check_PrintFormat_ID 
 		Print Format for printing Checks
@@ -239,6 +237,8 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
@@ -246,7 +246,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D") || PaymentRule.equals("M")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

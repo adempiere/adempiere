@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Persistent 
 {
 
@@ -111,7 +111,7 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Conversion_Rate_ID()));
     }
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -122,7 +122,7 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -149,8 +149,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 		return ii.intValue();
 	}
 
-	/** C_Currency_ID AD_Reference_ID=112 */
-	public static final int C_CURRENCY_ID_AD_Reference_ID=112;
 	/** Set Currency.
 		@param C_Currency_ID 
 		The Currency for this record
@@ -173,8 +171,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 		return ii.intValue();
 	}
 
-	/** C_Currency_ID_To AD_Reference_ID=112 */
-	public static final int C_CURRENCY_ID_TO_AD_Reference_ID=112;
 	/** Set Currency To.
 		@param C_Currency_ID_To 
 		Target currency

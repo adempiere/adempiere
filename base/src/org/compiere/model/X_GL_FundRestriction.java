@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_FundRestriction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_Persistent 
 {
 
@@ -75,7 +75,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       return sb.toString();
     }
 
-	public I_C_ElementValue getC_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -86,7 +86,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -130,7 +130,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Fund getGL_Fund() throws Exception 
+	public I_GL_Fund getGL_Fund() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Fund.Table_Name);
         I_GL_Fund result = null;
@@ -141,7 +141,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

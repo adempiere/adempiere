@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for CM_Container_URL
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Persistent 
 {
 
@@ -95,7 +95,7 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_Checked);
 	}
 
-	public I_CM_Container getCM_Container() throws Exception 
+	public I_CM_Container getCM_Container() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Container.Table_Name);
         I_CM_Container result = null;
@@ -106,7 +106,7 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

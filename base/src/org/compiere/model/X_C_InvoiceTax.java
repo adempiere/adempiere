@@ -26,7 +26,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_InvoiceTax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent 
 {
 
@@ -78,7 +78,7 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -89,7 +89,7 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -116,7 +116,7 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -127,7 +127,7 @@ public class X_C_InvoiceTax extends PO implements I_C_InvoiceTax, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

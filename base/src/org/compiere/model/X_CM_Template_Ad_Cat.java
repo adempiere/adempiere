@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Template_Ad_Cat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
       return sb.toString();
     }
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws Exception 
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Ad_Cat.Table_Name);
         I_CM_Ad_Cat result = null;
@@ -85,7 +85,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws Exception 
+	public I_CM_Template getCM_Template() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_CM_Template.Table_Name);
         I_CM_Template result = null;
@@ -123,7 +123,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

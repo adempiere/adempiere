@@ -27,7 +27,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POSKey
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent 
 {
 
@@ -79,7 +79,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws Exception 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
         I_AD_PrintColor result = null;
@@ -90,7 +90,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -140,7 +140,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_POSKeyLayout getC_POSKeyLayout() throws Exception 
+	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_POSKeyLayout.Table_Name);
         I_C_POSKeyLayout result = null;
@@ -151,7 +151,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -195,7 +195,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -206,7 +206,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

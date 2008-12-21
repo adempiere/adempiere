@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent 
 {
 
@@ -81,8 +81,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
       return sb.toString();
     }
 
-	/** AD_TreeCMC_ID AD_Reference_ID=184 */
-	public static final int AD_TREECMC_ID_AD_Reference_ID=184;
 	/** Set Container Tree.
 		@param AD_TreeCMC_ID 
 		Container Tree
@@ -106,8 +104,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_TreeCMM_ID AD_Reference_ID=184 */
-	public static final int AD_TREECMM_ID_AD_Reference_ID=184;
 	/** Set Media Tree.
 		@param AD_TreeCMM_ID 
 		Media Tree
@@ -131,8 +127,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_TreeCMS_ID AD_Reference_ID=184 */
-	public static final int AD_TREECMS_ID_AD_Reference_ID=184;
 	/** Set Stage Tree.
 		@param AD_TreeCMS_ID 
 		Stage Tree
@@ -156,8 +150,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	/** AD_TreeCMT_ID AD_Reference_ID=184 */
-	public static final int AD_TREECMT_ID_AD_Reference_ID=184;
 	/** Set Template Tree.
 		@param AD_TreeCMT_ID 
 		Template Tree

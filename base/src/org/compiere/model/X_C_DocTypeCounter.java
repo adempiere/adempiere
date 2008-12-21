@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocTypeCounter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Persistent 
 {
 
@@ -100,7 +100,7 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -111,7 +111,7 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -138,8 +138,6 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 		return ii.intValue();
 	}
 
-	/** Counter_C_DocType_ID AD_Reference_ID=170 */
-	public static final int COUNTER_C_DOCTYPE_ID_AD_Reference_ID=170;
 	/** Set Counter Document Type.
 		@param Counter_C_DocType_ID 
 		Generated Counter Document Type (To)

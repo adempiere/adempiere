@@ -26,7 +26,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Recurring
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent 
 {
 
@@ -80,7 +80,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -91,7 +91,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -119,7 +119,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws Exception 
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -130,7 +130,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws Exception 
+	public I_C_Payment getC_Payment() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
         I_C_Payment result = null;
@@ -169,7 +169,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -197,7 +197,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -208,7 +208,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -359,7 +359,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -370,7 +370,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

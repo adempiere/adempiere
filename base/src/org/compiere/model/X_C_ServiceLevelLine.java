@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ServiceLevelLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_Persistent 
 {
 
@@ -78,7 +78,7 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
       return sb.toString();
     }
 
-	public I_C_ServiceLevel getC_ServiceLevel() throws Exception 
+	public I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ServiceLevel.Table_Name);
         I_C_ServiceLevel result = null;
@@ -89,7 +89,7 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

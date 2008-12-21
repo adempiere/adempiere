@@ -25,7 +25,7 @@ import java.util.logging.Level;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
@@ -74,7 +74,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws Exception 
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -85,7 +85,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }

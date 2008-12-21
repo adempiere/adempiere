@@ -28,7 +28,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent 
 {
 
@@ -110,7 +110,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -121,7 +121,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -148,7 +148,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws Exception 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
         I_C_ConversionType result = null;
@@ -159,7 +159,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -186,7 +186,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -197,7 +197,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -224,7 +224,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws Exception 
+	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
         I_C_DocType result = null;
@@ -235,7 +235,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -282,8 +282,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return bd;
 	}
 
-	/** C_Period_ID AD_Reference_ID=275 */
-	public static final int C_PERIOD_ID_AD_Reference_ID=275;
 	/** Set Period.
 		@param C_Period_ID 
 		Period of the Calendar
@@ -504,7 +502,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public I_GL_Budget getGL_Budget() throws Exception 
+	public I_GL_Budget getGL_Budget() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
         I_GL_Budget result = null;
@@ -515,7 +513,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -543,7 +541,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Category getGL_Category() throws Exception 
+	public I_GL_Category getGL_Category() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
         I_GL_Category result = null;
@@ -554,7 +552,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -581,7 +579,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws Exception 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
         I_GL_JournalBatch result = null;
@@ -592,7 +590,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -789,8 +787,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return false;
 	}
 
-	/** Reversal_ID AD_Reference_ID=53250 */
-	public static final int REVERSAL_ID_AD_Reference_ID=53250;
 	/** Set Reversal ID.
 		@param Reversal_ID 
 		ID of document reversal

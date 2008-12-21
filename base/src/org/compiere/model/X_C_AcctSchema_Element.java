@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element, I_Persistent 
 {
 
@@ -81,7 +81,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws Exception 
+	public I_AD_Column getAD_Column() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
         I_AD_Column result = null;
@@ -92,7 +92,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -139,7 +139,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws Exception 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
         I_C_AcctSchema result = null;
@@ -150,7 +150,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -177,7 +177,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws Exception 
+	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
         I_C_Activity result = null;
@@ -188,7 +188,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -216,7 +216,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -227,7 +227,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -255,7 +255,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws Exception 
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
         I_C_Campaign result = null;
@@ -266,7 +266,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -294,7 +294,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Element getC_Element() throws Exception 
+	public I_C_Element getC_Element() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Element.Table_Name);
         I_C_Element result = null;
@@ -305,7 +305,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -332,7 +332,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws Exception 
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
         I_C_ElementValue result = null;
@@ -343,7 +343,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -394,7 +394,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws Exception 
+	public I_C_Project getC_Project() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
         I_C_Project result = null;
@@ -405,7 +405,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -433,7 +433,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws Exception 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
         I_C_SalesRegion result = null;
@@ -444,7 +444,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -569,7 +569,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws Exception 
+	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
         I_M_Product result = null;
@@ -580,7 +580,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -635,8 +635,6 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Org_ID AD_Reference_ID=130 */
-	public static final int ORG_ID_AD_Reference_ID=130;
 	/** Set Organization.
 		@param Org_ID 
 		Organizational entity within client

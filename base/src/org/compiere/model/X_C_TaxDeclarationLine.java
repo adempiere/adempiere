@@ -27,7 +27,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.2a - $Id$ */
+ *  @version Release 3.5.3a - $Id$ */
 public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine, I_Persistent 
 {
 
@@ -84,7 +84,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
       return sb.toString();
     }
 
-	public I_C_AllocationLine getC_AllocationLine() throws Exception 
+	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_AllocationLine.Table_Name);
         I_C_AllocationLine result = null;
@@ -95,7 +95,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -123,7 +123,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws Exception 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -134,7 +134,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -161,7 +161,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws Exception 
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -172,7 +172,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -199,7 +199,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws Exception 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
         I_C_Invoice result = null;
@@ -210,7 +210,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -238,7 +238,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws Exception 
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
         I_C_InvoiceLine result = null;
@@ -249,7 +249,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -277,7 +277,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_TaxDeclaration getC_TaxDeclaration() throws Exception 
+	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxDeclaration.Table_Name);
         I_C_TaxDeclaration result = null;
@@ -288,7 +288,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
@@ -337,7 +337,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws Exception 
+	public I_C_Tax getC_Tax() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
         I_C_Tax result = null;
@@ -348,7 +348,7 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
+           throw new RuntimeException( e );
         }
         return result;
     }
