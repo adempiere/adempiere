@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
+ * Product: Posterita Ajax UI                                                 *
  * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -18,7 +18,7 @@
 package org.adempiere.webui.panel;
 
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
