@@ -66,7 +66,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	private CButton f_summary = null;
 	private CButton f_process = null;
 	private CButton f_print = null;
-
+	
 	//TODO: credit card
 /*	private CLabel f_lcreditCardNumber = null;
 	private CTextField f_creditCardNumber = null;
@@ -264,9 +264,14 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			if (isOrderFullyPay())
 			{
 				displaySummary();
-				processOrder();
-				printTicket();
-				openCashDrawer();
+				//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
+				if(processOrder())
+				{
+					printTicket();
+					openCashDrawer();
+					p_posPanel.newOrder();
+					f_cashGiven.setValue(Env.ZERO);
+				}			
 			}
 			else
 			{
@@ -320,8 +325,10 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
 	 *         *Copyright � ConSerTi
 	 */
-	public void processOrder()
+	public boolean processOrder()
 	{		
+		//Returning orderCompleted to check for order completness
+		boolean orderCompleted = false;
 		p_posPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		MOrder order = p_posPanel.f_curLine.getOrder();
 		if (order != null)
@@ -355,8 +362,9 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 				  else if( order.getDocStatus().equals("CO") )
 				  {
 					order = null;
-					p_posPanel.newOrder();
-					f_cashGiven.setValue(Env.ZERO);
+					orderCompleted = true;
+					//p_posPanel.newOrder();
+					//f_cashGiven.setValue(Env.ZERO);
 					log.info( "SubCheckout - processOrder OK");
 					p_posPanel.f_status.setStatusLine("Order completed.");	 
 				  }			
@@ -368,6 +376,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 				} // try-finally
 			}
 		p_posPanel.setCursor(Cursor.getDefaultCursor());
+		return orderCompleted;
 	}	// processOrder
 	
 	/**
@@ -393,6 +402,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 				*/ 
 				//print standard document
 				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, Env.getWindowNo(this), true);
+				
 			}
 			catch (Exception e) 
 			{
