@@ -75,7 +75,7 @@ public class ImportAccount extends SvrProcess
 
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message
 	 *  @throws Exception
 	 */

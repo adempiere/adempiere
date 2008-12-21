@@ -49,7 +49,7 @@ public class ProjectClose extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message (translated text)
 	 *  @throws Exception if not successful
 	 */

@@ -71,7 +71,7 @@ public class ImportAsset extends SvrProcess
 
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message
 	 *  @throws Exception
 	 */

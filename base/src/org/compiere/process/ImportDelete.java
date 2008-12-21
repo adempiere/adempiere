@@ -51,7 +51,7 @@ public class ImportDelete extends SvrProcess
 
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return clear Message
 	 *  @throws Exception
 	 */

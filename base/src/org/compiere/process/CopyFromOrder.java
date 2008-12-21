@@ -50,7 +50,7 @@ public class CopyFromOrder extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */

@@ -88,7 +88,7 @@ public class AssetDelivery extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message to be translated
 	 *  @throws Exception
 	 */

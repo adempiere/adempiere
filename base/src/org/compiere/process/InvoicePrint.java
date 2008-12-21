@@ -82,7 +82,7 @@ public class InvoicePrint extends SvrProcess
 	}	//	prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return Message
 	 *  @throws Exception
 	 */

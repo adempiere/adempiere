@@ -69,7 +69,7 @@ public class ImportInvoice extends SvrProcess
 
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  @return clear Message
 	 *  @throws Exception
 	 */

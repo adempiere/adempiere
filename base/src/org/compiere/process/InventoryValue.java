@@ -69,7 +69,7 @@ public class InventoryValue extends SvrProcess
 	}   //  prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  <pre>
 	 *  - Fill Table with QtyOnHand for Warehouse and Valuation Date
 	 *  - Perform Price Calculations

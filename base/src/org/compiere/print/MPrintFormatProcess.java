@@ -56,7 +56,7 @@ public class MPrintFormatProcess extends SvrProcess
 	}   //  prepare
 
 	/**
-	 *  Perrform process.
+	 *  Perform process.
 	 *  <pre>
 	 *  If AD_Table_ID is not null, create from table,
 	 *  otherwise copy from AD_PrintFormat_ID
