@@ -16,18 +16,35 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import javax.swing.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
+import javax.swing.JComponent;
+
+import org.compiere.grid.ed.VAssignmentDialog;
+import org.compiere.model.MAssignmentSlot;
+import org.compiere.model.MResourceAssignment;
+import org.compiere.plaf.CompiereUtils;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.TimeUtil;
 
 /**
  *	Schedule Panel

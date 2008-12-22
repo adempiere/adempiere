@@ -16,19 +16,40 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import java.math.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.Box;
+import javax.swing.JDialog;
+
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLine;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.grid.ed.VString;
+import org.compiere.model.MAttribute;
+import org.compiere.model.MRole;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Search by Product Attribute.

@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EventObject;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.table.TableCellEditor;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.CEditor;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 /**
  *  Cell Editor.

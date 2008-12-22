@@ -16,18 +16,28 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Frame;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.JLabel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.minigrid.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Generic Table Search

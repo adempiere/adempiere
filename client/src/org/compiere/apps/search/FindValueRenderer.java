@@ -16,15 +16,23 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.sql.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.Insets;
+import java.sql.Date;
+import java.util.logging.Level;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
+import org.compiere.model.MQuery;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Renderer for Find 'Value' Column.

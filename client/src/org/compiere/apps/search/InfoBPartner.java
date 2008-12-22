@@ -16,18 +16,24 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.awt.Frame;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MQuery;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Search Business Partner and return selection

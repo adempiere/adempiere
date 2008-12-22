@@ -16,13 +16,22 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.util.EventObject;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
+
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.grid.ed.VString;
+import org.compiere.model.GridField;
+import org.compiere.model.MQuery;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Cell editor for Find Value field.

@@ -16,14 +16,25 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.sql.*;
-import javax.swing.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Stroke;
+import java.awt.font.TextLayout;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import javax.swing.JComponent;
+
+import org.compiere.model.MAssignmentSlot;
+import org.compiere.plaf.CompiereUtils;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *	Schedule Time Panel.

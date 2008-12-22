@@ -16,15 +16,20 @@
  *****************************************************************************/
 package org.compiere.apps.search;
 
-import java.awt.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.swing.*;
+import javax.swing.JScrollPane;
+
+import org.compiere.model.MAssignmentSlot;
+import org.compiere.model.ScheduleUtil;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  *	Visual and Control Part of Schedule.
