@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.sla;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import org.compiere.model.*;
+import org.compiere.model.MSLACriteria;
+import org.compiere.model.MSLAGoal;
 
 /**
  *	Service Level Agreement Criteria
