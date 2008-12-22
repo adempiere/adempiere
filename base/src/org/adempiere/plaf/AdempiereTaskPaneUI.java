@@ -1,17 +1,13 @@
 package org.adempiere.plaf;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Insets;
 import java.awt.Paint;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 import javax.swing.JComponent;
-import javax.swing.LookAndFeel;
 import javax.swing.border.Border;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.ComponentUI;

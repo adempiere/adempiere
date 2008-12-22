@@ -25,7 +25,6 @@ import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 
-//import org.compiere.plaf.ColorBlind;
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ExtendedTheme;
 

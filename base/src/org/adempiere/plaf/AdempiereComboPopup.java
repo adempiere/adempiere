@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.adempiere.plaf;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.*;
-import org.compiere.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.plaf.basic.BasicComboPopup;
+
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CField;
 
 /**
  *  Adempiere Combo Popup - allows to prevent the display of the popup

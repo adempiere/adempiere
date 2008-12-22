@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.plaf;
 
-import javax.swing.plaf.*;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  * 	Adempiere default Blue Metal Color Theme
