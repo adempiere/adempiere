@@ -16,10 +16,15 @@ package org.compiere.dbPort;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.*;
+import java.util.logging.Level;
 
-import org.compiere.*;
-import org.compiere.util.*;
+import org.compiere.Adempiere;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Login;
 
 
 /**

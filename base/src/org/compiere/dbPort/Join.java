@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.dbPort;
 
-import org.compiere.util.*;
+import org.compiere.util.Util;
 
 /**
  *  Join Clause.
