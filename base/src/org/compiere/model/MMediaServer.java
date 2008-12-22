@@ -16,13 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.ByteArrayInputStream;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.apache.commons.net.ftp.*;
-import org.compiere.util.*;
+import org.apache.commons.net.ftp.FTPClient;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  * 	Media Server Model

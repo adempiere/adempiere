@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.DB;
 
 
 /**
