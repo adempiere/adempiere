@@ -16,17 +16,34 @@
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+import javax.swing.event.EventListenerList;
+
+import org.compiere.model.MAchievement;
+import org.compiere.model.MGoal;
+import org.compiere.model.MMeasureCalc;
+import org.compiere.model.MProjectType;
+import org.compiere.model.MRequestType;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
 
 /**
  * 	Bar Graph Column
