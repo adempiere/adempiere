@@ -16,13 +16,26 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.text.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.wf.MWFNode;
 
 /**
  *	Graphical Work Flow Node.

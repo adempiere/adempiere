@@ -16,19 +16,50 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.apps.*;
-import org.compiere.apps.form.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.DefaultComboBoxModel;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AMenu;
+import org.compiere.apps.AWindow;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.StatusBar;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.MColumn;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRefList;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextArea;
+import org.compiere.swing.CTextField;
+import org.compiere.swing.CTextPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.ValueNamePair;
+import org.compiere.wf.MWFActivity;
+import org.compiere.wf.MWFNode;
 
 /**
  *	WorkFlow Activities Panel

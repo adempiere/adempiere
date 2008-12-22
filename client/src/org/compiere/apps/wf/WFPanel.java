@@ -16,22 +16,49 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.apps.form.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AMenu;
+import org.compiere.apps.AMenuStartItem;
+import org.compiere.apps.AWindow;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.apps.form.FormPanel;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	WorkFlow Panel

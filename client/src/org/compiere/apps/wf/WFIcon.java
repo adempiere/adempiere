@@ -16,10 +16,14 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-import org.compiere.model.*;
+import javax.swing.Icon;
+
+import org.compiere.model.MTreeNode;
 
 
 /**

@@ -16,15 +16,35 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.font.TextLayout;
+import java.util.ArrayList;
 
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	Workflow Content Panel.

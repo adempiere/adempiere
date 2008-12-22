@@ -16,11 +16,20 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import java.awt.font.*;
-import javax.swing.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.font.TextLayout;
+
+import javax.swing.SwingConstants;
+
+import org.compiere.util.CLogger;
+import org.compiere.wf.MWFNodeNext;
 
 
 /**

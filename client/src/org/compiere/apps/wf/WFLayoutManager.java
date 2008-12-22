@@ -16,8 +16,14 @@
  *****************************************************************************/
 package org.compiere.apps.wf;
 
-import java.awt.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.Point;
+
+import org.compiere.util.CLogger;
 
 /**
  *	WorkFlow Layout Manager
