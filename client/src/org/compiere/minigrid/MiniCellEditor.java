@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import org.compiere.grid.ed.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
+
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.grid.ed.VString;
+import org.compiere.util.DisplayType;
 
 /**
  *  MiniTable Cell Editor based on class - Timestamp, BigDecimal

@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
-import javax.swing.*;
-import java.util.*;
+import java.util.EventObject;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.JTextField;
 
 /**
  *  Read Only Cell Renderer

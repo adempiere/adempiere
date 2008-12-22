@@ -16,9 +16,15 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *  ID Column Renderer
