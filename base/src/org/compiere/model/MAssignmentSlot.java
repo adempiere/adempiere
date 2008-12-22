@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.GregorianCalendar;
+
+import org.compiere.util.Language;
+import org.compiere.util.TimeUtil;
 
 /**
  *	Assignment Slot.

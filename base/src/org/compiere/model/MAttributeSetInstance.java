@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.TimeUtil;
 
 /**
  *  Product Attribute Set Instance

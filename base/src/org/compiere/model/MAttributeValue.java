@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 /**
  *  Product Attribute Value

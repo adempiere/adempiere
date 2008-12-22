@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.sla.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.sla.SLACriteria;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.CCache;
+import org.compiere.util.DB;
 
 /**
  *	Service Level Agreement Criteria Model

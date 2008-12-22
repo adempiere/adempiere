@@ -22,8 +22,6 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_U_WebMenu;
-
 
 public class MWebMenu extends X_U_WebMenu
 {

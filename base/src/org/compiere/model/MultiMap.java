@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.compiere.util.CLogger;
 
 /**
  *  MultiMap allows multiple keys with their values.

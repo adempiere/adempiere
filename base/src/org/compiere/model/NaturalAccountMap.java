@@ -16,10 +16,20 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.Ini;
+import org.compiere.util.Util;
 
 /**
  *  Natural Account (HashMap) Management.

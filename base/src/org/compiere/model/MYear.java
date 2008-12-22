@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.process.DocumentTypeVerify;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 
 /**

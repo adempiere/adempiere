@@ -22,7 +22,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.rmi.RemoteException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,9 +36,7 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
