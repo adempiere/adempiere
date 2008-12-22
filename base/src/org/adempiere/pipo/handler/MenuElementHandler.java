@@ -27,7 +27,6 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.MSequence;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

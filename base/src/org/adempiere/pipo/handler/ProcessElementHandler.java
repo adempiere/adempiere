@@ -31,7 +31,6 @@ import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.MSequence;
 import org.compiere.model.X_AD_Process;
 import org.compiere.model.X_AD_Process_Para;
 import org.compiere.util.DB;

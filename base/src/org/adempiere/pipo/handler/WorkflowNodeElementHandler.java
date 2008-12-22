@@ -25,7 +25,6 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

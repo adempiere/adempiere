@@ -26,7 +26,6 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.compiere.model.MSequence;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.util.CLogger;

@@ -17,15 +17,18 @@
 package org.adempiere.pipo;
 
 
-import java.io.*;
-import java.util.zip.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Target;
-import org.apache.tools.ant.taskdefs.Zip;
+import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.GZip;
 import org.apache.tools.ant.taskdefs.Tar;
-import org.apache.tools.ant.taskdefs.Expand;
+import org.apache.tools.ant.taskdefs.Zip;
 /**
  * Compress package
  * 
