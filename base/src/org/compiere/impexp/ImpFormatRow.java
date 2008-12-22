@@ -17,12 +17,15 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+
+import org.compiere.model.Callout;
+import org.compiere.util.CLogger;
 
 /**
  *	Import Format Row with pasing capability

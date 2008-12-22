@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
-import org.compiere.model.*;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.model.MBankStatementLoader;
 
 
 /**

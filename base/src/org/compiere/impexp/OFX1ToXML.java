@@ -16,9 +16,16 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
-import java.io.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
 
 /**
  *	Covert OFX 1XX (SQGML) into valid XML

@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.model.*;
+import org.compiere.model.X_AD_ImpFormat_Row;
 
 
 /**
