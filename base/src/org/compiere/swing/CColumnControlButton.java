@@ -13,19 +13,10 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import org.jdesktop.swingx.VerticalLayout;
-import org.jdesktop.swingx.action.AbstractActionExt;
-import org.jdesktop.swingx.action.ActionContainerFactory;
-import org.jdesktop.swingx.table.ColumnControlPopup;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableColumnModelEvent;
-import javax.swing.event.TableColumnModelListener;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.beans.PropertyChangeEvent;
@@ -34,6 +25,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+
+import org.jdesktop.swingx.VerticalLayout;
+import org.jdesktop.swingx.action.AbstractActionExt;
+import org.jdesktop.swingx.action.ActionContainerFactory;
+import org.jdesktop.swingx.table.ColumnControlPopup;
 
 /**
  * Code and description adapted from SwingX ColumnControlButton class.

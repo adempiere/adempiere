@@ -16,16 +16,39 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import java.util.Map;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.compiere.util.*;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+
+import org.compiere.util.MSort;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 
 /**

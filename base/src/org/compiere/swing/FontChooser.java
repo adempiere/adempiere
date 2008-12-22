@@ -16,10 +16,22 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.ResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.JTextArea;
 
 import org.adempiere.plaf.AdempierePLAF;
 

@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Container;
+import java.awt.GraphicsConfiguration;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  * 	Adempiere Frame

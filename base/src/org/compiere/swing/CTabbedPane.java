@@ -16,16 +16,23 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
-import sun.swing.*;
+
+import sun.swing.UIAction;
 
 /**
  *  Adempiere Color Tabbed Pane

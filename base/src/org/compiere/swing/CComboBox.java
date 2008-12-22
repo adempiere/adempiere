@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import java.awt.Color;
+import java.awt.event.MouseListener;
+import java.util.Vector;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.plaf.ComboBoxUI;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
-import org.compiere.util.*;
+import org.compiere.plaf.CompiereComboBoxUI;
+import org.compiere.util.NamePair;
+import org.compiere.util.Trace;
 
 /**
  *  Adempiere Colored Combo Box.

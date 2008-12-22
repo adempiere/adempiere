@@ -16,15 +16,30 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyEditor;
+import java.util.ResourceBundle;
+
+import javax.swing.BorderFactory;
+import javax.swing.JColorChooser;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Adempiere Color Editor

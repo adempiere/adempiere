@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.JCheckBoxMenuItem;
 
 /**
  * 	Adempiere Check Box Menu Item

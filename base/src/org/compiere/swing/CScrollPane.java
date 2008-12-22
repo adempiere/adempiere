@@ -16,12 +16,13 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.plaf.CompiereLookAndFeel;
 
 /**
  *	Adempiere Srcoll Pane.

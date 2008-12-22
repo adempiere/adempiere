@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.LayoutManager;
+
+import javax.swing.JPanel;
 
 import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.plaf.*;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.plaf.CompiereLookAndFeel;
 
 /**
  *  Adempiere Panel supporting colored Backgrounds

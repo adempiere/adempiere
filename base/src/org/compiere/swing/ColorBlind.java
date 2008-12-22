@@ -17,7 +17,7 @@
 package org.compiere.swing;
 
 import java.awt.Color;
-import java.util.logging.*;
+import java.util.logging.Logger;
 
 import javax.swing.plaf.ColorUIResource;
 

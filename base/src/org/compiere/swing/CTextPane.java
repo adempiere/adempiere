@@ -16,12 +16,18 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.im.*;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.event.FocusListener;
+import java.awt.event.InputMethodListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.im.InputMethodRequests;
 
-import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.InputVerifier;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.text.StyledDocument;
 
 import org.adempiere.plaf.AdempierePLAF;
 

@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.JTextField;
+import javax.swing.text.Document;
 
 import org.adempiere.plaf.AdempierePLAF;
 
