@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 
 public class MKCategory extends X_K_Category

@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import org.compiere.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
 
 /**
  *  MLookup Data Cache.
