@@ -16,14 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import javax.sql.*;
-import java.math.*;
-import java.io.*;
-import java.sql.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import javax.sql.RowSet;
+
+import org.compiere.model.MSystem;
+import org.compiere.util.DB;
 
 /**
  * 	Remote Data Replication.

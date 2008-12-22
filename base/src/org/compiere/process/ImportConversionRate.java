@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.X_I_Conversion_Rate;
+import org.compiere.util.DB;
 
 /**
  *	Import Currency Conversion Rates 

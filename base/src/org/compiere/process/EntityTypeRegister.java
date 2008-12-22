@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MEntityType;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.AdempiereUserError;
 
 /**
  * 	Register Entity Type

@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
+import org.compiere.model.MContainer;
+import org.compiere.model.MNewsChannel;
+import org.compiere.model.MNewsItem;
 
 /**
  *	Reindex all Content

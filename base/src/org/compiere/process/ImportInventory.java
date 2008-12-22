@@ -16,11 +16,20 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInventoryLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.X_I_Inventory;
+import org.compiere.util.DB;
+import org.compiere.util.TimeUtil;
 
 /**
  *	Import Physical Inventory fom I_Inventory

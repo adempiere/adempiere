@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MRfQResponse;
 
 
 /**

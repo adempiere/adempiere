@@ -16,12 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProductPO;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
+import org.compiere.util.Env;
 
 /**
  *  Generate Purchase Order from Project.

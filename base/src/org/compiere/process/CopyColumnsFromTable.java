@@ -15,9 +15,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.model.M_Element;
+import org.compiere.util.AdempiereSystemError;
 
 /**
  *	Copy columns from one table to other

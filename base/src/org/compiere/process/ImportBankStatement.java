@@ -16,14 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.math.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-//import org.compiere.process.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MBankAccount;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MBankStatementLine;
+import org.compiere.model.X_I_BankStatement;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Import Bank Statement from I_BankStatement

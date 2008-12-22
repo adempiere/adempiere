@@ -13,12 +13,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.M_Element;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Synchronize Column with Database

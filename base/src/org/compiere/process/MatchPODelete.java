@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MOrderLine;
+import org.compiere.util.AdempiereUserError;
 
 
 /**

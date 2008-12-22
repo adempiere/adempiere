@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MBankStatementLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MPayment;
+import org.compiere.model.X_I_BankStatement;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.Env;
 
 /**
  *	Create Payment from Bank Statement Info

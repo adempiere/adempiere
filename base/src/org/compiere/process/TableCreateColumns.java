@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.db.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.Types;
+import java.util.logging.Level;
+
+import org.compiere.db.AdempiereDatabase;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.model.M_Element;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 
 /**

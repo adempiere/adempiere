@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MLandedCost;
+import org.compiere.util.AdempiereUserError;
 
 /**
  * 	Distribute Landed Costs

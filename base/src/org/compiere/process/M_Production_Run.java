@@ -23,7 +23,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MLocator;
 import org.compiere.model.MProduct;
-import org.compiere.model.MSequence;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTransaction;
 import org.compiere.model.Query;
@@ -35,7 +34,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;

@@ -17,9 +17,14 @@
 package org.compiere.process;
 
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectPhase;
+import org.compiere.model.MProjectTask;
+import org.compiere.util.Env;
 
 
 /**

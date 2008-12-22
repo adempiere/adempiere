@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MElementValue;
+import org.compiere.model.X_I_ElementValue;
+import org.compiere.util.DB;
 
 /**
  *	Import Accounts from I_ElementValue

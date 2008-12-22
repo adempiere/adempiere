@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.report.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.report.MReportLine;
+import org.compiere.report.MReportLineSet;
+import org.compiere.report.MReportSource;
 
 /**
  *	Copy Line Set at the end of the Line Set

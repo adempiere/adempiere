@@ -16,10 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaDefault;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MAcctSchemaGL;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.KeyNamePair;
 
 /**
  * 	Copy Accounts from one Acct Schema to another

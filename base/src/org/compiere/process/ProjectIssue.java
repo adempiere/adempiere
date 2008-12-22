@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectIssue;
+import org.compiere.model.MProjectLine;
+import org.compiere.model.MStorage;
+import org.compiere.model.MTimeExpense;
+import org.compiere.model.MTimeExpenseLine;
+import org.compiere.util.Env;
 
 /**
  *  Issue to Project.

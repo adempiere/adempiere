@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MBankStatementLoader;
+import org.compiere.util.Env;
 
 
 /**

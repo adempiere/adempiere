@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MPaySelection;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPaySelectionLine;
+import org.compiere.model.X_C_Order;
 import org.compiere.util.AdempiereUserError;
  
 

@@ -44,7 +44,6 @@ import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MHRProcess;
-import org.eevolution.model.MPPCostCollector;
 import org.eevolution.model.MPPOrder;
 
 /**

@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
  
 /**
  *	Create (Generate) Invoice from Shipment

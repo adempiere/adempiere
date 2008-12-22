@@ -16,9 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.sql.*;
-import java.math.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * 	Process Info Log (VO)

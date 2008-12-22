@@ -16,17 +16,33 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MDistributionRun;
+import org.compiere.model.MDistributionRunDetail;
+import org.compiere.model.MDistributionRunLine;
+import org.compiere.model.MDocType;
+import org.compiere.model.MLocator;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrg;
+import org.compiere.model.MOrgInfo;
+import org.compiere.model.MProduct;
+import org.compiere.model.MTable;
+import org.compiere.model.MWarehouse;
+import org.compiere.model.Query;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MPPMRP;
 
 /**
  *	Create Distribution	

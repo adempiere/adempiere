@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.math.*;
-import java.sql.Timestamp;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.DB;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Properties;
+
+import org.compiere.model.MDocType;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /**
  *	Template for DocAction

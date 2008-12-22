@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 /**
  *	Reset Cache

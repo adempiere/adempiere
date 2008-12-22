@@ -16,10 +16,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.util.Env;
 
 /**
  *	Re-Price Order or Invoice

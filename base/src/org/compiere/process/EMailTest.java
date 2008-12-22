@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
+import java.io.File;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MClient;
+import org.compiere.model.MStore;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 /**
  *	Client EMail Test

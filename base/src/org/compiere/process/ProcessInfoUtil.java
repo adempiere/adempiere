@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 	Process Info with Utilities

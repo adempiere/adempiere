@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductPrice;
+import org.compiere.model.X_I_Product;
+import org.compiere.util.DB;
 
 /**
  *	Import Products from I_Product

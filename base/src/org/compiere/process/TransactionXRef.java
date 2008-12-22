@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
 
 
 /**

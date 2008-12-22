@@ -17,10 +17,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MOrder;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
 
 
 /**

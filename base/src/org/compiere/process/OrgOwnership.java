@@ -16,11 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
 
-//import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 /**
  *	Org Ownership Process

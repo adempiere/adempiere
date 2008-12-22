@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.model.MRfQ;
+import org.compiere.model.MRfQLine;
+import org.compiere.model.MRfQLineQty;
 
 
 /**

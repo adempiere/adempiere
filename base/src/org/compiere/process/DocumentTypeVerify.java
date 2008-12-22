@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MDocType;
+import org.compiere.model.MPeriodControl;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	Verify Document Types.

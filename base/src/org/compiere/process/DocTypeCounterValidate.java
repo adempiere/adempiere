@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
+import org.compiere.model.MDocTypeCounter;
 
 /**
  *	Validate Counter Document

@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
+import org.compiere.util.Env;
 
 /**
  *  Generate Sales Order from Project.

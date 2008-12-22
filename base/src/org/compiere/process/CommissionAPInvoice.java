@@ -17,9 +17,15 @@
 package org.compiere.process;
 
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MCommission;
+import org.compiere.model.MCommissionRun;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.util.Env;
 
 /**
  *	Create AP Invoices for Commission

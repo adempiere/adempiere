@@ -17,9 +17,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.DB;
 
 /**
  * Title:	Set Current Format as Default

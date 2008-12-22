@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MProduct;
+import org.compiere.util.AdempiereUserError;
 
 /**
  * 	Create/Update Costing for Product

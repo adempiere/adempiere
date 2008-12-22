@@ -16,16 +16,27 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.naming.*;
-import javax.sql.*;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.sql.RowSet;
+
+import org.compiere.db.CConnection;
+import org.compiere.interfaces.Server;
+import org.compiere.model.MReplication;
+import org.compiere.model.MReplicationLog;
+import org.compiere.model.MReplicationRun;
+import org.compiere.model.MSystem;
+import org.compiere.util.CCachedRowSet;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  * 	Local (Central) Data Replication.

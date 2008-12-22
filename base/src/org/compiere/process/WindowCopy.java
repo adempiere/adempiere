@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MField;
+import org.compiere.model.MTab;
+import org.compiere.model.MWindow;
+import org.compiere.util.AdempiereUserError;
 
 
 /**

@@ -16,9 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MLocator;
+import org.compiere.model.MOrg;
+import org.compiere.model.MOrgInfo;
+import org.compiere.model.MRole;
+import org.compiere.model.MRoleOrgAccess;
+import org.compiere.model.MWarehouse;
+import org.compiere.util.AdempiereUserError;
 
 /**
  *	Link Business Partner to Organization.

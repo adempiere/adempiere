@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.report.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.report.MReportColumn;
+import org.compiere.report.MReportColumnSet;
 
 /**
  *  Copy Column Set at the end of the Column Set

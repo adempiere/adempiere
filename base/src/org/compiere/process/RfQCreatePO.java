@@ -16,9 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MRfQ;
+import org.compiere.model.MRfQResponse;
+import org.compiere.model.MRfQResponseLine;
+import org.compiere.model.MRfQResponseLineQty;
 
 /**
  * 	Create RfQ PO.

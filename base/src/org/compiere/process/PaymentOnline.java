@@ -17,9 +17,11 @@
 package org.compiere.process;
 
 //import org.compiere.process.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentValidate;
+import org.compiere.util.Msg;
 
 
 /**

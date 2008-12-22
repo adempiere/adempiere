@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClient;
+import org.compiere.model.MWarehouse;
+import org.compiere.util.DB;
 
 
 /**

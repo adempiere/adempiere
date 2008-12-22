@@ -17,9 +17,13 @@
 package org.compiere.process;
 
 
-import java.util.logging.*;
-import org.compiere.impexp.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.impexp.BankStatementMatchInfo;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MBankStatementLine;
+import org.compiere.model.MBankStatementMatcher;
+import org.compiere.model.X_I_BankStatement;
 
 /**
  *	Bank Statement Matching

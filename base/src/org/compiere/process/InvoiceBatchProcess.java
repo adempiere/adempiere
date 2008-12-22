@@ -16,8 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceBatch;
+import org.compiere.model.MInvoiceBatchLine;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.util.AdempiereUserError;
 
 
 /**

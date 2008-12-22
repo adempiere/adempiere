@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoicePaySchedule;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Validate Invoice Payment Schedule

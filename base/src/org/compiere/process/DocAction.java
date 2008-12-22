@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.*;
-import java.io.*;
-import java.math.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Properties;
+
+import org.compiere.util.CLogger;
 
 /**
  *	Document Action Interface

@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
+
 import javax.sql.RowSet;
 
 /**

@@ -16,8 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MInOut;
+import org.compiere.model.MPackage;
+import org.compiere.model.MShipper;
  
 /**
  *	Create Package from Shipment for Shipper

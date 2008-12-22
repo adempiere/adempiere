@@ -16,12 +16,18 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import java.sql.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInventoryLine;
+import org.compiere.model.MInventoryLineMA;
+import org.compiere.model.MStorage;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Update existing Inventory Count List with current Book value

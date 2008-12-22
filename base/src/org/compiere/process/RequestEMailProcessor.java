@@ -23,7 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import javax.mail.Address;
 import javax.mail.Flags;
@@ -38,7 +38,9 @@ import javax.mail.Store;
 
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
-import org.compiere.util.*;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.DB;
+import org.compiere.util.EMailAuthenticator;
 
 /**
  *	Request Email Processor

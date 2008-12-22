@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaDefault;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
 
 /**
  * 	Add or Copy Acct Schema Default Accounts

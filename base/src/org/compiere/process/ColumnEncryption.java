@@ -27,12 +27,16 @@ package org.compiere.process;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.util.logging.*;
-
 import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.SecureEngine;
+import org.compiere.util.Trx;
 
 /**
  * Column Encryption Test

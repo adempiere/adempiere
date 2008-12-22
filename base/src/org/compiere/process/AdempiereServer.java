@@ -16,11 +16,11 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.PO;
+import org.compiere.util.CLogger;
 
 
 /**

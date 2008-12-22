@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MIssue;
+import org.compiere.model.MSystem;
+import org.compiere.util.AdempiereSystemError;
 
 /**
  * 	Report System Issue

@@ -16,11 +16,27 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MInvoiceSchedule;
+import org.compiere.model.MLocation;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
 
 /**
  *	Generate Invoices

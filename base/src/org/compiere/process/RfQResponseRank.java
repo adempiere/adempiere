@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.logging.Level;
+
+import org.compiere.model.MRfQ;
+import org.compiere.model.MRfQLine;
+import org.compiere.model.MRfQLineQty;
+import org.compiere.model.MRfQResponse;
+import org.compiere.model.MRfQResponseLine;
+import org.compiere.model.MRfQResponseLineQty;
+import org.compiere.util.Env;
 
 /**
  *	Rank RfQ Responses	

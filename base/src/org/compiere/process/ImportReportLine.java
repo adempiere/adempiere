@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
-import org.compiere.util.*;
+import org.compiere.util.DB;
 
 /**
  *	Import ReportLines from I_ReportLine

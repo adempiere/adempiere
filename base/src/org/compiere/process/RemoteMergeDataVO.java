@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import javax.sql.*;
+import java.io.Serializable;
+
+import javax.sql.RowSet;
 
 /**
  *  Merge New Data To/From Remote

@@ -26,7 +26,6 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrgInfo;
-import org.compiere.model.MTable;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 

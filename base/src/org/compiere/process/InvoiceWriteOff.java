@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MPayment;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Write-off Open Invoices

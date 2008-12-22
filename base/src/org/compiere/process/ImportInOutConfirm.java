@@ -16,12 +16,14 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MInOutLineConfirm;
+import org.compiere.model.X_I_InOutLineConfirm;
+import org.compiere.util.DB;
 
 
 /**

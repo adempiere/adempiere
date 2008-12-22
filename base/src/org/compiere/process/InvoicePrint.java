@@ -16,12 +16,28 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.model.MClient;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MMailText;
+import org.compiere.model.MQuery;
+import org.compiere.model.MUser;
+import org.compiere.model.MUserMail;
+import org.compiere.model.PrintInfo;
+import org.compiere.model.X_C_Invoice;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.EMail;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Language;
 
 /**
  *	Print Invoices on Paperor send PDFs

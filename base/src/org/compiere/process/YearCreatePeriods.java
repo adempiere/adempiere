@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MYear;
+import org.compiere.util.AdempiereUserError;
 
 /**
  *	Create Periods of year

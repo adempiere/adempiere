@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.*;
-import java.sql.*;
-
-import org.compiere.model.*;
-
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInventoryLine;
+import org.compiere.model.MInventoryLineMA;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 
 /**

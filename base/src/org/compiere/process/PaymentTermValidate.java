@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MPaymentTerm;
+import org.compiere.util.AdempiereUserError;
  
 /**
  *	Validate Payment Term and Schedule	

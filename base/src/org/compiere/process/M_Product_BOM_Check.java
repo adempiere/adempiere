@@ -21,10 +21,14 @@ package org.compiere.process;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.compiere.model.X_M_Product;
-import org.compiere.util.*;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.ValueNamePair;
 
 /**
  * Title:	Check BOM Structure (free of cycles)

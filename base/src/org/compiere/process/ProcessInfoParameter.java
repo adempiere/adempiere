@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.io.*;
-import java.math.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 
 /**

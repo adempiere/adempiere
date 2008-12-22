@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.*;
+import java.util.Properties;
 
 import org.compiere.util.Trx;
 

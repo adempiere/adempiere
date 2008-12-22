@@ -17,9 +17,12 @@
 package org.compiere.process;
 
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MProductPricing;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
+import org.compiere.util.Msg;
 
 /**
  *  Price Project Line.
