@@ -16,17 +16,44 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.StatusBar;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextArea;
+import org.compiere.swing.CTextPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Editor for Text (textArea) with HTML (textPane) View

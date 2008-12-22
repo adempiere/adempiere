@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.awt.Insets;
+import java.util.EventObject;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
+
+import org.compiere.util.CLogger;
 
 /**
  *  RowID Cell Editor providing Selection

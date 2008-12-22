@@ -16,17 +16,40 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MLocator;
+import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MRole;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Dialog to enter Warehouse Locator Info

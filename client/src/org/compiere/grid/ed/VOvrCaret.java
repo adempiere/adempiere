@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import javax.swing.plaf.*;
-import javax.swing.text.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import javax.swing.plaf.TextUI;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.Position;
 
 /**
  *	Overwrite Caret

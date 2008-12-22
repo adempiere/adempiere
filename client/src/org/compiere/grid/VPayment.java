@@ -16,22 +16,60 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.logging.Level;
+
+import javax.swing.BorderFactory;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VButton;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.model.GridTab;
+import org.compiere.model.MCash;
+import org.compiere.model.MCashLine;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentValidate;
+import org.compiere.model.MRole;
+import org.compiere.model.X_C_Order;
+import org.compiere.process.DocAction;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Display (and process) Payment Options.

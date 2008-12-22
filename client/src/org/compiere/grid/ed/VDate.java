@@ -16,20 +16,43 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.sql.*;
-import java.text.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
+import javax.swing.text.Document;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.model.GridField;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *	Date Edit.

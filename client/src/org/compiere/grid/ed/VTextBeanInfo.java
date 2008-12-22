@@ -16,7 +16,11 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.beans.*;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 /**
  *  Generated

@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.grid.tree;
 
-import javax.swing.tree.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
 
-import org.compiere.model.*;
+import javax.swing.Icon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeCellRenderer;
+
+import org.compiere.model.MTreeNode;
 
 /**
  *	Tree Cell Renderer to context sensitive display Icon

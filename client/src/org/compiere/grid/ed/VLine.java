@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics;
+
+import javax.swing.border.AbstractBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.util.*;
+import org.compiere.util.Language;
 
 /**
  *  Horizontal Line with Text

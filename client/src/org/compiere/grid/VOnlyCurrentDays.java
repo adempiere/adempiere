@@ -16,12 +16,24 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+
+import javax.swing.WindowConstants;
+
+import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Queries how many days back history is displayed as current

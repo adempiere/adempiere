@@ -17,9 +17,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.compiere.model.GridWindow;
+import org.compiere.model.MRole;
 import org.compiere.model.StateChangeEvent;
 import org.compiere.model.StateChangeListener;
-import org.compiere.model.MRole;
 
 /**
  * 

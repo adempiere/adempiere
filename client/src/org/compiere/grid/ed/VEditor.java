@@ -16,13 +16,16 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
 
-import org.compiere.model.*;
-import org.compiere.swing.*;
+import javax.swing.border.Border;
+
+import org.compiere.model.GridField;
+import org.compiere.swing.CEditor;
 
 /**
  *	Editor Interface for single Row Editors (also used as TableCellEditors).

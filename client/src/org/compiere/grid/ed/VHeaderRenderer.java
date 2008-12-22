@@ -16,11 +16,22 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+
+import javax.swing.Icon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.table.TableCellRenderer;
+
+import org.compiere.swing.CButton;
+import org.compiere.swing.CTable;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  *  Table Header Renderer based on Display Type for aligmnet

@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.util.ArrayList;
+
+import javax.swing.Icon;
+import javax.swing.JTabbedPane;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.APanel;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.GridTab;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluator;
+import org.compiere.util.Language;
 
 /**
  *  Tabbed Pane - either Workbench or Window Tab

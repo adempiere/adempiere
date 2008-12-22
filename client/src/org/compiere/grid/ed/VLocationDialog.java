@@ -16,18 +16,42 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
-import com.akunagroup.uk.postcode.*;
-import org.adempiere.model.*;
+import javax.swing.Box;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MCountry;
+import org.compiere.model.MLocation;
+import org.compiere.model.MRegion;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+
+import com.akunagroup.uk.postcode.AddressLookupInterface;
+import com.akunagroup.uk.postcode.Postcode;
 
 /**
  *	Dialog to enter Location Info (Address)

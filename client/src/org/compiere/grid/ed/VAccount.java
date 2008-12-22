@@ -16,17 +16,30 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.sql.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+
+import javax.swing.JComponent;
+import javax.swing.LookAndFeel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccountLookup;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Account Control - Displays ValidCombination and launches Dialog

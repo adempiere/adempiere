@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import javax.swing.table.*;
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JTable;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *	Renderer for RowID Column

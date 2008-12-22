@@ -16,17 +16,34 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.swing.*;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MRecordAccess;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 
 /**

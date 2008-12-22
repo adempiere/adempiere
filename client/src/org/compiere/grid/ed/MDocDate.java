@@ -16,15 +16,20 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.sql.*;
-import java.text.*;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.event.*;
-import javax.swing.text.*;
-import java.util.logging.*;
+import java.util.logging.Level;
+
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
 
 import org.compiere.apps.ADialog;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 /**
  *	Date Model.

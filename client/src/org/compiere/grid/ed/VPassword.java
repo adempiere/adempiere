@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.event.*;
-import java.beans.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.swing.*;
-import org.compiere.model.*;
+import org.compiere.model.GridField;
+import org.compiere.swing.CPassword;
 
 /**
  *	Data Binding:

@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.util.logging.*;
-import javax.swing.text.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+
+import org.compiere.util.CLogger;
 
 /**
  *	Time Model.

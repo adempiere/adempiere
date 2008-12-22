@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import org.compiere.apps.*;
+import org.compiere.apps.APanel;
 
 /**
  *	Application Panel Tab Interface.

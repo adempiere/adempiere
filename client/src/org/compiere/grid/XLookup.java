@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.grid;
 
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import org.compiere.model.Lookup;
+import org.compiere.util.DisplayType;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Manual Lookup (Model)- loaded by the put method

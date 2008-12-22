@@ -16,18 +16,27 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JFrame;
+
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.plaf.CompiereLookAndFeel;
+import org.compiere.swing.CButton;
+import org.compiere.swing.ColorEditor;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Color Editor.

@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import org.compiere.util.CLogger;
 
 /**
  * 	Binary Editor.

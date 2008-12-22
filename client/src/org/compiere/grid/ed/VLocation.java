@@ -16,16 +16,34 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.MLocation;
+import org.compiere.model.MLocationLookup;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Location Control (Address)

@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import javax.swing.*;
-import org.compiere.util.*;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+
+import org.compiere.util.CLogger;
 
 /**
  *  ComboBox Selection Manager for AuroReduction

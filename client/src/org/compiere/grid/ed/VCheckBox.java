@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+
+import javax.swing.JLabel;
+
+import org.compiere.swing.CCheckBox;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Checkbox Control

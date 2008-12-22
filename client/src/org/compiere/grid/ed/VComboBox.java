@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import javax.swing.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import javax.swing.ComboBoxModel;
+
+import org.compiere.model.MLocator;
+import org.compiere.swing.CComboBox;
+import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
 
 /**
  *  Combobox with KeyNamePair/ValueNamePair or Locator.
