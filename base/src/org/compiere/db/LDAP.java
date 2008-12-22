@@ -15,14 +15,18 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.Hashtable;
+import java.util.logging.Level;
 
-import javax.naming.*;
-import javax.naming.ldap.*;
-import javax.naming.directory.*;
+import javax.naming.AuthenticationException;
+import javax.naming.Context;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import javax.naming.ldap.InitialLdapContext;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 
 /**

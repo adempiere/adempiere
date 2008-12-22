@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.util.*;
+import java.util.ListResourceBundle;
 
 /**
  *  Swedish Connection Resource Strings

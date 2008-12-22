@@ -16,18 +16,29 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.naming.*;
-import javax.sql.*;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.util.Hashtable;
+import java.util.logging.Level;
+
+import javax.naming.CommunicationException;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import javax.swing.JOptionPane;
 
 import org.adempiere.as.ASFactory;
-import org.compiere.*;
-import org.compiere.interfaces.*;
-import org.compiere.util.*;
+import org.compiere.Adempiere;
+import org.compiere.interfaces.Server;
+import org.compiere.interfaces.Status;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Adempiere Connection Descriptor

@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
-import javax.sql.*;
+import javax.sql.DataSource;
 
 import org.compiere.dbPort.Convert;
 

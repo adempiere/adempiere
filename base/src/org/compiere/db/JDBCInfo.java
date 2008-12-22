@@ -16,10 +16,17 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *  JDBC Meta Info

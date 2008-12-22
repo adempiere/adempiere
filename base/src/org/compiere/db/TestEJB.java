@@ -16,8 +16,11 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import javax.naming.*;
-import org.compiere.interfaces.*;
+import javax.naming.CommunicationException;
+import javax.naming.InitialContext;
+import javax.naming.NamingEnumeration;
+
+import org.compiere.interfaces.Status;
 
 /**
  * 	Test EJB

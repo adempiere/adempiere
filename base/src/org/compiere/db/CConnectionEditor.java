@@ -16,12 +16,23 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.swing.*;
+import org.compiere.swing.CEditor;
 import org.compiere.util.DB;
 
 /**
