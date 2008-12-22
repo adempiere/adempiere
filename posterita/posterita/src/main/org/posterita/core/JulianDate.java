@@ -23,8 +23,10 @@
 package org.posterita.core;
 
 import java.sql.Timestamp;
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 
