@@ -21,14 +21,12 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.eevolution.form.action.PopupAction;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
 import org.compiere.util.Env;
-
-
+import org.eevolution.form.action.PopupAction;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.model.wrapper.BOMLineWrapper;
+import org.eevolution.model.wrapper.BOMWrapper;
 
 /**
  * @author Victor Perez, e-Evolution, S.C.

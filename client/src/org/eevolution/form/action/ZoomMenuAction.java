@@ -24,10 +24,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
 import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.eevolution.model.wrapper.AbstractPOWrapper;
-import org.compiere.util.Env;
 
 
 /**

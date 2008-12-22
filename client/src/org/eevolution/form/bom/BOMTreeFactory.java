@@ -26,14 +26,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.compiere.model.MProduct;
 import org.compiere.model.MResource;
 import org.compiere.model.PO;
+import org.compiere.util.Env;
+import org.eevolution.model.MPPOrder;
 import org.eevolution.model.reasoner.StorageReasoner;
 import org.eevolution.model.wrapper.BOMLineWrapper;
 import org.eevolution.model.wrapper.BOMWrapper;
-import org.compiere.util.Env;
-
-
-
-import org.eevolution.model.MPPOrder;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

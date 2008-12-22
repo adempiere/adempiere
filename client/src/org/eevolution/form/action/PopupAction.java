@@ -26,10 +26,8 @@ import java.util.ResourceBundle;
 import javax.swing.JMenuItem;
 
 import org.compiere.model.PO;
-
-import org.eevolution.tools.PLoader;
-import org.eevolution.tools.worker.SingleWorker;
 import org.eevolution.tools.swing.SwingTool;
+import org.eevolution.tools.worker.SingleWorker;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

@@ -76,7 +76,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTab;
 import org.compiere.model.MWindow;
-import org.compiere.model.X_C_DocType;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;

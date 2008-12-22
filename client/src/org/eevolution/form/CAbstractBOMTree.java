@@ -17,49 +17,16 @@
 
 package org.eevolution.form;
 
-import org.compiere.apps.form.FormFrame;
-import org.compiere.grid.ed.VLookup;
-import org.eevolution.form.action.PopupAction;
-import org.eevolution.form.action.ZoomMenuAction;
-import org.eevolution.form.bom.BOMTreeFactory;
-import org.eevolution.form.bom.BOMTreeModel;
-import org.eevolution.form.bom.action.ChangeASIAction;
-import org.eevolution.form.bom.action.CreateRfQAction;
-import org.eevolution.form.bom.action.DeleteBOMAction;
-import org.eevolution.form.bom.action.MergeBOMAction;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MProduct;
-import org.compiere.model.PO;
-import org.compiere.model.MColumn;
-import org.eevolution.model.reasoner.StorageReasoner;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
-
-
-import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
-
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-
-
-import org.eevolution.tools.worker.SingleWorker;
-import org.eevolution.tools.swing.SwingTool;
-
-import org.eevolution.model.MPPOrder;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.JEditorPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -69,7 +36,33 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-import javax.swing.JEditorPane;
+
+import org.compiere.apps.form.FormFrame;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MProduct;
+import org.compiere.model.PO;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.eevolution.form.action.PopupAction;
+import org.eevolution.form.action.ZoomMenuAction;
+import org.eevolution.form.bom.BOMTreeFactory;
+import org.eevolution.form.bom.BOMTreeModel;
+import org.eevolution.form.bom.action.ChangeASIAction;
+import org.eevolution.form.bom.action.CreateRfQAction;
+import org.eevolution.form.bom.action.DeleteBOMAction;
+import org.eevolution.form.bom.action.MergeBOMAction;
+import org.eevolution.model.MPPOrder;
+import org.eevolution.model.reasoner.StorageReasoner;
+import org.eevolution.model.wrapper.BOMLineWrapper;
+import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.tools.swing.SwingTool;
+import org.eevolution.tools.worker.SingleWorker;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

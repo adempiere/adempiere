@@ -21,15 +21,12 @@ import java.util.HashMap;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 import org.compiere.model.MProduct;
+import org.eevolution.model.MPPOrder;
 import org.eevolution.model.wrapper.BOMLineWrapper;
 import org.eevolution.model.wrapper.BOMWrapper;
-
-
-import org.eevolution.model.MPPOrder;
 import org.eevolution.msg.HTMLMessenger;
 
 /**

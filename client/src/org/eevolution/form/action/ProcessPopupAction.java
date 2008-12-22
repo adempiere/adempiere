@@ -24,10 +24,8 @@ import javax.swing.JFrame;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ProcessParameter;
-import org.eevolution.form.action.PopupAction;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
 import org.eevolution.process.ProcessInfoHandler;
 import org.eevolution.tools.swing.SwingTool;
 

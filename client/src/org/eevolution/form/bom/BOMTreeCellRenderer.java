@@ -22,7 +22,6 @@ import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.compiere.util.Env;
-
 import org.eevolution.form.tree.MapTreeCellRenderer;
 
 /**

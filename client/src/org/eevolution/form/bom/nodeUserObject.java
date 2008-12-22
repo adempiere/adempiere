@@ -1,8 +1,8 @@
 package org.eevolution.form.bom;
 
+import org.compiere.model.X_M_Product;
 import org.eevolution.model.X_PP_Product_BOM;
 import org.eevolution.model.X_PP_Product_BOMLine;
-import org.compiere.model.X_M_Product;
 
 public class nodeUserObject {
   public X_M_Product M_Product = null;

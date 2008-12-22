@@ -16,21 +16,17 @@
 
 package org.eevolution.form.bom.action;
 
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.compiere.apps.search.PAttributeInstance;
-import org.eevolution.form.action.ProcessPopupAction;
-import org.eevolution.form.bom.BOMMessenger;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MProduct;
-import org.eevolution.model.wrapper.BOMLineWrapper;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.form.action.ProcessPopupAction;
+import org.eevolution.model.wrapper.BOMLineWrapper;
 
 
 /**
