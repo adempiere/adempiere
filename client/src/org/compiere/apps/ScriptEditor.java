@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
+import java.awt.Frame;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.Scriptlet;
+import org.compiere.util.Env;
 
 /**
  *  ScriptEditor

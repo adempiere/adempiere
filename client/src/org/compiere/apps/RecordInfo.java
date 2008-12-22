@@ -16,18 +16,41 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.table.*;
-import org.compiere.grid.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.table.DefaultTableModel;
+
+import org.compiere.grid.VTable;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.MChangeLog;
+import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.MUser;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CTextArea;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
 
 /**
  * Record Info (Who) With Change History

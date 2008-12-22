@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.util.*;
+import java.util.ListResourceBundle;
 
 /**
  *  Base Resource Bundle
@@ -63,7 +63,7 @@ public final class ALoginRes_pt extends ListResourceBundle
 	{ "Cancel",             "Cancelar" },
 	{ "VersionConflict",    "Conflito de Vers\u00f5es:" },
 	{ "VersionInfo",        "Servidor <> Cliente" },
-	{ "PleaseUpgrade",      "Favor executar o programa de atualização" }
+	{ "PleaseUpgrade",      "Favor executar o programa de atualizaÔøΩÔøΩo" }
 	};
 
 	/**

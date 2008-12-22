@@ -16,13 +16,36 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+
+import javax.swing.Icon;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
+
+import org.compiere.model.MRole;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Dialog Windows

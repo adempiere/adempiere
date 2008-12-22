@@ -14,16 +14,32 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.*;
-import javax.swing.*;
+import java.util.logging.Level;
 
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+
+import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * [ 1639242 ] Inconsistent appearance of Process/Report Dialog

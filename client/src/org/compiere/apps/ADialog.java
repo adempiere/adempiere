@@ -16,13 +16,27 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.Container;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MUser;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trace;
+import org.compiere.util.Util;
 
 /**
  *  Info Dialog Management

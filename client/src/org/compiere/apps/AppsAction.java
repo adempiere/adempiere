@@ -16,11 +16,26 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
+
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBoxMenuItem;
+import org.compiere.swing.CMenuItem;
+import org.compiere.swing.CToggleButton;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Application Action.

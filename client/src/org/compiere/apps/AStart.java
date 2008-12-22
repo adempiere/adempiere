@@ -16,8 +16,13 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JApplet;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 /**
  *  Applet Start

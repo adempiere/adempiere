@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.applet.*;
-import java.awt.*;
-import org.compiere.*;
-import org.compiere.util.*;
+import java.applet.Applet;
+import java.awt.HeadlessException;
+import java.awt.TextArea;
+
+import org.compiere.Adempiere;
+import org.compiere.util.Env;
+import org.compiere.util.Splash;
 
 
 /**

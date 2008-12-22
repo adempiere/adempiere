@@ -16,11 +16,20 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.print.*;
-import java.util.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Window;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.util.Date;
+
+import org.compiere.print.CPaper;
+import org.compiere.print.PrintUtil;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	PrintScreen Painter

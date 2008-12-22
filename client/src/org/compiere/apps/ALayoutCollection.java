@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.util.*;
-import java.awt.*;
+import java.awt.Component;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  *  Collection of Components ordered based on ALayoutConstraint

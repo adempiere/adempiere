@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
+import java.awt.DefaultKeyboardFocusManager;
 
 /**
  * 	Apps Keyboard Focus Manager

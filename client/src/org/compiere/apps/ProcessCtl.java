@@ -19,10 +19,8 @@ package org.compiere.apps;
 import java.awt.Container;
 import java.io.InvalidClassException;
 import java.lang.reflect.UndeclaredThrowableException;
-import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.swing.JFrame;

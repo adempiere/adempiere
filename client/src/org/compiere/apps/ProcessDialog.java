@@ -16,17 +16,36 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
+import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CFrame;
+import org.compiere.swing.CPanel;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Dialog to Start process.

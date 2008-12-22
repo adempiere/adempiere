@@ -16,14 +16,25 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.logging.Level;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.db.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Glass Pane to display "waiting" and capture events while processing.

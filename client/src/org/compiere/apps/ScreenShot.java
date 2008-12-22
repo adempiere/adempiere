@@ -16,15 +16,23 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.imageio.*;
-import javax.imageio.stream.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.awt.Component;
+import java.awt.Window;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import javax.swing.JFileChooser;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.ExtensionFileFilter;
+import org.compiere.util.Msg;
 
 /**
  *	JPEG File Utility

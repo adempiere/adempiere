@@ -16,27 +16,61 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.nio.charset.Charset;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.util.Arrays;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFileChooser;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.event.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
-import javax.swing.table.*;
-import org.adempiere.plaf.PLAFEditorPanel;
+import javax.swing.table.DefaultTableModel;
+
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.db.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.adempiere.plaf.PLAFEditorPanel;
+import org.compiere.db.CConnection;
+import org.compiere.grid.ed.VDate;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MRole;
+import org.compiere.model.MUser;
+import org.compiere.print.CPrinter;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextArea;
+import org.compiere.swing.CToggleButton;
+import org.compiere.util.CLogErrorBuffer;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.ValueNamePair;
 
 /**
  *	Customize settings like L&F, AutoCommit, etc. & Diagnostics

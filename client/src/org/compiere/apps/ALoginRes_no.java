@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.util.*;
+import java.util.ListResourceBundle;
 
 /**
  *  Norwegian Base Resource Bundle Translation

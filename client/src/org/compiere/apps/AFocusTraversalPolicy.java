@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import javax.swing.*;
-import org.compiere.swing.*;
+import java.awt.Component;
+import java.awt.Container;
+
+import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
+import javax.swing.LayoutFocusTraversalPolicy;
+
+import org.compiere.swing.CEditor;
 
 
 /**

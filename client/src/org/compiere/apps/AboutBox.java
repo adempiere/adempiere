@@ -16,12 +16,24 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.compiere.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+
+import org.compiere.Adempiere;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextArea;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	About Dialog

@@ -16,8 +16,14 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.LayoutManager2;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  *  Application Layout Manager.

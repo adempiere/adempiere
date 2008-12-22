@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 /**
  *  SwingWorker (based on SwingWorker 3).

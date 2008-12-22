@@ -17,16 +17,39 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
+import java.io.File;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import org.compiere.grid.ed.VLookup;
+import org.compiere.model.Lookup;
+import org.compiere.model.MClient;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MUser;
+import org.compiere.model.MUserMail;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextArea;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.EMail;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	EMail Dialog

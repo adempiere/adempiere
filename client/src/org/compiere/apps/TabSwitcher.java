@@ -17,31 +17,21 @@
 
 package org.compiere.apps;
 
-import java.awt.Component;
-import java.awt.ItemSelectable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractButton;
-import javax.swing.JTable;
-import javax.swing.JTabbedPane;
 import javax.swing.JComponent;
-import javax.swing.JComboBox;
-import javax.swing.event.ChangeEvent;
-
-
-import javax.swing.event.ChangeListener;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.JTextComponent;
 
 import org.compiere.grid.GridController;
-import org.compiere.grid.ed.VEditor;
-import org.compiere.model.MField;
-import org.compiere.swing.CPanel;
 
 /**
  * 

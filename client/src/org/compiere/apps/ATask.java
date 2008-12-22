@@ -16,16 +16,21 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Level;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
+import org.compiere.Adempiere;
+import org.compiere.model.MTask;
+import org.compiere.swing.CFrame;
+import org.compiere.util.CLogger;
+import org.compiere.util.Task;
 
 
 /**

@@ -16,22 +16,52 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.rmi.AccessException;
-import java.sql.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
+import java.sql.Timestamp;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.db.CConnectionEditor;
+import org.compiere.grid.ed.VComboBox;
+import org.compiere.grid.ed.VDate;
+import org.compiere.model.MSystem;
+import org.compiere.print.CPrinter;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Login;
+import org.compiere.util.Msg;
 
 /**
  *	Application Login Window

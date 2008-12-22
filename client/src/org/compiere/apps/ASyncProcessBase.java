@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.ASyncWorker;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Splash;
 
 /**
  *  ASync Process Base Class

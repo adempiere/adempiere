@@ -16,14 +16,21 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.MRole;
+import org.compiere.swing.CPanel;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Status Bar

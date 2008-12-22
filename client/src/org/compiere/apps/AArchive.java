@@ -16,15 +16,23 @@
  *****************************************************************************/
 package org.compiere.apps;
 
-import java.awt.event.*;
-import java.sql.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
-import org.compiere.apps.form.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+
+import org.compiere.apps.form.ArchiveViewer;
+import org.compiere.apps.form.FormFrame;
+import org.compiere.model.MBPartner;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
