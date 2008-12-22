@@ -20,11 +20,14 @@
 package org.eevolution.model;
 
 /** Generated Model - DO NOT CHANGE */
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
+import org.compiere.util.KeyNamePair;
 /** Generated Model for RV_PP_Order_Storage
  *  @author Adempiere (generated) 
  *  @version Release 3.1.5 - $Id$ */

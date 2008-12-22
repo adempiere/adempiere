@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.PO;
-
 import org.eevolution.model.MPPOrderBOMLine;
 import org.eevolution.model.MPPProductBOMLine;
 

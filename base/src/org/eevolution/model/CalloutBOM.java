@@ -16,19 +16,17 @@
 //package org.compiere.mfg.model;
 package org.eevolution.model;
 
-import java.math.*;
-import java.util.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.util.Properties;
 
-import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.JOptionPane;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.MUOMConversion;
+import org.compiere.model.X_M_Product;
+import org.compiere.util.Env;
 
 
 /**

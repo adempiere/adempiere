@@ -20,10 +20,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.PO;
-import org.eevolution.model.reasoner.StorageReasoner;
-
 import org.eevolution.model.MPPOrderBOM;
 import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.reasoner.StorageReasoner;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

@@ -15,14 +15,12 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
 
-
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.Query;
 
 /**
  *	Forcast Line Model

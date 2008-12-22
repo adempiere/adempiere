@@ -26,11 +26,10 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
-import org.eevolution.model.wrapper.BOMLineWrapper;
 import org.compiere.util.Env;
-
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderWorkflow;
+import org.eevolution.model.wrapper.BOMLineWrapper;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

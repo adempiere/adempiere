@@ -15,12 +15,10 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.MCalendar;
 
 /**
  *	Payroll for HRayroll Module

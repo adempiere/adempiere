@@ -23,7 +23,13 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_Rule;
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_Attribute

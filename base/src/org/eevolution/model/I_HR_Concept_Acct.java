@@ -20,7 +20,10 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import org.compiere.model.*;
+
+import org.compiere.model.I_C_AcctSchema;
+import org.compiere.model.I_C_BP_Group;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept_Acct

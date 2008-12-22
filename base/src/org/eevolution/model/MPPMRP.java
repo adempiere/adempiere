@@ -34,7 +34,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_M_Forecast;
-import org.eevolution.model.MForecastLine;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

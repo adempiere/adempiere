@@ -22,7 +22,12 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
+
+import org.compiere.model.I_M_Attribute;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 

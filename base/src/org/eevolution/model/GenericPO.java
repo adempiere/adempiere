@@ -17,11 +17,14 @@
 package org.eevolution.model;
 
 // import for GenericPO
-import java.util.*;
-import java.sql.*;
-import java.math.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.DocWorkflowMgr;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
+import org.compiere.util.CLogger;
 
 public class GenericPO extends PO {
 

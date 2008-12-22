@@ -21,7 +21,13 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
+
+import org.compiere.model.I_C_AcctSchema;
+import org.compiere.model.I_C_BP_Group;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_Concept_Acct
  *  @author Adempiere (generated) 

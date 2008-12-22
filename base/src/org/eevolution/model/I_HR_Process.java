@@ -21,7 +21,14 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_PrintFormat;
+import org.compiere.model.I_AD_Workflow;
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_C_Charge;
+import org.compiere.model.I_C_DocType;
+import org.compiere.model.I_C_PaySelection;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Process

@@ -20,7 +20,8 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import org.compiere.model.*;
+
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxType

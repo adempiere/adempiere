@@ -16,12 +16,21 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MCharge;
+import org.compiere.model.MLocator;
+import org.compiere.model.MProduct;
+import org.compiere.model.MStorage;
+import org.compiere.model.MUOM;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Order Line Model.

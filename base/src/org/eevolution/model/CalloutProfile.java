@@ -15,14 +15,24 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.util.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import javax.swing.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import javax.swing.JOptionPane;
+
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.MOrder;
+import org.compiere.model.Tax;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 
 /**

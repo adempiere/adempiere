@@ -20,7 +20,10 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_PInstance;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_BOMLine

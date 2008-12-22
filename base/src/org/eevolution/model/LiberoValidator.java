@@ -27,7 +27,6 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.eevolution.model.MForecastLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
 

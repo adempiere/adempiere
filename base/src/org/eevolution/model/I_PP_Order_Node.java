@@ -21,7 +21,20 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_Column;
+import org.compiere.model.I_AD_Form;
+import org.compiere.model.I_AD_Image;
+import org.compiere.model.I_AD_Process;
+import org.compiere.model.I_AD_Task;
+import org.compiere.model.I_AD_WF_Block;
+import org.compiere.model.I_AD_WF_Node;
+import org.compiere.model.I_AD_WF_Responsible;
+import org.compiere.model.I_AD_Window;
+import org.compiere.model.I_AD_Workflow;
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_S_Resource;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node

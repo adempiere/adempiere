@@ -21,7 +21,18 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_C_Order;
+import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.I_M_Forecast;
+import org.compiere.model.I_M_ForecastLine;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.I_M_Requisition;
+import org.compiere.model.I_M_RequisitionLine;
+import org.compiere.model.I_M_Warehouse;
+import org.compiere.model.I_S_Resource;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP

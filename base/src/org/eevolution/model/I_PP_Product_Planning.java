@@ -20,7 +20,12 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_Workflow;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.I_M_Warehouse;
+import org.compiere.model.I_S_Resource;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_Planning

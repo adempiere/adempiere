@@ -16,13 +16,17 @@
 //package org.compiere.mfg.model;
 package org.eevolution.model;
     
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.wf.*;
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Order CalloutMRP

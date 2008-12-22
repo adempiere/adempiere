@@ -15,16 +15,9 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-
-import org.compiere.model.*;
-import org.compiere.process.DocAction;
-import org.compiere.util.*;
-import org.compiere.wf.MWFActivity;
-import org.compiere.wf.MWFNextCondition;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 
 /**
  *	Forcast Line Model

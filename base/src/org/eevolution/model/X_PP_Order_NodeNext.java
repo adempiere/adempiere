@@ -21,7 +21,12 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
+
+import org.compiere.model.I_AD_WF_Node;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for PP_Order_NodeNext
  *  @author Adempiere (generated) 
