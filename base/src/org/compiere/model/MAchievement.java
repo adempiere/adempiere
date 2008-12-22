@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * 	Performance Achievement

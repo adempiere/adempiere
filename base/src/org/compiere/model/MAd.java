@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Container Model
