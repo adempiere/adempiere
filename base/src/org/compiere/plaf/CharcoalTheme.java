@@ -21,8 +21,8 @@ package org.compiere.plaf;
  */
 
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
 /**
  * This class describes a theme using gray colors.

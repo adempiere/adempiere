@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import java.awt.event.InputEvent;
+import java.beans.PropertyChangeEvent;
+
+import javax.swing.AbstractButton;
+import javax.swing.InputMap;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ComponentInputMapUIResource;
+import javax.swing.plaf.basic.BasicButtonListener;
 
 /**
  * 	Button Listener

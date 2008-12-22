@@ -19,7 +19,7 @@ package org.compiere.plaf;
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.*;
+import javax.swing.plaf.basic.BasicButtonListener;
 import javax.swing.plaf.metal.MetalCheckBoxUI;
 
 /**

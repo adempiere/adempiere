@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import java.awt.Graphics;
+
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.metal.MetalMenuBarUI;
 
 /**
  *  Adempiere Menu Bar UI.

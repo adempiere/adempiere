@@ -16,17 +16,26 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.JColorChooser;
+import javax.swing.JDialog;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.swing.*;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CDialog;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.FontChooser;
 
 /**
  *  Java Theme Editor.

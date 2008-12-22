@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import javax.swing.plaf.basic.*;
+import java.awt.Graphics;
+
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 /**
  *  Split Pane Divider

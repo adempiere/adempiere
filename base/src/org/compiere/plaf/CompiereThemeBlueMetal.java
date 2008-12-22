@@ -16,9 +16,9 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
+import java.awt.Color;
 
-import javax.swing.plaf.*;
+import javax.swing.plaf.ColorUIResource;
 
 /**
  * 	Adempiere default Blue Metal Color Theme

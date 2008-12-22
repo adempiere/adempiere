@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.AbstractButton;
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.metal.MetalRadioButtonUI;
 
 /**
  *  Adempiere Radio Button UI

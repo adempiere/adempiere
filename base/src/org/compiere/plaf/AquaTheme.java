@@ -19,8 +19,8 @@ package org.compiere.plaf;
 /*
  * @(#)AquaTheme.java	1.9 04/07/26
  */
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
 
 /**

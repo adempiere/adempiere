@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import javax.swing.plaf.*;
+import java.awt.Color;
+
+import javax.swing.plaf.ColorUIResource;
 
 /**
  * 	Adempiere Theme Ice

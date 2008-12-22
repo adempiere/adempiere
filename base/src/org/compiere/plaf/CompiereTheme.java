@@ -16,12 +16,13 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import java.util.logging.*;
+import java.awt.Font;
+import java.util.logging.Logger;
 
 import javax.swing.UIDefaults;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.metal.MetalTheme;
 
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ExtendedTheme;

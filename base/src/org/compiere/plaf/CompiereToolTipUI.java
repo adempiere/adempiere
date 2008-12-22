@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
+import javax.swing.JToolTip;
+import javax.swing.KeyStroke;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.metal.MetalToolTipUI;
 
 /**
  * 	Tool Tip

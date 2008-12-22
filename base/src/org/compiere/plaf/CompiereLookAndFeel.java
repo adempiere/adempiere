@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
-import javax.swing.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.UIDefaults;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
 
 /**
  *  Compiere Look & Feel.

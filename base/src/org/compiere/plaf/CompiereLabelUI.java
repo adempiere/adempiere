@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.FocusTraversalPolicy;
+import java.awt.event.ActionEvent;
 
-import sun.swing.*;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.plaf.ComponentInputMapUIResource;
+import javax.swing.plaf.metal.MetalLabelUI;
+
+import sun.swing.UIAction;
 
 /**
  * 	Adempiere Label UI

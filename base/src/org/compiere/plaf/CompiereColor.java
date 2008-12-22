@@ -16,19 +16,37 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.TexturePaint;
+import java.awt.Window;
+import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Logger;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JWindow;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ThemeUtils;
-import org.compiere.util.*;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Adempiere Background Color

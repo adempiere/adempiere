@@ -20,8 +20,8 @@ package org.compiere.plaf;
  * @(#)RubyTheme.java	1.9 04/07/26
  */
  
-import javax.swing.plaf.*;
-import javax.swing.plaf.metal.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 
 /**
  * This class describes a theme using red colors.

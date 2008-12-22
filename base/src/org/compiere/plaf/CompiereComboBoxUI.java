@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.plaf;
 
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.metal.*;
+import java.awt.event.MouseListener;
+
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.ComboPopup;
+import javax.swing.plaf.metal.MetalComboBoxButton;
+import javax.swing.plaf.metal.MetalComboBoxUI;
 
 
 /**
