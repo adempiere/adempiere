@@ -16,16 +16,21 @@
 
 package org.eevolution.process;
 
-import java.util.logging.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
 
-
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
-//import compiere.model.*;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCost;
+import org.compiere.model.MCostElement;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 
 /**

@@ -26,12 +26,11 @@ import org.compiere.Adempiere;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Table;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.model.Query;
 
 /**
  *	Enable Native Sequence

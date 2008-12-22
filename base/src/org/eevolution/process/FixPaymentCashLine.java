@@ -21,7 +21,6 @@ package org.eevolution.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;

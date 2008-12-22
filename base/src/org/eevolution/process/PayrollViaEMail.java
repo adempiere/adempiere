@@ -17,15 +17,28 @@
 package org.eevolution.process;
 
 import java.io.File;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 
-
-import org.compiere.process.*;
-
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MInterestArea;
+import org.compiere.model.MMailText;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
+import org.compiere.model.MUser;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.EMail;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  *  Send Mail to Interest Area Subscribers

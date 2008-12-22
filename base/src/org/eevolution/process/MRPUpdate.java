@@ -22,13 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.MNote;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrg;
 import org.compiere.model.MRequisition;
-import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
@@ -39,10 +35,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MForecastLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderBOMLine;
 
 /**
  *	MRPUpdate

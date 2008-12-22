@@ -15,16 +15,30 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
-
-import org.eevolution.model.*;
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MClient;
+import org.compiere.model.MLocator;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductCategory;
+import org.compiere.model.MStorage;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 
 
 

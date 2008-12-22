@@ -1,12 +1,14 @@
 package org.eevolution.process;
 
-import java.math.*;
+import java.util.Properties;
 import java.util.logging.Level;
-import java.util.*;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
+import org.compiere.model.MDocType;
+import org.compiere.model.MGLCategory;
+import org.compiere.model.MSequence;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.Env;
 
 
 /**

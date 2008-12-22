@@ -14,12 +14,7 @@
 //package org.eevolution.process;
 package org.eevolution.process;
 
-import java.util.Properties;
-
-import org.compiere.model.*;
-import org.compiere.util.*;
 import org.compiere.process.SvrProcess;
-//import org.eevolution.model.*;
 
 /**
  *	Create Concept of current Payroll
