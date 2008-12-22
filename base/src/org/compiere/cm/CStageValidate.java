@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.cm;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MCStage;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 
 /**
  * 	Validate Container Stage

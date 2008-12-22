@@ -17,8 +17,10 @@
 package org.compiere.cm;
 
 import java.util.logging.Level;
-import org.compiere.process.*;
-import org.compiere.model.*;
+
+import org.compiere.model.MTemplate;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 
 /**
  * 	CM Template Validation Process

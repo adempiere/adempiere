@@ -18,12 +18,13 @@ package org.compiere.cm;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.*;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import java.util.Properties;
+
+import org.compiere.model.X_CM_BroadcastServer;
+import org.compiere.util.CLogger;
 
 /**
  * The CacheHandler handles deployment and clean of internal and external caches

@@ -16,8 +16,11 @@
  *****************************************************************************/
 package org.compiere.cm;
 
-import java.util.*;
-import org.compiere.model.*;
+import java.util.Properties;
+
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
 
 /**
  *	Template	
