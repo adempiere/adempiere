@@ -16,14 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Evaluatee;
 
 /**
  *  Model Tab Value Object

@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
+import java.sql.Timestamp;
 
 /**
  *	Processor Log Interface

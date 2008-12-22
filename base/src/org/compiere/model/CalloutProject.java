@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.Properties;
+
+import org.compiere.util.Env;
 
 
 /**

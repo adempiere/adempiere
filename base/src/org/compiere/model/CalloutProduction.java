@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import org.compiere.util.*;
+import java.util.Properties;
+
+import org.compiere.util.Env;
 
 /**
  *	Production Callouts

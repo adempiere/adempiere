@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.Icon;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Window Workbench Model

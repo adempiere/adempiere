@@ -16,9 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.EventObject;
 
 /**
  *  Data Status Event
