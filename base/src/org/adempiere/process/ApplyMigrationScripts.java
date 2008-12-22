@@ -29,8 +29,6 @@
 package org.adempiere.process;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.sql.Connection;
@@ -38,18 +36,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
-import java.util.logging.Level;
 
-import org.compiere.Adempiere;
-import org.compiere.model.MIssue;
-import org.compiere.model.X_AD_Error;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.CLogErrorBuffer;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 public class ApplyMigrationScripts extends SvrProcess {
 

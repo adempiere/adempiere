@@ -30,11 +30,7 @@
 package org.adempiere.process;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -44,7 +40,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.model.MSequence;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;

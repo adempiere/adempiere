@@ -29,14 +29,14 @@
 
 package org.adempiere.process;
 
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MField;
+import org.compiere.model.MTab;
+import org.compiere.model.X_ASP_Field;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
-import org.compiere.wf.MWFNode;
-import org.compiere.wf.MWorkflow;
 
 /**
  * 	Generate ASP fields for a window
