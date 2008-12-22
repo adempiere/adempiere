@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MUser;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.StateEngine;
+import org.compiere.process.SvrProcess;
 
 /**
  *	Manage Workflow Process

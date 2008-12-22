@@ -16,13 +16,16 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_WF_NodeNext;
+import org.compiere.process.DocAction;
+import org.compiere.util.DB;
 
 /**
  *	Workflow Node Next - Transition

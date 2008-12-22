@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.MRole;
+import org.compiere.model.X_AD_WF_Responsible;
+import org.compiere.util.CCache;
+import org.compiere.util.Msg;
 
 
 /**

@@ -16,15 +16,22 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.awt.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.Point;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.process.DocAction;
-import org.compiere.util.*;
+import org.compiere.model.MColumn;
+import org.compiere.model.X_AD_WF_Node;
+import org.compiere.util.CCache;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	Workflow Node Model

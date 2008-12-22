@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.X_AD_Workflow_Access;
 
 
 /**

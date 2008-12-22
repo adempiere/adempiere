@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.model.*;
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_WF_NextCondition;
 
 /**
  *	Workflow Transition Condition

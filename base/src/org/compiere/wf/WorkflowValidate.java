@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereUserError;
+import org.compiere.util.Msg;
 
 
 /**

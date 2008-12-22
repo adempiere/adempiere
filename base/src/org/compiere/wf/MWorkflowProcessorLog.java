@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.model.*;
+import org.compiere.model.AdempiereProcessorLog;
+import org.compiere.model.X_AD_WorkflowProcessorLog;
 
 
 /**

@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
+import java.util.logging.Level;
+
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.DB;
 
 /**
  *	Move Workflow Customizations to Client
