@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 
 /**

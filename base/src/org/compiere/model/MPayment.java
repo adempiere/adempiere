@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,13 +27,10 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

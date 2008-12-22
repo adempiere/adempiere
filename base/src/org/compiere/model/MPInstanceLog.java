@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.math.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 import org.compiere.util.DB;
 

@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import org.compiere.util.*;
+import java.util.Calendar;
+import java.util.StringTokenizer;
+
+import org.compiere.util.CLogger;
 
 
 /**
