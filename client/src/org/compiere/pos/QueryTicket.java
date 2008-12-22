@@ -14,21 +14,39 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Properties;
 
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
+import javax.swing.KeyStroke;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
-import org.compiere.swing.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.util.*;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VDate;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *	POS Query Product

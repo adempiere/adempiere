@@ -14,13 +14,17 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.border.*;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.swing.CButton;
+import org.compiere.util.CLogger;
 
 
 /**

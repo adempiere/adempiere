@@ -16,18 +16,28 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.sql.RowSet;
-import javax.swing.*;
-import org.compiere.apps.*;
-import org.compiere.model.*;
+import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ProcessCtl;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
 import org.compiere.process.ProcessInfo;
-import org.compiere.util.*;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /**
  *	Application Report Launcher.

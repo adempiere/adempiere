@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import org.compiere.print.ReportEngine;
 
 /**
  * 

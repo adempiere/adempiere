@@ -14,11 +14,13 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.DefaultKeyboardFocusManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.LinkedList;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 /**
  * POS Keyboard Focus Manager

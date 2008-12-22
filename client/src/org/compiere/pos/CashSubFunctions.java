@@ -14,18 +14,36 @@
 
 package org.compiere.pos;
 
-import java.math.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import javax.swing.border.*;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.model.MCash;
+import org.compiere.model.MCashBook;
+import org.compiere.model.MCashLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MQuery;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 /**
  *  @author Comunidad de Desarrollo OpenXpertya 

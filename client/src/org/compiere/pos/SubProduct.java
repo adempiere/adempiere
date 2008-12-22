@@ -14,15 +14,25 @@
 
 package org.compiere.pos;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Event;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 
-import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.KeyStroke;
+import javax.swing.border.TitledBorder;
 
-import org.compiere.swing.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MProduct;
+import org.compiere.model.MWarehousePrice;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
