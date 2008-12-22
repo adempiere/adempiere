@@ -22,7 +22,6 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MRMA;
 import org.compiere.util.DB;
 
 /**

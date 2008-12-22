@@ -21,9 +21,12 @@
 package org.adempiere.model;
 
 // import for GenericPO
-import java.util.*;
-import java.sql.*;
-import org.compiere.model.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /**
  * Generic PO implementation, this can be use together with ModelValidator as alternative to the classic 
