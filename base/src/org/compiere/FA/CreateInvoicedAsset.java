@@ -13,21 +13,27 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-//import java.util.Properties;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 
-import org.compiere.model.X_C_Invoice;
-import org.compiere.model.X_C_InvoiceLine;				
-import org.compiere.model.X_M_Product;
+import org.compiere.model.MAssetAcct;
+import org.compiere.model.MAssetChange;
+import org.compiere.model.MRefList;
+import org.compiere.model.X_A_Asset;
+import org.compiere.model.X_A_Asset_Addition;
+import org.compiere.model.X_A_Asset_Group_Acct;
+import org.compiere.model.X_A_Depreciation_Exp;
+import org.compiere.model.X_A_Depreciation_Workfile;
 import org.compiere.model.X_C_BPartner;
-import org.compiere.process.*;
+import org.compiere.model.X_C_Invoice;
+import org.compiere.model.X_C_InvoiceLine;
+import org.compiere.model.X_M_Product;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
-//import org.compiere.util.Env;
-
-import java.math.BigDecimal;
-//import org.compiere.model.MCharge;
-import org.compiere.model.*;
 
 /**
  *	Create Asset from Invoice Process

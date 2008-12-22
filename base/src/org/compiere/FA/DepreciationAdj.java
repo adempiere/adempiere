@@ -13,10 +13,11 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import org.compiere.util.*;
-//import java.lang.Math;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.compiere.util.DB;
 /**
  * Fixed Asset Depreciation
  * 

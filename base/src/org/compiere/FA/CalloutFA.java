@@ -13,13 +13,16 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
 
-import org.compiere.util.*;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	FA Callout.

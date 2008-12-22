@@ -13,12 +13,15 @@
  *****************************************************************************/
 package org.compiere.FA;
 
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
-//import java.sql.Date;
-import java.math.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 
 /**
  *	Import Assets
