@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import junit.framework.*;
-import org.compiere.util.*;
+import junit.framework.TestCase;
+
+import org.compiere.util.Env;
 
 /**
  * The class <code>MRoleTest</code> contains tests for the class MRole

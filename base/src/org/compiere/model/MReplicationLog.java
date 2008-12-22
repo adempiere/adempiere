@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
+import java.util.Properties;
 
 /**
  *  Replication Log Model

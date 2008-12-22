@@ -31,10 +31,11 @@
 
 package org.compiere.model;
 
-import java.util.*;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
 
-import org.compiere.util.*;
-import java.sql.*;
+import org.compiere.util.Env;
 
 /**
  *

@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import java.sql.*;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 /**
  *	Replication Model

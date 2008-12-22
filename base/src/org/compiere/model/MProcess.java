@@ -16,15 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.util.ProcessUtil;
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Trx;
 
 /**
  *  Process Model

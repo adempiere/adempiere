@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Properties;
+
+import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 /**
  * 	Recurring Model

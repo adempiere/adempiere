@@ -16,13 +16,18 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.util.DB;
+import org.compiere.util.WebUtil;
 
 /**
  *	Asset Registration Model
