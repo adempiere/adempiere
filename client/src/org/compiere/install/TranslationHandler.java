@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.sql.*;
-import org.compiere.util.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import java.sql.Timestamp;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Language;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *	SAX Handler for parsing Translation

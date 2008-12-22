@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MLanguage;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 
 
 /**
