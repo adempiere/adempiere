@@ -16,12 +16,24 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.io.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.logging.Level;
+
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.Position;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+
+import org.compiere.util.CLogger;
 
 /**
  *	HTML Renderer View

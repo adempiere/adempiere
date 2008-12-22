@@ -16,10 +16,10 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-//import org.compiere.model.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.Point2D;
+import java.util.Properties;
 
 /**
  *	HTML Form Print ELement.

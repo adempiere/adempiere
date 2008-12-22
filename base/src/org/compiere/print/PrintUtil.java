@@ -16,14 +16,35 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.print.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.print.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Pageable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.print.DocFlavor;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.ServiceUIFactory;
+import javax.print.StreamPrintServiceFactory;
+import javax.print.attribute.Attribute;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.PrintServiceAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.JobName;
+import javax.print.attribute.standard.JobPriority;
+import javax.print.attribute.standard.OrientationRequested;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  *  Print Utilities

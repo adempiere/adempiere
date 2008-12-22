@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 
 /**
  * Print Data Function

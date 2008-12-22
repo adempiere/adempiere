@@ -16,12 +16,23 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.*;
-import java.awt.print.*;
-import java.util.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import org.compiere.util.*;
+import java.awt.Insets;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.PrinterJob;
+import java.util.Properties;
+
+import javax.print.attribute.Attribute;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.MediaPrintableArea;
+import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
+import javax.print.attribute.standard.OrientationRequested;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 
 /**
  *	Adempiere Paper

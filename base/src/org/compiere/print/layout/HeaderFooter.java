@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.util.*;
-import org.compiere.model.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.compiere.model.MQuery;
 
 /**
  *	Header Footer

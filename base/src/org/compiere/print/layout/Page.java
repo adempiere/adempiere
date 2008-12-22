@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.compiere.model.MQuery;
+import org.compiere.util.Msg;
 
 /**
  *	Layout Page

@@ -16,15 +16,28 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.awt.geom.*;
-import java.text.*;
-import java.util.*;
-import java.util.regex.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
+import java.awt.geom.Point2D;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.text.CharacterIterator;
+import java.util.Properties;
+import java.util.regex.Pattern;
+
+import org.compiere.model.MQuery;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
+import org.compiere.util.Util;
 
 /**
  *	String Form Print ELement.

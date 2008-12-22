@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.print.*;
-import org.compiere.model.*;
-import org.compiere.print.layout.*;
-import org.compiere.util.*;
-import org.adempiere.pdf.*;
+import java.awt.print.Pageable;
+
+import org.adempiere.pdf.Document;
+import org.compiere.model.MArchive;
+import org.compiere.model.MClient;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.layout.LayoutEngine;
+import org.compiere.util.CLogger;
 
 
 /**

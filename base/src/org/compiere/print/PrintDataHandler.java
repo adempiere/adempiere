@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Properties;
 
-import org.xml.sax.helpers.*;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  *	SAX Handler for parsing PrintData

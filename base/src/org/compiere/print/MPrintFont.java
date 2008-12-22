@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_PrintFont;
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 /**
  *	AD_PrintFont Print Font Model

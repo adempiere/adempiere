@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-import org.compiere.print.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.util.Properties;
+
+import org.compiere.print.MPrintFormatItem;
 
 
 /**

@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 
 /**
  *	2D Dimesnion Implementation

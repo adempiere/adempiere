@@ -16,14 +16,15 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.math.*;
-import java.sql.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MLocation;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.NamePair;
 
 /**
  *	Print Data Element

@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.*;
-import org.compiere.model.*;
-import org.compiere.print.layout.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+
+import org.compiere.model.MQuery;
+import org.compiere.print.layout.LayoutEngine;
+import org.compiere.print.layout.Page;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
 
 /**
  *	View Panel

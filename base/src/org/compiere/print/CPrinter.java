@@ -16,13 +16,17 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.event.*;
-import java.awt.print.*;
-import javax.print.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PrinterJob;
+
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
 import javax.swing.DefaultComboBoxModel;
 
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.swing.CComboBox;
+import org.compiere.util.CLogger;
+import org.compiere.util.Ini;
 
 /**
  *  Adempiere Printer Selection

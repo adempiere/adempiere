@@ -16,12 +16,20 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.sql.*;
-import java.util.*;
-import javax.print.attribute.*;
-import javax.print.attribute.standard.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import javax.print.attribute.EnumSyntax;
+import javax.print.attribute.Size2DSyntax;
+import javax.print.attribute.standard.MediaSize;
+import javax.print.attribute.standard.MediaSizeName;
+
+import org.compiere.model.PO;
+import org.compiere.model.X_AD_PrintPaper;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
 
 /**
  *	AD_PrintPaper Print Paper Model

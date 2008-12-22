@@ -16,11 +16,20 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.X_AD_PrintFormatItem;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
 
 /**
  *	Print Format Item Model.

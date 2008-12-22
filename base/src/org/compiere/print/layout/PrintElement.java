@@ -16,14 +16,21 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.geom.Point2D;
+import java.awt.image.ImageObserver;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.MQuery;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
 
 /**
  *  Print Element

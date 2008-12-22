@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.awt.*;
-import java.util.*;
-import java.util.regex.*;
+import java.awt.Font;
+import java.awt.Paint;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
-import org.compiere.model.*;
+import org.compiere.model.MLocation;
 
 /**
  *	Location/Address Element.

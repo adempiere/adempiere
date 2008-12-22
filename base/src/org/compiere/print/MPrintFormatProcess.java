@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.math.*;
+import java.math.BigDecimal;
 
-import org.compiere.process.*;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 
 /**
  *	MPrintFormat Process.

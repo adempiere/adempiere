@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.util.Properties;
+
+import org.compiere.model.MQuery;
+import org.compiere.print.MPrintTableFormat;
+import org.compiere.util.Msg;
 
 /**
  *	Parameter Table

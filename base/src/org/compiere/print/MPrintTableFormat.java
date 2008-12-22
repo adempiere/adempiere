@@ -16,18 +16,27 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.awt.*;
-import java.math.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Stroke;
+import java.awt.Toolkit;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-
-import java.util.logging.*;
-
-import org.compiere.util.*;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MImage;
+import org.compiere.model.X_AD_PrintTableFormat;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Table Print Format
