@@ -18,8 +18,8 @@ package org.compiere.report.core;
 
 import java.util.ArrayList;
 
-import javax.swing.event.*;
-import javax.swing.table.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *  The TableModel for JTable to present RModel information

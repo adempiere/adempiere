@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
-import java.awt.*;
-import java.text.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Insets;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.util.*;
+import org.compiere.util.DisplayType;
 
 /**
  *  Cell Renderer for Report Result Table

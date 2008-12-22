@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.report.core;
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.Component;
+import java.util.EventObject;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JTable;
+import javax.swing.table.TableCellEditor;
 
 /**
  *  Cell Editor for Report Result Table
