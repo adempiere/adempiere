@@ -16,13 +16,23 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.sql.*;
-import org.compiere.print.*;
-import org.compiere.util.*;
+import java.awt.Color;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.sql.RowSet;
+
+import org.compiere.print.MPrintColor;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Builds Tree.

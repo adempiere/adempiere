@@ -16,12 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 /**
  *	Tab Model

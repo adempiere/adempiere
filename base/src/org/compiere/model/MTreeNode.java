@@ -16,13 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import java.awt.Color;
+import java.util.Enumeration;
+import java.util.logging.Level;
+
+import javax.swing.Icon;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.wf.MWFNode;
 
 /**
  *  Mutable Tree Node (not a PO).

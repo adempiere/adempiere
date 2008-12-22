@@ -16,10 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.*;
+
+import org.compiere.util.DB;
 
 /**
  * Web Template Model
