@@ -5,11 +5,12 @@
 # mode (the default mode -- this strips out all the "commit" statements)
 # and a commit mode for deployment. You need to pipe the output of this
 # script into sqlplus, for example:
-# ./migrate.sh 313-314 commit | sqlplus adempiere/adempiere
+# ./migrate.sh 313-314/ commit | sqlplus adempiere/adempiere
 
 # Contributed by Chris Farley - northernbrewer
 
 # CarlosRuiz - added multidirectory management 2008/02/20
+# Michael Judd - updated for migration directory paths
 
 if [ -z "$1" ]; then
    echo "Usage: $0 [DIRECTORY ... DIRECTORY] [commit]"
@@ -27,7 +28,7 @@ do
     if [ "$DIR" = "commit" ]; then
        COMMIT=1
     else
-        for file in $DIR/*.sql; do
+        for file in $DIR/oracle/*.sql; do
            echo "SELECT '`basename $file`' AS Filename FROM dual;"
            echo
            cat $file | dos2unix
@@ -36,9 +37,9 @@ do
         done
     fi
 done
-if [ -d $DIRINI/../processes_post_migration ]
+if [ -d $DIRINI/../processes_post_migration/oracle ]
 then
-   for file in $DIRINI/../processes_post_migration/*.sql; do
+   for file in $DIRINI/../processes_post_migration/oracle/*.sql; do
       echo "SELECT '`basename $file`' AS Filename FROM dual;"
       echo
       cat $file | dos2unix
@@ -46,9 +47,9 @@ then
       echo
    done
 fi
-if [ -d $DIRINI/../my_processes_post_migration ]
+if [ -d $DIRINI/../my_processes_post_migration/oracle ]
 then
-   for file in $DIRINI/../my_processes_post_migration/*.sql; do
+   for file in $DIRINI/../my_processes_post_migration/oracle/*.sql; do
       echo "SELECT '`basename $file`' AS Filename FROM dual;"
       echo
       cat $file | dos2unix
