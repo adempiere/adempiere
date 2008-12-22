@@ -24,8 +24,6 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_U_BlackListCheque;
-
 public class MBlackListCheque extends X_U_BlackListCheque
 {
 	/**
