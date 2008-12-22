@@ -16,7 +16,13 @@
  *****************************************************************************/
 package org.compiere.tools;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 
 import org.compiere.util.Util;
 

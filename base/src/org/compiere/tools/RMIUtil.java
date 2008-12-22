@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.tools;
 
-import java.rmi.*;
-import java.rmi.registry.*;
-//import java.rmi.server.*;
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  *  Test/List RMI Registry
