@@ -26,7 +26,7 @@ import java.util.logging.LogRecord;
 
 
 /**
- *	Adempiere Lof File Handler
+ *	Adempiere Log File Handler
  *	
  *  @author Jorg Janke
  *  @version $Id: CLogFile.java,v 1.3 2006/07/30 00:54:35 jjanke Exp $
@@ -113,7 +113,7 @@ public class CLogFile extends Handler
 		}
 	//	System.out.println(getFileName());
 		
-    	//	Foratting
+    	//	Formatting
 		setFormatter(CLogFormatter.get());
 		//	Level
 		setLevel(Level.ALL);
@@ -126,7 +126,7 @@ public class CLogFile extends Handler
 	 * 	@param baseDirName base log file directory name
 	 * 	@param createLogDir create log directory
 	 * 	@param isClient client
-	 * 	@return true if cerated
+	 * 	@return true if created
 	 */
 	private boolean createFile(String baseDirName, boolean createLogDir, boolean isClient)
 	{

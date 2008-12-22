@@ -92,7 +92,7 @@ public class CLogConsole extends Handler
 		if (m_writerErr == null)
 			m_writerErr = new PrintWriter(System.err);
 		
-    	//	Foratting
+    	//	Formatting
 		setFormatter(CLogFormatter.get());
 		//	Default Level
 		setLevel(Level.INFO);

@@ -85,7 +85,7 @@ public class CLogErrorBuffer extends Handler
     {
     //	System.out.println("CLogConsole.initialize");
 
-    	//	Foratting
+    	//	Formatting
 		setFormatter(CLogFormatter.get());
 		//	Default Level
 		super.setLevel(Level.INFO);
@@ -119,7 +119,7 @@ public class CLogErrorBuffer extends Handler
     
 	/**
 	 *	Set Level.
-	 *	Ignore OFF - and higer then FINE
+	 *	Ignore OFF - and higher then FINE
 	 *	@see java.util.logging.Handler#setLevel(java.util.logging.Level)
 	 *	@param newLevel ignored
 	 *	@throws java.lang.SecurityException
@@ -182,7 +182,7 @@ public class CLogErrorBuffer extends Handler
 					if (history.size() == 0)
 						history.add(rec);
 					else
-						break;		//	don't incluse previous error
+						break;		//	don't include previous error
 				}
 				else
 				{
