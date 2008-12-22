@@ -15,8 +15,8 @@
  *****************************************************************************/
 package org.eevolution.tools;
 
-import java.util.Properties;
 import java.io.InputStream;
+import java.util.Properties;
 
 /**
 * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

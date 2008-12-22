@@ -1,23 +1,22 @@
 package org.eevolution.tools.swing;
 
+import java.awt.Adjustable;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
-import java.awt.Adjustable;
 import java.awt.Event;
 import java.awt.ItemSelectable;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JFrame;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import javax.swing.text.JTextComponent;
-
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.text.JTextComponent;
 
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
