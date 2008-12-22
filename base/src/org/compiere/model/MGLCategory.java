@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	GL Category

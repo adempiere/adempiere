@@ -16,14 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.util.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.sql.ResultSet;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import org.compiere.util.CCache;
+import org.compiere.util.Ini;
 
 /**
  *  Image Model
