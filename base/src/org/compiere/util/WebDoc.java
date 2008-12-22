@@ -16,11 +16,28 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Properties;
 
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
+import org.apache.ecs.AlignType;
+import org.apache.ecs.Element;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.b;
+import org.apache.ecs.xhtml.body;
+import org.apache.ecs.xhtml.form;
+import org.apache.ecs.xhtml.h1;
+import org.apache.ecs.xhtml.head;
+import org.apache.ecs.xhtml.html;
+import org.apache.ecs.xhtml.img;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.link;
+import org.apache.ecs.xhtml.meta;
+import org.apache.ecs.xhtml.script;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.title;
+import org.apache.ecs.xhtml.tr;
 
 
 /**

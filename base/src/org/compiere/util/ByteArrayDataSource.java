@@ -16,9 +16,15 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.util.logging.*;
-import javax.activation.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+
+import javax.activation.DataSource;
 
 /**
  *	A DataSource based on the Java Mail Example.

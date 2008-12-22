@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.net.*;
-import java.util.*;
-import javax.naming.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Hashtable;
 
-import org.compiere.interfaces.*;
+import javax.naming.InitialContext;
+import javax.naming.NamingEnumeration;
+
+import org.compiere.interfaces.Status;
 
 /**
  *	Apps Server Connection Test

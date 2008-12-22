@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.beans.*;
-import java.util.*;
+import java.beans.VetoableChangeListener;
+import java.beans.VetoableChangeSupport;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *  Adempiere Cache.

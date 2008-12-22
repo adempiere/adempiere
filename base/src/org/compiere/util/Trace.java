@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  *  Trace Information

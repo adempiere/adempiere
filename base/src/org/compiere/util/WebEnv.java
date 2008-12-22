@@ -16,16 +16,35 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
+import java.sql.Timestamp;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.*;
-import org.compiere.model.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.body;
+import org.apache.ecs.xhtml.br;
+import org.apache.ecs.xhtml.comment;
+import org.apache.ecs.xhtml.h3;
+import org.apache.ecs.xhtml.hr;
+import org.apache.ecs.xhtml.img;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.script;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.Adempiere;
+import org.compiere.model.MClient;
+import org.compiere.model.MSystem;
 
 /**
  *  Web Environment and debugging

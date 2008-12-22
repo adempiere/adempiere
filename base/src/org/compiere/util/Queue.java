@@ -16,8 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-//import oracle.AQ.*;
+import java.io.Serializable;
 
 //import org.compiere.db.CConnection;
 

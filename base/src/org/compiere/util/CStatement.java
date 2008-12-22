@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import javax.sql.*;
+import javax.sql.RowSet;
 
 /**
  * Interface to wrap and extend Statement

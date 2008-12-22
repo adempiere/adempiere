@@ -16,8 +16,11 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.text.*;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 
 /**

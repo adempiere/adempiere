@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  *  Null Parameter for CPreparedStatement

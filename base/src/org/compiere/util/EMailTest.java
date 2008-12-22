@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import junit.framework.*;
+import java.io.File;
+
+import junit.framework.TestCase;
 
 /**
  *	The class <code>EMailTest</code> contains tests for the class 

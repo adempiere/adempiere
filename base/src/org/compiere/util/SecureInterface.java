@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * 	Adempiere Security Interface.

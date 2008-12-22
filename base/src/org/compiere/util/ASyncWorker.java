@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.process.*;
+import java.util.logging.Level;
+
+import javax.swing.SwingUtilities;
+
+import org.compiere.process.ProcessInfo;
 
 /**
  *  ASync Worker for starting methods in classes implementing ASyncProcess

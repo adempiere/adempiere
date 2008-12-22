@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.compiere.process.*;
+import org.compiere.process.ProcessInfo;
 
 /**
  *  Async Process Interface.

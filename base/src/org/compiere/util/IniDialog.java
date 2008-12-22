@@ -16,15 +16,25 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.swing.*;
+import org.compiere.swing.CPanel;
 
 /**
  *  Init Dialog

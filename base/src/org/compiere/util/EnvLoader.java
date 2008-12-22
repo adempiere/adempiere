@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.util.*;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  *  Environment Loader - loads system environment variables int System.properties

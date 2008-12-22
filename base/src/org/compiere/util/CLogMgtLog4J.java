@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.apache.log4j.*;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  *	Log4J Utilities.

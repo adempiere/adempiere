@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import javax.swing.filechooser.*;
 import java.io.File;
 import java.io.Serializable;
+
+import javax.swing.filechooser.FileFilter;
 
 
 /**

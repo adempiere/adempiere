@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.sql.DriverManager;
+import java.util.logging.ErrorManager;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * 	Adempiere Console Logger

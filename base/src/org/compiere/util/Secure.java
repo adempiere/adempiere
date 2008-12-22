@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.math.*;
-import java.security.*;
+import java.math.BigDecimal;
+import java.security.AlgorithmParameters;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.util.logging.*;
-import javax.crypto.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 
 /**
  * Security Services.

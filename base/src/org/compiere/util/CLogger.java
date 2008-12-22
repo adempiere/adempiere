@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.util.logging.*;
+import java.io.Serializable;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 /**

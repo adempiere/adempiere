@@ -16,9 +16,13 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.sql.Timestamp;
+import java.util.logging.ErrorManager;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 
 /**

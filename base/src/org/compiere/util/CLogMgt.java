@@ -16,15 +16,27 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.jar.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.model.*;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
+import java.util.logging.Filter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.model.MClient;
 
 
 /**

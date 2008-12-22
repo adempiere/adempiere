@@ -16,11 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.rmi.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
+import java.util.ArrayList;
 
 /**
  *  Adempiere Cache Manangement

@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.lang.management.*;
-import java.text.*;
+import java.lang.management.MemoryUsage;
+import java.text.DecimalFormat;
 
 /**
  * 	Memory Usage Info

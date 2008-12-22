@@ -16,16 +16,36 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.activation.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import com.sun.mail.smtp.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.activation.URLDataSource;
+import javax.mail.Address;
+import javax.mail.AuthenticationFailedException;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.SendFailedException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+
+import org.compiere.model.MClient;
+
+import com.sun.mail.smtp.SMTPMessage;
 
 /**
  *	EMail Object.

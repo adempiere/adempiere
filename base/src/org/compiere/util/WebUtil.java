@@ -16,19 +16,53 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.math.*;
-import java.net.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.mail.internet.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.body;
+import org.apache.ecs.xhtml.br;
+import org.apache.ecs.xhtml.hr;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.label;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.script;
+import org.apache.ecs.xhtml.small;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MAttachmentEntry;
+import org.compiere.model.MMailMsg;
+import org.compiere.model.MRequest;
+import org.compiere.model.MStore;
+import org.compiere.model.MUserMail;
 
 /**
  *  Servlet Utilities

@@ -16,15 +16,25 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.security.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-//
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.model.*;
+import java.security.Principal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.swing.JOptionPane;
+
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.model.MCountry;
+import org.compiere.model.MRole;
+import org.compiere.model.MSystem;
+import org.compiere.model.MTree_Base;
+import org.compiere.model.ModelValidationEngine;
 
 
 /**

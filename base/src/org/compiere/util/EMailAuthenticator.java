@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.util.logging.*;
-import javax.mail.*;
+import java.util.logging.Level;
+
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 
 /**
  *  Email User Authentification

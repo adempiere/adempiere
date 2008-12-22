@@ -16,8 +16,23 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.net.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Label;
+import java.awt.MediaTracker;
+import java.awt.Panel;
+import java.awt.Rectangle;
+import java.awt.SystemColor;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.util.Locale;
 
 import org.compiere.Adempiere;

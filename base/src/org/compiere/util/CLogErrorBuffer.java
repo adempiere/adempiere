@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.ErrorManager;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
-import org.compiere.model.*;
+import org.compiere.model.MIssue;
 
 /**
  *	Client Error Buffer

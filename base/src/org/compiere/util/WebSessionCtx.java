@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Properties;
 
-import org.compiere.model.*;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.model.MClient;
+import org.compiere.model.MStore;
 
 
 /**

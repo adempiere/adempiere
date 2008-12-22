@@ -16,11 +16,18 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.util.*;
-import java.util.zip.*;
-import java.util.jar.*;
-import java.io.*;
-import java.sql.*;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.jar.Attributes;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  *	Zip/Jar File Utilities

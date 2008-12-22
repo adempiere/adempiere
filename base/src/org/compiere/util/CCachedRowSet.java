@@ -16,13 +16,22 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
-import javax.sql.*;
-import javax.sql.rowset.*;
-import org.compiere.db.*;
-import oracle.jdbc.rowset.*;
-import com.sun.rowset.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Collection;
+import java.util.Locale;
+
+import javax.sql.RowSet;
+import javax.sql.rowset.CachedRowSet;
+
+import oracle.jdbc.rowset.OracleCachedRowSet;
+
+import org.compiere.db.AdempiereDatabase;
+import org.compiere.db.Database;
+
+import com.sun.rowset.CachedRowSetImpl;
 
 
 /**

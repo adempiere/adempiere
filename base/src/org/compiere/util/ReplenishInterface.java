@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.math.*;
-import org.compiere.model.*;
+import java.math.BigDecimal;
+
+import org.compiere.model.MWarehouse;
+import org.compiere.model.X_T_Replenish;
 
 /**
  * 	Custom Replenishment Interface

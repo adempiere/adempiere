@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.print.attribute.standard.*;
+import java.awt.ComponentOrientation;
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.logging.Logger;
+
+import javax.print.attribute.standard.MediaSize;
 
 /**
  *  Language Management.

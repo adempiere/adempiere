@@ -16,10 +16,14 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.rmi.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.awt.Toolkit;
+import java.rmi.ServerException;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 
 /**

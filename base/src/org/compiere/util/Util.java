@@ -16,14 +16,23 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.*;
-import java.awt.font.*;
-import java.io.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.Color;
+import java.awt.font.TextAttribute;
+import java.io.UnsupportedEncodingException;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedString;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *  General Utilities

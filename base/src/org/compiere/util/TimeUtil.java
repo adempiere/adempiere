@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Timestamp;
+import java.util.BitSet;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 /**
