@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
-//import org.compiere.model.*;
+import java.math.BigDecimal;
+
+import org.compiere.model.MBankStatementLine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Bank Statement Line

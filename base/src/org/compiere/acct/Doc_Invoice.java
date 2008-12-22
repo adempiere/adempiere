@@ -16,12 +16,26 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MCurrency;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MLandedCostAllocation;
+import org.compiere.model.MTax;
+import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Post Invoice Documents.

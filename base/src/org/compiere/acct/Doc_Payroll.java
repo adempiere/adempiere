@@ -15,15 +15,18 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import org.eevolution.model.*;
-
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.eevolution.model.MHRMovement;
+import org.eevolution.model.MHRProcess;
 
 
 /**

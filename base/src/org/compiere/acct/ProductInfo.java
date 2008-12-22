@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Product Costing Information.

@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInventoryLine;
+import org.compiere.model.ProductCost;
+import org.compiere.util.Env;
 
 /**
  *  Post Inventory Documents.

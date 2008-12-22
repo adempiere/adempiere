@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+
+import org.compiere.model.MAllocationLine;
+import org.compiere.util.DB;
 
 /**
  *	Allocation Line

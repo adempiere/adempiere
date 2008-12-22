@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MMovement;
+import org.compiere.model.MMovementLine;
+import org.compiere.model.ProductCost;
+import org.compiere.util.Env;
 
 /**
  *  Post Invoice Documents.

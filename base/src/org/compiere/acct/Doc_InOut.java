@@ -16,14 +16,21 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.ProductCost;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Post Shipment/Receipt Documents.

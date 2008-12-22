@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCharge;
+import org.compiere.model.MCostDetail;
+import org.compiere.model.MProduct;
+import org.compiere.model.PO;
+import org.compiere.model.ProductCost;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *  Standard Document Line

@@ -15,12 +15,12 @@
  *****************************************************************************/
 package org.compiere.acct;
 
-import java.math.*;
+import java.math.BigDecimal;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.acct.*;
-import org.eevolution.model.*;
+import org.compiere.model.MBPartner;
+import org.compiere.util.Env;
+import org.eevolution.model.MHRConcept;
+import org.eevolution.model.MHRMovement;
 
 /**
  *  Payroll Line
