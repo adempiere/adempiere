@@ -16,13 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.*;
-import java.sql.*;
-import java.util.*;
-import java.math.*;
+import java.awt.Color;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Properties;
 
-import org.compiere.util.*;
-import org.compiere.print.*;
+import org.compiere.print.MPrintColor;
+import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 /**
  * 	Performance Color Schema

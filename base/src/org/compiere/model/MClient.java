@@ -18,7 +18,6 @@
 package org.compiere.model;
 
 import java.io.File;
-import java.rmi.RemoteException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
