@@ -16,11 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.Serializable;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogMgt;
 
 /**
  * 	Optimal Payment Processor Services Interface.

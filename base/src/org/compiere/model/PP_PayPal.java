@@ -16,15 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-/**
-import com.paypal.sdk.exceptions.*;
-import com.paypal.sdk.profiles.*;
-import com.paypal.sdk.services.*;
-import com.paypal.soap.api.*;
-**/
+import java.io.Serializable;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogMgt;
 
 /**
  * 	PayPal Payment Processor Services Interface

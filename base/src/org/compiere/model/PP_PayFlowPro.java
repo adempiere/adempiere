@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import com.Verisign.payment.*;
+import java.io.File;
+import java.io.Serializable;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import org.compiere.util.Ini;
+
+import com.Verisign.payment.PFProAPI;
 
 /**
  *  Payment Processor for VeriSign PayFlow Pro.

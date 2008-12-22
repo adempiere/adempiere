@@ -16,8 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.util.*;
-import org.compiere.util.*;
+import java.util.ArrayList;
+
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Translation Table Management

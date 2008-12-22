@@ -16,14 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
-import java.rmi.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
-import org.compiere.db.*;
-import org.compiere.interfaces.*;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Trx;
 
 /**
  * 	Persistent Object LOB.

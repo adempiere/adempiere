@@ -17,11 +17,20 @@
 package org.compiere.model;
 
 import java.io.StringReader;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.util.*;
-import bsh.*;
+import java.sql.Timestamp;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+
+import bsh.EvalError;
+import bsh.Interpreter;
+import bsh.ParseException;
+import bsh.Parser;
 
 /**
  *  Script Model

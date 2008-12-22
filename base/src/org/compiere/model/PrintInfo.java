@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import org.compiere.process.*;
+import org.compiere.process.ProcessInfo;
 
 
 /**

@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * 	Authorize.net Payment Processor Services Interface
