@@ -15,8 +15,9 @@
  *****************************************************************************/
 package org.compiere.cm.extend;
 
-import javax.servlet.http.*;
-import java.util.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *	Search the index for results

@@ -23,7 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.compiere.cm.*;
+import org.compiere.cm.HttpServletCM;
 
 /**
  *	Cache Object Service classes

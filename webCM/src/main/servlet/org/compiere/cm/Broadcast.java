@@ -16,12 +16,20 @@
  *****************************************************************************/
 package org.compiere.cm;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.compiere.util.*;
-import org.compiere.cm.utils.*;
-import org.compiere.cm.xml.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.cm.utils.AccessLogger;
+import org.compiere.cm.utils.LocaleHandler;
+import org.compiere.cm.utils.RequestAnalyzer;
+import org.compiere.cm.xml.Generator;
+import org.compiere.cm.xml.XSLTProcessor;
+import org.compiere.util.WebEnv;
 
 /**
  * Broadcast Servlet This servlet normally does Page processing for all pages,

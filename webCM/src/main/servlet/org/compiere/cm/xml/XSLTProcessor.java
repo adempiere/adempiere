@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.compiere.cm.xml;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.http.*;
-import javax.xml.transform.*;
-import javax.xml.transform.stream.*;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.util.Calendar;
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * @author YS

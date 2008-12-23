@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Properties;
+
 import org.compiere.model.MMediaServer;
 
 /**

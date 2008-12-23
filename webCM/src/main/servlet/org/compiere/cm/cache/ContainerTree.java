@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import java.util.*;
+import java.util.Hashtable;
 
 import org.compiere.cm.utils.TreeXML;
 import org.compiere.model.MWebProject;

@@ -17,13 +17,19 @@ package org.compiere.cm;
 
 import java.io.IOException;
 import java.util.Properties;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.compiere.util.*;
-import org.compiere.model.*;
-import org.compiere.cm.utils.*;
+
+import org.compiere.cm.utils.RequestAnalyzer;
+import org.compiere.model.X_W_Store;
+import org.compiere.util.CLogger;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebLogin;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 
 /**
  *	Community Servlet to handle login, BPartner create & Update etc.

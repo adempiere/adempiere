@@ -16,7 +16,8 @@
  *****************************************************************************/
 package org.compiere.cm.utils;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * @author YS

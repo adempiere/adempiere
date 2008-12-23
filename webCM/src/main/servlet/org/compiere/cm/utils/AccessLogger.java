@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.cm.utils;
 
-import javax.servlet.http.*;
 import java.math.BigDecimal;
 import java.util.Properties;
-import org.compiere.cm.*;
-import org.compiere.model.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.compiere.cm.HttpServletCM;
+import org.compiere.model.X_CM_WebAccessLog;
 import org.compiere.util.Env;
 
 

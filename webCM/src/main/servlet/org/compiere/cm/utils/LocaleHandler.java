@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.cm.utils;
 
-import java.util.*;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.StringTokenizer;
 
 /**
  * @author YS

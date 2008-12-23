@@ -18,9 +18,11 @@ package org.compiere.cm;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.compiere.cm.utils.RequestAnalyzer;
 import org.compiere.cm.xml.Generator;
 

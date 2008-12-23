@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import org.compiere.model.*;
+import org.compiere.model.MWebProject;
 
 /**
  * 	Web Project Cache

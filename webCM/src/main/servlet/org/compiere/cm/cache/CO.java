@@ -16,7 +16,12 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Vector;
 
 import org.compiere.util.CLogger;
 

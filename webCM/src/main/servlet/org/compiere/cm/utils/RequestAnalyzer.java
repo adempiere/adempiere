@@ -16,16 +16,23 @@
  *****************************************************************************/
 package org.compiere.cm.utils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
-import org.compiere.model.*;
-import org.compiere.cm.cache.*;
-import org.compiere.cm.*;
-import org.compiere.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.cm.Extend;
+import org.compiere.cm.HttpServletCM;
+import org.compiere.cm.cache.Container;
+import org.compiere.cm.cache.Domain;
+import org.compiere.cm.cache.WebProject;
+import org.compiere.model.MContainer;
+import org.compiere.model.MWebProject;
+import org.compiere.model.MWebProjectDomain;
+import org.compiere.util.CLogger;
 
 /**
  * RequestAnalyzer

@@ -16,7 +16,8 @@
  *****************************************************************************/
 package org.compiere.cm.cache;
 
-import java.util.*;
+import java.util.Hashtable;
+
 import org.compiere.model.MChat;
 
 /**

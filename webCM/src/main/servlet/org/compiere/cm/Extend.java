@@ -16,9 +16,12 @@
 package org.compiere.cm;
 
 import java.io.Serializable;
-import org.compiere.util.*;
-import java.util.*;
-import javax.servlet.http.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.util.WebInfo;
 
 /**
  *	

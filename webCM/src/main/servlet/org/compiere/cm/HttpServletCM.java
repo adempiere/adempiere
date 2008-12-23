@@ -16,12 +16,25 @@
  *****************************************************************************/
 package org.compiere.cm;
 
-import java.util.*;
+import java.util.Properties;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import org.compiere.cm.cache.*;
-import org.compiere.util.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+
+import org.compiere.cm.cache.Chat;
+import org.compiere.cm.cache.Container;
+import org.compiere.cm.cache.ContainerElement;
+import org.compiere.cm.cache.ContainerTree;
+import org.compiere.cm.cache.Domain;
+import org.compiere.cm.cache.MediaServer;
+import org.compiere.cm.cache.Template;
+import org.compiere.cm.cache.WebProject;
+import org.compiere.cm.cache.XML;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.WebEnv;
 
 /**
  * HttpServletCM we extended the normal HttpServlet to store some global
