@@ -276,7 +276,7 @@ public class ServerBean implements ServerRemote, ServerLocal
 	 * 	Dump SerialVersionUID of class 
 	 *	@param clazz class
 	 */
-	protected static void dumpSVUID (Class clazz)
+	protected static void dumpSVUID (Class<?> clazz)
 	{
 		String s = clazz.getName() 
 			+ " ==\nstatic final long serialVersionUID = "
