@@ -39,6 +39,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Decimalbox;
+import org.zkoss.zul.ListModel;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
@@ -147,7 +148,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			throw new IllegalArgumentException("A model element was not a list");
 		}
 
-		for (Object field : (List)data)
+		for (Object field : (List<?>)data)
 		{
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
@@ -333,14 +334,23 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			// if ID column make it invisible
 			else if (field instanceof IDColumn)
 			{
-				//listcell.setLabel(field.toString());
 				listcell.setValue(((IDColumn) field).getRecord_ID());				
-				//listcell.setVisible(false);
-				if (table != null)
+
+				Checkbox checkbox = new Checkbox();
+				checkbox.setChecked(((IDColumn) field).isSelected());
+
+				if (isCellEditable)
 				{
-					table.setCheckmark(true);
-					table.addEventListener(Events.ON_SELECT, this);
+					checkbox.setEnabled(true);
+					checkbox.addEventListener(Events.ON_CHECK, this);
 				}
+				else
+				{
+					checkbox.setEnabled(false);
+				}
+
+				listcell.appendChild(checkbox);
+				ZkCssHelper.appendStyle(listcell, "text-align:center");
 			}
 			else
 			{
@@ -427,7 +437,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 * @return The generated ListHeader
 	 * @see #renderListHead(ListHead)
 	 */
-	private Component getListHeaderComponent(Object headerValue, int headerIndex, Class classType)
+	private Component getListHeaderComponent(Object headerValue, int headerIndex, Class<?> classType)
 	{
         ListHeader header = null;
 
@@ -499,8 +509,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         {
             public int compare(Object o1, Object o2)
             {
-                Object item1 = ((List)o1).get(columnIndex);
-                Object item2 = ((List)o2).get(columnIndex);
+                Object item1 = ((List<?>)o1).get(columnIndex);
+                Object item2 = ((List<?>)o2).get(columnIndex);
                 return sort.compare(item1, item2);
             }
         };
@@ -734,7 +744,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		
 	}
 
-	public void setColumnClass(int index, Class classType) {
+	public void setColumnClass(int index, Class<?> classType) {
 		if (index >= 0 && index < m_tableColumns.size()) 
 		{
 			m_tableColumns.get(index).setColumnClass(classType);
