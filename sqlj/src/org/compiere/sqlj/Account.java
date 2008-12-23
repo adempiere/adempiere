@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.sqlj;
 
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 /**

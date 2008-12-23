@@ -16,10 +16,17 @@
  *****************************************************************************/
 package org.compiere.sqlj;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.GregorianCalendar;
 
 
 /**
