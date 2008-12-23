@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.apache.ecs.filter;
 
-import org.apache.ecs.Filter;
-import org.apache.ecs.Entities;
-import java.text.StringCharacterIterator;
 import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+
+import org.apache.ecs.Entities;
+import org.apache.ecs.Filter;
 /**
     This class creates a Filter object.  The default characters filtered are:<br>
     " ' & < >

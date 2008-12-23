@@ -18,7 +18,9 @@ package org.apache.ecs.xhtml;
 
 
 
-import org.apache.ecs.*;
+import org.apache.ecs.Element;
+import org.apache.ecs.MultiPartElement;
+import org.apache.ecs.Printable;
 
 
 

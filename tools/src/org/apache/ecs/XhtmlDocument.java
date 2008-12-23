@@ -19,20 +19,13 @@ package org.apache.ecs;
 
 
 import java.io.OutputStream;
-
 import java.io.PrintWriter;
-
 import java.io.Serializable;
 
-import org.apache.ecs.xhtml.html;
-
 import org.apache.ecs.xhtml.body;
-
-import org.apache.ecs.xhtml.title;
-
 import org.apache.ecs.xhtml.head;
-
-import org.apache.ecs.Doctype;
+import org.apache.ecs.xhtml.html;
+import org.apache.ecs.xhtml.title;
 
 
 

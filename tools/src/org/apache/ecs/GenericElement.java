@@ -16,15 +16,16 @@
  *****************************************************************************/
 package org.apache.ecs;
 
-import java.io.PrintWriter;
-import java.io.OutputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
-import org.apache.ecs.filter.CharacterFilter;
+import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
+
+import org.apache.ecs.filter.CharacterFilter;
 
 /**
     This class implements the ElementFactory.

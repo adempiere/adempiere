@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.apache.ecs.filter;
 
-import org.apache.ecs.Filter;
 import java.util.StringTokenizer;
+
+import org.apache.ecs.Filter;
 
 /**
     This filter uses StringTokenizer to create "words" and allow

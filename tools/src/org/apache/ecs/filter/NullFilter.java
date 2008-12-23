@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.apache.ecs.filter;
 
-import org.apache.ecs.*;
+import org.apache.ecs.Filter;
 
 
 /**

@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.apache.ecs.filter;
 
-import org.apache.ecs.Filter;
-import java.text.StringCharacterIterator;
 import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
+
+import org.apache.ecs.Filter;
 
 /**
     Stupid implementation of Filter interface to demonstrate how easy  <br>

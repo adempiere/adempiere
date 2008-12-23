@@ -16,7 +16,12 @@
  *****************************************************************************/
 package org.apache.ecs.xhtml;
 
-import org.apache.ecs.*;
+import org.apache.ecs.Element;
+import org.apache.ecs.KeyEvents;
+import org.apache.ecs.MouseEvents;
+import org.apache.ecs.MultiPartElement;
+import org.apache.ecs.PageEvents;
+import org.apache.ecs.Printable;
 
 /**
  * This class creates a &lt;label&gt; tag.

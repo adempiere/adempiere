@@ -16,7 +16,8 @@
  *****************************************************************************/
 package org.apache.ecs;
 
-import java.text.*;
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 
 
 /**

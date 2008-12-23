@@ -16,7 +16,13 @@
  *****************************************************************************/
 package org.apache.ecs.xhtml;
 
-import org.apache.ecs.*;
+import org.apache.ecs.AlignType;
+import org.apache.ecs.Element;
+import org.apache.ecs.HtmlColor;
+import org.apache.ecs.KeyEvents;
+import org.apache.ecs.MouseEvents;
+import org.apache.ecs.MultiPartElement;
+import org.apache.ecs.Printable;
 
 /**
  * This class creates a &lt;td&gt; object.

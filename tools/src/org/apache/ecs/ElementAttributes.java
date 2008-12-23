@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.apache.ecs;
 
-import java.util.*;
+import java.util.Enumeration;
 
 /**
     This class provides a common set of attributes set* methods for all classes.

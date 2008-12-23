@@ -16,7 +16,11 @@
  *****************************************************************************/
 package org.apache.ecs.xml;
 
-import org.apache.ecs.*;
+import org.apache.ecs.Element;
+import org.apache.ecs.Filter;
+import org.apache.ecs.MultiPartElement;
+import org.apache.ecs.Printable;
+import org.apache.ecs.StringElement;
 
 /**
  * This class creates a generic &lt;&gt; tag.

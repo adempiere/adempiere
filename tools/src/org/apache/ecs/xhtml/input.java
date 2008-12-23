@@ -16,7 +16,14 @@
  *****************************************************************************/
 package org.apache.ecs.xhtml;
 
-import org.apache.ecs.*;
+import org.apache.ecs.Element;
+import org.apache.ecs.FocusEvents;
+import org.apache.ecs.FormEvents;
+import org.apache.ecs.KeyEvents;
+import org.apache.ecs.MouseEvents;
+import org.apache.ecs.PageEvents;
+import org.apache.ecs.Printable;
+import org.apache.ecs.SinglePartElement;
 
 /**
  * This class creates a &lt;input&gt; tag.

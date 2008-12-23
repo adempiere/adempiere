@@ -16,18 +16,18 @@
  *****************************************************************************/
 package org.apache.ecs;
 
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.StreamCorruptedException;
+import java.io.Writer;
 import java.util.Enumeration;
-import java.util.Vector;
 import java.util.Hashtable;
+import java.util.Vector;
 
 /**
 	This class is to be subclassed by those elements that are made up of

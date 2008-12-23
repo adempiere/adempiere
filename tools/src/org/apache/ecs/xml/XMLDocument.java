@@ -16,13 +16,12 @@
  *****************************************************************************/
 package org.apache.ecs.xml;
 
-import java.io.Serializable;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Vector;
+
 import org.apache.ecs.ConcreteElement;
-import org.apache.ecs.xml.XML;
-import org.apache.ecs.xml.PI;
 
 /**
  * XMLDocument This is the container for XML elements that can be used similar
