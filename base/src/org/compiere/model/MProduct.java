@@ -182,6 +182,7 @@ public class MProduct extends X_M_Product
 	public MProduct (MResource resource, MResourceType resourceType)
 	{
 		this (resource.getCtx(), 0, resource.get_TrxName());
+		setAD_Org_ID(resource.getAD_Org_ID());
 		setProductType(X_M_Product.PRODUCTTYPE_Resource);
 		setResource(resource);
 		setResource(resourceType);
