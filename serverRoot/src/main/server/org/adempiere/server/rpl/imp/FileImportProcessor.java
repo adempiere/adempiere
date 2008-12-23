@@ -32,10 +32,10 @@ import java.util.Properties;
 
 import org.adempiere.server.rpl.IImportProcessor;
 import org.adempiere.server.rpl.XMLHelper;
-import org.eevolution.model.MIMPProcessor;
-import org.eevolution.model.X_IMP_ProcessorParameter;
 import org.compiere.server.ReplicationProcessor;
 import org.compiere.util.CLogger;
+import org.eevolution.model.MIMPProcessor;
+import org.eevolution.model.X_IMP_ProcessorParameter;
 import org.w3c.dom.Document;
 
 /**

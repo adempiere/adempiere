@@ -15,10 +15,11 @@
  *****************************************************************************/
 package org.compiere.ldap;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
-import org.compiere.util.*;
-import com.sun.jndi.ldap.*;
+import org.compiere.util.CLogger;
+
+import com.sun.jndi.ldap.BerDecoder;
 
 /**
  * 	Ldap Message 

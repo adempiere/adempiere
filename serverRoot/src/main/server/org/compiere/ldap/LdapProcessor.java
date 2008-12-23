@@ -15,14 +15,17 @@
  *****************************************************************************/
 package org.compiere.ldap;
 
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.server.*;
-import org.compiere.util.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MLdapProcessor;
+import org.compiere.model.MLdapProcessorLog;
+import org.compiere.server.AdempiereServer;
+import org.compiere.util.TimeUtil;
 
 /**
  * 	LDAP Server

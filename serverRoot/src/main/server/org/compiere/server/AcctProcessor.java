@@ -16,11 +16,19 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import java.sql.*;
-import java.util.logging.*;
-import org.compiere.acct.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.logging.Level;
+
+import org.compiere.acct.Doc;
+import org.compiere.model.MAcctProcessor;
+import org.compiere.model.MAcctProcessorLog;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClient;
+import org.compiere.model.MCost;
+import org.compiere.util.DB;
+import org.compiere.util.TimeUtil;
 
 
 /**

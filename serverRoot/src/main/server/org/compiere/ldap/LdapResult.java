@@ -15,9 +15,12 @@
  *****************************************************************************/
 package org.compiere.ldap;
 
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.logging.Level;
+
+import org.compiere.model.MLdapProcessor;
+import org.compiere.model.MLdapUser;
+import org.compiere.util.CLogger;
+
 import com.sun.jndi.ldap.BerEncoder;
 
 /**

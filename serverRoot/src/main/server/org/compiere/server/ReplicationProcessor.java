@@ -32,10 +32,10 @@ import java.sql.Timestamp;
 
 import org.adempiere.server.rpl.IImportProcessor;
 import org.compiere.model.MClient;
+import org.compiere.util.TimeUtil;
 import org.eevolution.model.MIMPProcessor;
 import org.eevolution.model.MIMPProcessorLog;
 import org.eevolution.model.X_IMP_Processor_Type;
-import org.compiere.util.TimeUtil;
 
 /**
  * 

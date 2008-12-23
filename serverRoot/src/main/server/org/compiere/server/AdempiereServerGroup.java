@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 /**
  *	Adempiere Server Group

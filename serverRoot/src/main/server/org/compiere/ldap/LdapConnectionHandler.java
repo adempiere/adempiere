@@ -15,17 +15,20 @@
  *****************************************************************************/
 package org.compiere.ldap;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.Socket;
 import java.util.Hashtable;
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.ldap.InitialLdapContext;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MLdapProcessor;
+import org.compiere.model.MLdapUser;
+import org.compiere.util.CLogger;
 
 /**
  * 	LDAP Connection Handler

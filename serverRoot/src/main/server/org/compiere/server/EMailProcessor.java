@@ -16,13 +16,27 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.mail.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Header;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
+import javax.mail.Session;
+import javax.mail.Store;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MClient;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.EMailAuthenticator;
 
 /**
  *	Request Mail Processor
