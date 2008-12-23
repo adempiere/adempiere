@@ -16,13 +16,19 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.util.*;
-import java.util.regex.*;
-import org.compiere.db.*;
-import oracle.jdbc.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+
+import oracle.jdbc.OracleDriver;
+
+import org.compiere.db.DB_Oracle;
 
 
 /**

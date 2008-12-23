@@ -16,16 +16,29 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+
+import org.compiere.Adempiere;
+import org.compiere.apps.AEnv;
+import org.compiere.swing.CFrame;
+import org.compiere.swing.CMenuItem;
+import org.compiere.util.CLogFile;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
 
 /**
  *	Setup Dialog Frame.

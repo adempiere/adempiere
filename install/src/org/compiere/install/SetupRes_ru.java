@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.util.*;
+import java.util.ListResourceBundle;
 
 /**
  * Russian Setup Resource Translation

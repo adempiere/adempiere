@@ -16,17 +16,38 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.swing.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.*;
-import org.compiere.db.*;
-import org.compiere.util.*;
+import javax.mail.Folder;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.internet.InternetAddress;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
+import org.compiere.db.Database;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.EMail;
+import org.compiere.util.EMailAuthenticator;
+import org.compiere.util.Ini;
 
 
 /**

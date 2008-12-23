@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.io.*;
-import org.compiere.util.*;
+import java.io.File;
+
+import org.compiere.util.CLogMgt;
 
 
 /**

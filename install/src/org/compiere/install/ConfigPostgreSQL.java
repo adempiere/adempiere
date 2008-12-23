@@ -14,9 +14,10 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.net.*;
-import java.sql.*;
-import org.compiere.db.*;
+import java.net.InetAddress;
+import java.sql.Connection;
+
+import org.compiere.db.DB_PostgreSQL;
 
 /**
  *	PostgreSQL Configuration

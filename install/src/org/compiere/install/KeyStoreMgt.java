@@ -16,16 +16,25 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.security.Key;
+import java.security.KeyStore;
 import java.security.cert.Certificate;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.*;
-import org.compiere.util.*;
-import sun.security.tools.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
+
+import javax.swing.JFrame;
+
+import org.compiere.Adempiere;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+
+import sun.security.tools.KeyTool;
 
 /**
  *	Class to manage SSL KeyStore

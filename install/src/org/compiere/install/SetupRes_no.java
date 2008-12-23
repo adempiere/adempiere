@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.util.*;
+import java.util.ListResourceBundle;
 
 /**
  *	Norwegian Setup Resource Translation

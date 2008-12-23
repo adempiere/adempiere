@@ -29,8 +29,8 @@
 
 package org.compiere.install;
 
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.net.InetAddress;
 
 /**
  *	GlassFish v2UR1 Apps Server Configuration

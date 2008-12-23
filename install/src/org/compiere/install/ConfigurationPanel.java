@@ -16,16 +16,36 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
-import org.apache.tools.ant.*;
-import org.compiere.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+
+import org.apache.tools.ant.Main;
+import org.compiere.Adempiere;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CPassword;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
 
 
 /**

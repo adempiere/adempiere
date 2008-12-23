@@ -16,14 +16,26 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.Point;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.util.ResourceBundle;
 
-import org.compiere.apps.*;
-import org.compiere.swing.*;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+
+import org.compiere.apps.OnlineHelp;
+import org.compiere.swing.CPanel;
 
 /**
  *	Setup Online Help

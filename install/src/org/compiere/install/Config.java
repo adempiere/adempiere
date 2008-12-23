@@ -16,10 +16,13 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.swing.CCheckBox;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 
 /**
