@@ -76,6 +76,7 @@ import org.compiere.process.SequenceCheck;
  * 		<li>FR [ 1986583 ] Add DB.executeUpdateEx(String, Object[], String)
  * 		<li>BF [ 2030233 ] Remove duplicate code from DB class
  * 		<li>FR [ 2107062 ] Add more DB.getKeyNamePairs methods
+ *		<li>FR [ 2448461 ] Introduce DB.getSQLValue*Ex methods
  */
 public final class DB
 {
@@ -1161,6 +1162,19 @@ public final class DB
     	}
     	return retValue;
     }
+    
+    /**
+     * Get String Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or -1
+     * @throws DBException if there is any SQLException
+     */
+    public static int getSQLValueEx (String trxName, String sql, Collection<Object> params)
+    {
+		return getSQLValueEx(trxName, sql, params.toArray(new Object[params.size()]));
+    }
 
     /**
      * Get int Value from sql
@@ -1192,9 +1206,7 @@ public final class DB
      */
     public static int getSQLValue (String trxName, String sql, Collection<Object> params)
     {
-		Object[] arr = new Object[params.size()];
-		params.toArray(arr);
-		return getSQLValue(trxName, sql, arr);
+		return getSQLValue(trxName, sql, params.toArray(new Object[params.size()]));
     }
     
     /**
@@ -1203,8 +1215,9 @@ public final class DB
      * @param sql sql
      * @param params array of parameters
      * @return first value or null
+     * @throws DBException if there is any SQLException
      */
-    public static String getSQLValueString (String trxName, String sql, Object... params)
+    public static String getSQLValueStringEx (String trxName, String sql, Object... params)
     {
     	String retValue = null;
     	PreparedStatement pstmt = null;
@@ -1219,9 +1232,9 @@ public final class DB
     		else
     			log.info("No Value " + sql);
     	}
-    	catch (Exception e)
+    	catch (SQLException e)
     	{
-    		log.log(Level.SEVERE, sql, getSQLException(e));
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1237,12 +1250,44 @@ public final class DB
      * @param sql sql
      * @param params collection of parameters
      * @return first value or null
+     * @throws DBException if there is any SQLException
+     */
+    public static String getSQLValueStringEx (String trxName, String sql, Collection<Object> params)
+    {
+		return getSQLValueStringEx(trxName, sql, params.toArray(new Object[params.size()]));
+    }
+    
+    /**
+     * Get String Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static String getSQLValueString (String trxName, String sql, Object... params)
+    {
+    	String retValue = null;
+    	try
+    	{
+    		retValue = getSQLValueStringEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, getSQLException(e));
+    	}
+    	return retValue;
+    }
+
+    /**
+     * Get String Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null
      */
     public static String getSQLValueString (String trxName, String sql, Collection<Object> params)
     {
-		Object[] arr = new Object[params.size()];
-		params.toArray(arr);
-		return getSQLValueString(trxName, sql, arr);
+		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
 
     /**
@@ -1285,6 +1330,20 @@ public final class DB
      * Get BigDecimal Value from sql
      * @param trxName trx
      * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null if not found
+     * @throws DBException if there is any SQLException
+     */
+    public static BigDecimal getSQLValueBDEx (String trxName, String sql, Collection<Object> params) throws DBException
+    {
+		return getSQLValueBDEx(trxName, sql, params.toArray(new Object[params.size()]));
+    }
+
+    
+    /**
+     * Get BigDecimal Value from sql
+     * @param trxName trx
+     * @param sql sql
      * @param params array of parameters
      * @return first value or null
      */
@@ -1311,9 +1370,7 @@ public final class DB
      */
     public static BigDecimal getSQLValueBD (String trxName, String sql, Collection<Object> params)
     {
-		Object[] arr = new Object[params.size()];
-		params.toArray(arr);
-		return getSQLValueBD(trxName, sql, arr);
+		return getSQLValueBD(trxName, sql, params.toArray(new Object[params.size()]));
     }
 
     /**
@@ -1322,8 +1379,9 @@ public final class DB
      * @param sql sql
      * @param params array of parameters
      * @return first value or null
+     * @throws DBException if there is any SQLException
      */
-    public static Timestamp getSQLValueTS (String trxName, String sql, Object... params)
+    public static Timestamp getSQLValueTSEx (String trxName, String sql, Object... params)
     {
     	Timestamp retValue = null;
     	PreparedStatement pstmt = null;
@@ -1338,9 +1396,9 @@ public final class DB
     		else
     			log.info("No Value " + sql);
     	}
-    	catch (Exception e)
+    	catch (SQLException e)
     	{
-    		log.log(Level.SEVERE, sql, getSQLException(e));
+    		throw new DBException(e, sql);
     	}
     	finally
     	{
@@ -1348,6 +1406,39 @@ public final class DB
     		rs = null; pstmt = null;
     	}
     	return retValue;
+    }
+    
+    /**
+     * Get BigDecimal Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params collection of parameters
+     * @return first value or null if not found
+     * @throws DBException if there is any SQLException
+     */
+    public static Timestamp getSQLValueTSEx (String trxName, String sql, Collection<Object> params) throws DBException
+    {
+		return getSQLValueTSEx(trxName, sql, params.toArray(new Object[params.size()]));
+    }
+
+    /**
+     * Get Timestamp Value from sql
+     * @param trxName trx
+     * @param sql sql
+     * @param params array of parameters
+     * @return first value or null
+     */
+    public static Timestamp getSQLValueTS (String trxName, String sql, Object... params)
+    {
+    	try
+    	{
+    		return getSQLValueTSEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		log.log(Level.SEVERE, sql, getSQLException(e));
+    	}
+    	return null;
     }
 
     /**
