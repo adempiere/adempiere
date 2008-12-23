@@ -19,7 +19,7 @@ package org.compiere.util;
 import java.util.ArrayList;
 
 /**
- *  Adempiere Cache Manangement
+ *  Adempiere Cache Management
  *
  *  @author Jorg Janke
  *  @version $Id: CacheMgt.java,v 1.2 2006/07/30 00:54:35 jjanke Exp $
@@ -28,9 +28,9 @@ public class CacheMgt
 {
 	/**
 	 * 	Get Cache Management
-	 * 	@return Cache Mgr
+	 * 	@return Cache Manager
 	 */
-	public static CacheMgt get()
+	public static synchronized CacheMgt get()
 	{
 		if (s_cache == null)
 			s_cache = new CacheMgt();

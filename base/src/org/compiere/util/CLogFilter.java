@@ -33,7 +33,7 @@ public class CLogFilter implements Filter
 	 * 	Get Filter
 	 *	@return singleton
 	 */
-	public static CLogFilter get()
+	public static synchronized CLogFilter get()
 	{
 		if (s_filter == null)
 			s_filter = new CLogFilter();

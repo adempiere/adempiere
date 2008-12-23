@@ -38,7 +38,7 @@ public class CLogFormatter extends Formatter
 	 * 	Get Formatter
 	 *	@return singleton
 	 */
-	public static CLogFormatter get()
+	public static synchronized CLogFormatter get()
 	{
 		if (s_formatter == null)
 			s_formatter = new CLogFormatter();

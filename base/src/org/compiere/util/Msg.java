@@ -48,9 +48,9 @@ public final class Msg
 
 	/**
 	 * 	Get Message Object
-	 *	@return Mag
+	 *	@return Msg
 	 */
-	private static Msg get()
+	private static synchronized Msg get()
 	{
 		if (s_msg == null)
 			s_msg = new Msg();
