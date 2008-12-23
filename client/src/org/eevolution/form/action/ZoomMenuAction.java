@@ -64,7 +64,7 @@ public class ZoomMenuAction extends PopupAction {
 	 * Supported classes are: JTree.  
 	 * 
 	 * @param target the target object.
-	 * @throws a exception, if the target class isn't supported.
+	 * @throws an exception, if the target class isn't supported.
 	 */
 	public ZoomMenuAction(Object target) throws Exception {
 
