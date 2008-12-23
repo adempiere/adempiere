@@ -16,24 +16,33 @@
  *****************************************************************************/
 package org.compiere.session;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.DeclareRoles;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 
 import org.adempiere.util.ProcessUtil;
-import org.compiere.*;
-import org.compiere.acct.*;
+import org.compiere.Adempiere;
+import org.compiere.acct.Doc;
 import org.compiere.interfaces.Server;
 import org.compiere.interfaces.ServerLocal;
 import org.compiere.interfaces.ServerRemote;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MClient;
+import org.compiere.model.MTask;
+import org.compiere.model.MUser;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CLogger;
+import org.compiere.util.CacheMgt;
+import org.compiere.util.EMail;
+import org.compiere.util.Env;
 
 /**
  * 	Adempiere Server Bean.

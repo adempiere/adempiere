@@ -16,18 +16,21 @@
  *****************************************************************************/
 package org.compiere.session;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
-import javax.ejb.*;
+import javax.ejb.CreateException;
+import javax.ejb.Local;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
 
-import org.compiere.*;
-import org.compiere.db.*;
+import org.compiere.Adempiere;
+import org.compiere.db.CConnection;
 import org.compiere.interfaces.Status;
 import org.compiere.interfaces.StatusLocal;
 import org.compiere.interfaces.StatusRemote;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
 
 
 /**
