@@ -1,13 +1,18 @@
 //MBPartnerLocationTest.java
 package test.functional;
 
-import org.compiere.model.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.compiere.model.MBPGroup;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MLocation;
 import org.compiere.util.DB;
-import org.compiere.util.*;
+import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
-
-import java.sql.*;
 
 public class MBPartnerLocationTest extends AdempiereTestCase {
 	

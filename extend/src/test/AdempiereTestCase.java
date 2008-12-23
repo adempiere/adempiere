@@ -20,11 +20,11 @@ import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
 
+import junit.framework.TestCase;
+
 import org.compiere.util.CLogMgt;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
-
-import junit.framework.TestCase;
 
 /**
  * ADempiere Base Test Case

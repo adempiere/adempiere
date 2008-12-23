@@ -17,7 +17,6 @@
 package compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
@@ -28,7 +27,6 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 
 
 /**

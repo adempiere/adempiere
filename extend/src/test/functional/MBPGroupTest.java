@@ -1,13 +1,15 @@
 //MBPGroupTest.java
 package test.functional;
 
-import org.compiere.model.MLocation;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.compiere.model.MBPGroup;
+import org.compiere.model.MLocation;
 import org.compiere.util.DB;
 
 import test.AdempiereTestCase;
-
-import java.sql.*;
 
 public class MBPGroupTest extends AdempiereTestCase {
 	

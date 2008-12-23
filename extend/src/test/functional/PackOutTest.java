@@ -1,11 +1,14 @@
 //PackOutTest.java
 package test.functional;
 
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-
-import org.adempiere.pipo.*;
+import org.adempiere.pipo.IDFinder;
+import org.adempiere.pipo.PackInHandler;
+import org.adempiere.pipo.PackOut;
+import org.compiere.model.MLocation;
+import org.compiere.model.MPackageExp;
+import org.compiere.model.X_AD_Package_Exp_Detail;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.Trx;
 
 import test.AdempiereTestCase;
 

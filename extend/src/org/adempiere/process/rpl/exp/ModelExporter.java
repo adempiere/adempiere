@@ -16,7 +16,6 @@
 package org.adempiere.process.rpl.exp;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.logging.Level;
@@ -30,7 +29,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-//import org.adempiere.server.rpl.XMLHelper;
 import org.compiere.Adempiere;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.ModelValidator;
@@ -40,7 +38,6 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.eevolution.model.MEXPFormat;
 import org.w3c.dom.Document;
 

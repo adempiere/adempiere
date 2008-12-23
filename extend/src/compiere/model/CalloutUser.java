@@ -16,11 +16,17 @@
  *****************************************************************************/
 package compiere.model;
 
-import java.sql.*;
-import java.util.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	User Callout Example.

@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.test;
 
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.*;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+import java.util.Random;
+import java.util.logging.Level;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.process.DocAction;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Login;
+import org.compiere.util.Trx;
 
 
 /**
