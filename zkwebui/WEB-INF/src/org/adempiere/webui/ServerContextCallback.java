@@ -15,9 +15,9 @@ package org.adempiere.webui;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import org.adempiere.webui.session.ServerContext;
-
 import net.sf.cglib.proxy.InvocationHandler;
+
+import org.adempiere.webui.session.ServerContext;
 
 /**
  * Intercaptor for Server context properties that delegate to the threadlocal instance

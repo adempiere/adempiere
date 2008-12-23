@@ -20,12 +20,12 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.util.Env;

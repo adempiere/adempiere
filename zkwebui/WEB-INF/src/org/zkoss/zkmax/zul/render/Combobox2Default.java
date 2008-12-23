@@ -21,10 +21,6 @@ package org.zkoss.zkmax.zul.render;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.servlet.ServletRequest;
-
-import org.zkoss.util.Utils;
-import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;

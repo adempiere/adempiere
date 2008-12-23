@@ -17,9 +17,6 @@
 
 package org.adempiere.webui.component;
 
-import java.awt.Color;
-
-import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.Obscure;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;

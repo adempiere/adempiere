@@ -434,8 +434,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex)
         {
-            Comparator ascComparator =  getColumnComparator(true, headerIndex);
-            Comparator dscComparator =  getColumnComparator(false, headerIndex);
+            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
+            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
 
             header = new ListHeader(headerText);
 
@@ -488,9 +488,9 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
      * @param columnIndex   the index of the column for which the comparator is required
      * @return  comparator for the given column for the given direction
      */
-    protected Comparator getColumnComparator(boolean ascending, final int columnIndex)
+    protected Comparator<Object> getColumnComparator(boolean ascending, final int columnIndex)
     {
-        Comparator comparator;
+        Comparator<Object> comparator;
         final MSort sort = new MSort(0, null);
 
         sort.setSortAsc(ascending);

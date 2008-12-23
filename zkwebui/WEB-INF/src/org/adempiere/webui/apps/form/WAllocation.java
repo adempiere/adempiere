@@ -16,11 +16,16 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
-import java.math.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import java.util.logging.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.Vector;
+import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -44,9 +49,22 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
+import org.compiere.process.DocAction;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;

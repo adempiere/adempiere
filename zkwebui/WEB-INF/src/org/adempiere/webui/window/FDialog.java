@@ -19,15 +19,14 @@ package org.adempiere.webui.window;
 
 import java.util.Properties;
 
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Messagebox;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trace;
-
 import org.zkoss.zk.ui.Component;
-import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Messagebox;
 
 /**
  *

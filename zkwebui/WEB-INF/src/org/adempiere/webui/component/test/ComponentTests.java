@@ -18,8 +18,6 @@
 package org.adempiere.webui.component.test;
 
 
-import org.adempiere.webui.component.test.ListModelTableTest;
-import org.adempiere.webui.component.test.WListItemRendererTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

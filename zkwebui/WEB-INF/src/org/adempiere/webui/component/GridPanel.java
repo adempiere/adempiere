@@ -31,7 +31,6 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 

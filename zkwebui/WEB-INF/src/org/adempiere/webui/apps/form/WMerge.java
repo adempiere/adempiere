@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
 
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -32,8 +33,18 @@ import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.Lookup;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MPayment;
+import org.compiere.model.X_M_Cost;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.DesktopUnavailableException;

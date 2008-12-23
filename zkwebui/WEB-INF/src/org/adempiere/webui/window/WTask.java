@@ -16,15 +16,17 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.util.logging.*;
+import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.OSTask;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import org.compiere.model.MTask;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;

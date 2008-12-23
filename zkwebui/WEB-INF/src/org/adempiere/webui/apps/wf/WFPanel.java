@@ -16,8 +16,8 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
@@ -26,8 +26,11 @@ import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.wf.WFLine;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWFNodeNext;
+import org.compiere.wf.MWorkflow;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;

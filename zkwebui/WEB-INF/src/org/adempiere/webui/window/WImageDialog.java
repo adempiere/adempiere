@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.io.*;
-import java.util.logging.*;
+import java.io.InputStream;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
@@ -25,8 +25,10 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Window;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MImage;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.image.AImage;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;

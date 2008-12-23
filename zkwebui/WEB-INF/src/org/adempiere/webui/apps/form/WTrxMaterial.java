@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
@@ -39,8 +42,18 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.ADTabpanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Borderlayout;

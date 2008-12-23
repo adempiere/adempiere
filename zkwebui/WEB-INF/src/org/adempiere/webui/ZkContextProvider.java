@@ -17,6 +17,7 @@
 package org.adempiere.webui;
 
 import java.util.Properties;
+
 import net.sf.cglib.proxy.Enhancer;
 
 import org.adempiere.webui.session.SessionManager;

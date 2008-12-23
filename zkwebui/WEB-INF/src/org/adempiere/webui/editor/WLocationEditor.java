@@ -19,6 +19,7 @@ package org.adempiere.webui.editor;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Locationbox;
 import org.adempiere.webui.event.ValueChangeEvent;

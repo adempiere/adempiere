@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.sql.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -35,8 +37,21 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADTabpanel;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.DataStatusListener;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAccountLookup;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MQuery;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;

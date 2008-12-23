@@ -19,7 +19,6 @@ package org.adempiere.webui.grid;
 
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.BackgroundColours;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;

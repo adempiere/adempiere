@@ -16,11 +16,17 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.*;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
@@ -36,8 +42,15 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MResourceAssignment;
+import org.compiere.model.MRole;
+import org.compiere.model.MUOMConversion;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;

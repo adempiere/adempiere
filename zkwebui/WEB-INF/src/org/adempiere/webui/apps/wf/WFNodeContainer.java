@@ -12,12 +12,15 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.wf;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import org.compiere.apps.wf.WFLine;
-import org.compiere.util.*;
-import org.compiere.wf.*;
+import org.compiere.util.CLogger;
+import org.compiere.wf.MWorkflow;
 
 /**
  * 

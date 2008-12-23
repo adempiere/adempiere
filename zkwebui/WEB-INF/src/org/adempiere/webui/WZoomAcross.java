@@ -16,18 +16,24 @@
  *****************************************************************************/
 package org.adempiere.webui;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRMA;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 

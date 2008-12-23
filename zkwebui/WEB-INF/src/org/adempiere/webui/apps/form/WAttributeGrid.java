@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 
+import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
@@ -35,7 +36,6 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
-import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAttribute;
