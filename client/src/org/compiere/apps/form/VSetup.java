@@ -16,22 +16,41 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.sql.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Currency;
 import java.util.Locale;
-import java.util.logging.*;
-import javax.swing.*;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.print.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.model.MSetup;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.print.PrintUtil;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.ExtensionFileFilter;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Setup System

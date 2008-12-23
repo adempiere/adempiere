@@ -16,20 +16,47 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import org.compiere.apps.*;
-import org.compiere.impexp.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.impexp.ImpFormat;
+import org.compiere.impexp.ImpFormatRow;
 import org.compiere.model.MRole;
-import org.compiere.plaf.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 
 
 /**

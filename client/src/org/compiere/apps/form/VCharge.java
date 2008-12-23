@@ -16,22 +16,43 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.table.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MAccount;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCharge;
+import org.compiere.model.MElementValue;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *  Create Charge from Accounts

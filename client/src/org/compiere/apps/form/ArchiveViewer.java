@@ -16,22 +16,45 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.sql.*;
-import java.util.logging.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
+import java.io.InputStream;
+import java.sql.Timestamp;
+import java.util.logging.Level;
 
 import javax.swing.JSplitPane;
 
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
-import org.adempiere.pdf.*;
-import org.adempiere.pdf.viewer.*;
+import org.adempiere.pdf.Document;
+import org.adempiere.pdf.viewer.PDFViewerBean;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VString;
+import org.compiere.grid.ed.VText;
+import org.compiere.model.MArchive;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MRole;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTabbedPane;
+import org.compiere.swing.CTextField;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 
 /**

@@ -39,12 +39,12 @@ import org.compiere.apps.Help;
 import org.compiere.apps.WindowMenu;
 import org.compiere.model.MRole;
 import org.compiere.model.MUser;
+import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trace;
-import org.compiere.process.ProcessInfo;
 
 
 /**

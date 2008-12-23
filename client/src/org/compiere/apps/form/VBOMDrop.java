@@ -16,18 +16,46 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.model.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.logging.Level;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
+import javax.swing.border.TitledBorder;
+
+import org.compiere.apps.ALayout;
+import org.compiere.apps.ALayoutConstraint;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductBOM;
+import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
+import org.compiere.model.MRole;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *	Drop BOM

@@ -16,22 +16,57 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.minigrid.*;
-import org.compiere.model.*;
-import org.compiere.plaf.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Vector;
+import java.util.logging.Level;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+import org.compiere.apps.StatusBar;
+import org.compiere.grid.ed.VDate;
+import org.compiere.grid.ed.VLookup;
+import org.compiere.grid.ed.VNumber;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMatchInv;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MRole;
+import org.compiere.model.MStorage;
+import org.compiere.plaf.CompiereColor;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CComboBox;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 
 /**
  *  Manual Matching

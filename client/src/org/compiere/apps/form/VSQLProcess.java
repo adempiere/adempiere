@@ -16,16 +16,24 @@
  *****************************************************************************/
 package org.compiere.apps.form;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.StringTokenizer;
+import java.util.logging.Level;
 
-import org.compiere.apps.*;
-import org.compiere.grid.ed.*;
-import org.compiere.swing.*;
-import org.compiere.util.*;
+import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VText;
+import org.compiere.swing.CButton;
+import org.compiere.swing.CLabel;
+import org.compiere.swing.CPanel;
+import org.compiere.swing.CTextArea;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Process SQL Commands
