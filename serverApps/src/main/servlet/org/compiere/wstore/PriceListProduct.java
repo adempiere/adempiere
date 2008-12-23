@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.math.*;
-import org.compiere.util.*;
+import java.math.BigDecimal;
+
+import org.compiere.util.CLogger;
 
 /**
  *  Price List Product

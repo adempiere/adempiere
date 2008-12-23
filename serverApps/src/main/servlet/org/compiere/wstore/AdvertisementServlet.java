@@ -16,12 +16,22 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.IOException;
+import java.util.Properties;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.model.MAdvertisement;
+import org.compiere.util.CLogger;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUser;
+import org.compiere.util.WebUtil;
 
 /**
  *  Web Request.

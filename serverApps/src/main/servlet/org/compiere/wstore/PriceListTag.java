@@ -16,12 +16,17 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.util.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.jstl.core.*;
-import javax.servlet.jsp.tagext.*;
-import org.compiere.util.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.jstl.core.Config;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.WebUser;
 
 /**
  * 	PriceList Tag.

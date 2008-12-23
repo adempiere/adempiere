@@ -16,14 +16,24 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.util.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import java.util.Properties;
 
-import org.apache.ecs.xhtml.*;
-import org.compiere.util.*;
-import org.compiere.model.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.br;
+import org.apache.ecs.xhtml.hr;
+import org.compiere.model.MStore;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
+import org.compiere.util.HtmlCode;
+import org.compiere.util.WebInfo;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUser;
 
 /**
  *  Info Links (Menu).

@@ -16,13 +16,21 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import java.util.logging.*;
-import org.compiere.util.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.WebEnv;
 
 /**
  *  Web Page Counter

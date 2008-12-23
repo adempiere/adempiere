@@ -16,13 +16,23 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.io.*;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.util.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.xhtml.body;
+import org.apache.ecs.xhtml.p;
+import org.compiere.util.CLogger;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
 
 /**
  * 	Web Store Filter

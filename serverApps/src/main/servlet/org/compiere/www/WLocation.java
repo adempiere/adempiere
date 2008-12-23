@@ -16,13 +16,38 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.xhtml.b;
+import org.apache.ecs.xhtml.button;
+import org.apache.ecs.xhtml.form;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.script;
+import org.apache.ecs.xhtml.select;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.GridField;
+import org.compiere.model.MCountry;
+import org.compiere.model.MLocation;
+import org.compiere.model.MRegion;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebUtil;
 
 /**
  *  WLocation Servlet.

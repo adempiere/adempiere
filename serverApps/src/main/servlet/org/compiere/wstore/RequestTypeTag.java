@@ -16,14 +16,22 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.select;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  Request Type Tag.

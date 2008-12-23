@@ -25,12 +25,21 @@
  **********************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.compiere.util.*;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.logging.Level;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
 
 /**
  *  HTML UI Filter to do timing and list parameters

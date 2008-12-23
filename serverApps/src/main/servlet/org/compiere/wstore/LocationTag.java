@@ -16,17 +16,28 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.util.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.ecs.xhtml.*;
-import org.apache.taglibs.standard.tag.el.core.*;
-import org.compiere.model.*;
-import java.util.logging.*;
-import org.compiere.util.*;
+import org.apache.ecs.xhtml.br;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.label;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.select;
+import org.apache.ecs.xhtml.span;
+import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
+import org.compiere.model.MCountry;
+import org.compiere.model.MLocation;
+import org.compiere.model.MRegion;
+import org.compiere.util.CLogger;
+import org.compiere.util.HtmlCode;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Location City - Postal - Region - Country (Address).

@@ -16,10 +16,32 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.apache.ecs.AlignType;
+import org.apache.ecs.Element;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.div;
+import org.apache.ecs.xhtml.img;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.label;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.select;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.textarea;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLocator;
+import org.compiere.model.MRole;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.NamePair;
+import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
 
 /**
  *	Web Field.

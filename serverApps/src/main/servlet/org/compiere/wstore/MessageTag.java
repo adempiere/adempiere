@@ -16,11 +16,15 @@
  *****************************************************************************/
 package org.compiere.wstore;
 
-import java.util.*;
-import javax.servlet.http.*;
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import org.compiere.util.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.TagSupport;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.Msg;
 
 /**
  *  Message/Translation Tag.

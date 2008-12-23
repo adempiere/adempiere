@@ -16,9 +16,14 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.util.*;
-import javax.servlet.http.*;
-import org.compiere.model.*;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.model.GridTab;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
 
 
 /**
