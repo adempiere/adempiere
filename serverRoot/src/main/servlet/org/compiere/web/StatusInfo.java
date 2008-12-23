@@ -16,15 +16,21 @@
  *****************************************************************************/
 package org.compiere.web;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
-import javax.naming.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 
-import javax.sql.*;
-import java.sql.*;
+import javax.naming.InitialContext;
+import javax.naming.NamingEnumeration;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
-import org.compiere.interfaces.*;
+import org.compiere.interfaces.Server;
+import org.compiere.interfaces.Status;
 
 /**
  *	Status Info Servlet

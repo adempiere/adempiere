@@ -16,14 +16,24 @@
  *****************************************************************************/
 package org.compiere.web;
 
-import java.io.*;
-import java.util.logging.*;
-import javax.servlet.*;
+import java.io.IOException;
+import java.util.logging.Level;
+
 import javax.servlet.Filter;
-import javax.servlet.http.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
-import sun.misc.*;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * 	Adempiere Monitor Filter.
