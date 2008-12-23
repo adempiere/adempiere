@@ -3,10 +3,16 @@
  */
 package org.compiere.utils;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-
-import java.sql.*;
 
 public class DBUtils {
     static {

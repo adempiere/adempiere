@@ -1,12 +1,15 @@
 package org.compiere.report;
-import net.sf.jasperreports.engine.*;
-import net.sourceforge.barbecue.*;
-import net.sf.jasperreports.engine.util.*;
-import java.awt.Graphics2D;
-import java.awt.geom.*;
-import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRenderable;
+import net.sf.jasperreports.engine.util.JRImageLoader;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeImageHandler;
 
 public abstract class Barbecue implements JRRenderable
 {

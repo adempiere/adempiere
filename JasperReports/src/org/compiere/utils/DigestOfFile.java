@@ -1,10 +1,13 @@
 package org.compiere.utils;
 
-import java.security.*;
-import sun.security.provider.Sun;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.MessageDigest;
 
-import sun.misc.*;
+import sun.misc.BASE64Encoder;
+import sun.security.provider.Sun;
 
 
 /**
