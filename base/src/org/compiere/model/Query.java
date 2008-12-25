@@ -30,8 +30,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
@@ -44,6 +46,9 @@ import org.compiere.util.Util;
  * 			<li>FR [ 2107068 ] Query.setOrderBy should be more error tolerant
  * 			<li>FR [ 2107109 ] Add method Query.setOnlyActiveRecords
  * 			<li>FR [ 2421313 ] Introduce Query.firstOnly convenient method
+ * @author Redhuan D. Oon
+ * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
+ *			>li>FR: [ 2214883 ] - to introduce .setClient_ID
  */
 public class Query
 {
@@ -57,6 +62,7 @@ public class Query
 	private Object[] parameters = null;
 	private boolean applyAccessFilter = false;
 	private boolean onlyActiveRecords = false;
+	private boolean onlyClient_ID = false;
 	
 	/**
 	 * 
@@ -158,6 +164,15 @@ public class Query
 	public Query setOnlyActiveRecords(boolean onlyActiveRecords)
 	{
 		this.onlyActiveRecords = onlyActiveRecords;
+		return this;
+	}
+	
+	/**
+	 * Set Client_ID true for WhereClause routine to include AD_Client_ID
+	 */
+	public Query setClient_ID()
+	{
+		this.onlyClient_ID = true;
 		return this;
 	}
 	
@@ -428,24 +443,33 @@ public class Query
 			}
 			selectClause = info.buildSelect();
 		}
-		StringBuffer sqlBuffer = new StringBuffer(selectClause);
+		
+		StringBuffer whereBuffer = new StringBuffer(); 
 		if (!Util.isEmpty(this.whereClause, true))
 		{
-			sqlBuffer.append(" WHERE ").append(whereClause);
+			if (whereBuffer.length() > 0)
+				whereBuffer.append(" AND ");
+			whereBuffer.append("(").append(this.whereClause).append(")");
 		}
 		if (this.onlyActiveRecords)
 		{
-			if (Util.isEmpty(this.whereClause, true))
-			{
-				sqlBuffer.append(" WHERE IsActive=?");
-			}
-			else
-			{
-				sqlBuffer.append(" AND IsActive=?");
-			}
-			
+			if (whereBuffer.length() > 0)
+				whereBuffer.append(" AND ");
+			whereBuffer.append("IsActive=?");
 		}
-		if (useOrderByClause && orderBy != null && orderBy.trim().length() > 0)
+		if (this.onlyClient_ID) //red1
+		{
+			if (whereBuffer.length() > 0)
+				whereBuffer.append(" AND ");
+			whereBuffer.append("AD_Client_ID=?");
+		}
+		
+		StringBuffer sqlBuffer = new StringBuffer(selectClause);
+		if (whereBuffer.length() > 0)
+		{
+			sqlBuffer.append(" WHERE ").append(whereBuffer);
+		}
+		if (useOrderByClause && !Util.isEmpty(orderBy, true))
 		{
 			sqlBuffer.append(" ORDER BY ").append(orderBy);
 		}
@@ -455,16 +479,25 @@ public class Query
 			MRole role = MRole.getDefault(this.ctx, false);
 			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
 		}
+		if (CLogMgt.isLevelFinest()) log.finest("TableName = "+table.getTableName()+"... SQL = " +sql); //red1  - to assist in debugging SQL
 		return sql;
 	}
 	
 	private final ResultSet createResultSet (PreparedStatement pstmt) throws SQLException
 	{
 		DB.setParameters(pstmt, parameters);
+		int i = 1 + (parameters != null ? parameters.length : 0);
+		
 		if (this.onlyActiveRecords)
 		{
-			int i = 1 + (parameters != null ? parameters.length : 0);
-			DB.setParameter(pstmt, i, true);
+			DB.setParameter(pstmt, i++, true);
+			log.finest("Parameter IsActive = Y");
+		}
+		if (this.onlyClient_ID)
+		{
+			int AD_Client_ID = Env.getAD_Client_ID(ctx);
+			DB.setParameter(pstmt, i++, AD_Client_ID);
+			log.finest("Parameter AD_Client_ID = "+AD_Client_ID);
 		}
 		return pstmt.executeQuery();
 	}
