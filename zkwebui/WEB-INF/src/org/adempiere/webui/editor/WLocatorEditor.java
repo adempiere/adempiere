@@ -28,6 +28,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WLocatorDialog;
+import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MRole;
@@ -51,7 +52,6 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
-	private String m_columnName;
 	private MLocatorLookup m_mLocator;
 	private Object m_value;
 	private int m_WindowNo;
@@ -82,7 +82,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 	{
 		super(new EditorBox(), "Locator", "", mandatory, isReadOnly, isUpdateable);
 		
-		m_columnName = columnName;
+		setColumnName(columnName);
 		m_mLocator = mLocator;
 		getComponent().setButtonImage("/images/Locator10.png");
 		
@@ -91,6 +91,20 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		m_WindowNo = windowNo;
 	}
 	
+	/**
+	 * @param gridField
+	 */
+	public WLocatorEditor(GridField gridField) {
+		super(new EditorBox(), gridField);
+		m_mLocator = (MLocatorLookup)gridField.getLookup();
+		
+		getComponent().setButtonImage("/images/Locator10.png");
+		
+		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
+		
+		m_WindowNo = gridField.getWindowNo();		
+	}
+
 	public void setValue(Object value)
 	{
 		setValue (value, false);
@@ -118,7 +132,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		//	Data Binding
 		if (fire) {
-			ValueChangeEvent val = new ValueChangeEvent(this, m_columnName, null, value); 
+			ValueChangeEvent val = new ValueChangeEvent(this, getColumnName(), null, value); 
 			fireValueChange(val);
 		}
 
@@ -201,7 +215,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 			m_mLocator.setOnly_Warehouse_ID(only_Warehouse_ID);
 			m_mLocator.setOnly_Product_ID(getOnly_Product_ID());
 			
-			WLocatorDialog ld = new WLocatorDialog(Msg.translate(Env.getCtx(), m_columnName),
+			WLocatorDialog ld = new WLocatorDialog(Msg.translate(Env.getCtx(), getColumnName()),
 				m_mLocator, M_Locator_ID, isMandatory(), only_Warehouse_ID, this.m_WindowNo);
 			
 			//	display

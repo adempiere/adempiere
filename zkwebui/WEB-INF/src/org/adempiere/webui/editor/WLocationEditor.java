@@ -24,6 +24,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Locationbox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WLocationDialog;
+import org.compiere.model.GridField;
 import org.compiere.model.MLocation;
 import org.compiere.model.MLocationLookup;
 import org.compiere.util.CLogger;
@@ -45,7 +46,6 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     
     private static CLogger log = CLogger.getCLogger(WLocationEditor.class);
     private static final long serialVersionUID = 1L;
-    private String              m_columnName;
     private MLocationLookup     m_Location;
     private MLocation           m_value;
     
@@ -62,12 +62,22 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     {
         super(new Locationbox(), "Address","",mandatory,isReadOnly,isUpdateable);
        
-        m_columnName = columnName;
+        setColumnName(columnName);
         m_Location = mLocation;
         getComponent().setButtonImage("/images/Location10.png");
     }
 
-    @Override
+    /**
+     * 
+     * @param gridField
+     */
+    public WLocationEditor(GridField gridField) {
+		super(new Locationbox(), gridField);
+		m_Location = (MLocationLookup)gridField.getLookup();
+		getComponent().setButtonImage("/images/Location10.png");
+	}
+
+	@Override
     public String getDisplay()
     {
         return getComponent().getText();
@@ -155,11 +165,11 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
                 C_Location_ID = m_value.getC_Location_ID();
             Integer ii = new Integer(C_Location_ID);
             //  force Change - user does not realize that embedded object is already saved.
-            ValueChangeEvent valuechange = new ValueChangeEvent(this,m_columnName,null,null);
+            ValueChangeEvent valuechange = new ValueChangeEvent(this,getColumnName(),null,null);
             fireValueChange(valuechange);   //  resets m_mLocation
             if (C_Location_ID != 0)
             {
-                ValueChangeEvent vc = new ValueChangeEvent(this,m_columnName,null,ii);
+                ValueChangeEvent vc = new ValueChangeEvent(this,getColumnName(),null,ii);
                 fireValueChange(vc);
             }
             setValue(ii); 

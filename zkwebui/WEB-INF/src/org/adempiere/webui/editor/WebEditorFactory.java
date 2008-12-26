@@ -142,14 +142,11 @@ public class WebEditorFactory
         
         else if (displayType == DisplayType.Location)
         {
-            editor = new WLocationEditor(gridField.getColumnName(),gridField.isMandatory(false),gridField.isReadOnly(),gridField.isUpdateable(),
-                    (MLocationLookup)gridField.getLookup());
+            editor = new WLocationEditor(gridField);
         }
         else if (displayType == DisplayType.Locator)
         {
-        	editor = new WLocatorEditor(gridField.getColumnName(), gridField.isMandatory(false), 
-        			gridField.isReadOnly(), gridField.isUpdateable(), 
-        			(MLocatorLookup)gridField.getLookup(), gridField.getWindowNo()); 
+        	editor = new WLocatorEditor(gridField); 
         }
         else if (displayType == DisplayType.Account)
         {
