@@ -42,12 +42,10 @@ import org.compiere.interfaces.Server;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -192,56 +190,19 @@ public final class AEnv
 	}
 
 	/**
-	 * 	Is Workflow Process view enabled.
-	 *	@return true if enabled
-	 */
-	public static boolean isWorkflowProcess ()
-	{
-
-		if (s_workflow == null)
-		{
-			s_workflow = Boolean.FALSE;
-			int AD_Table_ID = 645;	//	AD_WF_Process
-			if (MRole.getDefault().isTableAccess (AD_Table_ID, true))	//	RO
-				s_workflow = Boolean.TRUE;
-			else
-			{
-				AD_Table_ID = 644;	//	AD_WF_Activity
-				if (MRole.getDefault().isTableAccess (AD_Table_ID, true))	//	RO
-					s_workflow = Boolean.TRUE;
-				else
-					log.config(s_workflow.toString());
-			}
-			//	Get Window
-			if (s_workflow.booleanValue())
-			{
-				s_workflow_Window_ID = DB.getSQLValue (null,
-					"SELECT AD_Window_ID FROM AD_Table WHERE AD_Table_ID=?", AD_Table_ID);
-				if (s_workflow_Window_ID == 0)
-					s_workflow_Window_ID = 297;	//	fallback HARDCODED
-				//	s_workflow = Boolean.FALSE;
-				log.config(s_workflow + ", Window=" + s_workflow_Window_ID);
-			}
-		}
-		return s_workflow.booleanValue();
-
-	}	//	isWorkflowProcess
-
-
-	/**
 	 * 	Start Workflow Process Window
 	 *	@param AD_Table_ID optional table
 	 *	@param Record_ID optional record
 	 */
 	public static void startWorkflowProcess (int AD_Table_ID, int Record_ID)
 	{
-		if (s_workflow_Window_ID == 0)
+		if (s_workflow_Window_ID <= 0)
 		{
 			int AD_Window_ID = DB.getSQLValue(null, "SELECT AD_Window_ID FROM AD_Window WHERE Name = 'Workflow Process'");
 			s_workflow_Window_ID = AD_Window_ID;
 		}
 		
-		if (s_workflow_Window_ID == 0)
+		if (s_workflow_Window_ID <= 0)
 			return;
 		
 		MQuery query = new MQuery();
@@ -253,9 +214,7 @@ public final class AEnv
 
 	/*************************************************************************/
 
-	/** Workflow Menu		*/
-	private static Boolean	s_workflow = null;
-	/** Workflow Menu		*/
+	/** Workflow Window		*/
 	private static int		s_workflow_Window_ID = 0;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AEnv.class);
@@ -296,7 +255,7 @@ public final class AEnv
 
 		log.config("Window=" + WindowNo + ", AD_Window_ID=" + AD_Window_ID);
 		GridWindowVO mWindowVO = null;
-		if (AD_Window_ID != 0 && Ini.isCacheWindow())	//	try cache
+		/*if (AD_Window_ID != 0 && Ini.isCacheWindow())	//	try cache
 		{
 			mWindowVO = s_windows.get(AD_Window_ID);
 			if (mWindowVO != null)
@@ -304,7 +263,7 @@ public final class AEnv
 				mWindowVO = mWindowVO.clone(WindowNo);
 				log.info("Cached=" + mWindowVO);
 			}
-		}
+		}*/
 		
 		//  Create Window Model on Client
 		if (mWindowVO == null)
