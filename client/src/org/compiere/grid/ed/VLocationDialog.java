@@ -183,7 +183,7 @@ public class VLocationDialog extends CDialog
 	}	//	jbInit
 
 	/**
-	 *	Dynanmic Init & fill fields - Called when Country changes!
+	 *	Dynamic Init & fill fields - Called when Country changes!
 	 */
 	private void initLocation()
 	{
