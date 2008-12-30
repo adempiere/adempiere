@@ -7,7 +7,7 @@ function Calc()
 	this.evaluate = evaluate;
 	this.append = append;
 	
-	function validate(displayTextId, calcTextId, integral, e)
+	function validate(displayTextId, calcTextId, integral, separatorKey, e)
 	{
 	     var key;
 
@@ -45,7 +45,7 @@ function Calc()
 	     {
 	     	return true;	
 	     }
-	     else if ( key == 46 && !integral)
+	     else if ( key == separatorKey && !integral)
 	     {
 	     	return true;
 	     }
@@ -85,12 +85,23 @@ function Calc()
 			
 	}
 	
-	function evaluate(displayTextId, calcTextId)
+	function evaluate(displayTextId, calcTextId, separator)
 	{
 		try
 		{
 			var calcText = document.getElementById(calcTextId);
-			calcText.value = eval(calcText.value);
+			var value = calcText.value;
+			if (separator != '.')
+			{
+				var re = new RegExp("[" + separator + "]");
+				value = value.replace(re,'.');
+			}
+			var result = "" + eval(value);
+			if (separator != '.')
+			{
+				result = result.replace(/\./, separator);
+			}
+			calcText.value = result;
 			
 			var displayText = document.getElementById(displayTextId);
 			

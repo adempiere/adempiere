@@ -19,6 +19,8 @@ package org.adempiere.webui.session;
 
 import java.util.List;
 
+import org.compiere.util.Env;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -54,6 +56,9 @@ public class SessionContextListener implements ExecutionInit,
             	ServerContext.setCurrentInstance(ctx);
             }
             exec.setAttribute(SESSION_CTX, ctx);
+            
+            //set locale
+            Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
         }
     }
 
@@ -75,6 +80,9 @@ public class SessionContextListener implements ExecutionInit,
         ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
                 SESSION_CTX);
         ServerContext.setCurrentInstance(ctx);
+        
+        // set locale
+        Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
         
 		return true; 
     }

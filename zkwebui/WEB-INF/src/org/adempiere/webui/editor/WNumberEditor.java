@@ -27,6 +27,7 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -106,7 +107,7 @@ public class WNumberEditor extends WEditor
 		
 		if (!DisplayType.isNumeric(displayType))
 			displayType = DisplayType.Number;
-		DecimalFormat format = DisplayType.getNumberFormat(displayType);
+		DecimalFormat format = DisplayType.getNumberFormat(displayType, Env.getLanguage(Env.getCtx()));
 		getComponent().getDecimalbox().setFormat(format.toPattern());
     }
     

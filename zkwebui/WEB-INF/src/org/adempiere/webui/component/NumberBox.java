@@ -23,6 +23,8 @@ import java.text.ParseException;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -191,10 +193,12 @@ public class NumberBox extends Div
 
         Vbox vbox = new Vbox();
 
+        char separatorChar = DisplayType.getNumberFormat(DisplayType.Number, Env.getLanguage(Env.getCtx())).getDecimalFormatSymbols().getDecimalSeparator();
+        
         txtCalc = new Textbox();
         txtCalc.setAction("onKeyPress : return calc.validate('" + 
         		decimalBox.getId() + "','" + txtCalc.getId() 
-                + "'," + integral + ", event);");
+                + "'," + integral + "," + (int)separatorChar + ", event);");
         txtCalc.setMaxlength(250);
         txtCalc.setCols(30);
         
@@ -312,17 +316,18 @@ public class NumberBox extends Div
         btn0.setLabel("0");
         btn0.setAction("onClick : calc.append('" + txtCalcId + "', '0')");
 
+        String separator = Character.toString(separatorChar);
         Button btnDot = new Button();
         btnDot.setWidth("30px");
-        btnDot.setLabel(".");
+        btnDot.setLabel(separator);
         btnDot.setDisabled(integral);
-        btnDot.setAction("onClick : calc.append('" + txtCalcId + "', '.')");
+        btnDot.setAction("onClick : calc.append('" + txtCalcId + "', '" + separator + "')");
 
         Button btnEqual = new Button();
         btnEqual.setWidth("30px");
         btnEqual.setLabel("=");
         btnEqual.setAction("onClick : calc.evaluate('" + decimalBox.getId() + "','" 
-                + txtCalcId + "')");
+                + txtCalcId + "','" + separator + "')");
         
         Button btnAdd = new Button();
         btnAdd.setWidth("30px");
