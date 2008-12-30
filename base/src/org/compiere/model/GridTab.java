@@ -1492,7 +1492,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			MessageFormat mf = null;
 			try
 			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "InvoiceBatchSummary"));
+				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "InvoiceBatchSummary"), Env.getLanguage(m_vo.ctx).getLocale());
 			}
 			catch (Exception e)
 			{
@@ -1575,7 +1575,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			MessageFormat mf = null;
 			try
 			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "OrderSummary"));
+				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "OrderSummary"), Env.getLanguage(m_vo.ctx).getLocale());
 			}
 			catch (Exception e)
 			{
@@ -1646,7 +1646,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			MessageFormat mf = null;
 			try
 			{
-				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "ExpenseSummary"));
+				mf = new MessageFormat(Msg.getMsg(Env.getAD_Language(m_vo.ctx), "ExpenseSummary"), Env.getLanguage(m_vo.ctx).getLocale());
 			}
 			catch (Exception e)
 			{
