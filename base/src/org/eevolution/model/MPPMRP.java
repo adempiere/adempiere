@@ -266,12 +266,40 @@ public class MPPMRP extends X_PP_MRP
 				MPPProductBOM bom = new Query(ctx, MPPProductBOM.Table_Name, where, trxName)
 							.setParameters(new Object[]{MPPProductBOM.BOMTYPE_Make_To_Order, ol.getM_Product_ID()})
 							.first();	
+				
+				MPPProductPlanning pp = null;
+				//Validate the BOM based in planning data 
+				if(bom == null)
+				{
+					pp = MPPProductPlanning.find( ctx, ol.getAD_Org_ID() , 0, 0, ol.getM_Product_ID(), trxName); 
+					if(pp != null)
+					{	
+						if(pp.getPP_Product_BOM_ID() != 0)
+						{	
+							bom = (MPPProductBOM) pp.getPP_Product_BOM();
+							if(!bom.getBOMType().equals(MPPProductBOM.BOMTYPE_Make_To_Order))
+								bom = null;
+						}
+					}
+				}
+				
 				if (bom != null) 
 				{		
 						MProduct product = MProduct.get(ctx,ol.getM_Product_ID());   
 						String WhereClause = "ManufacturingResourceType = 'PT' AND IsManufacturingResource = 'Y' AND AD_Client_ID = ? AND M_Warehouse_ID = ?";
 						MResource m_resource = (MResource)MTable.get(ctx,MResource.Table_ID).getPO(WhereClause, new Object[]{ ol.getAD_Client_ID(),ol.getM_Warehouse_ID()}, trxName);
+						
 						MWorkflow m_workflow = MWorkflow.get(ctx, MWorkflow.getWorkflowSearchKey(ctx, product));
+						
+						//Validate the workflow based in planning data 						
+						if(m_workflow == null)
+						{
+							if(pp != null && pp.getAD_Workflow_ID() != 0)
+							{	
+									m_workflow =  (MWorkflow) pp.getAD_Workflow();
+							}
+						}
+						
 						if (m_resource != null && m_workflow != null)
 						{
 							MDocType[] doc = MDocType.getOfDocBaseType(ctx, X_C_DocType.DOCBASETYPE_ManufacturingOrder);
