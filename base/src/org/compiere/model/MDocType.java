@@ -29,6 +29,8 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @author Karsten Thiemann FR [ 1782412 ]
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2476824 ] MDocType.getOfDocBaseType should return ONLY active records
  *  @version $Id: MDocType.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public class MDocType extends X_C_DocType
@@ -44,6 +46,7 @@ public class MDocType extends X_C_DocType
 		String whereClause  = "AD_Client_ID=? AND DocBaseType=?";
 		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
 									.setParameters(new Object[]{Env.getAD_Client_ID(ctx), DocBaseType})
+									.setOnlyActiveRecords(true)
 									.setOrderBy("IsDefault DESC, C_DocType_ID")
 									.list();
 		return list.toArray(new MDocType[list.size()]);
