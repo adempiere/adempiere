@@ -269,7 +269,7 @@ ContextMenuListener, IZoomableEditor
     	{
     		if (getComponent().getSelectedItem() == null) 
     		{
-    			setValue(null);
+    			setValue(oldValue);
     		}
     	}
     }
@@ -296,14 +296,18 @@ ContextMenuListener, IZoomableEditor
     }
     
     public void actionRefresh()
-    {
-    	Object curValue = getValue();
+    {    	
 		if (lookup != null)
         {
+			Object curValue = getValue();
+			
 			if (isReadWrite())
 				lookup.refresh();
             refreshList();
-		    setValue(curValue);
+            if (curValue != null)
+            {
+            	setValue(curValue);
+            }
         }
     }
     
@@ -344,7 +348,7 @@ ContextMenuListener, IZoomableEditor
 	@Override
 	public void dynamicDisplay()
     {    	
-		if (isReadWrite() && (lookup != null) && (!lookup.isValidated() || !lookup.isLoaded()))
+		if ((lookup != null) && (!lookup.isValidated() || !lookup.isLoaded()))
 			this.actionRefresh();
     }
 }
