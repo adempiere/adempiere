@@ -151,9 +151,13 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 	}
 	
 	public void setSelectedIndices(int[] selected) {
-		this.clearSelection();
-		for(int i : selected) {
-			this.setSelectedIndex(i);
+		if (selected != null && selected.length > 0) {
+			this.setSelectedIndex(selected[0]);
+			for(int i = 1; i < selected.length; i++) {
+				this.addItemToSelection(getItemAtIndex(selected[i]));
+			}
+		} else {
+			this.clearSelection();
 		}
 	}
 
