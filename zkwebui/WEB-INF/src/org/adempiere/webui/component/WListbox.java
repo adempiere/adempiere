@@ -375,11 +375,6 @@ public class WListbox extends Listbox implements TableValueChangeListener, WTabl
         sql.append( " FROM ").append(from);
         sql.append(" WHERE ").append(where);
 
-        //  Table Selection
-        // TODO
-        //setRowSelectionAllowed(true);
-
-        //  org.compiere.apps.form.VMatch.dynInit calls routine for initial init only
         if (from.length() == 0)
         {
             return sql.toString();

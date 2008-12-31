@@ -334,23 +334,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			// if ID column make it invisible
 			else if (field instanceof IDColumn)
 			{
-				listcell.setValue(((IDColumn) field).getRecord_ID());				
-
-				Checkbox checkbox = new Checkbox();
-				checkbox.setChecked(((IDColumn) field).isSelected());
-
-				if (isCellEditable)
-				{
-					checkbox.setEnabled(true);
-					checkbox.addEventListener(Events.ON_CHECK, this);
-				}
-				else
-				{
-					checkbox.setEnabled(false);
-				}
-
-				listcell.appendChild(checkbox);
-				ZkCssHelper.appendStyle(listcell, "text-align:center");
+				listcell.setValue(((IDColumn) field).getRecord_ID());
+				if (!table.isCheckmark())
+					table.setCheckmark(true);
+				table.removeEventListener(Events.ON_SELECT, this);
+				table.addEventListener(Events.ON_SELECT, this);
 			}
 			else
 			{
@@ -586,6 +574,34 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 						value, value);
 
 				fireTableValueChange(vcEvent);
+			}
+		} 
+		else if (event.getTarget() instanceof WListbox && Events.ON_SELECT.equals(event.getName()))
+		{
+			WListbox table = (WListbox) event.getTarget();
+			if (table.isCheckmark()) {
+				int cnt = table.getRowCount();
+				if (cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn))
+					return;
+				
+				//update IDColumn
+				tableColumn = m_tableColumns.get(0);
+				for (int i = 0; i < cnt; i++) {
+					IDColumn idcolumn = (IDColumn) table.getValueAt(i, 0);
+					Listitem item = table.getItemAtIndex(i);
+					
+					value = item.isSelected();
+					Boolean old = idcolumn.isSelected();
+					
+					if (!old.equals(value)) {
+						vcEvent = new TableValueChangeEvent(source,
+								tableColumn.getHeaderValue().toString(),
+								i, 0,
+								old, value);
+	
+						fireTableValueChange(vcEvent);
+					}
+				}
 			}
 		}
 
