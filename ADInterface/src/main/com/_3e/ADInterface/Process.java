@@ -21,7 +21,6 @@ import java.sql.*;
 import java.math.*;
 
 import net.sf.compilo.report.ReportProcessor;
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 
 /*
@@ -131,7 +130,7 @@ public class Process {
 	
 	
 	/**************************************************************************
-	 * 	Create Parocess Page
+	 * 	Create Process Page
 	 *	@param AD_Process_ID Process
 	 *	@return Page
 	 */

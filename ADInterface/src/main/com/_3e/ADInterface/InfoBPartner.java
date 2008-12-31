@@ -1,16 +1,16 @@
 package com._3e.ADInterface;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
-import org.compiere.apps.ADialog;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.MRole;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
-import pl.x3E.adInterface.*;
+import pl.x3E.adInterface.DataField;
+import pl.x3E.adInterface.DataRow;
 
 
 public class InfoBPartner implements ADInfo {
