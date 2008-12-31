@@ -560,6 +560,7 @@ public class WMatch extends ADForm
 		}
 		//  requery
 		cmd_search();
+		cmd_searchTo();
 	}   //  cmd_process
 	
 	/**
