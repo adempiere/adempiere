@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -160,38 +160,38 @@ public class MReportColumn extends X_PA_ReportColumn
 		//	ID for Tree Leaf Value
 		int ID = 0;
 		//
-		if (MReportSource.ELEMENTTYPE_Account.equals(et))
+		if (MReportColumn.ELEMENTTYPE_Account.equals(et))
 			ID = getC_ElementValue_ID();
-		else if (MReportSource.ELEMENTTYPE_Activity.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Activity.equals(et))
 			ID = getC_Activity_ID();
-		else if (MReportSource.ELEMENTTYPE_BPartner.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_BPartner.equals(et))
 			ID = getC_BPartner_ID();
-		else if (MReportSource.ELEMENTTYPE_Campaign.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Campaign.equals(et))
 			ID = getC_Campaign_ID();
-		else if (MReportSource.ELEMENTTYPE_LocationFrom.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_LocationFrom.equals(et))
 			ID = getC_Location_ID();
-		else if (MReportSource.ELEMENTTYPE_LocationTo.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_LocationTo.equals(et))
 			ID = getC_Location_ID();
-		else if (MReportSource.ELEMENTTYPE_Organization.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Organization.equals(et))
 			ID = getOrg_ID();
-		else if (MReportSource.ELEMENTTYPE_Product.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Product.equals(et))
 			ID = getM_Product_ID();
-		else if (MReportSource.ELEMENTTYPE_Project.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Project.equals(et))
 			ID = getC_Project_ID();
-		else if (MReportSource.ELEMENTTYPE_SalesRegion.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_SalesRegion.equals(et))
 			ID = getC_SalesRegion_ID();
-		else if (MReportSource.ELEMENTTYPE_OrgTrx.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_OrgTrx.equals(et))
 			ID = getOrg_ID();	//	(re)uses Org_ID
-		else if (MReportSource.ELEMENTTYPE_UserList1.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_UserList1.equals(et))
 			ID = getC_ElementValue_ID();
-		else if (MReportSource.ELEMENTTYPE_UserList2.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_UserList2.equals(et))
 			ID = getC_ElementValue_ID();
-		else if (MReportSource.ELEMENTTYPE_UserElement1.equals(et))
-			return "UserElement1_ID="+getUserElement1_ID(); // Not Tree
-		else if (MReportSource.ELEMENTTYPE_UserElement2.equals(et))
-			return "UserElement2_ID="+getUserElement2_ID(); // Not Tree
+		else if (MReportColumn.ELEMENTTYPE_UserElement1.equals(et))
+			return " AND UserElement1_ID="+getUserElement1_ID(); // Not Tree
+		else if (MReportColumn.ELEMENTTYPE_UserElement2.equals(et))
+			return " AND UserElement2_ID="+getUserElement2_ID(); // Not Tree
 		// Financial Report Source with Type Combination
-		else if (MReportSource.ELEMENTTYPE_Combination.equals(et))
+		else if (MReportColumn.ELEMENTTYPE_Combination.equals(et))
 			return getWhereCombination(PA_Hierarchy_ID);
 		else
 			log.warning("Unsupported Element Type=" + et);
@@ -214,7 +214,7 @@ public class MReportColumn extends X_PA_ReportColumn
 	private String getWhereCombination(int PA_Hierarchy_ID) {
 		StringBuffer whcomb = new StringBuffer();
 		if (getC_ElementValue_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Account, getC_ElementValue_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Account, getC_ElementValue_ID());
 			if (isIncludeNullsElementValue())
 				whcomb.append(" AND (Account_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -224,7 +224,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND Account_ID IS NULL");
 
 		if (getC_Activity_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Activity, getC_Activity_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Activity, getC_Activity_ID());
 			if (isIncludeNullsActivity())
 				whcomb.append(" AND (C_Activity_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -234,7 +234,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND C_Activity_ID IS NULL");
 
 		if (getC_BPartner_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_BPartner, getC_BPartner_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_BPartner, getC_BPartner_ID());
 			if (isIncludeNullsBPartner())
 				whcomb.append(" AND (C_BPartner_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -244,7 +244,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND C_BPartner_ID IS NULL");
 
 		if (getC_Campaign_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Campaign, getC_Campaign_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Campaign, getC_Campaign_ID());
 			if (isIncludeNullsCampaign())
 				whcomb.append(" AND (C_Campaign_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -254,7 +254,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND C_Campaign_ID IS NULL");
 
 		if (getC_Location_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_LocationFrom, getC_Location_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_LocationFrom, getC_Location_ID());
 			if (isIncludeNullsLocation())
 				whcomb.append(" AND (C_LocFrom_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -264,7 +264,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND C_LocFrom_ID IS NULL");
 
 		if (getOrg_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Organization, getOrg_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Organization, getOrg_ID());
 			if (isIncludeNullsOrg())
 				whcomb.append(" AND (AD_Org_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -274,7 +274,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND AD_Org_ID IS NULL");
 		
 		if (getAD_OrgTrx_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_OrgTrx, getAD_OrgTrx_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_OrgTrx, getAD_OrgTrx_ID());
 			if (isIncludeNullsOrgTrx())
 				whcomb.append(" AND (AD_OrgTrx_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -285,7 +285,7 @@ public class MReportColumn extends X_PA_ReportColumn
 		
 
 		if (getM_Product_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Product, getM_Product_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Product, getM_Product_ID());
 			if (isIncludeNullsProduct())
 				whcomb.append(" AND (M_Product_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -295,7 +295,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND M_Product_ID IS NULL");
 
 		if (getC_Project_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_Project, getC_Project_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_Project, getC_Project_ID());
 			if (isIncludeNullsProject())
 				whcomb.append(" AND (C_Project_ID IS NULL OR ").append(whtree).append(")");
 			else
@@ -305,7 +305,7 @@ public class MReportColumn extends X_PA_ReportColumn
 				whcomb.append(" AND C_Project_ID IS NULL");
 
 		if (getC_SalesRegion_ID() > 0) {
-			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportSource.ELEMENTTYPE_SalesRegion, getC_SalesRegion_ID());
+			String whtree = MReportTree.getWhereClause (getCtx(), PA_Hierarchy_ID, MReportColumn.ELEMENTTYPE_SalesRegion, getC_SalesRegion_ID());
 			if (isIncludeNullsSalesRegion())
 				whcomb.append(" AND (C_SalesRegion_ID IS NULL OR ").append(whtree).append(")");
 			else
