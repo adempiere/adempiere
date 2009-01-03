@@ -17,8 +17,13 @@
 
 package org.adempiere.webui.component;
 
+import java.util.Properties;
+
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -99,24 +104,25 @@ public class Messagebox extends Window implements EventListener
 	
 	private void init()
 	{
+		Properties ctx = Env.getCtx();
 		lblMsg.setValue(msg);
 		
-		btnOk.setLabel("OK");
+		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "OK")));
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnOk);
 			
-		btnCancel.setLabel("Cancel");
+		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Cancel")));
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnCancel);
 
-		btnYes.setLabel("Yes");
+		btnYes.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "Yes")));
 		btnYes.setImage("/images/Ok16.png");
 		btnYes.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnYes);
 		
-		btnNo.setLabel("No");
+		btnNo.setLabel(Util.cleanAmp(Msg.getMsg(ctx, "No")));
 		btnNo.setImage("/images/Cancel16.png");
 		btnNo.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnNo);
