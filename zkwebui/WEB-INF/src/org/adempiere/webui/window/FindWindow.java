@@ -57,6 +57,8 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
 import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -145,6 +147,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     public static final int     TABNO = 99;
     /** Length of Fields on first tab   */
     public static final int     FIELDLENGTH = 20;
+	/** Reference ID for Yes/No	*/
+	public static final int		AD_REFERENCE_ID_YESNO = 319;
     
     private int m_AD_Tab_ID = 0;
 	private MUserQuery[] userQueries;
@@ -441,6 +445,27 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         {
             GridField mField = m_findFields[i];
             String columnName = mField.getColumnName();
+
+			// Make Yes-No searchable as list
+			if (mField.getVO().displayType == DisplayType.YesNo)
+			{
+				GridFieldVO vo = mField.getVO();
+				GridFieldVO ynvo = vo.clone(vo.ctx, vo.WindowNo, vo.TabNo, vo.AD_Window_ID, vo.AD_Tab_ID, vo.tabReadOnly);
+				ynvo.IsDisplayed = true;
+				ynvo.displayType = DisplayType.List;
+				ynvo.AD_Reference_Value_ID = AD_REFERENCE_ID_YESNO;
+
+				ynvo.lookupInfo = MLookupFactory.getLookupInfo (ynvo.ctx, ynvo.WindowNo, ynvo.AD_Column_ID, ynvo.displayType,
+						Env.getLanguage(ynvo.ctx), ynvo.ColumnName, ynvo.AD_Reference_Value_ID,
+						ynvo.IsParent, ynvo.ValidationCode);
+				ynvo.lookupInfo.InfoFactoryClass = ynvo.InfoFactoryClass;
+				
+				GridField ynfield = new GridField(ynvo);
+
+				// replace the original field by the YN List field
+				m_findFields[i] = ynfield;
+				mField = ynfield;
+			}
 
             if (columnName.equals("Value"))
                 hasValue = true;
