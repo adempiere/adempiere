@@ -33,6 +33,7 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.wf.MWFActivity;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -199,7 +200,7 @@ public class WDocActionPanel extends Window implements EventListener
 	{
 		lblDocAction = new Label();
 		lblDocAction.setId("lblDocAction");
-		lblDocAction.setValue("Document Action");
+		lblDocAction.setValue(Msg.translate(Env.getCtx(), "DocAction"));
 				
 		label = new Label();
 		label.setId("label");
@@ -245,7 +246,7 @@ public class WDocActionPanel extends Window implements EventListener
 	    rows.appendChild(rowConfirm);
 	    
 	    grid.appendChild(rows);
-	    this.setTitle("Document Action");
+	    this.setTitle(Msg.translate(Env.getCtx(), "DocAction"));
 	    this.setWidth("410px");
 	    this.setBorder("normal");
 	    this.appendChild(grid);
