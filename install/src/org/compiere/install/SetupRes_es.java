@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -54,8 +54,8 @@ public class SetupRes_es extends ListResourceBundle
 	{ "DatabasePassword", 		"Contrase\u00f1a Base de Datos" },
 	{ "TNSNameInfo", 			"Bases de Datos Encontradas" },
 	{ "TNSName", 				"Buscar Bases de Datos" },
-	{ "SystemPasswordInfo", 	"Contrase\u00f1a Usuario System" },
-	{ "SystemPassword", 		"Contrase\u00f1a System" },
+	{ "SystemPasswordInfo", 	"Contrase\u00f1a Usuario Administrador de Base de Datos" },
+	{ "SystemPassword", 		"Contrase\u00f1a Admin BD" },
 	{ "MailServerInfo", 		"Servidor Correo" },
 	{ "MailServer", 			"Servidor Correo" },
 	{ "AdminEMailInfo", 		"Email Administrador Adempiere" },
