@@ -133,13 +133,13 @@ public class WLocationDialog extends Window implements EventListener
     
     private void initComponents()
     {
-        lblAddress1     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 1");
+        lblAddress1     = new Label(Msg.getElement(Env.getCtx(), "Address1"));
         lblAddress1.setStyle(LABEL_STYLE);
-        lblAddress2     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 2");
+        lblAddress2     = new Label(Msg.getElement(Env.getCtx(), "Address2"));
         lblAddress2.setStyle(LABEL_STYLE);
-        lblAddress3     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 3");
+        lblAddress3     = new Label(Msg.getElement(Env.getCtx(), "Address3"));
         lblAddress3.setStyle(LABEL_STYLE);
-        lblAddress4     = new Label(Msg.getMsg(Env.getCtx(), "Address")+ " 4");
+        lblAddress4     = new Label(Msg.getElement(Env.getCtx(), "Address4"));
         lblAddress4.setStyle(LABEL_STYLE);
         lblCity         = new Label(Msg.getMsg(Env.getCtx(), "City"));
         lblCity.setStyle(LABEL_STYLE);
