@@ -31,6 +31,8 @@ import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
+import org.adempiere.webui.util.IServerPushCallback;
+import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
@@ -58,7 +60,7 @@ import org.zkoss.zul.Panelchildren;
 /**
  * @author hengsin 
  */
-public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Serializable, EventListener
+public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 
 	private static final String FAVOURITES_PATH = "/zul/favourites.zul";
@@ -78,6 +80,12 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 	private DashboardRunnable dashboardRunnable;
 
 	private Accordion shortcutPanel;
+
+	private int noOfNotice;
+
+	private int noOfRequest;
+
+	private int noOfWorkflow;
 
     public NavBar2Desktop()
     {    	    	
@@ -388,15 +396,13 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         }
     }
 
-    public void onServerPush()
+    public void onServerPush(ServerPushTemplate template)
 	{
-    	int noOfNotice = DPActivities.getNoticeCount();
-    	int noOfRequest = DPActivities.getRequestCount();
-    	int noOfWorkflow = DPActivities.getWorkflowCount();
-    	int total = noOfNotice + noOfRequest + noOfWorkflow;
+    	noOfNotice = DPActivities.getNoticeCount();
+    	noOfRequest = DPActivities.getRequestCount();
+    	noOfWorkflow = DPActivities.getWorkflowCount();
     	
-    	shortcutPanel.setLabel(1, "Activities (" + total + ")");
-    	shortcutPanel.setTooltiptext(1, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
+    	template.execute(this);
 	}
     
 	/**
@@ -423,5 +429,11 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 			dashboardRunnable.stop();
 			dashboardThread.interrupt();
 		}
+	}
+
+	public void updateUI() {
+		int total = noOfNotice + noOfRequest + noOfWorkflow;
+    	shortcutPanel.setLabel(1, "Activities (" + total + ")");
+    	shortcutPanel.setTooltiptext(1, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
 }

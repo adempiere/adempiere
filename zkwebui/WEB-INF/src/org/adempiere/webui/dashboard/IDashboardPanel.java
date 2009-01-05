@@ -13,17 +13,22 @@
  *****************************************************************************/
 package org.adempiere.webui.dashboard;
 
+import org.adempiere.webui.util.IServerPushCallback;
+import org.adempiere.webui.util.ServerPushTemplate;
+
 /**
  * Interface for dashboard panel
  * @author Elaine
  * @author hengsin
  *
  */
-public interface IDashboardPanel {
+public interface IDashboardPanel extends IServerPushCallback {
 
 	/**
-	 * Refresh content of panel
+	 * Refresh content of panel. For performance reason, keep the activate of desktop as short 
+	 * as possible.
+	 * @param template 
 	 */
-	public void refresh();
+	public void refresh(ServerPushTemplate template);
 	
 }

@@ -34,6 +34,8 @@ import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
+import org.adempiere.webui.util.IServerPushCallback;
+import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
@@ -65,7 +67,7 @@ import org.zkoss.zul.Panelchildren;
  * @date Mar 2, 2007
  * @version $Revision: 0.10 $
  */
-public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener
+public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 
 	private static final long serialVersionUID = 9056511175189603883L;
@@ -79,6 +81,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	private Thread dashboardThread;
 
 	private DashboardRunnable dashboardRunnable;
+
+	private int noOfNotice;
+
+	private int noOfRequest;
+
+	private int noOfWorkflow;
 	
     public DefaultDesktop()
     {    	    	
@@ -348,15 +356,13 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         }
     }
 
-    public void onServerPush()
+    public void onServerPush(ServerPushTemplate template)
 	{
-    	int noOfNotice = DPActivities.getNoticeCount();
-    	int noOfRequest = DPActivities.getRequestCount();
-    	int noOfWorkflow = DPActivities.getWorkflowCount();
-    	int total = noOfNotice + noOfRequest + noOfWorkflow;
+    	noOfNotice = DPActivities.getNoticeCount();
+    	noOfRequest = DPActivities.getRequestCount();
+    	noOfWorkflow = DPActivities.getWorkflowCount();
     	
-		windowContainer.setTabTitle(0, "Home (" + total + ")", 
-				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
+    	template.execute(this);
 	}
     
 	/**
@@ -383,5 +389,11 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			dashboardRunnable.stop();
 			dashboardThread.interrupt();
 		}
+	}
+
+	public void updateUI() {
+		int total = noOfNotice + noOfRequest + noOfWorkflow;
+		windowContainer.setTabTitle(0, "Home (" + total + ")", 
+				"Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
 }

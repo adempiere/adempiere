@@ -19,6 +19,7 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -42,6 +43,12 @@ public class DPActivities extends DashboardPanel implements EventListener {
 	private static final CLogger logger = CLogger.getCLogger(DPActivities.class);
 
 	private Button btnNotice, btnRequest, btnWorkflow;
+
+	private int noOfNotice;
+
+	private int noOfRequest;
+
+	private int noOfWorkflow;
 		
 	public DPActivities()
 	{
@@ -162,18 +169,24 @@ public class DPActivities extends DashboardPanel implements EventListener {
 		return count;
 	}
 	
-    public void refresh()
+	@Override
+    public void refresh(ServerPushTemplate template)
 	{
-    	int noOfNotice = getNoticeCount();
-    	int noOfRequest = getRequestCount();
-    	int noOfWorkflow = getWorkflowCount();
+    	noOfNotice = getNoticeCount();
+    	noOfRequest = getRequestCount();
+    	noOfWorkflow = getWorkflowCount();
     	
-		btnNotice.setLabel("Notice : " + noOfNotice);
+    	template.execute(this);
+	}
+		        
+    @Override
+	public void updateUI() {
+    	btnNotice.setLabel("Notice : " + noOfNotice);
 		btnRequest.setLabel("Request : " + noOfRequest);
 		btnWorkflow.setLabel("Workflow Activities : " + noOfWorkflow);
 	}
-        
-    public void onEvent(Event event)
+
+	public void onEvent(Event event)
     {
         Component comp = event.getTarget();
         String eventName = event.getName();

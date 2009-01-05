@@ -14,6 +14,7 @@
 package org.adempiere.webui.dashboard;
 
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.util.ServerPushTemplate;
 
 /**
  * Custom dashboard item base class
@@ -27,12 +28,9 @@ public abstract class DashboardPanel extends Window implements IDashboardPanel {
 		super();
 	}
 	
-	/**
-	 * Desktop.UpdateInfoRunnable will call this method at a certain interval.
-	 * Subclass should overwrite this method to support server push.
-	 */
-	public void refresh() {
-		
+	public void refresh(ServerPushTemplate template) {
 	}
-	
+
+	public void updateUI() {
+	}
 }

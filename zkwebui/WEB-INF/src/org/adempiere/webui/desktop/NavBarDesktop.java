@@ -32,6 +32,8 @@ import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
+import org.adempiere.webui.util.IServerPushCallback;
+import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
@@ -62,7 +64,7 @@ import org.zkoss.zul.Treerow;
 /**
  * @author hengsin 
  */
-public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener
+public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 
 	private static final String FAVOURITES_PATH = "/zul/favourites.zul";
@@ -88,6 +90,12 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	private West leftRegion;
 
 	private DPFavourites favPanel;
+
+	private int noOfNotice;
+
+	private int noOfRequest;
+
+	private int noOfWorkflow;
 	
     public NavBarDesktop()
     {    	    	
@@ -404,15 +412,13 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         }
     }
 
-    public void onServerPush()
+    public void onServerPush(ServerPushTemplate template)
 	{
-    	int noOfNotice = DPActivities.getNoticeCount();
-    	int noOfRequest = DPActivities.getRequestCount();
-    	int noOfWorkflow = DPActivities.getWorkflowCount();
-    	int total = noOfNotice + noOfRequest + noOfWorkflow;
-    
-    	navigationPanel.setLabel(2, "Activities (" + total + ")");
-    	navigationPanel.setTooltiptext(2, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
+    	noOfNotice = DPActivities.getNoticeCount();
+    	noOfRequest = DPActivities.getRequestCount();
+    	noOfWorkflow = DPActivities.getWorkflowCount();
+    	
+    	template.execute(this);
 	}
     
 	/**
@@ -439,5 +445,11 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 			dashboardRunnable.stop();
 			dashboardThread.interrupt();
 		}
+	}
+
+	public void updateUI() {
+		int total = noOfNotice + noOfRequest + noOfWorkflow;
+    	navigationPanel.setLabel(2, "Activities (" + total + ")");
+    	navigationPanel.setTooltiptext(2, "Notice : " + noOfNotice + ", Request : " + noOfRequest + ", Workflow Activities : " + noOfWorkflow);
 	}
 }

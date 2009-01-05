@@ -15,21 +15,34 @@ package org.adempiere.webui.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.util.ServerPushTemplate;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Executions;
 
+/**
+ * 
+ * @author hengsin
+ *
+ */
 public class DashboardRunnable implements Runnable {
 	private Desktop desktop;
 	private boolean stop = false;
 	private List<DashboardPanel> dashboardPanels;
 	private IDesktop appDesktop;
 	
-	private static final CLogger logger = CLogger.getCLogger(DashboardRunnable.class);	
+	@SuppressWarnings("unused")
+	private static final CLogger logger = CLogger.getCLogger(DashboardRunnable.class);
 	
+	private final static String ZK_DASHBOARD_REFRESH_INTERVAL = "ZK_DASHBOARD_REFRESH_INTERVAL";
+	
+	/**
+	 * 
+	 * @param desktop zk desktop interface
+	 * @param appDesktop adempiere desktop interface
+	 */
 	public DashboardRunnable(Desktop desktop, IDesktop appDesktop) {
 		this.desktop = desktop;
 		this.appDesktop = appDesktop;
@@ -39,44 +52,43 @@ public class DashboardRunnable implements Runnable {
 	
 	public void run() 
 	{
+		// default Update every one minutes
+		int interval = MSysConfig.getIntValue(ZK_DASHBOARD_REFRESH_INTERVAL, 60000);
 		while(!stop) {
 			try {
-				Thread.sleep(60000); // Update every one minutes
+				Thread.sleep(interval); 
 			} catch (InterruptedException e1) {
 				if (stop) break;
 			}
 			
-			try {
-				// get full control of desktop
-				Executions.activate(desktop);
-				try {
-					refreshDashboard();						
-				} catch (Error ex) {
-					logger.log(Level.WARNING, "UpdateInfo Thread error="+ex.getLocalizedMessage(), ex);
-					break;
-				} finally {
-					// release full control of desktop
-					Executions.deactivate(desktop);
-				}
-			} catch (Throwable e) {
-				logger.log(Level.WARNING, "UpdateInfo Thread error="+e.getLocalizedMessage(), e);
+			if (desktop.isAlive()) {
+				refreshDashboard();						
+			} else {
 				break;
-			}				
+			}			
 		}
 	}
 	
+	/**
+	 * Refresh dashboard content
+	 */
 	public void refreshDashboard()
 	{
+		ServerPushTemplate template = new ServerPushTemplate(desktop);
     	for(int i = 0; i < dashboardPanels.size(); i++)
-    		dashboardPanels.get(i).refresh();
+    		dashboardPanels.get(i).refresh(template);
     	
-    	appDesktop.onServerPush();    	
+    	appDesktop.onServerPush(template);    	
 	}
 
 	public void stop() {
 		stop = true;
 	}
 
+	/**
+	 * Add DashboardPanel to the auto refresh list
+	 * @param dashboardPanel
+	 */
 	public void add(DashboardPanel dashboardPanel) {
 		dashboardPanels.add(dashboardPanel);
 	}
