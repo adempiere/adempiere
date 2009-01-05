@@ -84,6 +84,7 @@ import org.compiere.util.ValueNamePair;
  * 				<li>BF [ 1807917 ] Layout positioning issue with m_maxHeightSinceNewLine
  *				<li>BF [ 1825876 ] Layout boxes with auto width not working
  *				<li>FR [ 1966406 ] Report Engine: AD_PInstance_Logs should be displayed
+ *				<li>BF [ 2487307 ] LayoutEngine: NPE when Barcode field is null
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
@@ -1064,7 +1065,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				else if (item.isBarcode())
 				{
 					element = createBarcodeElement(item);
-					element.layout(maxWidth, item.getMaxHeight(), false, alignment);
+					if (element != null)
+					{
+						element.layout(maxWidth, item.getMaxHeight(), false, alignment);
+					}
 				}
 				else if (item.isTypeImage())		//**	Image
 				{
