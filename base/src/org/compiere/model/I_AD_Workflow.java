@@ -44,19 +44,6 @@ public interface I_AD_Workflow
 
     /** Load Meta Data */
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -115,19 +102,6 @@ public interface I_AD_Workflow
 
 	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
@@ -142,6 +116,32 @@ public interface I_AD_Workflow
 	public int getAD_WorkflowProcessor_ID();
 
 	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -162,12 +162,12 @@ public interface I_AD_Workflow
 	/** Set Cost.
 	  * Cost information
 	  */
-	public void setCost (int Cost);
+	public void setCost (BigDecimal Cost);
 
 	/** Get Cost.
 	  * Cost information
 	  */
-	public int getCost();
+	public BigDecimal getCost();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -182,19 +182,6 @@ public interface I_AD_Workflow
 	  */
 	public String getDescription();
 
-    /** Column name DocumentNo */
-    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
-
-	/** Set Document No.
-	  * Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo);
-
-	/** Get Document No.
-	  * Document sequence number of the document
-	  */
-	public String getDocumentNo();
-
     /** Column name DocValueLogic */
     public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
 
@@ -207,6 +194,19 @@ public interface I_AD_Workflow
 	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
 	  */
 	public String getDocValueLogic();
+
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
+
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
+
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
 
     /** Column name Duration */
     public static final String COLUMNNAME_Duration = "Duration";
@@ -389,19 +389,6 @@ public interface I_AD_Workflow
 	/** Get Queuing Time	  */
 	public int getQueuingTime();
 
-    /** Column name SetupTime */
-    public static final String COLUMNNAME_SetupTime = "SetupTime";
-
-	/** Set Setup Time.
-	  * Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime);
-
-	/** Get Setup Time.
-	  * Setup time before starting Production
-	  */
-	public int getSetupTime();
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -417,14 +404,18 @@ public interface I_AD_Workflow
 
 	public I_S_Resource getS_Resource() throws RuntimeException;
 
-    /** Column name ValidateWorkflow */
-    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
 
-	/** Set Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow);
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
 
-	/** Get Validate Workflow	  */
-	public String getValidateWorkflow();
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -451,6 +442,15 @@ public interface I_AD_Workflow
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
+
+    /** Column name ValidateWorkflow */
+    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
+
+	/** Set Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow);
+
+	/** Get Validate Workflow	  */
+	public String getValidateWorkflow();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
