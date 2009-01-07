@@ -23,15 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.I_M_ChangeNotice;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -58,11 +50,11 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM PP_Order_BOMLine WHERE PP_Order_ID=@PP_Order_ID@
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
-			setPP_Order_BOM_ID (0);
 			setPP_Order_BOMLine_ID (0);
+			setPP_Order_BOM_ID (0);
 			setPP_Order_ID (0);
-			setQtyBatch (Env.ZERO);
 			setQtyBOM (Env.ZERO);
+			setQtyBatch (Env.ZERO);
 			setQtyDelivered (Env.ZERO);
 			setQtyPost (Env.ZERO);
 			setQtyReject (Env.ZERO);
@@ -162,42 +154,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
-	/** ComponentType AD_Reference_ID=53225 */
-	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
-	/** By Product = BY */
-	public static final String COMPONENTTYPE_ByProduct = "BY";
-	/** Component = CO */
-	public static final String COMPONENTTYPE_Component = "CO";
-	/** Phantom = PH */
-	public static final String COMPONENTTYPE_Phantom = "PH";
-	/** Packing = PK */
-	public static final String COMPONENTTYPE_Packing = "PK";
-	/** Planning = PL */
-	public static final String COMPONENTTYPE_Planning = "PL";
-	/** Tools = TL */
-	public static final String COMPONENTTYPE_Tools = "TL";
-	/** Option = OP */
-	public static final String COMPONENTTYPE_Option = "OP";
-	/** Variant = VA */
-	public static final String COMPONENTTYPE_Variant = "VA";
-	/** Set Component Type.
-		@param ComponentType 
-		Component Type for a Bill of Material or Formula
-	  */
-	public void setComponentType (String ComponentType)
-	{
-
-		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA")); else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");		set_Value (COLUMNNAME_ComponentType, ComponentType);
-	}
-
-	/** Get Component Type.
-		@return Component Type for a Bill of Material or Formula
-	  */
-	public String getComponentType () 
-	{
-		return (String)get_Value(COLUMNNAME_ComponentType);
-	}
-
 	public I_C_UOM getC_UOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
@@ -234,6 +190,45 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** ComponentType AD_Reference_ID=53225 */
+	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
+	/** By Product = BY */
+	public static final String COMPONENTTYPE_ByProduct = "BY";
+	/** Component = CO */
+	public static final String COMPONENTTYPE_Component = "CO";
+	/** Phantom = PH */
+	public static final String COMPONENTTYPE_Phantom = "PH";
+	/** Packing = PK */
+	public static final String COMPONENTTYPE_Packing = "PK";
+	/** Planning = PL */
+	public static final String COMPONENTTYPE_Planning = "PL";
+	/** Tools = TL */
+	public static final String COMPONENTTYPE_Tools = "TL";
+	/** Option = OP */
+	public static final String COMPONENTTYPE_Option = "OP";
+	/** Variant = VA */
+	public static final String COMPONENTTYPE_Variant = "VA";
+	/** Set Component Type.
+		@param ComponentType 
+		Component Type for a Bill of Material or Formula
+	  */
+	public void setComponentType (String ComponentType)
+	{
+
+		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA"));
+		else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");
+
+		set_Value (COLUMNNAME_ComponentType, ComponentType);
+	}
+
+	/** Get Component Type.
+		@return Component Type for a Bill of Material or Formula
+	  */
+	public String getComponentType () 
+	{
+		return (String)get_Value(COLUMNNAME_ComponentType);
 	}
 
 	/** Set Date Delivered.
@@ -376,8 +371,10 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public static final int ISSUEMETHOD_AD_Reference_ID=53226;
 	/** Issue = 0 */
 	public static final String ISSUEMETHOD_Issue = "0";
-	/** BackFlush = 1 */
-	public static final String ISSUEMETHOD_BackFlush = "1";
+	/** Backflush = 1 */
+	public static final String ISSUEMETHOD_Backflush = "1";
+	/** Floor Stock = 2 */
+	public static final String ISSUEMETHOD_FloorStock = "2";
 	/** Set Issue Method.
 		@param IssueMethod 
 		There are two methods for issue the components to Manufacturing Order
@@ -385,7 +382,10 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public void setIssueMethod (String IssueMethod)
 	{
 
-		if (IssueMethod == null || IssueMethod.equals("0") || IssueMethod.equals("1")); else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1");		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
+		if (IssueMethod == null || IssueMethod.equals("0") || IssueMethod.equals("1") || IssueMethod.equals("2"));
+		else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1 - 2");
+
+		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
 	}
 
 	/** Get Issue Method.
@@ -605,6 +605,25 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Manufacturing Order BOM Line.
+		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
+	{
+		if (PP_Order_BOMLine_ID < 1)
+			 throw new IllegalArgumentException ("PP_Order_BOMLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
+	}
+
+	/** Get Manufacturing Order BOM Line.
+		@return Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOM.Table_Name);
@@ -635,25 +654,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public int getPP_Order_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Manufacturing Order BOM Line.
-		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
-	{
-		if (PP_Order_BOMLine_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_BOMLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
-	}
-
-	/** Get Manufacturing Order BOM Line.
-		@return Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -694,28 +694,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Quantity in %.
-		@param QtyBatch 
-		Indicate the Quantity % use in this Formula
-	  */
-	public void setQtyBatch (BigDecimal QtyBatch)
-	{
-		if (QtyBatch == null)
-			throw new IllegalArgumentException ("QtyBatch is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_QtyBatch, QtyBatch);
-	}
-
-	/** Get Quantity in %.
-		@return Indicate the Quantity % use in this Formula
-	  */
-	public BigDecimal getQtyBatch () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Quantity.
 		@param QtyBOM 
 		Indicate the Quantity  use in this BOM
@@ -733,6 +711,28 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	public BigDecimal getQtyBOM () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Quantity in %.
+		@param QtyBatch 
+		Indicate the Quantity % use in this Formula
+	  */
+	public void setQtyBatch (BigDecimal QtyBatch)
+	{
+		if (QtyBatch == null)
+			throw new IllegalArgumentException ("QtyBatch is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_QtyBatch, QtyBatch);
+	}
+
+	/** Get Quantity in %.
+		@return Indicate the Quantity % use in this Formula
+	  */
+	public BigDecimal getQtyBatch () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
