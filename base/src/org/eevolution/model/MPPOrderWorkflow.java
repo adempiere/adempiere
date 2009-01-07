@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,8 @@ import java.util.logging.Level;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
+import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 
 /**
@@ -83,7 +86,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			setIsDefault (false);
 			setPublishStatus (PUBLISHSTATUS_UnderRevision);	// U
 			setVersion (0);
-			setCost (0);
+			setCost (Env.ZERO);
 			setWaitingTime (0);
 			setWorkingTime (0);
 		}
