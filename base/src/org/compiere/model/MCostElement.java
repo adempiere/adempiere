@@ -326,6 +326,7 @@ public class MCostElement extends X_M_CostElement
 		}
 
 		//	Maintain Calclated
+		/*
 		if (COSTELEMENTTYPE_Material.equals(getCostElementType()))
 		{
 			String cm = getCostingMethod();
@@ -341,7 +342,7 @@ public class MCostElement extends X_M_CostElement
 				setIsCalculated(false);
 			if (getCostingMethod() != null)
 				setCostingMethod(null);
-		}
+		}*/
 		
 		if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);
