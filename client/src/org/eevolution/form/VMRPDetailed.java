@@ -267,7 +267,6 @@ public class VMRPDetailed
 	private VCheckBox		fMaster			= new VCheckBox ("IsMPS", false, false, true, Msg.translate(getCtx(), "IsMPS"), "", false);
 	private VCheckBox		fMRPReq			= new VCheckBox ("IsRequiredMRP", false, false, true, Msg.translate(getCtx(), "IsRequiredMRP"), "", false);
 	private VCheckBox		fCreatePlan		= new VCheckBox ("IsCreatePlan", false, false, true, Msg.translate(getCtx(), "IsCreatePlan"), "", false);
-	private VCheckBox		fIssue			= new VCheckBox ("IsIssue", false, false, true, Msg.translate(getCtx(), "IsIssue"), "", false);
 
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] m_layout = 
@@ -342,13 +341,8 @@ public class VMRPDetailed
 		fMRPReq.setReadWrite(false);
 		fCreatePlan.setSelected(false);
 		fCreatePlan.setReadWrite(false);
-		fIssue.setSelected(false);
-		fIssue.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(final ActionEvent e) {
-			}
-		});
-		fIssue.setReadWrite(false);
+
+
 		lUOM.setText(Msg.translate(getCtx(), "C_UOM_ID"));
 		fUOM.setBackground(AdempierePLAF.getInfoBackground());
 		fUOM.setReadWrite(false);
@@ -539,7 +533,6 @@ public class VMRPDetailed
 		parameterPanel.add(fLeadtime,new ALayoutConstraint(7,5));
 
 		//  9th Row
-		parameterPanel.add(fIssue, new ALayoutConstraint(8,1));
 		parameterPanel.add(fMRPReq, new ALayoutConstraint(8,3));
 		parameterPanel.add(lYield, new ALayoutConstraint(8,4));
 		parameterPanel.add(fYield,new ALayoutConstraint(8,5));
@@ -779,7 +772,6 @@ public class VMRPDetailed
 		 fMaster.setSelected(pp.isMPS());
 		 fMRPReq.setSelected(pp.isRequiredMRP());
 		 fCreatePlan.setSelected(pp.isCreatePlan());
-		 fIssue.setSelected(pp.isIssue());
 		 fOrderPeriod.setValue(pp.getOrder_Period());
 		 fLeadtime.setValue(pp.getDeliveryTime_Promised());
 		 fTimefence.setValue(pp.getTimeFence());
