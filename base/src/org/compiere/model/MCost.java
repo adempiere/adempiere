@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -119,6 +120,7 @@ public class MCost extends X_M_Cost
 		boolean zeroCostsOK, String trxName)
 	{
 		BigDecimal currentCostPrice = null;
+		BigDecimal currentCostPriceLL = null;
 		String costElementType = null;
 		//int M_CostElement_ID = 0;
 		BigDecimal percent = null;
@@ -129,7 +131,7 @@ public class MCost extends X_M_Cost
 		int count = 0;
 		//
 		String sql = "SELECT SUM(c.CurrentCostPrice), ce.CostElementType, ce.CostingMethod,"
-			+ " c.Percent, c.M_CostElement_ID "					//	4..5
+			+ " c.Percent, c.M_CostElement_ID , SUM(c.CurrentCostPriceLL) "					//	4..5
 			+ "FROM M_Cost c"
 			+ " LEFT OUTER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID) "
 			+ "WHERE c.AD_Client_ID=? AND c.AD_Org_ID=?"		//	#1/2
@@ -154,6 +156,7 @@ public class MCost extends X_M_Cost
 			while (rs.next ())
 			{
 				currentCostPrice = rs.getBigDecimal(1);
+				currentCostPriceLL = rs.getBigDecimal(6);
 				costElementType = rs.getString(2);
 				String cm = rs.getString(3);
 				percent = rs.getBigDecimal(4);
@@ -166,9 +169,11 @@ public class MCost extends X_M_Cost
 				if (currentCostPrice != null && currentCostPrice.signum() != 0)
 				{
 					if (cm != null)
-						materialCostEach = materialCostEach.add(currentCostPrice);
+					{	
+						materialCostEach = materialCostEach.add(currentCostPrice).add(currentCostPriceLL);
+					}	
 					else
-						otherCostEach = otherCostEach.add(currentCostPrice);
+						otherCostEach = otherCostEach.add(currentCostPrice).add(currentCostPriceLL);
 				}
 				if (percent != null && percent.signum() != 0)
 					percentage = percentage.add(percent);
@@ -1576,7 +1581,63 @@ public class MCost extends X_M_Cost
 	{
 		return true;
 	}	//	beforeDelete
+
 	
+    /**
+     * Get the the Total Cost for this Cost Element Type and Costing Method
+     * @param product Product
+     * @param as  Account Schema
+     * @param AD_Org_ID Organization ID
+     * @param M_AttributeSetInstance_ID Attribute Set Instance ID
+     * @param CostingMethod Costing Method
+     * @param CostElementType Cost Element Type
+     * @param Qty Quantity
+     * @return Get the the Total Cost for this Cost Element Type and Costing Method
+     */
+	public static BigDecimal getCostByCostingMethod (MProduct product, MAcctSchema as,  
+			int AD_Org_ID, int M_AttributeSetInstance_ID,
+			String CostingMethod, String CostElementType,
+			BigDecimal Qty)
+	{
+		//Set the Costing Level 
+		String CostingLevel = product.getCostingLevel(as);
+		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+		{
+			AD_Org_ID = 0;
+			M_AttributeSetInstance_ID = 0;
+		}
+		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+			M_AttributeSetInstance_ID = 0;
+		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+			AD_Org_ID = 0;
+		
+		Collection<MCost> costs = null;
+		BigDecimal m_cost = Env.ZERO;
+		String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
+			+ " AND M_Product_ID=?"
+			+ " AND M_AttributeSetInstance_ID=?"
+			+ " AND C_AcctSchema_ID=?"
+		    + " AND EXISTS ( SELECT 1 FROM M_CostElement ce "
+		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID " 
+		    + " AND ce.CostingMethod=? AND ce.CostElementType=?)";
+		
+
+		costs = new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
+		.setParameters(new Object[]{
+						product.getAD_Client_ID(), 
+						AD_Org_ID, 
+						product.getM_Product_ID(),
+						M_AttributeSetInstance_ID,  
+						as.getC_AcctSchema_ID(), 
+						CostingMethod, CostElementType})
+		.list();
+		for(MCost cost : costs)
+		{
+			m_cost = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
+		}
+		
+		return m_cost.multiply(Qty);
+	}	//	get
 	/**
 	 * 	Test
 	 *	@param args ignored
@@ -1605,5 +1666,4 @@ public class MCost extends X_M_Cost
 		
 	}	//	main
 	
-
 }	//	MCost
