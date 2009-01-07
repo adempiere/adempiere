@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.wf;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -173,7 +174,7 @@ public class MWorkflow extends X_AD_Workflow
 			setIsDefault (false);
 			setPublishStatus (PUBLISHSTATUS_UnderRevision);	// U
 			setVersion (0);
-			setCost (0);
+			setCost (Env.ZERO);
 			setWaitingTime (0);
 			setWorkingTime (0);
 			setIsBetaFunctionality(false);

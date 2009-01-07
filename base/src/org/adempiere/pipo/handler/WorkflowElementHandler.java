@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -131,7 +132,7 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			if(getStringValue(atts, "Duration") != null)
 				m_Workflow.setDuration(Integer.valueOf(atts.getValue("Duration")));
 			if(getStringValue(atts, "Cost") != null)
-				m_Workflow.setCost(Integer.valueOf(atts.getValue("Cost")));
+				m_Workflow.setCost(new BigDecimal(atts.getValue("Cost")));
 			
 			m_Workflow.setWorkingTime(Integer.valueOf(atts
 					.getValue("WorkingTime")));
