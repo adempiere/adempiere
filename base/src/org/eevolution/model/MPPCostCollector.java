@@ -18,14 +18,20 @@ package org.eevolution.model;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.Adempiere;
+import org.compiere.acct.Doc;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
@@ -44,8 +50,10 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
@@ -168,7 +176,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		
 		//
 		// Operation Activity
-		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
 		{
 			MPPOrderNode activity = getPPOrderNode();
 			if(activity.getDocStatus().equals(MPPOrderNode.DOCACTION_Complete))
@@ -279,7 +287,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 		//
 		//	Update Order Line
-		if(!isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		if(!isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
 		{
 			//	Stock Movement 
 			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
@@ -387,7 +395,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				log.fine("Order -> Delivered=" + order.getQtyDelivered());										
 			}
 		}
-		else if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		else if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
 		{
 			MPPOrderNode activity = getPPOrderNode();
 			if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_Completed))
@@ -582,12 +590,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		return dt.getName() + " " + getDocumentNo();
 	}	//	getDocumentInfo
-
-	public String getDocumentNo()
-	{
-		return "" + get_ID();
-	}    
-
+ 
 	private void createNewNode(MPPOrderNode node)
 	{
 		String whereClause = COLUMNNAME_PP_Order_ID+"=? AND "+COLUMNNAME_PP_Order_Node_ID+"=?";
@@ -637,7 +640,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	private void closeNew(int PP_Order_ID, int PP_Order_Node_ID)
 	{
-		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?";
 			List<MPPCostCollector> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
@@ -655,7 +658,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 
 	protected void completeNew(int PP_Order_ID)
 	{
-		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControlReport))
+		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
 		{
 			String whereClause = COLUMNNAME_PP_Order_ID+"=?"
 			+" AND "+COLUMNNAME_DocStatus+"<>'"+DOCSTATUS_Completed+"'"
@@ -933,4 +936,78 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 		}
 		return false;
 	}
+	
+	/**
+	 * 	Test
+	 *	@param args ignored
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public static void main (String[] args) throws FileNotFoundException, IOException
+	{
+
+		// Test: General
+		//Properties testProperties = null;
+
+		// Test Context
+		Properties m_Ctx = null;
+
+		// IsClient
+		String isClient_Key = "isClient";
+		String isClient_DefaultValue = "Y";
+		boolean isClient_Value = true;
+
+		// AD_User
+		final String AD_User_ID_Key = "AD_User_ID";
+		String AD_User_ID_DefaultValue = "100"; //SuperUser
+		int AD_User_ID_Value = 0;
+
+		// AD_Client
+		final String AD_Client_ID_Key = "AD_Client_ID";
+		String AD_Client_ID_DefaultValue = "11"; //GardenWorld
+		int AD_Client_ID_Value = 11;
+
+		// LogLevel:
+	    final String LogLevel_Key = "LogLevel";
+	    String LogLevel_DefaultValue = Level.FINEST.toString();
+		Level LogLevel_Value = Level.FINEST;
+
+		// Trx name
+		String trxName = "test";
+	
+
+		Ini.setClient (isClient_Value);
+		Adempiere.startup(isClient_Value);
+		
+		m_Ctx = Env.getCtx();
+		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
+		m_Ctx.setProperty("#AD_Client_ID", new Integer(AD_Client_ID_Value).toString());
+
+		/*if (fileName_Value.length() < 1) {
+			throw new AdempiereException("Please specify path to Adempiere.properties file!");
+		}
+
+		System.setProperty("PropertyFile", fileName_Value);
+		*/
+
+
+		//CLogMgt.setLevel(LogLevel_Value);
+		CLogMgt.setLevel(Level.ALL);
+		List <MPPCostCollector> ccs =new Query(m_Ctx, MPPCostCollector.Table_Name, "", null ).list();
+		for (MPPCostCollector cc : ccs)
+		{
+			System.out.println("Cost Collector" + cc.getDocumentNo());
+			MAcctSchema[] m_ass = MAcctSchema.getClientAcctSchema(Env.getCtx(), 11);
+			Doc doc = Doc.get (m_ass, MPPCostCollector.Table_ID, cc.get_ID(), null);
+			if (doc == null)
+			{
+				throw new AdempiereException("Documento no creado");
+			}
+			else
+			{
+				String error = doc.post(true, true);   //  post no force/repost
+			}
+		}
+		
+	}	
 }	//	MPPCostCollector

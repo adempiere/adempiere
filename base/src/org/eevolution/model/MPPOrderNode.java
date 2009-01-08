@@ -18,17 +18,24 @@ package org.eevolution.model;
 
 import java.awt.Point;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MColumn;
+import org.compiere.model.MResource;
+import org.compiere.model.MUOM;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.wf.MWFNode;
+import org.compiere.wf.MWorkflow;
+import org.jfree.util.Log;
 
 /**
  *	PP Order Workflow Node Model
@@ -386,7 +393,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		if (duration == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getPPOrderWorkflow().getDurationBaseSec() * 1000;
 		return duration * m_durationBaseMS;
 	}	//	getDurationMS
 	
@@ -400,7 +407,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		if (limit == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getPPOrderWorkflow().getDurationBaseSec() * 1000;
 		return limit * m_durationBaseMS;
 	}	//	getLimitMS
 	
@@ -410,14 +417,14 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public int getDurationCalendarField()
 	{
-		return getWorkflow().getDurationCalendarField();
+		return getPPOrderWorkflow().getDurationCalendarField();
 	}	//	getDurationCalendarField
 
 	/**
 	 * 	Get Workflow
 	 *	@return workflow
 	 */
-	public MPPOrderWorkflow getWorkflow()
+	public MPPOrderWorkflow getPPOrderWorkflow()
 	{
 		return MPPOrderWorkflow.get(getCtx(), getPP_Order_Workflow_ID());
 	}	//	getWorkflow
@@ -549,5 +556,45 @@ public class MPPOrderNode extends X_PP_Order_Node
 									.setOnlyActiveRecords(true)
 									.setParameters(new Object[]{PP_Order_Node_ID})
 									.match();
+	}
+	
+	/**
+	 * Calculate the cost for this Activity using the Cost Element Type
+	 * @param CostElementType Cost Element Type (Labor or Burden)
+	 * @param C_AcctSchema_ID AcctSchema
+	 * @param M_CostType_ID Cost Type
+	 * @param AD_Org_ID Organization
+	 * @param setuptime Setup Time
+	 * @param duration Duration
+	 * @return cost for this Cost Element Type (Labor or Burden)
+	 * @throws Exception when the UOM do not is Hours
+	 */
+	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID,int M_CostType_ID,int AD_Org_ID,int setuptime, int duration)
+	{
+		MResource resource = (MResource) getS_Resource();
+		//get the rate for this cost type element (Rsource, Burden)
+		MPPOrderWorkflow workflow = getPPOrderWorkflow();
+		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
+		BigDecimal cost =  Env.ZERO;
+		if (rate == 0)
+		{
+			return Env.ZERO;
+		}
+		
+		int C_UOM_ID = DB.getSQLValue(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
+		MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
+		if (uom.isHour())
+		{
+			double hours = (setuptime / workflow.getQtyBatchSize().doubleValue() + duration)
+			* workflow.getDurationBaseSec() / 3600; 
+			double nodeCost = rate * hours;
+			cost = cost.add(new BigDecimal(nodeCost));
+			log.info("Activity: " + getName() + " Resouce: " + resource.getName() +" CostElementType: " + CostElementType +  " Time Base: "+workflow.getDurationUnit() +" Duration (H): " + hours +  " Rate: " + rate + " Activity Cost: " +  nodeCost +" =>Cost: "+cost);
+		}
+		else
+		{
+			throw new AdempiereException("@NotSupported@ @C_UOM_ID@="+uom.getName());
+		}
+		return cost;
 	}
 }	//	M_WFNext
