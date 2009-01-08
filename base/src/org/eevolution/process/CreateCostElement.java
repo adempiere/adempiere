@@ -17,20 +17,18 @@
 
 package org.eevolution.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
+import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 
 
 
@@ -44,12 +42,14 @@ import org.compiere.util.DB;
  */
 public class CreateCostElement extends SvrProcess
 {
-	private int				p_AD_Org_ID = 0;
+	private Integer			p_AD_Org_ID = null;
 	private int             p_C_AcctSchema_ID = 0;
 	private int             p_M_CostType_ID = 0;
 	private int             p_M_CostElement_ID = 0;
 	private int             p_M_Product_Category_ID = 0;
 	private int             p_M_Product_ID = 0;
+	private int 			p_M_AttributeSetInstance_ID= 0;
+	
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -88,6 +88,10 @@ public class CreateCostElement extends SvrProcess
 			{    
 				p_M_Product_ID = para[i].getParameterAsInt();
 			}
+			else if (name.equals(MCost.COLUMNNAME_M_AttributeSetInstance_ID))
+			{    
+				p_M_AttributeSetInstance_ID = para[i].getParameterAsInt();
+			}
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
@@ -96,84 +100,97 @@ public class CreateCostElement extends SvrProcess
 	protected String doIt() throws Exception                
 	{
 		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-		int count_costs = 0;
 		
-		ArrayList<Object> params = new ArrayList<Object>();
-		String sql = "SELECT org.AD_Org_ID, p.M_Product_ID, ce.M_CostElement_ID"
-					+" FROM AD_Org org, M_Product p, M_CostElement ce"
-					+" WHERE ";
+		String whereClauseElements= "";	
+		ArrayList<Object> paramsElements = new ArrayList<Object>();
 		
-		sql += "org.AD_Client_ID=? AND p.AD_Client_ID=org.AD_Client_ID AND ce.AD_Client_ID=p.AD_Client_ID";
-		params.add(getAD_Client_ID());
-		
-		if (p_AD_Org_ID > 0)
+		if (p_M_CostElement_ID > 0)
 		{
-			sql += " AND org.AD_Org_ID=?";
-			params.add(p_AD_Org_ID);
+			whereClauseElements = MCostElement.COLUMNNAME_M_CostElement_ID+"=?";
+			paramsElements.add(p_M_CostElement_ID);
 		}
+		
+		
+		Collection<MCostElement> elements = new Query(getCtx(), MCostElement.Table_Name, whereClauseElements, get_TrxName())
+													.setParameters(paramsElements)
+													.list();
+		
+		String whereClauseProducts= "";	
+		ArrayList<Object> paramsProducts= new ArrayList<Object>();
+		
 		if (p_M_Product_Category_ID > 0)
 		{
-			sql += " AND p."+MProduct.COLUMNNAME_M_Product_Category_ID+"=?";
-			params.add(p_M_Product_Category_ID);
+			whereClauseProducts = MProduct.COLUMNNAME_M_Product_Category_ID+"=?";
+			paramsProducts.add(p_M_Product_Category_ID);
 		}
 		
 		if (p_M_Product_ID > 0)
 		{
-			sql += " AND p."+MProduct.COLUMNNAME_M_Product_ID+"=?";
-			params.add(p_M_Product_ID);
+			if(p_M_Product_Category_ID > 0)
+				whereClauseProducts += " AND ";
+				
+			whereClauseProducts += MProduct.COLUMNNAME_M_Product_ID+"=?";
+			paramsProducts.add(p_M_Product_ID);
 		}
 		
-		if (p_M_CostElement_ID > 0)
+		int[] product_ids = new Query(getCtx(), MProduct.Table_Name, whereClauseProducts, get_TrxName())
+							.setParameters(paramsProducts)
+							.getIDs();
+		int count_costs = 0;
+		for(int org_id : getOrgs(as))
 		{
-			sql += " AND ce."+MCostElement.COLUMNNAME_M_CostElement_ID+"=?";
-			params.add(p_M_CostElement_ID);
-		}
-
-		// M_Cost not already created:
-		sql += " AND NOT EXISTS (SELECT 1 FROM M_Cost c WHERE"
-            		+" c.AD_Client_ID=ce.AD_Client_ID"
-            		+" AND c.AD_Org_ID=org.AD_Org_ID"
-            		+" AND c.M_Product_ID=p.M_Product_ID"
-            		+" AND c.C_AcctSchema_ID=?"
-            		+" AND c.M_CostType_ID=?"
-            		+" AND c.M_CostElement_ID=ce.M_CostElement_ID)";
-		params.add(p_C_AcctSchema_ID);
-		params.add(p_M_CostType_ID);
-		
-		// ORDER BY
-		sql += " ORDER BY p."+MProduct.COLUMNNAME_M_Product_ID;
-
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			DB.setParameters(pstmt, params);
-			rs = pstmt.executeQuery ();
-			while (rs.next())
+			for(int product_id: product_ids)
 			{
-				int AD_Org_ID = rs.getInt("AD_Org_ID");
-				int M_Product_ID = rs.getInt(MProduct.COLUMNNAME_M_Product_ID);
-				int M_CostElement_ID = rs.getInt(MCostElement.COLUMNNAME_M_CostElement_ID);
-				int M_ASI_ID = 0;
-				MProduct product = MProduct.get(getCtx(), M_Product_ID);
-				//
-				MCost cost = new MCost(product, M_ASI_ID, as, AD_Org_ID, M_CostElement_ID);
-				cost.setM_CostType_ID(p_M_CostType_ID);
-				cost.saveEx(get_TrxName());
-				count_costs++;
+				for(MCostElement element : elements)
+				{
+					
+					MCost cost = MCost.get (getCtx(), getAD_Client_ID(), org_id, product_id, 
+							p_M_CostType_ID, as.getC_AcctSchema_ID(), element.get_ID(),
+							p_M_AttributeSetInstance_ID);
+					if(cost == null)
+					{	
+						cost = new MCost (MProduct.get(getCtx(), product_id), p_M_AttributeSetInstance_ID,as, org_id, element.get_ID());			
+						cost.setM_CostType_ID(p_M_CostType_ID);
+						cost.saveEx(get_TrxName());
+						count_costs++;
+					}						
+				}
 			}
 		}
-		catch (SQLException e)
-		{
-			throw new DBException(e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+
 
 		return "@Created@ #"+count_costs;
+	}
+	
+	/**
+	 * get the IDs for Organization and Valid the Cost Level
+	 * @param as Account Schema
+	 * @return array of IDs
+	 */
+	private int [] getOrgs(MAcctSchema as)
+	{
+		int[] orgs_ids = new int[1];
+		orgs_ids[0] = 0; 
+		String whereClauseOrg = "";		
+		ArrayList<Object> paramsOrg = new ArrayList<Object>();
+		//Set the Costing Level 
+		String CostingLevel = as.getCostingLevel();
+		if (p_AD_Org_ID != null)
+		{	
+			if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
+			{
+				p_AD_Org_ID = 0;
+				p_M_AttributeSetInstance_ID = 0;
+				return orgs_ids;
+			}
+			
+			whereClauseOrg = "AD_Org_ID=?";
+			paramsOrg.add(p_AD_Org_ID);
+		}
+		
+		orgs_ids = new Query(getCtx(), MOrg.Table_Name,  whereClauseOrg, get_TrxName())
+		.setParameters(paramsOrg)
+		.getIDs();
+		return orgs_ids;
 	}
 }	//	Create Cost Element
