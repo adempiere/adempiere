@@ -137,6 +137,13 @@ public class RollupBillOfMaterial extends SvrProcess
 						cost.setCurrentCostPriceLL(Subcontract);
 						cost.saveEx();
 					}
+					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Overhead))
+					{
+						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product);     
+						log.info("Overhead Cost Low Level:" + Subcontract);
+						cost.setCurrentCostPriceLL(Subcontract);
+						cost.saveEx();
+					}
 					/* TODO Comment for future implementation
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Distribution))
 					{
@@ -209,7 +216,8 @@ public class RollupBillOfMaterial extends SvrProcess
 						qtyTotal =  qtyBOM.divide(Env.ONE.subtract(scrapDec), 4, BigDecimal.ROUND_HALF_UP);
 					}
 
-					costPriceLL = costPriceLL.add(cost.getCurrentCostPriceLL().multiply(qtyTotal));
+					BigDecimal costPrice = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
+					costPriceLL = costPriceLL.add(costPrice.multiply(qtyTotal));
 					log.info("Cost Element:"+element.getName()
 								+ ", Total Cost Element: " +   costPriceLL
 								+ ", QtyPercentage: " + qtyPercentage
