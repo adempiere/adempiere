@@ -582,6 +582,9 @@ UPDATE AD_Column SET AD_Reference_ID=10,Updated=TO_DATE('2009-01-02 02:51:16','Y
 ALTER TABLE PP_Cost_Collector MODIFY DocumentNo NVARCHAR2(30) DEFAULT  NULL 
 ;
 
+-- Fix old records
+update PP_Cost_Collector set DocumentNo=PP_Cost_Collector_ID where DocumentNo is null;
+
 -- Jan 2, 2009 2:51:20 AM ECT
 -- Accounting Manufacturing Management
 ALTER TABLE PP_Cost_Collector MODIFY DocumentNo NOT NULL
