@@ -1,10 +1,14 @@
 package com._3e.ADInterface;
 
 import java.io.StringWriter;
-import java.util.*;
-import java.text.*;
-import java.math.*;
-import java.sql.*;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Stack;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -12,17 +16,64 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 import org.codehaus.xfire.fault.XFireFault;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.GridField;
+import org.compiere.model.GridFieldVO;
+import org.compiere.model.GridTabVO;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.Lookup;
+import org.compiere.model.MCountry;
+import org.compiere.model.MLocation;
+import org.compiere.model.MLookup;
+import org.compiere.model.MQuery;
+import org.compiere.model.MRegion;
+import org.compiere.model.MTree;
+import org.compiere.model.MTreeNode;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Login;
+import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import com._3e.ADInterface.CompiereService;
-
-import pl.x3E.adInterface.*;
+import pl.x3E.adInterface.ADLoginRequest;
+import pl.x3E.adInterface.ADLoginRequestDocument;
+import pl.x3E.adInterface.ADLoginResponse;
+import pl.x3E.adInterface.ADLoginResponseDocument;
+import pl.x3E.adInterface.ADMenuDocument;
+import pl.x3E.adInterface.ADMenuItem;
+import pl.x3E.adInterface.ADMenuItemList;
+import pl.x3E.adInterface.DataField;
+import pl.x3E.adInterface.DataRow;
+import pl.x3E.adInterface.DataSet;
+import pl.x3E.adInterface.DocAction;
+import pl.x3E.adInterface.DocActionDocument;
+import pl.x3E.adInterface.Field;
+import pl.x3E.adInterface.FieldList;
+import pl.x3E.adInterface.GetLookupSearchDataReq;
+import pl.x3E.adInterface.GetLookupSearchDataReqDocument;
+import pl.x3E.adInterface.GetProcessParamsDocument;
+import pl.x3E.adInterface.Location;
+import pl.x3E.adInterface.LocationDocument;
+import pl.x3E.adInterface.LookupInfo;
+import pl.x3E.adInterface.LookupValue;
+import pl.x3E.adInterface.LookupValues;
+import pl.x3E.adInterface.ProcessParamsDocument;
+import pl.x3E.adInterface.RunProcessDocument;
+import pl.x3E.adInterface.RunProcessResponseDocument;
+import pl.x3E.adInterface.StandardResponse;
+import pl.x3E.adInterface.StandardResponseDocument;
+import pl.x3E.adInterface.Tab;
+import pl.x3E.adInterface.TabList;
+import pl.x3E.adInterface.Window;
+import pl.x3E.adInterface.WindowDocument;
+import pl.x3E.adInterface.WindowTabData;
+import pl.x3E.adInterface.WindowTabDataDocument;
+import pl.x3E.adInterface.WindowTabDataReq;
+import pl.x3E.adInterface.WindowTabDataReqDocument;
 
 /*
  * ADEMPIERE/COMPIERE

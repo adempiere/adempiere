@@ -1,21 +1,35 @@
 package com._3e.ADInterface;
 
-import pl.x3E.adInterface.*;
-import java.io.*;
-import java.util.*;
-import java.util.logging.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.print.layout.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import org.apache.ecs.XhtmlDocument;
+import org.apache.ecs.xhtml.h1;
+import org.apache.ecs.xhtml.i;
+import org.apache.ecs.xhtml.style;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.th;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MOrg;
+import org.compiere.model.MQuery;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.print.PrintData;
+import org.compiere.print.PrintDataElement;
+import org.compiere.print.ReportEngine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 
 public class ReportEngineEx { //extends  ReportEngine  {

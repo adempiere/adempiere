@@ -1,17 +1,28 @@
 package com._3e.ADInterface;
 
-import java.util.*;
-import java.io.*;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.util.logging.Level;
 import java.util.ArrayList;
-import org.compiere.model.*;
-import org.compiere.util.*;
-import pl.x3E.adInterface.*;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import org.compiere.model.GridField;
+import org.compiere.model.Lookup;
+import org.compiere.model.MLookup;
+import org.compiere.model.MRole;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.ValueNamePair;
+import org.compiere.util.WebSessionCtx;
+
+import pl.x3E.adInterface.DataField;
+import pl.x3E.adInterface.DataRow;
+import pl.x3E.adInterface.DataSet;
+import pl.x3E.adInterface.LookupValue;
+import pl.x3E.adInterface.LookupValues;
 
 /*
  * ADEMPIERE/COMPIERE

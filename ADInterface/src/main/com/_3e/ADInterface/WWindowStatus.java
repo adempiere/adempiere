@@ -1,20 +1,21 @@
 package com._3e.ADInterface;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
-import javax.servlet.http.*;
-
-import org.compiere.model.*;
-import org.compiere.util.CLogger;
-import org.compiere.util.Msg;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MQuery;
 
 /*
  * ADEMPIERE/COMPIERE
  * 
  * A:
- * zamiana  GridWindowVO na GridWindowVO
- * 	GridWindow na GridWindow
- *  GridTab  na GridTab 
+ * Replace  GridWindowVO with GridWindowVO
+ * 	GridWindow with GridWindow
+ *  GridTab  with GridTab 
  */
 
 public class WWindowStatus 
