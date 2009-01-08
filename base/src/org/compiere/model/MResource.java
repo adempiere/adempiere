@@ -184,7 +184,7 @@ public class MResource extends X_S_Resource
 							+" AND p."+MProduct.COLUMNNAME_M_Product_ID+"=c."+MCost.COLUMNNAME_M_Product_ID
 							+" AND p."+MProduct.COLUMNNAME_S_Resource_ID+"=?"
 		;
-		BigDecimal rate = DB.getSQLValueBD(get_TrxName(), sql, getAD_Client_ID(), AD_Org_ID,
+		BigDecimal rate = DB.getSQLValueBDEx(get_TrxName(), sql, getAD_Client_ID(), AD_Org_ID,
 											C_AcctSchema_ID, M_CostType_ID,
 											CostElementType, getS_Resource_ID());
 		return (rate != null ? rate.doubleValue() : 0);
