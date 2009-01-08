@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 
 
 /**
@@ -160,6 +162,34 @@ public class MResource extends X_S_Resource
 		
 		return success;
 	}	//	afterSave
+	
+	/**
+	 *  Get Rate for this Resource
+	 *  @param CostElementType Cost Element Type (Labor and Overhead.)
+	 *  @param S_Resource_ID Resource
+	 *  @param AD_Org_ID Organization
+	 *  @return Rate for Resource
+	 *  @throws Exception if not successful
+	 */
+	public double getResouceRate(int C_AcctSchema_ID,int  M_CostType_ID, String CostElementType , int AD_Org_ID)
+	{
+		final String sql = "SELECT SUM(c."+MCost.COLUMNNAME_CurrentCostPrice+")"
+							+" FROM M_Cost c, M_CostElement ce, M_Product p"
+							+" WHERE c.AD_Client_ID=? AND c.AD_Org_ID=?"
+							+" AND c."+MCost.COLUMNNAME_C_AcctSchema_ID+"=?"
+							+" AND c."+MCost.COLUMNNAME_M_CostType_ID+"=?"
+							// Cost Element Type
+							+" AND ce."+MCostElement.COLUMNNAME_M_CostElement_ID+"=c."+MCost.COLUMNNAME_M_CostElement_ID
+							+" AND ce."+MCostElement.COLUMNNAME_CostElementType+"=?"
+							// Product / Resource
+							+" AND p."+MProduct.COLUMNNAME_M_Product_ID+"=c."+MCost.COLUMNNAME_M_Product_ID
+							+" AND p."+MProduct.COLUMNNAME_S_Resource_ID+"=?"
+		;
+		BigDecimal rate = DB.getSQLValueBD(get_TrxName(), sql, getAD_Client_ID(), AD_Org_ID,
+											C_AcctSchema_ID, M_CostType_ID,
+											CostElementType, getS_Resource_ID());
+		return (rate != null ? rate.doubleValue() : 0);
+	}     
 	
 	public String toString()
 	{

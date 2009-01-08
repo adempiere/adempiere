@@ -26,7 +26,10 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MColumn;
+import org.compiere.model.MResource;
+import org.compiere.model.MUOM;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -650,5 +653,45 @@ public class MWFNode extends X_AD_WF_Node
 		if (validTo != null && date.after(validTo))
 			return false;
 		return true;
+	}
+
+	/**
+	 * Calculate the cost for this node using the Cost Element Type
+	 * @param CostElementType Cost Element Type (Labor or Burden)
+	 * @param C_AcctSchema_ID AcctSchema
+	 * @param M_CostType_ID Cost Type
+	 * @param AD_Org_ID Organization
+	 * @param setuptime Setup Time
+	 * @param duration Duration
+	 * @return cost for this Cost Element Type (Labor or Burden)
+	 * @throws Exception when the UOM do not is Hours
+	 */
+	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID,int M_CostType_ID,int AD_Org_ID,int setuptime, int duration)
+	{
+		MResource resource = (MResource) getS_Resource();
+		//get the rate and convert in second for this cost type element (Rsource, Burden)
+		MWorkflow workflow = getWorkflow();
+		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
+		BigDecimal cost =  Env.ZERO;
+		if (rate == 0)
+		{
+			return Env.ZERO;
+		}
+		
+		int C_UOM_ID = DB.getSQLValue(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
+		MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
+		if (uom.isHour())
+		{
+			double hours = (setuptime / workflow.getQtyBatchSize().doubleValue() + duration)
+			* workflow.getDurationBaseSec() / 3600; 
+			double nodeCost = rate * hours;
+			cost = cost.add(new BigDecimal(nodeCost));
+			log.info("Node: " + getName() + " Resouce: " + resource.getName() +" CostElementType: " + CostElementType +  " Time Base: "+workflow.getDurationUnit() +" Duration (H): " + hours +  " Rate: " + rate + " Activity Cost: " +  nodeCost +" =>Cost: "+cost);
+		}
+		else
+		{
+			throw new AdempiereException("@NotSupported@ @C_UOM_ID@="+uom.getName());
+		}
+		return cost;
 	}
 }	//	M_WFNext
