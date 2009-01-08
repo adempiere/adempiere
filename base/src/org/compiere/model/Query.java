@@ -506,37 +506,46 @@ public class Query
 	 * Get a Array with the IDs for this Query
 	 * @return Get a Array with the IDs
 	 */
-
 	public int[] getIDs ()
 	{
+		String[] keys = table.getKeyColumns();
+		if (keys.length != 1)
+		{
+			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
+		}
+
+		StringBuffer selectClause = new StringBuffer("SELECT ");
+		selectClause.append(keys[0]);
+		selectClause.append(" FROM ").append(table.getTableName());
+		String sql = buildSQL(selectClause, true);
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		StringBuffer sql = new StringBuffer("SELECT ");
-		sql.append(table.getTableName()).append("_ID FROM ").append(table.getTableName());
-		if (whereClause != null && whereClause.length() > 0)
-			sql.append(" WHERE ").append(whereClause);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			pstmt = DB.prepareStatement(sql, trxName);
 			rs = createResultSet(pstmt);
 			while (rs.next())
-				list.add(new Integer(rs.getInt(1)));
+			{
+				list.add(rs.getInt(1));
+			}
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql.toString(), e);
-			return null;
+			throw new DBException(e, sql);
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
 		//	Convert to array
 		int[] retValue = new int[list.size()];
 		for (int i = 0; i < retValue.length; i++)
-			retValue[i] = ((Integer)list.get(i)).intValue();
+		{
+			retValue[i] = list.get(i);
+		}
 		return retValue;
 	}	//	get_IDs
 

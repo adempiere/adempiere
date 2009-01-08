@@ -11,6 +11,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
@@ -170,4 +171,30 @@ public class QueryTest extends AdempiereTestCase
 		}
 		assertNotNull("Exception should be throwed", ex);
 	}
+	
+	public void testSetClient_ID() throws Exception
+	{
+		int AD_Client_ID = Env.getAD_Client_ID(getCtx());
+		String sql = "SELECT COUNT(*) FROM C_Invoice WHERE IsActive='Y' AND AD_Client_ID="+AD_Client_ID;
+		int targetCount = DB.getSQLValue(null, sql);
+		//
+		int count = new Query(getCtx(), "C_Invoice", "1=1", getTrxName())
+						.setOnlyActiveRecords(true)
+						.setClient_ID()
+						.count();
+		assertEquals("Invoice # not match", targetCount, count);
+	}
+	
+	public void testGet_IDs() throws Exception
+	{
+		final String whereClause = "AD_Element_ID IN (101, 102)";
+		int[] ids = new Query(getCtx(), "AD_Element", whereClause, getTrxName())
+						.setOrderBy("AD_Element_ID")
+						.getIDs();
+		assertNotNull(ids);
+		assertEquals(2, ids.length);
+		assertEquals(101, ids[0]);
+		assertEquals(102, ids[1]);
+	}
+
 }
