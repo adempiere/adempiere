@@ -169,7 +169,6 @@ public class MResource extends X_S_Resource
 	 *  @param S_Resource_ID Resource
 	 *  @param AD_Org_ID Organization
 	 *  @return Rate for Resource
-	 *  @throws Exception if not successful
 	 */
 	public double getResouceRate(int C_AcctSchema_ID,int  M_CostType_ID, String CostElementType , int AD_Org_ID)
 	{
