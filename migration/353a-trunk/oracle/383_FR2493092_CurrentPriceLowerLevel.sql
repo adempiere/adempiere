@@ -1,3 +1,5 @@
+set define off;
+
 -- Jan 7, 2009 9:01:23 PM ECT
 -- Manufacturing Cost
 UPDATE AD_Element SET Description='Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.', Help='Current Price Lower Level is used for get the total costs for lower level the a product manufactured.
