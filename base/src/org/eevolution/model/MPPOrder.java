@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
@@ -66,66 +67,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	private static final long serialVersionUID = 1L;
 	/**	Product					*/
 	private MProduct 		m_product = null;
-
-	/**
-	 * 	Create new Order by copying
-	 * 	@param ctx context
-	 *	@param C_Order_ID invoice
-	 * 	@param dateDoc date of the document date
-	 * 	@param counter create counter links
-	 *	@return Order
-	 */
-	public static MPPOrder copyFrom(MPPOrder from, Timestamp dateDoc, int C_DocTypeTarget_ID,
-									boolean isSOTrx, boolean counter)
+	
+	public static MPPOrder forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
-		MPPOrder to = new MPPOrder(from.getCtx(), 0, "PP_Order");
-		PO.copyValues(from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
-		to.setPP_Order_ID(0);
-		to.set_ValueNoCheck("DocumentNo", null);
-		//
-		to.setDocStatus(DOCSTATUS_Drafted); //	Draft
-		to.setDocAction(DOCACTION_Prepare);
-		//
-		//to.setC_DocType_ID(this.C_DOCTYPE_ID_ManufacturingOrder);
-		//to.setC_DocTypeTarget_ID(C_DocTypeTarget_ID);
-		to.setIsSOTrx(isSOTrx);
-		//
-		to.setIsSelected(false);
-		/*to.setDateOrdered (dateDoc);
-		 to.setDateAcct (dateDoc);
-		 to.setDatePromised (dateDoc);
-		 to.setDatePrinted(null);
-		 to.setIsPrinted (false);
-		 //*/
-		to.setIsApproved(false);
-		/*to.setIsCreditApproved(false);
-		 to.setC_Payment_ID(0);
-		 to.setC_CashLine_ID(0);
-		 //	Amounts are updated  when adding lines
-		 to.setGrandTotal(Env.ZERO);
-		 to.setTotalLines(Env.ZERO);
-		 //
-		 to.setIsDelivered(false);
-		 to.setIsInvoiced(false);
-		 to.setIsSelfService(false);
-		 to.setIsTransferred (false);*/
-		to.setPosted(false);
-		to.setProcessed(false);
-		/*if (counter)
-		 to.setRef_Order_ID(from.getC_Order_ID());
-		 else
-		 to.setRef_Order_ID(0);
-		 //
-		 */
-		to.saveEx();
-		/*if (counter)
-		 from.setRef_Order_ID(to.getC_Order_ID());
+		return new Query(ctx, MPPOrder.Table_Name, COLUMNNAME_C_OrderLine_ID+"=?", trxName)
+								.setParameters(new Object[]{C_OrderLine_ID})
+								.firstOnly();
+	}
 
-		 if (to.copyLinesFrom(from, counter) == 0)
-		 throw new IllegalStateException("Could not create Order Lines");
-		 */
-		return to;
-	} //	copyFrom
 
 	/**************************************************************************
 	 *  Default Constructor
@@ -136,7 +85,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	{
 		super(ctx, PP_Order_ID, trxName);
 		//  New
-		if (PP_Order_ID == 0) {
+		if (PP_Order_ID == 0)
+		{
+			setQtyDelivered(Env.ZERO);
+			setQtyReject(Env.ZERO);
+			setQtyScrap(Env.ZERO);                                                        
 			setIsSelected(false);
 			setIsSOTrx(false);
 			setIsApproved(false);
@@ -144,17 +97,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			setProcessed(false);
 			setProcessing(false);
 			setPosted(false);
-			MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), MDocType.DOCBASETYPE_ManufacturingOrder);	
-			if(doc == null)
-			{
-				throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-			}
-			else
-			{	
-				setC_DocType_ID(doc[0].getC_DocType_ID());
-				setC_DocTypeTarget_ID(doc[0].getC_DocType_ID());
-			}
-			
+			//
+			setC_DocType_ID(0);
+			setC_DocTypeTarget_ID(MDocType.DOCBASETYPE_ManufacturingOrder);	
+			//
 			//set_ValueNoCheck("DocumentNo", null);
 			setDocStatus(DOCSTATUS_Drafted);
 			setDocAction(DOCACTION_Prepare);
@@ -229,18 +175,47 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 	/**
 	 * Get BOM Lines of PP Order
+	 * @param requery
 	 * @return Order BOM Lines
 	 */
-	public MPPOrderBOMLine[] getLines()
+	public MPPOrderBOMLine[] getLines(boolean requery)
 	{
+		if (m_lines != null && !requery)
+		{
+			set_TrxName(m_lines, get_TrxName());
+			return m_lines;
+		}
 		String whereClause = MPPOrderBOMLine.COLUMNNAME_PP_Order_ID+"=?";
-		//
 		List<MPPOrderBOMLine> list = new Query(getCtx(), MPPOrderBOMLine.Table_Name, whereClause, get_TrxName())
 										.setParameters(new Object[]{getPP_Order_ID()})
 										.setOrderBy(MPPOrderBOMLine.COLUMNNAME_Line)
 										.list();
-		return list.toArray(new MPPOrderBOMLine[list.size()]);
-	} //	getLines
+		m_lines = list.toArray(new MPPOrderBOMLine[list.size()]);
+		return m_lines;
+	}
+	private MPPOrderBOMLine[] m_lines = null;
+
+	/**
+	 * Get BOM Lines of PP Order
+	 * @return Order BOM Lines
+	 */
+	public MPPOrderBOMLine[] getLines()
+	{
+		return getLines(true);
+	}
+	
+	public void setC_DocTypeTarget_ID(String docBaseType)
+	{
+		MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), docBaseType);	
+		if(doc == null)
+		{
+			throw new DocTypeNotFoundException(docBaseType, "");
+		}
+		else
+		{	
+			setC_DocTypeTarget_ID(doc[0].get_ID());
+		}
+	}
 
 	@Override
 	public void setProcessed(boolean processed)
@@ -297,32 +272,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			return false;
 		}
 		
-		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && 
-				getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
+		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
 		{
-			for(MPPOrderBOMLine line : getLines())
-			{
-				line.deleteEx(true);
-			}
-			MPPOrderBOM bom = getMPPOrderBOM();
-			if(bom != null)
-				bom.deleteEx(true, get_TrxName());
-
-			MPPOrderWorkflow PP_Order_Workflow = getMPPOrderWorkflow();
-			if (PP_Order_Workflow != null)
-			{	
-				PP_Order_Workflow.setPP_Order_Node_ID(0);
-				PP_Order_Workflow.saveEx();
-				for(MPPOrderNode node : PP_Order_Workflow.getNodes(true, getAD_Client_ID()))
-				{	
-					for(MPPOrderNodeNext next : node.getTransitions(getAD_Client_ID()))
-					{
-						next.deleteEx(true);
-					}
-					node.deleteEx(true);
-				}		
-				PP_Order_Workflow.deleteEx(true);
-			}	
+			deleteWorkflowAndBOM();
 			explotion();
 		}
 		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && !getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
@@ -347,22 +299,36 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			String whereClause = "PP_Order_ID=? AND AD_Client_ID=?";
 			Object[] params = new Object[]{get_ID(), getAD_Client_ID()};
-			
-			// Delete Cost:
+			//
 			deletePO(MPPOrderCost.Table_Name, whereClause, params);
-			// Delete workflow:
-			DB.executeUpdateEx("UPDATE PP_Order_Workflow SET PP_Order_Node_ID=NULL WHERE "+whereClause, params, get_TrxName()); //	Reset workflow start node
-			deletePO(X_PP_Order_Node_Asset.Table_Name, whereClause, params);
-			deletePO(X_PP_Order_Node_Product.Table_Name, whereClause, params);
-			deletePO(MPPOrderNodeNext.Table_Name, whereClause, params);
-			deletePO(MPPOrderNode.Table_Name, whereClause, params);
-			deletePO(MPPOrderWorkflow.Table_Name, whereClause, params);
-			// Delete BOM:
-			deletePO(MPPOrderBOMLine.Table_Name, whereClause, params);
-			deletePO(MPPOrderBOM.Table_Name, whereClause, params);
+			deleteWorkflowAndBOM();
 		}                
 		return true;
 	} //	beforeDelete
+	
+	private void deleteWorkflowAndBOM()
+	{
+		// New record, nothing to do
+		if (get_ID() <= 0)
+		{
+			return;
+		}
+		//
+		String whereClause = "PP_Order_ID=? AND AD_Client_ID=?";
+		Object[] params = new Object[]{get_ID(), getAD_Client_ID()};
+		// Reset workflow start node
+		DB.executeUpdateEx("UPDATE PP_Order_Workflow SET PP_Order_Node_ID=NULL WHERE "+whereClause, params, get_TrxName());
+		// Delete workflow:
+		deletePO(X_PP_Order_Node_Asset.Table_Name, whereClause, params);
+		deletePO(X_PP_Order_Node_Product.Table_Name, whereClause, params);
+		deletePO(MPPOrderNodeNext.Table_Name, whereClause, params);
+		deletePO(MPPOrderNode.Table_Name, whereClause, params);
+		deletePO(MPPOrderWorkflow.Table_Name, whereClause, params);
+		// Delete BOM:
+		deletePO(MPPOrderBOMLine.Table_Name, whereClause, params);
+		deletePO(MPPOrderBOM.Table_Name, whereClause, params);
+		
+	}
 
 	public boolean processIt(String processAction)
 	{
@@ -651,13 +617,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return DocAction.STATUS_Completed;
 	} //	completeIt
 
+	/**
+	 * Check if the Quantity from all BOM Lines is available (QtyOnHand >= QtyRequired)
+	 * @return true if entire Qty is available for this Order 
+	 */
 	public boolean isAvailable()
 	{
-		String whereClause = "QtyOnHand - QtyRequiered < 0 AND PP_Order_ID=?";
-		boolean notAvailable = new Query(getCtx(), X_RV_PP_Order_Storage.Table_Name, whereClause, get_TrxName())
+		String whereClause = "QtyOnHand >= QtyRequiered AND PP_Order_ID=?";
+		boolean available = new Query(getCtx(), "RV_PP_Order_Storage", whereClause, get_TrxName())
 										.setParameters(new Object[]{get_ID()})
 										.match();
-		return !notAvailable;
+		return available;
 	}
 
 	public boolean voidIt()
@@ -879,7 +849,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					.first();
 	}
 	
-	public void explotion()
+	/**
+	 * Create PP_Order_BOM from PP_Product_BOM.
+	 * Create PP_Order_Workflow from AD_Workflow.
+	 */
+	private void explotion()
 	{
 		// Create BOM Head
 		MPPProductBOM PP_Product_BOM = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
@@ -924,28 +898,22 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					
 					for (MWFNodeNext AD_WF_NodeNext : AD_WF_Node.getTransitions(getAD_Client_ID()))
 					{
-						MPPOrderNodeNext nodenext = new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node, get_TrxName());
+						MPPOrderNodeNext nodenext = new MPPOrderNodeNext(AD_WF_NodeNext, PP_Order_Node);
 						nodenext.setAD_Org_ID(getAD_Org_ID());
 						nodenext.saveEx();
 					}// for NodeNext
 					
-					for (MPPWFNodeProduct wfnp : MPPWFNodeProduct.get(getCtx(), AD_WF_Node.get_ID() , get_TrxName()))
+					for (MPPWFNodeProduct wfnp : MPPWFNodeProduct.forAD_WF_Node_ID(getCtx(), AD_WF_Node.get_ID()))
 					{
-						MPPOrderNodeProduct nodeorderproduct = new MPPOrderNodeProduct(wfnp);
+						MPPOrderNodeProduct nodeorderproduct = new MPPOrderNodeProduct(wfnp, PP_Order_Node);
 						nodeorderproduct.setAD_Org_ID(getAD_Org_ID());
-						nodeorderproduct.setPP_Order_ID(getPP_Order_ID());
-						nodeorderproduct.setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
-						nodeorderproduct.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
 						nodeorderproduct.saveEx();
-					}// for NodeNext
+					}
 					
-					for (MPPWFNodeAsset wfna : MPPWFNodeAsset.get(getCtx(), AD_WF_Node.get_ID() , get_TrxName()))
+					for (MPPWFNodeAsset wfna : MPPWFNodeAsset.forAD_WF_Node_ID(getCtx(), AD_WF_Node.get_ID()))
 					{
-						MPPOrderNodeAsset nodeorderasset = new MPPOrderNodeAsset(wfna);
+						MPPOrderNodeAsset nodeorderasset = new MPPOrderNodeAsset(wfna, PP_Order_Node);
 						nodeorderasset.setAD_Org_ID(getAD_Org_ID());
-						nodeorderasset.setPP_Order_ID(getPP_Order_ID());
-						nodeorderasset.setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
-						nodeorderasset.setPP_Order_Node_ID(PP_Order_Node.getPP_Order_Node_ID());
 						nodeorderasset.saveEx();
 					}					
 				}// for node 
@@ -956,7 +924,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			for (MPPOrderNode orderNode : PP_Order_Workflow.getNodes(false, getAD_Client_ID()))
 			{
 				// set workflow start node
-				if (PP_Order_Workflow.getAD_WF_Node_ID() == orderNode.getAD_WF_Node_ID()) {
+				if (PP_Order_Workflow.getAD_WF_Node_ID() == orderNode.getAD_WF_Node_ID())
+				{
 					PP_Order_Workflow.setPP_Order_Node_ID(orderNode.getPP_Order_Node_ID());
 				}
 				// set node next

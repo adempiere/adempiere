@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +27,6 @@ import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
-import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 
 /**
@@ -183,18 +181,19 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	public MPPOrderNode[] getNodes(boolean ordered, int AD_Client_ID)
 	{
 		if (ordered)
+		{
 			return getNodesInOrder(AD_Client_ID);
+		}
 		//
 		ArrayList<MPPOrderNode> list = new ArrayList<MPPOrderNode>();
-		for (int i = 0; i < m_nodes.size(); i++)
+		for (MPPOrderNode node : m_nodes)
 		{
-			MPPOrderNode node = m_nodes.get(i);
 			if (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID)
+			{
 				list.add(node);
+			}
 		}
-		MPPOrderNode[] retValue = new MPPOrderNode [list.size()];
-		list.toArray(retValue);
-		return retValue;
+		return list.toArray(new MPPOrderNode [list.size()]);
 	}	//	getNodes
 
 	/**
@@ -207,17 +206,18 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	}	//	getFirstNode
 
 	/**
-	 * 	Get Node with ID in Workflow
+	 * 	Get Node with given ID
 	 * 	@param PP_Order_Node_ID ID
 	 * 	@return node or null
 	 */
 	public MPPOrderNode getNode (int PP_Order_Node_ID)
 	{
-		for (int i = 0; i < m_nodes.size(); i++)
+		for (MPPOrderNode node : m_nodes)
 		{
-			MPPOrderNode node = (MPPOrderNode)m_nodes.get(i);
 			if (node.getPP_Order_Node_ID() == PP_Order_Node_ID)
+			{
 				return node;
+			}
 		}
 		return null;
 	}	//	getNode
@@ -232,21 +232,22 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	{
 		MPPOrderNode node = getNode(PP_Order_Node_ID);
 		if (node == null || node.getNextNodeCount() == 0)
-			return null;
-		//
-		MPPOrderNodeNext[] nexts = node.getTransitions(AD_Client_ID);
-		ArrayList<MPPOrderNode> list = new ArrayList<MPPOrderNode>();
-		for (int i = 0; i < nexts.length; i++)
 		{
-			MPPOrderNode next = getNode (nexts[i].getPP_Order_Next_ID());
+			return null;
+		}
+		//
+		ArrayList<MPPOrderNode> list = new ArrayList<MPPOrderNode>();
+		for (MPPOrderNodeNext nextTr : node.getTransitions(AD_Client_ID))
+		{
+			MPPOrderNode next = getNode (nextTr.getPP_Order_Next_ID());
 			if (next != null)
+			{
 				list.add(next);
+			}
 		}
 
 		//	Return Nodes
-		MPPOrderNode[] retValue = new MPPOrderNode [list.size()];
-		list.toArray(retValue);
-		return retValue;
+		return list.toArray(new MPPOrderNode [list.size()]);
 	}	//	getNextNodes
 
 	/**

@@ -17,34 +17,42 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
+import org.compiere.model.MWarehouse;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
- *  PP Order BOM Line Model.
+ * PP Order BOM Line Model.
  *  
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MOrderLine.java,v 1.22 2004/03/22 07:15:03 vpj-cd Exp $
- * 
+ * @author Victor Perez www.e-evolution.com     
  * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 *  Default Constructor
-	 *  @param ctx context
-	 *  @param  C_OrderLine_ID  order line to load
-	 */
-	public MPPOrderBOMLine(Properties ctx, int PP_Order_BOMLine_ID,String trxName)
+	public static MPPOrderBOMLine forM_Product_ID(Properties ctx, int PP_Order_ID, int M_Product_ID, String trxName)
 	{
-		super (ctx, PP_Order_BOMLine_ID,trxName);  
+		final String whereClause = COLUMNNAME_PP_Order_ID+"=? AND "+COLUMNNAME_M_Product_ID+"=?";
+		return new Query(ctx, Table_Name, whereClause, trxName)
+			.setParameters(new Object[]{PP_Order_ID, M_Product_ID})
+			.firstOnly();
+	}
+	
+	public MPPOrderBOMLine(Properties ctx, int PP_Order_BOMLine_ID, String trxName)
+	{
+		super (ctx, PP_Order_BOMLine_ID, trxName);  
 		if (PP_Order_BOMLine_ID == 0)
 		{
 			setQtyDelivered(Env.ZERO);
@@ -57,11 +65,6 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	}	//	PP_Order_BOMLine_ID
 
 
-	/**
-	 *  Load Constructor
-	 *  @param ctx context
-	 *  @param rs result set record
-	 */
 	public MPPOrderBOMLine(Properties ctx, ResultSet rs,String trxName)
 	{
 		super (ctx, rs,trxName);
@@ -105,21 +108,28 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		setValidTo(bomLine.getValidTo());
 		setBackflushGroup(bomLine.getBackflushGroup());		
 	}
-	
+
+	/**
+	 * Parent (PP_Order)
+	 */
 	private MPPOrder m_parent = null;
 	
-	/** Qty used for exploding this BOM Line */
+	/**
+	 * Qty used for exploding this BOM Line.
+	 * When ComponentType is Phantom, it is set on beforeSave as QtyRequired and reset on afterSave.
+	 */
 	private BigDecimal m_qtyToExplode = null;
 
 	
 	@Override
-	protected boolean beforeSave(boolean newRecord) {
+	protected boolean beforeSave(boolean newRecord)
+	{
 		//	Get Line No
 		if (getLine() == 0)
 		{
 			String sql = "SELECT COALESCE(MAX("+COLUMNNAME_Line+"),0)+10 FROM "+Table_Name
 							+" WHERE "+COLUMNNAME_PP_Order_ID+"=?";
-			int ii = DB.getSQLValue (get_TrxName(), sql, getPP_Order_ID());
+			int ii = DB.getSQLValueEx (get_TrxName(), sql, getPP_Order_ID());
 			setLine (ii);
 		}
 
@@ -147,15 +157,15 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			MProduct parent = MProduct.get(getCtx(), getM_Product_ID());
 			int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), parent);
 			if (PP_Product_BOM_ID <= 0)
+			{
 				return true;
-
+			}
 			MPPProductBOM bom = MPPProductBOM.get(getCtx(), PP_Product_BOM_ID);
 			if (bom != null)
 			{
-				MPPProductBOMLine[] PP_Product_BOMline = bom.getLines();
-				for(int i = 0 ; i < PP_Product_BOMline.length ; i++ )
+				for(MPPProductBOMLine PP_Product_BOMline : bom.getLines())
 				{
-					MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(PP_Product_BOMline[i],
+					MPPOrderBOMLine PP_Order_BOMLine = new MPPOrderBOMLine(PP_Product_BOMline,
 																getPP_Order_ID(), getPP_Order_BOM_ID(),
 																getM_Warehouse_ID(),
 																get_TrxName());
@@ -176,67 +186,159 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		return MProduct.get(getCtx(), getM_Product_ID());
 	}
 
+	@Override
+	public MUOM getC_UOM()
+	{
+		return MUOM.get(getCtx(), getC_UOM_ID());
+	}
+	
+	@Override
+	public MWarehouse getM_Warehouse()
+	{
+		return MWarehouse.get(getCtx(), getM_Warehouse_ID());
+	}
+
 	/**
 	 * 	Get Parent
-	 *	@return parent
+	 *	@return PP_Order
 	 */
 	public MPPOrder getParent()
 	{
-		if (m_parent == null)
-			m_parent = new MPPOrder(getCtx(), getPP_Order_ID(), get_TrxName());
+		int id = getPP_Order_ID();
+		if (id <= 0)
+		{
+			m_parent = null;
+			return null;
+		}
+		if (m_parent == null || m_parent.get_ID() != id)
+		{
+			m_parent = new MPPOrder(getCtx(), id, get_TrxName());
+		}
 		return m_parent;
 	}	//	getParent
 
 	public void setQtyOrdered(BigDecimal QtyOrdered)
 	{
-		// Set Qty Required
+		BigDecimal multiplier = Env.ZERO;
 		if (isQtyPercentage())
 		{
-			BigDecimal qty = getQtyBatch().multiply(QtyOrdered);
-			if (getComponentType().equals(COMPONENTTYPE_Component)
-					|| getComponentType().equals(COMPONENTTYPE_Phantom))
-			{
-				setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
-			}
-			else if (getComponentType().equals(COMPONENTTYPE_Packing))
-			{
-				setQtyRequiered(qty.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP));
-			}
-			else if (getComponentType().equals(COMPONENTTYPE_Tools))
-			{
-				setQtyRequiered(getQtyBOM());
-			}
-			else
-			{
-				throw new AdempiereException("@NotSupported@ @ComponentType@ "+getComponentType());
-			}
+			multiplier = getQtyBatch().divide(Env.ONEHUNDRED, 8, RoundingMode.UP);
 		}
 		else
 		{
-			if (getComponentType().equals(COMPONENTTYPE_Component)
-					|| getComponentType().equals(COMPONENTTYPE_Phantom))
-			{
-				setQtyRequiered(getQtyBOM().multiply(QtyOrdered));
-			}
-			else if (getComponentType().equals(COMPONENTTYPE_Packing))
-			{
-				setQtyRequiered(getQtyBOM().multiply(QtyOrdered));
-			}
-			else if (getComponentType().equals(COMPONENTTYPE_Tools))
-			{
-				setQtyRequiered(getQtyBOM());
-			}
-			else
-			{
-				throw new AdempiereException("@NotSupported@ @ComponentType@ "+getComponentType());
-			}
+			multiplier = getQtyBOM();
 		}
+		BigDecimal qty = QtyOrdered.multiply(multiplier).setScale(8, RoundingMode.UP);
 		
+		if (isComponentType(COMPONENTTYPE_Component,COMPONENTTYPE_Phantom
+							,COMPONENTTYPE_Packing
+							,COMPONENTTYPE_ByProduct))
+		{
+			setQtyRequiered(qty);
+		}
+		else if (isComponentType(COMPONENTTYPE_Tools))
+		{
+			setQtyRequiered(multiplier);
+		}
+		else
+		{
+			throw new AdempiereException("@NotSupported@ @ComponentType@ "+getComponentType());
+		}
+		//
 		// Set Scrap of Component
 		BigDecimal Scrap = getScrap();
-		if (Scrap.signum() != 0) {
+		if (Scrap.signum() != 0)
+		{
 			Scrap = Scrap.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
 			setQtyRequiered(getQtyRequiered().divide(Env.ONE.subtract(Scrap), 8, BigDecimal.ROUND_HALF_UP));
 		}
+	}
+	
+	/**
+	 * @return Qty Open (Requiered - Delivered)
+	 */
+	public BigDecimal getQtyOpen()
+	{
+		return getQtyRequiered().subtract(getQtyDelivered()); 
+	}
+	
+	/** Storage Qty On Hand */
+	private BigDecimal m_qtyOnHand = null;
+	/** Storage Qty Available */
+	private BigDecimal m_qtyAvailable = null;
+
+	/**
+	 * Load Storage Info
+	 * @param reload
+	 */
+	private void loadStorage(boolean reload)
+	{
+		if (!reload && m_qtyOnHand != null && m_qtyAvailable != null)
+		{
+			return;
+		}
+		//
+		final String sql = "SELECT "
+							+" bomQtyAvailable("+COLUMNNAME_M_Product_ID+", "+COLUMNNAME_M_Warehouse_ID+", 0)"
+							+",bomQtyOnHand("+COLUMNNAME_M_Product_ID+", "+COLUMNNAME_M_Warehouse_ID+", 0)"
+							+" FROM "+Table_Name
+							+" WHERE "+COLUMNNAME_PP_Order_BOMLine_ID+"=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			DB.setParameters(pstmt, new Object[]{get_ID()});
+			rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				m_qtyAvailable = rs.getBigDecimal(1);
+				m_qtyOnHand = rs.getBigDecimal(2);
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+	}
+
+	/**
+	 * @return storage Available Qty
+	 */
+	public BigDecimal getQtyAvailable()
+	{
+		loadStorage(false);
+		return m_qtyAvailable;
+	}
+
+	/**
+	 * @return storage Qty On Hand
+	 */
+	public BigDecimal getQtyOnHand()
+	{
+		loadStorage(false);
+		return m_qtyOnHand;
+	}
+	
+	/**
+	 * @param componentTypes one or more component types
+	 * @return true of Component Type is any of following types
+	 */
+	public boolean isComponentType(String ... componentTypes)
+	{
+		String currentType = getComponentType();
+		for (String type : componentTypes)
+		{
+			if (currentType.equals(type))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -18,10 +18,13 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MForecastLine;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -30,11 +33,11 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
-import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_DocType;
 import org.compiere.model.X_M_Forecast;
 import org.compiere.process.DocAction;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
@@ -52,7 +55,131 @@ import org.compiere.wf.MWorkflow;
 public class MPPMRP extends X_PP_MRP
 {
 	private static final long serialVersionUID = 1L;
+	
+	private static CLogger s_log = CLogger.getCLogger(MPPMRP.class);
+	
+	private static HashMap<String, String[]> s_sourceColumnNames = new HashMap<String, String[]>();
+	static
+	{
+		s_sourceColumnNames.put(MOrder.Table_Name, new String[]{
+				MOrder.COLUMNNAME_DatePromised,
+				MOrder.COLUMNNAME_DocStatus,
+		});
+		s_sourceColumnNames.put(MOrderLine.Table_Name, new String[]{
+				"AD_Org_ID",
+				MOrderLine.COLUMNNAME_DateOrdered,
+				MOrderLine.COLUMNNAME_DatePromised,
+				MOrderLine.COLUMNNAME_C_BPartner_ID,
+				MOrderLine.COLUMNNAME_M_Warehouse_ID,
+				MOrderLine.COLUMNNAME_M_Product_ID,
+				MOrderLine.COLUMNNAME_QtyOrdered,
+				MOrderLine.COLUMNNAME_QtyDelivered,
+		});
+		s_sourceColumnNames.put(MRequisition.Table_Name, new String[]{
+				MRequisition.COLUMNNAME_DateRequired,
+				MRequisition.COLUMNNAME_M_Warehouse_ID,
+		});
+		s_sourceColumnNames.put(MRequisitionLine.Table_Name, new String[]{
+				"AD_Org_ID",
+				MRequisitionLine.COLUMNNAME_M_Product_ID,
+				MRequisitionLine.COLUMNNAME_Qty,
+				MRequisitionLine.COLUMNNAME_C_OrderLine_ID, // QtyOrdered depends on that
+		});
+		s_sourceColumnNames.put(X_M_Forecast.Table_Name, new String[]{
+		});
+		s_sourceColumnNames.put(MForecastLine.Table_Name, new String[]{
+				"AD_Org_ID",
+				MForecastLine.COLUMNNAME_DatePromised,
+				MForecastLine.COLUMNNAME_M_Warehouse_ID,
+				MForecastLine.COLUMNNAME_M_Product_ID,
+				MForecastLine.COLUMNNAME_Qty,
+		});
+		s_sourceColumnNames.put(MDDOrderLine.Table_Name, new String[]{
+				"AD_Org_ID",
+				MDDOrderLine.COLUMNNAME_M_Product_ID,
+				MDDOrderLine.COLUMNNAME_DatePromised,
+				MDDOrderLine.COLUMNNAME_QtyOrdered,
+				MDDOrderLine.COLUMNNAME_QtyDelivered,
+				MDDOrderLine.COLUMNNAME_ConfirmedQty,
+				MDDOrderLine.COLUMNNAME_M_Locator_ID,
+				MDDOrderLine.COLUMNNAME_M_LocatorTo_ID,
+				MDDOrderLine.COLUMNNAME_ConfirmedQty,
+		});
+		s_sourceColumnNames.put(MPPOrder.Table_Name, new String[]{
+				"AD_Org_ID",
+				MPPOrder.COLUMNNAME_M_Product_ID,
+				MPPOrder.COLUMNNAME_DatePromised,
+				MPPOrder.COLUMNNAME_QtyOrdered,
+				MPPOrder.COLUMNNAME_QtyDelivered,
+				MPPOrder.COLUMNNAME_PP_Product_BOM_ID,
+				MPPOrder.COLUMNNAME_AD_Workflow_ID,
+		});
+		s_sourceColumnNames.put(MPPOrderBOMLine.Table_Name, new String[]{
+				MPPOrderBOMLine.COLUMNNAME_M_Product_ID,
+				MPPOrderBOMLine.COLUMNNAME_M_Warehouse_ID,
+				MPPOrderBOMLine.COLUMNNAME_QtyEntered,
+				MPPOrderBOMLine.COLUMNNAME_QtyDelivered,
+		});
+	}
 
+	/**
+	 * Check if a persistent object is changed, from MRP point of view
+	 * @param po MRP relevant PO (e.g. MOrder, MOrderLine, MPPOrder etc)
+	 * @return true if object changed
+	 */
+	public static boolean isChanged(PO po)
+	{
+		String[] columnNames = s_sourceColumnNames.get(po.get_TableName());
+		if (columnNames == null || columnNames.length == 0)
+		{
+			return false;
+		}
+		for (String columnName : columnNames)
+		{
+			if (po.is_ValueChanged(columnName))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void deleteMRP(PO po)
+	{
+		String tableName = po.get_TableName();
+		int no = DB.executeUpdateEx("DELETE FROM "+Table_Name+" WHERE "+tableName+"_ID=? AND AD_Client_ID=?",
+				new Object[]{po.get_ID(), po.getAD_Client_ID()},
+				po.get_TrxName());
+		s_log.finest("Deleted "+tableName+" #"+no);
+	}
+	
+	private static Query getQuery(PO po, String typeMRP, String orderType)
+	{
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//
+		whereClause.append("AD_Client_ID=?");
+		params.add(po.getAD_Client_ID());
+		//
+		whereClause.append(" AND ").append(po.get_TableName()).append("_ID=?");
+		params.add(po.get_ID());
+		//
+		if (typeMRP != null)
+		{
+			whereClause.append(" AND ").append(COLUMNNAME_TypeMRP).append("=?");
+			params.add(typeMRP);
+		}
+		//
+		if (orderType != null)
+		{
+			whereClause.append(" AND ").append(COLUMNNAME_OrderType).append("=?");
+			params.add(orderType);
+		}
+		//
+		return new Query(po.getCtx(), Table_Name, whereClause.toString(), po.get_TrxName())
+					.setParameters(params);
+	}
+	
 	/**************************************************************************
 	 * 	Default Constructor
 	 *	@param ctx context
@@ -122,15 +249,12 @@ public class MPPMRP extends X_PP_MRP
 		
 		if (delete)
 		{
-			final String sql = "DELETE FROM PP_MRP WHERE M_ForecastLine_ID=? AND AD_Client_ID=?";
-			DB.executeUpdateEx(sql, new Object[]{fl.get_ID(), fl.getAD_Client_ID()}, trxName);
+			deleteMRP(fl);
 			return;
 		}
 
 		X_M_Forecast f = new X_M_Forecast(ctx, fl.getM_Forecast_ID(), trxName);
-		MPPMRP mrp = new Query(ctx, MPPMRP.Table_Name, "M_ForecastLine_ID=?", trxName)
-							.setParameters(new Object[]{fl.get_ID()})
-							.first();
+		MPPMRP mrp = getQuery(fl, null, null).firstOnly();
 		if (mrp == null)
 		{
 			mrp = new MPPMRP(ctx, 0, trxName);     
@@ -162,21 +286,14 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void C_Order(MOrder o, boolean delete)
 	{
-		String trxName = o.get_TrxName();
-		
-		final String whereClause = COLUMNNAME_C_Order_ID+"=? AND AD_Client_ID=?";
-		Object[] params = new Object[]{o.get_ID(), o.getAD_Client_ID()};
-		
 		if (delete)
 		{
-			final String sql = "DELETE FROM PP_MRP WHERE "+whereClause;
-			DB.executeUpdateEx(sql, params, trxName);
+			deleteMRP(o);
 			return;
 		}
 		
-		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocType_ID());
+		MDocType dt = MDocType.get(o.getCtx(), o.getC_DocTypeTarget_ID());
 		String DocSubTypeSO = dt.getDocSubTypeSO();
-		
 		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO) || !o.isSOTrx())
 		{		
 			if((o.getDocStatus().equals(MOrder.DOCSTATUS_InProgress)
@@ -193,9 +310,7 @@ public class MPPMRP extends X_PP_MRP
 					|| o.is_ValueChanged(MOrder.COLUMNNAME_C_BPartner_ID)
 				)
 			{
-				List<MPPMRP> list = new Query(o.getCtx(), MPPMRP.Table_Name, whereClause, trxName)
-								.setParameters(params)
-								.list();
+				List<MPPMRP> list = getQuery(o, null, null).list();
 				for (MPPMRP mrp : list)
 				{
 					mrp.setC_Order(o);
@@ -213,29 +328,22 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void C_OrderLine(MOrderLine ol, boolean delete)
 	{
-		Properties ctx = ol.getCtx();
-		String trxName = ol.get_TrxName();
-		final String whereClause = "AD_Client_ID = ? AND C_OrderLine_ID = ?";
-		Object[] params = new Object[]{ol.getAD_Client_ID(),ol.getC_OrderLine_ID()};
 		if (delete)
 		{
-			DB.executeUpdateEx("DELETE FROM PP_MRP WHERE "+whereClause, params, trxName);
-			MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
-									.setParameters(params)
-									.first();
+			deleteMRP(ol);
+			// Delete generated manufacturing order
+			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 			if (order != null && !order.isProcessed())
 			{
-				order.deleteEx(true, trxName);
+				order.deleteEx(true);
 			}
 			return;
 		}
 		
-		MPPMRP mrp = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
-						.setParameters(params)
-						.first();
+		MPPMRP mrp = getQuery(ol, null, null).firstOnly();
 		if(mrp == null)
 		{	
-			mrp = new MPPMRP(ctx, 0, trxName);                                                          
+			mrp = new MPPMRP(ol.getCtx(), 0, ol.get_TrxName());                                                          
 			mrp.setC_OrderLine_ID(ol.getC_OrderLine_ID());
 		}
 		mrp.setAD_Org_ID(ol.getAD_Org_ID());
@@ -256,84 +364,64 @@ public class MPPMRP extends X_PP_MRP
 		String DocSubTypeSO = dt.getDocSubTypeSO();
 		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO))
 		{
-			MPPOrder order = new Query(ctx, MPPOrder.Table_Name, whereClause, trxName)
-									.setParameters(params)
-									.first();
+			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 			if (order == null)
 			{
-				String where = MPPProductBOM.COLUMNNAME_BOMType+"=?"
+				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+"=?"
 							   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
-				MPPProductBOM bom = new Query(ctx, MPPProductBOM.Table_Name, where, trxName)
+				MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause, null)
 							.setParameters(new Object[]{MPPProductBOM.BOMTYPE_Make_To_Order, ol.getM_Product_ID()})
-							.first();	
+							.firstOnly();	
 				
 				MPPProductPlanning pp = null;
 				//Validate the BOM based in planning data 
 				if(bom == null)
 				{
-					pp = MPPProductPlanning.find( ctx, ol.getAD_Org_ID() , 0, 0, ol.getM_Product_ID(), trxName); 
+					pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), 0, 0, ol.getM_Product_ID(), null); 
 					if(pp != null)
 					{	
-						if(pp.getPP_Product_BOM_ID() != 0)
-						{	
-							bom = (MPPProductBOM) pp.getPP_Product_BOM();
-							if(!bom.getBOMType().equals(MPPProductBOM.BOMTYPE_Make_To_Order))
-								bom = null;
+						bom = (MPPProductBOM) pp.getPP_Product_BOM();
+						if(bom != null && !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType()))
+						{
+							bom = null;
 						}
 					}
 				}
-				
 				if (bom != null) 
 				{		
-						MProduct product = MProduct.get(ctx,ol.getM_Product_ID());   
-						String WhereClause = "ManufacturingResourceType = 'PT' AND IsManufacturingResource = 'Y' AND AD_Client_ID = ? AND M_Warehouse_ID = ?";
-						MResource m_resource = (MResource)MTable.get(ctx,MResource.Table_ID).getPO(WhereClause, new Object[]{ ol.getAD_Client_ID(),ol.getM_Warehouse_ID()}, trxName);
-						
-						MWorkflow m_workflow = MWorkflow.get(ctx, MWorkflow.getWorkflowSearchKey(ctx, product));
-						
-						//Validate the workflow based in planning data 						
-						if(m_workflow == null)
-						{
-							if(pp != null && pp.getAD_Workflow_ID() != 0)
-							{	
-									m_workflow =  (MWorkflow) pp.getAD_Workflow();
-							}
-						}
-						
-						if (m_resource != null && m_workflow != null)
-						{
-							MDocType[] doc = MDocType.getOfDocBaseType(ctx, X_C_DocType.DOCBASETYPE_ManufacturingOrder);
-							int C_DocType_ID = doc[0].getC_DocType_ID();
-							
-							order = new MPPOrder(ctx, 0 , trxName);                                     
-							order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
-							order.setS_Resource_ID(m_resource.get_ID());
-							order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-							order.setM_Product_ID(ol.getM_Product_ID());
-							order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
-							order.setPP_Product_BOM_ID(bom.get_ID());
-							order.setAD_Workflow_ID(m_workflow.get_ID());
-							order.setPlanner_ID(ol.getParent().getSalesRep_ID());
-							order.setLine(10);
-							order.setQtyDelivered(Env.ZERO);
-							order.setQtyReject(Env.ZERO);
-							order.setQtyScrap(Env.ZERO);                                                        
-							order.setDateOrdered(ol.getDateOrdered());                       
-							order.setDatePromised(ol.getDatePromised());
-							order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), (MPPMRP.getDays(ctx,m_resource.getS_Resource_ID(),m_workflow.getAD_Workflow_ID(), ol.getQtyOrdered(),ol.get_TrxName())).negate().intValue()));                                                       
-							order.setDateFinishSchedule(ol.getDatePromised());
-							order.setC_UOM_ID(ol.getC_UOM_ID());
-							order.setQty(ol.getQtyEntered());
-							order.setPosted(false);
-							order.setProcessed(false);
-							order.setC_DocTypeTarget_ID(C_DocType_ID);
-							order.setC_DocType_ID(C_DocType_ID);
-							order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
-							order.saveEx();  
-							order.prepareIt(); 
-							//order.setDocAction(MPPOrder.DOCSTATUS_Completed);
-							order.saveEx();
-					
+					final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());   
+					final int plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+					MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(ol.getCtx(), product));
+					//Validate the workflow based in planning data 						
+					if(workflow == null && pp != null)
+					{
+						workflow = pp.getAD_Workflow();
+					}
+					//
+					if (plant_id > 0 && workflow != null)
+					{
+						int duration = MPPMRP.getDays(ol.getCtx(), plant_id, workflow.get_ID(), ol.getQtyOrdered(), ol.get_TrxName()).intValue();
+						//
+						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());                                     
+						order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
+						order.setS_Resource_ID(plant_id);
+						order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+						order.setM_Product_ID(ol.getM_Product_ID());
+						order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
+						order.setPP_Product_BOM_ID(bom.get_ID());
+						order.setAD_Workflow_ID(workflow.get_ID());
+						order.setPlanner_ID(ol.getParent().getSalesRep_ID());
+						order.setLine(10);
+						order.setDateOrdered(ol.getDateOrdered());                       
+						order.setDatePromised(ol.getDatePromised());
+						order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), 0 - duration));
+						order.setDateFinishSchedule(ol.getDatePromised());
+						order.setC_UOM_ID(ol.getC_UOM_ID());
+						order.setQty(ol.getQtyOrdered());
+						order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
+						order.saveEx();  
+						order.prepareIt(); 
+						order.saveEx();
 					}
 				}    
 			}
@@ -370,18 +458,12 @@ public class MPPMRP extends X_PP_MRP
 		
 		if (delete)
 		{
-			String sql = "DELETE FROM PP_MRP WHERE PP_Order_ID=? AND AD_Client_ID=?";
-			Object[] params = new Object[]{o.getPP_Order_ID(), o.getAD_Client_ID()};
-			DB.executeUpdateEx(sql, params, trxName);
+			deleteMRP(o);
 			return;
 		}
-		
 		//
 		// Supply
-		final String whereClause = "TypeMRP=? AND OrderType=? AND AD_Client_ID=? AND PP_Order_ID=?";
-		MPPMRP mrpSupply = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
-							.setParameters(new Object[]{MPPMRP.TYPEMRP_Supply, MPPMRP.ORDERTYPE_ManufacturingOrder, o.getAD_Client_ID(), o.getPP_Order_ID()})
-							.first();
+		MPPMRP mrpSupply = getQuery(o, TYPEMRP_Supply, ORDERTYPE_ManufacturingOrder).firstOnly();
 		if(mrpSupply == null)
 		{		                    
 			mrpSupply = new MPPMRP(ctx, 0, trxName);                                                                                                                 
@@ -393,13 +475,10 @@ public class MPPMRP extends X_PP_MRP
 		mrpSupply.setM_Product_ID(o.getM_Product_ID());
 		mrpSupply.setM_Warehouse_ID(o.getM_Warehouse_ID());
 		mrpSupply.saveEx();
-		
 		//
 		// Demand
-		List<MPPMRP> demand = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
-							.setParameters(new Object[]{MPPMRP.TYPEMRP_Demand, MPPMRP.ORDERTYPE_ManufacturingOrder, o.getAD_Client_ID(), o.getPP_Order_ID()})
-							.list();
-		for (MPPMRP mrpDemand : demand)
+		List<MPPMRP> mrpDemandList = getQuery(o, TYPEMRP_Demand, ORDERTYPE_ManufacturingOrder).list();
+		for (MPPMRP mrpDemand : mrpDemandList)
 		{
 			mrpDemand.setPP_Order(o);
 			mrpDemand.saveEx();
@@ -411,31 +490,39 @@ public class MPPMRP extends X_PP_MRP
 	 * @param MPPOrderBOMLine Order BOM Line
 	 * @param delete indicate if this record is delete
 	 */
-	public static void PP_Order_BOMLine(MPPOrderBOMLine obl,boolean delete)
+	public static void PP_Order_BOMLine(MPPOrderBOMLine obl, boolean delete)
 	{        	   
 		String trxName = obl.get_TrxName();
 		Properties ctx = obl.getCtx();
 		if (delete)
 		{
-			final String sql = "DELETE FROM PP_MRP WHERE PP_Order_BOMLine_ID=? AND AD_Client_ID=?";				
-			DB.executeUpdateEx(sql, new Object[]{obl.get_ID(), obl.getAD_Client_ID()}, trxName);
+			deleteMRP(obl);
 			return;
 		}
-
-		final String whereClause = "TypeMRP=? AND OrderType=? AND PP_Order_BOMLine_ID=? AND AD_Client_ID=?";
-		MPPMRP mrp = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
-							.setParameters(new Object[]{TYPEMRP_Demand, ORDERTYPE_ManufacturingOrder, obl.get_ID(), obl.getAD_Client_ID()})
-							.first();
-		MPPOrder o = obl.getParent();
+		//
+		String typeMRP = MPPMRP.TYPEMRP_Demand;
+		BigDecimal qty = obl.getQtyRequiered().subtract(obl.getQtyDelivered());
+		//
+		// By-Product support:
+		if (obl.isComponentType(MPPOrderBOMLine.COMPONENTTYPE_ByProduct))
+		{
+			// TODO: need to evaluate
+			deleteMRP(obl);
+			return;
+//			typeMRP = MPPMRP.TYPEMRP_Supply;
+//			qty = qty.negate();
+		}
+		//
+		MPPMRP mrp = getQuery(obl, typeMRP, ORDERTYPE_ManufacturingOrder).firstOnly();
 		if(mrp == null)
 		{
 			mrp = new MPPMRP(ctx, 0, trxName);                                                                           
-			mrp.setAD_Org_ID(obl.getAD_Org_ID());
 			mrp.setPP_Order_BOMLine_ID(obl.getPP_Order_BOMLine_ID());
-			mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
 		}
-		mrp.setPP_Order(o);
-		mrp.setQty(obl.getQtyRequiered().subtract(obl.getQtyDelivered()));
+		mrp.setAD_Org_ID(obl.getAD_Org_ID());
+		mrp.setTypeMRP(typeMRP);
+		mrp.setPP_Order(obl.getParent());
+		mrp.setQty(qty);
 		mrp.setM_Product_ID(obl.getM_Product_ID());
 		mrp.setM_Warehouse_ID(obl.getM_Warehouse_ID());
 		mrp.saveEx();
@@ -448,12 +535,9 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void DD_Order(MDDOrder o, boolean delete)
 	{        	   
-		String sql = null;
-		String trxName = o.get_TrxName();
 		if (delete)
 		{
-			sql = "DELETE FROM PP_MRP WHERE DD_Order_ID = "+ o.getDD_Order_ID()  +" AND AD_Client_ID = " + o.getAD_Client_ID();				
-			DB.executeUpdateEx(sql, trxName);
+			deleteMRP(o);
 			return;
 		}
 	} 	
@@ -465,20 +549,18 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void DD_Order_Line(MDDOrderLine ol, boolean delete)
 	{        	   
-		String sql = null;
 		String trxName = ol.getParent().get_TrxName();
 		Properties m_ctx = ol.getCtx();
 		if (delete)
 		{
-			sql = "DELETE FROM PP_MRP WHERE DD_OrderLine_ID = "+ ol.getDD_OrderLine_ID()  +" AND AD_Client_ID = " + ol.getAD_Client_ID();				
-			DB.executeUpdateEx(sql ,trxName);
+			deleteMRP(ol);
 			return;
 		}
-		String whereClause = "TypeMRP = ? AND OrderType=? AND AD_Client_ID=? AND DD_OrderLine_ID = ?";
-		MPPMRP mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{MPPMRP.TYPEMRP_Demand,"DOO",ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
+		//
+		MPPMRP mrp = getQuery(ol, TYPEMRP_Demand, ORDERTYPE_DistributionOrder).firstOnly();
 		MLocator source = MLocator.get( m_ctx , ol.getM_Locator_ID());
 		MLocator target = MLocator.get( m_ctx , ol.getM_LocatorTo_ID());
-		if(mrp!=null)
+		if(mrp != null)
 		{	
 			mrp.setAD_Org_ID(source.getAD_Org_ID());
 			mrp.setName("MRP"); 
@@ -510,8 +592,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.saveEx();
 
 		}
-		whereClause ="TypeMRP=? AND OrderType=? AND AD_Client_ID=? AND DD_OrderLine_ID = ? ";
-		mrp = (MPPMRP)MTable.get(m_ctx, MPPMRP.Table_ID).getPO(whereClause, new Object[]{MPPMRP.TYPEMRP_Supply,"DOO",ol.getAD_Client_ID(),ol.getDD_OrderLine_ID()}, trxName);
+		mrp = getQuery(ol, TYPEMRP_Supply, ORDERTYPE_DistributionOrder).firstOnly();
 		if(mrp!=null)
 		{	
 			mrp.setAD_Org_ID(target.getAD_Org_ID());
@@ -554,37 +635,30 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void M_RequisitionLine( MRequisitionLine rl , boolean delete)
 	{
-		String trxName = rl.get_TrxName();
-		Properties ctx = rl.getCtx();
-		final String whereClause = "M_RequisitionLine_ID=? AND AD_Client_ID=?";
-		Object[] params = new Object[]{rl.getM_RequisitionLine_ID(), rl.getAD_Client_ID()};
-		
 		if (delete)
 		{
-			DB.executeUpdateEx("DELETE FROM PP_MRP WHERE "+whereClause, params, trxName);
+			deleteMRP(rl);
 			return;
 		}
 
-		MPPMRP mrp = new Query(ctx, MPPMRP.Table_Name, whereClause, trxName)
-							.setParameters(params)
-							.first();
+		MPPMRP mrp = getQuery(rl, null, null).firstOnly();
 		MRequisition r = rl.getParent();
 		if (mrp == null)
 		{
-			mrp = new MPPMRP(ctx, 0, trxName);  
-			mrp.setAD_Org_ID(r.getAD_Org_ID());
+			mrp = new MPPMRP(rl.getCtx(), 0, rl.get_TrxName());  
 			mrp.setM_Requisition_ID(rl.getM_Requisition_ID());
 			mrp.setM_RequisitionLine_ID(rl.getM_RequisitionLine_ID());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_MaterialRequisition);
 			mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
 			mrp.setIsAvailable(true);
 		}
+		mrp.setAD_Org_ID(r.getAD_Org_ID());
 		mrp.setName("MRP");
 		mrp.setDescription(rl.getDescription());                                                        
+		mrp.setDateOrdered(r.getDateRequired());
 		mrp.setDatePromised(r.getDateRequired());
 		mrp.setDateStartSchedule(r.getDateRequired());
 		mrp.setDateFinishSchedule(r.getDateRequired());
-		mrp.setDateOrdered(r.getDateRequired());
 		mrp.setM_Product_ID(rl.getM_Product_ID());
 		mrp.setM_Warehouse_ID(r.getM_Warehouse_ID());
 		// We create a MRP record only for Not Ordered Qty. The Order will generate a MRP record for Ordered Qty.
@@ -605,12 +679,9 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static BigDecimal getQtyOnHand(Properties ctx, int M_Warehouse_ID ,int M_Product_ID,String trxName)
 	{	
-		final String sql = "SELECT SUM(bomQtyOnHand (M_Product_ID,?,0)) AS OnHand FROM M_Product"
+		final String sql = "SELECT COALESCE(bomQtyOnHand (M_Product_ID,?,0),0) FROM M_Product"
 							+" WHERE AD_Client_ID=? AND M_Product_ID=?";
-		BigDecimal QtyOnHand = DB.getSQLValueBDEx(trxName, sql, new Object[]{M_Warehouse_ID,Env.getAD_Client_ID(ctx),M_Product_ID});
-		if (QtyOnHand == null)
-			QtyOnHand = Env.ZERO;
-		return QtyOnHand;
+		return DB.getSQLValueBDEx(trxName, sql, new Object[]{M_Warehouse_ID,Env.getAD_Client_ID(ctx),M_Product_ID});
 	}
 	
     /**
@@ -624,9 +695,17 @@ public class MPPMRP extends X_PP_MRP
 	 */
     public static BigDecimal getQtyReserved(Properties ctx, int M_Warehouse_ID ,int M_Product_ID, Timestamp To,String trxName)
 	{
-    	StringBuffer  sql = new StringBuffer("SELECT SUM(Qty) FROM PP_MRP WHERE  TypeMRP=? AND DocStatus IN ('IN','CO')");
-    	sql.append(" AND OrderType IN ('SOO','MOP','DOO') AND AD_Client_ID= ? AND DatePromised <=? AND M_Warehouse_ID =? AND M_Product_ID=?");
-		BigDecimal qty = DB.getSQLValueBDEx(trxName, sql.toString(), new Object[]{MPPMRP.TYPEMRP_Demand,Env.getAD_Client_ID(ctx), To , M_Warehouse_ID, M_Product_ID}); 		
+    	final String sql = "SELECT SUM(Qty) FROM PP_MRP WHERE "
+    		+" TypeMRP=?"
+    		+" AND DocStatus IN ('IN','CO')"
+    		+" AND OrderType IN ('SOO','MOP','DOO')"
+    		+" AND AD_Client_ID=? AND M_Warehouse_ID =? AND M_Product_ID=?"
+    		+" AND DatePromised <=?";
+    	BigDecimal qty = DB.getSQLValueBDEx(trxName, sql, new Object[]{
+    			MPPMRP.TYPEMRP_Demand,
+    			Env.getAD_Client_ID(ctx),M_Warehouse_ID, M_Product_ID,
+    			To,
+    	}); 		
 		//	SQL may return no rows or null
 		if (qty == null)
 			return Env.ZERO;

@@ -311,7 +311,7 @@ public class MRP extends SvrProcess
 	 *  @param M_Warehuse_ID Warehouse ID
 	 */
 	public String runMRP(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID)
-	{      
+	{
 		deleteMRP(AD_Client_ID,AD_Org_ID,S_Resource_ID,M_Warehouse_ID);
 		
 		PreparedStatement pstmt = null;
@@ -371,9 +371,9 @@ public class MRP extends SvrProcess
 					}
 
 					// New Product
-					if (product == null || product.get_ID() != rs.getInt("M_Product_ID"))
+					if (product == null || product.get_ID() != rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID))
 					{
-						product = MProduct.get(getCtx(), rs.getInt("M_Product_ID"));
+						product = MProduct.get(getCtx(), rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID));
 						log.info("Calculte Plan to this Product:" + product.getName());
 						
 						//if exist QtyGrossReq of last Demand verify plan

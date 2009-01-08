@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -38,10 +39,9 @@ import org.compiere.util.Env;
  * 			l.setQty(wbl.getQuantity());;
  * 			l.saveEx();
  *	</code>
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MOrderLine.java,v 1.22 2004/03/22 07:15:03 vpj-cd Exp $
- *  
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *
+ * @author Victor Perez www.e-evolution.com     
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPProductBOMLine extends X_PP_Product_BOMLine
 {
@@ -108,7 +108,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		{
 			final String sql = "SELECT COALESCE(MAX("+COLUMNNAME_Line+"),0) + 10 FROM "+Table_Name
 								+" WHERE "+COLUMNNAME_PP_Product_BOM_ID+"=?";
-			int line = DB.getSQLValue(get_TrxName(), sql, getPP_Product_BOM_ID());
+			int line = DB.getSQLValueEx(get_TrxName(), sql, getPP_Product_BOM_ID());
 			setLine(line);
 		}
 		
@@ -141,7 +141,8 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	}
 }
 
-class ProductLowLevelCalculator {
+class ProductLowLevelCalculator
+{
 	private Hashtable<Integer, Integer> tableproduct = new Hashtable<Integer, Integer>();
 	private Properties m_ctx = null;
 	private String m_trxName = null;
@@ -180,17 +181,15 @@ class ProductLowLevelCalculator {
 
 		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(Integer.toString(M_Product_ID) + "|" + Integer.toString(PP_Product_BOM_ID));
 
-		String sql = new String(
-				"SELECT pboml.PP_Product_BOMLine_ID FROM  PP_Product_BOMLine pboml" 
-				+ " WHERE pboml.IsActive= 'Y' AND pboml.AD_Client_ID = ? AND pboml.M_Product_ID = ? ");
+		String sql = "SELECT PP_Product_BOMLine_ID FROM PP_Product_BOMLine" 
+					+ " WHERE IsActive=? AND AD_Client_ID=? AND M_Product_ID=?";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, m_trxName);
-			pstmt.setInt(1, AD_Client_ID);
-			pstmt.setInt(2, M_Product_ID);
+			DB.setParameters(pstmt, new Object[]{true, AD_Client_ID, M_Product_ID});
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -212,10 +211,10 @@ class ProductLowLevelCalculator {
 		{
 			throw new DBException(e);
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		return parent;
 	}
@@ -228,17 +227,16 @@ class ProductLowLevelCalculator {
 	 */
 	private DefaultMutableTreeNode icomponent(int AD_Client_ID, int PP_Product_BOMLine_ID, int M_Product_ID, DefaultMutableTreeNode bom)
 	{
-		String sql = 
+		final String sql = 
 				"SELECT pbom.M_Product_ID , pbom.Value , pbom.PP_Product_BOM_ID FROM  PP_Product_BOMLine pboml"
 				+ " INNER JOIN PP_Product_BOM pbom ON (pbom.PP_Product_BOM_ID = pboml.PP_Product_BOM_ID)"
-				+ " WHERE pbom.IsActive= 'Y' AND pboml.IsActive= 'Y' AND pboml.AD_Client_ID =? AND pboml.PP_Product_BOMLine_ID = ? ";
+				+ " WHERE pbom.IsActive=? AND pboml.IsActive=? AND pboml.AD_Client_ID=? AND pboml.PP_Product_BOMLine_ID=? ";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, m_trxName);
-			pstmt.setInt(1, AD_Client_ID);
-			pstmt.setInt(2, PP_Product_BOMLine_ID);
+			DB.setParameters(pstmt, new Object[]{true, true, AD_Client_ID, PP_Product_BOMLine_ID});
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -246,7 +244,9 @@ class ProductLowLevelCalculator {
 				{
 					//BOM Loop Error
 					if (!tableproduct(rs.getInt(1), rs.getInt(3)))
+					{
 						bom.add(iparent(AD_Client_ID, rs.getInt(1), rs.getInt(3)));
+					}
 					else
 					{
 						throw new AdempiereException("Cycle BOM & Formula:" + rs.getString(2) + "(" + rs.getString(3) + ")");
@@ -265,10 +265,10 @@ class ProductLowLevelCalculator {
 		{
 			throw new DBException(e);
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		return null;
 	}
@@ -281,14 +281,11 @@ class ProductLowLevelCalculator {
 	 */
 	private boolean tableproduct(int M_Product_ID, int PP_Product_BOM_ID)
 	{
-		Integer p = new Integer(M_Product_ID);
-		Integer bom = new Integer(PP_Product_BOM_ID);
-
-		if (tableproduct.containsKey(p))
+		if (tableproduct.containsKey(M_Product_ID))
 		{
 			return true;
 		}
-		tableproduct.put(p, bom);
+		tableproduct.put(M_Product_ID, PP_Product_BOM_ID);
 		return false;
 	}
 }

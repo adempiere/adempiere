@@ -59,24 +59,22 @@ public class RollupBillOfMaterial extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
+			String name = para.getParameterName();
 
-			if (para[i].getParameter() == null)
+			if (para.getParameter() == null)
 				;
 			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para[i].getParameterAsInt();
+				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals(MAcctSchema.COLUMNNAME_C_AcctSchema_ID))  
-				p_C_AcctSchema_ID = para[i].getParameterAsInt();
+				p_C_AcctSchema_ID = para.getParameterAsInt();
 			else if (name.equals(MCostType.COLUMNNAME_M_CostType_ID))
-				p_M_CostType_ID = para[i].getParameterAsInt();
+				p_M_CostType_ID = para.getParameterAsInt();
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID))   
-				p_M_Product_ID = para[i].getParameterAsInt();
+				p_M_Product_ID = para.getParameterAsInt();
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID))
-				p_M_Product_Category_ID = para[i].getParameterAsInt();
+				p_M_Product_Category_ID = para.getParameterAsInt();
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
@@ -92,7 +90,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		int maxLowLevel = MPPMRP.getMaxLowLevel(getCtx(), get_TrxName());
 		// Cost Roll-up for all levels
 		for (int lowLevel = maxLowLevel; lowLevel >= 0; lowLevel--)
-		{   
+		{
 			for (MProduct product : getProducts(lowLevel))
 			{	  
 				for (MCost cost : getCosts(product.get_ID()))

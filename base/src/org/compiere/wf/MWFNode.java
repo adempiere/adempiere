@@ -669,7 +669,7 @@ public class MWFNode extends X_AD_WF_Node
 	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID,int M_CostType_ID,int AD_Org_ID,int setuptime, int duration)
 	{
 		MResource resource = (MResource) getS_Resource();
-		//get the rate and convert in second for this cost type element (Rsource, Burden)
+		//get the rate and convert in second for this cost type element (Resource, Burden)
 		MWorkflow workflow = getWorkflow();
 		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
 		BigDecimal cost =  Env.ZERO;
@@ -678,7 +678,7 @@ public class MWFNode extends X_AD_WF_Node
 			return Env.ZERO;
 		}
 		
-		int C_UOM_ID = DB.getSQLValue(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
+		int C_UOM_ID = DB.getSQLValueEx(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
 		MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
 		if (uom.isHour())
 		{

@@ -97,7 +97,10 @@ public class CRPReasoner
 		params.add(Env.getAD_Client_ID(getCtx()));
 		
 		// Skip voided, reversed and closed orders:
-		whereClause.append(" AND ").append(MPPOrder.COLUMNNAME_DocStatus).append(" NOT IN ('VO', 'RE', 'CL')");
+		whereClause.append(" AND ").append(MPPOrder.COLUMNNAME_DocStatus).append(" NOT IN (?,?,?)");
+		params.add(MPPOrder.DOCSTATUS_Voided);
+		params.add(MPPOrder.DOCSTATUS_Reversed);
+		params.add(MPPOrder.DOCSTATUS_Closed);
 		
 		
 		// For given resource (if any)
@@ -124,7 +127,9 @@ public class CRPReasoner
 		params.add(r.get_ID());
 		final String whereClause = 
 			// Checks the requested resource id directly on order node, not on resource id of the order
-			"PP_Order_ID IN (SELECT PP_Order_ID FROM PP_Order_Node WHERE S_Resource_ID=?"
+			"EXISTS (SELECT 1 FROM PP_Order_Node WHERE "
+								+" PP_Order_Node.PP_Order_ID=PP_Order.PP_Order_ID"
+								+" AND S_Resource_ID=?"
 								// ... and only the orders running on given day
 								+" AND "+getSQLDayRestriction(dateTime, r, params)
 			+")"
@@ -167,7 +172,14 @@ public class CRPReasoner
 	{
 		return r.getResourceType().isAvailable();
 	}
-	
+
+	/**
+	 * Get Next/Previous Available Date
+	 * @param t
+	 * @param dateTime
+	 * @param isScheduleBackward
+	 * @return
+	 */
 	private Timestamp getAvailableDate(MResourceType t, Timestamp dateTime, boolean isScheduleBackward)
 	{
 		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);

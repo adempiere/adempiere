@@ -12,71 +12,62 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
 import org.compiere.model.Query;
+import org.compiere.util.CCache;
 
 /**
- *	Forcast Line Model
+ * Workflow Node Asset Model
  *	
- *  @author Victor Perez www.e-evolution.com      
- *  @version $Id: MPPWFNodeAsset.java,v 1.11 2005/05/17 05:29:52 vpj-cd vpj-cd $
+ * @author Victor Perez www.e-evolution.com      
+ * @author Teo Sarca, www.arhipac.ro
  */
-public class MPPWFNodeAsset extends  X_PP_WF_Node_Asset
+public class MPPWFNodeAsset extends X_PP_WF_Node_Asset
 {
+	private static final long	serialVersionUID	= 1L;
+
+	/** Cache */
+	private static CCache<Integer, Collection<MPPWFNodeAsset>>
+		s_cache = new CCache<Integer, Collection<MPPWFNodeAsset>>(Table_Name, 20);
+	
 	/**
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param M_ForecastLine_ID id
+	 * @return array of node assets
 	 */
+	public static Collection<MPPWFNodeAsset> forAD_WF_Node_ID(Properties ctx, int AD_WF_Node_ID)
+	{
+		Collection<MPPWFNodeAsset> lines = s_cache.get(AD_WF_Node_ID);
+		if (lines != null)
+		{
+			return lines;
+		}
+		
+		final String whereClause = COLUMNNAME_AD_WF_Node_ID+"=?";
+		lines = new Query(ctx, Table_Name, whereClause, null)
+											.setParameters(new Object[]{AD_WF_Node_ID})
+											.setOnlyActiveRecords(true)
+											.setOrderBy(COLUMNNAME_SeqNo)
+											.list();
+		s_cache.put(AD_WF_Node_ID, lines);
+		return lines;
+	}
+
 	public MPPWFNodeAsset (Properties ctx, int PP_WF_Node_Asset_ID, String trxName)
 	{
 		super (ctx, PP_WF_Node_Asset_ID, trxName);
 		if (PP_WF_Node_Asset_ID == 0)
 		{		
 		}
-		
-	}	//	MQMSpecification
+	}
 
-	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 */
 	public MPPWFNodeAsset (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	//	 MPPWFNodeAsset	
-	
-	
-		
-	/** Lines						*/
-	private  static Collection <MPPWFNodeAsset>		m_lines = new ArrayList<MPPWFNodeAsset>();
-	
-	/**
-	 * 
-	 * @param ctx
-	 * @param AD_WF_Node_ID
-	 * @param trxName
-	 * @return
-	 */
-	public  static Collection<MPPWFNodeAsset> get(Properties ctx, int AD_WF_Node_ID , String trxName)
-	{
-		if(!m_lines.isEmpty())
-			return m_lines;
-		
-		String whereClause = "AD_WF_Node_ID=? ";
-		m_lines = new Query(ctx, MPPWFNodeAsset.Table_Name, whereClause, trxName)
-											.setParameters(new Object[]{AD_WF_Node_ID})
-											.setOnlyActiveRecords(true)
-											//.setOrderBy(MPPOrderNodeAsset.COLUMNNAME_SeqNo)
-											.list();		
-		return m_lines;
-	}	//	getLines	
-}	//	 MPPWFNodeAsset
+	}	
+}

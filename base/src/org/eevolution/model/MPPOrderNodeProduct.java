@@ -12,86 +12,54 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Properties;
 
-import org.compiere.model.Query;
-
 /**
- *	Forcast Line Model
- *	
- *  @author Victor Perez www.e-evolution.com      
- *  @version $Id: MPPWFNodeProduct.java,v 1.11 2005/05/17 05:29:52 vpj-cd vpj-cd $
+ * Order Node Product Model
+ *
+ * @author Victor Perez www.e-evolution.com      
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPOrderNodeProduct extends  X_PP_Order_Node_Product
 {
-	/**
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param M_ForecastLine_ID id
-	 */
+	private static final long	serialVersionUID	= 1L;
+
 	public MPPOrderNodeProduct (Properties ctx, int PP_WF_Order_Product_ID, String trxName)
 	{
 		super (ctx, PP_WF_Order_Product_ID, trxName);
 		if (PP_WF_Order_Product_ID == 0)
 		{		
 		}
-		
-	}	//	MQMSpecification
+	}
+	
+	public MPPOrderNodeProduct (Properties ctx, ResultSet rs, String trxName)
+	{
+		super(ctx, rs, trxName);
+	}	
 
 	/**
 	 * Create a new MPPOrderNodeProduct based in MPPWFNodeProduct
 	 * @param np
+	 * @param PP_Order_Node order node
 	 */
-	public MPPOrderNodeProduct (MPPWFNodeProduct np)
+	public MPPOrderNodeProduct (MPPWFNodeProduct np, MPPOrderNode PP_Order_Node)
 	{
-		this(np.getCtx(), 0, np.get_TrxName());
+		this(PP_Order_Node.getCtx(), 0, PP_Order_Node.get_TrxName());
+		setClientOrg(PP_Order_Node);
 		setSeqNo(np.getSeqNo());
 		setIsActive(np.isActive());
 		setM_Product_ID(np.getM_Product_ID());
 		setQty(np.getQty());
 		setIsSubcontracting(np.isSubcontracting());
 		setYield(np.getYield());
+		//
+		setPP_Order_ID(PP_Order_Node.getPP_Order_ID());
+		setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
+		setPP_Order_Node_ID(PP_Order_Node.get_ID());
 	}
-	
-	
-	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 */
-	public MPPOrderNodeProduct (Properties ctx, ResultSet rs, String trxName)
-	{
-		super(ctx, rs, trxName);
-	}	//	MQMSpecification	
-		
-	/** Lines						*/
-	private static Collection<MPPOrderNodeProduct>		m_lines =   new ArrayList<MPPOrderNodeProduct>();
-	
-    /**
-     * 
-     * @param ctx
-     * @param AD_WF_Node_ID
-     * @param trxName
-     * @return
-     */
-	public Collection<MPPOrderNodeProduct> getNodeProduct()
-	{
-		if(!m_lines.isEmpty())
-			return m_lines;
-		
-		String whereClause = "PP_Order_Node_Product_ID=? ";
-		m_lines = new Query(getCtx(), MPPOrderNodeProduct.Table_Name, whereClause, get_TrxName())
-											.setParameters(new Object[]{get_ID()})
-											.setOnlyActiveRecords(true)
-											.setOrderBy(MPPOrderNodeProduct.COLUMNNAME_SeqNo)
-											.list();		
-		return m_lines;
-	}	//	getMPPOrderNodeProduct
-	
-}	//	 MPPWFNodeProduct
+}

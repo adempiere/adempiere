@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -27,13 +28,12 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.wf.MWorkflow;
 
 /**
- *	Product Data Planning 
+ * Product Data Planning 
  *	
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MPProductPlannning.java,v 1.4 2004/05/13 06:05:22 vpj-cd Exp $
- * 
+ * @author Victor Perez www.e-evolution.com     
  * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPProductPlanning extends X_PP_Product_Planning
@@ -72,7 +72,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	}
 
 	/**
-	 * 	Get Data Product Planning to Organization
+	 * Get Data Product Planning to Organization
 	 * @param ctx Context
 	 * @param ad_org_id Organization ID
 	 * @param m_product_id Product ID
@@ -83,19 +83,17 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 											int m_product_id,
 											String trxname)               
 	{
-		int m_M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
-		if(m_M_Warehouse_ID <= 0)
+		int M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
+		if(M_Warehouse_ID <= 0)
+		{
+			return null;
+		}
+
+		int S_Resource_ID = getPlantForWarehouse(M_Warehouse_ID); 
+		if (S_Resource_ID <= 0)
 			return null;
 
-		// Get plant resource for warehouse. If more than one resource is found, first will be used
-		final String sql = "SELECT MIN(S_Resource_ID) FROM S_Resource"
-							+" WHERE IsManufacturingResource=? AND ManufacturingResourceType=?"
-									+" AND AD_Client_ID=? AND M_Warehouse_ID= ?"; 
-		int m_S_Resource_ID = DB.getSQLValue(trxname, sql, "Y", MResource.MANUFACTURINGRESOURCETYPE_Plant, ad_client_id, m_M_Warehouse_ID);
-		if (m_S_Resource_ID <= 0)
-			return null;
-
-		return get(ctx, ad_client_id,ad_org_id, m_M_Warehouse_ID, m_S_Resource_ID, m_product_id, trxname);
+		return get(ctx, ad_client_id,ad_org_id, M_Warehouse_ID, S_Resource_ID, m_product_id, trxname);
 	}
 
 	/**
@@ -115,7 +113,8 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	{
 		log.info("AD_Client_ID="  + ad_client_id + " AD_Org_ID=" + ad_org_id + " M_Product_ID=" + m_product_id + " M_Warehouse_ID=" + m_warehouse_id + " S_Resource_ID=" + s_resource_id );
 		String  sql_warehouse = COLUMNNAME_M_Warehouse_ID+"=?";
-		if(m_warehouse_id == 0) {
+		if(m_warehouse_id == 0)
+		{
 			sql_warehouse += " OR "+COLUMNNAME_M_Warehouse_ID+" IS NULL";
 		}
 
@@ -127,7 +126,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 
 		return new Query(ctx, MPPProductPlanning.Table_Name, whereClause, trxname)
 			.setParameters(new Object[]{ad_client_id, ad_org_id, m_product_id, m_warehouse_id, s_resource_id})
-			.first();
+			.firstOnly();
 	}       
 
 
@@ -158,6 +157,26 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 				.first();
 	}
 	
+	public static int getPlantForWarehouse(int M_Warehouse_ID)
+	{
+		// Get plant resource for warehouse. If more than one resource is found, first will be used
+		final String sql = "SELECT MIN("+MResource.COLUMNNAME_S_Resource_ID+")"
+							+" FROM "+MResource.Table_Name
+							+" WHERE "+MResource.COLUMNNAME_IsManufacturingResource+"=?"
+							+" AND "+MResource.COLUMNNAME_ManufacturingResourceType+"=?"
+							+" AND "+MResource.COLUMNNAME_M_Warehouse_ID+"=?"; 
+		int plant_id = DB.getSQLValueEx(null, sql, true, MResource.MANUFACTURINGRESOURCETYPE_Plant, M_Warehouse_ID);
+		return plant_id;
+	}
+	
+	/**
+	 * @return Qty On Hand
+	 */
+	public BigDecimal getQtyOnHand()
+	{
+		return MPPMRP.getQtyOnHand(getCtx(), getM_Warehouse_ID(), getM_Product_ID(), get_TrxName());
+	}
+	
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
@@ -169,6 +188,18 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			throw new AdempiereException("@Order_Min@ > @Order_Max@");
 		}
 		return true;
+	}
+	
+	@Override
+	public MPPProductBOM getPP_Product_BOM()
+	{
+		return MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+	}
+	
+	@Override
+	public MWorkflow getAD_Workflow()
+	{
+		return MWorkflow.get(getCtx(), getAD_Workflow_ID());
 	}
 
 	public void dump()
@@ -184,9 +215,8 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		log.info("  Network Distribution: " + getDD_NetworkDistribution_ID());
 		log.info("Delivery Time Promised: " + getDeliveryTime_Promised());
 		log.info("         TransfertTime: " + getTransfertTime ());
-		log.info("             Max Order: " + getOrder_Max());
-		log.info("             Min Order: " + getOrder_Min());
-		log.info("            Pack Order: " + getOrder_Pack());
+		log.info("         Order Min/Max: " + getOrder_Min() + " / " + getOrder_Max());
+		log.info("            Order Pack: " + getOrder_Pack());
 		log.info("          Safety Stock: " + getSafetyStock());
 		log.info("          Order Period: " + getOrder_Period());
 		log.info("          Order Policy: " + getOrder_Policy());

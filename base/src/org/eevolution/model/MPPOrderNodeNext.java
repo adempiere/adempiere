@@ -1,6 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,8 +10,9 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,11 +23,9 @@ import org.compiere.util.DB;
 import org.compiere.wf.MWFNodeNext;
 
 /**
- *	PP Order Workflow Node Next - Transition
+ * PP Order Workflow Node Next - Transition
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: MPPOrdeNodeNext.java,v 1.3 2006/10/06 00:42:24 jjanke Exp $
- * 
+ * @author Victor Perez www.e-evolution.com     
  * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderNodeNext extends X_PP_Order_NodeNext
@@ -73,22 +71,20 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	{
 		this(parent.getCtx(), 0, parent.get_TrxName());
 		setClientOrg(parent);
-		setPP_Order_Node_ID(parent.getPP_Order_Node_ID());
+		setPP_Order_ID(parent.getPP_Order_ID());
+		setPP_Order_Node_ID(parent.get_ID());
 		setPP_Order_Next_ID(PP_Order_Next_ID);
 	}	//	MPPOrderNodeNext
 
 	/**
 	 * Peer constructor
 	 * @param wfNodeNext
-	 * @param PP_Order_Node
+	 * @param parent
 	 * @param trxName
 	 */
-	public MPPOrderNodeNext (MWFNodeNext wfNodeNext, MPPOrderNode PP_Order_Node, String trxName)
+	public MPPOrderNodeNext (MWFNodeNext wfNodeNext, MPPOrderNode parent)
 	{
-		this(wfNodeNext.getCtx(), 0, trxName);
-		setPP_Order_Node_ID(PP_Order_Node.get_ID());
-		setPP_Order_ID(PP_Order_Node.getPP_Order_ID());
-		setPP_Order_Next_ID(0);
+		this(parent, 0);
 		//
 		setAD_WF_Node_ID(wfNodeNext.getAD_WF_Node_ID());
 		setAD_WF_Next_ID(wfNodeNext.getAD_WF_Next_ID());
@@ -104,21 +100,8 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	/**	To (Join Element) is AND		*/
 	public Boolean				m_toJoinAnd = null;
 	
-	/**
-	 * 	Set Client Org
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 */
-	public void setClientOrg (int AD_Client_ID, int AD_Org_ID)
-	{
-		super.setClientOrg (AD_Client_ID, AD_Org_ID);
-	}	//	setClientOrg
-	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
-	public String toString ()
+	@Override
+	public String toString()
 	{
 		StringBuffer sb = new StringBuffer ("MPPOrderNodeNext[");
 		sb.append(getSeqNo())
@@ -181,8 +164,7 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	{
 		final String sql = "SELECT PP_Order_Node_ID FROM PP_Order_Node "
 							+ " WHERE PP_Order_ID=? AND AD_WF_Node_ID=? AND AD_Client_ID=?";
-		int id = DB.getSQLValue(get_TrxName(), sql, getPP_Order_ID(), getAD_WF_Next_ID(), getAD_Client_ID());
-		if (id > 0)
-			setPP_Order_Next_ID(id);
+		int id = DB.getSQLValueEx(get_TrxName(), sql, getPP_Order_ID(), getAD_WF_Next_ID(), getAD_Client_ID());
+		setPP_Order_Next_ID(id > 0 ? id : 0);
 	}
 }	//	MPPOrderNodeNext

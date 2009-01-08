@@ -16,33 +16,25 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.awt.Point;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MColumn;
 import org.compiere.model.MResource;
 import org.compiere.model.MUOM;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 import org.compiere.wf.MWFNode;
-import org.compiere.wf.MWorkflow;
-import org.jfree.util.Log;
 
 /**
- *	PP Order Workflow Node Model
+ * PP Order Workflow Node Model
  *
- * 	@author 	Jorg Janke
- * 	@version 	$Id: MWFNode.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
- * 
+ * @author Victor Perez, e-Evolution, S.C.
  * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderNode extends X_PP_Order_Node
@@ -66,6 +58,19 @@ public class MPPOrderNode extends X_PP_Order_Node
 			s_cache.put (PP_Order_Node_ID, retValue);
 		return retValue;
 	}	//	get
+	
+	
+	/**
+	 * @return true if this is last node
+	 */
+	public static boolean isLastNode(Properties ctx, int PP_Order_Node_ID, String trxName)
+	{
+		String whereClause = MPPOrderNodeNext.COLUMNNAME_PP_Order_Node_ID+"=?";
+		return false == new Query(ctx, MPPOrderNodeNext.Table_Name, whereClause, trxName)
+									.setOnlyActiveRecords(true)
+									.setParameters(new Object[]{PP_Order_Node_ID})
+									.match();
+	}
 
 	/**	Cache						*/
 	private static CCache<Integer,MPPOrderNode>	s_cache	= new CCache<Integer,MPPOrderNode> (Table_Name, 50);
@@ -196,8 +201,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 	
 	/**	Next Modes				*/
 	private List<MPPOrderNodeNext>	m_next = new ArrayList<MPPOrderNodeNext>();
-	/**	Column					*/
-	private MColumn		m_column = null;
 	/** Duration Base MS		*/
 	private long			m_durationBaseMS = -1;
 
@@ -207,22 +210,27 @@ public class MPPOrderNode extends X_PP_Order_Node
 	private void loadNext()
 	{
 		boolean splitAnd = SPLITELEMENT_AND.equals(getSplitElement());
-		String whereClause = "PP_Order_Node_ID=? ";
+		String whereClause = MPPOrderNodeNext.COLUMNNAME_PP_Order_Node_ID+"=?";
 		m_next = new Query(getCtx(), MPPOrderNodeNext.Table_Name, whereClause, get_TrxName())
 											.setParameters(new Object[]{get_ID()})
 											.setOnlyActiveRecords(true)
 											.setOrderBy(MPPOrderNodeNext.COLUMNNAME_SeqNo)
 											.list();
-		for (MPPOrderNodeNext next : m_next) {
+		for (MPPOrderNodeNext next : m_next)
+		{
 			next.setFromSplitAnd(splitAnd);
 		}
 		log.fine("#" + m_next.size());
 	}	//	loadNext
 	
+	/**
+	 * Set Qty Required and DurationRequired (Duration * qtyOrdered) 
+	 * @param qtyOrdered
+	 */
 	public void setQtyOrdered(BigDecimal qtyOrdered)
 	{
 		setQtyRequiered(qtyOrdered);
-		BigDecimal time = new BigDecimal(getDuration()).multiply(qtyOrdered);
+		BigDecimal time = BigDecimal.valueOf(getDuration()).multiply(qtyOrdered);
 		setDurationRequiered(time.intValue());
 	}
 
@@ -243,145 +251,15 @@ public class MPPOrderNode extends X_PP_Order_Node
 	public MPPOrderNodeNext[] getTransitions(int AD_Client_ID)
 	{
 		ArrayList<MPPOrderNodeNext> list = new ArrayList<MPPOrderNodeNext>();
-		for (int i = 0; i < m_next.size(); i++)
+		for (MPPOrderNodeNext next : m_next)
 		{
-			MPPOrderNodeNext next = m_next.get(i);
 			if (next.getAD_Client_ID() == 0 || next.getAD_Client_ID() == AD_Client_ID)
+			{
 				list.add(next);
+			}
 		}
-		MPPOrderNodeNext[] retValue = new MPPOrderNodeNext [list.size()];
-		list.toArray(retValue);
-		return retValue;
+		return list.toArray(new MPPOrderNodeNext [list.size()]);
 	}	//	getNextNodes
-
-	/**
-	 * 	Set Position
-	 * 	@param position point
-	 */
-	public void setPosition (Point position)
-	{
-		setPosition(position.x, position.y);
-	}	//	setPosition
-
-	/**
-	 * 	Set Position
-	 * 	@param x x
-	 * 	@param y y
-	 */
-	public void setPosition (int x, int y)
-	{
-		setXPosition(x);
-		setYPosition(y);
-	}	//	setPosition
-
-	/**
-	 * 	Get Position
-	 * 	@return position point
-	 */
-	public Point getPosition ()
-	{
-		return new Point (getXPosition(), getYPosition());
-	}	//	getPosition
-
-	/**
-	 * 	Get Action Info
-	 *	@return info
-	 */
-	public String getActionInfo()
-	{
-		String action = getAction();
-		if (ACTION_AppsProcess.equals(action))
-			return "Process:AD_Process_ID=" + getAD_Process_ID();
-		else if (ACTION_DocumentAction.equals(action))
-			return "DocumentAction=" + getDocAction();
-		else if (ACTION_AppsReport.equals(action))
-			return "Report:AD_Process_ID=" + getAD_Process_ID();
-		else if (ACTION_AppsTask.equals(action))
-			return "Task:AD_Task_ID=" + getAD_Task_ID();
-		else if (ACTION_SetVariable.equals(action))
-			return "SetVariable:AD_Column_ID=" + getAD_Column_ID();
-		else if (ACTION_SubWorkflow.equals(action))
-			return "Workflow:PP_Order_Workflow_ID=" + getPP_Order_Workflow_ID();
-		else if (ACTION_UserChoice.equals(action))
-			return "UserChoice:AD_Column_ID=" + getAD_Column_ID();
-		else if (ACTION_UserWorkbench.equals(action))
-			return "Workbench:?";
-		else if (ACTION_UserForm.equals(action))
-			return "Form:AD_Form_ID=" + getAD_Form_ID();
-		else if (ACTION_UserWindow.equals(action))
-			return "Window:AD_Window_ID=" + getAD_Window_ID();
-		//else if (ACTION_WaitSleep.equals(action))
-		//	return "Sleep:WaitTime=" + getWaitTime();
-		return "??";
-	}	//	getActionInfo
-	
-	
-	/**
-	 * 	Get Attribute Name
-	 *	@see org.compiere.model.X_PP_Order_Node#getAttributeName()
-	 *	@return Attribute Name
-	 */
-	@Override
-	public String getAttributeName ()
-	{
-		if (getAD_Column_ID() == 0)
-			return super.getAttributeName();
-		//	We have a column
-		String attribute = super.getAttributeName();
-		if (attribute != null && attribute.length() > 0)
-			return attribute;
-		setAttributeName(getColumn().getColumnName());
-		return super.getAttributeName ();
-	}	//	getAttributeName
-	
-	
-	/**
-	 * 	Get Column
-	 *	@return column if valid
-	 */
-	public MColumn getColumn()
-	{
-		if (getAD_Column_ID() == 0)
-			return null;
-		if (m_column == null)
-			m_column = MColumn.get(getCtx(), getAD_Column_ID());
-		return m_column;
-	}	//	getColumn
-	
-	/**
-	 * 	Is this an Approval setp?
-	 *	@return true if User Approval
-	 */
-	public boolean isUserApproval()
-	{
-		if (!ACTION_UserChoice.equals(getAction()))
-			return false;
-		return getColumn() != null 
-			&& "IsApproved".equals(getColumn().getColumnName());
-	}	//	isApproval
-
-	/**
-	 * 	Is this a User Choice step?
-	 *	@return true if User Choice
-	 */
-	public boolean isUserChoice()
-	{
-		return ACTION_UserChoice.equals(getAction());
-	}	//	isUserChoice
-	
-	/**
-	 * 	Is this a Manual user step?
-	 *	@return true if Window/Form/Workbench
-	 */
-	public boolean isUserManual()
-	{
-		if (ACTION_UserForm.equals(getAction())
-			|| ACTION_UserWindow.equals(getAction())
-			|| ACTION_UserWorkbench.equals(getAction()))
-			return true;
-		return false;
-	}	//	isUserManual
-	
 	
 	/**
 	 * 	Get Duration in ms
@@ -421,7 +299,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	}	//	getDurationCalendarField
 
 	/**
-	 * 	Get Workflow
+	 * 	Get Workflow (NoTrx)
 	 *	@return workflow
 	 */
 	public MPPOrderWorkflow getPPOrderWorkflow()
@@ -438,125 +316,9 @@ public class MPPOrderNode extends X_PP_Order_Node
 		StringBuffer sb = new StringBuffer ("MPPOrderNode[");
 		sb.append(get_ID())
 			.append("-").append(getName())
-			.append(",Action=").append(getActionInfo())
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
-
-	/**
-	 * 	User String Representation
-	 *	@return info
-	 */
-	public String toStringX()
-	{
-		StringBuffer sb = new StringBuffer ("MPPOrderNode[");
-		sb.append(getName())
-			.append("-").append(getActionInfo())
-			.append("]");
-		return sb.toString ();
-	}	//	toStringX
-	
-	@Override
-	protected boolean beforeSave (boolean newRecord)
-	{
-		String action = getAction();
-		if (action.equals(ACTION_WaitSleep))
-		{
-			;
-		}
-		else if (action.equals(ACTION_AppsProcess) || action.equals(ACTION_AppsReport)) 
-		{
-			if (getAD_Process_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Process_ID"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_AppsTask)) 
-		{
-			if (getAD_Task_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Task_ID"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_DocumentAction)) 
-		{
-			if (getDocAction() == null || getDocAction().length() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "DocAction"));
-				return false;
-			}
-		}
-		/*else if (action.equals(ACTION_EMail))
-		{
-			if (getR_MailText_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "R_MailText_ID"));
-				return false;
-			}
-		}*/
-		else if (action.equals(ACTION_SetVariable)) 
-		{
-			if (getAttributeValue() == null)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AttributeValue"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_SubWorkflow))
-		{
-			if (getPP_Order_Workflow_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "PP_Order_Workflow_ID"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_UserChoice)) 
-		{
-			if (getAD_Column_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Column_ID"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_UserForm)) 
-		{
-			if (getAD_Form_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Form_ID"));
-				return false;
-			}
-		}
-		else if (action.equals(ACTION_UserWindow)) 
-		{
-			if (getAD_Window_ID() == 0)
-			{
-				log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Window_ID"));
-				return false;
-			}
-		}
-//		else if (action.equals(ACTION_UserWorkbench)) 
-//		{
-//		&& getAD_Workbench_ID() == 0)
-//			log.saveError("FillMandatory", Msg.getElement(getCtx(), "AD_Workbench_ID"));
-//			return false;
-//		}
-		
-		return true;
-	}	//	beforeSave
-	
-	/**
-	 * @return true if this is last node
-	 */
-	public static boolean isLastNode(Properties ctx, int PP_Order_Node_ID, String trxName)
-	{
-		String whereClause = MPPOrderNodeNext.COLUMNNAME_PP_Order_Node_ID+"=?";
-		return false == new Query(ctx, MPPOrderNodeNext.Table_Name, whereClause, trxName)
-									.setOnlyActiveRecords(true)
-									.setParameters(new Object[]{PP_Order_Node_ID})
-									.match();
-	}
 	
 	/**
 	 * Calculate the cost for this Activity using the Cost Element Type
@@ -581,7 +343,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 			return Env.ZERO;
 		}
 		
-		int C_UOM_ID = DB.getSQLValue(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
+		int C_UOM_ID = DB.getSQLValueEx(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
 		MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
 		if (uom.isHour())
 		{
@@ -597,4 +359,4 @@ public class MPPOrderNode extends X_PP_Order_Node
 		}
 		return cost;
 	}
-}	//	M_WFNext
+}

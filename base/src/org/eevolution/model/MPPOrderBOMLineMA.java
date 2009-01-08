@@ -26,12 +26,10 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
 /**
- *	Shipment Material Allocation
- *	
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MPPOrderBOMLineMA.java,v 1.1 2005/04/01 05:59:48 vpj-cd Exp $
- *  
- *  @author Teo Sarca, http://www.arhipac.ro
+ * Cost Collector Material Allocation
+ *
+ * @author Victor Perez www.e-evolution.com     
+ * @author Teo Sarca, http://www.arhipac.ro
  */
 public class MPPOrderBOMLineMA extends X_PP_Order_BOMLineMA
 {

@@ -72,13 +72,14 @@ public class MHREmployee extends X_HR_Employee //--
 		whereClause.append(" AND e.IsActive=? ");
 		params.add(true);
 
-		
-		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0) // this payroll not content periods, NOT IS a Regular Payroll    > ogi-cd 28Nov2007
+		// This payroll not content periods, NOT IS a Regular Payroll > ogi-cd 28Nov2007
+		if(p.getHR_Payroll_ID() != 0 && p.getHR_Period_ID() != 0)
 		{
 			whereClause.append(" AND (e.HR_Payroll_ID IS NULL OR e.HR_Payroll_ID=?) " );
 			params.add(p.getHR_Payroll_ID());
 		}
 		
+		// HR Period
 		if(p.getHR_Period_ID() != 0)
 		{
 			whereClause.append(" AND e.StartDate <=? ");
@@ -90,7 +91,8 @@ public class MHREmployee extends X_HR_Employee //--
 			params.add(p.getDateAcct());
 		}
 		
-		if (p.getHR_Department_ID() != 0) // Selected Department 
+		// Selected Department
+		if (p.getHR_Department_ID() != 0) 
 		{
 			whereClause.append(" AND e.HR_Department_ID =? ");
 			params.add(p.getHR_Department_ID());
@@ -98,7 +100,8 @@ public class MHREmployee extends X_HR_Employee //--
 		
 		whereClause.append(" ) "); // end select from HR_Employee
 		
-		if (p.getC_BPartner_ID() != 0 )   // Selected Employee
+		// Selected Employee
+		if (p.getC_BPartner_ID() != 0)
 		{
 			whereClause.append(" AND C_BPartner_ID =? ");
 			params.add(p.getC_BPartner_ID());

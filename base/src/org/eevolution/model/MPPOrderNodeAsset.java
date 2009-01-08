@@ -12,78 +12,50 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Properties;
 
-import org.compiere.model.Query;
-
 /**
- *	Forcast Line Model
+ * Order Node Asset Model
  *	
- *  @author Victor Perez www.e-evolution.com      
- *  @version $Id: MPPWFNodeAsset.java,v 1.11 2005/05/17 05:29:52 vpj-cd vpj-cd $
+ * @author Victor Perez www.e-evolution.com      
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class MPPOrderNodeAsset extends  X_PP_Order_Node_Asset
 {
-	/**
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param M_ForecastLine_ID id
-	 */
+	private static final long	serialVersionUID	= 1L;
+
 	public MPPOrderNodeAsset (Properties ctx, int PP_Order_Node_Asset_ID, String trxName)
 	{
 		super (ctx, PP_Order_Node_Asset_ID, trxName);
 		if (PP_Order_Node_Asset_ID == 0)
 		{		
 		}
-		
 	}	
 	
-	/**
-	 * Create a new MPPOrderNodeAsset based in MPPWFNodeProduct
-	 * @param np
-	 */
-	public MPPOrderNodeAsset (MPPWFNodeAsset na)
-	{
-		this(na.getCtx(), 0, na.get_TrxName());
-		//setSeqNo(na.getSeqNo());
-		setIsActive(na.isActive());
-		setA_Asset_ID(na.getA_Asset_ID());
-	}
-
-	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 */
 	public MPPOrderNodeAsset (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	//	 MPPWFNodeAsset	
+	}	
 		
-	/** Lines						*/
-	private static Collection<MPPOrderNodeAsset>		m_lines = new ArrayList<MPPOrderNodeAsset>();
-	
 	/**
-	 * 	Get Lines
-	 *	@return array of lines
+	 * Create a new MPPOrderNodeAsset based in MPPWFNodeProduct
+	 * @param na
+	 * @param PP_Order_Node 
 	 */
-	public  Collection<MPPOrderNodeAsset> getNodeAsset()
+	public MPPOrderNodeAsset (MPPWFNodeAsset na, MPPOrderNode PP_Order_Node)
 	{
-		if(!m_lines.isEmpty())
-			return m_lines;
-		
-		String whereClause = "PP_Order_Node_Asset_ID=? ";
-		m_lines = new Query(getCtx(), MPPOrderNodeAsset.Table_Name, whereClause, get_TrxName())
-											.setParameters(new Object[]{get_ID()})
-											.setOnlyActiveRecords(true)
-											//.setOrderBy(MPPOrderNodeAsset.COLUMNNAME_SeqNo)
-											.list();		
-		return m_lines;
-	}	//	getLines	
-}	//	 MPPWFNodeAsset
+		this(PP_Order_Node.getCtx(), 0, PP_Order_Node.get_TrxName());
+		setClientOrg(PP_Order_Node);
+		//setSeqNo(na.getSeqNo());
+		setA_Asset_ID(na.getA_Asset_ID());
+		//
+		setPP_Order_ID(PP_Order_Node.getPP_Order_ID());
+		setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
+		setPP_Order_Node_ID(PP_Order_Node.get_ID());
+	}
+}

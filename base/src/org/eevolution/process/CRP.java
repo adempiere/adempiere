@@ -77,8 +77,8 @@ public class CRP extends SvrProcess {
 		}
 	}
 
-	protected String doIt() throws Exception  {
-
+	protected String doIt() throws Exception
+	{
 		return runCRP();
 	} 
 
@@ -122,7 +122,8 @@ public class CRP extends SvrProcess {
 				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
-				if(resource== null)
+				// Skip this node if there is no resource
+				if(resource == null)
 				{						
 					nodeId = owf.getNext(nodeId, getAD_Client_ID());
 					continue;
@@ -145,6 +146,7 @@ public class CRP extends SvrProcess {
 				date = node.getDateFinishSchedule();
 				nodeId = owf.getNext(nodeId, getAD_Client_ID());
 			}
+			// Update order finish date
 			if (node != null && node.getDateFinishSchedule()!= null)
 			{
 				order.setDateFinishSchedule(node.getDateFinishSchedule());
@@ -163,7 +165,8 @@ public class CRP extends SvrProcess {
 				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
-				if(resource== null)
+				// Skip this node if there is no resource
+				if(resource == null)
 				{						
 					nodeId = owf.getPrevious(nodeId, getAD_Client_ID());
 					continue;
@@ -186,14 +189,15 @@ public class CRP extends SvrProcess {
 				date = node.getDateStartSchedule();
 				nodeId = owf.getPrevious(nodeId, getAD_Client_ID());
 			}
-			if (node != null  && node.getDateFinishSchedule()!= null)
+			// Update order start date
+			if (node != null && node.getDateStartSchedule() != null)
 			{
 				order.setDateStartSchedule(node.getDateStartSchedule()) ;
 			}
 		}
 		else
 		{
-			throw new AdempiereException("@Unknown scheduling method - "+p_ScheduleType);
+			throw new AdempiereException("Unknown scheduling method - "+p_ScheduleType);
 		}
 
 		order.saveEx(get_TrxName());
@@ -210,7 +214,7 @@ public class CRP extends SvrProcess {
 		// ... its static single parts ...
 		long totalDuration =
 				//node.getQueuingTime() 
-				node.getSetupTimeRequiered() // Use the present required setup time to notice later changes  
+				+ node.getSetupTimeRequiered() // Use the present required setup time to notice later changes  
 				+ node.getMovingTime() 
 				+ node.getWaitingTime()
 		;
@@ -222,7 +226,7 @@ public class CRP extends SvrProcess {
 		return (long)(totalDuration * commonBase * 1000);
 	}
 
-	private Timestamp scheduleForward(Timestamp start, long nodeDuration, MResource r, MResourceType t)
+	private Timestamp scheduleForward(Timestamp start, long nodeDurationMillis, MResource r, MResourceType t)
 	{
 		Timestamp end = null;
 		int iteration = 0; // statistical interation count
@@ -242,39 +246,40 @@ public class CRP extends SvrProcess {
 			long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
 	
 			// The work can be finish on this day.
-			if(availableDayDuration >= nodeDuration)
+			if(availableDayDuration >= nodeDurationMillis)
 			{
-				end = new Timestamp(dayStart.getTime() + nodeDuration);
-				nodeDuration = 0;
+				end = new Timestamp(dayStart.getTime() + nodeDurationMillis);
+				nodeDurationMillis = 0;
 				break;
 			}
 			// Otherwise recall with next day and the remained node duration.
 			else
 			{
 				start = TimeUtil.addDays(TimeUtil.getDayBorder(start, null, false), 1);
-				nodeDuration -= availableDayDuration;
+				nodeDurationMillis -= availableDayDuration;
 			}
 			
 			iteration++;
-		} while (nodeDuration > 0);
+		} while (nodeDurationMillis > 0);
 
 		return end;
 	}  	
 
-	private Timestamp scheduleBackward(Timestamp end, long nodeDuration, MResource r, MResourceType t)
+	private Timestamp scheduleBackward(Timestamp end, long nodeDurationMillis, MResource r, MResourceType t)
 	{
 		log.fine("--> ResourceType " + t);
 		Timestamp start = null;
-		int iteration = 0; // statistical interation count
+		int iteration = 0; // statistical iteration count
 		do
 		{
-			log.fine("--> end " +end);
-			log.fine("--> nodeDuration=" +nodeDuration);
+			log.fine("--> end=" + end);
+			log.fine("--> nodeDuration=" + nodeDurationMillis);
 	
 			end = reasoner.getAvailableDate(r, end, true);
 			Timestamp dayEnd = t.getDayEnd(end);
 			Timestamp dayStart = t.getDayStart(end);
-			log.fine("--> dayEnd=" + dayEnd + ", dayStart=" + dayStart);
+			log.fine("--> dayStart=" + dayStart + ", dayEnd=" + dayEnd);
+			
 			// If working has already began at this day and the value is in the range of the 
 			// resource's availability, switch end time to the given again
 			if(end.before(dayEnd) && end.after(dayStart))
@@ -287,26 +292,26 @@ public class CRP extends SvrProcess {
 			log.fine("--> availableDayDuration  " + availableDayDuration);
 	
 			// The work can be finish on this day.
-			if(availableDayDuration >= nodeDuration)
+			if(availableDayDuration >= nodeDurationMillis)
 			{
-				log.fine("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + nodeDuration );
-				start = new Timestamp(dayEnd.getTime() - nodeDuration);
-				nodeDuration = 0;
+				log.fine("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + nodeDurationMillis );
+				start = new Timestamp(dayEnd.getTime() - nodeDurationMillis);
+				nodeDurationMillis = 0;
 				break;
 			}
 			// Otherwise recall with previous day and the remained node duration.
 			else
 			{
-				log.fine("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + nodeDuration );
-				log.fine("--> nodeDuration-availableDayDuration " + (nodeDuration-availableDayDuration) );
+				log.fine("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + nodeDurationMillis );
+				log.fine("--> nodeDuration-availableDayDuration " + (nodeDurationMillis-availableDayDuration) );
 				
 				end = TimeUtil.addDays(TimeUtil.getDayBorder(end, null, true), -1);
-				nodeDuration -= availableDayDuration;
+				nodeDurationMillis -= availableDayDuration;
 			}
 			//
 			iteration++;
 		}
-		while(nodeDuration > 0);
+		while(nodeDurationMillis > 0);
 	
 		log.fine("         -->  start=" +  start + " <---------------------------------------- ");
 		return start;

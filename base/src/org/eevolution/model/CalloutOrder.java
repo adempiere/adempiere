@@ -138,10 +138,10 @@ public class CalloutOrder extends CalloutEngine
 		if (QtyBatchSize.equals(Env.ZERO))
 			Qty = Env.ONE;
 		else   
-			Qty = p_QtyEntered.divide(QtyBatchSize , 0, BigDecimal.ROUND_UP); 
+			Qty = p_QtyEntered.divide(QtyBatchSize, 0, RoundingMode.UP); 
 
 		mTab.setValue(MPPOrder.COLUMNNAME_QtyBatchs, Qty);
-		mTab.setValue(MPPOrder.COLUMNNAME_QtyBatchSize, p_QtyEntered.divide(Qty , BigDecimal.ROUND_HALF_UP));
+		mTab.setValue(MPPOrder.COLUMNNAME_QtyBatchSize, QtyBatchSize);
 
 		return "";
 	}
