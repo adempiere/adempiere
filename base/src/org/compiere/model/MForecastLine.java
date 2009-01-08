@@ -18,23 +18,21 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.eevolution.model.MPPMRP;
 
 /**
- *	Forecast Line Model
- *	
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MForecastLine.java,v 1.11 2005/05/17 05:29:52 vpj-cd Exp $
+ * Forecast Line Model
+ * 
+ * @author Victor Perez www.e-evolution.com     
+ * @version $Id: MForecastLine.java,v 1.11 2005/05/17 05:29:52 vpj-cd Exp $
  */
 public class MForecastLine extends  X_M_ForecastLine
 {
 	private static final long serialVersionUID = 1L;
 
-
 	/**
-	 * 	Standard Constructor
-	 *	@param ctx context
-	 *	@param M_ForecastLine_ID id
+	 * Standard Constructor
+	 * @param ctx context
+	 * @param M_ForecastLine_ID id
 	 */
 	public MForecastLine (Properties ctx, int M_ForecastLine_ID, String trxName)
 	{
@@ -42,46 +40,12 @@ public class MForecastLine extends  X_M_ForecastLine
 	}	//	MForecastLine
 
 	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
+	 * Load Constructor
+	 * @param ctx context
+	 * @param rs result set
 	 */
 	public MForecastLine (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MRequisitionLine
-
-	/**
-	 * 	After Save.
-	 * 	Update Total on Header
-	 *	@param newRecord if new record
-	 *	@param success save was success
-	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (!success)
-			return success;
-		//begin e-evolution vpj-cd 10/30/2004
-		MPPMRP.M_ForecastLine(this,false);
-		//end e-evolution vpj-cd 10/30/2004
-
-		return true;
-	}	//	afterSave
-
-	
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return true/false
-	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (!success)
-			return success;
-		//begin e-evolution vpj-cd 10/30/2004
-		MPPMRP.M_ForecastLine(this,true);
-		//end e-evolution vpj-cd 10/30/2004
-		return true;
-	}	//	afterDelete	
-	
 }	//	MForecastLine
