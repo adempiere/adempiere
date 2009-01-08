@@ -501,5 +501,43 @@ public class Query
 		}
 		return pstmt.executeQuery();
 	}
+	
+	/**
+	 * Get a Array with the IDs for this Query
+	 * @return Get a Array with the IDs
+	 */
+
+	public int[] getIDs ()
+	{
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		StringBuffer sql = new StringBuffer("SELECT ");
+		sql.append(table.getTableName()).append("_ID FROM ").append(table.getTableName());
+		if (whereClause != null && whereClause.length() > 0)
+			sql.append(" WHERE ").append(whereClause);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql.toString(), trxName);
+			rs = createResultSet(pstmt);
+			while (rs.next())
+				list.add(new Integer(rs.getInt(1)));
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql.toString(), e);
+			return null;
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//	Convert to array
+		int[] retValue = new int[list.size()];
+		for (int i = 0; i < retValue.length; i++)
+			retValue[i] = ((Integer)list.get(i)).intValue();
+		return retValue;
+	}	//	get_IDs
 
 }
