@@ -21,9 +21,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.I_M_Shipper;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
@@ -60,6 +58,15 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name DD_NetworkDistributionLine_ID */
+    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
+
+	/** Set Network Distribution Line	  */
+	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
+
+	/** Get Network Distribution Line	  */
+	public int getDD_NetworkDistributionLine_ID();
+
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
@@ -70,15 +77,6 @@ public interface I_DD_NetworkDistributionLine
 	public int getDD_NetworkDistribution_ID();
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
-
-    /** Column name DD_NetworkDistributionLine_ID */
-    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
-
-	/** Set Network Distribution Line	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
-
-	/** Get Network Distribution Line	  */
-	public int getDD_NetworkDistributionLine_ID();
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
@@ -95,19 +93,6 @@ public interface I_DD_NetworkDistributionLine
 
 	public I_M_Shipper getM_Shipper() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -120,6 +105,19 @@ public interface I_DD_NetworkDistributionLine
 	  * Optional Warehouse to replenish from
 	  */
 	public int getM_WarehouseSource_ID();
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
 
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";

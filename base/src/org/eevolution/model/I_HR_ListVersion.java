@@ -21,8 +21,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ListVersion
@@ -81,6 +80,15 @@ public interface I_HR_ListVersion
 	/** Get Payroll List Base	  */
 	public int getHR_ListBase_ID();
 
+    /** Column name HR_ListVersion_ID */
+    public static final String COLUMNNAME_HR_ListVersion_ID = "HR_ListVersion_ID";
+
+	/** Set Payroll List Version	  */
+	public void setHR_ListVersion_ID (int HR_ListVersion_ID);
+
+	/** Get Payroll List Version	  */
+	public int getHR_ListVersion_ID();
+
     /** Column name HR_List_ID */
     public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
 
@@ -91,15 +99,6 @@ public interface I_HR_ListVersion
 	public int getHR_List_ID();
 
 	public org.eevolution.model.I_HR_List getHR_List() throws RuntimeException;
-
-    /** Column name HR_ListVersion_ID */
-    public static final String COLUMNNAME_HR_ListVersion_ID = "HR_ListVersion_ID";
-
-	/** Set Payroll List Version	  */
-	public void setHR_ListVersion_ID (int HR_ListVersion_ID);
-
-	/** Get Payroll List Version	  */
-	public int getHR_ListVersion_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

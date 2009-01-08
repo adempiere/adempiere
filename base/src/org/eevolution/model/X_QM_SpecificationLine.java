@@ -22,12 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_M_Attribute;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 
@@ -94,7 +89,10 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public void setAndOr (String AndOr)
 	{
 		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
-		if (AndOr.equals("A") || AndOr.equals("O")); else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");		set_Value (COLUMNNAME_AndOr, AndOr);
+		if (AndOr.equals("A") || AndOr.equals("O"));
+		else throw new IllegalArgumentException ("AndOr Invalid value - " + AndOr + " - Reference_ID=204 - A - O");
+
+		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
 
 	/** Get And/Or.
@@ -170,7 +168,10 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public void setOperation (String Operation)
 	{
 		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
-		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!=")); else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");		set_Value (COLUMNNAME_Operation, Operation);
+		if (Operation.equals("==") || Operation.equals(">=") || Operation.equals(">>") || Operation.equals("<<") || Operation.equals("~~") || Operation.equals("<=") || Operation.equals("AB") || Operation.equals("SQ") || Operation.equals("!="));
+		else throw new IllegalArgumentException ("Operation Invalid value - " + Operation + " - Reference_ID=205 - == - >= - >> - << - ~~ - <= - AB - SQ - !=");
+
+		set_Value (COLUMNNAME_Operation, Operation);
 	}
 
 	/** Get Operation.
@@ -179,6 +180,25 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public String getOperation () 
 	{
 		return (String)get_Value(COLUMNNAME_Operation);
+	}
+
+	/** Set QM_SpecificationLine_ID.
+		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
+	{
+		if (QM_SpecificationLine_ID < 1)
+			 throw new IllegalArgumentException ("QM_SpecificationLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
+	}
+
+	/** Get QM_SpecificationLine_ID.
+		@return QM_SpecificationLine_ID	  */
+	public int getQM_SpecificationLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException 
@@ -212,25 +232,6 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public int getQM_Specification_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QM_Specification_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set QM_SpecificationLine_ID.
-		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
-	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
-	{
-		if (QM_SpecificationLine_ID < 1)
-			 throw new IllegalArgumentException ("QM_SpecificationLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
-	}
-
-	/** Get QM_SpecificationLine_ID.
-		@return QM_SpecificationLine_ID	  */
-	public int getQM_SpecificationLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -42,9 +42,9 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
         {
 			setB_Asset_Acct (0);
 			setB_Expense_Acct (0);
+			setB_InTransit_Acct (0);
 			setB_InterestExp_Acct (0);
 			setB_InterestRev_Acct (0);
-			setB_InTransit_Acct (0);
 			setB_PaymentSelect_Acct (0);
 			setB_RevaluationGain_Acct (0);
 			setB_RevaluationLoss_Acct (0);
@@ -52,36 +52,48 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 			setB_SettlementLoss_Acct (0);
 			setB_UnallocatedCash_Acct (0);
 			setB_Unidentified_Acct (0);
-			setC_AcctSchema_ID (0);
 			setCB_Asset_Acct (0);
 			setCB_CashTransfer_Acct (0);
 			setCB_Differences_Acct (0);
 			setCB_Expense_Acct (0);
 			setCB_Receipt_Acct (0);
-			setCh_Expense_Acct (0);
-			setCh_Revenue_Acct (0);
+			setC_AcctSchema_ID (0);
 			setC_Prepayment_Acct (0);
 			setC_Receivable_Acct (0);
 			setC_Receivable_Services_Acct (0);
+			setCh_Expense_Acct (0);
+			setCh_Revenue_Acct (0);
 			setE_Expense_Acct (0);
 			setE_Prepayment_Acct (0);
 			setNotInvoicedReceipts_Acct (0);
 			setNotInvoicedReceivables_Acct (0);
 			setNotInvoicedRevenue_Acct (0);
-			setP_Asset_Acct (0);
-			setPayDiscount_Exp_Acct (0);
-			setPayDiscount_Rev_Acct (0);
-			setP_COGS_Acct (0);
-			setP_CostAdjustment_Acct (0);
-			setP_Expense_Acct (0);
-			setP_InventoryClearing_Acct (0);
-			setP_InvoicePriceVariance_Acct (0);
 			setPJ_Asset_Acct (0);
 			setPJ_WIP_Acct (0);
+			setP_Asset_Acct (0);
+			setP_Burden_Acct (0);
+			setP_COGS_Acct (0);
+			setP_CostAdjustment_Acct (0);
+			setP_CostOfProduction_Acct (0);
+			setP_Expense_Acct (0);
+			setP_FloorStock_Acct (0);
+			setP_InventoryClearing_Acct (0);
+			setP_InvoicePriceVariance_Acct (0);
+			setP_Labor_Acct (0);
+			setP_MethodChangeVariance_Acct (0);
+			setP_MixVariance_Acct (0);
+			setP_OutsideProcessing_Acct (0);
+			setP_Overhead_Acct (0);
 			setP_PurchasePriceVariance_Acct (0);
+			setP_RateVariance_Acct (0);
 			setP_Revenue_Acct (0);
+			setP_Scrap_Acct (0);
 			setP_TradeDiscountGrant_Acct (0);
 			setP_TradeDiscountRec_Acct (0);
+			setP_UsageVariance_Acct (0);
+			setP_WIP_Acct (0);
+			setPayDiscount_Exp_Acct (0);
+			setPayDiscount_Rev_Acct (0);
 			setRealizedGain_Acct (0);
 			setRealizedLoss_Acct (0);
 			setT_Credit_Acct (0);
@@ -98,8 +110,8 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 			setW_Differences_Acct (0);
 			setW_InvActualAdjust_Acct (0);
 			setW_Inventory_Acct (0);
-			setWithholding_Acct (0);
 			setW_Revaluation_Acct (0);
+			setWithholding_Acct (0);
 			setWriteOff_Acct (0);
         } */
     }
@@ -172,6 +184,26 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
+	/** Set Bank In Transit.
+		@param B_InTransit_Acct 
+		Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct)
+	{
+		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
+	}
+
+	/** Get Bank In Transit.
+		@return Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Bank Interest Expense.
 		@param B_InterestExp_Acct 
 		Bank Interest Expense Account
@@ -207,26 +239,6 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 	public int getB_InterestRev_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_B_InterestRev_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Bank In Transit.
-		@param B_InTransit_Acct 
-		Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct)
-	{
-		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
-	}
-
-	/** Get Bank In Transit.
-		@return Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -372,52 +384,6 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Accounting Schema.
-		@param C_AcctSchema_ID 
-		Rules for accounting
-	  */
-	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
-	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
-	}
-
-	/** Get Accounting Schema.
-		@return Rules for accounting
-	  */
-	public int getC_AcctSchema_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
-    }
-
 	/** Set Cash Book Asset.
 		@param CB_Asset_Acct 
 		Cash Book Asset Account
@@ -518,45 +484,51 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	/** Set Charge Expense.
-		@param Ch_Expense_Acct 
-		Charge Expense Account
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
+        I_C_AcctSchema result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Accounting Schema.
+		@param C_AcctSchema_ID 
+		Rules for accounting
 	  */
-	public void setCh_Expense_Acct (int Ch_Expense_Acct)
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		set_Value (COLUMNNAME_Ch_Expense_Acct, Integer.valueOf(Ch_Expense_Acct));
+		if (C_AcctSchema_ID < 1)
+			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
-	/** Get Charge Expense.
-		@return Charge Expense Account
+	/** Get Accounting Schema.
+		@return Rules for accounting
 	  */
-	public int getCh_Expense_Acct () 
+	public int getC_AcctSchema_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ch_Expense_Acct);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Charge Revenue.
-		@param Ch_Revenue_Acct 
-		Charge Revenue Account
-	  */
-	public void setCh_Revenue_Acct (int Ch_Revenue_Acct)
-	{
-		set_Value (COLUMNNAME_Ch_Revenue_Acct, Integer.valueOf(Ch_Revenue_Acct));
-	}
-
-	/** Get Charge Revenue.
-		@return Charge Revenue Account
-	  */
-	public int getCh_Revenue_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ch_Revenue_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
+    }
 
 	/** Set Customer Prepayment.
 		@param C_Prepayment_Acct 
@@ -613,6 +585,46 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 	public int getC_Receivable_Services_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Receivable_Services_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Charge Expense.
+		@param Ch_Expense_Acct 
+		Charge Expense Account
+	  */
+	public void setCh_Expense_Acct (int Ch_Expense_Acct)
+	{
+		set_Value (COLUMNNAME_Ch_Expense_Acct, Integer.valueOf(Ch_Expense_Acct));
+	}
+
+	/** Get Charge Expense.
+		@return Charge Expense Account
+	  */
+	public int getCh_Expense_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ch_Expense_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Charge Revenue.
+		@param Ch_Revenue_Acct 
+		Charge Revenue Account
+	  */
+	public void setCh_Revenue_Acct (int Ch_Revenue_Acct)
+	{
+		set_Value (COLUMNNAME_Ch_Revenue_Acct, Integer.valueOf(Ch_Revenue_Acct));
+	}
+
+	/** Get Charge Revenue.
+		@return Charge Revenue Account
+	  */
+	public int getCh_Revenue_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ch_Revenue_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -718,6 +730,46 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
+	/** Set Project Asset.
+		@param PJ_Asset_Acct 
+		Project Asset Account
+	  */
+	public void setPJ_Asset_Acct (int PJ_Asset_Acct)
+	{
+		set_Value (COLUMNNAME_PJ_Asset_Acct, Integer.valueOf(PJ_Asset_Acct));
+	}
+
+	/** Get Project Asset.
+		@return Project Asset Account
+	  */
+	public int getPJ_Asset_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PJ_Asset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Work In Progress.
+		@param PJ_WIP_Acct 
+		Account for Work in Progress
+	  */
+	public void setPJ_WIP_Acct (int PJ_WIP_Acct)
+	{
+		set_Value (COLUMNNAME_PJ_WIP_Acct, Integer.valueOf(PJ_WIP_Acct));
+	}
+
+	/** Get Work In Progress.
+		@return Account for Work in Progress
+	  */
+	public int getPJ_WIP_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PJ_WIP_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Product Asset.
 		@param P_Asset_Acct 
 		Account for Product Asset (Inventory)
@@ -738,41 +790,21 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	/** Set Payment Discount Expense.
-		@param PayDiscount_Exp_Acct 
-		Payment Discount Expense Account
+	/** Set Burden.
+		@param P_Burden_Acct 
+		The Burden account is the account used Manufacturing Order
 	  */
-	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct)
+	public void setP_Burden_Acct (int P_Burden_Acct)
 	{
-		set_Value (COLUMNNAME_PayDiscount_Exp_Acct, Integer.valueOf(PayDiscount_Exp_Acct));
+		set_Value (COLUMNNAME_P_Burden_Acct, Integer.valueOf(P_Burden_Acct));
 	}
 
-	/** Get Payment Discount Expense.
-		@return Payment Discount Expense Account
+	/** Get Burden.
+		@return The Burden account is the account used Manufacturing Order
 	  */
-	public int getPayDiscount_Exp_Acct () 
+	public int getP_Burden_Acct () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PayDiscount_Exp_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payment Discount Revenue.
-		@param PayDiscount_Rev_Acct 
-		Payment Discount Revenue Account
-	  */
-	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct)
-	{
-		set_Value (COLUMNNAME_PayDiscount_Rev_Acct, Integer.valueOf(PayDiscount_Rev_Acct));
-	}
-
-	/** Get Payment Discount Revenue.
-		@return Payment Discount Revenue Account
-	  */
-	public int getPayDiscount_Rev_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PayDiscount_Rev_Acct);
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_Burden_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -818,6 +850,26 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
+	/** Set Cost Of Production.
+		@param P_CostOfProduction_Acct 
+		The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public void setP_CostOfProduction_Acct (int P_CostOfProduction_Acct)
+	{
+		set_Value (COLUMNNAME_P_CostOfProduction_Acct, Integer.valueOf(P_CostOfProduction_Acct));
+	}
+
+	/** Get Cost Of Production.
+		@return The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public int getP_CostOfProduction_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_CostOfProduction_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Product Expense.
 		@param P_Expense_Acct 
 		Account for Product Expense
@@ -833,6 +885,26 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 	public int getP_Expense_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_P_Expense_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Floor Stock.
+		@param P_FloorStock_Acct 
+		The Floor Stock account is the account used Manufacturing Order
+	  */
+	public void setP_FloorStock_Acct (int P_FloorStock_Acct)
+	{
+		set_Value (COLUMNNAME_P_FloorStock_Acct, Integer.valueOf(P_FloorStock_Acct));
+	}
+
+	/** Get Floor Stock.
+		@return The Floor Stock account is the account used Manufacturing Order
+	  */
+	public int getP_FloorStock_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_FloorStock_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -878,41 +950,101 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	/** Set Project Asset.
-		@param PJ_Asset_Acct 
-		Project Asset Account
+	/** Set Labor.
+		@param P_Labor_Acct 
+		The Labor account is the account used Manufacturing Order
 	  */
-	public void setPJ_Asset_Acct (int PJ_Asset_Acct)
+	public void setP_Labor_Acct (int P_Labor_Acct)
 	{
-		set_Value (COLUMNNAME_PJ_Asset_Acct, Integer.valueOf(PJ_Asset_Acct));
+		set_Value (COLUMNNAME_P_Labor_Acct, Integer.valueOf(P_Labor_Acct));
 	}
 
-	/** Get Project Asset.
-		@return Project Asset Account
+	/** Get Labor.
+		@return The Labor account is the account used Manufacturing Order
 	  */
-	public int getPJ_Asset_Acct () 
+	public int getP_Labor_Acct () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PJ_Asset_Acct);
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_Labor_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Work In Progress.
-		@param PJ_WIP_Acct 
-		Account for Work in Progress
+	/** Set Method Change Variance.
+		@param P_MethodChangeVariance_Acct 
+		The Method Change Variance account is the account used Manufacturing Order
 	  */
-	public void setPJ_WIP_Acct (int PJ_WIP_Acct)
+	public void setP_MethodChangeVariance_Acct (int P_MethodChangeVariance_Acct)
 	{
-		set_Value (COLUMNNAME_PJ_WIP_Acct, Integer.valueOf(PJ_WIP_Acct));
+		set_Value (COLUMNNAME_P_MethodChangeVariance_Acct, Integer.valueOf(P_MethodChangeVariance_Acct));
 	}
 
-	/** Get Work In Progress.
-		@return Account for Work in Progress
+	/** Get Method Change Variance.
+		@return The Method Change Variance account is the account used Manufacturing Order
 	  */
-	public int getPJ_WIP_Acct () 
+	public int getP_MethodChangeVariance_Acct () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PJ_WIP_Acct);
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_MethodChangeVariance_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Mix Variance.
+		@param P_MixVariance_Acct 
+		The Mix Variance account is the account used Manufacturing Order
+	  */
+	public void setP_MixVariance_Acct (int P_MixVariance_Acct)
+	{
+		set_Value (COLUMNNAME_P_MixVariance_Acct, Integer.valueOf(P_MixVariance_Acct));
+	}
+
+	/** Get Mix Variance.
+		@return The Mix Variance account is the account used Manufacturing Order
+	  */
+	public int getP_MixVariance_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_MixVariance_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Outside Processing.
+		@param P_OutsideProcessing_Acct 
+		The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public void setP_OutsideProcessing_Acct (int P_OutsideProcessing_Acct)
+	{
+		set_Value (COLUMNNAME_P_OutsideProcessing_Acct, Integer.valueOf(P_OutsideProcessing_Acct));
+	}
+
+	/** Get Outside Processing.
+		@return The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public int getP_OutsideProcessing_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_OutsideProcessing_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Overhead.
+		@param P_Overhead_Acct 
+		The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Overhead_Acct (int P_Overhead_Acct)
+	{
+		set_Value (COLUMNNAME_P_Overhead_Acct, Integer.valueOf(P_Overhead_Acct));
+	}
+
+	/** Get Overhead.
+		@return The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Overhead_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_Overhead_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -938,6 +1070,26 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
+	/** Set Rate Variance.
+		@param P_RateVariance_Acct 
+		The Rate Variance account is the account used Manufacturing Order
+	  */
+	public void setP_RateVariance_Acct (int P_RateVariance_Acct)
+	{
+		set_Value (COLUMNNAME_P_RateVariance_Acct, Integer.valueOf(P_RateVariance_Acct));
+	}
+
+	/** Get Rate Variance.
+		@return The Rate Variance account is the account used Manufacturing Order
+	  */
+	public int getP_RateVariance_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_RateVariance_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Product Revenue.
 		@param P_Revenue_Acct 
 		Account for Product Revenue (Sales Account)
@@ -958,25 +1110,24 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
+	/** Set Scrap.
+		@param P_Scrap_Acct 
+		The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Scrap_Acct (int P_Scrap_Acct)
 	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+		set_Value (COLUMNNAME_P_Scrap_Acct, Integer.valueOf(P_Scrap_Acct));
 	}
 
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
+	/** Get Scrap.
+		@return The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Scrap_Acct () 
 	{
-		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_Scrap_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Trade Discount Granted.
@@ -1017,6 +1168,107 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Usage Variance.
+		@param P_UsageVariance_Acct 
+		The Usage Variance account is the account used Manufacturing Order
+	  */
+	public void setP_UsageVariance_Acct (int P_UsageVariance_Acct)
+	{
+		set_Value (COLUMNNAME_P_UsageVariance_Acct, Integer.valueOf(P_UsageVariance_Acct));
+	}
+
+	/** Get Usage Variance.
+		@return The Usage Variance account is the account used Manufacturing Order
+	  */
+	public int getP_UsageVariance_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_UsageVariance_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Work In Process.
+		@param P_WIP_Acct 
+		The Work in Process account is the account used Manufacturing Order
+	  */
+	public void setP_WIP_Acct (int P_WIP_Acct)
+	{
+		set_Value (COLUMNNAME_P_WIP_Acct, Integer.valueOf(P_WIP_Acct));
+	}
+
+	/** Get Work In Process.
+		@return The Work in Process account is the account used Manufacturing Order
+	  */
+	public int getP_WIP_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_WIP_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payment Discount Expense.
+		@param PayDiscount_Exp_Acct 
+		Payment Discount Expense Account
+	  */
+	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct)
+	{
+		set_Value (COLUMNNAME_PayDiscount_Exp_Acct, Integer.valueOf(PayDiscount_Exp_Acct));
+	}
+
+	/** Get Payment Discount Expense.
+		@return Payment Discount Expense Account
+	  */
+	public int getPayDiscount_Exp_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PayDiscount_Exp_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payment Discount Revenue.
+		@param PayDiscount_Rev_Acct 
+		Payment Discount Revenue Account
+	  */
+	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct)
+	{
+		set_Value (COLUMNNAME_PayDiscount_Rev_Acct, Integer.valueOf(PayDiscount_Rev_Acct));
+	}
+
+	/** Get Payment Discount Revenue.
+		@return Payment Discount Revenue Account
+	  */
+	public int getPayDiscount_Rev_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PayDiscount_Rev_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Process Now.
+		@param Processing Process Now	  */
+	public void setProcessing (boolean Processing)
+	{
+		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
+	}
+
+	/** Get Process Now.
+		@return Process Now	  */
+	public boolean isProcessing () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Realized Gain Acct.
@@ -1339,26 +1591,6 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 		return ii.intValue();
 	}
 
-	/** Set Withholding.
-		@param Withholding_Acct 
-		Account for Withholdings
-	  */
-	public void setWithholding_Acct (int Withholding_Acct)
-	{
-		set_Value (COLUMNNAME_Withholding_Acct, Integer.valueOf(Withholding_Acct));
-	}
-
-	/** Get Withholding.
-		@return Account for Withholdings
-	  */
-	public int getWithholding_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Withholding_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Inventory Revaluation.
 		@param W_Revaluation_Acct 
 		Account for Inventory Revaluation
@@ -1374,6 +1606,26 @@ public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default
 	public int getW_Revaluation_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_Revaluation_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Withholding.
+		@param Withholding_Acct 
+		Account for Withholdings
+	  */
+	public void setWithholding_Acct (int Withholding_Acct)
+	{
+		set_Value (COLUMNNAME_Withholding_Acct, Integer.valueOf(Withholding_Acct));
+	}
+
+	/** Get Withholding.
+		@return Account for Withholdings
+	  */
+	public int getWithholding_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Withholding_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

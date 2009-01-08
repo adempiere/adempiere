@@ -22,11 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListVersion
@@ -46,8 +42,8 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
       super (ctx, HR_ListVersion_ID, trxName);
       /** if (HR_ListVersion_ID == 0)
         {
-			setHR_List_ID (0);
 			setHR_ListVersion_ID (0);
+			setHR_List_ID (0);
 			setName (null);
         } */
     }
@@ -117,6 +113,25 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Payroll List Version.
+		@param HR_ListVersion_ID Payroll List Version	  */
+	public void setHR_ListVersion_ID (int HR_ListVersion_ID)
+	{
+		if (HR_ListVersion_ID < 1)
+			 throw new IllegalArgumentException ("HR_ListVersion_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_HR_ListVersion_ID, Integer.valueOf(HR_ListVersion_ID));
+	}
+
+	/** Get Payroll List Version.
+		@return Payroll List Version	  */
+	public int getHR_ListVersion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListVersion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_List getHR_List() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_List.Table_Name);
@@ -147,25 +162,6 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	public int getHR_List_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll List Version.
-		@param HR_ListVersion_ID Payroll List Version	  */
-	public void setHR_ListVersion_ID (int HR_ListVersion_ID)
-	{
-		if (HR_ListVersion_ID < 1)
-			 throw new IllegalArgumentException ("HR_ListVersion_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_ListVersion_ID, Integer.valueOf(HR_ListVersion_ID));
-	}
-
-	/** Get Payroll List Version.
-		@return Payroll List Version	  */
-	public int getHR_ListVersion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListVersion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

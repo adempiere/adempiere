@@ -21,13 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_PrintFormat;
-import org.compiere.model.I_C_Charge;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
@@ -279,7 +273,10 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	public void setPaymentRule (String PaymentRule)
 	{
 		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
-		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T") || PaymentRule.equals("X")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T - X");		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
+		if (PaymentRule.equals("C") || PaymentRule.equals("K") || PaymentRule.equals("A") || PaymentRule.equals("D") || PaymentRule.equals("T") || PaymentRule.equals("X"));
+		else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=214 - C - K - A - D - T - X");
+
+		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.

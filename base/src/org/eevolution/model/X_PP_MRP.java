@@ -23,21 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_M_Forecast;
-import org.compiere.model.I_M_ForecastLine;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Requisition;
-import org.compiere.model.I_M_RequisitionLine;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.I_S_Resource;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -133,6 +119,45 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
+        I_C_OrderLine result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_OrderLine_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -172,14 +197,14 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
-        I_C_OrderLine result = null;
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
+        org.eevolution.model.I_DD_OrderLine result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_OrderLine_ID()), get_TrxName()});
+    	    result = (org.eevolution.model.I_DD_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_OrderLine_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -188,24 +213,57 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
         return result;
     }
 
-	/** Set Sales Order Line.
-		@param C_OrderLine_ID 
-		Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	/** Set Distribution Order Line.
+		@param DD_OrderLine_ID Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
 	{
-		if (C_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+		if (DD_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
 	}
 
-	/** Get Sales Order Line.
-		@return Sales Order Line
-	  */
-	public int getC_OrderLine_ID () 
+	/** Get Distribution Order Line.
+		@return Distribution Order Line	  */
+	public int getDD_OrderLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
+        org.eevolution.model.I_DD_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_DD_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Distribution Order.
+		@param DD_Order_ID Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID)
+	{
+		if (DD_Order_ID < 1) 
+			set_Value (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+	}
+
+	/** Get Distribution Order.
+		@return Distribution Order	  */
+	public int getDD_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -319,78 +377,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
 	}
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_Order.Table_Name);
-        org.eevolution.model.I_DD_Order result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_DD_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_Order_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Distribution Order.
-		@param DD_Order_ID Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID)
-	{
-		if (DD_Order_ID < 1) 
-			set_Value (COLUMNNAME_DD_Order_ID, null);
-		else 
-			set_Value (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
-	}
-
-	/** Get Distribution Order.
-		@return Distribution Order	  */
-	public int getDD_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
-        org.eevolution.model.I_DD_OrderLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_DD_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_OrderLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Distribution Order Line.
-		@param DD_OrderLine_ID Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
-	{
-		if (DD_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
-	}
-
-	/** Get Distribution Order Line.
-		@return Distribution Order Line	  */
-	public int getDD_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -441,7 +427,10 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
+		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -474,45 +463,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	public I_M_Forecast getM_Forecast() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_M_Forecast.Table_Name);
-        I_M_Forecast result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Forecast)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Forecast_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Forecast.
-		@param M_Forecast_ID 
-		Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID)
-	{
-		if (M_Forecast_ID < 1) 
-			set_Value (COLUMNNAME_M_Forecast_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
-	}
-
-	/** Get Forecast.
-		@return Material Forecast
-	  */
-	public int getM_Forecast_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException 
@@ -549,6 +499,45 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public int getM_ForecastLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Forecast getM_Forecast() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Forecast.Table_Name);
+        I_M_Forecast result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Forecast)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Forecast_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Forecast.
+		@param M_Forecast_ID 
+		Material Forecast
+	  */
+	public void setM_Forecast_ID (int M_Forecast_ID)
+	{
+		if (M_Forecast_ID < 1) 
+			set_Value (COLUMNNAME_M_Forecast_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
+	}
+
+	/** Get Forecast.
+		@return Material Forecast
+	  */
+	public int getM_Forecast_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -593,45 +582,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Requisition getM_Requisition() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_M_Requisition.Table_Name);
-        I_M_Requisition result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Requisition)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Requisition_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Requisition.
-		@param M_Requisition_ID 
-		Material Requisition
-	  */
-	public void setM_Requisition_ID (int M_Requisition_ID)
-	{
-		if (M_Requisition_ID < 1) 
-			set_Value (COLUMNNAME_M_Requisition_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
-	}
-
-	/** Get Requisition.
-		@return Material Requisition
-	  */
-	public int getM_Requisition_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Requisition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RequisitionLine.Table_Name);
@@ -666,6 +616,45 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public int getM_RequisitionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Requisition getM_Requisition() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Requisition.Table_Name);
+        I_M_Requisition result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Requisition)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Requisition_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Requisition.
+		@param M_Requisition_ID 
+		Material Requisition
+	  */
+	public void setM_Requisition_ID (int M_Requisition_ID)
+	{
+		if (M_Requisition_ID < 1) 
+			set_Value (COLUMNNAME_M_Requisition_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
+	}
+
+	/** Get Requisition.
+		@return Material Requisition
+	  */
+	public int getM_Requisition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Requisition_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -753,7 +742,10 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setOrderType (String OrderType)
 	{
 
-		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO")); else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");		set_Value (COLUMNNAME_OrderType, OrderType);
+		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO"));
+		else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");
+
+		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
 	/** Get OrderType.
@@ -761,26 +753,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public String getOrderType () 
 	{
 		return (String)get_Value(COLUMNNAME_OrderType);
-	}
-
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Material Requirement Planning.
@@ -874,6 +846,26 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Priority.
 		@param Priority 
 		Indicates if this request is of a high, medium or low priority.
@@ -961,7 +953,10 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setTypeMRP (String TypeMRP)
 	{
 
-		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S")); else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
+		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S"));
+		else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");
+
+		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
 	}
 
 	/** Get TypeMRP.

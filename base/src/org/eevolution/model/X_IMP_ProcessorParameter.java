@@ -21,11 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
@@ -44,8 +40,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
       super (ctx, IMP_ProcessorParameter_ID, trxName);
       /** if (IMP_ProcessorParameter_ID == 0)
         {
-			setIMP_Processor_ID (0);
 			setIMP_ProcessorParameter_ID (0);
+			setIMP_Processor_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -113,6 +109,25 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Import Processor Parameter.
+		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
+	{
+		if (IMP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
+	}
+
+	/** Get Import Processor Parameter.
+		@return Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_IMP_Processor.Table_Name);
@@ -143,25 +158,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Import Processor Parameter.
-		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
-	{
-		if (IMP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
-	}
-
-	/** Get Import Processor Parameter.
-		@return Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

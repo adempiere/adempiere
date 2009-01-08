@@ -20,8 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for IMP_ProcessorLog
@@ -97,6 +96,15 @@ public interface I_IMP_ProcessorLog
 	  */
 	public String getHelp();
 
+    /** Column name IMP_ProcessorLog_ID */
+    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
+
+	/** Set Import Processor Log	  */
+	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
+
+	/** Get Import Processor Log	  */
+	public int getIMP_ProcessorLog_ID();
+
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -107,15 +115,6 @@ public interface I_IMP_ProcessorLog
 	public int getIMP_Processor_ID();
 
 	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
-
-    /** Column name IMP_ProcessorLog_ID */
-    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
-
-	/** Set Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
-
-	/** Get Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID();
 
     /** Column name IsError */
     public static final String COLUMNNAME_IsError = "IsError";

@@ -20,9 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
@@ -122,6 +120,15 @@ public interface I_EXP_FormatLine
 	/** Get Embedded Format	  */
 	public int getEXP_EmbeddedFormat_ID();
 
+    /** Column name EXP_FormatLine_ID */
+    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
+
+	/** Set Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
+
+	/** Get Format Line	  */
+	public int getEXP_FormatLine_ID();
+
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -132,15 +139,6 @@ public interface I_EXP_FormatLine
 	public int getEXP_Format_ID();
 
 	public org.eevolution.model.I_EXP_Format getEXP_Format() throws RuntimeException;
-
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get Format Line	  */
-	public int getEXP_FormatLine_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

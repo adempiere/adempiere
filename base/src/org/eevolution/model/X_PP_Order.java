@@ -23,19 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Workflow;
-import org.compiere.model.I_C_Activity;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.I_S_Resource;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -75,9 +63,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 // N
 			setIsPrinted (false);
 // N
-			setIsSelected (false);
-// N
 			setIsSOTrx (false);
+// N
+			setIsSelected (false);
 // N
 			setLine (0);
 			setM_Product_ID (0);
@@ -288,29 +276,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 1) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Target Document Type.
 		@param C_DocTypeTarget_ID 
 		Target document type for conversing documents
@@ -333,21 +298,27 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
 	  */
-	public void setCopyFrom (String CopyFrom)
+	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+		if (C_DocType_ID < 1) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
-	/** Get Copy From.
-		@return Copy From Record
+	/** Get Document Type.
+		@return Document type or rules
 	  */
-	public String getCopyFrom () 
+	public int getC_DocType_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
@@ -464,6 +435,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set DateConfirm.
@@ -650,7 +638,10 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
+		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+
+		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -694,7 +685,10 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
+		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -838,27 +832,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Selected.
-		@param IsSelected Selected	  */
-	public void setIsSelected (boolean IsSelected)
-	{
-		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
-	}
-
-	/** Get Selected.
-		@return Selected	  */
-	public boolean isSelected () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSelected);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Sales Transaction.
 		@param IsSOTrx 
 		This is a Sales Transaction
@@ -874,6 +847,27 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Selected.
+		@param IsSelected Selected	  */
+	public void setIsSelected (boolean IsSelected)
+	{
+		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
+	}
+
+	/** Get Selected.
+		@return Selected	  */
+	public boolean isSelected () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSelected);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1017,50 +1011,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderType);
 	}
 
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Posted.
-		@param Posted 
-		Posting status
-	  */
-	public void setPosted (boolean Posted)
-	{
-		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
-	}
-
-	/** Get Posted.
-		@return Posting status
-	  */
-	public boolean isPosted () 
-	{
-		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Manufacturing Order.
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
@@ -1118,6 +1068,50 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
+	{
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
+	}
+
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Posted.
+		@param Posted 
+		Posting status
+	  */
+	public void setPosted (boolean Posted)
+	{
+		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+	}
+
+	/** Get Posted.
+		@return Posting status
+	  */
+	public boolean isPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_Posted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** PriorityRule AD_Reference_ID=154 */
 	public static final int PRIORITYRULE_AD_Reference_ID=154;
 	/** High = 3 */
@@ -1137,7 +1131,10 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setPriorityRule (String PriorityRule)
 	{
 		if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
-		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9")); else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
+		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9"));
+		else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
+
+		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}
 
 	/** Get Priority.
@@ -1193,23 +1190,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return false;
 	}
 
-	/** Set Qty Batchs.
-		@param QtyBatchs Qty Batchs	  */
-	public void setQtyBatchs (BigDecimal QtyBatchs)
-	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
-	}
-
-	/** Get Qty Batchs.
-		@return Qty Batchs	  */
-	public BigDecimal getQtyBatchs () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Qty Batch Size.
 		@param QtyBatchSize Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize)
@@ -1222,6 +1202,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public BigDecimal getQtyBatchSize () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchSize);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Qty Batchs.
+		@param QtyBatchs Qty Batchs	  */
+	public void setQtyBatchs (BigDecimal QtyBatchs)
+	{
+		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
+	}
+
+	/** Get Qty Batchs.
+		@return Qty Batchs	  */
+	public BigDecimal getQtyBatchs () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatchs);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -1352,40 +1349,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set Schedule Type.
-		@param ScheduleType 
-		Type of schedule
-	  */
-	public void setScheduleType (String ScheduleType)
-	{
-		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
-	}
-
-	/** Get Schedule Type.
-		@return Type of schedule
-	  */
-	public String getScheduleType () 
-	{
-		return (String)get_Value(COLUMNNAME_ScheduleType);
-	}
-
-	/** Set Serial No.
-		@param SerNo 
-		Product Serial Number 
-	  */
-	public void setSerNo (String SerNo)
-	{
-		set_Value (COLUMNNAME_SerNo, SerNo);
-	}
-
-	/** Get Serial No.
-		@return Product Serial Number 
-	  */
-	public String getSerNo () 
-	{
-		return (String)get_Value(COLUMNNAME_SerNo);
-	}
-
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -1422,6 +1385,40 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Schedule Type.
+		@param ScheduleType 
+		Type of schedule
+	  */
+	public void setScheduleType (String ScheduleType)
+	{
+		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
+	}
+
+	/** Get Schedule Type.
+		@return Type of schedule
+	  */
+	public String getScheduleType () 
+	{
+		return (String)get_Value(COLUMNNAME_ScheduleType);
+	}
+
+	/** Set Serial No.
+		@param SerNo 
+		Product Serial Number 
+	  */
+	public void setSerNo (String SerNo)
+	{
+		set_Value (COLUMNNAME_SerNo, SerNo);
+	}
+
+	/** Get Serial No.
+		@return Product Serial Number 
+	  */
+	public String getSerNo () 
+	{
+		return (String)get_Value(COLUMNNAME_SerNo);
 	}
 
 	/** Set User List 1.

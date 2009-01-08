@@ -23,23 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_Form;
-import org.compiere.model.I_AD_Image;
-import org.compiere.model.I_AD_Process;
-import org.compiere.model.I_AD_Task;
-import org.compiere.model.I_AD_WF_Block;
-import org.compiere.model.I_AD_WF_Node;
-import org.compiere.model.I_AD_WF_Responsible;
-import org.compiere.model.I_AD_Window;
-import org.compiere.model.I_AD_Workflow;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.I_S_Resource;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -60,10 +44,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
       super (ctx, PP_Order_Node_ID, trxName);
       /** if (PP_Order_Node_ID == 0)
         {
-			setAction (null);
-// Z
 			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
+			setAction (null);
+// Z
 			setCost (Env.ZERO);
 			setEntityType (null);
 // U
@@ -113,50 +97,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
-		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
 
 	public I_AD_Column getAD_Column() throws RuntimeException 
     {
@@ -546,6 +486,53 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
+		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B"));
+		else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
+	}
+
 	/** Set Attribute Name.
 		@param AttributeName 
 		Name of the Attribute
@@ -754,7 +741,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
+		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+
+		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -798,7 +788,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
+		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -895,7 +888,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setFinishMode (String FinishMode)
 	{
 
-		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M")); else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_FinishMode, FinishMode);
+		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M"));
+		else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
+
+		set_Value (COLUMNNAME_FinishMode, FinishMode);
 	}
 
 	/** Get Finish Mode.
@@ -1002,7 +998,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setJoinElement (String JoinElement)
 	{
 		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
-		if (JoinElement.equals("A") || JoinElement.equals("X")); else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_JoinElement, JoinElement);
+		if (JoinElement.equals("A") || JoinElement.equals("X"));
+		else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");
+
+		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
 
 	/** Get Join Element.
@@ -1294,6 +1293,45 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_S_Resource getS_Resource() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Setup Time.
 		@param SetupTime 
 		Setup time before starting Production
@@ -1361,7 +1399,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setSplitElement (String SplitElement)
 	{
 		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
-		if (SplitElement.equals("A") || SplitElement.equals("X")); else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");		set_Value (COLUMNNAME_SplitElement, SplitElement);
+		if (SplitElement.equals("A") || SplitElement.equals("X"));
+		else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");
+
+		set_Value (COLUMNNAME_SplitElement, SplitElement);
 	}
 
 	/** Get Split Element.
@@ -1370,45 +1411,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
-	public I_S_Resource getS_Resource() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1424,7 +1426,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setStartMode (String StartMode)
 	{
 
-		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M")); else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");		set_Value (COLUMNNAME_StartMode, StartMode);
+		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M"));
+		else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
+
+		set_Value (COLUMNNAME_StartMode, StartMode);
 	}
 
 	/** Get Start Mode.
@@ -1448,7 +1453,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setSubflowExecution (String SubflowExecution)
 	{
 
-		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S")); else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
+		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S"));
+		else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
+
+		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
 	}
 
 	/** Get Subflow Execution.

@@ -19,10 +19,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for RV_PP_WIP
  *  @author Adempiere (generated) 

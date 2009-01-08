@@ -22,13 +22,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_WF_Node;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 
 /** Generated Model for PP_WF_Node_Product
@@ -137,7 +131,10 @@ public class X_PP_WF_Node_Product extends PO implements I_PP_WF_Node_Product, I_
 	public void setConfigurationLevel (String ConfigurationLevel)
 	{
 
-		if (ConfigurationLevel == null || ConfigurationLevel.equals("S") || ConfigurationLevel.equals("C") || ConfigurationLevel.equals("O")); else throw new IllegalArgumentException ("ConfigurationLevel Invalid value - " + ConfigurationLevel + " - Reference_ID=53222 - S - C - O");		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
+		if (ConfigurationLevel == null || ConfigurationLevel.equals("S") || ConfigurationLevel.equals("C") || ConfigurationLevel.equals("O"));
+		else throw new IllegalArgumentException ("ConfigurationLevel Invalid value - " + ConfigurationLevel + " - Reference_ID=53222 - S - C - O");
+
+		set_Value (COLUMNNAME_ConfigurationLevel, ConfigurationLevel);
 	}
 
 	/** Get Configuration Level.

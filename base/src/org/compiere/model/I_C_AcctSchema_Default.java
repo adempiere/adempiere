@@ -82,6 +82,19 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_Expense_Acct();
 
+    /** Column name B_InTransit_Acct */
+    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
+
+	/** Set Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct);
+
+	/** Get Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct();
+
     /** Column name B_InterestExp_Acct */
     public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
 
@@ -107,19 +120,6 @@ public interface I_C_AcctSchema_Default
 	  * Bank Interest Revenue Account
 	  */
 	public int getB_InterestRev_Acct();
-
-    /** Column name B_InTransit_Acct */
-    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
-
-	/** Set Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct);
-
-	/** Get Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct();
 
     /** Column name B_PaymentSelect_Acct */
     public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
@@ -212,21 +212,6 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_Unidentified_Acct();
 
-    /** Column name C_AcctSchema_ID */
-    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
-
-	/** Set Accounting Schema.
-	  * Rules for accounting
-	  */
-	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
-
-	/** Get Accounting Schema.
-	  * Rules for accounting
-	  */
-	public int getC_AcctSchema_ID();
-
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
-
     /** Column name CB_Asset_Acct */
     public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 
@@ -292,31 +277,20 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getCB_Receipt_Acct();
 
-    /** Column name Ch_Expense_Acct */
-    public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
+    /** Column name C_AcctSchema_ID */
+    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
-	/** Set Charge Expense.
-	  * Charge Expense Account
+	/** Set Accounting Schema.
+	  * Rules for accounting
 	  */
-	public void setCh_Expense_Acct (int Ch_Expense_Acct);
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
 
-	/** Get Charge Expense.
-	  * Charge Expense Account
+	/** Get Accounting Schema.
+	  * Rules for accounting
 	  */
-	public int getCh_Expense_Acct();
+	public int getC_AcctSchema_ID();
 
-    /** Column name Ch_Revenue_Acct */
-    public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
-
-	/** Set Charge Revenue.
-	  * Charge Revenue Account
-	  */
-	public void setCh_Revenue_Acct (int Ch_Revenue_Acct);
-
-	/** Get Charge Revenue.
-	  * Charge Revenue Account
-	  */
-	public int getCh_Revenue_Acct();
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Prepayment_Acct */
     public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
@@ -356,6 +330,32 @@ public interface I_C_AcctSchema_Default
 	  * Customer Accounts Receivables Services Account
 	  */
 	public int getC_Receivable_Services_Acct();
+
+    /** Column name Ch_Expense_Acct */
+    public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
+
+	/** Set Charge Expense.
+	  * Charge Expense Account
+	  */
+	public void setCh_Expense_Acct (int Ch_Expense_Acct);
+
+	/** Get Charge Expense.
+	  * Charge Expense Account
+	  */
+	public int getCh_Expense_Acct();
+
+    /** Column name Ch_Revenue_Acct */
+    public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
+
+	/** Set Charge Revenue.
+	  * Charge Revenue Account
+	  */
+	public void setCh_Revenue_Acct (int Ch_Revenue_Acct);
+
+	/** Get Charge Revenue.
+	  * Charge Revenue Account
+	  */
+	public int getCh_Revenue_Acct();
 
     /** Column name E_Expense_Acct */
     public static final String COLUMNNAME_E_Expense_Acct = "E_Expense_Acct";
@@ -422,6 +422,32 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getNotInvoicedRevenue_Acct();
 
+    /** Column name PJ_Asset_Acct */
+    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
+
+	/** Set Project Asset.
+	  * Project Asset Account
+	  */
+	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
+
+	/** Get Project Asset.
+	  * Project Asset Account
+	  */
+	public int getPJ_Asset_Acct();
+
+    /** Column name PJ_WIP_Acct */
+    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
+
+	/** Set Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
+
+	/** Get Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public int getPJ_WIP_Acct();
+
     /** Column name P_Asset_Acct */
     public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
 
@@ -435,31 +461,18 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Asset_Acct();
 
-    /** Column name PayDiscount_Exp_Acct */
-    public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
+    /** Column name P_Burden_Acct */
+    public static final String COLUMNNAME_P_Burden_Acct = "P_Burden_Acct";
 
-	/** Set Payment Discount Expense.
-	  * Payment Discount Expense Account
+	/** Set Burden.
+	  * The Burden account is the account used Manufacturing Order
 	  */
-	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct);
+	public void setP_Burden_Acct (int P_Burden_Acct);
 
-	/** Get Payment Discount Expense.
-	  * Payment Discount Expense Account
+	/** Get Burden.
+	  * The Burden account is the account used Manufacturing Order
 	  */
-	public int getPayDiscount_Exp_Acct();
-
-    /** Column name PayDiscount_Rev_Acct */
-    public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
-
-	/** Set Payment Discount Revenue.
-	  * Payment Discount Revenue Account
-	  */
-	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct);
-
-	/** Get Payment Discount Revenue.
-	  * Payment Discount Revenue Account
-	  */
-	public int getPayDiscount_Rev_Acct();
+	public int getP_Burden_Acct();
 
     /** Column name P_COGS_Acct */
     public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
@@ -487,6 +500,19 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_CostAdjustment_Acct();
 
+    /** Column name P_CostOfProduction_Acct */
+    public static final String COLUMNNAME_P_CostOfProduction_Acct = "P_CostOfProduction_Acct";
+
+	/** Set Cost Of Production.
+	  * The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public void setP_CostOfProduction_Acct (int P_CostOfProduction_Acct);
+
+	/** Get Cost Of Production.
+	  * The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public int getP_CostOfProduction_Acct();
+
     /** Column name P_Expense_Acct */
     public static final String COLUMNNAME_P_Expense_Acct = "P_Expense_Acct";
 
@@ -499,6 +525,19 @@ public interface I_C_AcctSchema_Default
 	  * Account for Product Expense
 	  */
 	public int getP_Expense_Acct();
+
+    /** Column name P_FloorStock_Acct */
+    public static final String COLUMNNAME_P_FloorStock_Acct = "P_FloorStock_Acct";
+
+	/** Set Floor Stock.
+	  * The Floor Stock account is the account used Manufacturing Order
+	  */
+	public void setP_FloorStock_Acct (int P_FloorStock_Acct);
+
+	/** Get Floor Stock.
+	  * The Floor Stock account is the account used Manufacturing Order
+	  */
+	public int getP_FloorStock_Acct();
 
     /** Column name P_InventoryClearing_Acct */
     public static final String COLUMNNAME_P_InventoryClearing_Acct = "P_InventoryClearing_Acct";
@@ -526,31 +565,70 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_InvoicePriceVariance_Acct();
 
-    /** Column name PJ_Asset_Acct */
-    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
+    /** Column name P_Labor_Acct */
+    public static final String COLUMNNAME_P_Labor_Acct = "P_Labor_Acct";
 
-	/** Set Project Asset.
-	  * Project Asset Account
+	/** Set Labor.
+	  * The Labor account is the account used Manufacturing Order
 	  */
-	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
+	public void setP_Labor_Acct (int P_Labor_Acct);
 
-	/** Get Project Asset.
-	  * Project Asset Account
+	/** Get Labor.
+	  * The Labor account is the account used Manufacturing Order
 	  */
-	public int getPJ_Asset_Acct();
+	public int getP_Labor_Acct();
 
-    /** Column name PJ_WIP_Acct */
-    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
+    /** Column name P_MethodChangeVariance_Acct */
+    public static final String COLUMNNAME_P_MethodChangeVariance_Acct = "P_MethodChangeVariance_Acct";
 
-	/** Set Work In Progress.
-	  * Account for Work in Progress
+	/** Set Method Change Variance.
+	  * The Method Change Variance account is the account used Manufacturing Order
 	  */
-	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
+	public void setP_MethodChangeVariance_Acct (int P_MethodChangeVariance_Acct);
 
-	/** Get Work In Progress.
-	  * Account for Work in Progress
+	/** Get Method Change Variance.
+	  * The Method Change Variance account is the account used Manufacturing Order
 	  */
-	public int getPJ_WIP_Acct();
+	public int getP_MethodChangeVariance_Acct();
+
+    /** Column name P_MixVariance_Acct */
+    public static final String COLUMNNAME_P_MixVariance_Acct = "P_MixVariance_Acct";
+
+	/** Set Mix Variance.
+	  * The Mix Variance account is the account used Manufacturing Order
+	  */
+	public void setP_MixVariance_Acct (int P_MixVariance_Acct);
+
+	/** Get Mix Variance.
+	  * The Mix Variance account is the account used Manufacturing Order
+	  */
+	public int getP_MixVariance_Acct();
+
+    /** Column name P_OutsideProcessing_Acct */
+    public static final String COLUMNNAME_P_OutsideProcessing_Acct = "P_OutsideProcessing_Acct";
+
+	/** Set Outside Processing.
+	  * The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public void setP_OutsideProcessing_Acct (int P_OutsideProcessing_Acct);
+
+	/** Get Outside Processing.
+	  * The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public int getP_OutsideProcessing_Acct();
+
+    /** Column name P_Overhead_Acct */
+    public static final String COLUMNNAME_P_Overhead_Acct = "P_Overhead_Acct";
+
+	/** Set Overhead.
+	  * The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Overhead_Acct (int P_Overhead_Acct);
+
+	/** Get Overhead.
+	  * The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Overhead_Acct();
 
     /** Column name P_PurchasePriceVariance_Acct */
     public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
@@ -565,6 +643,19 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_PurchasePriceVariance_Acct();
 
+    /** Column name P_RateVariance_Acct */
+    public static final String COLUMNNAME_P_RateVariance_Acct = "P_RateVariance_Acct";
+
+	/** Set Rate Variance.
+	  * The Rate Variance account is the account used Manufacturing Order
+	  */
+	public void setP_RateVariance_Acct (int P_RateVariance_Acct);
+
+	/** Get Rate Variance.
+	  * The Rate Variance account is the account used Manufacturing Order
+	  */
+	public int getP_RateVariance_Acct();
+
     /** Column name P_Revenue_Acct */
     public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
 
@@ -578,14 +669,18 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Revenue_Acct();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name P_Scrap_Acct */
+    public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Scrap.
+	  * The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Scrap_Acct (int P_Scrap_Acct);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get Scrap.
+	  * The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Scrap_Acct();
 
     /** Column name P_TradeDiscountGrant_Acct */
     public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
@@ -612,6 +707,67 @@ public interface I_C_AcctSchema_Default
 	  * Trade Discount Receivable Account
 	  */
 	public int getP_TradeDiscountRec_Acct();
+
+    /** Column name P_UsageVariance_Acct */
+    public static final String COLUMNNAME_P_UsageVariance_Acct = "P_UsageVariance_Acct";
+
+	/** Set Usage Variance.
+	  * The Usage Variance account is the account used Manufacturing Order
+	  */
+	public void setP_UsageVariance_Acct (int P_UsageVariance_Acct);
+
+	/** Get Usage Variance.
+	  * The Usage Variance account is the account used Manufacturing Order
+	  */
+	public int getP_UsageVariance_Acct();
+
+    /** Column name P_WIP_Acct */
+    public static final String COLUMNNAME_P_WIP_Acct = "P_WIP_Acct";
+
+	/** Set Work In Process.
+	  * The Work in Process account is the account used Manufacturing Order
+	  */
+	public void setP_WIP_Acct (int P_WIP_Acct);
+
+	/** Get Work In Process.
+	  * The Work in Process account is the account used Manufacturing Order
+	  */
+	public int getP_WIP_Acct();
+
+    /** Column name PayDiscount_Exp_Acct */
+    public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
+
+	/** Set Payment Discount Expense.
+	  * Payment Discount Expense Account
+	  */
+	public void setPayDiscount_Exp_Acct (int PayDiscount_Exp_Acct);
+
+	/** Get Payment Discount Expense.
+	  * Payment Discount Expense Account
+	  */
+	public int getPayDiscount_Exp_Acct();
+
+    /** Column name PayDiscount_Rev_Acct */
+    public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
+
+	/** Set Payment Discount Revenue.
+	  * Payment Discount Revenue Account
+	  */
+	public void setPayDiscount_Rev_Acct (int PayDiscount_Rev_Acct);
+
+	/** Get Payment Discount Revenue.
+	  * Payment Discount Revenue Account
+	  */
+	public int getPayDiscount_Rev_Acct();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name RealizedGain_Acct */
     public static final String COLUMNNAME_RealizedGain_Acct = "RealizedGain_Acct";
@@ -821,19 +977,6 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getW_Inventory_Acct();
 
-    /** Column name Withholding_Acct */
-    public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";
-
-	/** Set Withholding.
-	  * Account for Withholdings
-	  */
-	public void setWithholding_Acct (int Withholding_Acct);
-
-	/** Get Withholding.
-	  * Account for Withholdings
-	  */
-	public int getWithholding_Acct();
-
     /** Column name W_Revaluation_Acct */
     public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
 
@@ -846,6 +989,19 @@ public interface I_C_AcctSchema_Default
 	  * Account for Inventory Revaluation
 	  */
 	public int getW_Revaluation_Acct();
+
+    /** Column name Withholding_Acct */
+    public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";
+
+	/** Set Withholding.
+	  * Account for Withholdings
+	  */
+	public void setWithholding_Acct (int Withholding_Acct);
+
+	/** Get Withholding.
+	  * Account for Withholdings
+	  */
+	public int getWithholding_Acct();
 
     /** Column name WriteOff_Acct */
     public static final String COLUMNNAME_WriteOff_Acct = "WriteOff_Acct";

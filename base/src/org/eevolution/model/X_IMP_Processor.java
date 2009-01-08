@@ -22,11 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for IMP_Processor
  *  @author Adempiere (generated) 
@@ -184,7 +180,10 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D"));
+		else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");
+
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.

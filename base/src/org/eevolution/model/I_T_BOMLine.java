@@ -20,10 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-
-import org.compiere.model.I_AD_PInstance;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_BOMLine
@@ -121,21 +118,6 @@ public interface I_T_BOMLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Product_BOM_ID */
-    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
-
-	/** Set BOM & Formula.
-	  * BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
-
-	/** Get BOM & Formula.
-	  * BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID();
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
     /** Column name PP_Product_BOMLine_ID */
     public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
 
@@ -150,6 +132,21 @@ public interface I_T_BOMLine
 	public int getPP_Product_BOMLine_ID();
 
 	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
     /** Column name Sel_Product_ID */
     public static final String COLUMNNAME_Sel_Product_ID = "Sel_Product_ID";

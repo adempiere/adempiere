@@ -22,14 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.I_M_ChangeNotice;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_BOM
@@ -111,7 +104,10 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public void setBOMType (String BOMType)
 	{
 
-		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C")); else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");		set_Value (COLUMNNAME_BOMType, BOMType);
+		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C"));
+		else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");
+
+		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
 	/** Get BOM Type.
@@ -141,7 +137,10 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public void setBOMUse (String BOMUse)
 	{
 
-		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q")); else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");		set_Value (COLUMNNAME_BOMUse, BOMUse);
+		if (BOMUse == null || BOMUse.equals("A") || BOMUse.equals("E") || BOMUse.equals("M") || BOMUse.equals("P") || BOMUse.equals("Q"));
+		else throw new IllegalArgumentException ("BOMUse Invalid value - " + BOMUse + " - Reference_ID=348 - A - E - M - P - Q");
+
+		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
 
 	/** Get BOM Use.
@@ -150,23 +149,6 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 	public String getBOMUse () 
 	{
 		return (String)get_Value(COLUMNNAME_BOMUse);
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	public I_C_UOM getC_UOM() throws RuntimeException 
@@ -206,6 +188,23 @@ public class X_PP_Product_BOM extends PO implements I_PP_Product_BOM, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
 	/** Set Description.

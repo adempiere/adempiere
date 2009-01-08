@@ -21,11 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
@@ -44,8 +40,8 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
       super (ctx, EXP_ProcessorParameter_ID, trxName);
       /** if (EXP_ProcessorParameter_ID == 0)
         {
-			setEXP_Processor_ID (0);
 			setEXP_ProcessorParameter_ID (0);
+			setEXP_Processor_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -96,6 +92,25 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Processor Parameter.
+		@param EXP_ProcessorParameter_ID Processor Parameter	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
+	{
+		if (EXP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
+	}
+
+	/** Get Processor Parameter.
+		@return Processor Parameter	  */
+	public int getEXP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Processor.Table_Name);
@@ -126,25 +141,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	public int getEXP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Processor Parameter.
-		@param EXP_ProcessorParameter_ID Processor Parameter	  */
-	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
-	{
-		if (EXP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
-	}
-
-	/** Get Processor Parameter.
-		@return Processor Parameter	  */
-	public int getEXP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

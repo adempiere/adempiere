@@ -23,19 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_C_Activity;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.I_S_Resource;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -56,22 +44,22 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
       super (ctx, PP_Cost_Collector_ID, trxName);
       /** if (PP_Cost_Collector_ID == 0)
         {
+			setC_DocTypeTarget_ID (0);
 			setC_DocType_ID (0);
 // 0
-			setC_DocTypeTarget_ID (0);
 			setCostCollectorType (null);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setM_Locator_ID (0);
+			setM_Product_ID (0);
+			setM_Warehouse_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setMovementQty (Env.ZERO);
 // 0
-			setM_Product_ID (0);
-			setM_Warehouse_ID (0);
-			setPosted (false);
 			setPP_Cost_Collector_ID (0);
 			setPP_Order_ID (0);
+			setPosted (false);
 			setProcessed (false);
 			setS_Resource_ID (0);
         } */
@@ -245,28 +233,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Target Document Type.
 		@param C_DocTypeTarget_ID 
 		Target document type for conversing documents
@@ -289,38 +255,26 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	/** CostCollectorType AD_Reference_ID=53287 */
-	public static final int COSTCOLLECTORTYPE_AD_Reference_ID=53287;
-	/** Material Receipt = 100 */
-	public static final String COSTCOLLECTORTYPE_MaterialReceipt = "100";
-	/** Component Issue = 110 */
-	public static final String COSTCOLLECTORTYPE_ComponentIssue = "110";
-	/** Usege Variance = 120 */
-	public static final String COSTCOLLECTORTYPE_UsegeVariance = "120";
-	/** Method Change Variance = 130 */
-	public static final String COSTCOLLECTORTYPE_MethodChangeVariance = "130";
-	/** Rate Variance = 140 */
-	public static final String COSTCOLLECTORTYPE_RateVariance = "140";
-	/** Mix Variance = 150 */
-	public static final String COSTCOLLECTORTYPE_MixVariance = "150";
-	/** Activity Control Report = 160 */
-	public static final String COSTCOLLECTORTYPE_ActivityControlReport = "160";
-	/** Set Cost Collector Type.
-		@param CostCollectorType 
-		Transaction Type for Manufacturing Management
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
 	  */
-	public void setCostCollectorType (String CostCollectorType)
+	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (CostCollectorType == null) throw new IllegalArgumentException ("CostCollectorType is mandatory");
-		if (CostCollectorType.equals("100") || CostCollectorType.equals("110") || CostCollectorType.equals("120") || CostCollectorType.equals("130") || CostCollectorType.equals("140") || CostCollectorType.equals("150") || CostCollectorType.equals("160")); else throw new IllegalArgumentException ("CostCollectorType Invalid value - " + CostCollectorType + " - Reference_ID=53287 - 100 - 110 - 120 - 130 - 140 - 150 - 160");		set_Value (COLUMNNAME_CostCollectorType, CostCollectorType);
+		if (C_DocType_ID < 0)
+			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
+		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
-	/** Get Cost Collector Type.
-		@return Transaction Type for Manufacturing Management
+	/** Get Document Type.
+		@return Document type or rules
 	  */
-	public String getCostCollectorType () 
+	public int getC_DocType_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CostCollectorType);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_C_Project getC_Project() throws RuntimeException 
@@ -401,6 +355,43 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
+	/** CostCollectorType AD_Reference_ID=53287 */
+	public static final int COSTCOLLECTORTYPE_AD_Reference_ID=53287;
+	/** Material Receipt = 100 */
+	public static final String COSTCOLLECTORTYPE_MaterialReceipt = "100";
+	/** Component Issue = 110 */
+	public static final String COSTCOLLECTORTYPE_ComponentIssue = "110";
+	/** Usege Variance = 120 */
+	public static final String COSTCOLLECTORTYPE_UsegeVariance = "120";
+	/** Method Change Variance = 130 */
+	public static final String COSTCOLLECTORTYPE_MethodChangeVariance = "130";
+	/** Rate Variance = 140 */
+	public static final String COSTCOLLECTORTYPE_RateVariance = "140";
+	/** Mix Variance = 150 */
+	public static final String COSTCOLLECTORTYPE_MixVariance = "150";
+	/** Activity Control = 160 */
+	public static final String COSTCOLLECTORTYPE_ActivityControl = "160";
+	/** Set Cost Collector Type.
+		@param CostCollectorType 
+		Transaction Type for Manufacturing Management
+	  */
+	public void setCostCollectorType (String CostCollectorType)
+	{
+		if (CostCollectorType == null) throw new IllegalArgumentException ("CostCollectorType is mandatory");
+		if (CostCollectorType.equals("100") || CostCollectorType.equals("110") || CostCollectorType.equals("120") || CostCollectorType.equals("130") || CostCollectorType.equals("140") || CostCollectorType.equals("150") || CostCollectorType.equals("160"));
+		else throw new IllegalArgumentException ("CostCollectorType Invalid value - " + CostCollectorType + " - Reference_ID=53287 - 100 - 110 - 120 - 130 - 140 - 150 - 160");
+
+		set_Value (COLUMNNAME_CostCollectorType, CostCollectorType);
+	}
+
+	/** Get Cost Collector Type.
+		@return Transaction Type for Manufacturing Management
+	  */
+	public String getCostCollectorType () 
+	{
+		return (String)get_Value(COLUMNNAME_CostCollectorType);
+	}
+
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -474,7 +465,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
+		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
+		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
+
+		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -518,7 +512,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
+		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
+
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -527,6 +524,23 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public String getDocStatus () 
 	{
 		return (String)get_Value(COLUMNNAME_DocStatus);
+	}
+
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
+	{
+		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+	}
+
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
 	/** Set Duration Real.
@@ -633,47 +647,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -758,28 +731,45 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Posted.
-		@param Posted 
-		Posting status
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
 	  */
-	public void setPosted (boolean Posted)
+	public void setMovementDate (Timestamp MovementDate)
 	{
-		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+		if (MovementDate == null)
+			throw new IllegalArgumentException ("MovementDate is mandatory.");
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 
-	/** Get Posted.
-		@return Posting status
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
 	  */
-	public boolean isPosted () 
+	public Timestamp getMovementDate () 
 	{
-		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		if (MovementQty == null)
+			throw new IllegalArgumentException ("MovementQty is mandatory.");
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Manufacturing Cost Collector.
@@ -944,6 +934,30 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Posted.
+		@param Posted 
+		Posting status
+	  */
+	public void setPosted (boolean Posted)
+	{
+		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+	}
+
+	/** Get Posted.
+		@return Posting status
+	  */
+	public boolean isPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_Posted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -1029,43 +1043,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Scrapped Quantity.
-		@param ScrappedQty 
-		The Quantity scrapped due to QA issues
-	  */
-	public void setScrappedQty (BigDecimal ScrappedQty)
-	{
-		set_Value (COLUMNNAME_ScrappedQty, ScrappedQty);
-	}
-
-	/** Get Scrapped Quantity.
-		@return The Quantity scrapped due to QA issues
-	  */
-	public BigDecimal getScrappedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ScrappedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Setup Time Real.
-		@param SetupTimeReal Setup Time Real	  */
-	public void setSetupTimeReal (BigDecimal SetupTimeReal)
-	{
-		set_Value (COLUMNNAME_SetupTimeReal, SetupTimeReal);
-	}
-
-	/** Get Setup Time Real.
-		@return Setup Time Real	  */
-	public BigDecimal getSetupTimeReal () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -1102,6 +1079,43 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Scrapped Quantity.
+		@param ScrappedQty 
+		The Quantity scrapped due to QA issues
+	  */
+	public void setScrappedQty (BigDecimal ScrappedQty)
+	{
+		set_Value (COLUMNNAME_ScrappedQty, ScrappedQty);
+	}
+
+	/** Get Scrapped Quantity.
+		@return The Quantity scrapped due to QA issues
+	  */
+	public BigDecimal getScrappedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ScrappedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Setup Time Real.
+		@param SetupTimeReal Setup Time Real	  */
+	public void setSetupTimeReal (BigDecimal SetupTimeReal)
+	{
+		set_Value (COLUMNNAME_SetupTimeReal, SetupTimeReal);
+	}
+
+	/** Get Setup Time Real.
+		@return Setup Time Real	  */
+	public BigDecimal getSetupTimeReal () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SetupTimeReal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set User List 1.

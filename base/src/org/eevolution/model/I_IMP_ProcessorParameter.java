@@ -20,8 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for IMP_ProcessorParameter
@@ -84,6 +83,15 @@ public interface I_IMP_ProcessorParameter
 	  */
 	public String getHelp();
 
+    /** Column name IMP_ProcessorParameter_ID */
+    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
+
+	/** Set Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
+
+	/** Get Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID();
+
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -94,15 +102,6 @@ public interface I_IMP_ProcessorParameter
 	public int getIMP_Processor_ID();
 
 	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
-
-    /** Column name IMP_ProcessorParameter_ID */
-    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
-
-	/** Set Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
-
-	/** Get Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

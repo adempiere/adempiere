@@ -21,12 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
@@ -193,6 +188,25 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Format Line.
+		@param EXP_FormatLine_ID Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
+	{
+		if (EXP_FormatLine_ID < 1)
+			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
+	}
+
+	/** Get Format Line.
+		@return Format Line	  */
+	public int getEXP_FormatLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_EXP_Format getEXP_Format() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Format.Table_Name);
@@ -224,25 +238,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public int getEXP_Format_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Format Line.
-		@param EXP_FormatLine_ID Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
-	{
-		if (EXP_FormatLine_ID < 1)
-			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
-	}
-
-	/** Get Format Line.
-		@return Format Line	  */
-	public int getEXP_FormatLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -363,7 +358,10 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("E") || Type.equals("A") || Type.equals("M") || Type.equals("R")); else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53241 - E - A - M - R");		set_Value (COLUMNNAME_Type, Type);
+		if (Type.equals("E") || Type.equals("A") || Type.equals("M") || Type.equals("R"));
+		else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53241 - E - A - M - R");
+
+		set_Value (COLUMNNAME_Type, Type);
 	}
 
 	/** Get Type.

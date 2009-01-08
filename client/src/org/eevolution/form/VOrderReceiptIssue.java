@@ -1258,6 +1258,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		if (!PP_Cost_Collector.processIt(MPPCostCollector.DOCACTION_Complete)) {
 			throw new AdempiereException(PP_Cost_Collector.getProcessMsg());
 		}
+		PP_Cost_Collector.saveEx();
 	}
 
 	private int getDocType(String DocBaseType)

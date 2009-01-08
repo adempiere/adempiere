@@ -75,18 +75,22 @@ public class ProductCategoryAcctCopy extends SvrProcess
 		String sql = "UPDATE M_Product_Acct pa "
 			+ "SET (P_Revenue_Acct,P_Expense_Acct,P_CostAdjustment_Acct,P_InventoryClearing_Acct,P_Asset_Acct,P_COGS_Acct,"
 			+ " P_PurchasePriceVariance_Acct,P_InvoicePriceVariance_Acct,"
-			+ " P_TradeDiscountRec_Acct,P_TradeDiscountGrant_Acct)="
-			 + " (SELECT P_Revenue_Acct,P_Expense_Acct,P_CostAdjustment_Acct,P_InventoryClearing_Acct,P_Asset_Acct,P_COGS_Acct,"
-			 + " P_PurchasePriceVariance_Acct,P_InvoicePriceVariance_Acct,"
-			 + " P_TradeDiscountRec_Acct,P_TradeDiscountGrant_Acct"
-			 + " FROM M_Product_Category_Acct pca"
-			 + " WHERE pca.M_Product_Category_ID=" + p_M_Product_Category_ID
-			 + " AND pca.C_AcctSchema_ID=" + p_C_AcctSchema_ID
-			 + "), Updated=SysDate, UpdatedBy=0 "
+			+ " P_TradeDiscountRec_Acct,P_TradeDiscountGrant_Acct," 
+			+ " P_WIP_Acct,P_FloorStock_Acct,P_MethodChangeVariance_Acct,P_UsageVariance_Acct,P_RateVariance_Acct," 
+			+ " P_MixVariance_Acct,P_Labor_Acct,P_Burden_Acct,P_CostOfProduction_Acct,P_OutsideProcessing_Acct,P_Overhead_Acct,P_Scrap_Acct)="
+		    + " (SELECT P_Revenue_Acct,P_Expense_Acct,P_CostAdjustment_Acct,P_InventoryClearing_Acct,P_Asset_Acct,P_COGS_Acct,"
+			+ " P_PurchasePriceVariance_Acct,P_InvoicePriceVariance_Acct,"
+			+ " P_TradeDiscountRec_Acct,P_TradeDiscountGrant_Acct,"
+			+ " P_WIP_Acct,P_FloorStock_Acct,P_MethodChangeVariance_Acct,P_UsageVariance_Acct,P_RateVariance_Acct," 
+			+ " P_MixVariance_Acct,P_Labor_Acct,P_Burden_Acct,P_CostOfProduction_Acct,P_OutsideProcessing_Acct,P_Overhead_Acct,P_Scrap_Acct"
+			+ " FROM M_Product_Category_Acct pca"
+			+ " WHERE pca.M_Product_Category_ID=" + p_M_Product_Category_ID
+			+ " AND pca.C_AcctSchema_ID=" + p_C_AcctSchema_ID
+			+ "), Updated=SysDate, UpdatedBy=0 "
 			+ "WHERE pa.C_AcctSchema_ID=" + p_C_AcctSchema_ID
 			+ " AND EXISTS (SELECT * FROM M_Product p "
-				+ "WHERE p.M_Product_ID=pa.M_Product_ID"
-				+ " AND p.M_Product_Category_ID=" + p_M_Product_Category_ID + ")";
+			+ "WHERE p.M_Product_ID=pa.M_Product_ID"
+			+ " AND p.M_Product_Category_ID=" + p_M_Product_Category_ID + ")";
 		int updated = DB.executeUpdate(sql, get_TrxName());
 		addLog(0, null, new BigDecimal(updated), "@Updated@");
 
@@ -96,12 +100,16 @@ public class ProductCategoryAcctCopy extends SvrProcess
 			+ " AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,"
 			+ " P_Revenue_Acct, P_Expense_Acct, P_CostAdjustment_Acct, P_InventoryClearing_Acct, P_Asset_Acct, P_CoGs_Acct,"
 			+ " P_PurchasePriceVariance_Acct, P_InvoicePriceVariance_Acct,"
-			+ " P_TradeDiscountRec_Acct, P_TradeDiscountGrant_Acct) "
+			+ " P_TradeDiscountRec_Acct, P_TradeDiscountGrant_Acct, "
+			+ " P_WIP_Acct,P_FloorStock_Acct, P_MethodChangeVariance_Acct, P_UsageVariance_Acct, P_RateVariance_Acct," 
+			+ " P_MixVariance_Acct, P_Labor_Acct, P_Burden_Acct, P_CostOfProduction_Acct, P_OutsideProcessing_Acct, P_Overhead_Acct, P_Scrap_Acct) "
 			+ "SELECT p.M_Product_ID, acct.C_AcctSchema_ID,"
 			+ " p.AD_Client_ID, p.AD_Org_ID, 'Y', SysDate, 0, SysDate, 0,"
 			+ " acct.P_Revenue_Acct, acct.P_Expense_Acct, acct.P_CostAdjustment_Acct, acct.P_InventoryClearing_Acct, acct.P_Asset_Acct, acct.P_CoGs_Acct,"
 			+ " acct.P_PurchasePriceVariance_Acct, acct.P_InvoicePriceVariance_Acct,"
-			+ " acct.P_TradeDiscountRec_Acct, acct.P_TradeDiscountGrant_Acct "
+			+ " acct.P_TradeDiscountRec_Acct, acct.P_TradeDiscountGrant_Acct, "
+			+ " acct.P_WIP_Acct, acct.P_FloorStock_Acct, acct.P_MethodChangeVariance_Acct, acct.P_UsageVariance_Acct, acct.P_RateVariance_Acct," 
+			+ " acct.P_MixVariance_Acct, acct.P_Labor_Acct, acct.P_Burden_Acct, acct.P_CostOfProduction_Acct, acct.P_OutsideProcessing_Acct, acct.P_Overhead_Acct, acct.P_Scrap_Acct "
 			+ "FROM M_Product p"
 			+ " INNER JOIN M_Product_Category_Acct acct ON (acct.M_Product_Category_ID=p.M_Product_Category_ID)"
 			+ "WHERE acct.C_AcctSchema_ID=" + p_C_AcctSchema_ID			//	#

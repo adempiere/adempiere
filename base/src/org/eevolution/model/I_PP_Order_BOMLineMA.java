@@ -20,8 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_BOMLineMA
@@ -84,6 +83,15 @@ public interface I_PP_Order_BOMLineMA
 	  */
 	public BigDecimal getMovementQty();
 
+    /** Column name PP_Order_BOMLineMA_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLineMA_ID = "PP_Order_BOMLineMA_ID";
+
+	/** Set Manufacturing Order BOM Line MA	  */
+	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID);
+
+	/** Get Manufacturing Order BOM Line MA	  */
+	public int getPP_Order_BOMLineMA_ID();
+
     /** Column name PP_Order_BOMLine_ID */
     public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
 
@@ -94,13 +102,4 @@ public interface I_PP_Order_BOMLineMA
 	public int getPP_Order_BOMLine_ID();
 
 	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
-
-    /** Column name PP_Order_BOMLineMA_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLineMA_ID = "PP_Order_BOMLineMA_ID";
-
-	/** Set Manufacturing Order BOM Line MA	  */
-	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID);
-
-	/** Get Manufacturing Order BOM Line MA	  */
-	public int getPP_Order_BOMLineMA_ID();
 }

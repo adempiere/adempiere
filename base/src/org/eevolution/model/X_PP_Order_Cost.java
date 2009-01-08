@@ -22,16 +22,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Workflow;
-import org.compiere.model.I_C_AcctSchema;
-import org.compiere.model.I_M_CostElement;
-import org.compiere.model.I_M_CostType;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 
 /** Generated Model for PP_Order_Cost
@@ -190,7 +181,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x"));
+		else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
+
+		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.

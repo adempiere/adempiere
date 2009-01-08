@@ -22,11 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_List
@@ -168,25 +164,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll List.
-		@param HR_List_ID Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID)
-	{
-		if (HR_List_ID < 1)
-			 throw new IllegalArgumentException ("HR_List_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
-	}
-
-	/** Get Payroll List.
-		@return Payroll List	  */
-	public int getHR_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_ListType.Table_Name);
@@ -218,6 +195,25 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	public int getHR_ListType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll List.
+		@param HR_List_ID Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID)
+	{
+		if (HR_List_ID < 1)
+			 throw new IllegalArgumentException ("HR_List_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
+	}
+
+	/** Get Payroll List.
+		@return Payroll List	  */
+	public int getHR_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -19,10 +19,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxBase
@@ -91,7 +88,10 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	public void setBase (String Base)
 	{
 
-		if (Base == null || Base.equals("C") || Base.equals("P") || Base.equals("Q")); else throw new IllegalArgumentException ("Base Invalid value - " + Base + " - Reference_ID=53240 - C - P - Q");		set_Value (COLUMNNAME_Base, Base);
+		if (Base == null || Base.equals("C") || Base.equals("P") || Base.equals("Q"));
+		else throw new IllegalArgumentException ("Base Invalid value - " + Base + " - Reference_ID=53240 - C - P - Q");
+
+		set_Value (COLUMNNAME_Base, Base);
 	}
 
 	/** Get Base.
