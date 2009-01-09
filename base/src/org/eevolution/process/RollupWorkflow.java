@@ -154,12 +154,14 @@ public class RollupWorkflow extends SvrProcess
 				node.setCost(Env.ZERO);
 			}
 			
-			BigDecimal m_cost = Env.ZERO;
+			BigDecimal labor = Env.ZERO;
+			BigDecimal burden = Env.ZERO;
 			MCost[]  costs = MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, product.getM_Product_ID(), p_M_CostType_ID, p_C_AcctSchema_ID , get_TrxName());            
 			for (MCost cost : costs)
 			{	
 					MCostElement element = cost.getCostElement();
-					if(element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource) || element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
+					if(element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource) 
+					|| element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
 					{					
 
 						for (MWFNode node : nodes)
@@ -169,12 +171,12 @@ public class RollupWorkflow extends SvrProcess
 							if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
 							{ 
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_Resource ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());
-								m_cost = m_cost.add(nodeCost);
+								labor = labor.add(nodeCost);
 							}
 							else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
 							{                                    
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_BurdenMOverhead ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());                                 
-								m_cost = m_cost.add(nodeCost);
+								burden = burden.add(nodeCost);
 							}
 							if(nodeCost.signum() != 0)
 							{	
@@ -182,22 +184,23 @@ public class RollupWorkflow extends SvrProcess
 								node.saveEx();
 							}
 						}
-					// check if element cost is of type Labor
-					if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
-					{  
-						log.info("Product:"+product.getName()+" Labor: " + m_cost);                                
-						cost.setCurrentCostPrice(m_cost);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
-					{                                    
-						log.info("Product:"+product.getName()+" Burden: " + m_cost);                                   
-						cost.setCurrentCostPrice(m_cost);
-						cost.saveEx();
-					}
+						// check if element cost is of type Labor
+						if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
+						{  
+							log.info("Product:"+product.getName()+" Labor: " + labor);                                
+							cost.setCurrentCostPrice(labor);
+							cost.saveEx();
+						}
+						else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
+						{                                    
+							log.info("Product:"+product.getName()+" Burden: " + burden);                                   
+							cost.setCurrentCostPrice(burden);
+							cost.saveEx();
+						}
 				}
 			}
-			workflow.setCost(workflow.getCost().add(m_cost));
+			workflow.setCost(labor.add(burden));
+			workflow.saveEx(get_TrxName());
 				
 		}                               
 		return "@OK@";
