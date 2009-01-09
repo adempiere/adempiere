@@ -3655,4 +3655,5 @@ UPDATE A_Asset a SET (Name, Description)=(SELECT SUBSTR((SELECT bp.Name FROM C_B
 UPDATE PP_Product_BOM SET Name='Assembly Front Leg', Value='PFrontLeg',Updated=TO_DATE('2009-01-07 12:27:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE PP_Product_BOM_ID=50003
 ;
 
-DELETE FROM M_Cost WHERE AD_Org_ID >0 ;
+DELETE FROM M_Cost WHERE AD_Org_ID >0 AND AD_Client_ID < 1000000
+;
