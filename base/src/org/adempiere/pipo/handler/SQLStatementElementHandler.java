@@ -56,7 +56,7 @@ public class SQLStatementElementHandler extends AbstractElementHandler {
 				pstmt.executeUpdate();
 				log.info("Executed SQL Statement for Oracle: "+ atts.getValue("statement"));
 			}
-			else if(DB.isPostgreSQL() == true && DBType.equals("PostgreSQL")){
+			else if(DB.isPostgreSQL() == true && DBType.equals("Postgres")){
 				// Avoid convert layer - command specific for postgresql
 				//
 				// pstmt = DB.prepareStatement(sql, null);					
