@@ -29,6 +29,7 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
@@ -40,6 +41,7 @@ import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflow;
 
@@ -367,10 +369,16 @@ public class MPPMRP extends X_PP_MRP
 			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 			if (order == null)
 			{
-				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+"=?"
+				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+"=? "
+							   +" OR  "+MPPProductBOM.COLUMNNAME_BOMType+"=? "
+							   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
 							   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
 				MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause, null)
-							.setParameters(new Object[]{MPPProductBOM.BOMTYPE_Make_To_Order, ol.getM_Product_ID()})
+							.setParameters(new Object[]{
+									MPPProductBOM.BOMTYPE_Make_To_Order, 
+									MPPProductBOM.BOMTYPE_Make_To_Kit, 
+									MPPProductBOM.BOMUSE_Manufacturing,
+									ol.getM_Product_ID()})
 							.firstOnly();	
 				
 				MPPProductPlanning pp = null;
@@ -382,6 +390,10 @@ public class MPPMRP extends X_PP_MRP
 					{	
 						bom = (MPPProductBOM) pp.getPP_Product_BOM();
 						if(bom != null && !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType()))
+						{
+							bom = null;
+						}
+						if(bom != null && !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()))
 						{
 							bom = null;
 						}
@@ -402,7 +414,12 @@ public class MPPMRP extends X_PP_MRP
 					{
 						int duration = MPPMRP.getDays(ol.getCtx(), plant_id, workflow.get_ID(), ol.getQtyOrdered(), ol.get_TrxName()).intValue();
 						//
-						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());                                     
+						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
+						order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+								+ " "
+								+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
+								+ " : "
+								+ o.getDocumentNo());
 						order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
 						order.setS_Resource_ID(plant_id);
 						order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
@@ -420,7 +437,8 @@ public class MPPMRP extends X_PP_MRP
 						order.setQty(ol.getQtyOrdered());
 						order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
 						order.saveEx();  
-						order.prepareIt(); 
+						order.setDocStatus(order.prepareIt());
+						order.setDocAction(MPPOrder.ACTION_Complete);
 						order.saveEx();
 					}
 				}    

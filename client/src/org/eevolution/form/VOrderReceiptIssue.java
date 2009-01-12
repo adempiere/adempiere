@@ -196,7 +196,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	/**
 	 *	Fill Picks
 	 *		Column_ID from C_Order
-	 *	This is only run as part of the windows initialisation process
+	 *	This is only run as part of the windows initialization process
 	 *  @throws Exception if Lookups cannot be initialized
 	 */
 	private void fillPicks() throws Exception {
@@ -423,10 +423,10 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		northPanel.add(attribute, new GridBagConstraints(5, 7, 1, 1, 0.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 				new Insets(5, 5, 5, 5), 0, 0));
-		northPanel.add(backflushGroupLabel, new GridBagConstraints(4, 5, 1, 1, 0.0, 0.0,
+		northPanel.add(backflushGroupLabel, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.NONE,
 				new Insets(5, 5, 5, 5), 0, 0));
-		northPanel.add(backflushGroup, new GridBagConstraints(5, 5, 1, 1, 0.0, 0.0,
+		northPanel.add(backflushGroup, new GridBagConstraints(3, 5, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
 				new Insets(5, 5, 5, 5), 0, 0));
 
@@ -664,10 +664,12 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				IDColumn   id                    = new IDColumn(rs.getInt(1));
 				BigDecimal qtyBom                = rs.getBigDecimal(15);
 				Boolean    isQtyPercentage       = rs.getString(16).equals("Y");
+				Boolean    isCritical	         = rs.getString(2).equals("Y");
 				BigDecimal qtyBatch              = rs.getBigDecimal(17);
 				BigDecimal qtyRequired           = rs.getBigDecimal(8);
 				BigDecimal qtyOnHand             = rs.getBigDecimal(11);
 				BigDecimal qtyOpen               = rs.getBigDecimal(19);
+				BigDecimal qtyDelivered          = rs.getBigDecimal(20);
 				String     componentType         = rs.getString(18);
 				BigDecimal toDeliverQty          = getToDeliverQty();
 				BigDecimal openQty               = getOpenQty();
@@ -680,13 +682,14 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				id.setSelected(isOnlyReceipt());
 
 				issue.setValueAt(id, row, 0);                                                // PP_OrderBOMLine_ID
-				issue.setValueAt(rs.getString(2).equals("Y"), row, 1);                       // IsCritical
+				issue.setValueAt(isCritical, row, 1);                       				 // IsCritical
 				issue.setValueAt(rs.getString(3), row, 2);                                   // Product's Search key
 				issue.setValueAt(new KeyNamePair(rs.getInt(4), rs.getString(5)), row, 3);    // Product
 				issue.setValueAt(new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4);    // UOM
 				// ... 5 - ASI
 				issue.setValueAt(qtyRequired, row, 6);                                       // QtyRequiered
-				issue.setValueAt(rs.getBigDecimal(20), row, 7);                              // QtyDelivered
+				issue.setValueAt(qtyDelivered, row, 7);                              		 // QtyDelivered
+				
 				// ... 8, 9, 10 - QtyToDeliver, QtyScrap, QtyOnHand
 				issue.setValueAt(qtyOnHand, row, 10);                                        // OnHand
 				issue.setValueAt(rs.getBigDecimal(9), row, 11);                              // QtyReserved
@@ -710,22 +713,25 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 
 						if (isBackflush())
 						{ // Is Backflush - Calculate Component from Qty To Deliver
-							if (qtyRequired.signum() == 0)
+							if (qtyRequired.signum() == 0 || qtyOpen.signum() == 0)
 							{
 								componentToDeliverQty = Env.ZERO;
 							}
 							else
 							{
 								componentToDeliverQty = toDeliverQty.multiply(qtyBatchPerc);
+								
+								if(qtyRequired.subtract(qtyDelivered).signum() < 0 | componentToDeliverQty.signum() == 0)
+									componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
+								
 							}
 
 							if (componentToDeliverQty.signum() != 0)
 							{
 								// TODO: arhipac: teo_sarca: is this a bug ? ...instead of toDeliverQty, qtyRequired should be used!
-								componentQtyReq = toDeliverQty.multiply(qtyBatchPerc); // TODO: set scale 4
+								//componentQtyReq = toDeliverQty.multiply(qtyBatchPerc); // TODO: set scale 4
 								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
-
-								issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc), row, 6); //  QtyRequiered
+								//issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc), row, 6); //  QtyRequiered
 								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
 
 							}
@@ -974,11 +980,25 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				createIssue();
 			}
 			if (isOnlyReceipt() || isBackflush()) {
-				createReceipt();
+				
+				boolean isCloseDocument = ADialog.ask(m_WindowNo, this,
+						Msg.translate(Env.getCtx(), "IsCloseDocument"),
+						Msg.translate(Env.getCtx(), "DocumentNo") + getPP_Order().getDocumentNo());
+						
+				MPPOrder.createReceipt(this.getPP_Order(),
+						getMovementDate(),
+						getDeliveredQty(),
+						getToDeliverQty(), 
+						getScrapQty(),
+						getRejectQty(),
+						getM_Locator_ID(),
+						getM_AttributeSetInstance_ID(),
+						isCloseDocument,
+						null);
 			}
-			ADialog.info(m_WindowNo, this,
-					Msg.translate(Env.getCtx(), "OnlyReceipt"),
-					Msg.translate(Env.getCtx(), "DocumentNo") + getPP_Order().getDocumentNo());
+			//ADialog.info(m_WindowNo, this,
+			//		Msg.translate(Env.getCtx(), "OnlyReceipt"),
+			//		Msg.translate(Env.getCtx(), "DocumentNo") + getPP_Order().getDocumentNo());
 		}
 		catch (Exception e) {
 			ADialog.error(m_WindowNo, this, e.getLocalizedMessage());
@@ -993,60 +1013,27 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		Timestamp movementDate = getMovementDate();
 		Timestamp minGuaranteeDate = movementDate;
 		boolean isCompleteQtyDeliver = false;
-
-		//
+		
+		ArrayList[][] m_issue = new ArrayList[issue.getRowCount()][1];
+		
+		int row = 0;
 		// Check Available On Hand Qty 
 		for (int i = 0; i < issue.getRowCount(); i++)
 		{
-			IDColumn id = (IDColumn) issue.getValueAt(i, 0);
-			if (id == null || !id.isSelected())
-			{
-				continue;
-			}
-
-			KeyNamePair productkey = (KeyNamePair) issue.getValueAt(i, 3);
-			int product_ID = productkey.getKey();
-			BigDecimal qtyToDeliver = getValueBigDecimal(i, 8);
-			BigDecimal qtyScrapComponent = getValueBigDecimal(i, 9);
-
-			MStorage[] storages = getStorages(product_ID, getPP_Order().getM_AttributeSetInstance_ID(), minGuaranteeDate);
+			ArrayList<Object> data = new ArrayList<Object>();
 			
-			int M_AttributeSetInstance_ID = ANY_ASI;
-			if (issue.getValueAt(i, 2) == null && id.isSelected())
-			{
-				M_AttributeSetInstance_ID = (Integer)id.getRecord_ID();
-			}
-			if (M_AttributeSetInstance_ID == ANY_ASI)
-			{
-				BigDecimal toIssue = qtyToDeliver.add(qtyScrapComponent);
-				for (MStorage storage : storages) {
-					//	TODO Selection of ASI
-
-					if (storage.getQtyOnHand().signum() == 0)
-						continue;
-					BigDecimal issueActual = toIssue.min(storage.getQtyOnHand());
-					toIssue = toIssue.subtract(issueActual);
-					if (toIssue.signum() <= 0)
-						break;
-				}
-			}
-			else
-			{
-				BigDecimal qtydelivered = qtyToDeliver;
-				qtydelivered.setScale(4, BigDecimal.ROUND_HALF_UP);
-				qtydelivered = Env.ZERO;
-			}
-
-			BigDecimal onHand = Env.ZERO;
-			for (MStorage storage : storages)
-			{
-				onHand = onHand.add(storage.getQtyOnHand());
-			}
-
-			isCompleteQtyDeliver = onHand.compareTo(qtyToDeliver.add(qtyScrapComponent)) >= 0;
-			if (!isCompleteQtyDeliver)
-				break;
-		} // for each line
+			data.add(issue.getValueAt  (i, 0)); //0 - ID
+			data.add(issue.getValueAt  (i, 1)); //1 - IsCritical
+			data.add(issue.getValueAt  (i, 2)); //2 - Value
+			data.add(issue.getValueAt  (i, 3)); //3 - KeyNamePair Product
+			data.add(getValueBigDecimal(i, 8)); //4 - QtyToDeliver			
+			data.add(getValueBigDecimal(i, 9)); //5 - QtyScrapComponent
+			
+			m_issue[row][0] = data;
+			row ++ ;
+		}	
+		
+		isCompleteQtyDeliver = MPPOrder.isAvailableQty(getPP_Order(), m_issue , minGuaranteeDate);
 
 		if (!isCompleteQtyDeliver)
 		{
@@ -1054,217 +1041,54 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			throw new AdempiereException("@NoQtyAvailable@");
 		}
 
-		//
-		// Issue Qty
-		for (int ok = 0; ok < issue.getRowCount(); ok++)
+		for(int i = 0; i < m_issue.length; i++ )
 		{
-			IDColumn id = (IDColumn) issue.getValueAt(ok, 0);
-			if (id == null || !id.isSelected()) {
+			IDColumn id = (IDColumn) m_issue[i][0].get(0);
+			if (id == null || !id.isSelected())
+			{
 				continue;
 			}
 
-			KeyNamePair m_productkey = (KeyNamePair) issue.getValueAt(ok, 3);
-			int m_M_Product_ID = m_productkey.getKey();
+			Boolean isCritical = (Boolean)m_issue[i][0].get(1);
+			String value = (String)m_issue[i][0].get(2);
+			KeyNamePair productkey = (KeyNamePair) m_issue[i][0].get(3);			
+			int M_Product_ID = productkey.getKey();
 
 			int PP_Order_BOMLine_ID = 0;
 			int M_AttributeSetInstance_ID = ANY_ASI;
-			if (issue.getValueAt(ok, 2) == null && id.isSelected()) {
-				M_AttributeSetInstance_ID = (Integer) id.getRecord_ID();
 
-				String sql = "SELECT PP_Order_BOMLine_ID FROM PP_Order_BOMLine"
-					+" WHERE M_Product_ID=? AND PP_Order_ID=?";
-				PP_Order_BOMLine_ID = DB.getSQLValue(null, sql, m_M_Product_ID, getPP_Order_ID());
-			}
-			else if (issue.getValueAt(ok, 2) != null && id.isSelected()) {
-				PP_Order_BOMLine_ID = ((Integer) id.getRecord_ID());
-			}
+			BigDecimal qtyToDeliver = (BigDecimal) m_issue[i][0].get(4);	
+			BigDecimal qtyScrapComponent = (BigDecimal) m_issue[i][0].get(5);	
 
-			BigDecimal m_qtyToDeliver = getValueBigDecimal(ok, 8);
-			BigDecimal m_scrapQtyComponent = getValueBigDecimal(ok, 9);
-
-			BigDecimal onHand = Env.ZERO;
-			MStorage[] storages = getStorages(m_M_Product_ID, M_AttributeSetInstance_ID, minGuaranteeDate);
-			for (MStorage storage : storages) {
-				onHand = onHand.add(storage.getQtyOnHand());
-			}                              
-
-			createIssue(PP_Order_BOMLine_ID, movementDate,
-					m_qtyToDeliver, m_scrapQtyComponent,
-					Env.ZERO, storages);
-		}
-	}
-
-	private void createReceipt()
-	{
-		MPPOrder pp_order = getPP_Order();
-		Timestamp movementDate = getMovementDate();
-		BigDecimal toDeliverQty = getToDeliverQty();
-		BigDecimal scrapQty = getScrapQty();
-		BigDecimal rejectQty = getRejectQty();
-
-		if (toDeliverQty.signum() > 0 || scrapQty.signum() > 0 || rejectQty.signum() > 0)
-		{
-			createCollector(pp_order.getM_Product_ID(),
-					getM_Locator_ID(),
-					getM_AttributeSetInstance_ID(),
-					movementDate,
-					toDeliverQty, scrapQty, rejectQty,
-					getDocType(MDocType.DOCBASETYPE_ManufacturingOrder),
-					0, // PP_Order_BOMLine_ID
-					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt);
-		}
-
-		if (ADialog.ask(m_WindowNo, this,
-				Msg.translate(Env.getCtx(), "IsCloseDocument"),
-				Msg.translate(Env.getCtx(), "DocumentNo") + pp_order.getDocumentNo())
-		)
-		{
-			pp_order.setDateFinish(movementDate);
-			pp_order.closeIt();
-			pp_order.saveEx();
-		}
-
-		pp_order.setDateDelivered(movementDate);
-		if (pp_order.getDateStart() == null)
-		{
-			pp_order.setDateStart(movementDate);
-		}
-
-		BigDecimal DQ = getDeliveredQty();
-		BigDecimal SQ = getScrapQty();
-		BigDecimal OQ = getToDeliverQty();
-		if (DQ.add(SQ).compareTo(OQ) >= 0)
-		{
-			pp_order.setDateFinish(movementDate);
-		}
-
-		pp_order.saveEx();
-
-	}
-
-	/**
-	 * Create Issue
-	 * @param PP_OrderBOMLine_ID
-	 * @param movementdate
-	 * @param qty
-	 * @param qtyScrap
-	 * @param qtyReject
-	 * @param storages
-	 */
-	private void createIssue(int PP_OrderBOMLine_ID,
-			Timestamp movementdate,
-			BigDecimal qty, BigDecimal qtyScrap, BigDecimal qtyReject,
-			MStorage[] storages)
-	{
-		if (qty.signum() == 0)
-			return;
-
-		BigDecimal toIssue = qty.add(qtyScrap);
-		for (MStorage storage : storages)
-		{
-			//	TODO Selection of ASI
-
-			if (storage.getQtyOnHand().signum() == 0)
-				continue;
-
-			BigDecimal issue = toIssue.min(storage.getQtyOnHand());
-			log.fine("ToIssue: " + issue);
-			MPPOrderBOMLine PP_orderbomLine = new MPPOrderBOMLine(Env.getCtx(), PP_OrderBOMLine_ID, null);
-			if (issue.signum() > 0 || qtyScrap.signum() > 0 || qtyReject.signum() > 0)
+			MProduct product = MProduct.get(getPP_Order().getCtx(), M_Product_ID);
+			if (product != null && product.get_ID() != 0 && product.isStocked()) 
 			{
-				String CostCollectorType = null;
-				int C_DocType_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder);
-				// Method Variance
-				if (PP_orderbomLine.getQtyBatch().signum() == 0
-						&& PP_orderbomLine.getQtyBOM().signum() == 0)
-				{
-					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance;
-				}
-				// Order Issue
-				else
-				{
-					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue;
-				}
-				//
-				createCollector (
-						PP_orderbomLine.getM_Product_ID(),
-						storage.getM_Locator_ID(),
-						storage.getM_AttributeSetInstance_ID(),
-						movementdate,
-						issue, qtyScrap, qtyReject,
-						C_DocType_ID,
-						PP_OrderBOMLine_ID,
-						CostCollectorType // Production "-"
-				);
 
+				if (value == null && id.isSelected()) 
+				{
+					M_AttributeSetInstance_ID = (Integer) id.getRecord_ID();
+					//TODO: vpj-cd What happen when a product it more the time in Order
+					String sql = "SELECT PP_Order_BOMLine_ID FROM PP_Order_BOMLine"
+						+" WHERE M_Product_ID=? AND PP_Order_ID=?";
+					PP_Order_BOMLine_ID = DB.getSQLValue(null, sql, M_Product_ID, getPP_Order_ID());
+				}
+				else if (value != null && id.isSelected()) 
+				{
+					PP_Order_BOMLine_ID = ((Integer) id.getRecord_ID());
+				}
+
+				MStorage[] storages = MPPOrder.getStorages(
+						M_Product_ID,
+						getPP_Order().getM_Warehouse_ID(),
+						M_AttributeSetInstance_ID,
+						getPP_Order().getM_AttributeSetInstance_ID(),
+						ANY_ASI, minGuaranteeDate);
+
+				MPPOrder.createIssue(getPP_Order(),PP_Order_BOMLine_ID, movementDate,
+						qtyToDeliver, qtyScrapComponent,
+						Env.ZERO, storages , null);
 			}
-
-			toIssue = toIssue.subtract(issue);
-			if (toIssue.signum() == 0)
-				break;  
-		}
-		//
-		if (toIssue.signum() != 0)
-		{
-			// should not happen because we validate Qty On Hand on start of this process
-			throw new AdempiereException("Should not happen toIssue="+toIssue);
-		}
-	}
-
-	private void createCollector (
-			int M_Product_ID,
-			int M_Locator_ID,
-			int M_AttributeSetInstance_ID,
-			Timestamp movementdate,
-			BigDecimal qty,
-			BigDecimal scrap,
-			BigDecimal reject,
-			int C_DocType_ID,
-			int PP_Order_BOMLine_ID,
-			String CostCollectorType
-	)
-	{
-		MPPOrder pp_order = getPP_Order();
-		MPPCostCollector PP_Cost_Collector = new MPPCostCollector(Env.getCtx(), 0, null);
-		PP_Cost_Collector.setPP_Order_ID(pp_order.getPP_Order_ID());
-		PP_Cost_Collector.setPP_Order_BOMLine_ID(PP_Order_BOMLine_ID);
-		PP_Cost_Collector.setAD_OrgTrx_ID(pp_order.getAD_OrgTrx_ID());
-		PP_Cost_Collector.setC_Activity_ID(pp_order.getC_Activity_ID());
-		PP_Cost_Collector.setC_Campaign_ID(pp_order.getC_Campaign_ID());
-		PP_Cost_Collector.setC_DocType_ID(C_DocType_ID);
-		PP_Cost_Collector.setC_DocTypeTarget_ID(C_DocType_ID);
-		PP_Cost_Collector.setCostCollectorType(CostCollectorType);
-		PP_Cost_Collector.setC_Project_ID(pp_order.getC_Project_ID());
-		PP_Cost_Collector.setDescription(pp_order.getDescription());
-		PP_Cost_Collector.setDocAction(MPPCostCollector.ACTION_Complete);
-		PP_Cost_Collector.setDocStatus(MPPCostCollector.DOCSTATUS_Drafted);
-		PP_Cost_Collector.setIsActive(true);
-		PP_Cost_Collector.setM_Warehouse_ID(pp_order.getM_Warehouse_ID());
-		PP_Cost_Collector.setM_Locator_ID(M_Locator_ID);
-		PP_Cost_Collector.setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
-		PP_Cost_Collector.setS_Resource_ID(pp_order.getS_Resource_ID());
-		PP_Cost_Collector.setMovementDate(movementdate);
-		PP_Cost_Collector.setDateAcct(movementdate);
-		PP_Cost_Collector.setMovementQty(qty);
-		PP_Cost_Collector.setScrappedQty(scrap);
-		PP_Cost_Collector.setQtyReject(reject);
-		PP_Cost_Collector.setPosted(false);
-		PP_Cost_Collector.setProcessed(false);
-		PP_Cost_Collector.setProcessing(false);
-		PP_Cost_Collector.setUser1_ID(pp_order.getUser1_ID());
-		PP_Cost_Collector.setUser2_ID(pp_order.getUser2_ID());
-		PP_Cost_Collector.setM_Product_ID(M_Product_ID);
-		PP_Cost_Collector.saveEx();
-		if (!PP_Cost_Collector.processIt(MPPCostCollector.DOCACTION_Complete)) {
-			throw new AdempiereException(PP_Cost_Collector.getProcessMsg());
-		}
-		PP_Cost_Collector.saveEx();
-	}
-
-	private int getDocType(String DocBaseType)
-	{
-		MDocType[] doc = MDocType.getOfDocBaseType(Env.getCtx(), DocBaseType);
-		return doc.length > 0 ? doc[0].get_ID() : 0;
+		}	
 	}
 
 	/**
@@ -1324,7 +1148,12 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 					{ 
 						Timestamp m_movementDate = getMovementDate();
 						Timestamp minGuaranteeDate = m_movementDate;
-						MStorage[] storages = getStorages(m_M_Product_ID, getPP_Order().getM_AttributeSetInstance_ID(), minGuaranteeDate);
+						MStorage[] storages =  MPPOrder.getStorages(
+								m_M_Product_ID,
+								getPP_Order().getM_Warehouse_ID(),
+								0,
+								getPP_Order().getM_AttributeSetInstance_ID(),
+								ANY_ASI, minGuaranteeDate);
 
 						BigDecimal todelivery = getValueBigDecimal(i, 8); //QtyOpen
 						BigDecimal scrap = getValueBigDecimal(i, 9); //QtyScrap
@@ -1620,28 +1449,6 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	public void tableChanged(TableModelEvent e) {
 	}
 	public void unlockUI(org.compiere.process.ProcessInfo processInfo) {
-	}
-
-	private MStorage[] getStorages(int m_M_Product_ID, int M_ASI_ID, Timestamp minGuaranteeDate)
-	{
-		Properties ctx = Env.getCtx();
-		MProduct product = MProduct.get(ctx, m_M_Product_ID);
-		if (product != null && product.get_ID() != 0 && product.isStocked()) {
-			String MMPolicy = product.getMMPolicy();
-			return MStorage.getWarehouse(ctx,
-					m_PP_order.getM_Warehouse_ID(),
-					m_M_Product_ID,
-					M_ASI_ID == ANY_ASI ? m_PP_order.getM_AttributeSetInstance_ID() : M_ASI_ID,
-					product.getM_AttributeSet_ID(),
-					true, // all attribute set instances
-					minGuaranteeDate,
-					MClient.MMPOLICY_FiFo.equals(MMPolicy),
-					null // no trx
-			);
-		}
-		else {
-			return new MStorage[0];
-		}
 	}
 
 	private BigDecimal getValueBigDecimal(int row, int col) {

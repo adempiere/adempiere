@@ -98,6 +98,8 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	public static final String BOMTYPE_Repair = "R";
 	/** Product Configure = C */
 	public static final String BOMTYPE_ProductConfigure = "C";
+	/** Make-To-Kit = K */
+	public static final String BOMTYPE_Make_To_Kit = "K";
 	/** Set BOM Type.
 		@param BOMType 
 		Type of BOM
@@ -105,8 +107,8 @@ public class X_PP_Order_BOM extends PO implements I_PP_Order_BOM, I_Persistent
 	public void setBOMType (String BOMType)
 	{
 
-		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C"));
-		else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C");
+		if (BOMType == null || BOMType.equals("A") || BOMType.equals("O") || BOMType.equals("P") || BOMType.equals("S") || BOMType.equals("F") || BOMType.equals("M") || BOMType.equals("R") || BOMType.equals("C") || BOMType.equals("K"));
+		else throw new IllegalArgumentException ("BOMType Invalid value - " + BOMType + " - Reference_ID=347 - A - O - P - S - F - M - R - C - K");
 
 		set_Value (COLUMNNAME_BOMType, BOMType);
 	}

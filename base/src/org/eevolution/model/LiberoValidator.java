@@ -176,32 +176,60 @@ public class LiberoValidator implements ModelValidator
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
+		if(po instanceof MInOut && timing == TIMING_BEFORE_COMPLETE)
+		{
+			MInOut inout = (MInOut)po;
+			if(inout.isSOTrx())
+			{
+				   final String whereClause = "C_OrderLine_ID IS NOT NULL AND EXISTS ( SELECT 1 FROM C_OrderLine ol , M_InOutLine iol WHERE ol.C_OrderLine_ID=iol.C_OrderLine_ID  AND iol.M_InOut_ID=? )";	   
+				   Collection<MPPOrder> orders = new Query(po.getCtx(), MPPOrder.Table_Name, whereClause, po.get_TrxName())
+				   						.setParameters(new Object[]{inout.getM_InOut_ID()})
+				   						.list();
+				   for(MPPOrder order : orders)
+				   {	   
+					   String description = order.getDescription() !=  null ?  order.getDescription() : ""
+						   					+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_M_InOut_ID) 
+					   						+ " : " 
+					   						+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_DocumentNo);
+					 
+					   order.setDescription(description);
+					   order.closeIt();
+					   order.setDocStatus(MPPOrder.DOCACTION_Close);
+					   order.setDocAction(MPPOrder.DOCACTION_None);
+					   order.saveEx();					   
+				   }
+				} 						
+			}
+			else
+			{	
+		}
 		if (po instanceof MInOut && timing == TIMING_AFTER_COMPLETE)
 		{
 			MInOut inout = (MInOut)po;
-			for (MInOutLine line : inout.getLines())
-			{
-				String whereClause = "C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
-				Collection<MOrderLine> olines = new Query(po.getCtx(), MOrderLine.Table_Name, whereClause, po.get_TrxName())
-													.setParameters(new Object[]{line.getC_OrderLine_ID()})
-													.list();
-				for (MOrderLine oline : olines)
+			
+				for (MInOutLine line : inout.getLines())
 				{
-					if(oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
-					{	
-						MPPCostCollector cc = new MPPCostCollector(po.getCtx(), oline.getPP_Cost_Collector_ID(), po.get_TrxName());
-						String docStatus = cc.completeIt();
-						cc.setDocStatus(docStatus);
-						cc.setDocAction(MPPCostCollector.DOCACTION_Close);
-						cc.saveEx();
-						return Msg.translate(po.getCtx(), "PP_Order_ID")
-									+":"+cc.getPP_Order().getDocumentNo()
-									+Msg.translate(po.getCtx(),"PP_Order_Node_ID")
-									+":"+cc.getPP_Order_Node().getValue();
+					final String whereClause = "C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
+					Collection<MOrderLine> olines = new Query(po.getCtx(), MOrderLine.Table_Name, whereClause, po.get_TrxName())
+														.setParameters(new Object[]{line.getC_OrderLine_ID()})
+														.list();
+					for (MOrderLine oline : olines)
+					{
+						if(oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
+						{	
+							MPPCostCollector cc = new MPPCostCollector(po.getCtx(), oline.getPP_Cost_Collector_ID(), po.get_TrxName());
+							String docStatus = cc.completeIt();
+							cc.setDocStatus(docStatus);
+							cc.setDocAction(MPPCostCollector.DOCACTION_Close);
+							cc.saveEx();
+							return Msg.translate(po.getCtx(), "PP_Order_ID")
+										+":"+cc.getPP_Order().getDocumentNo()
+										+Msg.translate(po.getCtx(),"PP_Order_Node_ID")
+										+":"+cc.getPP_Order_Node().getValue();
+						}
 					}
 				}
 			}
-		}
 		return null;
 	}	//	docValidate
 	

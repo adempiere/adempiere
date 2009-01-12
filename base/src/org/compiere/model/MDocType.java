@@ -36,6 +36,17 @@ import org.compiere.util.Env;
 public class MDocType extends X_C_DocType
 {
 	/**
+	 * Return the first Doc Type for this BaseType
+	 * @param DocBaseType
+	 * @return
+	 */
+	static public int getDocType(String DocBaseType)
+	{
+		MDocType[] doc = MDocType.getOfDocBaseType(Env.getCtx(), DocBaseType);
+		return doc.length > 0 ? doc[0].get_ID() : 0;
+	}
+	
+	/**
 	 * 	Get Client Document Type with DocBaseType
 	 *	@param ctx context
 	 *	@param DocBaseType base document type

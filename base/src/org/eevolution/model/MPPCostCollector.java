@@ -854,7 +854,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			//
 			// If Product is not Purchased or is not Service, then it is not a subcontracting candidate [SKIP]
 			MProduct product = MProduct.get(getCtx(), subcontract.getM_Product_ID());
-			if(!product.isPurchased() && MProduct.PRODUCTTYPE_Service.equals(product.getProductType()))
+			if(!product.isPurchased() || !MProduct.PRODUCTTYPE_Service.equals(product.getProductType()))
 				continue;
 
 			//
