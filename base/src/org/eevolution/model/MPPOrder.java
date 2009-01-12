@@ -27,7 +27,6 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
-import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
@@ -657,7 +656,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			
 			for(int i = 0; i < issue.length; i++ )
 			{
-				IDColumn id = (IDColumn) issue[i][0].get(0);
+				KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
 				Boolean isCritical = (Boolean) issue[i][0].get(1);
 				String value = (String)issue[i][0].get(2);
 				KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
@@ -674,7 +673,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				
 				MPPOrder.createIssue(
 						this, 
-						id.getRecord_ID(), 
+						key.getKey(), 
 						today, qtyToDeliver,
 						qtyScrapComponent, 
 						Env.ZERO, 
