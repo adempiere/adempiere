@@ -347,8 +347,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 								getMovementType(), getM_Locator_ID(),
 								getM_Product_ID(), ma.getM_AttributeSetInstance_ID(), 
 								QtyMA, getMovementDate(), get_TrxName());                                                                                                           
-						mtrx.setPP_Order_ID(getPP_Order_ID());
-						mtrx.setPP_Order_BOMLine_ID(getPP_Order_BOMLine_ID());
+						mtrx.setPP_Cost_Collector_ID(getPP_Cost_Collector_ID());
 						mtrx.saveEx();
 					}
 				}
@@ -370,8 +369,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 							getMovementType(), getM_Locator_ID(),
 							getM_Product_ID(), getM_AttributeSetInstance_ID(),
 							Qty, getMovementDate(), get_TrxName());
-					mtrx.setPP_Order_ID(getPP_Order_ID());
-					mtrx.setPP_Order_BOMLine_ID(getPP_Order_BOMLine_ID());
+					mtrx.setPP_Cost_Collector_ID(getPP_Cost_Collector_ID());
 					mtrx.saveEx();
 				}										
 			}	//	stock movement
@@ -856,10 +854,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			//
 			// If Product is not Purchased or is not Service, then it is not a subcontracting candidate [SKIP]
 			MProduct product = MProduct.get(getCtx(), subcontract.getM_Product_ID());
-			if(product.isPurchased() && MProduct.PRODUCTTYPE_Service.equals(product.getProductType()))
-			{
+			if(!product.isPurchased() && MProduct.PRODUCTTYPE_Service.equals(product.getProductType()))
 				continue;
-			}
+
 			//
 			// Find Vendor and Product PO data
 			int C_BPartner_ID = activity.getC_BPartner_ID();

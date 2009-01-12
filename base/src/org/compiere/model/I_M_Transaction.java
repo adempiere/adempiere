@@ -143,45 +143,6 @@ public interface I_M_Transaction
 
 	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
-    /** Column name MovementType */
-    public static final String COLUMNNAME_MovementType = "MovementType";
-
-	/** Set Movement Type.
-	  * Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType);
-
-	/** Get Movement Type.
-	  * Method of moving the inventory
-	  */
-	public String getMovementType();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -221,25 +182,53 @@ public interface I_M_Transaction
 	/** Get Inventory Transaction	  */
 	public int getM_Transaction_ID();
 
-    /** Column name PP_Order_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
 
-	/** Set Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
 
-	/** Get Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID();
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
 
-    /** Column name PP_Order_ID */
-    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
 
-	/** Set Manufacturing Order	  */
-	public void setPP_Order_ID (int PP_Order_ID);
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
 
-	/** Get Manufacturing Order	  */
-	public int getPP_Order_ID();
+    /** Column name MovementType */
+    public static final String COLUMNNAME_MovementType = "MovementType";
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+	/** Set Movement Type.
+	  * Method of moving the inventory
+	  */
+	public void setMovementType (String MovementType);
+
+	/** Get Movement Type.
+	  * Method of moving the inventory
+	  */
+	public String getMovementType();
+
+    /** Column name PP_Cost_Collector_ID */
+    public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
+
+	/** Set Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID);
+
+	/** Get Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID();
+
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
 }
