@@ -24,11 +24,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Vector;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
-import org.compiere.apps.ADialog;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
@@ -629,12 +627,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			for (int i = 0; i < getLines().length ; i++)
 			{
 				MPPOrderBOMLine line =  m_lines[i];
-				IDColumn id = new IDColumn(line.get_ID());
+				
+				KeyNamePair id = null;
 				
 				if(MPPOrderBOMLine.ISSUEMETHOD_Backflush.equals(line.getIssueMethod()))
-					id.setSelected(true);
+					id = new KeyNamePair(line.get_ID(),"Y");
 				else
-					id.setSelected(false);
+					id = new KeyNamePair(line.get_ID(),"N");
 					
 					ArrayList<Object> data = new ArrayList<Object>();
 					
@@ -1252,8 +1251,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		for(int i = 0; i < issue.length; i++ )
 		{
-			IDColumn id = (IDColumn) issue[i][0].get(0);
-			if (id == null || !id.isSelected())
+			KeyNamePair key = (KeyNamePair) issue[i][0].get(1);
+			boolean isSelected = key.getName().equals("Y"); 
+			if (key == null || !isSelected)
 			{
 				continue;
 			}
@@ -1270,9 +1270,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (product != null && product.get_ID() != 0 && product.isStocked()) 
 			{
 				int M_AttributeSetInstance_ID = ANY_ASI;
-				if (value == null && id.isSelected())
+				if (value == null && isSelected)
 				{
-					M_AttributeSetInstance_ID = (Integer)id.getRecord_ID();
+					M_AttributeSetInstance_ID = (Integer)key.getKey();
 				}
 				
 				MStorage[] storages =  MPPOrder.getStorages(

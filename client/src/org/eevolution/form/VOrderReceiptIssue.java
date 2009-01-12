@@ -1021,8 +1021,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 		for (int i = 0; i < issue.getRowCount(); i++)
 		{
 			ArrayList<Object> data = new ArrayList<Object>();
-			
-			data.add(issue.getValueAt  (i, 0)); //0 - ID
+			IDColumn id = (IDColumn)issue.getValueAt  (i, 0);
+			KeyNamePair key = new KeyNamePair(id.getRecord_ID(),id.isSelected() ? "Y": "N");
+			data.add(key); //0 - ID
 			data.add(issue.getValueAt  (i, 1)); //1 - IsCritical
 			data.add(issue.getValueAt  (i, 2)); //2 - Value
 			data.add(issue.getValueAt  (i, 3)); //3 - KeyNamePair Product
@@ -1043,8 +1044,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 
 		for(int i = 0; i < m_issue.length; i++ )
 		{
-			IDColumn id = (IDColumn) m_issue[i][0].get(0);
-			if (id == null || !id.isSelected())
+			KeyNamePair key = (KeyNamePair) m_issue[i][0].get(1);
+			boolean isSelected = key.getName().equals("Y"); 
+			if (key == null || !isSelected)
 			{
 				continue;
 			}
@@ -1064,17 +1066,17 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			if (product != null && product.get_ID() != 0 && product.isStocked()) 
 			{
 
-				if (value == null && id.isSelected()) 
+				if (value == null && isSelected) 
 				{
-					M_AttributeSetInstance_ID = (Integer) id.getRecord_ID();
+					M_AttributeSetInstance_ID = (Integer) key.getKey();
 					//TODO: vpj-cd What happen when a product it more the time in Order
 					String sql = "SELECT PP_Order_BOMLine_ID FROM PP_Order_BOMLine"
 						+" WHERE M_Product_ID=? AND PP_Order_ID=?";
 					PP_Order_BOMLine_ID = DB.getSQLValue(null, sql, M_Product_ID, getPP_Order_ID());
 				}
-				else if (value != null && id.isSelected()) 
+				else if (value != null && isSelected) 
 				{
-					PP_Order_BOMLine_ID = ((Integer) id.getRecord_ID());
+					PP_Order_BOMLine_ID = ((Integer) key.getKey());
 				}
 
 				MStorage[] storages = MPPOrder.getStorages(
