@@ -606,7 +606,7 @@ public class POSProductManager extends ProductManager
     {
         MClient client = new MClient(ctx, Env.getAD_Client_ID(ctx), null);
        
-        MCostElement costElements[] = MCostElement.getCostingMethods(client);
+        MCostElement costElements[] = MCostElement.getMaterialCostingMethods(client);
         
         for(int i = 0; i < costElements.length; i++)
         {
