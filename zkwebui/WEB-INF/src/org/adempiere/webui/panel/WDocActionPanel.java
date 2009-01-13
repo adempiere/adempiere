@@ -77,8 +77,6 @@ public class WDocActionPanel extends Window implements EventListener
 		gridTab = mgridTab;
 		DocStatus = (String)gridTab.getValue("DocStatus");
 		DocAction = (String)gridTab.getValue("DocAction");
-		if(DocAction.equals("--"))
-			return;
 		
 		m_AD_Table_ID = Env.getContextAsInt(Env.getCtx(), gridTab.getWindowNo(), "BaseTable_ID");
 		
