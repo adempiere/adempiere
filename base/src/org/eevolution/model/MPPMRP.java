@@ -369,8 +369,7 @@ public class MPPMRP extends X_PP_MRP
 			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
 			if (order == null)
 			{
-				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+"=? "
-							   +" OR  "+MPPProductBOM.COLUMNNAME_BOMType+"=? "
+				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
 							   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
 							   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
 				MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause, null)
@@ -389,11 +388,9 @@ public class MPPMRP extends X_PP_MRP
 					if(pp != null)
 					{	
 						bom = (MPPProductBOM) pp.getPP_Product_BOM();
-						if(bom != null && !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType()))
-						{
-							bom = null;
-						}
-						if(bom != null && !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()))
+						if( bom != null
+							&& !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType())
+							&& !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()) )
 						{
 							bom = null;
 						}
