@@ -113,7 +113,7 @@ public class ADServiceImpl implements ADService {
 	
 	public boolean isLoggedIn() {
 		
-		return true;
+		return m_cs.isLoggedIn();
 	}
 	
 
@@ -446,7 +446,7 @@ public class ADServiceImpl implements ADService {
     			DataRow findDR = req.getFindCriteria();
     			MQuery currentQuery = ws.curTab.getQuery(); 	
     			MQuery newQuery = createQuery( ws.curTab.getTableName(), findDR );    			
-        		if  (findDR.getFieldArray().length>0) { //(!currentQuery.getWhereClause().equals( newQuery.getWhereClause() )) { // zmiana zapytania dla zak³adki
+        		if  (findDR.getFieldArray().length>0) { //(!currentQuery.getWhereClause().equals( newQuery.getWhereClause() )) { // zmiana zapytania dla zakï¿½adki
         			ws.curTab.setQuery(newQuery);	
         			//ws.curTab.query(ws.mWindow.isTransaction());
         			
@@ -1362,7 +1362,7 @@ public class ADServiceImpl implements ADService {
 		
 		ADLoginRequest r = req.getADLoginRequest();
 		
-		if (r.getStage()==0)  // faza pocz¹tkowa - podajemy mo¿liwe lokalizacje
+		if (r.getStage()==0)  // faza poczï¿½tkowa - podajemy moï¿½liwe lokalizacje
 		{
 			LookupValues langs = lr.addNewLangs();
 			for (int i = 0; i < Language.getLanguageCount(); i++)
