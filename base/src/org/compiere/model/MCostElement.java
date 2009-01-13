@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -85,6 +86,49 @@ public class MCostElement extends X_M_CostElement
 		if (retValue != null)
 			return retValue;
 		
+		if(CostingMethod.equals(MCostElement.COSTINGMETHOD_StandardCosting))
+		{
+			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+			retValue.setClientOrg(po.getAD_Client_ID(), 0);
+			String name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_Resource);
+			if (name == null || name.length() == 0)
+				name = CostingMethod;
+			retValue.setName(name);
+			retValue.setCostElementType(COSTELEMENTTYPE_Resource);
+			retValue.setCostingMethod(CostingMethod);
+			retValue.save();
+			
+			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+			retValue.setClientOrg(po.getAD_Client_ID(), 0);
+			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_BurdenMOverhead);
+			if (name == null || name.length() == 0)
+				name = "BurdenMOverhead";
+			retValue.setName(name);
+			retValue.setCostElementType(COSTELEMENTTYPE_BurdenMOverhead);
+			retValue.setCostingMethod(CostingMethod);
+			retValue.save();
+			
+			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+			retValue.setClientOrg(po.getAD_Client_ID(), 0);
+			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_Overhead);
+			if (name == null || name.length() == 0)
+				name = "Overhead";
+			retValue.setName(name);
+			retValue.setCostElementType(COSTELEMENTTYPE_Overhead);
+			retValue.setCostingMethod(CostingMethod);
+			retValue.save();
+			
+			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
+			retValue.setClientOrg(po.getAD_Client_ID(), 0);
+			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_OutsideProcessing);
+			if (name == null || name.length() == 0)
+				name = "OutsideProcessing";
+			retValue.setName(name);
+			retValue.setCostElementType(COSTELEMENTTYPE_OutsideProcessing);
+			retValue.setCostingMethod(CostingMethod);
+			retValue.save();
+		}
+		
 		//	Create New
 		retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
 		retValue.setClientOrg(po.getAD_Client_ID(), 0);
@@ -95,6 +139,7 @@ public class MCostElement extends X_M_CostElement
 		retValue.setCostElementType(COSTELEMENTTYPE_Material);
 		retValue.setCostingMethod(CostingMethod);
 		retValue.save();
+		
 		//
 		return retValue;
 	}	//	getMaterialCostElement
@@ -141,13 +186,25 @@ public class MCostElement extends X_M_CostElement
 		return retValue;
 	}	//	getMaterialCostElement
 	
+	/**
+	 * 	Get active Material Cost Element for client 
+	 *	@param po parent
+	 *	@return cost element array
+	 */
+	public static Collection<MCostElement> getCostElementToCostingMethods (PO po)
+	{
+		final String whereClause = "CostingMethod IS NOT NULL";
+		return new Query(po.getCtx(),MCostElement.Table_Name,whereClause,po.get_TrxName())
+		.setOnlyActiveRecords(true)
+		.list();
+	}	//	getCostElementCostingMethod	
 	
 	/**
 	 * 	Get active Material Cost Element for client 
 	 *	@param po parent
 	 *	@return cost element array
 	 */
-	public static MCostElement[] getCostingMethods (PO po)
+	public static MCostElement[] getMaterialCostingMethods (PO po)
 	{
 		ArrayList<MCostElement> list = new ArrayList<MCostElement>();
 		String sql = "SELECT * FROM M_CostElement "
@@ -267,6 +324,21 @@ public class MCostElement extends X_M_CostElement
 		MCostElement[] retValue = new MCostElement[list.size()];
 		list.toArray(retValue);
 		return retValue;	
+	}
+	
+	/**
+	 * Get All Cost Elements for current AD_Client_ID
+	 * @param ctx context
+	 * @param trxName transaction
+	 * @return array cost elements
+	 **/
+	public static Collection getByCostingMethod (Properties ctx, String CostingMethod)
+	{		
+		final String whereClause = "CostingMethod=?";
+		return new Query(ctx, Table_Name, whereClause, null)
+					.setClient_ID()
+					.setParameters(new Object[]{CostingMethod})
+					.list();	
 	}	
 
 	/**	Cache						*/
