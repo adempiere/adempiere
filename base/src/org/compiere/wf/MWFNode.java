@@ -530,6 +530,13 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if(MWorkflow.WORKFLOWTYPE_Manufacturing.equals(getWorkflow().getWorkflowType()))
+		{
+			setAction(MWFNode.ACTION_WaitSleep);
+			return true;
+		}
+		setAction(MWFNode.ACTION_DocumentAction);
+		
 		String action = getAction();
 		if (action.equals(ACTION_WaitSleep))
 			;
