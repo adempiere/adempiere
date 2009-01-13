@@ -37,4 +37,3 @@ UPDATE AD_Ref_List SET Description='Create a Manufacturing Order, Receipt the fi
 -- New BOM Type for KIT
 UPDATE AD_Ref_List_Trl SET IsTranslated='N' WHERE AD_Ref_List_ID=53450
 ;
-

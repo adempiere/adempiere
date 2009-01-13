@@ -18,10 +18,12 @@
 package org.eevolution.model;
 
 import java.lang.reflect.Constructor;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 
 /** Generated Model for T_BOMLine
  *  @author Adempiere (generated) 
@@ -112,6 +114,105 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
+        I_C_AcctSchema result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Accounting Schema.
+		@param C_AcctSchema_ID 
+		Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
+	{
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+	}
+
+	/** Get Accounting Schema.
+		@return Rules for accounting
+	  */
+	public int getC_AcctSchema_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Cost.
+		@param Cost 
+		Cost information
+	  */
+	public void setCost (int Cost)
+	{
+		set_Value (COLUMNNAME_Cost, Integer.valueOf(Cost));
+	}
+
+	/** Get Cost.
+		@return Cost information
+	  */
+	public int getCost () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Cost);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Current Cost Price.
+		@param CurrentCostPrice 
+		The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
+	{
+		set_Value (COLUMNNAME_CurrentCostPrice, CurrentCostPrice);
+	}
+
+	/** Get Current Cost Price.
+		@return The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPrice);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Current Cost Price Lower Level.
+		@param CurrentCostPriceLL 
+		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
+	{
+		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
+	}
+
+	/** Get Current Cost Price Lower Level.
+		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public BigDecimal getCurrentCostPriceLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Implosion.
 		@param Implosion 
 		Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
@@ -165,6 +266,45 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public String getLevels () 
 	{
 		return (String)get_Value(COLUMNNAME_Levels);
+	}
+
+	public I_M_CostElement getM_CostElement() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_CostElement.Table_Name);
+        I_M_CostElement result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_CostElement)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_CostElement_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Cost Element.
+		@param M_CostElement_ID 
+		Product Cost Element
+	  */
+	public void setM_CostElement_ID (int M_CostElement_ID)
+	{
+		if (M_CostElement_ID < 1) 
+			set_Value (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+	}
+
+	/** Get Cost Element.
+		@return Product Cost Element
+	  */
+	public int getM_CostElement_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_CostElement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_M_Product getM_Product() throws RuntimeException 
@@ -282,6 +422,26 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Quantity.
+		@param QtyBOM 
+		Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM)
+	{
+		set_Value (COLUMNNAME_QtyBOM, QtyBOM);
+	}
+
+	/** Get Quantity.
+		@return Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Selected Product.

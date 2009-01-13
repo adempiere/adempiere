@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
 -- Jan 7, 2009 1:32:53 PM ECT
 -- Manufacturing Cost
 UPDATE AD_Element SET Help='The Floor Stock is used for accounting the component with Issue method  is set Floor stock  into Bill of Material & Formula Window.

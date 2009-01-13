@@ -72,6 +72,60 @@ public interface I_T_BOMLine
 
 	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
+    /** Column name C_AcctSchema_ID */
+    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
+
+	/** Set Accounting Schema.
+	  * Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
+
+	/** Get Accounting Schema.
+	  * Rules for accounting
+	  */
+	public int getC_AcctSchema_ID();
+
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+
+    /** Column name Cost */
+    public static final String COLUMNNAME_Cost = "Cost";
+
+	/** Set Cost.
+	  * Cost information
+	  */
+	public void setCost (int Cost);
+
+	/** Get Cost.
+	  * Cost information
+	  */
+	public int getCost();
+
+    /** Column name CurrentCostPrice */
+    public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
+
+	/** Set Current Cost Price.
+	  * The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice);
+
+	/** Get Current Cost Price.
+	  * The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice();
+
+    /** Column name CurrentCostPriceLL */
+    public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
+
+	/** Set Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
+
+	/** Get Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
+	public BigDecimal getCurrentCostPriceLL();
+
     /** Column name Implosion */
     public static final String COLUMNNAME_Implosion = "Implosion";
 
@@ -102,6 +156,21 @@ public interface I_T_BOMLine
 
 	/** Get Levels	  */
 	public String getLevels();
+
+    /** Column name M_CostElement_ID */
+    public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
+
+	/** Set Cost Element.
+	  * Product Cost Element
+	  */
+	public void setM_CostElement_ID (int M_CostElement_ID);
+
+	/** Get Cost Element.
+	  * Product Cost Element
+	  */
+	public int getM_CostElement_ID();
+
+	public I_M_CostElement getM_CostElement() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -147,6 +216,19 @@ public interface I_T_BOMLine
 	public int getPP_Product_BOM_ID();
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name QtyBOM */
+    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+
+	/** Set Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM);
+
+	/** Get Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM();
 
     /** Column name Sel_Product_ID */
     public static final String COLUMNNAME_Sel_Product_ID = "Sel_Product_ID";
