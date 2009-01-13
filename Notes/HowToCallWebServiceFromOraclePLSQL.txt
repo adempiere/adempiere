@@ -1,0 +1,93 @@
+-- Example about how to call modelSetDocAction from oracle pl/sql function
+-- Following sample from http://technology.amis.nl/blog/358/consuming-web-services-from-plsql-part-ii-a-pure-plsql-solution-using-utl_http-oracle-9i-or-10g
+
+CREATE OR REPLACE FUNCTION ws_modelsetdocaction (
+   p_table          IN   ad_table.tablename%TYPE,
+   p_recordid       IN   m_inout.m_inout_id%TYPE,
+   p_newdocstatus   IN   m_inout.docstatus%TYPE,
+   p_user           IN   ad_user.NAME%TYPE,
+   p_password       IN   ad_user.PASSWORD%TYPE,
+   p_language       IN   ad_language.ad_language%TYPE,
+   p_client_id      IN   ad_client.ad_client_id%TYPE,
+   p_role_id        IN   ad_role.ad_role_id%TYPE,
+   p_org_id         IN   ad_org.ad_org_id%TYPE,
+   p_warehouse_id   IN   m_warehouse.m_warehouse_id%TYPE
+)
+   RETURN VARCHAR2
+AS
+   server         VARCHAR2 (100)   := '127.0.0.1:8081';
+   soap_request   VARCHAR2 (30000);
+   soap_respond   VARCHAR2 (30000);
+   http_req       UTL_HTTP.req;
+   http_resp      UTL_HTTP.resp;
+   resp           XMLTYPE;
+BEGIN
+   soap_request :=
+         '<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<SOAP-ENV:Body>
+<modelSetDocAction xmlns="http://3e.pl/ADInterface">
+  <in0>' || p_table || '</in0>
+  <in1>' || p_recordid || '</in1>
+  <in2>' || p_newdocstatus || '</in2>
+  <ADLoginRequest>
+    <user>' || p_user || '</user>
+    <pass>' || p_password || '</pass>
+    <lang>' || p_language || '</lang>
+    <ClientID>' || p_client_id || '</ClientID>
+    <RoleID>' || p_role_id || '</RoleID>
+    <OrgID>' || p_org_id || '</OrgID>
+    <WarehouseID>' || p_warehouse_id || '</WarehouseID>
+    <stage/>
+  </ADLoginRequest>
+</modelSetDocAction>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>';
+   UTL_HTTP.set_transfer_timeout (5);
+   http_req :=
+      UTL_HTTP.begin_request (   'http://' || server || '/ADInterface/services/ADService',
+                              'POST',
+                              'HTTP/1.1'
+                             );
+   UTL_HTTP.set_header (http_req, 'Content-Type', 'text/xml');
+   UTL_HTTP.set_header (http_req, 'Content-Length', LENGTH (soap_request));
+   UTL_HTTP.write_text (http_req, soap_request);
+   http_resp := UTL_HTTP.get_response (http_req);
+   UTL_HTTP.read_text (http_resp, soap_respond);
+   UTL_HTTP.end_response (http_resp);
+   RETURN soap_respond;
+/*
+   -- Create an XMLType variable containing the Response XML
+   resp := XMLTYPE.createxml (soap_respond);
+   -- extract from the XMLType Resp the child-nodes of the <soap:Body> element
+   resp :=
+      resp.EXTRACT ('/soap:Envelope/soap:Body/child::node()',
+                    'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"'
+                   );
+   -- extract from the XMLType Resp the text() nodes from the n:getRateResponse/Result element
+   resp :=
+      resp.EXTRACT ('n:getRateResponse/Result/text()',
+                    'xmlns:n="urn:xmethods-CurrencyExchange"'
+                   );
+   RETURN resp.getclobval ();
+*/
+END;
+/
+
+
+-- Now you can make a call to the function with this example:
+-- example to COmplete M_InOut with M_Inout_ID=1000002
+/*
+select ws_modelsetdocaction (
+   'M_InOut',
+   1000002,
+   'CO',
+   'SuperUser',
+   'System',
+   'es_CO',
+   11,
+   102,
+   11,
+   103)
+   from dual;
+*/

@@ -1,0 +1,31 @@
+How to add a new WebService in 3E_WebServices
+
+i.e. 
+we're going to add a webservice to complete documents
+the new webservice will have the following parameters:
+* ADLoginRequest - it's already defined in ADInterface/src/xsd/schema.xsd with the following parameters:
+    user, pass, lang, ClientID, RoleID, OrgID, WarehouseID, stage
+* TableName  String -> M_InOut
+* Record_ID int -> 1000002
+* DocStatus String -> CO
+
+Note, if you need to define new datatypes you need to define them in ADInterface/src/xsd/schema.xsd
+and generate the pl3xe.jar again with this command:
+  scomp -out ./lib/pl3xE.jar ADInterface/src/xsd/schema.xsd
+scomp will generate the corresponding classes to manipulate the xml objects from the messages
+
+
+The method will be called modelSetDocAction - the model in name indicates that the web service is going to be based on model classes, current web services are based in UI instead of model.
+
+So, we add this line:
+    public StandardResponseDocument modelSetDocAction(String tableName, int recordID, String newDocStatus, ADLoginRequestDocument reqlogin) throws XFireFault;
+at the interface 3E_WebServices/ADInterface/src/main/com/_3e/ADInterface/ADService.java
+NOTE: In parameters, complex data must be at the end
+
+Now, we need to implement the method, so we open the file
+3E_WebServices/ADInterface/src/main/com/_3e/ADInterface/ADServiceImpl.java
+
+And add the new method and define the corresponding logic within.
+
+
+

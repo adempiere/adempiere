@@ -27,8 +27,10 @@ import org.compiere.model.MLocation;
 import org.compiere.model.MLookup;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRegion;
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -36,6 +38,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
+import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
 
@@ -78,11 +81,14 @@ import pl.x3E.adInterface.WindowTabDataReqDocument;
 /*
  * ADEMPIERE/COMPIERE
  * 
- * zamiana:
- * GridField na GridFieldVO
- * GridTabVO na GridTabVO
- * GridWindowVO na GridWindowVO	
+ * replacement:
+ * GridField by GridFieldVO
+ * GridTabVO by GridTabVO
+ * GridWindowVO by GridWindowVO	
  * 
+ * Contributors: Carlos Ruiz - globalqss
+ *     Add model oriented method modelSetDocAction
+ *     Some Polish messages translated to english using google translate
  */
 
 
@@ -108,7 +114,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 	public String getVersion() {
-		return "0.6.7";
+		return "0.7.0";
 	}
 	
 	public boolean isLoggedIn() {
@@ -169,7 +175,7 @@ public class ADServiceImpl implements ADService {
     			//if(lookup.size() == 0) - nie robic tego
 				//	System.out.println("lookup refresh ["+fo.ColumnName+"]= "+lookup.refresh());
 				/*if(lookup.getSize() > 0)*/ 
-					ArrayList ar = lookup.getData(ff.isMandatory(false), true, !ff.isReadOnly(), true); // ostatni byl false, 2007-05-11
+					ArrayList ar = lookup.getData(ff.isMandatory(false), true, !ff.isReadOnly(), true); // the last was false, 2007-05-11
 					if (ar != null && ar.size()>0) {
 					Object[] list = ar.toArray();										
 									
@@ -400,7 +406,7 @@ public class ADServiceImpl implements ADService {
     			ws.curTab.navigate( req.getPrevRecNo() );     		
     	}
     	*/
-    	int prevRecNo = ws.getRowNoFromRecordID( req.getPrevRecNo()); // zakladamy ze to RecordID
+    	int prevRecNo = ws.getRowNoFromRecordID( req.getPrevRecNo()); // we assume that it RecordID
     	if (ws.curTab.getCurrentRow() != prevRecNo)  
     	{
     		if (prevRecNo >=0)
@@ -446,7 +452,7 @@ public class ADServiceImpl implements ADService {
     			DataRow findDR = req.getFindCriteria();
     			MQuery currentQuery = ws.curTab.getQuery(); 	
     			MQuery newQuery = createQuery( ws.curTab.getTableName(), findDR );    			
-        		if  (findDR.getFieldArray().length>0) { //(!currentQuery.getWhereClause().equals( newQuery.getWhereClause() )) { // zmiana zapytania dla zak�adki
+        		if  (findDR.getFieldArray().length>0) { //(!currentQuery.getWhereClause().equals( newQuery.getWhereClause() )) { // change the query for zak�adki
         			ws.curTab.setQuery(newQuery);	
         			//ws.curTab.query(ws.mWindow.isTransaction());
         			
@@ -465,13 +471,13 @@ public class ADServiceImpl implements ADService {
 			if (req.getRowStart() > 0) initRowNo = req.getRowStart();
 			
 			int lastRow =  Math.min(rc, initRowNo + MAX_ROWS); //ok
-				//initRowNo + 5; // tylko do testow
+				//initRowNo + 5; // only for testing
 			
 			wd.setNumRows( lastRow );
 			//lastRow += initRowNo;
 			
 			wd.setTotalRows( ws.curTab.getRowCount() ); // ok
-			//wd.setTotalRows( 5 ); // tylko do testow
+			//wd.setTotalRows( 5 ); // only for testing
 			
 			wd.setStartRow(initRowNo);
 			
@@ -493,7 +499,7 @@ public class ADServiceImpl implements ADService {
 			} catch (Exception ex) { ex.printStackTrace(); };
 			
 			
-	    	if ( lastRow <= ws.curTab.getRowCount() ) {  //ostatnia paczka
+	    	if ( lastRow <= ws.curTab.getRowCount() ) {  //last row
 	    		ws.updateRecIDMap();
 	    	}
     	}
@@ -1206,7 +1212,7 @@ public class ADServiceImpl implements ADService {
 
     	WWindowStatus ws = null;
     	if (WindowNo>0)
-    		ws = WWindowStatus.get(WindowStatusMap, WindowNo, true, TabNo, true, RowNo); //<-- uwaga to zmienia aktywny rekord (bledne dzialanie), chyba nie sa odpowiednio przekazywane parametry    	
+    		ws = WWindowStatus.get(WindowStatusMap, WindowNo, true, TabNo, true, RowNo); //<-- Note changes to the active record (bledne action), probably are not properly communicated parameters    	
     	if (ws != null) {
     	
 		  ADLookup lk = new ADLookup( df[0].getVal());
@@ -1362,7 +1368,7 @@ public class ADServiceImpl implements ADService {
 		
 		ADLoginRequest r = req.getADLoginRequest();
 		
-		if (r.getStage()==0)  // faza pocz�tkowa - podajemy mo�liwe lokalizacje
+		if (r.getStage()==0)  // initial phase - return possible translations
 		{
 			LookupValues langs = lr.addNewLangs();
 			for (int i = 0; i < Language.getLanguageCount(); i++)
@@ -1373,7 +1379,7 @@ public class ADServiceImpl implements ADService {
 				lv.setVal( language.getName() );
 			}
 		} else
-		if (r.getStage()==1)  // weryfikacja user i pass
+		if (r.getStage()==1)  // Verify user and pass
 		{
 			KeyNamePair[] roles = null;
 			KeyNamePair[] clients = null;
@@ -1407,7 +1413,7 @@ public class ADServiceImpl implements ADService {
 				ADLookup.fillLookupValues( lr.addNewWarehouses(), warehouses );
 			}
 		} else
-		if (r.getStage()==2)  // weryfikacja user i pass
+		if (r.getStage()==2)  // Verify user and pass
 		{
 			Login login = new Login(m_cs.getM_ctx());
 			KeyNamePair[] roles = login.getRoles(r.getUser(), r.getPass());
@@ -1557,7 +1563,7 @@ public class ADServiceImpl implements ADService {
     	{ 
 			ws.curTab.setValue("DocAction", docAction);
 			boolean result = false;
-			if (ws.curTab.needSave(true, false)) //slain - nie wyrzucaj bledu, jesli nie musiales zapisac
+			if (ws.curTab.needSave(true, false)) //slain - do not dispose of error, if not write musiales
 			{
 				if (! (result = ws.curTab.dataSave(true)))
 					ws.curTab.dataIgnore();
@@ -1589,6 +1595,138 @@ public class ADServiceImpl implements ADService {
 			RecordIDMap.put( recID, lineNo );
 			
 		} */
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com._3e.ADInterface.ADService#modelSetDocAction(pl.x3E.adInterface.ADLoginRequestDocument, java.lang.String, int, java.lang.String)
+	 * Model oriented web service to change DocAction for documents, i.e. Complete a Material Receipt
+	 */
+	public StandardResponseDocument modelSetDocAction(
+			String tableName, int recordID,
+			String newDocStatus, ADLoginRequestDocument reqlogin) throws XFireFault {
+    	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
+    	StandardResponse resp = ret.addNewStandardResponse();
+    	resp.setRecordID (recordID);
+    	
+    	// 
+    	// TODO: Reuse open already connections with the same login data
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	resp.setIsError(true);
+        	return ret;
+    	}
+
+    	Properties ctx = m_cs.getM_ctx();
+    	
+    	// start a trx
+    	String trxName = Trx.createTrxName("ws_modelSetDocAction");
+		Trx trx = Trx.get(trxName, false); 
+    	
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null) {
+    		resp.setError("No table " + tableName);
+        	resp.setIsError(true);
+        	trx.rollback();
+        	trx.close();
+        	return ret;
+    	}
+    	PO po = table.getPO(recordID, trxName);
+    	if (po == null) {
+    		resp.setError("No Record " + recordID + " in " + tableName);
+        	resp.setIsError(true);
+        	trx.rollback();
+        	trx.close();
+        	return ret;
+    	}
+    	String docStatus = null;
+    	try {
+        	docStatus = ((org.compiere.process.DocAction) po).getDocStatus();
+		} catch (Exception e) {
+    		resp.setError("Can't get docStatus");
+        	resp.setIsError(true);
+        	trx.rollback();
+        	trx.close();
+        	return ret;
+		}
+		if (newDocStatus.equals(docStatus)) {
+    		resp.setError("Status is actually " + docStatus);
+        	resp.setIsError(false);
+        	trx.rollback();
+        	trx.close();
+        	return ret;
+		}
+		
+    	// call process it
+    	try {
+			if (! ((org.compiere.process.DocAction) po).processIt(newDocStatus)) {
+	    		resp.setError("Couldn't set docAction: " + ((org.compiere.process.DocAction) po).getProcessMsg());
+	        	resp.setIsError(true);
+	        	trx.rollback();
+	        	trx.close();
+	        	return ret;
+			}
+		} catch (Exception e) {
+    		resp.setError(e.toString());
+        	resp.setIsError(true);
+        	trx.rollback();
+        	trx.close();
+        	return ret;
+		}
+
+    	// close the trx
+		po.save();
+		trx.commit();
+		trx.close();
+    	
+    	// close the session opened with the login ?
+
+    	// resp.setError("");
+    	resp.setIsError(false);
+		return ret;
+	}
+
+	private String modelLogin(ADLoginRequestDocument reqlogin) {
+		ADLoginRequest r = reqlogin.getADLoginRequest();
+		
+		Login login = new Login(m_cs.getM_ctx());
+		KeyNamePair[] roles = null;
+		KeyNamePair[] clients = null;
+		KeyNamePair[] orgs  = null;
+		KeyNamePair[] warehouses = null;
+		roles = login.getRoles(r.getUser(), r.getPass());
+		if (roles != null)
+		{
+			
+			if (r.getRoleID()==-1 && roles != null && roles.length>0)
+				r.setRoleID( Integer.parseInt( roles[0].getID() ) );
+			if (r.getRoleID()>-1) clients = login.getClients( new KeyNamePair(r.getRoleID(), "" ) );
+
+			if (r.getClientID()==-1 && clients != null && clients.length>0)
+				r.setClientID( Integer.parseInt( clients[0].getID() ) );
+			if (r.getClientID()>-1) orgs = login.getOrgs( new KeyNamePair(r.getClientID(), "" ) );
+							
+			if (r.getOrgID()==-1 && orgs != null && orgs.length>0)
+				r.setOrgID( Integer.parseInt( orgs[0].getID() ) );								
+			if (r.getOrgID()>-1) warehouses = login.getWarehouses( new KeyNamePair(r.getOrgID(), "" ) );
+			
+			KeyNamePair org = new KeyNamePair(r.getRoleID(), Integer.toString(r.getRoleID()));
+			String error = login.validateLogin(org);
+			if (error != null && error.length() > 0)
+				return error;
+
+			int AD_User_ID = Env.getAD_User_ID(m_cs.getM_ctx());
+			
+			if ( !m_cs.login( AD_User_ID, r.getRoleID(), r.getClientID(), r.getOrgID(), r.getWarehouseID(), r.getLang() ) )
+				return "Error logging in";
+		}
+		else
+		{
+			return "Error logging in - no roles or user/pwd invalid";
+		}
+		return null;
 	}
 	
 	

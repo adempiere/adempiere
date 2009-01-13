@@ -38,4 +38,9 @@ public interface ADService {
     public String getVersion();
     
     public boolean isLoggedIn();
+    
+    /* Model oriented web services, the web services above are UI oriented, below we define the model oriented web services */
+    
+    public StandardResponseDocument modelSetDocAction(String tableName, int recordID, String newDocStatus, ADLoginRequestDocument reqlogin) throws XFireFault;
+    
 }
