@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.MHRProcess;
+import org.eevolution.model.MPPCostCollector;
 
 /**
  *  Posting Document Root.
@@ -89,6 +90,9 @@ import org.eevolution.model.MHRProcess;
  *
  *  M_Production:       MMP
  *      Doc_Production  325 - DocType fixed
+ *      
+ * M_Production:        MMO
+ *      Doc_CostCollector  330 - DocType fixed
  *
  *  C_BankStatement:    CMB
  *      Doc_Bank        392 - DocType fixed
@@ -134,7 +138,8 @@ public abstract class Doc
 		MMatchPO.Table_ID,		    //  M_MatchPO
 		MProjectIssue.Table_ID,		//	C_ProjectIssue
 		MRequisition.Table_ID,		//	M_Requisition
-		MHRProcess.Table_ID			//  MR_Process
+		MHRProcess.Table_ID,		//  HR_Process
+		MPPCostCollector.Table_ID   //  PP_CostCollector
 	};
 	
 	/** Table Names of documents          */
@@ -154,7 +159,8 @@ public abstract class Doc
 		MMatchPO.Table_Name,	    //  M_MatchPO
 		MProjectIssue.Table_Name,	//	C_ProjectIssue
 		MRequisition.Table_Name,	//	M_Requisition
-		MHRProcess.Table_Name		//  HR_Process
+		MHRProcess.Table_Name,		//  HR_Process
+		MPPCostCollector.Table_Name //  PP_CostCollector
 	};
 
 	/**************************************************************************
@@ -218,10 +224,10 @@ public abstract class Doc
 	/** Purchase Requisition    */
 	public static final String	DOCTYPE_PurchaseRequisition	= "POR";
 	/** Process Payroll **/
-	public static final String	DOCTYPE_Payroll	= "HRP";
-
-	
-	
+	public static final String	DOCTYPE_Payroll			= "HRP";
+	/** Manufacturing Order        */
+	public static final String 	DOCTYPE_MOrder          = "MOO";
+		
 	//  Posting Status - AD_Reference_ID=234     //
 	/**	Document Status         */
 	public static final String 	STATUS_NotPosted        = "N";
@@ -340,6 +346,8 @@ public abstract class Doc
 			doc = new Doc_Requisition (ass, rs, trxName);
 		else if (AD_Table_ID == MHRProcess.Table_ID)
 			doc = new Doc_Payroll (ass, rs, trxName);
+		else if (AD_Table_ID == MPPCostCollector.Table_ID)
+			doc = new Doc_Cost_Collector (ass, rs, trxName);
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;
