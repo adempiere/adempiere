@@ -32,6 +32,8 @@ import pl.x3E.adInterface.LookupValues;
  *   GridField
  */
 
+// TODO: Oracle specific usage or ROWNUM - replace with something db agnostic - or enable Convert_Postgresql for this specific case
+
 public class ADLookup {
 
 
@@ -158,12 +160,12 @@ public class ADLookup {
 		 }
 		
 		
-		//Sprawdzam czy przy wykonaniu FinalSql zwróci mi 0, 1 lub wiele wierszy
-		//Je¿eli zwróci mi 0 wierszy to koñczê
-		//Je¿eli zwróci mi 1 wiersz to koñcowy wynik bêdzie kwerend¹ normaln¹ (w przypadku joinów, np.: bp zostanie wykonana alternatywna kwerenda bez joinów)
-		//Je¿eli zwróci mi n wierszy to zwracam je
+		//Sprawdzam czy przy wykonaniu FinalSql zwrï¿½ci mi 0, 1 lub wiele wierszy
+		//Jeï¿½eli zwrï¿½ci mi 0 wierszy to koï¿½czï¿½
+		//Jeï¿½eli zwrï¿½ci mi 1 wiersz to koï¿½cowy wynik bï¿½dzie kwerendï¿½ normalnï¿½ (w przypadku joinï¿½w, np.: bp zostanie wykonana alternatywna kwerenda bez joinï¿½w)
+		//Jeï¿½eli zwrï¿½ci mi n wierszy to zwracam je
 		int id = 0;
-		System.out.println("Rozpoczynam wywo³ania do bazy");
+		System.out.println("Rozpoczynam wywoï¿½ania do bazy");
 		try
 		{			
 			/*
@@ -186,26 +188,26 @@ public class ADLookup {
 			rs.close();
 			pstmt.close();
 
-			System.out.println("Znalaz³em " + ile + " wierszy / rekordów");
-			//Je¿eli jest 0 wierszy to koñczymy
+			System.out.println("Znalazï¿½em " + ile + " wierszy / rekordï¿½w");
+			//Jeï¿½eli jest 0 wierszy to koï¿½czymy
 			//w kliencie spowoduje to wyswietlenie pustego okna lookUp
 			if (ile==0)
 			{
-			 System.out.println("Nie znalaz³em rekordów. W kliencie zostanie wyœwietlone okno LookUp'a bez rekordów.");	
+			 System.out.println("Nie znalazï¿½em rekordï¿½w. W kliencie zostanie wyï¿½wietlone okno LookUp'a bez rekordï¿½w.");	
 			}
-			//Je¿eli jest tylko jeden wiersz to odpowiednie tabele bêd¹ wywo³ywane bez
-			//joinów
+			//Jeï¿½eli jest tylko jeden wiersz to odpowiednie tabele bï¿½dï¿½ wywoï¿½ywane bez
+			//joinï¿½w
 			if ((ile==1))
 			{
-			 System.out.println("Znalaz³em 1 rekord wiêc szukam dla bez join. W kliencie zostanie automatycznie uzupe³niona wartoœc");
+			 System.out.println("Znalazï¿½em 1 rekord wiï¿½c szukam dla bez join. W kliencie zostanie automatycznie uzupeï¿½niona wartoï¿½c");
 			 IsQueryJoin = false;				 			 
 			}
-			//Jesli wiecej niz jeden to uzywamy joinów
-			//Spowoduje to wyswietlenie rekordów spe³niajacych kryterium
+			//Jesli wiecej niz jeden to uzywamy joinï¿½w
+			//Spowoduje to wyswietlenie rekordï¿½w speï¿½niajacych kryterium
 			//w oknie LookUp'a
 			if (ile>1)
 			{
-			 System.out.println("Znalaz³em wiêcej ni¿ 1 rekord wiêc szukam dla whereClause i z joinami. W kliencie zostanie wyœwietlone LookUpWindow z przefiltrowanymi rekordami.");
+			 System.out.println("Znalazï¿½em wiï¿½cej niï¿½ 1 rekord wiï¿½c szukam dla whereClause i z joinami. W kliencie zostanie wyï¿½wietlone LookUpWindow z przefiltrowanymi rekordami.");
 			 IsQueryJoin = true;		 			 
 
 			}	
@@ -243,7 +245,7 @@ public class ADLookup {
 	 */
 	private String getDirectAccessSQL (String text)
 	{
-		//Tutaj trzeba dodaæ dodatkowe pole dla odpowiednich typów wyszukiwania w selectach
+		//Tutaj trzeba dodaï¿½ dodatkowe pole dla odpowiednich typï¿½w wyszukiwania w selectach
 		StringBuffer sql = new StringBuffer();
 		m_tableName = m_columnName.substring(0, m_columnName.length()-3);  // without _ID
 		m_keyColumnName = m_columnName;
@@ -282,7 +284,7 @@ public class ADLookup {
 			if (wc != null && wc.length() > 0)
 				sql.append(" AND ").append(wc);
 			sql.append(" AND IsActive='Y'")
-				.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" ");
+				.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" "); 
 			//	***
 			//log.finest("(predefined) " + sql.toString());
 			return MRole.getDefault().addAccessSQL(sql.toString(),
