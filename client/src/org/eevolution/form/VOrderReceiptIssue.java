@@ -1044,7 +1044,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 
 		for(int i = 0; i < m_issue.length; i++ )
 		{
-			KeyNamePair key = (KeyNamePair) m_issue[i][0].get(1);
+			KeyNamePair key = (KeyNamePair) m_issue[i][0].get(0);
 			boolean isSelected = key.getName().equals("Y"); 
 			if (key == null || !isSelected)
 			{
