@@ -781,7 +781,7 @@ public class MCostDetail extends X_M_CostDetail
 		//	Create Material Cost elements
 		if (getM_CostElement_ID() == 0)
 		{
-			MCostElement[] ces = MCostElement.getMaterialCostingMethods(this);
+			MCostElement[] ces = MCostElement.getMaterialWithCostingMethods(this);
 			for (int i = 0; i < ces.length; i++)
 			{
 				MCostElement ce = ces[i];
@@ -1130,7 +1130,7 @@ public class MCostDetail extends X_M_CostDetail
 			//	Create Material Cost elements
 			if (getM_CostElement_ID() == 0)
 			{
-				MCostElement[] ces = MCostElement.getMaterialCostingMethods(this);
+				MCostElement[] ces = MCostElement.getMaterialWithCostingMethods(this);
 				for (int i = 0; i < ces.length; i++)
 				{
 					MCostElement ce = ces[i];

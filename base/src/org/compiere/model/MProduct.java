@@ -622,7 +622,7 @@ public class MProduct extends X_M_Product
 				"p.M_Product_Category_ID=" + getM_Product_Category_ID());
 			insert_Tree(X_AD_Tree.TREETYPE_Product);
 			//
-			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 			for (int i = 0; i < mass.length; i++)
 			{
 				//	Old
@@ -673,12 +673,14 @@ public class MProduct extends X_M_Product
 		for (int i = 0; i < costings.length; i++)
 			costings[i].delete(true, get_TrxName());
 		
+		MCost.delete(this);
+		
 		// [ 1674225 ] Delete Product: Costing deletion error
-		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(),getAD_Client_ID());
+		/*MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(),getAD_Client_ID(), get_TrxName());
 		for(int i=0; i<mass.length; i++)
 		{
 			// Get Cost Elements
-			MCostElement[] ces = MCostElement.getMaterialCostingMethods(this);
+			MCostElement[] ces = MCostElement.getMaterialWithCostingMethods(this);
 			MCostElement ce = null;
 			for(int j=0; j<ces.length; j++)
 			{
@@ -694,7 +696,7 @@ public class MProduct extends X_M_Product
 			
 			MCost mcost = MCost.get(this, 0, mass[i], 0, ce.getM_CostElement_ID());
 			mcost.delete(true, get_TrxName());
-		}
+		}*/
 		
 		//
 		return delete_Accounting("M_Product_Acct"); 
@@ -750,7 +752,7 @@ public class MProduct extends X_M_Product
 	public boolean isASIMandatory(boolean isSOTrx) {
 		//
 		//	If CostingLevel is BatchLot ASI is always mandatory - check all client acct schemas
-		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID(), get_TrxName());
 		for (MAcctSchema as : mass)
 		{
 			String cl = getCostingLevel(as);

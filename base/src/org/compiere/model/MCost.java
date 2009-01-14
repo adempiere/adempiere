@@ -762,13 +762,81 @@ public class MCost extends X_M_Cost
 	 **/
 	protected static void create (MProduct product)
 	{
+			s_log.config(product.getName());
+
+			//	Cost Elements
+			Collection <MCostElement> ces = MCostElement.getCostElementsWithCostingMethods(product);
+						
+			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(product.getCtx(), 
+				product.getAD_Client_ID(), product.get_TrxName());
+			MOrg[] orgs = null;
+			
+			int M_ASI_ID = 0;		//	No Attribute
+			for (MAcctSchema as : mass)
+			{
+				String cl = product.getCostingLevel(as);
+				//	Create Std Costing
+				if (MAcctSchema.COSTINGLEVEL_Client.equals(cl))
+				{				
+					for(MCostElement ce : ces)
+					{	
+						MCost cost = MCost.get (product, M_ASI_ID, 
+							as, 0, ce.getM_CostElement_ID());
+						if (cost.is_new())
+						{
+							if (cost.save())
+								s_log.config("Std.Cost for " + product.getName() 
+									+ " - " + as.getName());
+							else
+								s_log.warning("Not created: Std.Cost for " + product.getName() 
+									+ " - " + as.getName());
+						}
+					}	
+				}
+				else if (MAcctSchema.COSTINGLEVEL_Organization.equals(cl))
+				{
+					if (orgs == null)
+						orgs = MOrg.getOfClient(product);
+					for (MOrg o : orgs)
+					{
+						for(MCostElement ce : ces)
+						{	
+							MCost cost = MCost.get (product, M_ASI_ID, 
+								as, o.getAD_Org_ID(), ce.getM_CostElement_ID());
+							if (cost.is_new())
+							{
+								if (cost.save())
+									s_log.config("Std.Cost for " + product.getName()
+										+ " - " + o.getName()
+										+ " - " + as.getName());
+								else
+									s_log.warning("Not created: Std.Cost for " + product.getName() 
+										+ " - " + o.getName()
+										+ " - " + as.getName());
+							}
+						}	
+					}	//	for all orgs
+				}
+				else
+				{
+					s_log.warning("Not created: Std.Cost for " + product.getName() 
+						+ " - Costing Level on Batch/Lot");
+				}
+			}	//	accounting schema loop
+	}	//	create
+	
+	/**
+	 * 	Delete standard Costing records for Product
+	 *	@param product product
+	 **/
+	protected static void delete (MProduct product)
+	{
 		s_log.config(product.getName());
 		//	Cost Elements
-		Collection <MCostElement> ces = MCostElement.getCostElementToCostingMethods(product);
-		for(MCostElement ce : ces)
-		{			
+		Collection <MCostElement> ces = MCostElement.getCostElementsWithCostingMethods(product);
+		
 			MAcctSchema[] mass = MAcctSchema.getClientAcctSchema(product.getCtx(), 
-				product.getAD_Client_ID());
+				product.getAD_Client_ID(), product.get_TrxName());
 			MOrg[] orgs = null;
 			
 			int M_ASI_ID = 0;		//	No Attribute
@@ -778,16 +846,12 @@ public class MCost extends X_M_Cost
 				//	Create Std Costing
 				if (MAcctSchema.COSTINGLEVEL_Client.equals(cl))
 				{
-					MCost cost = MCost.get (product, M_ASI_ID, 
-						as, 0, ce.getM_CostElement_ID());
-					if (cost.is_new())
-					{
-						if (cost.save())
-							s_log.config("Std.Cost for " + product.getName() 
-								+ " - " + as.getName());
-						else
-							s_log.warning("Not created: Std.Cost for " + product.getName() 
-								+ " - " + as.getName());
+					for(MCostElement ce : ces)
+					{	
+						MCost cost = MCost.get (product, M_ASI_ID, 
+							as, 0, ce.getM_CostElement_ID());
+						if(cost != null)
+						cost.deleteEx(true);	
 					}
 				}
 				else if (MAcctSchema.COSTINGLEVEL_Organization.equals(cl))
@@ -796,18 +860,12 @@ public class MCost extends X_M_Cost
 						orgs = MOrg.getOfClient(product);
 					for (MOrg o : orgs)
 					{
-						MCost cost = MCost.get (product, M_ASI_ID, 
-							as, o.getAD_Org_ID(), ce.getM_CostElement_ID());
-						if (cost.is_new())
-						{
-							if (cost.save())
-								s_log.config("Std.Cost for " + product.getName()
-									+ " - " + o.getName()
-									+ " - " + as.getName());
-							else
-								s_log.warning("Not created: Std.Cost for " + product.getName() 
-									+ " - " + o.getName()
-									+ " - " + as.getName());
+						for(MCostElement ce : ces)
+						{	
+							MCost cost = MCost.get (product, M_ASI_ID, 
+								as, o.getAD_Org_ID(), ce.getM_CostElement_ID());
+							if(cost != null)
+								cost.deleteEx(true);
 						}
 					}	//	for all orgs
 				}
@@ -817,9 +875,7 @@ public class MCost extends X_M_Cost
 						+ " - Costing Level on Batch/Lot");
 				}
 			}	//	accounting schema loop
-		}
 	}	//	create
-	
 	
 	/**************************************************************************
 	 * 	Calculate Average Invoice from Trx
@@ -1603,7 +1659,9 @@ public class MCost extends X_M_Cost
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		MCostElement ce = getCostElement();
+		//The method getCostElement() not should be cached because is a transaction 
+		//MCostElement ce = getCostElement(); 
+		MCostElement ce = (MCostElement)getM_CostElement();
 		//	Check if data entry makes sense
 		if (m_manual)
 		{

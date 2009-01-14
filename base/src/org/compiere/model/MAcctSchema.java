@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -67,8 +66,6 @@ public class MAcctSchema extends X_C_AcctSchema
 		return retValue;
 	}	//	get
 	
-	
-	
 	/**
 	 *  Get AccountSchema of Client
 	 * 	@param ctx context
@@ -77,31 +74,42 @@ public class MAcctSchema extends X_C_AcctSchema
 	 */
 	public static MAcctSchema[] getClientAcctSchema (Properties ctx, int AD_Client_ID)
 	{
+		return getClientAcctSchema(ctx, AD_Client_ID, null);
+	}	//	getClientAcctSchema
+	
+	/**
+	 *  Get AccountSchema of Client
+	 * 	@param ctx context
+	 *  @param AD_Client_ID client or 0 for all
+	 *  @param trxName optional trx 
+	 *  @return Array of AcctSchema of Client
+	 */
+	public static MAcctSchema[] getClientAcctSchema (Properties ctx, int AD_Client_ID, String trxName)
+	{
 		//  Check Cache
-		if (s_schema.containsKey(AD_Client_ID))
-			return (MAcctSchema[])s_schema.get(AD_Client_ID);
+		Integer key = new Integer(AD_Client_ID);
+		if (s_schema.containsKey(key))
+			return (MAcctSchema[])s_schema.get(key);
 
 		//  Create New
 		ArrayList<MAcctSchema> list = new ArrayList<MAcctSchema>();
-		MClientInfo info = MClientInfo.get(ctx, AD_Client_ID); 
-		MAcctSchema as = MAcctSchema.get (ctx, info.getC_AcctSchema1_ID());
-		//if (as.get_ID() != 0 && trxName == null)
+		MClientInfo info = MClientInfo.get(ctx, AD_Client_ID, trxName); 
+		MAcctSchema as = MAcctSchema.get (ctx, info.getC_AcctSchema1_ID(), trxName);
 		if (as.get_ID() != 0)
 			list.add(as);
 		
-		
 		ArrayList<Object> params = new ArrayList<Object>();
-		String whereClause = "EXISTS (SELECT 1 FROM C_AcctSchema_GL gl WHERE C_AcctSchema.C_AcctSchema_ID=gl.C_AcctSchema_ID)"
-						   + " AND EXISTS (SELECT 1 FROM C_AcctSchema_Default d WHERE C_AcctSchema.C_AcctSchema_ID=d.C_AcctSchema_ID)"; 
-		
+		String whereClause = "IsActive=? "
+			+ " AND EXISTS (SELECT * FROM C_AcctSchema_GL gl WHERE C_AcctSchema.C_AcctSchema_ID=gl.C_AcctSchema_ID)"
+			+ " AND EXISTS (SELECT * FROM C_AcctSchema_Default d WHERE C_AcctSchema.C_AcctSchema_ID=d.C_AcctSchema_ID)"; 
+			params.add("Y");
 		if (AD_Client_ID != 0)
 		{	
-			whereClause += "AND AD_Client_ID=?";
+			whereClause += " AND AD_Client_ID=?";
 			params.add(AD_Client_ID);
 		}	
 		
-		Collection <MAcctSchema> ass = new Query(ctx, MAcctSchema.Table_Name,whereClause, null)
-		.setApplyAccessFilter(true)
+		List <MAcctSchema> ass = new Query(ctx, MAcctSchema.Table_Name,whereClause,trxName)
 		.setParameters(params)
 		.setOrderBy(MAcctSchema.COLUMNNAME_C_AcctSchema_ID)
 		.list();
@@ -117,7 +125,7 @@ public class MAcctSchema extends X_C_AcctSchema
 		//  Save
 		MAcctSchema[] retValue = new MAcctSchema [list.size()];
 		list.toArray(retValue);
-		s_schema.put(AD_Client_ID, retValue);
+		s_schema.put(key, retValue);
 		return retValue;
 	}   //  getClientAcctSchema
 

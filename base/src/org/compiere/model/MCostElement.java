@@ -191,11 +191,12 @@ public class MCostElement extends X_M_CostElement
 	 *	@param po parent
 	 *	@return cost element array
 	 */
-	public static Collection<MCostElement> getCostElementToCostingMethods (PO po)
+	public static Collection<MCostElement> getCostElementsWithCostingMethods (PO po)
 	{
 		final String whereClause = "CostingMethod IS NOT NULL";
 		return new Query(po.getCtx(),MCostElement.Table_Name,whereClause,po.get_TrxName())
 		.setOnlyActiveRecords(true)
+		.setClient_ID()
 		.list();
 	}	//	getCostElementCostingMethod	
 	
@@ -204,7 +205,7 @@ public class MCostElement extends X_M_CostElement
 	 *	@param po parent
 	 *	@return cost element array
 	 */
-	public static MCostElement[] getMaterialCostingMethods (PO po)
+	public static MCostElement[] getMaterialWithCostingMethods (PO po)
 	{
 		ArrayList<MCostElement> list = new ArrayList<MCostElement>();
 		String sql = "SELECT * FROM M_CostElement "
@@ -384,12 +385,18 @@ public class MCostElement extends X_M_CostElement
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Check Unique Costing Method
-		if (COSTELEMENTTYPE_Material.equals(getCostElementType())
+		if (
+			(  COSTELEMENTTYPE_Material.equals(getCostElementType())
+			|| COSTELEMENTTYPE_Resource.equals(getCostElementType())
+			|| COSTELEMENTTYPE_BurdenMOverhead.equals(getCostElementType())
+			|| COSTELEMENTTYPE_Overhead.equals(getCostElementType())
+			|| COSTELEMENTTYPE_OutsideProcessing.equals(getCostElementType())
+			)		
 			&& (newRecord || is_ValueChanged("CostingMethod")))
 		{
 			String sql = "SELECT  COALESCE(MAX(M_CostElement_ID),0) FROM M_CostElement "
-				+ "WHERE AD_Client_ID=? AND CostingMethod=?";
-			int id = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID(), getCostingMethod());
+				+ "WHERE AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
+			int id = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID(), getCostingMethod() , getCostElementType());
 			if (id > 0 && id != get_ID())
 			{
 				log.saveError("AlreadyExists", Msg.getElement(getCtx(), "CostingMethod"));
