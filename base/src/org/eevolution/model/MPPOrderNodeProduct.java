@@ -19,6 +19,10 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 /**
  * Order Node Product Model
  *
@@ -61,5 +65,17 @@ public class MPPOrderNodeProduct extends  X_PP_Order_Node_Product
 		setPP_Order_ID(PP_Order_Node.getPP_Order_ID());
 		setPP_Order_Workflow_ID(PP_Order_Node.getPP_Order_Workflow_ID());
 		setPP_Order_Node_ID(PP_Order_Node.get_ID());
+	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		if(getQty().equals(Env.ZERO) && isSubcontracting())
+		{
+			setQty(Env.ONE);
+		}
+		
+		//
+		return true;
 	}
 }

@@ -622,7 +622,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			ArrayList[][] issue = new ArrayList[m_lines.length][1];
 			Timestamp today = new Timestamp(System.currentTimeMillis());
 			
-			int row = 0;
 			for (int i = 0; i < getLines().length ; i++)
 			{
 				MPPOrderBOMLine line =  m_lines[i];
@@ -1250,7 +1249,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		for(int i = 0; i < issue.length; i++ )
 		{
-			KeyNamePair key = (KeyNamePair) issue[i][0].get(1);
+			KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
 			boolean isSelected = key.getName().equals("Y"); 
 			if (key == null || !isSelected)
 			{

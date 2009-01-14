@@ -204,17 +204,22 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			
 			if (activity.isSubcontracting())
 			{
-				if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_InProgress)
-						&& getDocStatus().equals(MPPCostCollector.DOCSTATUS_InProgress))
+				if(MPPOrderNode.DOCSTATUS_InProgress.equals(activity.getDocStatus())
+						&& MPPCostCollector.DOCSTATUS_InProgress.equals(getDocStatus()))
 				{			
 					return MPPOrderNode.DOCSTATUS_InProgress;
 				}
-				else if(activity.getDocStatus().equals(MPPOrderNode.DOCSTATUS_InProgress)
-						&& getDocStatus().equals(MPPCostCollector.DOCSTATUS_Drafted))
+				else if(MPPOrderNode.DOCSTATUS_InProgress.equals(activity.getDocStatus())
+						&& MPPCostCollector.DOCSTATUS_Drafted.equals(getDocStatus()))
 				{
 					throw new ActivityProcessedException(activity);
 				}				
-				createPOrder(activity);
+				m_processMsg = createPO(activity);
+				m_justPrepared = false;
+				setDocAction(DOCACTION_Complete);
+				activity.setDocStatus(DOCSTATUS_InProgress);
+				activity.saveEx();
+				return DOCSTATUS_InProgress;
 			}
 			
 			activity.setDocStatus(DOCSTATUS_InProgress);
@@ -436,7 +441,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 					msg.append(oline.getParent().getDocumentNo()).append(",");
 				}
 				
-				if(DocStatus.equals(MPPOrderNode.DOCSTATUS_InProgress))
+				if(MPPOrderNode.DOCSTATUS_InProgress.equals(DocStatus))
 				{	
 					m_processMsg = msg.toString();
 					return DocStatus;
@@ -446,10 +451,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				setDocStatus(DOCSTATUS_Completed);
 				activity.setDocStatus(DOCSTATUS_Completed);
 				activity.saveEx();
-				
-				setDocAction(DOCACTION_Complete);
-				setDocStatus(DOCSTATUS_InProgress);
-				return DOCSTATUS_InProgress;
+				m_processMsg = Msg.translate(getCtx(), "PP_Order_ID")
+				+":"+ getPP_Order().getDocumentNo()
+				+Msg.translate(getCtx(),"PP_Order_Node_ID")
+				+":"+getPP_Order_Node().getValue();
+				return DocStatus;
 			}
 			else
 			{
@@ -839,8 +845,9 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 	 * Create Purchase Order (in case of Subcontracting)
 	 * @param activity
 	 */
-	private void createPOrder(MPPOrderNode activity)
+	private String createPO(MPPOrderNode activity)
 	{
+		String msg = "";
 		HashMap<Integer,MOrder> orders = new HashMap<Integer,MOrder>();
 		//
 		String whereClause = MPPOrderNodeProduct.COLUMNNAME_PP_Order_Node_ID+"=?"
@@ -891,6 +898,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			{
 				order = new MOrder(getCtx(), 0, get_TrxName());
 				MBPartner vendor = MBPartner.get(getCtx(), C_BPartner_ID);
+				order.setAD_Org_ID(getAD_Org_ID());
 				order.setBPartner(vendor);
 				order.setIsSOTrx(false);
 				order.setC_DocTypeTarget_ID();
@@ -903,10 +911,15 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				order.saveEx();
 				addDescription(Msg.translate(getCtx(), "C_Order_ID")+": "+order.getDocumentNo());
 				orders.put(C_BPartner_ID, order);
+				msg = msg +  Msg.translate(getCtx(), "C_Order_ID")
+				+" : "+ order.getDocumentNo() 
+				+" - "
+				+Msg.translate(getCtx(),"C_BPartner_ID")
+				+" : "+vendor.getName()+" , ";
 			}
 			//
 			// Create Order Line: 
-			BigDecimal QtyOrdered = subcontract.getQty();
+			BigDecimal QtyOrdered = getMovementQty().multiply(subcontract.getQty());
 			// Check Order Min 
 			if(product_po.getOrder_Min().signum() > 0)
 			{    
@@ -930,6 +943,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			// TODO: Mark this as processed? 
 			setProcessed(true);
 		} // each subcontracting line
+		return msg;
 	}
 	
 	@Override

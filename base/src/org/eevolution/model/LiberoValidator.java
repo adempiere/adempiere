@@ -221,10 +221,7 @@ public class LiberoValidator implements ModelValidator
 						cc.setDocStatus(docStatus);
 						cc.setDocAction(MPPCostCollector.DOCACTION_Close);
 						cc.saveEx();
-						return Msg.translate(po.getCtx(), "PP_Order_ID")
-						+":"+cc.getPP_Order().getDocumentNo()
-						+Msg.translate(po.getCtx(),"PP_Order_Node_ID")
-						+":"+cc.getPP_Order_Node().getValue();
+						return null;
 					}
 				}
 			}

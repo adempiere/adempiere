@@ -23,6 +23,7 @@ import java.util.Properties;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  * Workflow Node Product Model
@@ -83,9 +84,12 @@ public class MPPWFNodeProduct extends X_PP_WF_Node_Product
 			int seqNo = DB.getSQLValueEx(get_TrxName(), sql, getAD_WF_Node_ID(), get_ID());
 			setSeqNo(seqNo);
 		}
+		if(getQty().equals(Env.ZERO) && isSubcontracting())
+		{
+			setQty(Env.ONE);
+		}
+		
 		//
 		return true;
-	}
-	
-	
+	}	
 }	//	 MPPWFNodeProduct

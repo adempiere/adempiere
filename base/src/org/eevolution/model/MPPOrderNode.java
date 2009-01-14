@@ -144,8 +144,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setAD_WF_Node_ID(wfNode.getAD_WF_Node_ID());
 		setAD_WF_Responsible_ID(wfNode.getAD_WF_Responsible_ID());
 		setAD_Workflow_ID(wfNode.getAD_Workflow_ID());
-		this.setIsSubcontracting(wfNode.isSubcontracting());
-		this.setC_BPartner_ID(wfNode.getC_BPartner_ID());
+		setIsSubcontracting(wfNode.isSubcontracting());
+		setC_BPartner_ID(wfNode.getC_BPartner_ID());
 		setCost(wfNode.getCost());
 		setDuration(wfNode.getDuration());
 		setEntityType(wfNode.getEntityType());
