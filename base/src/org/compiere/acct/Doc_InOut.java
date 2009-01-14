@@ -19,6 +19,7 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
@@ -100,6 +101,11 @@ public class Doc_InOut extends Doc
 			BigDecimal Qty = line.getMovementQty();
 			docLine.setReversalLine_ID(line.getReversalLine_ID());		
 			docLine.setQty (Qty, getDocumentType().equals(DOCTYPE_MatShipment));    //  sets Trx and Storage Qty
+			
+			//Define if Outside Processing 
+			String sql = "SELECT PP_Cost_Collector_ID  FROM C_OrderLine WHERE C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
+			int PP_Cost_Collector_ID = DB.getSQLValue(getTrxName(), sql, new Object[]{line.getC_OrderLine_ID()});
+			docLine.setPP_Cost_Collector_ID(PP_Cost_Collector_ID);
 			//
 			log.fine(docLine.toString());
 			list.add (docLine);
@@ -386,7 +392,15 @@ public class Doc_InOut extends Doc
 				//  Inventory/Asset			DR
 				MAccount assets = line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 				if (product.isService())
-					assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+				{	
+					//if the line is a Outside Processing then DR WIP
+					if(line.getPP_Cost_Collector_ID() > 0)
+						assets = line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);	
+					else	
+						assets = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
+					
+				}
+
 				
 				// Elaine 2008/06/26
 				/*dr = fact.createLine(line, assets,

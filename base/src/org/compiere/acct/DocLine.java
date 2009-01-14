@@ -89,6 +89,8 @@ public class DocLine
 	private ProductCost			m_productCost = null;
 	/** Production indicator	*/
 	private boolean 			m_productionBOM = false;
+	/** Outside Processing	*/
+	private int 				m_PP_Cost_Collector_ID = 0;
 	/** Account used only for GL Journal    */
 	private MAccount 			m_account = null;
 
@@ -657,7 +659,7 @@ public class DocLine
 	{
 		return m_C_LocFrom_ID;
 	}	//	getC_LocFrom_ID
-	
+		
 	/**
 	 * 	Set C_LocFrom_ID
 	 *	@param C_LocFrom_ID loc from
@@ -666,6 +668,24 @@ public class DocLine
 	{
 		m_C_LocFrom_ID = C_LocFrom_ID;
 	}	//	setC_LocFrom_ID
+
+	/**
+	 * 	Get PP_Cost_Collector_ID
+	 *	@return Cost Collector ID
+	 */
+	public int getPP_Cost_Collector_ID()
+	{
+		return m_PP_Cost_Collector_ID;
+	}	//	getC_LocFrom_ID
+
+	/**
+	 * 	Get PP_Cost_Collector_ID
+	 *	@return Cost Collector ID
+	 */
+	public int setPP_Cost_Collector_ID(int PP_Cost_Collector_ID)
+	{
+		return m_PP_Cost_Collector_ID;
+	}	//	getC_LocFrom_ID
 
 	/**
 	 * 	Get C_LocTo_ID
