@@ -58,8 +58,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *  @author Jorg Janke
  *  @version $Id: BarGraph.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public class BarGraph extends CPanel implements ChartMouseListener //, ComponentListener //,  ActionListener
+public class BarGraph extends CPanel implements ChartMouseListener
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 	Constructor
 	 */
@@ -82,16 +84,16 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 		loadData();
 		//addComponentListener(this);
 	}	//	BarGraph
-	
+
 	/** The Goal				*/
 	private MGoal 			m_goal = null;
 	/** Graph Size				*/
 	//private Dimension 		m_size = null;
 	/** Zero/Zero Coordibate point	*/
 	private Point			m_point0_0 = null;
-	/** Layout					*/
-	private BarGraphLayout	m_layout = new BarGraphLayout(this);
-	
+//	/** Layout					*/
+//	private BarGraphLayout	m_layout = new BarGraphLayout(this);
+
 	/**	Logger					*/
 	private static CLogger log = CLogger.getCLogger (BarGraph.class);
 
@@ -99,16 +101,16 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	private String		m_X_AxisLabel = "X Axis";
 	/** Y Axis Label			*/
 	private String		m_Y_AxisLabel = "Y Axis";
-	/** Y Axis Max				*/
-	private double		m_Y_Max	= 0;
+//	/** Y Axis Max				*/
+//	private double		m_Y_Max	= 0;
 	/** Y Axis Target Line		*/
 	private double		m_Y_Target	= 0;
 	/** Y Axis Target Line Label */
 	private String		m_Y_TargetLabel = null;
 	private static Dimension			paneldimension = new Dimension(180, 150);
-	
+
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	
+
 	/**
 	 * 	Load Performance Data
 	 */
@@ -127,8 +129,8 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 		{
 			MMeasureCalc mc = MMeasureCalc.get(Env.getCtx(), measure.getPA_MeasureCalc_ID());
 			String sql = mc.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), null, 
-				MRole.getDefault());	//	logged in role
+					m_goal.getMeasureDisplay(), null, 
+					MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
@@ -183,13 +185,13 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 					trunc = "MM";
 				else if (MGoal.MEASUREDISPLAY_Week.equals(MeasureDisplay))
 					trunc = "W";
-			//	else if (MGoal.MEASUREDISPLAY_Day.equals(MeasureDisplay))
-			//		trunc = "D";
+				//	else if (MGoal.MEASUREDISPLAY_Day.equals(MeasureDisplay))
+				//		trunc = "D";
 				trunc = "TRUNC(DateDoc,'" + trunc + "')";
 				StringBuffer sql = new StringBuffer ("SELECT SUM(ManualActual), ")
-					.append(trunc).append(" FROM PA_Achievement WHERE PA_Measure_ID=? AND IsAchieved='Y' ")
-					.append("GROUP BY ").append(trunc)
-					.append(" ORDER BY ").append(trunc);
+				.append(trunc).append(" FROM PA_Achievement WHERE PA_Measure_ID=? AND IsAchieved='Y' ")
+				.append("GROUP BY ").append(trunc)
+				.append(" ORDER BY ").append(trunc);
 				PreparedStatement pstmt = null;
 				ResultSet rs = null;
 				try
@@ -217,14 +219,14 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				}
 			}	//	Achievement in time
 		}	//	Achievement
-		
+
 		//	Request
 		else if (MMeasure.MEASURETYPE_Request.equals(measure.getMeasureType()))
 		{
 			MRequestType rt = MRequestType.get(Env.getCtx(), measure.getR_RequestType_ID());
 			String sql = rt.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
-				null, MRole.getDefault());	//	logged in role
+					m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
+					null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
@@ -259,14 +261,14 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				rs = null; pstmt = null;
 			}
 		}	//	Request
-		
+
 		//	Project
 		else if (MMeasure.MEASURETYPE_Project.equals(measure.getMeasureType()))
 		{
 			MProjectType pt = MProjectType.get(Env.getCtx(), measure.getC_ProjectType_ID());
 			String sql = pt.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
-				null, MRole.getDefault());	//	logged in role
+					m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
+					null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
@@ -293,7 +295,7 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 				rs = null; pstmt = null;
 			}
 		}	//	Project
-		
+
 		//	Add last 20
 		int startValue = 0;
 		//if (list.size() > 20) //TODO CHECK
@@ -301,42 +303,42 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 		/*
 		for (int i = startValue; i < list.size(); i++)
 			add (list.get(i));
-		*/
+		 */
 		for (int i = startValue; i < list.size(); i++){
 			dataset.addValue(list.get(i).getValue(), list.get(i).getLabel(), list.get(i).getLabel());
 		}
-			
-        // create the chart...
-        final JFreeChart chart = ChartFactory.createBarChart(
-            measure.getName(),         // chart title
-            m_X_AxisLabel,               // domain axis label
-            m_Y_AxisLabel,                  // range axis label
-            dataset,                  // data
-            PlotOrientation.VERTICAL, // orientation
-            false,                     // include legend
-            true,                     // tooltips?
-            true                     // URLs?
-            );
 
-        CategoryPlot plot = chart.getCategoryPlot();
-        //plot.setBackgroundPaint(Color.lightGray); //GraphUtil.getForeground(getBackground())
-        BarRenderer renderer = (BarRenderer) plot.getRenderer(); 
-        chart.getCategoryPlot().setRenderer(renderer);       
-		 renderer.setSeriesPaint(0, new Color(92/255f, 178/255f, 232/255f));
-		 renderer.setSeriesPaint(1, new Color(56/255f, 97/255f, 119/255f));            
-		 renderer.setSeriesPaint(2, new Color(242/255f, 70/255f, 78/255f));
-		 renderer.setSeriesPaint(3, Color.orange);							
-		 renderer.setSeriesPaint(4, new Color(147/255f, 196/255f, 51/255f));
-		 renderer.setSeriesPaint(5, new Color(210/255f, 247/255f, 91/255f));
-		 renderer.setSeriesPaint(6, new Color(129/255f, 235/255f, 249/255f));
-		 renderer.setSeriesPaint(7, new Color(60/255f, 84/255f, 8/255f));    
-		 renderer.setSeriesPaint(8, new Color(0.8f, 0.8f, 0.8f));  
+		// create the chart...
+		final JFreeChart chart = ChartFactory.createBarChart(
+				measure.getName(),         // chart title
+				m_X_AxisLabel,               // domain axis label
+				m_Y_AxisLabel,                  // range axis label
+				dataset,                  // data
+				PlotOrientation.VERTICAL, // orientation
+				false,                     // include legend
+				true,                     // tooltips?
+				true                     // URLs?
+		);
 
-        chartPanel = new ChartPanel(chart);
-        chartPanel.setSize(getSize());
-        chartPanel.addChartMouseListener(this);
-        add(chartPanel,BorderLayout.CENTER);
-        this.setMinimumSize(paneldimension);
+		CategoryPlot plot = chart.getCategoryPlot();
+		//plot.setBackgroundPaint(Color.lightGray); //GraphUtil.getForeground(getBackground())
+		BarRenderer renderer = (BarRenderer) plot.getRenderer(); 
+		chart.getCategoryPlot().setRenderer(renderer);       
+		renderer.setSeriesPaint(0, new Color(92/255f, 178/255f, 232/255f));
+		renderer.setSeriesPaint(1, new Color(56/255f, 97/255f, 119/255f));            
+		renderer.setSeriesPaint(2, new Color(242/255f, 70/255f, 78/255f));
+		renderer.setSeriesPaint(3, Color.orange);							
+		renderer.setSeriesPaint(4, new Color(147/255f, 196/255f, 51/255f));
+		renderer.setSeriesPaint(5, new Color(210/255f, 247/255f, 91/255f));
+		renderer.setSeriesPaint(6, new Color(129/255f, 235/255f, 249/255f));
+		renderer.setSeriesPaint(7, new Color(60/255f, 84/255f, 8/255f));    
+		renderer.setSeriesPaint(8, new Color(0.8f, 0.8f, 0.8f));  
+
+		chartPanel = new ChartPanel(chart);
+		chartPanel.setSize(getSize());
+		chartPanel.addChartMouseListener(this);
+		add(chartPanel,BorderLayout.CENTER);
+		this.setMinimumSize(paneldimension);
 	}	//	loadData
 	private ChartPanel chartPanel;
 	/**
@@ -347,8 +349,8 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	{
 		return m_point0_0;
 	}	//	getPoint0_0
-	
-	
+
+
 	/**
 	 * @return Returns the x_AxisLabel.
 	 */
@@ -356,7 +358,7 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	{
 		return m_X_AxisLabel;
 	}	//	getX_AxisLabel
-	
+
 	/**
 	 * @param axisLabel The x_AxisLabel to set.
 	 */
@@ -372,7 +374,7 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	{
 		return m_Y_AxisLabel;
 	}	//	getY_AxisLabel
-	
+
 	/**
 	 * @param axisLabel The y_AxisLabel to set.
 	 */
@@ -380,7 +382,7 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	{
 		m_Y_AxisLabel = axisLabel;
 	}	//	setY_AxisLabel
-	
+
 	/**
 	 * @return Returns the y_TargetLabel.
 	 */
@@ -388,7 +390,7 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	{
 		return m_Y_TargetLabel;
 	}	//	getY_TargetLabel
-	
+
 	/**
 	 * @param targetLabel The y_TargetLabel to set.
 	 */
@@ -397,8 +399,8 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 		m_Y_TargetLabel = targetLabel;
 		m_Y_Target = target;
 	}	//	setY_TargetLabel
-	
-	
+
+
 	/**
 	 * 	Add Column
 	 *	@param column column
@@ -408,65 +410,65 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 		super.add (column, "column");
 		//column.addActionListener(this);		
 	}	//	add
-	
-	
+
+
 	/**************************************************************************
 	 * 	Paint Component
 	 *	@param g graphics
 	 */
 
-	 public void chartMouseClicked(ChartMouseEvent event){
-		 if ((event.getEntity()!=null) && (event.getTrigger().getClickCount() > 1)) {
-			 setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-					BarGraphColumn bgc = null;
-					String eventUrl = event.getEntity().toString();
-					for (int i = 0; i < list.size(); i++){
-						if ( eventUrl.substring(eventUrl.length() - list.get(i).getLabel().length()).equals(list.get(i).getLabel()))
-							bgc = list.get(i);
-					}
-					if (null==bgc) return;
-					log.info(bgc.getName());
-					MQuery query = null;
-					if (bgc.getAchievement() != null)	//	Single Achievement
-					{
-						MAchievement a = bgc.getAchievement();
-						query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
-					}
-					else if (bgc.getGoal() != null)		//	Multiple Achievements 
-					{
-						MGoal goal = bgc.getGoal();
-						query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
-					}
-					else if (bgc.getMeasureCalc() != null)	//	Document
-					{
-						MMeasureCalc mc = bgc.getMeasureCalc();
-						query = mc.getQuery(m_goal.getRestrictions(false), 
-							bgc.getMeasureDisplay(), bgc.getDate(), 
-							MRole.getDefault());	//	logged in role
-					}
-					else if (bgc.getProjectType() != null)	//	Document
-					{
-						MProjectType pt = bgc.getProjectType();
-						query = pt.getQuery(m_goal.getRestrictions(false), 
-							bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(), 
-							MRole.getDefault());	//	logged in role
-					}
-					else if (bgc.getRequestType() != null)	//	Document
-					{
-						MRequestType rt = bgc.getRequestType();
-						query = rt.getQuery(m_goal.getRestrictions(false), 
-							bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(),
-							MRole.getDefault());	//	logged in role
-					}
-					if (query != null)
-						AEnv.zoom(query);
-					else
-						log.warning("Nothing to zoom to - " + bgc);
-					setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		 }
-	 }
-     
-     public void 	chartMouseMoved(ChartMouseEvent event) {}
+	public void chartMouseClicked(ChartMouseEvent event){
+		if ((event.getEntity()!=null) && (event.getTrigger().getClickCount() > 1)) {
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			BarGraphColumn bgc = null;
+			String eventUrl = event.getEntity().toString();
+			for (int i = 0; i < list.size(); i++){
+				if ( eventUrl.substring(eventUrl.length() - list.get(i).getLabel().length()).equals(list.get(i).getLabel()))
+					bgc = list.get(i);
+			}
+			if (null==bgc) return;
+			log.info(bgc.getName());
+			MQuery query = null;
+			if (bgc.getAchievement() != null)	//	Single Achievement
+			{
+				MAchievement a = bgc.getAchievement();
+				query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
+			}
+			else if (bgc.getGoal() != null)		//	Multiple Achievements 
+			{
+				MGoal goal = bgc.getGoal();
+				query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
+			}
+			else if (bgc.getMeasureCalc() != null)	//	Document
+			{
+				MMeasureCalc mc = bgc.getMeasureCalc();
+				query = mc.getQuery(m_goal.getRestrictions(false), 
+						bgc.getMeasureDisplay(), bgc.getDate(), 
+						MRole.getDefault());	//	logged in role
+			}
+			else if (bgc.getProjectType() != null)	//	Document
+			{
+				MProjectType pt = bgc.getProjectType();
+				query = pt.getQuery(m_goal.getRestrictions(false), 
+						bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(), 
+						MRole.getDefault());	//	logged in role
+			}
+			else if (bgc.getRequestType() != null)	//	Document
+			{
+				MRequestType rt = bgc.getRequestType();
+				query = rt.getQuery(m_goal.getRestrictions(false), 
+						bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(),
+						MRole.getDefault());	//	logged in role
+			}
+			if (query != null)
+				AEnv.zoom(query);
+			else
+				log.warning("Nothing to zoom to - " + bgc);
+			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
+	}
+
+	public void 	chartMouseMoved(ChartMouseEvent event) {}
 
 	public BarGraphColumn[] getBarGraphColumnList() {
 		BarGraphColumn[] array = new BarGraphColumn[list.size()];
@@ -495,5 +497,5 @@ public class BarGraph extends CPanel implements ChartMouseListener //, Component
 	}
 	public void componentShown(ComponentEvent e) {
 	}
-	*/
+	 */
 }	//	BarGraph
