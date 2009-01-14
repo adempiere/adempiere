@@ -66,7 +66,7 @@ public class ModelClassGenerator
 	/**
 	 * 	Generate PO Class
 	 * 	@param AD_Table_ID table id
-	 * 	@param directory directory with \ or / at the end.
+	 * 	@param directory directory
 	 * 	@param packageName package name
 	 */
 	public ModelClassGenerator (int AD_Table_ID, String directory, String packageName)
@@ -81,6 +81,9 @@ public class ModelClassGenerator
 		String tableName = createHeader(AD_Table_ID, sb, mandatory, packageName);
 		
 		// Save
+		if ( ! directory.endsWith(File.separator) )
+			directory += File.separator;
+		
 		writeToFile (sb, directory + tableName + ".java");
 	}
 	
