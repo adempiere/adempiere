@@ -205,7 +205,7 @@ public class MCostElement extends X_M_CostElement
 	 *	@param po parent
 	 *	@return cost element array
 	 */
-	public static MCostElement[] getMaterialWithCostingMethods (PO po)
+	public static MCostElement[] getCostingMethods (PO po)
 	{
 		ArrayList<MCostElement> list = new ArrayList<MCostElement>();
 		String sql = "SELECT * FROM M_CostElement "
