@@ -110,7 +110,7 @@ public class ADServiceImpl implements ADService {
 		m_cs = new CompiereService();
 		m_cs.connect();			
 		
-		System.out.println("Creating session object ADService");
+		log.info("Creating session object ADService");
 	}
 	
 	public String getVersion() {
@@ -1598,9 +1598,9 @@ public class ADServiceImpl implements ADService {
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * @see com._3e.ADInterface.ADService#modelSetDocAction(pl.x3E.adInterface.ADLoginRequestDocument, java.lang.String, int, java.lang.String)
 	 * Model oriented web service to change DocAction for documents, i.e. Complete a Material Receipt
+	 * WARNING!!! This web service complete documents not via workflow, so it jump over any approval step considered in document workflow
+	 *   To complete documents using workflow it's better to use the modelSetDocActionWorkflowProcess web service (to be written) 
 	 */
 	public StandardResponseDocument modelSetDocAction(
 			String tableName, int recordID,
@@ -1609,8 +1609,7 @@ public class ADServiceImpl implements ADService {
     	StandardResponse resp = ret.addNewStandardResponse();
     	resp.setRecordID (recordID);
     	
-    	// 
-    	// TODO: Reuse open already connections with the same login data
+    	// TODO: Share login between different sessions
     	String err = modelLogin(reqlogin);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -1626,54 +1625,27 @@ public class ADServiceImpl implements ADService {
     	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
-    	if (table == null) {
-    		resp.setError("No table " + tableName);
-        	resp.setIsError(true);
-        	trx.rollback();
-        	trx.close();
-        	return ret;
-    	}
+    	if (table == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
     	PO po = table.getPO(recordID, trxName);
-    	if (po == null) {
-    		resp.setError("No Record " + recordID + " in " + tableName);
-        	resp.setIsError(true);
-        	trx.rollback();
-        	trx.close();
-        	return ret;
-    	}
+    	if (po == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
+
     	String docStatus = null;
     	try {
         	docStatus = ((org.compiere.process.DocAction) po).getDocStatus();
 		} catch (Exception e) {
-    		resp.setError("Can't get docStatus");
-        	resp.setIsError(true);
-        	trx.rollback();
-        	trx.close();
-        	return ret;
+			return rollbackAndSetError(trx, resp, ret, true, "Can't get docStatus");
 		}
-		if (newDocStatus.equals(docStatus)) {
-    		resp.setError("Status is actually " + docStatus);
-        	resp.setIsError(false);
-        	trx.rollback();
-        	trx.close();
-        	return ret;
-		}
+		if (newDocStatus.equals(docStatus))
+			return rollbackAndSetError(trx, resp, ret, false, "Status is actually " + docStatus);
 		
     	// call process it
     	try {
-			if (! ((org.compiere.process.DocAction) po).processIt(newDocStatus)) {
-	    		resp.setError("Couldn't set docAction: " + ((org.compiere.process.DocAction) po).getProcessMsg());
-	        	resp.setIsError(true);
-	        	trx.rollback();
-	        	trx.close();
-	        	return ret;
-			}
+			if (! ((org.compiere.process.DocAction) po).processIt(newDocStatus))
+				return rollbackAndSetError(trx, resp, ret, true, "Couldn't set docAction: " + ((org.compiere.process.DocAction) po).getProcessMsg());
 		} catch (Exception e) {
-    		resp.setError(e.toString());
-        	resp.setIsError(true);
-        	trx.rollback();
-        	trx.close();
-        	return ret;
+			return rollbackAndSetError(trx, resp, ret, true, e.toString());
 		}
 
     	// close the trx
@@ -1688,32 +1660,78 @@ public class ADServiceImpl implements ADService {
 		return ret;
 	}
 
+	private StandardResponseDocument rollbackAndSetError(Trx trx,
+			StandardResponse resp, StandardResponseDocument ret, boolean isError,
+			String string) {
+		resp.setError(string);
+    	resp.setIsError(isError);
+    	trx.rollback();
+    	trx.close();
+    	return ret;
+	}
+
 	private String modelLogin(ADLoginRequestDocument reqlogin) {
 		ADLoginRequest r = reqlogin.getADLoginRequest();
+
+		if (   m_cs.isLoggedIn()
+			&& m_cs.getM_AD_Client_ID() == r.getClientID()
+			&& m_cs.getM_AD_Org_ID() == r.getOrgID()
+			&& m_cs.getM_AD_Role_ID() == r.getRoleID()
+			&& m_cs.getM_AD_Warehouse_ID() == r.getWarehouseID()
+			&& r.getUser().equals(m_cs.getUser())
+			)
+			return null; // already logged with same data
 		
 		Login login = new Login(m_cs.getM_ctx());
-		KeyNamePair[] roles = null;
-		KeyNamePair[] clients = null;
-		KeyNamePair[] orgs  = null;
-		KeyNamePair[] warehouses = null;
-		roles = login.getRoles(r.getUser(), r.getPass());
+		KeyNamePair[] roles = login.getRoles(r.getUser(), r.getPass());
 		if (roles != null)
 		{
-			
-			if (r.getRoleID()==-1 && roles != null && roles.length>0)
-				r.setRoleID( Integer.parseInt( roles[0].getID() ) );
-			if (r.getRoleID()>-1) clients = login.getClients( new KeyNamePair(r.getRoleID(), "" ) );
+			boolean okrole = false;
+			for (KeyNamePair role : roles) {
+				if (role.getKey() == r.getRoleID()) {
+					okrole = true;
+					break;
+				}
+			}
+			if (!okrole)
+				return "Error logging in - role not allowed for this user";
 
-			if (r.getClientID()==-1 && clients != null && clients.length>0)
-				r.setClientID( Integer.parseInt( clients[0].getID() ) );
-			if (r.getClientID()>-1) orgs = login.getOrgs( new KeyNamePair(r.getClientID(), "" ) );
-							
-			if (r.getOrgID()==-1 && orgs != null && orgs.length>0)
-				r.setOrgID( Integer.parseInt( orgs[0].getID() ) );								
-			if (r.getOrgID()>-1) warehouses = login.getWarehouses( new KeyNamePair(r.getOrgID(), "" ) );
+			KeyNamePair[] clients = login.getClients( new KeyNamePair(r.getRoleID(), "" ) );
+			boolean okclient = false;
+			for (KeyNamePair client : clients) {
+				if (client.getKey() == r.getClientID()) {
+					okclient = true;
+					break;
+				}
+			}
+			if (!okclient)
+				return "Error logging in - client not allowed for this role";
+
+			KeyNamePair[] orgs  = login.getOrgs( new KeyNamePair(r.getClientID(), "" ));
+			KeyNamePair orglogin = null;
+			boolean okorg = false;
+			for (KeyNamePair org : orgs) {
+				if (org.getKey() == r.getOrgID()) {
+					okorg = true;
+					orglogin = org;
+					break;
+				}
+			}
+			if (!okorg)
+				return "Error logging in - org not allowed for this role";
+
+			KeyNamePair[] warehouses = login.getWarehouses( new KeyNamePair(r.getOrgID(), "" ) );
+			boolean okwh = false;
+			for (KeyNamePair warehouse : warehouses) {
+				if (warehouse.getKey() == r.getWarehouseID()) {
+					okwh = true;
+					break;
+				}
+			}
+			if (!okwh)
+				return "Error logging in - warehouse not allowed for this org";
 			
-			KeyNamePair org = new KeyNamePair(r.getRoleID(), Integer.toString(r.getRoleID()));
-			String error = login.validateLogin(org);
+			String error = login.validateLogin(orglogin);
 			if (error != null && error.length() > 0)
 				return error;
 

@@ -49,7 +49,7 @@ public class CompiereUtil {
 		MClient client = MClient.get(ctx, 0);
 		MSystem system = MSystem.get(ctx);
 		
-		Env.setContext( ctx, "#AD_Language", "pl_PL" );
+		// Env.setContext( ctx, "#AD_Language", "pl_PL" );
 		//client.sendEMail(client.getRequestEMail(), 
 		//	"Server started: " + system.getName() 
 		//	,"ServerInfo: " + context.getServerInfo()

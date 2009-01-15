@@ -1,7 +1,8 @@
 package com._3e.ADInterface;
 
 import org.compiere.util.*;
-import org.compiere.model.MPOS;
+import org.compiere.model.MUser;
+
 import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,13 +21,12 @@ public class CompiereService {
 	
 	private int m_AD_Client_ID;
 	private int m_AD_Org_ID;
+	private int m_AD_User_ID;
+	private int m_AD_Role_ID;
+	private int m_AD_Warehouse_ID;
+	private String m_Lang;
+	private String m_User;
 
-	private int M_POS_ID = 1000000;	
-	private MPOS pos;
-	
-	private int m_PriceList_ID = 1000002;
-	private int m_PriceListVersion_ID = 1000001;
-	
 	private boolean LoggedIn = false; 
 	
 	
@@ -44,6 +44,19 @@ public class CompiereService {
 	/** Localized Quantity format   */
 	public DecimalFormat 	quantityFormat = null;
 
+	/** Localized Date format       */
+	public SimpleDateFormat modelDateFormat = null;
+	/** Localized Timestamp format  */
+	public SimpleDateFormat modelDateTimeFormat = null;
+
+	/** Localized Amount format    */
+	public DecimalFormat 	modelAmountFormat = null;
+	/** Localized Integer format    */
+	public DecimalFormat 	modelIntegerFormat = null;
+	/** Localized Number format     */
+	public DecimalFormat 	modelNumberFormat = null;
+	/** Localized Quantity format   */
+	public DecimalFormat 	modelQuantityFormat = null;
 	
 	private Language m_lang; 
 		
@@ -93,18 +106,11 @@ public class CompiereService {
 	{
 		CompiereUtil.initWeb();
 		
-		m_AD_Client_ID = 1000000;
-		m_AD_Org_ID = 1000000;
-		
-		//m_ctx.setProperty("#AD_Client_ID", Integer.toString( m_AD_Client_ID));
-		//m_ctx.setProperty("#AD_Org_ID", Integer.toString( m_AD_Org_ID));
-		//m_ctx.setProperty("#AD_Role_ID", Integer.toString( 1000000));
-		//m_ctx.setProperty("#AD_User_ID", Integer.toString( 100));
-		
 		Env.setCtx(m_ctx);
 		Env.setContext( m_ctx, "#AD_Language", "en_US" );
 		m_lang = Language.getLanguage("en_US");
 		
+		// These variables are needed for ADClient.exe
 		Language m_lang2 = Language.getLanguage("pl_PL");
 		
 		//dateFormat = DisplayType.getDateFormat(DisplayType.Date, m_lang2);
@@ -204,7 +210,7 @@ public class CompiereService {
 			+ " AND o.AD_Org_ID IN (SELECT AD_Org_ID FROM AD_Role_OrgAccess ca WHERE ca.AD_Role_ID=ur.AD_Role_ID)";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_User_ID);
 			pstmt.setInt(2, AD_Client_ID);
 			pstmt.setInt(3, AD_Org_ID);
@@ -247,22 +253,80 @@ public class CompiereService {
 		if (loginInfo == null)
 			return false;	
 		
+		m_AD_Client_ID = AD_Client_ID;
+		m_AD_Org_ID = AD_Org_ID;
+		m_AD_User_ID = AD_User_ID;
+		m_AD_Role_ID = AD_Role_ID;
+		m_AD_Warehouse_ID = AD_Warehouse_ID;
+		m_Lang = Lang;
+		m_User = MUser.getNameOfUser(m_AD_User_ID);
+		
+		Env.setCtx(m_ctx);
+		Env.setContext( m_ctx, "#AD_Language", Lang);
+		m_lang = Language.getLanguage(Lang);
+		Env.verifyLanguage( getM_ctx(), m_lang );
+		
+		modelDateFormat = new SimpleDateFormat( datePattern );
+		modelDateTimeFormat = new SimpleDateFormat( datePattern );
+		
+		modelAmountFormat = DisplayType.getNumberFormat(DisplayType.Amount, m_lang);
+		modelIntegerFormat = DisplayType.getNumberFormat(DisplayType.Integer, m_lang);
+		modelNumberFormat = DisplayType.getNumberFormat(DisplayType.Number, m_lang);
+		modelQuantityFormat = DisplayType.getNumberFormat(DisplayType.Quantity, m_lang);
+
 		//  Set Date
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		
 		SimpleDateFormat dateFormat4Timestamp = new SimpleDateFormat( dateFormatOnlyForCtx ); 
 		Env.setContext( getM_ctx(), "#Date", dateFormat4Timestamp.format(ts)+" 00:00:00" );    //  JDBC format
-		System.out.println(" #Date = "+ Env.getContextAsDate( getM_ctx(), "#Date"));
+		log.info(" #Date = "+ Env.getContextAsDate( getM_ctx(), "#Date"));
 
 		Env.setContext( getM_ctx(), "#M_Warehouse_ID", AD_Warehouse_ID );
-		
-		m_lang = Language.getLanguage( Lang );
-		Env.verifyLanguage( getM_ctx(), m_lang );
 		Env.setContext(m_ctx, Env.LANGUAGE, m_lang.getAD_Language());
 		//Env.setContext( getM_ctx(), "#AD_Language", Lang );
 		
 		LoggedIn = true;		
 		return true;
+	}
+
+	public void setM_AD_User_ID(int m_AD_User_ID) {
+		this.m_AD_User_ID = m_AD_User_ID;
+	}
+
+	public int getM_AD_User_ID() {
+		return m_AD_User_ID;
+	}
+
+	public void setM_AD_Role_ID(int m_AD_Role_ID) {
+		this.m_AD_Role_ID = m_AD_Role_ID;
+	}
+
+	public int getM_AD_Role_ID() {
+		return m_AD_Role_ID;
+	}
+
+	public void setM_Lang(String m_Lang) {
+		this.m_Lang = m_Lang;
+	}
+
+	public String getM_Lang() {
+		return m_Lang;
+	}
+
+	public void setM_AD_Warehouse_ID(int m_AD_Warehouse_ID) {
+		this.m_AD_Warehouse_ID = m_AD_Warehouse_ID;
+	}
+
+	public int getM_AD_Warehouse_ID() {
+		return m_AD_Warehouse_ID;
+	}
+
+	public void setUser(String m_User) {
+		this.m_User = m_User;
+	}
+
+	public String getUser() {
+		return m_User;
 	}
 
 }
