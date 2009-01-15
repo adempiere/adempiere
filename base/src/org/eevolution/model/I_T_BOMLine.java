@@ -93,12 +93,12 @@ public interface I_T_BOMLine
 	/** Set Cost.
 	  * Cost information
 	  */
-	public void setCost (int Cost);
+	public void setCost (BigDecimal Cost);
 
 	/** Get Cost.
 	  * Cost information
 	  */
-	public int getCost();
+	public BigDecimal getCost();
 
     /** Column name CurrentCostPrice */
     public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";

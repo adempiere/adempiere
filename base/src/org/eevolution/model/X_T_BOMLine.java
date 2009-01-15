@@ -157,20 +157,20 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		@param Cost 
 		Cost information
 	  */
-	public void setCost (int Cost)
+	public void setCost (BigDecimal Cost)
 	{
-		set_Value (COLUMNNAME_Cost, Integer.valueOf(Cost));
+		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
 	/** Get Cost.
 		@return Cost information
 	  */
-	public int getCost () 
+	public BigDecimal getCost () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Cost);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Current Cost Price.
