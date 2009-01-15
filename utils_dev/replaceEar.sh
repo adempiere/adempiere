@@ -20,10 +20,10 @@ cd ADInterface-1.0_new.war
 jar xvf ../ADInterface-1.0_original.war
 
 rm WEB-INF/lib/Adempiere-320.jar
-cp ~/makes/Root342/Adempiere/lib/Adempiere.jar WEB-INF/lib
-
 rm WEB-INF/lib/AdempiereCLib-320.jar
-cp ~/makes/Root342/Adempiere/lib/AdempiereCLib.jar WEB-INF/lib
+# old way - not needed now
+# cp ~/makes/Root342/Adempiere/lib/Adempiere.jar WEB-INF/lib
+# cp ~/makes/Root342/Adempiere/lib/AdempiereCLib.jar WEB-INF/lib
 
 rm WEB-INF/lib/xbean*.jar
 cp ../../../lib/xbean*.jar WEB-INF/lib
@@ -53,7 +53,13 @@ jar cvf ../ADInterface-1.0.war *
 cd ..
 rm ADInterface-1.0_original.war
 rm -rf ADInterface-1.0_new.war
-jar cvf ../ADInterface.ear *
+
+cp ADInterface-1.0.war ~/makes/Root342/Adempiere/lib/ADInterface-1.0.war
+cp ADInterface-1.0.war ~/makes/Root342/Adempiere/jboss/server/adempiere/deploy/adempiere.ear/ADInterface-1.0.war
+cp ADInterface-1.0.war ..
+
+# The old way - installing as ear (now I'm installing as war)
+# jar cvf ../ADInterface.ear *
 cd ..
-cp ADInterface.ear ~/makes/Root342/Adempiere/jboss/server/adempiere/deploy/ADInterface.ear
+# cp ADInterface.ear ~/makes/Root342/Adempiere/jboss/server/adempiere/deploy/ADInterface.ear
 rm -rf ADInterface_new.ear
