@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<SOAP-ENV:Body>
+<modelSetDocAction xmlns="http://3e.pl/ADInterface">
+  <in0>M_InOut</in0>
+  <in1>1000002</in1>
+  <in2>PN</in2>
+  <ADLoginRequest>
+    <user>SuperUser</user>
+    <pass>System</pass>
+    <lang>es_CO</lang>
+    <ClientID>11</ClientID>
+    <RoleID>102</RoleID>
+    <OrgID>11</OrgID>
+    <WarehouseID>103</WarehouseID>
+    <stage/>
+  </ADLoginRequest>
+</modelSetDocAction>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
