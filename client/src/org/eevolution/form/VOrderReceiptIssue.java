@@ -1079,7 +1079,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 					PP_Order_BOMLine_ID = ((Integer) key.getKey());
 				}
 
-				MStorage[] storages = MPPOrder.getStorages(
+				MStorage[] storages = MPPOrder.getStorages(Env.getCtx(),
 						M_Product_ID,
 						getPP_Order().getM_Warehouse_ID(),
 						M_AttributeSetInstance_ID,
@@ -1150,7 +1150,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 					{ 
 						Timestamp m_movementDate = getMovementDate();
 						Timestamp minGuaranteeDate = m_movementDate;
-						MStorage[] storages =  MPPOrder.getStorages(
+						MStorage[] storages =  MPPOrder.getStorages(Env.getCtx(),
 								m_M_Product_ID,
 								getPP_Order().getM_Warehouse_ID(),
 								0,
