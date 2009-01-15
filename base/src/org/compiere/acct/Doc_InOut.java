@@ -104,7 +104,7 @@ public class Doc_InOut extends Doc
 			
 			//Define if Outside Processing 
 			String sql = "SELECT PP_Cost_Collector_ID  FROM C_OrderLine WHERE C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
-			int PP_Cost_Collector_ID = DB.getSQLValue(getTrxName(), sql, new Object[]{line.getC_OrderLine_ID()});
+			int PP_Cost_Collector_ID = DB.getSQLValueEx(getTrxName(), sql, new Object[]{line.getC_OrderLine_ID()});
 			docLine.setPP_Cost_Collector_ID(PP_Cost_Collector_ID);
 			//
 			log.fine(docLine.toString());
