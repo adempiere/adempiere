@@ -49,6 +49,8 @@ import org.compiere.util.Env;
  */
 public class MPrintTableFormat extends X_AD_PrintTableFormat
 {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *	Standard Constructor
 	 *  @param ctx context
@@ -603,56 +605,6 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 		}
 		return tf;
 	}	//	get
-
-	/**
-	 * 	Load Attachment
-	 * 	@param AD_PrintFormatItem_ID record id
-	 * @throws MalformedURLException 
-	 */
-	private void loadImages(int AD_PrintTableFormatItem_ID) 
-	{
-		if(this.isImageIsAttached())
-		{	
-			MAttachment attachment = MAttachment.get(Env.getCtx(), 
-				MPrintFormatItem.Table_ID, AD_PrintTableFormatItem_ID);
-			if (attachment == null)
-			{
-				log.log(Level.WARNING, "No Attachment - AD_PrintFormatItem_ID=" + AD_PrintTableFormatItem_ID);
-				return;
-			}
-			if (attachment.getEntryCount() != 1)
-			{
-				log.log(Level.WARNING, "Need just 1 Attachment Entry = " + attachment.getEntryCount());
-				return;
-			}
-			byte[] imageData = attachment.getEntryData(0);
-			if (imageData != null)
-				m_image = Toolkit.getDefaultToolkit().createImage(imageData);
-			if (m_image != null)
-				log.fine(attachment.getEntryName(0) 
-					+ " - Size=" + imageData.length);
-			else
-				log.log(Level.WARNING, attachment.getEntryName(0)
-					+ " - not loaded (must be gif or jpg) - AD_PrintFormatItem_ID=" + AD_PrintTableFormatItem_ID);
-		}
-		else if (getImageURL()!= null)
-		{		
-			URL url;
-			try 
-			{
-				url = new URL(getImageURL());
-				Toolkit tk = Toolkit.getDefaultToolkit();
-				m_image = tk.getImage(url);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}	
-		else if(getAD_Image_ID() > 0)
-		m_image_water_mark = MImage.get(getCtx(), getAD_Image_ID()).getImage();
-		
-	}	//	loadAttachment
-	
 	
 	/**
 	 * 	Get the Image
@@ -660,9 +612,52 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 	 */
 	public Image getImage()
 	{
-		if(m_image==null)
-			loadImages(getAD_PrintTableFormat_ID());
-		
+		if(m_image != null)
+		{
+			return m_image;
+		}
+		//
+		if(isImageIsAttached())
+		{	
+			MAttachment attachment = MAttachment.get(getCtx(), Table_ID, get_ID());
+			if (attachment == null)
+			{
+				log.log(Level.WARNING, "No Attachment - ID=" + get_ID());
+				return null;
+			}
+			if (attachment.getEntryCount() != 1)
+			{
+				log.log(Level.WARNING, "Need just 1 Attachment Entry = " + attachment.getEntryCount());
+				return null;
+			}
+			byte[] imageData = attachment.getEntryData(0);
+			if (imageData != null)
+			{
+				m_image = Toolkit.getDefaultToolkit().createImage(imageData);
+			}
+			if (m_image != null)
+			{
+				log.fine(attachment.getEntryName(0) + " - Size=" + imageData.length);
+			}
+			else
+			{
+				log.log(Level.WARNING, attachment.getEntryName(0) + " - not loaded (must be gif or jpg) - ID=" + get_ID());
+			}
+		}
+		else if (getImageURL() != null)
+		{		
+			URL url;
+			try 
+			{
+				url = new URL(getImageURL());
+				Toolkit tk = Toolkit.getDefaultToolkit();
+				m_image = tk.getImage(url);
+			}
+			catch (MalformedURLException e)
+			{
+				log.log(Level.WARNING, "Malformed URL - "+getImageURL(), e);
+			}
+		}
 		return m_image;
 	}	//	getImage
 	
@@ -672,8 +667,15 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 	 */
 	public Image getImageWaterMark()
 	{
-		if(m_image_water_mark==null)
-			loadImages(getAD_PrintTableFormat_ID());
+		if(m_image_water_mark != null)
+		{
+			return m_image_water_mark;
+		}
+		//
+		if(getAD_Image_ID() > 0)
+		{
+			m_image_water_mark = MImage.get(getCtx(), getAD_Image_ID()).getImage();
+		}
 		return m_image_water_mark;
 	}	//	getImage
 }	//	MPrintTableFormat

@@ -169,11 +169,10 @@ public class Page
 		g2D.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		//
 		//backgroundImage
-		if(m_image!=null)
+		if(m_image != null)
 		{	
 			int x = (bounds.width/2) - (m_image.getWidth(null)/2); 
 			int y = (bounds.height/2) - (m_image.getHeight(null)/2); 
-			
 			g2D.drawImage(m_image, x  ,y ,null);
 		}
 		//

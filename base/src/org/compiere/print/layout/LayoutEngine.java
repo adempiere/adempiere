@@ -472,26 +472,25 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		Env.setContext(m_printCtx, Page.CONTEXT_TIME,
 			DisplayType.getDateFormat(DisplayType.DateTime, m_format.getLanguage()).format(now));
 		
-		/*Page Background Image*/
+		//
+		// Page Background Image
 		Image image = null;
-		MPrintTableFormat tf = new MPrintTableFormat(getCtx(), m_format.getAD_PrintTableFormat_ID(), m_TrxName);
-		if (tf==null)
-			tf = MPrintTableFormat.getDefault(getCtx());
-		
-		String table_name = MTable.getTableName(getCtx(), getPrintInfo().getAD_Table_ID());
-		String sql = "SELECT AD_Column_ID FROM AD_Column WHERE ColumnName='IsPrinted' AND AD_Table_ID="+ getPrintInfo().getAD_Table_ID();
-		int AD_Column_ID = DB.getSQLValue(m_TrxName, sql);
-		if(AD_Column_ID > 0)
+		MPrintTableFormat tf = m_format.getTableFormat();
+		MTable table = MTable.get(getCtx(), getPrintInfo().getAD_Table_ID());
+		if(table.getColumn("IsPrinted") != null)
 		{
-			sql = "SELECT IsPrinted FROM "+table_name + " WHERE " +table_name+"_ID="+ getPrintInfo().getRecord_ID();
-			if("Y".equals(DB.getSQLValueString(m_TrxName, sql)))
+			String tableName = table.getTableName();
+			final String sql = "SELECT IsPrinted FROM "+tableName+" WHERE "+tableName+"_ID=?";
+			boolean isPrinted = "Y".equals(DB.getSQLValueStringEx(m_TrxName, sql, getPrintInfo().getRecord_ID()));
+			isPrinted =true;
+			if(isPrinted)
 			{
 				image = tf.getImageWaterMark();
 			}
 		}
 		else
 		{
-				image = tf.getImage();
+			image = tf.getImage();
 		}
 		
 		//	Update Page Info
