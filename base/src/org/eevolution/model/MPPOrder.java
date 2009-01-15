@@ -67,8 +67,6 @@ import org.compiere.wf.MWorkflow;
 public class MPPOrder extends X_PP_Order implements DocAction
 {
 	private static final long serialVersionUID = 1L;
-	/**	Product					*/
-	private MProduct 		m_product = null;
 	
 	public static MPPOrder forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
@@ -114,7 +112,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 *  @param  project Project to create Order from
 	 * 	@param	DocSubTypeSO if SO DocType Target (default DocSubTypeSO_OnCredit)
 	 */
-	public MPPOrder(MProject project, int PP_Product_BOM_ID,int AD_Workflow_ID)
+	public MPPOrder(MProject project, int PP_Product_BOM_ID, int AD_Workflow_ID)
 	{
 		this(project.getCtx(), 0, project.get_TrxName());
 		setAD_Client_ID(project.getAD_Client_ID());
@@ -168,7 +166,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	} //	MOrder
 
 	/**
-	 * @return Open Qty
+	 * @return Open Qty (Ordered - Delivered - Scrap)
 	 */
 	public BigDecimal getQtyOpen()
 	{
@@ -397,14 +395,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			setC_DocType_ID(getC_DocTypeTarget_ID());
 		}
 
-		MDocType doc = MDocType.get(getCtx(), getC_DocType_ID());
-		if (doc.getDocBaseType().equals(MDocType.DOCBASETYPE_QualityOrder))
+		String docBaseType = MDocType.get(getCtx(), getC_DocType_ID()).getDocBaseType();
+		if (MDocType.DOCBASETYPE_QualityOrder.equals(docBaseType))
 		{
-			return DocAction.STATUS_InProgress;
+			; // nothing
 		}
-
-		reserveStock(lines);
-		orderStock();
+		// ManufacturingOrder, MaintenanceOrder
+		else
+		{
+			reserveStock(lines);
+			orderStock();
+		}
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -416,8 +417,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 	private void orderStock()
 	{
-		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-		if (product != null && product.isStocked())
+		MProduct product = getM_Product();
+		if (product.isStocked())
 		{
 			BigDecimal target = getQtyOrdered();
 			BigDecimal difference = target.subtract(getQtyReserved()).subtract(getQtyDelivered());
@@ -425,20 +426,12 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				return ;
 			BigDecimal ordered = difference;
 			
-			int M_Locator_ID = 0;
-			//	Get Locator to reserve
-			if (getM_AttributeSetInstance_ID() != 0) //	Get existing Location
-				M_Locator_ID = MStorage.getM_Locator_ID(getM_Warehouse_ID(), getM_Product_ID(), getM_AttributeSetInstance_ID(), ordered,
-						get_TrxName());
-			//	Get default Location
-			if (M_Locator_ID == 0) 
-			{
-				M_Locator_ID = getM_Locator_ID();
-			}
-			//4Layers - Necessary to clear order quantities when called from closeIt
+			int M_Locator_ID = getM_Locator_ID(ordered);
+			// Necessary to clear order quantities when called from closeIt - 4Layers
 			if (DOCACTION_Close.equals(getDocAction()))
 			{
-				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID, getM_Product_ID(), getM_AttributeSetInstance_ID(),
+				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID,
+						getM_Product_ID(), getM_AttributeSetInstance_ID(),
 						getM_AttributeSetInstance_ID(), Env.ZERO, Env.ZERO, ordered, get_TrxName()))
 				{
 					throw new AdempiereException();
@@ -447,7 +440,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			else
 			{
 				//	Update Storage
-				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID, getM_Product_ID(), getM_AttributeSetInstance_ID(),
+				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID,
+						getM_Product_ID(), getM_AttributeSetInstance_ID(),
 						getM_AttributeSetInstance_ID(), Env.ZERO, Env.ZERO, ordered, get_TrxName()))
 				{
 					throw new AdempiereException();
@@ -466,11 +460,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	private void reserveStock(MPPOrderBOMLine[] lines)
 	{
-		int header_M_Warehouse_ID = getM_Warehouse_ID();
+		final int header_M_Warehouse_ID = getM_Warehouse_ID();
 
 		//	Always check and (un) Reserve Inventory		
-		for (int i = 0; i < lines.length; i++) {
-			MPPOrderBOMLine line = lines[i];
+		for (MPPOrderBOMLine line : lines)
+		{
 			//	Check/set WH/Org
 			if (header_M_Warehouse_ID != 0) //	enforce WH
 			{
@@ -479,48 +473,35 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				if (getAD_Org_ID() != line.getAD_Org_ID())
 					line.setAD_Org_ID(getAD_Org_ID());
 			}
-			//	Binding
-			//vpj BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO;
-			BigDecimal target = line.getQtyRequiered();
-			BigDecimal difference = target.subtract(line.getQtyReserved()).subtract(line.getQtyDelivered());
+			//
+			final BigDecimal target = line.getQtyRequiered();
+			final BigDecimal difference = target.subtract(line.getQtyReserved()).subtract(line.getQtyDelivered());
 			if (difference.signum() == 0)
+			{
 				continue;
-
+			}
 			log.fine("Line=" + line.getLine() + " - Target=" + target + ",Difference=" + difference + " - Requiered=" + line.getQtyRequiered()
 					+ ",Reserved=" + line.getQtyReserved() + ",Delivered=" + line.getQtyDelivered());
 
 			//	Check Product - Stocked and Item
 			MProduct product = line.getM_Product();
-			if (product != null)
+			if (!product.isStocked())
 			{
-				if (product.isStocked())
+				BigDecimal ordered = Env.ZERO;
+				BigDecimal reserved = difference;
+				int M_Locator_ID = getM_Locator_ID(ordered);
+				//	Update Storage
+				if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID,
+						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+						line.getM_AttributeSetInstance_ID(), Env.ZERO, reserved, ordered, get_TrxName()))
 				{
-					//vpj BigDecimal ordered = isSOTrx ? Env.ZERO : difference;
-					BigDecimal ordered = Env.ZERO;
-					//BigDecimal reserved = isSOTrx ? difference : Env.ZERO;
-					BigDecimal reserved = difference;
-					int M_Locator_ID = 0;
-					//	Get Locator to reserve
-					if (line.getM_AttributeSetInstance_ID() != 0) //	Get existing Location
-						M_Locator_ID = MStorage.getM_Locator_ID(line.getM_Warehouse_ID(), line.getM_Product_ID(),
-								line.getM_AttributeSetInstance_ID(), ordered, get_TrxName());
-					//	Get default Location
-					if (M_Locator_ID == 0) {
-						MWarehouse wh = MWarehouse.get(getCtx(), line.getM_Warehouse_ID());
-						M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-					}
-					//	Update Storage
-					if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID, line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-							line.getM_AttributeSetInstance_ID(), Env.ZERO, reserved, ordered, get_TrxName()))
-					{
-						throw new AdempiereException();
-					}
-				} //	stockec
-				//	update line
-				line.setQtyReserved(line.getQtyReserved().add(difference));
-				line.saveEx(get_TrxName());
-			}
-		} //	reverse inventory
+					throw new AdempiereException();
+				}
+			} //	stocked
+			//	update line
+			line.setQtyReserved(line.getQtyReserved().add(difference));
+			line.saveEx(get_TrxName());
+		}
 	} //	reserveStock
 
 	public boolean approveIt()
@@ -613,14 +594,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(obom.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(obom.getBOMUse()))
 		{	
 			if(!MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
+			{
 				throw new AdempiereException( Msg.translate(getCtx(),MRefList.getListName(getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit))
 						+ " "
 						+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
 						+" : " 
 						+ getDocumentNo() 
 						+ " "+Msg.getMsg(getCtx(), "ShipmentCreateDocNotCompleted"));
-			ArrayList[][] issue = new ArrayList[m_lines.length][1];
+			}
+			
 			Timestamp today = new Timestamp(System.currentTimeMillis());
+			ArrayList[][] issue = new ArrayList[m_lines.length][1];
 			
 			for (int i = 0; i < getLines().length ; i++)
 			{
@@ -629,7 +613,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				KeyNamePair id = null;
 				
 				if(MPPOrderBOMLine.ISSUEMETHOD_Backflush.equals(line.getIssueMethod()))
+				{
 					id = new KeyNamePair(line.get_ID(),"Y");
+				}
 				else
 					id = new KeyNamePair(line.get_ID(),"N");
 					
@@ -896,24 +882,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public void setQtyOrdered (BigDecimal QtyOrdered)
 	{
-		MProduct product = getProduct();
-		if (QtyOrdered != null && product != null)
+		if (QtyOrdered != null)
 		{
-			int precision = product.getUOMPrecision();
+			int precision = getM_Product().getUOMPrecision();
 			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
 		}
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered
 	
-	/**
-	 * 	Get Product
-	 *	@return product or null
-	 */
-	public MProduct getProduct()
+//	@Override
+	public MProduct getM_Product()
 	{
-		if (m_product == null && getM_Product_ID() != 0)
-			m_product =  MProduct.get (getCtx(), getM_Product_ID());
-		return m_product;
+		return MProduct.get (getCtx(), getM_Product_ID());
 	}	//	getProduct
 	
 	public MPPOrderBOM getMPPOrderBOM()
@@ -1231,6 +1211,23 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return cc;
 	}
 	
+	public static boolean isAvailableQty(MPPOrder order, I_PP_Order_BOMLine line)
+	{
+		MProduct product = MProduct.get(order.getCtx(), line.getM_Product_ID());
+		if (product == null || !product.isStocked())
+		{
+			return true;
+		}
+		
+		BigDecimal qtyToDeliver = line.getQtyRequiered();
+		BigDecimal qtyScrap = line.getQtyScrap();
+		BigDecimal qtyRequired = qtyToDeliver.add(qtyScrap);
+		BigDecimal qtyAvailable = MStorage.getQtyAvailable(order.getM_Warehouse_ID(), 0,
+												line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+												order.get_TrxName());
+		return qtyAvailable.compareTo(qtyRequired) >= 0;
+	}
+	
 	/**
 	 * get if Component is Available
 	 * @param MPPOrdrt Manufacturing order
@@ -1252,7 +1249,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				continue;
 			}
 			
-			Boolean isCritical = (Boolean)issue[i][0].get(1);
 			String value = (String)issue[i][0].get(2);
 			KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
 			int M_Product_ID = productkey.getKey();
@@ -1260,8 +1256,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);	
 			
 			MProduct product = MProduct.get(order.getCtx(), M_Product_ID);
-	
-			if (product != null && product.get_ID() != 0 && product.isStocked()) 
+			if (product != null && product.isStocked()) 
 			{
 				int M_AttributeSetInstance_ID = ANY_ASI;
 				if (value == null && isSelected)
@@ -1269,7 +1264,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					M_AttributeSetInstance_ID = (Integer)key.getKey();
 				}
 				
-				MStorage[] storages =  MPPOrder.getStorages(order.getCtx(),
+				MStorage[] storages = MPPOrder.getStorages(order.getCtx(),
 						M_Product_ID,
 						order.getM_Warehouse_ID(),
 						M_AttributeSetInstance_ID,
@@ -1345,13 +1340,34 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	}
 	
 	/**
-	 * Default Location
-	 * @return
+	 * @return Default Locator for current Warehouse
 	 */
 	private int getM_Locator_ID()
 	{
 		MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
 		return wh.getDefaultLocator().getM_Locator_ID();
+	}
+	
+	/**
+	 * @param qty
+	 * @return Storage locator for current product/asi/warehouse and qty
+	 * @see MStorage#getM_Locator_ID(int, int, int, BigDecimal, String)
+	 */
+	private int getM_Locator_ID(BigDecimal qty)
+	{
+		int M_Locator_ID = 0;
+		int M_ASI_ID = getM_AttributeSetInstance_ID();
+		// Get existing Locator
+		if (M_ASI_ID != 0)
+		{
+			M_Locator_ID = MStorage.getM_Locator_ID(getM_Warehouse_ID(), getM_Product_ID(), M_ASI_ID, qty, get_TrxName());
+		}
+		// Get Default
+		if (M_Locator_ID == 0)
+		{
+			M_Locator_ID = getM_Locator_ID();
+		}
+		return M_Locator_ID;
 	}
 	
 	public String toString()
