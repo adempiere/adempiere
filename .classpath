@@ -62,6 +62,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.11.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
