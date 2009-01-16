@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -47,6 +47,8 @@ import org.jfree.chart.ChartMouseEvent;
 import org.jfree.chart.ChartMouseListener;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.entity.CategoryItemEntity;
+import org.jfree.chart.entity.ChartEntity;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
@@ -57,6 +59,9 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *	
  *  @author Jorg Janke
  *  @version $Id: BarGraph.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2507325 ] BarGraph zoom not working
  */
 public class BarGraph extends CPanel implements ChartMouseListener
 {
@@ -411,91 +416,102 @@ public class BarGraph extends CPanel implements ChartMouseListener
 		//column.addActionListener(this);		
 	}	//	add
 
-
-	/**************************************************************************
-	 * 	Paint Component
-	 *	@param g graphics
+	/**
+	 * Get BarGraphColumn for ChartEntity
+	 * @param event
+	 * @return BarGraphColumn or null if not found
 	 */
+	private BarGraphColumn getBarGraphColumn(ChartMouseEvent event)
+	{
+		ChartEntity entity = event.getEntity();
+		String key = null;
+		if (entity instanceof CategoryItemEntity)
+		{
+			Comparable<?> rowKey = ((CategoryItemEntity)entity).getRowKey();
+			if (rowKey != null)
+			{
+				key = rowKey.toString();
+			}
+		}
+		if (key == null)
+		{
+			return null;
+		}
+		for (int i = 0; i < list.size(); i++)
+		{
+			final String label = list.get(i).getLabel();
+			if (key.equals(label))
+			{
+				return list.get(i);
+			}
+		}
+		//
+		return null;
+	}
 
-	public void chartMouseClicked(ChartMouseEvent event){
-		if ((event.getEntity()!=null) && (event.getTrigger().getClickCount() > 1)) {
+	public void chartMouseClicked(ChartMouseEvent event)
+	{
+		if ((event.getEntity()!=null) && (event.getTrigger().getClickCount() > 1))
+		{
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			BarGraphColumn bgc = null;
-			String eventUrl = event.getEntity().toString();
-			for (int i = 0; i < list.size(); i++){
-				if ( eventUrl.substring(eventUrl.length() - list.get(i).getLabel().length()).equals(list.get(i).getLabel()))
-					bgc = list.get(i);
-			}
-			if (null==bgc) return;
-			log.info(bgc.getName());
-			MQuery query = null;
-			if (bgc.getAchievement() != null)	//	Single Achievement
+			try
 			{
-				MAchievement a = bgc.getAchievement();
-				query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
+				BarGraphColumn bgc = getBarGraphColumn(event);
+				if (bgc == null)
+				{
+					return;
+				}
+				log.info(bgc.getName());
+				MQuery query = null;
+				if (bgc.getAchievement() != null)	//	Single Achievement
+				{
+					MAchievement a = bgc.getAchievement();
+					query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
+				}
+				else if (bgc.getGoal() != null)		//	Multiple Achievements 
+				{
+					MGoal goal = bgc.getGoal();
+					query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
+				}
+				else if (bgc.getMeasureCalc() != null)	//	Document
+				{
+					MMeasureCalc mc = bgc.getMeasureCalc();
+					query = mc.getQuery(m_goal.getRestrictions(false), 
+							bgc.getMeasureDisplay(), bgc.getDate(), 
+							MRole.getDefault());	//	logged in role
+				}
+				else if (bgc.getProjectType() != null)	//	Document
+				{
+					MProjectType pt = bgc.getProjectType();
+					query = pt.getQuery(m_goal.getRestrictions(false), 
+							bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(), 
+							MRole.getDefault());	//	logged in role
+				}
+				else if (bgc.getRequestType() != null)	//	Document
+				{
+					MRequestType rt = bgc.getRequestType();
+					query = rt.getQuery(m_goal.getRestrictions(false), 
+							bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(),
+							MRole.getDefault());	//	logged in role
+				}
+				if (query != null)
+					AEnv.zoom(query);
+				else
+					log.warning("Nothing to zoom to - " + bgc);
 			}
-			else if (bgc.getGoal() != null)		//	Multiple Achievements 
+			finally
 			{
-				MGoal goal = bgc.getGoal();
-				query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
+				setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 			}
-			else if (bgc.getMeasureCalc() != null)	//	Document
-			{
-				MMeasureCalc mc = bgc.getMeasureCalc();
-				query = mc.getQuery(m_goal.getRestrictions(false), 
-						bgc.getMeasureDisplay(), bgc.getDate(), 
-						MRole.getDefault());	//	logged in role
-			}
-			else if (bgc.getProjectType() != null)	//	Document
-			{
-				MProjectType pt = bgc.getProjectType();
-				query = pt.getQuery(m_goal.getRestrictions(false), 
-						bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(), 
-						MRole.getDefault());	//	logged in role
-			}
-			else if (bgc.getRequestType() != null)	//	Document
-			{
-				MRequestType rt = bgc.getRequestType();
-				query = rt.getQuery(m_goal.getRestrictions(false), 
-						bgc.getMeasureDisplay(), bgc.getDate(), bgc.getID(),
-						MRole.getDefault());	//	logged in role
-			}
-			if (query != null)
-				AEnv.zoom(query);
-			else
-				log.warning("Nothing to zoom to - " + bgc);
-			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 	}
 
-	public void 	chartMouseMoved(ChartMouseEvent event) {}
-
-	public BarGraphColumn[] getBarGraphColumnList() {
-		BarGraphColumn[] array = new BarGraphColumn[list.size()];
-		for (int i = 0; i < list.size(); i++){
-			array[i] = list.get(i);
-		}
-		return array;
+	public void chartMouseMoved(ChartMouseEvent event)
+	{		
 	}
 
-	/*
-	public void componentHidden(ComponentEvent e) {
+	public BarGraphColumn[] getBarGraphColumnList()
+	{
+		return list.toArray(new BarGraphColumn[list.size()]);
 	}
-	public void componentMoved(ComponentEvent e) {
-	}
-	public void componentResized(ComponentEvent e) {
-		float aspectRatio = 1.6f;
-		Dimension size = getSize();
-		if (size.width > size.height * aspectRatio)
-			chartPanel.setSize( new Dimension(
-							java.lang.Math.round(size.height*aspectRatio),
-							size.height));
-		else
-			chartPanel.setSize(new Dimension(
-							size.width,
-							java.lang.Math.round(size.width / aspectRatio)));
-	}
-	public void componentShown(ComponentEvent e) {
-	}
-	 */
 }	//	BarGraph
