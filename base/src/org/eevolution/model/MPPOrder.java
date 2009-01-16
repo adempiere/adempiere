@@ -487,17 +487,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			MProduct product = line.getM_Product();
 			if (!product.isStocked())
 			{
-				BigDecimal ordered = Env.ZERO;
-				BigDecimal reserved = difference;
-				int M_Locator_ID = getM_Locator_ID(ordered);
-				//	Update Storage
-				if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID,
-						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-						line.getM_AttributeSetInstance_ID(), Env.ZERO, reserved, ordered, get_TrxName()))
-				{
-					throw new AdempiereException();
-				}
-			} //	stocked
+				continue;
+			}
+			BigDecimal ordered = Env.ZERO;
+			BigDecimal reserved = difference;
+			int M_Locator_ID = getM_Locator_ID(ordered);
+			//	Update Storage
+			if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID,
+					line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
+					line.getM_AttributeSetInstance_ID(), Env.ZERO, reserved, ordered, get_TrxName()))
+			{
+				throw new AdempiereException();
+			}
 			//	update line
 			line.setQtyReserved(line.getQtyReserved().add(difference));
 			line.saveEx(get_TrxName());
@@ -665,7 +666,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						storages, 
 						get_TrxName());
 			}	
-				MPPOrder.createReceipt(
+			MPPOrder.createReceipt(
 					this, 
 					today , 
 					this.getQtyDelivered(), 
@@ -674,7 +675,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					this.getQtyReject(), 
 					this.getM_Locator_ID(), 
 					this.getM_AttributeSetInstance_ID(), true, get_TrxName());
-				return DocAction.ACTION_None;
+			return DocAction.ACTION_None;
 		}
 
 		setProcessed(true);
