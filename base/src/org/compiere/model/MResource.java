@@ -172,6 +172,14 @@ public class MResource extends X_S_Resource
 	 */
 	public double getResouceRate(int C_AcctSchema_ID,int  M_CostType_ID, String CostElementType , int AD_Org_ID)
 	{
+		
+		MAcctSchema as = MAcctSchema.get(getCtx(), C_AcctSchema_ID);
+		MProduct product = getProduct();
+		if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
+		{
+			AD_Org_ID = 0;
+		}
+		
 		final String sql = "SELECT SUM(c."+MCost.COLUMNNAME_CurrentCostPrice+")"
 							+" FROM M_Cost c, M_CostElement ce, M_Product p"
 							+" WHERE c.AD_Client_ID=? AND c.AD_Org_ID=?"

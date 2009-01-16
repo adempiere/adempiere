@@ -24,6 +24,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRefList;
 import org.compiere.model.ProductCost;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
@@ -110,7 +111,7 @@ public class Doc_Cost_Collector extends Doc
 		setC_Currency_ID (as.getC_Currency_ID());
 		MProduct product = MProduct.get(getCtx(), m_cc.getM_Product_ID());
 		
-		if(m_cc.getCostCollectorType().equals(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt))
+		if(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(m_cc.getCostCollectorType()))
 		{
 			//Finish good
 			MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
@@ -175,7 +176,7 @@ public class Doc_Cost_Collector extends Doc
 				createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
 			}
 		}
-		else if (m_cc.getCostCollectorType().equals(MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue.equals(m_cc.getCostCollectorType()))
 		{
 
 			MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
@@ -223,11 +224,11 @@ public class Doc_Cost_Collector extends Doc
 
 			
 		}
-		else if (m_cc.getCostCollectorType().equals(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl))
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
 		{
 			MPPOrderNode activity = (MPPOrderNode) m_cc.getPP_Order_Node();
 			MWFNode node = (MWFNode) activity.getAD_WF_Node();
-			if(activity.getDocAction().equals(MPPOrderNode.DOCSTATUS_Completed))
+			if(MPPOrderNode.DOCSTATUS_Completed.equals(activity.getDocAction()))
 			{
 				//Labor Rate
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
@@ -262,7 +263,8 @@ public class Doc_Cost_Collector extends Doc
 		{	
 			dr = fact.createLine(m_line, debit , as.getC_Currency_ID(), cost, null);
 			dr.setQty(qty);
-			dr.addDescription(Msg.translate(m_cc.getCtx(), CostElementType));
+			String desc = MRefList.getListName(getCtx(), MCostElement.COSTELEMENTTYPE_AD_Reference_ID, CostElementType);
+			dr.addDescription(Msg.translate(m_cc.getCtx(), desc));
 			dr.setC_Project_ID(m_cc.getC_Project_ID());
 			dr.setC_Activity_ID(m_cc.getC_Activity_ID());
 			dr.setC_Campaign_ID(m_cc.getC_Campaign_ID());
@@ -270,7 +272,7 @@ public class Doc_Cost_Collector extends Doc
 
 			cr = fact.createLine(m_line, credit,as.getC_Currency_ID(), null, cost);
 			cr.setQty(qty);
-			cr.addDescription(Msg.translate(m_cc.getCtx(), CostElementType));
+			cr.addDescription(Msg.translate(m_cc.getCtx(), desc));
 			cr.setC_Project_ID(m_cc.getC_Project_ID());
 			cr.setC_Activity_ID(m_cc.getC_Activity_ID());
 			cr.setC_Campaign_ID(m_cc.getC_Campaign_ID());
