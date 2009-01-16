@@ -593,17 +593,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		// Auto receipt and issue for kit
 		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(obom.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(obom.getBOMUse()))
-		{	
-			if(!MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
-			{
-				throw new AdempiereException( Msg.translate(getCtx(),MRefList.getListName(getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit))
-						+ " "
-						+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-						+" : " 
-						+ getDocumentNo() 
-						+ " "+Msg.getMsg(getCtx(), "ShipmentCreateDocNotCompleted"));
-			}
-			
+		{				
 			Timestamp today = new Timestamp(System.currentTimeMillis());
 			ArrayList[][] issue = new ArrayList[m_lines.length][1];
 			
