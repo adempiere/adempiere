@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -36,12 +37,12 @@ import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
-
 
 /**
  *	Alert Processor
@@ -51,6 +52,7 @@ import org.compiere.util.ValueNamePair;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1894573 ] Alert Processor Improvements
+ * 			<li>FR [ 2453882 ] Alert Processor : attached file name improvement
  */
 public class AlertProcessor extends AdempiereServer
 {
@@ -223,6 +225,13 @@ public class AlertProcessor extends AdempiereServer
 			return true;
 		}
 		
+		//
+		// Report footer - Date Generated
+		DateFormat df = DisplayType.getDateFormat(DisplayType.DateTime);
+		message.append("\n\n");
+		message.append(Msg.translate(getCtx(), "Date")).append(" : ")
+				.append(df.format(new Timestamp(System.currentTimeMillis())));
+		
 		Collection<Integer> users = alert.getRecipientUsers();
 		int countMail = notifyUsers(users, alert.getAlertSubject(), message.toString(), attachments);
 		
@@ -389,8 +398,7 @@ public class AlertProcessor extends AdempiereServer
 		if (data.size() <= 1)
 			return null;
 		// File
-		String filePrefix = "Alert_"; // TODO: add AD_AlertRule.FileName (maybe)
-		File file = File.createTempFile(filePrefix, ".xls");
+		File file = rule.createReportFile("xls");
 		//
 		ArrayExcelExporter exporter = new ArrayExcelExporter(getCtx(), data);
 		exporter.export(file, null, false);

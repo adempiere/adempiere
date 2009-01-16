@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 
 /**
@@ -30,6 +36,8 @@ import org.compiere.util.DB;
  */
 public class MAlertRule extends X_AD_AlertRule
 {
+	private static final long serialVersionUID = -1267260460210893262L;
+
 	/**
 	 * 	Standatd Constructor
 	 *	@param ctx context
@@ -120,6 +128,42 @@ public class MAlertRule extends X_AD_AlertRule
 		return finalSQL;
 	}	//	getSql
 	
+	/**
+	 * Create Report File
+	 * @param extension file extension
+	 * @return newly created File
+	 */
+	public File createReportFile(String extension)
+	{
+		if (Util.isEmpty(extension))
+		{
+			throw new IllegalArgumentException("Parameter extension cannot be empty");
+		}
+		String name = new SimpleDateFormat("yyyyMMddhhmm").format(new Timestamp(System.currentTimeMillis()))
+						+"_"+Util.stripDiacritics(getName().trim());
+		File file = null;
+		try
+		{
+			file = new File(name+"."+extension);
+			file.createNewFile();
+			return file;
+		}
+		catch (Exception e)
+		{
+			file = null;
+		}
+		// Fallback
+		String filePrefix = "Alert_"; // TODO: add AD_AlertRule.FileName (maybe)
+		try
+		{
+			file = File.createTempFile(filePrefix, "."+extension);
+		}
+		catch (IOException e)
+		{
+			throw new AdempiereException(e);
+		}
+		return file;
+	}
 	
 	/**
 	 * 	Before Save
