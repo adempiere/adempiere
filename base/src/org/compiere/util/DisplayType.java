@@ -483,7 +483,7 @@ public final class DisplayType
 			else
 				return "NVARCHAR2(" + fieldLength + ")";			
 		}
-		if (displayType == DisplayType.Color)
+		if (displayType == DisplayType.Color) // this condition is never reached - filtered above in isID
 		{
 			if (columnName.endsWith("_ID"))
 				return "NUMBER(10)";
