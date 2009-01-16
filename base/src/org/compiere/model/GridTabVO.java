@@ -302,15 +302,17 @@ public class GridTabVO implements Evaluatee, Serializable
 			ASPFilter =
 				"     AND (   AD_Tab_ID IN ( "
 				// Just ASP subscribed tabs for client "
-				+ "              SELECT w.AD_Tab_ID "
-				+ "                FROM ASP_Tab w, ASP_Level l, ASP_ClientLevel cl "
+				+ "              SELECT t.AD_Tab_ID "
+				+ "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
 				+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
 				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
 				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+				+ "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+				+ "                 AND t.IsActive = 'Y' "
 				+ "                 AND w.IsActive = 'Y' "
 				+ "                 AND l.IsActive = 'Y' "
 				+ "                 AND cl.IsActive = 'Y' "
-				+ "                 AND w.ASP_Status = 'S') " // Show
+				+ "                 AND t.ASP_Status = 'S') " // Show
 				+ "        OR AD_Tab_ID IN ( "
 				// + show ASP exceptions for client
 				+ "              SELECT AD_Tab_ID "

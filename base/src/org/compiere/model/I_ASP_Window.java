@@ -90,4 +90,13 @@ public interface I_ASP_Window
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
+
+    /** Column name ASP_Window_ID */
+    public static final String COLUMNNAME_ASP_Window_ID = "ASP_Window_ID";
+
+	/** Set ASP Window	  */
+	public void setASP_Window_ID (int ASP_Window_ID);
+
+	/** Get ASP Window	  */
+	public int getASP_Window_ID();
 }

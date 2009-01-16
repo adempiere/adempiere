@@ -169,4 +169,24 @@ public class X_ASP_Workflow extends PO implements I_ASP_Workflow, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
 	}
+
+	/** Set ASP Workflow.
+		@param ASP_Workflow_ID ASP Workflow	  */
+	public void setASP_Workflow_ID (int ASP_Workflow_ID)
+	{
+		if (ASP_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Workflow_ID, Integer.valueOf(ASP_Workflow_ID));
+	}
+
+	/** Get ASP Workflow.
+		@return ASP Workflow	  */
+	public int getASP_Workflow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

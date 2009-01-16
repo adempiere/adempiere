@@ -71,31 +71,14 @@ public interface I_ASP_Field
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Tab_ID */
-    public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
+    /** Column name ASP_Field_ID */
+    public static final String COLUMNNAME_ASP_Field_ID = "ASP_Field_ID";
 
-	/** Set Tab.
-	  * Tab within a Window
-	  */
-	public void setAD_Tab_ID (int AD_Tab_ID);
+	/** Set ASP Field	  */
+	public void setASP_Field_ID (int ASP_Field_ID);
 
-	/** Get Tab.
-	  * Tab within a Window
-	  */
-	public int getAD_Tab_ID();
-
-	public I_AD_Tab getAD_Tab() throws RuntimeException;
-
-    /** Column name ASP_Level_ID */
-    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
-
-	/** Set ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID);
-
-	/** Get ASP Level	  */
-	public int getASP_Level_ID();
-
-	public I_ASP_Level getASP_Level() throws RuntimeException;
+	/** Get ASP Field	  */
+	public int getASP_Field_ID();
 
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";
@@ -105,4 +88,15 @@ public interface I_ASP_Field
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
+
+    /** Column name ASP_Tab_ID */
+    public static final String COLUMNNAME_ASP_Tab_ID = "ASP_Tab_ID";
+
+	/** Set ASP Tab	  */
+	public void setASP_Tab_ID (int ASP_Tab_ID);
+
+	/** Get ASP Tab	  */
+	public int getASP_Tab_ID();
+
+	public I_ASP_Tab getASP_Tab() throws RuntimeException;
 }

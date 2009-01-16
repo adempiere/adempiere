@@ -90,4 +90,13 @@ public interface I_ASP_Task
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
+
+    /** Column name ASP_Task_ID */
+    public static final String COLUMNNAME_ASP_Task_ID = "ASP_Task_ID";
+
+	/** Set ASP Task	  */
+	public void setASP_Task_ID (int ASP_Task_ID);
+
+	/** Get ASP Task	  */
+	public int getASP_Task_ID();
 }

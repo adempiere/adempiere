@@ -71,6 +71,15 @@ public interface I_ASP_Form
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name ASP_Form_ID */
+    public static final String COLUMNNAME_ASP_Form_ID = "ASP_Form_ID";
+
+	/** Set ASP Form	  */
+	public void setASP_Form_ID (int ASP_Form_ID);
+
+	/** Get ASP Form	  */
+	public int getASP_Form_ID();
+
     /** Column name ASP_Level_ID */
     public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
 

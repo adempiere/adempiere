@@ -1523,15 +1523,15 @@ public final class MRole extends X_AD_Role
 				ASPFilter =
 					  "   AND (   AD_Process_ID IN ( "
 					// Just ASP subscribed processes for client "
-					+ "              SELECT w.AD_Process_ID "
-					+ "                FROM ASP_Process w, ASP_Level l, ASP_ClientLevel cl "
-					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "              SELECT p.AD_Process_ID "
+					+ "                FROM ASP_Process p, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE p.ASP_Level_ID = l.ASP_Level_ID "
 					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND p.IsActive = 'Y' "
 					+ "                 AND l.IsActive = 'Y' "
 					+ "                 AND cl.IsActive = 'Y' "
-					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "                 AND p.ASP_Status = 'S') " // Show
 					+ "        OR AD_Process_ID IN ( "
 					// + show ASP exceptions for client
 					+ "              SELECT AD_Process_ID "
@@ -1590,15 +1590,15 @@ public final class MRole extends X_AD_Role
 				ASPFilter =
 					  "   AND (   AD_Task_ID IN ( "
 					// Just ASP subscribed tasks for client "
-					+ "              SELECT w.AD_Task_ID "
-					+ "                FROM ASP_Task w, ASP_Level l, ASP_ClientLevel cl "
-					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "              SELECT t.AD_Task_ID "
+					+ "                FROM ASP_Task t, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE t.ASP_Level_ID = l.ASP_Level_ID "
 					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND t.IsActive = 'Y' "
 					+ "                 AND l.IsActive = 'Y' "
 					+ "                 AND cl.IsActive = 'Y' "
-					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "                 AND t.ASP_Status = 'S') " // Show
 					+ "        OR AD_Task_ID IN ( "
 					// + show ASP exceptions for client
 					+ "              SELECT AD_Task_ID "
@@ -1656,15 +1656,15 @@ public final class MRole extends X_AD_Role
 				ASPFilter =
 					  "   AND (   AD_Form_ID IN ( "
 					// Just ASP subscribed forms for client "
-					+ "              SELECT w.AD_Form_ID "
-					+ "                FROM ASP_Form w, ASP_Level l, ASP_ClientLevel cl "
-					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "              SELECT f.AD_Form_ID "
+					+ "                FROM ASP_Form f, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE f.ASP_Level_ID = l.ASP_Level_ID "
 					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND f.IsActive = 'Y' "
 					+ "                 AND l.IsActive = 'Y' "
 					+ "                 AND cl.IsActive = 'Y' "
-					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "                 AND f.ASP_Status = 'S') " // Show
 					+ "        OR AD_Form_ID IN ( "
 					// + show ASP exceptions for client
 					+ "              SELECT AD_Form_ID "

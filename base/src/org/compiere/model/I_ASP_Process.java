@@ -82,6 +82,15 @@ public interface I_ASP_Process
 
 	public I_ASP_Level getASP_Level() throws RuntimeException;
 
+    /** Column name ASP_Process_ID */
+    public static final String COLUMNNAME_ASP_Process_ID = "ASP_Process_ID";
+
+	/** Set ASP Process	  */
+	public void setASP_Process_ID (int ASP_Process_ID);
+
+	/** Get ASP Process	  */
+	public int getASP_Process_ID();
+
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";
 

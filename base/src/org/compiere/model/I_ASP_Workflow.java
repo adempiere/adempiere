@@ -90,4 +90,13 @@ public interface I_ASP_Workflow
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
+
+    /** Column name ASP_Workflow_ID */
+    public static final String COLUMNNAME_ASP_Workflow_ID = "ASP_Workflow_ID";
+
+	/** Set ASP Workflow	  */
+	public void setASP_Workflow_ID (int ASP_Workflow_ID);
+
+	/** Get ASP Workflow	  */
+	public int getASP_Workflow_ID();
 }

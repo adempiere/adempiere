@@ -149,15 +149,17 @@ implements ValueChangeListener, IProcessParameter
 				ASPFilter =
 					  "   AND (   AD_Process_Para_ID IN ( "
 					// Just ASP subscribed process parameters for client "
-					+ "              SELECT w.AD_Process_Para_ID "
-					+ "                FROM ASP_Process_Para w, ASP_Level l, ASP_ClientLevel cl "
-					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "              SELECT pp.AD_Process_Para_ID "
+					+ "                FROM ASP_Process_Para pp, ASP_Process p, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE p.ASP_Level_ID = l.ASP_Level_ID "
 					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND pp.ASP_Process_ID = p.ASP_Process_ID "
+					+ "                 AND pp.IsActive = 'Y' "
+					+ "                 AND p.IsActive = 'Y' "
 					+ "                 AND l.IsActive = 'Y' "
 					+ "                 AND cl.IsActive = 'Y' "
-					+ "                 AND w.ASP_Status = 'S') " // Show
+					+ "                 AND pp.ASP_Status = 'S') " // Show
 					+ "        OR AD_Process_Para_ID IN ( "
 					// + show ASP exceptions for client
 					+ "              SELECT AD_Process_Para_ID "

@@ -71,21 +71,6 @@ public interface I_ASP_Tab
 
 	public I_AD_Tab getAD_Tab() throws RuntimeException;
 
-    /** Column name AD_Window_ID */
-    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
-
-	/** Set Window.
-	  * Data entry or display window
-	  */
-	public void setAD_Window_ID (int AD_Window_ID);
-
-	/** Get Window.
-	  * Data entry or display window
-	  */
-	public int getAD_Window_ID();
-
-	public I_AD_Window getAD_Window() throws RuntimeException;
-
     /** Column name AllFields */
     public static final String COLUMNNAME_AllFields = "AllFields";
 
@@ -95,17 +80,6 @@ public interface I_ASP_Tab
 	/** Get AllFields	  */
 	public boolean isAllFields();
 
-    /** Column name ASP_Level_ID */
-    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
-
-	/** Set ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID);
-
-	/** Get ASP Level	  */
-	public int getASP_Level_ID();
-
-	public I_ASP_Level getASP_Level() throws RuntimeException;
-
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";
 
@@ -114,6 +88,26 @@ public interface I_ASP_Tab
 
 	/** Get ASP Status	  */
 	public String getASP_Status();
+
+    /** Column name ASP_Tab_ID */
+    public static final String COLUMNNAME_ASP_Tab_ID = "ASP_Tab_ID";
+
+	/** Set ASP Tab	  */
+	public void setASP_Tab_ID (int ASP_Tab_ID);
+
+	/** Get ASP Tab	  */
+	public int getASP_Tab_ID();
+
+    /** Column name ASP_Window_ID */
+    public static final String COLUMNNAME_ASP_Window_ID = "ASP_Window_ID";
+
+	/** Set ASP Window	  */
+	public void setASP_Window_ID (int ASP_Window_ID);
+
+	/** Get ASP Window	  */
+	public int getASP_Window_ID();
+
+	public I_ASP_Window getASP_Window() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

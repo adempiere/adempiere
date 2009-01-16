@@ -39,8 +39,6 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
       super (ctx, ASP_Field_ID, trxName);
       /** if (ASP_Field_ID == 0)
         {
-			setAD_Tab_ID (0);
-			setASP_Level_ID (0);
 			setASP_Status (null);
 // U
         } */
@@ -113,74 +111,21 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
-        I_AD_Tab result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Tab_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Tab.
-		@param AD_Tab_ID 
-		Tab within a Window
-	  */
-	public void setAD_Tab_ID (int AD_Tab_ID)
+	/** Set ASP Field.
+		@param ASP_Field_ID ASP Field	  */
+	public void setASP_Field_ID (int ASP_Field_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (ASP_Field_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Field_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Field_ID, Integer.valueOf(ASP_Field_ID));
 	}
 
-	/** Get Tab.
-		@return Tab within a Window
-	  */
-	public int getAD_Tab_ID () 
+	/** Get ASP Field.
+		@return ASP Field	  */
+	public int getASP_Field_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tab_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_ASP_Level getASP_Level() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
-        I_ASP_Level result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Level)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Level_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set ASP Level.
-		@param ASP_Level_ID ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID)
-	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
-	}
-
-	/** Get ASP Level.
-		@return ASP Level	  */
-	public int getASP_Level_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Level_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Field_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -207,5 +152,41 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
 	public String getASP_Status () 
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
+	}
+
+	public I_ASP_Tab getASP_Tab() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_ASP_Tab.Table_Name);
+        I_ASP_Tab result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_ASP_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Tab_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set ASP Tab.
+		@param ASP_Tab_ID ASP Tab	  */
+	public void setASP_Tab_ID (int ASP_Tab_ID)
+	{
+		if (ASP_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Tab_ID, Integer.valueOf(ASP_Tab_ID));
+	}
+
+	/** Get ASP Tab.
+		@return ASP Tab	  */
+	public int getASP_Tab_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Window
  *  @author Adempiere (generated) 
@@ -147,6 +148,14 @@ public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent
 		return ii.intValue();
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getASP_Level_ID()));
+    }
+
 	/** ASP_Status AD_Reference_ID=53234 */
 	public static final int ASP_STATUS_AD_Reference_ID=53234;
 	/** Hide = H */
@@ -168,5 +177,25 @@ public class X_ASP_Window extends PO implements I_ASP_Window, I_Persistent
 	public String getASP_Status () 
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
+	}
+
+	/** Set ASP Window.
+		@param ASP_Window_ID ASP Window	  */
+	public void setASP_Window_ID (int ASP_Window_ID)
+	{
+		if (ASP_Window_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Window_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Window_ID, Integer.valueOf(ASP_Window_ID));
+	}
+
+	/** Get ASP Window.
+		@return ASP Window	  */
+	public int getASP_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

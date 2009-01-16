@@ -56,21 +56,6 @@ public interface I_ASP_Process_Para
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Process_ID */
-    public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
-
-	/** Set Process.
-	  * Process or Report
-	  */
-	public void setAD_Process_ID (int AD_Process_ID);
-
-	/** Get Process.
-	  * Process or Report
-	  */
-	public int getAD_Process_ID();
-
-	public I_AD_Process getAD_Process() throws RuntimeException;
-
     /** Column name AD_Process_Para_ID */
     public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
 
@@ -82,16 +67,25 @@ public interface I_ASP_Process_Para
 
 	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
 
-    /** Column name ASP_Level_ID */
-    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
+    /** Column name ASP_Process_ID */
+    public static final String COLUMNNAME_ASP_Process_ID = "ASP_Process_ID";
 
-	/** Set ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID);
+	/** Set ASP Process	  */
+	public void setASP_Process_ID (int ASP_Process_ID);
 
-	/** Get ASP Level	  */
-	public int getASP_Level_ID();
+	/** Get ASP Process	  */
+	public int getASP_Process_ID();
 
-	public I_ASP_Level getASP_Level() throws RuntimeException;
+	public I_ASP_Process getASP_Process() throws RuntimeException;
+
+    /** Column name ASP_Process_Para_ID */
+    public static final String COLUMNNAME_ASP_Process_Para_ID = "ASP_Process_Para_ID";
+
+	/** Set ASP Process Parameter	  */
+	public void setASP_Process_Para_ID (int ASP_Process_Para_ID);
+
+	/** Get ASP Process Parameter	  */
+	public int getASP_Process_Para_ID();
 
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";

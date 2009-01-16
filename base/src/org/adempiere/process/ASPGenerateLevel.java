@@ -159,28 +159,32 @@ public class ASPGenerateLevel extends SvrProcess
 
 		if (menu.getAction().equals(MMenu.ACTION_Window)) {
 			MWindow window = new MWindow(getCtx(), menu.getAD_Window_ID(), get_TrxName());
-			if (DB.getSQLValue(
-					get_TrxName(),
-					"SELECT COUNT(*) FROM ASP_Window WHERE ASP_Level_ID = ? AND AD_Window_ID = ?",
-					p_ASP_Level_ID, window.getAD_Window_ID()) < 1) {
+			int asp_window_id = DB.getSQLValueEx(get_TrxName(),
+					"SELECT ASP_Window_ID FROM ASP_Window WHERE ASP_Level_ID = ? AND AD_Window_ID = ?",
+					p_ASP_Level_ID, window.getAD_Window_ID());
+			X_ASP_Window aspWindow = null;
+			if (asp_window_id < 1) {
 				// Add Window, Tabs and Fields (if IsGenerateFields)
-				X_ASP_Window aspWindow = new X_ASP_Window(getCtx(), 0, get_TrxName());
+				aspWindow = new X_ASP_Window(getCtx(), 0, get_TrxName());
 				aspWindow.setASP_Level_ID(p_ASP_Level_ID);
 				aspWindow.setAD_Window_ID(window.getAD_Window_ID());
 				aspWindow.setASP_Status(p_ASP_Status);
-				if (aspWindow.save())
+				if (aspWindow.save()) {
 					noWindows++;
+					asp_window_id = aspWindow.getASP_Window_ID();
+				}
+			} else {
+				aspWindow = new X_ASP_Window(getCtx(), asp_window_id, get_TrxName());
 			}
 			// tabs
 			MTab[] tabs = window.getTabs(true, get_TrxName());
 			for (int  it = 0; it < tabs.length; it++) {
-				if (DB.getSQLValue(
+				if (DB.getSQLValueEx(
 						get_TrxName(),
-						"SELECT COUNT(*) FROM ASP_Tab WHERE ASP_Level_ID = ? AND AD_Tab_ID = ?",
-						p_ASP_Level_ID, tabs[it].getAD_Tab_ID()) < 1) {
+						"SELECT COUNT(*) FROM ASP_Tab WHERE ASP_Window_ID = ? AND AD_Tab_ID = ?",
+						asp_window_id, tabs[it].getAD_Tab_ID()) < 1) {
 					X_ASP_Tab aspTab = new X_ASP_Tab(getCtx(), 0, get_TrxName());
-					aspTab.setASP_Level_ID(p_ASP_Level_ID);
-					aspTab.setAD_Window_ID(tabs[it].getAD_Window_ID());
+					aspTab.setASP_Window_ID(asp_window_id);
 					aspTab.setAD_Tab_ID(tabs[it].getAD_Tab_ID());
 					aspTab.setASP_Status(p_ASP_Status);
 					aspTab.setAllFields(! p_IsGenerateFields);
@@ -190,13 +194,12 @@ public class ASPGenerateLevel extends SvrProcess
 						// fields
 						MField[] fields = tabs[it].getFields(true, get_TrxName());
 						for (int  ifi = 0; ifi < fields.length; ifi++) {
-							if (DB.getSQLValue(
+							if (DB.getSQLValueEx(
 									get_TrxName(),
-									"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Level_ID = ? AND AD_Field_ID = ?",
-									p_ASP_Level_ID, fields[ifi].getAD_Field_ID()) < 1) {
+									"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Tab_ID = ? AND AD_Field_ID = ?",
+									aspTab.getASP_Tab_ID(), fields[ifi].getAD_Field_ID()) < 1) {
 								X_ASP_Field aspField = new X_ASP_Field(getCtx(), 0, get_TrxName());
-								aspField.setASP_Level_ID(p_ASP_Level_ID);
-								aspField.setAD_Tab_ID(fields[ifi].getAD_Tab_ID());
+								aspField.setASP_Tab_ID(aspTab.getASP_Tab_ID());
 								aspField.setAD_Field_ID(fields[ifi].getAD_Field_ID());
 								aspField.setASP_Status(p_ASP_Status);
 								if (aspField.save())
@@ -210,27 +213,31 @@ public class ASPGenerateLevel extends SvrProcess
 				|| menu.getAction().equals(MMenu.ACTION_Report)) {
 			// Add Process and Parameters
 			MProcess process = new MProcess(getCtx(), menu.getAD_Process_ID(), get_TrxName());
-			if (DB.getSQLValue(
-					get_TrxName(),
+			int asp_process_id = DB.getSQLValueEx(get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Process WHERE ASP_Level_ID = ? AND AD_Process_ID = ?",
-					p_ASP_Level_ID, process.getAD_Process_ID()) < 1) {
-				X_ASP_Process aspProcess = new X_ASP_Process(getCtx(), 0, get_TrxName());
+					p_ASP_Level_ID, process.getAD_Process_ID());
+			X_ASP_Process aspProcess = null;
+			if (asp_process_id < 1) {
+				aspProcess = new X_ASP_Process(getCtx(), 0, get_TrxName());
 				aspProcess.setASP_Level_ID(p_ASP_Level_ID);
 				aspProcess.setAD_Process_ID(process.getAD_Process_ID());
 				aspProcess.setASP_Status(p_ASP_Status);
-				if (aspProcess.save())
+				if (aspProcess.save()) {
 					noProcesses++;
+					asp_process_id = aspProcess.getASP_Process_ID();
+				}
+			} else {
+				aspProcess = new X_ASP_Process(getCtx(), asp_process_id, get_TrxName());
 			}
 			// parameters
 			MProcessPara[] processparas = process.getParameters();
 			for (int  ipp = 0; ipp < processparas.length; ipp++) {
-				if (DB.getSQLValue(
+				if (DB.getSQLValueEx(
 						get_TrxName(),
-						"SELECT COUNT(*) FROM ASP_Process_Para WHERE ASP_Level_ID = ? AND AD_Process_Para_ID = ?",
-						p_ASP_Level_ID, processparas[ipp].getAD_Process_Para_ID()) < 1) {
+						"SELECT COUNT(*) FROM ASP_Process_Para WHERE ASP_Process_ID = ? AND AD_Process_Para_ID = ?",
+						asp_process_id, processparas[ipp].getAD_Process_Para_ID()) < 1) {
 					X_ASP_Process_Para aspProcess_Para = new X_ASP_Process_Para(getCtx(), 0, get_TrxName());
-					aspProcess_Para.setASP_Level_ID(p_ASP_Level_ID);
-					aspProcess_Para.setAD_Process_ID(processparas[ipp].getAD_Process_ID());
+					aspProcess_Para.setASP_Process_ID(asp_process_id);
 					aspProcess_Para.setAD_Process_Para_ID(processparas[ipp].getAD_Process_Para_ID());
 					aspProcess_Para.setASP_Status(p_ASP_Status);
 					if (aspProcess_Para.save())
@@ -240,7 +247,7 @@ public class ASPGenerateLevel extends SvrProcess
 		} else if (menu.getAction().equals(MMenu.ACTION_Form)) {
 			// Add Form
 			MForm form = new MForm(getCtx(), menu.getAD_Form_ID(), get_TrxName());
-			if (DB.getSQLValue(
+			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Form WHERE ASP_Level_ID = ? AND AD_Form_ID = ?",
 					p_ASP_Level_ID, form.getAD_Form_ID()) < 1) {
@@ -254,7 +261,7 @@ public class ASPGenerateLevel extends SvrProcess
 		} else if (menu.getAction().equals(MMenu.ACTION_Task)) {
 			// Add Task
 			MTask task = new MTask(getCtx(), menu.getAD_Task_ID(), get_TrxName());
-			if (DB.getSQLValue(
+			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Task WHERE ASP_Level_ID = ? AND AD_Task_ID = ?",
 					p_ASP_Level_ID, task.getAD_Task_ID()) < 1) {
@@ -268,7 +275,7 @@ public class ASPGenerateLevel extends SvrProcess
 		} else if (menu.getAction().equals(MMenu.ACTION_WorkFlow)) {
 			// Add Workflow and Nodes
 			MWorkflow workflow = new MWorkflow(getCtx(), menu.getAD_Workflow_ID(), get_TrxName());
-			if (DB.getSQLValue(
+			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Workflow WHERE ASP_Level_ID = ? AND AD_Workflow_ID = ?",
 					p_ASP_Level_ID, workflow.getAD_Workflow_ID()) < 1) {

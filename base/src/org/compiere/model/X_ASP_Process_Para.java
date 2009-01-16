@@ -39,8 +39,6 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
       super (ctx, ASP_Process_Para_ID, trxName);
       /** if (ASP_Process_Para_ID == 0)
         {
-			setAD_Process_ID (0);
-			setASP_Level_ID (0);
 			setASP_Status (null);
 // U
         } */
@@ -73,44 +71,6 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_AD_Process getAD_Process() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Process.
-		@param AD_Process_ID 
-		Process or Report
-	  */
-	public void setAD_Process_ID (int AD_Process_ID)
-	{
-		if (AD_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
-	}
-
-	/** Get Process.
-		@return Process or Report
-	  */
-	public int getAD_Process_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException 
     {
@@ -148,14 +108,14 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException 
+	public I_ASP_Process getASP_Process() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
-        I_ASP_Level result = null;
+        Class<?> clazz = MTable.getClass(I_ASP_Process.Table_Name);
+        I_ASP_Process result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Level)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Level_ID()), get_TrxName()});
+    	    result = (I_ASP_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Process_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -164,20 +124,41 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
         return result;
     }
 
-	/** Set ASP Level.
-		@param ASP_Level_ID ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID)
+	/** Set ASP Process.
+		@param ASP_Process_ID ASP Process	  */
+	public void setASP_Process_ID (int ASP_Process_ID)
 	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+		if (ASP_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_ID, Integer.valueOf(ASP_Process_ID));
 	}
 
-	/** Get ASP Level.
-		@return ASP Level	  */
-	public int getASP_Level_ID () 
+	/** Get ASP Process.
+		@return ASP Process	  */
+	public int getASP_Process_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Level_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Process_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set ASP Process Parameter.
+		@param ASP_Process_Para_ID ASP Process Parameter	  */
+	public void setASP_Process_Para_ID (int ASP_Process_Para_ID)
+	{
+		if (ASP_Process_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_Para_ID, Integer.valueOf(ASP_Process_Para_ID));
+	}
+
+	/** Get ASP Process Parameter.
+		@return ASP Process Parameter	  */
+	public int getASP_Process_Para_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Process_Para_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

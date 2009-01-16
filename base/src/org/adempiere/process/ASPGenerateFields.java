@@ -34,6 +34,7 @@ import java.util.logging.Level;
 import org.compiere.model.MField;
 import org.compiere.model.MTab;
 import org.compiere.model.X_ASP_Field;
+import org.compiere.model.X_ASP_Tab;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -46,10 +47,10 @@ import org.compiere.util.DB;
 public class ASPGenerateFields extends SvrProcess
 {
 	private String  p_ASP_Status;
-	private int p_ASP_Level_ID;
 	
 	private int noFields = 0;
-	private int p_AD_Tab_ID;
+
+	private int p_ASP_Tab_ID;
 	
 	/**
 	 * 	Prepare
@@ -64,13 +65,10 @@ public class ASPGenerateFields extends SvrProcess
 				;
 			else if (name.equals("ASP_Status"))
 				p_ASP_Status = (String) para[i].getParameter();
-			else if (name.equals("ASP_Level_ID"))
-				p_ASP_Level_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_Tab_ID"))
-				p_AD_Tab_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
+		p_ASP_Tab_ID = getRecord_ID();
 	}	//	prepare
 
 	/**
@@ -81,22 +79,23 @@ public class ASPGenerateFields extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		log.info("ASP_Status=" + p_ASP_Status 
-				+ ", ASP_Level_ID=" + p_ASP_Level_ID
-				+ ", AD_Tab_ID=" + p_AD_Tab_ID
+				+ ", ASP_Tab_ID=" + p_ASP_Tab_ID
 		);
+		
+		X_ASP_Tab asptab = new X_ASP_Tab(getCtx(), p_ASP_Tab_ID, get_TrxName());
+		
 
 		// tabs
-		MTab tab = new MTab(getCtx(), p_AD_Tab_ID, get_TrxName());
+		MTab tab = new MTab(getCtx(), asptab.getAD_Tab_ID(), get_TrxName());
 		// fields
 		MField[] fields = tab.getFields(true, get_TrxName());
 		for (int  ifi = 0; ifi < fields.length; ifi++) {
 			if (DB.getSQLValue(
 					get_TrxName(),
-					"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Level_ID = ? AND AD_Field_ID = ?",
-					p_ASP_Level_ID, fields[ifi].getAD_Field_ID()) < 1) {
+					"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Tab_ID = ? AND AD_Field_ID = ?",
+					p_ASP_Tab_ID, fields[ifi].getAD_Field_ID()) < 1) {
 				X_ASP_Field aspField = new X_ASP_Field(getCtx(), 0, get_TrxName());
-				aspField.setASP_Level_ID(p_ASP_Level_ID);
-				aspField.setAD_Tab_ID(fields[ifi].getAD_Tab_ID());
+				aspField.setASP_Tab_ID(p_ASP_Tab_ID);
 				aspField.setAD_Field_ID(fields[ifi].getAD_Field_ID());
 				aspField.setASP_Status(p_ASP_Status);
 				if (aspField.save())

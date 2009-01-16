@@ -112,6 +112,26 @@ public class X_ASP_Form extends PO implements I_ASP_Form, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set ASP Form.
+		@param ASP_Form_ID ASP Form	  */
+	public void setASP_Form_ID (int ASP_Form_ID)
+	{
+		if (ASP_Form_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Form_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Form_ID, Integer.valueOf(ASP_Form_ID));
+	}
+
+	/** Get ASP Form.
+		@return ASP Form	  */
+	public int getASP_Form_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Form_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_ASP_Level getASP_Level() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);

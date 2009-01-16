@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Process
  *  @author Adempiere (generated) 
@@ -142,6 +143,34 @@ public class X_ASP_Process extends PO implements I_ASP_Process, I_Persistent
 	public int getASP_Level_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Level_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getASP_Level_ID()));
+    }
+
+	/** Set ASP Process.
+		@param ASP_Process_ID ASP Process	  */
+	public void setASP_Process_ID (int ASP_Process_ID)
+	{
+		if (ASP_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Process_ID, Integer.valueOf(ASP_Process_ID));
+	}
+
+	/** Get ASP Process.
+		@return ASP Process	  */
+	public int getASP_Process_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Process_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

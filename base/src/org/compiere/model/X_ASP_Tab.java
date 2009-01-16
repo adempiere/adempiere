@@ -21,6 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Tab
  *  @author Adempiere (generated) 
@@ -40,8 +41,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
       /** if (ASP_Tab_ID == 0)
         {
 			setAD_Tab_ID (0);
-			setAD_Window_ID (0);
-			setASP_Level_ID (0);
 			setASP_Status (null);
 // U
         } */
@@ -113,44 +112,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Window.
-		@param AD_Window_ID 
-		Data entry or display window
-	  */
-	public void setAD_Window_ID (int AD_Window_ID)
-	{
-		if (AD_Window_ID < 1)
-			 throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
-	}
-
-	/** Get Window.
-		@return Data entry or display window
-	  */
-	public int getAD_Window_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set AllFields.
 		@param AllFields AllFields	  */
 	public void setAllFields (boolean AllFields)
@@ -170,41 +131,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	public I_ASP_Level getASP_Level() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
-        I_ASP_Level result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Level)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Level_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set ASP Level.
-		@param ASP_Level_ID ASP Level	  */
-	public void setASP_Level_ID (int ASP_Level_ID)
-	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
-	}
-
-	/** Get ASP Level.
-		@return ASP Level	  */
-	public int getASP_Level_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Level_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** ASP_Status AD_Reference_ID=53234 */
@@ -229,6 +155,70 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
 	}
+
+	/** Set ASP Tab.
+		@param ASP_Tab_ID ASP Tab	  */
+	public void setASP_Tab_ID (int ASP_Tab_ID)
+	{
+		if (ASP_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Tab_ID, Integer.valueOf(ASP_Tab_ID));
+	}
+
+	/** Get ASP Tab.
+		@return ASP Tab	  */
+	public int getASP_Tab_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_ASP_Window getASP_Window() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_ASP_Window.Table_Name);
+        I_ASP_Window result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_ASP_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Window_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set ASP Window.
+		@param ASP_Window_ID ASP Window	  */
+	public void setASP_Window_ID (int ASP_Window_ID)
+	{
+		if (ASP_Window_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Window_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Window_ID, Integer.valueOf(ASP_Window_ID));
+	}
+
+	/** Get ASP Window.
+		@return ASP Window	  */
+	public int getASP_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getASP_Window_ID()));
+    }
 
 	/** Set Process Now.
 		@param Processing Process Now	  */

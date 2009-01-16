@@ -169,4 +169,24 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ASP_Status);
 	}
+
+	/** Set ASP Task.
+		@param ASP_Task_ID ASP Task	  */
+	public void setASP_Task_ID (int ASP_Task_ID)
+	{
+		if (ASP_Task_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Task_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Task_ID, Integer.valueOf(ASP_Task_ID));
+	}
+
+	/** Get ASP Task.
+		@return ASP Task	  */
+	public int getASP_Task_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Task_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }
