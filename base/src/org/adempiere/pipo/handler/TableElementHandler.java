@@ -150,7 +150,7 @@ public class TableElementHandler extends AbstractElementHandler {
 					document.startElement("","","table",atts);
 					
 					String sql1 = "SELECT * FROM AD_Column WHERE AD_Table_ID = " + AD_Table_ID
-					+ " ORDER BY SEQNO asc";				
+					+ " ORDER BY IsKey DESC, AD_Column_ID";  // Export key column as the first one				
 					
 					PreparedStatement pstmt1 = null;
 					pstmt1 = DB.prepareStatement (sql1, getTrxName(ctx));		
