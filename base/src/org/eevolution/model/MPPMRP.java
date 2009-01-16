@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MLocator;
@@ -400,6 +401,11 @@ public class MPPMRP extends X_PP_MRP
 				{		
 					final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());   
 					final int plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+					if(plant_id <= 0 )
+					{
+						//TODO: vpj-cd create the msg for error
+						throw new AdempiereException("Do not exist Resource Plant for this Warehouse"); 
+					}
 					MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(ol.getCtx(), product));
 					//Validate the workflow based in planning data 						
 					if(workflow == null && pp != null)
@@ -412,6 +418,7 @@ public class MPPMRP extends X_PP_MRP
 						int duration = MPPMRP.getDays(ol.getCtx(), plant_id, workflow.get_ID(), ol.getQtyOrdered(), ol.get_TrxName()).intValue();
 						//
 						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
+						//comment for Manufacturing Order
 						order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
 								+ " "
 								+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
@@ -437,6 +444,13 @@ public class MPPMRP extends X_PP_MRP
 						order.setDocStatus(order.prepareIt());
 						order.setDocAction(MPPOrder.ACTION_Complete);
 						order.saveEx();
+						//comment for Order Line
+						ol.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+								+ " "
+								+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+								+ " : "
+								+ order.getDocumentNo());
+						ol.saveEx();
 					}
 				}    
 			}

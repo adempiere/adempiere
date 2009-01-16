@@ -664,8 +664,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					this.getQtyScrap(), 
 					this.getQtyReject(), 
 					this.getM_Locator_ID(), 
-					this.getM_AttributeSetInstance_ID(), true, get_TrxName());
-			return DocAction.ACTION_None;
+					this.getM_AttributeSetInstance_ID(), false, get_TrxName());
+			return DOCSTATUS_Closed;
 		}
 
 		setProcessed(true);
@@ -720,7 +720,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			String DocStatus = completeIt();
 			setDocStatus(DocStatus);
-			setDocAction(MPPOrder.ACTION_Close);
+			setDocAction(MPPOrder.ACTION_None);
 		}
 		// Before Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
