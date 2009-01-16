@@ -44,6 +44,43 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-0.9.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/looks-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/xercesImpl.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/itext-1.4.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-1.5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jython.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jython-engine.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-codec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
+	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jbosssx-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
+	<classpathentry exported="true" kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/asm.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-el.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-io.jar"/>
@@ -66,50 +103,6 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/looks-2.0.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-codec-1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xercesImpl.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/itext-1.4.8.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-engine.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-1.5.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-engine.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jython.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jython-engine.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iReport.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jbosssx-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/struts.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aop.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aspectjrt.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/barcode4j.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jcommon-1.0.10.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jfreechart-1.0.2.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
@@ -128,6 +121,14 @@
 	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjlib.jar"/>
 	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjtools.jar"/>
 	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjweaver.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/struts.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aop.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aspectjrt.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/barcode4j.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jfreechart-1.0.2.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/activation.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-collections.jar"/>
