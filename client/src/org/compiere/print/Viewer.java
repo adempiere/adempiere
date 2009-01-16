@@ -110,6 +110,7 @@ import org.compiere.util.ValueNamePair;
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>FR [ 1762466 ] Add "Window" menu to report viewer.
+ * 				<li>BF [ 1836908 ] Report customize NPE when no window access
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
@@ -1146,9 +1147,12 @@ public class Viewer extends CFrame
 		new AWindowListener (win, this);	//	forwards Window Events
 		int AD_Window_ID = 240;		//	hardcoded
 		int AD_PrintFormat_ID = m_reportEngine.getPrintFormat().get_ID();
-		win.initWindow(AD_Window_ID, MQuery.getEqualQuery("AD_PrintFormat_ID", AD_PrintFormat_ID));
-		AEnv.addToWindowManager(win);
-		AEnv.showCenterScreen(win);
+		boolean loadedOK = win.initWindow(AD_Window_ID, MQuery.getEqualQuery("AD_PrintFormat_ID", AD_PrintFormat_ID));
+		if (loadedOK)
+		{
+			AEnv.addToWindowManager(win);
+			AEnv.showCenterScreen(win);
+		}
 		//	see windowStateChanged for applying change
 	}	//	cmd_customize
 
