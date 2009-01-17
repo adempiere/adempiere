@@ -3,8 +3,8 @@
 <SOAP-ENV:Body>
 <modelSetDocAction xmlns="http://3e.pl/ADInterface">
   <in0>M_InOut</in0>
-  <in1>1000002</in1>
-  <in2>PN</in2>
+  <in1>108</in1>
+  <in2>CO</in2>
   <ADLoginRequest>
     <user>SuperUser</user>
     <pass>System</pass>
