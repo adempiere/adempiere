@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ======================================================== -->
+<!-- ADInterface (Web Services Implementation)                -->
+<!-- Original contribution from 3E                            -->
+<!-- http://www.3e.pl                                         -->
+<!-- Extended by Carlos Ruiz - globalqss                      -->
+<!-- ======================================================== -->
+
+<project name="ADInterface" default="war" basedir=".">
+	<description>
+	    This buildfile is used to build the file ADInterface-1.0.war
+  	</description>
+	<!-- set global properties for this build -->
+	<!--<property environment="env"/>-->
+	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
+	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
+	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
+        <!-- <property name="Adempiere.dir" value="${basedir}/../lib"></property>  To enable when integrated in trunk -->
+
+        <!-- Point to the directory where you have adempiere built -->
+        <property name="Adempiere.dir" value="${user.home}/makes/adempiere342/lib"></property>  <!-- To delete when integrated in trunk -->
+
+	<property name="war.name"	value="ADInterface-1.0"/>
+	<property name="compile.debug"       value="true"/>
+	<property name="compile.deprecation" value="false"/>
+	<property name="compile.optimize"    value="true"/>
+
+	<path id="compile.classpath">
+		<pathelement location="${basedir}"/>
+	  	<pathelement location="${basedir}/WEB-INF/src"/>
+
+	    <fileset dir="${basedir}/WEB-INF/lib">
+	    	<include name="*.jar"/>
+	    </fileset>
+		
+                <pathelement location="${Adempiere.dir}/../base/build"/>
+                <pathelement location="${Adempiere.dir}/../client/build"/>
+                <pathelement location="${Adempiere.dir}/../JasperReports/build"/>
+	    <fileset dir="${Adempiere.dir}">
+	    	<include name="*.jar"/>
+	    </fileset>
+		
+	</path>
+
+        <!-- define xmlbean task -->
+	<taskdef name="xmlbean" classname="org.apache.xmlbeans.impl.tool.XMLBean">
+	    <classpath refid="compile.classpath"/>
+	</taskdef>
+
+	<target name="clean" description="delete class directory">
+	   <delete dir="${classes.dir}/com" />
+	   <delete dir="${classes.dir}/net" />
+	   <delete dir="${dist.dir}" />
+	</target>
+
+	<target name="xmlbean" description="generate jar file from xmlbean xsd">
+	    <echo>classpath:${java.class.path}</echo>
+	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd/schema.xsd" destfile="${basedir}/WEB-INF/lib/pl3xE.jar">
+	    	<classpath refid="compile.classpath"/>
+	    </xmlbean>
+	</target>
+
+	<target name="compile" depends="clean" description="Compile Java sources">
+	    <mkdir dir="${classes.dir}"/>
+	    <javac srcdir="WEB-INF/src"
+	           destdir="${classes.dir}"
+	           debug="${compile.debug}"
+	     	   deprecation="${compile.deprecation}"
+	           optimize="${compile.optimize}">
+	        <classpath refid="compile.classpath"/>
+	    </javac>
+	</target>
+
+	<target name="war" depends="xmlbean,compile">
+		<echo message="=========== Build ADInterface Web Services ==========="/>
+		<delete dir="${dist.dir}" />
+		
+		<mkdir dir="${dist.dir}"/>
+		
+		<war
+		  warfile="${dist.dir}/${war.name}.war"
+		  webxml="${WEBINF.dir}/web.xml">
+		      <fileset dir="${basedir}" excludes="
+		      	        .settings/**,
+		      	        build.xml,
+				**RUN_build.sh
+				RUN_xmlbean.sh
+				Notes/**,
+				dist/**,
+				.*,
+				work/**,
+				WEB-INF/src/**,
+		      		**/web.xml,
+		      		testScripts/**,
+		      		lib/*-sources.jar"
+		      		>
+		      </fileset>
+		</war>
+		
+		<!-- <copy file="${dist.dir}/${war.name}.war" tofile="../lib/${war.name}.war"/> To enable when integrated in trunk-->
+	</target>
+</project>
