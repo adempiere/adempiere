@@ -72,7 +72,7 @@
 	    </javac>
 	</target>
 
-	<target name="war" depends="xmlbean,compile">
+	<target name="war" depends="compile">
 		<echo message="=========== Build ADInterface Web Services ==========="/>
 		<delete dir="${dist.dir}" />
 		
