@@ -64,8 +64,11 @@ import pl.x3E.adInterface.LocationDocument;
 import pl.x3E.adInterface.LookupInfo;
 import pl.x3E.adInterface.LookupValue;
 import pl.x3E.adInterface.LookupValues;
+import pl.x3E.adInterface.ModelRunProcessDocument;
 import pl.x3E.adInterface.ProcessParamsDocument;
+import pl.x3E.adInterface.RunProcess;
 import pl.x3E.adInterface.RunProcessDocument;
+import pl.x3E.adInterface.RunProcessResponse;
 import pl.x3E.adInterface.RunProcessResponseDocument;
 import pl.x3E.adInterface.StandardResponse;
 import pl.x3E.adInterface.StandardResponseDocument;
@@ -1600,7 +1603,7 @@ public class ADServiceImpl implements ADService {
 	/*
 	 * Model oriented web service to change DocAction for documents, i.e. Complete a Material Receipt
 	 * WARNING!!! This web service complete documents not via workflow, so it jump over any approval step considered in document workflow
-	 *   To complete documents using workflow it's better to use the modelSetDocActionWorkflowProcess web service (to be written) 
+	 *   To complete documents using workflow it's better to use the modelRunProcess web service 
 	 */
 	public StandardResponseDocument modelSetDocAction(
 			String tableName, int recordID,
@@ -1609,7 +1612,6 @@ public class ADServiceImpl implements ADService {
     	StandardResponse resp = ret.addNewStandardResponse();
     	resp.setRecordID (recordID);
     	
-    	// TODO: Share login between different sessions
     	String err = modelLogin(reqlogin);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -1673,6 +1675,7 @@ public class ADServiceImpl implements ADService {
 	private String modelLogin(ADLoginRequestDocument reqlogin) {
 		ADLoginRequest r = reqlogin.getADLoginRequest();
 
+    	// TODO: Share login between different sessions
 		if (   m_cs.isLoggedIn()
 			&& m_cs.getM_AD_Client_ID() == r.getClientID()
 			&& m_cs.getM_AD_Org_ID() == r.getOrgID()
@@ -1746,6 +1749,27 @@ public class ADServiceImpl implements ADService {
 		}
 		return null;
 	}
-	
+
+	public RunProcessResponseDocument modelRunProcess(ModelRunProcessDocument req) throws XFireFault {
+		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
+		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
+		
+		ADLoginRequest reqlogin = req.getModelRunProcess().getADLoginRequest();
+		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
+		doclogin.setADLoginRequest(reqlogin);
+
+		// TODO Auto-generated method stub
+    	String err = modelLogin(doclogin);
+    	if (err != null && err.length() > 0) {
+    		rbadlogin.setError(err);
+    		rbadlogin.setIsError( true );
+        	return resbadlogin;
+    	}
+
+		RunProcess reqrunprocess = req.getModelRunProcess().getRunProcess();
+		RunProcessDocument docrunprocess = RunProcessDocument.Factory.newInstance();
+		docrunprocess.setRunProcess(reqrunprocess);
+    	return Process.runProcess(m_cs, docrunprocess);
+	}
 	
 }

@@ -148,7 +148,9 @@ public class Process {
 		//	need to check if Role can access
 		if (process == null)
 		{
-			WebDoc doc = WebDoc.createWindow("Proces nie znaleziony");
+			// WebDoc doc = WebDoc.createWindow("Process not found");
+			r.setError("Process not found");
+			r.setIsError( true );
 			return res;
 		}
 		//process.getDescription()
@@ -162,7 +164,7 @@ public class Process {
 		}
 		catch (Exception ex)
 		{
-			//center.addElement(new p("B³¹d: " + ex.getMessage(), AlignType.LEFT).setClass("ProcesResultError"));
+			//center.addElement(new p("Bï¿½ï¿½d: " + ex.getMessage(), AlignType.LEFT).setClass("ProcesResultError"));
 			r.setError(ex.getMessage());
 			r.setIsError( true );
 			return res;
@@ -218,7 +220,7 @@ public class Process {
 				r.setLogInfo(pi.getLogInfo(true) );
 				r.setIsError( true );
 				return res;				
-				//Wyj¹tek: pi.getLogInfo(true) pi.getLogInfo(true)
+				//Wyjï¿½tek: pi.getLogInfo(true) pi.getLogInfo(true)
 			}
 			//started = wfProcess != null;
 		}
@@ -239,7 +241,7 @@ public class Process {
 			}
 			if (!processOK || pi.isError())
 			{
-				// b³¹d:  pi.getSummary()
+				// bï¿½ï¿½d:  pi.getSummary()
 				r.setSummary(pi.getSummary());
 				r.setLogInfo(pi.getLogInfo(true));
 				r.setIsError( true );				
@@ -271,7 +273,7 @@ public class Process {
 						//ReportEngine.get(m_cs.getM_ctx(), pi);
 				if (re == null && !jasperreport)
 				{
-					//b³¹d: "Nie uda³o siê uruchomiæ silnika raportów (ReportEngine)", 
+					//bï¿½ï¿½d: "Nie udaï¿½o siï¿½ uruchomiï¿½ silnika raportï¿½w (ReportEngine)", 
 				}
 				else
 				{
@@ -330,16 +332,16 @@ public class Process {
 						}
 						else
 						{
-							r.setError("Nie uda³o siê utworzyæ raportu");
+							r.setError("Cannot create report");
 							r.setLogInfo(pi.getLogInfo(true) );
 							r.setIsError( true );
 							return res;								
-							//"Nie uda³o siê utworzyæ raportu:",
+							//"Cannot create report:",
 						}
 					}
 					catch (Exception e)
 					{
-						r.setError("Nie uda³o siê utworzyæ raportu:" + e.getMessage());
+						r.setError("Cannot create report:" + e.getMessage());
 						r.setLogInfo(pi.getLogInfo(true) );
 						r.setIsError( true );
 						return res;								
@@ -1002,7 +1004,7 @@ public class Process {
 				//if (! cmd_save(ws))
 				{
 				
-					//doc.addWindowCenter(false).addElement("B³¹d zapisu..." );
+					//doc.addWindowCenter(false).addElement("Bï¿½ï¿½d zapisu..." );
 					//return;
 				}
 	

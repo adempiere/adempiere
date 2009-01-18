@@ -43,4 +43,6 @@ public interface ADService {
     
     public StandardResponseDocument modelSetDocAction(String tableName, int recordID, String newDocStatus, ADLoginRequestDocument reqlogin) throws XFireFault;
     
+    public RunProcessResponseDocument modelRunProcess(ModelRunProcessDocument req) throws XFireFault;
+
 }

@@ -1,6 +1,13 @@
+:
+if [ $# -ne 1 ]
+then
+    echo "Usage: $0 Message_File
+    echo " i.e.: $0 MsgModelSetDocAction
+    exit 1
+fi
 FILENAME=ADService.wsdl.$$
 wget \
-    --post-file=MsgModelSetDocAction \
+    --post-file=$1 \
     --save-headers \
     http://localhost:8081/ADInterface/services/ADService \
     -O $FILENAME
