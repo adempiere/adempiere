@@ -217,7 +217,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		final String PATTERN_String = "\'([^']|(''))*\'";
 		final String PATTERN_DataType = "([\\w]+)(\\(\\d+\\))?";
 		final String pattern =
-							"CAST[\\s]*\\([\\s]*"					// CAST<sp>(<sp>		
+							"\\bCAST\\b[\\s]*\\([\\s]*"					// CAST<sp>(<sp>		
 							+"(("+PATTERN_String+")|([^\\s]+))"		//	arg1				1(2,3)
 							+"[\\s]*AS[\\s]*"						//	<sp>AS<sp>
 							+"("+PATTERN_DataType+")"				//	arg2 (datatype)		4

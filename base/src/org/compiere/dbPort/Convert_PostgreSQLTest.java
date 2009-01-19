@@ -462,4 +462,14 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		String[] r = convert.convert(sql.toString());
 		assertEquals(sqle.toString(), r[0]);
 	}
+
+	/**
+	 *  Test BF [ 2521586 ] Postgres conversion error
+	 */
+	public void test2521586() {
+		sql = "INSERT INTO M_Forecast (M_Forecast_ID) VALUES (1000000)";
+		sqe = "INSERT INTO M_Forecast (M_Forecast_ID) VALUES (1000000)";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
 }
