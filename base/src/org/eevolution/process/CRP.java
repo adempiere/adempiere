@@ -156,7 +156,7 @@ public class CRP extends SvrProcess {
 		else if (p_ScheduleType.equals(BACKWARD_SCHEDULING))
 		{
 			Timestamp date = order.getDateFinishSchedule();
-			int nodeId = owf.getLast(getAD_Client_ID());
+			int nodeId = owf.getNodeLastID(getAD_Client_ID());
 			MPPOrderNode node = null;
 
 			while(nodeId != 0)

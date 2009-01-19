@@ -182,10 +182,11 @@ public class LiberoValidator implements ModelValidator
 			if(inout.isSOTrx())
 			{
 				final String whereClause = "C_OrderLine_ID IS NOT NULL"
-											+" AND EXISTS (SELECT 1 FROM C_OrderLine ol , M_InOutLine iol"
-													+" WHERE ol.C_OrderLine_ID=iol.C_OrderLine_ID  AND iol.M_InOut_ID=? )";	   
+											+" AND EXISTS (SELECT 1 FROM M_InOutLine iol"
+											+" WHERE iol.M_InOut_ID=? AND PP_Order.C_OrderLine_ID = iol.C_OrderLine_ID) AND " 
+											+ MPPOrder.COLUMNNAME_DocStatus + " = ?";	   
 				Collection<MPPOrder> orders = new Query(po.getCtx(), MPPOrder.Table_Name, whereClause, po.get_TrxName())
-												.setParameters(new Object[]{inout.getM_InOut_ID()})
+												.setParameters(new Object[]{inout.getM_InOut_ID(),  MPPOrder.DOCSTATUS_InProgress})
 												.list();
 				for(MPPOrder order : orders)
 				{	   
@@ -199,6 +200,7 @@ public class LiberoValidator implements ModelValidator
 					order.setDocStatus(MPPOrder.DOCACTION_Close);
 					order.setDocAction(MPPOrder.DOCACTION_None);
 					order.saveEx();					   
+					 
 				}
 			} 						
 		}

@@ -240,7 +240,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel
         else if(node.getUserObject() instanceof MPPOrderNode)
         {
         	MPPOrderNode on = (MPPOrderNode)node.getUserObject();
-        	MPPOrderWorkflow owf = on.getPPOrderWorkflow();
+        	MPPOrderWorkflow owf = on.getMPPOrderWorkflow();
         	MResourceType rt = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
 
         	// no function

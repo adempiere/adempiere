@@ -17,6 +17,7 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
+import org.compiere.model.MOrder;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -149,6 +152,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 
 	/**	WF Nodes				*/
 	private List<MPPOrderNode> m_nodes = null;
+	/** Manufacturing Order 	*/
+	private MPPOrder m_order = null;
 
 	/**
 	 * 	Load All Nodes
@@ -411,7 +416,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	 * 	@param AD_Client_ID for client
 	 * 	@return next PP_Order_Node_ID or 0
 	 */
-	public int getLast (int AD_Client_ID)
+	public int getNodeLastID (int AD_Client_ID)
 	{
 		MPPOrderNode[] nodes = getNodesInOrder(AD_Client_ID);
 		if (nodes.length > 0)
@@ -419,6 +424,21 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			return nodes[nodes.length-1].getPP_Order_Node_ID();
 		}
 		return 0;
+	}	//	getLast
+	
+	/**
+	 * 	Get very Last Node
+	 * 	@param AD_Client_ID for client
+	 * 	@return next PP_Order_Node_ID or 0
+	 */
+	public MPPOrderNode getLastNode (int AD_Client_ID)
+	{
+		MPPOrderNode[] nodes = getNodesInOrder(AD_Client_ID);
+		if (nodes.length > 0)
+		{
+			return nodes[nodes.length-1];
+		}
+		return null;
 	}	//	getLast
 
 	/**
@@ -516,4 +536,58 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 			return Calendar.YEAR;
 		return Calendar.MINUTE;
 	}	//	getDurationCalendarField
+	
+
+	/**
+	 * Complete Activities
+	 * @param activity
+	 * @param movementdate
+	 */
+	public void closeActivities(MPPOrderNode activity, Timestamp movementdate, boolean milestone)
+	{
+		
+		MPPOrderWorkflow order_workflow = activity.getMPPOrderWorkflow();
+		MPPOrder order = order_workflow.getMPPOrder();
+		int nodeId = activity.get_ID();
+		while(nodeId != 0)
+		{
+			MPPOrderNode node = MPPOrderNode.get(getCtx(), nodeId);
+			//break the cycle 
+			if(node.isMilestone() && milestone)
+				return;
+			if(!MPPOrderNode.DOCSTATUS_Closed.equals(node.getDocStatus()))
+			{			
+				
+				MPPCostCollector.createCollector (
+						order, 															//MPPOrder
+						order.getM_Product_ID(),										//M_Product_ID
+						order.getM_Locator_ID(),										//M_Locator_ID
+						order.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
+						order.getS_Resource_ID(),										//S_Resource_ID
+						0,																//PP_Order_BOMLine_ID
+						node.get_ID(),													//PP_Order_Node_ID
+						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingOrder), 	//C_DocType_ID,
+						MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl, 			//Activity Control
+						movementdate,													//MovementDate
+						order.getQtyOrdered(), Env.ZERO, Env.ZERO,						//qty,scrap,reject
+						node.getSetupTimeReal(),node.getDurationReal(),					//durationSetup,duration
+						get_TrxName()															//trxName
+				);
+			}
+			nodeId = order_workflow.getPrevious(node.get_ID(), order_workflow.getAD_Client_ID());
+		}
+	}
+	
+	/**
+	 * 	Get Parent
+	 *	@return MPPOrder
+	 */
+	public MPPOrder getMPPOrder()
+	{
+		if (m_order == null)
+			m_order = new MPPOrder(getCtx(), getPP_Order_ID(), get_TrxName());
+		return m_order;
+	}	//	getParent
+	
+	
 }	//	MPPOrderWorkflow_ID

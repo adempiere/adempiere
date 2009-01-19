@@ -74,7 +74,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 
 	/**	Cache						*/
 	private static CCache<Integer,MPPOrderNode>	s_cache	= new CCache<Integer,MPPOrderNode> (Table_Name, 50);
-	
+	/** MPPOrderWorkflow			*/
+	MPPOrderWorkflow m_order_wf = null;
 	
 	/**************************************************************************
 	 * 	Standard Constructor - save to cache
@@ -203,6 +204,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 	private List<MPPOrderNodeNext>	m_next = new ArrayList<MPPOrderNodeNext>();
 	/** Duration Base MS		*/
 	private long			m_durationBaseMS = -1;
+	/** Workflow Order			*/
+	private MPPOrder m_workflow = null;
 
 	/**
 	 * 	Load Next
@@ -271,7 +274,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		if (duration == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getPPOrderWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getMPPOrderWorkflow().getDurationBaseSec() * 1000;
 		return duration * m_durationBaseMS;
 	}	//	getDurationMS
 	
@@ -285,7 +288,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		if (limit == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getPPOrderWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getMPPOrderWorkflow().getDurationBaseSec() * 1000;
 		return limit * m_durationBaseMS;
 	}	//	getLimitMS
 	
@@ -295,18 +298,9 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public int getDurationCalendarField()
 	{
-		return getPPOrderWorkflow().getDurationCalendarField();
+		return getMPPOrderWorkflow().getDurationCalendarField();
 	}	//	getDurationCalendarField
 
-	/**
-	 * 	Get Workflow (NoTrx)
-	 *	@return workflow
-	 */
-	public MPPOrderWorkflow getPPOrderWorkflow()
-	{
-		return MPPOrderWorkflow.get(getCtx(), getPP_Order_Workflow_ID());
-	}	//	getWorkflow
-	
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -335,7 +329,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	{
 		MResource resource = (MResource) getS_Resource();
 		//get the rate for this cost type element (Rsource, Burden)
-		MPPOrderWorkflow workflow = getPPOrderWorkflow();
+		MPPOrderWorkflow workflow = getMPPOrderWorkflow();
 		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
 		BigDecimal cost =  Env.ZERO;
 		if (rate == 0)
@@ -359,4 +353,15 @@ public class MPPOrderNode extends X_PP_Order_Node
 		}
 		return cost;
 	}
+	
+	/**
+	 * 	Get Parent
+	 *	@return MPPOrderWorkflow
+	 */
+	public MPPOrderWorkflow getMPPOrderWorkflow()
+	{
+		if (m_order_wf == null)
+			m_order_wf = new MPPOrderWorkflow(getCtx(), getPP_Order_Workflow_ID(), get_TrxName());
+		return m_order_wf;
+	}	//	getParent
 }

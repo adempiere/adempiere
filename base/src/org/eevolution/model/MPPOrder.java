@@ -22,6 +22,7 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
@@ -50,7 +51,6 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFNodeNext;
 import org.compiere.wf.MWorkflow;
@@ -659,12 +659,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			MPPOrder.createReceipt(
 					this, 
 					today , 
-					this.getQtyDelivered(), 
-					this.getQtyOpen(), 
-					this.getQtyScrap(), 
-					this.getQtyReject(), 
-					this.getM_Locator_ID(), 
-					this.getM_AttributeSetInstance_ID(), false, get_TrxName());
+					getQtyDelivered(), 
+					getQtyOpen(), 
+					getQtyScrap(), 
+					getQtyReject(), 
+					getM_Locator_ID(), 
+					getM_AttributeSetInstance_ID(), false, get_TrxName());
+			setQtyDelivered(getQtyOpen());
 			return DOCSTATUS_Closed;
 		}
 
@@ -713,19 +714,28 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	public boolean closeIt()
 	{
 		log.info(toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+				
 		if(MPPOrder.DOCSTATUS_Closed.equals(getDocStatus()))
 			return true;
 		
-		if(!MPPOrder.DOCSTATUS_Completed.equals(this.getDocStatus()))
+		if(!MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
 		{
 			String DocStatus = completeIt();
 			setDocStatus(DocStatus);
 			setDocAction(MPPOrder.ACTION_None);
 		}
-		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
-			return false;
+		
+		BigDecimal qtyReported = getQtyDelivered().add(getQtyReject().add(getQtyScrap()));
+		if(qtyReported.signum() > 0)
+		{
+			//Close all the activity do not reported
+			MPPOrderWorkflow m_order_wf = getMPPOrderWorkflow(); 
+			m_order_wf.closeActivities(m_order_wf.getLastNode(getAD_Client_ID()), getUpdated(),false);
+		}
 		
 		orderStock(); // Clear Ordered Quantities
 		reserveStock(getLines()); //	Clear Reservations
@@ -1007,7 +1017,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	
 	/**
 	 * Create Receipt Finish Good
-	 * @param pp_order
+	 * @param order
 	 * @param movementDate
 	 * @param qtyDelivered
 	 * @param qtyToDeliver
@@ -1018,7 +1028,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * @param IsCloseDocument
 	 * @param trxName
 	 */
-	static public void createReceipt(MPPOrder pp_order,
+	static public void createReceipt(MPPOrder order,
 			Timestamp movementDate,
 			BigDecimal qtyDelivered,
 			BigDecimal qtyToDeliver, 
@@ -1032,28 +1042,33 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		if (qtyToDeliver.signum() != 0 || qtyScrap.signum() != 0 || qtyReject.signum() != 0)
 		{
-			createCollector(pp_order, pp_order.getM_Product_ID(),
-					M_Locator_ID,
-					M_AttributeSetInstance_ID,
-					movementDate,
-					qtyToDeliver, qtyScrap, qtyReject,
-					MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingOrder),
-					0, // PP_Order_BOMLine_ID
-					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,
+			MPPCostCollector.createCollector(
+					order,															//MPPOrder
+					order.getM_Product_ID(),										//M_Product_ID
+					M_Locator_ID,													//M_Locator_ID
+					M_AttributeSetInstance_ID,										//M_AttributeSetInstance_ID
+					order.getS_Resource_ID(),										//S_Resource_ID
+					0, 																//PP_Order_BOMLine_ID
+					0,																//PP_Order_Node_ID
+					MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingOrder), 	//C_DocType_ID
+					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,				//Production "+"
+					movementDate,													//MovementDate
+					qtyToDeliver, qtyScrap, qtyReject,								//qty,scrap,reject
+					0,0,	
 					trxName);
 		}
 
 		if (IsCloseDocument)
 		{
-			pp_order.setDateFinish(movementDate);
-			pp_order.closeIt();
-			pp_order.saveEx();
+			order.setDateFinish(movementDate);
+			order.closeIt();
+			order.saveEx();
 		}
 
-		pp_order.setDateDelivered(movementDate);
-		if (pp_order.getDateStart() == null)
+		order.setDateDelivered(movementDate);
+		if (order.getDateStart() == null)
 		{
-			pp_order.setDateStart(movementDate);
+			order.setDateStart(movementDate);
 		}
 
 		BigDecimal DQ = qtyDelivered;
@@ -1061,10 +1076,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		BigDecimal OQ = qtyToDeliver;
 		if (DQ.add(SQ).compareTo(OQ) >= 0)
 		{
-			pp_order.setDateFinish(movementDate);
+			order.setDateFinish(movementDate);
 		}
 
-		pp_order.saveEx(trxName);
+		order.saveEx(trxName);
 
 	}
 	
@@ -1077,7 +1092,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 * @param qtyReject
 	 * @param storages
 	 */
-	public static void createIssue(MPPOrder pp_order, int PP_OrderBOMLine_ID,
+	public static void createIssue(MPPOrder order, int PP_OrderBOMLine_ID,
 			Timestamp movementdate,
 			BigDecimal qty, BigDecimal qtyScrap, BigDecimal qtyReject,
 			MStorage[] storages,
@@ -1096,7 +1111,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 			BigDecimal qtyIssue = toIssue.min(storage.getQtyOnHand());
 			//log.fine("ToIssue: " + issue);
-			MPPOrderBOMLine PP_orderbomLine = new MPPOrderBOMLine(pp_order.getCtx(), PP_OrderBOMLine_ID, trxName);
+			MPPOrderBOMLine PP_orderbomLine = new MPPOrderBOMLine(order.getCtx(), PP_OrderBOMLine_ID, trxName);
 			//create record for negative and positive transaction
 			if (qtyIssue.signum() != 0 || qtyScrap.signum() != 0 || qtyReject.signum() != 0)
 			{
@@ -1108,16 +1123,20 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance;
 				}
 				//
-				createCollector (pp_order,
-						PP_orderbomLine.getM_Product_ID(),
-						storage.getM_Locator_ID(),
-						storage.getM_AttributeSetInstance_ID(),
-						movementdate,
-						qtyIssue, qtyScrap, qtyReject,
-						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingOrder),
-						PP_OrderBOMLine_ID,
-						CostCollectorType, // Production "-"
-						trxName
+				MPPCostCollector.createCollector (
+						order, 															//MPPOrder
+						PP_orderbomLine.getM_Product_ID(),								//M_Product_ID
+						storage.getM_Locator_ID(),										//M_Locator_ID
+						storage.getM_AttributeSetInstance_ID(),							//M_AttributeSetInstance_ID
+						order.getS_Resource_ID(),										//S_Resource_ID
+						PP_OrderBOMLine_ID,												//PP_Order_BOMLine_ID
+						0,																//PP_Order_Node_ID
+						MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingOrder), 	//C_DocType_ID,
+						CostCollectorType, 												//Production "-"
+						movementdate,													//MovementDate
+						qtyIssue, qtyScrap, qtyReject,									//qty,scrap,reject
+						0,0,															//durationSetup,duration
+						trxName															//trxName
 				);
 
 			}
@@ -1133,75 +1152,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			throw new AdempiereException("Should not happen toIssue="+toIssue);
 		}
 	}
-	
-	/**
-	 * Create & Complete Cost Collector 
-	 * @param pp_order
-	 * @param M_Product_ID
-	 * @param M_Locator_ID
-	 * @param M_AttributeSetInstance_ID
-	 * @param movementdate
-	 * @param qty
-	 * @param scrap
-	 * @param reject
-	 * @param C_DocType_ID
-	 * @param PP_Order_BOMLine_ID
-	 * @param CostCollectorType
-	 * @param trxName
-	 * @return completed cost collector
-	 */
-	private static MPPCostCollector createCollector (MPPOrder pp_order,
-			int M_Product_ID,
-			int M_Locator_ID,
-			int M_AttributeSetInstance_ID,
-			Timestamp movementdate,
-			BigDecimal qty,
-			BigDecimal scrap,
-			BigDecimal reject,
-			int C_DocType_ID,
-			int PP_Order_BOMLine_ID,
-			String CostCollectorType,
-			String trxName
-		)
-	{
-		MPPCostCollector cc = new MPPCostCollector(pp_order.getCtx(), 0, trxName);
-		cc.setPP_Order_ID(pp_order.getPP_Order_ID());
-		cc.setPP_Order_BOMLine_ID(PP_Order_BOMLine_ID);
-		cc.setAD_OrgTrx_ID(pp_order.getAD_OrgTrx_ID());
-		cc.setC_Activity_ID(pp_order.getC_Activity_ID());
-		cc.setC_Campaign_ID(pp_order.getC_Campaign_ID());
-		cc.setC_DocType_ID(C_DocType_ID);
-		cc.setC_DocTypeTarget_ID(C_DocType_ID);
-		cc.setCostCollectorType(CostCollectorType);
-		cc.setC_Project_ID(pp_order.getC_Project_ID());
-		cc.setDescription(pp_order.getDescription());
-		cc.setDocAction(MPPCostCollector.ACTION_Complete);
-		cc.setDocStatus(MPPCostCollector.DOCSTATUS_Drafted);
-		cc.setIsActive(true);
-		cc.setM_Warehouse_ID(pp_order.getM_Warehouse_ID());
-		cc.setM_Locator_ID(M_Locator_ID);
-		cc.setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
-		cc.setS_Resource_ID(pp_order.getS_Resource_ID());
-		cc.setMovementDate(movementdate);
-		cc.setDateAcct(movementdate);
-		cc.setMovementQty(qty);
-		cc.setScrappedQty(scrap);
-		cc.setQtyReject(reject);
-		cc.setPosted(false);
-		cc.setProcessed(false);
-		cc.setProcessing(false);
-		cc.setUser1_ID(pp_order.getUser1_ID());
-		cc.setUser2_ID(pp_order.getUser2_ID());
-		cc.setM_Product_ID(M_Product_ID);
-		cc.saveEx();
-		if (!cc.processIt(MPPCostCollector.DOCACTION_Complete))
-		{
-			throw new AdempiereException(cc.getProcessMsg());
-		}
-		cc.saveEx();
-		return cc;
-	}
-	
+		
 	public static boolean isAvailableQty(MPPOrder order, I_PP_Order_BOMLine line)
 	{
 		MProduct product = MProduct.get(order.getCtx(), line.getM_Product_ID());
@@ -1333,7 +1284,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	/**
 	 * @return Default Locator for current Warehouse
 	 */
-	private int getM_Locator_ID()
+	public int getM_Locator_ID()
 	{
 		MWarehouse wh = MWarehouse.get(getCtx(), getM_Warehouse_ID());
 		return wh.getDefaultLocator().getM_Locator_ID();
