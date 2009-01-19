@@ -131,7 +131,7 @@ public class PosPanel extends CPanel
 			}
 			frame.getContentPane().add(this, BorderLayout.CENTER);
 			frame.getContentPane().add(f_status, BorderLayout.SOUTH);
-		 	this.setPreferredSize(new Dimension (800-20,500-20));
+		 	this.setPreferredSize(new Dimension (850-20,500-20));
 		}
 		catch(Exception e)
 		{

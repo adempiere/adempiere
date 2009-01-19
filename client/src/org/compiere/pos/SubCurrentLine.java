@@ -94,7 +94,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 		gbc.insets = INSETS2;
 		gbc.gridy = 0;
 		//	--
-		f_new = createButtonAction("New", KeyStroke.getKeyStroke(
+		f_new = createButtonAction("Save", KeyStroke.getKeyStroke(
 				KeyEvent.VK_INSERT, Event.SHIFT_MASK));
 		gbc.gridx = 0;
 		add(f_new, gbc);
@@ -170,7 +170,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			return;
 		log.info( "SubCurrentLine - actionPerformed: " + action);
 		//	New / Reset
-		if (action.equals("New"))
+		if (action.equals("Save"))
 			saveLine();
 		else if (action.equals("Reset"))
 			newLine();
