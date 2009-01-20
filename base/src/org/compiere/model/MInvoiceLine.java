@@ -242,7 +242,11 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setDescription(sLine.getDescription());
 		//
 		setM_Product_ID(sLine.getM_Product_ID());
-		setC_UOM_ID(sLine.getC_UOM_ID());
+		if (sLine.sameOrderLineUOM())
+			setC_UOM_ID(sLine.getC_UOM_ID());
+		else
+			// use product UOM if the shipment hasn't the same uom than the order
+			setC_UOM_ID(getProduct().getC_UOM_ID());
 		setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 	//	setS_ResourceAssignment_ID(sLine.getS_ResourceAssignment_ID());
 		if(getM_Product_ID() == 0)
@@ -254,7 +258,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			MOrderLine oLine = new MOrderLine (getCtx(), C_OrderLine_ID, get_TrxName());
 			setS_ResourceAssignment_ID(oLine.getS_ResourceAssignment_ID());
 			//
-			setPriceEntered(oLine.getPriceEntered());
+			if (sLine.sameOrderLineUOM())
+				setPriceEntered(oLine.getPriceEntered());
+			else
+				setPriceEntered(oLine.getPriceActual());
 			setPriceActual(oLine.getPriceActual());
 			setPriceLimit(oLine.getPriceLimit());
 			setPriceList(oLine.getPriceList());

@@ -1792,7 +1792,10 @@ public class MOrder extends X_C_Order implements DocAction
 				MInvoiceLine iLine = new MInvoiceLine(invoice);
 				iLine.setShipLine(sLine);
 				//	Qty = Delivered	
-				iLine.setQtyEntered(sLine.getQtyEntered());
+				if (sLine.sameOrderLineUOM())
+					iLine.setQtyEntered(sLine.getQtyEntered());
+				else
+					iLine.setQtyEntered(sLine.getMovementQty());
 				iLine.setQtyInvoiced(sLine.getMovementQty());
 				if (!iLine.save(get_TrxName()))
 				{

@@ -605,6 +605,11 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			}
 			MInvoiceLine line = new MInvoiceLine (m_creditMemo);
 			line.setShipLine(confirm.getLine());
+			if (confirm.getLine().getProduct() != null) {
+				// use product UOM in case the shipment hasn't the same uom than the order
+				line.setC_UOM_ID(confirm.getLine().getProduct().getC_UOM_ID());
+			}
+			// Note: confirmation is always in the qty according to the product UOM
 			line.setQty(confirm.getDifferenceQty());	//	Entered/Invoiced
 			if (!line.save(get_TrxName()))
 			{

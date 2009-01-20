@@ -92,7 +92,10 @@ public class InOutCreateInvoice extends SvrProcess
 			MInOutLine sLine = shipLines[i];
 			MInvoiceLine line = new MInvoiceLine(invoice);
 			line.setShipLine(sLine);
-			line.setQtyEntered(sLine.getQtyEntered());
+			if (sLine.sameOrderLineUOM())
+				line.setQtyEntered(sLine.getQtyEntered());
+			else
+				line.setQtyEntered(sLine.getMovementQty());
 			line.setQtyInvoiced(sLine.getMovementQty());
 			if (!line.save())
 				throw new IllegalArgumentException("Cannot save Invoice Line");

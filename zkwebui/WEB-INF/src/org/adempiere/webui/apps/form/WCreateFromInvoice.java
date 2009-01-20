@@ -581,28 +581,28 @@ public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListen
 				if (inoutLine != null)
 				{
 					invoiceLine.setShipLine(inoutLine);		//	overwrites
-					if (inoutLine.getQtyEntered().compareTo(inoutLine.getMovementQty()) != 0)
-						invoiceLine.setQtyInvoiced(QtyEntered
-							.multiply(inoutLine.getMovementQty())
-							.divide(inoutLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+					if (inoutLine.sameOrderLineUOM())
+						invoiceLine.setQtyInvoiced(QtyEntered);
+					else
+						invoiceLine.setQtyInvoiced(inoutLine.getMovementQty());
 				}
-				else
+				else {
 					log.fine("No Receipt Line");
-					
-				//	Order Info
-				if (orderLine != null)
-				{
-					invoiceLine.setOrderLine(orderLine);	//	overwrites
-					if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
-						invoiceLine.setQtyInvoiced(QtyEntered
-							.multiply(orderLine.getQtyOrdered())
-							.divide(orderLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
-				}
-				else
-				{
-					log.fine("No Order Line");
-					invoiceLine.setPrice();
-					invoiceLine.setTax();
+					//	Order Info
+					if (orderLine != null)
+					{
+						invoiceLine.setOrderLine(orderLine);	//	overwrites
+						if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
+							invoiceLine.setQtyInvoiced(QtyEntered
+								.multiply(orderLine.getQtyOrdered())
+								.divide(orderLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+					}
+					else
+					{
+						log.fine("No Order Line");
+						invoiceLine.setPrice();
+						invoiceLine.setTax();
+					}
 				}
 				if (!invoiceLine.save())
 					log.log(Level.SEVERE, "Line NOT created #" + i);

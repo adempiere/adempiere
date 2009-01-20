@@ -415,7 +415,10 @@ public class InvoiceGenerate extends SvrProcess
 		//	
 		MInvoiceLine line = new MInvoiceLine (m_invoice);
 		line.setShipLine(sLine);
-		line.setQtyEntered(sLine.getQtyEntered());
+		if (sLine.sameOrderLineUOM())
+			line.setQtyEntered(sLine.getQtyEntered());
+		else
+			line.setQtyEntered(sLine.getMovementQty());
 		line.setQtyInvoiced(sLine.getMovementQty());
 		line.setLine(m_line + sLine.getLine());
 		if (!line.save())
