@@ -182,7 +182,7 @@ public class CRPReasoner
 	 */
 	private Timestamp getAvailableDate(MResourceType t, Timestamp dateTime, boolean isScheduleBackward)
 	{
-		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		Timestamp date = dateTime;
 		int direction = isScheduleBackward ? -1 : +1; 
 		for (int i = 0; i <= 7; i++)
 		{
@@ -203,21 +203,21 @@ public class CRPReasoner
 	public Timestamp getAvailableDate(MResource r, Timestamp dateTime, boolean isScheduleBackward)
 	{
 		MResourceType t = r.getResourceType();
-		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
+		Timestamp date = dateTime;
 		ArrayList<Object> params = new ArrayList<Object>();
 		String whereClause;
 		String orderByClause;
 		int direction;
 		if (isScheduleBackward)
 		{
-			whereClause = "TRUNC("+MResourceUnAvailable.COLUMNNAME_DateFrom+") < ?";
+			whereClause = MResourceUnAvailable.COLUMNNAME_DateFrom+" <= ?";
 			params.add(date);
 			orderByClause = MResourceUnAvailable.COLUMNNAME_DateFrom+" DESC";
 			direction = 1;
 		}
 		else
 		{
-			whereClause = "TRUNC("+MResourceUnAvailable.COLUMNNAME_DateTo+") > ?";
+			whereClause = MResourceUnAvailable.COLUMNNAME_DateTo+" >= ?";
 			params.add(date);
 			orderByClause = MResourceUnAvailable.COLUMNNAME_DateTo;
 			direction = -1;

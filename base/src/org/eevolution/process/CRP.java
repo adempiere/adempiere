@@ -85,7 +85,7 @@ public class CRP extends SvrProcess {
 	private String runCRP()
 	{
 		POResultSet<MPPOrder> rs = reasoner.getPPOrdersNotCompletedQuery(p_S_Resource_ID, get_TrxName())
-											.scroll();
+											.scroll();		
 		try
 		{
 			while(rs.hasNext())
@@ -102,7 +102,7 @@ public class CRP extends SvrProcess {
 		return "OK";
 	}
 	
-	private void runCRP(MPPOrder order)
+	public void runCRP(MPPOrder order)
 	{
 		log.fine("PP_Order DocumentNo:" + order.getDocumentNo());
 		BigDecimal qtyOpen = order.getQtyOpen();
@@ -213,13 +213,12 @@ public class CRP extends SvrProcess {
 		// Total duration of workflow node (seconds) ...
 		// ... its static single parts ...
 		long totalDuration =
-				//node.getQueuingTime() 
+				+ node.getQueuingTime() 
 				+ node.getSetupTimeRequiered() // Use the present required setup time to notice later changes  
 				+ node.getMovingTime() 
 				+ node.getWaitingTime()
 		;
 		// ... and its qty dependend working time ... (Use the present required duration time to notice later changes)
-		//totalDuration = totalDuration.add(qty.multiply(new BigDecimal(node.getDurationRequiered()))); 
 		totalDuration += qty.doubleValue() * node.getDuration(); 
 
 		// Returns the total duration of a node in milliseconds.
@@ -315,6 +314,8 @@ public class CRP extends SvrProcess {
 	
 		log.fine("         -->  start=" +  start + " <---------------------------------------- ");
 		return start;
-	}  	
+	}  
+	
+	
 }
 
