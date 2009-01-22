@@ -788,8 +788,7 @@ public class MPPMRP extends X_PP_MRP
    {
 		return getQtyOrdered(ctx, M_Warehouse_ID, M_Product_ID, new Timestamp (System.currentTimeMillis()), trxName);
    }
-   
-    
+       
 	/**
 	 * Maximum Low Level Code
 	 * @param ctx
@@ -881,5 +880,10 @@ public class MPPMRP extends X_PP_MRP
 		return (time2.getTime() - time1.getTime()) / (60 * 60 * 1000);
 	}
 
+	public static String getDocumentNo(int PP_MRP_ID)
+	{
+		return DB.getSQLValueStringEx(null, "SELECT documentNo(PP_MRP_ID) AS DocumentNo FROM PP_MRP WHERE PP_MRP_ID = ?", PP_MRP_ID);
+	}
+	
 
 }	//	MPPMRP

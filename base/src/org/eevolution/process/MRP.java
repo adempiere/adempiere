@@ -24,7 +24,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -40,6 +42,7 @@ import org.compiere.model.MProductPO;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
+import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
@@ -82,13 +85,12 @@ public class MRP extends SvrProcess
 	private MPPProductPlanning m_product_planning = null;
 	private int Planner_ID = 0;
 	private BigDecimal QtyProjectOnHand = Env.ZERO;
-	private BigDecimal QtyNetReqs = Env.ZERO;
-	private BigDecimal QtyPlanned = Env.ZERO;
 	private BigDecimal QtyGrossReqs = Env.ZERO;
 	private BigDecimal QtyScheduledReceipts = Env.ZERO;
 	private Timestamp DatePromisedFrom = null;
 	private Timestamp DatePromisedTo = null;
 	private Timestamp Today = new Timestamp (System.currentTimeMillis());  
+	private Timestamp TimeFence = null;
 	private Timestamp Planning_Horizon = null;
 	private int count_MO = 0;
 	private int count_MR = 0;
@@ -361,6 +363,22 @@ public class MRP extends SvrProcess
 					String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
 					Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
 					Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
+					
+					//MRP-150
+					//Past Due Demand
+					//Indicates that a demand order is past due.
+					if(DatePromised.compareTo(Today) < 0)
+					{
+						String comment = Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
+										 + ": " + DatePromised;			
+						createMRPNote(
+								"MRP-150", 
+								AD_Org_ID, 
+								rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID), 
+								product, MPPMRP.getDocumentNo(rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID)), 
+								rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty), comment
+								);
+					}
 
 					// if demand is a forecast and this is minor today then is ignore this QtyGrossReq
 					if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)
@@ -382,11 +400,11 @@ public class MRP extends SvrProcess
 							if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()) &&  POQDateStartSchedule.compareTo(Planning_Horizon) < 0) 
 							{
 								BeforeDateStartSchedule =  POQDateStartSchedule; 
-								calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule);
+								calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID ,BeforePP_MRP_ID , product ,BeforeDateStartSchedule);
 							}
 							else if (MPPProductPlanning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy()) && BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0 )
 							{
-								calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule );
+								calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID ,BeforePP_MRP_ID , product ,BeforeDateStartSchedule );
 							}
 							QtyGrossReqs = Env.ZERO;
 						}
@@ -416,12 +434,6 @@ public class MRP extends SvrProcess
 					                                          
 					BeforePP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
 
-					// Create Notice for Demand due
-					if(DatePromised.compareTo(Today) < 0)
-					{
-						createMRPNote("MRP-040", AD_Org_ID, rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID), product);
-					}
-					
 					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 					{
 						// Verify if is DatePromised < DatePromisedTo then Accumulation QtyGrossReqs 
@@ -436,7 +448,7 @@ public class MRP extends SvrProcess
 						else
 						{ // if not then create new range for next period
 							BeforeDateStartSchedule =  POQDateStartSchedule; 
-							calculatePlan(AD_Org_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product, QtyGrossReqs ,BeforeDateStartSchedule);										
+							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product ,BeforeDateStartSchedule);										
 							QtyGrossReqs = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty); 
 							DatePromisedFrom = DatePromised;
 							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValue());         
@@ -449,7 +461,7 @@ public class MRP extends SvrProcess
 					{                                                                                                                                           
 						QtyGrossReqs = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
 						BeforeDateStartSchedule =   rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised); 		
-						calculatePlan(AD_Org_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product,QtyGrossReqs,BeforeDateStartSchedule); 		
+						calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product,BeforeDateStartSchedule); 		
 						continue;
 					}                                                                        
 				} // end while
@@ -461,14 +473,24 @@ public class MRP extends SvrProcess
 							&&  POQDateStartSchedule.compareTo(Planning_Horizon) < 0) 
 					{
 						BeforeDateStartSchedule =  POQDateStartSchedule; 
-						calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule);
+						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,BeforePP_MRP_ID , product ,BeforeDateStartSchedule);
 					}
 					else if (MPPProductPlanning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy())
 							&& BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0 )
 					{
-						calculatePlan(AD_Org_ID,BeforePP_MRP_ID , product, QtyGrossReqs ,BeforeDateStartSchedule );
+						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,BeforePP_MRP_ID , product ,BeforeDateStartSchedule );
 					}	
 					
+				}
+				else
+				{
+					//Create Action Notice if exist supply
+					getNetRequierements(
+							AD_Client_ID, 
+							AD_Org_ID, 
+							M_Warehouse_ID, 
+							product, 
+							null);					
 				}
 
 				DB.close(rs, pstmt);
@@ -500,7 +522,7 @@ public class MRP extends SvrProcess
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
 		if (pp != null)
-		{
+		{			
 			m_product_planning = new MPPProductPlanning(getCtx(), 0 , null);                                                       
 			MPPProductPlanning.copyValues(pp, m_product_planning);
 			//Find the BOM to this Product
@@ -533,7 +555,7 @@ public class MRP extends SvrProcess
 		else
 		{
 			m_product_planning = null;
-			createMRPNote("MRP-120", AD_Org_ID, 0, product);
+			createMRPNote("MRP-120", AD_Org_ID, 0, product, null,  null , null);
 			return;
 		}
 
@@ -557,7 +579,7 @@ public class MRP extends SvrProcess
 				}
 				if(C_BPartner_ID <= 0)
 				{
-					createMRPNote("MRP-130", AD_Org_ID, 0, product);
+					createMRPNote("MRP-130", AD_Org_ID, 0, product, null, null , null);
 					m_product_planning.setIsCreatePlan(false);
 				}
 			}
@@ -567,34 +589,38 @@ public class MRP extends SvrProcess
 					log.info("Error: Do not exist workflow ("+product.getValue()+")");
 			}
 		}	
+		
+		if(pp.getTimeFence().signum() > 0)
+		TimeFence = TimeUtil.addDays(Today, pp.getTimeFence().intValue()); 
 
 		QtyProjectOnHand = MPPMRP.getQtyOnHand(getCtx(), m_product_planning.getM_Warehouse_ID() , m_product_planning.getM_Product_ID(), get_TrxName());
+		
+		if(QtyProjectOnHand.signum() < 0)
+		{
+			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
+			+ ": " + QtyProjectOnHand;
+			//MRP-140
+			//Beginning Quantity Less Than Zero
+			//Indicates that the quantity on hand is negative.
+			createMRPNote("MRP-140", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
+		}
+		
+		// Quantity Project On hand 100 
+		// Safety Stock 150
+		// 150 > 100 The Quantity Project On hand is now 50
 		if(m_product_planning.getSafetyStock().signum() > 0
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
+			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
+							+ ": " + QtyProjectOnHand
+							+ " "  +  Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_SafetyStock)
+							+ ": " + m_product_planning.getSafetyStock();
+			createMRPNote("MRP-001", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
 			QtyProjectOnHand =  QtyProjectOnHand.subtract(m_product_planning.getSafetyStock());
+			
 		}
 		log.info("QtyOnHand :" + QtyProjectOnHand);
-
-
-		final String whereClause = "DocStatus = ? AND IsAvailable = ? AND TypeMRP = ?"
-							+ " AND M_Product_ID = ?"
-							+ " AND AD_Client_ID = ? AND AD_Org_ID = ?"
-							+ " AND M_Warehouse_ID = ?";
-		Object[] params = new Object[]{
-										DocAction.STATUS_Completed,
-										"Y", // Available
-										MPPMRP.TYPEMRP_Supply,
-										m_product_planning.getM_Product_ID(),
-										AD_Client_ID, AD_Org_ID,
-										m_product_planning.getM_Warehouse_ID()
-		};
-		QtyScheduledReceipts = DB.getSQLValueBDEx(null, "SELECT COALESCE(SUM(Qty),0) FROM PP_MRP WHERE "+whereClause, params);
-		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable = 'N' WHERE "+whereClause, params, get_TrxName());
-		log.info("QtyScheduledReceipts :" + QtyScheduledReceipts);
-
-		//QtyProjectOnHand =  QtyProjectOnHand.add(QtyScheduledReceipts);
-		//QtyScheduledReceipts = Env.ZERO;
+		
 	}
 
 	/**************************************************************************
@@ -605,10 +631,8 @@ public class MRP extends SvrProcess
 	 *  @param Qty Qty
 	 *  @param DemandDateStartSchedule Demand Date Start Schedule
 	 */
-	private void calculatePlan(int AD_Org_ID, int PP_MPR_ID , MProduct product , BigDecimal Qty, Timestamp DemandDateStartSchedule)        
+	private void calculatePlan(int AD_Client_ID,int AD_Org_ID,int M_Warehouse_ID, int PP_MPR_ID , MProduct M_Product , Timestamp DemandDateStartSchedule)        
 	{
-		if (m_product_planning.isCreatePlan() == false)
-			return;
 
 		//Set Yield o QtyGrossReqs
 		// Note : the variables  DemandDateStartSchedule , DemandDateFinishSchedule are same DatePromised to Demands Sales Order Type
@@ -618,11 +642,18 @@ public class MRP extends SvrProcess
 		BigDecimal  DecimalYield = new BigDecimal(m_product_planning.getYield()/100);
 		if (DecimalYield.signum() != 0)
 			QtyGrossReqs = QtyGrossReqs.divide(DecimalYield, 4, BigDecimal.ROUND_HALF_UP);
-
-		QtyNetReqs = ((QtyScheduledReceipts).add(QtyProjectOnHand)).subtract(QtyGrossReqs);
+		
+		BigDecimal QtyNetReqs = getNetRequierements(
+				AD_Client_ID, 
+				AD_Org_ID, 
+				M_Warehouse_ID, 
+				M_Product, 
+				DemandDateStartSchedule);
+		
+		BigDecimal QtyPlanned = Env.ZERO;
 
 		m_product_planning.dump();
-		log.info("                    Product:" + product.getName());
+		log.info("                    Product:" + M_Product.getName());
 		log.info(" Demand Date Start Schedule:" + DemandDateStartSchedule);
 		log.info("           DatePromisedFrom:" + DatePromisedFrom + " DatePromisedTo:" +   DatePromisedTo);    
 		log.info("                Qty Planned:" + QtyPlanned);
@@ -648,20 +679,25 @@ public class MRP extends SvrProcess
 			QtyScheduledReceipts = Env.ZERO;
 		}
 
+		// ***** Order Modifier ********
 		// Check Order Min 
 		if(QtyPlanned.signum() > 0 && m_product_planning.getOrder_Min().signum() > 0)
 		{    
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
 			if (m_product_planning.getOrder_Min().compareTo(QtyPlanned) > 0)
 			{
-				createMRPNote("MRP-080", AD_Org_ID, PP_MPR_ID, product);
+				String comment = Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Min) 
+								+ ":" + m_product_planning.getOrder_Min();
+				createMRPNote("MRP-080", AD_Org_ID, PP_MPR_ID, M_Product , null, QtyPlanned, comment );
 			}
 		}
 
 		// Check Order Max                                                
 		if(QtyPlanned.compareTo(m_product_planning.getOrder_Max()) > 0 && m_product_planning.getOrder_Max().signum() > 0)
-		{    
-			createMRPNote("MRP-090", AD_Org_ID, PP_MPR_ID, product); 
+		{   
+			String comment = Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Max) 
+			+ ":" + m_product_planning.getOrder_Max();
+			createMRPNote("MRP-090", AD_Org_ID, PP_MPR_ID, M_Product  , null , QtyPlanned , comment); 
 		}                        
 		// Check Order Pack
 		if (m_product_planning.getOrder_Pack().signum() > 0 && QtyPlanned.signum() > 0)
@@ -673,8 +709,30 @@ public class MRP extends SvrProcess
 
 		log.info("QtyNetReqs:" +  QtyNetReqs);
 		log.info("QtyPlanned:" +  QtyPlanned);
-		log.info("QtyProjectOnHand:" +  QtyProjectOnHand);                        
-
+		log.info("QtyProjectOnHand:" +  QtyProjectOnHand);     
+	
+		//MRP-100 Time Fence Conflict  Action Notice
+		//Indicates that there is an unsatisfied material requirement inside the planning time fence for this product.
+		//You should either manually schedule and expedite orders to fill this demand or delay fulfillment of the requirement that created the demand.
+		if(TimeFence != null & DemandDateStartSchedule.compareTo(TimeFence) < 0)
+		{
+			String comment =  Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_TimeFence) 
+							+ ":" + m_product_planning.getTimeFence()
+							+ "-"
+							+ Msg.getMsg(getCtx(), "Date")
+							+ ":" + TimeFence + " "
+							+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
+							+ ":" + DemandDateStartSchedule;
+			createMRPNote("MRP-100", AD_Org_ID, PP_MPR_ID, M_Product , null , QtyPlanned , comment);
+			
+		}
+		
+		if (m_product_planning.isCreatePlan() == false && QtyPlanned.signum() > 0)
+		{	
+			createMRPNote("MRP-020", AD_Org_ID, PP_MPR_ID, M_Product , null , QtyPlanned , null); 
+			return;
+		}
+		
 		if (QtyPlanned.signum() > 0)    
 		{
 			int loops = 1;
@@ -687,22 +745,22 @@ public class MRP extends SvrProcess
 
 			for (int ofq = 1 ; ofq <= loops ; ofq ++ )
 			{
-				log.info("Is Purchased: "+ product.isPurchased()+ " Is BOM: " +  product.isBOM());
+				log.info("Is Purchased: "+ M_Product.isPurchased()+ " Is BOM: " +  M_Product.isBOM());
 
 				// Distribution Order
 				if(p_IsRequiredDRP && m_product_planning.getDD_NetworkDistribution_ID() > 0)
 				{
-					createDDOrder(AD_Org_ID, PP_MPR_ID, product, DemandDateStartSchedule);
+					createDDOrder(AD_Org_ID, PP_MPR_ID, M_Product, QtyPlanned, DemandDateStartSchedule);
 				}
 				// Requisition
-				else if (product.isPurchased()) // then create M_Requisition
+				else if (M_Product.isPurchased()) // then create M_Requisition
 				{
-					createRequisition(AD_Org_ID,PP_MPR_ID, product, DemandDateStartSchedule);
+					createRequisition(AD_Org_ID,PP_MPR_ID, M_Product, QtyPlanned ,DemandDateStartSchedule);
 				}
 				// Manufacturing Order
-				else if (product.isBOM())
+				else if (M_Product.isBOM())
 				{
-					createPPOrder(AD_Org_ID,PP_MPR_ID, product, DemandDateStartSchedule);
+					createPPOrder(AD_Org_ID,PP_MPR_ID, M_Product,QtyPlanned, DemandDateStartSchedule);
 				}
 				else
 				{
@@ -716,8 +774,21 @@ public class MRP extends SvrProcess
 		}
 	}
 	
-	private void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
+	private void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
 	{		
+		//TODO vpj-cd I need to create logic for DRP-040 Shipment Due  Action Notice
+		//Indicates that a shipment for a Order Distribution is due. 
+		// Action should be taken at the source warehouse to ensure that the order is received on time.
+		
+		//TODO vpj-cd I need to create logic for DRP-050 Shipment Pas Due  Action Notice
+		//Indicates that a shipment for a Order Distribution is past due. You should either delay the orders created the requirement for the product 
+		//or expedite them when the product does arrive.
+		
+		if(m_product_planning.getDD_NetworkDistribution_ID() == 0)
+		{
+			//Indicates that the Product Planning Data for this product does not specify a valid network distribution.
+			createMRPNote("DRP-060", AD_Org_ID, PP_MRP_ID, product , null , null , null);
+		}
 		MDDNetworkDistribution network = MDDNetworkDistribution.get(getCtx(),m_product_planning.getDD_NetworkDistribution_ID());
 		MDDNetworkDistributionLine[] network_lines = network.getLines(m_product_planning.getM_Warehouse_ID());
 		int M_Shipper_ID = 0;
@@ -742,21 +813,28 @@ public class MRP extends SvrProcess
 
 			if (locator == null || locator_to == null)
 			{
-				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product);
+				String comment = Msg.translate(getCtx(), MDDNetworkDistributionLine.COLUMNNAME_M_WarehouseSource_ID)
+								 + ":" + source.getName();
+				createMRPNote("DRP-001", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
 			//get the warehouse in transit
 			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
 
 			if (wsts == null)
-			{
-				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product);
+			{	
+				
+				String comment = Msg.translate(getCtx(), MOrg.COLUMNNAME_Name)
+				 + ":" + MOrg.get(getCtx(), AD_Org_ID).getName();
+				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
 
 			if(network_line.getM_Shipper_ID()==0)
 			{
-				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product);
+				String comment = Msg.translate(getCtx(), MDDNetworkDistribution.COLUMNNAME_Name) 
+				+ ":" + network.getName();
+				createMRPNote("DRP-030", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
 				continue;
 			}
 			
@@ -768,7 +846,9 @@ public class MRP extends SvrProcess
 				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 				if (C_BPartner_ID == 0)
 				{
-					createMRPNote("DRP-020", AD_Org_ID, PP_MRP_ID, product);
+					String comment = Msg.translate(getCtx(), MOrg.COLUMNNAME_Name)
+					 + ":" + MOrg.get(getCtx(), AD_Org_ID).getName();
+					createMRPNote("DRP-020", AD_Org_ID, PP_MRP_ID, product, null , null , comment);
 					continue;
 				}
 				
@@ -837,7 +917,7 @@ public class MRP extends SvrProcess
 		commit();
 	}
 	
-	private void createRequisition(int AD_Org_ID , int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
+	private void createRequisition(int AD_Org_ID , int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
 	{
 		log.info("Create Requisition");
 		
@@ -886,7 +966,7 @@ public class MRP extends SvrProcess
 		count_MR += 1;
 	}
 	
-	private void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product, Timestamp DemandDateStartSchedule)
+	private void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned,Timestamp DemandDateStartSchedule)
 	{
 		log.info("PP_Product_BOM_ID" + m_product_planning.getPP_Product_BOM_ID() + "AD_Workflow_ID" + m_product_planning.getAD_Workflow_ID());
 		if (m_product_planning.getPP_Product_BOM_ID() == 0 || m_product_planning.getAD_Workflow_ID() == 0)
@@ -953,27 +1033,38 @@ public class MRP extends SvrProcess
 		commit();
 	}
 
-	private void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product)
+	private void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product,String documentNo,BigDecimal qty ,String comment)
 	{
+		documentNo = documentNo != null ? documentNo : "";
+		comment = comment != null ? comment : "";
+		qty = qty != null ? qty : Env.ZERO;
+		
 		MMessage msg = MMessage.get(getCtx(), code);
 		int user_id = 0;
 		if (PP_MRP_ID == 0 && m_product_planning != null)
 		{
 			user_id = m_product_planning.getPlanner_ID();
-		}
+			String message = Msg.getMsg(getCtx(), msg.getValue());
+			if (documentNo.length() > 0)
+				message += " " + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +":" + documentNo;
+			if (qty !=  null)
+				message += " " + Msg.translate(getCtx(), "QtyPlan") + ":" + qty;
+			if (comment.length() > 0)
+		        message +=  " " + comment;
 		
-		MNote note = new MNote(getCtx(),
-							msg.getAD_Message_ID(),
-							user_id,
-							MPPMRP.Table_ID, PP_MRP_ID,
-							product.getValue() + " " + product.getName(),
-							Msg.getMsg(getCtx(), msg.getValue()),
-							get_TrxName());
-		note.setAD_Org_ID(AD_Org_ID);
-		note.saveEx();
-		commit(); 
-		log.info(code+": "+note.getTextMsg());  
-		count_Msg += 1;
+			MNote note = new MNote(getCtx(),
+								msg.getAD_Message_ID(),
+								user_id,
+								MPPMRP.Table_ID, PP_MRP_ID,
+								product.getValue() + " " + product.getName(),
+								message,
+								get_TrxName());
+			note.setAD_Org_ID(AD_Org_ID);
+			note.saveEx();
+			commit(); 
+			log.info(code+": "+note.getTextMsg());  
+			count_Msg += 1;
+		}
 	}
 	
 	private int getDDOrder_ID(int AD_Org_ID,int M_Warehouse_ID, int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
@@ -1005,6 +1096,145 @@ public class MRP extends SvrProcess
 			 partner_cache.put(C_BPartner_ID, partner);
 		}
 		return partner;
+	}
+	
+	/**
+	 * return ScheduledReceipts to cover the ProjectQtyOnhand
+	 * @param AD_Client_ID
+	 * @param AD_Org_ID
+	 * @param M_Warehouse_ID
+	 * @param M_Product
+	 * @param ProjectQtyOnhand
+	 * @param DemandDateStartSchedule
+	 * @return
+	 */
+	private BigDecimal getNetRequierements(
+			int AD_Client_ID,
+			int AD_Org_ID, 
+			int M_Warehouse_ID ,
+			MProduct M_Product,
+			Timestamp DemandDateStartSchedule)
+	{
+		BigDecimal QtyNetReqs = QtyProjectOnHand.subtract(QtyGrossReqs);
+		String whereClause =  " AD_Client_ID = ? AND AD_Org_ID = ?"
+			+ " AND M_Product_ID = ?"
+			+ " AND M_Warehouse_ID = ?"
+		  	+ " AND DocStatus IN (?,?) AND IsAvailable = ? AND TypeMRP = ?";
+		  
+		ArrayList parameters= new ArrayList();
+		parameters.add(AD_Client_ID);
+		parameters.add(AD_Org_ID);
+		parameters.add(M_Product.get_ID());
+		parameters.add(M_Warehouse_ID);
+		parameters.add(DocAction.STATUS_Completed);
+		parameters.add(DocAction.STATUS_InProgress);
+		parameters.add("Y");
+		parameters.add(MPPMRP.TYPEMRP_Supply);
+		  
+		Collection<MPPMRP> mrps = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
+		.setParameters(parameters)
+		.list();
+		
+		for (MPPMRP mrp : mrps)
+		{
+			QtyScheduledReceipts = QtyScheduledReceipts.add(mrp.getQty());
+			//MRP-030 De-Expedite Action Notice
+			//Indicates that a schedule supply order is due before it is needed and should be delayed,
+			//or demand rescheduled to an earlier date.
+			if(QtyNetReqs.negate().signum() > 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0 )
+			{
+				String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
+				 + ":" + mrp.getDateStartSchedule()
+				 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+				 + ":" + DemandDateStartSchedule;
+				
+				createMRPNote(
+				"MRP-030", 
+				AD_Org_ID, 
+				mrp.get_ID(), 
+				M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
+				mrp.getQty(), comment
+				);
+			}
+			
+			//MRP-040 Expedite Action Notice
+			//Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date 
+			//or demand rescheduled to a later date.		
+			if(QtyNetReqs.negate().signum() < 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0 )
+			{
+				String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
+				 + ":" + mrp.getDateStartSchedule()
+				 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+				 + ":" + DemandDateStartSchedule;
+				
+				createMRPNote(
+				"MRP-040", 
+				AD_Org_ID, 
+				mrp.get_ID(), 
+				M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
+				mrp.getQty(), comment
+				);
+			}
+			
+			//TODO vpj-cd I need to create logic for MRP-060 Release Due For  Action Notice in time
+			//Indicate that a supply order should be released. if it is a draft order , it must also be approved.
+			// if(date release > today && date release + after floating)
+			
+			//TODO vpj-cd I need to create logic for MRP-070 Release Past Due For  Action Notice overdue
+			//Indicates that a supply order was not released when it was due, and should be either released 
+			//or expedited now, or the demand rescheduled for a later date.
+			//if (date release < today && date erelese + before floating)
+			
+			
+			//MRP-110 Past Due  Action Notice
+			//Indicates that a schedule supply order receipt is past due.		
+			if(mrp.getDatePromised().compareTo(Today) < 0 )
+			{
+				String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+				 + ":" + mrp.getDatePromised();
+				
+				createMRPNote(
+				"MRP-110", 
+				AD_Org_ID, 
+				mrp.get_ID(), 
+				M_Product, 
+				MPPMRP.getDocumentNo(mrp.get_ID()), 
+				mrp.getQty(), comment
+				);
+			}
+			
+			if(DemandDateStartSchedule != null)
+			{	
+				if (QtyNetReqs.signum() == 0 )
+				{
+					return QtyNetReqs;
+				}
+			}
+			else
+			{
+				//MRP-050 Cancel  Action Notice
+				//Indicate that a scheduled supply order is no longer needed and should be deleted.
+				if(QtyScheduledReceipts.signum() > 0)
+				{
+					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+					 + ":" + mrp.getDatePromised();
+					
+					createMRPNote(
+					"MRP-050", 
+					AD_Org_ID, 
+					mrp.get_ID(), 
+					M_Product,
+					MPPMRP.getDocumentNo(mrp.get_ID()), 
+					mrp.getQty(), comment
+					);
+				}
+			}
+			mrp.setIsAvailable(false);
+			mrp.saveEx();
+		}
+
+		
+		return QtyNetReqs;
 	}
 }
 
