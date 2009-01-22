@@ -64,6 +64,7 @@ import org.compiere.util.Env;
  * 				<li>BF [ 1787833 ] ModelInterfaceGenerator: don't write timestamp
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
+ * 				<li>BF [ 2528434 ] ModelInterfaceGenerator: generate getters for common fields
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
@@ -229,11 +230,11 @@ public class ModelInterfaceGenerator
 				+ " c.Name, c.Description, c.ColumnSQL, c.IsEncrypted, c.IsKey "   // 13..17
 				+ "FROM AD_Column c "
 				+ "WHERE c.AD_Table_ID=?"
-				+ " AND c.ColumnName <> 'AD_Client_ID'"
+//				+ " AND c.ColumnName <> 'AD_Client_ID'"
 //				+ " AND c.ColumnName <> 'AD_Org_ID'"
-				+ " AND c.ColumnName <> 'IsActive'"
-				+ " AND c.ColumnName NOT LIKE 'Created%'"
-				+ " AND c.ColumnName NOT LIKE 'Updated%' "
+//				+ " AND c.ColumnName <> 'IsActive'"
+//				+ " AND c.ColumnName NOT LIKE 'Created%'"
+//				+ " AND c.ColumnName NOT LIKE 'Updated%' "
 				+ " AND c.IsActive='Y'"
 				+ " ORDER BY c.ColumnName";
 		PreparedStatement pstmt = null;
@@ -324,12 +325,14 @@ public class ModelInterfaceGenerator
 
 		StringBuffer sb = new StringBuffer();
 
-		// Create Java Comment
-		generateJavaComment("Set", Name, Description, sb);
-
-		// public void setColumn (xxx variable)
-		sb.append("\tpublic void set").append(columnName).append(" (")
-			.append(dataType).append(" ").append(columnName).append(");");
+		if (isGenerateSetter(columnName))
+		{
+			// Create Java Comment
+			generateJavaComment("Set", Name, Description, sb);
+			// public void setColumn (xxx variable)
+			sb.append("\tpublic void set").append(columnName).append(" (")
+				.append(dataType).append(" ").append(columnName).append(");");
+		}
 
 		// ****** Get Comment ******
 		generateJavaComment("Get", Name, Description, sb);
@@ -346,13 +349,9 @@ public class ModelInterfaceGenerator
 		sb.append("();");
 		//
 		
-		if (DisplayType.isID(displayType) && !IsKey)
+		if (isGenerateModelGetter(columnName) && DisplayType.isID(displayType) && !IsKey)
 		{
-			if ("AD_Org_ID".equalsIgnoreCase(columnName))
-			{
-				; // do nothing
-			}
-			else if (displayType == DisplayType.TableDir
+			if (displayType == DisplayType.TableDir
 					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
 			{
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
@@ -360,7 +359,8 @@ public class ModelInterfaceGenerator
 				String tableName = columnName.substring(0, columnName.length()-3);
 				
 				MTable table = MTable.get(Env.getCtx(), tableName);
-				if (table != null) {
+				if (table != null)
+				{
 					String entityType = table.getEntityType();
 					if (!"D".equals(entityType))
 					{	
@@ -391,7 +391,7 @@ public class ModelInterfaceGenerator
 		addImportClass(clazz);
 		return sb.toString();
 	}
-
+	
 	// ****** Set/Get Comment ******
 	public void generateJavaComment(String startOfComment, String propertyName,	String description, StringBuffer result) {
 		result.append("\n")
@@ -565,6 +565,37 @@ public class ModelInterfaceGenerator
 			dataType = "byte[]";
 		}
 		return dataType;
+	}
+	
+	/**
+	 * @param columnName
+	 * @return true if a setter method should be generated
+	 */
+	public boolean isGenerateSetter(String columnName)
+	{
+		return
+			!"AD_Client_ID".equals(columnName)
+			//&& !"AD_Org_ID".equals(columnName)
+			//&& !"IsActive".equals(columnName)
+			&& !"Created".equals(columnName)
+			&& !"CreatedBy".equals(columnName)
+			&& !"Updated".equals(columnName)
+			&& !"UpdatedBy".equals(columnName)
+		;
+	}
+
+	/**
+	 * @param columnName
+	 * @return true if a model getter method should be generated
+	 */
+	public boolean isGenerateModelGetter(String columnName)
+	{
+		return
+			!"AD_Client_ID".equals(columnName)
+			&& !"AD_Org_ID".equals(columnName)
+			&& !"CreatedBy".equals(columnName)
+			&& !"UpdatedBy".equals(columnName)
+		;
 	}
 
 	/**
