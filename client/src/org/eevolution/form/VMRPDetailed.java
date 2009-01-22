@@ -63,7 +63,9 @@ import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MColumn;
+import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MLot;
 import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -71,10 +73,12 @@ import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MResource;
 import org.compiere.model.MRole;
+import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_M_Forecast;
+import org.compiere.model.X_T_Aging;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -85,6 +89,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MPPMRP;
@@ -119,7 +124,7 @@ public class VMRPDetailed
 	{
 		m_WindowNo = WindowNo;
 		m_frame = frame;
-		Env.setContext(getCtx(), m_WindowNo, "IsSOTrx", "N");
+		Env.setContext(getCtx(), m_WindowNo, MOrder.COLUMNNAME_IsSOTrx, "N");
 
 		try
 		{
@@ -141,13 +146,13 @@ public class VMRPDetailed
 	}	//	init
 
 	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+	private int         		m_WindowNo = 0;
 	/**	FormFrame			*/
-	private FormFrame 		m_frame;
-	private StatusBar statusBar = new StatusBar();
-	private int AD_Client_ID = Env.getAD_Client_ID(getCtx());
+	private FormFrame 			m_frame;
+	private StatusBar 			statusBar = new StatusBar();
+	private int 				AD_Client_ID = Env.getAD_Client_ID(getCtx());
 
-	private static CLogger log = CLogger.getCLogger(VMRPDetailed.class);        
+	private static CLogger 		log = CLogger.getCLogger(VMRPDetailed.class);        
 	/** Master (owning) Window  */
 	protected int				p_WindowNo;
 	/** Key Column Name         */
@@ -168,7 +173,7 @@ public class VMRPDetailed
 	/** Result IDs              */
 
 	/** Layout of Grid          */
-	protected ColumnInfo[]     p_layout;
+	protected ColumnInfo[]     	p_layout;
 	/** Main SQL Statement      */
 	private String              m_sqlMain;
 	/** Order By Clause         */
@@ -190,22 +195,22 @@ public class VMRPDetailed
 	/** Window Width                */
 	static final int        INFO_WIDTH = 800;
 
-	private CLabel lProduct_ID = new CLabel(Msg.translate(getCtx(), "M_Product_ID"));
+	private CLabel lProduct_ID = new CLabel(Msg.translate(getCtx(), MPPMRP.COLUMNNAME_M_Product_ID));
 	private VLookup fProduct_ID;
-	private CLabel lAttrSetInstance_ID = new CLabel(Msg.translate(getCtx(), "M_AttributeSetInstance_ID"));
+	private CLabel lAttrSetInstance_ID = new CLabel(Msg.translate(getCtx(), MPPOrder.COLUMNNAME_M_AttributeSetInstance_ID));
 	private CButton fAttrSetInstance_ID;
-	private CLabel lResource_ID = new CLabel(Msg.translate(getCtx(), "S_Resource_ID"));
+	private CLabel lResource_ID = new CLabel(Msg.translate(getCtx(), MPPMRP.COLUMNNAME_S_Resource_ID));
 	private VLookup fResource_ID;
-	private CLabel lWarehouse_ID = new CLabel(Msg.translate(getCtx(), "M_Warehouse_ID"));
+	private CLabel lWarehouse_ID = new CLabel(Msg.translate(getCtx(), MPPMRP.COLUMNNAME_M_Warehouse_ID));
 	private VLookup fWarehouse_ID;
-	private CLabel lPlanner_ID = new CLabel(Msg.translate(getCtx(), "Planner_ID"));
+	private CLabel lPlanner_ID = new CLabel(Msg.translate(getCtx(), MPPMRP.COLUMNNAME_Planner_ID));
 	private VLookup fPlanner_ID;
 
 	//
-	private CLabel lDueStart = new CLabel(Msg.translate(getCtx(), "DueDate"));
+	private CLabel lDateFrom = new CLabel(Msg.translate(getCtx(), MLot.COLUMNNAME_DateFrom));
 
 	//DueStart Field
-	private VDate fDueStart = new VDate("DueStart", false, false, true, DisplayType.Date, Msg.translate(getCtx(), "DateFrom")) 
+	private VDate fDateFrom = new VDate(MLot.COLUMNNAME_DateFrom, false, false, true, DisplayType.Date, Msg.translate(getCtx(), MLot.COLUMNNAME_DateFrom)) 
 	{   			
 		private static final long serialVersionUID = 1L;
 		public void setValue(Object arg0) 
@@ -216,9 +221,9 @@ public class VMRPDetailed
 	}; 
 
 
-	private CLabel lDueEnd = new CLabel(Msg.translate(getCtx(), "To"));
+	private CLabel lDateTo = new CLabel(Msg.translate(getCtx(), MLot.COLUMNNAME_DateTo));
 	//DueEnd Field
-	private VDate fDueEnd = new VDate("DueEnd", false, false, true, DisplayType.Date, Msg.translate(getCtx(), "DateTo"))
+	private VDate fDateTo = new VDate(MLot.COLUMNNAME_DateTo, false, false, true, DisplayType.Date, Msg.translate(getCtx(), MLot.COLUMNNAME_DateTo))
 	{   			
 		private static final long serialVersionUID = 1L;
 		public void setValue(Object arg0) 
@@ -262,31 +267,45 @@ public class VMRPDetailed
 	private CLabel			lAvailable		= new CLabel();
 	private VNumber			fAvailable		= new VNumber();
 
-	private CLabel			lSupplyType		= new CLabel(Msg.translate(getCtx(), "TypeMRP"));
+	private CLabel			lSupplyType		= new CLabel(Msg.translate(getCtx(), MPPMRP.COLUMNNAME_TypeMRP));
 	private VLookup			fSupplyType		= null;
-	private VCheckBox		fMaster			= new VCheckBox ("IsMPS", false, false, true, Msg.translate(getCtx(), "IsMPS"), "", false);
-	private VCheckBox		fMRPReq			= new VCheckBox ("IsRequiredMRP", false, false, true, Msg.translate(getCtx(), "IsRequiredMRP"), "", false);
-	private VCheckBox		fCreatePlan		= new VCheckBox ("IsCreatePlan", false, false, true, Msg.translate(getCtx(), "IsCreatePlan"), "", false);
+	private VCheckBox		fMaster			= new VCheckBox (MPPProductPlanning.COLUMNNAME_IsMPS, false, false, true, Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_IsMPS), "", false);
+	private VCheckBox		fMRPReq			= new VCheckBox (MPPProductPlanning.COLUMNNAME_IsRequiredMRP, false, false, true, Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_IsRequiredMRP), "", false);
+	private VCheckBox		fCreatePlan		= new VCheckBox (MPPProductPlanning.COLUMNNAME_IsCreatePlan, false, false, true, Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_IsCreatePlan), "", false);
+	
+	private static boolean isBaseLanguage = Env.getLanguage(Env.getCtx()).getBaseAD_Language().compareTo(Env.getLoginLanguage(Env.getCtx()).getAD_Language()) == 0;
 
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] m_layout = 
 	{
 		new ColumnInfo(" ", "PP_MRP.PP_MRP_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Value"), "(Select Value from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID) AS ProductValue", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "(Select Name from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "S_Resource_ID"), "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	// 4L - BUG #59
-		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Warehouse_ID"), "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DatePromised"), "PP_MRP.DatePromised", Timestamp.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyGrossReq"), "(CASE WHEN PP_MRP.TypeMRP='D' THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),        
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtySchRcpt"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus IN ('CO') THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyPlannedOrders"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus IN ('DR','IP') THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyProjOH"), "bomQtyOnHand(PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "Details"), "PP_MRP.TypeMRP", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "TypeMRP"), "PP_MRP.OrderType", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DocStatus"), "PP_MRP.DocStatus", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "DateStartSchedule"), "PP_MRP.DateStartSchedule", Timestamp.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID=PP_MRP.C_BPartner_ID)", String.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Value), "(Select Value from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID) AS ProductValue", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Name), "(Select Name from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MResource.COLUMNNAME_S_Resource_ID), "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	// 4L - BUG #59
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_M_Warehouse_ID), "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DatePromised), "PP_MRP.DatePromised", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyGrossReq"), "(CASE WHEN PP_MRP.TypeMRP='D' THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),   
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyScheduledReceipts"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus  IN ('IP','CO') THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "PlannedQty"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus ='DR' THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHandProjected"), "bomQtyOnHand(PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
+		isBaseLanguage ?
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_TypeMRP), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53230 AND Value = PP_MRP.TypeMRP)", String.class) :
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_TypeMRP), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
+					+ "WHERE rl.AD_Reference_ID=53230 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
+					+"' AND Value = PP_MRP.TypeMRP)", String.class), 
+		isBaseLanguage ?
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_OrderType), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53229 AND Value = PP_MRP.OrderType)", String.class) :
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_OrderType), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
+					+ "WHERE rl.AD_Reference_ID=53229 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
+					+"' AND Value = PP_MRP.OrderType)", String.class),	
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPOrder.COLUMNNAME_DocumentNo), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
+		isBaseLanguage ?
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DocStatus), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=131 AND Value = PP_MRP.DocStatus)", String.class) :
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DocStatus), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
+																+ "WHERE rl.AD_Reference_ID=131 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
+																+"' AND Value = PP_MRP.DocStatus)", String.class),		
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule), "PP_MRP.DateStartSchedule", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_C_BPartner_ID), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID=PP_MRP.C_BPartner_ID)", String.class)
 	};
 
 	/**
@@ -295,9 +314,17 @@ public class VMRPDetailed
 	 */
 	private void statInit() throws Exception
 	{
-		//Respource Lookup 
-		fResource_ID = new VLookup("S_Resource_ID", false, false, true,
-				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MResource.Table_Name,"S_Resource_ID"), DisplayType.TableDir))
+		//Resource Lookup 
+		Language language = Language.getLoginLanguage(); // Base Language
+		MLookup resourceL = MLookupFactory.get(getCtx(), p_WindowNo,
+				MColumn.getColumn_ID(MResource.Table_Name, MResource.COLUMNNAME_S_Resource_ID),
+				DisplayType.TableDir, language, MResource.COLUMNNAME_S_Resource_ID, 0, false,
+				MResource.Table_Name+"."
+				+ MResource.COLUMNNAME_ManufacturingResourceType 
+				+ "= '" 
+				+ MResource.MANUFACTURINGRESOURCETYPE_Plant 
+				+ "'");
+		fResource_ID = new VLookup(MPPMRP.COLUMNNAME_S_Resource_ID, false, false, true, resourceL)
 		{		 				   			
 			private static final long serialVersionUID = 1L;
 			public void setValue(Object arg0) 
@@ -309,8 +336,8 @@ public class VMRPDetailed
 		lResource_ID.setLabelFor(fResource_ID);
 		fResource_ID.setBackground(AdempierePLAF.getInfoBackground());  
 		//Planner Lookup        
-		fPlanner_ID = new VLookup("Planner_ID", false , false, true,		
-				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPProductPlanning.Table_Name,"Planner_ID"), DisplayType.Table))
+		fPlanner_ID = new VLookup(MPPMRP.COLUMNNAME_Planner_ID, false , false, true,		
+				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPProductPlanning.Table_Name,MPPMRP.COLUMNNAME_Planner_ID), DisplayType.Table))
 		{ 			
 			private static final long serialVersionUID = 1L;
 			public void setValue(Object arg0) 
@@ -322,8 +349,8 @@ public class VMRPDetailed
 		lPlanner_ID.setLabelFor(fPlanner_ID);
 		fPlanner_ID.setBackground(AdempierePLAF.getInfoBackground());
 		//Wahrehouse Lookup		
-		fWarehouse_ID = new VLookup("M_Warehouse_ID", false , false, true,		
-				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MWarehouse.Table_Name,"M_Warehouse_ID"), DisplayType.TableDir))
+		fWarehouse_ID = new VLookup(MPPMRP.COLUMNNAME_M_Warehouse_ID, false , false, true,		
+				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MWarehouse.Table_Name,MPPMRP.COLUMNNAME_M_Warehouse_ID), DisplayType.TableDir))
 		{ 			
 			private static final long serialVersionUID = 1L;
 			public void setValue(Object arg0) 
@@ -343,59 +370,55 @@ public class VMRPDetailed
 		fCreatePlan.setReadWrite(false);
 
 
-		lUOM.setText(Msg.translate(getCtx(), "C_UOM_ID"));
+		lUOM.setText(Msg.translate(getCtx(), MUOM.COLUMNNAME_C_UOM_ID));
 		fUOM.setBackground(AdempierePLAF.getInfoBackground());
 		fUOM.setReadWrite(false);
 
-		lType.setText(Msg.translate(getCtx(), "Order_Policy"));
+		lType.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Policy));
 		fType.setBackground(AdempierePLAF.getInfoBackground());
 		fType.setReadWrite(false);
 
-		lOrderPeriod.setText(Msg.translate(getCtx(), "Order_Period"));
+		lOrderPeriod.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Period));
 		fOrderPeriod.setBackground(AdempierePLAF.getInfoBackground());
 		fOrderPeriod.setReadWrite(false);
 
-		lTimefence.setText(Msg.translate(getCtx(), "TimeFence"));
+		lTimefence.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_TimeFence));
 		fTimefence.setBackground(AdempierePLAF.getInfoBackground());
 		fTimefence.setReadWrite(false);
 
-		lLeadtime.setText(Msg.translate(getCtx(), "DeliveryTime_Promised"));
+		lLeadtime.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_DeliveryTime_Promised));
 		fLeadtime.setBackground(AdempierePLAF.getInfoBackground());
 		fLeadtime.setReadWrite(false);
-
-		lReplenishMin.setText(Msg.translate(getCtx(), "Level_Min"));
-		fReplenishMin.setBackground(AdempierePLAF.getInfoBackground());
-		fReplenishMin.setReadWrite(false);
-
-		lMinOrd.setText(Msg.translate(getCtx(), "Order_Min"));
+		
+		lMinOrd.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Min));
 		fMinOrd.setBackground(AdempierePLAF.getInfoBackground());
 		fMinOrd.setReadWrite(false);
 
-		lMaxOrd.setText(Msg.translate(getCtx(), "Order_Max"));
+		lMaxOrd.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Max));
 		fMaxOrd.setBackground(AdempierePLAF.getInfoBackground());
 		fMaxOrd.setReadWrite(false);
 
-		lOrdMult.setText(Msg.translate(getCtx(), "Order_Pack"));
+		lOrdMult.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Pack));
 		fOrdMult.setBackground(AdempierePLAF.getInfoBackground());
 		fOrdMult.setReadWrite(false);
 
-		lOrderQty.setText(Msg.translate(getCtx(), "Order_Qty"));
+		lOrderQty.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Qty));
 		fOrderQty.setBackground(AdempierePLAF.getInfoBackground());
 		fOrderQty.setReadWrite(false);
 
-		lYield.setText(Msg.translate(getCtx(), "Yield"));
+		lYield.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Yield));
 		fYield.setBackground(AdempierePLAF.getInfoBackground());
 		fYield.setReadWrite(false);
 
-		lOnhand.setText(Msg.translate(getCtx(), "QtyOnHand"));
+		lOnhand.setText(Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand));
 		fOnhand.setBackground(AdempierePLAF.getInfoBackground());
 		fOnhand.setReadWrite(false);
 
-		lSafetyStock.setText(Msg.translate(getCtx(), "SafetyStock"));
+		lSafetyStock.setText(Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_SafetyStock));
 		fSafetyStock.setBackground(AdempierePLAF.getInfoBackground());
 		fSafetyStock.setReadWrite(false);
 
-		lReserved.setText(Msg.translate(getCtx(), "QtyReserved"));
+		lReserved.setText(Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyReserved));
 		fReserved.setBackground(AdempierePLAF.getInfoBackground());
 		fReserved.setReadWrite(false);
 
@@ -403,12 +426,12 @@ public class VMRPDetailed
 		fAvailable.setBackground(AdempierePLAF.getInfoBackground());
 		fAvailable.setReadWrite(false);
 
-		lOrdered.setText(Msg.translate(getCtx(), "QtyOrdered"));
+		lOrdered.setText(Msg.translate(getCtx(), MPPOrder.COLUMNNAME_QtyOrdered));
 		fOrdered.setBackground(AdempierePLAF.getInfoBackground());
 		fOrdered.setReadWrite(false);
 		//Product Lookup
-		fProduct_ID = new VLookup("M_Product_ID", true, false, true,
-				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MProduct.Table_Name,"M_Product_ID"), DisplayType.Search)) 
+		fProduct_ID = new VLookup(MPPMRP.COLUMNNAME_M_Product_ID, true, false, true,
+				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MProduct.Table_Name,MPPMRP.COLUMNNAME_M_Product_ID), DisplayType.Search)) 
 		{
 			private static final long serialVersionUID = 1L;
 			public void setValue(Object arg0) {  				
@@ -460,14 +483,14 @@ public class VMRPDetailed
 		lProduct_ID.setLabelFor(fProduct_ID);
 		fProduct_ID.setBackground(AdempierePLAF.getInfoBackground());
 		//
-		lDueStart.setLabelFor(fDueStart);
-		fDueStart.setBackground(AdempierePLAF.getInfoBackground());
-		fDueStart.setToolTipText(Msg.translate(getCtx(), "DueDate"));
-		lDueEnd.setLabelFor(fDueEnd);
-		fDueEnd.setBackground(AdempierePLAF.getInfoBackground());
-		fDueEnd.setToolTipText(Msg.translate(getCtx(), "DateTo"));
-		fSupplyType = new VLookup("OrderType", false, false, true,		
-				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPMRP.Table_Name,"OrderType"), DisplayType.List));
+		lDateFrom.setLabelFor(fDateFrom);
+		fDateFrom.setBackground(AdempierePLAF.getInfoBackground());
+		fDateFrom.setToolTipText(Msg.translate(getCtx(), MLot.COLUMNNAME_DateFrom));
+		lDateTo.setLabelFor(fDateTo);
+		fDateTo.setBackground(AdempierePLAF.getInfoBackground());
+		fDateTo.setToolTipText(Msg.translate(getCtx(), MLot.COLUMNNAME_DateTo));
+		fSupplyType = new VLookup(MPPMRP.COLUMNNAME_TypeMRP,false, false, true,		
+				MLookupFactory.get (getCtx(), p_WindowNo, 0, MColumn.getColumn_ID(MPPMRP.Table_Name,MPPMRP.COLUMNNAME_TypeMRP), DisplayType.List));
 		lSupplyType.setLabelFor(fSupplyType);
 		fSupplyType.setBackground(AdempierePLAF.getInfoBackground());
 		//
@@ -513,16 +536,16 @@ public class VMRPDetailed
 		parameterPanel.add(fOrdMult,new ALayoutConstraint(4,5));
 
 		//  6th Row
-		parameterPanel.add(lDueStart, new ALayoutConstraint(5,0));
-		parameterPanel.add(fDueStart, new ALayoutConstraint(5,1));
+		parameterPanel.add(lDateFrom, new ALayoutConstraint(5,0));
+		parameterPanel.add(fDateFrom, new ALayoutConstraint(5,1));
 		parameterPanel.add(lOrdered, new ALayoutConstraint(5,2));
 		parameterPanel.add(fOrdered, new ALayoutConstraint(5,3));
 		parameterPanel.add(lOrderQty, new ALayoutConstraint(5,4));
 		parameterPanel.add(fOrderQty,new ALayoutConstraint(5,5));
 
 		//  7th Row
-		parameterPanel.add(lDueEnd, new ALayoutConstraint(6,0));
-		parameterPanel.add(fDueEnd, new ALayoutConstraint(6,1));
+		parameterPanel.add(lDateTo, new ALayoutConstraint(6,0));
+		parameterPanel.add(fDateTo, new ALayoutConstraint(6,1));
 		parameterPanel.add(lTimefence, new ALayoutConstraint(6,4));
 		parameterPanel.add(fTimefence,new ALayoutConstraint(6,5));
 
@@ -744,10 +767,10 @@ public class VMRPDetailed
 			 sql.append(" AND PP_MRP.Planner_ID=?");
 		 if (fWarehouse_ID.getValue() != null)
 			 sql.append(" AND PP_MRP.M_Warehouse_ID=?");
-		 if (fDueStart.getValue() != null || fDueStart.getValue() != null)
+		 if (fDateFrom.getValue() != null || fDateFrom.getValue() != null)
 		 {
-			 Timestamp from = (Timestamp)fDueStart.getValue();
-			 Timestamp to = (Timestamp)fDueEnd.getValue();
+			 Timestamp from = (Timestamp)fDateFrom.getValue();
+			 Timestamp to = (Timestamp)fDateTo.getValue();
 			 if (from == null && to != null)
 				 sql.append(" AND TRUNC(PP_MRP.DatePromised) <= ?");
 			 else if (from != null && to == null)
@@ -908,37 +931,37 @@ public class VMRPDetailed
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), MOrder.Table_ID).getPO_Window_ID();
 			 query = new MQuery(MOrder.Table_Name);
-			 query.addRestriction("C_Order_ID", MQuery.EQUAL, mrp.getC_Order_ID());
+			 query.addRestriction(MOrder.COLUMNNAME_C_Order_ID, MQuery.EQUAL, mrp.getC_Order_ID());
 		 } 
 		 else if (MPPMRP.ORDERTYPE_SalesOrder.equals(ordertype))
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), MOrder.Table_ID).getAD_Window_ID();
 			 query = new MQuery(MOrder.Table_Name);
-			 query.addRestriction("C_Order_ID", MQuery.EQUAL, mrp.getC_Order_ID());
+			 query.addRestriction(MOrder.COLUMNNAME_C_Order_ID, MQuery.EQUAL, mrp.getC_Order_ID());
 		 }    
 		 else if (MPPMRP.ORDERTYPE_ManufacturingOrder.equals(ordertype))
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), MPPOrder.Table_ID).getAD_Window_ID();
 			 query = new MQuery(MPPOrder.Table_Name);
-			 query.addRestriction("PP_Order_ID", MQuery.EQUAL, mrp.getPP_Order_ID());
+			 query.addRestriction(MPPOrder.COLUMNNAME_PP_Order_ID, MQuery.EQUAL, mrp.getPP_Order_ID());
 		 }    
 		 else if (MPPMRP.ORDERTYPE_MaterialRequisition.equals(ordertype))
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), MRequisition.Table_ID).getAD_Window_ID();;
 			 query = new MQuery(MRequisition.Table_Name);
-			 query.addRestriction("M_Requisition_ID", MQuery.EQUAL, mrp.getM_Requisition_ID());
+			 query.addRestriction(MRequisition.COLUMNNAME_M_Requisition_ID, MQuery.EQUAL, mrp.getM_Requisition_ID());
 		 }
 		 else if (MPPMRP.ORDERTYPE_Forecast.equals(ordertype))
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), X_M_Forecast.Table_ID).getAD_Window_ID();;
 			 query = new MQuery(X_M_Forecast.Table_Name);
-			 query.addRestriction("M_Forecast_ID", MQuery.EQUAL, mrp.getM_Forecast_ID());
+			 query.addRestriction(X_M_Forecast.COLUMNNAME_M_Forecast_ID, MQuery.EQUAL, mrp.getM_Forecast_ID());
 		 }
 		 if (MPPMRP.ORDERTYPE_DistributionOrder.equals(ordertype))
 		 {	
 			 AD_WindowNo = MTable.get(getCtx(), MDDOrder.Table_ID).getAD_Window_ID(); 
 			 query = new MQuery(MDDOrder.Table_Name);
-			 query.addRestriction("DD_Order_ID", MQuery.EQUAL, mrp.getDD_Order_ID());
+			 query.addRestriction(MDDOrder.COLUMNNAME_DD_Order_ID, MQuery.EQUAL, mrp.getDD_Order_ID());
 		 } 
 		 if (AD_WindowNo == 0) 
 			 return;
@@ -1134,7 +1157,7 @@ public class VMRPDetailed
 		 {
 			 Timestamp from = getDueStart();
 			 Timestamp to = getDueEnd();
-			 log.fine("Date From=" + from + ", To=" + to);
+			 log.fine("Date From=" + from + ", Date To=" + to);
 			 if (from == null && to != null)
 				 pstmt.setTimestamp(index++, to);
 			 else if (from != null && to == null)
@@ -1197,11 +1220,11 @@ public class VMRPDetailed
 	 }
 	 
 	 protected Timestamp getDueStart() {
-		 return fDueStart.getTimestamp();
+		 return fDateFrom.getTimestamp();
 	 }
 	 
 	 protected Timestamp getDueEnd() {
-		 return fDueEnd.getTimestamp();
+		 return fDateTo.getTimestamp();
 	 }
 	 
 	 protected BigDecimal getQtyOnHand() {
@@ -1317,8 +1340,8 @@ public class VMRPDetailed
 			 // 04 Warehouse", "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
 			 // 05 DatePromised, "PP_MRP.DatePromised", Timestamp.class),
 			 // 06 Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
-			 // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus ='CO' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
-			 // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('DR', 'IP') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+			 // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('IP', 'CO') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
+			 // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus = 'DR' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
 			 // 09 Proj QOH"), "bomQtyOnHand( PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
 			 // 10 Details"), "PP_MRP.Type", String.class),
 			 // 11 Type"), "PP_MRP.TypeMRP", String.class),
