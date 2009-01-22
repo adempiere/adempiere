@@ -482,7 +482,7 @@ public class MRP extends SvrProcess
 					}	
 					
 				}
-				else
+				else if (product != null)
 				{
 					//Create Action Notice if exist supply
 					getNetRequierements(
@@ -1138,78 +1138,85 @@ public class MRP extends SvrProcess
 		for (MPPMRP mrp : mrps)
 		{
 			QtyScheduledReceipts = QtyScheduledReceipts.add(mrp.getQty());
-			//MRP-030 De-Expedite Action Notice
-			//Indicates that a schedule supply order is due before it is needed and should be delayed,
-			//or demand rescheduled to an earlier date.
-			if(QtyNetReqs.negate().signum() > 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0 )
-			{
-				String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-				 + ":" + mrp.getDateStartSchedule()
-				 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-				 + ":" + DemandDateStartSchedule;
-				
-				createMRPNote(
-				"MRP-030", 
-				AD_Org_ID, 
-				mrp.get_ID(), 
-				M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
-				mrp.getQty(), comment
-				);
-			}
-			
-			//MRP-040 Expedite Action Notice
-			//Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date 
-			//or demand rescheduled to a later date.		
-			if(QtyNetReqs.negate().signum() < 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0 )
-			{
-				String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-				 + ":" + mrp.getDateStartSchedule()
-				 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-				 + ":" + DemandDateStartSchedule;
-				
-				createMRPNote(
-				"MRP-040", 
-				AD_Org_ID, 
-				mrp.get_ID(), 
-				M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
-				mrp.getQty(), comment
-				);
-			}
-			
-			//TODO vpj-cd I need to create logic for MRP-060 Release Due For  Action Notice in time
-			//Indicate that a supply order should be released. if it is a draft order , it must also be approved.
-			// if(date release > today && date release + after floating)
-			
-			//TODO vpj-cd I need to create logic for MRP-070 Release Past Due For  Action Notice overdue
-			//Indicates that a supply order was not released when it was due, and should be either released 
-			//or expedited now, or the demand rescheduled for a later date.
-			//if (date release < today && date erelese + before floating)
-			
-			
-			//MRP-110 Past Due  Action Notice
-			//Indicates that a schedule supply order receipt is past due.		
-			if(mrp.getDatePromised().compareTo(Today) < 0 )
-			{
-				String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-				 + ":" + mrp.getDatePromised();
-				
-				createMRPNote(
-				"MRP-110", 
-				AD_Org_ID, 
-				mrp.get_ID(), 
-				M_Product, 
-				MPPMRP.getDocumentNo(mrp.get_ID()), 
-				mrp.getQty(), comment
-				);
-			}
 			
 			if(DemandDateStartSchedule != null)
-			{	
+			{
+				
+				//MRP-030 De-Expedite Action Notice
+				//Indicates that a schedule supply order is due before it is needed and should be delayed,
+				//or demand rescheduled to an earlier date.
+				if(QtyNetReqs.negate().signum() > 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0 )
+				{
+					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
+					 + ":" + mrp.getDateStartSchedule()
+					 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+					 + ":" + DemandDateStartSchedule;
+					
+					createMRPNote(
+					"MRP-030", 
+					AD_Org_ID, 
+					mrp.get_ID(), 
+					M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
+					mrp.getQty(), comment
+					);
+				}
+				
+				//MRP-040 Expedite Action Notice
+				//Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date 
+				//or demand rescheduled to a later date.		
+				if(QtyNetReqs.negate().signum() < 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0 )
+				{
+					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
+					 + ":" + mrp.getDateStartSchedule()
+					 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+					 + ":" + DemandDateStartSchedule;
+					
+					createMRPNote(
+					"MRP-040", 
+					AD_Org_ID, 
+					mrp.get_ID(), 
+					M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
+					mrp.getQty(), comment
+					);
+				}
+				
+				//TODO vpj-cd I need to create logic for MRP-060 Release Due For  Action Notice in time
+				//Indicate that a supply order should be released. if it is a draft order , it must also be approved.
+				// if(date release > today && date release + after floating)
+				
+				//TODO vpj-cd I need to create logic for MRP-070 Release Past Due For  Action Notice overdue
+				//Indicates that a supply order was not released when it was due, and should be either released 
+				//or expedited now, or the demand rescheduled for a later date.
+				//if (date release < today && date erelese + before floating)
+				
+				
+				//MRP-110 Past Due  Action Notice
+				//Indicates that a schedule supply order receipt is past due.		
+				if(mrp.getDatePromised().compareTo(Today) < 0 )
+				{
+					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+					 + ":" + mrp.getDatePromised();
+					
+					createMRPNote(
+					"MRP-110", 
+					AD_Org_ID, 
+					mrp.get_ID(), 
+					M_Product, 
+					MPPMRP.getDocumentNo(mrp.get_ID()), 
+					mrp.getQty(), comment
+					);
+				}
+			
+				mrp.setIsAvailable(false);
+				mrp.saveEx();
+				
+				QtyNetReqs.add(mrp.getQty());
+				
 				if (QtyNetReqs.signum() == 0 )
 				{
 					return QtyNetReqs;
 				}
-			}
+			}	
 			else
 			{
 				//MRP-050 Cancel  Action Notice
@@ -1228,9 +1235,10 @@ public class MRP extends SvrProcess
 					mrp.getQty(), comment
 					);
 				}
+				QtyNetReqs.add(mrp.getQty());
+				mrp.setIsAvailable(false);
+				mrp.saveEx();	
 			}
-			mrp.setIsAvailable(false);
-			mrp.saveEx();
 		}
 
 		
