@@ -25,8 +25,9 @@ import org.compiere.wf.MWorkflow;
 /**
  * 
  * @author Low Heng Sin
- * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 				<li>BF [ 1757523 ] Server Processes are using Server's context
+ * 				<li>BF [ 2528297 ] Poor error message on jasper fail
  */
 public final class ProcessUtil {
 
@@ -127,7 +128,7 @@ public final class ProcessUtil {
 				trx.rollback();
 				trx.close();
 			}
-			pi.setSummary("ProcessError", true);
+			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessError") + " " + e.getLocalizedMessage(), true);
 			log.log(Level.SEVERE, pi.getClassName(), e);
 			return false;
 		}
