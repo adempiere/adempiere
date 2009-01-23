@@ -310,35 +310,34 @@ public class MColumn extends X_AD_Column
 		
 		StringBuffer sql = new StringBuffer (getColumnName())
 			.append(" ").append(getSQLDataType());
+
 		//	Default
-		if (getDefaultValue() != null && getDefaultValue().length() > 0)
-		{
-			sql.append(" DEFAULT ");
-			// if (DisplayType.isText(getAD_Reference_ID()))
-				// sql.append(DB.TO_STRING(getDefaultValue()));
-			// else
-				// sql.append(getDefaultValue());
-			String defaultValue = getDefaultValue();
-			if (defaultValue != null 
+		String defaultValue = getDefaultValue();
+		if (defaultValue != null 
 				&& defaultValue.length() > 0
-				&& defaultValue.indexOf('@') == -1)		//	no variables
-			{
-				if (DisplayType.isText(getAD_Reference_ID()) 
+				&& defaultValue.indexOf('@') == -1		//	no variables
+				&& ( ! (DisplayType.isID(getAD_Reference_ID()) && defaultValue.equals("-1") ) ) )  // not for ID's with default -1
+		{
+			if (DisplayType.isText(getAD_Reference_ID()) 
 					|| getAD_Reference_ID() == DisplayType.List
 					|| getAD_Reference_ID() == DisplayType.YesNo
 					// Two special columns: Defined as Table but DB Type is String 
 					|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
 					|| (getAD_Reference_ID() == DisplayType.Button &&
-						!(getColumnName().endsWith("_ID"))))
-				{
-					if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
-						defaultValue = DB.TO_STRING(defaultValue);
-				}
-			} else {
-				defaultValue = " NULL ";
+							!(getColumnName().endsWith("_ID"))))
+			{
+				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
+					defaultValue = DB.TO_STRING(defaultValue);
 			}
-			sql.append(defaultValue);
+			sql.append(" DEFAULT ").append(defaultValue);
 		}
+		else
+		{
+			if (! isMandatory())
+				sql.append(" DEFAULT NULL ");
+			defaultValue = null;
+		}
+
 		//	Inline Constraint
 		if (getAD_Reference_ID() == DisplayType.YesNo)
 			sql.append(" CHECK (").append(getColumnName()).append(" IN ('Y','N'))");
@@ -364,12 +363,12 @@ public class MColumn extends X_AD_Column
 		
 		//	Default
 		StringBuffer sqlDefault = new StringBuffer(sqlBase)
-			.append(" ").append(getSQLDataType())
-			.append(" DEFAULT ");
+			.append(" ").append(getSQLDataType());
 		String defaultValue = getDefaultValue();
 		if (defaultValue != null 
 			&& defaultValue.length() > 0
-			&& defaultValue.indexOf('@') == -1)		//	no variables
+			&& defaultValue.indexOf('@') == -1		//	no variables
+			&& ( ! (DisplayType.isID(getAD_Reference_ID()) && defaultValue.equals("-1") ) ) )  // not for ID's with default -1
 		{
 			if (DisplayType.isText(getAD_Reference_ID()) 
 				|| getAD_Reference_ID() == DisplayType.List
@@ -382,11 +381,12 @@ public class MColumn extends X_AD_Column
 				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 					defaultValue = DB.TO_STRING(defaultValue);
 			}
-			sqlDefault.append(defaultValue);
+			sqlDefault.append(" DEFAULT ").append(defaultValue);
 		}
 		else
 		{
-			sqlDefault.append(" NULL ");
+			if (! isMandatory())
+				sqlDefault.append(" DEFAULT NULL ");
 			defaultValue = null;
 		}
 		sql.append(sqlDefault);
