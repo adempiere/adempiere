@@ -391,8 +391,8 @@ public class CCRP extends CAbstractForm {
 		barrenderer.setBaseItemLabelGenerator(new LabelGenerator());
 		//barrenderer.setBaseLabelGenerator(new LabelGenerator());
 		barrenderer.setBaseItemLabelsVisible(true);
-		barrenderer.setSeriesPaint(0, new Color(200, 200, 200, 128));
-		barrenderer.setSeriesPaint(1, new Color(60, 60, 100, 128));
+		barrenderer.setSeriesPaint(0, new Color(10, 80, 150, 128));
+		barrenderer.setSeriesPaint(1, new Color(180, 60, 50, 128));
 
 		ItemLabelPosition itemlabelposition = new ItemLabelPosition(ItemLabelAnchor.OUTSIDE12, TextAnchor.TOP_CENTER);
 		barrenderer.setPositiveItemLabelPosition(itemlabelposition);
