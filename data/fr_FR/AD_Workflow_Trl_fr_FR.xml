@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Théo de Brouwer (HubMethods) -->
-<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="fr_FR" table="AD_Workflow">
-	<row id="101" trl="Y">
-		<value column="Name" original="Project Setup and Use">Paramétrage Projets</value>
-		<value column="Description" original="Setup of projects and project reporting">Paramètrage des projets et du reporting des projets</value>
-		<value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">dans les projets, il est possible de suivre le statut et la progression des projets de ventes, ede service et d'investissement. Un projet peut engendrer de multiples niveaux ou phases et requiert des ressources de plusieurs secteurs.</value>
-	</row>
-	<row id="103" trl="Y">
-		<value column="Name" original="Language Setup">Paramétrage Langues</value>
-		<value column="Description" original="Setup a new Language of the system and translate elements">création d'un nouvelle langue système et traductio</value>
-		<value column="Help" original="Define a new language as a system language.">définit une nouvelle langue système.</value>
-	</row>
-	<row id="104" trl="Y">
-		<value column="Name" original="Initial Client Setup Review">Création initiale société</value>
-		<value column="Description" original="Review of system level setup of a new  Client">Revue des paramétrages initiaux d'une société</value>
-		<value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">Paramétrage complet d'une société.
+ <row id="101" trl="Y">
+  <value column="Name" original="Project Setup and Use">Paramétrage Projets</value>
+  <value column="Description" original="Setup of projects and project reporting">Paramètrage des projets et du reporting des projets</value>
+  <value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">dans les projets, il est possible de suivre le statut et la progression des projets de ventes, ede service et d'investissement. Un projet peut engendrer de multiples niveaux ou phases et requiert des ressources de plusieurs secteurs.</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Language Setup">Paramétrage Langues</value>
+  <value column="Description" original="Setup a new Language of the system and translate elements">création d'un nouvelle langue système et traductio</value>
+  <value column="Help" original="Define a new language as a system language.">définit une nouvelle langue système.</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Initial Client Setup Review">Création initiale société</value>
+  <value column="Description" original="Review of system level setup of a new  Client">Revue des paramétrages initiaux d'une société</value>
+  <value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup">Paramétrage complet d'une société.
 Les workflows suivants sont à lancer :
 - Paramétrage comptable 
 - Paramétrage tiers
@@ -24,46 +24,46 @@ Les workflows suivants sont à lancer :
 - Paramétrage dépôts
 - Paramétrage TVA
 </value>
-	</row>
-	<row id="105" trl="Y">
-		<value column="Name" original="Accounting Setup">Paramétrage Comptable</value>
-		<value column="Description" original="Review and change Accounting Setup">Paramètre ou modifie la comptabilité</value>
-		<value column="Help" original="This workflow allows you to review and change your Accounting Rules. ">permet de créer et modifier les paramètres de comptabilisation. </value>
-	</row>
-	<row id="106" trl="Y">
-		<value column="Name" original="Business Partner Setup">Paramètrage Tiers</value>
-		<value column="Description" original="Setup Business Partner Rules">Création et gestion des paramètres relatifs aux tiers</value>
-		<value column="Help" original="This workflow defines the Business Partners and the supporting rules.">permet de créer les paramètres standards de gestion des tiers.</value>
-	</row>
-	<row id="107" trl="Y">
-		<value column="Name" original="Product Setup">Paramétrage articles</value>
-		<value column="Description" original="Set up Products">Paramétrage articles</value>
-		<value column="Help" original="Define your products manually. You should verify the settings especially if you import your products.">Paramétrer les articles manuellement. Il faut vérifier ces paramètres surtout si l'on importe les articles.</value>
-	</row>
-	<row id="108" trl="Y">
-		<value column="Name" original="Price List Setup">Paramétrage tarifs</value>
-		<value column="Description" original="Define your Price Lists and Discounts">Définit les tarifs et les remises</value>
-		<value column="Help" original="You define your price lists after entering or importing your products">définir les tarifs après avoir saisi ou importé les articles</value>
-	</row>
-	<row id="109" trl="Y">
-		<value column="Name" original="** Invalid **">** Invalide **</value>
-		<value column="Description" original=""/>
-		<value column="Help" original=""/>
-	</row>
-	<row id="110" trl="Y">
-		<value column="Name" original="Tax Setup">Paramétrage TVA</value>
-		<value column="Description" original="Setup tax calculation">paramétrage du calcul de la TVA² pour les articles, services et dépenses</value>
-		<value column="Help" original="Setup the tax calculation for products, services and charges">Paramètrage de la TVA oour les articles, le service et les charges</value>
-	</row>
-	<row id="111" trl="Y">
-		<value column="Name" original="Sales Setup">Paramétrage ventes</value>
-		<value column="Description" original="Setup Sales">Paramétrage ventes</value>
-		<value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns.">Paramétrage des vendeurs, des commissions, des canaux marketing et des campagnes.</value>
-	</row>
-	<row id="112" trl="Y">
-		<value column="Name" original="Performance Measurement Setup">Suivi Performances</value>
-		<value column="Description" original="Setup your Performance Measurement">Paramétrage du suivi des performances </value>
-		<value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced Scorecard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">Guide du paramétrage du suivi des performances basé sur des indicateurs clé, etc..
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Accounting Setup">Paramétrage Comptable</value>
+  <value column="Description" original="Review and change Accounting Setup">Paramètre ou modifie la comptabilité</value>
+  <value column="Help" original="This workflow allows you to review and change your Accounting Rules. ">permet de créer et modifier les paramètres de comptabilisation. </value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Business Partner Setup">Paramètrage Tiers</value>
+  <value column="Description" original="Setup Business Partner Rules">Création et gestion des paramètres relatifs aux tiers</value>
+  <value column="Help" original="This workflow defines the Business Partners and the supporting rules.">permet de créer les paramètres standards de gestion des tiers.</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Product Setup">Paramétrage articles</value>
+  <value column="Description" original="Set up Products">Paramétrage articles</value>
+  <value column="Help" original="Define your products manually. You should verify the settings especially if you import your products.">Paramétrer les articles manuellement. Il faut vérifier ces paramètres surtout si l'on importe les articles.</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Price List Setup">Paramétrage tarifs</value>
+  <value column="Description" original="Define your Price Lists and Discounts">Définit les tarifs et les remises</value>
+  <value column="Help" original="You define your price lists after entering or importing your products. In addition to price lists, you can define discounts for business partners.  Assign specific Price Lists and Discounst to Business Partners.">définir les tarifs après avoir saisi ou importé les articles</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Replication Setup">** Invalide **</value>
+  <value column="Description" original="Setup of data replication"/>
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required"/>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Tax Setup">Paramétrage TVA</value>
+  <value column="Description" original="Setup tax calculation">paramétrage du calcul de la TVA² pour les articles, services et dépenses</value>
+  <value column="Help" original="Setup the tax calculation for products, services and charges">Paramètrage de la TVA oour les articles, le service et les charges</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Sales Setup">Paramétrage ventes</value>
+  <value column="Description" original="Setup Sales">Paramétrage ventes</value>
+  <value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns.">Paramétrage des vendeurs, des commissions, des canaux marketing et des campagnes.</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Performance Measurement Setup">Suivi Performances</value>
+  <value column="Description" original="Setup your Performance Measurement">Paramétrage du suivi des performances </value>
+  <value column="Help" original="This workflow guides you through setting up your performance measurement based on Key Performance Indicators, Balanced Scorecard, etc.&#10;&#10;Most important: Do your analysis first!&#10;- What are your goals and how do you measure it?&#10;&#10;When you are setting up the system, you do it in reverse:&#10;First you define how you measure it and last you define the goals for the measurements.&#10;You have three ways measuring performance:&#10;- via quantifiable measures (e.g. sales of $3 million in Q1)&#10;- via manual measures&#10;- via achievements (tasks)&#10;&#10;The system converts the measures into percentages (based on the target and achieved measure - or number of total and reached achievements)">Guide du paramétrage du suivi des performances basé sur des indicateurs clé, etc..
 Important : faire une analyse préalable !
 - Quels sont les objectifs et comment les mesurer ?
 tout d'abord définir la méthode pour mesurer et ensuite les objectifs.
@@ -73,10 +73,207 @@ tout d'abord définir la méthode pour mesurer et ensuite les objectifs.
 - via des réalisations
 Les système convertit les mesures en pourcentages (basés sur les objectifs et les réalisations ou en nombre total et réalisations atteintes)
 </value>
-	</row>
-	<row id="113" trl="Y">
-		<value column="Name" original="Request Setup">Paramétrage Requêtes</value>
-		<value column="Description" original="Set up the client to process requests">Paramètre la société au niveau des demandes d'information</value>
-		<value column="Help" original=""/>
-	</row>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="Request Setup">Paramétrage Requêtes</value>
+  <value column="Description" original="Set up the client to process requests">Paramètre la société au niveau des demandes d'information</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="Requisition Setup">Configuration des demandes</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Process_Requisition">Procédure de demande</value>
+  <value column="Description" original="(Standard Process_Requisition)">(Procédure standard de demande)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Process_Order">Procédure de commande</value>
+  <value column="Description" original="(Standard Process Order)">(Commande selon la procédure standard)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Process_Shipment">Procédure d'envoi</value>
+  <value column="Description" original="(Standard Process Shipment)">(Procédure standard d'expédition)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Process_Invoice">Procédure de facturation</value>
+  <value column="Description" original="(Standard Process Onvoice)">(Procédure standard de facturation)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Process_Cash">Procédure sortie de cash</value>
+  <value column="Description" original="(Standard Process Cash)">(Procédure standard de sortie de cash)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Process_Payment">Procédure de paiement</value>
+  <value column="Description" original="(Standard Process Payment)">(Procédure standard de paiement)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Process_Journal">Procédure d'écriture au journal</value>
+  <value column="Description" original="(Standard Process Journal)">(Procédure standard d'écriture au journal)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="Process_JournalBatch">Procédure d'écriture différée/par lots au journal</value>
+  <value column="Description" original="(Standard Process Jornal Batch)">(Procédure standard d'écriture différée/par lots au journal)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Process_RMA">Process_RMA</value>
+  <value column="Description" original="(Standard Process_RMA)">(Standard Process_RMA)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="Process_InOutConfirm">Procédure de confimation d'entrée et sortie</value>
+  <value column="Description" original="(Standard Process Confirmation)">(Procédure standard de confirmation)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Process_Allocation">Procédure d'allocation</value>
+  <value column="Description" original="(Standard Process Allocation)">(Procédure standard d'allocation)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Process_TimeExpense">Procédure dépense de temps</value>
+  <value column="Description" original="(Standard Process Time Expense)">(Procédure standard de dépense de temps)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Process_Inventory">Procédure Inventaire</value>
+  <value column="Description" original="(Standard Process Inventory)">(Procédure standard d'inventaire)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Process_Movement">Procédure Mouvement</value>
+  <value column="Description" original="(Standard Process Movement)">(Procédure standard de mouvement)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Process_MovementConfirm">Procédure confirmation de mouvement</value>
+  <value column="Description" original="(Standard Process Movement Confirmation)">(Procédure standard de confirmation de mouvement)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Process_BankStatement">Procédure rapport banquaire</value>
+  <value column="Description" original="(Standard Process Bank Statement)">(Procédure standard de rapport banquaire)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Business Partner Approval">Approbation du partenaire d'affaire</value>
+  <value column="Description" original="Example Document based workflow">Example d'un workflow sur papier</value>
+  <value column="Help" original="When a new Business Partner is created, it is forwarded for review and credit check.">Quand un partenaire d'affaire est créé, l'information est envoyée pour révision et vérification de crédits.</value>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Manufacturing Management Setup">Configuration de la gestion de fabrication</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original="This workflow defines the Manufacturing Management and the supporting rules.">This workflow defines the Manufacturing Management and the supporting rules.</value>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="Manufacturing Workflow Setup">Gestion Workflow fabrication</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+  <value column="Help" original="This workflow defines the Manufacturing Workflow  Setup">This workflow defines the Manufacturing Workflow  Setup</value>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="Bill of Material &amp; Formula Setup">Configuration BOM &amp; Formules</value>
+  <value column="Description" original="Setup Bill of Material &amp; Formula">Setup Bill of Material &amp; Formula</value>
+  <value column="Help" original="This workflow defines the Bill of Material &amp; Formula">This workflow defines the Bill of Material &amp; Formula</value>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Name" original="Planning Management Setup">Configuration plan de gestion</value>
+  <value column="Description" original="Setup Planning Management">Setup Planning Management</value>
+  <value column="Help" original="Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.&#10;&#10;Another subject to take into account are the production cost and the capacity of shipping good quality products.&#10;&#10;Using Planning Management you answer the question: When and How Many products we must get?">Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.
+
+Another subject to take into account are the production cost and the capacity of shipping good quality products.
+
+Using Planning Management you answer the question: When and How Many products we must get?</value>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Name" original="Material Requirement Planning Setup">Configuration MRP </value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.</value>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="Name" original="Capacity Requirement Planning Setup">Configuration plan de besoins de capacité</value>
+  <value column="Description" original="The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.">The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.</value>
+  <value column="Help" original="It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.">It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.</value>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Name" original="Distribution Resource Planning Setup">Configuration plan de distribution des resources</value>
+  <value column="Description" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+  <value column="Help" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Name" original="Discrete Manufacturing Setup">Configuration fabrication discrete</value>
+  <value column="Description" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.</value>
+  <value column="Help" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.&#10;&#10;Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.&#10;&#10;This module mainly answer the question:&#10;&#10;What do I need to do to accomplish the&#10;MPS?&#10;&#10;If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.
+
+Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.
+
+This module mainly answer the question:
+
+What do I need to do to accomplish the
+MPS?
+
+If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.</value>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="Name" original="Process_Manufacturing_Order">Process_Manufacturing_Order</value>
+  <value column="Description" original="(Standard Process Manufacturing Order)">(Standard Process Manufacturing Order)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="Name" original="Process_CostCollector">Process_CostCollector</value>
+  <value column="Description" original="(Standard Process Manufacturing Cost Collector)">(Standard Process Manufacturing Cost Collector)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="Name" original="Distribution Management Setup">Configuration gestion de la distribution</value>
+  <value column="Description" original="Setup Distribution Management">Setup Distribution Management</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50011" trl="Y">
+  <value column="Name" original="Process_Distribution_Order">Process_Distribution_Order</value>
+  <value column="Description" original="(Standard Process Distribution Order)">(Standard Process Distribution Order)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50012" trl="Y">
+  <value column="Name" original="Setup Replication">Configuration Replication</value>
+  <value column="Description" original="Setup of data replication">Setup of data replication</value>
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Replication Strategy&lt;br&gt;&#10;- Define Export Format&lt;br&gt;&#10;- Config Export Processor&lt;br&gt;&#10;- Start JMS Server&lt;br&gt;&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&lt;br&gt;&#10;- Config Import Processor&lt;br&gt;">Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;
+&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;
+- setup system with all organizations, roles, etc.&lt;br&gt;
+- run the migration to make sure that it is up-to-date&lt;br&gt;
+- export the central system&lt;br&gt;
+&lt;p&gt;
+&lt;b&gt;Remote System:&lt;/b&gt;
+- install the exact version as Central System&lt;br&gt;
+- import data from Central System in the remote locations&lt;br&gt;
+&lt;p&gt;
+&lt;b&gt;Central System:&lt;/b&gt;
+- Replication Strategy&lt;br&gt;
+- Define Export Format&lt;br&gt;
+- Config Export Processor&lt;br&gt;
+- Start JMS Server&lt;br&gt;
+&lt;p&gt;
+** Enter Transactions **
+&lt;p&gt;
+&lt;b&gt;Remote System:&lt;/b&gt;&lt;br&gt;
+- Config Import Processor&lt;br&gt;</value>
+ </row>
+ <row id="50013" trl="Y">
+  <value column="Name" original="Process_Payroll">Processus paie</value>
+  <value column="Description" original="(Standard Process Payroll)">(Standard Process Payroll)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50014" trl="Y">
+  <value column="Name" original="Setup Human Resource &amp; Payroll">Configuration Resource Humaine &amp; Paie</value>
+  <value column="Description" original="Setup Human Resource &amp; Payroll">Configuration Resource Humaine &amp; Paie</value>
+  <value column="Help" original=""/>
+ </row>
 </adempiereTrl>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="fr_FR" table="CM_Container_Element">
+ <row id="100" trl="Y">
+  <value column="Name" original="content1">contenu1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="headline1">titre1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="content1">contenu1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="headline1">titre1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="content1">contenu1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="headline1">titre1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

@@ -1,2 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA--><adempiereTrl language="fr_FR" table="AD_Desktop"><row id="100" trl="Y"><value column="Name" original="FrontOffice">FrontOffice</value><value column="Description" original="Front Office Desktop">Front Office Desktop </value><value column="Help" original=""/></row></adempiereTrl>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="fr_FR" table="AD_Desktop">
+ <row id="100" trl="Y">
+  <value column="Name" original="FrontOffice">FrontOffice</value>
+  <value column="Description" original="Front Office Desktop">Front Office Desktop </value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

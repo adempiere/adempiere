@@ -1,2 +1,205 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA--><adempiereTrl language="fr_FR" table="C_DocType"><row id="0" trl="Y"><value column="Name" original="** New **">** New **</value><value column="PrintName" original="** New **">** New **</value><value column="DocumentNote" original="** NO INVOICE **">** NO INVOICE **</value></row><row id="115" trl="Y"><value column="Name" original="GL Journal">Journal Comptable</value><value column="PrintName" original="Journal">Journal</value><value column="DocumentNote" original=""/></row><row id="116" trl="Y"><value column="Name" original="AR Invoice">Facture Client</value><value column="PrintName" original="Invoice">Facture</value><value column="DocumentNote" original="Document Type Note for general and promotional text.">Note figurant sur la facture pour messages promotionnels par exemple.</value></row><row id="117" trl="Y"><value column="Name" original="AR Invoice Indirect">Facture Client indirecte</value><value column="PrintName" original="Invoice">Facture</value><value column="DocumentNote" original="Document Type Note for general and promotional text.">Message texte figurant sur la facture.</value></row><row id="118" trl="Y"><value column="Name" original="AR Credit Memo">Avoir Client</value><value column="PrintName" original="Credit Memo">Avoir</value><value column="DocumentNote" original=""/></row><row id="119" trl="Y"><value column="Name" original="AR Receipt">Réception AR</value><value column="PrintName" original="Receipt">Réception</value><value column="DocumentNote" original=""/></row><row id="120" trl="Y"><value column="Name" original="MM Shipment">Expédition Client</value><value column="PrintName" original="Delivery Note">Bon de Livraison</value><value column="DocumentNote" original=""/></row><row id="121" trl="Y"><value column="Name" original="MM Shipment Indirect">MM Expédition indirecte</value><value column="PrintName" original="Delivery Note">Note d'envoi</value><value column="DocumentNote" original=""/></row><row id="122" trl="Y"><value column="Name" original="MM Receipt">Réception Fournisseur</value><value column="PrintName" original="Vendor Delivery">Réception Fournisseur</value><value column="DocumentNote" original=""/></row><row id="123" trl="Y"><value column="Name" original="AP Invoice">Facture Fournisseur</value><value column="PrintName" original="Vendor Invoice">Facture Fournisseur</value><value column="DocumentNote" original=""/></row><row id="124" trl="Y"><value column="Name" original="AP CreditMemo">Avoir Fournisseur</value><value column="PrintName" original="Vendor Credit Memo">Avoir Fournisseur</value><value column="DocumentNote" original=""/></row><row id="125" trl="Y"><value column="Name" original="AP Payment">Paiement Fournisseur</value><value column="PrintName" original="Vendor Payment">Paiement Fournisseur</value><value column="DocumentNote" original=""/></row><row id="126" trl="Y"><value column="Name" original="Purchase Order">Commande Fournisseur</value><value column="PrintName" original="Purchase Order">Commande</value><value column="DocumentNote" original=""/></row><row id="127" trl="Y"><value column="Name" original="Purchase Requisition">Demande Fournisseur</value><value column="PrintName" original="Purchase Requisition">Demande de Prix</value><value column="DocumentNote" original=""/></row><row id="128" trl="Y"><value column="Name" original="Quotation">Offre de Prix</value><value column="PrintName" original="Quotation">Offre de Prix</value><value column="DocumentNote" original=""/></row><row id="129" trl="Y"><value column="Name" original="Proposal">Proposal</value><value column="PrintName" original="Proposal">Proposal</value><value column="DocumentNote" original=""/></row><row id="130" trl="Y"><value column="Name" original="Prepay Order">Commande Prépayée</value><value column="PrintName" original="Prepay Order">Commande Prépayée</value><value column="DocumentNote" original=""/></row><row id="131" trl="Y"><value column="Name" original="Return Material">Retour Marchandise</value><value column="PrintName" original="Return Material Authorization">Confirmation Retour Marchandise</value><value column="DocumentNote" original=""/></row><row id="132" trl="Y"><value column="Name" original="Standard Order">Ordre standard</value><value column="PrintName" original="Order Confirmation">Confirmation ordre</value><value column="DocumentNote" original=""/></row><row id="133" trl="Y"><value column="Name" original="On Credit Order">Confirmation Commande</value><value column="PrintName" original="Order Confirmation">Confirmation de Commande</value><value column="DocumentNote" original=""/></row><row id="134" trl="Y"><value column="Name" original="Warehouse Order">Commande magasin</value><value column="PrintName" original="Order Confirmation">Commande magasin</value><value column="DocumentNote" original=""/></row><row id="135" trl="Y"><value column="Name" original="POS Order">Ordre  POS</value><value column="PrintName" original="Order Confirmation">Confirmation ordre</value><value column="DocumentNote" original=""/></row></adempiereTrl>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="fr_FR" table="C_DocType">
+ <row id="0" trl="Y">
+  <value column="Name" original="** New **">** New **</value>
+  <value column="PrintName" original="** New **">** New **</value>
+  <value column="DocumentNote" original="** NO INVOICE **">** NO INVOICE **</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="GL Journal">Journal Comptable</value>
+  <value column="PrintName" original="Journal">Journal</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="AR Invoice">Facture Client</value>
+  <value column="PrintName" original="Invoice">Facture</value>
+  <value column="DocumentNote" original="Document Type Note for general and promotional text.">Note figurant sur la facture pour messages promotionnels par exemple.</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="AR Invoice Indirect">Facture Client indirecte</value>
+  <value column="PrintName" original="Invoice">Facture</value>
+  <value column="DocumentNote" original="Document Type Note for general and promotional text.">Message texte figurant sur la facture.</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="AR Credit Memo">Avoir Client</value>
+  <value column="PrintName" original="Credit Memo">Avoir</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="AR Receipt">Réception AR</value>
+  <value column="PrintName" original="Receipt">Réception</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="MM Shipment">Expédition Client</value>
+  <value column="PrintName" original="Delivery Note">Bon de Livraison</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="MM Shipment Indirect">MM Expédition indirecte</value>
+  <value column="PrintName" original="Delivery Note">Note d'envoi</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="MM Receipt">Réception Fournisseur</value>
+  <value column="PrintName" original="Vendor Delivery">Réception Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="AP Invoice">Facture Fournisseur</value>
+  <value column="PrintName" original="Vendor Invoice">Facture Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="AP CreditMemo">Avoir Fournisseur</value>
+  <value column="PrintName" original="Vendor Credit Memo">Avoir Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="AP Payment">Paiement Fournisseur</value>
+  <value column="PrintName" original="Vendor Payment">Paiement Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Purchase Order">Commande Fournisseur</value>
+  <value column="PrintName" original="Purchase Order">Commande</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Purchase Requisition">Demande Fournisseur</value>
+  <value column="PrintName" original="Purchase Requisition">Demande de Prix</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Quotation">Offre de Prix</value>
+  <value column="PrintName" original="Quotation">Offre de Prix</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Proposal">Proposal</value>
+  <value column="PrintName" original="Proposal">Proposal</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Prepay Order">Commande Prépayée</value>
+  <value column="PrintName" original="Prepay Order">Commande Prépayée</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Return Material">Retour Marchandise</value>
+  <value column="PrintName" original="Return Material Authorization">Confirmation Retour Marchandise</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Standard Order">Ordre standard</value>
+  <value column="PrintName" original="Order Confirmation">Confirmation ordre</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="On Credit Order">Confirmation Commande</value>
+  <value column="PrintName" original="Order Confirmation">Confirmation de Commande</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Warehouse Order">Commande magasin</value>
+  <value column="PrintName" original="Order Confirmation">Commande magasin</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="POS Order">Ordre  POS</value>
+  <value column="PrintName" original="Order Confirmation">Confirmation ordre</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="136" trl="Y">
+  <value column="Name" original="Project Issue">Problème de projet</value>
+  <value column="PrintName" original="Project Issue">Problème de projet</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="137" trl="Y">
+  <value column="Name" original="Payment Allocation">Allocation Paiement</value>
+  <value column="PrintName" original="Payment Allocation">Allocation Paiement</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="138" trl="Y">
+  <value column="Name" original="Match Invoice">Facture correspondante</value>
+  <value column="PrintName" original="Match Invoice">Facture correspondante</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="139" trl="Y">
+  <value column="Name" original="Material Production">Production Matérielle</value>
+  <value column="PrintName" original="Material Production">Production Matérielle</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="140" trl="Y">
+  <value column="Name" original="GL Document">Document du Grand livre</value>
+  <value column="PrintName" original="GL Document">Document du Grand Livre</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="Cash Journal">Journal des liquidités</value>
+  <value column="PrintName" original="Cash Journal">Journal des liquidités</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="142" trl="Y">
+  <value column="Name" original="Match PO">Bon de commande correspondant</value>
+  <value column="PrintName" original="Match PO">Bon de commande correspondant</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="143" trl="Y">
+  <value column="Name" original="Material Movement">Mouvement Matériel</value>
+  <value column="PrintName" original="Material Movement">Mouvement Matériel</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="144" trl="Y">
+  <value column="Name" original="Material Physical Inventory">Inventaire Physique</value>
+  <value column="PrintName" original="Material Physical Inventory">Inventaire Physique</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="145" trl="Y">
+  <value column="Name" original="AR Pro Forma Invoice">Facture AR Pro Forma</value>
+  <value column="PrintName" original="AR Pro Forma Invoice">Facture AR Pro Forma</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Name" original="Bank Statement">Etat Bancaire</value>
+  <value column="PrintName" original="Bank Statement">Etat Bancaire</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="147" trl="Y">
+  <value column="Name" original="MM Receipt with Confirmation">MM Reçu avec Confirmation</value>
+  <value column="PrintName" original="Vendor Delivery">Expédition Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="148" trl="Y">
+  <value column="Name" original="MM Shipment with Pick">MM Expédition avec Désignation</value>
+  <value column="PrintName" original="Delivery Note">Note de livraison</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="149" trl="Y">
+  <value column="Name" original="MM Returns">MM Retour Client</value>
+  <value column="PrintName" original="Return Material">Retour Matériel</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="150" trl="Y">
+  <value column="Name" original="Vendor Return Material">MM Retour Fournisseur</value>
+  <value column="PrintName" original="Vendor Return Material Authorization">Retour Fournisseur</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="151" trl="Y">
+  <value column="Name" original="MM Vendor Return">MM Retour Fournisseur avec Confirmation</value>
+  <value column="PrintName" original="Vendor Return Material">Retour Fournisseur avec Confirmation</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Payroll">Payroll</value>
+  <value column="PrintName" original="Payroll">Payroll</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="GL Journal Batch">GL Journal Batch</value>
+  <value column="PrintName" original="Journal Batch">Journal Batch</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+</adempiereTrl>

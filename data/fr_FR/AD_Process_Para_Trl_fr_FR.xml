@@ -1,2 +1,135 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(tm) Version 2.4.4c/2003-05-02 - Smart ERP & CRM - Copyright (c) 1999-2003 Jorg Janke - 2.4.4c 20030504-1629 - Adempiere,Inc. USA--><adempiereTrl language="fr_FR" table="AD_Process_Para"><row id="227" trl="Y"><value column="Name" original="Delete existing Accounting Entries">Supprime les écritures comptables actuelles</value><value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Les écritures comptables sélectionnées seront supprimées ! Dangereux !!!</value><value column="Help" original=""/></row><row id="233" trl="Y"><value column="Name" original="Pricelist Version">Version liste de prix</value><value column="Description" original="Only used if Price List is used to set future cost price">Uniquement utilisé sur la liste de prix est utilisée pour mettre à jour le coût futur.</value><value column="Help" original=""/></row><row id="302" trl="N"><value column="Name" original="Target Payment Rule">Target Payment Rule</value><value column="Description" original="How you pay the invoice">How you pay the invoice</value><value column="Help" original="The Payment Rule indicates the method of invoice payment.">The Payment Rule indicates the method of invoice payment.</value></row></adempiereTrl>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="fr_FR" table="AD_Process_Para">
+ <row id="227" trl="Y">
+  <value column="Name" original="Delete existing Accounting Entries">Supprime les écritures comptables actuelles</value>
+  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Les écritures comptables sélectionnées seront supprimées ! Dangereux !!!</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="233" trl="Y">
+  <value column="Name" original="Pricelist Version">Version liste de prix</value>
+  <value column="Description" original="Only used if Price List is used to set future/standard cost price">Uniquement utilisé sur la liste de prix est utilisée pour mettre à jour le coût futur.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="Overwrite Payment Rule">Target Payment Rule</value>
+  <value column="Description" original="Overwrite how to pay the invoice">How you pay the invoice</value>
+  <value column="Help" original="The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.">The Payment Rule indicates the method of invoice payment.</value>
+ </row>
+ <row id="315" trl="Y">
+  <value column="Name" original="From User">A partir de l'utilisateur</value>
+  <value column="Description" original="Send EMail from user">Envoyer un courriel à partir de l'utilisateur</value>
+  <value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">Le courriel est envoyé à partir de l'utilisateur sélectionné - sinon il est envoyé depuis l'adresse courriel de requête du client</value>
+ </row>
+ <row id="452" trl="Y">
+  <value column="Name" original="Maintenance Mode">Mode Maintenance</value>
+  <value column="Description" original="Language Maintenance Mode">Langue du Mode de Maintenance</value>
+  <value column="Help" original="">Aide</value>
+ </row>
+ <row id="467" trl="Y">
+  <value column="Name" original="Existing Organization">Organisation existante</value>
+  <value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Organisation au sein d'une entreprise cliente - à vider si vous souhaitez créer une organisation</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">Une organisation est une unité de votre entreprise cliente ou une entité légale - par exemple un magasin ou un département. Il est possible de partager les données entre les organisations.</value>
+ </row>
+ <row id="469" trl="Y">
+  <value column="Name" original="Limit Access to Role">Accès limité au Role</value>
+  <value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">Si aucun Role n'est sélectionné, vous accordez l'accès à tous les (non manuels) Roles du Client</value>
+  <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">Le Role détermine le niveau de sécurité et d'accès de l'utilisateur ayant ce rôle dans le système.</value>
+ </row>
+ <row id="493" trl="Y">
+  <value column="Name" original="New User/Contact">Nouvel utilisateur/Contact</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">Utilisateur au sein du sysème - Contact interne ou partenaire d'affaire</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Utilisateur identifie un utilisateur unique dans le système. Ce peut être un utilisateur interne ou un contact de partenaire d'affaire</value>
+ </row>
+ <row id="494" trl="Y">
+  <value column="Name" original="New Workflow Responsible">Nouveau responsable de Workflow</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsable de l'execution du Workflow</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">La responsabilité suprême pour un workflow est utilisateur réel. Le responsable du Workflow authorise la définition des moyens de trouver cet utilisateur réel.</value>
+ </row>
+ <row id="496" trl="Y">
+  <value column="Name" original="New User/Contact">Nouvel utilisateur/Contact</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">Utilisateur au sein du sysème - Contact interne ou partenaire d'affaire</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">Utilisateur identifie un utilisateur unique dans le système. Ce peut être un utilisateur interne ou un contact de partenaire d'affaire</value>
+ </row>
+ <row id="497" trl="Y">
+  <value column="Name" original="New Workflow Responsible">Nouveau responsable de Workflow</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsable de l'execution du Workflow</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">La responsabilité suprême pour un workflow est utilisateur réel. Le responsable du Workflow authorise la définition des moyens de trouver cet utilisateur réel.</value>
+ </row>
+ <row id="523" trl="Y">
+  <value column="Name" original="Default Sales Rep">Représentant des ventes par défaut</value>
+  <value column="Description" original="If not defined on Business Partner Level">Si n'est pas rejeté au niveau Partenaires d'affaire</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="524" trl="Y">
+  <value column="Name" original="Dunning Currency">Devise de relance</value>
+  <value column="Description" original="Currency to create Dunning Letters">Devise pour créer les lettres de relance</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50019" trl="Y">
+  <value column="Name" original="Shipment Date">Shipment Date</value>
+  <value column="Description" original="Date printed on shipment">Date printed on shipment</value>
+  <value column="Help" original="The Shipment Date indicates the date printed on the shipment.">The Shipment Date indicates the date printed on the shipment.</value>
+ </row>
+ <row id="53011" trl="Y">
+  <value column="Name" original="Print Unprocessed Entries Only">Print Unprocessed Entries Only</value>
+  <value column="Description" original="Print the unprocessed (unprinted) entries of the dunning run only.">Print the unprocessed (unprinted) entries of the dunning run only.</value>
+  <value column="Help" original="Print the unprocessed (unprinted) entries of the dunning run only. This allows you to reprint only certain dunning entries.">Print the unprocessed (unprinted) entries of the dunning run only. This allows you to reprint only certain dunning entries.</value>
+ </row>
+ <row id="53025" trl="Y">
+  <value column="Name" original="Purchase Price List Version">Purchase Price List Version</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53030" trl="Y">
+  <value column="Name" original="New Product">New Product</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53032" trl="Y">
+  <value column="Name" original="Action">Action</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53066" trl="Y">
+  <value column="Name" original="Is Print Pack List">Is Print Pack List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53068" trl="Y">
+  <value column="Name" original="Is Print Pick List">Is Print Pick List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53069" trl="Y">
+  <value column="Name" original="Is Print Workflow">Is Print Workflow</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53127" trl="Y">
+  <value column="Name" original="Generate Fields">Generate Fields</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53131" trl="Y">
+  <value column="Name" original="Scripts Path">Scripts Path</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53142" trl="Y">
+  <value column="Name" original="Includes only the Tabs that Insert records">Includes only the Tabs that Insert records</value>
+  <value column="Description" original="Generated Export Format for the Tabs with Insert Record is Yes">Generated Export Format for the Tabs with Insert Record is Yes</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53143" trl="Y">
+  <value column="Name" original="Includes only the mandatory columns">Includes only the mandatory columns</value>
+  <value column="Description" original="Generated an Export Format Line  if the column is mandatory ">Generated an Export Format Line  if the column is mandatory </value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53221" trl="Y">
+  <value column="Name" original="Distribution List">Distribution List</value>
+  <value column="Description" original="Distribution List">Distribution List</value>
+  <value column="Help" original="Distribution Lists allow to distribute products to a selected list of partners">Distribution Lists allow to distribute products to a selected list of partners</value>
+ </row>
+</adempiereTrl>

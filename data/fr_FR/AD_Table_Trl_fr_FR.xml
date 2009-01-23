@@ -1,0 +1,2336 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.2a_2008-07-29 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080910-2324 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="fr_FR" table="AD_Table">
+ <row id="100" trl="Y">
+  <value column="Name" original="Table">Fichier</value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Column">Colonne</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Reference">Référence</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="AD_Ref_Table">AD_Ref_Table</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Reference List">List de référence</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Window">Fenêtre</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Tab">Onglet</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Field">Champ</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Dynamic Validation">Validation</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Message">Message</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Language ID">ID langue</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Client">Société</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="Payment Term">Délai de paiement</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="User/Contact">Utilisateur</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Sequence">Séquence</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Menu">Menu</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Workflow">Workflow</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="OS Task">Tâche</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Message Trl">Message **</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Menu Trl">Menu **</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="AD_Sequence_Audit">AD_Sequence_Audit</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="AD_Sequence_No">AD_Sequence_No</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Tab Trl">Onglet **</value>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="OS Task Trl">Tâche **</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Task Instance">Instance Tâche</value>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Reference Trl">Référence **</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Field Trl">Champ **</value>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Node">Noeud</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Node Trl">Noeud **</value>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Node Transition">Noeud de transition</value>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Window Trl">Fenêtre **</value>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="Workflow Trl">Workflow **</value>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="Test ID">ID Test</value>
+ </row>
+ <row id="136" trl="Y">
+  <value column="Name" original="Reference List Trl">List de référence **</value>
+ </row>
+ <row id="139" trl="Y">
+  <value column="Name" original="Calendar">Calendrier</value>
+ </row>
+ <row id="140" trl="Y">
+  <value column="Name" original="Conversion Rate">Type Conversion</value>
+ </row>
+ <row id="141" trl="Y">
+  <value column="Name" original="Currency">Devise</value>
+ </row>
+ <row id="142" trl="Y">
+  <value column="Name" original="Element">Plan Comptable</value>
+ </row>
+ <row id="145" trl="Y">
+  <value column="Name" original="Period">Période</value>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Name" original="UOM">Unité</value>
+ </row>
+ <row id="155" trl="Y">
+  <value column="Name" original="Organization">Organisation</value>
+ </row>
+ <row id="156" trl="Y">
+  <value column="Name" original="Role">Rôle</value>
+ </row>
+ <row id="157" trl="Y">
+  <value column="Name" original="AD_User_Roles">AD_User_Roles</value>
+ </row>
+ <row id="162" trl="Y">
+  <value column="Name" original="Address">Adresse</value>
+ </row>
+ <row id="163" trl="Y">
+  <value column="Name" original="Non Business Day">Jour ferié</value>
+ </row>
+ <row id="164" trl="Y">
+  <value column="Name" original="Region">Région</value>
+ </row>
+ <row id="170" trl="Y">
+  <value column="Name" original="Country">Pays</value>
+ </row>
+ <row id="175" trl="Y">
+  <value column="Name" original="UOM Conversion">Conversion UM</value>
+ </row>
+ <row id="176" trl="Y">
+  <value column="Name" original="Combination">Combinaison</value>
+ </row>
+ <row id="177" trl="Y">
+  <value column="Name" original="Year">Année</value>
+ </row>
+ <row id="183" trl="Y">
+  <value column="Name" original="C_BP_Customer_Acct">C_BP_Customer_Acct</value>
+ </row>
+ <row id="184" trl="Y">
+  <value column="Name" original="C_BP_Employee_Acct">C_BP_Employee_Acct</value>
+ </row>
+ <row id="185" trl="Y">
+  <value column="Name" original="C_BP_Vendor_Acct">C_BP_Vendor_Acct</value>
+ </row>
+ <row id="186" trl="Y">
+  <value column="Name" original="City">City</value>
+ </row>
+ <row id="188" trl="Y">
+  <value column="Name" original="Account Element">Compte</value>
+ </row>
+ <row id="190" trl="Y">
+  <value column="Name" original="Warehouse">Magasin / dépot</value>
+ </row>
+ <row id="191" trl="Y">
+  <value column="Name" original="M_Warehouse_Acct">M_Magasin/Dépôt_Cpt</value>
+ </row>
+ <row id="195" trl="Y">
+  <value column="Name" original="Preference">Préférence</value>
+ </row>
+ <row id="197" trl="Y">
+  <value column="Name" original="Process Access">AD_Procédure_Accès</value>
+ </row>
+ <row id="199" trl="Y">
+  <value column="Name" original="AD_Task_Access">AD_Tâche_Accès</value>
+ </row>
+ <row id="201" trl="Y">
+  <value column="Name" original="AD_Window_Access">AD_Fenêtre_Accès</value>
+ </row>
+ <row id="202" trl="Y">
+  <value column="Name" original="AD_Workflow_Access">AD_Workflow_Accès</value>
+ </row>
+ <row id="203" trl="Y">
+  <value column="Name" original="Project">Projet</value>
+ </row>
+ <row id="204" trl="Y">
+  <value column="Name" original="C_Project_Acct">C_Projet_Acct</value>
+ </row>
+ <row id="207" trl="Y">
+  <value column="Name" original="Locator">Emplacement</value>
+ </row>
+ <row id="208" trl="Y">
+  <value column="Name" original="Product">Article</value>
+ </row>
+ <row id="209" trl="Y">
+  <value column="Name" original="Product Category">Catégorie article</value>
+ </row>
+ <row id="210" trl="Y">
+  <value column="Name" original="Product Purchasing">M_Product_PO</value>
+ </row>
+ <row id="213" trl="Y">
+  <value column="Name" original="M_Substitute">M_Substitute</value>
+ </row>
+ <row id="217" trl="Y">
+  <value column="Name" original="Document Type">Type Document</value>
+ </row>
+ <row id="218" trl="Y">
+  <value column="Name" original="GL Category">Catégorie GL</value>
+ </row>
+ <row id="224" trl="Y">
+  <value column="Name" original="Journal">Journal</value>
+ </row>
+ <row id="225" trl="Y">
+  <value column="Name" original="Journal Batch">Batch Journal</value>
+ </row>
+ <row id="226" trl="Y">
+  <value column="Name" original="Journal Line">Ligne du journal</value>
+ </row>
+ <row id="227" trl="Y">
+  <value column="Name" original="AD_ClientInfo">AD_ClientInfo</value>
+ </row>
+ <row id="228" trl="Y">
+  <value column="Name" original="Organization Info">AD_OrgInfo</value>
+ </row>
+ <row id="229" trl="Y">
+  <value column="Name" original="Period Control">Control période</value>
+ </row>
+ <row id="230" trl="Y">
+  <value column="Name" original="Sales Region">Secteur Commercial</value>
+ </row>
+ <row id="249" trl="Y">
+  <value column="Name" original="M_Replenish">M_Remplir de nouveau</value>
+ </row>
+ <row id="250" trl="Y">
+  <value column="Name" original="M_Storage">M_Entreposage</value>
+ </row>
+ <row id="251" trl="Y">
+  <value column="Name" original="Product Price">M_Prix de produit</value>
+ </row>
+ <row id="252" trl="Y">
+  <value column="Name" original="Tax Category">Catégorie TVA</value>
+ </row>
+ <row id="253" trl="Y">
+  <value column="Name" original="Shipper">Transporteur</value>
+ </row>
+ <row id="254" trl="Y">
+  <value column="Name" original="Attachment">Pièce jointe</value>
+ </row>
+ <row id="255" trl="Y">
+  <value column="Name" original="Price List">Tarif</value>
+ </row>
+ <row id="257" trl="Y">
+  <value column="Name" original="Invoice Schedule">Planning facture</value>
+ </row>
+ <row id="259" trl="Y">
+  <value column="Name" original="Order">Commande Vente</value>
+ </row>
+ <row id="260" trl="Y">
+  <value column="Name" original="Sales Order Line">Ligne commande de vente</value>
+ </row>
+ <row id="261" trl="Y">
+  <value column="Name" original="Tax">Tva</value>
+ </row>
+ <row id="265" trl="Y">
+  <value column="Name" original="Accounting Schema">Schéma Comptable</value>
+ </row>
+ <row id="266" trl="Y">
+  <value column="Name" original="C_AcctSchema_GL">C_Plan comptable_GL</value>
+ </row>
+ <row id="270" trl="Y">
+  <value column="Name" original="Accounting Fact">Accounting Fact</value>
+ </row>
+ <row id="271" trl="Y">
+  <value column="Name" original="Budget">Budget</value>
+ </row>
+ <row id="273" trl="Y">
+  <value column="Name" original="Product Acct">M_Product_Acct</value>
+ </row>
+ <row id="274" trl="Y">
+  <value column="Name" original="Campaign">Campagne</value>
+ </row>
+ <row id="275" trl="Y">
+  <value column="Name" original="Channel">Canal</value>
+ </row>
+ <row id="276" trl="Y">
+  <value column="Name" original="System Element">Elément</value>
+ </row>
+ <row id="277" trl="Y">
+  <value column="Name" original="System Element Trl">Elément **</value>
+ </row>
+ <row id="279" trl="Y">
+  <value column="Name" original="Acct.Schema Element">Elément du schéma comptable</value>
+ </row>
+ <row id="282" trl="Y">
+  <value column="Name" original="Process Instance">Instance du processus</value>
+ </row>
+ <row id="283" trl="Y">
+  <value column="Name" original="AD_PInstance_Para">AD_instance du processus_Para</value>
+ </row>
+ <row id="284" trl="Y">
+  <value column="Name" original="Process">Processus</value>
+ </row>
+ <row id="285" trl="Y">
+  <value column="Name" original="Process Parameter">Paramètre du processus</value>
+ </row>
+ <row id="286" trl="Y">
+  <value column="Name" original="Process Parameter Trl">Paramètre du processus **</value>
+ </row>
+ <row id="287" trl="Y">
+  <value column="Name" original="Process Trl">Processus **</value>
+ </row>
+ <row id="288" trl="Y">
+  <value column="Name" original="Tree">Arborescence</value>
+ </row>
+ <row id="289" trl="Y">
+  <value column="Name" original="Tree Node">Noeud</value>
+ </row>
+ <row id="291" trl="Y">
+  <value column="Name" original="Business Partner ">Tiers</value>
+ </row>
+ <row id="293" trl="Y">
+  <value column="Name" original="Partner Location">Adresse du tiers</value>
+ </row>
+ <row id="295" trl="Y">
+  <value column="Name" original="Price List Version">Version Tarif</value>
+ </row>
+ <row id="296" trl="Y">
+  <value column="Name" original="Bank">Banque</value>
+ </row>
+ <row id="297" trl="Y">
+  <value column="Name" original="Bank Account">Compte bancaire</value>
+ </row>
+ <row id="298" trl="Y">
+  <value column="Name" original="Partner Bank Account">Compte banque Tiers</value>
+ </row>
+ <row id="299" trl="Y">
+  <value column="Name" original="C_BP_Withholding">C_BP_Rétention</value>
+ </row>
+ <row id="300" trl="Y">
+  <value column="Name" original="Document Type Trl">Type Document **</value>
+ </row>
+ <row id="301" trl="Y">
+  <value column="Name" original="Dunning">Rappels</value>
+ </row>
+ <row id="302" trl="Y">
+  <value column="Name" original="Account Element Trl">Compte **</value>
+ </row>
+ <row id="303" trl="Y">
+  <value column="Name" original="Payment Term Trl">Délai de paiement **</value>
+ </row>
+ <row id="304" trl="Y">
+  <value column="Name" original="Withholding">Retenue</value>
+ </row>
+ <row id="312" trl="Y">
+  <value column="Name" original="Product Trl">Article **</value>
+ </row>
+ <row id="313" trl="Y">
+  <value column="Name" original="Charge">Frais</value>
+ </row>
+ <row id="314" trl="Y">
+  <value column="Name" original="Order Tax">Taxe sur commande</value>
+ </row>
+ <row id="315" trl="Y">
+  <value column="Name" original="C_AcctSchema_Default">C_Plan comptable_Défaut</value>
+ </row>
+ <row id="316" trl="Y">
+  <value column="Name" original="Activity">Activité</value>
+ </row>
+ <row id="318" trl="Y">
+  <value column="Name" original="Invoice">Facture</value>
+ </row>
+ <row id="319" trl="Y">
+  <value column="Name" original="Shipment/Receipt">Expédition/Réception</value>
+ </row>
+ <row id="320" trl="Y">
+  <value column="Name" original="Shipment/Receipt Line">Ligne livraison</value>
+ </row>
+ <row id="321" trl="Y">
+  <value column="Name" original="Phys.Inventory">Inventaire physique</value>
+ </row>
+ <row id="322" trl="Y">
+  <value column="Name" original="Phys.Inventory Line">Ligne Inventaire</value>
+ </row>
+ <row id="323" trl="Y">
+  <value column="Name" original="Inventory Move">Mouvement</value>
+ </row>
+ <row id="324" trl="Y">
+  <value column="Name" original="Move Line">Ligne mouvement</value>
+ </row>
+ <row id="325" trl="Y">
+  <value column="Name" original="Production">Production</value>
+ </row>
+ <row id="326" trl="Y">
+  <value column="Name" original="Production Line">Ligne Production</value>
+ </row>
+ <row id="327" trl="Y">
+  <value column="Name" original="Product Costing">Produit Coût</value>
+ </row>
+ <row id="329" trl="Y">
+  <value column="Name" original="Inventory Transaction">Transaction d'inventaire</value>
+ </row>
+ <row id="331" trl="Y">
+  <value column="Name" original="Dunning Level">Niveau rappel</value>
+ </row>
+ <row id="332" trl="Y">
+  <value column="Name" original="Dunning Level Trl">Niveau rappel **</value>
+ </row>
+ <row id="333" trl="Y">
+  <value column="Name" original="Invoice Line">Ligne facture</value>
+ </row>
+ <row id="334" trl="Y">
+  <value column="Name" original="C_InvoiceTax">C_Taxe sur facture</value>
+ </row>
+ <row id="335" trl="Y">
+  <value column="Name" original="Payment">Paiement</value>
+ </row>
+ <row id="336" trl="Y">
+  <value column="Name" original="Revenue Recognition">Suivi Chiffre d'Affaires</value>
+ </row>
+ <row id="337" trl="Y">
+  <value column="Name" original="Service Level">Service Level</value>
+ </row>
+ <row id="338" trl="Y">
+  <value column="Name" original="Service Level Line">Ligne niveau de service</value>
+ </row>
+ <row id="339" trl="Y">
+  <value column="Name" original="UOM Trl">Unité **</value>
+ </row>
+ <row id="342" trl="Y">
+  <value column="Name" original="Perpetual Inventory">Inventaire Permanent</value>
+ </row>
+ <row id="346" trl="Y">
+  <value column="Name" original="Greeting">Civilité</value>
+ </row>
+ <row id="347" trl="Y">
+  <value column="Name" original="Greeting Trl">Civilité **</value>
+ </row>
+ <row id="348" trl="Y">
+  <value column="Name" original="Tax Category Trl">Catégorie TVA **</value>
+ </row>
+ <row id="360" trl="Y">
+  <value column="Name" original="Order Detail">Commande Ouvrir</value>
+ </row>
+ <row id="361" trl="Y">
+  <value column="Name" original="Report View">Vue édition</value>
+ </row>
+ <row id="363" trl="Y">
+  <value column="Name" original="Transaction Sum">Transaction Somme</value>
+ </row>
+ <row id="364" trl="Y">
+  <value column="Name" original="T_Replenish">Remplir de nouveau</value>
+ </row>
+ <row id="365" trl="Y">
+  <value column="Name" original="T_Spool">T_désynchronisation des entrées-sorties</value>
+ </row>
+ <row id="366" trl="Y">
+  <value column="Name" original="EDI Definition">Définition EDI</value>
+ </row>
+ <row id="367" trl="Y">
+  <value column="Name" original="EDI Transaction">Transaction EDi</value>
+ </row>
+ <row id="368" trl="Y">
+  <value column="Name" original="EDI Log">EDI Log</value>
+ </row>
+ <row id="369" trl="Y">
+  <value column="Name" original="Invoice Day">Jour facture</value>
+ </row>
+ <row id="370" trl="Y">
+  <value column="Name" original="Invoice Month">Mois facture</value>
+ </row>
+ <row id="371" trl="Y">
+  <value column="Name" original="Invoice ProdMonth">Mois facture de prod</value>
+ </row>
+ <row id="372" trl="Y">
+  <value column="Name" original="Invoice ProdWeek">Facture semaine de prod</value>
+ </row>
+ <row id="373" trl="Y">
+  <value column="Name" original="Invoice VendorMonth">Facture semaine du fournisseur</value>
+ </row>
+ <row id="374" trl="Y">
+  <value column="Name" original="Invoice Week">Semaine facture</value>
+ </row>
+ <row id="376" trl="Y">
+  <value column="Name" original="Special Form">Formulaire spécifique</value>
+ </row>
+ <row id="377" trl="Y">
+  <value column="Name" original="Special Form Trl">Formulaire spécifique **</value>
+ </row>
+ <row id="378" trl="Y">
+  <value column="Name" original="AD_Form_Access">AD_formulaire_Accès</value>
+ </row>
+ <row id="380" trl="Y">
+  <value column="Name" original="Error">Erreur</value>
+ </row>
+ <row id="381" trl="Y">
+  <value column="Name" original="Import Format">Import Format</value>
+ </row>
+ <row id="382" trl="Y">
+  <value column="Name" original="Format Field">Format Field</value>
+ </row>
+ <row id="383" trl="Y">
+  <value column="Name" original="BOM Line">Ligne BOM</value>
+ </row>
+ <row id="385" trl="Y">
+  <value column="Name" original="Production Plan">Plan de production</value>
+ </row>
+ <row id="387" trl="Y">
+  <value column="Name" original="Invoice CustomerProdQtr">RV_C_Facture_CustomerProdQtr</value>
+ </row>
+ <row id="388" trl="Y">
+  <value column="Name" original="Invoice CustomerVendQtr">RV_C_Invoice_CustomerVendQtr</value>
+ </row>
+ <row id="389" trl="Y">
+  <value column="Name" original="Notice">Infos </value>
+ </row>
+ <row id="390" trl="Y">
+  <value column="Name" original="Allocation Line">Ligne allocation</value>
+ </row>
+ <row id="391" trl="Y">
+  <value column="Name" original="C_BankAccount_Acct">C_Compte banquaire_cpte</value>
+ </row>
+ <row id="392" trl="Y">
+  <value column="Name" original="Bank Statement">Relevé bancaire</value>
+ </row>
+ <row id="393" trl="Y">
+  <value column="Name" original="Bank statement line">LIgne relevé bancaire</value>
+ </row>
+ <row id="394" trl="Y">
+  <value column="Name" original="Business Partner Group">Groupe de Tiers</value>
+ </row>
+ <row id="395" trl="Y">
+  <value column="Name" original="Business Partner Group Acct">Compte de groupe partenaire d'affaire</value>
+ </row>
+ <row id="396" trl="Y">
+  <value column="Name" original="C_Charge_Acct">C_Charge_cpte</value>
+ </row>
+ <row id="397" trl="Y">
+  <value column="Name" original="C_InterOrg_Acct">C_InterOrg_cpte</value>
+ </row>
+ <row id="398" trl="Y">
+  <value column="Name" original="Payment Processor">Traietement paiement</value>
+ </row>
+ <row id="399" trl="Y">
+  <value column="Name" original="C_Tax_Acct">C_Taxe_Cpte</value>
+ </row>
+ <row id="400" trl="Y">
+  <value column="Name" original="C_Withholding_Acct">C_Déduction_Cpte</value>
+ </row>
+ <row id="401" trl="Y">
+  <value column="Name" original="Product Category Acct">M_Produit_Catégorie_Acct</value>
+ </row>
+ <row id="402" trl="Y">
+  <value column="Name" original="W_Basket_ID">W_Basket_ID</value>
+ </row>
+ <row id="403" trl="Y">
+  <value column="Name" original="Web Counter">Compteur Web</value>
+ </row>
+ <row id="404" trl="Y">
+  <value column="Name" original="Find">Trouver</value>
+ </row>
+ <row id="405" trl="Y">
+  <value column="Name" original="System Attribute">Attribut</value>
+ </row>
+ <row id="406" trl="Y">
+  <value column="Name" original="AD_Attribute_Value">AD_Attribute_Valeur</value>
+ </row>
+ <row id="407" trl="Y">
+  <value column="Name" original="Cash Journal">Journal</value>
+ </row>
+ <row id="408" trl="Y">
+  <value column="Name" original="Cash Book">Journal de Caisse</value>
+ </row>
+ <row id="409" trl="Y">
+  <value column="Name" original="C_CashBook_Acct">C_Journal de caisse_cpte</value>
+ </row>
+ <row id="410" trl="Y">
+  <value column="Name" original="Cash Journal Line">Ligne Journal Caisse</value>
+ </row>
+ <row id="411" trl="Y">
+  <value column="Name" original="Payment Batch">batch paiement</value>
+ </row>
+ <row id="413" trl="Y">
+  <value column="Name" original="Open Item">RV_ouvrir l'objet</value>
+ </row>
+ <row id="414" trl="Y">
+  <value column="Name" original="Field Group">Groupe Champ</value>
+ </row>
+ <row id="415" trl="Y">
+  <value column="Name" original="Field Group Trl">Groupe Champ **</value>
+ </row>
+ <row id="416" trl="Y">
+  <value column="Name" original="Mail Template">Modèle Mail</value>
+ </row>
+ <row id="417" trl="Y">
+  <value column="Name" original="Request">Requête</value>
+ </row>
+ <row id="418" trl="Y">
+  <value column="Name" original="Request History">Action requise</value>
+ </row>
+ <row id="420" trl="Y">
+  <value column="Name" original="Request Processor">Traitement requête</value>
+ </row>
+ <row id="422" trl="Y">
+  <value column="Name" original="AD_Role_OrgAccess">AD_Role_OrgAccès</value>
+ </row>
+ <row id="423" trl="Y">
+  <value column="Name" original="Invoice">Facture</value>
+ </row>
+ <row id="424" trl="Y">
+  <value column="Name" original="InvoiceLine">Ligne de facture</value>
+ </row>
+ <row id="425" trl="Y">
+  <value column="Name" original="Mat Transaction">Transaction</value>
+ </row>
+ <row id="426" trl="Y">
+  <value column="Name" original="Payment Selection">Sélection Paiement</value>
+ </row>
+ <row id="427" trl="Y">
+  <value column="Name" original="Payment Selection Line">Ligne sélection de paiement</value>
+ </row>
+ <row id="428" trl="Y">
+  <value column="Name" original="Report view Column">Edition vue colonne</value>
+ </row>
+ <row id="429" trl="Y">
+  <value column="Name" original="Commission">Commission</value>
+ </row>
+ <row id="430" trl="Y">
+  <value column="Name" original="Commission Amount">Montant commission</value>
+ </row>
+ <row id="431" trl="Y">
+  <value column="Name" original="Commission Line">Ligne commission</value>
+ </row>
+ <row id="432" trl="Y">
+  <value column="Name" original="Project Cycle">Project Cycle</value>
+ </row>
+ <row id="433" trl="Y">
+  <value column="Name" original="C_CyclePhase">Cycle Phase</value>
+ </row>
+ <row id="434" trl="Y">
+  <value column="Name" original="Project Line">Ligne projet</value>
+ </row>
+ <row id="436" trl="Y">
+  <value column="Name" original="Commission Run">Calcul de commission</value>
+ </row>
+ <row id="437" trl="Y">
+  <value column="Name" original="Commission Detail">Détail commission</value>
+ </row>
+ <row id="438" trl="Y">
+  <value column="Name" original="Achievement">Performance</value>
+ </row>
+ <row id="440" trl="Y">
+  <value column="Name" original="Goal">Objectif</value>
+ </row>
+ <row id="441" trl="Y">
+  <value column="Name" original="Measure">Mesure</value>
+ </row>
+ <row id="442" trl="Y">
+  <value column="Name" original="Measure Calculation">Calcul mesure</value>
+ </row>
+ <row id="443" trl="Y">
+  <value column="Name" original="Revenue Recognition Plan">Revenue Recognition Plan</value>
+ </row>
+ <row id="444" trl="Y">
+  <value column="Name" original="Revenue Recognition Run">Revenue Recognition Run</value>
+ </row>
+ <row id="445" trl="Y">
+  <value column="Name" original="Financial Report">Reporting financier</value>
+ </row>
+ <row id="446" trl="Y">
+  <value column="Name" original="Report Column">Colonne rapport</value>
+ </row>
+ <row id="447" trl="Y">
+  <value column="Name" original="Report Column Set">Ensemble Colonnes</value>
+ </row>
+ <row id="448" trl="Y">
+  <value column="Name" original="Report Line">Ligne rapport</value>
+ </row>
+ <row id="449" trl="Y">
+  <value column="Name" original="Report Line Set">Ensemble Lignes</value>
+ </row>
+ <row id="450" trl="Y">
+  <value column="Name" original="Report Source">Source édition</value>
+ </row>
+ <row id="451" trl="Y">
+  <value column="Name" original="Tree Node BP">Noeud BP</value>
+ </row>
+ <row id="452" trl="Y">
+  <value column="Name" original="Tree Node MM">Noeud MM</value>
+ </row>
+ <row id="453" trl="Y">
+  <value column="Name" original="Tree Node PR">Noeud PR</value>
+ </row>
+ <row id="454" trl="Y">
+  <value column="Name" original="Print Form">Format d'impression</value>
+ </row>
+ <row id="455" trl="Y">
+  <value column="Name" original="Bank Account Document">Document compte banque</value>
+ </row>
+ <row id="456" trl="Y">
+  <value column="Name" original="AD_TreeBar">AD_Bar</value>
+ </row>
+ <row id="457" trl="Y">
+  <value column="Name" original="System Color">Couleur</value>
+ </row>
+ <row id="458" trl="Y">
+  <value column="Name" original="Desktop">Bureau</value>
+ </row>
+ <row id="459" trl="Y">
+  <value column="Name" original="Desktop Workbench">Desktop Workbench</value>
+ </row>
+ <row id="460" trl="Y">
+  <value column="Name" original="Desktop Trl">Bureau **</value>
+ </row>
+ <row id="461" trl="Y">
+  <value column="Name" original="Image">Image</value>
+ </row>
+ <row id="464" trl="Y">
+  <value column="Name" original="User defined Field">Champ utilisateur</value>
+ </row>
+ <row id="466" trl="Y">
+  <value column="Name" original="User defined Tab">Onglet utilisateur</value>
+ </row>
+ <row id="467" trl="Y">
+  <value column="Name" original="User defined Window">Ecran utilisateur</value>
+ </row>
+ <row id="468" trl="Y">
+  <value column="Name" original="Workbench">Workbench</value>
+ </row>
+ <row id="469" trl="Y">
+  <value column="Name" original="Workbench Window">Workbench Window</value>
+ </row>
+ <row id="470" trl="Y">
+  <value column="Name" original="Workbench Trl">Workbench **</value>
+ </row>
+ <row id="471" trl="Y">
+  <value column="Name" original="Cash Detail">RV_Liquidité_Détail</value>
+ </row>
+ <row id="472" trl="Y">
+  <value column="Name" original="Match Invoice">Lettrage facture</value>
+ </row>
+ <row id="473" trl="Y">
+  <value column="Name" original="Match PO">Lettrage commande d'achat</value>
+ </row>
+ <row id="474" trl="Y">
+  <value column="Name" original="Request Routing">Routage requète</value>
+ </row>
+ <row id="475" trl="Y">
+  <value column="Name" original="Discount Schema">Mode Remise</value>
+ </row>
+ <row id="476" trl="Y">
+  <value column="Name" original="Discount Schema Break">Palier schéma de remise</value>
+ </row>
+ <row id="477" trl="Y">
+  <value column="Name" original="Discount Pricelist">Liste de prix remise</value>
+ </row>
+ <row id="478" trl="Y">
+  <value column="Name" original="T_InventoryValue">T_Valeur Inventaire</value>
+ </row>
+ <row id="479" trl="Y">
+  <value column="Name" original="Product Costing">RV_Produit_Chiffrage</value>
+ </row>
+ <row id="480" trl="Y">
+  <value column="Name" original="Resource Type">Type ressource</value>
+ </row>
+ <row id="481" trl="Y">
+  <value column="Name" original="Expense Type">Type dépenses</value>
+ </row>
+ <row id="482" trl="Y">
+  <value column="Name" original="Resource Unavailability">Indisponibilité des ressources</value>
+ </row>
+ <row id="485" trl="Y">
+  <value column="Name" original="Resource Assignment">Répartition ressource</value>
+ </row>
+ <row id="486" trl="Y">
+  <value column="Name" original="Expense Report">Notes de frais</value>
+ </row>
+ <row id="487" trl="Y">
+  <value column="Name" original="Resource">Ressource</value>
+ </row>
+ <row id="488" trl="Y">
+  <value column="Name" original="Expense Line">Ligne dépense</value>
+ </row>
+ <row id="489" trl="Y">
+  <value column="Name" original="Print Format Item">Imprimer le format </value>
+ </row>
+ <row id="490" trl="Y">
+  <value column="Name" original="Print Color">Coulour d'impression</value>
+ </row>
+ <row id="491" trl="Y">
+  <value column="Name" original="Print Font">Police de caractère d'impression</value>
+ </row>
+ <row id="492" trl="Y">
+  <value column="Name" original="Print Paper">Papier d'impression</value>
+ </row>
+ <row id="493" trl="Y">
+  <value column="Name" original="Print Format">Format d'impression</value>
+ </row>
+ <row id="495" trl="Y">
+  <value column="Name" original="C_Invoice_LineTax_v">C_Facture_Ligne de taxe_v</value>
+ </row>
+ <row id="496" trl="Y">
+  <value column="Name" original="Order Header Print">Commande en-tête</value>
+ </row>
+ <row id="497" trl="Y">
+  <value column="Name" original="Order LineTax Print">C_Commande_Ligne de taxe_v</value>
+ </row>
+ <row id="498" trl="Y">
+  <value column="Name" original="C_PaySelection_Check_v">C_Sélection mode de paie_Chèque_v</value>
+ </row>
+ <row id="499" trl="Y">
+  <value column="Name" original="C_PaySelection_Remittance_v">C_Sélection mode de paie_Virement_v</value>
+ </row>
+ <row id="500" trl="Y">
+  <value column="Name" original="Shipment/Receipt Header v">M_InOut_Header_v</value>
+ </row>
+ <row id="501" trl="Y">
+  <value column="Name" original="Shipment/Receipt Line v">M_EntréeSortie_Ligne_v</value>
+ </row>
+ <row id="516" trl="Y">
+  <value column="Name" original="C_Invoice_Header_v">C_Facture_en-tête_v</value>
+ </row>
+ <row id="520" trl="Y">
+  <value column="Name" original="BPartner">Partenaire d'affaire</value>
+ </row>
+ <row id="521" trl="Y">
+  <value column="Name" original="Graph">Graphe</value>
+ </row>
+ <row id="522" trl="Y">
+  <value column="Name" original="Print Format Item Trl">Imprimer le format  **</value>
+ </row>
+ <row id="523" trl="Y">
+  <value column="Name" original="Print Table Format">Format table d'impression</value>
+ </row>
+ <row id="524" trl="Y">
+  <value column="Name" original="Dunning Run Line">Dunning Run Line</value>
+ </row>
+ <row id="525" trl="Y">
+  <value column="Name" original="Pay Selection Check">Sélection Chèque</value>
+ </row>
+ <row id="526" trl="Y">
+  <value column="Name" original="Dunning Run">Dunning Run</value>
+ </row>
+ <row id="527" trl="Y">
+  <value column="Name" original="Dunning Run Entry">Dunning Run Entry</value>
+ </row>
+ <row id="528" trl="Y">
+  <value column="Name" original="R_ContactInterest">R_Intérêt Contact</value>
+ </row>
+ <row id="529" trl="Y">
+  <value column="Name" original="Request Type">Type requête</value>
+ </row>
+ <row id="530" trl="Y">
+  <value column="Name" original="Interest Area">Centres d'intérêt</value>
+ </row>
+ <row id="531" trl="Y">
+  <value column="Name" original="System">Système</value>
+ </row>
+ <row id="532" trl="Y">
+  <value column="Name" original="Import Product">Importer les articles</value>
+ </row>
+ <row id="533" trl="Y">
+  <value column="Name" original="Import Business Partner">Importer Tiers</value>
+ </row>
+ <row id="534" trl="Y">
+  <value column="Name" original="Import Account">Importer compte</value>
+ </row>
+ <row id="535" trl="Y">
+  <value column="Name" original="Import Report Line Set">Importer le jeu de ligne d'édition</value>
+ </row>
+ <row id="537" trl="Y">
+  <value column="Name" original="Training Class">Formation</value>
+ </row>
+ <row id="538" trl="Y">
+  <value column="Name" original="Training">Formation</value>
+ </row>
+ <row id="539" trl="Y">
+  <value column="Name" original="Asset">Immobilisation</value>
+ </row>
+ <row id="540" trl="Y">
+  <value column="Name" original="Asset Retirement">Asset Retirement</value>
+ </row>
+ <row id="541" trl="Y">
+  <value column="Name" original="Asset Delivery">Réception immobilisation</value>
+ </row>
+ <row id="542" trl="Y">
+  <value column="Name" original="Asset Group">Groupe d'immobilisation</value>
+ </row>
+ <row id="544" trl="Y">
+  <value column="Name" original="T_Report">T_Rapport</value>
+ </row>
+ <row id="545" trl="Y">
+  <value column="Name" original="T_ReportStatement">T_Etat de rapport</value>
+ </row>
+ <row id="546" trl="Y">
+  <value column="Name" original="Tax Trl">Tva **</value>
+ </row>
+ <row id="547" trl="Y">
+  <value column="Name" original="Fact_Acct_Balance">Fait établi_Cpte_Balance</value>
+ </row>
+ <row id="548" trl="Y">
+  <value column="Name" original="Payment Schedule">Payment Schedule</value>
+ </row>
+ <row id="549" trl="Y">
+  <value column="Name" original="Basket Line">Basket Line</value>
+ </row>
+ <row id="550" trl="Y">
+  <value column="Name" original="Web Click">Web Click</value>
+ </row>
+ <row id="551" trl="Y">
+  <value column="Name" original="Invoice Payment Schedule">Invoice Payment Schedule</value>
+ </row>
+ <row id="552" trl="Y">
+  <value column="Name" original="Counter Count">Counter Count</value>
+ </row>
+ <row id="553" trl="Y">
+  <value column="Name" original="Click Count">Click Count</value>
+ </row>
+ <row id="554" trl="Y">
+  <value column="Name" original="Payment_v">Paiement_v</value>
+ </row>
+ <row id="555" trl="Y">
+  <value column="Name" original="Serial No Control">Contrôle N° de série</value>
+ </row>
+ <row id="556" trl="Y">
+  <value column="Name" original="Lot Control">Contrôle lot</value>
+ </row>
+ <row id="557" trl="Y">
+  <value column="Name" original="Lot">Lot</value>
+ </row>
+ <row id="558" trl="Y">
+  <value column="Name" original="Attribute Value">Valeur attribut</value>
+ </row>
+ <row id="559" trl="Y">
+  <value column="Name" original="Attribute Set Instance">Instance collection d'attributs</value>
+ </row>
+ <row id="560" trl="Y">
+  <value column="Name" original="Attribute Set">Collection d'attributs</value>
+ </row>
+ <row id="561" trl="Y">
+  <value column="Name" original="M_AttributeInstance">M_Exemple d'attribut</value>
+ </row>
+ <row id="562" trl="Y">
+  <value column="Name" original="Attribute">Attribut</value>
+ </row>
+ <row id="563" trl="Y">
+  <value column="Name" original="M_AttributeUse">M_Utilisation d'attribut</value>
+ </row>
+ <row id="564" trl="Y">
+  <value column="Name" original="Attribute Search">Recherche attribut</value>
+ </row>
+ <row id="565" trl="Y">
+  <value column="Name" original="AD_Table_Access">AD_Tableau_Accès</value>
+ </row>
+ <row id="566" trl="Y">
+  <value column="Name" original="Session">Session</value>
+ </row>
+ <row id="567" trl="Y">
+  <value column="Name" original="AD_Record_Access">AD_Record_Accès</value>
+ </row>
+ <row id="568" trl="Y">
+  <value column="Name" original="Print Label Line Trl">Ligne libellé d'impression **</value>
+ </row>
+ <row id="569" trl="Y">
+  <value column="Name" original="Print Label Line">Ligne libellé d'impression</value>
+ </row>
+ <row id="570" trl="Y">
+  <value column="Name" original="Print Label">Libellé d'impression</value>
+ </row>
+ <row id="571" trl="Y">
+  <value column="Name" original="AD_Column_Access">AD_Colonne_Accès</value>
+ </row>
+ <row id="572" trl="Y">
+  <value column="Name" original="Import Inventory">Importer inventaire de stock</value>
+ </row>
+ <row id="573" trl="Y">
+  <value column="Name" original="Recurring Run">Exécution récurrente</value>
+ </row>
+ <row id="574" trl="Y">
+  <value column="Name" original="Recurring">Récurrent</value>
+ </row>
+ <row id="575" trl="Y">
+  <value column="Name" original="Project Type">Type de projet</value>
+ </row>
+ <row id="576" trl="Y">
+  <value column="Name" original="Project Phase">Phase projet</value>
+ </row>
+ <row id="577" trl="Y">
+  <value column="Name" original="Standard Phase">Phase Standard</value>
+ </row>
+ <row id="578" trl="Y">
+  <value column="Name" original="AD_PInstance_Log">AD_PExemple_Log</value>
+ </row>
+ <row id="579" trl="Y">
+  <value column="Name" original="Advertisement">Annonce</value>
+ </row>
+ <row id="580" trl="Y">
+  <value column="Name" original="Change Log">Audit modification</value>
+ </row>
+ <row id="581" trl="Y">
+  <value column="Name" original="Time Type">Type temps</value>
+ </row>
+ <row id="583" trl="Y">
+  <value column="Name" original="Standard Task">Tâche Standard</value>
+ </row>
+ <row id="584" trl="Y">
+  <value column="Name" original="Project Task">Tâche projet</value>
+ </row>
+ <row id="585" trl="Y">
+  <value column="Name" original="Org Assignment">Attribution org</value>
+ </row>
+ <row id="586" trl="Y">
+  <value column="Name" original="Cost Type">Type de coût</value>
+ </row>
+ <row id="590" trl="Y">
+  <value column="Name" original="Cycle Step">Période</value>
+ </row>
+ <row id="591" trl="Y">
+  <value column="Name" original="Import Order">Importer les commandes</value>
+ </row>
+ <row id="592" trl="Y">
+  <value column="Name" original="Alert Recipient">Destinataire de l'alerte</value>
+ </row>
+ <row id="593" trl="Y">
+  <value column="Name" original="Alert Rule">Règle alerte</value>
+ </row>
+ <row id="594" trl="Y">
+  <value column="Name" original="Alert">Alerte</value>
+ </row>
+ <row id="595" trl="Y">
+  <value column="Name" original="Freight Category">Catégorie transport</value>
+ </row>
+ <row id="596" trl="Y">
+  <value column="Name" original="Freight">Transport / Fret</value>
+ </row>
+ <row id="597" trl="Y">
+  <value column="Name" original="Import Payment">Importer les paiements</value>
+ </row>
+ <row id="598" trl="Y">
+  <value column="Name" original="Import Invoice">Importer facture</value>
+ </row>
+ <row id="599" trl="Y">
+  <value column="Name" original="Import GL Journal">Importer le journal GL</value>
+ </row>
+ <row id="600" trl="Y">
+  <value column="Name" original="Import Bank Statement">Importer relevé bancaire</value>
+ </row>
+ <row id="601" trl="Y">
+  <value column="Name" original="Replication Table">Replication Table</value>
+ </row>
+ <row id="602" trl="Y">
+  <value column="Name" original="Replication Strategy">Stratégie réplication</value>
+ </row>
+ <row id="603" trl="Y">
+  <value column="Name" original="Replication Run">Exécution réplication</value>
+ </row>
+ <row id="604" trl="Y">
+  <value column="Name" original="Replication Log">Audit réplication</value>
+ </row>
+ <row id="605" trl="Y">
+  <value column="Name" original="Replication">Réplication</value>
+ </row>
+ <row id="606" trl="Y">
+  <value column="Name" original="Knowldge Type">Type connaissance</value>
+ </row>
+ <row id="607" trl="Y">
+  <value column="Name" original="Knowledge Topic">Sujet connaissance</value>
+ </row>
+ <row id="608" trl="Y">
+  <value column="Name" original="Knowledge Synonym">Synonyme connaissance</value>
+ </row>
+ <row id="609" trl="Y">
+  <value column="Name" original="Knowledge Source">Source connaissance</value>
+ </row>
+ <row id="610" trl="Y">
+  <value column="Name" original="Related Entry">Entrée apparentée</value>
+ </row>
+ <row id="611" trl="Y">
+  <value column="Name" original="K_EntryCategory">K_Catégorie d'entrée</value>
+ </row>
+ <row id="612" trl="Y">
+  <value column="Name" original="Entry">Entrée</value>
+ </row>
+ <row id="613" trl="Y">
+  <value column="Name" original="Entry Comment">Commentaire Entrée</value>
+ </row>
+ <row id="614" trl="Y">
+  <value column="Name" original="Category Value">Valeur catégorie</value>
+ </row>
+ <row id="615" trl="Y">
+  <value column="Name" original="Knowledge Category">Catégorie connaissance</value>
+ </row>
+ <row id="616" trl="Y">
+  <value column="Name" original="Country Trl">Pays **</value>
+ </row>
+ <row id="617" trl="Y">
+  <value column="Name" original="Currency Trl">Devise **</value>
+ </row>
+ <row id="618" trl="Y">
+  <value column="Name" original="C_Project_Header_v">C_Projet_En-tête_v</value>
+ </row>
+ <row id="619" trl="Y">
+  <value column="Name" original="C_Project_Details_v">C_Project_Details_v</value>
+ </row>
+ <row id="620" trl="Y">
+  <value column="Name" original="Project Cycle">RV_Cycle du projet</value>
+ </row>
+ <row id="621" trl="Y">
+  <value column="Name" original="Asset Delivery">RV_Actif_Livraison</value>
+ </row>
+ <row id="622" trl="Y">
+  <value column="Name" original="Asset Customer">RV_Actif_Client</value>
+ </row>
+ <row id="623" trl="Y">
+  <value column="Name" original="Project Issue">Déclaration projet</value>
+ </row>
+ <row id="624" trl="Y">
+  <value column="Name" original="Label printer Function">Fonction Imprimante Étiquette</value>
+ </row>
+ <row id="625" trl="Y">
+  <value column="Name" original="System Registration">Enregistrement Système</value>
+ </row>
+ <row id="626" trl="Y">
+  <value column="Name" original="Label printer">Imprimante Étiquette</value>
+ </row>
+ <row id="627" trl="Y">
+  <value column="Name" original="AD_Private_Access">AD_Privé_Accès</value>
+ </row>
+ <row id="628" trl="Y">
+  <value column="Name" original="Project Line Issue">RV_Ligne enjeux projet</value>
+ </row>
+ <row id="629" trl="Y">
+  <value column="Name" original="Mat Transaction">RV_Transaction</value>
+ </row>
+ <row id="630" trl="Y">
+  <value column="Name" original="Warehouse Storage">RV_Entreposage</value>
+ </row>
+ <row id="631" trl="Y">
+  <value column="Name" original="T_Aging">T_Vieillissement</value>
+ </row>
+ <row id="632" trl="Y">
+  <value column="Name" original="Product Business Partner">C_Partenaires d'affaire_Produit</value>
+ </row>
+ <row id="633" trl="Y">
+  <value column="Name" original="Click Unprocessed">RV_Click_non-traité</value>
+ </row>
+ <row id="634" trl="Y">
+  <value column="Name" original="Click Month">Click Mois</value>
+ </row>
+ <row id="635" trl="Y">
+  <value column="Name" original="Not Posted">RV_non-posté</value>
+ </row>
+ <row id="636" trl="Y">
+  <value column="Name" original="M_TransactionAllocation">M_Transaction Affectation</value>
+ </row>
+ <row id="637" trl="Y">
+  <value column="Name" original="Currency Type">Type devise</value>
+ </row>
+ <row id="638" trl="Y">
+  <value column="Name" original="C_Currency_Acct">C_Devise_Cpte</value>
+ </row>
+ <row id="639" trl="Y">
+  <value column="Name" original="Warehouse Price">Prix d'entrepôt</value>
+ </row>
+ <row id="640" trl="Y">
+  <value column="Name" original="Bank Statement Loader">Format relevé bancaire</value>
+ </row>
+ <row id="641" trl="Y">
+  <value column="Name" original="Import Conversion Rate">Importation des taux de conversion</value>
+ </row>
+ <row id="642" trl="Y">
+  <value column="Name" original="User Substitute">Substitut utilisateur</value>
+ </row>
+ <row id="643" trl="Y">
+  <value column="Name" original="Workflow Node Parameter">Paramètre noeud Workflow</value>
+ </row>
+ <row id="644" trl="Y">
+  <value column="Name" original="Workflow Activity">Activité Workflow</value>
+ </row>
+ <row id="645" trl="Y">
+  <value column="Name" original="Workflow Process">Processus Workflow</value>
+ </row>
+ <row id="646" trl="Y">
+  <value column="Name" original="Workflow Responsible">Responsable workflow</value>
+ </row>
+ <row id="647" trl="Y">
+  <value column="Name" original="Workflow Block">Bloc Workflow</value>
+ </row>
+ <row id="648" trl="Y">
+  <value column="Name" original="Workflow Process Data">Traitement des données du workflow</value>
+ </row>
+ <row id="649" trl="Y">
+  <value column="Name" original="Workflow Event Audit">Audit évènement workflow</value>
+ </row>
+ <row id="650" trl="Y">
+  <value column="Name" original="Workflow Activity Result">Résultat activité workflow</value>
+ </row>
+ <row id="651" trl="Y">
+  <value column="Name" original="Registration">Enregistrement</value>
+ </row>
+ <row id="652" trl="Y">
+  <value column="Name" original="Registration Attribute">Attribut enregistrement</value>
+ </row>
+ <row id="653" trl="Y">
+  <value column="Name" original="A_RegistrationValue">A_Valeur Enregistrement</value>
+ </row>
+ <row id="654" trl="Y">
+  <value column="Name" original="InvoiceTax">Taxe de facture</value>
+ </row>
+ <row id="655" trl="Y">
+  <value column="Name" original="Fact Acct Period">RV_Fait établi_Cpte_Période</value>
+ </row>
+ <row id="656" trl="Y">
+  <value column="Name" original="Fact Acct Day">RV_Fait établi_Cpte_Jour</value>
+ </row>
+ <row id="657" trl="Y">
+  <value column="Name" original="Accounting Fact View">Vue comptable d'un fait établi</value>
+ </row>
+ <row id="658" trl="Y">
+  <value column="Name" original="Bank Statement Matcher">Lettrage de banque</value>
+ </row>
+ <row id="659" trl="Y">
+  <value column="Name" original="Request Processor Log">Audit processeur requête</value>
+ </row>
+ <row id="660" trl="Y">
+  <value column="Name" original="RMA Line">Ligne retour marchandise</value>
+ </row>
+ <row id="661" trl="Y">
+  <value column="Name" original="RMA">Autorisation de retour marchandise (RMA)</value>
+ </row>
+ <row id="662" trl="Y">
+  <value column="Name" original="Product Related">Produit lié</value>
+ </row>
+ <row id="663" trl="Y">
+  <value column="Name" original="Package Line">Ligne colisage</value>
+ </row>
+ <row id="664" trl="Y">
+  <value column="Name" original="Package">Colisage</value>
+ </row>
+ <row id="665" trl="Y">
+  <value column="Name" original="Distribution List Line">Ligne de la liste de distribution</value>
+ </row>
+ <row id="666" trl="Y">
+  <value column="Name" original="Distribution List">Liste distribution</value>
+ </row>
+ <row id="667" trl="Y">
+  <value column="Name" original="Subscription Delivery">Livraison de souscription</value>
+ </row>
+ <row id="668" trl="Y">
+  <value column="Name" original="Subscription Type">Type de souscription</value>
+ </row>
+ <row id="669" trl="Y">
+  <value column="Name" original="Subscription">Souscription</value>
+ </row>
+ <row id="670" trl="Y">
+  <value column="Name" original="RfQ Subscriber">Appel d'offre souscripteurs</value>
+ </row>
+ <row id="671" trl="Y">
+  <value column="Name" original="RfQ Topic">Sujet appel d'offres</value>
+ </row>
+ <row id="672" trl="Y">
+  <value column="Name" original="RfQ Response Line Qty">Qté ligne réponse appel d'offres</value>
+ </row>
+ <row id="673" trl="Y">
+  <value column="Name" original="RfQ Response Line">Ligne réponse appel d'offres</value>
+ </row>
+ <row id="674" trl="Y">
+  <value column="Name" original="RfQ Response">Response appel d'offres</value>
+ </row>
+ <row id="675" trl="Y">
+  <value column="Name" original="RfQ Line Quantity">Ligne quantité de l'appel d'offre</value>
+ </row>
+ <row id="676" trl="Y">
+  <value column="Name" original="RfQ Line">Ligne appel d'offre</value>
+ </row>
+ <row id="677" trl="Y">
+  <value column="Name" original="RfQ">Appel d'offres</value>
+ </row>
+ <row id="678" trl="Y">
+  <value column="Name" original="Partner Relation">Relation partenaire</value>
+ </row>
+ <row id="679" trl="Y">
+  <value column="Name" original="Topic">Sujet</value>
+ </row>
+ <row id="680" trl="Y">
+  <value column="Name" original="Seller Funds">Fonds de vendeur</value>
+ </row>
+ <row id="681" trl="Y">
+  <value column="Name" original="B_Seller">B_Vendeur</value>
+ </row>
+ <row id="682" trl="Y">
+  <value column="Name" original="Offer">Offre</value>
+ </row>
+ <row id="683" trl="Y">
+  <value column="Name" original="Buyer Funds">Fonds acheteur</value>
+ </row>
+ <row id="684" trl="Y">
+  <value column="Name" original="B_Buyer">B_Acheteur</value>
+ </row>
+ <row id="685" trl="Y">
+  <value column="Name" original="Bid Comment">Commentaire d'offre d'achat</value>
+ </row>
+ <row id="686" trl="Y">
+  <value column="Name" original="Bid">Offre d'achat</value>
+ </row>
+ <row id="687" trl="Y">
+  <value column="Name" original="Scheduler Log">Journal du planificateur</value>
+ </row>
+ <row id="688" trl="Y">
+  <value column="Name" original="Scheduler">Planificateur</value>
+ </row>
+ <row id="689" trl="Y">
+  <value column="Name" original="Organization Type">Type organisation</value>
+ </row>
+ <row id="690" trl="Y">
+  <value column="Name" original="Topic Type">Type de sujet</value>
+ </row>
+ <row id="691" trl="Y">
+  <value column="Name" original="Topic Category">Catégorie</value>
+ </row>
+ <row id="694" trl="Y">
+  <value column="Name" original="Accounting Processor Log">Journal de traitement des comptes</value>
+ </row>
+ <row id="695" trl="Y">
+  <value column="Name" original="Accounting Processor">Traitement des comptes</value>
+ </row>
+ <row id="696" trl="Y">
+  <value column="Name" original="Workflow Processorl Log">Journal de processeur workflow</value>
+ </row>
+ <row id="697" trl="Y">
+  <value column="Name" original="Workflow Processor">Processeur workflow</value>
+ </row>
+ <row id="698" trl="Y">
+  <value column="Name" original="AD_Scheduler_Para">AD_programmateur_Para</value>
+ </row>
+ <row id="699" trl="Y">
+  <value column="Name" original="Alert Processor Log">Journal du traitement des alertes</value>
+ </row>
+ <row id="700" trl="Y">
+  <value column="Name" original="Alert Processor">Traitement des alertes</value>
+ </row>
+ <row id="701" trl="Y">
+  <value column="Name" original="Tax ZIP">Taxe ZIP</value>
+ </row>
+ <row id="702" trl="Y">
+  <value column="Name" original="Requisition">Demande</value>
+ </row>
+ <row id="703" trl="Y">
+  <value column="Name" original="Requisition Line">Ligne Demande</value>
+ </row>
+ <row id="704" trl="Y">
+  <value column="Name" original="Scheduler Recipient">Reçu planification</value>
+ </row>
+ <row id="705" trl="Y">
+  <value column="Name" original="Attachment Note">Note jointe</value>
+ </row>
+ <row id="706" trl="Y">
+  <value column="Name" original="Transition Condition">Condition de transition</value>
+ </row>
+ <row id="707" trl="Y">
+  <value column="Name" original="GL Distribution Line">Ligne de distribution du grand livre</value>
+ </row>
+ <row id="708" trl="Y">
+  <value column="Name" original="GL Distribution">Distribution grand livre</value>
+ </row>
+ <row id="709" trl="Y">
+  <value column="Name" original="RfQ UnAnswered">Appel d'offre pas de réponse</value>
+ </row>
+ <row id="710" trl="Y">
+  <value column="Name" original="RfQ Response">Appel d'offre réponse</value>
+ </row>
+ <row id="711" trl="Y">
+  <value column="Name" original="Requisition">Demande</value>
+ </row>
+ <row id="712" trl="Y">
+  <value column="Name" original="Distribution Run">Distribution Run</value>
+ </row>
+ <row id="713" trl="Y">
+  <value column="Name" original="Distribution Run Line">Distribution Run Line</value>
+ </row>
+ <row id="714" trl="Y">
+  <value column="Name" original="T_DistributionRunDetail">Détail du lancement de la distribution</value>
+ </row>
+ <row id="715" trl="Y">
+  <value column="Name" original="Registration Product">Enregistrement produit</value>
+ </row>
+ <row id="716" trl="Y">
+  <value column="Name" original="Asset SumMonth">Actif somme mensuelle</value>
+ </row>
+ <row id="717" trl="Y">
+  <value column="Name" original="Access Log">Audit accès</value>
+ </row>
+ <row id="718" trl="Y">
+  <value column="Name" original="Counter Document">Document miroir</value>
+ </row>
+ <row id="719" trl="Y">
+  <value column="Name" original="Demand Line">Ligne demande</value>
+ </row>
+ <row id="720" trl="Y">
+  <value column="Name" original="Forecast">Prévision</value>
+ </row>
+ <row id="721" trl="Y">
+  <value column="Name" original="Demand Detail">Détail demande</value>
+ </row>
+ <row id="722" trl="Y">
+  <value column="Name" original="Forecast Line">Ligne prévision</value>
+ </row>
+ <row id="723" trl="Y">
+  <value column="Name" original="Demand">Demande</value>
+ </row>
+ <row id="724" trl="Y">
+  <value column="Name" original="C_RfQResponseLine_v">C_Appel d'offre Ligne de réponse_v</value>
+ </row>
+ <row id="725" trl="Y">
+  <value column="Name" original="C_RfQResponse_v">C_Appel d'offre réponse_v</value>
+ </row>
+ <row id="726" trl="Y">
+  <value column="Name" original="C_RfQResponseLineQty_v">C_Appel d'offre réponse ligne quantité_v</value>
+ </row>
+ <row id="727" trl="Y">
+  <value column="Name" original="Ship/Receipt Confirmation">Confirmation expédition/réception</value>
+ </row>
+ <row id="728" trl="Y">
+  <value column="Name" original="Ship/Receipt Confirmation Line">Ligne de confirmation expédition/reception</value>
+ </row>
+ <row id="729" trl="Y">
+  <value column="Name" original="RMA Type">Type RMA</value>
+ </row>
+ <row id="730" trl="Y">
+  <value column="Name" original="InOut Confirm">Fonfirmation EntréeSortie</value>
+ </row>
+ <row id="731" trl="Y">
+  <value column="Name" original="InOut Line Confirm">Ligne de confirmation EntréeSortie</value>
+ </row>
+ <row id="732" trl="Y">
+  <value column="Name" original="Shipment/Receipt Confirmation v">Confirmation expédition/réception</value>
+ </row>
+ <row id="733" trl="Y">
+  <value column="Name" original="Shipment/Receipt Confirmation">Confirmation expédition/réception</value>
+ </row>
+ <row id="735" trl="Y">
+  <value column="Name" original="Allocation">Affectation</value>
+ </row>
+ <row id="736" trl="Y">
+  <value column="Name" original="Allocation">Affectation</value>
+ </row>
+ <row id="737" trl="Y">
+  <value column="Name" original="Move Line Confirm">Confirmation mouvement (ligne)</value>
+ </row>
+ <row id="738" trl="Y">
+  <value column="Name" original="Move Confirm">Confirmation mouvement</value>
+ </row>
+ <row id="739" trl="Y">
+  <value column="Name" original="PrintFormat Detail">Détail format d'impression</value>
+ </row>
+ <row id="740" trl="Y">
+  <value column="Name" original="Ship/Receipt Confirmation Import Line">Ligne import confirmation exp/réception</value>
+ </row>
+ <row id="741" trl="Y">
+  <value column="Name" original="C_Dunning_Header_v">C_Rappel_En-tête_v</value>
+ </row>
+ <row id="742" trl="Y">
+  <value column="Name" original="C_Dunning_Line_v">C_Rappel_Line_v</value>
+ </row>
+ <row id="743" trl="Y">
+  <value column="Name" original="SLA Measure">Mesure SLA</value>
+ </row>
+ <row id="744" trl="Y">
+  <value column="Name" original="SLA Criteria">Critère SLA</value>
+ </row>
+ <row id="745" trl="Y">
+  <value column="Name" original="SLA Goal">Objectif SLA</value>
+ </row>
+ <row id="746" trl="Y">
+  <value column="Name" original="Table Trl">Fichier **</value>
+ </row>
+ <row id="747" trl="Y">
+  <value column="Name" original="RfQ Topic Subscriber Restriction">Restriction au souscripteur du type d'appel d'offres</value>
+ </row>
+ <row id="748" trl="Y">
+  <value column="Name" original="POS Terminal">Terminal PDV</value>
+ </row>
+ <row id="749" trl="Y">
+  <value column="Name" original="POS Key Layout">Couche touche PDV</value>
+ </row>
+ <row id="750" trl="Y">
+  <value column="Name" original="POS Key">Touche PDV</value>
+ </row>
+ <row id="751" trl="Y">
+  <value column="Name" original="InOut Details">Détails d'entrée et de sortie</value>
+ </row>
+ <row id="752" trl="Y">
+  <value column="Name" original="Column Trl">Colonne **</value>
+ </row>
+ <row id="753" trl="Y">
+  <value column="Name" original="Trial Balance">Balance générale</value>
+ </row>
+ <row id="754" trl="Y">
+  <value column="Name" original="Archive">Archive</value>
+ </row>
+ <row id="755" trl="Y">
+  <value column="Name" original="Payment">Paiement</value>
+ </row>
+ <row id="756" trl="Y">
+  <value column="Name" original="BPartnerOpen">Partenaire d'affaire ouvert</value>
+ </row>
+ <row id="757" trl="Y">
+  <value column="Name" original="Commission Run Detail">Lancer détail commission</value>
+ </row>
+ <row id="758" trl="Y">
+  <value column="Name" original="T_Transaction">T_Transaction</value>
+ </row>
+ <row id="759" trl="Y">
+  <value column="Name" original="Landed Cost">Coût foncier</value>
+ </row>
+ <row id="760" trl="Y">
+  <value column="Name" original="Landed Cost Allocation">Allocation pour le prix foncier</value>
+ </row>
+ <row id="761" trl="Y">
+  <value column="Name" original="C_ProjectIssueMA">C_Ejeux liés au projetMA</value>
+ </row>
+ <row id="762" trl="Y">
+  <value column="Name" original="M_InOutLineMA">M_Ligne entrée/sortieMA</value>
+ </row>
+ <row id="763" trl="Y">
+  <value column="Name" original="M_InventoryLineMA">M_Ligne inventaireMA</value>
+ </row>
+ <row id="764" trl="Y">
+  <value column="Name" original="M_MovementLineMA">M_Ligne de mouvement MA</value>
+ </row>
+ <row id="765" trl="Y">
+  <value column="Name" original="Production Line MA">Ligne production MA</value>
+ </row>
+ <row id="766" trl="Y">
+  <value column="Name" original="M_Transaction_v">M_Transaction_v</value>
+ </row>
+ <row id="767" trl="Y">
+  <value column="Name" original="Invoice Batch">Facture lot</value>
+ </row>
+ <row id="768" trl="Y">
+  <value column="Name" original="Invoice Batch Line">Ligne de lot de la facture</value>
+ </row>
+ <row id="769" trl="Y">
+  <value column="Name" original="AD_User_OrgAccess">AD_Utilisateur_OrgAccès</value>
+ </row>
+ <row id="770" trl="Y">
+  <value column="Name" original="Cost Element">Element coût</value>
+ </row>
+ <row id="771" trl="Y">
+  <value column="Name" original="Product Cost">Coût produit</value>
+ </row>
+ <row id="772" trl="Y">
+  <value column="Name" original="Category">Catégorie</value>
+ </row>
+ <row id="773" trl="Y">
+  <value column="Name" original="Group">Groupe</value>
+ </row>
+ <row id="774" trl="Y">
+  <value column="Name" original="Resolution">Résolution</value>
+ </row>
+ <row id="775" trl="Y">
+  <value column="Name" original="Standard Response">Réponse standard</value>
+ </row>
+ <row id="776" trl="Y">
+  <value column="Name" original="Status">Statut</value>
+ </row>
+ <row id="777" trl="Y">
+  <value column="Name" original="Product Download">Télécharger produit</value>
+ </row>
+ <row id="778" trl="Y">
+  <value column="Name" original="Web Store">Web Store</value>
+ </row>
+ <row id="779" trl="Y">
+  <value column="Name" original="Web Store Trl">Web Store **</value>
+ </row>
+ <row id="780" trl="Y">
+  <value column="Name" original="Mail Message">Message courriel</value>
+ </row>
+ <row id="781" trl="Y">
+  <value column="Name" original="Mail Message Trl">Message courriel **</value>
+ </row>
+ <row id="782" trl="Y">
+  <value column="Name" original="User Mail">Courriel utilisateur</value>
+ </row>
+ <row id="783" trl="Y">
+  <value column="Name" original="Request Update Recipiants">Mise à jour requête destinataire</value>
+ </row>
+ <row id="784" trl="Y">
+  <value column="Name" original="Request Type Updates">Mises à jour type de requête</value>
+ </row>
+ <row id="785" trl="Y">
+  <value column="Name" original="R_CategoryUpdates">R_Mises à jour catégorie</value>
+ </row>
+ <row id="786" trl="Y">
+  <value column="Name" original="R_GroupUpdates">R_Mises à jour groupe</value>
+ </row>
+ <row id="787" trl="Y">
+  <value column="Name" original="Request Updates">Mise à jour requête</value>
+ </row>
+ <row id="788" trl="Y">
+  <value column="Name" original="Request Updates Only">Mise à jour requête seulement</value>
+ </row>
+ <row id="789" trl="Y">
+  <value column="Name" original="Position">Position</value>
+ </row>
+ <row id="790" trl="Y">
+  <value column="Name" original="Position Category">Catégorie de position</value>
+ </row>
+ <row id="791" trl="Y">
+  <value column="Name" original="Position Assignment">Tâche de la position</value>
+ </row>
+ <row id="792" trl="Y">
+  <value column="Name" original="Remuneration">Rémuneration</value>
+ </row>
+ <row id="793" trl="Y">
+  <value column="Name" original="Position Remuneration">Rémunération de la position</value>
+ </row>
+ <row id="794" trl="Y">
+  <value column="Name" original="Employee Remuneration">Rémuneration des employés</value>
+ </row>
+ <row id="795" trl="Y">
+  <value column="Name" original="Alternative Group">Group alternatif</value>
+ </row>
+ <row id="796" trl="Y">
+  <value column="Name" original="Product Operation">Operation produit</value>
+ </row>
+ <row id="797" trl="Y">
+  <value column="Name" original="Operation Resource">Ressources d'opération</value>
+ </row>
+ <row id="798" trl="Y">
+  <value column="Name" original="BOM">Nomenclature</value>
+ </row>
+ <row id="799" trl="Y">
+  <value column="Name" original="Change Notice">Modifier avis</value>
+ </row>
+ <row id="800" trl="Y">
+  <value column="Name" original="Change Request">Requête de modification</value>
+ </row>
+ <row id="801" trl="Y">
+  <value column="Name" original="BOM Component">Composant nomenclature</value>
+ </row>
+ <row id="802" trl="Y">
+  <value column="Name" original="Request Update">Requête mise à jour</value>
+ </row>
+ <row id="803" trl="Y">
+  <value column="Name" original="T_InvoiceGL">T_Facture grand journal</value>
+ </row>
+ <row id="804" trl="Y">
+  <value column="Name" original="T_InvoiceGL_v">T_facture grand journal_v</value>
+ </row>
+ <row id="805" trl="Y">
+  <value column="Name" original="Product Costs">Coûts produit</value>
+ </row>
+ <row id="806" trl="Y">
+  <value column="Name" original="Product Cost Summary">Résumé coût produit</value>
+ </row>
+ <row id="807" trl="Y">
+  <value column="Name" original="Product Cost Detail">Détail coût produit</value>
+ </row>
+ <row id="808" trl="Y">
+  <value column="Name" original="Cost Detail">Détails des coûts</value>
+ </row>
+ <row id="809" trl="Y">
+  <value column="Name" original="Exclude Attribute Set">Exclure attributs</value>
+ </row>
+ <row id="810" trl="Y">
+  <value column="Name" original="Exclude Lot">Exclure Lot</value>
+ </row>
+ <row id="811" trl="Y">
+  <value column="Name" original="Exclude SerNo">Exclure les numéros de série</value>
+ </row>
+ <row id="812" trl="Y">
+  <value column="Name" original="Allocate Payment">Paiement alloué</value>
+ </row>
+ <row id="813" trl="Y">
+  <value column="Name" original="User BP Access">Accés utilisateur au partenaire d'affaire</value>
+ </row>
+ <row id="814" trl="Y">
+  <value column="Name" original="User Query">Demande utilisateur</value>
+ </row>
+ <row id="815" trl="Y">
+  <value column="Name" original="M_InOutLineMA_v">M_Ligne EntréeSortieMA_v</value>
+ </row>
+ <row id="816" trl="Y">
+  <value column="Name" original="M_MovementLineMA_v">M_Ligne mouvementMA_v</value>
+ </row>
+ <row id="817" trl="Y">
+  <value column="Name" original="Cost Queue">File de coût</value>
+ </row>
+ <row id="818" trl="Y">
+  <value column="Name" original="Tax Declaration">Déclaration de taxe</value>
+ </row>
+ <row id="819" trl="Y">
+  <value column="Name" original="Tax Declaration Line">Ligne de déclaration de taxe</value>
+ </row>
+ <row id="820" trl="Y">
+  <value column="Name" original="Tax Declaration Accounting">Comptabilité déclaration de taxes.</value>
+ </row>
+ <row id="821" trl="Y">
+  <value column="Name" original="Reporting Hierarchy">Hierarchie des rapports</value>
+ </row>
+ <row id="822" trl="Y">
+  <value column="Name" original="Budget Control">Contrôle de budget</value>
+ </row>
+ <row id="823" trl="Y">
+  <value column="Name" original="GL Fund">Fond du grand livre</value>
+ </row>
+ <row id="824" trl="Y">
+  <value column="Name" original="Fund Restriction">Restriction de fonds</value>
+ </row>
+ <row id="825" trl="Y">
+  <value column="Name" original="Sub Account">Sous-compte</value>
+ </row>
+ <row id="826" trl="Y">
+  <value column="Name" original="Mail Template Trl">Modèle Mail **</value>
+ </row>
+ <row id="827" trl="Y">
+  <value column="Name" original="Client Share">Partage titulaire</value>
+ </row>
+ <row id="828" trl="Y">
+  <value column="Name" original="System Issue">Problème système</value>
+ </row>
+ <row id="829" trl="Y">
+  <value column="Name" original="Invoice ProductQtr">Facture ProduitQtr</value>
+ </row>
+ <row id="830" trl="Y">
+  <value column="Name" original="Invoice ProductMonth">Facture ProduitMois</value>
+ </row>
+ <row id="831" trl="Y">
+  <value column="Name" original="Color Schema">Schema de couleur</value>
+ </row>
+ <row id="832" trl="Y">
+  <value column="Name" original="Goal Restriction">Restriction but</value>
+ </row>
+ <row id="833" trl="Y">
+  <value column="Name" original="Benchmark">Benchmark</value>
+ </row>
+ <row id="834" trl="Y">
+  <value column="Name" original="Benchmark Data">Données de benchmark</value>
+ </row>
+ <row id="835" trl="Y">
+  <value column="Name" original="Ratio">Ratio</value>
+ </row>
+ <row id="836" trl="Y">
+  <value column="Name" original="Ratio Element">Elèment ratio</value>
+ </row>
+ <row id="837" trl="Y">
+  <value column="Name" original="Issue Recommendation">Recommendation sur un problème</value>
+ </row>
+ <row id="838" trl="Y">
+  <value column="Name" original="Issue Status">Statut du problème</value>
+ </row>
+ <row id="839" trl="Y">
+  <value column="Name" original="Known Issue">Problèmes connus</value>
+ </row>
+ <row id="841" trl="Y">
+  <value column="Name" original="IssueUser">Problème utilisateur</value>
+ </row>
+ <row id="842" trl="Y">
+  <value column="Name" original="Issue Project">Problème de projet</value>
+ </row>
+ <row id="843" trl="Y">
+  <value column="Name" original="Issue System">Problème système</value>
+ </row>
+ <row id="844" trl="Y">
+  <value column="Name" original="Status Category">Catégorie Statut</value>
+ </row>
+ <row id="845" trl="Y">
+  <value column="Name" original="Tree Node CM Container">Noeud CM Conteneur</value>
+ </row>
+ <row id="846" trl="Y">
+  <value column="Name" original="Tree Node CM Media">Noeud CM Media</value>
+ </row>
+ <row id="847" trl="Y">
+  <value column="Name" original="Tree Node CM Stage">Noeud CM Etape</value>
+ </row>
+ <row id="848" trl="Y">
+  <value column="Name" original="Tree Node CM Template">Noeud CM Gabarit</value>
+ </row>
+ <row id="849" trl="Y">
+  <value column="Name" original="Tree Node User 4">Noeud Utilisateur 4</value>
+ </row>
+ <row id="850" trl="Y">
+  <value column="Name" original="Tree Node User 3">Noeud Utilisateur 3</value>
+ </row>
+ <row id="851" trl="Y">
+  <value column="Name" original="Tree Node User 2">Noeud Utilisateur 2</value>
+ </row>
+ <row id="852" trl="Y">
+  <value column="Name" original="Tree Node User 1">Noeud Utilisateur 1</value>
+ </row>
+ <row id="853" trl="Y">
+  <value column="Name" original="Web Project">Projet Web</value>
+ </row>
+ <row id="854" trl="Y">
+  <value column="Name" original="Template">Modèle</value>
+ </row>
+ <row id="855" trl="Y">
+  <value column="Name" original="Web Container">Conteneur web</value>
+ </row>
+ <row id="856" trl="Y">
+  <value column="Name" original="Advertisement Category">Catégorie de publicité</value>
+ </row>
+ <row id="857" trl="Y">
+  <value column="Name" original="Media Item">Item média</value>
+ </row>
+ <row id="858" trl="Y">
+  <value column="Name" original="Advertisement">Publicité</value>
+ </row>
+ <row id="859" trl="Y">
+  <value column="Name" original="Media Server">Serveur média</value>
+ </row>
+ <row id="860" trl="Y">
+  <value column="Name" original="Container Element">Element conteneur</value>
+ </row>
+ <row id="861" trl="Y">
+  <value column="Name" original="Container Element Trl">Element conteneur **</value>
+ </row>
+ <row id="864" trl="Y">
+  <value column="Name" original="Web Container Trl">Conteneur web **</value>
+ </row>
+ <row id="865" trl="Y">
+  <value column="Name" original="Container URL">Conteneur URL</value>
+ </row>
+ <row id="866" trl="Y">
+  <value column="Name" original="Web Container Stage">Etape conteneur web</value>
+ </row>
+ <row id="867" trl="Y">
+  <value column="Name" original="Container Stage Element">Etape élèment conteneur</value>
+ </row>
+ <row id="868" trl="Y">
+  <value column="Name" original="Container Stage Element Trl">Etape élèment conteneur **</value>
+ </row>
+ <row id="869" trl="Y">
+  <value column="Name" original="Web Container Stage Trl">Etape conteneur web **</value>
+ </row>
+ <row id="870" trl="Y">
+  <value column="Name" original="News Channel">Chaîne d'informations</value>
+ </row>
+ <row id="871" trl="Y">
+  <value column="Name" original="News Item / Article">Item / Article Informations</value>
+ </row>
+ <row id="872" trl="Y">
+  <value column="Name" original="Template Advertising Category">Gabarit catégorie publicité</value>
+ </row>
+ <row id="873" trl="Y">
+  <value column="Name" original="WebProject Domain">Domaine WebProjet</value>
+ </row>
+ <row id="874" trl="Y">
+  <value column="Name" original="Chat Type">Type de clavardage</value>
+ </row>
+ <row id="875" trl="Y">
+  <value column="Name" original="Chat Type Update">Mise à jour type Chat</value>
+ </row>
+ <row id="876" trl="Y">
+  <value column="Name" original="Chat">Clavardage</value>
+ </row>
+ <row id="877" trl="Y">
+  <value column="Name" original="Chat Entry">Entrée clavardage</value>
+ </row>
+ <row id="878" trl="Y">
+  <value column="Name" original="Chat Update">Mise à jour Chat</value>
+ </row>
+ <row id="879" trl="Y">
+  <value column="Name" original="Template Table">Template Table</value>
+ </row>
+ <row id="880" trl="Y">
+  <value column="Name" original="Container T.Table">Conteneur T.Table</value>
+ </row>
+ <row id="881" trl="Y">
+  <value column="Name" original="Stage T.Table">Etape T.Table</value>
+ </row>
+ <row id="882" trl="Y">
+  <value column="Name" original="Entity Type">Type d'entité</value>
+ </row>
+ <row id="883" trl="Y">
+  <value column="Name" original="Modification">Modification</value>
+ </row>
+ <row id="885" trl="Y">
+  <value column="Name" original="Web Access Profile">Profil d'accés web</value>
+ </row>
+ <row id="886" trl="Y">
+  <value column="Name" original="Web Access BP Group">Accès Web Groupe partenaire d'affaire</value>
+ </row>
+ <row id="887" trl="Y">
+  <value column="Name" original="Web Access Role">Accès Web Rôle</value>
+ </row>
+ <row id="888" trl="Y">
+  <value column="Name" original="Web Access Container">Accès Web Conteneur</value>
+ </row>
+ <row id="889" trl="Y">
+  <value column="Name" original="Web Access Stage">Accès étape</value>
+ </row>
+ <row id="890" trl="Y">
+  <value column="Name" original="Web Access Media">Accès Web Média</value>
+ </row>
+ <row id="891" trl="Y">
+  <value column="Name" original="Web Access NewsChannel">Accées Web Chainedinformation</value>
+ </row>
+ <row id="892" trl="Y">
+  <value column="Name" original="Media Deploy">Déployer média</value>
+ </row>
+ <row id="893" trl="Y">
+  <value column="Name" original="Broadcast Server">Serveur de diffusion</value>
+ </row>
+ <row id="894" trl="Y">
+  <value column="Name" original="Web Access Log">Journal d'accés web</value>
+ </row>
+ <row id="895" trl="Y">
+  <value column="Name" original="Info Window">Fenêtre d'info</value>
+ </row>
+ <row id="896" trl="Y">
+  <value column="Name" original="Info Window Trl">Fenêtre d'info **</value>
+ </row>
+ <row id="897" trl="Y">
+  <value column="Name" original="Info Column">Colonne info</value>
+ </row>
+ <row id="898" trl="Y">
+  <value column="Name" original="Info Column Trl">Colonne info **</value>
+ </row>
+ <row id="899" trl="Y">
+  <value column="Name" original="Index Log">Journal d'index</value>
+ </row>
+ <row id="900" trl="Y">
+  <value column="Name" original="Index">Index</value>
+ </row>
+ <row id="901" trl="Y">
+  <value column="Name" original="Index Stop">Arrêt de index</value>
+ </row>
+ <row id="902" trl="Y">
+  <value column="Name" original="Ldap Processor">Processeur LDAP</value>
+ </row>
+ <row id="903" trl="Y">
+  <value column="Name" original="Ldap Processor Log">Journal du processeur Ldap</value>
+ </row>
+ <row id="904" trl="Y">
+  <value column="Name" original="Ldap Access">Accés Ldap</value>
+ </row>
+ <row id="905" trl="Y">
+  <value column="Name" original="Wiki Token">Wiki Token</value>
+ </row>
+ <row id="50001" trl="Y">
+  <value column="Name" original="AD_Package_Imp_Inst">AD_Package_Imp_Inst</value>
+ </row>
+ <row id="50002" trl="Y">
+  <value column="Name" original="AD_Package_Imp_Backup_ID">AD_Package_Imp_Backup_ID</value>
+ </row>
+ <row id="50003" trl="Y">
+  <value column="Name" original="AD_Package_Imp_ID">AD_Package_Imp_ID</value>
+ </row>
+ <row id="50004" trl="Y">
+  <value column="Name" original="AD_Package_Imp_Detail_ID">AD_Package_Imp_Detail_ID</value>
+ </row>
+ <row id="50005" trl="Y">
+  <value column="Name" original="AD_Package_Exp_ID">AD_Package_Exp_ID</value>
+ </row>
+ <row id="50006" trl="Y">
+  <value column="Name" original="AD_Package_Exp_Detail_ID">AD_Package_Exp_Detail_ID</value>
+ </row>
+ <row id="50007" trl="Y">
+  <value column="Name" original="AD_Package_Exp_Common_ID">AD_Package_Exp_Common_ID</value>
+ </row>
+ <row id="50008" trl="Y">
+  <value column="Name" original="AD_Package_Imp_Proc_ID">AD_Package_Imp_Proc_ID</value>
+ </row>
+ <row id="50009" trl="Y">
+  <value column="Name" original="System Configurator">System Configurator</value>
+ </row>
+ <row id="50010" trl="Y">
+  <value column="Name" original="PA_DashboardContent_ID">PA_DashboardContent_ID</value>
+ </row>
+ <row id="52000" trl="Y">
+  <value column="Name" original="Black List Cheque">Black List Cheque</value>
+ </row>
+ <row id="52001" trl="Y">
+  <value column="Name" original="Web Properties">Web Properties</value>
+ </row>
+ <row id="52002" trl="Y">
+  <value column="Name" original="Role Menu">Role Menu</value>
+ </row>
+ <row id="52003" trl="Y">
+  <value column="Name" original="Web Menu">Web Menu</value>
+ </row>
+ <row id="53011" trl="Y">
+  <value column="Name" original="Product Stock at Warehouses">Product Stock at Warehouses</value>
+ </row>
+ <row id="53012" trl="Y">
+  <value column="Name" original="Document Action Access">Document Action Access</value>
+ </row>
+ <row id="53014" trl="Y">
+  <value column="Name" original="Model Validator">Model Validator</value>
+ </row>
+ <row id="53015" trl="Y">
+  <value column="Name" original="Product Substitute with Stock Info">Product Substitute with Stock Info</value>
+ </row>
+ <row id="53016" trl="Y">
+  <value column="Name" original="PP_WF_Node_Product_ID">PP_WF_Node_Product_ID</value>
+ </row>
+ <row id="53017" trl="Y">
+  <value column="Name" original="PP_WF_Node_Asset_ID">PP_WF_Node_Asset_ID</value>
+ </row>
+ <row id="53018" trl="Y">
+  <value column="Name" original="BOM &amp; Formula">BOM &amp; Formula</value>
+ </row>
+ <row id="53019" trl="Y">
+  <value column="Name" original="BOM Line">BOM Line</value>
+ </row>
+ <row id="53020" trl="Y">
+  <value column="Name" original="PP_Product_Planning_ID">PP_Product_Planning_ID</value>
+ </row>
+ <row id="53021" trl="Y">
+  <value column="Name" original="MRP View">MRP View</value>
+ </row>
+ <row id="53022" trl="Y">
+  <value column="Name" original="Manufacturing Order Activity">Manufacturing Order Activity</value>
+ </row>
+ <row id="53023" trl="Y">
+  <value column="Name" original="PP_Order_NodeNext_ID">PP_Order_NodeNext_ID</value>
+ </row>
+ <row id="53024" trl="Y">
+  <value column="Name" original="PP_Order_Cost_ID">PP_Order_Cost_ID</value>
+ </row>
+ <row id="53025" trl="Y">
+  <value column="Name" original="PP_Order_BOMLine_ID">PP_Order_BOMLine_ID</value>
+ </row>
+ <row id="53026" trl="Y">
+  <value column="Name" original="PP_Order_BOM_ID">PP_Order_BOM_ID</value>
+ </row>
+ <row id="53027" trl="Y">
+  <value column="Name" original="PP_Order_ID">PP_Order_ID</value>
+ </row>
+ <row id="53028" trl="Y">
+  <value column="Name" original="RV_PP_Order_BOMLine">RV_PP_Order_BOMLine</value>
+ </row>
+ <row id="53029" trl="Y">
+  <value column="Name" original="PP_Order_Workflow_ID">PP_Order_Workflow_ID</value>
+ </row>
+ <row id="53030" trl="Y">
+  <value column="Name" original="PP_Order_Node_Product_ID">PP_Order_Node_Product_ID</value>
+ </row>
+ <row id="53031" trl="Y">
+  <value column="Name" original="PP_Order_Node_Asset_ID">PP_Order_Node_Asset_ID</value>
+ </row>
+ <row id="53032" trl="Y">
+  <value column="Name" original="RV_PP_Order_Storage">RV_PP_Order_Storage</value>
+ </row>
+ <row id="53033" trl="Y">
+  <value column="Name" original="RV_PP_WIP">RV_PP_WIP</value>
+ </row>
+ <row id="53034" trl="Y">
+  <value column="Name" original="Manufacturing Order Transactions VIEW">Manufacturing Order Transactions VIEW</value>
+ </row>
+ <row id="53035" trl="Y">
+  <value column="Name" original="PP_Cost_Collector_ID">PP_Cost_Collector_ID</value>
+ </row>
+ <row id="53036" trl="Y">
+  <value column="Name" original="RV_PP_Operation_Activity">RV_PP_Operation_Activity</value>
+ </row>
+ <row id="53037" trl="Y">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+ </row>
+ <row id="53038" trl="Y">
+  <value column="Name" original="Distribution Order Line">Distribution Order Line</value>
+ </row>
+ <row id="53039" trl="Y">
+  <value column="Name" original="DD_Order_Header_v">DD_Order_Header_v</value>
+ </row>
+ <row id="53040" trl="Y">
+  <value column="Name" original="QM_Specification_ID">QM_Specification_ID</value>
+ </row>
+ <row id="53041" trl="Y">
+  <value column="Name" original="QM_SpecificationLine_ID">QM_SpecificationLine_ID</value>
+ </row>
+ <row id="53042" trl="Y">
+  <value column="Name" original="View Product Costing">View Product Costing</value>
+ </row>
+ <row id="53043" trl="Y">
+  <value column="Name" original="PP_MRP_ID">PP_MRP_ID</value>
+ </row>
+ <row id="53044" trl="Y">
+  <value column="Name" original="T_MRP_CRP_ID">T_MRP_CRP_ID</value>
+ </row>
+ <row id="53045" trl="Y">
+  <value column="Name" original="T_BOMLine_ID">T_BOMLine_ID</value>
+ </row>
+ <row id="53046" trl="Y">
+  <value column="Name" original="ASP Window">ASP Window</value>
+ </row>
+ <row id="53047" trl="Y">
+  <value column="Name" original="ASP Tab">ASP Tab</value>
+ </row>
+ <row id="53048" trl="Y">
+  <value column="Name" original="ASP Field">ASP Field</value>
+ </row>
+ <row id="53049" trl="Y">
+  <value column="Name" original="ASP Process">ASP Process</value>
+ </row>
+ <row id="53050" trl="Y">
+  <value column="Name" original="ASP Process Parameter">ASP Process Parameter</value>
+ </row>
+ <row id="53051" trl="Y">
+  <value column="Name" original="ASP Form">ASP Form</value>
+ </row>
+ <row id="53052" trl="Y">
+  <value column="Name" original="ASP Task">ASP Task</value>
+ </row>
+ <row id="53053" trl="Y">
+  <value column="Name" original="ASP Workflow">ASP Workflow</value>
+ </row>
+ <row id="53054" trl="Y">
+  <value column="Name" original="ASP Module">ASP Module</value>
+ </row>
+ <row id="53055" trl="Y">
+  <value column="Name" original="ASP Level">ASP Level</value>
+ </row>
+ <row id="53056" trl="Y">
+  <value column="Name" original="Client Level">Client Level</value>
+ </row>
+ <row id="53057" trl="Y">
+  <value column="Name" original="Client Exception">Client Exception</value>
+ </row>
+ <row id="53058" trl="Y">
+  <value column="Name" original="Rule">Rule</value>
+ </row>
+ <row id="53059" trl="Y">
+  <value column="Name" original="Table Script Validator">Table Script Validator</value>
+ </row>
+ <row id="53060" trl="Y">
+  <value column="Name" original="Network Distribution">Network Distribution</value>
+ </row>
+ <row id="53061" trl="Y">
+  <value column="Name" original="DD_NetworkDistributionLine_ID">DD_NetworkDistributionLine_ID</value>
+ </row>
+ <row id="53062" trl="Y">
+  <value column="Name" original="PP_Order_BOMLineMA_ID">PP_Order_BOMLineMA_ID</value>
+ </row>
+ <row id="53063" trl="Y">
+  <value column="Name" original="Product BOM Line VIEW">Product BOM Line VIEW</value>
+ </row>
+ <row id="53064" trl="Y">
+  <value column="Name" original="Migration Script">Migration Script</value>
+ </row>
+ <row id="53066" trl="Y">
+  <value column="Name" original="Tax Group">Tax Group</value>
+ </row>
+ <row id="53067" trl="Y">
+  <value column="Name" original="C_TaxDefinition_ID">C_TaxDefinition_ID</value>
+ </row>
+ <row id="53068" trl="Y">
+  <value column="Name" original="C_TaxType_ID">C_TaxType_ID</value>
+ </row>
+ <row id="53069" trl="Y">
+  <value column="Name" original="C_TaxBase_ID">C_TaxBase_ID</value>
+ </row>
+ <row id="53071" trl="Y">
+  <value column="Name" original="AD_ReplicationDocument_ID">AD_ReplicationDocument_ID</value>
+ </row>
+ <row id="53072" trl="Y">
+  <value column="Name" original="Export Format ID">Export Format ID</value>
+ </row>
+ <row id="53073" trl="Y">
+  <value column="Name" original="EXP_FormatLine_ID">EXP_FormatLine_ID</value>
+ </row>
+ <row id="53074" trl="Y">
+  <value column="Name" original="EXP_Processor_ID">EXP_Processor_ID</value>
+ </row>
+ <row id="53075" trl="Y">
+  <value column="Name" original="EXP_ProcessorParameter_ID">EXP_ProcessorParameter_ID</value>
+ </row>
+ <row id="53076" trl="Y">
+  <value column="Name" original="EXP_Processor_Type_ID">EXP_Processor_Type_ID</value>
+ </row>
+ <row id="53077" trl="Y">
+  <value column="Name" original="IMP_Processor_ID">IMP_Processor_ID</value>
+ </row>
+ <row id="53078" trl="Y">
+  <value column="Name" original="IMP_ProcessorParameter_ID">IMP_ProcessorParameter_ID</value>
+ </row>
+ <row id="53079" trl="Y">
+  <value column="Name" original="IMP_ProcessorLog_ID">IMP_ProcessorLog_ID</value>
+ </row>
+ <row id="53080" trl="Y">
+  <value column="Name" original="IMP_Processor_Type_ID">IMP_Processor_Type_ID</value>
+ </row>
+ <row id="53085" trl="Y">
+  <value column="Name" original="Payroll Contract">Payroll Contract</value>
+ </row>
+ <row id="53086" trl="Y">
+  <value column="Name" original="Employee">Employee</value>
+ </row>
+ <row id="53087" trl="Y">
+  <value column="Name" original="Payroll Employee Attribute">Payroll Employee Attribute</value>
+ </row>
+ <row id="53088" trl="Y">
+  <value column="Name" original="Department">Department</value>
+ </row>
+ <row id="53089" trl="Y">
+  <value column="Name" original="Job">Job</value>
+ </row>
+ <row id="53090" trl="Y">
+  <value column="Name" original="Concept">Concept</value>
+ </row>
+ <row id="53091" trl="Y">
+  <value column="Name" original="HR_Concept_Acct_ID">HR_Concept_Acct_ID</value>
+ </row>
+ <row id="53092" trl="Y">
+  <value column="Name" original="Payroll Process">Payroll Process</value>
+ </row>
+ <row id="53093" trl="Y">
+  <value column="Name" original="Payroll">Payroll</value>
+ </row>
+ <row id="53094" trl="Y">
+  <value column="Name" original="Payroll Period">Payroll Period</value>
+ </row>
+ <row id="53095" trl="Y">
+  <value column="Name" original="Payroll Year">Payroll Year</value>
+ </row>
+ <row id="53096" trl="Y">
+  <value column="Name" original="Payroll Concept">Payroll Concept</value>
+ </row>
+ <row id="53097" trl="Y">
+  <value column="Name" original="Payroll Concept Category">Payroll Concept Category</value>
+ </row>
+ <row id="53098" trl="Y">
+  <value column="Name" original="Payroll List Type">Payroll List Type</value>
+ </row>
+ <row id="53099" trl="Y">
+  <value column="Name" original="Payroll List">Payroll List</value>
+ </row>
+ <row id="53100" trl="Y">
+  <value column="Name" original="Payroll List Version">Payroll List Version</value>
+ </row>
+ <row id="53101" trl="Y">
+  <value column="Name" original="Payroll List Line">Payroll List Line</value>
+ </row>
+ <row id="53102" trl="Y">
+  <value column="Name" original="Payroll Movement">Payroll Movement</value>
+ </row>
+ <row id="53112" trl="Y">
+  <value column="Name" original="A_Depreciation_ID">A_Depreciation_ID</value>
+ </row>
+ <row id="53113" trl="Y">
+  <value column="Name" original="A_Depreciation_Table_Detail_ID">A_Depreciation_Table_Detail_ID</value>
+ </row>
+ <row id="53114" trl="Y">
+  <value column="Name" original="A_Depreciation_Table_Header_ID">A_Depreciation_Table_Header_ID</value>
+ </row>
+ <row id="53115" trl="Y">
+  <value column="Name" original="A_Depreciation_Exp_ID">A_Depreciation_Exp_ID</value>
+ </row>
+ <row id="53116" trl="Y">
+  <value column="Name" original="A_Depreciation_Workfile_ID">A_Depreciation_Workfile_ID</value>
+ </row>
+ <row id="53117" trl="Y">
+  <value column="Name" original="I_FAJournal_ID">I_FAJournal_ID</value>
+ </row>
+ <row id="53118" trl="Y">
+  <value column="Name" original="A_Depreciation_Forecast_ID">A_Depreciation_Forecast_ID</value>
+ </row>
+ <row id="53119" trl="Y">
+  <value column="Name" original="A_Asset_Reval_Entry_ID">A_Asset_Reval_Entry_ID</value>
+ </row>
+ <row id="53120" trl="Y">
+  <value column="Name" original="A_Asset_Reval_Index_ID">A_Asset_Reval_Index_ID</value>
+ </row>
+ <row id="53121" trl="Y">
+  <value column="Name" original="A_Depreciation_Entry_ID">A_Depreciation_Entry_ID</value>
+ </row>
+ <row id="53122" trl="Y">
+  <value column="Name" original="A_Asset_Split_ID">A_Asset_Split_ID</value>
+ </row>
+ <row id="53123" trl="Y">
+  <value column="Name" original="A_Asset_Acct_ID">A_Asset_Acct_ID</value>
+ </row>
+ <row id="53124" trl="Y">
+  <value column="Name" original="A_Depreciation_Method_ID">A_Depreciation_Method_ID</value>
+ </row>
+ <row id="53125" trl="Y">
+  <value column="Name" original="A_Depreciation_Convention_ID">A_Depreciation_Convention_ID</value>
+ </row>
+ <row id="53126" trl="Y">
+  <value column="Name" original="A_Asset_Spread_ID">A_Asset_Spread_ID</value>
+ </row>
+ <row id="53127" trl="Y">
+  <value column="Name" original="A_Asset_Disposed_ID">A_Asset_Disposed_ID</value>
+ </row>
+ <row id="53128" trl="Y">
+  <value column="Name" original="A_Asset_Transfer_ID">A_Asset_Transfer_ID</value>
+ </row>
+ <row id="53129" trl="Y">
+  <value column="Name" original="A_Depreciation_Build_ID">A_Depreciation_Build_ID</value>
+ </row>
+ <row id="53130" trl="Y">
+  <value column="Name" original="A_Asset_Group_Acct_ID">A_Asset_Group_Acct_ID</value>
+ </row>
+ <row id="53131" trl="Y">
+  <value column="Name" original="A_Asset_Info_Tax_ID">A_Asset_Info_Tax_ID</value>
+ </row>
+ <row id="53132" trl="Y">
+  <value column="Name" original="A_Asset_Info_Fin_ID">A_Asset_Info_Fin_ID</value>
+ </row>
+ <row id="53133" trl="Y">
+  <value column="Name" original="A_Asset_Change_ID">A_Asset_Change_ID</value>
+ </row>
+ <row id="53134" trl="Y">
+  <value column="Name" original="A_Asset_Info_Lic_ID">A_Asset_Info_Lic_ID</value>
+ </row>
+ <row id="53135" trl="Y">
+  <value column="Name" original="A_Asset_Info_Ins_ID">A_Asset_Info_Ins_ID</value>
+ </row>
+ <row id="53136" trl="Y">
+  <value column="Name" original="A_Asset_Info_Oth_ID">A_Asset_Info_Oth_ID</value>
+ </row>
+ <row id="53137" trl="Y">
+  <value column="Name" original="A_Asset_Addition_ID">A_Asset_Addition_ID</value>
+ </row>
+ <row id="53138" trl="Y">
+  <value column="Name" original="A_Asset_Use_ID">A_Asset_Use_ID</value>
+ </row>
+ <row id="53139" trl="Y">
+  <value column="Name" original="I_Asset_ID">I_Asset_ID</value>
+ </row>
+ <row id="53140" trl="Y">
+  <value column="Name" original="A_Valid_Asset_Combinations">A_Valid_Asset_Combinations</value>
+ </row>
+ <row id="53144" trl="Y">
+  <value column="Name" original="Distribution Order Detail">Distribution Order Detail</value>
+ </row>
+</adempiereTrl>
