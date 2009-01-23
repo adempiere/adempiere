@@ -30,17 +30,24 @@ import javax.swing.JOptionPane;
 
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MCountry;
 import org.compiere.model.MRole;
 import org.compiere.model.MSystem;
 import org.compiere.model.MTree_Base;
 import org.compiere.model.ModelValidationEngine;
+import org.compiere.report.MReportTree;
 
 
 /**
  *	Login Manager
  *	
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
+ *		<li> Incorrect global Variable when you use multi Account Schema
+ *		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=2531597&group_id=176962
  *  @version $Id: Login.java,v 1.6 2006/10/02 05:19:06 jjanke Exp $
  */
 public class Login
@@ -786,7 +793,9 @@ public class Login
 		ResultSet rs = null;
 		try
 		{
+
 			int C_AcctSchema_ID = 0;
+			
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_Client_ID);
 			rs = pstmt.executeQuery();
@@ -807,6 +816,35 @@ public class Login
 			}
 			rs.close();
 			pstmt.close();
+			
+			/**Define AcctSchema , Currency, HasAlias for Multi AcctSchema**/
+			MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
+			if(ass != null && ass.length > 1)
+			{
+				for(MAcctSchema as: ass)
+				{
+					 	C_AcctSchema_ID  = MClientInfo.get(Env.getCtx(), AD_Client_ID).getC_AcctSchema1_ID(); 			 
+						boolean skip = false;
+						if (as.getAD_OrgOnly_ID() != 0)
+						{
+							if (as.getOnlyOrgs() == null)
+								as.setOnlyOrgs(MReportTree.getChildIDs(Env.getCtx(), 
+									0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+									as.getAD_OrgOnly_ID()));
+							skip = as.isSkipOrg(AD_Org_ID);
+							if(skip)
+								break;
+							else 
+							{
+								C_AcctSchema_ID = as.getC_AcctSchema_ID();
+								Env.setContext(m_ctx, "$C_AcctSchema_ID", C_AcctSchema_ID);
+								Env.setContext(m_ctx, "$C_Currency_ID", as.getC_Currency_ID());
+								Env.setContext(m_ctx, "$HasAlias", as.isHasAlias());
+								break;
+							}
+						}
+				}
+			}	
 
 			//	Accounting Elements
 			sql = "SELECT ElementType "
