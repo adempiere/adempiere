@@ -47,6 +47,10 @@ import org.eevolution.model.MPPProductBOMLine;
  * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
  *  @author Jorg Janke
+ *
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  @version $Id: MOrder.java,v 1.5 2006/10/06 00:42:24 jjanke Exp $
  */
 public class MOrder extends X_C_Order implements DocAction
@@ -1104,7 +1108,7 @@ public class MOrder extends X_C_Order implements DocAction
 		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;

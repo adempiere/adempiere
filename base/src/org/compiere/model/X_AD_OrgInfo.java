@@ -31,7 +31,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -113,6 +113,45 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Calendar getC_Calendar() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
+        I_C_Calendar result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Calendar)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Calendar_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Calendar.
+		@param C_Calendar_ID 
+		Accounting Calendar Name
+	  */
+	public void setC_Calendar_ID (int C_Calendar_ID)
+	{
+		if (C_Calendar_ID < 1) 
+			set_Value (COLUMNNAME_C_Calendar_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
+	}
+
+	/** Get Calendar.
+		@return Accounting Calendar Name
+	  */
+	public int getC_Calendar_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Calendar_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -136,6 +175,25 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		if (DUNS == null)
+			throw new IllegalArgumentException ("DUNS is mandatory.");
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
+	}
+
 	/** Set Drop Ship Warehouse.
 		@param DropShip_Warehouse_ID 
 		The (logical) warehouse to use for recording drop ship receipts and shipments.
@@ -157,25 +215,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS)
-	{
-		if (DUNS == null)
-			throw new IllegalArgumentException ("DUNS is mandatory.");
-		set_Value (COLUMNNAME_DUNS, DUNS);
-	}
-
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
-	  */
-	public String getDUNS () 
-	{
-		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException 

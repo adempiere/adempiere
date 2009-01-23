@@ -39,10 +39,12 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1619150 ] Usability/Consistency: reversed gl journal description
  * 				<li>BF [ 1775358 ] GL Journal DateAcct/C_Period_ID issue
- *  @author victor.perez@e-evolution.com, e-Evolution
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
- *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *  		<li>FR: [ 2214883 ] Remove SQL code and Replace for Query 
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
@@ -162,7 +164,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 			return;
 		if (getC_Period_ID() != 0)
 			return;
-		int C_Period_ID = MPeriod.getC_Period_ID(getCtx(), DateAcct);
+		int C_Period_ID = MPeriod.getC_Period_ID(getCtx(), DateAcct, getAD_Org_ID());
 		if (C_Period_ID == 0)
 			log.warning("setDateAcct - Period not found");
 		else
@@ -403,7 +405,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Get Period
-		MPeriod period = MPeriod.get (getCtx(), getDateAcct());
+		MPeriod period = MPeriod.get (getCtx(), getDateAcct(), getAD_Org_ID());
 		if (period == null)
 		{
 			log.warning("No Period for " + getDateAcct());

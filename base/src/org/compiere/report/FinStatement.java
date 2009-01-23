@@ -44,6 +44,10 @@ import org.compiere.util.Msg;
  *  @author Low Heng Sin
  *  - Remove update balance option to resolved Feature Request [ 1557707 ] and
  *    bug [1619917]
+ *
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  */
 public class FinStatement extends SvrProcess
 {
@@ -269,7 +273,7 @@ public class FinStatement extends SvrProcess
 			m_acct = new MElementValue (getCtx(), p_Account_ID, get_TrxName());
 			if (!m_acct.isBalanceSheet())
 			{
-				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From);
+				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From, p_AD_Org_ID);
 				if (first != null)
 					sb.append(" AND TRUNC(DateAcct) >= ").append(DB.TO_DATE(first.getStartDate()));
 				else

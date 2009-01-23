@@ -43,8 +43,10 @@ import org.compiere.util.Msg;
  *  Modifications: Added the RMA functionality (Ashley Ramdass)
  *  @author Karsten Thiemann, Schaeffer AG
  * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
- *  @author victor.perez@e-evolution.com, e-Evolution
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
@@ -1064,7 +1066,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		    return DocAction.STATUS_Invalid;
 		}
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -1979,7 +1981,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;
 		
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return false;

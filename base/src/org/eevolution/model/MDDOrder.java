@@ -56,7 +56,10 @@ import org.compiere.util.Util;
  * 	They are set in the process() method. 
  * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
- *  @author Victor Perez,e-Evolution,SC
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *			<li> Original contributor of Distribution Functionality
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  */
 public class MDDOrder extends X_DD_Order implements DocAction
 {
@@ -773,7 +776,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateOrdered(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getDateOrdered(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;

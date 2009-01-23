@@ -46,6 +46,10 @@ import org.compiere.util.Env;
  *
  *  @author Armen Rizal, Goodwill Consulting
  *  		<li>BF [ 2215840 ] MatchPO Bug Collection
+ *
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  */
 public class MMatchPO extends X_M_MatchPO
 {
@@ -721,7 +725,7 @@ public class MMatchPO extends X_M_MatchPO
 	{
 		if (isPosted())
 		{
-			MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchPO);
+			MPeriod.testPeriodOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_MatchPO, getAD_Org_ID());
 			setPosted(false);
 			MFactAcct.deleteEx (Table_ID, get_ID(), get_TrxName());
 		}

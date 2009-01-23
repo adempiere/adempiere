@@ -39,6 +39,9 @@ import org.compiere.util.Env;
  *  
  *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
  *  Avoid posting if both accounts BankAsset and BankInTransit are equal
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
+ * 				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  
  */
 public class Doc_Bank extends Doc
@@ -102,7 +105,7 @@ public class Doc_Bank extends Doc
 			//	Set Date Acct
 			if (i == 0)
 				setDateAcct(line.getDateAcct());
-			MPeriod period = MPeriod.get(getCtx(), line.getDateAcct());
+			MPeriod period = MPeriod.get(getCtx(), line.getDateAcct(), line.getAD_Org_ID());
 			if (period != null && period.isOpen(DOCTYPE_BankStatement, line.getDateAcct()))
 				docLine.setC_Period_ID(period.getC_Period_ID());
 			//

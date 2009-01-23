@@ -37,7 +37,11 @@ import org.compiere.util.TimeUtil;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCash.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
- *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  <li>FR [ 1866214 ]  
+ *  @see http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ * 	<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *	@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1831997 ] Cash journal allocation reversed
  * 			<li>BF [ 1894524 ] Pay an reversed invoice
@@ -349,7 +353,7 @@ public class MCash extends X_C_Cash implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), MDocType.DOCBASETYPE_CashJournal))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), MDocType.DOCBASETYPE_CashJournal, getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -591,7 +595,7 @@ public class MCash extends X_C_Cash implements DocAction
 		}
 
 		//	Can we delete posting
-		if (!MPeriod.isOpen(getCtx(), this.getDateAcct(), MPeriodControl.DOCBASETYPE_CashJournal))
+		if (!MPeriod.isOpen(getCtx(), this.getDateAcct(), MPeriodControl.DOCBASETYPE_CashJournal, getAD_Org_ID()))
 			throw new IllegalStateException("@PeriodClosed@");
 		
 		//	Reverse Allocations

@@ -36,6 +36,10 @@ import org.compiere.util.Msg;
  * 	Time + Expense Model
  *
  *	@author Jorg Janke
+ *
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *	@version $Id: MTimeExpense.java,v 1.4 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MTimeExpense extends X_S_TimeExpense implements DocAction
@@ -303,7 +307,7 @@ public class MTimeExpense extends X_S_TimeExpense implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open? - AP (Reimbursement) Invoice
-		if (!MPeriod.isOpen(getCtx(), getDateReport(), MDocType.DOCBASETYPE_APInvoice))
+		if (!MPeriod.isOpen(getCtx(), getDateReport(), MDocType.DOCBASETYPE_APInvoice, getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;

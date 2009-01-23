@@ -35,9 +35,12 @@ import org.compiere.util.Msg;
 *	Bank Statement Model
 *
 *	@author Eldir Tomassen/Jorg Janke
-*   @author victor.perez@e-evolution.com fixed bug [ 1933645 ] Wrong balance Bank Statement
+*  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+*   <li> BF [ 1933645 ] Wrong balance Bank Statement
 *   @see http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1933645&group_id=176962
-*	@version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+* 	<li> FR [ 2520591 ] Support multiples calendar for Org 
+*	@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
+*   @version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
 {
@@ -310,7 +313,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getStatementDate(), MDocType.DOCBASETYPE_BankStatement))
+		if (!MPeriod.isOpen(getCtx(), getStatementDate(), MDocType.DOCBASETYPE_BankStatement, getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -336,8 +339,8 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		}
 		setStatementDifference(total);
 		setEndingBalance(getBeginningBalance().add(total));
-		if (!MPeriod.isOpen(getCtx(), minDate, MDocType.DOCBASETYPE_BankStatement)
-			|| !MPeriod.isOpen(getCtx(), maxDate, MDocType.DOCBASETYPE_BankStatement))
+		if (!MPeriod.isOpen(getCtx(), minDate, MDocType.DOCBASETYPE_BankStatement, 0)
+			|| !MPeriod.isOpen(getCtx(), maxDate, MDocType.DOCBASETYPE_BankStatement, 0))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -461,7 +464,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		//	Std Period open?
 		else
 		{
-			if (!MPeriod.isOpen(getCtx(), getStatementDate(), MDocType.DOCBASETYPE_BankStatement))
+			if (!MPeriod.isOpen(getCtx(), getStatementDate(), MDocType.DOCBASETYPE_BankStatement, getAD_Org_ID()))
 			{
 				m_processMsg = "@PeriodClosed@";
 				return false;

@@ -41,8 +41,12 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MAllocationHdr.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
- *  @author victor.perez@e-evolution.com www.e-evolution.com FR [ 1866214 ]  http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
- */
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  			<li>FR [ 1866214 ]  
+ *				@see http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
+ *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+*/
 public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 {
 	/**
@@ -301,7 +305,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			log.warning ("No transaction");
 		if (isPosted())
 		{
-			if (!MPeriod.isOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_PaymentAllocation))
+			if (!MPeriod.isOpen(getCtx(), getDateTrx(), MDocType.DOCBASETYPE_PaymentAllocation, getAD_Org_ID()))
 			{
 				log.warning ("Period Closed");
 				return false;
@@ -390,7 +394,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), MDocType.DOCBASETYPE_PaymentAllocation))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), MDocType.DOCBASETYPE_PaymentAllocation, getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -709,7 +713,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			throw new IllegalStateException("Allocation already reversed (not active)");
 
 		//	Can we delete posting
-		if (!MPeriod.isOpen(getCtx(), getDateTrx(), MPeriodControl.DOCBASETYPE_PaymentAllocation))
+		if (!MPeriod.isOpen(getCtx(), getDateTrx(), MPeriodControl.DOCBASETYPE_PaymentAllocation, getAD_Org_ID()))
 			throw new IllegalStateException("@PeriodClosed@");
 
 		//	Set Inactive

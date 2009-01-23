@@ -48,7 +48,11 @@ import org.compiere.util.Util;
 /**
  * HR Process Model
  *
- * @author e-Evolution, Mexico
+ *  @author oscar.gomez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *			<li> Original contributor of Payroll Functionality
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  * @author Cristina Ghita, www.arhipac.ro
  */
 public class MHRProcess extends X_HR_Process implements DocAction
@@ -193,8 +197,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		
 		//	Std Period open?
+
         MHRPeriod period = MHRPeriod.get(getCtx(), getHR_Period_ID());
-		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), getC_DocTypeTarget_ID());
+		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 		
 		//	New or in Progress/Invalid
 		if (   DOCSTATUS_Drafted.equals(getDocStatus()) 

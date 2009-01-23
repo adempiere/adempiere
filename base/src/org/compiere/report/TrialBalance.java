@@ -37,6 +37,10 @@ import org.compiere.util.Language;
  *	Trial Balance
  *	
  *  @author Jorg Janke
+ *
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  @version $Id: TrialBalance.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  */
 public class TrialBalance extends SvrProcess
@@ -402,7 +406,7 @@ public class TrialBalance extends SvrProcess
 			m_acct = new MElementValue (getCtx(), p_Account_ID, get_TrxName());
 			if (!m_acct.isBalanceSheet())
 			{
-				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From);
+				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From, p_AD_Org_ID);
 				if (first != null)
 					sql.append(" AND DateAcct >= ").append(DB.TO_DATE(first.getStartDate(), true));
 				else

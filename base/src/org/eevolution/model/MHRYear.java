@@ -29,7 +29,12 @@ import org.compiere.util.TimeUtil;
 /**
  *	MHRYear Year for a Payroll
  *	
- *  @author Oscar Gómez Islas
+ *  @author oscar.gomez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *			<li> Original contributor of Payroll Functionality
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+
  */
 public class MHRYear extends X_HR_Year
 {
@@ -102,7 +107,7 @@ public class MHRYear extends X_HR_Year
 			if(C_Period_ID <= 0)
 				return false;
 
-			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID);
+			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID, payroll.getAD_Org_ID());
 			X_HR_Period HR_Period = new X_HR_Period(getCtx(), 0, get_TrxName());
 			HR_Period.setAD_Org_ID(getAD_Org_ID());
 			HR_Period.setHR_Year_ID(getHR_Year_ID());

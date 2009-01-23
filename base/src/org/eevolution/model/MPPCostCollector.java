@@ -61,10 +61,13 @@ import org.eevolution.exceptions.ActivityProcessedException;
 /**
  *	PP Cost Collector Model
  *	
- *  @author Victor Perez www.e-evolution.com     
- *  @version $Id: MPPCostCollector.java,v 1.1 2004/06/19 02:10:34 vpj-cd Exp $
+ *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *			<li> Original contributor of Manufacturing Standard Cost
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  
- *  @author Teo Sarca, www.arhipac.ro
+ *  @author Teo Sarca, www.arhipac.ro 
+ *  @version $Id: MPPCostCollector.java,v 1.1 2004/06/19 02:10:34 vpj-cd Exp $
  */
 public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 {
@@ -270,7 +273,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 		
-		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocTypeTarget_ID());
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 		//	Convert/Check DocType
 		setC_DocType_ID(getC_DocTypeTarget_ID());
 		
@@ -902,10 +905,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				order.setIsSOTrx(false);
 				order.setC_DocTypeTarget_ID();
 				order.setDatePromised(datePromised);
-				order.setDescription(getPP_Order().getDocumentNo());
+				order.setDescription(Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) +":"+getPP_Order().getDocumentNo());
 				order.setDocStatus(MOrder.DOCSTATUS_Drafted);
 				order.setDocAction(MOrder.DOCACTION_Complete);
 				order.setAD_User_ID(getAD_User_ID());
+				order.setM_Warehouse_ID(getM_Warehouse_ID());
 				//order.setSalesRep_ID(getAD_User_ID());
 				order.saveEx();
 				addDescription(Msg.translate(getCtx(), "C_Order_ID")+": "+order.getDocumentNo());
@@ -932,6 +936,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 			MOrderLine oline = new MOrderLine(order);
 			oline.setM_Product_ID(product.getM_Product_ID());
 			oline.setDescription(activity.getDescription());
+			oline.setM_Warehouse_ID(getM_Warehouse_ID());
 			oline.setQty(QtyOrdered);
 			//line.setPrice(m_product_po.getPricePO());
 			//oline.setPriceList(m_product_po.getPriceList());
