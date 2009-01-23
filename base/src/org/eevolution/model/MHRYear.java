@@ -30,10 +30,14 @@ import org.compiere.util.TimeUtil;
  *	MHRYear Year for a Payroll
  *	
  *  @author Oscar Gómez Islas
- *  @version $Id: HRYear.java,v 1.0 2007/04/25 ogomezi
  */
 public class MHRYear extends X_HR_Year
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7789699154024839462L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -32,7 +32,10 @@ import org.compiere.util.DB;
  */
 public class MHRPayrollConcept extends X_HR_PayrollConcept
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4335196239535511224L;
 
 	/**
 	 * 	Standard Constructor
@@ -84,18 +87,13 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 		return list.toArray(new MHRPayrollConcept[list.size()]);
 	}
 
-	public MHRConcept getConcept()
-	{
-		return new MHRConcept(getCtx(),this.getHR_Concept_ID(),get_TrxName());
-	}
-
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
 		if (getSeqNo() == 0)
 		{
 			String sql = "SELECT COALESCE(MAX(SeqNo),0) FROM HR_PayrollConcept WHERE HR_Payroll_ID=?";
-			int lastSeqNo = DB.getSQLValue(get_TrxName(), sql, getHR_Payroll_ID());
+			int lastSeqNo = DB.getSQLValueEx(get_TrxName(), sql, getHR_Payroll_ID());
 			if (lastSeqNo < 0)
 				lastSeqNo = 0;
 			setSeqNo(lastSeqNo + 10);

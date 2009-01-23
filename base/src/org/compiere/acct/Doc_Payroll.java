@@ -75,7 +75,7 @@ public class Doc_Payroll extends Doc
 	private DocLine[] loadLines(MHRProcess process)
 	{
 		ArrayList<DocLine> list = new ArrayList<DocLine>();
-		MHRMovement[] lines = process.getLines(true, process.getHR_Process_ID());
+		MHRMovement[] lines = process.getLines(true);
 		for (int i = 0; i < lines.length; i++)
 		{
 			MHRMovement line = lines[i];

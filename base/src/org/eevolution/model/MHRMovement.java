@@ -14,23 +14,27 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 package org.eevolution.model;
-import java.sql.PreparedStatement;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.util.DB;
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Payroll Concept for HRayroll Module
  *	
  *  @author Oscar Gómez Islas
- *  @version $Id: HRPayroll.java,v 1.0 2005/10/05 ogomezi
+ *  @author Teo Sarca, www.arhipac.ro
  */
 public class MHRMovement extends X_HR_Movement
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6705848510397126140L;
 
 	/**
 	 * 	Standard Constructor
@@ -41,7 +45,7 @@ public class MHRMovement extends X_HR_Movement
 	public MHRMovement (Properties ctx, int HR_Movement_ID, String trxName)
 	{
 		super (ctx, HR_Movement_ID, trxName);
-	}	//	HRConcept
+	}
 
 	/**
 	 * 	Load Constructor
@@ -52,101 +56,72 @@ public class MHRMovement extends X_HR_Movement
 	public MHRMovement (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	// End Load Constructor	
+	}
+	
+	public MHRMovement (MHRProcess proc, MHRConcept concept)
+	{
+		this(proc.getCtx(), 0, proc.get_TrxName());
+	}
+	
+	public void addAmount(BigDecimal amount)
+	{
+		setAmount(getAmount().add(amount != null ? amount : Env.ZERO));
+	}
+	
+	public void addQty(BigDecimal qty)
+	{
+		setQty(getAmount().add(qty != null ? qty : Env.ZERO));
+	}
 	
 	/**
-	 * 	Get Employee's of Payroll Type
-	 *  @param payroll Payroll ID
-	 *  @param department Department ID
-	 *  @param employee Employee_ID
-	 * 	@param sqlwhere Clause SQLWhere
-	 * 	@return lines
+	 * @return true if all movement values (Amount, Qty, Text) are empty or negative
 	 */
-	public MHRMovement[] getmovEmployeeok (int payroll, int department, int employee, String sqlWhere)
+	public boolean isEmpty()
 	{
-		ArrayList<MHRMovement> list = new ArrayList<MHRMovement>();
-		String sql = "SELECT * FROM HR_Concept WHERE  IsActive='Y'  AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)";
-		if (department != 0 )
-			sql += " AND HR_Department_ID = " + department + " ";
-		if (sqlWhere != null)
-			sql += sqlWhere;
-		sql += " ORDER BY Value";
-		PreparedStatement pstmt = null;
-		try	{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, payroll);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MHRMovement concept = new MHRMovement(getCtx(), rs.getInt(1), get_TrxName());
-				list.add(concept);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getConcept's", e);
-		}
-		finally
-		{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			}catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		MHRMovement[] linesConcept = new MHRMovement[list.size()];
-		list.toArray(linesConcept);
-		return linesConcept;
-	}	//	getmovEmployee
-
-	/**
-	 * 	Get Employee's of Payroll Type
-	 *  @param payroll Payroll ID
-	 *  @param department Department ID
-	 *  @param employee Employee_ID
-	 * 	@param sqlwhere Clause SQLWhere
-	 * 	@return lines
-	 */
-	@Deprecated
-	public MHRMovement[] getMovementOk (int HR_Process_ID)
-	{
-		ArrayList<MHRMovement> list = new ArrayList<MHRMovement>();
-		String sql = "SELECT * FROM HR_Movement m" +
-					 " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.IsActive = 'Y')"+
-					 " WHERE HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) ";
-		sql += " ORDER BY Value";
-		PreparedStatement pstmt = null;
-		try	{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, HR_Process_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MHRMovement movement = new MHRMovement(getCtx(), rs.getInt(1), get_TrxName());
-				list.add(movement);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getConcept's", e);
-		}
-		finally
-		{
-			try	{
-				if (pstmt != null)
-					pstmt.close ();
-			}catch (Exception e)
-			{}
-			pstmt = null;
-		}
-		MHRMovement[] movementLines = new MHRMovement[list.size()];
-		list.toArray(movementLines);
-		return movementLines;
-	}	//	getMovement
+		return getQty().signum() < 0
+				&& getAmount().signum() < 0
+				&& Util.isEmpty(getTextMsg());		
+	}
 	
+	/**
+	 * According to the concept type, it's saved in the column specified for the purpose
+	 * @param columnType column type (see MHRConcept.COLUMNTYPE_*)
+	 * @param value
+	 */
+	public void setColumnValue(Object value)
+	{
+		final String columnType = getColumnType();
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
+		{
+			BigDecimal qty = new BigDecimal(value.toString()); 
+			setQty(qty);
+			setAmount(Env.ZERO);
+		} 
+		else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
+		{
+			BigDecimal amount = new BigDecimal(value.toString());	
+			setAmount(amount);
+			setQty(Env.ZERO);
+		} 
+		else if(MHRConcept.COLUMNTYPE_Text.equals(columnType))
+		{
+			setTextMsg(value.toString().trim());
+		}
+		else if(MHRConcept.COLUMNTYPE_Date.equals(columnType))
+		{
+			if (value instanceof Timestamp)
+			{
+				setServiceDate((Timestamp)value);
+			}
+			else
+			{
+				setServiceDate(Timestamp.valueOf(value.toString().trim().substring(0, 10)+ " 00:00:00.0"));	
+			}
+		}
+		else
+		{
+			throw new AdempiereException("@NotSupported@ @ColumnType@ - "+columnType);
+		}
+		
+	}
 }	//	HRMovement

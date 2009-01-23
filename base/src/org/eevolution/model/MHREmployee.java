@@ -32,10 +32,13 @@ import org.compiere.util.Env;
  * @author Victor Perez
  * @author Cristina Ghita, www.arhipac.ro
  */
-public class MHREmployee extends X_HR_Employee //--
+public class MHREmployee extends X_HR_Employee
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7083160315471023587L;
+
 	public static MHREmployee get(Properties ctx, int HR_Employee_ID)
 	{
 		if (HR_Employee_ID <= 0)

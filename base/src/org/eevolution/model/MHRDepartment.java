@@ -27,7 +27,10 @@ import org.compiere.util.Env;
  */
 public class MHRDepartment extends X_HR_Department
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 83878114891519775L;
 
 	public static List<MHRDepartment> getAll(Properties ctx)
 	{

@@ -36,7 +36,15 @@ import org.compiere.util.Util;
  */
 public class MHRConcept extends X_HR_Concept
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8736925494645172953L;
+	
+	/** Cache */
+	private static CCache<Integer, MHRConcept> s_cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
+	/** Cache by Value */
+	private static CCache<String, MHRConcept> s_cacheValue = new CCache<String, MHRConcept>(Table_Name+"_Value", 100);
 	
 	public static MHRConcept get(Properties ctx, int HR_Concept_ID)
 	{
@@ -59,8 +67,80 @@ public class MHRConcept extends X_HR_Concept
 		return concept; 
 	}
 
-	/** Cache */
-	private static CCache<Integer, MHRConcept> s_cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
+	/**
+	 * Get Concept by Value
+	 * @param ctx
+	 * @param value
+	 * @return
+	 */
+	public static MHRConcept forValue(Properties ctx, String value)
+	{
+		if (Util.isEmpty(value, true))
+		{
+			return null;
+		}
+		
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		final String key = AD_Client_ID+"#"+value;
+		MHRConcept concept = s_cacheValue.get(key);
+		if (concept != null)
+		{
+			return concept;
+		}
+		
+		final String whereClause = COLUMNNAME_Value+"=? AND AD_Client_ID IN (?,?)"; 
+		concept = new Query(ctx, Table_Name, whereClause, null)
+							.setParameters(new Object[]{value, 0, AD_Client_ID})
+							.setOnlyActiveRecords(true)
+							.setOrderBy("AD_Client_ID DESC")
+							.first();
+		if (concept != null)
+		{
+			s_cacheValue.put(key, concept);
+			s_cache.put(concept.get_ID(), concept);
+		}
+		return concept;
+	}
+
+	/**
+	 * 	Get Employee's of Payroll Type
+	 *  @param payroll_id Payroll ID
+	 *  @param department_id Department ID
+	 *  @param employee_id Employee_ID
+	 * 	@param sqlwhere Clause SQLWhere
+	 * 	@return lines
+	 */
+	public static MHRConcept[] getConcepts (int payroll_id, int department_id, int employee_id, String sqlWhere)
+	{
+		Properties ctx = Env.getCtx();
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		
+		whereClause.append("AD_Client_ID=?");
+		params.add(Env.getAD_Client_ID(Env.getCtx()));
+		
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Attribute a WHERE a.HR_Concept_ID=HR_Concept.HR_Concept_ID ")
+					.append(" AND (a.HR_Payroll_ID=? OR a.HR_Payroll_ID IS NULL) )");
+		params.add(payroll_id);
+		
+		if (department_id != 0 )
+		{
+			whereClause.append(" AND HR_Concept.HR_Department_ID=?");
+			params.add(department_id);
+		}
+		
+		if (Util.isEmpty(sqlWhere))
+		{
+			whereClause.append(sqlWhere);
+		}
+		
+		List<MHRConcept> list = new Query(ctx, Table_Name, whereClause.toString(), null)
+										.setParameters(params)
+										.setOnlyActiveRecords(true)
+										.setOrderBy(COLUMNNAME_Value)
+										.list();
+		return list.toArray(new MHRConcept[list.size()]);
+	}	//	getConcept	
 
 	/**
 	 * 	Standard Constructor
@@ -94,48 +174,6 @@ public class MHRConcept extends X_HR_Concept
 	{
 		super(ctx, rs, trxName);
 	}
-
-
-	/**
-	 * 	Get Employee's of Payroll Type
-	 *  @param payroll_id Payroll ID
-	 *  @param department_id Department ID
-	 *  @param employee_id Employee_ID
-	 * 	@param sqlwhere Clause SQLWhere
-	 * 	@return lines
-	 */
-	public static MHRConcept[] getConcepts (int payroll_id, int department_id, int employee_id, String sqlWhere)
-	{
-		Properties ctx = Env.getCtx();
-		List<Object> params = new ArrayList<Object>();
-		StringBuffer whereClause = new StringBuffer();
-		
-		whereClause.append("IsActive='Y' AND AD_Client_ID=?");
-		params.add(Env.getAD_Client_ID(Env.getCtx()));
-		
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Attribute a WHERE a.HR_Concept_ID=HR_Concept.HR_Concept_ID ")
-					.append(" AND (a.HR_Payroll_ID=? OR a.HR_Payroll_ID IS NULL) )");
-		params.add(payroll_id);
-		
-		if (department_id != 0 )
-		{
-			whereClause.append(" AND HR_Concept.HR_Department_ID=?");
-			params.add(department_id);
-		}
-		
-		if (Util.isEmpty(sqlWhere))
-		{
-			whereClause.append(sqlWhere);
-		}
-		
-		List<MHRConcept> list = new Query(ctx, Table_Name, whereClause.toString(), null)
-										.setParameters(params)
-										.setOrderBy(COLUMNNAME_Value)
-										.list();
-		return list.toArray(new MHRConcept[list.size()]);
-	}	//	getConcept	
-
-
 
 	public int getConceptAccountCR() 
 	{

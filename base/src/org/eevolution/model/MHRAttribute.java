@@ -23,7 +23,10 @@ import java.util.Properties;
  */
 public class MHRAttribute extends X_HR_Attribute
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3783311896401143394L;
 
 	/**
 	 * @param ctx
