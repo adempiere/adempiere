@@ -32,7 +32,7 @@ import org.compiere.util.CCache;
 public class MPOSTerminal extends X_U_POSTerminal
 {
     /** Cache                   */
-    static private CCache<Integer,MPOSTerminal> s_cache = new CCache<Integer,MPOSTerminal>("U_POSTerminal", 10, 60);
+    static private CCache<Integer,MPOSTerminal> s_cache = new CCache<Integer,MPOSTerminal>(X_U_POSTerminal.Table_Name, 10, 60);
     
     /**
      * @param ctx Context
