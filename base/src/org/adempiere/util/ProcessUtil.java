@@ -28,6 +28,7 @@ import org.compiere.wf.MWorkflow;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1757523 ] Server Processes are using Server's context
  * 				<li>BF [ 2528297 ] Poor error message on jasper fail
+ * 				<li>BF [ 2530847 ] Report is displayed even if java process fails 
  */
 public final class ProcessUtil {
 
@@ -112,27 +113,33 @@ public final class ProcessUtil {
 			return false;
 		}
 		
+		boolean success = false;
 		try
 		{
-			process.startProcess(ctx, pi, trx);
-			if (trx != null)
+			success = process.startProcess(ctx, pi, trx);
+			if (success && trx != null)
 			{
 				trx.commit(true);
 				trx.close();
+				trx = null;
 			}
 		}
 		catch (Exception e)
+		{
+			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessError") + " " + e.getLocalizedMessage(), true);
+			log.log(Level.SEVERE, pi.getClassName(), e);
+			return false;
+		}
+		finally
 		{
 			if (trx != null)
 			{
 				trx.rollback();
 				trx.close();
+				trx = null;
 			}
-			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessError") + " " + e.getLocalizedMessage(), true);
-			log.log(Level.SEVERE, pi.getClassName(), e);
-			return false;
 		}
-		return true;
+		return success;
 	}
 	
 	public static boolean startScriptProcess(Properties ctx, ProcessInfo pi, Trx trx) {
