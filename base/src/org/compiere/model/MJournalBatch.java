@@ -36,7 +36,7 @@ import org.compiere.util.Msg;
  *  Journal Batch Model
  *
  *	@author Jorg Janke
- *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  *  		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 

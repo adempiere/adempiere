@@ -35,7 +35,7 @@ import org.compiere.util.Msg;
 *	Bank Statement Model
 *
 *	@author Eldir Tomassen/Jorg Janke
-*  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+*  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
 *   <li> BF [ 1933645 ] Wrong balance Bank Statement
 *   @see http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1933645&group_id=176962
 * 	<li> FR [ 2520591 ] Support multiples calendar for Org 

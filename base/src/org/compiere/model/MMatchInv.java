@@ -40,7 +40,7 @@ import org.compiere.util.Env;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1926113 ] MMatchInv.getNewerDateAcct() should work in trx
- * @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ * @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  * @author Bayu Cahya, Sistematika

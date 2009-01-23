@@ -41,7 +41,7 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MAllocationHdr.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
- *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  *  			<li>FR [ 1866214 ]  
  *				@see http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
  * 				<li>FR [ 2520591 ] Support multiples calendar for Org 

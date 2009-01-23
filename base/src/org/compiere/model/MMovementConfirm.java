@@ -36,7 +36,7 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *
- *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  @version $Id: MMovementConfirm.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $

@@ -56,7 +56,7 @@ import org.compiere.util.Util;
  * 	They are set in the process() method. 
  * 	Use DocAction and C_DocTypeTarget_ID instead.
  *
- *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  *			<li> Original contributor of Distribution Functionality
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 

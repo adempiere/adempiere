@@ -39,7 +39,7 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1619150 ] Usability/Consistency: reversed gl journal description
  * 				<li>BF [ 1775358 ] GL Journal DateAcct/C_Period_ID issue
- *  @author victor.perez@-evolution.com, e-Evolution http://www.e-evolution.com
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  *  		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  *  		<li>FR: [ 2214883 ] Remove SQL code and Replace for Query 
