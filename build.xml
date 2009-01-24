@@ -55,10 +55,7 @@
 	</target>
 
 	<target name="xmlbean" description="generate jar file from xmlbean xsd">
-	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd/schema.xsd" destfile="${basedir}/WEB-INF/lib/pl3xE.jar">
-	    	<classpath refid="compile.classpath"/>
-	    </xmlbean>
-	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd/obschema.xsd" destfile="${basedir}/WEB-INF/lib/obinterface.jar">
+	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar">
 	    	<classpath refid="compile.classpath"/>
 	    </xmlbean>
 	</target>

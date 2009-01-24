@@ -1,10 +1,10 @@
-package com.globalqss.OBInterface;
+package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
 
-import com.globalqss.obInterface.GetCustomersRequest;
-import com.globalqss.obInterface.GetCustomersResponse;
+import com.globalqss.obPOSInterface.GetCustomersRequest;
+import com.globalqss.obPOSInterface.GetCustomersResponse;
 
 /*
  * ADEMPIERE/COMPIERE

@@ -1,12 +1,12 @@
-package com.globalqss.OBInterface;
+package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
 
-import com.globalqss.obInterface.ProductsPlusCatalogRequest;
-import com.globalqss.obInterface.ProductsPlusCatalogResponse;
-import com.globalqss.obInterface.UploadOrdersRequest;
-import com.globalqss.obInterface.UploadOrdersResponse;
+import com.globalqss.obPOSInterface.ProductsPlusCatalogRequest;
+import com.globalqss.obPOSInterface.ProductsPlusCatalogResponse;
+import com.globalqss.obPOSInterface.UploadOrdersRequest;
+import com.globalqss.obPOSInterface.UploadOrdersResponse;
 
 /*
  * ADEMPIERE/COMPIERE

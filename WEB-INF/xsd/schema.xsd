@@ -4,13 +4,13 @@
   xmlns:tns="http://3e.pl/ADInterface"
   elementFormDefault="qualified">
 
-   
+
    <xsd:element name="Window" type="tns:Window"/>
-   
+
    <xsd:complexType name="Window">
    	<xsd:sequence>
    	   	<xsd:element name="Description" type="xsd:string"/>
-	   	<xsd:element name="Help" type="xsd:string"/>   
+	   	<xsd:element name="Help" type="xsd:string"/> 
    		<xsd:element name="Tabs" type="tns:TabList" />
    	</xsd:sequence>
    	<xsd:attribute name="Name" type="xsd:string"/>
@@ -21,18 +21,18 @@
    	<xsd:attribute name="WindowType" type="xsd:int"/>	
    	<xsd:attribute name="AD_Image_ID" type="xsd:int"/>
    	<xsd:attribute name="AD_Color_ID" type="xsd:int"/>
-   	<xsd:attribute name="IsReadWrite" type="xsd:boolean"/>   
+   	<xsd:attribute name="IsReadWrite" type="xsd:boolean"/> 
    	<xsd:attribute name="WinWidth" type="xsd:int"/>
    	<xsd:attribute name="WinHeight" type="xsd:int"/>   	
    	<xsd:attribute name="IsError" type="xsd:boolean"/>    		   	   	
    	<xsd:attribute name="Error" type="xsd:string"/>    		   	   	
    </xsd:complexType>
-   
+ 
 
    <xsd:complexType name="Tab">
    	<xsd:sequence>
    	   	<xsd:element name="Description" type="xsd:string"/>
-	   	<xsd:element name="Help" type="xsd:string"/>   	   
+	   	<xsd:element name="Help" type="xsd:string"/>   	 
 	   	<xsd:element name="ReadOnlyLogic" type="xsd:string"/>   	   	  	
    		<xsd:element name="DisplayLogic" type="xsd:string"/>  	  	
    		<xsd:element name="Fields" type="tns:FieldList"/>
@@ -62,14 +62,14 @@
    	<xsd:attribute name="TabLevel" type="xsd:int"/>
    	<xsd:attribute name="AD_Image_ID" type="xsd:int"/>
    	<xsd:attribute name="Included_Tab_ID" type="xsd:int"/>
-   	<xsd:attribute name="ReplicationType" type="xsd:string"/>  
+   	<xsd:attribute name="ReplicationType" type="xsd:string"/>
    	<xsd:attribute name="IsSortTab" type="xsd:boolean"/>   	   	  	
    	<xsd:attribute name="AD_ColumnSortOrder_ID" type="xsd:int"/>
    	<xsd:attribute name="AD_ColumnSortYesNo_ID" type="xsd:int"/>
    	<xsd:attribute name="onlyCurrentRows" type="xsd:boolean"/>   	   	  	
    	<xsd:attribute name="onlyCurrentDays" type="xsd:int"/>   	
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="TabList">
    	<xsd:sequence>
    		<xsd:element name="Tab" type="tns:Tab" minOccurs="1" maxOccurs="unbounded" />
@@ -81,7 +81,7 @@
    		<xsd:element name="Field" type="tns:Field" minOccurs="1" maxOccurs="unbounded" />
    	</xsd:sequence>
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="Field">
    	<xsd:sequence>
    		<xsd:element name="Tab" type="tns:Tab"/>
@@ -125,14 +125,14 @@
    	<xsd:attribute name="IsKey" type="xsd:boolean"/>
    	<xsd:attribute name="IsParent" type="xsd:boolean"/>
    	<xsd:attribute name="Callout" type="xsd:string"/>   	
-   	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>  
+   	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>
    	<xsd:attribute name="ObscureType" type="xsd:string"/> 
    	<xsd:attribute name="ValidationCode" type="xsd:string"/> 
-   	<xsd:attribute name="AD_Reference_Value_ID" type="xsd:int"/>  
+   	<xsd:attribute name="AD_Reference_Value_ID" type="xsd:int"/>
    	<xsd:attribute name="isRange" type="xsd:boolean"/>
    	<xsd:attribute name="DefaultValue2" type="xsd:string"/> 
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="LookupInfo">
    	<xsd:sequence>
    		<!--  <xsd:element name="Tab" type="tns:Tab"/>   		
@@ -141,8 +141,8 @@
    		<xsd:element name="ZoomWindowPO" type="xsd:int"/>
    	</xsd:sequence>
    </xsd:complexType>
-   
-   <xsd:element name="WindowTabData" type="tns:WindowTabData"/>   
+ 
+   <xsd:element name="WindowTabData" type="tns:WindowTabData"/> 
 
    <xsd:complexType name="WindowTabData">
    	<xsd:sequence>
@@ -158,20 +158,20 @@
    	<xsd:attribute name="TotalRows" type="xsd:int" />   	
    	<xsd:attribute name="StartRow" type="xsd:int" />    	
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="DataSet">
    	<xsd:sequence>
    		<xsd:element name="DataRow" type="tns:DataRow" minOccurs="0" maxOccurs="unbounded"/>
    	</xsd:sequence>
-   </xsd:complexType>   
-   
-   
+   </xsd:complexType> 
+ 
+ 
    <xsd:complexType name="DataRow">
    	<xsd:sequence>
    		<xsd:element name="field" type="tns:DataField" minOccurs="0" maxOccurs="unbounded"/>
    	</xsd:sequence>
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="DataField">
    	<xsd:sequence>
  	  		<xsd:element name="val" type="xsd:string" />
@@ -198,37 +198,37 @@
    	<xsd:attribute name="val" type="xsd:string"/>
    	<xsd:attribute name="key" type="xsd:string"/>
    </xsd:complexType>
-   
+ 
    <xsd:element name="GetProcessParams" type="tns:GetProcessParams"/>
    <xsd:element name="ProcessParams" type="tns:ProcessParams"/>
    <xsd:element name="RunProcess" type="tns:RunProcess"/>
    <xsd:element name="RunProcessResponse" type="tns:RunProcessResponse"/>
    <xsd:element name="ModelRunProcess" type="tns:ModelRunProcess"/>
-   
+ 
    <xsd:complexType name="ProcessParams">
    	<xsd:sequence>
    	  <xsd:element name="Params" type="tns:ProcessParamList" />
-	  <xsd:element name="Description" type="xsd:string"/>   	  
-	  <xsd:element name="Name" type="xsd:string"/>   	  
-	  <xsd:element name="Help" type="xsd:string"/>   	  	  
+	  <xsd:element name="Description" type="xsd:string"/>   	
+	  <xsd:element name="Name" type="xsd:string"/>   	
+	  <xsd:element name="Help" type="xsd:string"/>   	  	
    	</xsd:sequence>
    	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="GetProcessParams">
    	<xsd:sequence>
    	</xsd:sequence>
    	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>
-   	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/>   
+   	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/> 
    	<xsd:attribute name="AD_Record_ID" type="xsd:int"/> 	
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="RunProcess">
    <xsd:sequence>
    	<xsd:element name="ParamValues" type="tns:DataRow"/>
    </xsd:sequence>
    	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>
-   	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/>   
+   	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/> 
    	<xsd:attribute name="AD_Record_ID" type="xsd:int"/> 	
    	<xsd:attribute name="DocAction" type="xsd:string"/>
    </xsd:complexType>
@@ -251,14 +251,14 @@
    <xsd:attribute name="IsReport" type="xsd:boolean"/>
    <xsd:attribute name="ReportFormat" type="xsd:string"/>
    </xsd:complexType>
-   
-   
+ 
+ 
    <xsd:complexType name="ProcessParamList">
    	<xsd:sequence>
    		<xsd:element name="Param" type="tns:ProcessParam" minOccurs="0" maxOccurs="unbounded"/>
    	</xsd:sequence>
    </xsd:complexType>
-   
+ 
    <xsd:complexType name="ProcessParam">
    	<xsd:sequence>
    		<xsd:element name="Description" type="xsd:string"/>
@@ -274,7 +274,7 @@
    	<xsd:attribute name="DisplayType" type="xsd:int"/>   	   	
 	<xsd:attribute name="ColumnName" type="xsd:string"/>    	
    </xsd:complexType>
-   
+ 
    <!-- 
    int WindowNo, int AD_Window_ID, int AD_Menu_ID, int TabNo, int PrevTabNo, int PrevRecNo, boolean getData, int RowStart, int RowCount)
    -->
@@ -294,7 +294,7 @@
      <xsd:attribute name="RowCount" type="xsd:int" />
 
      <xsd:attribute name="fromZoom" type="xsd:boolean" />
-	 <xsd:attribute name="fromZoom_Window_ID" type="xsd:int" />     
+	 <xsd:attribute name="fromZoom_Window_ID" type="xsd:int" />   
 	 <xsd:attribute name="fromZoom_Tab_ID" type="xsd:int" />
 	 <xsd:attribute name="fromZoom_Row_ID" type="xsd:int" />
 	 <xsd:attribute name="fromZoom_ColumnName" type="xsd:string" />
@@ -313,8 +313,8 @@
 
 <xsd:complexType name="ADMenuItem">
 <xsd:sequence>
-  <xsd:element name="items" type="tns:ADMenuItemList"/>      
-  <xsd:element name="description" type="xsd:string"/>      
+  <xsd:element name="items" type="tns:ADMenuItemList"/>    
+  <xsd:element name="description" type="xsd:string"/>    
   <xsd:element name="url" type="xsd:string"/>
 </xsd:sequence>
 <xsd:attribute name="AD_Menu_ID" type="xsd:int"/>
@@ -328,13 +328,13 @@
 
 <xsd:complexType name="ADLoginRequest">
 <xsd:sequence>
-  <xsd:element name="user" type="xsd:string"/>      
-  <xsd:element name="pass" type="xsd:string"/>      
+  <xsd:element name="user" type="xsd:string"/>    
+  <xsd:element name="pass" type="xsd:string"/>    
   <xsd:element name="lang" type="xsd:string"/>
   <xsd:element name="ClientID" type="xsd:int"/>
-  <xsd:element name="RoleID" type="xsd:int"/>  
+  <xsd:element name="RoleID" type="xsd:int"/>
   <xsd:element name="OrgID" type="xsd:int"/>
-  <xsd:element name="WarehouseID" type="xsd:int"/>  
+  <xsd:element name="WarehouseID" type="xsd:int"/>
   <xsd:element name="stage" type="xsd:int" />
 </xsd:sequence>
 </xsd:complexType>
@@ -344,23 +344,23 @@
   <xsd:element name="status" type="xsd:int"/> 
   <xsd:element name="roles" type="tns:LookupValues"/>
   <xsd:element name="langs" type="tns:LookupValues"/>
-  <xsd:element name="orgs" type="tns:LookupValues"/>  
-  <xsd:element name="clients" type="tns:LookupValues"/>  
+  <xsd:element name="orgs" type="tns:LookupValues"/>
+  <xsd:element name="clients" type="tns:LookupValues"/>
   <xsd:element name="warehouses" type="tns:LookupValues"/>
 </xsd:sequence>
 </xsd:complexType>
 
 <xsd:complexType name="Location">
 <xsd:sequence>
-  <xsd:element name="C_Location_ID" type="xsd:int"/>    
-  <xsd:element name="Name" type="xsd:string"/>          
-  <xsd:element name="Address1" type="xsd:string"/>      
+  <xsd:element name="C_Location_ID" type="xsd:int"/>  
+  <xsd:element name="Name" type="xsd:string"/>        
+  <xsd:element name="Address1" type="xsd:string"/>    
   <xsd:element name="Address2" type="xsd:string"/>
   <xsd:element name="City" type="xsd:string"/>
-  <xsd:element name="PostalCode" type="xsd:string"/>  
+  <xsd:element name="PostalCode" type="xsd:string"/>
   <xsd:element name="C_Country_ID" type="xsd:int"/>
-  <xsd:element name="C_Region_ID" type="xsd:int"/>  
-  <xsd:element name="Countries" type="tns:LookupValues" minOccurs="0" maxOccurs="1"/>  
+  <xsd:element name="C_Region_ID" type="xsd:int"/>
+  <xsd:element name="Countries" type="tns:LookupValues" minOccurs="0" maxOccurs="1"/>
 <!--  <xsd:element name="Regions" type="tns:LookupValues" minOccurs="0" maxOccurs="1" />    -->
 </xsd:sequence>
 </xsd:complexType>
@@ -381,7 +381,7 @@
 
 <xsd:complexType name="DocAction">
 <xsd:sequence>
-    <xsd:element name="Action" type="tns:LookupValues" minOccurs="0" maxOccurs="1"/>  
+    <xsd:element name="Action" type="tns:LookupValues" minOccurs="0" maxOccurs="1"/>
    	<xsd:element name="Error" type="xsd:string"/>   	
 </xsd:sequence>
 <xsd:attribute name="IsError" type="xsd:boolean"/>
@@ -391,7 +391,7 @@
 <xsd:element name="getLookupSearchDataReq" type="tns:getLookupSearchDataReq"/>
 <xsd:complexType name="getLookupSearchDataReq">
  <xsd:sequence>
-    <xsd:element name="Params" type="tns:DataRow" minOccurs="0" maxOccurs="1"/>  
+    <xsd:element name="Params" type="tns:DataRow" minOccurs="0" maxOccurs="1"/>
  </xsd:sequence>
  <xsd:attribute name="WindowNo" type="xsd:int" />
  <xsd:attribute name="TabNo" type="xsd:int" />
