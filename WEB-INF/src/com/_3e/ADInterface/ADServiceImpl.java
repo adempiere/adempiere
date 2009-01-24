@@ -1202,7 +1202,7 @@ public class ADServiceImpl implements ADService {
 		DataField[] df = reqt.getParams().getFieldArray();
     	for (int i=0; i<df.length; i++) {
     		if (df[i].getVal()!=null && df[i].getVal().length()>0 )
-    		System.out.println("Kolumna LookUp: "+ df[i].getColumn()+ " " + df[i].getVal());
+    		log.info("LookUp COlumn: "+ df[i].getColumn()+ " " + df[i].getVal());
     	}
     	
 		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();

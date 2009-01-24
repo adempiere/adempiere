@@ -144,6 +144,8 @@ public class ADLookup {
 		
 		ADInfo info = null;
 		
+		// TODO: Implement info for generic lookups !!
+		
 		if (m_columnName.equals("C_BPartner_ID"))
 		{				
 		 //finalSQL = getBuisnessPartnerSQL(whereClause, adr);
@@ -165,7 +167,7 @@ public class ADLookup {
 		//Je�eli zwr�ci mi 1 wiersz to ko�cowy wynik b�dzie kwerend� normaln� (w przypadku join�w, np.: bp zostanie wykonana alternatywna kwerenda bez join�w)
 		//Je�eli zwr�ci mi n wierszy to zwracam je
 		int id = 0;
-		System.out.println("Rozpoczynam wywo�ania do bazy");
+		log.info("Starting execution to base");
 		try
 		{			
 			/*
@@ -214,9 +216,8 @@ public class ADLookup {
 			ds = getResult(info, ds, ile, mode);			
 		}
 		catch (Exception e)
-		{		
-			System.err.println( "------------- exception w getLookupSearchValues:"+ e.getMessage() );
-			//log.log(Level.SEVERE, finalSQL, e);
+		{
+			log.log(Level.SEVERE, finalSQL, e);
 			id = -2;
 		}
 		//	No (unique) result
