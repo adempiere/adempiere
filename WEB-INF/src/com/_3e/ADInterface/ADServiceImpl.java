@@ -1607,7 +1607,7 @@ public class ADServiceImpl implements ADService {
 	 */
 	public StandardResponseDocument modelSetDocAction(
 			String tableName, int recordID,
-			String newDocStatus, ADLoginRequestDocument reqlogin) throws XFireFault {
+			String docAction, ADLoginRequestDocument reqlogin) throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
     	resp.setRecordID (recordID);
@@ -1633,18 +1633,9 @@ public class ADServiceImpl implements ADService {
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
 
-    	String docStatus = null;
-    	try {
-        	docStatus = ((org.compiere.process.DocAction) po).getDocStatus();
-		} catch (Exception e) {
-			return rollbackAndSetError(trx, resp, ret, true, "Can't get docStatus");
-		}
-		if (newDocStatus.equals(docStatus))
-			return rollbackAndSetError(trx, resp, ret, false, "Status is actually " + docStatus);
-		
     	// call process it
     	try {
-			if (! ((org.compiere.process.DocAction) po).processIt(newDocStatus))
+			if (! ((org.compiere.process.DocAction) po).processIt(docAction))
 				return rollbackAndSetError(trx, resp, ret, true, "Couldn't set docAction: " + ((org.compiere.process.DocAction) po).getProcessMsg());
 		} catch (Exception e) {
 			return rollbackAndSetError(trx, resp, ret, true, e.toString());
@@ -1655,8 +1646,6 @@ public class ADServiceImpl implements ADService {
 		trx.commit();
 		trx.close();
     	
-    	// close the session opened with the login ?
-
     	// resp.setError("");
     	resp.setIsError(false);
 		return ret;
@@ -1758,7 +1747,6 @@ public class ADServiceImpl implements ADService {
 		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
 		doclogin.setADLoginRequest(reqlogin);
 
-		// TODO Auto-generated method stub
     	String err = modelLogin(doclogin);
     	if (err != null && err.length() > 0) {
     		rbadlogin.setError(err);
@@ -1771,5 +1759,5 @@ public class ADServiceImpl implements ADService {
 		docrunprocess.setRunProcess(reqrunprocess);
     	return Process.runProcess(m_cs, docrunprocess);
 	}
-	
+
 }

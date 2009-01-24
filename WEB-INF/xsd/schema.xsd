@@ -230,6 +230,7 @@
    	<xsd:attribute name="AD_Process_ID" type="xsd:int"/>
    	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/>   
    	<xsd:attribute name="AD_Record_ID" type="xsd:int"/> 	
+   	<xsd:attribute name="DocAction" type="xsd:string"/>
    </xsd:complexType>
 
    <xsd:complexType name="ModelRunProcess">

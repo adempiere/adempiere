@@ -2,8 +2,8 @@
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <SOAP-ENV:Body>
 <modelSetDocAction xmlns="http://3e.pl/ADInterface">
-  <in0>M_InOut</in0>
-  <in1>108</in1>
+  <in0>C_Order</in0>
+  <in1>1000022</in1>
   <in2>CO</in2>
   <ADLoginRequest>
     <user>SuperUser</user>

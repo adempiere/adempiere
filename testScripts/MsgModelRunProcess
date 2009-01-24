@@ -3,7 +3,7 @@
 <SOAP-ENV:Body>
 <modelRunProcess xmlns="http://3e.pl/ADInterface">
 <ModelRunProcess>
-  <RunProcess AD_Process_ID="273" AD_Menu_ID="0" AD_Record_ID="1000009">
+  <RunProcess AD_Process_ID="104" AD_Menu_ID="0" AD_Record_ID="1000024" DocAction="CO">
     <ParamValues/>
   </RunProcess>
   <ADLoginRequest>

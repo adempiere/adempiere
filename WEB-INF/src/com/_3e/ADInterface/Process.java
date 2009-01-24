@@ -155,6 +155,30 @@ public class Process {
 		}
 		//process.getDescription()
 		//process.getHelp()
+		
+		// Evaluate DocAction, if call have DocAction parameter, then try to set DocAction before calling workflow process
+		String docAction = rp.getDocAction();
+		if (docAction != null && docAction.length() > 0) {
+			// Requirements
+			// - the process must be a workflow document
+			if (process.getAD_Workflow_ID() > 0) {
+				MWorkflow wf = MWorkflow.get(m_cs.getM_ctx(), process.getAD_Workflow_ID());
+				if (wf.getWorkflowType().equals(MWorkflow.WORKFLOWTYPE_DocumentProcess)) {
+					// - get the table associated with the workflow document
+					// - set DocAction in such table
+			    	
+			    	// get the PO for the tablename and record ID
+			    	MTable table = MTable.get(m_cs.getM_ctx(), wf.getAD_Table_ID());
+			    	if (table != null) {
+				    	PO po = table.getPO(m_record_id, null);
+				    	if (po != null) {
+				    		po.set_ValueOfColumn("DocAction", docAction);
+							po.save();
+				    	}
+			    	}
+				}
+			}
+		}
 
 		//	Create Process Instance
 		MPInstance pInstance = null;
