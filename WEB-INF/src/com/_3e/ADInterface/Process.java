@@ -1,27 +1,68 @@
 package com._3e.ADInterface;
 
-import org.codehaus.xfire.fault.XFireFault;
-
-import pl.x3E.adInterface.*;
-import java.io.*;
-import java.util.*;
-
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
-
+import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.logging.*;
-import org.compiere.wf.*;
-
-import com._3e.ADInterface.CompiereService;
-
-import java.sql.*;
-import java.math.*;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import net.sf.compilo.report.ReportProcessor;
 import net.sf.jasperreports.engine.JasperPrint;
+
+import org.codehaus.xfire.fault.XFireFault;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.Lookup;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MJournal;
+import org.compiere.model.MJournalBatch;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPayment;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocumentEngine;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.NamePair;
+import org.compiere.util.Trx;
+import org.compiere.wf.MWFProcess;
+import org.compiere.wf.MWorkflow;
+
+import pl.x3E.adInterface.DataField;
+import pl.x3E.adInterface.DataRow;
+import pl.x3E.adInterface.GetProcessParamsDocument;
+import pl.x3E.adInterface.LookupValue;
+import pl.x3E.adInterface.LookupValues;
+import pl.x3E.adInterface.ProcessParam;
+import pl.x3E.adInterface.ProcessParamList;
+import pl.x3E.adInterface.ProcessParams;
+import pl.x3E.adInterface.ProcessParamsDocument;
+import pl.x3E.adInterface.RunProcess;
+import pl.x3E.adInterface.RunProcessDocument;
+import pl.x3E.adInterface.RunProcessResponse;
+import pl.x3E.adInterface.RunProcessResponseDocument;
 
 /*
  * ADEMPIERE/COMPIERE

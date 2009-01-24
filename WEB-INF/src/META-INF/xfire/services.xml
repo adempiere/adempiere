@@ -10,6 +10,16 @@
 	<scope>session</scope>
 	<style>rpc</style>
   </service>
-    
+
+  <service>
+   <name>ModelADService</name>
+   <namespace>http://3e.pl/ADInterface</namespace>
+    <serviceClass>com._3e.ADInterface.ModelADService</serviceClass>
+    <implementationClass>com._3e.ADInterface.ModelADServiceImpl</implementationClass>
+    <serviceFactory>org.codehaus.xfire.xmlbeans.XmlBeansServiceFactory</serviceFactory>
+	<scope>request</scope>
+	<style>rpc</style>
+  </service>
+
 </beans>
 <!-- END SNIPPET: services -->

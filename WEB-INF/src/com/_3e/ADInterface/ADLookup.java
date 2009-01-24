@@ -32,7 +32,7 @@ import pl.x3E.adInterface.LookupValues;
  *   GridField
  */
 
-// TODO: Oracle specific usage or ROWNUM - replace with something db agnostic - or enable Convert_Postgresql for this specific case
+// TODO: Implement a better replacement for ROWNUM / LIMIT syntax
 
 public class ADLookup {
 
@@ -78,7 +78,7 @@ public class ADLookup {
 		return whereClause;
 	}
 	
-	private DataSet getResult( ADInfo info, DataSet ds, int count, String mode ) 	{ 
+	private DataSet getResult( com._3e.ADInterface.ADInfo info, DataSet ds, int count, String mode ) 	{ 
 	 if ("count".equals(mode) && count > 1) {
 		 DataRow dr = ds.addNewDataRow();
 		 DataField df = dr.addNewField();
@@ -283,12 +283,20 @@ public class ADLookup {
 			String wc = getWhereClause();
 			if (wc != null && wc.length() > 0)
 				sql.append(" AND ").append(wc);
-			sql.append(" AND IsActive='Y'")
-				.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" "); 
+			sql.append(" AND IsActive='Y'");
+			
+			if (DB.isOracle())
+				sql.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" "); 
 			//	***
 			//log.finest("(predefined) " + sql.toString());
-			return MRole.getDefault().addAccessSQL(sql.toString(),
-				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+			
+			String sqlret = MRole.getDefault().addAccessSQL(sql.toString(),
+					m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+			
+			if (DB.isPostgreSQL())
+				sqlret = sqlret + " LIMIT "+MAX_PRODUCT_ROWS; 
+
+			return sqlret;
 		}
 		
 		//	Check if it is a Table Reference
@@ -342,15 +350,23 @@ public class ADLookup {
 						.append(" FROM ").append(m_tableName)
 						.append(" WHERE UPPER(").append(displayColumnName)
 						.append(") LIKE ").append(DB.TO_STRING(text))
-						.append(" AND IsActive='Y'")
-						.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" ");
+						.append(" AND IsActive='Y'");
+					
+					if (DB.isOracle())
+						sql.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" ");
 					String wc = getWhereClause();
 					if (wc != null && wc.length() > 0)
 						sql.append(" AND ").append(wc);
 					//	***
 					//log.finest("(Table) " + sql.toString());
-					return MRole.getDefault().addAccessSQL(sql.toString(),
-								m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+					
+					String sqlret = MRole.getDefault().addAccessSQL(sql.toString(),
+							m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+					
+					if (DB.isPostgreSQL())
+						sqlret = sqlret + " LIMIT "+MAX_PRODUCT_ROWS; 
+
+					return sqlret;
 				}
 			}	//	Table Reference
 		}	//	MLookup
@@ -405,15 +421,23 @@ public class ADLookup {
 		StringBuffer retValue = new StringBuffer ("SELECT ")
 			.append(m_columnName).append(" , NAME").append(" FROM ").append(m_tableName)
 			.append(" WHERE ").append(sql)
-			.append(" AND IsActive='Y' ")
-			.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" ");
+			.append(" AND IsActive='Y' ");
+		
+		if (DB.isOracle())
+			retValue.append(" AND ROWNUM < "+MAX_PRODUCT_ROWS+" ");
 		String wc = getWhereClause();
 		if (wc != null && wc.length() > 0)
 			retValue.append(" AND ").append(wc);
 		//	***
 		log.finest("(TableDir) " + sql.toString());
-		return MRole.getDefault().addAccessSQL(retValue.toString(),
-					m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		
+		String sqlret = MRole.getDefault().addAccessSQL(retValue.toString(),
+				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		
+		if (DB.isPostgreSQL())
+			sqlret = sqlret + " LIMIT "+MAX_PRODUCT_ROWS; 
+
+		return sqlret;
 	}	//	getDirectAccessSQL
 
 	/**
