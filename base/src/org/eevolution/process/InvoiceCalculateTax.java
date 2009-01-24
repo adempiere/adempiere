@@ -28,7 +28,9 @@ import org.compiere.process.SvrProcess;
 
 /**
  * Re-calculate Invoice Tax (and unpost the document)
- * @author Victor Perez
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
+ * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
+ * 				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  * @author Teo Sarca, www.arhipac.ro
  */
 public class InvoiceCalculateTax extends SvrProcess
@@ -72,7 +74,7 @@ public class InvoiceCalculateTax extends SvrProcess
 	{
 		//
 		// Delete accounting /UnPost
-		MPeriod.testPeriodOpen(invoice.getCtx(), invoice.getDateAcct(), invoice.getC_DocType_ID());
+		MPeriod.testPeriodOpen(invoice.getCtx(), invoice.getDateAcct(), invoice.getC_DocType_ID(), invoice.getAD_Org_ID());
 		MFactAcct.deleteEx(MInvoice.Table_ID, invoice.get_ID(), invoice.get_TrxName());
 		//
 		// Update Invoice
