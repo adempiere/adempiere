@@ -833,7 +833,7 @@ public class Login
 									as.getAD_OrgOnly_ID()));
 							skip = as.isSkipOrg(AD_Org_ID);
 							if(skip)
-								break;
+								continue;
 							else 
 							{
 								C_AcctSchema_ID = as.getC_AcctSchema_ID();
