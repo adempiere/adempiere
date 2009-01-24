@@ -5,7 +5,7 @@ then
     echo " i.e.: $0 MsgModelSetDocAction
     exit 1
 fi
-FILENAME=ADService.wsdl.$$
+FILENAME=ModelADService.wsdl.$$
 wget \
     --post-file=$1 \
     --save-headers \

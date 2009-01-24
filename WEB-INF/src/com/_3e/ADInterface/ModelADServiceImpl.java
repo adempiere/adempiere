@@ -65,7 +65,7 @@ public class ModelADServiceImpl implements ModelADService {
 	 * WARNING!!! This web service complete documents not via workflow, so it jump over any approval step considered in document workflow
 	 *   To complete documents using workflow it's better to use the modelRunProcess web service 
 	 */
-	public StandardResponseDocument modelSetDocAction(
+	public StandardResponseDocument setDocAction(
 			String tableName, int recordID,
 			String docAction, ADLoginRequestDocument reqlogin) throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
@@ -199,7 +199,7 @@ public class ModelADServiceImpl implements ModelADService {
 		return null;
 	}
 
-	public RunProcessResponseDocument modelRunProcess(ModelRunProcessDocument req) throws XFireFault {
+	public RunProcessResponseDocument runProcess(ModelRunProcessDocument req) throws XFireFault {
 		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
 		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
 		

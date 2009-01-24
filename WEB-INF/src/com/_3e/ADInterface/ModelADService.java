@@ -11,8 +11,8 @@ public interface ModelADService {
 
     /* Model oriented web services, the web services above are UI oriented, below we define the model oriented web services */
 
-    public StandardResponseDocument modelSetDocAction(String tableName, int recordID, String docAction, ADLoginRequestDocument reqlogin) throws XFireFault;
+    public StandardResponseDocument setDocAction(String tableName, int recordID, String docAction, ADLoginRequestDocument reqlogin) throws XFireFault;
 
-    public RunProcessResponseDocument modelRunProcess(ModelRunProcessDocument req) throws XFireFault;
+    public RunProcessResponseDocument runProcess(ModelRunProcessDocument req) throws XFireFault;
 
 }

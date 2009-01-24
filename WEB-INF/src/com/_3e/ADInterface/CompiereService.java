@@ -1,14 +1,21 @@
 package com._3e.ADInterface;
 
-import org.compiere.util.*;
-import org.compiere.model.MUser;
-
-import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
+import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Login;
 
 public class CompiereService {
 
@@ -95,14 +102,14 @@ public class CompiereService {
 	}
 	
 	
-	CompiereService()
+	public CompiereService()
 	{
 		m_trx_name= null; //Trx.createTrxName(); 
 		m_ctx = new Properties();
 		LoggedIn = false;
 	}
 	
-	void connect()
+	public void connect()
 	{
 		CompiereUtil.initWeb();
 		
