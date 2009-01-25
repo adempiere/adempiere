@@ -1160,15 +1160,30 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// Display the first 5 fields data exclude Organization, Client and YesNo field data
 		Vector<String> columnNames = new Vector<String>();
 		GridField[] fields = curTab.getFields();
-		for(int i = 0, count = 0; i < fields.length && count < 5; i++)
+		if(curTab.getField("DocumentNo")!=null){
+			columnNames.add(curTab.getField("DocumentNo").getColumnName());
+		}
+		if(curTab.getField("Line")!=null){
+			columnNames.add(curTab.getField("Line").getColumnName());
+		}
+		if(curTab.getField("Value")!=null){
+			columnNames.add(curTab.getField("Value").getColumnName());
+		}
+		if(curTab.getField("Name")!=null){
+			columnNames.add(curTab.getField("Name").getColumnName());
+		}
+		for(int i = 0, count = columnNames.size(); i < fields.length && count < 5; i++)
 		{
 			GridField field = fields[i];
 			if(field.getColumnName().equalsIgnoreCase("AD_Org_ID") 
 					|| field.getColumnName().equalsIgnoreCase("AD_Client_ID")
 					|| field.getDisplayType() == DisplayType.YesNo)
 				continue;
-			columnNames.add(field.getColumnName());
-			count++;
+			if (!columnNames.contains(field.getColumnName()))
+			{
+				columnNames.add(field.getColumnName());
+				count++;
+			}
 		}
 		
 		Vector<String> data = new Vector<String>();
