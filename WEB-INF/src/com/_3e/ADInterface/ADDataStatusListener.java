@@ -1,8 +1,11 @@
 package com._3e.ADInterface;
 
-import java.util.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.util.Properties;
+
+import org.compiere.model.DataStatusEvent;
+import org.compiere.model.DataStatusListener;
+import org.compiere.util.CLogger;
+import org.compiere.util.Msg;
 
 
 public class ADDataStatusListener implements DataStatusListener {

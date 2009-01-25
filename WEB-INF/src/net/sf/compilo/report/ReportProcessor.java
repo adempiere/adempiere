@@ -24,6 +24,11 @@
  **/
 package net.sf.compilo.report;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import net.sf.compilo.data.CompiereDataSourceFactory;
 import net.sf.compilo.data.compiereDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -34,14 +39,9 @@ import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
-import org.compiere.util.DB;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  *  Report Server

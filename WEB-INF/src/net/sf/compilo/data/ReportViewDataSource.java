@@ -24,6 +24,10 @@
  **/
 package net.sf.compilo.data;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Properties;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 
@@ -31,10 +35,6 @@ import org.compiere.print.PrintData;
 import org.compiere.print.PrintDataElement;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
-
-import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Properties;
 
 
 /**

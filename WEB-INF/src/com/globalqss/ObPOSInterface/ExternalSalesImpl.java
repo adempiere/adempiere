@@ -2,11 +2,10 @@ package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
-
-import com.globalqss.obPOSInterface.ProductsPlusCatalogRequest;
-import com.globalqss.obPOSInterface.ProductsPlusCatalogResponse;
-import com.globalqss.obPOSInterface.UploadOrdersRequest;
-import com.globalqss.obPOSInterface.UploadOrdersResponse;
+import org.openbravo.erpCommon.ws.externalSales.ProductsCatalogResponseDocument;
+import org.openbravo.erpCommon.ws.externalSales.ProductsPlusCatalogResponseDocument;
+import org.openbravo.erpCommon.ws.externalSales.UploadOrdersRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.UploadOrdersResponseDocument;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -35,14 +34,23 @@ public class ExternalSalesImpl implements ExternalSales {
 		return "0.1.0";
 	}
 
-	public ProductsPlusCatalogResponse getProductsPlusCatalog(
-			ProductsPlusCatalogRequest req) throws XFireFault {
+	public UploadOrdersResponseDocument uploadOrders(UploadOrdersRequestDocument req)
+			throws XFireFault {
+		// TODO Auto-generated method stub
+		String user = req.getUploadOrdersRequest().getUsername();
+		return null;
+	}
+
+	public ProductsCatalogResponseDocument getProductsCatalog(int entityId,
+			int organizationId, int salesChannel, String username,
+			String password) throws XFireFault {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public UploadOrdersResponse uploadOrders(UploadOrdersRequest req)
-			throws XFireFault {
+	public ProductsPlusCatalogResponseDocument getProductsPlusCatalog(
+			int entityId, int organizationId, int salesChannel,
+			String username, String password) throws XFireFault {
 		// TODO Auto-generated method stub
 		return null;
 	}

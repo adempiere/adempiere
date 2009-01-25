@@ -2,7 +2,20 @@ package com._3e.ADInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
 
-import pl.x3E.adInterface.*;
+import pl.x3E.adInterface.ADLoginRequestDocument;
+import pl.x3E.adInterface.ADLoginResponseDocument;
+import pl.x3E.adInterface.ADMenuDocument;
+import pl.x3E.adInterface.DocActionDocument;
+import pl.x3E.adInterface.GetLookupSearchDataReqDocument;
+import pl.x3E.adInterface.GetProcessParamsDocument;
+import pl.x3E.adInterface.LocationDocument;
+import pl.x3E.adInterface.ProcessParamsDocument;
+import pl.x3E.adInterface.RunProcessDocument;
+import pl.x3E.adInterface.RunProcessResponseDocument;
+import pl.x3E.adInterface.StandardResponseDocument;
+import pl.x3E.adInterface.WindowDocument;
+import pl.x3E.adInterface.WindowTabDataDocument;
+import pl.x3E.adInterface.WindowTabDataReqDocument;
 
 public interface ADService {
 
@@ -38,11 +51,5 @@ public interface ADService {
     public String getVersion();
     
     public boolean isLoggedIn();
-    
-    /* Model oriented web services, the web services above are UI oriented, below we define the model oriented web services */
-
-    public StandardResponseDocument modelSetDocAction(String tableName, int recordID, String docAction, ADLoginRequestDocument reqlogin) throws XFireFault;
-
-    public RunProcessResponseDocument modelRunProcess(ModelRunProcessDocument req) throws XFireFault;
 
 }

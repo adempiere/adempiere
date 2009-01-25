@@ -1,11 +1,17 @@
 package com._3e.ADInterface;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.model.X_AD_Reference;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
@@ -13,13 +19,19 @@ import org.compiere.util.Trx;
 
 import pl.x3E.adInterface.ADLoginRequest;
 import pl.x3E.adInterface.ADLoginRequestDocument;
-import pl.x3E.adInterface.ModelRunProcessDocument;
+import pl.x3E.adInterface.DataField;
+import pl.x3E.adInterface.DataRow;
+import pl.x3E.adInterface.DataSet;
+import pl.x3E.adInterface.ModelGetListRequestDocument;
+import pl.x3E.adInterface.ModelRunProcessRequestDocument;
 import pl.x3E.adInterface.RunProcess;
 import pl.x3E.adInterface.RunProcessDocument;
 import pl.x3E.adInterface.RunProcessResponse;
 import pl.x3E.adInterface.RunProcessResponseDocument;
 import pl.x3E.adInterface.StandardResponse;
 import pl.x3E.adInterface.StandardResponseDocument;
+import pl.x3E.adInterface.WindowTabData;
+import pl.x3E.adInterface.WindowTabDataDocument;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -45,9 +57,7 @@ public class ModelADServiceImpl implements ModelADService {
 	private static CLogger	log = CLogger.getCLogger(ModelADServiceImpl.class);
 	
 	private CompiereService m_cs;
-	
-	private static final int MAX_ROWS = 200;
-		
+
 	public ModelADServiceImpl()
 	{
 		m_cs = new CompiereService();
@@ -194,30 +204,132 @@ public class ModelADServiceImpl implements ModelADService {
 		}
 		else
 		{
-			return "Error logging in - no roles or user/pwd invalid";
+			return "Error logging in - no roles or user/pwd invalid for user " + r.getUser();
 		}
 		return null;
 	}
 
-	public RunProcessResponseDocument runProcess(ModelRunProcessDocument req) throws XFireFault {
+	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument req) throws XFireFault {
 		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
 		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
 		
-		ADLoginRequest reqlogin = req.getModelRunProcess().getADLoginRequest();
+		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
 		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
 		doclogin.setADLoginRequest(reqlogin);
 
-    	String err = modelLogin(doclogin);
+		String err = modelLogin(doclogin);
     	if (err != null && err.length() > 0) {
     		rbadlogin.setError(err);
     		rbadlogin.setIsError( true );
         	return resbadlogin;
     	}
 
-		RunProcess reqrunprocess = req.getModelRunProcess().getRunProcess();
-		RunProcessDocument docrunprocess = RunProcessDocument.Factory.newInstance();
-		docrunprocess.setRunProcess(reqrunprocess);
-    	return Process.runProcess(m_cs, docrunprocess);
+		RunProcess reqprocess = req.getModelRunProcessRequest().getRunProcess();
+		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
+		docprocess.setRunProcess(reqprocess);
+    	return Process.runProcess(m_cs, docprocess);
+	}
+
+	public WindowTabDataDocument getList(ModelGetListRequestDocument req)
+			throws XFireFault {
+		WindowTabDataDocument resdoc = WindowTabDataDocument.Factory.newInstance();
+		WindowTabData res = resdoc.addNewWindowTabData();
+    	DataSet ds = res.addNewDataSet();
+    	int cnt = 0;
+
+		ADLoginRequest reqlogin = req.getModelGetListRequest().getADLoginRequest();
+		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
+		doclogin.setADLoginRequest(reqlogin);
+
+		String err = modelLogin(doclogin);
+    	if (err != null && err.length() > 0) {
+    		res.setError(err);
+    		res.setErrorInfo(err);
+    		res.setSuccess(false);
+        	return resdoc;
+    	}
+    	
+    	int ref_id = req.getModelGetListRequest().getADReferenceID();
+    	String filter = req.getModelGetListRequest().getFilter();
+    	if (filter == null)
+    		filter = "";
+
+    	Properties ctx = m_cs.getM_ctx();
+
+    	X_AD_Reference ref = new X_AD_Reference(ctx, ref_id, null);
+    	
+    	if (X_AD_Reference.VALIDATIONTYPE_ListValidation.equals(ref.getValidationType())) {
+    		// Fill List Reference
+    		String ad_language = Env.getAD_Language(ctx);
+    		boolean isBaseLanguage = Env.isBaseLanguage(ad_language, "AD_Ref_List");
+    		String sql = isBaseLanguage ?
+    			"SELECT AD_Ref_List.AD_Ref_List_ID, AD_Ref_List.Value, AD_Ref_List.Name, AD_Ref_List.Description " +
+    			"FROM AD_Ref_List " +
+    			"WHERE AD_Ref_List.AD_Reference_ID=? AND AD_Ref_List.IsActive='Y' " +
+    			filter +
+    			" ORDER BY AD_Ref_List.Name"
+    			:
+       			"SELECT AD_Ref_List.AD_Ref_List_ID, AD_Ref_List.Value, AD_Ref_List_Trl.Name, AD_Ref_List_Trl.Description " +
+       			"FROM AD_Ref_List, AD_Ref_List_Trl " +
+       			"WHERE AD_Ref_List.AD_Reference_ID=? AND AD_Ref_List.IsActive='Y' AND AD_Ref_List_Trl.AD_Language=? AND AD_Ref_List.AD_Ref_List_ID=AD_Ref_List_Trl.AD_Ref_List_ID " +
+       			filter +
+       			" ORDER BY AD_Ref_List_Trl.Name"
+    		;
+    		PreparedStatement pstmt = null;
+    		ResultSet rs = null;
+    		try
+    		{
+    			pstmt = DB.prepareStatement(sql, null);
+    			pstmt.setInt(1, ref_id);
+    			if (!isBaseLanguage)
+    				pstmt.setString(2, ad_language);
+    			rs = pstmt.executeQuery();
+    			while (rs.next()) {
+    				// Add values to the dataset
+    				DataRow dr = ds.addNewDataRow();
+    				DataField dfid = dr.addNewField();
+    				dfid.setColumn("AD_Ref_List_ID");
+    				dfid.setVal(Integer.toString( rs.getInt("AD_Ref_List_ID") ));
+    				dfid.setDisp(true);
+    				DataField dfvalue = dr.addNewField();
+    				dfvalue.setColumn("Value");
+    				dfvalue.setVal(rs.getString("Value"));
+    				dfvalue.setDisp(true);
+    				DataField dfname = dr.addNewField();
+    				dfname.setColumn("Name");
+    				dfname.setVal(rs.getString("Name"));
+    				dfname.setDisp(true);
+    				DataField dfdescription = dr.addNewField();
+    				dfdescription.setColumn("Description");
+    				dfdescription.setVal(rs.getString("Description"));
+    				dfdescription.setDisp(true);
+    				cnt++;
+    			}
+        		res.setSuccess(true);
+    		}
+    		catch (SQLException e)
+    		{
+    			log.log(Level.SEVERE, sql, e);
+    			res.setError(e.getMessage());
+    			res.setErrorInfo(sql);
+    			res.setSuccess(false);
+    		}
+    		finally
+    		{
+    			DB.close(rs, pstmt);
+    			rs = null; pstmt = null;
+    		}
+    	} else if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(ref.getValidationType())) {
+    		// TODO: Fill values from a reference table
+    	} else {
+    		// Don't fill - wrong type
+    	}
+    	res.setRowCount(cnt);
+    	res.setNumRows(cnt);
+    	res.setTotalRows(cnt);
+    	res.setStartRow(1);
+
+		return resdoc;
 	}
 
 }

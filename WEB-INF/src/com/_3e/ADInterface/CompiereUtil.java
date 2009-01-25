@@ -1,11 +1,13 @@
 package com._3e.ADInterface;
 
 
-import java.util.*;
+import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.*;
+
+import org.compiere.Adempiere;
+import org.compiere.model.MClient;
+import org.compiere.model.MSystem;
+import org.compiere.util.CLogger;
 
 
 public class CompiereUtil {

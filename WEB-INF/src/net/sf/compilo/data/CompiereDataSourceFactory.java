@@ -24,12 +24,12 @@
  **/
 package net.sf.compilo.data;
 
+import java.util.HashMap;
+import java.util.Properties;
+
 import net.sf.compilo.report.ReportInfo;
 
 import org.compiere.process.ProcessInfo;
-
-import java.util.HashMap;
-import java.util.Properties;
 
 /**
  *  CompiereDataSourceFactory

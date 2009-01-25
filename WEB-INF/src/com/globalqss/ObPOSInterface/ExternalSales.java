@@ -1,25 +1,26 @@
 package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
-
-import com.globalqss.obPOSInterface.ProductsPlusCatalogRequest;
-import com.globalqss.obPOSInterface.ProductsPlusCatalogResponse;
-import com.globalqss.obPOSInterface.UploadOrdersRequest;
-import com.globalqss.obPOSInterface.UploadOrdersResponse;
+import org.openbravo.erpCommon.ws.externalSales.ProductsCatalogRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.ProductsCatalogResponseDocument;
+import org.openbravo.erpCommon.ws.externalSales.ProductsPlusCatalogRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.ProductsPlusCatalogResponseDocument;
+import org.openbravo.erpCommon.ws.externalSales.UploadOrdersRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.UploadOrdersResponseDocument;
 
 public interface ExternalSales {
 
-    public ProductsPlusCatalogResponse getProductsPlusCatalog(ProductsPlusCatalogRequest req) throws XFireFault;
+    public ProductsPlusCatalogResponseDocument getProductsPlusCatalog(int entityId, int organizationId, int salesChannel, String username, String password) throws XFireFault;
 
-    public UploadOrdersResponse uploadOrders(UploadOrdersRequest req) throws XFireFault;
+    public UploadOrdersResponseDocument uploadOrders(UploadOrdersRequestDocument req) throws XFireFault;
+
+    public ProductsCatalogResponseDocument getProductsCatalog(int entityId, int organizationId, int salesChannel, String username, String password) throws XFireFault;
 
     /* methods to implement */
 
     /*
 
-    public ProductsCatalogResponse getProductsCatalog(ProductsPlusCatalogRequest req) throws XFireFault;
-
-    public GetOrdersResponse getOrders(GetOrdersRequest req) throws XFireFault;
+    public GetOrdersResponseDocument getOrders(GetOrdersRequestDocument req) throws XFireFault;
     
     */
 

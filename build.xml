@@ -55,9 +55,13 @@
 	</target>
 
 	<target name="xmlbean" description="generate jar file from xmlbean xsd">
-	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar">
+	    <mkdir dir="${basedir}/temp"/>
+	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar"
+	             srcgendir="${basedir}/temp">
 	    	<classpath refid="compile.classpath"/>
 	    </xmlbean>
+            <jar jarfile="${basedir}/WEB-INF/lib/generated_xmlbeans-sources.jar" basedir="${basedir}/temp" duplicate="preserve"/>
+	    <delete dir="${basedir}/temp"/>
 	</target>
 
 	<target name="compile" depends="clean" description="Compile Java sources">
@@ -92,7 +96,7 @@
 				WEB-INF/src/**,
 		      		**/web.xml,
 		      		testScripts/**,
-		      		lib/*-sources.jar"
+		      		WEB-INF/lib/*-sources.jar"
 		      		>
 		      </fileset>
 		</war>

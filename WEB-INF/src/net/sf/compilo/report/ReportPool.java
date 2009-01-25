@@ -21,11 +21,11 @@
  */
 package net.sf.compilo.report;
 
-import org.compiere.util.CLogger;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.compiere.util.CLogger;
 
 ;
 

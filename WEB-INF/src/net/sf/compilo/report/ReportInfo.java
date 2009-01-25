@@ -30,14 +30,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
-import org.compiere.util.DB;
-import org.compiere.util.CLogger;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 
 //import com._3e.tools.KwotaSlownie.*;
 

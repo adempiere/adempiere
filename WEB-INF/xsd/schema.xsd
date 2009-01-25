@@ -4,7 +4,6 @@
   xmlns:tns="http://3e.pl/ADInterface"
   elementFormDefault="qualified">
 
-
    <xsd:element name="Window" type="tns:Window"/>
 
    <xsd:complexType name="Window">
@@ -203,7 +202,6 @@
    <xsd:element name="ProcessParams" type="tns:ProcessParams"/>
    <xsd:element name="RunProcess" type="tns:RunProcess"/>
    <xsd:element name="RunProcessResponse" type="tns:RunProcessResponse"/>
-   <xsd:element name="ModelRunProcess" type="tns:ModelRunProcess"/>
  
    <xsd:complexType name="ProcessParams">
    	<xsd:sequence>
@@ -231,13 +229,6 @@
    	<xsd:attribute name="AD_Menu_ID" type="xsd:int"/> 
    	<xsd:attribute name="AD_Record_ID" type="xsd:int"/> 	
    	<xsd:attribute name="DocAction" type="xsd:string"/>
-   </xsd:complexType>
-
-   <xsd:complexType name="ModelRunProcess">
-   <xsd:sequence>
-     <xsd:element name="RunProcess" type="tns:RunProcess" minOccurs="1" maxOccurs="1"/>
-     <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
-   </xsd:sequence>
    </xsd:complexType>
 
    <xsd:complexType name="RunProcessResponse">
@@ -398,5 +389,27 @@
  <xsd:attribute name="RowNo" type="xsd:int" />
  <xsd:attribute name="ColumnName" type="xsd:string" />
 </xsd:complexType>
+
+
+<!-- Elements added for model web services -->
+
+   <xsd:element name="ModelRunProcessRequest" type="tns:ModelRunProcessRequest"/>  <!-- Borrar?? -->
+
+   <xsd:complexType name="ModelRunProcessRequest">
+   <xsd:sequence>
+     <xsd:element name="RunProcess" type="tns:RunProcess" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="ModelGetListRequest" type="tns:ModelGetListRequest"/>
+
+   <xsd:complexType name="ModelGetListRequest">
+   <xsd:sequence>
+     <xsd:element name="AD_Reference_ID" type="xsd:int"/>
+     <xsd:element name="Filter" type="xsd:string"/>
+     <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
+   </xsd:sequence>
+   </xsd:complexType>
 
 </xsd:schema>

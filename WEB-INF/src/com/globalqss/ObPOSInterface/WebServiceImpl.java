@@ -3,8 +3,8 @@ package com.globalqss.ObPOSInterface;
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
 
-import com.globalqss.obPOSInterface.GetCustomersRequest;
-import com.globalqss.obPOSInterface.GetCustomersResponse;
+import org.openbravo.erpCommon.ws.externalSales.GetCustomersRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.GetCustomersResponseDocument;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -33,9 +33,10 @@ public class WebServiceImpl implements WebService {
 		return "0.1.0";
 	}
 
-	public GetCustomersResponse getCustomers(GetCustomersRequest req)
+	public GetCustomersResponseDocument getCustomers(GetCustomersRequestDocument req)
 			throws XFireFault {
 		// TODO Auto-generated method stub
+		String user = req.getGetCustomersRequest().getUsername();
 		return null;
 	}
 

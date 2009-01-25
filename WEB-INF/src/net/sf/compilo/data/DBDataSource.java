@@ -24,21 +24,20 @@
  **/
 package net.sf.compilo.data;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Properties;
+
 import net.sf.compilo.report.ReportInfo;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRQueryExecuter;
-//import net.sf.jasperreports.engine.query;
 
 import org.compiere.util.DB;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Properties;
 
 /**
  *  DBDataSource
