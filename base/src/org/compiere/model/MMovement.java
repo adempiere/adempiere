@@ -49,6 +49,11 @@ import org.eevolution.model.MDDOrderLine;
 public class MMovement extends X_M_Movement implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2900004259579407998L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_Movement_ID id
@@ -98,8 +103,8 @@ public class MMovement extends X_M_Movement implements DocAction
 			return m_lines;
 		}
 		//
-		String whereClause = "M_Movement_ID=?";
-		List<MMovement> list = new Query(getCtx(), MMovementLine.Table_Name, whereClause, null)
+		final String whereClause = "M_Movement_ID=?";
+		List<MMovement> list = new Query(getCtx(), MMovementLine.Table_Name, whereClause, get_TrxName())
 		 										.setParameters(new Object[]{getM_Movement_ID()})
 		 										.setOrderBy(MMovementLine.COLUMNNAME_Line)
 		 										.list();
