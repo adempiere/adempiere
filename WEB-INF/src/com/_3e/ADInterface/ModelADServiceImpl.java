@@ -3,10 +3,15 @@ package com._3e.ADInterface;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.model.GenericPO;
 import org.codehaus.xfire.fault.XFireFault;
+import org.compiere.model.MColumn;
+import org.compiere.model.MRefTable;
+import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Reference;
@@ -18,12 +23,14 @@ import org.compiere.util.Login;
 import org.compiere.util.Trx;
 
 import pl.x3E.adInterface.ADLoginRequest;
-import pl.x3E.adInterface.ADLoginRequestDocument;
 import pl.x3E.adInterface.DataField;
 import pl.x3E.adInterface.DataRow;
 import pl.x3E.adInterface.DataSet;
+import pl.x3E.adInterface.ModelCRUD;
+import pl.x3E.adInterface.ModelCRUDRequestDocument;
 import pl.x3E.adInterface.ModelGetListRequestDocument;
 import pl.x3E.adInterface.ModelRunProcessRequestDocument;
+import pl.x3E.adInterface.ModelSetDocActionRequestDocument;
 import pl.x3E.adInterface.RunProcess;
 import pl.x3E.adInterface.RunProcessDocument;
 import pl.x3E.adInterface.RunProcessResponse;
@@ -76,12 +83,17 @@ public class ModelADServiceImpl implements ModelADService {
 	 *   To complete documents using workflow it's better to use the modelRunProcess web service 
 	 */
 	public StandardResponseDocument setDocAction(
-			String tableName, int recordID,
-			String docAction, ADLoginRequestDocument reqlogin) throws XFireFault {
+			ModelSetDocActionRequestDocument req) throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
-    	resp.setRecordID (recordID);
     	
+    	ADLoginRequest reqlogin = req.getModelSetDocActionRequest().getADLoginRequest();
+    	String tableName = req.getModelSetDocActionRequest().getModelSetDocAction().getTableName();
+    	int recordID = req.getModelSetDocActionRequest().getModelSetDocAction().getRecordID();
+    	String docAction = req.getModelSetDocActionRequest().getModelSetDocAction().getDocAction();
+    	
+    	resp.setRecordID (recordID);
+
     	String err = modelLogin(reqlogin);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -112,8 +124,12 @@ public class ModelADServiceImpl implements ModelADService {
 		}
 
     	// close the trx
-		po.save();
-		trx.commit();
+		if (!po.save())
+			return rollbackAndSetError(trx, resp, ret, true, "Cannot save after set docAction: " + CLogger.retrieveErrorString("no log message"));
+			
+		if (!trx.commit())
+			return rollbackAndSetError(trx, resp, ret, true, "Cannot commit after docAction");
+			
 		trx.close();
     	
     	// resp.setError("");
@@ -131,8 +147,7 @@ public class ModelADServiceImpl implements ModelADService {
     	return ret;
 	}
 
-	private String modelLogin(ADLoginRequestDocument reqlogin) {
-		ADLoginRequest r = reqlogin.getADLoginRequest();
+	private String modelLogin(ADLoginRequest r) {
 
     	// TODO: Share login between different sessions
 		if (   m_cs.isLoggedIn()
@@ -214,10 +229,8 @@ public class ModelADServiceImpl implements ModelADService {
 		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
 		
 		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
-		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
-		doclogin.setADLoginRequest(reqlogin);
 
-		String err = modelLogin(doclogin);
+		String err = modelLogin(reqlogin);
     	if (err != null && err.length() > 0) {
     		rbadlogin.setError(err);
     		rbadlogin.setIsError( true );
@@ -238,19 +251,18 @@ public class ModelADServiceImpl implements ModelADService {
     	int cnt = 0;
 
 		ADLoginRequest reqlogin = req.getModelGetListRequest().getADLoginRequest();
-		ADLoginRequestDocument doclogin = ADLoginRequestDocument.Factory.newInstance();
-		doclogin.setADLoginRequest(reqlogin);
 
-		String err = modelLogin(doclogin);
+		String err = modelLogin(reqlogin);
     	if (err != null && err.length() > 0) {
     		res.setError(err);
     		res.setErrorInfo(err);
     		res.setSuccess(false);
         	return resdoc;
     	}
-    	
-    	int ref_id = req.getModelGetListRequest().getADReferenceID();
-    	String filter = req.getModelGetListRequest().getFilter();
+		int roleid = reqlogin.getRoleID();
+
+    	int ref_id = req.getModelGetListRequest().getModelGetList().getADReferenceID();
+    	String filter = req.getModelGetListRequest().getModelGetList().getFilter();
     	if (filter == null)
     		filter = "";
 
@@ -258,11 +270,15 @@ public class ModelADServiceImpl implements ModelADService {
 
     	X_AD_Reference ref = new X_AD_Reference(ctx, ref_id, null);
     	
+    	String sql = null;
+		ArrayList<String> listColumnNames = new ArrayList<String>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
     	if (X_AD_Reference.VALIDATIONTYPE_ListValidation.equals(ref.getValidationType())) {
     		// Fill List Reference
     		String ad_language = Env.getAD_Language(ctx);
     		boolean isBaseLanguage = Env.isBaseLanguage(ad_language, "AD_Ref_List");
-    		String sql = isBaseLanguage ?
+    		sql = isBaseLanguage ?
     			"SELECT AD_Ref_List.AD_Ref_List_ID, AD_Ref_List.Value, AD_Ref_List.Name, AD_Ref_List.Description " +
     			"FROM AD_Ref_List " +
     			"WHERE AD_Ref_List.AD_Reference_ID=? AND AD_Ref_List.IsActive='Y' " +
@@ -273,39 +289,109 @@ public class ModelADServiceImpl implements ModelADService {
        			"FROM AD_Ref_List, AD_Ref_List_Trl " +
        			"WHERE AD_Ref_List.AD_Reference_ID=? AND AD_Ref_List.IsActive='Y' AND AD_Ref_List_Trl.AD_Language=? AND AD_Ref_List.AD_Ref_List_ID=AD_Ref_List_Trl.AD_Ref_List_ID " +
        			filter +
-       			" ORDER BY AD_Ref_List_Trl.Name"
-    		;
-    		PreparedStatement pstmt = null;
-    		ResultSet rs = null;
+       			" ORDER BY AD_Ref_List_Trl.Name";
+    		listColumnNames.add("AD_Ref_List_ID");
+    		listColumnNames.add("Value");
+    		listColumnNames.add("Name");
+    		listColumnNames.add("Description");
+   			try {
+   	   			pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, ref_id);
+	   			if (!isBaseLanguage)
+	   				pstmt.setString(2, ad_language);
+	   			rs = pstmt.executeQuery();
+			} catch (SQLException e)
+    		{
+    			log.log(Level.SEVERE, sql, e);
+    			res.setError(e.getMessage());
+    			res.setErrorInfo(sql);
+    			res.setSuccess(false);
+    			DB.close(rs, pstmt);
+    			rs = null; pstmt = null;
+    		}
+
+    	} else if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(ref.getValidationType())) {
+    		// Fill values from a reference table
+    		MRole role = new MRole(ctx, roleid, null);
+    		MRefTable rt = new MRefTable(ctx, ref_id, null);
+    		MTable table = new MTable(ctx, rt.getAD_Table_ID(), null);
+    		MColumn column = new MColumn(ctx, rt.getAD_Key(), null);
+
+    		// TODO: if any value or identifier column is translated, then get them from trl table (and client has multilanguage documents enabled)
+    		sql = "SELECT " + column.getColumnName();
+    		listColumnNames.add(column.getColumnName());
+    		if (rt.isValueDisplayed()) {
+    			sql += ",Value";
+    			listColumnNames.add("Value");
+    		}
+    		
+    		String sqlident = "SELECT ColumnName FROM AD_Column WHERE AD_Table_ID=? AND IsActive='Y' AND IsIdentifier='Y' ORDER BY SeqNo";
+   			PreparedStatement pstmtident = null;
+    		ResultSet rsident = null;
     		try
     		{
-    			pstmt = DB.prepareStatement(sql, null);
-    			pstmt.setInt(1, ref_id);
-    			if (!isBaseLanguage)
-    				pstmt.setString(2, ad_language);
-    			rs = pstmt.executeQuery();
+    			pstmtident = DB.prepareStatement (sqlident, null);
+    			pstmtident.setInt (1, rt.getAD_Table_ID());
+    			rsident = pstmtident.executeQuery ();
+    			while (rsident.next ()) {
+    				String colnameident = rsident.getString("ColumnName");
+    				if (rt.isValueDisplayed() && colnameident.equalsIgnoreCase("Value")) {
+    					// Value already added
+    				} else {
+            			sql += "," + colnameident;
+            			listColumnNames.add(colnameident);
+    				}
+    			}
+    		}
+    		catch (Exception e)
+    		{
+    			// ignore this exception
+    		}
+    		finally
+    		{
+    			DB.close(rsident, pstmtident);
+    			rsident = null; pstmtident = null;
+    		}
+    		
+    		sql += " FROM " + table.getTableName() + " WHERE IsActive='Y'";
+    		role.addAccessSQL(sql, table.getTableName(), true, true);
+    		if (rt.getWhereClause() != null && rt.getWhereClause().length() > 0)
+    			sql += " " + rt.getWhereClause();
+    		if (rt.getOrderByClause() != null && rt.getOrderByClause().length() > 0)
+    			sql += " " + rt.getOrderByClause();
+
+    		try {
+   	   			pstmt = DB.prepareStatement(sql, null);
+	   			rs = pstmt.executeQuery();
+			} catch (SQLException e)
+    		{
+    			log.log(Level.SEVERE, sql, e);
+    			res.setError(e.getMessage());
+    			res.setErrorInfo(sql);
+    			res.setSuccess(false);
+    			DB.close(rs, pstmt);
+    			rs = null; pstmt = null;
+    		}
+    		
+    	} else {
+    		// Don't fill - wrong type
+    	}
+
+    	if (rs != null) {
+    		try
+    		{
     			while (rs.next()) {
     				// Add values to the dataset
     				DataRow dr = ds.addNewDataRow();
-    				DataField dfid = dr.addNewField();
-    				dfid.setColumn("AD_Ref_List_ID");
-    				dfid.setVal(Integer.toString( rs.getInt("AD_Ref_List_ID") ));
-    				dfid.setDisp(true);
-    				DataField dfvalue = dr.addNewField();
-    				dfvalue.setColumn("Value");
-    				dfvalue.setVal(rs.getString("Value"));
-    				dfvalue.setDisp(true);
-    				DataField dfname = dr.addNewField();
-    				dfname.setColumn("Name");
-    				dfname.setVal(rs.getString("Name"));
-    				dfname.setDisp(true);
-    				DataField dfdescription = dr.addNewField();
-    				dfdescription.setColumn("Description");
-    				dfdescription.setVal(rs.getString("Description"));
-    				dfdescription.setDisp(true);
+    				for (String listColumnName : listColumnNames) {
+    					DataField dfid = dr.addNewField();
+    					dfid.setColumn(listColumnName);
+    					dfid.setVal(rs.getString(listColumnName));
+    					dfid.setDisp(true);
+    				}
     				cnt++;
     			}
-        		res.setSuccess(true);
+    			res.setSuccess(true);
     		}
     		catch (SQLException e)
     		{
@@ -319,17 +405,229 @@ public class ModelADServiceImpl implements ModelADService {
     			DB.close(rs, pstmt);
     			rs = null; pstmt = null;
     		}
-    	} else if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(ref.getValidationType())) {
-    		// TODO: Fill values from a reference table
-    	} else {
-    		// Don't fill - wrong type
     	}
+    	
     	res.setRowCount(cnt);
     	res.setNumRows(cnt);
     	res.setTotalRows(cnt);
     	res.setStartRow(1);
 
 		return resdoc;
+	}
+
+	public StandardResponseDocument deleteData(ModelCRUDRequestDocument req)
+			throws XFireFault {
+    	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
+    	StandardResponse resp = ret.addNewStandardResponse();
+    	
+    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
+    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
+    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
+    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	
+    	if (action != ModelCRUD.Action.INT_DELETE) {
+    		resp.setError("Invalid Action");
+        	resp.setIsError(true);
+        	return ret;
+    	}
+
+    	resp.setRecordID (recordID);
+
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	resp.setIsError(true);
+        	return ret;
+    	}
+
+    	Properties ctx = m_cs.getM_ctx();
+    	
+    	// start a trx
+    	String trxName = Trx.createTrxName("ws_modelDeleteData");
+		Trx trx = Trx.get(trxName, false); 
+    	
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
+    	PO po = table.getPO(recordID, trxName);
+    	if (po == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
+
+    	if (!po.delete(false))
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot delete record " + recordID + " in " + tableName + ": " + CLogger.retrieveErrorString("no log message"));
+
+    	// close the trx
+		if (!trx.commit())
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot commit transaction after delete record " + recordID + " in " + tableName);
+
+		trx.close();
+    	
+		return ret;
+	}
+
+	public StandardResponseDocument createData(ModelCRUDRequestDocument req)
+			throws XFireFault {
+    	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
+    	StandardResponse resp = ret.addNewStandardResponse();
+    	
+    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
+    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
+    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	
+    	if (action != ModelCRUD.Action.INT_CREATE) {
+    		resp.setError("Invalid Action");
+        	resp.setIsError(true);
+        	return ret;
+    	}
+    	
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	resp.setIsError(true);
+        	return ret;
+    	}
+
+    	Properties ctx = m_cs.getM_ctx();
+    	
+    	// start a trx
+    	String trxName = Trx.createTrxName("ws_modelDeleteData");
+		Trx trx = Trx.get(trxName, false); 
+    	
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
+    	GenericPO po = new GenericPO(tableName, ctx, 0, trxName);
+    	if (po == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot create PO for " + tableName);
+    	
+    	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
+    	for (DataField field : dr.getFieldList()) {
+    		// TODO: Implement lookup
+        	po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    	}
+
+    	if (!po.save())
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot save record in " + tableName + ": " + CLogger.retrieveErrorString("no log message"));
+
+    	int recordID = po.get_ID();
+    	resp.setRecordID (recordID);
+
+    	// close the trx
+		if (!trx.commit())
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot commit transaction after create record " + recordID + " in " + tableName);
+
+		trx.close();
+    	
+		return ret;
+	}
+
+	public StandardResponseDocument updateData(ModelCRUDRequestDocument req)
+			throws XFireFault {
+    	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
+    	StandardResponse resp = ret.addNewStandardResponse();
+    	
+    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
+    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
+    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
+    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	
+    	if (action != ModelCRUD.Action.INT_UPDATE) {
+    		resp.setError("Invalid Action");
+        	resp.setIsError(true);
+        	return ret;
+    	}
+    	
+    	resp.setRecordID (recordID);
+
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	resp.setIsError(true);
+        	return ret;
+    	}
+
+    	Properties ctx = m_cs.getM_ctx();
+    	
+    	// start a trx
+    	String trxName = Trx.createTrxName("ws_modelDeleteData");
+		Trx trx = Trx.get(trxName, false); 
+    	
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
+    	PO po = table.getPO(recordID, trxName);
+    	if (po == null)
+    		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
+
+    	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
+    	for (DataField field : dr.getFieldList()) {
+    		// TODO: Implement lookup
+        	po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    	}
+
+    	if (!po.save())
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot save record in " + tableName + ": " + CLogger.retrieveErrorString("no log message"));
+
+    	// close the trx
+		if (!trx.commit())
+    		return rollbackAndSetError(trx, resp, ret, true, "Cannot commit transaction after delete record " + recordID + " in " + tableName);
+
+		trx.close();
+    	
+		return ret;
+	}
+
+	public WindowTabDataDocument readData(ModelCRUDRequestDocument req)
+			throws XFireFault {
+		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
+		WindowTabData resp = ret.addNewWindowTabData();
+    	
+    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
+    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
+    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
+    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	
+    	if (action != ModelCRUD.Action.INT_READ) {
+    		resp.setError("Invalid Action");
+        	return ret;
+    	}
+    	
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	return ret;
+    	}
+
+		// TODO Implement read data
+		return ret;
+	}
+
+	public WindowTabDataDocument queryData(ModelCRUDRequestDocument req)
+			throws XFireFault {
+		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
+		WindowTabData resp = ret.addNewWindowTabData();
+    	
+    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
+    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
+    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
+    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	
+    	if (action != ModelCRUD.Action.INT_READ) {
+    		resp.setError("Invalid Action");
+        	return ret;
+    	}
+    	
+    	String err = modelLogin(reqlogin);
+    	if (err != null && err.length() > 0) {
+    		resp.setError(err);
+        	return ret;
+    	}
+
+		// TODO Implement query data - be careful about security!
+		return ret;
 	}
 
 }

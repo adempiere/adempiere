@@ -393,7 +393,24 @@
 
 <!-- Elements added for model web services -->
 
-   <xsd:element name="ModelRunProcessRequest" type="tns:ModelRunProcessRequest"/>  <!-- Borrar?? -->
+   <xsd:element name="ModelSetDocActionRequest" type="tns:ModelSetDocActionRequest"/>
+
+   <xsd:complexType name="ModelSetDocAction">
+   <xsd:sequence>
+     <xsd:element name="tableName" type="xsd:string"/>
+     <xsd:element name="recordID" type="xsd:int"/>
+     <xsd:element name="docAction" type="xsd:string"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="ModelSetDocActionRequest">
+   <xsd:sequence>
+     <xsd:element name="ModelSetDocAction" type="tns:ModelSetDocAction" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="ModelRunProcessRequest" type="tns:ModelRunProcessRequest"/>
 
    <xsd:complexType name="ModelRunProcessRequest">
    <xsd:sequence>
@@ -404,10 +421,43 @@
 
    <xsd:element name="ModelGetListRequest" type="tns:ModelGetListRequest"/>
 
-   <xsd:complexType name="ModelGetListRequest">
+   <xsd:complexType name="ModelGetList">
    <xsd:sequence>
      <xsd:element name="AD_Reference_ID" type="xsd:int"/>
      <xsd:element name="Filter" type="xsd:string"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="ModelGetListRequest">
+   <xsd:sequence>
+     <xsd:element name="ModelGetList" type="tns:ModelGetList" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="ModelCRUDRequest" type="tns:ModelCRUDRequest"/>
+
+   <xsd:complexType name="ModelCRUD">
+   <xsd:sequence>
+     <xsd:element name="TableName" type="xsd:string"/>
+     <xsd:element name="RecordID" type="xsd:int"/>
+     <xsd:element name="Action">
+     	<xsd:simpleType>
+     		<xsd:restriction base="xsd:string">
+     			<xsd:enumeration value="Create"></xsd:enumeration>
+     			<xsd:enumeration value="Read"></xsd:enumeration>
+     			<xsd:enumeration value="Update"></xsd:enumeration>
+     			<xsd:enumeration value="Delete"></xsd:enumeration>
+     		</xsd:restriction>
+     	</xsd:simpleType>
+     </xsd:element>
+     <xsd:element name="DataRow" type="tns:DataRow" minOccurs="0" maxOccurs="1"/>
+   </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="ModelCRUDRequest">
+   <xsd:sequence>
+     <xsd:element name="ModelCRUD" type="tns:ModelCRUD" minOccurs="1" maxOccurs="1"/>
      <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
    </xsd:sequence>
    </xsd:complexType>
