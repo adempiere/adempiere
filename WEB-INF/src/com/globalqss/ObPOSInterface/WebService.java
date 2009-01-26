@@ -1,15 +1,13 @@
 package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
-
-import org.openbravo.erpCommon.ws.externalSales.GetCustomersRequestDocument;
 import org.openbravo.erpCommon.ws.externalSales.GetCustomersResponseDocument;
 
 public interface WebService {
 
     /* methods to implement */
 	
-	public GetCustomersResponseDocument getCustomers(GetCustomersRequestDocument req) throws XFireFault;
+	public GetCustomersResponseDocument getCustomers(int clientId, String username, String password) throws XFireFault;
 
 	/*
 	public GetCustomerResponseDocument getCustomer(GetCustomerRequestDocument req) throws XFireFault;

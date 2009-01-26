@@ -1,10 +1,22 @@
 package com.globalqss.ObPOSInterface;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.xml.namespace.QName;
+
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.SecureEngine;
+import org.openbravo.erpCommon.ws.externalSales.ArrayOfTns1Order;
+import org.openbravo.erpCommon.ws.externalSales.ProductsCatalogResponse;
 import org.openbravo.erpCommon.ws.externalSales.ProductsCatalogResponseDocument;
+import org.openbravo.erpCommon.ws.externalSales.ProductsPlusCatalogResponse;
 import org.openbravo.erpCommon.ws.externalSales.ProductsPlusCatalogResponseDocument;
-import org.openbravo.erpCommon.ws.externalSales.UploadOrdersRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.UploadOrdersResponse;
 import org.openbravo.erpCommon.ws.externalSales.UploadOrdersResponseDocument;
 
 /*
@@ -34,25 +46,93 @@ public class ExternalSalesImpl implements ExternalSales {
 		return "0.1.0";
 	}
 
-	public UploadOrdersResponseDocument uploadOrders(UploadOrdersRequestDocument req)
+	public UploadOrdersResponseDocument uploadOrders(int entityId,
+			int organizationId, int salesChannel, ArrayOfTns1Order newOrders, 
+			String username, String password)
 			throws XFireFault {
 		// TODO Auto-generated method stub
-		String user = req.getUploadOrdersRequest().getUsername();
-		return null;
+		UploadOrdersResponseDocument resdoc = UploadOrdersResponseDocument.Factory.newInstance();
+		UploadOrdersResponse res = resdoc.addNewUploadOrdersResponse();
+
+		authenticate(username, password);
+
+		return resdoc;
 	}
 
 	public ProductsCatalogResponseDocument getProductsCatalog(int entityId,
 			int organizationId, int salesChannel, String username,
 			String password) throws XFireFault {
 		// TODO Auto-generated method stub
-		return null;
+		
+		ProductsCatalogResponseDocument resdoc = ProductsCatalogResponseDocument.Factory.newInstance();
+		ProductsCatalogResponse res = resdoc.addNewProductsCatalogResponse();
+
+		authenticate(username, password);
+
+		return resdoc;
 	}
 
 	public ProductsPlusCatalogResponseDocument getProductsPlusCatalog(
 			int entityId, int organizationId, int salesChannel,
 			String username, String password) throws XFireFault {
 		// TODO Auto-generated method stub
-		return null;
+		ProductsPlusCatalogResponseDocument resdoc = ProductsPlusCatalogResponseDocument.Factory.newInstance();
+		ProductsPlusCatalogResponse res = resdoc.addNewProductsPlusCatalogResponse();
+		
+		authenticate(username, password);
+		
+		/*
+		 * Sample of needed work
+		 *  
+		ArrayOfTns1ProductPlus app = res.addNewArrayOfTns1ProductPlus();
+		// Iterate in M_Product for the organization / warehouse?
+		
+		for (MProduct product : products) ...
+		
+		ProductPlus prds = app.addNewProducts();
+		Category cat = prds.addNewCategory();
+		cat.setDescription(product.getM_Category().getDescription());
+		cat.setId(product.getM_Category_ID());
+		cat.setName(product.getM_Category().getName());
+		Tax tax = prds.addNewTax();
+		tax.setName(product.getC_Tax().getName());
+		tax.setId(product.getC_Tax_ID());
+		tax.setPercentage(product.getC_Tax().getRate());
+		prds.setDescription(product.getDescription());
+		prds.setEan(product.getEAN());
+		prds.setId(product.getM_Product_ID());
+		prds.setListPrice(product.getPriceList());  // we would need a price list related to the POS
+		prds.setName(product.getName());
+		prds.setNumber(product.getNumber());  // number?
+		prds.setPurchasePrice(product.getPurchasePrice());  //  we would need a purchase price list related to the POS
+		prds.setQtyonhand(product.getQtyOnHand());  // we would need a warehouse or locator related to the POS
+		*/
+
+		return resdoc;
+	}
+
+	public static void authenticate(String username, String password)
+			throws XFireFault {
+		String dbpwd = DB.getSQLValueString(null, "SELECT Password FROM AD_User WHERE Name=? AND Password IS NOT NULL", username); // and ad_client_id in (0,?)
+		if (dbpwd == null || dbpwd.length() <= 0)
+			throw new XFireFault("Invalid user/password", new QName("username"));
+
+		String isencr = DB.getSQLValueString(null, "SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417");
+		if ("Y".equals(isencr))
+			dbpwd = SecureEngine.decrypt(dbpwd);
+		
+		String hashPassword = null;
+		try {
+			hashPassword = new String(Base64.encodeBase64(MessageDigest.getInstance("SHA-1").digest(dbpwd.getBytes("UTF-8"))), "ASCII");
+		} catch (UnsupportedEncodingException e1) {
+			throw new XFireFault("Error hashing db password", e1, new QName("username"));
+		} catch (NoSuchAlgorithmException e1) {
+			throw new XFireFault("Error hashing db password", e1, new QName("username"));
+		}
+		
+		if (! hashPassword.equals(password))
+			/* Invalid password */
+			throw new XFireFault("Invalid user/password", new QName("password"));
 	}
 
 }

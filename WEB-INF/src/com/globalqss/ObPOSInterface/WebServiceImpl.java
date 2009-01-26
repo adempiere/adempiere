@@ -2,8 +2,7 @@ package com.globalqss.ObPOSInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.util.CLogger;
-
-import org.openbravo.erpCommon.ws.externalSales.GetCustomersRequestDocument;
+import org.openbravo.erpCommon.ws.externalSales.GetCustomersResponse;
 import org.openbravo.erpCommon.ws.externalSales.GetCustomersResponseDocument;
 
 /*
@@ -33,11 +32,17 @@ public class WebServiceImpl implements WebService {
 		return "0.1.0";
 	}
 
-	public GetCustomersResponseDocument getCustomers(GetCustomersRequestDocument req)
+	public GetCustomersResponseDocument getCustomers(int clientId, String username, String password)
 			throws XFireFault {
 		// TODO Auto-generated method stub
-		String user = req.getGetCustomersRequest().getUsername();
-		return null;
+		GetCustomersResponseDocument resdoc = GetCustomersResponseDocument.Factory.newInstance();
+		GetCustomersResponse res = resdoc.addNewGetCustomersResponse();
+
+		ExternalSalesImpl.authenticate(username, password);
+
+		// TODO Auto-generated method stub
+
+		return resdoc;
 	}
 
 }
