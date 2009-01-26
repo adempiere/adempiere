@@ -26,7 +26,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -628,12 +627,11 @@ public class MRP extends SvrProcess
 	 *	@param PP_MRP_ID MRP ID
 	 *  @param M_Warehouse_ID Warehoue ID
 	 *  @param product Product
-	 *  @param Qty Qty
 	 *  @param DemandDateStartSchedule Demand Date Start Schedule
 	 */
-	private void calculatePlan(int AD_Client_ID,int AD_Org_ID,int M_Warehouse_ID, int PP_MPR_ID , MProduct M_Product , Timestamp DemandDateStartSchedule)        
+	private void calculatePlan(int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID, int PP_MRP_ID,
+								MProduct M_Product, Timestamp DemandDateStartSchedule)
 	{
-
 		//Set Yield o QtyGrossReqs
 		// Note : the variables  DemandDateStartSchedule , DemandDateFinishSchedule are same DatePromised to Demands Sales Order Type
 
@@ -688,7 +686,7 @@ public class MRP extends SvrProcess
 			{
 				String comment = Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Min) 
 								+ ":" + m_product_planning.getOrder_Min();
-				createMRPNote("MRP-080", AD_Org_ID, PP_MPR_ID, M_Product , null, QtyPlanned, comment );
+				createMRPNote("MRP-080", AD_Org_ID, PP_MRP_ID, M_Product , null, QtyPlanned, comment );
 			}
 		}
 
@@ -697,7 +695,7 @@ public class MRP extends SvrProcess
 		{   
 			String comment = Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_Order_Max) 
 			+ ":" + m_product_planning.getOrder_Max();
-			createMRPNote("MRP-090", AD_Org_ID, PP_MPR_ID, M_Product  , null , QtyPlanned , comment); 
+			createMRPNote("MRP-090", AD_Org_ID, PP_MRP_ID, M_Product  , null , QtyPlanned , comment); 
 		}                        
 		// Check Order Pack
 		if (m_product_planning.getOrder_Pack().signum() > 0 && QtyPlanned.signum() > 0)
@@ -714,7 +712,7 @@ public class MRP extends SvrProcess
 		//MRP-100 Time Fence Conflict  Action Notice
 		//Indicates that there is an unsatisfied material requirement inside the planning time fence for this product.
 		//You should either manually schedule and expedite orders to fill this demand or delay fulfillment of the requirement that created the demand.
-		if(TimeFence != null & DemandDateStartSchedule.compareTo(TimeFence) < 0)
+		if(TimeFence != null && DemandDateStartSchedule.compareTo(TimeFence) < 0)
 		{
 			String comment =  Msg.translate(getCtx(), MPPProductPlanning.COLUMNNAME_TimeFence) 
 							+ ":" + m_product_planning.getTimeFence()
@@ -723,13 +721,12 @@ public class MRP extends SvrProcess
 							+ ":" + TimeFence + " "
 							+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
 							+ ":" + DemandDateStartSchedule;
-			createMRPNote("MRP-100", AD_Org_ID, PP_MPR_ID, M_Product , null , QtyPlanned , comment);
-			
+			createMRPNote("MRP-100", AD_Org_ID, PP_MRP_ID, M_Product , null , QtyPlanned , comment);
 		}
 		
 		if (m_product_planning.isCreatePlan() == false && QtyPlanned.signum() > 0)
 		{	
-			createMRPNote("MRP-020", AD_Org_ID, PP_MPR_ID, M_Product , null , QtyPlanned , null); 
+			createMRPNote("MRP-020", AD_Org_ID, PP_MRP_ID, M_Product , null , QtyPlanned , null); 
 			return;
 		}
 		
@@ -750,17 +747,17 @@ public class MRP extends SvrProcess
 				// Distribution Order
 				if(p_IsRequiredDRP && m_product_planning.getDD_NetworkDistribution_ID() > 0)
 				{
-					createDDOrder(AD_Org_ID, PP_MPR_ID, M_Product, QtyPlanned, DemandDateStartSchedule);
+					createDDOrder(AD_Org_ID, PP_MRP_ID, M_Product, QtyPlanned, DemandDateStartSchedule);
 				}
 				// Requisition
 				else if (M_Product.isPurchased()) // then create M_Requisition
 				{
-					createRequisition(AD_Org_ID,PP_MPR_ID, M_Product, QtyPlanned ,DemandDateStartSchedule);
+					createRequisition(AD_Org_ID,PP_MRP_ID, M_Product, QtyPlanned ,DemandDateStartSchedule);
 				}
 				// Manufacturing Order
 				else if (M_Product.isBOM())
 				{
-					createPPOrder(AD_Org_ID,PP_MPR_ID, M_Product,QtyPlanned, DemandDateStartSchedule);
+					createPPOrder(AD_Org_ID,PP_MRP_ID, M_Product,QtyPlanned, DemandDateStartSchedule);
 				}
 				else
 				{
@@ -1116,12 +1113,11 @@ public class MRP extends SvrProcess
 			Timestamp DemandDateStartSchedule)
 	{
 		BigDecimal QtyNetReqs = QtyProjectOnHand.subtract(QtyGrossReqs);
-		String whereClause =  " AD_Client_ID = ? AND AD_Org_ID = ?"
+		String whereClause =  " AD_Client_ID=? AND AD_Org_ID=?"
 			+ " AND M_Product_ID = ?"
 			+ " AND M_Warehouse_ID = ?"
 		  	+ " AND DocStatus IN (?,?) AND IsAvailable = ? AND TypeMRP = ?";
-		  
-		ArrayList parameters= new ArrayList();
+		ArrayList<Object> parameters= new ArrayList<Object>();
 		parameters.add(AD_Client_ID);
 		parameters.add(AD_Org_ID);
 		parameters.add(M_Product.get_ID());
