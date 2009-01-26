@@ -41,6 +41,10 @@ import org.compiere.util.Msg;
  *	</code>
  *  @author Jorg Janke
  *  @version $Id: MOrderLine.java,v 1.6 2006/10/02 05:18:39 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 1883362 ] Usability: force Product/Charge on Invoice Line as an option
+ * 					TODO: integrate to trunk
  */
 public class MOrderLine extends X_C_OrderLine
 {
@@ -854,6 +858,9 @@ public class MOrderLine extends X_C_OrderLine
 			log.saveError("DeleteError", Msg.translate(getCtx(), "QtyReserved") + "=" + getQtyReserved());
 			return false;
 		}
+		
+		// UnLink All Requisitions
+		MRequisitionLine.unlinkC_OrderLine_ID(getCtx(), get_ID(), get_TrxName());
 		
 		return true;
 	}	//	beforeDelete

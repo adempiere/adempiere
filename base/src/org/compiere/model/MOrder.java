@@ -52,6 +52,9 @@ import org.eevolution.model.MPPProductBOMLine;
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *  @version $Id: MOrder.java,v 1.5 2006/10/06 00:42:24 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -1971,6 +1974,9 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "Cannot unreserve Stock (void)";
 			return false;
 		}
+		
+		// UnLink All Requisitions
+		MRequisitionLine.unlinkC_Order_ID(getCtx(), get_ID(), get_TrxName());
 		
 		if (!createReversals())
 			return false;

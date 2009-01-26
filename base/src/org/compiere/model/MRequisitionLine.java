@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -29,10 +30,79 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MRequisitionLine.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Get corresponding Requisition Line for given Order Line
+	 * @param ctx
+	 * @param C_OrderLine_ID order line
+	 * @param trxName
+	 * @return Requisition Line
+	 */
+	public static MRequisitionLine[] forC_Order_ID(Properties ctx, int C_Order_ID, String trxName)
+	{
+		final String whereClause = "EXISTS (SELECT 1 FROM C_OrderLine ol"
+										+" WHERE ol.C_OrderLine_ID=M_RequisitionLine.C_OrderLine_ID"
+										+" AND ol.C_Order_ID=?)";
+		List<MRequisitionLine> list = new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
+			.setParameters(new Object[]{C_Order_ID})
+			.list();
+		return list.toArray(new MRequisitionLine[list.size()]);
+	}
+	
+	/**
+	 * UnLink Requisition Lines for given Order
+	 * @param ctx
+	 * @param C_Order_ID
+	 * @param trxName
+	 */
+	public static void unlinkC_Order_ID(Properties ctx, int C_Order_ID, String trxName)
+	{
+		for (MRequisitionLine line : MRequisitionLine.forC_Order_ID(ctx, C_Order_ID, trxName))
+		{
+			line.setC_OrderLine_ID(0);
+			line.saveEx();
+		}
+	}
+	
+
+	/**
+	 * Get corresponding Requisition Line for given Order Line
+	 * @param ctx
+	 * @param C_OrderLine_ID order line
+	 * @param trxName
+	 * @return Requisition Line
+	 */
+	public static MRequisitionLine forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
+	{
+		final String whereClause = COLUMNNAME_C_OrderLine_ID+"=?";
+		return new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
+			.setParameters(new Object[]{C_OrderLine_ID})
+			.firstOnly();
+	}
+
+	/**
+	 * UnLink Requisition Lines for given Order Line
+	 * @param ctx
+	 * @param C_OrderLine_ID
+	 * @param trxName
+	 */
+	public static void unlinkC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
+	{
+		MRequisitionLine line = forC_OrderLine_ID(ctx, C_OrderLine_ID, trxName);
+		if (line != null)
+		{
+			line.setC_OrderLine_ID(0);
+			line.saveEx();
+		}
+	}
+
 
 	/**
 	 * 	Standard Constructor
@@ -184,7 +254,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		if (getLine() == 0)
 		{
 			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM M_RequisitionLine WHERE M_Requisition_ID=?";
-			int ii = DB.getSQLValue (get_TrxName(), sql, getM_Requisition_ID());
+			int ii = DB.getSQLValueEx (get_TrxName(), sql, getM_Requisition_ID());
 			setLine (ii);
 		}
 		//	Product & ASI - Charge
@@ -237,8 +307,8 @@ public class MRequisitionLine extends X_M_RequisitionLine
 			+ " SET TotalLines="
 				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM M_RequisitionLine rl "
 				+ "WHERE r.M_Requisition_ID=rl.M_Requisition_ID) "
-			+ "WHERE M_Requisition_ID=" + getM_Requisition_ID();
-		int no = DB.executeUpdateEx(sql, get_TrxName());
+			+ "WHERE M_Requisition_ID=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{getM_Requisition_ID()}, get_TrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "Header update #" + no);
 		m_parent = null;
