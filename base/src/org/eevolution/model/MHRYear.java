@@ -87,7 +87,7 @@ public class MHRYear extends X_HR_Year
 	public boolean createPeriods()
 	{
 		int sumDays         = 0;
-		int C_Calendar_ID   = DB.getSQLValue(get_TrxName(), "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = ?", getC_Year_ID());
+		int C_Calendar_ID   = DB.getSQLValueEx(get_TrxName(), "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = ?", getC_Year_ID());
 		if (C_Calendar_ID <= 0)
 			return false;
 
@@ -97,7 +97,7 @@ public class MHRYear extends X_HR_Year
 			sumDays             =  period != 1 ? (period-1) * (getNetDays()) : 0;
 			Timestamp StartDate = TimeUtil.addDays(getStartDate(),sumDays);
 			Timestamp EndDate   = TimeUtil.addDays(StartDate,getNetDays()-1);
-			int C_Period_ID     = DB.getSQLValue(get_TrxName(),
+			int C_Period_ID     = DB.getSQLValueEx(get_TrxName(),
 					"SELECT C_Period_ID FROM C_Period p "
 					+ " INNER JOIN C_Year y ON (p.C_Year_ID=y.C_Year_ID) "
 					+ " WHERE "
@@ -108,7 +108,7 @@ public class MHRYear extends X_HR_Year
 				return false;
 
 			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID, payroll.getAD_Org_ID());
-			X_HR_Period HR_Period = new X_HR_Period(getCtx(), 0, get_TrxName());
+			MHRPeriod HR_Period = new MHRPeriod(getCtx(), 0, get_TrxName());
 			HR_Period.setAD_Org_ID(getAD_Org_ID());
 			HR_Period.setHR_Year_ID(getHR_Year_ID());
 			HR_Period.setHR_Payroll_ID(getHR_Payroll_ID());
