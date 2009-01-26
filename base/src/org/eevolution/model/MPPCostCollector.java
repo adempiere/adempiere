@@ -539,7 +539,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				if(activity.getQtyDelivered().compareTo(activity.getQtyRequiered()) >= 0)
 				{
 					activity.setDocStatus(MPPOrderNode.DOCSTATUS_Completed);
-					activity.setAction(MPPOrderNode.DOCACTION_None);
+					activity.setDocAction(MPPOrderNode.DOCACTION_None);
+					activity.setAction(MPPOrderNode.ACTION_WaitSleep);
 					activity.saveEx();									
 				}
 			}
