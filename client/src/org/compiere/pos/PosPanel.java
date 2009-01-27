@@ -18,10 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.KeyboardFocusManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -34,7 +31,6 @@ import org.compiere.apps.form.FormPanel;
 import org.compiere.model.MPOS;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -295,14 +291,13 @@ public class PosPanel extends CPanel
 	private MPOS[] getPOSs (int SalesRep_ID)
 	{
 		String pass_field = "SalesRep_ID";
-		int pass_ID = 0;
+		int pass_ID = SalesRep_ID;
 		if (SalesRep_ID==0)
 			{
 			pass_field = "AD_Client_ID";
 			pass_ID = Env.getAD_Client_ID(m_ctx);
 			}
-		MPOS[] allPOSes = MPOS.getAll(m_ctx, pass_field, pass_ID);
-		return allPOSes;
+		return MPOS.getAll(m_ctx, pass_field, pass_ID);
 	}	//	getPOSs
 	
 	/**
