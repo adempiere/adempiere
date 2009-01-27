@@ -51,6 +51,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
+import org.compiere.model.MWarehouse;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -61,6 +62,9 @@ import org.compiere.util.Msg;
  *  Create Shipments Transactions - from PO Orders or AP Invoices
  *
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
+ * 			<li> BF 2530254 It is wrong locator in material receipt for outsourced PO's
+ * 	@see	http://sourceforge.net/tracker2/?func=detail&atid=879332&aid=2530254&group_id=176962
  *  @version  $Id: VCreateFromShipment.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VCreateFromShipment extends VCreateFrom implements VetoableChangeListener
@@ -263,7 +267,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 */
 	private void initBPInvoiceDetails(int C_BPartner_ID)
 	{
-//		load AP Invoice closed or complete
+		//		load AP Invoice closed or complete
 		invoiceField.removeActionListener(this);
 		invoiceField.removeAllItems();
 		//  None
@@ -569,8 +573,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
 				// Add locator
-				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
-				line.add(pp);                           // 3-Locator
+				line.add(getKeyDefaultLocator(rs.getInt(5), rs.getString(6)));// 3-Locator
 				// Add product
 				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
 				line.add(pp);                           //  4-Product
@@ -660,9 +663,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp); // 2-UOM
 				// Add locator
-				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
-				line.add(pp);                           // 3-Locator
-
+				line.add(getKeyDefaultLocator(rs.getInt(5), rs.getString(6))); // 3-Locator
 				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
 				line.add(pp); // 4-Product
 				line.add(rs.getString(9));				// 5-VendorProductNo
@@ -751,7 +752,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				line.add(rs.getBigDecimal(3));  // 1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(6), rs.getString(7));
 				line.add(pp); // 2-UOM
-				line.add(null); // 3-Locator - TODO: Not implemented since RMA is in alpha and can't be tested.
+				line.add(getKeyDefaultLocator(0,null));
 				pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
 				line.add(pp); // 4-Product
 				line.add(null); //5-Vendor Product No
@@ -1002,5 +1003,40 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		inout.save();
 		return true;
 	}   //  save
+
+
+	/**
+	 * get KeyNamePair for Locator
+	 * @param M_Locator_ID
+	 * @param value
+	 * @return KeyNamePair
+	 */
+	protected KeyNamePair getKeyDefaultLocator(int M_Locator_ID, String value)
+	{
+		KeyNamePair pp =  null ;
+		if(M_Locator_ID == 0)
+		{
+
+			MLocator locator = getM_Warehouse().getDefaultLocator();
+			if (locator != null)
+			{	
+				pp = new KeyNamePair(locator.get_ID(),  locator.getValue());
+			}
+		}
+		else
+		{	
+			pp = new KeyNamePair(M_Locator_ID,  value);
+		}
+		return pp;
+	}
+
+	/**
+	 * get the Warehouse from Order
+	 * @return MWarehouse
+	 */
+	protected MWarehouse getM_Warehouse()
+	{
+		return MWarehouse.get(p_order.getCtx(),p_order.getM_Warehouse_ID());
+	}
 
 }   //  VCreateFromShipment
