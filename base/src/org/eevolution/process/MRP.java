@@ -527,11 +527,11 @@ public class MRP extends SvrProcess
 			//Find the BOM to this Product
 			if (m_product_planning.getPP_Product_BOM_ID() <= 0 && product.isBOM())
 			{
-				m_product_planning.setPP_Product_BOM_ID(MPPProductBOM.getBOMSearchKey(getCtx(), product));  
+				m_product_planning.setPP_Product_BOM_ID(MPPProductBOM.getBOMSearchKey(product));  
 			}      
 			if (m_product_planning.getAD_Workflow_ID() <= 0 && product.isBOM())
 			{
-				m_product_planning.setAD_Workflow_ID(MWorkflow.getWorkflowSearchKey(getCtx(), product));  
+				m_product_planning.setAD_Workflow_ID(MWorkflow.getWorkflowSearchKey(product));  
 			} 
 			if (m_product_planning.getPlanner_ID() <= 0)
 			{

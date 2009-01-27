@@ -73,9 +73,9 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 * @param M_Product_ID
 	 * @return PP_Product_BOM_ID
 	 */
-	public static int getBOMSearchKey(Properties ctx, MProduct product)
+	public static int getBOMSearchKey(MProduct product)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		int AD_Client_ID = Env.getAD_Client_ID(product.getCtx());
 		String sql = "SELECT PP_Product_BOM_ID FROM PP_Product_BOM"
 						+" WHERE Value=? AND M_Product_ID=? AND AD_Client_ID=?";
 		return DB.getSQLValueEx(null, sql, product.getValue(), product.get_ID(), AD_Client_ID);
@@ -91,6 +91,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	{
 		return new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
+				.setClient_ID()
 				.first();
 	}
 	

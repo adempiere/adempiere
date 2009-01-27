@@ -155,7 +155,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		if(m_qtyToExplode != null)
 		{
 			MProduct parent = MProduct.get(getCtx(), getM_Product_ID());
-			int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), parent);
+			int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(parent);
 			if (PP_Product_BOM_ID <= 0)
 			{
 				return true;

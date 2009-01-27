@@ -940,9 +940,9 @@ public class MWorkflow extends X_AD_Workflow
 	 * @param M_Product_ID
 	 * @return AD_Workflow_ID
 	 */
-	public static int getWorkflowSearchKey(Properties ctx, MProduct product)
+	public static int getWorkflowSearchKey(MProduct product)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		int AD_Client_ID = Env.getAD_Client_ID(product.getCtx());
 		String sql = "SELECT AD_Workflow_ID FROM AD_Workflow "
 						+" WHERE Value = ? AND AD_Client_ID = ?";
 		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);

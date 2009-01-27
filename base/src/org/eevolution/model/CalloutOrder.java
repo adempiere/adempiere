@@ -55,12 +55,11 @@ public class CalloutOrder extends CalloutEngine
 	{
 		if (value == null)
 			return "";
-		//setCalloutActive(true);
 
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		if (steps) log.warning("qty - init - M_Product_ID=" + M_Product_ID + " - " );
 		BigDecimal QtyOrdered = Env.ZERO ; 
-		BigDecimal QtyEntered = Env.ZERO ; //, PriceActual, PriceEntered;
+		BigDecimal QtyEntered = Env.ZERO ;
 
 		//	No Product
 		if (M_Product_ID == 0)
@@ -154,12 +153,17 @@ public class CalloutOrder extends CalloutEngine
 		MProduct product = MProduct.get(ctx, ((Number)value).intValue());
 		if (product == null)
 			return "";
+		mTab.setValue(MProduct.COLUMNNAME_C_UOM_ID,product.getC_UOM_ID());
 		
-		int workflow_id = MWorkflow.getWorkflowSearchKey(ctx, product);
+		int workflow_id = MWorkflow.getWorkflowSearchKey(product);
 		mTab.setValue(MPPOrder.COLUMNNAME_AD_Workflow_ID, workflow_id > 0 ? workflow_id : null);
 		
-		int bom_id = MPPProductBOM.getBOMSearchKey(ctx, product);
-		mTab.setValue(MPPOrder.COLUMNNAME_PP_Product_BOM_ID, bom_id > 0 ? bom_id : null);
+		MPPProductBOM bom = MPPProductBOM.getDefault(product, null);
+		if (bom == null)
+			return "";
+
+		mTab.setValue(MPPOrder.COLUMNNAME_PP_Product_BOM_ID,  bom.get_ID());
+		mTab.setValue(MPPOrder.COLUMNNAME_C_UOM_ID,bom.getC_UOM_ID());
 		
 		return "";
 	}

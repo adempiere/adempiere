@@ -406,7 +406,7 @@ public class MPPMRP extends X_PP_MRP
 						//TODO: vpj-cd create the msg for error
 						throw new AdempiereException("Do not exist Resource Plant for this Warehouse"); 
 					}
-					MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(ol.getCtx(), product));
+					MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(product));
 					//Validate the workflow based in planning data 						
 					if(workflow == null && pp != null)
 					{

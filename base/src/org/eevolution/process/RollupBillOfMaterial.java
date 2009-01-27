@@ -184,7 +184,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		}
 		if (PP_Product_BOM_ID <= 0)
 		{
-			PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(getCtx(), product);
+			PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
 		}
 		if (PP_Product_BOM_ID <= 0)
 		{
