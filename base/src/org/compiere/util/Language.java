@@ -60,6 +60,7 @@ public class Language implements Serializable
 	private static final String AD_Language_es_CO = "es_CO";
 	private static final String AD_Language_es_DO = "es_DO";
 	private static final String AD_Language_fr_FR = "fr_FR";
+	private static final String AD_Language_fr_CA = "fr_CA";
 	private static final String AD_Language_bg_BG = "bg_BG";
 	private static final String AD_Language_th_TH = "th_TH";
 	private static final String AD_Language_pl_PL = "pl_PL";
@@ -142,6 +143,9 @@ public class Language implements Serializable
 		new Language ("Fran\u00e7ais",
 			AD_Language_fr_FR,  Locale.FRANCE,  null, null,		//  dd.MM.yy
 			MediaSize.ISO.A4),
+		new Language ("Fran\u00e7ais (CA)",
+			AD_Language_fr_CA,  new Locale("fr","CA"),  new Boolean(true), "MM/dd/yyyy",	// MM/dd/yy
+			MediaSize.NA.LETTER),
 		new Language ("Hrvatski",
 			AD_Language_hr_HR, new Locale("hr", "HR"), null, "dd.MM.yyyy",
 			MediaSize.ISO.A4),
