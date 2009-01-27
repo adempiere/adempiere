@@ -41,9 +41,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -108,8 +110,9 @@ import org.compiere.util.ValueNamePair;
  * Colin Rooney 2007/03/20 RFE#1670185 & BUG#1684142
  *                         Extend security to Info queries
  *
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 1762466 ] Add "Window" menu to report viewer.
+ * 				<li>FR [ 1779403 ] Report Viewer: add PgUp and PgDown key handlers
  * 				<li>BF [ 1836908 ] Report customize NPE when no window access
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
  * @author victor.perez@e-evolution.com 
@@ -120,6 +123,12 @@ import org.compiere.util.ValueNamePair;
 public class Viewer extends CFrame
 	implements ActionListener, ChangeListener, WindowStateListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7306392362119021781L;
+
+
 	/**
 	 *	Viewer Constructor
 	 *	@param re report engine
@@ -238,6 +247,26 @@ public class Viewer extends CFrame
 		toolBar.add(spinner);
 		spinner.setToolTipText(Msg.getMsg(m_ctx, "GoToPage"));
 		toolBar.add(bNext);
+		
+		// Add PgUp and PgDown key handlers - teo_sarca FR [ 1779403 ]
+		m_viewPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, 0), "PAGE_UP");
+		m_viewPanel.getActionMap().put("PAGE_UP", new AbstractAction() {
+			private static final long serialVersionUID = -6439939910196779649L;
+			public void actionPerformed(ActionEvent e) {
+				setPage(m_pageNo-1);
+			}
+		});
+		//
+		m_viewPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, 0), "PAGE_DOWN");
+		m_viewPanel.getActionMap().put("PAGE_DOWN", new AbstractAction() {
+			private static final long serialVersionUID = -4468272400181368278L;
+			public void actionPerformed(ActionEvent e) {
+				setPage(m_pageNo+1);
+			}
+		});
+		
 		//	Zoom Level
 		toolBar.addSeparator();
 //		toolBar.add(comboZoom, null);
@@ -869,10 +898,9 @@ public class Viewer extends CFrame
 			log.log(Level.SEVERE, "", e);
 		}
 
-		EMailDialog emd = new EMailDialog (this,
+		new EMailDialog (this,
 			Msg.getMsg(Env.getCtx(), "SendMail"),
 			from, to, subject, message, attachment);
-		
 	}	//	cmd_sendMail
 
 	/**
