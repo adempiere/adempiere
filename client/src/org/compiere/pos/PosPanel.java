@@ -294,44 +294,16 @@ public class PosPanel extends CPanel
 	 */
 	private MPOS[] getPOSs (int SalesRep_ID)
 	{
-		ArrayList<MPOS> list = new ArrayList<MPOS>();
-		String sql = "SELECT * FROM C_POS WHERE SalesRep_ID=?";
-		if (SalesRep_ID == 0)
-			sql = "SELECT * FROM C_POS WHERE AD_Client_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			if (SalesRep_ID != 0)
-				pstmt.setInt (1, m_SalesRep_ID);
-			else
-				pstmt.setInt (1, Env.getAD_Client_ID(m_ctx));
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MPOS(m_ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		MPOS[] retValue = new MPOS[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		String pass_field = "SalesRep_ID";
+		int pass_ID = 0;
+		if (SalesRep_ID==0)
+			{
+			pass_field = "AD_Client_ID";
+			pass_ID = Env.getAD_Client_ID(m_ctx);
+			}
+		MPOS[] allPOSes = MPOS.getAll(m_ctx, pass_field, pass_ID);
+		return allPOSes;
 	}	//	getPOSs
-
 	
 	/**
 	 * 	Set Visible

@@ -18,7 +18,7 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
+import java.util.List;
 import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 
@@ -49,6 +49,23 @@ public class MPOS extends X_C_POS
 		return retValue;
 	} //	get
 
+	/**
+	 * 	Get POSes for passed argument
+	 *	@param ctx context
+	 *	@param C_POS_ID id
+	 *	@return POSes
+	 */
+	public static MPOS[] getAll (Properties ctx, String field, int ID)
+	{
+		String whereClause = field+"=?";
+		List<MPOS> list = new Query(ctx, Table_Name, whereClause, null)
+										.setParameters(new Object[]{ID})
+										.setOnlyActiveRecords(true)
+										.setOrderBy(COLUMNNAME_Name)
+										.list();
+		return list.toArray(new MPOS[list.size()]);
+	}	//	get
+	
 	/**	Cache						*/
 	private static CCache<Integer,MPOS> s_cache = new CCache<Integer,MPOS>("C_POS", 20);
 
