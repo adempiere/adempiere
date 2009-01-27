@@ -107,7 +107,7 @@ public class MHRYear extends X_HR_Year
 			if(C_Period_ID <= 0)
 				return false;
 
-			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID, payroll.getAD_Org_ID());
+			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID);
 			MHRPeriod HR_Period = new MHRPeriod(getCtx(), 0, get_TrxName());
 			HR_Period.setAD_Org_ID(getAD_Org_ID());
 			HR_Period.setHR_Year_ID(getHR_Year_ID());

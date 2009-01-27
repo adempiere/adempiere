@@ -51,34 +51,15 @@ import org.compiere.util.TimeUtil;
  */
 public class MPeriod extends X_C_Period
 {
-	/**
-	 * 	Get Period from Cache
-	 *	@param ctx context
-	 *	@param C_Period_ID id
-	 *	@return MPeriod
-	 *  @deprecated
-	 */
-	public static MPeriod get (Properties ctx, int C_Period_ID)
-	{
-		Integer key = new Integer (C_Period_ID);
-		MPeriod retValue = (MPeriod) s_cache.get (key);
-		if (retValue != null)
-			return retValue;
-		//
-		retValue = new MPeriod (ctx, C_Period_ID, null);
-		if (retValue.get_ID () != 0)
-			s_cache.put (key, retValue);
-		return retValue;
-	} 	//	get
 	
 	/**
-	 * 	Get Period from Cache
-	 *	@param ctx context
+	 * Get Period from Cache
+	 * @param ctx context
 	 * @param C_Period_ID id
 	 * @param AD_Org_ID Organization
-	 *	@return MPeriod
+	 * @return MPeriod
 	 */
-	public static MPeriod get (Properties ctx, int C_Period_ID, int AD_Org_ID)
+	public static MPeriod get (Properties ctx, int C_Period_ID)
 	{
 		Integer key = new Integer(C_Period_ID);
 		MPeriod retValue = (MPeriod) s_cache.get (key);
@@ -99,59 +80,8 @@ public class MPeriod extends X_C_Period
 	 *  @deprecated
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct)
-	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		if (DateAcct == null)
-			return null;
-		//	Search in Cache first
-		Iterator<MPeriod> it = s_cache.values().iterator();
-		while (it.hasNext())
-		{
-			MPeriod period = (MPeriod)it.next();
-			if (period.isStandardPeriod() && period.isInPeriod(DateAcct) 
-					&& period.getAD_Client_ID() == AD_Client_ID)  // globalqss - CarlosRuiz - Fix [ 1820810 ] Wrong Period Assigned to Fact_Acct
-				return period;
-		}
-		
-		//	Get it from DB
-		MPeriod retValue = null;
-		String sql = "SELECT * "
-			+ "FROM C_Period "
-			+ "WHERE C_Year_ID IN "
-				+ "(SELECT C_Year_ID FROM C_Year WHERE C_Calendar_ID= "
-					+ "(SELECT C_Calendar_ID FROM AD_ClientInfo WHERE AD_Client_ID=?))"
-			+ " AND ? BETWEEN TRUNC(StartDate) AND TRUNC(EndDate)"
-			+ " AND IsActive='Y' AND PeriodType='S'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt (1, AD_Client_ID);
-			pstmt.setTimestamp (2, TimeUtil.getDay(DateAcct));
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MPeriod period = new MPeriod(ctx, rs, null);
-				Integer key = new Integer (period.getC_Period_ID());
-				s_cache.put (key, period);
-				if (period.isStandardPeriod())
-					retValue = period;
-			}
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, "DateAcct=" + DateAcct, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		if (retValue == null)
-			s_log.warning("No Standard Period for " + DateAcct 
-				+ " (AD_Client_ID=" + AD_Client_ID + ")");
-		return retValue;
+	{	
+		return get(ctx, DateAcct, 0);
 	}	//	get
 	
 	/**
@@ -167,17 +97,8 @@ public class MPeriod extends X_C_Period
 		if (DateAcct == null)
 			return null;
 		
-        int C_Calendar_ID = 0;
-        if (AD_Org_ID != 0)
-        {
-            MOrgInfo info = MOrgInfo.get(ctx, AD_Org_ID);
-            C_Calendar_ID = info.getC_Calendar_ID();
-        }
-        if (C_Calendar_ID == 0)
-        {
-            MClientInfo cInfo = MClientInfo.get(ctx);
-            C_Calendar_ID = cInfo.getC_Calendar_ID();
-        }
+        int C_Calendar_ID = getC_Calendar_ID(ctx,AD_Org_ID);
+       
         
 		//	Search in Cache first
 		Iterator<MPeriod> it = s_cache.values().iterator();
@@ -272,27 +193,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static boolean isOpen (Properties ctx, Timestamp DateAcct, String DocBaseType)
 	{
-		if (DateAcct == null)
-		{
-			s_log.warning("No DateAcct");
-			return false;
-		}
-		if (DocBaseType == null)
-		{
-			s_log.warning("No DocBaseType");
-			return false;
-		}
-		MPeriod period = MPeriod.get (ctx, DateAcct);
-		if (period == null)
-		{
-			s_log.warning("No Period for " + DateAcct + " (" + DocBaseType + ")");
-			return false;
-		}
-		boolean open = period.isOpen(DocBaseType, DateAcct);
-		if (!open)
-			s_log.warning(period.getName()
-				+ ": Not open for " + DocBaseType + " (" + DateAcct + ")");
-		return open;
+		return isOpen(ctx, DateAcct,DocBaseType, 0 );
 	}	//	isOpen
 	
 	/**
@@ -337,40 +238,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static MPeriod getFirstInYear (Properties ctx, Timestamp DateAcct)
 	{
-		MPeriod retValue = null;
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		String sql = "SELECT * "
-			+ "FROM C_Period "
-			+ "WHERE C_Year_ID IN "
-				+ "(SELECT p.C_Year_ID "
-				+ "FROM AD_ClientInfo c"
-				+ " INNER JOIN C_Year y ON (c.C_Calendar_ID=y.C_Calendar_ID)"
-				+ " INNER JOIN C_Period p ON (y.C_Year_ID=p.C_Year_ID) "
-				+ "WHERE c.AD_Client_ID=?"
-				+ "	AND ? BETWEEN StartDate AND EndDate)"
-			+ " AND IsActive='Y' AND PeriodType='S' "
-			+ "ORDER BY StartDate";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt (1, AD_Client_ID);
-			pstmt.setTimestamp (2, DateAcct);
-			rs = pstmt.executeQuery();
-			if (rs.next())	//	first only
-				retValue = new MPeriod(ctx, rs, null);
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		return retValue;
+		return getFirstInYear(ctx , DateAcct, 0);
 	}	//	getFirstInYear
 		
 	/**
@@ -818,20 +686,45 @@ public class MPeriod extends X_C_Period
 		testPeriodOpen(ctx, dateAcct, dt.getDocBaseType(),  AD_Org_ID);
 	}
 	
-	   /**
-     *  Get Calendar of Period
-     *  @return calendar
-     */
-    public int getC_Calendar_ID()
-    {
-        if (m_C_Calendar_ID == 0)
+	/**
+	 *  Get Calendar of Period
+	 *  @return calendar
+	 */
+	public int getC_Calendar_ID()
+	{
+		if (m_C_Calendar_ID == 0)
+		{
+			MYear year = (MYear) getC_Year();
+			if (year != null)
+				m_C_Calendar_ID = year.getC_Calendar_ID();
+			else
+				log.severe("@NotFound@ C_Year_ID=" + getC_Year_ID());
+		}
+		return m_C_Calendar_ID;
+	}   //  getC_Calendar_ID
+    
+	/**
+	 * Get Calendar for Organization
+	 * @param ctx Context
+	 * @param AD_Org_ID Organization
+	 * @return
+	 */
+    public static int getC_Calendar_ID(Properties ctx,int AD_Org_ID)
+    {	
+        int C_Calendar_ID = 0;
+        if (AD_Org_ID != 0)
         {
-            MYear year = (MYear) getC_Year();
-            if (year != null)
-                m_C_Calendar_ID = year.getC_Calendar_ID();
-            else
-                log.severe("@NotFound@ C_Year_ID=" + getC_Year_ID());
+            MOrgInfo info = MOrgInfo.get(ctx, AD_Org_ID);
+            C_Calendar_ID = info.getC_Calendar_ID();
         }
-        return m_C_Calendar_ID;
+        
+        if (C_Calendar_ID == 0)
+        {
+            MClientInfo cInfo = MClientInfo.get(ctx);
+            C_Calendar_ID = cInfo.getC_Calendar_ID();
+        }
+        
+      return C_Calendar_ID;
     }   //  getC_Calendar_ID
+    
 }	//	MPeriod

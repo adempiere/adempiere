@@ -1109,7 +1109,7 @@ public abstract class Doc
 		{
 			Integer ii = (Integer)p_po.get_Value(index);
 			if (ii != null)
-				m_period = MPeriod.get(getCtx(), ii.intValue(), getAD_Org_ID());
+				m_period = MPeriod.get(getCtx(), ii.intValue());
 		}
 		if (m_period == null)
 			m_period = MPeriod.get(getCtx(), getDateAcct(), getAD_Org_ID());
