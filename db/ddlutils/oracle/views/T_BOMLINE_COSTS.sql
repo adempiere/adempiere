@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW rv_pp_cost_bomline 
+CREATE OR REPLACE VIEW T_BOMLINE_COSTS 
   AS 
     SELECT  t.seqno, t.levelno, t.levels, t.ad_client_id,t.C_AcctSchema_ID,
             t.ad_org_id, t.createdby, t.updatedby, t.updated,
