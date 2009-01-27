@@ -1105,15 +1105,12 @@ public class MRP extends SvrProcess
 	 * @param DemandDateStartSchedule
 	 * @return
 	 */
-	private BigDecimal getNetRequierements(
-			int AD_Client_ID,
-			int AD_Org_ID, 
-			int M_Warehouse_ID ,
-			MProduct M_Product,
-			Timestamp DemandDateStartSchedule)
+	private BigDecimal getNetRequierements(int AD_Client_ID, int AD_Org_ID, 
+											int M_Warehouse_ID, MProduct M_Product,
+											Timestamp DemandDateStartSchedule)
 	{
 		BigDecimal QtyNetReqs = QtyProjectOnHand.subtract(QtyGrossReqs);
-		String whereClause =  " AD_Client_ID=? AND AD_Org_ID=?"
+		final String whereClause =  " AD_Client_ID=? AND AD_Org_ID=?"
 			+ " AND M_Product_ID = ?"
 			+ " AND M_Warehouse_ID = ?"
 		  	+ " AND DocStatus IN (?,?) AND IsAvailable = ? AND TypeMRP = ?";
@@ -1124,56 +1121,45 @@ public class MRP extends SvrProcess
 		parameters.add(M_Warehouse_ID);
 		parameters.add(DocAction.STATUS_Completed);
 		parameters.add(DocAction.STATUS_InProgress);
-		parameters.add("Y");
+		parameters.add(true);
 		parameters.add(MPPMRP.TYPEMRP_Supply);
 		  
 		Collection<MPPMRP> mrps = new Query(getCtx(), MPPMRP.Table_Name, whereClause, get_TrxName())
-		.setParameters(parameters)
-		.list();
-		
+										.setParameters(parameters)
+										.setOrderBy(MPPMRP.COLUMNNAME_DateStartSchedule)
+										.list();
 		for (MPPMRP mrp : mrps)
 		{
 			QtyScheduledReceipts = QtyScheduledReceipts.add(mrp.getQty());
 			
 			if(DemandDateStartSchedule != null)
 			{
-				
 				//MRP-030 De-Expedite Action Notice
 				//Indicates that a schedule supply order is due before it is needed and should be delayed,
 				//or demand rescheduled to an earlier date.
-				if(QtyNetReqs.negate().signum() > 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0 )
+				if(QtyNetReqs.negate().signum() > 0
+						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-					 + ":" + mrp.getDateStartSchedule()
-					 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 + ":" + DemandDateStartSchedule;
-					
-					createMRPNote(
-					"MRP-030", 
-					AD_Org_ID, 
-					mrp.get_ID(), 
-					M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
-					mrp.getQty(), comment
-					);
+									 + ":" + mrp.getDateStartSchedule()
+									 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+									 + ":" + DemandDateStartSchedule;
+					createMRPNote("MRP-030",  AD_Org_ID, mrp.get_ID(), M_Product,
+								MPPMRP.getDocumentNo(mrp.get_ID()), mrp.getQty(), comment);
 				}
 				
 				//MRP-040 Expedite Action Notice
-				//Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date 
-				//or demand rescheduled to a later date.		
-				if(QtyNetReqs.negate().signum() < 0 && mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0 )
+				//Indicates that a scheduled supply order is due after is needed and should be rescheduled to
+				//an earlier date or demand rescheduled to a later date.		
+				if(QtyNetReqs.negate().signum() < 0
+						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
-					 + ":" + mrp.getDateStartSchedule()
-					 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 + ":" + DemandDateStartSchedule;
-					
-					createMRPNote(
-					"MRP-040", 
-					AD_Org_ID, 
-					mrp.get_ID(), 
-					M_Product, MPPMRP.getDocumentNo(mrp.get_ID()), 
-					mrp.getQty(), comment
-					);
+									 + ":" + mrp.getDateStartSchedule()
+									 + " " + Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
+									 + ":" + DemandDateStartSchedule;
+					createMRPNote("MRP-040", AD_Org_ID, mrp.get_ID(), M_Product,
+							MPPMRP.getDocumentNo(mrp.get_ID()), mrp.getQty(), comment);
 				}
 				
 				//TODO vpj-cd I need to create logic for MRP-060 Release Due For  Action Notice in time
@@ -1188,48 +1174,34 @@ public class MRP extends SvrProcess
 				
 				//MRP-110 Past Due  Action Notice
 				//Indicates that a schedule supply order receipt is past due.		
-				if(mrp.getDatePromised().compareTo(Today) < 0 )
+				if(mrp.getDatePromised().compareTo(Today) < 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 + ":" + mrp.getDatePromised();
-					
-					createMRPNote(
-					"MRP-110", 
-					AD_Org_ID, 
-					mrp.get_ID(), 
-					M_Product, 
-					MPPMRP.getDocumentNo(mrp.get_ID()), 
-					mrp.getQty(), comment
-					);
+									 + ":" + mrp.getDatePromised();
+					createMRPNote("MRP-110", AD_Org_ID, mrp.get_ID(), M_Product, 
+								MPPMRP.getDocumentNo(mrp.get_ID()), mrp.getQty(), comment);
 				}
-			
+				
 				mrp.setIsAvailable(false);
 				mrp.saveEx();
 				
 				QtyNetReqs.add(mrp.getQty());
 				
-				if (QtyNetReqs.signum() == 0 )
+				if (QtyNetReqs.signum() == 0)
 				{
 					return QtyNetReqs;
 				}
 			}	
 			else
 			{
-				//MRP-050 Cancel  Action Notice
+				//MRP-050 Cancel Action Notice
 				//Indicate that a scheduled supply order is no longer needed and should be deleted.
 				if(QtyScheduledReceipts.signum() > 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
-					 + ":" + mrp.getDatePromised();
-					
-					createMRPNote(
-					"MRP-050", 
-					AD_Org_ID, 
-					mrp.get_ID(), 
-					M_Product,
-					MPPMRP.getDocumentNo(mrp.get_ID()), 
-					mrp.getQty(), comment
-					);
+					 				+ ":" + mrp.getDatePromised();
+					createMRPNote("MRP-050", AD_Org_ID, mrp.get_ID(), M_Product,
+								MPPMRP.getDocumentNo(mrp.get_ID()), mrp.getQty(), comment);
 				}
 				QtyNetReqs.add(mrp.getQty());
 				mrp.setIsAvailable(false);
@@ -1237,7 +1209,6 @@ public class MRP extends SvrProcess
 			}
 		}
 
-		
 		return QtyNetReqs;
 	}
 }
