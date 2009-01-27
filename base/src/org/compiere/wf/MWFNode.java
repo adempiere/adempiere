@@ -27,7 +27,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MColumn;
+import org.compiere.model.MProduct;
 import org.compiere.model.MResource;
 import org.compiere.model.MUOM;
 import org.compiere.model.X_AD_WF_Node;
@@ -677,6 +679,14 @@ public class MWFNode extends X_AD_WF_Node
 		MResource resource = (MResource) getS_Resource();
 		//get the rate and convert in second for this cost type element (Resource, Burden)
 		MWorkflow workflow = getWorkflow();
+		// Validate the CostingLevel 
+		MAcctSchema as = MAcctSchema.get(getCtx(), C_AcctSchema_ID);
+		MProduct product = resource.getProduct();
+		if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
+		{
+			AD_Org_ID = 0;
+		}
+		
 		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
 		BigDecimal cost =  Env.ZERO;
 		if (rate == 0)

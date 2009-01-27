@@ -92,7 +92,14 @@ public class RollupBillOfMaterial extends SvrProcess
 		for (int lowLevel = maxLowLevel; lowLevel >= 0; lowLevel--)
 		{
 			for (MProduct product : getProducts(lowLevel))
-			{	  
+			{	
+				// Validate the CostingLevel
+				MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
+				if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
+				{
+					p_AD_Org_ID = 0;
+				}
+				
 				for (MCost cost : getCosts(product.get_ID()))
 				{        
 					log.info("Calculate Lower Cost for :"+ product.getName());
