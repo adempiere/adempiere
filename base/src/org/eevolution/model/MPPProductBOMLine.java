@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -138,6 +140,22 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		if (validTo != null && date.after(validTo))
 			return false;
 		return true;
+	}
+	
+	/**
+	 * Return absolute (unified) quantity value.
+	 * If QtyBOM is filled, QtyBOM will be returned.
+	 * If QtyBatch is filled, QtyBatch / 100 will be returned 
+	 * @return qty
+	 */
+	public BigDecimal getQty()
+	{
+		if(getQtyBOM().signum() != 0)
+			return getQtyBOM();
+		else if(getQtyBatch().signum() != 0)
+			return getQtyBatch().divide(Env.ONEHUNDRED, 12, RoundingMode.HALF_UP);
+		else
+			return Env.ZERO;
 	}
 }
 

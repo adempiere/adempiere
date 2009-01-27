@@ -12,6 +12,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
+ *                 Teo Sarca, http://www.arhipac.ro                           *
  *****************************************************************************/
 //package org.compiere.mfg.model;
 package org.eevolution.model;
@@ -92,7 +93,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 		return new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
 				.setClient_ID()
-				.first();
+				.firstOnly();
 	}
 	
 	/**
@@ -239,7 +240,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	@Override
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer ("MPP_ProductBOM[")
+		StringBuffer sb = new StringBuffer ("MPPProductBOM[")
 		.append(get_ID()).append("-").append(getDocumentNo())
 		.append ("]");
 		return sb.toString ();
