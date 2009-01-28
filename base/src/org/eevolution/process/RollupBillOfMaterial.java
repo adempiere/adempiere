@@ -92,15 +92,16 @@ public class RollupBillOfMaterial extends SvrProcess
 		for (int lowLevel = maxLowLevel; lowLevel >= 0; lowLevel--)
 		{
 			for (MProduct product : getProducts(lowLevel))
-			{	
+			{
+				int AD_Org_ID = p_AD_Org_ID;
 				// Validate the CostingLevel
 				MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
 				if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
 				{
-					p_AD_Org_ID = 0;
+					AD_Org_ID = 0;
 				}
 				
-				for (MCost cost : getCosts(product.get_ID()))
+				for (MCost cost : getCosts(product.get_ID(), AD_Org_ID))
 				{        
 					log.info("Calculate Lower Cost for :"+ product.getName());
 					MCostElement element = cost.getCostElement();
@@ -109,42 +110,42 @@ public class RollupBillOfMaterial extends SvrProcess
 					// check if element cost is of Material Type 
 					if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Material))
 					{                 
-						BigDecimal Material = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Material, product);     
+						BigDecimal Material = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Material, product, AD_Org_ID);     
 						log.info("Material Cost Low Level:" + Material);
 						cost.setCurrentCostPriceLL(Material);
 						cost.saveEx();
 					}
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
 					{
-						BigDecimal Labor = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Resource, product);     
+						BigDecimal Labor = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Resource, product, AD_Org_ID);
 						log.info("Labor Cost Low Level:" + Labor);
 						cost.setCurrentCostPriceLL(Labor);
 						cost.saveEx();
 					}
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
 					{
-						BigDecimal Burder = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, product);     
+						BigDecimal Burder = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, product, AD_Org_ID);     
 						log.info("Burden Cost Low Level:" + Burder);
 						cost.setCurrentCostPriceLL(Burder);
 						cost.saveEx();
 					}
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Overhead))
 					{
-						BigDecimal Overhead = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product);     
+						BigDecimal Overhead = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product, AD_Org_ID);     
 						log.info("Overhead Cost Low Level:" + Overhead);
 						cost.setCurrentCostPriceLL(Overhead);
 						cost.saveEx();
 					}
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_OutsideProcessing))
 					{
-						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_OutsideProcessing, product);     
+						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_OutsideProcessing, product, AD_Org_ID);     
 						log.info("Subcontract Cost Low Level:" + Subcontract);
 						cost.setCurrentCostPriceLL(Subcontract);
 						cost.saveEx();
 					}
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Overhead))
 					{
-						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product);     
+						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product, AD_Org_ID);     
 						log.info("Overhead Cost Low Level:" + Subcontract);
 						cost.setCurrentCostPriceLL(Subcontract);
 						cost.saveEx();
@@ -153,7 +154,7 @@ public class RollupBillOfMaterial extends SvrProcess
 					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Distribution))
 					{
 
-						BigDecimal Distribution = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Distribution, M_Product_ID);     
+						BigDecimal Distribution = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Distribution, M_Product_ID, AD_Org_ID);     
 						cost.setCurrentCostPriceLL(Distribution);
 						cost.saveEx();
 					}
@@ -174,11 +175,11 @@ public class RollupBillOfMaterial extends SvrProcess
 	 * @param C_AcctSchema_ID Account Schema
 	 * @return CurrentCostPriceLL Sum Current Cost Price Level Low for this Cost Element Type
 	 */
-	private BigDecimal getCurrentCostPriceLL(String CostElementType, MProduct product)
+	private BigDecimal getCurrentCostPriceLL(String CostElementType, MProduct product, int AD_Org_ID)
 	{
 		log.info("ElementType: "+CostElementType);
 		BigDecimal costPriceLL = Env.ZERO;
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), p_AD_Org_ID,
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID,
 															0, // M_Warehouse_ID
 															0, // S_Resource_ID
 															product.getM_Product_ID(),
@@ -202,7 +203,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
 			// get the rate for this resource     
-			for (MCost cost : getCosts(bomline.getM_Product_ID()))
+			for (MCost cost : getCosts(bomline.getM_Product_ID(), AD_Org_ID))
 			{                 
 				MCostElement element = cost.getCostElement();
 				// check if current cost element type is specified cost element type
@@ -244,7 +245,7 @@ public class RollupBillOfMaterial extends SvrProcess
 		return costPriceLL;     
 	}
 
-	private MCost[] getCosts(int product_id)
+	private MCost[] getCosts(int product_id, int AD_Org_ID)
 	{
 		return MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, product_id,
 				p_M_CostType_ID, p_C_AcctSchema_ID , get_TrxName());
