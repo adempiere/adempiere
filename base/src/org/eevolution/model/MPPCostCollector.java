@@ -507,7 +507,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 													.setParameters(new Object[]{get_ID()})
 													.list();
 				String DocStatus = MPPOrderNode.DOCSTATUS_Completed;
-				StringBuffer msg = new StringBuffer("The quantity do not is complete for next Purchase Order :");
+				StringBuffer msg = new StringBuffer("The quantity do not is complete for next Purchase Order : ");
 				for (MOrderLine oline : olines)
 				{
 					if(oline.getQtyDelivered().compareTo(oline.getQtyOrdered()) < 0)
@@ -526,12 +526,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				setDocAction(MPPOrderNode.DOCACTION_Close);
 				setDocStatus(MPPOrderNode.DOCSTATUS_Completed);
 				activity.setDocStatus(MPPOrderNode.DOCSTATUS_Completed);
-				activity.setAction(MPPOrderNode.DOCACTION_None);
+				activity.setDocAction(MPPOrderNode.DOCACTION_None);
 				activity.saveEx();
 				m_processMsg = Msg.translate(getCtx(), "PP_Order_ID")
-				+":"+ getPP_Order().getDocumentNo()
-				+Msg.translate(getCtx(),"PP_Order_Node_ID")
-				+":"+getPP_Order_Node().getValue();
+				+": "+ getPP_Order().getDocumentNo()
+				+" "+ Msg.translate(getCtx(),"PP_Order_Node_ID")
+				+": "+getPP_Order_Node().getValue();
 				return DocStatus;
 			}
 			else
@@ -859,13 +859,14 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction
 				.setParameters(new Object[]{activity.get_ID(), true})
 				.setOnlyActiveRecords(true)
 				.list();
+		
 		for (MPPOrderNodeProduct subcontract : subcontracts)
 		{
 			//
 			// If Product is not Purchased or is not Service, then it is not a subcontracting candidate [SKIP]
 			MProduct product = MProduct.get(getCtx(), subcontract.getM_Product_ID());
 			if(!product.isPurchased() || !MProduct.PRODUCTTYPE_Service.equals(product.getProductType()))
-				continue;
+				throw new AdempiereException("The Product: " + product.getName() + " Do not is Purchase or Service Type");
 
 			//
 			// Find Vendor and Product PO data
