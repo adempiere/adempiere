@@ -50,6 +50,8 @@ public class CostBillOfMaterial extends SvrProcess
 	private int p_AD_Org_ID = 0;
 	private int p_C_AcctSchema_ID = 0;
 	private int p_M_Product_ID = 0;
+	private int p_M_CostType_ID = 0;
+	private String p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
 	private boolean p_implosion = false;
 	//
 	private int m_LevelNo = 0;
@@ -72,6 +74,14 @@ public class CostBillOfMaterial extends SvrProcess
 			{
 				p_C_AcctSchema_ID= para.getParameterAsInt();
 				m_as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
+			}
+			else if (name.equals("M_CostType_ID"))
+			{
+				p_M_CostType_ID= para.getParameterAsInt();
+			}
+			else if (name.equals("ConstingMethod"))
+			{
+				p_ConstingMethod=(String)para.getParameter();
 			}
 			else if (name.equals("M_Product_ID"))
 			{
@@ -97,7 +107,7 @@ public class CostBillOfMaterial extends SvrProcess
 		{
 			throw new FillMandatoryException("M_Product_ID");
 		}
-		m_costElements = MCostElement.getByCostingMethod(getCtx(), MCostElement.COSTINGMETHOD_StandardCosting);
+		m_costElements = MCostElement.getByCostingMethod(getCtx(), p_ConstingMethod);
 		explodeProduct(p_M_Product_ID, false); 
 		//
 		return "";
@@ -208,12 +218,12 @@ public class CostBillOfMaterial extends SvrProcess
 			tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
 			//
 			// Set Costs:
-			Collection <MCost> costs = MCost.getByCostingMethod(
+			Collection <MCost> costs = MCost.getByCostType(
 					product,
 					m_as,
+					p_M_CostType_ID,
 					p_AD_Org_ID,
 					0, // ASI
-					MCostElement.COSTINGMETHOD_StandardCosting,
 					costElement.getCostElementType());
 			BigDecimal currentCostPrice = Env.ZERO;
 			BigDecimal currentCostPriceLL = Env.ZERO;
