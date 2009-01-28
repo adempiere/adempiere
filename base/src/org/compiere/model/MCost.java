@@ -57,14 +57,14 @@ public class MCost extends X_M_Cost
      * @param as  Account Schema
      * @param AD_Org_ID Organization ID
      * @param M_AttributeSetInstance_ID Attribute Set Instance ID
-     * @param CostingMethod Costing Method
+     * @param C_CostType_ID TODO
      * @param CostElementType Cost Element Type
      * @param Qty Quantity
      * @return Get the the Total Cost for this Cost Element Type and Costing Method
      */
-	public static BigDecimal getCostByCostingMethod (MProduct product, MAcctSchema as,  
+	public static BigDecimal getCostByCostType (MProduct product, MAcctSchema as,  
 			int AD_Org_ID, int M_AttributeSetInstance_ID,
-			String CostingMethod, String CostElementType,
+			int C_CostType_ID, String CostElementType,
 			BigDecimal Qty)
 	{
 		//Set the Costing Level 
@@ -87,7 +87,7 @@ public class MCost extends X_M_Cost
 			+ " AND C_AcctSchema_ID=?"
 		    + " AND EXISTS ( SELECT 1 FROM M_CostElement ce "
 		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID " 
-		    + " AND ce.CostingMethod=? AND ce.CostElementType=?)";
+		    + " AND ce.CostElementType=?)";
 		
 
 		costs = new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
@@ -97,7 +97,8 @@ public class MCost extends X_M_Cost
 						product.getM_Product_ID(),
 						M_AttributeSetInstance_ID,  
 						as.getC_AcctSchema_ID(), 
-						CostingMethod, CostElementType})
+						CostElementType})
+		.setOnlyActiveRecords(true)				
 		.list();
 		for(MCost cost : costs)
 		{
@@ -108,18 +109,21 @@ public class MCost extends X_M_Cost
 	}	//	get
 	
 	 /**
-     * Get MCost for this Cost Element Type and Costing Method
+     * Get MCost for Cost Type and Cost Element Type
      * @param product Product
      * @param as  Account Schema
      * @param AD_Org_ID Organization ID
      * @param M_AttributeSetInstance_ID Attribute Set Instance ID
-     * @param CostingMethod Costing Method
      * @param CostElementType Cost Element Type
-     * @return Get MCost Collection for this Cost Element Type and Costing Method
+     * @return Get MCost Collection for Cost Type and Cost Element Type
      */
-	public static Collection<MCost> getByCostingMethod (MProduct product, MAcctSchema as,  
-			int AD_Org_ID, int M_AttributeSetInstance_ID,
-			String CostingMethod, String CostElementType)
+	public static Collection<MCost> getByCostType (
+			MProduct product,
+			MAcctSchema as, 
+			int M_CostType_ID , 
+			int AD_Org_ID, 
+			int M_AttributeSetInstance_ID , 
+			String CostElementType)
 	{
 		//Set the Costing Level 
 		String CostingLevel = product.getCostingLevel(as);
@@ -137,19 +141,46 @@ public class MCost extends X_M_Cost
 			+ " AND M_Product_ID=?"
 			+ " AND M_AttributeSetInstance_ID=?"
 			+ " AND C_AcctSchema_ID=?"
+			+ " AND M_CostType_ID=?"
 		    + " AND EXISTS ( SELECT 1 FROM M_CostElement ce "
-		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID " 
-		    + " AND ce.CostingMethod=? AND ce.CostElementType=?)";
+		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID "; 
 		
-
+		List<Object> params = new  ArrayList<Object>();
+		params.add(product.getAD_Client_ID());
+		params.add(AD_Org_ID);
+		params.add(product.getM_Product_ID());
+		params.add(M_AttributeSetInstance_ID);
+		params.add(as.getC_AcctSchema_ID());
+		params.add(M_CostType_ID);	
+		if(CostElementType != null)
+		{
+			params.add(CostElementType);
+			whereClause += "AND ce.CostElementType=?";
+		}
+		
+		whereClause += ")";
+		
 		return new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
-		.setParameters(new Object[]{
-						product.getAD_Client_ID(), 
-						AD_Org_ID, 
-						product.getM_Product_ID(),
-						M_AttributeSetInstance_ID,  
-						as.getC_AcctSchema_ID(), 
-						CostingMethod, CostElementType}).list();
+						.setParameters(params)
+						.setOnlyActiveRecords(true)
+						.list();
+	}	//	get
+	
+	 /**
+     * Get MCost for for Cost Type
+     * @param product Product
+     * @param as  Account Schema
+     * @param M_CostType_ID Cost Type
+     * @param AD_Org_ID Organization ID
+     * @param M_AttributeSetInstance_ID Attribute Set Instance ID
+     * @param CostElementType Cost Element Type
+     * @return Get MCost Collection for Cost Type
+     */
+	public static Collection<MCost> getByCostType (MProduct product, MAcctSchema as, int M_CostType_ID , 
+			int AD_Org_ID, int M_AttributeSetInstance_ID)			
+	{
+		return getByCostType (product, as,  M_CostType_ID,
+				AD_Org_ID, M_AttributeSetInstance_ID, null);
 	}	//	get
 
 	/**
@@ -1420,33 +1451,12 @@ public class MCost extends X_M_Cost
 												M_CostType_ID, C_AcctSchema_ID,
 												M_CostElement_ID, M_AttributeSetInstance_ID};
 		return new Query(ctx, Table_Name, whereClause, null)
+					.setOnlyActiveRecords(true)
 					.setParameters(params)
 					.first();
 	}	//	get
 	
-	/**
-	 * 	Get Costs Record for a Cost Type
-	 * 	@param ctx context
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 *	@param M_Product_ID product
-	 *	@param M_CostType_ID cost type
-	 *	@param C_AcctSchema_ID as
-	 *	@param TrxName transaction name
-	 *	@return array costs
-	 */
-	public static MCost[] getCosts(Properties ctx , int AD_Client_ID, int AD_Org_ID , int M_Product_ID,  int M_CostType_ID ,int C_AcctSchema_ID ,String  trxName)
-	{
-		
-		String whereClause = "AD_Client_ID = ? AND AD_Org_ID = ? AND M_Product_ID= ? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? ";
-		Query query = MTable.get(ctx, MCost.Table_ID)
-							.createQuery(whereClause, trxName);
-		query.setParameters(new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID, C_AcctSchema_ID, M_CostType_ID});
-		List<MCost> list = query.list();
-		MCost[] retValue = new MCost[list.size()];
-		list.toArray(retValue);
-		return retValue;	
-	}
+
 	
 	/**
 	 * 	Get Costs Record for a Cost Type
@@ -1466,6 +1476,7 @@ public class MCost extends X_M_Cost
 		Query query = MTable.get(ctx, MCost.Table_ID)
 							.createQuery(whereClause, trxName);
 		query.setParameters(new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID, C_AcctSchema_ID, M_CostType_ID, M_CostElement_ID});
+		query.setOnlyActiveRecords(true);
 		List<MCost> list = query.list();
 		for (MCost cost : list)
 		{

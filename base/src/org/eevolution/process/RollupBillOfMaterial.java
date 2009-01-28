@@ -18,6 +18,7 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -45,13 +46,15 @@ public class RollupBillOfMaterial extends SvrProcess
 {
 	/* Organization 		*/ 
 	private int		 		p_AD_Org_ID = 0;
-	/* Account Schema 	*/
+	/* Account Schema 		*/
 	private int				p_C_AcctSchema_ID = 0;
 	/* Cost Type			*/
 	private int				p_M_CostType_ID = 0;
-	/* Product 			*/
+	/* Costing Method 		*/
+	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
+	/* Product 				*/
 	private int				p_M_Product_ID = 0;
-	/* Product Category  */
+	/* Product Category  	*/
 	private int				p_M_Product_Category_ID = 0;
 
 	/**
@@ -65,12 +68,14 @@ public class RollupBillOfMaterial extends SvrProcess
 
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
+			else if (name.equals(MCostElement.COLUMNNAME_AD_Org_ID))
 				p_AD_Org_ID = para.getParameterAsInt();
 			else if (name.equals(MAcctSchema.COLUMNNAME_C_AcctSchema_ID))  
 				p_C_AcctSchema_ID = para.getParameterAsInt();
 			else if (name.equals(MCostType.COLUMNNAME_M_CostType_ID))
 				p_M_CostType_ID = para.getParameterAsInt();
+			else if (name.equals(MCostElement.COLUMNNAME_CostingMethod))
+				p_ConstingMethod=(String)para.getParameter();	
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID))   
 				p_M_Product_ID = para.getParameterAsInt();
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID))
@@ -94,72 +99,43 @@ public class RollupBillOfMaterial extends SvrProcess
 			for (MProduct product : getProducts(lowLevel))
 			{
 				int AD_Org_ID = p_AD_Org_ID;
-				// Validate the CostingLevel
-				MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-				if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
+				MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), p_AD_Org_ID,
+						0, // M_Warehouse_ID
+						0, // S_Resource_ID
+						product.getM_Product_ID(),
+						get_TrxName());                 
+				int yield = 100;
+				int PP_Product_BOM_ID = 0;
+				if (pp != null)
 				{
-					AD_Org_ID = 0;
+					PP_Product_BOM_ID = pp.getPP_Product_BOM_ID();
+
+				}
+				if (PP_Product_BOM_ID <= 0)
+				{
+					PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
+				}
+				if (PP_Product_BOM_ID <= 0)
+				{
+					continue;
 				}
 				
-				for (MCost cost : getCosts(product.get_ID(), AD_Org_ID))
-				{        
-					log.info("Calculate Lower Cost for :"+ product.getName());
-					MCostElement element = cost.getCostElement();
-					log.info("Element Cost:"+ element.getName());
-					
-					// check if element cost is of Material Type 
-					if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Material))
-					{                 
-						BigDecimal Material = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Material, product, AD_Org_ID);     
-						log.info("Material Cost Low Level:" + Material);
-						cost.setCurrentCostPriceLL(Material);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
-					{
-						BigDecimal Labor = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Resource, product, AD_Org_ID);
-						log.info("Labor Cost Low Level:" + Labor);
-						cost.setCurrentCostPriceLL(Labor);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
-					{
-						BigDecimal Burder = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, product, AD_Org_ID);     
-						log.info("Burden Cost Low Level:" + Burder);
-						cost.setCurrentCostPriceLL(Burder);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Overhead))
-					{
-						BigDecimal Overhead = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product, AD_Org_ID);     
-						log.info("Overhead Cost Low Level:" + Overhead);
-						cost.setCurrentCostPriceLL(Overhead);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_OutsideProcessing))
-					{
-						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_OutsideProcessing, product, AD_Org_ID);     
-						log.info("Subcontract Cost Low Level:" + Subcontract);
-						cost.setCurrentCostPriceLL(Subcontract);
-						cost.saveEx();
-					}
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Overhead))
-					{
-						BigDecimal Subcontract = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Overhead, product, AD_Org_ID);     
-						log.info("Overhead Cost Low Level:" + Subcontract);
-						cost.setCurrentCostPriceLL(Subcontract);
-						cost.saveEx();
-					}
-					/* TODO Comment for future implementation
-					else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Distribution))
-					{
+				MPPProductBOM bom = MPPProductBOM.get(getCtx(), PP_Product_BOM_ID);
 
-						BigDecimal Distribution = getCurrentCostPriceLL(MCostElement.COSTELEMENTTYPE_Distribution, M_Product_ID, AD_Org_ID);     
-						cost.setCurrentCostPriceLL(Distribution);
-						cost.saveEx();
-					}
-					*/   	  
-				} // for each Costs 
+				Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(),  p_ConstingMethod);
+				 
+				for (MCostElement element : elements)
+				{						
+					for (MCost cost : getCosts(product, element.getCostElementType()))
+					{        
+						log.info("Calculate Lower Cost for :"+ product.getName());
+						log.info("Element Cost:"+ element.getName());
+						BigDecimal price = getCurrentCostPriceLL(bom, element, pp != null ? pp.getYield() : 100);     
+						log.info(element.getName() + " Cost Low Level:" + price);
+						cost.setCurrentCostPriceLL(price);
+						cost.saveEx();	  	  
+					} // for each Costs 
+				} // for ELements	
 			} // for each Products 
 		} // for each LLC
 		return "@OK@";
@@ -175,39 +151,20 @@ public class RollupBillOfMaterial extends SvrProcess
 	 * @param C_AcctSchema_ID Account Schema
 	 * @return CurrentCostPriceLL Sum Current Cost Price Level Low for this Cost Element Type
 	 */
-	private BigDecimal getCurrentCostPriceLL(String CostElementType, MProduct product, int AD_Org_ID)
+	private BigDecimal getCurrentCostPriceLL(MPPProductBOM bom, MCostElement element ,int Yield)
 	{
-		log.info("ElementType: "+CostElementType);
+		log.info("ElementType: "+ element.getCostElementType());
 		BigDecimal costPriceLL = Env.ZERO;
-		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID,
-															0, // M_Warehouse_ID
-															0, // S_Resource_ID
-															product.getM_Product_ID(),
-															get_TrxName());                 
 
-		int PP_Product_BOM_ID = 0;
-		if (pp != null)
-		{
-			PP_Product_BOM_ID = pp.getPP_Product_BOM_ID();
-		}
-		if (PP_Product_BOM_ID <= 0)
-		{
-			PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
-		}
-		if (PP_Product_BOM_ID <= 0)
-		{
-			return Env.ZERO;
-		}
-		
-		MPPProductBOM bom = MPPProductBOM.get(getCtx(), PP_Product_BOM_ID);
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
+			
 			// get the rate for this resource     
-			for (MCost cost : getCosts(bomline.getM_Product_ID(), AD_Org_ID))
+			for (MCost cost : getCosts(component, element.getCostElementType()))
 			{                 
-				MCostElement element = cost.getCostElement();
 				// check if current cost element type is specified cost element type
-				if (element.getCostElementType().equals(CostElementType))
+				if (element.getCostElementType().equals(element.getCostElementType()))
 				{
 					BigDecimal qtyPercentage = bomline.getQtyBatch().divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
 					BigDecimal qtyBOM = bomline.getQtyBOM(); 
@@ -231,27 +188,29 @@ public class RollupBillOfMaterial extends SvrProcess
 				}
 			} // for each cost
 		} // for each BOM line  
-		//
-		// Try find planning Data for this product and get % Yield to calculate cost
-		if (pp != null)
-		{            
-			int yield = pp.getYield();
-			if(yield != 0)
-			{
-				BigDecimal decimalYield = new BigDecimal(yield / 100);
-				costPriceLL = costPriceLL.divide(decimalYield, 4 ,BigDecimal.ROUND_HALF_UP);
-			}
-		}                 
+
+		if(Yield != 0)
+		{
+			BigDecimal decimalYield = new BigDecimal(Yield / 100);
+			costPriceLL = costPriceLL.divide(decimalYield, 4 ,BigDecimal.ROUND_HALF_UP);
+		}
+       
 		return costPriceLL;     
 	}
 
-	private MCost[] getCosts(int product_id, int AD_Org_ID)
+	private Collection<MCost> getCosts(MProduct product,String CostElementType)
 	{
-		return MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, product_id,
-				p_M_CostType_ID, p_C_AcctSchema_ID , get_TrxName());
+		MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
+		return MCost.getByCostType(
+				product,
+				as,
+				p_M_CostType_ID,
+				p_AD_Org_ID,
+				0, // ASI
+				CostElementType);
 	}
 	
-	private List<MProduct> getProducts(int lowLevel)
+	private Collection<MProduct> getProducts(int lowLevel)
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer("AD_Client_ID=? AND LowLevel=? AND ProductType=?");

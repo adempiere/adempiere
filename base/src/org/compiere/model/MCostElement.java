@@ -338,6 +338,7 @@ public class MCostElement extends X_M_CostElement
 		final String whereClause = "CostingMethod=?";
 		return new Query(ctx, Table_Name, whereClause, null)
 					.setClient_ID()
+					.setOnlyActiveRecords(true)
 					.setParameters(new Object[]{CostingMethod})
 					.list();	
 	}	

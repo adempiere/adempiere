@@ -676,7 +676,10 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID,int M_CostType_ID,int AD_Org_ID,int setuptime, int duration)
 	{
-		MResource resource = (MResource) getS_Resource();
+		MResource resource = MResource.get(getCtx(), getS_Resource_ID());
+		if(resource == null)
+			return Env.ZERO;
+		
 		//get the rate and convert in second for this cost type element (Resource, Burden)
 		MWorkflow workflow = getWorkflow();
 		// Validate the CostingLevel 

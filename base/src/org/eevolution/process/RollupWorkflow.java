@@ -19,6 +19,7 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -47,51 +48,49 @@ import org.eevolution.model.MPPProductPlanning;
 public class RollupWorkflow extends SvrProcess
 {
 
-	/* Organization      */
-	private int		 		 p_AD_Org_ID = 0;
-	/* Account Schema   	*/
-	private int               p_C_AcctSchema_ID = 0;
+	/* Organization     */
+	private int		 		p_AD_Org_ID = 0;
+	/* Account Schema   */
+	private int             p_C_AcctSchema_ID = 0;
 	/* Cost Type 		*/
-	private int               p_M_CostType_ID = 0;    
+	private int             p_M_CostType_ID = 0;    
 	/* Product 			*/
-	private int               p_M_Product_ID = 0;   
-	/* Product Category 	*/
-	private int 				 p_M_Product_Category_ID = 0;
+	private int             p_M_Product_ID = 0;   
+	/* Product Category */
+	private int 			p_M_Product_Category_ID = 0;
+	/* Costing Method 	*/
+	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
+	
+	private MAcctSchema m_as = null;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
+			String name = para.getParameterName();
 
-			if (para[i].getParameter() == null)
+			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))  
-				p_AD_Org_ID = para[i].getParameterAsInt();       
+			else if (name.equals(MCost.COLUMNNAME_AD_Org_ID))  
+				p_AD_Org_ID = para.getParameterAsInt();       
 			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
-				p_C_AcctSchema_ID = para[i].getParameterAsInt();  
+			{	
+				p_C_AcctSchema_ID = para.getParameterAsInt();  
+				m_as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
+			}	
 			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
-				p_M_CostType_ID = para[i].getParameterAsInt();  
+				p_M_CostType_ID = para.getParameterAsInt();  
+			else if (name.equals(MCostElement.COLUMNNAME_CostingMethod))
+				p_ConstingMethod=(String)para.getParameter();
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_ID)) 
-				p_M_Product_ID = para[i].getParameterAsInt();  
+				p_M_Product_ID = para.getParameterAsInt();  
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID)) 
-				p_M_Product_Category_ID = para[i].getParameterAsInt();  
+				p_M_Product_Category_ID = para.getParameterAsInt();  
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
-		}
-		//
-		if (p_C_AcctSchema_ID <= 0)
-		{
-			p_C_AcctSchema_ID = MClient.get(getCtx(), getAD_Client_ID()).getInfo().getC_AcctSchema1_ID();
-		}
-		if (p_M_CostType_ID <= 0)
-		{
-			MAcctSchema as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
-			p_M_CostType_ID = as.getM_CostType_ID();
 		}
 	}	//	prepare
 
@@ -123,7 +122,7 @@ public class RollupWorkflow extends SvrProcess
 			params.add(p_M_Product_Category_ID);
 		}	
 
-		List<MProduct> products = new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
+		Collection<MProduct> products = new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
 											.setOrderBy(MProduct.COLUMNNAME_LowLevel)
 											.setParameters(params)
 											.list();    
@@ -156,24 +155,31 @@ public class RollupWorkflow extends SvrProcess
 			
 			BigDecimal labor = Env.ZERO;
 			BigDecimal burden = Env.ZERO;
-			MCost[]  costs = MCost.getCosts(getCtx(), getAD_Client_ID(), p_AD_Org_ID, product.getM_Product_ID(), p_M_CostType_ID, p_C_AcctSchema_ID , get_TrxName());            
-			for (MCost cost : costs)
+			Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(),  p_ConstingMethod);
+			for (MCostElement element : elements)
 			{	
-					MCostElement element = cost.getCostElement();
-					if(element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource) 
-					|| element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
+				Collection<MCost> costs = MCost.getByCostType(
+						product,
+						m_as,
+						p_M_CostType_ID,
+						p_AD_Org_ID,
+						0,element.getCostElementType()); // ASI
+				for (MCost cost : costs)
+				{
+					if(MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()) 
+					|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
 					{					
 
 						for (MWFNode node : nodes)
 						{   	
 							BigDecimal nodeCost = Env.ZERO;
 							// check if element cost is of type Labor
-							if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
+							if (MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()))
 							{ 
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_Resource ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());
 								labor = labor.add(nodeCost);
 							}
-							else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
+							else if (MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
 							{                                    
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_BurdenMOverhead ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());                                 
 								burden = burden.add(nodeCost);
@@ -183,26 +189,29 @@ public class RollupWorkflow extends SvrProcess
 								node.setCost(node.getCost().add(nodeCost));
 								node.saveEx();
 							}
-						}
+						} // Node
 						// check if element cost is of type Labor
-						if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_Resource))
+						if (MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()))
 						{  
 							log.info("Product:"+product.getName()+" Labor: " + labor);                                
 							cost.setCurrentCostPrice(labor);
 							cost.saveEx();
 						}
-						else if (element.getCostElementType().equals(MCostElement.COSTELEMENTTYPE_BurdenMOverhead))
+						else if (MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
 						{                                    
 							log.info("Product:"+product.getName()+" Burden: " + burden);                                   
 							cost.setCurrentCostPrice(burden);
 							cost.saveEx();
 						}
 				}
-			}
+			} // MCost
+			} // Cost Elements
 			workflow.setCost(labor.add(burden));
 			workflow.saveEx(get_TrxName());
 				
 		}                               
 		return "@OK@";
-	}                                                  
+	}                 
+	
+	
 }

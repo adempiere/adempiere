@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -27,6 +28,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
+import org.compiere.model.MProduct;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -100,7 +102,6 @@ public class CopyPriceToStandard extends SvrProcess
         
     protected String doIt() throws Exception                
 	{
-            //System.out.println("PARAMETROS :  p_C_AcctSchema_ID" + p_C_AcctSchema_ID + "p_PP_Cost_Group_ID" + p_PP_Cost_Group_ID + "p_M_Warehouse_ID" +  p_M_Warehouse_ID + "p_S_Resource_ID" + p_S_Resource_ID);
             BigDecimal price = Env.ZERO;
             BigDecimal convrate = Env.ZERO;
             int M_PriceList_ID =0;
@@ -108,7 +109,7 @@ public class CopyPriceToStandard extends SvrProcess
             int M_Product_ID =0;
             int C_Currency_ID = 0;
             BigDecimal list = Env.ZERO;
-            MAcctSchema schema = new  MAcctSchema(ctx,p_C_AcctSchema_ID ,null);
+            MAcctSchema as = new  MAcctSchema(ctx,p_C_AcctSchema_ID ,null);
             StringBuffer sql = new StringBuffer("SELECT M_Product_ID,M_PriceList_Version_ID, PriceStd FROM M_ProductPrice WHERE M_PriceList_Version_ID =" +p_M_PriceList_Version_ID +" AND PriceStd <> 0");
             try
             {                
@@ -119,34 +120,28 @@ public class CopyPriceToStandard extends SvrProcess
                                     //
                 while (rs.next())
                 {
-                	M_Product_ID = rs.getInt(1);
-                	M_PriceList_Version_ID = rs.getInt(2);
-                	
-                        //System.out.println("M_Product_ID" + product_id + "p_C_AcctSchema_ID" + p_C_AcctSchema_ID + "p_PP_Cost_Group_ID" + p_PP_Cost_Group_ID + "p_M_Warehouse_ID" +  p_M_Warehouse_ID + "p_S_Resource_ID" + p_S_Resource_ID);
-                	M_PriceList_ID = DB.getSQLValue(get_TrxName(),"SELECT M_PriceList_ID FROM M_PriceList_Version WHERE M_PriceList_Version_ID = ? " ,M_PriceList_Version_ID );
-                	 C_Currency_ID = DB.getSQLValue(get_TrxName() , "SELECT C_Currency_ID FROM M_PriceList WHERE M_PriceList_ID = ?",M_PriceList_ID);
+	            	M_Product_ID = rs.getInt(1);
+	            	M_PriceList_Version_ID = rs.getInt(2);
+	            	
+	            	M_PriceList_ID = DB.getSQLValue(get_TrxName(),"SELECT M_PriceList_ID FROM M_PriceList_Version WHERE M_PriceList_Version_ID = ? " ,M_PriceList_Version_ID );
+	            	C_Currency_ID = DB.getSQLValue(get_TrxName() , "SELECT C_Currency_ID FROM M_PriceList WHERE M_PriceList_ID = ?",M_PriceList_ID);
                 	 
-                	 	if (C_Currency_ID!=schema.getC_Currency_ID())
+                	 	if (C_Currency_ID!=as.getC_Currency_ID())
                 	 	{                     	
-                                    price = MConversionRate.convert(ctx,rs.getBigDecimal(3),C_Currency_ID,schema.getC_Currency_ID(),getAD_Client_ID(),p_AD_Org_ID);                     	
+                            price = MConversionRate.convert(ctx,rs.getBigDecimal(3),C_Currency_ID,as.getC_Currency_ID(),getAD_Client_ID(),p_AD_Org_ID);                     	
                 	 	}
                 	 	else
                 	 	price = rs.getBigDecimal(3);
-                   
-                	 	MCost[]  costs = MCost.getCosts(getCtx() , getAD_Client_ID(),   p_AD_Org_ID  ,  M_Product_ID ,  p_M_CostType_ID , p_C_AcctSchema_ID , get_TrxName());            
-	                    if (costs != null)
-	                    {
-	                            for (MCost cost : costs)
-	                            {                                  
-	                                MCostElement element = new MCostElement(getCtx(), p_M_CostElement_ID, get_TrxName());                                  
-	                                if (element.getCostElementType().equals(element.COSTELEMENTTYPE_Material)) 
-	                                {                                                                     
-	                                    cost.setFutureCostPrice(price);
-	                                    cost.save();
-	                                break;
-	                            }                                                                      
-	                        }
-                      }
+                	 	MProduct product = MProduct.get(getCtx(), M_Product_ID);
+                	 	Collection<MCost> costs = MCost.getByCostType(product, as, p_M_CostType_ID, p_AD_Org_ID, 0, MCostElement.COSTELEMENTTYPE_Material);
+                	 	
+                        for (MCost cost : costs)
+                        {                                  
+                            MCostElement element = new MCostElement(getCtx(), p_M_CostElement_ID, get_TrxName());                                                                                                   
+                            cost.setFutureCostPrice(price);
+                            cost.save();
+                            break;
+                        }                                                                      
                 }
                  rs.close();
                  pstmt.close();

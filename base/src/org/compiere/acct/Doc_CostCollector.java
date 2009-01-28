@@ -18,6 +18,7 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -42,7 +43,7 @@ import org.eevolution.model.MPPOrderNode;
  *  </pre>
  *  @author victor.perez@e-evolution.com http://www.e-evolution.com
  */
-public class Doc_Cost_Collector extends Doc
+public class Doc_CostCollector extends Doc
 {
 
 	
@@ -52,7 +53,7 @@ public class Doc_Cost_Collector extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Cost_Collector (MAcctSchema[] ass, ResultSet rs, String trxName)
+	protected Doc_CostCollector (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MPPCostCollector.class, rs, DOCTYPE_MOrder, trxName);
 	}   //Doc Cost Collector
@@ -118,62 +119,28 @@ public class Doc_Cost_Collector extends Doc
 			MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 			BigDecimal cost = Env.ZERO;
 			
-			//Material
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Material,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_Material, as, fact, product, debit, credit, cost,m_cc.getMovementQty() );
-			
-			//Resource (Labor)
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Resource,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_Resource, as, fact, product, debit, credit, cost,m_cc.getMovementQty());
-			
-			//Burden
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_BurdenMOverhead,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, as, fact, product, debit, credit, cost,m_cc.getMovementQty());
-			
-			//Outsite Processing
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_OutsideProcessing,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-			
-			//Overhead Applied
-			credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Overhead, as);
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Overhead,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
+			Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(), as.getCostingMethod());
+			for(MCostElement element : elements)
+			{
+				cost = MCost.getCostByCostType(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
+						   as.getM_CostType_ID() , element.getCostElementType(),m_cc.getMovementQty());
+				createLines(element.getCostElementType(), as, fact, product, debit, credit, cost,m_cc.getMovementQty());
+				log.info("Account Fact for Cost Element:"  + element.getName() + " Cost:" + cost);
+			}
 			
 			//Account Scrap 
 			if(m_cc.getScrappedQty().signum() != 0)
 			{
 				credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 				debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Scrap, as);
-				//Material
-				cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-						   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Material,m_cc.getScrappedQty());
-				createLines(MCostElement.COSTELEMENTTYPE_Material, as, fact, product, debit, credit, cost,m_cc.getScrappedQty());
 				
-				//Resource (Labor)
-				cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Resource,m_cc.getScrappedQty());				
-				createLines(MCostElement.COSTELEMENTTYPE_Resource, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
-				
-				//Burden
-				cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_BurdenMOverhead,m_cc.getScrappedQty());
-				createLines(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
-				
-				//Outsite Processing
-				cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_OutsideProcessing,m_cc.getScrappedQty());
-				createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
-				
-				//Overhead Applied
-				credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Overhead, as);
-				cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Overhead,m_cc.getScrappedQty());
-				createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
+				for(MCostElement element : elements)
+				{
+					cost = MCost.getCostByCostType(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
+							   as.getM_CostType_ID() , element.getCostElementType(),m_cc.getMovementQty());
+					createLines(element.getCostElementType(), as, fact, product, debit, credit, cost,m_cc.getMovementQty());
+					log.info("Account Fact for Cost Element:"  + element.getName() + " Cost:" + cost);
+				}
 			}
 		}
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue.equals(m_cc.getCostCollectorType()))
@@ -196,33 +163,15 @@ public class Doc_Cost_Collector extends Doc
 			}
 			
 			BigDecimal cost = Env.ZERO;
-			//Material
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Material,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_Material, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
 			
-			//Resource (Labor)
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Resource,m_cc.getMovementQty());			
-			createLines(MCostElement.COSTELEMENTTYPE_Resource, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-			
-			//Burden
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_BurdenMOverhead,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_BurdenMOverhead, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-			
-			//Outsite Processing
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_OutsideProcessing,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-			
-			//Overhead Applied
-			credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Overhead, as);
-			cost = MCost.getCostByCostingMethod(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-				   MCostElement.COSTINGMETHOD_StandardCosting, MCostElement.COSTELEMENTTYPE_Overhead,m_cc.getMovementQty());
-			createLines(MCostElement.COSTELEMENTTYPE_OutsideProcessing, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-
-			
+			Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(), as.getCostingMethod());
+			for(MCostElement element : elements)
+			{
+				cost = MCost.getCostByCostType(product, as, m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
+						   as.getM_CostType_ID() , element.getCostElementType(),m_cc.getMovementQty());
+				createLines(element.getCostElementType(), as, fact, product, debit, credit, cost,m_cc.getMovementQty());
+				log.info("Account Fact for Cost Element:"  + element.getName() + " Cost:" + cost);
+			}			
 		}
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
 		{

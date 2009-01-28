@@ -31,6 +31,7 @@ import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
+import org.compiere.model.MCostElement;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
@@ -561,14 +562,14 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			approveIt();
 		}
 		
-		MAcctSchema acctSchema = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
-		log.info("Cost_Group_ID" + acctSchema.getM_CostType_ID());
+		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
+		log.info("Cost_Group_ID" + as.getM_CostType_ID());
 
 		//
 		// Create Standard Costs for Order 
-		MCost[] costs = MCost.getCosts(getCtx(), getAD_Client_ID(), getAD_Org_ID(), getM_Product_ID(),
-										acctSchema.getM_CostType_ID(), acctSchema.get_ID(),
-										get_TrxName());
+		Collection <MCost> costs = MCost.getByCostType(getM_Product(), as, as.getM_CostType_ID(), 
+				getAD_Org_ID(), getM_AttributeSetInstance_ID());
+				
 		for (MCost cost : costs)
 		{
 			MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
@@ -579,9 +580,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		// Create Standard Costs for Order BOM Line
 		for (MPPOrderBOMLine line : getLines())
 		{
-			costs = MCost.getCosts(getCtx(), getAD_Client_ID(), getAD_Org_ID(), line.getM_Product_ID(),
-									acctSchema.getM_CostType_ID(), acctSchema.get_ID(),
-									get_TrxName());
+			costs = MCost.getByCostType(line.getM_Product(), as,  as.getM_CostType_ID(),
+					getAD_Org_ID(), getM_AttributeSetInstance_ID());
+			
 			for (MCost cost : costs)
 			{
 				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());

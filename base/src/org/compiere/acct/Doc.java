@@ -350,7 +350,7 @@ public abstract class Doc
 		else if (AD_Table_ID == MHRProcess.Table_ID)
 			doc = new Doc_Payroll (ass, rs, trxName);
 		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			doc = new Doc_Cost_Collector (ass, rs, trxName);
+			doc = new Doc_CostCollector (ass, rs, trxName);
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;
