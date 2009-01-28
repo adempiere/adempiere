@@ -30,7 +30,7 @@ public class Trace
 	/**
 	 * Get Caller Array
 	 *
-	 * @param caller Optional Thowable/Exception
+	 * @param caller Optional Throwable/Exception
 	 * @param maxNestLevel maximum call nesting level - 0 is all
 	 * @return Array of class.method(file:line)
 	 */
@@ -86,7 +86,7 @@ public class Trace
 	}	//	isCalledFrom
 
 	/**
-	 *  Print Stack Tace Info (raw) adempiereOnly - first9only
+	 *  Print Stack Trace Info (raw) adempiereOnly - first9only
 	 */
 	public static void printStack()
 	{
@@ -94,7 +94,7 @@ public class Trace
 	}	//	printStack
 	
 	/**
-	 *  Print Stack Tace Info (raw)
+	 *  Print Stack Trace Info (raw)
 	 */
 	public static void printStack (boolean adempiereOnly, boolean first9only)
 	{

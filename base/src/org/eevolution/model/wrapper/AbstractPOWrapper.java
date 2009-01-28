@@ -53,7 +53,7 @@ public abstract class AbstractPOWrapper {
 
 	/**
 	 * 	Equals based on ID
-	 * 	@param cmp comperator
+	 * 	@param cmp comparator
 	 * 	@return true if ID the same
 	 */
 	public boolean equals(Object cmp) {
@@ -190,11 +190,11 @@ public abstract class AbstractPOWrapper {
 
 	/**
 	 *  Return new - old.
-	 * 	- New Value if Old Valus is null
+	 * 	- New Value if Old Value is null
 	 * 	- New Value - Old Value if Number 
 	 * 	- otherwise null
 	 *  @param index index
-	 *  @return new - old or null if not appropiate or not changed
+	 *  @return new - old or null if not appropriate or not changed
 	 */
 	public Object get_ValueDifference(int index) {
 		
@@ -203,11 +203,11 @@ public abstract class AbstractPOWrapper {
 
 	/**
 	 *  Return new - old.
-	 * 	- New Value if Old Valus is null
+	 * 	- New Value if Old Value is null
 	 * 	- New Value - Old Value if Number 
 	 * 	- otherwise null
 	 *  @param columnName column name
-	 *  @return new - old or null if not appropiate or not changed
+	 *  @return new - old or null if not appropriate or not changed
 	 */
 	public Object get_ValueDifference(String columnName) {
 		

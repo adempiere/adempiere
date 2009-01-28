@@ -102,7 +102,7 @@ public abstract class PO
 	static protected final String ENTITYTYPE_Dictionary = "D";
 	
 	/**************************************************************************
-	 *  Create New Persisent Object
+	 *  Create New Persistent Object
 	 *  @param ctx context
 	 */
 	public PO (Properties ctx)
@@ -175,7 +175,7 @@ public abstract class PO
 	/**
 	 * 	Create New PO by Copying existing (key not copied).
 	 * 	@param ctx context
-	 * 	@param source souce object
+	 * 	@param source source object
 	 * 	@param AD_Client_ID client
 	 * 	@param AD_Org_ID org
 	 */
@@ -202,7 +202,7 @@ public abstract class PO
 
 	/** Original Values         */
 	private Object[]    		m_oldValues = null;
-	/** New Valies              */
+	/** New Values              */
 	private Object[]    		m_newValues = null;
 
 	/** Record_IDs          		*/
@@ -211,7 +211,7 @@ public abstract class PO
 	private String[]         	m_KeyColumns = null;
 	/** Create New for Multi Key 	*/
 	private boolean				m_createNew = false;
-	/**	Attachment with entriess	*/
+	/**	Attachment with entries	*/
 	private MAttachment			m_attachment = null;
 	/**	Deleted ID					*/
 	private int					m_idOld = 0;
@@ -223,7 +223,7 @@ public abstract class PO
 	/** Accounting Columns			*/
 	private ArrayList <String>	s_acctColumns = null;
 
-	/** TODO - Trifon */
+	/** Trifon - Indicates that this record is created by replication functionality.*/
 	private boolean m_isReplication = false;
 	
 	/** Access Level S__ 100	4	System info			*/
@@ -266,7 +266,7 @@ public abstract class PO
 
 	/**
 	 * 	Equals based on ID
-	 * 	@param cmp comperator
+	 * 	@param cmp comparator
 	 * 	@return true if ID the same
 	 */
 	public boolean equals (Object cmp)
@@ -581,11 +581,11 @@ public abstract class PO
 	
 	/**
 	 *  Return new - old.
-	 * 	- New Value if Old Valus is null
+	 * 	- New Value if Old Value is null
 	 * 	- New Value - Old Value if Number 
 	 * 	- otherwise null
 	 *  @param index index
-	 *  @return new - old or null if not appropiate or not changed
+	 *  @return new - old or null if not appropriate or not changed
 	 */
 	public final Object get_ValueDifference (int index)
 	{
@@ -620,11 +620,11 @@ public abstract class PO
 	
 	/**
 	 *  Return new - old.
-	 * 	- New Value if Old Valus is null
+	 * 	- New Value if Old Value is null
 	 * 	- New Value - Old Value if Number 
 	 * 	- otherwise null
 	 *  @param columnName column name
-	 *  @return new - old or null if not appropiate or not changed
+	 *  @return new - old or null if not appropriate or not changed
 	 */
 	public final Object get_ValueDifference (String columnName)
 	{
@@ -677,7 +677,7 @@ public abstract class PO
 	}   //  setValueE
 
 	/**
-	 *  Set Value if updateable and correct class.
+	 *  Set Value if updteable and correct class.
 	 *  (and to NULL if not mandatory)
 	 *  @param index index
 	 *  @param value value
@@ -2564,8 +2564,8 @@ public abstract class PO
 
 	/**
 	 * 	Get ID for new record during save.
-	 * 	You can overwite this to explicitly set the ID
-	 *	@return ID to be used or 0 for fedault logic
+	 * 	You can overwrite this to explicitly set the ID
+	 *	@return ID to be used or 0 for default logic
 	 */
 	protected int saveNew_getID()
 	{
@@ -2738,7 +2738,7 @@ public abstract class PO
 			.append(" WHERE ")
 			.append(get_WhereClause(true));
 		int no = DB.executeUpdate(sql.toString(), localTrxName);
-			success = no == 1;
+		success = no == 1;
 
 		//	Save ID
 		m_idOld = get_ID();

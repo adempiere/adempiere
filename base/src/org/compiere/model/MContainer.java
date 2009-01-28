@@ -354,7 +354,7 @@ public class MContainer extends X_CM_Container
 	protected void updateTTables (MWebProject project, MCStage stage,
 		String trxName)
 	{
-		int[] tableKeys = X_CM_CStageTTable.getAllIDs ("CM_CStageTTable",
+		int[] tableKeys = X_CM_CStageTTable.getAllIDs (I_CM_CStageTTable.Table_Name,
 			"CM_CStage_ID=" + stage.get_ID (), trxName);
 		if (tableKeys != null && tableKeys.length > 0)
 		{
@@ -363,7 +363,7 @@ public class MContainer extends X_CM_Container
 				X_CM_CStageTTable thisStageTTable = new X_CM_CStageTTable (
 					project.getCtx (), tableKeys[i], trxName);
 				int[] thisContainerTTableKeys = X_CM_ContainerTTable.getAllIDs (
-					"CM_ContainerTTable", "CM_Container_ID=" + stage.get_ID ()
+					I_CM_ContainerTTable.Table_Name, "CM_Container_ID=" + stage.get_ID ()
 						+ " AND CM_TemplateTable_ID="
 						+ thisStageTTable.getCM_TemplateTable_ID (), trxName);
 				X_CM_ContainerTTable thisContainerTTable;

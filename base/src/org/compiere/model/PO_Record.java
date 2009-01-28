@@ -25,7 +25,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
- * 	Maintain AD_Table_ID/Record_ID contraint
+ * 	Maintain AD_Table_ID/Record_ID constraint
  *	
  *  @author Jorg Janke
  *  @version $Id: PO_Record.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $

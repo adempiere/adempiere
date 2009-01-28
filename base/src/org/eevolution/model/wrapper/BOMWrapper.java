@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.compiere.model.PO;
+import org.eevolution.model.I_PP_Order_BOM;
+import org.eevolution.model.I_PP_Product_BOM;
 import org.eevolution.model.MPPOrderBOM;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.reasoner.StorageReasoner;
@@ -35,14 +37,11 @@ public class BOMWrapper extends AbstractPOWrapper {
 	
 	public static String tableName(String type) {
 		
-		if(BOM_TYPE_PRODUCT.equals(type)) {
-			
-			return MPPProductBOM.Table_Name;
+		if (BOM_TYPE_PRODUCT.equals(type)) {
+			return I_PP_Product_BOM.Table_Name;
 		}
 		else if(BOM_TYPE_ORDER.equals(type)) {
-			
-			//eevolution vpj-cd new version return MPPOrderBOM.Table_Name;
-			return MPPOrderBOM.Table_Name;
+			return I_PP_Order_BOM.Table_Name;
 		}
 		
 		return "";
@@ -51,15 +50,11 @@ public class BOMWrapper extends AbstractPOWrapper {
 	public static String idColumn(String type) {
 		
 		String value = null;
-		if(BOM_TYPE_PRODUCT.equals(type)) {
-			
-//			eevolution vpj-cd new version value = MPPProductBOM.Table_Name;
-			return "PP_Product_BOM";
+		if (BOM_TYPE_PRODUCT.equals(type)) {
+			return I_PP_Product_BOM.Table_Name;
 		}
 		else if(BOM_TYPE_ORDER.equals(type)) {
-			
-//			eevolution vpj-cd new version value = MPPOrderBOM.Table_Name;
-			return "PP_Order_BOM";
+			return I_PP_Order_BOM.Table_Name;
 		}
 		
 		return value+"_ID";
