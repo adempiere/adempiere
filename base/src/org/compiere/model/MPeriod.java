@@ -56,11 +56,13 @@ public class MPeriod extends X_C_Period
 	 * Get Period from Cache
 	 * @param ctx context
 	 * @param C_Period_ID id
-	 * @param AD_Org_ID Organization
 	 * @return MPeriod
 	 */
 	public static MPeriod get (Properties ctx, int C_Period_ID)
 	{
+		if (C_Period_ID <= 0)
+			return null;
+		//
 		Integer key = new Integer(C_Period_ID);
 		MPeriod retValue = (MPeriod) s_cache.get (key);
 		if (retValue != null)
@@ -85,11 +87,11 @@ public class MPeriod extends X_C_Period
 	}	//	get
 	
 	/**
-	 * 	Find standard Period of DateAcct based on Client Calendar
-	 *	@param ctx context
+	 * Find standard Period of DateAcct based on Client Calendar
+	 * @param ctx context
 	 * @param DateAcct date
 	 * @param AD_Org_ID Organization
-	 *	@return active Period or null
+	 * @return active Period or null
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
@@ -98,7 +100,6 @@ public class MPeriod extends X_C_Period
 			return null;
 		
         int C_Calendar_ID = getC_Calendar_ID(ctx,AD_Org_ID);
-       
         
 		//	Search in Cache first
 		Iterator<MPeriod> it = s_cache.values().iterator();
