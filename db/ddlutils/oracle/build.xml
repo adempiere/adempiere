@@ -53,6 +53,15 @@
 				</fileset>
 			</path>
 		</foreach>
+		
+		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
+		<foreach param="file.name" target="load">
+			<path>
+				<fileset dir="functions">
+					<include name="**" />
+				</fileset>
+			</path>
+		</foreach>
 	</target>
 
 	<target name="load-others">
@@ -75,15 +84,6 @@
 			</path>
 		</foreach>
 		
-		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Functions:${line.separator}${line.separator}" />
-		<foreach param="file.name" target="load">
-			<path>
-				<fileset dir="functions">
-					<include name="**" />
-				</fileset>
-			</path>
-		</foreach>
-
 		<echo file="log/sqlplus.log" append="true" message="${line.separator}#Create Sequences:${line.separator}${line.separator}" />
 		<foreach param="file.name" target="load">
 			<path>
