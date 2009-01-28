@@ -98,7 +98,7 @@ public class QueryTicket extends PosSubPanel
 		new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "DocumentNo", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "TotalLines"), "TotalLines", BigDecimal.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "GrandTotal", BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "C_BPartner_ID", int.class)
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "Name", String.class)
 	};
 
 	/**
@@ -288,7 +288,7 @@ public class QueryTicket extends PosSubPanel
 		String sql = "";
 		try 
 		{
-			sql = "SELECT o.C_Order_ID, o.DocumentNo, o.TotalLines, o.GrandTotal, o.C_BPartner_ID FROM C_Order o WHERE o.C_DocTypeTarget_ID = " + p_pos.getC_DocType_ID();
+			sql = "SELECT o.C_Order_ID, o.DocumentNo, o.TotalLines, o.GrandTotal, b.Name FROM C_Order o INNER JOIN C_BPartner b ON o.C_BPartner_ID=b.C_BPartner_ID WHERE o.C_DocTypeTarget_ID = " + p_pos.getC_DocType_ID();
 			if (id != null && !id.equalsIgnoreCase(""))
 				sql += " AND o.C_Order_ID = " + id;
 			if (doc != null && !doc.equalsIgnoreCase(""))
