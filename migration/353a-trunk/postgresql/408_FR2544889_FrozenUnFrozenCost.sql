@@ -508,16 +508,6 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 UPDATE AD_Process_Para SET IsActive='N',Updated=TO_TIMESTAMP('2009-01-29 01:07:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_Para_ID=53274
 ;
 
--- Jan 29, 2009 1:08:51 AM ECT
--- Manufacturing Standard Cost
-INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,53764,0,53160,53275,20,'IsCostFrozen',TO_TIMESTAMP('2009-01-29 01:08:47','YYYY-MM-DD HH24:MI:SS'),0,'N','Cost Frozen','U',1,'Indicated that the Standard Cost is frozen','Y','Y','N','N','Cost Frozen',50,TO_TIMESTAMP('2009-01-29 01:08:47','YYYY-MM-DD HH24:MI:SS'),0)
-;
-
--- Jan 29, 2009 1:08:51 AM ECT
--- Manufacturing Standard Cost
-INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=53275 AND EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Process_Para_ID!=t.AD_Process_Para_ID)
-;
-
 -- Jan 29, 2009 1:31:02 AM ECT
 -- Manufacturing Standard Cost
 INSERT INTO AD_Process (AD_Client_ID,AD_Org_ID,AD_Process_ID,AccessLevel,Classname,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDirectPrint,IsReport,IsServerProcess,Name,ShowHelp,Statistic_Count,Statistic_Seconds,Updated,UpdatedBy,Value) VALUES (0,0,53160,'3','org.eevolution.process.FrozenUnFrozenCost',TO_TIMESTAMP('2009-01-29 01:30:49','YYYY-MM-DD HH24:MI:SS'),0,'Frozen or UnFrozen Cost','EE01','Lets freeze or unfreeze the cost, If the Cost is UnFrozen then can be changed','Y','Y','N','N','N','Frozen/UnFrozen Cost','Y',0,0,TO_TIMESTAMP('2009-01-29 01:30:49','YYYY-MM-DD HH24:MI:SS'),0,'PP_Cost Frozen/UnFrozen')
@@ -551,6 +541,17 @@ INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,C
 -- Jan 29, 2009 1:31:02 AM ECT
 -- Manufacturing Standard Cost
 INSERT INTO AD_Process_Access (AD_Client_ID,AD_Org_ID,AD_Process_ID,AD_Role_ID,Created,CreatedBy,IsActive,Updated,UpdatedBy) VALUES (0,0,53160,50001,TO_TIMESTAMP('2009-01-29 01:31:02','YYYY-MM-DD HH24:MI:SS'),0,'Y',TO_TIMESTAMP('2009-01-29 01:31:02','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+
+-- Jan 29, 2009 1:08:51 AM ECT
+-- Manufacturing Standard Cost
+INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,AD_Process_Para_ID,AD_Reference_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsCentrallyMaintained,IsMandatory,IsRange,Name,SeqNo,Updated,UpdatedBy) VALUES (0,53764,0,53160,53275,20,'IsCostFrozen',TO_TIMESTAMP('2009-01-29 01:08:47','YYYY-MM-DD HH24:MI:SS'),0,'N','Cost Frozen','U',1,'Indicated that the Standard Cost is frozen','Y','Y','N','N','Cost Frozen',50,TO_TIMESTAMP('2009-01-29 01:08:47','YYYY-MM-DD HH24:MI:SS'),0)
+;
+
+-- Jan 29, 2009 1:08:51 AM ECT
+-- Manufacturing Standard Cost
+INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=53275 AND EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Process_Para_ID!=t.AD_Process_Para_ID)
 ;
 
 -- Jan 29, 2009 1:33:56 AM ECT
@@ -712,6 +713,8 @@ INSERT INTO AD_Process_Para (AD_Client_ID,AD_Element_ID,AD_Org_ID,AD_Process_ID,
 -- Manufacturing Standard Cost
 INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Process_Para_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Process_Para t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Process_Para_ID=53281 AND EXISTS (SELECT * FROM AD_Process_Para_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Process_Para_ID!=t.AD_Process_Para_ID)
 ;
+
+
 
 DROP VIEW T_BOMLINE_COSTS ;
 CREATE OR REPLACE VIEW T_BOMLINE_COSTS 
