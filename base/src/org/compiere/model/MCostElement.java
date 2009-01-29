@@ -312,7 +312,7 @@ public class MCostElement extends X_M_CostElement
 	 * @param ctx context
 	 * @param trxName transaction
 	 * @return array cost elements
-	 **/
+	 */
 	public static MCostElement[] getElements (Properties ctx, String trxName)
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
@@ -333,7 +333,7 @@ public class MCostElement extends X_M_CostElement
 	 * @param trxName transaction
 	 * @return array cost elements
 	 **/
-	public static Collection getByCostingMethod (Properties ctx, String CostingMethod)
+	public static Collection<MCostElement> getByCostingMethod (Properties ctx, String CostingMethod)
 	{		
 		final String whereClause = "CostingMethod=?";
 		return new Query(ctx, Table_Name, whereClause, null)

@@ -31,11 +31,9 @@ import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
-import org.compiere.model.MCostElement;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
-import org.compiere.model.MRefList;
 import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
@@ -57,10 +55,7 @@ import org.compiere.wf.MWFNodeNext;
 import org.compiere.wf.MWorkflow;
 
 /**
- *  Order Model.
- * 	Please do not set DocStatus and C_DocType_ID directly.
- * 	They are set in the process() method.
- * 	Use DocAction and C_DocTypeTarget_ID instead.
+ *  PP Order Model.
  *
  *  @author Victor Perez www.e-evolution.com     
  *  @author Teo Sarca, www.arhipac.ro
@@ -153,7 +148,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (resoruce == null)
 			throw new IllegalStateException("Resource is mandatory.");
 		setS_Resource_ID(resoruce.getS_Resource_ID());
-
 	} //	MOrder
 
 	/**
@@ -567,7 +561,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		//
 		// Create Standard Costs for Order 
-		Collection <MCost> costs = MCost.getByCostType(getM_Product(), as, as.getM_CostType_ID(), 
+		Collection<MCost> costs = MCost.getByCostType(getM_Product(), as, as.getM_CostType_ID(), 
 				getAD_Org_ID(), getM_AttributeSetInstance_ID());
 				
 		for (MCost cost : costs)
@@ -703,13 +697,15 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (m_processMsg != null)
 			return false;
 		
+		// TODO: not implemented
+		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
 		
-		setProcessed(true);
-		setDocAction(DOCACTION_None);
-		return true;
+//		setProcessed(true);
+//		setDocAction(DOCACTION_None);
+		return false;
 	} //	voidIt
 
 	public boolean closeIt()
@@ -906,12 +902,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				.firstOnly();
 	}
 	
+	private MPPOrderWorkflow m_PP_Order_Workflow = null;
 	public MPPOrderWorkflow getMPPOrderWorkflow()
 	{
-			final String whereClause = MPPOrderWorkflow.COLUMNNAME_PP_Order_ID+"=?";
-			return new Query(getCtx(), MPPOrderWorkflow.Table_Name, whereClause, get_TrxName())
-					.setParameters(new Object[]{getPP_Order_ID()})
-					.firstOnly();
+		if (m_PP_Order_Workflow != null)
+		{
+			return m_PP_Order_Workflow;
+		}
+		final String whereClause = MPPOrderWorkflow.COLUMNNAME_PP_Order_ID+"=?";
+		m_PP_Order_Workflow = new Query(getCtx(), MPPOrderWorkflow.Table_Name, whereClause, get_TrxName())
+				.setParameters(new Object[]{getPP_Order_ID()})
+				.firstOnly();
+		return m_PP_Order_Workflow;
 	}
 	
 	/**
@@ -1055,7 +1057,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,				//Production "+"
 					movementDate,													//MovementDate
 					qtyToDeliver, qtyScrap, qtyReject,								//qty,scrap,reject
-					0,0,	
+					0,0,															//durationSetup,duration
 					trxName);
 		}
 

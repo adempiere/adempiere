@@ -52,54 +52,24 @@ public class MCost extends X_M_Cost
 	private static final long serialVersionUID = 1L;
 
     /**
-     * Get the the Total Cost for this Cost Element Type and Costing Method
+     * Get the the Total Cost for Cost Type and Cost Element Type
      * @param product Product
      * @param as  Account Schema
      * @param AD_Org_ID Organization ID
      * @param M_AttributeSetInstance_ID Attribute Set Instance ID
-     * @param C_CostType_ID TODO
+     * @param M_CostType_ID cost type
      * @param CostElementType Cost Element Type
      * @param Qty Quantity
-     * @return Get the the Total Cost for this Cost Element Type and Costing Method
+     * @return Total Costs for Cost Type and Cost Element Type
      */
 	public static BigDecimal getCostByCostType (MProduct product, MAcctSchema as,  
 			int AD_Org_ID, int M_AttributeSetInstance_ID,
-			int C_CostType_ID, String CostElementType,
+			int M_CostType_ID, String CostElementType,
 			BigDecimal Qty)
 	{
-		//Set the Costing Level 
-		String CostingLevel = product.getCostingLevel(as);
-		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel))
-		{
-			AD_Org_ID = 0;
-			M_AttributeSetInstance_ID = 0;
-		}
-		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			M_AttributeSetInstance_ID = 0;
-		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-			AD_Org_ID = 0;
-		
-		Collection<MCost> costs = null;
+		Collection<MCost> costs = getByCostType(product, as, M_CostType_ID, AD_Org_ID, M_AttributeSetInstance_ID,
+												CostElementType);
 		BigDecimal m_cost = Env.ZERO;
-		String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
-			+ " AND M_Product_ID=?"
-			+ " AND M_AttributeSetInstance_ID=?"
-			+ " AND C_AcctSchema_ID=?"
-		    + " AND EXISTS ( SELECT 1 FROM M_CostElement ce "
-		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID " 
-		    + " AND ce.CostElementType=?)";
-		
-
-		costs = new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
-		.setParameters(new Object[]{
-						product.getAD_Client_ID(), 
-						AD_Org_ID, 
-						product.getM_Product_ID(),
-						M_AttributeSetInstance_ID,  
-						as.getC_AcctSchema_ID(), 
-						CostElementType})
-		.setOnlyActiveRecords(true)				
-		.list();
 		for(MCost cost : costs)
 		{
 			m_cost = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
@@ -109,7 +79,7 @@ public class MCost extends X_M_Cost
 	}	//	get
 	
 	 /**
-     * Get MCost for Cost Type and Cost Element Type
+     * Get MCosts for Cost Type and Cost Element Type
      * @param product Product
      * @param as  Account Schema
      * @param AD_Org_ID Organization ID
@@ -117,13 +87,8 @@ public class MCost extends X_M_Cost
      * @param CostElementType Cost Element Type
      * @return Get MCost Collection for Cost Type and Cost Element Type
      */
-	public static Collection<MCost> getByCostType (
-			MProduct product,
-			MAcctSchema as, 
-			int M_CostType_ID , 
-			int AD_Org_ID, 
-			int M_AttributeSetInstance_ID , 
-			String CostElementType)
+	public static Collection<MCost> getByCostType (MProduct product, MAcctSchema as, 
+			int M_CostType_ID, int AD_Org_ID, int M_AttributeSetInstance_ID, String CostElementType)
 	{
 		//Set the Costing Level 
 		String CostingLevel = product.getCostingLevel(as);
@@ -133,16 +98,20 @@ public class MCost extends X_M_Cost
 			M_AttributeSetInstance_ID = 0;
 		}
 		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+		{
 			M_AttributeSetInstance_ID = 0;
+		}
 		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+		{
 			AD_Org_ID = 0;
+		}
 
 		String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
-			+ " AND M_Product_ID=?"
-			+ " AND M_AttributeSetInstance_ID=?"
-			+ " AND C_AcctSchema_ID=?"
-			+ " AND M_CostType_ID=?"
-		    + " AND EXISTS ( SELECT 1 FROM M_CostElement ce "
+			+ " AND "+COLUMNNAME_M_Product_ID+"=?"
+			+ " AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?"
+			+ " AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
+			+ " AND "+COLUMNNAME_M_CostType_ID+"=?"
+		    + " AND EXISTS (SELECT 1 FROM M_CostElement ce "
 		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID "; 
 		
 		List<Object> params = new  ArrayList<Object>();
@@ -154,8 +123,8 @@ public class MCost extends X_M_Cost
 		params.add(M_CostType_ID);	
 		if(CostElementType != null)
 		{
-			params.add(CostElementType);
 			whereClause += "AND ce.CostElementType=?";
+			params.add(CostElementType);
 		}
 		
 		whereClause += ")";
@@ -167,7 +136,7 @@ public class MCost extends X_M_Cost
 	}	//	get
 	
 	 /**
-     * Get MCost for for Cost Type
+     * Get MCosts for for Cost Type
      * @param product Product
      * @param as  Account Schema
      * @param M_CostType_ID Cost Type
@@ -790,7 +759,7 @@ public class MCost extends X_M_Cost
 	/**
 	 * 	Create standard Costing records for Product
 	 *	@param product product
-	 **/
+	 */
 	protected static void create (MProduct product)
 	{
 			s_log.config(product.getName());

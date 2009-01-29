@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MClient;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
@@ -60,12 +59,9 @@ public class RollupWorkflow extends SvrProcess
 	private int 			p_M_Product_Category_ID = 0;
 	/* Costing Method 	*/
 	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
-	
+
 	private MAcctSchema m_as = null;
 
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
 	protected void prepare()
 	{
 		for (ProcessInfoParameter para : getParameter())
@@ -94,23 +90,18 @@ public class RollupWorkflow extends SvrProcess
 		}
 	}	//	prepare
 
-	/**
-	 *  Perform process.
-	 *  @return Message (text with variables)
-	 *  @throws Exception if not successful
-	 */   
 	protected String doIt() throws Exception                
 	{
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
 		params.add(getAD_Client_ID());
-		
+
 		whereClause.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
 		params.add(MProduct.PRODUCTTYPE_Item);
-		
+
 		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
 		params.add(true);
-		
+
 		if (p_M_Product_ID > 0)
 		{  
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_ID).append("=?");
@@ -128,7 +119,8 @@ public class RollupWorkflow extends SvrProcess
 											.list();    
 
 		for (MProduct product : products)
-		{  
+		{ 
+			log.info("Product: "+product);
 			MPPProductPlanning pp = MPPProductPlanning.find( getCtx(), p_AD_Org_ID , 0, 0, product.get_ID(), get_TrxName());                 
 			int AD_Workflow_ID = 0;
 			if (pp != null)
@@ -143,16 +135,17 @@ public class RollupWorkflow extends SvrProcess
 			{
 				continue;
 			}
-			
+
 			MWorkflow workflow = MWorkflow.get(getCtx(), AD_Workflow_ID);
+			log.info("Workflow: "+workflow);
 			workflow.setCost(Env.ZERO);
-			
+
 			MWFNode[] nodes = workflow.getNodes(false, getAD_Client_ID());
 			for (MWFNode node : nodes)
 			{
 				node.setCost(Env.ZERO);
 			}
-			
+
 			BigDecimal labor = Env.ZERO;
 			BigDecimal burden = Env.ZERO;
 			Collection<MCostElement> elements = MCostElement.getByCostingMethod(getCtx(),  p_ConstingMethod);
@@ -167,29 +160,31 @@ public class RollupWorkflow extends SvrProcess
 				for (MCost cost : costs)
 				{
 					if(MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()) 
-					|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
+							|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
 					{					
 
 						for (MWFNode node : nodes)
-						{   	
+						{
 							BigDecimal nodeCost = Env.ZERO;
 							// check if element cost is of type Labor
 							if (MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()))
 							{ 
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_Resource ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());
 								labor = labor.add(nodeCost);
+								log.info("Node="+node+" : Labor : nodeCost="+nodeCost+" => Cost="+labor);
 							}
 							else if (MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(element.getCostElementType()))
 							{                                    
 								nodeCost = node.getCostForCostElementType(MCostElement.COSTELEMENTTYPE_BurdenMOverhead ,p_C_AcctSchema_ID,  p_M_CostType_ID, p_AD_Org_ID, node.getSetupTime(), node.getDuration());                                 
 								burden = burden.add(nodeCost);
+								log.info("Node="+node+" : Burden : nodeCost="+nodeCost+" => Cost="+burden);
 							}
 							if(nodeCost.signum() != 0)
 							{	
 								node.setCost(node.getCost().add(nodeCost));
 								node.saveEx();
 							}
-						} // Node
+						}
 						// check if element cost is of type Labor
 						if (MCostElement.COSTELEMENTTYPE_Resource.equals(element.getCostElementType()))
 						{  
@@ -203,15 +198,13 @@ public class RollupWorkflow extends SvrProcess
 							cost.setCurrentCostPrice(burden);
 							cost.saveEx();
 						}
-				}
-			} // MCost
+					}
+				} // MCost
 			} // Cost Elements
 			workflow.setCost(labor.add(burden));
 			workflow.saveEx(get_TrxName());
 				
 		}                               
 		return "@OK@";
-	}                 
-	
-	
+	}                                                  
 }
