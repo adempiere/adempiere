@@ -227,7 +227,7 @@ public class AdempiereTestCase extends TestCase {
 	 * @param runnable runnable piece of code
 	 * @throws Exception
 	 */
-	public void assertExceptionThrowed(String message, Class<? extends Exception> exceptionType, Runnable runnable)
+	public void assertExceptionThrown(String message, Class<? extends Exception> exceptionType, Runnable runnable)
 	throws Exception
 	{
 		Exception ex = null;

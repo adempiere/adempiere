@@ -23,7 +23,7 @@ public class QueryTest extends AdempiereTestCase
 {	
 	public void testQuery_NoTable() throws Exception
 	{
-		assertExceptionThrowed("", IllegalArgumentException.class, new Runnable(){
+		assertExceptionThrown("", IllegalArgumentException.class, new Runnable(){
 			public void run()
 			{
 				new Query(getCtx(), "NO_TABLE_DEFINED", null, getTrxName());
@@ -115,7 +115,7 @@ public class QueryTest extends AdempiereTestCase
 	
 	public void testCount_BadSQL() throws Exception
 	{
-		assertExceptionThrowed(null, DBException.class, new Runnable(){
+		assertExceptionThrown(null, DBException.class, new Runnable(){
 			public void run()
 			{
 				new Query(getCtx(), "AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
@@ -148,7 +148,7 @@ public class QueryTest extends AdempiereTestCase
 						.firstOnly();
 		assertEquals("Invalid table ID", 318, t.get_ID());
 		//
-		assertExceptionThrowed(null, DBException.class, new Runnable(){
+		assertExceptionThrown(null, DBException.class, new Runnable(){
 			public void run()
 			{
 				new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
@@ -213,14 +213,14 @@ public class QueryTest extends AdempiereTestCase
 				query.aggregate("LineNetAmt", Query.AGGREGATE_MAX));
 		//
 		// Test Exception : No Aggregate Function defined
-		assertExceptionThrowed("No Aggregate Function defined", DBException.class, new Runnable(){
+		assertExceptionThrown("No Aggregate Function defined", DBException.class, new Runnable(){
 			public void run()
 			{
 				query.aggregate("*", null);
 			}});
 		//
 		// Test Exception : No Expression defined
-		assertExceptionThrowed("No Expression defined", DBException.class, new Runnable(){
+		assertExceptionThrown("No Expression defined", DBException.class, new Runnable(){
 			public void run()
 			{
 				query.aggregate(null, Query.AGGREGATE_SUM);
