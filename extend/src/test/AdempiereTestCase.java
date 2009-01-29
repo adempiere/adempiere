@@ -16,6 +16,7 @@ package test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 
 import javax.swing.JFileChooser;
@@ -23,6 +24,7 @@ import javax.swing.JFileChooser;
 import junit.framework.TestCase;
 
 import org.compiere.util.CLogMgt;
+import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
 
@@ -34,6 +36,7 @@ public class AdempiereTestCase extends TestCase {
 
 	// Test: General
 	protected Properties testProperties = null;
+	protected String testPropertiesFileName = "test.properties";
 
 	// Test Context
 	private Properties m_Ctx = null;
@@ -63,8 +66,11 @@ public class AdempiereTestCase extends TestCase {
 	private String LogLevel_DefaultValue = Level.FINEST.toString();
 	private Level LogLevel_Value = Level.FINEST;
 
-	// Trx name
-	private String trxName = "test";
+	/** Trx name */
+	private String trxName = Trx.createTrxName(getClass().getName()+"_");
+	
+	/** Random numbers generator */
+	private Random m_randGenerator = new Random(System.currentTimeMillis());
 
 	/**
 	 * 
@@ -112,7 +118,7 @@ public class AdempiereTestCase extends TestCase {
 
 		// Load properties
 		testProperties = new Properties();
-		File file = new File("test.properties");
+		File file = new File(testPropertiesFileName);
 		if (!file.isFile()) {
 			JFileChooser chooser = new JFileChooser();
 			int returnVal = chooser.showOpenDialog(null);
@@ -135,7 +141,8 @@ public class AdempiereTestCase extends TestCase {
 		} catch (Exception e) {
 		}
 
-		m_Ctx = new Properties();
+		//m_Ctx = new Properties();
+		m_Ctx = Env.getCtx();
 		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
 		m_Ctx.setProperty("#AD_Client_ID", new Integer(AD_Client_ID_Value).toString());
 
@@ -201,5 +208,43 @@ public class AdempiereTestCase extends TestCase {
 
 		testProperties = null;
 		m_Ctx = null;
+	}
+	
+	/**
+	 * Generate random integer
+	 * @param max
+	 * @return random integer
+	 */
+	public int randomInt(int max)
+	{
+		return m_randGenerator.nextInt(max);
+	}
+
+	/**
+	 * Assert Exception is throw
+	 * @param message optional error message
+	 * @param exceptionType optional exception type
+	 * @param runnable runnable piece of code
+	 * @throws Exception
+	 */
+	public void assertExceptionThrowed(String message, Class<? extends Exception> exceptionType, Runnable runnable)
+	throws Exception
+	{
+		Exception ex = null;
+		try
+		{
+			runnable.run();
+		}
+		catch (Exception e)
+		{
+			ex = e;
+			//e.printStackTrace();
+		}
+		assertNotNull("No exception was throwed : "+message, ex);
+		//
+		if (exceptionType != null && !exceptionType.isAssignableFrom(ex.getClass()))
+		{
+			throw ex;
+		}
 	}
 }
