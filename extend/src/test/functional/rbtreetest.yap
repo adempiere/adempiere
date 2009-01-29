@@ -943,6 +943,7 @@ scheduleTaskOntoResource(UnscheduledTask, WcCapacityType, ScheduledTaskTree, Res
 	      findGoodStart(ResourceAvailableIntervalTree, ScheduledTaskTree, DepTasks, ScheduleStartTime, WcCapacityType, GoodStart)
               ;
 	      findGoodStart(ResourceAvailableIntervalTree, ScheduledTaskTree, DepTasks, EST, WcCapacityType, GoodStart)
+        )
         ),
 	write('GoodStart: '),
 	write(GoodStart),
