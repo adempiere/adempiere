@@ -358,10 +358,13 @@ public class MRP extends SvrProcess
 				rs = pstmt.executeQuery();                               
 				while (rs.next())
 				{
-					String TypeMRP = rs.getString(MPPMRP.COLUMNNAME_TypeMRP);
-					String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
-					Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
-					Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
+					final int PP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
+					final String TypeMRP = rs.getString(MPPMRP.COLUMNNAME_TypeMRP);
+					final String OrderType = rs.getString(MPPMRP.COLUMNNAME_OrderType);
+					final Timestamp DatePromised = rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised);
+					final Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
+					final BigDecimal Qty = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
+					final int M_Product_ID = rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID); 
 					
 					//MRP-150
 					//Past Due Demand
@@ -373,9 +376,9 @@ public class MRP extends SvrProcess
 						createMRPNote(
 								"MRP-150", 
 								AD_Org_ID, 
-								rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID), 
-								product, MPPMRP.getDocumentNo(rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID)), 
-								rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty), comment
+								PP_MRP_ID, 
+								product, MPPMRP.getDocumentNo(PP_MRP_ID), 
+								Qty, comment
 								);
 					}
 
@@ -388,9 +391,9 @@ public class MRP extends SvrProcess
 					}
 
 					// New Product
-					if (product == null || product.get_ID() != rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID))
+					if (product == null || product.get_ID() != M_Product_ID)
 					{
-						product = MProduct.get(getCtx(), rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID));
+						product = MProduct.get(getCtx(), M_Product_ID);
 						log.info("Calculte Plan to this Product:" + product.getName());
 						
 						//if exist QtyGrossReq of last Demand verify plan
@@ -431,14 +434,14 @@ public class MRP extends SvrProcess
 					if (m_product_planning == null)
 						continue;
 					                                          
-					BeforePP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
+					BeforePP_MRP_ID = PP_MRP_ID;
 
 					if (MPPProductPlanning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 					{
 						// Verify if is DatePromised < DatePromisedTo then Accumulation QtyGrossReqs 
 						if (DatePromisedTo != null && DatePromised.compareTo(DatePromisedTo) < 0)
 						{
-							QtyGrossReqs = QtyGrossReqs.add(rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty));
+							QtyGrossReqs = QtyGrossReqs.add(Qty);
 							log.info("Accumulation   QtyGrossReqs:" + QtyGrossReqs);
 							log.info("DatePromised:" + DatePromised);
 							log.info("DatePromisedTo:" + DatePromisedTo);
@@ -447,8 +450,8 @@ public class MRP extends SvrProcess
 						else
 						{ // if not then create new range for next period
 							BeforeDateStartSchedule =  POQDateStartSchedule; 
-							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product ,BeforeDateStartSchedule);										
-							QtyGrossReqs = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty); 
+							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,BeforeDateStartSchedule);										
+							QtyGrossReqs = Qty; 
 							DatePromisedFrom = DatePromised;
 							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValue());         
 							POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
@@ -458,9 +461,9 @@ public class MRP extends SvrProcess
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
 					else if (MPPProductPlanning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy()))
 					{                                                                                                                                           
-						QtyGrossReqs = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
-						BeforeDateStartSchedule =   rs.getTimestamp(MPPMRP.COLUMNNAME_DatePromised); 		
-						calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID,rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID),product,BeforeDateStartSchedule); 		
+						QtyGrossReqs = Qty;
+						BeforeDateStartSchedule = DatePromised; 		
+						calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product,BeforeDateStartSchedule); 		
 						continue;
 					}                                                                        
 				} // end while
@@ -616,7 +619,6 @@ public class MRP extends SvrProcess
 							+ ": " + m_product_planning.getSafetyStock();
 			createMRPNote("MRP-001", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
 			QtyProjectOnHand =  QtyProjectOnHand.subtract(m_product_planning.getSafetyStock());
-			
 		}
 		log.info("QtyOnHand :" + QtyProjectOnHand);
 		
@@ -771,7 +773,7 @@ public class MRP extends SvrProcess
 		}
 	}
 	
-	private void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
+	protected void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
 	{		
 		//TODO vpj-cd I need to create logic for DRP-040 Shipment Due  Action Notice
 		//Indicates that a shipment for a Order Distribution is due. 
@@ -914,7 +916,7 @@ public class MRP extends SvrProcess
 		commit();
 	}
 	
-	private void createRequisition(int AD_Org_ID , int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
+	protected void createRequisition(int AD_Org_ID , int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
 	{
 		log.info("Create Requisition");
 		
@@ -963,7 +965,7 @@ public class MRP extends SvrProcess
 		count_MR += 1;
 	}
 	
-	private void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned,Timestamp DemandDateStartSchedule)
+	protected void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned,Timestamp DemandDateStartSchedule)
 	{
 		log.info("PP_Product_BOM_ID" + m_product_planning.getPP_Product_BOM_ID() + "AD_Workflow_ID" + m_product_planning.getAD_Workflow_ID());
 		if (m_product_planning.getPP_Product_BOM_ID() == 0 || m_product_planning.getAD_Workflow_ID() == 0)
@@ -1030,7 +1032,7 @@ public class MRP extends SvrProcess
 		commit();
 	}
 
-	private void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product,String documentNo,BigDecimal qty ,String comment)
+	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product,String documentNo,BigDecimal qty ,String comment)
 	{
 		documentNo = documentNo != null ? documentNo : "";
 		comment = comment != null ? comment : "";
