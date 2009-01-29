@@ -183,5 +183,47 @@ public class QueryTest extends AdempiereTestCase
 		assertEquals(101, ids[0]);
 		assertEquals(102, ids[1]);
 	}
-
+	
+	public void testAggregate() throws Exception
+	{
+		final int AD_Client_ID = Env.getAD_Client_ID(getCtx());
+		final String sqlFrom = "FROM C_InvoiceLine WHERE IsActive='Y' AND AD_Client_ID="+AD_Client_ID;
+		final Query query = new Query(getCtx(), "C_InvoiceLine", null, getTrxName())
+						.setOnlyActiveRecords(true)
+						.setClient_ID();
+		//
+		// Test COUNT:
+		assertEquals("COUNT not match",
+				DB.getSQLValueBDEx(getTrxName(), "SELECT COUNT(*) "+sqlFrom),
+				query.aggregate(null, Query.AGGREGATE_COUNT));
+		//
+		// Test SUM:
+		assertEquals("SUM not match",
+				DB.getSQLValueBDEx(getTrxName(), "SELECT SUM(LineNetAmt+TaxAmt) "+sqlFrom),
+				query.aggregate("LineNetAmt+TaxAmt", Query.AGGREGATE_SUM));
+		//
+		// Test MIN:
+		assertEquals("MIN not match",
+				DB.getSQLValueBDEx(getTrxName(), "SELECT MIN(LineNetAmt) "+sqlFrom),
+				query.aggregate("LineNetAmt", Query.AGGREGATE_MIN));
+		//
+		// Test MAX:
+		assertEquals("MAX not match",
+				DB.getSQLValueBDEx(getTrxName(), "SELECT MAX(LineNetAmt) "+sqlFrom),
+				query.aggregate("LineNetAmt", Query.AGGREGATE_MAX));
+		//
+		// Test Exception : No Aggregate Function defined
+		assertExceptionThrowed("No Aggregate Function defined", DBException.class, new Runnable(){
+			public void run()
+			{
+				query.aggregate("*", null);
+			}});
+		//
+		// Test Exception : No Expression defined
+		assertExceptionThrowed("No Expression defined", DBException.class, new Runnable(){
+			public void run()
+			{
+				query.aggregate(null, Query.AGGREGATE_SUM);
+			}});
+	}
 }

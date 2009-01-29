@@ -19,6 +19,7 @@
  ******************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -39,19 +40,26 @@ import org.compiere.util.Util;
 /**
  * 
  * @author Low Heng Sin
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 1981760 ] Improve Query class
  * 			<li>BF [ 2030280 ] org.compiere.model.Query apply access filter issue
  * 			<li>FR [ 2041894 ] Add Query.match() method
  * 			<li>FR [ 2107068 ] Query.setOrderBy should be more error tolerant
  * 			<li>FR [ 2107109 ] Add method Query.setOnlyActiveRecords
  * 			<li>FR [ 2421313 ] Introduce Query.firstOnly convenient method
+ * 			<li>FR [ 2546052 ] Introduce Query aggregate methods
  * @author Redhuan D. Oon
  * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
- *			>li>FR: [ 2214883 ] - to introduce .setClient_ID
+ *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
  */
 public class Query
 {
+	public static final String AGGREGATE_COUNT		= "COUNT";
+	public static final String AGGREGATE_SUM		= "SUM";
+	public static final String AGGREGATE_AVG		= "AVG";
+	public static final String AGGREGATE_MIN		= "MIN";
+	public static final String AGGREGATE_MAX		= "MAX";
+	
 	private static CLogger log	= CLogger.getCLogger (Query.class);
 	
 	private Properties ctx = null;
@@ -294,6 +302,68 @@ public class Query
 	{
  		return buildSQL(null, true);
 	}
+
+	/**
+	 * Aggregate given expression on this criteria
+	 * @param sqlExpression
+	 * @param sqlFunction 
+	 * @return aggregated value
+	 */
+	public BigDecimal aggregate(String sqlExpression, String sqlFunction) throws DBException
+	{
+		if (Util.isEmpty(sqlFunction, true))
+		{
+			throw new DBException("No Aggregate Function defined");
+		}
+		if (Util.isEmpty(sqlExpression, true))
+		{
+			if (AGGREGATE_COUNT == sqlFunction)
+			{
+				sqlExpression = "*";
+			}
+			else
+			{
+				throw new DBException("No Expression defined");
+			}
+		}
+		
+		StringBuffer sqlSelect = new StringBuffer("SELECT ").append(sqlFunction).append("(")
+					.append(sqlExpression).append(")")
+					.append(" FROM ").append(table.getTableName());
+		
+		BigDecimal value = null;
+		String sql = buildSQL(sqlSelect, false);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, this.trxName);
+			rs = createResultSet(pstmt);
+			if (rs.next())
+			{
+				value = rs.getBigDecimal(1);
+			}
+			if (rs.next())
+			{
+				throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//
+		if (value == null)
+		{
+			value = Env.ZERO;
+		}
+		return value;
+	}
 	
 	/**
 	 * Count items that match query criteria
@@ -302,25 +372,18 @@ public class Query
 	 */
 	public int count() throws DBException
 	{
-		int count = -1;
-		String sql = buildSQL(new StringBuffer("SELECT COUNT(*) FROM ").append(table.getTableName()), false);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, this.trxName);
-			rs = createResultSet(pstmt);
-			rs.next();
-			count = rs.getInt(1);
-		}
-		catch (SQLException e) {
-			throw new DBException(e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-		}
-		return count;
+		return aggregate("*", AGGREGATE_COUNT).intValue();
 	}
 	
+	/**
+	 * SUM sqlExpression for items that match query criteria
+	 * @param sqlExpression
+	 * @return sum
+	 */
+	public BigDecimal sum(String sqlExpression)
+	{
+		return aggregate(sqlExpression, AGGREGATE_SUM);
+	}
 	/**
 	 * Check if there items for query criteria
 	 * @return true if exists, false otherwise
@@ -548,5 +611,4 @@ public class Query
 		}
 		return retValue;
 	}	//	get_IDs
-
 }
