@@ -137,7 +137,7 @@ public class CRP extends SvrProcess {
 				}
 
 				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
-				Timestamp dateFinish = scheduleForward(date, nodeMillis ,resource, resourceType);
+				Timestamp dateFinish = scheduleForward(date, nodeMillis ,resource);
 
 				node.setDateStartSchedule(date);
 				node.setDateFinishSchedule(dateFinish);	
@@ -180,7 +180,7 @@ public class CRP extends SvrProcess {
 				}
 
 				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
-				Timestamp dateStart = scheduleBackward(date, nodeMillis ,resource, resourceType);
+				Timestamp dateStart = scheduleBackward(date, nodeMillis ,resource);
 
 				node.setDateStartSchedule(dateStart);
 				node.setDateFinishSchedule(date);
@@ -203,6 +203,15 @@ public class CRP extends SvrProcess {
 		order.saveEx(get_TrxName());
 	}
 
+	/**
+	 * Calculate how many millis take to complete given qty on given node(operation).
+	 * @param node operation
+	 * @param type resource type
+	 * @param resource resource involved in that operation
+	 * @param qty required quantity 
+	 * @param commonBase 
+	 * @return duration in millis
+	 */
 	private long calculateMillisFor(MPPOrderNode node, MResourceType type, BigDecimal qty, long commonBase)
 	{
 //		// Available time factor of the resource of the workflow node
@@ -225,8 +234,9 @@ public class CRP extends SvrProcess {
 		return (long)(totalDuration * commonBase * 1000);
 	}
 
-	private Timestamp scheduleForward(Timestamp start, long nodeDurationMillis, MResource r, MResourceType t)
+	private Timestamp scheduleForward(Timestamp start, long nodeDurationMillis, MResource r)
 	{
+		MResourceType t = r.getResourceType();
 		Timestamp end = null;
 		int iteration = 0; // statistical interation count
 		do
@@ -264,8 +274,16 @@ public class CRP extends SvrProcess {
 		return end;
 	}  	
 
-	private Timestamp scheduleBackward(Timestamp end, long nodeDurationMillis, MResource r, MResourceType t)
+	/**
+	 * Calculate start date having duration and resource
+	 * @param end end date
+	 * @param nodeDurationMillis duration [millis]
+	 * @param r resource
+	 * @return start date
+	 */
+	private Timestamp scheduleBackward(Timestamp end, long nodeDurationMillis, MResource r)
 	{
+		MResourceType t = r.getResourceType();
 		log.fine("--> ResourceType " + t);
 		Timestamp start = null;
 		int iteration = 0; // statistical iteration count
