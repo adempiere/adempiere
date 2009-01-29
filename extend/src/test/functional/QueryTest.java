@@ -23,17 +23,12 @@ public class QueryTest extends AdempiereTestCase
 {	
 	public void testQuery_NoTable() throws Exception
 	{
-		boolean exThrowed = false;
-		try
-		{
-			new Query(getCtx(), "NO_TABLE_DEFINED", null, getTrxName());
-		}
-		catch (RuntimeException e)
-		{
-			exThrowed = true;
-			//e.printStackTrace();
-		}
-		assertTrue("No Error Was Throwed", exThrowed);
+		assertExceptionThrowed("", IllegalArgumentException.class, new Runnable(){
+			public void run()
+			{
+				new Query(getCtx(), "NO_TABLE_DEFINED", null, getTrxName());
+			}
+		});
 	}
 	
 	public void testList() throws Exception
@@ -120,19 +115,15 @@ public class QueryTest extends AdempiereTestCase
 	
 	public void testCount_BadSQL() throws Exception
 	{
-		boolean exThrowed = false;
-		try
-		{
-			new Query(getCtx(), "AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
-							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
-							.setOrderBy("TableName")
-							.count();
-		}
-		catch (DBException e)
-		{
-			exThrowed = true;
-		}
-		assertTrue("No Error Was Throwed", exThrowed);
+		assertExceptionThrowed(null, DBException.class, new Runnable(){
+			public void run()
+			{
+				new Query(getCtx(), "AD_Table", "TableName IN (?,?) AND BAD_SQL", getTrxName())
+				.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+				.setOrderBy("TableName")
+				.count();
+			}
+		});
 	}
 	
 	public void testCount_NoValues() throws Exception
@@ -157,19 +148,15 @@ public class QueryTest extends AdempiereTestCase
 						.firstOnly();
 		assertEquals("Invalid table ID", 318, t.get_ID());
 		//
-		Exception ex = null;
-		try
-		{
-			t = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
-							.setParameters(new Object[]{"C_Invoice", "M_InOut"})
-							.setOrderBy("TableName")
-							.firstOnly();
-		}
-		catch (DBException e)
-		{
-			ex = e;
-		}
-		assertNotNull("Exception should be throwed", ex);
+		assertExceptionThrowed(null, DBException.class, new Runnable(){
+			public void run()
+			{
+				new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
+						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+						.setOrderBy("TableName")
+						.firstOnly();
+			}
+		});
 	}
 	
 	public void testSetClient_ID() throws Exception
