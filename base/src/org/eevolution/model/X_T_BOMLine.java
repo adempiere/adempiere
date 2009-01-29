@@ -34,7 +34,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_T_BOMLine (Properties ctx, int T_BOMLine_ID, String trxName)
@@ -54,7 +54,7 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -173,6 +173,67 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		set_Value (COLUMNNAME_CostStandard, CostStandard);
+	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** CostingMethod AD_Reference_ID=122 */
+	public static final int COSTINGMETHOD_AD_Reference_ID=122;
+	/** Standard Costing = S */
+	public static final String COSTINGMETHOD_StandardCosting = "S";
+	/** Average PO = A */
+	public static final String COSTINGMETHOD_AveragePO = "A";
+	/** Lifo = L */
+	public static final String COSTINGMETHOD_Lifo = "L";
+	/** Fifo = F */
+	public static final String COSTINGMETHOD_Fifo = "F";
+	/** Last PO Price = p */
+	public static final String COSTINGMETHOD_LastPOPrice = "p";
+	/** Average Invoice = I */
+	public static final String COSTINGMETHOD_AverageInvoice = "I";
+	/** Last Invoice = i */
+	public static final String COSTINGMETHOD_LastInvoice = "i";
+	/** User Defined = U */
+	public static final String COSTINGMETHOD_UserDefined = "U";
+	/** _ = x */
+	public static final String COSTINGMETHOD__ = "x";
+	/** Set Costing Method.
+		@param CostingMethod 
+		Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod)
+	{
+
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x"));
+		else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
+
+		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+	}
+
+	/** Get Costing Method.
+		@return Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod () 
+	{
+		return (String)get_Value(COLUMNNAME_CostingMethod);
+	}
+
 	/** Set Current Cost Price.
 		@param CurrentCostPrice 
 		The currently used cost price
@@ -213,6 +274,40 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Future Cost Price.
+		@param FutureCostPrice Future Cost Price	  */
+	public void setFutureCostPrice (BigDecimal FutureCostPrice)
+	{
+		set_Value (COLUMNNAME_FutureCostPrice, FutureCostPrice);
+	}
+
+	/** Get Future Cost Price.
+		@return Future Cost Price	  */
+	public BigDecimal getFutureCostPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPrice);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Future Cost Price Lower Level.
+		@param FutureCostPriceLL Future Cost Price Lower Level	  */
+	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL)
+	{
+		set_Value (COLUMNNAME_FutureCostPriceLL, FutureCostPriceLL);
+	}
+
+	/** Get Future Cost Price Lower Level.
+		@return Future Cost Price Lower Level	  */
+	public BigDecimal getFutureCostPriceLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPriceLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Implosion.
 		@param Implosion 
 		Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
@@ -228,6 +323,30 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public boolean isImplosion () 
 	{
 		Object oo = get_Value(COLUMNNAME_Implosion);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Cost Frozen.
+		@param IsCostFrozen 
+		Indicated that the Standard Cost is frozen
+	  */
+	public void setIsCostFrozen (boolean IsCostFrozen)
+	{
+		set_Value (COLUMNNAME_IsCostFrozen, Boolean.valueOf(IsCostFrozen));
+	}
+
+	/** Get Cost Frozen.
+		@return Indicated that the Standard Cost is frozen
+	  */
+	public boolean isCostFrozen () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCostFrozen);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -302,6 +421,45 @@ public class X_T_BOMLine extends PO implements I_T_BOMLine, I_Persistent
 	public int getM_CostElement_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_CostElement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_CostType getM_CostType() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_CostType.Table_Name);
+        I_M_CostType result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_CostType)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_CostType_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Cost Type.
+		@param M_CostType_ID 
+		Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID)
+	{
+		if (M_CostType_ID < 1) 
+			set_Value (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+	}
+
+	/** Get Cost Type.
+		@return Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_CostType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -104,7 +104,7 @@ public class RollupBillOfMaterial extends SvrProcess
 						0, // S_Resource_ID
 						product.getM_Product_ID(),
 						get_TrxName());                 
-				int yield = 100;
+
 				int PP_Product_BOM_ID = 0;
 				if (pp != null)
 				{
@@ -115,10 +115,6 @@ public class RollupBillOfMaterial extends SvrProcess
 				{
 					PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
 				}
-				if (PP_Product_BOM_ID <= 0)
-				{
-					continue;
-				}
 				
 				MPPProductBOM bom = MPPProductBOM.get(getCtx(), PP_Product_BOM_ID);
 
@@ -128,9 +124,9 @@ public class RollupBillOfMaterial extends SvrProcess
 				{						
 					for (MCost cost : getCosts(product, element.getCostElementType()))
 					{        
-						log.info("Calculate Lower Cost for :"+ product.getName());
-						log.info("Element Cost:"+ element.getName());
-						BigDecimal price = getCurrentCostPriceLL(bom, element, pp != null ? pp.getYield() : 100);     
+						log.info("Calculate Lower Cost for: "+ product.getName());
+						log.info("Element Cost: "+ element.getName());
+						BigDecimal price = getCurrentCostPriceLL(bom, element);     
 						log.info(element.getName() + " Cost Low Level:" + price);
 						cost.setCurrentCostPriceLL(price);
 						cost.saveEx();	  	  
@@ -140,32 +136,26 @@ public class RollupBillOfMaterial extends SvrProcess
 		} // for each LLC
 		return "@OK@";
 	}
-
-
+	
 	/**
-	 * get the sum Current Cost Price Level Low for this Cost Element Type
-	 * @param CostElementType Cost Element Type (Material,Labor,Overhead,Burden)
-	 * @param AD_Org_ID Organization
-	 * @param MProduct Product
-	 * @param M_CostType_ID Cost Type
-	 * @param C_AcctSchema_ID Account Schema
-	 * @return CurrentCostPriceLL Sum Current Cost Price Level Low for this Cost Element Type
+	 * get the sum Current Cost Price Level Low for this Cost Element
+	 * @param bom MPPProductBOM
+	 * @param element MCostElement
+	 * @return Cost Price Lower Level
 	 */
-	private BigDecimal getCurrentCostPriceLL(MPPProductBOM bom, MCostElement element ,int Yield)
+	private BigDecimal getCurrentCostPriceLL(MPPProductBOM bom, MCostElement element)
 	{
 		log.info("ElementType: "+ element.getCostElementType());
 		BigDecimal costPriceLL = Env.ZERO;
+		if(bom == null)
+			return costPriceLL;
 
 		for (MPPProductBOMLine bomline : bom.getLines())
 		{
-			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());
-			
+			MProduct component = MProduct.get(getCtx(), bomline.getM_Product_ID());			
 			// get the rate for this resource     
 			for (MCost cost : getCosts(component, element.getCostElementType()))
 			{                 
-				// check if current cost element type is specified cost element type
-				if (element.getCostElementType().equals(element.getCostElementType()))
-				{
 					BigDecimal qtyPercentage = bomline.getQtyBatch().divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
 					BigDecimal qtyBOM = bomline.getQtyBOM(); 
 					BigDecimal scrapDec = bomline.getScrap().divide(Env.ONEHUNDRED, 4, BigDecimal.ROUND_UP);
@@ -185,16 +175,8 @@ public class RollupBillOfMaterial extends SvrProcess
 								+ ", Total Cost Element: " +   costPriceLL
 								+ ", QtyPercentage: " + qtyPercentage
 								+ ", QtyBOM: " + qtyBOM);
-				}
 			} // for each cost
-		} // for each BOM line  
-
-		if(Yield != 0)
-		{
-			BigDecimal decimalYield = new BigDecimal(Yield / 100);
-			costPriceLL = costPriceLL.divide(decimalYield, 4 ,BigDecimal.ROUND_HALF_UP);
-		}
-       
+		} // for each BOM line         
 		return costPriceLL;     
 	}
 

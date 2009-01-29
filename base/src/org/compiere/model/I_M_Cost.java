@@ -20,6 +20,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Cost
@@ -42,6 +43,14 @@ public interface I_M_Cost
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -83,6 +92,22 @@ public interface I_M_Cost
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name CumulatedAmt */
     public static final String COLUMNNAME_CumulatedAmt = "CumulatedAmt";
@@ -126,10 +151,14 @@ public interface I_M_Cost
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level	  */
+	/** Set Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level	  */
+	/** Get Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public BigDecimal getCurrentCostPriceLL();
 
     /** Column name CurrentQty */
@@ -166,6 +195,41 @@ public interface I_M_Cost
 
 	/** Get Future Cost Price	  */
 	public BigDecimal getFutureCostPrice();
+
+    /** Column name FutureCostPriceLL */
+    public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
+
+	/** Set Future Cost Price Lower Level	  */
+	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
+
+	/** Get Future Cost Price Lower Level	  */
+	public BigDecimal getFutureCostPriceLL();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
+    /** Column name IsCostFrozen */
+    public static final String COLUMNNAME_IsCostFrozen = "IsCostFrozen";
+
+	/** Set Cost Frozen.
+	  * Indicated that the Standard Cost is frozen
+	  */
+	public void setIsCostFrozen (boolean IsCostFrozen);
+
+	/** Get Cost Frozen.
+	  * Indicated that the Standard Cost is frozen
+	  */
+	public boolean isCostFrozen();
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -250,4 +314,20 @@ public interface I_M_Cost
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

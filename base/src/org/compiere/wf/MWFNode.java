@@ -679,7 +679,6 @@ public class MWFNode extends X_AD_WF_Node
 		MResource resource = MResource.get(getCtx(), getS_Resource_ID());
 		if(resource == null)
 			return Env.ZERO;
-		
 		//get the rate and convert in second for this cost type element (Resource, Burden)
 		MWorkflow workflow = getWorkflow();
 		// Validate the CostingLevel 

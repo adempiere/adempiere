@@ -66,31 +66,21 @@ public class CostBillOfMaterial extends SvrProcess
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("AD_Org_ID"))
-			{
+			else if (name.equals(MCost.COLUMNNAME_AD_Org_ID))
 				p_AD_Org_ID = para.getParameterAsInt();
-			}
-			else if (name.equals("C_AcctSchema_ID"))
+			else if (name.equals(MCost.COLUMNNAME_C_AcctSchema_ID))
 			{
 				p_C_AcctSchema_ID= para.getParameterAsInt();
 				m_as = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID);
 			}
-			else if (name.equals("M_CostType_ID"))
-			{
+			else if (name.equals(MCost.COLUMNNAME_M_CostType_ID))
 				p_M_CostType_ID= para.getParameterAsInt();
-			}
-			else if (name.equals("ConstingMethod"))
-			{
+			else if (name.equals(MCostElement.COLUMNNAME_CostingMethod))
 				p_ConstingMethod=(String)para.getParameter();
-			}
-			else if (name.equals("M_Product_ID"))
-			{
+			else if (name.equals(MCost.COLUMNNAME_M_Product_ID))
 				p_M_Product_ID = para.getParameterAsInt();
-			}
 			else
-			{
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-			}
 		}
 	} // prepare
 
@@ -208,6 +198,8 @@ public class CostBillOfMaterial extends SvrProcess
 			tboml.setSel_Product_ID(p_M_Product_ID);
 			tboml.setImplosion(p_implosion);
 			tboml.setC_AcctSchema_ID(p_C_AcctSchema_ID);
+			tboml.setM_CostType_ID(p_M_CostType_ID);
+			tboml.setCostingMethod(p_ConstingMethod);
 			tboml.setAD_PInstance_ID(getAD_PInstance_ID());
 			tboml.setM_CostElement_ID(costElement.get_ID());
 			tboml.setM_Product_ID(product.get_ID());
@@ -227,13 +219,23 @@ public class CostBillOfMaterial extends SvrProcess
 					costElement.getCostElementType());
 			BigDecimal currentCostPrice = Env.ZERO;
 			BigDecimal currentCostPriceLL = Env.ZERO;
+			BigDecimal futureCostPrice = Env.ZERO;
+			BigDecimal futureCostPriceLL = Env.ZERO;
+			boolean isCostFrozen = false;
 			for (MCost cost : costs)
 			{
 				currentCostPrice = currentCostPrice.add(cost.getCurrentCostPrice());
 				currentCostPriceLL = currentCostPriceLL.add(cost.getCurrentCostPriceLL());
+				futureCostPrice = futureCostPrice.add(cost.getFutureCostPrice());
+				futureCostPriceLL = futureCostPriceLL.add(cost.getFutureCostPriceLL());
+				isCostFrozen = cost.isCostFrozen();
+				
 			}
 			tboml.setCurrentCostPrice(currentCostPrice);
 			tboml.setCurrentCostPriceLL(currentCostPriceLL);
+			tboml.setFutureCostPrice(currentCostPrice);
+			tboml.setFutureCostPriceLL(currentCostPriceLL);
+			tboml.setIsCostFrozen(isCostFrozen);
 			//
 			// Reference
 			if (bomLine != null)

@@ -20,6 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -38,11 +39,19 @@ public interface I_T_BOMLine
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -100,6 +109,48 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCost();
 
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
+
+    /** Column name CostingMethod */
+    public static final String COLUMNNAME_CostingMethod = "CostingMethod";
+
+	/** Set Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public void setCostingMethod (String CostingMethod);
+
+	/** Get Costing Method.
+	  * Indicates how Costs will be calculated
+	  */
+	public String getCostingMethod();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name CurrentCostPrice */
     public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
 
@@ -126,6 +177,24 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCurrentCostPriceLL();
 
+    /** Column name FutureCostPrice */
+    public static final String COLUMNNAME_FutureCostPrice = "FutureCostPrice";
+
+	/** Set Future Cost Price	  */
+	public void setFutureCostPrice (BigDecimal FutureCostPrice);
+
+	/** Get Future Cost Price	  */
+	public BigDecimal getFutureCostPrice();
+
+    /** Column name FutureCostPriceLL */
+    public static final String COLUMNNAME_FutureCostPriceLL = "FutureCostPriceLL";
+
+	/** Set Future Cost Price Lower Level	  */
+	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL);
+
+	/** Get Future Cost Price Lower Level	  */
+	public BigDecimal getFutureCostPriceLL();
+
     /** Column name Implosion */
     public static final String COLUMNNAME_Implosion = "Implosion";
 
@@ -138,6 +207,32 @@ public interface I_T_BOMLine
 	  * Implosion of a Bill of Materials refers to finding all the BOM''s in which a component is used.
 	  */
 	public boolean isImplosion();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
+    /** Column name IsCostFrozen */
+    public static final String COLUMNNAME_IsCostFrozen = "IsCostFrozen";
+
+	/** Set Cost Frozen.
+	  * Indicated that the Standard Cost is frozen
+	  */
+	public void setIsCostFrozen (boolean IsCostFrozen);
+
+	/** Get Cost Frozen.
+	  * Indicated that the Standard Cost is frozen
+	  */
+	public boolean isCostFrozen();
 
     /** Column name LevelNo */
     public static final String COLUMNNAME_LevelNo = "LevelNo";
@@ -171,6 +266,21 @@ public interface I_T_BOMLine
 	public int getM_CostElement_ID();
 
 	public I_M_CostElement getM_CostElement() throws RuntimeException;
+
+    /** Column name M_CostType_ID */
+    public static final String COLUMNNAME_M_CostType_ID = "M_CostType_ID";
+
+	/** Set Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public void setM_CostType_ID (int M_CostType_ID);
+
+	/** Get Cost Type.
+	  * Type of Cost (e.g. Current, Plan, Future)
+	  */
+	public int getM_CostType_ID();
+
+	public I_M_CostType getM_CostType() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -262,4 +372,20 @@ public interface I_T_BOMLine
 
 	/** Get Temporal BOM Line	  */
 	public int getT_BOMLine_ID();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

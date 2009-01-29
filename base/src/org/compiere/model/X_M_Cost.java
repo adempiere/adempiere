@@ -33,7 +33,7 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_Cost (Properties ctx, int M_Cost_ID, String trxName)
@@ -146,7 +146,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		throw new IllegalArgumentException ("CostingMethod is virtual column");	}
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x"));
+		else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
+
+		throw new IllegalArgumentException ("CostingMethod is virtual column");	}
 
 	/** Get Costing Method.
 		@return Indicates how Costs will be calculated
@@ -219,7 +222,9 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	}
 
 	/** Set Current Cost Price Lower Level.
-		@param CurrentCostPriceLL Current Cost Price Lower Level	  */
+		@param CurrentCostPriceLL 
+		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
 	{
 		if (CurrentCostPriceLL == null)
@@ -228,7 +233,8 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	}
 
 	/** Get Current Cost Price Lower Level.
-		@return Current Cost Price Lower Level	  */
+		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public BigDecimal getCurrentCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
@@ -293,6 +299,47 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Future Cost Price Lower Level.
+		@param FutureCostPriceLL Future Cost Price Lower Level	  */
+	public void setFutureCostPriceLL (BigDecimal FutureCostPriceLL)
+	{
+		set_Value (COLUMNNAME_FutureCostPriceLL, FutureCostPriceLL);
+	}
+
+	/** Get Future Cost Price Lower Level.
+		@return Future Cost Price Lower Level	  */
+	public BigDecimal getFutureCostPriceLL () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FutureCostPriceLL);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Cost Frozen.
+		@param IsCostFrozen 
+		Indicated that the Standard Cost is frozen
+	  */
+	public void setIsCostFrozen (boolean IsCostFrozen)
+	{
+		set_Value (COLUMNNAME_IsCostFrozen, Boolean.valueOf(IsCostFrozen));
+	}
+
+	/** Get Cost Frozen.
+		@return Indicated that the Standard Cost is frozen
+	  */
+	public boolean isCostFrozen () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCostFrozen);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Attribute Set Instance.
