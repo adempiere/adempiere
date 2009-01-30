@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
@@ -231,13 +232,15 @@ public class ProcessDialog extends CFrame
 				+ "FROM AD_Process p, AD_Process_Trl t "
 				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
 				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_AD_Process_ID);
 			if (trl)
 				pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_Name = rs.getString(1);
@@ -255,14 +258,15 @@ public class ProcessDialog extends CFrame
 				if (!rs.wasNull())
 					m_messageText.append("<p>").append(s).append("</p>");
 			}
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
-			return false;
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		if (m_Name == null) {

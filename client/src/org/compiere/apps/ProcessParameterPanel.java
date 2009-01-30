@@ -32,6 +32,7 @@ import java.util.logging.Level;
 import javax.swing.Box;
 import javax.swing.JLabel;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
@@ -49,10 +50,12 @@ import org.compiere.util.Env;
  *	- Embedded in ProcessDialog
  *	- checks, if parameters exist and inquires and saves them
  *
- * 	@author 	Low Heng Sin
+ * @author Low Heng Sin
  * @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process
  *         Parameter: add display and readonly logic
- * 	@version 	2006-12-01
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2548216 ] Process Param Panel is not showing any parameter if error 
+ * @version 	2006-12-01
  */
 @SuppressWarnings("serial")
 public class ProcessParameterPanel extends CPanel implements VetoableChangeListener, IProcessParameter {
@@ -225,7 +228,7 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			}
 			catch(SQLException e)
 			{
-				log.log(Level.SEVERE, sql, e);
+				throw new DBException(e, sql);
 			}
 			finally
 			{
