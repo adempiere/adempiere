@@ -1695,10 +1695,11 @@ public class MInOut extends X_M_InOut implements DocAction
 				String MMPolicy = product.getMMPolicy();
 				Timestamp minGuaranteeDate = getMovementDate();
 				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-						minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
+						minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), false, line.getM_Locator_ID(), get_TrxName());
 				BigDecimal qtyToDeliver = line.getMovementQty();
 				for (MStorage storage: storages)
 				{
+
 					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 					{
 						MInOutLineMA ma = new MInOutLineMA (line, 
@@ -1709,6 +1710,7 @@ public class MInOut extends X_M_InOut implements DocAction
 							throw new IllegalStateException("Error try create ASI Reservation");
 						}														
 						qtyToDeliver = Env.ZERO;
+						break;
 					}
 					else
 					{
