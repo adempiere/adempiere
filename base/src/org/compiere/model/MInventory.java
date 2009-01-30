@@ -596,7 +596,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			{
 				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), 0, 
-						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), false, line.getM_Locator_ID(), get_TrxName());
+						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
 				BigDecimal qtyToDeliver = qtyDiff.negate();
 
 				for (MStorage storage: storages)
@@ -612,7 +612,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 						}		
 						qtyToDeliver = Env.ZERO;
 						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-						break;
+						//return;
 					}
 					else
 					{	

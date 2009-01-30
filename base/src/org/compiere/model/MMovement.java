@@ -665,7 +665,7 @@ public class MMovement extends X_M_Movement implements DocAction
 				MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
 				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getWarehouse(getCtx(), 0, line.getM_Product_ID(), 0, 
-						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), false, line.getM_Locator_ID(), get_TrxName());
+						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
 
 				BigDecimal qtyToDeliver = line.getMovementQty();
 
@@ -682,7 +682,7 @@ public class MMovement extends X_M_Movement implements DocAction
 							}		
 							qtyToDeliver = Env.ZERO;
 							log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-							break;
+							//return;
 					}
 					else
 					{	

@@ -332,10 +332,7 @@ public class MStorage extends X_M_Storage
 			}
 			rs = pstmt.executeQuery();
 			while (rs.next())
-			{	
-				if(rs.getBigDecimal(11).signum() != 0)
 				list.add (new MStorage (ctx, rs, trxName));
-			}	
 		}
 		catch (Exception e)
 		{
