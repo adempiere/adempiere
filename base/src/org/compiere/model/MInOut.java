@@ -1654,6 +1654,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 
 		boolean needSave = false;
+		BigDecimal qtyASI = Env.ZERO ;
 
 		MProduct product = line.getProduct();
 
@@ -1693,12 +1694,65 @@ public class MInOut extends X_M_InOut implements DocAction
 			else if(getMovementType().compareTo(MInOut.MOVEMENTTYPE_VendorReturns) == 0 || getMovementType().compareTo(MInOut.MOVEMENTTYPE_CustomerShipment) == 0)
 			{
 				String MMPolicy = product.getMMPolicy();
-				Timestamp minGuaranteeDate = getMovementDate();
-				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-						minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
+				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
+						line.getM_Product_ID(),	line.getM_Locator_ID(), 
+						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
 				BigDecimal qtyToDeliver = line.getMovementQty();
+				/*for (int ii = 0; ii < storages.length; ii++)
+				{
+					MStorage storage = storages[ii];
+					if (ii == 0)
+					{
+						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+						{
+							line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+							needSave = true;
+							log.config("Direct - " + line);
+							qtyToDeliver = Env.ZERO;
+						}
+						else
+						{
+							log.config("Split - " + line);
+							MInOutLineMA ma = new MInOutLineMA (line, 
+								storage.getM_AttributeSetInstance_ID(),
+								storage.getQtyOnHand());
+							if (!ma.save())
+								;
+							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+							log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
+						}
+					}
+					else	//	 create addl material allocation
+					{
+						MInOutLineMA ma = new MInOutLineMA (line, 
+							storage.getM_AttributeSetInstance_ID(),
+							qtyToDeliver);
+						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
+							qtyToDeliver = Env.ZERO;
+						else
+						{
+							ma.setMovementQty(storage.getQtyOnHand());
+							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						}
+						if (!ma.save())
+							;
+						log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
+					}
+					if (qtyToDeliver.signum() == 0)
+						break;
+				}	//	 for all storages
+				 */
+
 				for (MStorage storage: storages)
 				{
+					//consume ASI Zero
+					if (storage.getM_AttributeSetInstance_ID() == 0)
+					{
+						qtyASI = qtyASI.add(storage.getQtyOnHand());
+						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						continue;
+					}
+
 					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 					{
 						MInOutLineMA ma = new MInOutLineMA (line, 
@@ -1725,11 +1779,11 @@ public class MInOut extends X_M_InOut implements DocAction
 				}
 
 				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0)
+				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
 				{
-					MInOutLineMA ma = new MInOutLineMA (line, 0, qtyToDeliver);
+					MInOutLineMA ma = new MInOutLineMA (line, 0, qtyToDeliver.add(qtyASI));
 					if (!ma.save())
-						throw new IllegalStateException("Error try create ASI Reservation");
+						;
 					log.fine("##: " + ma);
 				}
 			}	//	outgoing Trx

@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
+import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -37,8 +38,10 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version $Id: MInventory.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
- *  @author victor.perez@e-evolution.com, e-Evolution
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
+ * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
@@ -326,7 +329,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_MaterialPhysicalInventory))
+		if (!MPeriod.isOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_MaterialPhysicalInventory, getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -467,13 +470,21 @@ public class MInventory extends X_M_Inventory implements DocAction
 						mtrx = new MTransaction (getCtx(), line.getAD_Org_ID(), m_MovementType,
 								line.getM_Locator_ID(), line.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
 								QtyMA.negate(), getMovementDate(), get_TrxName());
-						mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
-						if (!mtrx.save())
-						{
-							m_processMsg = "Transaction not inserted(2)";
-							return DocAction.STATUS_Invalid;
-						}
-						qtyDiff = QtyNew;						
+						
+							mtrx.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
+							if (!mtrx.save())
+							{
+								m_processMsg = "Transaction not inserted(2)";
+								return DocAction.STATUS_Invalid;
+							}
+							if(QtyMA.signum() != 0)
+							{	
+								String err = createCostDetail(line, ma.getM_AttributeSetInstance_ID() , QtyMA.negate());
+								if(err != null && err.length() > 0) return err;
+							}
+							
+							qtyDiff = QtyNew;						
+
 					}	
 				}
 
@@ -521,9 +532,14 @@ public class MInventory extends X_M_Inventory implements DocAction
 						m_processMsg = "Transaction not inserted(2)";
 						return DocAction.STATUS_Invalid;
 					}
+					
+					if(qtyDiff.signum() != 0)
+					{	
+						String err = createCostDetail(line, line.getM_AttributeSetInstance_ID(), qtyDiff);
+						if(err != null && err.length() > 0) return err;
+					}
 				}	//	Fallback
 			}	//	stock movement
-
 
 		}	//	for all lines
 
@@ -573,6 +589,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 		//	Check Line
 		boolean needSave = false;
+		BigDecimal qtyASI = Env.ZERO ;
 		//	Attribute Set Instance
 		if (line.getM_AttributeSetInstance_ID() == 0)
 		{
@@ -595,12 +612,21 @@ public class MInventory extends X_M_Inventory implements DocAction
 			else	//	Outgoing Trx
 			{
 				String MMPolicy = product.getMMPolicy();
-				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), 0, 
-						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
+				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
+						line.getM_Product_ID(),	line.getM_Locator_ID(), 
+						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
 				BigDecimal qtyToDeliver = qtyDiff.negate();
 
 				for (MStorage storage: storages)
 				{
+					//cosume ASI Zero
+					if (storage.getM_AttributeSetInstance_ID() == 0)
+					{
+						qtyASI = qtyASI.add(storage.getQtyOnHand());
+						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
+						continue;
+					}
+
 					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 					{
 						MInventoryLineMA ma = new MInventoryLineMA (line, 
@@ -629,12 +655,12 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 
 				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0)
+				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
 				{
-					MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver);
+					MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver.add(qtyASI));
 
 					if (!ma.save())
-						throw new IllegalStateException("Error try create ASI Reservation");
+						;
 					log.fine("##: " + ma);
 				}
 			}	//	outgoing Trx
@@ -736,7 +762,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return false;
 
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (!MPeriod.isOpen(getCtx(), getMovementDate(), dt.getDocBaseType()))
+		if (!MPeriod.isOpen(getCtx(), getMovementDate(), dt.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return false;
@@ -751,6 +777,8 @@ public class MInventory extends X_M_Inventory implements DocAction
 		reversal.setPosted(false);
 		reversal.setProcessed(false);
 		reversal.addDescription("{->" + getDocumentNo() + ")");
+		//FR1948157
+		reversal.setReversal_ID(getM_Inventory_ID());
 		if (!reversal.save())
 		{
 			m_processMsg = "Could not create Inventory Reversal";
@@ -767,6 +795,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 			copyValues(oLine, rLine, oLine.getAD_Client_ID(), oLine.getAD_Org_ID());
 			rLine.setM_Inventory_ID(reversal.getM_Inventory_ID());
 			rLine.setParent(reversal);
+			//AZ Goodwill
+			// store original (voided/reversed) document line
+			rLine.setReversalLine_ID(oLine.getM_InventoryLine_ID());
+			//
 			rLine.setQtyBook (oLine.getQtyCount());		//	switch
 			rLine.setQtyCount (oLine.getQtyBook());
 			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());		
@@ -788,7 +820,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 							mas[j].getM_AttributeSetInstance_ID(),
 							mas[j].getMovementQty().negate());
 					if (!ma.save())
-						throw new IllegalStateException("Error try create ASI Reservation");
+						;
 				}
 			}
 		}
@@ -811,6 +843,8 @@ public class MInventory extends X_M_Inventory implements DocAction
 		if (m_processMsg != null)
 			return false;
 		setProcessed(true);
+		//FR1948157
+		setReversal_ID(reversal.getM_Inventory_ID());
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
 		setDocAction(DOCACTION_None);
 
@@ -925,5 +959,54 @@ public class MInventory extends X_M_Inventory implements DocAction
 		return m_reversal;
 	}	//	isReversal
 	
-}	//	MInventory
+	/**
+	 * Create Cost Detail
+	 * @param line
+	 * @param Qty
+	 * @return
+	 */
+	private String createCostDetail(MInventoryLine  line,int M_AttributeSetInstance_ID, BigDecimal qty)
+	{
+		// Get Account Schemas to create MCostDetail
+		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for(int asn = 0; asn < acctschemas.length; asn++)
+		{
+			MAcctSchema as = acctschemas[asn];
+			
+			boolean skip = false;
+			if (as.getAD_OrgOnly_ID() != 0)
+			{
+				if (as.getOnlyOrgs() == null)
+					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
+						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+						as.getAD_OrgOnly_ID()));
 
+				//	Header Level Org
+				skip = as.isSkipOrg(getAD_Org_ID());
+				//	Line Level Org
+				skip = as.isSkipOrg(line.getAD_Org_ID());
+			}
+			if (skip)
+				continue;
+			
+			ProductCost pc = new ProductCost (Env.getCtx(), 
+					line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());
+			pc.setQty(qty);
+			BigDecimal costs = pc.getProductCosts(as, line.getAD_Org_ID(), as.getCostingMethod(), 
+					0,false);			
+			if (costs == null || costs.signum() == 0)
+			{
+				return "No Costs for " + line.getProduct().getName();
+			}
+			
+			// Set Total Amount and Total Quantity from Inventory
+			MCostDetail.createInventory(as, line.getAD_Org_ID(), 
+					line.getM_Product_ID(), M_AttributeSetInstance_ID,
+					line.getM_InventoryLine_ID(), 0,	//	no cost element
+					costs.multiply(qty), qty,			
+					line.getDescription(), line.get_TrxName());
+		}
+		
+		return "";
+	}
+}	//	MInventory
