@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,25 +16,13 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.logging.Level;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
-import org.compiere.model.MAttributeSet;
-import org.compiere.model.MClient;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
-import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  *	Generate Shipments.
@@ -208,7 +196,6 @@ public class InOutGenerate extends SvrProcess
 	 */
 	private String generate (PreparedStatement pstmt)
 	{
-		MClient client = MClient.get(getCtx());
 		try
 		{
 			ResultSet rs = pstmt.executeQuery ();
@@ -242,7 +229,7 @@ public class InOutGenerate extends SvrProcess
 							+ " INNER JOIN M_InOut io ON (iol.M_InOut_ID=io.M_InOut_ID) "
 								+ "WHERE iol.C_OrderLine_ID=C_OrderLine.C_OrderLine_ID AND io.DocStatus IN ('IP','WC'))";
 				//	Deadlock Prevention - Order by M_Product_ID
-				MOrderLine[] lines = order.getLines (where, "C_BPartner_Location_ID, M_Product_ID");
+				MOrderLine[] lines = order.getLines (where, "ORDER BY C_BPartner_Location_ID, M_Product_ID");
 				for (int i = 0; i < lines.length; i++)
 				{
 					MOrderLine line = lines[i];
@@ -298,9 +285,7 @@ public class InOutGenerate extends SvrProcess
 					String MMPolicy = product.getMMPolicy();
 					MStorage[] storages = getStorages(line.getM_Warehouse_ID(), 
 						line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-						product.getM_AttributeSet_ID(),
-						line.getM_AttributeSetInstance_ID()==0, minGuaranteeDate, 
-						MClient.MMPOLICY_FiFo.equals(MMPolicy)); 
+						minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy)); 
 					
 					for (int j = 0; j < storages.length; j++)
 					{
@@ -382,9 +367,7 @@ public class InOutGenerate extends SvrProcess
 							String MMPolicy = product.getMMPolicy();
 							storages = getStorages(line.getM_Warehouse_ID(), 
 								line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(),
-								product.getM_AttributeSet_ID(),
-								line.getM_AttributeSetInstance_ID()==0, minGuaranteeDate, 
-								MClient.MMPOLICY_FiFo.equals(MMPolicy));
+								minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy));
 						}
 						//	
 						createLine (order, line, toDeliver, storages, false);
@@ -460,21 +443,13 @@ public class InOutGenerate extends SvrProcess
 			return;
 		}
 		
-		//	Product
-		MProduct product = orderLine.getProduct();
-		boolean linePerASI = false;
-		if (product.getM_AttributeSet_ID() != 0)
-		{
-			MAttributeSet mas = MAttributeSet.get(getCtx(), product.getM_AttributeSet_ID());
-			linePerASI = mas.isInstanceAttribute();
-		}
-		
 		//	Inventory Lines
 		ArrayList<MInOutLine> list = new ArrayList<MInOutLine>();
 		BigDecimal toDeliver = qty;
 		for (int i = 0; i < storages.length; i++)
 		{
 			MStorage storage = storages[i];
+			
 			BigDecimal deliver = toDeliver;
 			//	Not enough On Hand
 			if (deliver.compareTo(storage.getQtyOnHand()) > 0 
@@ -489,12 +464,12 @@ public class InOutGenerate extends SvrProcess
 			int M_Locator_ID = storage.getM_Locator_ID();
 			//
 			MInOutLine line = null;
-			if (!linePerASI)	//	find line with Locator
+			if (orderLine.getM_AttributeSetInstance_ID() == 0)	//	find line with Locator
 			{
 				for (int ll = 0; ll < list.size(); ll++)
 				{
 					MInOutLine test = (MInOutLine)list.get(ll);
-					if (test.getM_Locator_ID() == M_Locator_ID)
+					if (test.getM_Locator_ID() == M_Locator_ID && test.getM_AttributeSetInstance_ID() == 0)
 					{
 						line = test;
 						break;
@@ -514,20 +489,33 @@ public class InOutGenerate extends SvrProcess
 				line.setQtyEntered(line.getMovementQty().multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
-			if (linePerASI)
-				line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+			
 			if (!line.save())
 				throw new IllegalStateException("Could not create Shipment Line");
 			log.fine("ToDeliver=" + qty + "/" + deliver + " - " + line);
 			toDeliver = toDeliver.subtract(deliver);
-			//	Temp adjustment
+			//	Temp adjustment, actual update happen in MInOut.completeIt
 			storage.setQtyOnHand(storage.getQtyOnHand().subtract(deliver));
 			//
 			if (toDeliver.signum() == 0)
 				break;
 		}		
-		if (toDeliver.signum() != 0)
-			throw new IllegalStateException("Not All Delivered - Remainder=" + toDeliver);
+		if (toDeliver.signum() != 0 )
+		{
+			if (!force)
+			{
+				throw new IllegalStateException("Not All Delivered - Remainder=" + toDeliver);
+			}
+			else
+			{
+				MInOutLine line = new MInOutLine (m_shipment);
+				line.setOrderLine(orderLine, 0, order.isSOTrx() ? toDeliver : Env.ZERO);
+				line.setQty(toDeliver);
+				if (!line.save())
+					throw new IllegalStateException("Could not create Shipment Line");
+				
+			}
+		}
 	}	//	createLine
 
 	
@@ -536,20 +524,17 @@ public class InOutGenerate extends SvrProcess
 	 *	@param M_Warehouse_ID
 	 *	@param M_Product_ID
 	 *	@param M_AttributeSetInstance_ID
-	 *	@param M_AttributeSet_ID
-	 *	@param allAttributeInstances
 	 *	@param minGuaranteeDate
 	 *	@param FiFo
 	 *	@return storages
 	 */
 	private MStorage[] getStorages(int M_Warehouse_ID, 
-		int M_Product_ID, int M_AttributeSetInstance_ID, int M_AttributeSet_ID,
-		boolean allAttributeInstances, Timestamp minGuaranteeDate,
-		boolean FiFo)
+		int M_Product_ID, int M_AttributeSetInstance_ID, 
+		Timestamp minGuaranteeDate, boolean FiFo)
 	{
 		m_lastPP = new SParameter(M_Warehouse_ID, 
-			M_Product_ID, M_AttributeSetInstance_ID, M_AttributeSet_ID,
-			allAttributeInstances, minGuaranteeDate, FiFo);
+			M_Product_ID, M_AttributeSetInstance_ID, 
+			minGuaranteeDate, FiFo);
 		//
 		m_lastStorages = m_map.get(m_lastPP); 
 		
@@ -557,8 +542,7 @@ public class InOutGenerate extends SvrProcess
 		{
 			m_lastStorages = MStorage.getWarehouse(getCtx(), 
 				M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,
-				M_AttributeSet_ID, allAttributeInstances, minGuaranteeDate, 
-				FiFo, get_TrxName());
+				minGuaranteeDate, FiFo, true, 0 , get_TrxName());
 			m_map.put(m_lastPP, m_lastStorages);
 		}
 		return m_lastStorages;
@@ -579,9 +563,11 @@ public class InOutGenerate extends SvrProcess
 			//
 			addLog(m_shipment.getM_InOut_ID(), m_shipment.getMovementDate(), null, m_shipment.getDocumentNo());
 			m_created++;
+			
+			//reset storage cache as MInOut.completeIt will update m_storage
 			m_map = new HashMap<SParameter,MStorage[]>();
-			if (m_lastPP != null && m_lastStorages != null)
-				m_map.put(m_lastPP, m_lastStorages);
+			m_lastPP = null;
+			m_lastStorages = null;
 		}
 		m_shipment = null;
 		m_line = 0;
@@ -597,21 +583,16 @@ public class InOutGenerate extends SvrProcess
 		 *	@param p_Warehouse_ID warehouse
 		 *	@param p_Product_ID 
 		 *	@param p_AttributeSetInstance_ID 
-		 *	@param p_AttributeSet_ID
-		 *	@param p_allAttributeInstances 
 		 *	@param p_minGuaranteeDate
 		 *	@param p_FiFo
 		 */
 		protected SParameter (int p_Warehouse_ID, 
-			int p_Product_ID, int p_AttributeSetInstance_ID, int p_AttributeSet_ID,
-			boolean p_allAttributeInstances, Timestamp p_minGuaranteeDate,
-			boolean p_FiFo)
+			int p_Product_ID, int p_AttributeSetInstance_ID, 
+			Timestamp p_minGuaranteeDate, boolean p_FiFo)
 		{
 			this.M_Warehouse_ID = p_Warehouse_ID;
 			this.M_Product_ID = p_Product_ID;
 			this.M_AttributeSetInstance_ID = p_AttributeSetInstance_ID; 
-			this.M_AttributeSet_ID = p_AttributeSet_ID;
-			this.allAttributeInstances = p_allAttributeInstances;
 			this.minGuaranteeDate = p_minGuaranteeDate;
 			this.FiFo = p_FiFo;	
 		}
@@ -694,3 +675,4 @@ public class InOutGenerate extends SvrProcess
 	}	//	Parameter
 	
 }	//	InOutGenerate
+

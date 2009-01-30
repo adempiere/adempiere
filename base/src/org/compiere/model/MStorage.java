@@ -78,7 +78,6 @@ public class MStorage extends X_M_Storage
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		pstmt = null;
 		if (retValue == null)
 			s_log.fine("Not Found - M_Locator_ID=" + M_Locator_ID 
 				+ ", M_Product_ID=" + M_Product_ID + ", M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
@@ -89,7 +88,7 @@ public class MStorage extends X_M_Storage
 	}	//	get
 
 	/**
-	 * 	Get all Storages for Product with ASI and QtyOnHand > 0
+	 * 	Get all Storages for Product with ASI and QtyOnHand <> 0
 	 *	@param ctx context
 	 *	@param M_Product_ID product
 	 *	@param M_Locator_ID locator
@@ -103,13 +102,9 @@ public class MStorage extends X_M_Storage
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		String sql = "SELECT * FROM M_Storage "
 			+ "WHERE M_Product_ID=? AND M_Locator_ID=?"
-		// Remove for management rightly FIFO/LIFO now you can consume a layer with ASI ID = zero and Qty onhand in negative  	
-		//	+ " AND M_AttributeSetInstance_ID > 0"
-		//	+ " AND QtyOnHand > 0 "
-			+ " AND QtyOnHand <> 0 "
+			+ " AND M_AttributeSetInstance_ID > 0 "
+			+ " AND QtyOnHand <> 0 "			
 			+ "ORDER BY M_AttributeSetInstance_ID";
-		if (!FiFo)
-			sql += " DESC";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -130,14 +125,13 @@ public class MStorage extends X_M_Storage
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		pstmt = null;
 		MStorage[] retValue = new MStorage[list.size()];
 		list.toArray(retValue);
 		return retValue;
 	}	//	getAllWithASI
 
 	/**
-	 * 	Get all Storages for Product
+	 * 	Get all Storages for Product where QtyOnHand <> 0
 	 *	@param ctx context
 	 *	@param M_Product_ID product
 	 *	@param M_Locator_ID locator
@@ -172,7 +166,6 @@ public class MStorage extends X_M_Storage
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		pstmt = null;
 		MStorage[] retValue = new MStorage[list.size()];
 		list.toArray(retValue);
 		return retValue;
@@ -227,23 +220,41 @@ public class MStorage extends X_M_Storage
 	 *	@param FiFo first in-first-out
 	 *	@param trxName transaction
 	 *	@return existing - ordered by location priority (desc) and/or guarantee date
+	 *
+	 *  @deprecated
 	 */
 	public static MStorage[] getWarehouse (Properties ctx, int M_Warehouse_ID, 
 		int M_Product_ID, int M_AttributeSetInstance_ID, int M_AttributeSet_ID,
 		boolean allAttributeInstances, Timestamp minGuaranteeDate,
 		boolean FiFo, String trxName)
 	{
-		if (M_Warehouse_ID == 0 || M_Product_ID == 0)
+		return getWarehouse(ctx, M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID, 
+				minGuaranteeDate, FiFo, false, 0, trxName);
+	}
+	
+	/**
+	 * 	Get Storage Info for Warehouse or locator
+	 *	@param ctx context
+	 *	@param M_Warehouse_ID ignore if M_Locator_ID > 0
+	 *	@param M_Product_ID product
+	 *	@param M_AttributeSetInstance_ID instance id, 0 to retrieve all instance
+	 *	@param minGuaranteeDate optional minimum guarantee date if all attribute instances
+	 *	@param FiFo first in-first-out
+	 *  @param positiveOnly if true, only return storage records with qtyOnHand > 0
+	 *  @param M_Locator_ID optional locator id
+	 *	@param trxName transaction
+	 *	@return existing - ordered by location priority (desc) and/or guarantee date
+	 */
+	public static MStorage[] getWarehouse (Properties ctx, int M_Warehouse_ID, 
+		int M_Product_ID, int M_AttributeSetInstance_ID, Timestamp minGuaranteeDate,
+		boolean FiFo, boolean positiveOnly, int M_Locator_ID, String trxName)
+	{
+		if ((M_Warehouse_ID == 0 && M_Locator_ID == 0) || M_Product_ID == 0)
 			return new MStorage[0];
 		
-		if (M_AttributeSet_ID == 0)
-			allAttributeInstances = true;
-		else
-		{
-			MAttributeSet mas = MAttributeSet.get(ctx, M_AttributeSet_ID);
-			if (!mas.isInstanceAttribute())
-				allAttributeInstances = true;
-		}
+		boolean allAttributeInstances = false;
+		if (M_AttributeSetInstance_ID == 0)
+			allAttributeInstances = true;		
 		
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		//	Specific Attribute Set Instance
@@ -251,11 +262,18 @@ public class MStorage extends X_M_Storage
 			+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
 			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
 			+ "FROM M_Storage s"
-			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) "
-			+ "WHERE l.M_Warehouse_ID=?" 
-			+ " AND s.M_Product_ID=?"
-			+ " AND COALESCE(s.M_AttributeSetInstance_ID,0)=? "
-			+ "ORDER BY l.PriorityNo DESC, M_AttributeSetInstance_ID";
+			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
+		if (M_Locator_ID > 0)
+			sql += "WHERE l.M_Locator_ID = ?";
+		else
+			sql += "WHERE l.M_Warehouse_ID=?";
+		sql += " AND s.M_Product_ID=?"
+			 + " AND COALESCE(s.M_AttributeSetInstance_ID,0)=? ";
+		if (positiveOnly)
+		{
+			sql += " AND s.QtyOnHand > 0 ";
+		}
+		sql += "ORDER BY l.PriorityNo DESC, M_AttributeSetInstance_ID";
 		if (!FiFo)
 			sql += " DESC";
 		//	All Attribute Set Instances
@@ -266,19 +284,31 @@ public class MStorage extends X_M_Storage
 				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
-				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) "
-				+ "WHERE l.M_Warehouse_ID=?"
-				+ " AND s.M_Product_ID=? ";
+				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
+			if (M_Locator_ID > 0)
+				sql += "WHERE l.M_Locator_ID = ?";
+			else
+				sql += "WHERE l.M_Warehouse_ID=?";
+			sql += " AND s.M_Product_ID=? ";
 			if (minGuaranteeDate != null)
 			{
-				sql += "AND (asi.GuaranteeDate IS NULL OR asi.GuaranteeDate>?) "
-					+ "ORDER BY asi.GuaranteeDate, M_AttributeSetInstance_ID";
+				sql += "AND (asi.GuaranteeDate IS NULL OR asi.GuaranteeDate>?) ";
+				if (positiveOnly)
+				{
+					sql += " AND s.QtyOnHand > 0 ";
+				}
+				sql += "ORDER BY l.PriorityNo DESC, " +
+					   "asi.GuaranteeDate, M_AttributeSetInstance_ID";
 				if (!FiFo)
 					sql += " DESC";
-				sql += ", l.PriorityNo DESC, s.QtyOnHand DESC";
+				sql += ", s.QtyOnHand DESC";
 			}
 			else
 			{
+				if (positiveOnly)
+				{
+					sql += " AND s.QtyOnHand > 0 ";
+				}
 				sql += "ORDER BY l.PriorityNo DESC, l.M_Locator_ID, s.M_AttributeSetInstance_ID";
 				if (!FiFo)
 					sql += " DESC";
@@ -290,12 +320,16 @@ public class MStorage extends X_M_Storage
 		try
 		{
 			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, M_Warehouse_ID);
+			pstmt.setInt(1, M_Locator_ID > 0 ? M_Locator_ID : M_Warehouse_ID);
 			pstmt.setInt(2, M_Product_ID);
 			if (!allAttributeInstances)
+			{
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
+			}
 			else if (minGuaranteeDate != null)
+			{
 				pstmt.setTimestamp(3, minGuaranteeDate);
+			}
 			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add (new MStorage (ctx, rs, trxName));
