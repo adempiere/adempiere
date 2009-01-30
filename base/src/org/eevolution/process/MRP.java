@@ -693,13 +693,13 @@ public class MRP extends SvrProcess
 		// Check Order Min 
 		if(QtyPlanned.signum() > 0 && m_product_planning.getOrder_Min().signum() > 0)
 		{    
-			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
 			if (m_product_planning.getOrder_Min().compareTo(QtyPlanned) > 0)
 			{
 				String comment = Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_Order_Min) 
 								+ ":" + m_product_planning.getOrder_Min();
 				createMRPNote("MRP-080", AD_Org_ID, PP_MRP_ID, M_Product , null, QtyPlanned, comment );
 			}
+			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
 		}
 
 		// Check Order Max                                                
