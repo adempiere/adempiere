@@ -149,5 +149,10 @@ public class MPOS extends X_C_POS
 		}
 		return m_template;
 	}	//	getBPartner
+
+	@Override
+	public String toString() {
+		return super.getName();
+		}
 	
 }	//	MPOS
