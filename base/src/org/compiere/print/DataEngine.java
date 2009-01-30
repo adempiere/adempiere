@@ -51,6 +51,7 @@ import org.compiere.util.ValueNamePair;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1761891 ] Included print format with report view attached issue
  * 				<li>BF [ 1807368 ] DataEngine does not close DB connection
+ * 				<li>BF [ 2549128 ] Report View Column not working at all
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
  */
@@ -205,9 +206,8 @@ public class DataEngine
 
 		//	Direct SQL w/o Reference Info
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
-		StringBuffer sqlFROM = new StringBuffer(" FROM ");
-		sqlFROM.append(tableName);
-		StringBuffer sqlGROUP = new StringBuffer(" GROUP BY ");
+		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
+		ArrayList<String> groupByColumns = new ArrayList<String>();
 		//
 		boolean IsGroupedBy = false;
 		//
@@ -303,11 +303,14 @@ public class DataEngine
 				{
 					//	=>	Table.Column,
 					sqlSELECT.append(tableName).append(".").append(ColumnName).append(",");
-					sqlGROUP.append(tableName).append(".").append(ColumnName).append(",");
+					groupByColumns.add(tableName+"."+ColumnName);
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, KEY, isPageBreak);	//	KeyColumn
 				}
-				else if (!IsPrinted)	//	not printed Sort Columns
+				// not printed Sort Columns
+				else if (!IsPrinted)
+				{
 					;
+				}
 				//	-- Parent, TableDir (and unqualified Search) --
 				else if (IsParent 
 						|| AD_Reference_ID == DisplayType.TableDir
@@ -332,8 +335,8 @@ public class DataEngine
 					//	=> (..) AS AName, Table.ID,
 					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
 						.append(tableName).append(".").append(ColumnName).append(",");
-					sqlGROUP.append(m_synonym).append(display).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
+					groupByColumns.add(m_synonym+display);
+					groupByColumns.add(tableName+"."+ColumnName);
 					orderName = m_synonym + display;
 					//
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
@@ -358,8 +361,8 @@ public class DataEngine
 					sqlSELECT.append(m_synonym).append(".").append(display);
 					sqlSELECT.append(" AS ").append(m_synonym).append(display).append(",")
 						.append(tableName).append(".").append(ColumnName).append(",");
-					sqlGROUP.append(m_synonym).append(".").append(display).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
+					groupByColumns.add(m_synonym+display);
+					groupByColumns.add(tableName+"."+ColumnName);
 					orderName = m_synonym + display;
 
 					//	=> x JOIN table A ON (x.KeyColumn=A.Key)
@@ -388,7 +391,7 @@ public class DataEngine
 					{
 						//	=> A.Name AS AName,
 						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
-						sqlGROUP.append(m_synonym).append(".Name,");
+						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 						//	=> x JOIN AD_Ref_List A ON (x.KeyColumn=A.Value AND A.AD_Reference_ID=123)
 						if (IsMandatory)
@@ -403,7 +406,7 @@ public class DataEngine
 					{
 						//	=> A.Name AS AName,
 						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
-						sqlGROUP.append(m_synonym).append(".Name,");
+						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 
 						//	LEFT OUTER JOIN AD_Ref_List XA ON (AD_Table.EntityType=XA.Value AND XA.AD_Reference_ID=245)
@@ -483,8 +486,8 @@ public class DataEngine
 					sqlSELECT.append(m_synonym).append(".").append(display).append(" AS ")
 						.append(m_synonym).append(synonym).append(",")
 						.append(tableName).append(".").append(ColumnName).append(",");
-					sqlGROUP.append(m_synonym).append(".").append(synonym).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
+					groupByColumns.add(m_synonym+"."+synonym);
+					groupByColumns.add(tableName+"."+ColumnName);
 					orderName = m_synonym + synonym;
 					//	=> x JOIN table A ON (table.ID=A.Key)
 					if (IsMandatory)
@@ -503,35 +506,33 @@ public class DataEngine
 				else
 				{
 					int index = FunctionColumn.indexOf('@');
-					StringBuffer sb = new StringBuffer();
 					if (ColumnSQL != null && ColumnSQL.length() > 0)
 					{
 					//	=> ColumnSQL AS ColumnName
-						sb.append(ColumnSQL);
-						sqlSELECT.append(sb).append(" AS ").append(ColumnName).append(",");
+						sqlSELECT.append(ColumnSQL).append(" AS ").append(ColumnName).append(",");
 						if (!IsGroupFunction)
-							sqlGROUP.append(sb).append(",");
+							groupByColumns.add(ColumnSQL);
 						orderName = ColumnName;		//	no prefix for synonym
 					}
 					else if (index == -1)
 					{
 					//	=> Table.Column,
-						sb.append(tableName).append(".").append(ColumnName).append(",");
-						sqlSELECT.append(sb);
+						StringBuffer sb = new StringBuffer();
+						sb.append(tableName).append(".").append(ColumnName);
+						sqlSELECT.append(sb).append(",");
 						if (!IsGroupFunction)
-							sqlGROUP.append(sb).append(",");
+							groupByColumns.add(sb.toString());
 					}
 					else
 					{
 					//  => Function(Table.Column) AS Column   -- function has @ where column name goes
+						StringBuffer sb = new StringBuffer();
 						sb.append(FunctionColumn.substring(0, index))
-						//	If I eg entered sum(amount)  as function column in the report view the query would look like:
-						//	Tablename.amountsum(amount), after removing the line below I get the wanted result. The original query column (tablename.column) is replaced by the function column entered in the report view window.
-						//	.append(tableName).append(".").append(ColumnName)	// xxxxxx
+							.append(tableName).append(".").append(ColumnName)
 							.append(FunctionColumn.substring(index+1));
 						sqlSELECT.append(sb).append(" AS ").append(ColumnName).append(",");
 						if (!IsGroupFunction)
-							sqlGROUP.append(sb).append(",");
+							groupByColumns.add(sb.toString());
 						orderName = ColumnName;		//	no prefix for synonym
 					}
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, 
@@ -544,6 +545,11 @@ public class DataEngine
 					if (AD_Column_ID == orderAD_Column_IDs[i])
 					{
 						orderColumns.set(i, orderName);
+						// We need to GROUP BY even is not printed, because is used in ORDER clause
+						if (!IsPrinted && !IsGroupFunction)
+						{
+							groupByColumns.add(tableName+"."+ColumnName);
+						}
 						break;
 					}
 				}
@@ -560,9 +566,9 @@ public class DataEngine
 		{
 			log.log(Level.SEVERE, "SQL=" + sql + " - ID=" + format.get_ID(), e);
 		}
-		finally {
-			DB.close(rs);
-			DB.close(pstmt);
+		finally
+		{
+			DB.close(rs, pstmt);
 			rs = null;
 			pstmt = null;
 		}
@@ -619,9 +625,18 @@ public class DataEngine
 					tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO));
 		}
 
-		//  Group By
+		//	Add GROUP BY clause
 		if (IsGroupedBy)
-			finalSQL.append(sqlGROUP.substring(0, sqlGROUP.length()-1));    //  last ,
+		{
+			for (int i = 0; i < groupByColumns.size(); i++)
+			{
+				if (i == 0)
+					finalSQL.append(" GROUP BY ");
+				else
+					finalSQL.append(",");
+				finalSQL.append(groupByColumns.get(i));
+			}
+		}
 
 		//	Add ORDER BY clause
 		if (orderColumns != null)
