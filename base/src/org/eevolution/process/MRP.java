@@ -1042,38 +1042,40 @@ public class MRP extends SvrProcess
 		commit();
 	}
 
-	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product,String documentNo,BigDecimal qty ,String comment)
+	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment)
 	{
 		documentNo = documentNo != null ? documentNo : "";
 		comment = comment != null ? comment : "";
 		qty = qty != null ? qty : Env.ZERO;
 		
 		MMessage msg = MMessage.get(getCtx(), code);
+		String message = Msg.getMsg(getCtx(), msg.getValue());
+		
 		int user_id = 0;
-		if (PP_MRP_ID == 0 && m_product_planning != null)
+		if (m_product_planning != null)
 		{
 			user_id = m_product_planning.getPlanner_ID();
-			String message = Msg.getMsg(getCtx(), msg.getValue());
-			if (documentNo.length() > 0)
-				message += " " + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +":" + documentNo;
-			if (qty !=  null)
-				message += " " + Msg.translate(getCtx(), "QtyPlan") + ":" + qty;
-			if (comment.length() > 0)
-		        message +=  " " + comment;
-		
-			MNote note = new MNote(getCtx(),
-								msg.getAD_Message_ID(),
-								user_id,
-								MPPMRP.Table_ID, PP_MRP_ID,
-								product.getValue() + " " + product.getName(),
-								message,
-								get_TrxName());
-			note.setAD_Org_ID(AD_Org_ID);
-			note.saveEx();
-			commit(); 
-			log.info(code+": "+note.getTextMsg());  
-			count_Msg += 1;
 		}
+		
+		if (documentNo.length() > 0)
+			message += " " + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +":" + documentNo;
+		if (qty !=  null)
+			message += " " + Msg.translate(getCtx(), "QtyPlan") + ":" + qty;
+		if (comment.length() > 0)
+	        message +=  " " + comment;
+	
+		MNote note = new MNote(getCtx(),
+							msg.getAD_Message_ID(),
+							user_id,
+							MPPMRP.Table_ID, PP_MRP_ID,
+							product.getValue() + " " + product.getName(),
+							message,
+							get_TrxName());
+		note.setAD_Org_ID(AD_Org_ID);
+		note.saveEx();
+		commit(); 
+		log.info(code+": "+note.getTextMsg());  
+		count_Msg += 1;
 	}
 	
 	private int getDDOrder_ID(int AD_Org_ID,int M_Warehouse_ID, int M_Shipper_ID,int C_BPartner_ID, Timestamp DatePromised)
