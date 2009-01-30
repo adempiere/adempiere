@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -25,6 +25,9 @@ import java.math.BigDecimal;
  *
  *  @author Jorg Janke
  *  @version $Id: ProcessInfoParameter.java,v 1.2 2006/07/30 00:54:44 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2430845 ] Add ProcessInfoParameter.getParameterAsBoolean method
  */
 public class ProcessInfoParameter implements Serializable
 {
@@ -112,6 +115,19 @@ public class ProcessInfoParameter implements Serializable
 		BigDecimal bd = new BigDecimal(m_Parameter.toString());
 		return bd.intValue();
 	}	//	getParameterAsInt
+	
+	/**
+	 * Method getParameter as Boolean
+	 * @return boolean value
+	 */
+	public boolean getParameterAsBoolean ()
+	{
+		if (m_Parameter == null)
+			return false;
+		if (m_Parameter instanceof Boolean)
+			return ((Boolean)m_Parameter).booleanValue();
+		return "Y".equals(m_Parameter);
+	}
 
 	/**
 	 * Method getParameter_To
@@ -135,6 +151,19 @@ public class ProcessInfoParameter implements Serializable
 		BigDecimal bd = new BigDecimal(m_Parameter_To.toString());
 		return bd.intValue();
 	}	//	getParameter_ToAsInt
+
+	/**
+	 * Method getParameter as Boolean
+	 * @return boolean
+	 */
+	public boolean getParameter_ToAsBoolean ()
+	{
+		if (m_Parameter_To == null)
+			return false;
+		if (m_Parameter_To instanceof Boolean)
+			return ((Boolean)m_Parameter_To).booleanValue();
+		return "Y".equals(m_Parameter_To);
+	}
 	
 	
 	/**
