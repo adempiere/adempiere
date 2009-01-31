@@ -95,7 +95,7 @@ public class MWebService extends X_WS_WebService
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setString(1, webServiceValue.toUpperCase());
+			pstmt.setString(1, webServiceValue);
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = new MWebService (ctx, rs, null);

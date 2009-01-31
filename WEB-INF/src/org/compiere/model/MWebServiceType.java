@@ -124,9 +124,9 @@ public class MWebServiceType extends X_WS_WebServiceType
 	{
 		if (m_inputcolumnnames != null && !requery)
 			return m_inputcolumnnames;
-		String sql = "SELECT c.ColumnName FROM WS_WebServiceFieldInput f, AD_Column c" +
+		String sql = "SELECT c.ColumnName FROM WS_WebServiceFieldInput f, AD_Column c " +
 				"WHERE f.WS_WebServiceType_ID=? " +
-				"AND c.AD_Column_ID=wsfi.AD_Column_ID " +
+				"AND c.AD_Column_ID=f.AD_Column_ID " +
 				"AND c.IsActive='Y' " +
 				"AND f.IsActive='Y' " +
 				"ORDER BY c.ColumnName";
@@ -166,9 +166,9 @@ public class MWebServiceType extends X_WS_WebServiceType
 	{
 		if (columnName == null || columnName.length() == 0)
 			return false;
-		getParameters(false);
+		getInputColumnNames(false);
 		//
-		for (int i = 0; i < m_para.length; i++)
+		for (int i = 0; i < m_inputcolumnnames.length; i++)
 		{
 			if (columnName.equals(m_inputcolumnnames[i]))
 				return true;
@@ -185,9 +185,9 @@ public class MWebServiceType extends X_WS_WebServiceType
 	{
 		if (m_outputcolumnnames != null && !requery)
 			return m_outputcolumnnames;
-		String sql = "SELECT c.ColumnName FROM WS_WebServiceFieldOutput f, AD_Column c" +
+		String sql = "SELECT c.ColumnName FROM WS_WebServiceFieldOutput f, AD_Column c " +
 				"WHERE f.WS_WebServiceType_ID=? " +
-				"AND c.AD_Column_ID=wsfi.AD_Column_ID " +
+				"AND c.AD_Column_ID=f.AD_Column_ID " +
 				"AND c.IsActive='Y' " +
 				"AND f.IsActive='Y' " +
 				"ORDER BY c.ColumnName";
@@ -227,9 +227,9 @@ public class MWebServiceType extends X_WS_WebServiceType
 	{
 		if (columnName == null || columnName.length() == 0)
 			return false;
-		getParameters(false);
+		getOutputColumnNames(false);
 		//
-		for (int i = 0; i < m_para.length; i++)
+		for (int i = 0; i < m_outputcolumnnames.length; i++)
 		{
 			if (columnName.equals(m_outputcolumnnames[i]))
 				return true;

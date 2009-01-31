@@ -38,7 +38,6 @@ import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
-import org.adempiere.model.GenericPO;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.model.MColumn;
@@ -136,11 +135,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelSetDocAction.getServiceType();
 
     	ADLoginRequest reqlogin = req.getModelSetDocActionRequest().getADLoginRequest();
-    	String tableName = modelSetDocAction.getTableName();
-    	int recordID = modelSetDocAction.getRecordID();
-    	String docAction = modelSetDocAction.getDocAction();
-    	
-    	resp.setRecordID (recordID);
 
     	String err = modelLogin(reqlogin, webServiceName, "setDocAction", serviceType);
     	if (err != null && err.length() > 0) {
@@ -152,9 +146,14 @@ public class ModelADServiceImpl implements ModelADService {
     	Properties ctx = m_cs.getM_ctx();
 
     	// Validate parameters
-    	modelSetDocAction.setTableName(validateParameter("TableName", modelSetDocAction.getTableName()));
-    	modelSetDocAction.setRecordID(validateParameter("RecordID", modelSetDocAction.getRecordID()));
-    	modelSetDocAction.setDocAction(validateParameter("DocAction", modelSetDocAction.getDocAction()));
+    	modelSetDocAction.setTableName(validateParameter("tableName", modelSetDocAction.getTableName()));
+    	modelSetDocAction.setRecordID(validateParameter("recordID", modelSetDocAction.getRecordID()));
+    	modelSetDocAction.setDocAction(validateParameter("docAction", modelSetDocAction.getDocAction()));
+    	
+    	String tableName = modelSetDocAction.getTableName();
+    	int recordID = modelSetDocAction.getRecordID();
+    	String docAction = modelSetDocAction.getDocAction();
+    	resp.setRecordID (recordID);
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelSetDocAction");
@@ -229,10 +228,14 @@ public class ModelADServiceImpl implements ModelADService {
 	}
 
 	private Enum validateParameter(String parameterName, Enum action, Table table) throws XFireFault {
-		String string = validateParameter(parameterName, action.toString());
+		String string = null;
+		if (action == null)
+			string = validateParameter(parameterName, string);
+		else
+			string = validateParameter(parameterName, action.toString());
 		if (string == null)
 			return (Enum) table.forInt(-1);
-		if (string.equals(action.toString()))
+		if (action != null && string.equals(action.toString()))
 			return action;
 		return (Enum) table.forString(string);
 	}
@@ -382,9 +385,9 @@ public class ModelADServiceImpl implements ModelADService {
     	}
 
     	// Validate parameters
-    	modelRunProcess.setADMenuID(validateParameter("ADMenuID", modelRunProcess.getADMenuID()));
-    	modelRunProcess.setADProcessID(validateParameter("ADProcessID", modelRunProcess.getADProcessID()));
-    	modelRunProcess.setADRecordID(validateParameter("ADRecordID", modelRunProcess.getADRecordID()));
+    	modelRunProcess.setADMenuID(validateParameter("AD_Menu_ID", modelRunProcess.getADMenuID()));
+    	modelRunProcess.setADProcessID(validateParameter("AD_Process_ID", modelRunProcess.getADProcessID()));
+    	modelRunProcess.setADRecordID(validateParameter("AD_Record_ID", modelRunProcess.getADRecordID()));
     	modelRunProcess.setDocAction(validateParameter("DocAction", modelRunProcess.getDocAction()));
 
 		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
@@ -418,7 +421,7 @@ public class ModelADServiceImpl implements ModelADService {
 		int roleid = reqlogin.getRoleID();
 
     	// Validate parameters
-		modelGetList.setADReferenceID(validateParameter("ADReferenceID", modelGetList.getADReferenceID()));
+		modelGetList.setADReferenceID(validateParameter("AD_Reference_ID", modelGetList.getADReferenceID()));
 		modelGetList.setFilter(validateParameter("Filter", modelGetList.getFilter()));
 
     	int ref_id = modelGetList.getADReferenceID();
@@ -585,18 +588,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
-    	int action = modelCRUD.getAction().intValue();
-    	
-    	if (action != ModelCRUD.Action.INT_DELETE) {
-    		resp.setError("Invalid Action");
-        	resp.setIsError(true);
-        	return ret;
-    	}
-
-    	resp.setRecordID (recordID);
-
     	String err = modelLogin(reqlogin, webServiceName, "deleteData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -606,6 +597,10 @@ public class ModelADServiceImpl implements ModelADService {
 
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
+
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	resp.setRecordID (recordID);
 
     	Properties ctx = m_cs.getM_ctx();
     	
@@ -647,15 +642,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = modelCRUD.getTableName();
-    	int action = modelCRUD.getAction().intValue();
-    	
-    	if (action != ModelCRUD.Action.INT_CREATE) {
-    		resp.setError("Invalid Action");
-        	resp.setIsError(true);
-        	return ret;
-    	}
-    	
     	String err = modelLogin(reqlogin, webServiceName, "createData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -665,6 +651,8 @@ public class ModelADServiceImpl implements ModelADService {
 
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
+
+    	String tableName = modelCRUD.getTableName();
 
     	Properties ctx = m_cs.getM_ctx();
     	
@@ -676,7 +664,8 @@ public class ModelADServiceImpl implements ModelADService {
     	MTable table = MTable.get(ctx, tableName);
     	if (table == null)
     		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
-    	GenericPO po = new GenericPO(tableName, ctx, 0, trxName);
+    	
+    	PO po = table.getPO(0, trxName);
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "Cannot create PO for " + tableName);
     	
@@ -715,18 +704,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
-    	int action = modelCRUD.getAction().intValue();
-    	
-    	if (action != ModelCRUD.Action.INT_UPDATE) {
-    		resp.setError("Invalid Action");
-        	resp.setIsError(true);
-        	return ret;
-    	}
-    	
-    	resp.setRecordID (recordID);
-
     	String err = modelLogin(reqlogin, webServiceName, "updateData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -736,6 +713,10 @@ public class ModelADServiceImpl implements ModelADService {
 
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
+
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	resp.setRecordID (recordID);
 
     	Properties ctx = m_cs.getM_ctx();
     	
@@ -783,15 +764,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
-    	int action = modelCRUD.getAction().intValue();
-    	
-    	if (action != ModelCRUD.Action.INT_READ) {
-    		resp.setError("Invalid Action");
-        	return ret;
-    	}
-    	
     	String err = modelLogin(reqlogin, webServiceName, "readData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -800,6 +772,9 @@ public class ModelADServiceImpl implements ModelADService {
 
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
+
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
 
     	// TODO: Implement read data
 		// TODO: Validate output field vs allowed output fields
@@ -816,15 +791,6 @@ public class ModelADServiceImpl implements ModelADService {
 		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
-    	int action = modelCRUD.getAction().intValue();
-    	
-    	if (action != ModelCRUD.Action.INT_READ) {
-    		resp.setError("Invalid Action");
-        	return ret;
-    	}
-
     	String err = modelLogin(reqlogin, webServiceName, "queryData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
@@ -833,6 +799,9 @@ public class ModelADServiceImpl implements ModelADService {
 
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
+
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
 
 		// TODO: Implement query data
 		// TODO: Validate input field
