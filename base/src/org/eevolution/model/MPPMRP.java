@@ -44,6 +44,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 import org.compiere.wf.MWorkflow;
 
 
@@ -884,6 +885,19 @@ public class MPPMRP extends X_PP_MRP
 	{
 		return DB.getSQLValueStringEx(null, "SELECT documentNo(PP_MRP_ID) AS DocumentNo FROM PP_MRP WHERE PP_MRP_ID = ?", PP_MRP_ID);
 	}
-	
+
+	public String toString()
+	{
+		String description = getDescription();
+		return getClass().getSimpleName()+"["
+			+", TypeMRP="+getTypeMRP()
+			+", DocStatus="+getDocStatus()
+			+", Qty="+getQty()
+			+", DatePromised="+getDatePromised()
+			+", Schedule="+getDateStartSchedule()+"/"+getDateFinishSchedule()
+			+(!Util.isEmpty(description, true) ? ", Description="+description : "")
+			+", ID="+get_ID()
+			+"]";
+	}
 
 }	//	MPPMRP

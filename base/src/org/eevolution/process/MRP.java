@@ -73,18 +73,18 @@ import org.eevolution.model.X_PP_Product_Planning;
  */
 public class MRP extends SvrProcess
 {
-	private int     m_AD_Client_ID  = 0;		
 	private int     p_AD_Org_ID     = 0;
-	private int     p_S_Resource_ID = 0 ;
+	private int     p_S_Resource_ID = 0;
 	private int     p_M_Warehouse_ID= 0;
 	private boolean p_IsRequiredDRP = false;
+	private int     p_Planner_ID = 0;
 	@SuppressWarnings("unused")
 	private String  p_Version = "1";
-	private String  result = "";
+	/** Product ID - for testing purposes */
+	protected int	p_M_Product_ID = 0;
 
-	//Global Variables
+	// Global Variables
 	private I_PP_Product_Planning m_product_planning = null;
-	private int Planner_ID = 0;
 	private BigDecimal QtyProjectOnHand = Env.ZERO;
 	private BigDecimal QtyGrossReqs = Env.ZERO;
 	private BigDecimal QtyScheduledReceipts = Env.ZERO;
@@ -93,51 +93,43 @@ public class MRP extends SvrProcess
 	private Timestamp Today = new Timestamp (System.currentTimeMillis());  
 	private Timestamp TimeFence = null;
 	private Timestamp Planning_Horizon = null;
+	// Document Types
+	private int docTypeReq_ID = 0;
+	private int docTypeMO_ID = 0; 
+	private int docTypeDO_ID = 0;
+	// Statistics
 	private int count_MO = 0;
 	private int count_MR = 0;
 	private int count_DO = 0;
 	private int count_Msg = 0;
-
-	private int DocTypeReq = 0;
-	private int DocTypeMO = 0; 
-	private int DocTypeDO = 0;
-	
+	// Cache
 	private static CCache<String ,Integer>   dd_order_id_cache 	= new CCache<String,Integer>(MDDOrder.COLUMNNAME_DD_Order_ID, 50);
 	private static CCache<Integer,MBPartner>   partner_cache 	= new CCache<Integer,MBPartner>(MBPartner.Table_Name, 50);
 
 
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
 	protected void prepare()
 	{
-		m_AD_Client_ID = Env.getAD_Client_ID(getCtx());
-		Planner_ID = Env.getAD_User_ID(getCtx());
 		ProcessInfoParameter[] para = getParameter();
-
 		for (int i = 0; i < para.length; i++)
 		{
 			String name = para[i].getParameterName();
-
 			if (para[i].getParameter() == null)
 				;
 			else if (name.equals("AD_Org_ID"))
 			{    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
-
+				p_AD_Org_ID = para[i].getParameterAsInt();
 			}                       
 			else if (name.equals("S_Resource_ID"))
 			{    
-				p_S_Resource_ID = ((BigDecimal)para[i].getParameter()).intValue();    
+				p_S_Resource_ID = para[i].getParameterAsInt();    
 			}
 			else if (name.equals("M_Warehouse_ID"))
 			{    
-				p_M_Warehouse_ID = ((BigDecimal)para[i].getParameter()).intValue();                
+				p_M_Warehouse_ID = para[i].getParameterAsInt();                
 			}
 			else if (name.equals("IsRequiredDRP"))
 			{    
-				p_IsRequiredDRP = "Y".equals((String)para[i].getParameter());        
+				p_IsRequiredDRP = para[i].getParameterAsBoolean();        
 			}
 			else if (name.equals("Version"))
 			{    
@@ -146,91 +138,123 @@ public class MRP extends SvrProcess
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
-
-
 	}	//	prepare
+	
+	/**
+	 * @return the p_AD_Org_ID
+	 */
+	public int getAD_Org_ID()
+	{
+		return p_AD_Org_ID;
+	}
 
+	/**
+	 * @return the p_S_Resource_ID
+	 */
+	public int getPlant_ID()
+	{
+		return p_S_Resource_ID;
+	}
+
+	/**
+	 * @return the M_Warehouse_ID
+	 */
+	public int getM_Warehouse_ID()
+	{
+		return p_M_Warehouse_ID;
+	}
+
+	/**
+	 * @return the p_IsRequiredDRP
+	 */
+	public boolean isRequiredDRP()
+	{
+		return p_IsRequiredDRP;
+	}
+	
+	public int getPlanner_ID()
+	{
+		if (this.p_Planner_ID <= 0)
+		{
+			this.p_Planner_ID = Env.getAD_User_ID(getCtx());
+		}
+		return this.p_Planner_ID;
+	}
 
 	protected String doIt() throws Exception                
 	{
+		StringBuffer resultMsg = new StringBuffer();
+		
 		// Set Default Document Type To Requisition
-		DocTypeReq = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition);
-		DocTypeMO = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder);
-		DocTypeDO = getDocType(MDocType.DOCBASETYPE_DistributionOrder);
-
-		log.info("Type Document to Requisition:"+ DocTypeReq);
-		log.info("Type Document to Manufacturing Order:" + DocTypeMO);
-		log.info("Type Document to Distribution Order:" + DocTypeDO);
+		docTypeReq_ID = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition);
+		docTypeMO_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder);
+		docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder);
 		
 		ArrayList <Object> parameters = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"=? AND AD_Client_ID=?");
 		parameters.add(MResource.MANUFACTURINGRESOURCETYPE_Plant);
-		parameters.add(m_AD_Client_ID);
-		
-		if (p_S_Resource_ID > 0)
+		parameters.add(getAD_Client_ID());
+		if (getPlant_ID() > 0)
 		{	
-			whereClause.append(" AND S_Resource_ID=?");
-			parameters.add(p_S_Resource_ID);
+			whereClause.append(" AND "+MResource.COLUMNNAME_S_Resource_ID+"=?");
+			parameters.add(getPlant_ID());
 		}	
-		
 		List <MResource> plants = new Query(getCtx(), MResource.Table_Name, whereClause.toString(), get_TrxName())
 										.setParameters(parameters)
 										.list(); 
-		
 		for(MResource plant : plants)
 		{	
 			log.info("Run MRP to Plant: " + plant.getName());
-			Planning_Horizon = TimeUtil.addDays(getToday(), plant.getPlanningHorizon()); 
+			this.Planning_Horizon = TimeUtil.addDays(getToday(), plant.getPlanningHorizon()); 
 			parameters = new ArrayList<Object>();
 			whereClause = new StringBuffer("AD_Client_ID=?");
-			parameters.add(m_AD_Client_ID);
-			
-			if (p_AD_Org_ID > 0)
+			parameters.add(getAD_Client_ID());
+
+			if (getAD_Org_ID() > 0)
 			{	
 				whereClause.append(" AND AD_Org_ID=?");
-				parameters.add(p_AD_Org_ID);
+				parameters.add(getAD_Org_ID());
 			}	
-			
-		
-			List <MOrg> organizations = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), get_TrxName())
+
+
+			List <MOrg> orgList = new Query(getCtx(),MOrg.Table_Name, whereClause.toString(), get_TrxName())
 			.setParameters(parameters)
 			.list();
-			
-				for (MOrg organization :  organizations)
+
+			for (MOrg org : orgList)
+			{
+				log.info("Run MRP to Organization: " + org.getName());
+				MWarehouse[] ws;
+				if(getM_Warehouse_ID() <= 0)
 				{
-					log.info("Run MRP to Organization: " + organization.getName());
-					if(p_M_Warehouse_ID==0)
-					{
-						MWarehouse[] ws = MWarehouse.getForOrg(getCtx(), organization.getAD_Org_ID());
-						for(MWarehouse w : ws)
-						{	
-							if(plant.getM_Warehouse_ID() == w.getM_Warehouse_ID() && p_IsRequiredDRP)
-								continue;
-							
-							log.info("Run MRP to Wharehouse: " + w.getName());
-							runMRP(m_AD_Client_ID,organization.getAD_Org_ID(),plant.getS_Resource_ID(),w.getM_Warehouse_ID());
-							result = result + "<br>finish MRP to Warehouse " +w.getName();
-						}
-					}
-					else
-					{
-						if(plant.getM_Warehouse_ID() == p_M_Warehouse_ID && p_IsRequiredDRP)
-							continue;
-						
-						runMRP(m_AD_Client_ID,organization.getAD_Org_ID(),plant.getS_Resource_ID(),p_M_Warehouse_ID);
-					}
-					result = result + "<br>finish MRP to Organization " +organization.getName();
+					ws = MWarehouse.getForOrg(getCtx(), org.getAD_Org_ID());
 				}
-				result = result + "<br> " +Msg.translate(getCtx(), "Created");
-				result = result + "<br> " ;
-				result = result + "<br> " +Msg.translate(getCtx(), "PP_Order_ID")+":"+count_MO;
-				result = result + "<br> " +Msg.translate(getCtx(), "DD_Order_ID")+":"+count_DO;
-				result = result + "<br> " +Msg.translate(getCtx(), "M_Requisition_ID")+":"+count_MR;
-				result = result + "<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_Msg;
-				result = result + "<br>finish MRP to Plant " +plant.getName();
+				else
+				{
+					ws = new MWarehouse[]{MWarehouse.get(getCtx(), getM_Warehouse_ID())};
+				}
+				//
+				for(MWarehouse w : ws)
+				{
+					if(plant.getM_Warehouse_ID() == w.getM_Warehouse_ID() && isRequiredDRP())
+						continue;
+
+					log.info("Run MRP to Wharehouse: " + w.getName());
+					runMRP(getAD_Client_ID(), org.getAD_Org_ID(), plant.getS_Resource_ID(), w.getM_Warehouse_ID());
+					resultMsg.append("<br>finish MRP to Warehouse " +w.getName());
+				}
+				resultMsg.append("<br>finish MRP to Organization " +org.getName());
+			}
+			resultMsg.append("<br> " +Msg.translate(getCtx(), "Created"));
+			resultMsg.append("<br> ");
+			resultMsg.append("<br> " +Msg.translate(getCtx(), "PP_Order_ID")+":"+count_MO);
+			resultMsg.append("<br> " +Msg.translate(getCtx(), "DD_Order_ID")+":"+count_DO);
+			resultMsg.append("<br> " +Msg.translate(getCtx(), "M_Requisition_ID")+":"+count_MR);
+			resultMsg.append("<br> " +Msg.translate(getCtx(), "AD_Note_ID")+":"+count_Msg);
+			resultMsg.append("<br>finish MRP to Plant " +plant.getName());
 		}		
-			
-		return result;
+		//
+		return resultMsg.toString();
 	} 
 
 
@@ -263,7 +287,7 @@ public class MRP extends SvrProcess
 		DB.executeUpdateEx(sql, new Object[]{MPPMRP.Table_ID, AD_Client_ID, AD_Org_ID}, get_TrxName());
 		commit();
 
-		if (p_IsRequiredDRP)
+		if (isRequiredDRP())
 		{
 			//Delete Distribution Order with Draft Status
 			whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=?"
@@ -291,7 +315,7 @@ public class MRP extends SvrProcess
 		ResultSet rs = null;
 		try
 		{
-			MProduct product =  null;                                                                       
+			MProduct product = null;                                                                       
 
 			int BeforePP_MRP_ID = 0;						
 			Timestamp  BeforeDateStartSchedule = null;
@@ -303,18 +327,19 @@ public class MRP extends SvrProcess
 			for (int level = 0 ; level <= lowlevel ; level++)
 			{
 				log.info("Current Level Is :" + level);
-				final String sql = "SELECT p.M_Product_ID ,p.Name , p.LowLevel , mrp.Qty , mrp.DatePromised"
-							+ ", mrp.TypeMRP , mrp.OrderType , mrp.DateOrdered , mrp.M_Warehouse_ID"
-							+ ", mrp.PP_MRP_ID ,  mrp.DateStartSchedule , mrp.DateFinishSchedule"
+				String sql = "SELECT p.M_Product_ID, p.Name, p.LowLevel, mrp.Qty, mrp.DatePromised"
+							+ ", mrp.TypeMRP, mrp.OrderType, mrp.DateOrdered, mrp.M_Warehouse_ID"
+							+ ", mrp.PP_MRP_ID, mrp.DateStartSchedule, mrp.DateFinishSchedule"
 						+" FROM PP_MRP mrp"
-						+" INNER JOIN M_Product p ON (p.M_Product_ID =  mrp.M_Product_ID)"
+						+" INNER JOIN M_Product p ON (p.M_Product_ID = mrp.M_Product_ID)"
 						+" WHERE mrp.TypeMRP=?"
 						+" AND mrp.AD_Client_ID=?"
 						+" AND mrp.AD_Org_ID=? "
 						+" AND M_Warehouse_ID=? "
 						+" AND mrp.DatePromised<=?"
 						+" AND COALESCE(p.LowLevel,0)=? "
-						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised  ";
+						+(p_M_Product_ID > 0 ? " AND mrp.M_Product_ID="+p_M_Product_ID : "")
+						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				pstmt.setString(1, MPPMRP.TYPEMRP_Demand);
 				pstmt.setInt(2, AD_Client_ID);
@@ -491,40 +516,11 @@ public class MRP extends SvrProcess
 			createMRPNote("MRP-120", AD_Org_ID, 0, product, null,  null , null);
 			return;
 		}
-
-		//Find Vendor
-		if (!p_IsRequiredDRP)
-		{	
-			if(product.isPurchased())
-			{    
-				int C_BPartner_ID = 0;
-				MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), get_TrxName());
-				for (int i = 0; i < ppos.length; i++)
-				{
-					if (ppos[i].isCurrentVendor() && ppos[i].getC_BPartner_ID() != 0)
-					{
-						C_BPartner_ID = ppos[i].getC_BPartner_ID();
-						m_product_planning.setDeliveryTime_Promised(new BigDecimal(ppos[i].getDeliveryTime_Promised()));    	                	            
-						m_product_planning.setOrder_Min(ppos[i].getOrder_Min());
-						m_product_planning.setOrder_Pack(ppos[i].getOrder_Pack());
-						break;
-					}
-				}
-				if(C_BPartner_ID <= 0)
-				{
-					createMRPNote("MRP-130", AD_Org_ID, 0, product, null, null , null);
-					m_product_planning.setIsCreatePlan(false);
-				}
-			}
-			if (product.isBOM())
-			{	
-				if (m_product_planning.getAD_Workflow_ID() == 0 )
-					log.info("Error: Do not exist workflow ("+product.getValue()+")");
-			}
-		}	
 		
 		if(m_product_planning.getTimeFence().signum() > 0)
-			TimeFence = TimeUtil.addDays(getToday(), m_product_planning.getTimeFence().intValue()); 
+		{
+			TimeFence = TimeUtil.addDays(getToday(), m_product_planning.getTimeFence().intValue());
+		}
 
 		QtyProjectOnHand = getQtyOnHand(m_product_planning);
 		if(QtyProjectOnHand.signum() < 0)
@@ -556,7 +552,7 @@ public class MRP extends SvrProcess
 	
 	protected I_PP_Product_Planning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
 	{
-		//find data product planning demand 
+		// Find data product planning demand 
 		MPPProductPlanning pp = MPPProductPlanning.find(getCtx() ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());
 		if (pp == null)
 		{
@@ -564,7 +560,8 @@ public class MRP extends SvrProcess
 		}
 		MPPProductPlanning pp2 = new MPPProductPlanning(getCtx(), 0 , null);                                                       
 		MPPProductPlanning.copyValues(pp, pp2);
-		//Find the BOM to this Product
+		pp2.setIsRequiredDRP(isRequiredDRP());
+		//
 		if (pp2.getPP_Product_BOM_ID() <= 0 && product.isBOM())
 		{
 			pp2.setPP_Product_BOM_ID(MPPProductBOM.getBOMSearchKey(product));  
@@ -575,7 +572,7 @@ public class MRP extends SvrProcess
 		} 
 		if (pp2.getPlanner_ID() <= 0)
 		{
-			pp2.setPlanner_ID(Planner_ID);
+			pp2.setPlanner_ID(getPlanner_ID());
 		}
 		if(pp2.getM_Warehouse_ID() <= 0)
 		{
@@ -591,7 +588,7 @@ public class MRP extends SvrProcess
 		}
 
 		//Find Vendor
-		if (!p_IsRequiredDRP)
+		if (!isRequiredDRP())
 		{	
 			if(product.isPurchased())
 			{    
@@ -616,7 +613,7 @@ public class MRP extends SvrProcess
 			}
 			if (product.isBOM())
 			{	
-				if (pp2.getAD_Workflow_ID() == 0 )
+				if (pp2.getAD_Workflow_ID() <= 0)
 					log.info("Error: Do not exist workflow ("+product.getValue()+")");
 			}
 		}
@@ -697,7 +694,7 @@ public class MRP extends SvrProcess
 			{
 				String comment = Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_Order_Min) 
 								+ ":" + m_product_planning.getOrder_Min();
-				createMRPNote("MRP-080", AD_Org_ID, PP_MRP_ID, M_Product , null, QtyPlanned, comment );
+				createMRPNote("MRP-080", AD_Org_ID, PP_MRP_ID, M_Product , null, QtyPlanned, comment);
 			}
 			QtyPlanned = QtyPlanned.max(m_product_planning.getOrder_Min());
 		}
@@ -757,7 +754,7 @@ public class MRP extends SvrProcess
 				log.info("Is Purchased: "+ M_Product.isPurchased()+ " Is BOM: " +  M_Product.isBOM());
 
 				// Distribution Order
-				if(p_IsRequiredDRP && m_product_planning.getDD_NetworkDistribution_ID() > 0)
+				if(isRequiredDRP() && m_product_planning.getDD_NetworkDistribution_ID() > 0)
 				{
 					createDDOrder(AD_Org_ID, PP_MRP_ID, M_Product, QtyPlanned, DemandDateStartSchedule);
 				}
@@ -872,7 +869,7 @@ public class MRP extends SvrProcess
 					order.setC_BPartner_ID(C_BPartner_ID);
 					//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setAD_User_ID(m_product_planning.getPlanner_ID());
-					order.setC_DocType_ID(DocTypeDO);  
+					order.setC_DocType_ID(docTypeDO_ID);  
 					order.setM_Warehouse_ID(wsts[0].get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
 					order.setDateOrdered(getToday());                       
@@ -939,7 +936,7 @@ public class MRP extends SvrProcess
 		req.setDateRequired(TimeUtil.addDays(DemandDateStartSchedule, 0 - duration));
 		req.setDescription("Generate from MRP"); // TODO: add translation
 		req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
-		req.setC_DocType_ID(DocTypeReq);
+		req.setC_DocType_ID(docTypeReq_ID);
 		req.setM_PriceList_ID();
 		req.saveEx();
 
@@ -987,8 +984,8 @@ public class MRP extends SvrProcess
 		MPPOrder order = new MPPOrder(getCtx(), 0, get_TrxName());
 		order.setAD_Org_ID(AD_Org_ID);
 		order.setLine(10);
-		order.setC_DocTypeTarget_ID(DocTypeMO);
-		order.setC_DocType_ID(DocTypeMO);  
+		order.setC_DocTypeTarget_ID(docTypeMO_ID);
+		order.setC_DocType_ID(docTypeMO_ID);  
 		order.setS_Resource_ID(m_product_planning.getS_Resource_ID());
 		order.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 		order.setM_Product_ID(m_product_planning.getM_Product_ID());
@@ -1230,20 +1227,23 @@ public class MRP extends SvrProcess
 	{
 		MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), docBaseType);
 
-		if (doc==null || doc.length == 0) 
+		if (doc == null || doc.length == 0) 
 		{
 			String reference = Msg.getMsg(getCtx(), "SequenceDocNotFound");
 			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
 			MNote note = new MNote(getCtx(), MMessage.getAD_Message_ID (getCtx(), "SequenceDocNotFound"),
-									Planner_ID, MPPMRP.Table_ID, 0,
+									getPlanner_ID(), MPPMRP.Table_ID, 0,
 									reference,
 									textMsg,
 									get_TrxName());
-			note.saveEx();			
+			note.saveEx();
 			throw new AdempiereException(textMsg);
 		} 
 		else
+		{
+			log.info("Doc Type for "+docBaseType+": "+ doc[0].getC_DocType_ID());
 			return doc[0].getC_DocType_ID();
+		}
 	}
 }
 
