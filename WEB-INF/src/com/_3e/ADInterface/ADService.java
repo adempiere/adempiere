@@ -42,8 +42,8 @@ public interface ADService {
     public ProcessParamsDocument getProcessParams( GetProcessParamsDocument req ) throws XFireFault;
     public RunProcessResponseDocument runProcess( RunProcessDocument req )  throws XFireFault;
 
-    public StandardResponseDocument saveLocation( LocationDocument req );
-    public LocationDocument getLocation( LocationDocument req );
+    public StandardResponseDocument saveLocation( LocationDocument req ) throws XFireFault;
+    public LocationDocument getLocation( LocationDocument req ) throws XFireFault;
     
     public DocActionDocument getDocAction(int WindowNo, int TabNo, int RowNo, String ColName ) throws XFireFault;
     public StandardResponseDocument setDocAction(int WindowNo, int TabNo, int RowNo, String ColName, String docAction ) throws XFireFault;    

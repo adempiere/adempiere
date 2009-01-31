@@ -1,3 +1,32 @@
+/**********************************************************************
+* This file is part of Adempiere ERP Bazaar                           *
+* http://www.adempiere.org                                            *
+*                                                                     *
+* Copyright (C) Carlos Ruiz - globalqss                               *
+* Copyright (C) Contributors                                          *
+*                                                                     *
+* This program is free software; you can redistribute it and/or       *
+* modify it under the terms of the GNU General Public License         *
+* as published by the Free Software Foundation; either version 2      *
+* of the License, or (at your option) any later version.              *
+*                                                                     *
+* This program is distributed in the hope that it will be useful,     *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the        *
+* GNU General Public License for more details.                        *
+*                                                                     *
+* You should have received a copy of the GNU General Public License   *
+* along with this program; if not, write to the Free Software         *
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,          *
+* MA 02110-1301, USA.                                                 *
+*                                                                     *
+* Contributors:                                                       *
+* - Carlos Ruiz  (globalqss@users.sourceforge.net)                    *
+*                                                                     *
+* Sponsors:                                                           *
+* - GlobalQSS (http://www.globalqss.com)                              *
+***********************************************************************/
+
 package com._3e.ADInterface;
 
 import java.sql.PreparedStatement;
@@ -42,12 +71,12 @@ import pl.x3E.adInterface.WindowTabDataDocument;
 
 /*
  * ADEMPIERE/COMPIERE
- * 
+ *
  * replacement:
  * GridField by GridFieldVO
  * GridTabVO by GridTabVO
  * GridWindowVO by GridWindowVO	
- * 
+ *
  * Contributors: Carlos Ruiz - globalqss
  *     Add model oriented method modelSetDocAction
  *     Some Polish messages translated to english using google translate
@@ -55,13 +84,15 @@ import pl.x3E.adInterface.WindowTabDataDocument;
 
 
 /**
- * 
+ *
  * @author kolec
  *
  */
 public class ModelADServiceImpl implements ModelADService {
 
 	private static CLogger	log = CLogger.getCLogger(ModelADServiceImpl.class);
+	
+	private static String webServiceName = new String("ModelADService");
 	
 	private CompiereService m_cs;
 
@@ -80,7 +111,7 @@ public class ModelADServiceImpl implements ModelADService {
 	/*
 	 * Model oriented web service to change DocAction for documents, i.e. Complete a Material Receipt
 	 * WARNING!!! This web service complete documents not via workflow, so it jump over any approval step considered in document workflow
-	 *   To complete documents using workflow it's better to use the modelRunProcess web service 
+	 *   To complete documents using workflow it's better to use the runProcess web service
 	 */
 	public StandardResponseDocument setDocAction(
 			ModelSetDocActionRequestDocument req) throws XFireFault {
@@ -94,18 +125,20 @@ public class ModelADServiceImpl implements ModelADService {
     	
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "setDocAction");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
+    	
+    	// TODO: Validate parameters vs service type
 
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelSetDocAction");
-		Trx trx = Trx.get(trxName, false); 
+		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
@@ -147,7 +180,7 @@ public class ModelADServiceImpl implements ModelADService {
     	return ret;
 	}
 
-	private String modelLogin(ADLoginRequest r) {
+	private String modelLogin(ADLoginRequest r, String webService, String method) {
 
     	// TODO: Share login between different sessions
 		if (   m_cs.isLoggedIn()
@@ -157,8 +190,8 @@ public class ModelADServiceImpl implements ModelADService {
 			&& m_cs.getM_AD_Warehouse_ID() == r.getWarehouseID()
 			&& r.getUser().equals(m_cs.getUser())
 			)
-			return null; // already logged with same data
-		
+			return authenticate(webService, method); // already logged with same data
+
 		Login login = new Login(m_cs.getM_ctx());
 		KeyNamePair[] roles = login.getRoles(r.getUser(), r.getPass());
 		if (roles != null)
@@ -221,6 +254,12 @@ public class ModelADServiceImpl implements ModelADService {
 		{
 			return "Error logging in - no roles or user/pwd invalid for user " + r.getUser();
 		}
+		
+		return authenticate(webService, method); // already logged with same data
+	}
+
+	private String authenticate(String webService, String method) {
+		// TODO Authenticate webservice and method for the current user
 		return null;
 	}
 
@@ -230,14 +269,16 @@ public class ModelADServiceImpl implements ModelADService {
 		
 		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
 
-		String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "runProcess");
     	if (err != null && err.length() > 0) {
     		rbadlogin.setError(err);
     		rbadlogin.setIsError( true );
         	return resbadlogin;
     	}
 
-		RunProcess reqprocess = req.getModelRunProcessRequest().getRunProcess();
+    	// TODO: Validate parameters vs service type
+
+    	RunProcess reqprocess = req.getModelRunProcessRequest().getRunProcess();
 		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
 		docprocess.setRunProcess(reqprocess);
     	return Process.runProcess(m_cs, docprocess);
@@ -252,7 +293,7 @@ public class ModelADServiceImpl implements ModelADService {
 
 		ADLoginRequest reqlogin = req.getModelGetListRequest().getADLoginRequest();
 
-		String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "getList");
     	if (err != null && err.length() > 0) {
     		res.setError(err);
     		res.setErrorInfo(err);
@@ -260,6 +301,8 @@ public class ModelADServiceImpl implements ModelADService {
         	return resdoc;
     	}
 		int roleid = reqlogin.getRoleID();
+
+    	// TODO: Validate parameters vs service type
 
     	int ref_id = req.getModelGetListRequest().getModelGetList().getADReferenceID();
     	String filter = req.getModelGetListRequest().getModelGetList().getFilter();
@@ -384,6 +427,7 @@ public class ModelADServiceImpl implements ModelADService {
     				// Add values to the dataset
     				DataRow dr = ds.addNewDataRow();
     				for (String listColumnName : listColumnNames) {
+    					// TODO: Validate field vs allowed output fields
     					DataField dfid = dr.addNewField();
     					dfid.setColumn(listColumnName);
     					dfid.setVal(rs.getString(listColumnName));
@@ -433,18 +477,20 @@ public class ModelADServiceImpl implements ModelADService {
 
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "deleteData");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
+    	// TODO: Validate parameters vs service type
+
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelDeleteData");
-		Trx trx = Trx.get(trxName, false); 
+		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
@@ -481,18 +527,20 @@ public class ModelADServiceImpl implements ModelADService {
         	return ret;
     	}
     	
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "createData");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
+    	// TODO: Validate parameters vs service type
+
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelDeleteData");
-		Trx trx = Trx.get(trxName, false); 
+		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
@@ -505,7 +553,8 @@ public class ModelADServiceImpl implements ModelADService {
     	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
-        	po.set_ValueOfColumn(field.getColumn(), field.getVal());
+			// TODO: Validate field vs allowed output fields
+    		po.set_ValueOfColumn(field.getColumn(), field.getVal());
     	}
 
     	if (!po.save())
@@ -541,18 +590,20 @@ public class ModelADServiceImpl implements ModelADService {
     	
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "updateData");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
+    	// TODO: Validate parameters vs service type
+
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelDeleteData");
-		Trx trx = Trx.get(trxName, false); 
+		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
@@ -565,7 +616,8 @@ public class ModelADServiceImpl implements ModelADService {
     	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
-        	po.set_ValueOfColumn(field.getColumn(), field.getVal());
+			// TODO: Validate field vs allowed output fields
+    		po.set_ValueOfColumn(field.getColumn(), field.getVal());
     	}
 
     	if (!po.save())
@@ -595,13 +647,17 @@ public class ModelADServiceImpl implements ModelADService {
         	return ret;
     	}
     	
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "readData");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	return ret;
     	}
 
-		// TODO Implement read data
+    	// TODO: Validate parameters vs service type
+
+		// TODO: Validate output field vs allowed output fields
+    	
+    	// TODO Implement read data
 		return ret;
 	}
 
@@ -620,12 +676,18 @@ public class ModelADServiceImpl implements ModelADService {
         	return ret;
     	}
     	
-    	String err = modelLogin(reqlogin);
+    	String err = modelLogin(reqlogin, webServiceName, "queryData");
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	return ret;
     	}
 
+    	// TODO: Validate parameters vs service type
+
+		// TODO: Validate input field
+    	
+		// TODO: Validate output field vs allowed output fields
+    	
 		// TODO Implement query data - be careful about security!
 		return ret;
 	}

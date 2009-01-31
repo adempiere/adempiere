@@ -98,6 +98,8 @@ public class ADServiceImpl implements ADService {
 
 	private static CLogger	log = CLogger.getCLogger(ADServiceImpl.class);
 	
+	private static String webServiceName = new String("ADService");
+	
 	private CompiereService m_cs;
 	
 	private static final int MAX_ROWS = 200;
@@ -288,7 +290,7 @@ public class ADServiceImpl implements ADService {
     }
     
     public WindowDocument getADWindow(int WindowNo, int AD_Window_ID, int AD_Menu_ID) throws XFireFault   {
-    	authenticate();
+    	authenticate(webServiceName, "getADWindow");
     	
     	WindowDocument wc = (WindowDocument)WindowCache.get(new String(""+AD_Window_ID+"_"+AD_Menu_ID));
     	//if (wc != null)			return wc;
@@ -363,13 +365,18 @@ public class ADServiceImpl implements ADService {
     }
     
     
-    void authenticate() throws XFireFault {
+    void authenticate(String webServiceName, String method) throws XFireFault {
     	if (!m_cs.isLoggedIn()) 
     		throw new XFireFault( new Exception( "You need to login" ) );
+    	// TODO: Authenticate webservice and method
+    	// Validate the web service is active
+    	// Validate the method is enabled
+    	
+    	// TODO: Increase security level!
     }
 
     public WindowTabDataDocument getWindowTabData(WindowTabDataReqDocument reqd) throws XFireFault {
-    	authenticate();
+    	authenticate(webServiceName, "getWindowTabData");
 
     	WindowTabDataReq req = reqd.getWindowTabDataReq();
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
@@ -509,7 +516,7 @@ public class ADServiceImpl implements ADService {
 
     
     public WindowTabDataDocument getDataRow(int WindowNo, int TabNo, int RowNo )  throws XFireFault  {
-    	authenticate();
+    	authenticate(webServiceName, "getDataRow");
     	
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();    	
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -534,7 +541,7 @@ public class ADServiceImpl implements ADService {
     }
     
     public WindowTabDataDocument updateDataRow(int WindowNo, int TabNo, int RowNo, WindowTabDataDocument data )  throws XFireFault  {
-    	authenticate();
+    	authenticate(webServiceName, "updateDataRow");
     	
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -572,7 +579,7 @@ public class ADServiceImpl implements ADService {
     
 
     private void fillDataRow( DataRow dr, WWindowStatus ws, boolean handleLookups, boolean onlyUpdated )   throws XFireFault {
-    	authenticate();
+    	authenticate(webServiceName, "fillDataRow");
     	
     	int noFields = ws.curTab.getFieldCount();
     	
@@ -738,6 +745,8 @@ public class ADServiceImpl implements ADService {
 
     
     public WindowTabDataDocument saveDataRow(int WindowNo, int TabNo, int RowNo, WindowTabDataDocument data ) throws XFireFault {
+    	authenticate(webServiceName, "saveDataRow");
+
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
     	DataSet ds = wd.addNewDataSet();
@@ -1071,7 +1080,7 @@ public class ADServiceImpl implements ADService {
 
 	
 	public WindowTabDataDocument addNewDataRow(int WindowNo, int TabNo ) throws XFireFault	{
-		authenticate();
+    	authenticate(webServiceName, "addNewDataRow");
 		
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -1099,7 +1108,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 	public WindowTabDataDocument deleteDataRow(int WindowNo, int TabNo, int RowNo ) throws XFireFault	{
-		authenticate();
+    	authenticate(webServiceName, "deleteDataRow");
 
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -1129,7 +1138,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 	public WindowTabDataDocument ignoreDataRow(int WindowNo, int TabNo, int RowNo ) throws XFireFault	{
-		authenticate();
+    	authenticate(webServiceName, "ignoreDataRow");
 		
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -1160,7 +1169,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 	public WindowTabDataDocument refreshDataRow(int WindowNo, int TabNo, int RowNo ) throws XFireFault	{
-		authenticate();
+    	authenticate(webServiceName, "refreshDataRow");
 		
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
@@ -1189,9 +1198,11 @@ public class ADServiceImpl implements ADService {
 		
 	}
 	
-	public WindowTabDataDocument getLookupSearchData(GetLookupSearchDataReqDocument req) 
-	{//int WindowNo, int TabNo, int RowNo, DataRow dr 
-		GetLookupSearchDataReq reqt  = req.getGetLookupSearchDataReq();
+	public WindowTabDataDocument getLookupSearchData(GetLookupSearchDataReqDocument req) throws XFireFault 
+	{ //int WindowNo, int TabNo, int RowNo, DataRow dr 
+    	authenticate(webServiceName, "getLookupSearchData");
+
+    	GetLookupSearchDataReq reqt  = req.getGetLookupSearchDataReq();
 		
 		DataField[] df = reqt.getParams().getFieldArray();
     	for (int i=0; i<df.length; i++) {
@@ -1221,8 +1232,10 @@ public class ADServiceImpl implements ADService {
     	return ret;		
 	}
 	
-	public WindowTabDataDocument getLookupData(int WindowNo, int TabNo, int RowNo, String columnName ) 
+	public WindowTabDataDocument getLookupData(int WindowNo, int TabNo, int RowNo, String columnName ) throws XFireFault 
 	{
+    	authenticate(webServiceName, "getLookupData");
+
     	WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
     	WindowTabData wd = ret.addNewWindowTabData();
     	DataSet ds = wd.addNewDataSet();
@@ -1252,8 +1265,10 @@ public class ADServiceImpl implements ADService {
 	}    
     
     
-    public ADMenuDocument getADMenu(int AD_Role_ID)
+    public ADMenuDocument getADMenu(int AD_Role_ID) throws XFireFault
     {
+    	authenticate(webServiceName, "getADMenu");
+
     	ADMenuDocument res = ADMenuDocument.Factory.newInstance();
     	ADMenuItem menu = res.addNewADMenu();
     	menu.setName("Menu");
@@ -1360,7 +1375,9 @@ public class ADServiceImpl implements ADService {
 	
 	public ADLoginResponseDocument login( ADLoginRequestDocument req ) throws XFireFault
 	{
-		ADLoginResponseDocument res = ADLoginResponseDocument.Factory.newInstance();
+    	authenticate(webServiceName, "login");
+
+    	ADLoginResponseDocument res = ADLoginResponseDocument.Factory.newInstance();
 		ADLoginResponse lr = res.addNewADLoginResponse();
 		
 		ADLoginRequest r = req.getADLoginRequest();
@@ -1446,16 +1463,19 @@ public class ADServiceImpl implements ADService {
 	
     public ProcessParamsDocument getProcessParams( GetProcessParamsDocument req ) throws XFireFault
     {
+    	authenticate(webServiceName, "getProcessParams");
     	return Process.getProcessParams(m_cs, req );
     }
 	
     public RunProcessResponseDocument runProcess( RunProcessDocument req )  throws XFireFault
     {
+    	authenticate(webServiceName, "runProcess");
     	return Process.runProcess(m_cs, req);
     }
     
-    public StandardResponseDocument saveLocation( LocationDocument req )
+    public StandardResponseDocument saveLocation( LocationDocument req ) throws XFireFault
     {
+    	authenticate(webServiceName, "saveLocation");
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse(); 
     		
@@ -1480,8 +1500,9 @@ public class ADServiceImpl implements ADService {
     }
     
     
-    public LocationDocument getLocation( LocationDocument req )
+    public LocationDocument getLocation( LocationDocument req ) throws XFireFault
     {
+    	authenticate(webServiceName, "getLocation");
     	LocationDocument ret = LocationDocument.Factory.newInstance();
     	Location loc = ret.addNewLocation();
     	
@@ -1537,6 +1558,7 @@ public class ADServiceImpl implements ADService {
 
 	public DocActionDocument getDocAction(int WindowNo, int TabNo, int RowNo, String ColName ) throws XFireFault
 	{
+    	authenticate(webServiceName, "getDocAction");
     	DocActionDocument ret = DocActionDocument.Factory.newInstance();
     	DocAction da = ret.addNewDocAction();
 
@@ -1552,6 +1574,7 @@ public class ADServiceImpl implements ADService {
 
 	public StandardResponseDocument setDocAction(int WindowNo, int TabNo, int RowNo, String ColName, String docAction ) throws XFireFault
 	{
+    	authenticate(webServiceName, "setDocAction");
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse sr = ret.addNewStandardResponse();
 

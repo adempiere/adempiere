@@ -1,3 +1,32 @@
+/**********************************************************************
+* This file is part of Adempiere ERP Bazaar                           *
+* http://www.adempiere.org                                            *
+*                                                                     *
+* Copyright (C) Carlos Ruiz - globalqss                               *
+* Copyright (C) Contributors                                          *
+*                                                                     *
+* This program is free software; you can redistribute it and/or       *
+* modify it under the terms of the GNU General Public License         *
+* as published by the Free Software Foundation; either version 2      *
+* of the License, or (at your option) any later version.              *
+*                                                                     *
+* This program is distributed in the hope that it will be useful,     *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of      *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the        *
+* GNU General Public License for more details.                        *
+*                                                                     *
+* You should have received a copy of the GNU General Public License   *
+* along with this program; if not, write to the Free Software         *
+* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,          *
+* MA 02110-1301, USA.                                                 *
+*                                                                     *
+* Contributors:                                                       *
+* - Carlos Ruiz  (globalqss@users.sourceforge.net)                    *
+*                                                                     * 
+* Sponsors:                                                           *
+* - GlobalQSS (http://www.globalqss.com)                              *
+***********************************************************************/
+
 package com.globalqss.ObPOSInterface;
 
 import java.io.UnsupportedEncodingException;
@@ -37,6 +66,8 @@ public class ExternalSalesImpl implements ExternalSales {
 
 	private static CLogger	log = CLogger.getCLogger(ExternalSalesImpl.class);
 	
+	private static String webServiceName = new String("ExternalSales");
+	
 	public ExternalSalesImpl()
 	{
 		log.info("Creating session object ExternalSales");
@@ -54,7 +85,7 @@ public class ExternalSalesImpl implements ExternalSales {
 		UploadOrdersResponseDocument resdoc = UploadOrdersResponseDocument.Factory.newInstance();
 		UploadOrdersResponse res = resdoc.addNewUploadOrdersResponse();
 
-		authenticate(username, password);
+		authenticate(username, password, webServiceName, "uploadOrders");
 
 		return resdoc;
 	}
@@ -67,7 +98,7 @@ public class ExternalSalesImpl implements ExternalSales {
 		ProductsCatalogResponseDocument resdoc = ProductsCatalogResponseDocument.Factory.newInstance();
 		ProductsCatalogResponse res = resdoc.addNewProductsCatalogResponse();
 
-		authenticate(username, password);
+		authenticate(username, password, webServiceName, "getProductsCatalog");
 
 		return resdoc;
 	}
@@ -79,8 +110,8 @@ public class ExternalSalesImpl implements ExternalSales {
 		ProductsPlusCatalogResponseDocument resdoc = ProductsPlusCatalogResponseDocument.Factory.newInstance();
 		ProductsPlusCatalogResponse res = resdoc.addNewProductsPlusCatalogResponse();
 		
-		authenticate(username, password);
-		
+		authenticate(username, password, webServiceName, "getProductsPlusCatalog");
+
 		/*
 		 * Sample of needed work
 		 *  
@@ -111,7 +142,7 @@ public class ExternalSalesImpl implements ExternalSales {
 		return resdoc;
 	}
 
-	public static void authenticate(String username, String password)
+	public static void authenticate(String username, String password, String webServiceName, String method)
 			throws XFireFault {
 		String dbpwd = DB.getSQLValueString(null, "SELECT Password FROM AD_User WHERE Name=? AND Password IS NOT NULL", username); // and ad_client_id in (0,?)
 		if (dbpwd == null || dbpwd.length() <= 0)
@@ -133,6 +164,8 @@ public class ExternalSalesImpl implements ExternalSales {
 		if (! hashPassword.equals(password))
 			/* Invalid password */
 			throw new XFireFault("Invalid user/password", new QName("password"));
+
+		// TODO: authenticate web service and method
 	}
 
 }
