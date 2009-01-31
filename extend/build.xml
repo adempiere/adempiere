@@ -25,6 +25,9 @@
     <pathelement path="../base/build"/>
     <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
+	<fileset dir="../tools/lib/testing/">
+		<include name="*.jar"/>
+	</fileset> 
   </path>
 
   <target name="init" description="initialization target">
