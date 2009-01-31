@@ -267,14 +267,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			return false;
 		}
 		
-		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
-		{
-			deleteWorkflowAndBOM();
-			explotion();
+		boolean explotion = DocAction.STATUS_Drafted.equals(getDocStatus())
+		|| DocAction.STATUS_InProgress.equals(getDocStatus());
+		
+		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && explotion)
+		{	
+				deleteWorkflowAndBOM();
+				explotion();
 		}
-		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && !getDocStatus().equals(MPPOrder.DOCSTATUS_Drafted))
+		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyEntered) && !explotion)
 		{
-			throw new AdempiereException("Cannot Change Quantity, Only is allow with Draft Status"); // TODO: Create Message for Translation
+			throw new AdempiereException("Cannot Change Quantity, Only is allow with Draft or In Process Status"); // TODO: Create Message for Translation
 		}
 		
 		if (!newRecord)
@@ -703,8 +706,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (m_processMsg != null)
 			return false;
 		
-//		setProcessed(true);
-//		setDocAction(DOCACTION_None);
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
 		return false;
 	} //	voidIt
 

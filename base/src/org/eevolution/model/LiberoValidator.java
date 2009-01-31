@@ -78,7 +78,7 @@ public class LiberoValidator implements ModelValidator
 		log.info(po.get_TableName() + " Type: "+type);
 		boolean isChange = (TYPE_AFTER_NEW == type || (TYPE_AFTER_CHANGE == type && MPPMRP.isChanged(po)));
 		boolean isDelete = (TYPE_BEFORE_DELETE == type);
-		boolean isCompleted = false;
+		boolean isReleased = false;
 		boolean isVoided = false;
 		DocAction doc = null;
 		if (po instanceof DocAction)
@@ -92,7 +92,7 @@ public class LiberoValidator implements ModelValidator
 		if (doc != null)
 		{
 			String docStatus = doc.getDocStatus();
-			isCompleted = DocAction.STATUS_InProgress.equals(docStatus)
+			isReleased = DocAction.STATUS_InProgress.equals(docStatus)
 							|| DocAction.STATUS_Completed.equals(docStatus);
 			isVoided = DocAction.STATUS_Voided.equals(docStatus);
 		}
@@ -115,7 +115,7 @@ public class LiberoValidator implements ModelValidator
 			// or you change DatePromised
 			else if (type == TYPE_AFTER_CHANGE && order.isSOTrx())
 			{
-				if (isCompleted || MPPMRP.isChanged(order)) 
+				if (isReleased || MPPMRP.isChanged(order)) 
 				{	
 					MPPMRP.C_Order(order, false);
 				}
@@ -134,7 +134,7 @@ public class LiberoValidator implements ModelValidator
 			}
 			// Update MRP when Sales Order have document status in process or complete and 
 			// you change relevant fields
-			else if(order.isSOTrx() && isCompleted)
+			else if(order.isSOTrx() && isReleased)
 			{
 				MPPMRP.C_OrderLine(ol, false);
 			}

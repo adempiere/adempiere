@@ -459,10 +459,27 @@ public class MPPMRP extends X_PP_MRP
 			{    
 				if (!order.isProcessed())
 				{
+					//if you chance product in order line the Manufacturing order is void
+					if(order.getM_Product_ID() != ol.getM_Product_ID())
+					{
+						order.setDescription("");
+						order.setQtyEntered(Env.ZERO);
+						order.setC_OrderLine_ID(0);
+						order.voidIt();
+						order.setDocStatus(MPPOrder.DOCSTATUS_Voided);
+						order.setDocAction(MPPOrder.ACTION_None);
+						order.save();
+						ol.setDescription("");
+						ol.saveEx();
+						
+					}
 					if(order.getQtyEntered().compareTo(ol.getQtyEntered()) != 0)
 					{	
-						order.setQty(ol.getQtyEntered());
-						order.saveEx();
+						if(order.getQtyEntered().signum() != 0)
+						{	
+							order.setQty(ol.getQtyEntered());
+							order.saveEx();
+						}	
 					}	
 					if(order.getDatePromised().compareTo(ol.getDatePromised()) != 0)
 					{
