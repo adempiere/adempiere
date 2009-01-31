@@ -475,11 +475,8 @@ public class MPPMRP extends X_PP_MRP
 					}
 					if(order.getQtyEntered().compareTo(ol.getQtyEntered()) != 0)
 					{	
-						if(order.getQtyEntered().signum() != 0)
-						{	
 							order.setQty(ol.getQtyEntered());
 							order.saveEx();
-						}	
 					}	
 					if(order.getDatePromised().compareTo(ol.getDatePromised()) != 0)
 					{
