@@ -428,7 +428,7 @@
 
    <xsd:complexType name="ModelRunProcessRequest">
    <xsd:sequence>
-     <xsd:element name="RunProcess" type="tns:RunProcess" minOccurs="1" maxOccurs="1"/>
+     <xsd:element name="ModelRunProcess" type="tns:ModelRunProcess" minOccurs="1" maxOccurs="1"/>
      <xsd:element name="ADLoginRequest" type="tns:ADLoginRequest" minOccurs="1" maxOccurs="1"/>
    </xsd:sequence>
    </xsd:complexType>

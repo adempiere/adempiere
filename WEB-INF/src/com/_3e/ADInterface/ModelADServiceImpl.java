@@ -36,14 +36,21 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.xml.namespace.QName;
+
 import org.adempiere.model.GenericPO;
+import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.codehaus.xfire.fault.XFireFault;
 import org.compiere.model.MColumn;
 import org.compiere.model.MRefTable;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
+import org.compiere.model.MWebService;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Reference;
+import org.compiere.model.X_WS_WebServiceMethod;
+import org.compiere.model.MWebServiceType;
+import org.compiere.model.X_WS_WebService_Para;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -57,8 +64,11 @@ import pl.x3E.adInterface.DataRow;
 import pl.x3E.adInterface.DataSet;
 import pl.x3E.adInterface.ModelCRUD;
 import pl.x3E.adInterface.ModelCRUDRequestDocument;
+import pl.x3E.adInterface.ModelGetList;
 import pl.x3E.adInterface.ModelGetListRequestDocument;
+import pl.x3E.adInterface.ModelRunProcess;
 import pl.x3E.adInterface.ModelRunProcessRequestDocument;
+import pl.x3E.adInterface.ModelSetDocAction;
 import pl.x3E.adInterface.ModelSetDocActionRequestDocument;
 import pl.x3E.adInterface.RunProcess;
 import pl.x3E.adInterface.RunProcessDocument;
@@ -68,6 +78,7 @@ import pl.x3E.adInterface.StandardResponse;
 import pl.x3E.adInterface.StandardResponseDocument;
 import pl.x3E.adInterface.WindowTabData;
 import pl.x3E.adInterface.WindowTabDataDocument;
+import pl.x3E.adInterface.ModelCRUD.Action.Enum;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -96,6 +107,10 @@ public class ModelADServiceImpl implements ModelADService {
 	
 	private CompiereService m_cs;
 
+	private MWebService m_webservice = null;
+	private X_WS_WebServiceMethod m_webservicemethod;
+	private MWebServiceType m_webservicetype;
+
 	public ModelADServiceImpl()
 	{
 		m_cs = new CompiereService();
@@ -117,24 +132,29 @@ public class ModelADServiceImpl implements ModelADService {
 			ModelSetDocActionRequestDocument req) throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
-    	
+    	ModelSetDocAction modelSetDocAction = req.getModelSetDocActionRequest().getModelSetDocAction();
+		String serviceType = modelSetDocAction.getServiceType();
+
     	ADLoginRequest reqlogin = req.getModelSetDocActionRequest().getADLoginRequest();
-    	String tableName = req.getModelSetDocActionRequest().getModelSetDocAction().getTableName();
-    	int recordID = req.getModelSetDocActionRequest().getModelSetDocAction().getRecordID();
-    	String docAction = req.getModelSetDocActionRequest().getModelSetDocAction().getDocAction();
+    	String tableName = modelSetDocAction.getTableName();
+    	int recordID = modelSetDocAction.getRecordID();
+    	String docAction = modelSetDocAction.getDocAction();
     	
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin, webServiceName, "setDocAction");
+    	String err = modelLogin(reqlogin, webServiceName, "setDocAction", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
     	
-    	// TODO: Validate parameters vs service type
-
     	Properties ctx = m_cs.getM_ctx();
+
+    	// Validate parameters
+    	modelSetDocAction.setTableName(validateParameter("TableName", modelSetDocAction.getTableName()));
+    	modelSetDocAction.setRecordID(validateParameter("RecordID", modelSetDocAction.getRecordID()));
+    	modelSetDocAction.setDocAction(validateParameter("DocAction", modelSetDocAction.getDocAction()));
     	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelSetDocAction");
@@ -170,6 +190,53 @@ public class ModelADServiceImpl implements ModelADService {
 		return ret;
 	}
 
+	private String validateParameter(String parameterName, String string) throws XFireFault {
+		X_WS_WebService_Para para = m_webservicetype.getParameter(parameterName);
+		if (para == null)
+			throw new XFireFault("Web service type "
+					+ m_webservicetype.getValue() + ": invalid parameter "
+					+ parameterName,
+					new QName("parameterName"));
+
+		if (X_WS_WebService_Para.PARAMETERTYPE_Constant.equals(para.getParameterType())) {
+			if (string == null || string.length() == 0) {
+				log.log(Level.INFO, "Web service type "
+						+ m_webservicetype.getValue() + ": constant parameter "
+						+ parameterName + " set to "
+						+ para.getConstantValue());
+				return para.getConstantValue();
+			} else if (! para.getConstantValue().equals(string)) {
+				log.log(Level.SEVERE, "Web service type "
+						+ m_webservicetype.getValue() + ": constant parameter "
+						+ parameterName + " changed to "
+						+ para.getConstantValue());
+				return para.getConstantValue();
+			}
+		}
+		
+		// it must be parameter FREE
+		return string;
+	}
+
+	private int validateParameter(String parameterName, int i) throws XFireFault {
+		Integer io = Integer.valueOf(i);
+		String string = validateParameter(parameterName, io.toString());
+		if (string == null)
+			return -1;
+		if (string.equals(io.toString()))
+			return i;
+		return Integer.parseInt(string);
+	}
+
+	private Enum validateParameter(String parameterName, Enum action, Table table) throws XFireFault {
+		String string = validateParameter(parameterName, action.toString());
+		if (string == null)
+			return (Enum) table.forInt(-1);
+		if (string.equals(action.toString()))
+			return action;
+		return (Enum) table.forString(string);
+	}
+
 	private StandardResponseDocument rollbackAndSetError(Trx trx,
 			StandardResponse resp, StandardResponseDocument ret, boolean isError,
 			String string) {
@@ -180,7 +247,7 @@ public class ModelADServiceImpl implements ModelADService {
     	return ret;
 	}
 
-	private String modelLogin(ADLoginRequest r, String webService, String method) {
+	private String modelLogin(ADLoginRequest r, String webService, String method, String serviceType) {
 
     	// TODO: Share login between different sessions
 		if (   m_cs.isLoggedIn()
@@ -190,7 +257,7 @@ public class ModelADServiceImpl implements ModelADService {
 			&& m_cs.getM_AD_Warehouse_ID() == r.getWarehouseID()
 			&& r.getUser().equals(m_cs.getUser())
 			)
-			return authenticate(webService, method); // already logged with same data
+			return authenticate(webService, method, serviceType); // already logged with same data
 
 		Login login = new Login(m_cs.getM_ctx());
 		KeyNamePair[] roles = login.getRoles(r.getUser(), r.getPass());
@@ -255,32 +322,78 @@ public class ModelADServiceImpl implements ModelADService {
 			return "Error logging in - no roles or user/pwd invalid for user " + r.getUser();
 		}
 		
-		return authenticate(webService, method); // already logged with same data
+		return authenticate(webService, method, serviceType);
 	}
 
-	private String authenticate(String webService, String method) {
-		// TODO Authenticate webservice and method for the current user
+	private String authenticate(String webServiceValue, String methodValue, String serviceTypeValue) {
+		m_webservice  = MWebService.get(m_cs.getM_ctx(), webServiceValue);
+		if (m_webservice == null || ! m_webservice.isActive())
+			return "Web Service " + webServiceValue + " not registered";
+
+		m_webservicemethod = m_webservice.getMethod(methodValue);
+		if (m_webservicemethod == null || ! m_webservicemethod.isActive())
+			return "Method " + methodValue + " not registered";
+
+		final String sql = "SELECT * FROM WS_WebServiceType " +
+				"WHERE AD_Client_ID=? " +
+				"AND WS_WebService_ID=? " +
+				"AND WS_WebServiceMethod_ID=? " +
+				"AND Value=? " +
+				"AND IsActive='Y'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setInt(1, m_cs.getM_AD_Client_ID());
+			pstmt.setInt(2, m_webservice.getWS_WebService_ID());
+			pstmt.setInt(3, m_webservicemethod.getWS_WebServiceMethod_ID());
+			pstmt.setString(4, serviceTypeValue);
+			rs = pstmt.executeQuery ();
+			if (rs.next ())
+				m_webservicetype = new MWebServiceType (m_cs.getM_ctx(), rs, null);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
 		return null;
 	}
 
 	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument req) throws XFireFault {
 		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
 		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
-		
+    	ModelRunProcess modelRunProcess = req.getModelRunProcessRequest().getModelRunProcess();
+		String serviceType = modelRunProcess.getServiceType();
+
 		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
 
-    	String err = modelLogin(reqlogin, webServiceName, "runProcess");
+    	String err = modelLogin(reqlogin, webServiceName, "runProcess", serviceType);
     	if (err != null && err.length() > 0) {
     		rbadlogin.setError(err);
     		rbadlogin.setIsError( true );
         	return resbadlogin;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters
+    	modelRunProcess.setADMenuID(validateParameter("ADMenuID", modelRunProcess.getADMenuID()));
+    	modelRunProcess.setADProcessID(validateParameter("ADProcessID", modelRunProcess.getADProcessID()));
+    	modelRunProcess.setADRecordID(validateParameter("ADRecordID", modelRunProcess.getADRecordID()));
+    	modelRunProcess.setDocAction(validateParameter("DocAction", modelRunProcess.getDocAction()));
 
-    	RunProcess reqprocess = req.getModelRunProcessRequest().getRunProcess();
 		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
-		docprocess.setRunProcess(reqprocess);
+    	RunProcess reqprocess = docprocess.addNewRunProcess();
+    	reqprocess.setParamValues(modelRunProcess.getParamValues());
+    	reqprocess.setADProcessID(modelRunProcess.getADProcessID());
+    	reqprocess.setADMenuID(modelRunProcess.getADMenuID());
+    	reqprocess.setADRecordID(modelRunProcess.getADRecordID());
+    	reqprocess.setDocAction(modelRunProcess.getDocAction());
     	return Process.runProcess(m_cs, docprocess);
 	}
 
@@ -289,11 +402,13 @@ public class ModelADServiceImpl implements ModelADService {
 		WindowTabDataDocument resdoc = WindowTabDataDocument.Factory.newInstance();
 		WindowTabData res = resdoc.addNewWindowTabData();
     	DataSet ds = res.addNewDataSet();
+    	ModelGetList modelGetList = req.getModelGetListRequest().getModelGetList();
+		String serviceType = modelGetList.getServiceType();
     	int cnt = 0;
 
 		ADLoginRequest reqlogin = req.getModelGetListRequest().getADLoginRequest();
 
-    	String err = modelLogin(reqlogin, webServiceName, "getList");
+    	String err = modelLogin(reqlogin, webServiceName, "getList", serviceType);
     	if (err != null && err.length() > 0) {
     		res.setError(err);
     		res.setErrorInfo(err);
@@ -302,10 +417,12 @@ public class ModelADServiceImpl implements ModelADService {
     	}
 		int roleid = reqlogin.getRoleID();
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters
+		modelGetList.setADReferenceID(validateParameter("ADReferenceID", modelGetList.getADReferenceID()));
+		modelGetList.setFilter(validateParameter("Filter", modelGetList.getFilter()));
 
-    	int ref_id = req.getModelGetListRequest().getModelGetList().getADReferenceID();
-    	String filter = req.getModelGetListRequest().getModelGetList().getFilter();
+    	int ref_id = modelGetList.getADReferenceID();
+    	String filter = modelGetList.getFilter();
     	if (filter == null)
     		filter = "";
 
@@ -427,13 +544,14 @@ public class ModelADServiceImpl implements ModelADService {
     				// Add values to the dataset
     				DataRow dr = ds.addNewDataRow();
     				for (String listColumnName : listColumnNames) {
-    					// TODO: Validate field vs allowed output fields
-    					DataField dfid = dr.addNewField();
-    					dfid.setColumn(listColumnName);
-    					dfid.setVal(rs.getString(listColumnName));
-    					dfid.setDisp(true);
+    					if (m_webservicetype.isOutputColumnNameAllowed(listColumnName)) {
+        					DataField dfid = dr.addNewField();
+        					dfid.setColumn(listColumnName);
+        					dfid.setVal(rs.getString(listColumnName));
+        					dfid.setDisp(true);
+            				cnt++;
+    					}
     				}
-    				cnt++;
     			}
     			res.setSuccess(true);
     		}
@@ -463,11 +581,13 @@ public class ModelADServiceImpl implements ModelADService {
 			throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
+    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
-    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
-    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	int action = modelCRUD.getAction().intValue();
     	
     	if (action != ModelCRUD.Action.INT_DELETE) {
     		resp.setError("Invalid Action");
@@ -477,14 +597,15 @@ public class ModelADServiceImpl implements ModelADService {
 
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin, webServiceName, "deleteData");
+    	String err = modelLogin(reqlogin, webServiceName, "deleteData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters vs service type
+		validateCRUD(modelCRUD);
 
     	Properties ctx = m_cs.getM_ctx();
     	
@@ -512,14 +633,22 @@ public class ModelADServiceImpl implements ModelADService {
 		return ret;
 	}
 
+	private void validateCRUD(ModelCRUD modelCRUD) throws XFireFault {
+		modelCRUD.setTableName(validateParameter("TableName", modelCRUD.getTableName()));
+		modelCRUD.setRecordID(validateParameter("RecordID", modelCRUD.getRecordID()));
+		modelCRUD.setAction(validateParameter("Action", modelCRUD.getAction(), ModelCRUD.Action.Enum.table));
+	}
+
 	public StandardResponseDocument createData(ModelCRUDRequestDocument req)
 			throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
+    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
-    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	String tableName = modelCRUD.getTableName();
+    	int action = modelCRUD.getAction().intValue();
     	
     	if (action != ModelCRUD.Action.INT_CREATE) {
     		resp.setError("Invalid Action");
@@ -527,19 +656,20 @@ public class ModelADServiceImpl implements ModelADService {
         	return ret;
     	}
     	
-    	String err = modelLogin(reqlogin, webServiceName, "createData");
+    	String err = modelLogin(reqlogin, webServiceName, "createData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters vs service type
+		validateCRUD(modelCRUD);
 
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
-    	String trxName = Trx.createTrxName("ws_modelDeleteData");
+    	String trxName = Trx.createTrxName("ws_modelCreateData");
 		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
@@ -550,11 +680,16 @@ public class ModelADServiceImpl implements ModelADService {
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "Cannot create PO for " + tableName);
     	
-    	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
+    	DataRow dr = modelCRUD.getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
-			// TODO: Validate field vs allowed output fields
-    		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
+        		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    		} else {
+				log.log(Level.SEVERE, "Web service type "
+						+ m_webservicetype.getValue() + ": input column "
+						+ field.getColumn() + " not allowed");
+    		}
     	}
 
     	if (!po.save())
@@ -576,11 +711,13 @@ public class ModelADServiceImpl implements ModelADService {
 			throws XFireFault {
     	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
     	StandardResponse resp = ret.addNewStandardResponse();
+    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
-    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
-    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	int action = modelCRUD.getAction().intValue();
     	
     	if (action != ModelCRUD.Action.INT_UPDATE) {
     		resp.setError("Invalid Action");
@@ -590,19 +727,20 @@ public class ModelADServiceImpl implements ModelADService {
     	
     	resp.setRecordID (recordID);
 
-    	String err = modelLogin(reqlogin, webServiceName, "updateData");
+    	String err = modelLogin(reqlogin, webServiceName, "updateData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	resp.setIsError(true);
         	return ret;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters vs service type
+		validateCRUD(modelCRUD);
 
     	Properties ctx = m_cs.getM_ctx();
     	
     	// start a trx
-    	String trxName = Trx.createTrxName("ws_modelDeleteData");
+    	String trxName = Trx.createTrxName("ws_modelUpdateData");
 		Trx trx = Trx.get(trxName, false);
     	
     	// get the PO for the tablename and record ID
@@ -613,11 +751,16 @@ public class ModelADServiceImpl implements ModelADService {
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
 
-    	DataRow dr = req.getModelCRUDRequest().getModelCRUD().getDataRow();
+    	DataRow dr = modelCRUD.getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
-			// TODO: Validate field vs allowed output fields
-    		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
+        		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    		} else {
+				log.log(Level.SEVERE, "Web service type "
+						+ m_webservicetype.getValue() + ": input column "
+						+ field.getColumn() + " not allowed");
+    		}
     	}
 
     	if (!po.save())
@@ -636,28 +779,32 @@ public class ModelADServiceImpl implements ModelADService {
 			throws XFireFault {
 		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
 		WindowTabData resp = ret.addNewWindowTabData();
+    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
-    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
-    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	int action = modelCRUD.getAction().intValue();
     	
     	if (action != ModelCRUD.Action.INT_READ) {
     		resp.setError("Invalid Action");
         	return ret;
     	}
     	
-    	String err = modelLogin(reqlogin, webServiceName, "readData");
+    	String err = modelLogin(reqlogin, webServiceName, "readData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	return ret;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters vs service type
+		validateCRUD(modelCRUD);
 
+    	// TODO: Implement read data
 		// TODO: Validate output field vs allowed output fields
     	
-    	// TODO Implement read data
+		resp.setError("Not implemented yet");
 		return ret;
 	}
 
@@ -665,30 +812,33 @@ public class ModelADServiceImpl implements ModelADService {
 			throws XFireFault {
 		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
 		WindowTabData resp = ret.addNewWindowTabData();
+    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+		String serviceType = modelCRUD.getServiceType();
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String tableName = req.getModelCRUDRequest().getModelCRUD().getTableName();
-    	int recordID = req.getModelCRUDRequest().getModelCRUD().getRecordID();
-    	int action = req.getModelCRUDRequest().getModelCRUD().getAction().intValue();
+    	String tableName = modelCRUD.getTableName();
+    	int recordID = modelCRUD.getRecordID();
+    	int action = modelCRUD.getAction().intValue();
     	
     	if (action != ModelCRUD.Action.INT_READ) {
     		resp.setError("Invalid Action");
         	return ret;
     	}
-    	
-    	String err = modelLogin(reqlogin, webServiceName, "queryData");
+
+    	String err = modelLogin(reqlogin, webServiceName, "queryData", serviceType);
     	if (err != null && err.length() > 0) {
     		resp.setError(err);
         	return ret;
     	}
 
-    	// TODO: Validate parameters vs service type
+    	// Validate parameters vs service type
+		validateCRUD(modelCRUD);
 
+		// TODO: Implement query data
 		// TODO: Validate input field
-    	
 		// TODO: Validate output field vs allowed output fields
     	
-		// TODO Implement query data - be careful about security!
+		resp.setError("Not implemented yet");
 		return ret;
 	}
 

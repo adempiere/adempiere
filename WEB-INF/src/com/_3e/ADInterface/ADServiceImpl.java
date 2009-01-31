@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
+import java.util.logging.Level;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -369,10 +370,9 @@ public class ADServiceImpl implements ADService {
     	if (!m_cs.isLoggedIn()) 
     		throw new XFireFault( new Exception( "You need to login" ) );
     	// TODO: Authenticate webservice and method
-    	// Validate the web service is active
-    	// Validate the method is enabled
+		// TODO: Search for a service type for client and role access with the same value as the method
     	
-    	// TODO: Increase security level!
+    	// TODO: Increase security!
     }
 
     public WindowTabDataDocument getWindowTabData(WindowTabDataReqDocument reqd) throws XFireFault {
@@ -1376,6 +1376,9 @@ public class ADServiceImpl implements ADService {
 	public ADLoginResponseDocument login( ADLoginRequestDocument req ) throws XFireFault
 	{
     	authenticate(webServiceName, "login");
+
+    	// TODO: Implement security layer
+    	log.log(Level.SEVERE, "Warning: Security layer not implemented yet - opening web service " + webServiceName + " implies a security risk for server");
 
     	ADLoginResponseDocument res = ADLoginResponseDocument.Factory.newInstance();
 		ADLoginResponse lr = res.addNewADLoginResponse();

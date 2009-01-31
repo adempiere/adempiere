@@ -165,7 +165,9 @@ public class ExternalSalesImpl implements ExternalSales {
 			/* Invalid password */
 			throw new XFireFault("Invalid user/password", new QName("password"));
 
+		throw new XFireFault("Security not implemented yet", new QName("webServiceName"));
 		// TODO: authenticate web service and method
+		// TODO: Search for a service type for client and role access with the same value as the method
 	}
 
 }
