@@ -36,7 +36,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_MRP (Properties ctx, int PP_MRP_ID, String trxName)
@@ -427,10 +427,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
-		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
-
-		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -742,10 +739,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setOrderType (String OrderType)
 	{
 
-		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO"));
-		else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");
-
-		set_Value (COLUMNNAME_OrderType, OrderType);
+		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO")); else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
 	/** Get OrderType.
@@ -953,10 +947,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setTypeMRP (String TypeMRP)
 	{
 
-		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S"));
-		else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");
-
-		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
+		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S")); else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
 	}
 
 	/** Get TypeMRP.
