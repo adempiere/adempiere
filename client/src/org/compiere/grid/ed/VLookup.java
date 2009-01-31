@@ -92,6 +92,7 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *				<li>BF [ 1740835 ] NPE when closing a window
  *				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
+ *				<li>BF [ 1834399 ] VLookup: pressing enter twice has a annoying behaviour
  *				<li>BF [ 1979213 ] VLookup.getDirectAccessSQL issue
  *  @author		Michael Judd (MultiSelect)
  */
@@ -966,6 +967,12 @@ public class VLookup extends JComponent
 	private void actionText()
 	{
 		String text = m_text.getText();
+		// Nothing entered, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
+		if (text != null && text.equals(m_lastDisplay))
+		{
+			log.finest("Nothing entered [SKIP]");
+			return;
+		}
 		//	Nothing entered
 		if (text == null || text.length() == 0 || text.equals("%"))
 		{
