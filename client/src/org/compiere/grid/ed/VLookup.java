@@ -94,6 +94,7 @@ import org.eevolution.model.MPPProductBOMLine;
  *				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
  *				<li>BF [ 1834399 ] VLookup: pressing enter twice has a annoying behaviour
  *				<li>BF [ 1979213 ] VLookup.getDirectAccessSQL issue
+ *				<li>BF [ 2552901 ] VLookup: TAB is not working OK
  *  @author		Michael Judd (MultiSelect)
  */
 public class VLookup extends JComponent
@@ -1049,7 +1050,12 @@ public class VLookup extends JComponent
 		log.fine(m_columnName + " - Unique ID=" + id);
 		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
 		actionCombo (new Integer(id));          //  data binding
-		m_text.requestFocus();
+		//
+		// Don't request focus if value was solved - teo_sarca [ 2552901 ]
+		if (id <= 0)
+		{
+			m_text.requestFocus();
+		}
 	}	//	actionText
 
 
