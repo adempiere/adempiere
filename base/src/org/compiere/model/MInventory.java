@@ -589,7 +589,6 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 		//	Check Line
 		boolean needSave = false;
-		BigDecimal qtyASI = Env.ZERO ;
 		//	Attribute Set Instance
 		if (line.getM_AttributeSetInstance_ID() == 0)
 		{
@@ -612,21 +611,13 @@ public class MInventory extends X_M_Inventory implements DocAction
 			else	//	Outgoing Trx
 			{
 				String MMPolicy = product.getMMPolicy();
-				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
-						line.getM_Product_ID(),	line.getM_Locator_ID(), 
-						MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
+				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), 0,
+						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
+
 				BigDecimal qtyToDeliver = qtyDiff.negate();
 
 				for (MStorage storage: storages)
-				{
-					//cosume ASI Zero
-					if (storage.getM_AttributeSetInstance_ID() == 0)
-					{
-						qtyASI = qtyASI.add(storage.getQtyOnHand());
-						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						continue;
-					}
-
+				{					
 					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 					{
 						MInventoryLineMA ma = new MInventoryLineMA (line, 
@@ -638,7 +629,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 						}		
 						qtyToDeliver = Env.ZERO;
 						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-						//return;
+						break;
 					}
 					else
 					{	
@@ -655,12 +646,12 @@ public class MInventory extends X_M_Inventory implements DocAction
 				}
 
 				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
+				if (qtyToDeliver.signum() != 0)
 				{
-					MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver.add(qtyASI));
+					MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver);
 
 					if (!ma.save())
-						;
+						  throw new IllegalStateException("Error try create ASI Reservation");
 					log.fine("##: " + ma);
 				}
 			}	//	outgoing Trx
@@ -820,7 +811,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 							mas[j].getM_AttributeSetInstance_ID(),
 							mas[j].getMovementQty().negate());
 					if (!ma.save())
-						;
+						  throw new IllegalStateException("Error try create ASI Reservation");
 				}
 			}
 		}

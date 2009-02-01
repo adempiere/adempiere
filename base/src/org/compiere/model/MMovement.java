@@ -658,81 +658,19 @@ public class MMovement extends X_M_Movement implements DocAction
 		//{
 		//	MMovementLine line = lines[i];
 			boolean needSave = false;
-			BigDecimal qtyASI = Env.ZERO ;
 
 			//	Attribute Set Instance
 			if (line.getM_AttributeSetInstance_ID() == 0)
 			{
 				MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
 				String MMPolicy = product.getMMPolicy();
-				MStorage[] storages = MStorage.getAllWithASI(getCtx(), 
-					line.getM_Product_ID(),	line.getM_Locator_ID(), 
-					MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
+				MStorage[] storages = MStorage.getWarehouse(getCtx(), 0, line.getM_Product_ID(), 0, 
+						null, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, line.getM_Locator_ID(), get_TrxName());
+
 				BigDecimal qtyToDeliver = line.getMovementQty();
-				
-				/*for (int ii = 0; ii < storages.length; ii++)
-				{
-					MStorage storage = storages[ii];
-					if (ii == 0)
-					{
-						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-						{
-							line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
-							needSave = true;
-							log.config("Direct - " + line);
-							qtyToDeliver = Env.ZERO;
-						}
-						else
-						{
-							log.config("Split - " + line);
-							MMovementLineMA ma = new MMovementLineMA (line, 
-								storage.getM_AttributeSetInstance_ID(),
-								storage.getQtyOnHand());
-							if (!ma.save())
-								;
-							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-							log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
-						}
-					}
-					else	//	 create addl material allocation
-					{
-						MMovementLineMA ma = new MMovementLineMA (line, 
-							storage.getM_AttributeSetInstance_ID(),
-							qtyToDeliver);
-						if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
-							qtyToDeliver = Env.ZERO;
-						else
-						{
-							ma.setMovementQty(storage.getQtyOnHand());
-							qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						}
-						if (!ma.save())
-							;
-						log.fine("#" + ii + ": " + ma + ", QtyToDeliver=" + qtyToDeliver);
-					}
-					if (qtyToDeliver.signum() == 0)
-						break;
-				}	//	 for all storages
-					
-				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0)
-				{
-					MMovementLineMA ma = new MMovementLineMA (line, 
-						0, qtyToDeliver);
-					if (!ma.save())
-						;
-					log.fine("##: " + ma);
-				}*/
+
 				for (MStorage storage: storages)
 				{
-					//consume ASI Zero
-					if (storage.getM_AttributeSetInstance_ID() == 0)
-					{
-						qtyASI = qtyASI.add(storage.getQtyOnHand());
-						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
-						continue;
-					}
-					
 					if (storage.getQtyOnHand().compareTo(qtyToDeliver) >= 0)
 					{
 						MMovementLineMA ma = new MMovementLineMA (line, 
@@ -744,7 +682,7 @@ public class MMovement extends X_M_Movement implements DocAction
 							}		
 							qtyToDeliver = Env.ZERO;
 							log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-							//return;
+							break;
 					}
 					else
 					{	
@@ -761,12 +699,12 @@ public class MMovement extends X_M_Movement implements DocAction
 				}
 								
 				//	No AttributeSetInstance found for remainder
-				if (qtyToDeliver.signum() != 0 || qtyASI.signum() != 0)
+				if (qtyToDeliver.signum() != 0)
 				{
-					MMovementLineMA ma = new MMovementLineMA (line, 0 , qtyToDeliver.add(qtyASI));
+					MMovementLineMA ma = new MMovementLineMA (line, 0 , qtyToDeliver);
 					
 					if (!ma.save())
-						;
+						throw new IllegalStateException("Error try create ASI Reservation");
 					log.fine("##: " + ma);
 				}
 			}	//	attributeSetInstance
