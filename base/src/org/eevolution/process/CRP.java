@@ -104,10 +104,10 @@ public class CRP extends SvrProcess {
 	
 	public void runCRP(MPPOrder order)
 	{
-		log.fine("PP_Order DocumentNo:" + order.getDocumentNo());
+		log.info("PP_Order DocumentNo:" + order.getDocumentNo());
 		BigDecimal qtyOpen = order.getQtyOpen();
 		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
-		log.fine("PP_Order Workflow:" + owf.getName());
+		log.info("PP_Order Workflow:" + owf.getName());
 
 		// Schedule Fordward
 		if (p_ScheduleType.equals(FORWARD_SCHEDULING))
@@ -119,7 +119,7 @@ public class CRP extends SvrProcess {
 			while(nodeId != 0)
 			{
 				node = owf.getNode(nodeId);
-				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
+				log.info("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				// Skip this node if there is no resource
@@ -129,13 +129,12 @@ public class CRP extends SvrProcess {
 					continue;
 				}
 				
-				MResourceType resourceType = resource.getResourceType();
-
 				if(!reasoner.isAvailable(resource))
 				{
 					throw new AdempiereException("@ResourceNotInSlotDay@");
 				}
 
+				MResourceType resourceType = resource.getResourceType();
 				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
 				Timestamp dateFinish = scheduleForward(date, nodeMillis ,resource);
 
@@ -162,7 +161,7 @@ public class CRP extends SvrProcess {
 			while(nodeId != 0)
 			{
 				node = owf.getNode(nodeId);
-				log.fine("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
+				log.info("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				// Skip this node if there is no resource
@@ -172,13 +171,12 @@ public class CRP extends SvrProcess {
 					continue;
 				}
 				
-				MResourceType resourceType = resource.getResourceType();
-
 				if(!reasoner.isAvailable(resource))
 				{
 					throw new AdempiereException("@ResourceNotInSlotDay@");
 				}
 
+				MResourceType resourceType = resource.getResourceType();
 				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
 				Timestamp dateStart = scheduleBackward(date, nodeMillis ,resource);
 
@@ -253,6 +251,10 @@ public class CRP extends SvrProcess {
 	
 			// The available time at this day in milliseconds
 			long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
+			if (availableDayDuration < 0)
+			{
+				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@ ("+dayEnd+" > "+dayStart+")");
+			}
 	
 			// The work can be finish on this day.
 			if(availableDayDuration >= nodeDurationMillis)
@@ -284,18 +286,19 @@ public class CRP extends SvrProcess {
 	private Timestamp scheduleBackward(Timestamp end, long nodeDurationMillis, MResource r)
 	{
 		MResourceType t = r.getResourceType();
-		log.fine("--> ResourceType " + t);
+		log.info("--> ResourceType " + t);
 		Timestamp start = null;
 		int iteration = 0; // statistical iteration count
 		do
 		{
-			log.fine("--> end=" + end);
-			log.fine("--> nodeDuration=" + nodeDurationMillis);
+			log.info("--> end=" + end);
+			log.info("--> nodeDuration=" + nodeDurationMillis);
 	
 			end = reasoner.getAvailableDate(r, end, true);
+			log.info("--> end(available)=" + end);
 			Timestamp dayEnd = t.getDayEnd(end);
 			Timestamp dayStart = t.getDayStart(end);
-			log.fine("--> dayStart=" + dayStart + ", dayEnd=" + dayEnd);
+			log.info("--> dayStart=" + dayStart + ", dayEnd=" + dayEnd);
 			
 			// If working has already began at this day and the value is in the range of the 
 			// resource's availability, switch end time to the given again
@@ -306,12 +309,16 @@ public class CRP extends SvrProcess {
 	
 			// The available time at this day in milliseconds
 			long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
-			log.fine("--> availableDayDuration  " + availableDayDuration);
+			log.info("--> availableDayDuration  " + availableDayDuration);
+			if (availableDayDuration < 0)
+			{
+				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@ ("+dayEnd+" > "+dayStart+")");
+			}
 	
 			// The work can be finish on this day.
 			if(availableDayDuration >= nodeDurationMillis)
 			{
-				log.fine("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + nodeDurationMillis );
+				log.info("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + nodeDurationMillis );
 				start = new Timestamp(dayEnd.getTime() - nodeDurationMillis);
 				nodeDurationMillis = 0;
 				break;
@@ -319,8 +326,8 @@ public class CRP extends SvrProcess {
 			// Otherwise recall with previous day and the remained node duration.
 			else
 			{
-				log.fine("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + nodeDurationMillis );
-				log.fine("--> nodeDuration-availableDayDuration " + (nodeDurationMillis-availableDayDuration) );
+				log.info("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + nodeDurationMillis );
+				log.info("--> nodeDuration-availableDayDuration " + (nodeDurationMillis-availableDayDuration) );
 				
 				end = TimeUtil.addDays(TimeUtil.getDayBorder(end, null, true), -1);
 				nodeDurationMillis -= availableDayDuration;
@@ -330,7 +337,7 @@ public class CRP extends SvrProcess {
 		}
 		while(nodeDurationMillis > 0);
 	
-		log.fine("         -->  start=" +  start + " <---------------------------------------- ");
+		log.info("         -->  start=" +  start + " <---------------------------------------- ");
 		return start;
 	}  
 	
