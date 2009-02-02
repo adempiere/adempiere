@@ -1373,7 +1373,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2009-01-30 19:03:07','YYYY-M
 UPDATE AD_Field SET DisplayLength=40,Updated=TO_DATE('2009-01-30 19:03:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=56669
 ;
 
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,DisplayLogic,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53190,53167,53068,TO_DATE('2009-01-30 19:03:35','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Table_ID@>0','D','N','N','Y','N','N','Y','N','N','N','N','Web Service Field Input','N',40,1,TO_DATE('2009-01-30 19:03:35','YYYY-MM-DD HH24:MI:SS'),100)
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,DisplayLogic,EntityType,HasTree,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,0,53190,53167,53068,TO_DATE('2009-01-30 19:03:35','YYYY-MM-DD HH24:MI:SS'),100,'@AD_Table_ID@>0','D','N','N','Y','N','N','Y','N','N','N','N','Web Service Field Output','N',40,1,TO_DATE('2009-01-30 19:03:35','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 INSERT INTO AD_Tab_Trl (AD_Language,AD_Tab_ID, CommitWarning,Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Tab_ID, t.CommitWarning,t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Tab t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Tab_ID=53190 AND EXISTS (SELECT * FROM AD_Tab_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Tab_ID!=t.AD_Tab_ID)
@@ -1529,5 +1529,10 @@ INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy
 ;
 
 UPDATE AD_Field SET IsSameLine='N',Updated=TO_DATE('2009-01-30 20:03:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=56658
+;
+
+-- Feb 1, 2009 7:49:10 PM COT
+-- Web Service Definition and Security
+UPDATE AD_Tab SET AD_Column_ID=56765,Updated=TO_DATE('2009-02-01 19:49:10','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53190
 ;
 

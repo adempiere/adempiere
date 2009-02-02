@@ -457,6 +457,7 @@
      <xsd:element name="serviceType" type="xsd:string"/>
      <xsd:element name="TableName" type="xsd:string"/>
      <xsd:element name="RecordID" type="xsd:int"/>
+     <xsd:element name="Filter" type="xsd:string"/>
      <xsd:element name="Action">
      	<xsd:simpleType>
      		<xsd:restriction base="xsd:string">

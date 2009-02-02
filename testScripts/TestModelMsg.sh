@@ -7,9 +7,10 @@ then
 fi
 FILENAME=ModelADService.wsdl.$$
 wget \
+    --no-check-certificate \
     --post-file=$1 \
     --save-headers \
-    http://localhost:8081/ADInterface/services/ModelADService \
+    https://localhost:8443/ADInterface/services/ModelADService \
     -O $FILENAME
 ls -l $FILENAME
 cat $FILENAME

@@ -29,9 +29,11 @@
 
 package com._3e.ADInterface;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -46,6 +48,7 @@ import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.MWebService;
 import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.model.X_WS_WebServiceMethod;
 import org.compiere.model.MWebServiceType;
@@ -191,6 +194,10 @@ public class ModelADServiceImpl implements ModelADService {
 
 	private String validateParameter(String parameterName, String string) throws XFireFault {
 		X_WS_WebService_Para para = m_webservicetype.getParameter(parameterName);
+		if (para == null && (string == null || string.length() == 0))
+			// if parameter not configured but didn't receive value (optional param)
+			return null;
+		
 		if (para == null)
 			throw new XFireFault("Web service type "
 					+ m_webservicetype.getValue() + ": invalid parameter "
@@ -337,6 +344,7 @@ public class ModelADServiceImpl implements ModelADService {
 		if (m_webservicemethod == null || ! m_webservicemethod.isActive())
 			return "Method " + methodValue + " not registered";
 
+		m_webservicetype = null;
 		final String sql = "SELECT * FROM WS_WebServiceType " +
 				"WHERE AD_Client_ID=? " +
 				"AND WS_WebService_ID=? " +
@@ -366,6 +374,10 @@ public class ModelADServiceImpl implements ModelADService {
 			rs = null;
 			pstmt = null;
 		}
+		
+		if (m_webservicetype == null)
+			return "Service type " + serviceTypeValue + " not configured";
+		
 		return null;
 	}
 
@@ -426,8 +438,10 @@ public class ModelADServiceImpl implements ModelADService {
 
     	int ref_id = modelGetList.getADReferenceID();
     	String filter = modelGetList.getFilter();
-    	if (filter == null)
+    	if (filter == null || filter.length() == 0)
     		filter = "";
+    	else
+    		filter = " AND " + filter;
 
     	Properties ctx = m_cs.getM_ctx();
 
@@ -476,7 +490,33 @@ public class ModelADServiceImpl implements ModelADService {
     	} else if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(ref.getValidationType())) {
     		// Fill values from a reference table
     		MRole role = new MRole(ctx, roleid, null);
-    		MRefTable rt = new MRefTable(ctx, ref_id, null);
+    		String sqlrt = "SELECT * FROM AD_Ref_Table WHERE AD_Reference_ID=?";
+    		MRefTable rt = null;
+   			PreparedStatement pstmtrt = null;
+    		ResultSet rsrt = null;
+    		try
+    		{
+    			pstmtrt = DB.prepareStatement (sqlrt, null);
+    			pstmtrt.setInt (1, ref_id);
+    			rsrt = pstmtrt.executeQuery ();
+    			if (rsrt.next ())
+    	    		rt = new MRefTable(ctx, rsrt, null);
+    		}
+    		catch (Exception e)
+    		{
+    			// ignore this exception
+    		}
+    		finally
+    		{
+    			DB.close(rsrt, pstmtrt);
+    			rsrt = null; pstmtrt = null;
+    		}
+    		if (rt == null)
+    			throw new XFireFault("Web service type "
+    					+ m_webservicetype.getValue() + ": reference table "
+    					+ ref_id + " not found",
+    					new QName("AD_Reference_ID"));
+    		
     		MTable table = new MTable(ctx, rt.getAD_Table_ID(), null);
     		MColumn column = new MColumn(ctx, rt.getAD_Key(), null);
 
@@ -517,11 +557,12 @@ public class ModelADServiceImpl implements ModelADService {
     		}
     		
     		sql += " FROM " + table.getTableName() + " WHERE IsActive='Y'";
-    		role.addAccessSQL(sql, table.getTableName(), true, true);
+    		sql = role.addAccessSQL(sql, table.getTableName(), true, true);
+    		sql += filter;
     		if (rt.getWhereClause() != null && rt.getWhereClause().length() > 0)
-    			sql += " " + rt.getWhereClause();
+    			sql += " AND " + rt.getWhereClause();
     		if (rt.getOrderByClause() != null && rt.getOrderByClause().length() > 0)
-    			sql += " " + rt.getOrderByClause();
+    			sql += " ORDER BY " + rt.getOrderByClause();
 
     		try {
    	   			pstmt = DB.prepareStatement(sql, null);
@@ -551,7 +592,6 @@ public class ModelADServiceImpl implements ModelADService {
         					DataField dfid = dr.addNewField();
         					dfid.setColumn(listColumnName);
         					dfid.setVal(rs.getString(listColumnName));
-        					dfid.setDisp(true);
             				cnt++;
     					}
     				}
@@ -631,6 +671,7 @@ public class ModelADServiceImpl implements ModelADService {
 	private void validateCRUD(ModelCRUD modelCRUD) throws XFireFault {
 		modelCRUD.setTableName(validateParameter("TableName", modelCRUD.getTableName()));
 		modelCRUD.setRecordID(validateParameter("RecordID", modelCRUD.getRecordID()));
+		modelCRUD.setFilter(validateParameter("Filter", modelCRUD.getFilter()));
 		modelCRUD.setAction(validateParameter("Action", modelCRUD.getAction(), ModelCRUD.Action.Enum.table));
 	}
 
@@ -762,6 +803,7 @@ public class ModelADServiceImpl implements ModelADService {
 		WindowTabData resp = ret.addNewWindowTabData();
     	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
 		String serviceType = modelCRUD.getServiceType();
+		int cnt = 0;
     	
     	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
     	String err = modelLogin(reqlogin, webServiceName, "readData", serviceType);
@@ -773,13 +815,47 @@ public class ModelADServiceImpl implements ModelADService {
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
 
+    	Properties ctx = m_cs.getM_ctx();
     	String tableName = modelCRUD.getTableName();
     	int recordID = modelCRUD.getRecordID();
 
-    	// TODO: Implement read data
-		// TODO: Validate output field vs allowed output fields
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null)
+			throw new XFireFault("Web service type "
+					+ m_webservicetype.getValue() + ": table "
+					+ tableName + " not found",
+					new QName("tableName"));
+    	PO po = table.getPO(recordID, null);
+    	if (po == null) {
+    		resp.setSuccess(false);
+        	resp.setRowCount(cnt);
+        	resp.setNumRows(cnt);
+        	resp.setTotalRows(cnt);
+        	resp.setStartRow(0);
+    		return ret;
+    	}
+    	cnt = 1;
     	
-		resp.setError("Not implemented yet");
+    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
+
+    	DataSet ds = resp.addNewDataSet();
+		DataRow dr = ds.addNewDataRow();
+		for (int i = 0; i < poinfo.getColumnCount(); i++) {
+    		String columnName = poinfo.getColumnName(i);
+			if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
+				DataField dfid = dr.addNewField();
+				dfid.setColumn(columnName);
+				dfid.setVal(po.get_Value(i).toString());
+			}
+    	}
+    	
+		resp.setSuccess(true);
+    	resp.setRowCount(cnt);
+    	resp.setNumRows(cnt);
+    	resp.setTotalRows(cnt);
+    	resp.setStartRow(1);
+
 		return ret;
 	}
 
@@ -800,14 +876,86 @@ public class ModelADServiceImpl implements ModelADService {
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
 
+    	Properties ctx = m_cs.getM_ctx();
     	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
 
-		// TODO: Implement query data
-		// TODO: Validate input field
-		// TODO: Validate output field vs allowed output fields
-    	
-		resp.setError("Not implemented yet");
+    	// get the PO for the tablename and record ID
+    	MTable table = MTable.get(ctx, tableName);
+    	if (table == null)
+			throw new XFireFault("Web service type "
+					+ m_webservicetype.getValue() + ": table "
+					+ tableName + " not found",
+					new QName("tableName"));
+
+		int roleid = reqlogin.getRoleID();
+		MRole role = new MRole(ctx, roleid, null);
+
+    	String sqlquery = "SELECT * FROM " + tableName;
+		sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
+		
+		for (DataField field : modelCRUD.getDataRow().getFieldList()) {
+    		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
+        		sqlquery += " AND " + field.getColumn() + "=?";
+    		} else {
+				throw new XFireFault("Web service type "
+						+ m_webservicetype.getValue() + ": input column "
+						+ field.getColumn() + " not allowed", new QName(field.getColumn()));
+    		}
+		}
+		
+		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0)
+			sqlquery += " AND " + modelCRUD.getFilter();
+		
+    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
+    	int cnt = 0;
+
+    	PreparedStatement pstmtquery = null;
+		ResultSet rsquery = null;
+		try
+		{
+			pstmtquery = DB.prepareStatement (sqlquery, null);
+			int p = 1;
+			for (DataField field : modelCRUD.getDataRow().getFieldList()) {
+    			int idx = poinfo.getColumnIndex(field.getColumn());
+    			Class<?> c = poinfo.getColumnClass(idx);
+    			if (c == Integer.class)
+	        		pstmtquery.setInt(p++, Integer.valueOf(field.getVal()));
+    			else if (c == Timestamp.class)
+	        		pstmtquery.setTimestamp(p++, Timestamp.valueOf(field.getVal()));
+    			else if (c == Boolean.class || c == String.class)
+	        		pstmtquery.setString(p++, field.getVal());
+			}
+			rsquery = pstmtquery.executeQuery ();
+			while (rsquery.next ()) {
+				cnt++;
+		    	DataSet ds = resp.addNewDataSet();
+				DataRow dr = ds.addNewDataRow();
+				for (int i = 0; i < poinfo.getColumnCount(); i++) {
+		    		String columnName = poinfo.getColumnName(i);
+					if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
+						DataField dfid = dr.addNewField();
+						dfid.setColumn(columnName);
+						dfid.setVal(rsquery.getString(columnName));
+					}
+		    	}
+			}
+		}
+		catch (Exception e)
+		{
+			// ignore this exception
+		}
+		finally
+		{
+			DB.close(rsquery, pstmtquery);
+			rsquery = null; pstmtquery = null;
+		}
+
+		resp.setSuccess(true);
+    	resp.setRowCount(cnt);
+    	resp.setNumRows(cnt);
+    	resp.setTotalRows(cnt);
+    	resp.setStartRow(1);
+
 		return ret;
 	}
 
