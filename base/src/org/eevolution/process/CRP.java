@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.POResultSet;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -42,43 +43,46 @@ import org.eevolution.model.reasoner.CRPReasoner;
  * 
  * @author Teo Sarca, www.arhipac.ro
  */
-public class CRP extends SvrProcess {
-
+public class CRP extends SvrProcess
+{
 	public static final String FORWARD_SCHEDULING = "F";
 	public static final String BACKWARD_SCHEDULING = "B";
 
 	private int p_S_Resource_ID;        
-	private String p_ScheduleType;        
+	private String p_ScheduleType;
+	
+	/** SysConfig parameter - maximum number of algorithm iterations */ 
+	private int p_MaxIterationsNo = -1;
+	public static final String SYSCONFIG_MaxIterationsNo = "CRP.MaxIterationsNo";
+	public static final int DEFAULT_MaxIterationsNo = 1000;
+	
+	/** CRP Reasoner */
 	private CRPReasoner reasoner;
-
-	public CRP() {
-
-		super();
-		reasoner = new CRPReasoner();
-	}
 
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para : getParameter())
 		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
 				;			
 			if (name.equals("S_Resource_ID")) {
-				p_S_Resource_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_S_Resource_ID = para.getParameterAsInt();
 			}
 			else if (name.equals("ScheduleType")) {
-				p_ScheduleType = ((String)para[i].getParameter());				 		
+				p_ScheduleType = (String)para.getParameter();				 		
 			}
 			else {
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 			}
 		}
+		//
+		p_MaxIterationsNo = MSysConfig.getIntValue(SYSCONFIG_MaxIterationsNo, DEFAULT_MaxIterationsNo, getAD_Client_ID());
 	}
 
 	protected String doIt() throws Exception
 	{
+		reasoner = new CRPReasoner();
 		return runCRP();
 	} 
 
@@ -271,6 +275,10 @@ public class CRP extends SvrProcess {
 			}
 			
 			iteration++;
+			if (iteration > p_MaxIterationsNo)
+			{
+				throw new AdempiereException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")");
+			}
 		} while (nodeDurationMillis > 0);
 
 		return end;
@@ -334,6 +342,10 @@ public class CRP extends SvrProcess {
 			}
 			//
 			iteration++;
+			if (iteration > p_MaxIterationsNo)
+			{
+				throw new AdempiereException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")");
+			}
 		}
 		while(nodeDurationMillis > 0);
 	
