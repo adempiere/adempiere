@@ -599,8 +599,9 @@ public class MRP extends SvrProcess
 					if (ppos[i].isCurrentVendor() && ppos[i].getC_BPartner_ID() != 0)
 					{
 						C_BPartner_ID = ppos[i].getC_BPartner_ID();
-						pp2.setDeliveryTime_Promised(new BigDecimal(ppos[i].getDeliveryTime_Promised()));    	                	            
+						pp2.setDeliveryTime_Promised(BigDecimal.valueOf(ppos[i].getDeliveryTime_Promised()));    	                	            
 						pp2.setOrder_Min(ppos[i].getOrder_Min());
+						pp2.setOrder_Max(Env.ZERO);
 						pp2.setOrder_Pack(ppos[i].getOrder_Pack());
 						break;
 					}
