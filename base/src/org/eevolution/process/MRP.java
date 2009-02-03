@@ -54,6 +54,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.model.I_PP_Product_Planning;
 import org.eevolution.model.MDDNetworkDistribution;
@@ -1040,6 +1041,16 @@ public class MRP extends SvrProcess
 		commit();
 	}
 
+	/**
+	 * Create MRP Notice
+	 * @param code MRP/DRP Code (see MRP-xxx and DRP-xxx messages)
+	 * @param AD_Org_ID organization
+	 * @param PP_MRP_ID MRP record id 
+	 * @param product product (optional)
+	 * @param documentNo Document# (optional)
+	 * @param qty quantity (optional)
+	 * @param comment comment (optional)
+	 */
 	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment)
 	{
 		documentNo = documentNo != null ? documentNo : "";
@@ -1055,18 +1066,30 @@ public class MRP extends SvrProcess
 			user_id = m_product_planning.getPlanner_ID();
 		}
 		
-		if (documentNo.length() > 0)
+		String reference = "";
+		if (product != null)
+		{
+			reference = product.getValue() + " " + product.getName();
+		}
+		
+		if (!Util.isEmpty(documentNo, true))
+		{
 			message += " " + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DocumentNo) +":" + documentNo;
-		if (qty !=  null)
+		}
+		if (qty != null)
+		{
 			message += " " + Msg.translate(getCtx(), "QtyPlan") + ":" + qty;
-		if (comment.length() > 0)
+		}
+		if (!Util.isEmpty(comment, true))
+		{
 	        message +=  " " + comment;
+		}
 	
 		MNote note = new MNote(getCtx(),
 							msg.getAD_Message_ID(),
 							user_id,
 							MPPMRP.Table_ID, PP_MRP_ID,
-							product.getValue() + " " + product.getName(),
+							reference,
 							message,
 							get_TrxName());
 		note.setAD_Org_ID(AD_Org_ID);
