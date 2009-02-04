@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -877,6 +877,10 @@ public class MRequest extends X_R_Request
 		m_emailTo = new StringBuffer();
 		if (update != null || sendInfo.size() > 0)
 		{
+			// Note that calling the notifications from beforeSave is causing the
+			// new interested are not notified if the RV_RequestUpdates view changes
+			// this is, when changed the sales rep (solved in sendNotices)
+			// or when changed the request category or group or contact (unsolved - the old ones are notified)
 			sendNotices(sendInfo);
 			
 			//	Update
@@ -1117,7 +1121,7 @@ public class MRequest extends X_R_Request
 		ArrayList<Integer> userList = new ArrayList<Integer>();
 		final String sql = "SELECT u.AD_User_ID, u.NotificationType, u.EMail, u.Name, MAX(r.AD_Role_ID) "
 			+ "FROM RV_RequestUpdates_Only ru"
-			+ " INNER JOIN AD_User u ON (ru.AD_User_ID=u.AD_User_ID)"
+			+ " INNER JOIN AD_User u ON (ru.AD_User_ID=u.AD_User_ID OR u.AD_User_ID=?)"
 			+ " LEFT OUTER JOIN AD_User_Roles r ON (u.AD_User_ID=r.AD_User_ID) "
 			+ "WHERE ru.R_Request_ID=? "
 			+ "GROUP BY u.AD_User_ID, u.NotificationType, u.EMail, u.Name";
@@ -1125,8 +1129,9 @@ public class MRequest extends X_R_Request
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getR_Request_ID());
+			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt.setInt (1, getSalesRep_ID());
+			pstmt.setInt (2, getR_Request_ID());
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{

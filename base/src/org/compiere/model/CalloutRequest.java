@@ -51,26 +51,19 @@ public class CalloutRequest extends CalloutEngine
 			return "";
 
 		Integer R_MailText_ID = (Integer)value;
-		String sql = "SELECT MailHeader, MailText FROM R_MailText "
-			+ "WHERE R_MailText_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, R_MailText_ID.intValue());
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				String txt = rs.getString(2);
-				txt = Env.parseContext(ctx, WindowNo, txt, false, true);
-				mTab.setValue("Result", txt);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		MMailText mailtext = new MMailText(ctx, R_MailText_ID.intValue(), null);
+
+		Integer userID = (Integer) mTab.getValue("AD_User_ID");
+		if (userID != null)
+			mailtext.setUser(userID.intValue());
+		Integer bpID = (Integer) mTab.getValue("C_BPartner_ID");
+		if (bpID != null)
+			mailtext.setBPartner(bpID.intValue());
+		
+		String txt = mailtext.getMailText();
+		txt = Env.parseContext(ctx, WindowNo, txt, false, true);
+		mTab.setValue("Result", txt);
+
 		return "";
 	}   //  copyText
 

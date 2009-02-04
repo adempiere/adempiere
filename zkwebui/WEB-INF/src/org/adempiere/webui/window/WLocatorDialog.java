@@ -147,6 +147,7 @@ public class WLocatorDialog extends Window implements EventListener
 		boxLocator.setWidth("100%");
 		boxLocator.setWidths("30%, 70%");
 		
+		lstLocator.setWidth("150px"); // Elaine 2009/02/02 - fixed the locator width
 		lstLocator.setMold("select");
 		lstLocator.setRows(0);
 		
@@ -238,6 +239,7 @@ public class WLocatorDialog extends Window implements EventListener
 		this.setBorder("normal");
 		this.setWidth("260Px");
 		this.setAttribute("mode","modal");
+		this.setSizable(true); // Elaine 2009/02/02 - window set to resizable
 	}
 	
 	private void initLocator()
