@@ -206,7 +206,7 @@ public class Splash extends Frame
 		}
 		/** The Image           */
 		private Image       m_image = null;
-		/* The Dimansion        */
+		/* The Dimension        */
 		private Dimension   m_dim = null;
 
 		/**
@@ -265,7 +265,7 @@ public class Splash extends Frame
 
 		/** The image           */
 		private Image 		m_image = null;
-		/** The dimansion       */
+		/** The dimension       */
 		private Dimension   m_dim = null;
 
 		/**
