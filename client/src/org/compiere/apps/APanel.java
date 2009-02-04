@@ -117,6 +117,7 @@ import org.compiere.util.Util;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *				<li>BF [ 1824621 ] History button can't be canceled
  *				<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
+ *				<li>FR [ 1943731 ] Window data export functionality
  * 				<li>BF [ 1996056 ] Report error message is not displayed
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author victor.perez@e-evolution.com 
@@ -279,6 +280,7 @@ public final class APanel extends CPanel
 
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
 							aNew, aCopy, aDelete, aPrint, aPrintPreview,
+							aExport,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
 	/** Ignore Button		*/
@@ -314,6 +316,10 @@ public final class APanel extends CPanel
 		aReport = 	addAction("Report",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F11, 0),	false);
 		aPrint = 	addAction("Print",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_F12, 0),	false);
 		aPrintPreview = addAction("PrintPreview",	mFile, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.SHIFT_MASK+Event.ALT_MASK), false);
+		if (MRole.getDefault().isCanExport())
+		{
+			aExport =	addAction("Export", mFile, null, false);
+		}
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
 		aLogout = 	addAction("Logout", 		mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_L, Event.SHIFT_MASK+Event.ALT_MASK), false);
@@ -1492,6 +1498,8 @@ public final class APanel extends CPanel
 				cmd_print();
 			else if (cmd.equals(aPrintPreview.getName()))
 				cmd_print(true);
+			else if (cmd.equals(aExport.getName()))
+				cmd_export();
 			else if (cmd.equals(aEnd.getName()))
 				cmd_end(false);
 			else if (cmd.equals(aExit.getName()))
@@ -2190,7 +2198,11 @@ public final class APanel extends CPanel
 		win.setWindowSize(size);
 		win.save();
 	}	//	cmdWinSize
-
+	
+	private void cmd_export()
+	{
+		new AExport(this);
+	}
 	
 	
 	/**************************************************************************
