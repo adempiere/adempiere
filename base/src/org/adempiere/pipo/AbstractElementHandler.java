@@ -106,22 +106,26 @@ public abstract class AbstractElementHandler implements ElementHandler {
     				.append( "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," ) 
     				.append( " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)" )
     				.append( "VALUES(" )
-    				.append( " "+ Env.getAD_Client_ID(ctx) )
-    				.append( ", "+ Env.getAD_Org_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", " + id ) 
-    				.append( ", " + getPackageImpId(ctx) )
-    				.append( ", '" + objectType )
-    				.append( "', '" + objectName )
-    				.append( "', '" + objectStatus )
-    				.append( "', 'Success'" )
-    				.append( ", "+objectID )
-    				.append( ", "+objectIDBackup )
-    				.append( ", '"+tableName )
-    				.append( "', "+AD_Table_ID )
+    				.append( "  ?")
+    				.append( ", ?"  )
+    				.append( ", ?"  )
+    				.append( ", ?"  )
+    				.append( ", ?"  ) 
+    				.append( ", ?"  )
+    				.append( ", ?"   )
+    				.append( ", ?"   )
+    				.append( ", ?"   )
+    				.append( ", ?" )
+    				.append( ", ?" )
+    				.append( ", ?" )
+    				.append( ", ?" )
+    				.append( ", ?")
     				.append(")");
-    		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
+    		Object[] param = new Object[] { Env.getAD_Client_ID(ctx), Env.getAD_Org_ID(ctx), Env.getAD_User_ID(ctx), Env.getAD_User_ID(ctx),   
+    			id, getPackageImpId(ctx) , objectType, objectName, objectStatus, "Success", objectID, objectIDBackup, tableName,
+    			AD_Table_ID 
+    		};
+    		int no = DB.executeUpdate (sqlB.toString(), param, true, getTrxName(ctx));
     		if (no == -1)
     			log.info("Insert to import detail failed");
     		

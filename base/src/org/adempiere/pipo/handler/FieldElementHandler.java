@@ -47,6 +47,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 			if (element.parent != null && element.parent.getElementValue().equals("tab") &&
 				element.parent.defer) {
 				element.defer = true;
+				element.unresolved = element.parent.unresolved;
 				return;
 			}
 			String name = atts.getValue("Name");
@@ -60,6 +61,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 					packIn.addTable(tableName, tableid);
 			}
 			if (tableid <= 0) {
+				element.unresolved = "AD_Table=" + tableName;
 				element.defer = true;
 				return;
 			}
@@ -67,6 +69,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 					.getValue("ADWindowNameID"));
 			if (windowid <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_Window=" + atts.getValue("ADWindowNameID");
 				return;
 			}
 			int columnid = packIn.getColumnId(tableName, colname);
@@ -78,6 +81,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 			}
 			if (columnid <= 0) {
 				element.defer = true;
+				element.unresolved = "AD_Column"+ colname;
 				return;
 			}
 			int tabid = 0;
@@ -172,6 +176,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 				}
 			} else {
 				element.defer = true;
+				element.unresolved = "AD_Tab=" + tabname;
 				return;
 			}
 		} else {

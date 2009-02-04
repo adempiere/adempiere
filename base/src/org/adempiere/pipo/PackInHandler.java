@@ -816,7 +816,7 @@ public class PackInHandler extends DefaultHandler {
     					log.severe("Unresolved: " + d.element.getElementValue() + " - " + d.element.attributes.getValue(0) + ", " + d.element.unresolved);
     			}
     		}
-    		throw new RuntimeException("Failed to resolve dependency for " + count + " elements.");
+    		//throw new RuntimeException("Failed to resolve dependency for " + count + " elements."); //commented by Joyce (12 Nov 2008)
     		//System.err.println("Failed to resolve dependency for " + count + " elements.");
     	}
     }
