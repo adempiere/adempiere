@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -39,6 +39,7 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1619150 ] Usability/Consistency: reversed gl journal description
  * 				<li>BF [ 1775358 ] GL Journal DateAcct/C_Period_ID issue
+ * 				<li>FR [ 1776045 ] Add ReActivate action to GL Journal
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li>FR [ 1948157  ]  Is necessary the reference for document reverse
  *  		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
@@ -48,6 +49,11 @@ import org.compiere.util.Msg;
  */
 public class MJournal extends X_GL_Journal implements DocAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5461368562157627495L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -754,12 +760,19 @@ public class MJournal extends X_GL_Journal implements DocAction
 		if (m_processMsg != null)
 			return false;	
 		
+		// teo_sarca - FR [ 1776045 ] Add ReActivate action to GL Journal
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
+		MFactAcct.deleteEx(MJournal.Table_ID, get_ID(), get_TrxName());
+		setPosted(false);
+		setProcessed(false);
+		setDocAction(DOCACTION_Complete);
+		
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
 			return false;
 		
-		return false;
+		return true;
 	}	//	reActivateIt
 	
 	

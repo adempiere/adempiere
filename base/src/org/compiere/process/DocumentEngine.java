@@ -990,6 +990,7 @@ public class DocumentEngine implements DocAction
 			{
 				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
 				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = DocumentEngine.ACTION_ReActivate;
 			}
 		}
 		/********************

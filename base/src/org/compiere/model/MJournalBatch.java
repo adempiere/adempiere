@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -41,10 +42,17 @@ import org.compiere.util.Msg;
  *  		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 	
+ *  @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 1776045 ] Add ReActivate action to GL Journal
  *	@version $Id: MJournalBatch.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2494833602067696046L;
+
 	/**
 	 * 	Create new Journal Batch by copying
 	 * 	@param ctx context
@@ -738,9 +746,22 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		if (m_processMsg != null)
 			return false;	
 		
-	//	setProcessed(false);
-		if (! reverseCorrectIt())
-			return false;
+		for (MJournal journal : getJournals(true))
+		{
+			if (DOCSTATUS_Completed.equals(journal.getDocStatus()))
+			{
+				if (journal.processIt(DOCACTION_Re_Activate))
+				{
+					journal.saveEx();
+				}
+				else
+				{
+					throw new AdempiereException(journal.getProcessMsg());
+				}
+			}
+		}
+		setProcessed(false);
+		setDocAction(DOCACTION_Complete);
 
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
