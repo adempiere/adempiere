@@ -281,10 +281,7 @@ public class VInOutGen extends CPanel
             + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
             + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
             + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-            + " AND ic.AD_Client_ID=?"
-            + " AND NOT EXISTS (SELECT * FROM M_InOut i, M_InOutLine il, C_OrderLine ol"
-            + " WHERE ol.C_Order_ID=ic.C_Order_ID AND  i.M_InOut_ID = il.M_InOut_ID AND"
-            + " il.C_OrderLine_ID = ol.C_OrderLine_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
+            + " AND ic.AD_Client_ID=?");
 
         if (m_M_Warehouse_ID != null)
             sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);

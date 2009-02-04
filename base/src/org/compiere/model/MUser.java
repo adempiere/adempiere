@@ -164,6 +164,8 @@ public class MUser extends X_AD_User
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		
 		MUser retValue = null;
+		/* TODO: Implement same validation as in Login.java - 
+		 * about (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') */
 		String sql = "SELECT * FROM AD_User "
 			+ "WHERE Name=? AND (Password=? OR Password=?) AND IsActive='Y' AND AD_Client_ID=?";
 		PreparedStatement pstmt = null;
