@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -42,8 +42,10 @@ import org.compiere.util.Language;
  *		<li>BF [ 1714261 ] MLookupFactory: TableDirEmbed -> TableEmbed not supported
  *		<li>BF [ 1672820 ] Sorting should be language-sensitive
  *		<li>BF [ 1739530 ] getLookup_TableDirEmbed error when BaseColumn is sql query
- *		<li>BF [ 1739544 ] getLookup_TableEmbed error for self referecing references
+ *		<li>BF [ 1739544 ] getLookup_TableEmbed error for self referencing references
  *		<li>BF [ 1817768 ] Isolate hardcoded table direct columns
+ * @author Carlos Ruiz, GlobalQSS
+ *		<li>BF [ 2561593 ] Multi-tenant problem with webui
  */
 public class MLookupFactory
 {
@@ -341,7 +343,7 @@ public class MLookupFactory
 		int WindowNo, int AD_Reference_Value_ID)
 	{
 		//	Try cache - assume no language change
-		String key = String.valueOf(AD_Reference_Value_ID);
+		String key = Env.getAD_Client_ID(ctx) + "|" + String.valueOf(AD_Reference_Value_ID);
 		MLookupInfo retValue = (MLookupInfo)s_cacheRefTable.get(key);
 		if (retValue != null)
 		{
@@ -611,7 +613,7 @@ public class MLookupFactory
 		int ZoomWindowPO = 0;
 		
 		//try cache
-		String cacheKey = TableName + "." + KeyColumn;
+		String cacheKey = Env.getAD_Client_ID(ctx) + "|" + TableName + "." + KeyColumn;
 		if (s_cacheRefTable.containsKey(cacheKey))
 			return s_cacheRefTable.get(cacheKey).cloneIt();
 
