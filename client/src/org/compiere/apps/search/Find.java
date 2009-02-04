@@ -95,6 +95,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -103,6 +104,9 @@ import org.compiere.util.ValueNamePair;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: Find.java,v 1.3 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2564070 ] Saving user queries can produce unnecessary db errors
  */
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
@@ -1064,6 +1068,11 @@ public final class Find extends CDialog
 		Object selected = fQueryName.getSelectedItem();
 		if (selected != null && saveQuery) {
 			String name = selected.toString();
+			if (Util.isEmpty(name, true))
+			{
+				ADialog.warn(m_targetWindowNo, this, "FillMandatory", Msg.translate(Env.getCtx(), "Name"));
+				return;
+			}
 			MUserQuery uq = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID, name);
 			if (uq == null && code.length() > 0)
 			{				
