@@ -132,11 +132,12 @@ public class MRefList extends X_AD_Ref_List
 		String sql = isBaseLanguage ?
 			"SELECT a.Description FROM AD_Ref_List a, AD_Reference b"
 			+ " WHERE b.Name=? AND a.Value=?" 
-			+ " AND a.AD_Reference_ID = b.AD_Reference_ID" : 				
-				"SELECT t.Description FROM AD_Ref_List_Trl t , AD_Reference b"
-				+ " INNER JOIN AD_Ref_List r ON (r.AD_Ref_List_ID=t.AD_Ref_List_ID) "
-				+ " WHERE b.Name=? AND a.Value=?" 
-				+ " AND a.AD_Reference_ID = b.AD_Reference_ID AND t.AD_Language=?";
+			+ " AND a.AD_Reference_ID = b.AD_Reference_ID"
+			: 				
+			"SELECT t.Description FROM AD_Reference r"
+			+" INNER JOIN AD_Ref_List rl ON (r.AD_Reference_ID=rl.AD_Reference_ID)"
+			+" INNER JOIN AD_Ref_List_Trl t ON (t.AD_Ref_List_ID=rl.AD_Ref_List_ID)"
+			+" WHERE r.Name=? AND rl.Value=? AND t.AD_Language=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -144,6 +145,8 @@ public class MRefList extends X_AD_Ref_List
 			pstmt = DB.prepareStatement (sql,null);
 			pstmt.setString (1, ListName);
 			pstmt.setString(2, Value);			
+			if (!isBaseLanguage)
+				pstmt.setString(3, AD_Language);
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
 				retValue = rs.getString(1);
