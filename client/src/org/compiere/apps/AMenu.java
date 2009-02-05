@@ -765,7 +765,7 @@ public final class AMenu extends CFrame
 	{
 		/**
 		 * 	Invoked when the mouse has been clicked on a component.
-		 * 	@param e evant
+		 * 	@param e event
 		 */
 		public void mouseClicked(MouseEvent e) 
 		{
