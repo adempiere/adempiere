@@ -50,9 +50,8 @@ public class YearCreatePeriods extends SvrProcess
 			throw new AdempiereUserError ("@NotFound@: @C_Year_ID@ - " + p_C_Year_ID);
 		log.info(year.toString());
 		//
-		if (year.createStdPeriods(null))
-			return "@OK@";
-		return "@Error@";
+		year.createStdPeriods(null);
+		return "@OK@";
 	}	//	doIt
 	
 }	//	YearCreatePeriods

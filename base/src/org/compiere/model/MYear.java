@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,11 +26,11 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.process.DocumentTypeVerify;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
-import org.compiere.util.Msg;
 
 
 /**
@@ -38,9 +38,17 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: MYear.java,v 1.5 2006/10/11 04:12:39 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 1761918 ] Error creating periods for a year with per. created partial
+ * 			<li>BF [ 2430755 ] Year Create Periods display proper error message
  */
 public class MYear extends X_C_Year
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2110541427179611810L;
 
 	/**
 	 * 	Standard Constructor
@@ -152,19 +160,13 @@ public class MYear extends X_C_Year
 	}	//	toString
 	
 	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true if can be saved
-	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		int yy = getYearAsInt();
 		if (yy == 0)
 		{
-			log.saveError("FillMandatory", Msg.getElement(getCtx(), "Year") 
-				+ " -> " + yy + " (2006 - 2006/07 - 2006-07 - ...)");
-			return false;
+			throw new FillMandatoryException(COLUMNNAME_FiscalYear);
 		}
 		return true;
 	}	//	beforeSave
@@ -176,7 +178,7 @@ public class MYear extends X_C_Year
 	 * 	@param locale locale 
 	 *	@return true if created
 	 */
-	public boolean createStdPeriods(Locale locale)
+	public void createStdPeriods(Locale locale)
 	{
 		if (locale == null)
 		{
@@ -222,11 +224,21 @@ public class MYear extends X_C_Year
 			cal.add(Calendar.DAY_OF_YEAR, -1);
 			Timestamp end = new Timestamp(cal.getTimeInMillis());
 			//
-			MPeriod period = new MPeriod (this, month+1, name, start, end);
-			if (!period.save(get_TrxName()))	//	Creates Period Control
-				return false;
+			MPeriod period = MPeriod.get(getCtx(), start, getAD_Org_ID());
+			if (period == null)
+			{
+				period = new MPeriod (this, month+1, name, start, end);
+			}
+			else
+			{
+				period.setC_Year_ID(this.getC_Year_ID());
+				period.setPeriodNo(month+1);
+				period.setName(name);
+				period.setStartDate(start);
+				period.setEndDate(end);
+			}
+			period.saveEx(get_TrxName());	//	Creates Period Control
 		}
-		return true;
 	}	//	createStdPeriods
 	
 }	//	MYear
