@@ -112,6 +112,14 @@ public class WPAttributeDialog extends Window implements EventListener
 		m_AD_Column_ID = AD_Column_ID;
 		m_WindowNoParent = WindowNo;
 
+		//get columnName from ad_column
+		m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
+		if (m_columnName == null || m_columnName.trim().length() == 0) 
+		{
+			//fallback
+			m_columnName = "M_AttributeSetInstance_ID";
+		}
+		
 		try
 		{
 			init();
@@ -173,6 +181,8 @@ public class WPAttributeDialog extends Window implements EventListener
 	private Panel centerPanel = new Panel();
 	private Grid centerLayout = new Grid();
 	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
+	
+	private String m_columnName = null;
 
 	/**
 	 *	Layout
@@ -508,7 +518,7 @@ public class WPAttributeDialog extends Window implements EventListener
 	{
 		Env.clearWinContext(m_WindowNo);
 		//
-		Env.setContext(Env.getCtx(), m_WindowNoParent, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
+		Env.setContext(Env.getCtx(), m_WindowNoParent, Env.TAB_INFO, m_columnName, 
 			String.valueOf(m_M_AttributeSetInstance_ID));
 		Env.setContext(Env.getCtx(), m_WindowNoParent, Env.TAB_INFO, "M_Locator_ID", 
 			String.valueOf(m_M_Locator_ID));
