@@ -30,7 +30,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
- *	Loaction (Address)
+ *	Location (Address)
  *	
  *  @author Jorg Janke
  *  @version $Id: MLocation.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
@@ -68,7 +68,7 @@ public class MLocation extends X_C_Location implements Comparator
 	 *	@param ctx context
 	 *  @param C_BPartner_Location_ID Business Partner Location
 	 *	@param trxName transaction
-	 *  @return loaction or null
+	 *  @return location or null
 	 */
 	public static MLocation getBPLocation (Properties ctx, int C_BPartner_Location_ID, String trxName)
 	{
@@ -318,7 +318,7 @@ public class MLocation extends X_C_Location implements Comparator
 	 *	@param Postal_Add match postal add
 	 *	@param City match city
 	 *	@param Address1 match address 1
-	 *	@param Address2 match addtess 2
+	 *	@param Address2 match address 2
 	 *	@return true if equals
 	 */
 	public boolean equals (int C_Country_ID, int C_Region_ID, 
@@ -359,7 +359,7 @@ public class MLocation extends X_C_Location implements Comparator
 	
 	/**
 	 * 	Equals
-	 * 	@param cmp comperator
+	 * 	@param cmp comparator
 	 * 	@return true if ID the same
 	 */
 	public boolean equals (Object cmp)
@@ -394,7 +394,7 @@ public class MLocation extends X_C_Location implements Comparator
 	}	//	getCityRegionPostal
 	
 	/**
-	 *	Parse according Ctiy/Postal/Region according to displaySequence.
+	 *	Parse according City/Postal/Region according to displaySequence.
 	 *	@C@ - City		@R@ - Region	@P@ - Postal  @A@ - PostalAdd
 	 *  @param c country
 	 *  @return parsed String

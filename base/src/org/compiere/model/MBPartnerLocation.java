@@ -124,7 +124,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	private int			m_unique = 0;
 	
 	/**
-	 * 	Get Loaction/Address
+	 * 	Get Location/Address
 	 * 	@param requery requery
 	 *	@return location
 	 */
