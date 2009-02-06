@@ -36,6 +36,7 @@ import org.compiere.util.Msg;
  *    [ 1619076 ] Bank statement's StatementDifference becames NULL
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1896880 ] Unlink Payment if TrxAmt is zero
  * 			<li>BF [ 1896885 ] BS Line: don't update header if after save/delete fails
  */
  public class MBankStatementLine extends X_C_BankStatementLine
@@ -152,6 +153,12 @@ import org.compiere.util.Msg;
 		{
 			log.saveError("FillMandatory", Msg.getElement(getCtx(), "C_Charge_ID"));
 			return false;
+		}
+		// Un-link Payment if TrxAmt is zero - teo_sarca BF [ 1896880 ] 
+		if (getTrxAmt().signum() == 0 && getC_Payment_ID() > 0)
+		{
+			setC_Payment_ID(I_ZERO);
+			setC_Invoice_ID(I_ZERO);
 		}
 		//	Set Line No
 		if (getLine() == 0)
