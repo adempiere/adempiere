@@ -3,7 +3,7 @@ ADD COLUMN Value VARCHAR(40)
 ;
 
 UPDATE U_POSTerminal
- Set Value = nextidfunc( (SELECT AD_Sequence_ID FROM AD_Sequence WHERE AD_Client_ID = 0 AND Name = 'U_POSTerminal'), 'N')
+ Set Value = nextidfunc( (SELECT AD_Sequence_ID FROM AD_Sequence WHERE AD_Client_ID = 0 AND Name = 'U_POSTerminal')::integer, 'N'::varchar)
 WHERE U_POSTerminal.Value IS NULL
  AND U_POSTerminal.AD_Client_ID = 11
 ;
