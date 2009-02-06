@@ -108,6 +108,14 @@ public class VPAttributeDialog extends CDialog
 		m_AD_Column_ID = AD_Column_ID;
 		m_WindowNoParent = WindowNo;
 
+		//get columnName from ad_column
+ 	 	m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
+ 	 	if (m_columnName == null || m_columnName.trim().length() == 0)
+ 	 	{
+ 	 		//fallback
+ 	 		m_columnName = "M_AttributeSetInstance_ID";
+ 	 	}
+ 	 	
 		try
 		{
 			jbInit();
@@ -168,6 +176,8 @@ public class VPAttributeDialog extends CDialog
 	private CPanel centerPanel = new CPanel();
 	private ALayout centerLayout = new ALayout(5,5, true);
 	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
+	
+	private String m_columnName = null;
 
 	/**
 	 *	Layout
@@ -455,7 +465,7 @@ public class VPAttributeDialog extends CDialog
 		removeAll();
 		Env.clearWinContext(m_WindowNo);
 		//
-		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, m_columnName, 
 			String.valueOf(m_M_AttributeSetInstance_ID));
 		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "M_Locator_ID", 
 			String.valueOf(m_M_Locator_ID));

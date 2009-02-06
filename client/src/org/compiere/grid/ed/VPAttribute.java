@@ -426,7 +426,12 @@ public class VPAttribute extends JComponent
 				setValue(new Integer(M_AttributeSetInstance_ID));
 			try
 			{
-				fireVetoableChange("M_AttributeSetInstance_ID", new Object(), getValue());
+				String columnName = "M_AttributeSetInstance_ID";
+		 	 	if (m_GridField != null)
+		 	 	{
+		 	 		columnName = m_GridField.getColumnName();
+		 	 	}
+		 	 	fireVetoableChange(columnName, new Object(), getValue());
 			}
 			catch (PropertyVetoException pve)
 			{
