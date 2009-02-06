@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -83,6 +83,7 @@ import org.eevolution.model.X_PP_Order;
  *  <ul>
  *  <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  *  <li>2007-02-10 - teo_sarca - [ 1652660 ] Save XML,HTML,CSV should have utf8 charset
+ *  <li>2009-02-06 - globalqss - [ 2574162 ] Priority to choose invoice print format not working
  *  </ul>
  *
  * 	@author 	Jorg Janke
@@ -1134,7 +1135,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			}
 		}	//	Order
 
-		String JobName = DOC_BASETABLES[type] + "_Print";
 		int AD_PrintFormat_ID = 0;
 		int C_BPartner_ID = 0;
 		String DocumentNo = null;
@@ -1213,6 +1213,23 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " AND pf.AD_Table_ID=725 AND pf.IsTableBased='N'"	//	from RfQ PrintFormat
 				+ " AND rr.C_RfQResponse_ID=? "				//	Info from RfQTopic
 				+ "ORDER BY t.AD_PrintFormat_ID, pf.AD_Client_ID DESC, pf.AD_Org_ID DESC";
+		// Fix [2574162] Priority to choose invoice print format not working
+		else if (type == ORDER || type == INVOICE)
+			sql = "SELECT pf.Order_PrintFormat_ID,pf.Shipment_PrintFormat_ID,"		//	1..2
+				//	Prio: 1. BPartner 2. DocType, 3. PrintFormat (Org)	//	see InvoicePrint
+				+ " COALESCE (bp.Invoice_PrintFormat_ID,dt.AD_PrintFormat_ID,pf.Invoice_PrintFormat_ID)," // 3
+				+ " pf.Project_PrintFormat_ID, pf.Remittance_PrintFormat_ID,"		//	4..5
+				+ " c.IsMultiLingualDocument, bp.AD_Language,"						//	6..7
+				+ " COALESCE(dt.DocumentCopies,0)+COALESCE(bp.DocumentCopies,1), " 	// 	8
+				+ " dt.AD_PrintFormat_ID,bp.C_BPartner_ID,d.DocumentNo "			//	9..11
+				+ "FROM " + DOC_BASETABLES[type] + " d"
+				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
+				+ " INNER JOIN AD_PrintForm pf ON (c.AD_Client_ID=pf.AD_Client_ID)"
+				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID)"
+				+ " LEFT OUTER JOIN C_DocType dt ON ((d.C_DocType_ID>0 AND d.C_DocType_ID=dt.C_DocType_ID) OR (d.C_DocType_ID=0 AND d.C_DocTypeTarget_ID=dt.C_DocType_ID)) "
+				+ "WHERE d." + DOC_IDS[type] + "=?"			//	info from PrintForm
+				+ " AND pf.AD_Org_ID IN (0,d.AD_Org_ID) "
+				+ "ORDER BY pf.AD_Org_ID DESC";
 		else	//	Get PrintFormat from Org or 0 of document client
 			sql = "SELECT pf.Order_PrintFormat_ID,pf.Shipment_PrintFormat_ID,"		//	1..2
 				//	Prio: 1. BPartner 2. DocType, 3. PrintFormat (Org)	//	see InvoicePrint
@@ -1262,7 +1279,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				{
 					//	Set PrintFormat
 					AD_PrintFormat_ID = rs.getInt(type+1);
-					if (rs.getInt(9) != 0)		//	C_DocType.AD_PrintFormat_ID
+					if (type != INVOICE && rs.getInt(9) != 0)		//	C_DocType.AD_PrintFormat_ID
 						AD_PrintFormat_ID = rs.getInt(9);
 					copies = rs.getInt(8);
 					//	Set Language when enabled
