@@ -44,18 +44,13 @@ public interface I_AD_WF_Node
 
     /** Load Meta Data */
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
-	/** Set Action.
-	  * Indicates the Action to be performed
+	/** Get Client.
+	  * Client/Tenant for this installation.
 	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
+	public int getAD_Client_ID();
 
     /** Column name AD_Column_ID */
     public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
@@ -218,6 +213,19 @@ public interface I_AD_WF_Node
 
 	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
+
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
 
@@ -271,6 +279,22 @@ public interface I_AD_WF_Node
 	  * Cost information
 	  */
 	public BigDecimal getCost();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -404,6 +428,19 @@ public interface I_AD_WF_Node
 	  */
 	public String getHelp();
 
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
     /** Column name IsCentrallyMaintained */
     public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
 
@@ -486,10 +523,14 @@ public interface I_AD_WF_Node
     /** Column name OverlapUnits */
     public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
 
-	/** Set Overlap Units	  */
+	/** Set Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public void setOverlapUnits (int OverlapUnits);
 
-	/** Get Overlap Units	  */
+	/** Get Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public int getOverlapUnits();
 
     /** Column name Priority */
@@ -529,6 +570,21 @@ public interface I_AD_WF_Node
 
 	public I_R_MailText getR_MailText() throws RuntimeException;
 
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws RuntimeException;
+
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";
 
@@ -554,21 +610,6 @@ public interface I_AD_WF_Node
 	  * Semantics for multiple outgoing Transitions
 	  */
 	public String getSplitElement();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name StartMode */
     public static final String COLUMNNAME_StartMode = "StartMode";
@@ -599,11 +640,31 @@ public interface I_AD_WF_Node
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
-	/** Set Units Cycles	  */
+	/** Set Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public void setUnitsCycles (BigDecimal UnitsCycles);
 
-	/** Get Units Cycles	  */
+	/** Get Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public BigDecimal getUnitsCycles();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -644,19 +705,6 @@ public interface I_AD_WF_Node
 	  */
 	public String getValue();
 
-    /** Column name WaitingTime */
-    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
-
-	/** Set Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime);
-
-	/** Get Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime();
-
     /** Column name WaitTime */
     public static final String COLUMNNAME_WaitTime = "WaitTime";
 
@@ -669,6 +717,19 @@ public interface I_AD_WF_Node
 	  * Time in minutes to wait (sleep)
 	  */
 	public int getWaitTime();
+
+    /** Column name WaitingTime */
+    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
+
+	/** Set Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime);
+
+	/** Get Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime();
 
     /** Column name Workflow_ID */
     public static final String COLUMNNAME_Workflow_ID = "Workflow_ID";
@@ -721,4 +782,17 @@ public interface I_AD_WF_Node
 	  * Absolute Y (vertical) position in 1/72 of an inch
 	  */
 	public int getYPosition();
+
+    /** Column name Yield */
+    public static final String COLUMNNAME_Yield = "Yield";
+
+	/** Set Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield);
+
+	/** Get Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield();
 }

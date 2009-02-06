@@ -35,7 +35,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Workflow (Properties ctx, int AD_Workflow_ID, String trxName)
@@ -293,10 +293,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setAccessLevel (String AccessLevel)
 	{
 		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2"));
-		else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
 	/** Get Data Access Level.
@@ -440,10 +437,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setDurationUnit (String DurationUnit)
 	{
 
-		if (DurationUnit == null || DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s"));
-		else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");
-
-		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+		if (DurationUnit == null || DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
 	}
 
 	/** Get Duration Unit.
@@ -626,6 +620,26 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Overlap Units.
+		@param OverlapUnits 
+		Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public void setOverlapUnits (BigDecimal OverlapUnits)
+	{
+		set_Value (COLUMNNAME_OverlapUnits, OverlapUnits);
+	}
+
+	/** Get Overlap Units.
+		@return Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public BigDecimal getOverlapUnits () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_OverlapUnits);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Priority.
 		@param Priority 
 		Indicates if this request is of a high, medium or low priority.
@@ -665,10 +679,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setProcessType (String ProcessType)
 	{
 
-		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL"));
-		else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");
-
-		set_Value (COLUMNNAME_ProcessType, ProcessType);
+		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL")); else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");		set_Value (COLUMNNAME_ProcessType, ProcessType);
 	}
 
 	/** Get Process Type.
@@ -695,10 +706,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setPublishStatus (String PublishStatus)
 	{
 		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
-		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V"));
-		else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
-
-		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
+		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
 	/** Get Publication Status.
@@ -800,6 +808,26 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Units by Cycles.
+		@param UnitsCycles 
+		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public void setUnitsCycles (BigDecimal UnitsCycles)
+	{
+		set_Value (COLUMNNAME_UnitsCycles, UnitsCycles);
+	}
+
+	/** Get Units by Cycles.
+		@return The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public BigDecimal getUnitsCycles () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnitsCycles);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Valid from.
@@ -928,10 +956,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setWorkflowType (String WorkflowType)
 	{
 		if (WorkflowType == null) throw new IllegalArgumentException ("WorkflowType is mandatory");
-		if (WorkflowType.equals("G") || WorkflowType.equals("P") || WorkflowType.equals("V") || WorkflowType.equals("M") || WorkflowType.equals("Q"));
-		else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=328 - G - P - V - M - Q");
-
-		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
+		if (WorkflowType.equals("G") || WorkflowType.equals("P") || WorkflowType.equals("V") || WorkflowType.equals("M") || WorkflowType.equals("Q")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=328 - G - P - V - M - Q");		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}
 
 	/** Get Workflow Type.
@@ -957,6 +982,26 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public int getWorkingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WorkingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

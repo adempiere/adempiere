@@ -35,7 +35,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
@@ -43,10 +43,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
       super (ctx, AD_WF_Node_ID, trxName);
       /** if (AD_WF_Node_ID == 0)
         {
-			setAction (null);
-// N
 			setAD_WF_Node_ID (0);
 			setAD_Workflow_ID (0);
+			setAction (null);
+// Z
 			setCost (Env.ZERO);
 			setDuration (0);
 			setEntityType (null);
@@ -93,50 +93,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
-		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
 
 	public I_AD_Column getAD_Column() throws RuntimeException 
     {
@@ -508,6 +464,50 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
+		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B")); else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Attribute Name.
@@ -994,14 +994,17 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
     }
 
 	/** Set Overlap Units.
-		@param OverlapUnits Overlap Units	  */
+		@param OverlapUnits 
+		Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public void setOverlapUnits (int OverlapUnits)
 	{
 		set_Value (COLUMNNAME_OverlapUnits, Integer.valueOf(OverlapUnits));
 	}
 
 	/** Get Overlap Units.
-		@return Overlap Units	  */
+		@return Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public int getOverlapUnits () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_OverlapUnits);
@@ -1086,6 +1089,45 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_S_Resource getS_Resource() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Setup Time.
 		@param SetupTime 
 		Setup time before starting Production
@@ -1128,45 +1170,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
-	public I_S_Resource getS_Resource() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1217,15 +1220,18 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
 	}
 
-	/** Set Units Cycles.
-		@param UnitsCycles Units Cycles	  */
+	/** Set Units by Cycles.
+		@param UnitsCycles 
+		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public void setUnitsCycles (BigDecimal UnitsCycles)
 	{
 		set_Value (COLUMNNAME_UnitsCycles, UnitsCycles);
 	}
 
-	/** Get Units Cycles.
-		@return Units Cycles	  */
+	/** Get Units by Cycles.
+		@return The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public BigDecimal getUnitsCycles () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnitsCycles);
@@ -1287,26 +1293,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_Value);
 	}
 
-	/** Set Waiting Time.
-		@param WaitingTime 
-		Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime)
-	{
-		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
-	}
-
-	/** Get Waiting Time.
-		@return Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Wait Time.
 		@param WaitTime 
 		Time in minutes to wait (sleep)
@@ -1322,6 +1308,26 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public int getWaitTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WaitTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Waiting Time.
+		@param WaitingTime 
+		Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime)
+	{
+		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
+	}
+
+	/** Get Waiting Time.
+		@return Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1405,6 +1411,26 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public int getYPosition () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

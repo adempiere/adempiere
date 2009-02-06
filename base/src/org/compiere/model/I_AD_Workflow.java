@@ -44,6 +44,14 @@ public interface I_AD_Workflow
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -169,6 +177,22 @@ public interface I_AD_Workflow
 	  */
 	public BigDecimal getCost();
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -262,6 +286,19 @@ public interface I_AD_Workflow
 	  */
 	public String getHelp();
 
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
     /** Column name IsBetaFunctionality */
     public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
 
@@ -335,6 +372,19 @@ public interface I_AD_Workflow
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name OverlapUnits */
+    public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
+
+	/** Set Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public void setOverlapUnits (BigDecimal OverlapUnits);
+
+	/** Get Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public BigDecimal getOverlapUnits();
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
@@ -416,6 +466,35 @@ public interface I_AD_Workflow
 	  * Setup time before starting Production
 	  */
 	public int getSetupTime();
+
+    /** Column name UnitsCycles */
+    public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
+
+	/** Set Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public void setUnitsCycles (BigDecimal UnitsCycles);
+
+	/** Get Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public BigDecimal getUnitsCycles();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -516,4 +595,17 @@ public interface I_AD_Workflow
 	  * Workflow Simulation Execution Time
 	  */
 	public int getWorkingTime();
+
+    /** Column name Yield */
+    public static final String COLUMNNAME_Yield = "Yield";
+
+	/** Set Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield);
+
+	/** Get Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield();
 }
