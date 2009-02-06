@@ -45,6 +45,7 @@ import org.compiere.util.TimeUtil;
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1831997 ] Cash journal allocation reversed
  * 			<li>BF [ 1894524 ] Pay an reversed invoice
+ * 			<li>BF [ 1899477 ] MCash.getLines should return only active lines
  */
 public class MCash extends X_C_Cash implements DocAction
 {
@@ -212,12 +213,12 @@ public class MCash extends X_C_Cash implements DocAction
 			return m_lines;
 		}
 		
-		String whereClause ="C_Cash_ID=?"; 
-		List <MCashLine> list = new Query(getCtx(), MCashLine.Table_Name, whereClause, get_TrxName())
-			.setParameters(new Object[]{getC_Cash_ID()})
-			.setOrderBy("Line")
-			.list()
-		;
+		String whereClause =MCashLine.COLUMNNAME_C_Cash_ID+"=?"; 
+		List<MCashLine> list = new Query(getCtx(),MCashLine.Table_Name,  whereClause, get_TrxName())
+								.setParameters(new Object[]{getC_Cash_ID()})
+								.setOrderBy(MCashLine.COLUMNNAME_Line)
+								.setOnlyActiveRecords(true)
+								.list();
 		
 		m_lines =  list.toArray(new MCashLine[list.size()]);
 		return m_lines;
