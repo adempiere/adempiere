@@ -43,7 +43,7 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 	 *	@param ctx context
 	 * 	@param M_AttributeSetInstance_ID id or 0
 	 * 	@param M_Product_ID required if id is 0
-	 * 	@return Attribute Set Instance or null
+	 * 	@return Attribute Set Instance or null if error
 	 */
 	public static MAttributeSetInstance get (Properties ctx, 
 		int M_AttributeSetInstance_ID, int M_Product_ID)
@@ -63,11 +63,12 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 			+ "FROM M_Product "
 			+ "WHERE M_Product_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				int M_AttributeSet_ID = rs.getInt(1);
@@ -75,23 +76,17 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 				//
 				retValue = new MAttributeSetInstance (ctx, 0, M_AttributeSet_ID, null);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
+			retValue = null;
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		return retValue;
 	}	//	get
@@ -375,5 +370,20 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 		
 		return false;
 	}
-			
+	
+	/**
+	 * Create & save a new ASI for given product
+	 * @param ctx
+	 * @param product
+	 * @param trxName
+	 * @return newly created ASI
+	 */
+	public static MAttributeSetInstance create(Properties ctx, MProduct product, String trxName)
+	{
+		MAttributeSetInstance asi = new MAttributeSetInstance(ctx, 0, trxName);
+		asi.setClientOrg(product.getAD_Client_ID(), 0);
+		asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+		asi.saveEx();
+		return asi;
+	}
 }	//	MAttributeSetInstance
