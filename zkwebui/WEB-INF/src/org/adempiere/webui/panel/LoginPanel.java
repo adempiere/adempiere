@@ -27,7 +27,10 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -41,6 +44,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 
 /**
  *
@@ -141,6 +145,7 @@ public class LoginPanel extends Window implements EventListener
         txtUserId.setCols(25);
         txtUserId.setMaxlength(40);
         txtUserId.setWidth("220px");
+        txtUserId.addEventListener(Events.ON_CHANGE, this); // Elaine 2009/02/06
 
         txtPassword = new Textbox();
         txtPassword.setId("txtPassword");
@@ -187,6 +192,31 @@ public class LoginPanel extends Window implements EventListener
             	lblLanguage.setValue(res.getString("Language"));
             }
         }
+        // Elaine 2009/02/06 - initial language
+        if (event.getName().equals(Events.ON_CHANGE))
+        {
+        	if(eventComp.getId().equals(txtUserId.getId()))
+        	{
+        		String userId = txtUserId.getValue();
+        		if(userId != null && userId.length() > 0)
+        		{
+	        		int AD_User_ID = DB.getSQLValue(null, "SELECT AD_User_ID FROM AD_User WHERE Name = ?", userId);
+	        		if(AD_User_ID > 0)
+	        		{
+	        			// Elaine 2009/02/06 Load preference from AD_Preference
+	        			UserPreference userPreference = SessionManager.getSessionApplication().loadUserPreference(AD_User_ID);
+	        			String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
+	        			for(int i = 0; i < lstLanguage.getItemCount(); i++)
+	        	        {
+	        	        	Listitem li = lstLanguage.getItemAtIndex(i);
+	        	        	if(li.getLabel().equals(initDefault))
+	        	        		lstLanguage.setSelectedItem(li);
+	        	        }
+	        		}
+        		}
+        	}
+        }
+        //
     }
     /**
      *  validates user name and password when logging in
@@ -211,7 +241,9 @@ public class LoginPanel extends Window implements EventListener
         	Env.setContext(ctx, Env.LANGUAGE, langName);
     		Language language = Language.getLanguage(langName);
         	Env.verifyLanguage(ctx, language);
-            wndLogin.loginOk(userId, userPassword);
+            wndLogin.loginOk(userId, userPassword);      
+            
+            Env.setContext(ctx, "Language", lstLanguage.getSelectedItem().getLabel()); // Elaine 2009/02/06
         }
     }
 }

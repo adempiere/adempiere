@@ -24,6 +24,8 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
 import org.compiere.model.MRole;
@@ -202,9 +204,18 @@ public class RolePanel extends Window implements EventListener
         btnCancel.setLabel("Cancel");
         btnCancel.addEventListener("onClick", this);
 
+        // initial role - Elaine 2009/02/06
+        UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        String initDefault = userPreference.getProperty(UserPreference.P_ROLE);
         for(int i = 0; i < rolesKNPairs.length; i++)
-            lstRole.appendItem(rolesKNPairs[i].getName(), rolesKNPairs[i].getID());
-        lstRole.setSelectedIndex(0);
+        {
+        	Listitem li = lstRole.appendItem(rolesKNPairs[i].getName(), rolesKNPairs[i].getID());
+        	if(rolesKNPairs[i].getID().equals(initDefault))
+        		lstRole.setSelectedItem(li);
+        }
+        if (lstRole.getSelectedIndex() == -1)
+        	lstRole.setSelectedIndex(0);
+        //
         updateClientList();
     }
 
@@ -214,14 +225,23 @@ public class RolePanel extends Window implements EventListener
         Listitem lstItemRole = lstRole.getSelectedItem();
         if(lstItemRole != null)
         {
+        	//  initial client - Elaine 2009/02/06
+        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+			String initDefault = userPreference.getProperty(UserPreference.P_CLIENT);
             KeyNamePair roleKNPair = new KeyNamePair(new Integer((String)lstItemRole.getValue()), lstItemRole.getLabel());
             KeyNamePair clientKNPairs[] = login.getClients(roleKNPair);
             if(clientKNPairs != null && clientKNPairs.length > 0)
             {
                 for(int i = 0; i < clientKNPairs.length; i++)
-                    lstClient.appendItem(clientKNPairs[i].getName(), clientKNPairs[i].getID());
-                lstClient.setSelectedIndex(0);
+                {
+                	Listitem li = lstClient.appendItem(clientKNPairs[i].getName(), clientKNPairs[i].getID());
+                    if(clientKNPairs[i].getID().equals(initDefault))
+                    	lstClient.setSelectedItem(li);
+                }
+                if (lstClient.getSelectedIndex() == -1)
+                	lstClient.setSelectedIndex(0);
             }
+            //
             
             //force reload of default role
             MRole.getDefault(Env.getCtx(), true);
@@ -235,14 +255,23 @@ public class RolePanel extends Window implements EventListener
         Listitem lstItemClient = lstClient.getSelectedItem();
         if(lstItemClient != null)
         {
+			//  initial organisation - Elaine 2009/02/06
+        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+			String initDefault = userPreference.getProperty(UserPreference.P_ORG);
             KeyNamePair clientKNPair = new KeyNamePair(new Integer((String)lstItemClient.getValue()), lstItemClient.getLabel());
             KeyNamePair orgKNPairs[] = login.getOrgs(clientKNPair);
             if(orgKNPairs != null && orgKNPairs.length > 0)
             {
                 for(int i = 0; i < orgKNPairs.length; i++)
-                    lstOrganisation.appendItem(orgKNPairs[i].getName(), orgKNPairs[i].getID());
-                lstOrganisation.setSelectedIndex(0);
+                {
+                	Listitem li = lstOrganisation.appendItem(orgKNPairs[i].getName(), orgKNPairs[i].getID());
+                    if(orgKNPairs[i].getID().equals(initDefault))
+                    	lstOrganisation.setSelectedItem(li);
+                }
+                if (lstOrganisation.getSelectedIndex() == -1)
+                	lstOrganisation.setSelectedIndex(0);
             }
+            //
         }
         updateWarehouseList();
     }
@@ -253,14 +282,23 @@ public class RolePanel extends Window implements EventListener
         Listitem lstItemOrganisation = lstOrganisation.getSelectedItem();
         if(lstItemOrganisation != null)
         {
+			//  initial warehouse - Elaine 2009/02/06
+        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+			String initDefault = userPreference.getProperty(UserPreference.P_WAREHOUSE);
             KeyNamePair organisationKNPair = new KeyNamePair(new Integer((String)lstItemOrganisation.getValue()), lstItemOrganisation.getLabel());
             KeyNamePair warehouseKNPairs[] = login.getWarehouses(organisationKNPair);
             if(warehouseKNPairs != null && warehouseKNPairs.length > 0)
             {
                 for(int i = 0; i < warehouseKNPairs.length; i++)
-                    lstWarehouse.appendItem(warehouseKNPairs[i].getName(), warehouseKNPairs[i].getID());
-                lstWarehouse.setSelectedIndex(0);
+                {
+                    Listitem li = lstWarehouse.appendItem(warehouseKNPairs[i].getName(), warehouseKNPairs[i].getID());
+                    if(warehouseKNPairs[i].getID().equals(initDefault))
+                    	lstWarehouse.setSelectedItem(li);
+                }
+                if (lstWarehouse.getSelectedIndex() == -1)
+                	lstWarehouse.setSelectedIndex(0);
             }
+            //
         }
     }
 
@@ -337,5 +375,15 @@ public class RolePanel extends Window implements EventListener
             return ;
         }
         wndLogin.loginCompleted();
+        
+        // Elaine 2009/02/06 save preference to AD_Preference
+        UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(Env.getCtx(), "Language"));
+        userPreference.setProperty(UserPreference.P_ROLE, Integer.parseInt((String) lstItemRole.getValue()));
+        userPreference.setProperty(UserPreference.P_CLIENT, Integer.parseInt((String) lstItemClient.getValue()));
+        userPreference.setProperty(UserPreference.P_ORG, Integer.parseInt((String) lstItemOrg.getValue()));
+        userPreference.setProperty(UserPreference.P_WAREHOUSE, Integer.parseInt((String) lstItemWarehouse.getValue()));
+        userPreference.savePreference();
+        //
     }
 }

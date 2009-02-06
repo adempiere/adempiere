@@ -24,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
@@ -66,12 +67,16 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	private String langSession;
 	
+	private UserPreference userPreference;
+	
 	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);    	    	
+    	
+    	userPreference = new UserPreference();
     }
     
     public void onCreate()
@@ -219,6 +224,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         Executions.sendRedirect("index.zul");
     }
 
+    /**
+     * @return IDesktop
+     */
     public IDesktop getAppDeskop()
     {
     	return appDesktop;
@@ -238,5 +246,21 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 				appDesktop.setClientInfo(clientInfo);
 		}
 
+	}
+
+	/**
+	 * @param userId
+	 * @return UserPreference
+	 */
+	public UserPreference loadUserPreference(int userId) {
+		userPreference.loadPreference(userId);
+		return userPreference;
+	}
+
+	/**
+	 * @return UserPrerence
+	 */
+	public UserPreference getUserPreference() {
+		return userPreference;
 	}
 }
