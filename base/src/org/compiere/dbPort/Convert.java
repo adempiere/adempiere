@@ -494,6 +494,9 @@ public abstract class Convert
 		// don't log update to statistic process
 		if (uppStmt.startsWith("UPDATE AD_PROCESS SET STATISTIC_"))
 			return true;
+		// Don't log DELETE FROM Some_Table WHERE AD_Table_ID=? AND Record_ID=?
+		if (uppStmt.startsWith("DELETE FROM ") && uppStmt.endsWith(" WHERE AD_TABLE_ID=? AND RECORD_ID=?"))
+			return true;
 		for (int i = 0; i < exceptionTables.length; i++) {
 			if (uppStmt.startsWith("INSERT INTO " + exceptionTables[i] + " "))
 				return true;
