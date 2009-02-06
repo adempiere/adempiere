@@ -582,52 +582,12 @@ DELETE FROM AD_Column_Trl WHERE AD_Column_ID=53740
 
 -- Feb 5, 2009 11:51:58 PM ECT
 -- Implement Yield and Units Cycle
-DELETE FROM AD_Attachment WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:51:58 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM AD_Archive WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:51:58 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM K_Index WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:51:58 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM AD_Note WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:51:58 PM ECT
--- Implement Yield and Units Cycle
 DELETE FROM AD_Column WHERE AD_Column_ID=53740
 ;
 
 -- Feb 5, 2009 11:52:44 PM ECT
 -- Implement Yield and Units Cycle
 DELETE FROM AD_Column_Trl WHERE AD_Column_ID=56527
-;
-
--- Feb 5, 2009 11:52:44 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM AD_Attachment WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:52:44 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM AD_Archive WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:52:44 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM K_Index WHERE AD_Table_ID=? AND Record_ID=?
-;
-
--- Feb 5, 2009 11:52:44 PM ECT
--- Implement Yield and Units Cycle
-DELETE FROM AD_Note WHERE AD_Table_ID=? AND Record_ID=?
 ;
 
 -- Feb 5, 2009 11:52:44 PM ECT
