@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -34,6 +34,12 @@ import org.compiere.util.DB;
  */
 public class MBPartnerLocation extends X_C_BPartner_Location
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2563622950216844404L;
+
+
 	/**
 	 * 	Get Locations for BPartner
 	 *	@param ctx context
@@ -89,7 +95,6 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			setIsPayFrom (true);
 			setIsBillTo (true);
 		}
-		this.trxName = trxName;
 	}	//	MBPartner_Location
 
 	/**
@@ -110,11 +115,9 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	 * 	@param rs current row of result set to be loaded
 	 *	@param trxName transaction
 	 */
-	private String trxName = null;
 	public MBPartnerLocation (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-		this.trxName = trxName;
 	}	//	MBPartner_Location
 
 	/**	Cached Location			*/
