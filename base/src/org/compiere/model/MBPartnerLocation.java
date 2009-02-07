@@ -166,10 +166,12 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			return true;
 		MLocation address = getLocation(true);
 		m_uniqueName = getName();
-		if (m_uniqueName != null && m_uniqueName.equals("."))	//	default
-			m_uniqueName = null;
 		m_unique = 0;
-		makeUnique(address);
+		if (m_uniqueName != null && m_uniqueName.equals(".")) {
+			//	default
+			m_uniqueName = null;
+			makeUnique(address);
+		}
 		
 		//	Check uniqueness
 		MBPartnerLocation[] locations = getForBPartner(getCtx(), getC_BPartner_ID());
@@ -184,6 +186,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 					continue;
 				if (m_uniqueName.equals(location.getName()))
 				{
+					//m_uniqueName = null;
 					makeUnique(address);
 					unique = false;
 					break;
@@ -200,8 +203,6 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	 */
 	private void makeUnique (MLocation address)
 	{
-	//	m_uniqueName = address.toString();
-	//	return;
 		
 		if (m_uniqueName == null)
 			m_uniqueName = "";
@@ -216,7 +217,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			m_unique = 0;
 		}
 		//	1 + Address1
-		if (m_unique == 1 ||  m_uniqueName.length() == 0)
+		if (m_unique == 1 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getAddress1();
 			if (xx != null && xx.length() > 0)
@@ -228,7 +229,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			m_unique = 1;
 		}
 		//	2 + Address2
-		if (m_unique == 2 ||  m_uniqueName.length() == 0)
+		if (m_unique == 2 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getAddress2();
 			if (xx != null && xx.length() > 0)
@@ -240,7 +241,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			m_unique = 2;
 		}
 		//	3 - Region	
-		if (m_unique == 3 ||  m_uniqueName.length() == 0)
+		if (m_unique == 3 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getRegionName(true);
 			{
@@ -251,7 +252,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			m_unique = 3;
 		}
 		//	4 - ID	
-		if (m_unique == 4 ||  m_uniqueName.length() == 0)
+		if (m_unique == 4 || m_uniqueName.length() == 0)
 		{
 			int id = get_ID();
 			if (id == 0)
