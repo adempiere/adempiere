@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -36,6 +35,11 @@ import org.eevolution.model.MDDOrderLine;
  */
 public class MMovementLine extends X_M_MovementLine
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4078367839033015886L;
+
 	/**
 	 * 	Standard Cosntructor
 	 *	@param ctx context
@@ -60,8 +64,6 @@ public class MMovementLine extends X_M_MovementLine
 			setProcessed (false);
 		}	
 	}	//	MMovementLine
-    /**     Static Logger   */
-    private static CLogger  s_log   = CLogger.getCLogger (MMovementLine.class);
 
 	/**
 	 * 	Load Constructor
@@ -89,6 +91,7 @@ public class MMovementLine extends X_M_MovementLine
 	 * 	Get AttributeSetInstance To
 	 *	@return ASI
 	 */
+	@Override
 	public int getM_AttributeSetInstanceTo_ID ()
 	{
 		int M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstanceTo_ID();
@@ -122,9 +125,10 @@ public class MMovementLine extends X_M_MovementLine
 	}	//	getProduct
 	
 	/**
-	 * 	Set Movement Qty - enforce UOM 
+	 * 	Set Movement Qty - enforce UOM precision 
 	 *	@param MovementQty qty
 	 */
+	@Override
 	public void setMovementQty (BigDecimal MovementQty)
 	{
 		if (MovementQty != null)
@@ -159,6 +163,7 @@ public class MMovementLine extends X_M_MovementLine
 	 *	@param newRecord new
 	 *	@return true
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Set Line No
@@ -238,11 +243,11 @@ public class MMovementLine extends X_M_MovementLine
 		MProduct product = oLine.getProduct(); 
 		if (product == null) 
 		{ 
-			set_ValueNoCheck("M_Product_ID", null); 
-			set_ValueNoCheck("M_AttributeSetInstance_ID", null); 
-			set_ValueNoCheck("M_AttributeSetInstanceTo_ID", null); 
-			set_ValueNoCheck("M_Locator_ID", null); 
-			set_ValueNoCheck("M_LocatorTo_ID", null); 
+			set_ValueNoCheck(COLUMNNAME_M_Product_ID, null); 
+			set_ValueNoCheck(COLUMNNAME_M_AttributeSetInstance_ID, null); 
+			set_ValueNoCheck(COLUMNNAME_M_AttributeSetInstanceTo_ID, null); 
+			set_ValueNoCheck(COLUMNNAME_M_Locator_ID, null); 
+			set_ValueNoCheck(COLUMNNAME_M_LocatorTo_ID, null); 
 		} 
 		else 
 		{ 
@@ -252,11 +257,12 @@ public class MMovementLine extends X_M_MovementLine
 			// 
 			if (product.isItem()) 
 			{ 
-				
 				MWarehouse w = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
 				MLocator locator_inTransit = MLocator.getDefault(w);
 				if(locator_inTransit == null)
+				{
 					throw new AdempiereException("Do not exist Locator for the  Warehouse in transit");
+				}
 				
 				if (isReceipt)
 				{
@@ -271,38 +277,39 @@ public class MMovementLine extends X_M_MovementLine
 			} 
 			else 
 			{	
-				set_ValueNoCheck("M_Locator_ID", null); 
-				set_ValueNoCheck("M_LocatorTo_ID", null); 
+				set_ValueNoCheck(COLUMNNAME_M_Locator_ID, null); 
+				set_ValueNoCheck(COLUMNNAME_M_LocatorTo_ID, null); 
 			}	
 		} 
 	
 		setDescription(oLine.getDescription()); 
 		this.setMovementQty(Qty);
-
 	}       //      setOrderLine 
 
 	/** 
 	 *      Set M_Locator_ID 
 	 *      @param M_Locator_ID id 
-	 */ 
+	 */
+	@Override
 	public void setM_Locator_ID (int M_Locator_ID) 
 	{ 
 		if (M_Locator_ID < 0) 
 			throw new IllegalArgumentException ("M_Locator_ID is mandatory."); 
 		//      set to 0 explicitly to reset 
-		set_Value ("M_Locator_ID", new Integer(M_Locator_ID)); 
+		set_Value (COLUMNNAME_M_Locator_ID, M_Locator_ID); 
 	}       //      setM_Locator_ID 
 
 	/** 
 	 *      Set M_LocatorTo_ID 
 	 *      @param M_LocatorTo_ID id 
 	 */ 
+	@Override
 	public void setM_LocatorTo_ID (int M_LocatorTo_ID) 
 	{ 
 		if (M_LocatorTo_ID < 0) 
 			throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory."); 
 		//      set to 0 explicitly to reset 
-		set_Value ("M_LocatorTo_ID", new Integer(M_LocatorTo_ID)); 
+		set_Value (COLUMNNAME_M_LocatorTo_ID, M_LocatorTo_ID); 
 	}       //      M_LocatorTo_ID 
 
 	/** 
@@ -316,15 +323,25 @@ public class MMovementLine extends X_M_MovementLine
 	public static MMovementLine[] getOfOrderLine (Properties ctx, 
 			int DD_OrderLine_ID, String where, String trxName) 
 	{
-		String whereClause = "DD_OrderLine_ID=?"; 
+		String whereClause = COLUMNNAME_DD_OrderLine_ID+"=?"; 
 		if (where != null && where.length() > 0) 
-			whereClause += " AND " + where;
+			whereClause += " AND (" + where + ")";
 		//
-		Query query = MTable.get(ctx, Table_ID).createQuery(whereClause, trxName);
-		query.setParameters(new Object[]{DD_OrderLine_ID});
-		List<MMovementLine> list = query.list();
+		List<MMovementLine> list = new Query(ctx, Table_Name, whereClause, trxName)
+										.setParameters(new Object[]{DD_OrderLine_ID})
+										.list();
 		return list.toArray(new MMovementLine[list.size()]);
 	}       //      getOfOrderLine 
 
-	
+	public String toString()
+	{
+		return Table_Name + "[" + get_ID() 
+			+ ", M_Product_ID=" + getM_Product_ID()
+			+ ", M_ASI_ID=" + getM_AttributeSetInstance_ID()
+			+ ", M_ASITo_ID=" + getM_AttributeSetInstanceTo_ID()
+			+ ", M_Locator_ID=" + getM_Locator_ID()
+			+ ", M_LocatorTo_ID=" + getM_LocatorTo_ID()
+			+ "]"
+		;
+	}	
 }	//	MMovementLine
