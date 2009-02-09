@@ -169,7 +169,9 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 			return true;
 		MLocation address = getLocation(true);
 		m_uniqueName = getName();
-		m_unique = 0;
+		m_unique = MSysConfig.getIntValue("START_VALUE_BPLOCATION_NAME", 0, getAD_Client_ID(), getAD_Org_ID());
+		if (m_unique < 0 || m_unique > 4)
+			m_unique = 0;
 		if (m_uniqueName != null && m_uniqueName.equals(".")) {
 			//	default
 			m_uniqueName = null;
@@ -190,6 +192,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 				if (m_uniqueName.equals(location.getName()))
 				{
 					//m_uniqueName = null;
+					m_unique++;
 					makeUnique(address);
 					unique = false;
 					break;
@@ -207,20 +210,17 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	private void makeUnique (MLocation address)
 	{
 		
-		if (m_uniqueName == null)
-			m_uniqueName = "";
-		m_unique++;
-		
+		m_uniqueName = "";
+
 		//	0 - City
-		if (m_uniqueName.length() == 0)
+		if (m_unique >= 0 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getCity(); 
 			if (xx != null && xx.length() > 0)
 				m_uniqueName = xx;
-			m_unique = 0;
 		}
 		//	1 + Address1
-		if (m_unique == 1 || m_uniqueName.length() == 0)
+		if (m_unique >= 1 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getAddress1();
 			if (xx != null && xx.length() > 0)
@@ -229,10 +229,9 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 					m_uniqueName += " ";
 				m_uniqueName += xx;
 			}
-			m_unique = 1;
 		}
 		//	2 + Address2
-		if (m_unique == 2 || m_uniqueName.length() == 0)
+		if (m_unique >= 2 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getAddress2();
 			if (xx != null && xx.length() > 0)
@@ -241,27 +240,25 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 					m_uniqueName += " ";
 				m_uniqueName += xx;
 			}
-			m_unique = 2;
 		}
 		//	3 - Region	
-		if (m_unique == 3 || m_uniqueName.length() == 0)
+		if (m_unique >= 3 || m_uniqueName.length() == 0)
 		{
 			String xx = address.getRegionName(true);
+			if (xx != null && xx.length() > 0)
 			{
 				if (m_uniqueName.length() > 0)
 					m_uniqueName += " ";
 				m_uniqueName += xx;
 			}
-			m_unique = 3;
 		}
 		//	4 - ID	
-		if (m_unique == 4 || m_uniqueName.length() == 0)
+		if (m_unique >= 4 || m_uniqueName.length() == 0)
 		{
 			int id = get_ID();
 			if (id == 0)
 				id = address.get_ID();
 			m_uniqueName += "#" + id;		
-			m_unique = 4;
 		}
 	}	//	makeUnique
 	
