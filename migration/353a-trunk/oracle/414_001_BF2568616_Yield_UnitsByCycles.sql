@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
 -- Feb 5, 2009 11:23:51 PM ECT
 -- Implement Yield and Units Cycle
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,EntityType,FieldLength,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56776,53272,0,11,129,'Yield',TO_DATE('2009-02-05 23:23:48','YYYY-MM-DD HH24:MI:SS'),0,'EE01',10,'Y','Y','N','N','N','N','N','N','N','N','N','N','Y','Yield',0,TO_DATE('2009-02-05 23:23:48','YYYY-MM-DD HH24:MI:SS'),0,0)

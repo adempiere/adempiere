@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Dec 31, 2008 11:32:42 AM ECT
 -- Accounting Manufacturing Management
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53721,0,'P_WIP_Acct',TO_DATE('2008-12-31 11:32:42','YYYY-MM-DD HH24:MI:SS'),0,'The Work in Process account is the account used Manufacturing Order','EE01','Y','Work in Process','Account for Work in Progress',TO_DATE('2008-12-31 11:32:42','YYYY-MM-DD HH24:MI:SS'),0)

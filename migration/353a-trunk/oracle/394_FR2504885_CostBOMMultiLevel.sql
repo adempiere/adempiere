@@ -128,7 +128,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53080
 
 -- Jan 11, 2009 4:57:02 PM ECT
 -- Manufacturing Cost Management
-UPDATE AD_Menu SET Name='Cost BOM Multi Level Review',Updated=TO_DATE(('2009-01-11 16:57:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Menu_ID=53198
+UPDATE AD_Menu SET Name='Cost BOM Multi Level Review',Updated=TO_DATE('2009-01-11 16:57:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Menu_ID=53198
 ;
 
 -- Jan 11, 2009 4:57:02 PM ECT

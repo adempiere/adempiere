@@ -1,3 +1,4 @@
+SET SQLBLANKLINES ON
 -- Jan 7, 2009 10:39:06 AM ECT
 -- Period 2009
 INSERT INTO M_CostElement (AD_Client_ID,AD_Org_ID,CostElementType,Created,CreatedBy,IsActive,IsCalculated,M_CostElement_ID,Name,Updated,UpdatedBy) VALUES (11,0,'B',TO_DATE('2009-01-07 10:38:57','YYYY-MM-DD HH24:MI:SS'),100,'Y','N',50000,'Burden',TO_DATE('2009-01-07 10:38:57','YYYY-MM-DD HH24:MI:SS'),100)
