@@ -40,6 +40,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1817752 ] MBPartner.getLocations should return only active one
  *  @author Armen Rizal, GOODWILL CONSULT  
  *      <LI>BF [ 2041226 ] BP Open Balance should count only Completed Invoice
+ *			<LI>BF [ 2498949 ] BP Get Not Invoiced Shipment Value return null
  */
 public class MBPartner extends X_C_BPartner
 {
@@ -163,11 +164,11 @@ public class MBPartner extends X_C_BPartner
 	public static BigDecimal getNotInvoicedAmt (int C_BPartner_ID)
 	{
 		BigDecimal retValue = null;
-		String sql = "SELECT SUM(COALESCE("
-			+ "currencyBase((ol.QtyDelivered-ol.QtyInvoiced)*ol.PriceActual,o.C_Currency_ID,o.DateOrdered, o.AD_Client_ID,o.AD_Org_ID) ,0)) "
+		String sql = "SELECT COALESCE(SUM(COALESCE("
+			+ "currencyBase((ol.QtyDelivered-ol.QtyInvoiced)*ol.PriceActual,o.C_Currency_ID,o.DateOrdered, o.AD_Client_ID,o.AD_Org_ID) ,0)),0) "
 			+ "FROM C_OrderLine ol"
 			+ " INNER JOIN C_Order o ON (ol.C_Order_ID=o.C_Order_ID) "
-			+ "WHERE o.IsSOTrx='Y' AND Bill_BPartner_ID=?";
+			+ "WHERE o.IsSOTrx='Y' AND Bill_BPartner_ID=?";			
 		PreparedStatement pstmt = null;
 		try
 		{
