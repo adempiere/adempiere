@@ -49,6 +49,12 @@ import org.compiere.util.Msg;
 public class MInventory extends X_M_Inventory implements DocAction
 {
 	/**
+	 * generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 6039577059413522140L;
+
+
+	/**
 	 * 	Get Inventory from Cache
 	 *	@param ctx context
 	 *	@param M_Inventory_ID id
@@ -577,15 +583,12 @@ public class MInventory extends X_M_Inventory implements DocAction
 
 	/**
 	 * 	Check Material Policy.
-	 * 	(NOT USED)
-	 * 	Sets line ASI
 	 */
 	private void checkMaterialPolicy(MInventoryLine line, BigDecimal qtyDiff)
 	{
 		int no = MInventoryLineMA.deleteInventoryMA(line.getM_InventoryLine_ID(), get_TrxName());
 		if (no > 0)
 			log.config("Delete old #" + no);
-
 
 		//	Check Line
 		boolean needSave = false;
@@ -595,18 +598,24 @@ public class MInventory extends X_M_Inventory implements DocAction
 			MProduct product = MProduct.get(getCtx(), line.getM_Product_ID());
 			if (qtyDiff.signum() > 0)	//	Incoming Trx
 			{
-				MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), 0, get_TrxName());
-				asi.setClientOrg(getAD_Client_ID(), 0);
-				asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
-				if (!asi.save())
+				MAttributeSetInstance asi = null;
+				//auto balance negative on hand
+				MStorage[] storages = MStorage.getWarehouse(getCtx(), getM_Warehouse_ID(), line.getM_Product_ID(), 0,
+						null, MClient.MMPOLICY_FiFo.equals(product.getMMPolicy()), false, line.getM_Locator_ID(), get_TrxName());
+				for (MStorage storage : storages)
 				{
-					throw new IllegalStateException("Error try create ASI Reservation");
-				}	
-				if (asi.save())
-				{
-					line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
-					needSave = true;
+					if (storage.getQtyOnHand().signum() < 0)
+					{
+						asi = new MAttributeSetInstance(getCtx(), storage.getM_AttributeSetInstance_ID(), get_TrxName());
+						break;
+					}
 				}
+				if (asi == null)
+				{
+					asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
+				}
+				line.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+				needSave = true;
 			}
 			else	//	Outgoing Trx
 			{
@@ -623,41 +632,40 @@ public class MInventory extends X_M_Inventory implements DocAction
 						MInventoryLineMA ma = new MInventoryLineMA (line, 
 								storage.getM_AttributeSetInstance_ID(),
 								qtyToDeliver);
-						if (!ma.save())
-						{
-							throw new IllegalStateException("Error try create ASI Reservation");
-						}		
+						ma.saveEx();		
 						qtyToDeliver = Env.ZERO;
 						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
-						break;
 					}
 					else
 					{	
 						MInventoryLineMA ma = new MInventoryLineMA (line, 
 								storage.getM_AttributeSetInstance_ID(),
 								storage.getQtyOnHand());
-						if (!ma.save())
-						{
-							throw new IllegalStateException("Error try create ASI Reservation");
-						}	
+						ma.saveEx();	
 						qtyToDeliver = qtyToDeliver.subtract(storage.getQtyOnHand());
 						log.fine( ma + ", QtyToDeliver=" + qtyToDeliver);		
 					}
+					if (qtyToDeliver.signum() == 0)
+						break;
 				}
 
 				//	No AttributeSetInstance found for remainder
 				if (qtyToDeliver.signum() != 0)
 				{
-					MInventoryLineMA ma = new MInventoryLineMA (line, 0 , qtyToDeliver);
+					//deliver using new asi
+					MAttributeSetInstance asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
+					int M_AttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
+					MInventoryLineMA ma = new MInventoryLineMA (line, M_AttributeSetInstance_ID , qtyToDeliver);
 
-					if (!ma.save())
-						  throw new IllegalStateException("Error try create ASI Reservation");
+					ma.saveEx();
 					log.fine("##: " + ma);
 				}
 			}	//	outgoing Trx
 
-			if (needSave && !line.save())
-				log.severe("NOT saved " + line);
+			if (needSave)
+			{
+				line.saveEx();
+			}
 		}	//	for all lines
 
 	}	//	checkMaterialPolicy

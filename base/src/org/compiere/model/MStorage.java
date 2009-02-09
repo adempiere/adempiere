@@ -39,6 +39,11 @@ import org.compiere.util.Env;
 public class MStorage extends X_M_Storage
 {
 	/**
+	 * generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 9086223702645715061L;
+
+	/**
 	 * 	Get Storage Info
 	 *	@param ctx context
 	 *	@param M_Locator_ID locator
@@ -105,6 +110,8 @@ public class MStorage extends X_M_Storage
 			+ " AND M_AttributeSetInstance_ID > 0 "
 			+ " AND QtyOnHand <> 0 "			
 			+ "ORDER BY M_AttributeSetInstance_ID";
+		if (!FiFo)
+			sql += " DESC";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -273,6 +280,10 @@ public class MStorage extends X_M_Storage
 		{
 			sql += " AND s.QtyOnHand > 0 ";
 		}
+		else
+		{
+			sql += " AND s.QtyOnHand <> 0 ";
+		}
 		sql += "ORDER BY l.PriorityNo DESC, M_AttributeSetInstance_ID";
 		if (!FiFo)
 			sql += " DESC";
@@ -290,13 +301,17 @@ public class MStorage extends X_M_Storage
 			else
 				sql += "WHERE l.M_Warehouse_ID=?";
 			sql += " AND s.M_Product_ID=? ";
+			if (positiveOnly)
+			{
+				sql += " AND s.QtyOnHand > 0 ";
+			}
+			else
+			{
+				sql += " AND s.QtyOnHand <> 0 ";
+			}
 			if (minGuaranteeDate != null)
 			{
 				sql += "AND (asi.GuaranteeDate IS NULL OR asi.GuaranteeDate>?) ";
-				if (positiveOnly)
-				{
-					sql += " AND s.QtyOnHand > 0 ";
-				}
 				sql += "ORDER BY l.PriorityNo DESC, " +
 					   "asi.GuaranteeDate, M_AttributeSetInstance_ID";
 				if (!FiFo)
@@ -305,10 +320,6 @@ public class MStorage extends X_M_Storage
 			}
 			else
 			{
-				if (positiveOnly)
-				{
-					sql += " AND s.QtyOnHand > 0 ";
-				}
 				sql += "ORDER BY l.PriorityNo DESC, l.M_Locator_ID, s.M_AttributeSetInstance_ID";
 				if (!FiFo)
 					sql += " DESC";

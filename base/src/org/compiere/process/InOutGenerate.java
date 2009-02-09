@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.compiere.model.MAttributeSet;
 import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -465,6 +464,10 @@ public class InOutGenerate extends SvrProcess
 		{
 			MStorage storage = storages[i];
 			BigDecimal deliver = toDeliver;
+			//skip negative storage record
+			if (storage.getQtyOnHand().signum() < 0) 
+				continue;
+			
 			//	Not enough On Hand
 			if (deliver.compareTo(storage.getQtyOnHand()) > 0 
 				&& storage.getQtyOnHand().signum() >= 0)		//	positive storage
@@ -557,7 +560,7 @@ public class InOutGenerate extends SvrProcess
 		{
 			m_lastStorages = MStorage.getWarehouse(getCtx(), 
 				M_Warehouse_ID, M_Product_ID, M_AttributeSetInstance_ID,
-				minGuaranteeDate, FiFo,true, 0, get_TrxName());
+				minGuaranteeDate, FiFo,false, 0, get_TrxName());
 			m_map.put(m_lastPP, m_lastStorages);
 		}
 		return m_lastStorages;

@@ -95,7 +95,7 @@ public class MMovementLine extends X_M_MovementLine
 	public int getM_AttributeSetInstanceTo_ID ()
 	{
 		int M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstanceTo_ID();
-		if (M_AttributeSetInstanceTo_ID == 0)
+		if (M_AttributeSetInstanceTo_ID == 0 && (getM_Locator_ID() == getM_LocatorTo_ID()))
 			M_AttributeSetInstanceTo_ID = super.getM_AttributeSetInstance_ID();
 		return M_AttributeSetInstanceTo_ID;
 	}	//	getM_AttributeSetInstanceTo_ID
@@ -174,9 +174,10 @@ public class MMovementLine extends X_M_MovementLine
 			setLine (ii);
 		}
 		
-		if (getM_Locator_ID() == getM_LocatorTo_ID())
+		 //either movement between locator or movement between lot
+		if (getM_Locator_ID() == getM_LocatorTo_ID() && getM_AttributeSetInstance_ID() == getM_AttributeSetInstanceTo_ID())
 		{
-			log.saveError("Error", Msg.parseTranslation(getCtx(), "@M_Locator_ID@ == @M_LocatorTo_ID@"));
+			log.saveError("Error", Msg.parseTranslation(getCtx(), "@M_Locator_ID@ == @M_LocatorTo_ID@ and @M_AttributeSetInstance_ID@ == @M_AttributeSetInstanceTo_ID@"));
 			return false;
 		}
 
@@ -213,15 +214,17 @@ public class MMovementLine extends X_M_MovementLine
 		}
 		if (getM_AttributeSetInstanceTo_ID() == 0)
 		{
-			if (getM_AttributeSetInstance_ID() != 0)        //      set to from
-				setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
-			else
+			//instance id default to same for movement between locator 
+			if (getM_Locator_ID() != getM_LocatorTo_ID())
 			{
-				if (product != null && product.isASIMandatory(true))
-				{
-					log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
-					return false;
-				}
+				if (getM_AttributeSetInstance_ID() != 0)        //set to from
+					setM_AttributeSetInstanceTo_ID(getM_AttributeSetInstance_ID());
+			}
+			
+			if (product != null && product.isASIMandatory(true) && getM_AttributeSetInstanceTo_ID() == 0)
+			{
+				log.saveError("FillMandatory", Msg.getElement(getCtx(), COLUMNNAME_M_AttributeSetInstanceTo_ID));
+				return false;
 			}
 		}       //      ASI
 
