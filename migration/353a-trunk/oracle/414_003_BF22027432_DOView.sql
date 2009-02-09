@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW DD_ORDER_HEADER_V
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar(5)) AS AD_Language,
 	o.DD_Order_ID,o.C_Order_ID, o.IsSOTrx, o.DocumentNo, o.DocStatus,	 o.C_DocType_ID,
 	o.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
