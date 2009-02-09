@@ -13,13 +13,13 @@
 1044,"1044 - PRIME DE CONVERSIE A OBLIGAŢIUNILOR ÎN ACŢIUNI","1044 - Prime de conversie a obligaţiunilor în acţiuni","Liability","Credit","No","No",,104,1044,"1044 - PRIME DE CONVERSIE A OBLIGAŢIUNILOR ÎN ACŢIUNI",,,,,,,,,104400003
 105,"105 - REZERVE DIN REEVALUARE","105 - Rezerve din reevaluare","Liability","Credit","No","No",,10,105,"105 - REZERVE DIN REEVALUARE",,,,,,,,,105000002
 106,"106 - REZERVE","106 - Rezerve","Liability","Credit","Yes","Yes",,10,106,"106 - REZERVE",,,,,,,,,106000002
-1061,"1061 – Rezerve legale","1061 - Rezerve legale","Liability","Credit","No","No",,106,1061,"1061 - REZERVE LEGALE",,,,,,,,,106100003
-1063,"1063 – Rezerve statutare sau contractuale","1063 - Rezerve statutare sau contractuale","Liability","Credit","No","No",,106,1063,"1063 - REZERVE STATUTARE SAU CONTRACTUALE",,,,,,,,,106300003
-1065,"1065 – Rezerve reprezentând surplusul realizat din rezervele din reevaluare","1065 – Rezerve reprezentând surplusul realizat din rezervele din reevaluare","Liability","Credit","No","No",,106,1065,"1065 – Rezerve reprezentând surplusul realizat din rezervele din reevaluare",,,,,,,,,106500003
+1061,"1061 - Rezerve legale","1061 - Rezerve legale","Liability","Credit","No","No",,106,1061,"1061 - REZERVE LEGALE",,,,,,,,,106100003
+1063,"1063 - Rezerve statutare sau contractuale","1063 - Rezerve statutare sau contractuale","Liability","Credit","No","No",,106,1063,"1063 - REZERVE STATUTARE SAU CONTRACTUALE",,,,,,,,,106300003
+1065,"1065 - Rezerve reprezentând surplusul realizat din rezervele din reevaluare","1065 - Rezerve reprezentând surplusul realizat din rezervele din reevaluare","Liability","Credit","No","No",,106,1065,"1065 - Rezerve reprezentând surplusul realizat din rezervele din reevaluare",,,,,,,,,106500003
 1068,"1068 - ALTE REZERVE","1068 - Alte rezerve","Liability","Credit","No","No",,106,1068,"1068 - ALTE REZERVE",,,,,,,,,106800003
-109,"109 – ACŢIUNI PROPRII","109 – Acţiuni proprii","Owner's Equity",,"Yes","Yes",,10,109,"109 – ACŢIUNI PROPRII",,,,,,,,,109000002
-1091,"1091 – Acţiuni proprii deţinute pe termen scurt","1091 – Acţiuni proprii deţinute pe termen scurt","Owner's Equity",,"No","No",,109,1091,"1091 – Acţiuni proprii deţinute pe termen scurt",,,,,,,,,109100003
-1092,"1092 – Acţiuni proprii deţinute pe termen lung","1092 – Acţiuni proprii deţinute pe termen lung","Owner's Equity",,"No","No",,109,1902,"1092 – Acţiuni proprii deţinute pe termen lung",,,,,,,,,109200003
+109,"109 - ACŢIUNI PROPRII","109 - Acţiuni proprii","Owner's Equity",,"Yes","Yes",,10,109,"109 - ACŢIUNI PROPRII",,,,,,,,,109000002
+1091,"1091 - Acţiuni proprii deţinute pe termen scurt","1091 - Acţiuni proprii deţinute pe termen scurt","Owner's Equity",,"No","No",,109,1091,"1091 - Acţiuni proprii deţinute pe termen scurt",,,,,,,,,109100003
+1092,"1092 - Acţiuni proprii deţinute pe termen lung","1092 - Acţiuni proprii deţinute pe termen lung","Owner's Equity",,"No","No",,109,1902,"1092 - Acţiuni proprii deţinute pe termen lung",,,,,,,,,109200003
 11,"11 - REZULTATUL REPORTAT","11 - Rezultatul reportat","Owner's Equity",,"Yes","Yes",,1,11,"11 - REZULTATUL REPORTAT",,,,,,,,,110000001
 117,"117 - REZULTAT REPORTAT","117 - Rezultat reportat","Asset",,"Yes","Yes",,11,117,"117 - REZULTAT REPORTAT",,,,,,,,,117000002
 1171,"1171 - Rezultatul reportat reprezentând  profitul nerepartizat sau pierderea neacoperită","1171 - Rezultatul reportat reprezentând  profitul nerepartizat sau pierderea neacoperită","Asset",,"No","No",,117,1171,"1171 - Rezultatul reportat reprezentand  profitul nerepartizat sau pierderea neacoperită",,,,,,,,,117100003
@@ -31,25 +31,25 @@
 129,"129 - Repartizarea profitului","129 - Repartizarea profitului","Asset",,"No","No",,12,129,"129 - REPARTIZAREA PROFITULUI",,,,,,,,,129000002
 13,"13 - SUBVENŢII PENTRU INVESTIŢII","13 - Subvenţii pentru investiţii","Asset",,"Yes","Yes",,1,13,"13 - SUBVENŢII PENTRU INVESTIŢII",,,,,,,,,130000001
 131,"131 - Subvenţii pentru investiţii","131 - Subvenţii pentru investiţii","Liability",,"No","No",,13,131,"131 - Subvenţii pentru investiţii",,,,,,,,,131000002
-132,"132 – Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii","132 – Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii",,,"No","No",,13,132,"132 – Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii",,,,,,,,,132000002
-133,"133 – Donaţii pentru investiţii","133 – Donaţii pentru investiţii",,,"No","No",,13,133,"133 – Donaţii pentru investiţii",,,,,,,,,133000002
-134,"134 – Plusuri de inventar de natura imobilizărilor","134 – Plusuri de inventar de natura imobilizărilor",,,"No","No",,13,134,"134 – Plusuri de inventar de natura imobilizărilor",,,,,,,,,134000002
-138,"138 – Alte sume primite cu caracter de subvenţii pentru investiţii","138 – Alte sume primite cu caracter de subvenţii pentru investiţii",,,"No","No",,13,138,"138 – Alte sume primite cu caracter de subvenţii pentru investiţii",,,,,,,,,138000002
+132,"132 - Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii","132 - Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii",,,"No","No",,13,132,"132 - Împrumuturi nerambursabile cu caracter de subvenţii pentru investiţii",,,,,,,,,132000002
+133,"133 - Donaţii pentru investiţii","133 - Donaţii pentru investiţii",,,"No","No",,13,133,"133 - Donaţii pentru investiţii",,,,,,,,,133000002
+134,"134 - Plusuri de inventar de natura imobilizărilor","134 - Plusuri de inventar de natura imobilizărilor",,,"No","No",,13,134,"134 - Plusuri de inventar de natura imobilizărilor",,,,,,,,,134000002
+138,"138 - Alte sume primite cu caracter de subvenţii pentru investiţii","138 - Alte sume primite cu caracter de subvenţii pentru investiţii",,,"No","No",,13,138,"138 - Alte sume primite cu caracter de subvenţii pentru investiţii",,,,,,,,,138000002
 15,"15 - PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI","15 - Provizioane pentru riscuri şi cheltuieli","Liability",,"Yes","Yes",,1,15,"15 - PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI",,,,,,,,,150000001
 151,"151 - PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI","151 - Provizioane pentru riscuri şi cheltuieli","Liability","Credit","Yes","Yes",,15,151,"151 - PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI",,,,,,,,,151000002
 1511,"1511 - Provizioane pentru litigii","1511 - Provizioane pentru litigii","Liability","Credit","No","No",,151,1511,"1511 - Provizioane pentru litigii",,,,,,,,,151100003
 1512,"1512 - Provizioane pentru garanţii acordate clienţilor","1512 - Provizioane pentru garanţii acordate clienţilor","Liability","Credit","No","No",,151,1512,"1512 - Provizioane pentru garanţii acordate clienţilor",,,,,,,,,151200003
 1513,"1513 - Provizioane pentru dezafectarea imobilizărilor corporale şi alte acţiuni similare legate de acestea","1513 - Provizioane pentru dezafectarea imobilizărilor corporale şi alte acţiuni similare legate de acestea","Liability","Credit","No","No",,151,1513,"1513 - Provizioane pentru dezafectarea imobilizărilor corporale şi alte acţiuni similare legate de acestea",,,,,,,,,151300003
 1514,"1514 - Provizioane pentru restructurare","1514 - Provizioane pentru restructurare","Liability","Credit","No","No",,151,1514,"1514 - Provizioane pentru restructurare",,,,,,,,,151400003
-1515,"1515 – Provizioane pentru pensii âi obligaţii similare","1515 – Provizioane pentru pensii âi obligaţii similare","Liability","Credit","No","No",,151,1515,"1515 – Provizioane pentru pensii âi obligaţii similare",,,,,,,,,151500003
-1516,"1516 – Provizioane pentru impozite","1516 – Provizioane pentru impozite","Liability","Credit","No","No",,151,1516,"1516 – Provizioane pentru impozite",,,,,,,,,151600003
+1515,"1515 - Provizioane pentru pensii âi obligaţii similare","1515 - Provizioane pentru pensii âi obligaţii similare","Liability","Credit","No","No",,151,1515,"1515 - Provizioane pentru pensii âi obligaţii similare",,,,,,,,,151500003
+1516,"1516 - Provizioane pentru impozite","1516 - Provizioane pentru impozite","Liability","Credit","No","No",,151,1516,"1516 - Provizioane pentru impozite",,,,,,,,,151600003
 1518,"1518 - ALTE PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI","1518 - Alte provizioane pentru riscuri şi cheltuieli","Liability","Credit","No","No",,151,1518,"1518 - ALTE PROVIZIOANE PENTRU RISCURI ŞI CHELTUIELI",,,,,,,,,151800003
 16,"16 - ÎMPRUMUTURI ŞI DATORII ASIMILATE","16 - Împrumuturi şi datorii asimilate","Liability","Credit",,"Yes",,1,16,"16 - ÎMPRUMUTURI ŞI DATORII ASIMILATE",,,,,,,,,160000001
 161,"161 - ÎMPRUMUTURI DIN EMISIUNI DE OBLIGAŢIUNI","161 - Împrumuturi din emisiuni de obligaţiuni","Liability","Credit",,"Yes",,16,161,"161 - ÎMPRUMUTURI DIN EMISIUNI DE OBLIGAŢIUNI",,,,,,,,,161000002
-1614,"1614 – Împrumuturi externe din emisiuni de obligaţiuni garantate de stat","1614 – Împrumuturi externe din emisiuni de obligaţiuni garantate de stat","Liability","Credit",,"No",,161,1614,"1614 – Împrumuturi externe din emisiuni de obligaţiuni garantate de stat",,,,,,,,,161400003
+1614,"1614 - Împrumuturi externe din emisiuni de obligaţiuni garantate de stat","1614 - Împrumuturi externe din emisiuni de obligaţiuni garantate de stat","Liability","Credit",,"No",,161,1614,"1614 - Împrumuturi externe din emisiuni de obligaţiuni garantate de stat",,,,,,,,,161400003
 1615,"1615 - Împrumuturi externe din emisiuni de obligaţiuni garantate de bănci","1615 - Împrumuturi externe din emisiuni de obligaţiuni garantate de bănci","Liability","Credit",,"No",,161,1615,"1615 - Împrumuturi externe din emisiuni de obligaţiuni garantate de bănci",,,,,,,,,161500003
 1617,"1617 - Împrumuturi interne din emisiuni de obligaţiuni garantate de stat","1617 - Împrumuturi interne din emisiuni de obligaţiuni garantate de stat","Liability","Credit",,"No",,161,1617,"1617 - Împrumuturi interne din emisiuni de obligaţiuni garantate de stat",,,,,,,,,161700003
-1618,"1618 – Alte împrumuturi din emisiuni de obligaţiuni","1618 – Alte împrumuturi din emisiuni de obligaţiuni","Liability","Credit",,"No",,161,1618,"1618 – Alte împrumuturi din emisiuni de obligaţiuni",,,,,,,,,161800003
+1618,"1618 - Alte împrumuturi din emisiuni de obligaţiuni","1618 - Alte împrumuturi din emisiuni de obligaţiuni","Liability","Credit",,"No",,161,1618,"1618 - Alte împrumuturi din emisiuni de obligaţiuni",,,,,,,,,161800003
 162,"162 - CREDITE BANCARE PE TERMEN LUNG","162 - Credite bancare pe termen lung","Liability","Credit",,"Yes",,16,162,"162 - CREDITE BANCARE PE TERMEN LUNG",,,,,,,,,162000002
 1621,"1621 - Credite bancare pe termen lung","1621 - Credite bancare pe termen lung","Liability","Credit",,"No",,162,1621,"1621 - Credite bancare pe termen lung",,,,,,,,,162100003
 1622,"1622 - Credite bancare pe termen lung nerambursate la scadenta","1622 - Credite bancare pe termen lung nerambursate la scadenta","Liability","Credit",,"No",,162,1622,"1622 - Credite bancare pe termen lung nerambursate la scadenta",,,,,,,,,162200003
@@ -61,7 +61,7 @@
 166,"166 - DATORII CE PRIVESC IMOBILIZARILE FINANCIARE","166 - Datorii ce privesc imobilizările financiare","Liability","Credit",,"Yes",,16,166,"166 - DATORII CE PRIVESC IMOBILIZARILE FINANCIARE",,,,,,,,,166000002
 1661,"1661 - Datorii către societăţile din cadrul grupului","1661 - Datorii către societăţile din cadrul grupului","Liability","Credit",,"No",,166,1661,"1661 - Datorii către societăţile din cadrul grupului",,,,,,,,,166100003
 1662,"1662 - Datorii către societăţile care deţin interese de participare","1662 - Datorii către societăţile care deţin interese de participare","Liability","Credit",,"No",,166,1662,"1662 - Datorii către societăţile care deţin interese de participare",,,,,,,,,166200003
-167,"167 - ALTE IMPRUMUTURI ŞI DATORII ASIMILATE","167 – Alte împrumuturi şi datorii asimilate","Liability","Credit",,"No",,16,167,"167 - ALTE IMPRUMUTURI ŞI DATORII ASIMILATE",,,,,,,,,167000002
+167,"167 - ALTE IMPRUMUTURI ŞI DATORII ASIMILATE","167 - Alte împrumuturi şi datorii asimilate","Liability","Credit",,"No",,16,167,"167 - ALTE IMPRUMUTURI ŞI DATORII ASIMILATE",,,,,,,,,167000002
 168,"168 - DOBÂNZI AFERENTE ÎMPRUMUTURILOR ŞI DATORIILOR ASIMILAT","168 - Dobânzi aferente împrumuturilor şi datoriilor asimilate","Liability","Credit",,"Yes",,16,168,"168 - DOBÂNZI AFERENTE ÎMPRUMUTURILOR ŞI DATORIILOR ASIMILAT",,,,,,,,,168000002
 1681,"1681 - Dobânzi aferente împrumuturilor din emisiuni de obligaţiuni","1681 - Dobânzi aferente împrumuturilor din emisiuni de obligaţiuni","Liability","Credit",,"No",,168,1681,"1681 - Dobânzi aferente împrumuturilor din emisiuni de obligaţiuni",,,,,,,,,168100003
 1682,"1682 - Dobânzi aferente creditelor bancare pe termen lung","1682 - Dobânzi aferente creditelor bancare pe termen lung","Liability","Credit",,"No",,168,1682,"1682 - Dobânzi aferente creditelor bancare pe termen lung",,,,,,,,,168200003
@@ -70,18 +70,18 @@
 1687,"1687 - Dobânzi aferente altor împrumuturi şi datorii asimilate","1687 - Dobânzi aferente altor împrumuturi şi datorii asimilate","Liability","Credit",,"No",,168,1687,"1687 - Dobânzi aferente altor împrumuturi şi datorii asimilate",,,,,,,,,168700003
 169,"169 - PRIME PRIVIND RAMBURSAREA OBLIGATIUNILOR","169 - Prime privind rambursarea obligaţiunilor","Asset","Natural",,"No",,16,169,"169 - PRIME PRIVIND RAMBURSAREA OBLIGATIUNILOR",,,,,,,,,169000002
 2,"2 - CONTURI DE IMOBILIZARI","2 - CONTURI DE IMOBILIZARI","Asset",,,"Yes",,,2,"2 - CONTURI DE IMOBILIZARI",,,,,,,,,200000000
-20,"20 – IMOBILIZĂRI NECORPORALE","20 – IMOBILIZĂRI NECORPORALE","Asset",,,"Yes",,2,20,"20 – IMOBILIZĂRI NECORPORALE",,,,,,,,,200000001
-201,"201 – Cheltuieli de constituire","201 – Cheltuieli de constituire","Asset","Debit",,"No",,20,201,"201 – Cheltuieli de constituire",,,,,,,,,201000002
+20,"20 - IMOBILIZĂRI NECORPORALE","20 - IMOBILIZĂRI NECORPORALE","Asset",,,"Yes",,2,20,"20 - IMOBILIZĂRI NECORPORALE",,,,,,,,,200000001
+201,"201 - Cheltuieli de constituire","201 - Cheltuieli de constituire","Asset","Debit",,"No",,20,201,"201 - Cheltuieli de constituire",,,,,,,,,201000002
 203,"203 - Cheltuieli de dezvoltare","203 - Cheltuieli de dezvoltare","Asset","Debit",,"No",,20,203,"203 - Cheltuieli de dezvoltare",,,,,,,,,203000002
 205,"205 - Concesiuni, brevete, licenţe, mărci comerciale, drepturi şi active similare","205 - Concesiuni, brevete, licenţe, mărci comerciale, drepturi şi active similare","Asset","Debit",,"No",,20,205,"205 - Concesiuni, brevete, licenţe, mărci comerciale, drepturi şi active similare",,,,,,,,,205000002
 207,"207 - FOND COMERCIAL","207 - Fond comercial","Asset","Debit",,"Yes",,20,207,"207 - FOND COMERCIAL",,,,,,,,,207000002
 2071,"2071 - FOND COMERCIAL","2071 - Fond comercial","Asset","Debit",,"No",,207,2071,"2071 - FOND COMERCIAL",,,,,,,,,207100003
 2075,"2075 - FOND COMERCIAL NEGATIV","2075 - Fond comercial negativ","Liability","Credit",,"No",,207,2075,"2075 - FOND COMERCIAL NEGATIV",,,,,,,,,207500003
 208,"208 - ALTE IMOBILIZĂRI NECORPORALE","208 - Alte imobilizări necorporale","Asset","Debit",,"No",,20,208,"208 - ALTE IMOBILIZĂRI NECORPORALE",,,,,,,,,208000002
-21,"21 - IMOBILIZARI CORPORALE","21 – IMOBILIZĂRI CORPORALE","Asset","Debit",,"Yes",,2,21,"21 - IMOBILIZARI CORPORALE",,,,,,,,,210000001
+21,"21 - IMOBILIZARI CORPORALE","21 - IMOBILIZĂRI CORPORALE","Asset","Debit",,"Yes",,2,21,"21 - IMOBILIZARI CORPORALE",,,,,,,,,210000001
 211,"211 - TERENURI ŞI AMENAJĂRI DE TERENURI","211 - Terenuri şi amenajări de terenuri","Asset","Debit",,"Yes",,21,211,"211 - TERENURI ŞI AMENAJĂRI DE TERENURI",,,,,,,,,211000002
 2111,"2111 - Terenuri","2111 - Terenuri","Asset","Debit",,"No",,211,2111,"2111 - Terenuri",,,,,,,,,211100003
-2112,"2112 – Amenajări de terenuri","2112 – Amenajări de terenuri","Asset","Debit",,"No",,211,2112,"2112 – Amenajări de terenuri",,,,,,,,,211200003
+2112,"2112 - Amenajări de terenuri","2112 - Amenajări de terenuri","Asset","Debit",,"No",,211,2112,"2112 - Amenajări de terenuri",,,,,,,,,211200003
 212,"212 - CONSTRUCŢII","212 - Construcţii","Asset","Debit",,"No",,21,212,"212 - CONSTRUCŢII",,,,,,,,,212000002
 213,"213 - INSTALATII TEHNICE MIJLOACE DE TRANSPORT ANIMALE SI PL","213 - Instalaţii tehnice mijloace de transport animale şi plantaţii","Asset","Debit",,"Yes",,21,213,"213 - INSTALATII TEHNICE MIJLOACE DE TRANSPORT ANIMALE SI PL",,,,,,,,,213000002
 2131,"2131 - Echipamente tehnologice (maşini utilaje şi instalaţii de lucru)","2131 - Echipamente tehnologice (maşini utilaje şi instalaţii de lucru)","Asset","Debit",,"No",,213,2131,"2131 - Echipamente tehnologice (maşini utilaje şi instalaţii de lucru)",,,,,,,,,213100003
@@ -94,26 +94,26 @@
 232,"232 - Avansuri acordate pentru imobilizări corporale","232 - Avansuri acordate pentru imobilizări corporale","Asset","Debit",,"No",,23,232,"232 - AVANSURI ACORDATE PENTRU IMOBILIZĂRI CORPORALE",,,,,,,,,232000002
 233,"233 - Imobilizări necorporale în curs","233 - Imobilizări necorporale în curs","Asset","Debit",,"No",,23,233,"233 - IMOBILIZĂRI NECORPORALE ÎN CURS",,,,,,,,,233000002
 234,"234 - Avansuri acordate pentru imobilizări necorporale","234 - Avansuri acordate pentru imobilizări necorporale","Asset","Debit",,"No",,23,234,"234 - AVANSURI ACORDATE PENTRU IMOBILIZĂRI NECORPORALE",,,,,,,,,234000002
-26,"26 – IMOBILIZĂRI FINANCIARE","26 – IMOBILIZĂRI FINANCIARE","Asset","Debit",,"Yes",,2,26,"26 – IMOBILIZĂRI FINANCIARE",,,,,,,,,260000001
-261,"261 – Acţiuni deţinute la entităţi afiliate","261 – Acţiuni deţinute la entităţi afiliate","Asset","Debit",,"No",,26,261,"261 – Acţiuni deţinute la entităţi afiliate",,,,,,,,,261000002
-263,"263 – Interese de participare","263 – Interese de participare","Asset","Debit",,"Yes",,26,263,"263 – Interese de participare",,,,,,,,,263000002
+26,"26 - IMOBILIZĂRI FINANCIARE","26 - IMOBILIZĂRI FINANCIARE","Asset","Debit",,"Yes",,2,26,"26 - IMOBILIZĂRI FINANCIARE",,,,,,,,,260000001
+261,"261 - Acţiuni deţinute la entităţi afiliate","261 - Acţiuni deţinute la entităţi afiliate","Asset","Debit",,"No",,26,261,"261 - Acţiuni deţinute la entităţi afiliate",,,,,,,,,261000002
+263,"263 - Interese de participare","263 - Interese de participare","Asset","Debit",,"Yes",,26,263,"263 - Interese de participare",,,,,,,,,263000002
 265,"265 - Alte titluri imobilizate","265 - Alte titluri imobilizate","Asset","Debit",,"No",,26,265,"265 - Alte titluri imobilizate",,,,,,,,,265000002
 267,"267 - Creanţe imobilizate","267 - Creanţe imobilizate","Asset","Debit",,"Yes",,26,267,"267 - Creanţe imobilizate",,,,,,,,,267000002
 2671,"2671 - Sume datorate de entităţile afiliate","2671 - Sume datorate de entităţile afiliate","Asset","Debit",,"No",,267,2671,"2671 - Sume datorate de entităţile afiliate",,,,,,,,,267100003
 2672,"2672 - Dobanda aferentă sumelor datorate de entităţile afiliate","2672 - Dobanda aferentă sumelor datorate de entităţile afiliate","Asset","Debit",,"No",,267,2672,"2672 - Dobanda aferentă sumelor datorate de entităţile afiliate",,,,,,,,,267200003
-2673,"2673 – Creanţe legate de interesele de participare","2673 – Creanţe legate de interesele de participare","Asset","Debit",,"No",,267,2673,"2673 – Creanţe legate de interesele de participare",,,,,,,,,267300003
+2673,"2673 - Creanţe legate de interesele de participare","2673 - Creanţe legate de interesele de participare","Asset","Debit",,"No",,267,2673,"2673 - Creanţe legate de interesele de participare",,,,,,,,,267300003
 2674,"2674 - Dobanda aferentă creanţelor legate de interesele de participare","2674 - Dobanda aferentă creanţelor legate de interesele de participare","Asset","Debit",,"No",,267,2674,"2674 - Dobanda aferentă creanţelor legate de interesele de participare",,,,,,,,,267400003
-2675,"2675 – Împrumuturi acordate pe termen lung","2675 – Împrumuturi acordate pe termen lung","Asset","Debit",,"No",,267,2675,"2675 – Împrumuturi acordate pe termen lung",,,,,,,,,267500003
+2675,"2675 - Împrumuturi acordate pe termen lung","2675 - Împrumuturi acordate pe termen lung","Asset","Debit",,"No",,267,2675,"2675 - Împrumuturi acordate pe termen lung",,,,,,,,,267500003
 2676,"2676 - Dobanda aferentă împrumuturilor acordate pe termen lung","2676 - Dobanda aferentă împrumuturilor acordate pe termen lung","Asset","Debit",,"No",,267,2676,"2676 - Dobanda aferentă împrumuturilor acordate pe termen lung",,,,,,,,,267600003
 2678,"2678 - Alte creanţe imobilizate","2678 - Alte creanţe imobilizate","Asset","Debit",,"No",,267,2678,"2678 - Alte creanţe imobilizate",,,,,,,,,267800003
-2679,"2679 – Dobânzi aferente altor creanţe imobilizate","2679 – Dobânzi aferente altor creanţe imobilizate","Asset","Debit",,"No",,267,2679,"2679 – Dobânzi aferente altor creanţe imobilizate",,,,,,,,,267900003
+2679,"2679 - Dobânzi aferente altor creanţe imobilizate","2679 - Dobânzi aferente altor creanţe imobilizate","Asset","Debit",,"No",,267,2679,"2679 - Dobânzi aferente altor creanţe imobilizate",,,,,,,,,267900003
 269,"269 - VĂRSĂMINTE DE EFECTUAT PENTRU IMOBILIZĂRI FINANCIARE","269 - Vărsăminte de efectuat pentru imobilizări financiare","Liability",,,"Yes",,26,269,"269 - VĂRSĂMINTE DE EFECTUAT PENTRU IMOBILIZĂRI FINANCIARE",,,,,,,,,269000002
 2691,"2691 - Vărsăminte de efectuat privind titlurile deţinute la  entităţile afiliate","2691 - Vărsăminte de efectuat privind titlurile deţinute la  entităţile afiliate","Liability",,,"No",,269,2691,"2691 - Vărsăminte de efectuat privind titlurile deţinute la  entităţile afiliate",,,,,,,,,269100003
 2692,"2692 - Vărsăminte de efectuat  privind interesele de participare","2692 - Vărsăminte de efectuat  privind interesele de participare","Liability",,,"No",,269,2692,"2692 - Vărsăminte de efectuat  privind interesele de participare",,,,,,,,,269200003
 2693,"2693 -  Vărsăminte de efectuat pentru alte imobilizări financiare","2693 -  Vărsăminte de efectuat pentru alte imobilizări financiare","Liability",,,"No",,269,2693,"2693 -  Vărsăminte de efectuat pentru alte imobilizări financiare",,,,,,,,,269300003
 28,"28 - AMORTIZĂRI PRIVIND IMOBILIZĂRILE","28 - AMORTIZĂRI PRIVIND IMOBILIZĂRILE","Liability",,,"Yes",,2,28,"28 - AMORTIZĂRI PRIVIND IMOBILIZĂRILE",,,,,,,,,280000001
 280,"280 - AMORTIZĂRI PRIVIND IMOBILIZĂRILE NECORPORALE","280 - Amortizări privind imobilizările necorporale","Liability",,,"Yes",,28,280,"280 - AMORTIZĂRI PRIVIND IMOBILIZĂRILE NECORPORALE",,,,,,,,,280000002
-2801,"2801 – Amortizarea cheltuielilor de constituire","2801 – Amortizarea cheltuielilor de constituire","Liability",,,"No",,280,2801,"2801 - AMORTIZAREA CHELTUIELILOR DE CONSTITUIRE",,,,,,,,,280100003
+2801,"2801 - Amortizarea cheltuielilor de constituire","2801 - Amortizarea cheltuielilor de constituire","Liability",,,"No",,280,2801,"2801 - AMORTIZAREA CHELTUIELILOR DE CONSTITUIRE",,,,,,,,,280100003
 2803,"2803 - Amortizarea cheltuielilor de dezvoltare","2803 - Amortizarea cheltuielilor de dezvoltare","Liability",,,"No",,280,2803,"2803 - AMORTIZAREA CHELTUIELILOR DE DEZVOLTARE",,,,,,,,,280300003
 2805,"2805 - Amortizarea concesiunilor brevetelor licenţelor mărcilor comerciale şi altor drepturi şi valori similare","2805 - Amortizarea concesiunilor brevetelor licenţelor mărcilor comerciale şi altor drepturi şi valori similare","Liability",,,"No",,280,2805,"2805 - AMORTIZAREA CONCESIUNILOR BREVETELOR LICENŢELOR MĂRCI",,,,,,,,,280500003
 2807,"2807 - Amortizarea fondului comercial","2807 - Amortizarea fondului comercial","Liability",,,"No",,280,2807,"2807 - AMORTIZAREA FONDULUI COMERCIAL",,,,,,,,,280700003
@@ -125,15 +125,15 @@
 2814,"2814 - Amortizarea altor imobilizări corporale","2814 - Amortizarea altor imobilizări corporale","Liability",,,"No",,281,2814,"2814 - AMORTIZAREA ALTOR IMOBILIZĂRI CORPORALE",,,,,,,,,281400003
 29,"29 -AJUSTĂRI PENTRU DEPRECIEREA SAU PIERDEREA DE VALOARE A IMOBILIZĂRILOR","29 -AJUSTĂRI PENTRU DEPRECIEREA SAU PIERDEREA DE VALOARE A IMOBILIZĂRILOR","Liability",,,"Yes",,2,29,"29 -AJUSTĂRI PENTRU DEPRECIEREA SAU PIERDEREA DE VALOARE A IMOBILIZĂRILOR",,,,,,,,,290000001
 290,"290 - AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR NECORPORALE","290 - Ajustări pentru deprecierea imobilizărilor necorporale","Liability",,,"Yes",,29,290,"290 - AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR NECORPORALE",,,,,,,,,290000002
-2903,"2903 – Ajustări pentru deprecierea cheltuielilor de dezvoltare","2903 – Ajustări pentru deprecierea cheltuielilor de dezvoltare","Liability",,,"No",,290,2903,"2903 – Ajustări pentru deprecierea cheltuielilor de dezvoltare",,,,,,,,,290300003
-2905,"2905 – Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare","2905 – Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare","Liability",,,"No",,290,2905,"2905 – Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare",,,,,,,,,290500003
-2907,"2907 – Ajustări pentru deprecierea fondului comercial","2907 – Ajustări pentru deprecierea fondului comercial","Liability",,,"No",,290,2907,"2907 – Ajustări pentru deprecierea fondului comercial",,,,,,,,,290700003
-2908,"2908 – Ajustări pentru deprecierea altor imobilizări necorporale","2908 – Ajustări pentru deprecierea altor imobilizări necorporale","Liability",,,"No",,290,2908,"2908 – Ajustări pentru deprecierea altor imobilizări necorporale",,,,,,,,,290800003
-291,"291 – AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR CORPORALE","291 – Ajustări pentru deprecierea imobilizărilor corporale","Liability",,,"Yes",,29,291,"291 – AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR CORPORALE",,,,,,,,,291000002
+2903,"2903 - Ajustări pentru deprecierea cheltuielilor de dezvoltare","2903 - Ajustări pentru deprecierea cheltuielilor de dezvoltare","Liability",,,"No",,290,2903,"2903 - Ajustări pentru deprecierea cheltuielilor de dezvoltare",,,,,,,,,290300003
+2905,"2905 - Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare","2905 - Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare","Liability",,,"No",,290,2905,"2905 - Ajustări pentru deprecierea concesiunilor, brevetelor, licenţelor, mărcilor comerciale, drepturilor şi activelor similare",,,,,,,,,290500003
+2907,"2907 - Ajustări pentru deprecierea fondului comercial","2907 - Ajustări pentru deprecierea fondului comercial","Liability",,,"No",,290,2907,"2907 - Ajustări pentru deprecierea fondului comercial",,,,,,,,,290700003
+2908,"2908 - Ajustări pentru deprecierea altor imobilizări necorporale","2908 - Ajustări pentru deprecierea altor imobilizări necorporale","Liability",,,"No",,290,2908,"2908 - Ajustări pentru deprecierea altor imobilizări necorporale",,,,,,,,,290800003
+291,"291 - AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR CORPORALE","291 - Ajustări pentru deprecierea imobilizărilor corporale","Liability",,,"Yes",,29,291,"291 - AJUSTĂRI PENTRU DEPRECIEREA IMOBILIZĂRILOR CORPORALE",,,,,,,,,291000002
 2911,"2911 - Ajustări pentru deprecierea terenurilor şi amenajărilor de terenuri","2911 - Ajustări pentru deprecierea terenurilor şi amenajărilor de terenuri","Liability",,,"No",,291,2911,"2911 - Ajustări pentru deprecierea terenurilor şi amenajărilor de terenuri",,,,,,,,,291100003
-2912,"2912 – Ajustări pentru deprecierea construcţiilor","2912 – Ajustări pentru deprecierea construcţiilor","Liability",,,"No",,291,2912,"2912 – Ajustări pentru deprecierea construcţiilor",,,,,,,,,291200003
+2912,"2912 - Ajustări pentru deprecierea construcţiilor","2912 - Ajustări pentru deprecierea construcţiilor","Liability",,,"No",,291,2912,"2912 - Ajustări pentru deprecierea construcţiilor",,,,,,,,,291200003
 2913,"2913 - Ajustări pentru deprecierea instalaţiilor, mijloacelor de transport, animalelor şi plantaţiilor","2913 - Ajustări pentru deprecierea instalaţiilor, mijloacelor de transport, animalelor şi plantaţiilor","Liability",,,"No",,291,2913,"2913 - Ajustări pentru deprecierea instalaţiilor, mijloacelor de transport, animalelor şi plantaţiilor",,,,,,,,,291300003
-2914,"2914 – Ajustări pentru deprecierea altor imobilizări corporale","2914 – Ajustări pentru deprecierea altor imobilizări corporale","Liability",,,"No",,291,2914,"2914 – Ajustări pentru deprecierea altor imobilizări corporale",,,,,,,,,291400003
+2914,"2914 - Ajustări pentru deprecierea altor imobilizări corporale","2914 - Ajustări pentru deprecierea altor imobilizări corporale","Liability",,,"No",,291,2914,"2914 - Ajustări pentru deprecierea altor imobilizări corporale",,,,,,,,,291400003
 293,"293 - PROVIZIOANE PENTRU DEPRECIEREA IMOBILIZARILOR IN CURS ","293 - Ajustări pentru deprecierea imobilizărilor în curs ","Liability",,,"Yes",,29,293,"293 - PROVIZIOANE PENTRU DEPRECIEREA IMOBILIZARILOR IN CURS ",,,,,,,,,293000002
 2931,"2931 - Ajustări pentru deprecierea imobilizărilor corporale în curs","2931 - Ajustări pentru deprecierea imobilizărilor corporale în curs","Liability",,,"No",,293,2931,"2931 - Ajustări pentru deprecierea imobilizărilor corporale în curs",,,,,,,,,293100003
 2932,"2933 - Ajustări pentru deprecierea imobilizărilor necorporale în curs","2933 - Ajustări pentru deprecierea imobilizărilor necorporale în curs","Liability",,,"No",,293,2932,"2933 - Ajustări pentru deprecierea imobilizărilor necorporale în curs",,,,,,,,,293200003
@@ -161,7 +161,7 @@
 33,"33 - PRODUCŢIA ÎN CURS DE EXECUŢIE","33 - PRODUCŢIA ÎN CURS DE EXECUŢIE","Asset",,"Yes","Yes",,3,33,"33 - PRODUCŢIA ÎN CURS DE EXECUŢIE",,,,,,,,,330000001
 331,"331 - Produse în curs de execuţie","331 - Produse în curs de execuţie","Asset",,"Yes","No",,33,331,"331 - PRODUSE IN CURS DE EXECUTIE",,,,,,,,,331000002
 332,"332 - LUCRARI SI SERVICII IN CURS DE EXECUTIE","332 - Lucrări şi servicii în curs de execuţie","Asset",,"Yes","Yes",,33,332,"332 - LUCRARI SI SERVICII IN CURS DE EXECUTIE",,,,,,,,,332000002
-3321,"3321 – Proiecte în curs","3321 – Proiecte în curs","Asset",,"Yes","No","PJ_WIP_ACCT",332,3321,"3321 - PROIECTE ÎN CURS",,,,,,,,,332100003
+3321,"3321 - Proiecte în curs","3321 - Proiecte în curs","Asset",,"Yes","No","PJ_WIP_ACCT",332,3321,"3321 - PROIECTE ÎN CURS",,,,,,,,,332100003
 3322,"3322 - Proiecte finalizate","3322 - Proiecte finalizate","Asset",,"Yes","No","PJ_ASSET_ACCT",332,3322,"3322 - PROIECTE FINALIZATE",,,,,,,,,332200003
 34,"34 - PRODUSE","34 - PRODUSE","Asset",,"Yes","Yes",,3,34,"34 - PRODUSE",,,,,,,,,340000001
 341,"341 - Semifabricate","341 - Semifabricate","Asset",,,"No",,34,341,"341 - Semifabricate",,,,,,,,,341000002
@@ -176,16 +176,16 @@
 358,"358 - Ambalaje aflate la terţi","358 - Ambalaje aflate la terţi","Asset",,,"No",,35,358,"358 - Ambalaje aflate la terţi",,,,,,,,,358000002
 36,"36 - ANIMALE","36 - ANIMALE","Asset",,,"Yes",,3,36,"36 - ANIMALE",,,,,,,,,360000001
 361,"361 - Animale şi pasări","361 - Animale şi pasări","Asset",,,"No",,36,361,"361 - Animale şi pasări",,,,,,,,,361000002
-368,"368 – Diferenţe de preţ la animale şi păsări","368 – Diferenţe de preţ la animale şi păsări","Expense",,,"No",,36,368,"368 – Diferenţe de preţ la animale şi păsări",,,,,,,,,368000002
-37,"37 – MĂRFURI","37 – MĂRFURI","Asset",,"Yes","Yes",,3,37,"37 – MĂRFURI",,,,,,,,,370000001
-371,"371 – Mărfuri","371 – Mărfuri","Asset",,"Yes","No","P_ASSET_ACCT",37,371,"371 – Mărfuri",,,,,,,,,371000002
+368,"368 - Diferenţe de preţ la animale şi păsări","368 - Diferenţe de preţ la animale şi păsări","Expense",,,"No",,36,368,"368 - Diferenţe de preţ la animale şi păsări",,,,,,,,,368000002
+37,"37 - MĂRFURI","37 - MĂRFURI","Asset",,"Yes","Yes",,3,37,"37 - MĂRFURI",,,,,,,,,370000001
+371,"371 - Mărfuri","371 - Mărfuri","Asset",,"Yes","No","P_ASSET_ACCT",37,371,"371 - Mărfuri",,,,,,,,,371000002
 378,"378 - Diferenţe de pret la mărfuri","378 - Diferenţe de pret la mărfuri","Liability",,,"No","P_INVOICEPRICEVARIANCE_ACCT",37,378,"378 - Diferenţe de pret la mărfuri",,,,,,,,,378000002
 38,"38 - AMBALAJE","38 - AMBALAJE","Asset",,,"Yes",,3,38,"38 - AMBALAJE",,,,,,,,,380000001
 381,"381 - Ambalaje","381 - Ambalaje","Asset",,,"No",,38,381,"381 - Ambalaje",,,,,,,,,381000002
 388,"388 - Diferenţe de pret la ambalaje","388 - Diferenţe de pret la ambalaje","Expense",,,"No",,38,388,"388 - Diferenţe de pret la ambalaje",,,,,,,,,388000002
-39,"39 – AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE","39 – AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE","Liability",,,"Yes",,3,39,"39 – AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE",,,,,,,,,390000001
+39,"39 - AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE","39 - AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE","Liability",,,"Yes",,3,39,"39 - AJUSTĂRI PENTRU DEPRECIEREA STOCURILOR ŞI PRODUCŢIEI ÎN CURS DE EXECUŢIE",,,,,,,,,390000001
 391,"391 - Ajustări pentru deprecierea materiilor prime","391 - Ajustări pentru deprecierea materiilor prime","Liability",,,"No",,39,391,"391 - Ajustări pentru deprecierea materiilor prime",,,,,,,,,391000002
-392,"392 – AJUSTĂRI PENTRU DEPRECIEREA MATERIALELOR","392 - Ajustări pentru deprecierea materialelor","Liability",,,"Yes",,39,392,"392 – AJUSTĂRI PENTRU DEPRECIEREA MATERIALELOR",,,,,,,,,392000002
+392,"392 - AJUSTĂRI PENTRU DEPRECIEREA MATERIALELOR","392 - Ajustări pentru deprecierea materialelor","Liability",,,"Yes",,39,392,"392 - AJUSTĂRI PENTRU DEPRECIEREA MATERIALELOR",,,,,,,,,392000002
 3921,"3921 - Ajustări pentru deprecierea materialelor consumabile","3921 - Ajustări pentru deprecierea materialelor consumabile","Liability",,,"No",,392,3921,"3921 - Ajustări pentru deprecierea materialelor consumabile",,,,,,,,,392100003
 3922,"3922 - Ajustări pentru deprecierea materialelor de natura obiectelor de inventar ","3922 - Ajustări pentru deprecierea materialelor de natura obiectelor de inventar ","Liability",,,"No",,392,3922,"3922 - Ajustări pentru deprecierea materialelor de natura obiectelor de inventar ",,,,,,,,,392200003
 393,"393 - Ajustări pentru deprecierea producţiei în curs de execuţie","393 - Ajustări pentru deprecierea producţiei în curs de execuţie","Liability",,,"No",,39,393,"393 - Ajustări pentru deprecierea producţiei în curs de execuţie",,,,,,,,,393000002
@@ -217,8 +217,8 @@
 4091,"4091 - Furnizori-debitori pentru cumpărări de bunuri de natura stocurilor","4091 - Furnizori-debitori pentru cumpărări de bunuri de natura stocurilor","Asset",,"Yes","No","V_PREPAYMENT_ACCT",409,4091,"4091 - Furnizori-debitori pentru cumpărări de bunuri de natura stocurilor",,,,,,,,,409100003
 4092,"4092 - Furnizori-debitori pentru prestări de servicii şi executări de lucrări","4092 - Furnizori-debitori pentru prestări de servicii şi executări de lucrări","Asset",,,"No",,409,4092,"4092 - Furnizori-debitori pentru prestări de servicii şi executări de lucrări",,,,,,,,,409200003
 41,"41 - CLIENŢI ŞI CONTURI ASIMILATE","41 - CLIENŢI ŞI CONTURI ASIMILATE","Asset",,"Yes","Yes",,4,41,"41 - CLIENŢI ŞI CONTURI ASIMILATE",,,,,,,,,410000001
-411,"411 – CLIENŢI","411 – Clienţi","Asset","Debit",,"Yes",,41,411,"411 – CLIENŢI",,,,,,,,,411000002
-4111,"4111 – Clienţi","4111 – Clienţi","Asset","Debit","Yes","No","C_RECEIVABLE_ACCT",411,4111,"4111 – Clienţi",,,,,,,,,411100003
+411,"411 - CLIENŢI","411 - Clienţi","Asset","Debit",,"Yes",,41,411,"411 - CLIENŢI",,,,,,,,,411000002
+4111,"4111 - Clienţi","4111 - Clienţi","Asset","Debit","Yes","No","C_RECEIVABLE_ACCT",411,4111,"4111 - Clienţi",,,,,,,,,411100003
 4112,"4112 - Clienţi servicii","4112 - Clienţi servicii","Asset","Debit","Yes","No","C_RECEIVABLE_SERVICES_ACCT",411,4112,"4112 - Clienţi servicii",,,,,,,,,411200003
 4118,"4118 - Clienţi incerţi sau în litigiu","4118 - Clienţi incerţi sau în litigiu","Asset","Debit","Yes","No","WRITEOFF_ACCT",411,4118,"4118 - Clienţi incerţi sau în litigiu",,,,,,,,,411800003
 413,"413 - Efecte de primit de la clienţi","413 - Efecte de primit de la clienţi","Asset",,"Yes","No","B_UNALLOCATEDCASH_ACCT",41,413,"413 - Efecte de primit de la clienţi",,,,,,,,,413000002
@@ -235,7 +235,7 @@
 4281,"4281 - Alte datorii în legatură cu personalul","4281 - Alte datorii în legatură cu personalul","Liability",,"Yes","No",,428,4281,"4281 - Alte datorii în legatură cu personalul",,,,,,,,,428100003
 4282,"4282 - Alte creanţe în legatură cu personalul","4282 - Alte creanţe în legatură cu personalul","Asset",,"Yes","No",,428,4282,"4282 - Alte creanţe în legatură cu personalul",,,,,,,,,428200003
 43,"43 - ASIGURĂRI SOCIALE, PROTECŢIA SOCIALĂ ŞI CONTURI ASIMILATE","43 - ASIGURĂRI SOCIALE, PROTECŢIA SOCIALĂ ŞI CONTURI ASIMILATE","Liability",,"Yes","Yes",,4,43,"43 - ASIGURĂRI SOCIALE, PROTECŢIA SOCIALĂ ŞI CONTURI ASIMILATE",,,,,,,,,430000001
-431,"431 – ASIGURĂRI SOCIALE","431 – Asigurări sociale","Liability",,,"Yes",,43,431,"431 – ASIGURĂRI SOCIALE",,,,,,,,,431000002
+431,"431 - ASIGURĂRI SOCIALE","431 - Asigurări sociale","Liability",,,"Yes",,43,431,"431 - ASIGURĂRI SOCIALE",,,,,,,,,431000002
 4311,"4311 - Contribuţia unităţii la asigurările sociale","4311 - Contribuţia unităţii la asigurările sociale","Liability",,,"No",,431,4311,"4311 - Contribuţia unităţii la asigurările sociale",,,,,,,,,431100003
 4312,"4312 - Contribuţia personalului la asigurările sociale","4312 - Contribuţia personalului la asigurările sociale","Liability",,,"No",,431,4312,"4312 - Contribuţia personalului la asigurările sociale",,,,,,,,,431200003
 4313,"4313 - Contribuţia angajatorului pentru asigurările sociale de sănătate","4313 - Contribuţia angajatorului pentru asigurările sociale de sănătate","Liability",,,"No",,431,4313,"4313 - Contribuţia angajatorului pentru asigurările sociale de sănătate",,,,,,,,,431300003
@@ -257,7 +257,7 @@
 4427,"4427 - TVA colectată","4427 - TVA colectată","Liability",,"Yes","No","T_DUE_ACCT",442,4427,"4427 - TVA colectată",,,,,,,,,442700003
 4428,"4428 - TVA neexigibilă","4428 - TVA neexigibilă","Liability",,"Yes","No",,442,4428,"4428 - TVA neexigibilă",,,,,,,,,442800003
 444,"444 - Impozitul pe venituri de natura salariilor","444 - Impozitul pe venituri de natura salariilor","Liability",,,"No",,44,444,"444 - Impozitul pe venituri de natura salariilor",,,,,,,,,444000002
-445,"445 – Subvenţii","445 – Subvenţii","Asset",,,"No",,44,445,"445 – Subvenţii",,,,,,,,,445000002
+445,"445 - Subvenţii","445 - Subvenţii","Asset",,,"No",,44,445,"445 - Subvenţii",,,,,,,,,445000002
 446,"446 - Alte impozite taxe şi vărsăminte asimilate","446 - Alte impozite taxe şi vărsăminte asimilate","Liability",,,"No",,44,446,"446 - Alte impozite taxe şi vărsăminte asimilate",,,,,,,,,446000002
 447,"447 - Fonduri speciale- taxe şi vărsăminte asimilate","447 - Fonduri speciale- taxe şi vărsăminte asimilate","Liability",,,"No",,44,447,"447 - Fonduri speciale- taxe şi vărsăminte asimilate",,,,,,,,,447000002
 448,"448 - ALTE DATORII ŞI CREANŢE CU BUGETUL STATULUI","448 - Alte datorii şi creanţe cu bugetul statului","Liability",,"Yes","Yes",,44,448,"448 - ALTE DATORII ŞI CREANŢE CU BUGETUL STATULUI",,,,,,,,,448000002
@@ -270,10 +270,10 @@
 453,"453 - DECONTĂRI PRIVIND INTERESELE DE PARTICIPARE","453 - Decontări privind interesele de participare","Liability",,"Yes","Yes",,45,453,"453 - DECONTĂRI PRIVIND INTERESELE DE PARTICIPARE",,,,,,,,,453000002
 4531,"4531 - Decontări privind interesele de participare","4531 - Decontări privind interesele de participare","Liability",,"No","No",,453,4531,"4531 - Decontări privind interesele de participare",,,,,,,,,453100003
 4538,"4538 - Dobânzi aferente decontărilor privind interesele de participare","4538 - Dobânzi aferente decontărilor privind interesele de participare","Liability",,"No","No",,453,4538,"4538 - Dobânzi aferente decontărilor privind interesele de participare",,,,,,,,,453800003
-455,"455 – SUME DATORATE ACŢIONARILOR/ASOCIAŢILOR","455 – Sume datorate acţionarilor/asociaţiilor","Liability",,"Yes","Yes",,45,455,"455 – SUME DATORATE ACŢIONARILOR/ASOCIAŢILOR",,,,,,,,,455000002
-4551,"4551 – Acţionari/asociaţi - conturi curente ","4551 – Acţionari/asociaţi - conturi curente ","Liability",,"No","No",,455,4551,"4551 – Acţionari/asociaţi - conturi curente ",,,,,,,,,455100003
-4558,"4558 – Acţionari/asociaţi - dobânzi la conturi curente","4558 – Acţionari/asociaţi - dobânzi la conturi curente","Liability",,"No","No",,455,4558,"4558 – Acţionari/asociaţi - dobânzi la conturi curente",,,,,,,,,455800003
-456,"456 – Decontări cu acţionarii/asociaţii privind capitalul","456 – Decontări cu acţionarii/asociaţii privind capitalul","Asset",,,"No",,45,456,"456 – Decontări cu acţionarii/asociaţii privind capitalul",,,,,,,,,456000002
+455,"455 - SUME DATORATE ACŢIONARILOR/ASOCIAŢILOR","455 - Sume datorate acţionarilor/asociaţiilor","Liability",,"Yes","Yes",,45,455,"455 - SUME DATORATE ACŢIONARILOR/ASOCIAŢILOR",,,,,,,,,455000002
+4551,"4551 - Acţionari/asociaţi - conturi curente ","4551 - Acţionari/asociaţi - conturi curente ","Liability",,"No","No",,455,4551,"4551 - Acţionari/asociaţi - conturi curente ",,,,,,,,,455100003
+4558,"4558 - Acţionari/asociaţi - dobânzi la conturi curente","4558 - Acţionari/asociaţi - dobânzi la conturi curente","Liability",,"No","No",,455,4558,"4558 - Acţionari/asociaţi - dobânzi la conturi curente",,,,,,,,,455800003
+456,"456 - Decontări cu acţionarii/asociaţii privind capitalul","456 - Decontări cu acţionarii/asociaţii privind capitalul","Asset",,,"No",,45,456,"456 - Decontări cu acţionarii/asociaţii privind capitalul",,,,,,,,,456000002
 457,"457 - Dividende de plata","457 - Dividende de plată","Liability",,,"No",,45,457,"457 - Dividende de plata",,,,,,,,,457000002
 458,"458 - DECONTĂRI DIN OPERAŢII ÎN PARTICIPATIE","458 - Decontări din operaţii în participaţie","Liability",,"Yes","Yes",,45,458,"458 - DECONTĂRI DIN OPERAŢII ÎN PARTICIPATIE",,,,,,,,,458000002
 4581,"4581 - Decontări din operaţii în participaţie-pasiv","4581 - Decontări din operaţii în participaţie-pasiv","Liability",,"Yes","No",,458,4581,"4581 - Decontări din operaţii în participaţie-pasiv",,,,,,,,,458100003
@@ -286,22 +286,22 @@
 472,"472 - Venituri înregistrate în avans","472 - Venituri înregistrate în avans","Liability",,"Yes","No","NOTINVOICEDREVENUE_ACCT",47,472,"472 - Venituri înregistrate în avans",,,,,,,,,472000002
 473,"473 - DECONTARI DIN OPERAŢII ÎN CURS DE CLARIFICARE","473 - Decontări din operaţii în curs de clarificare","Asset",,"Yes","Yes",,47,473,"473 - DECONTARI DIN OPERAŢII ÎN CURS DE CLARIFICARE",,,,,,,,,473000002
 4731,"4731 - Decontări în curs - Încasări nealocate","4731 - Decontări în curs - Încasări nealocate","Liability",,"Yes","No",,473,4731,"4731 - Decontări în curs - Încasări nealocate",,,,,,,,,473100003
-4732,"4732 - Decontări în curs – plăţi de efectuat","4732 - Decontări în curs – Plăţi de efectuat","Asset",,"Yes","No",,473,4732,"4732 - Decontări în curs – plăţi de efectuat",,,,,,,,,473200003
+4732,"4732 - Decontări în curs - plăţi de efectuat","4732 - Decontări în curs - Plăţi de efectuat","Asset",,"Yes","No",,473,4732,"4732 - Decontări în curs - plăţi de efectuat",,,,,,,,,473200003
 48,"48 - DECONTĂRI ÎN CADRUL UNITĂŢII","48 - DECONTĂRI ÎN CADRUL UNITĂŢII","Asset",,"Yes","Yes",,4,48,"48 - DECONTĂRI ÎN CADRUL UNITĂŢII",,,,,,,,,480000001
 481,"481 - Decontări între unitate şi subunităţi","481 - Decontări între unitate şi subunităţi","Asset",,"Yes","No","ARH_InterOrg_Acct",48,481,"481 - DECONTĂRI INTRE UNITATE ŞI SUBUNITATI",,,,,,,,,481000002
 482,"482 - Decontări între subunităţi","482 - Decontări între subunităţi","Asset",,"Yes","No","ARH_InterOrg2_Acct",48,482,"482 - Decontări între subunităţi",,,,,,,,,482000002
-49,"49 – AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR","49 – AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR","Liability",,"Yes","Yes",,4,49,"49 – AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR",,,,,,,,,490000001
-491,"491 – Ajustări pentru deprecierea creanţelor – clienţi","491 – Ajustări pentru deprecierea creanţelor – clienţi","Liability",,,"No",,49,491,"491 – Ajustări pentru deprecierea creanţelor – clienţi",,,,,,,,,491000002
-495,"495 – Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii","495 – Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii","Liability",,,"No",,49,495,"495 – Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii",,,,,,,,,495000002
-496,"496 – Ajustări pentru deprecierea creanţelor – debitori diverşi","496 – Ajustări pentru deprecierea creanţelor – debitori diverşi","Liability",,,"No",,49,496,"496 – Ajustări pentru deprecierea creanţelor – debitori diverşi",,,,,,,,,496000002
+49,"49 - AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR","49 - AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR","Liability",,"Yes","Yes",,4,49,"49 - AJUSTĂRI PENTRU DEPRECIEREA CREANŢELOR",,,,,,,,,490000001
+491,"491 - Ajustări pentru deprecierea creanţelor - clienţi","491 - Ajustări pentru deprecierea creanţelor - clienţi","Liability",,,"No",,49,491,"491 - Ajustări pentru deprecierea creanţelor - clienţi",,,,,,,,,491000002
+495,"495 - Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii","495 - Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii","Liability",,,"No",,49,495,"495 - Ajustări pentru deprecierea creanţelor - decontări în cadrul grupului şi cu asociaţii",,,,,,,,,495000002
+496,"496 - Ajustări pentru deprecierea creanţelor - debitori diverşi","496 - Ajustări pentru deprecierea creanţelor - debitori diverşi","Liability",,,"No",,49,496,"496 - Ajustări pentru deprecierea creanţelor - debitori diverşi",,,,,,,,,496000002
 5,"5 - CONTURI DE TREZORERIE","5 - CONTURI DE TREZORERIE","Asset",,,"Yes",,,5,"5 - CONTURI DE TREZORERIE",,,,,,,,,500000000
-50,"50 – INVESTIŢII FINANCIARE PE TERMEN SCURT","50 – INVESTIŢII FINANCIARE PE TERMEN SCURT","Asset",,,"Yes",,5,50,"50 – INVESTIŢII FINANCIARE PE TERMEN SCURT",,,,,,,,,500000001
-501,"501 – Acţiuni deţinute la entităţile afiliate","501 – Acţiuni deţinute la entităţile afiliate","Asset",,,"No",,50,501,"501 – Acţiuni deţinute la entităţile afiliate",,,,,,,,,501000002
+50,"50 - INVESTIŢII FINANCIARE PE TERMEN SCURT","50 - INVESTIŢII FINANCIARE PE TERMEN SCURT","Asset",,,"Yes",,5,50,"50 - INVESTIŢII FINANCIARE PE TERMEN SCURT",,,,,,,,,500000001
+501,"501 - Acţiuni deţinute la entităţile afiliate","501 - Acţiuni deţinute la entităţile afiliate","Asset",,,"No",,50,501,"501 - Acţiuni deţinute la entităţile afiliate",,,,,,,,,501000002
 505,"505 - Obligaţiuni emise şi răscumpărate","505 - Obligaţiuni emise şi răscumpărate","Asset",,,"No",,50,505,"505 - Obligaţiuni emise şi răscumpărate",,,,,,,,,505000002
-506,"506 – Obligaţiuni","506 – Obligaţiuni","Asset",,,"No",,50,506,"506 – Obligaţiuni",,,,,,,,,506000002
+506,"506 - Obligaţiuni","506 - Obligaţiuni","Asset",,,"No",,50,506,"506 - Obligaţiuni",,,,,,,,,506000002
 508,"508 - ALTE TITLURI DE PLASAMENT ŞI CREANŢE ASIMILATE","508 - Alte titluri de plasament şi creanţe asimilate","Asset",,,"Yes",,50,508,"508 - ALTE TITLURI DE PLASAMENT ŞI CREANŢE ASIMILATE",,,,,,,,,508000002
 5081,"5081 - Alte titluri de plasament","5081 - Alte titluri de plasament","Asset",,,"No",,508,5081,"5081 - Alte titluri de plasament",,,,,,,,,508100003
-5088,"5088 – Dobânzi la obligaţiuni şi titluri de plasament","5088 – Dobânzi la obligaţiuni şi titluri de plasament","Asset",,,"No",,508,5088,"5088 – Dobânzi la obligaţiuni şi titluri de plasament",,,,,,,,,508800003
+5088,"5088 - Dobânzi la obligaţiuni şi titluri de plasament","5088 - Dobânzi la obligaţiuni şi titluri de plasament","Asset",,,"No",,508,5088,"5088 - Dobânzi la obligaţiuni şi titluri de plasament",,,,,,,,,508800003
 509,"509 - VĂRSĂMINTE DE EFECTUAT PENTRU INVESTIŢIILE PE TERMEN SCURT","509 - Vărsăminte de efectuat pentru investiţiile pe termen scurt","Liability",,,"Yes",,50,509,"509 - VĂRSĂMINTE DE EFECTUAT PENTRU INVESTIŢIILE PE TERMEN SCURT",,,,,,,,,509000002
 5091,"5091 - Vărsăminte de efectuat pentru acţiunile deţinute la entităţile afiliate","5091 - Vărsăminte de efectuat pentru acţiunile deţinute la entităţile afiliate","Liability",,,"No",,509,5091,"5091 - Vărsăminte de efectuat pentru acţiunile deţinute la entităţile afiliate",,,,,,,,,509100003
 5092,"5092 - Vărsăminte de efectuat pentru alte investiţii pe termen scurt","5092 - Vărsăminte de efectuat pentru alte investiţii pe termen scurt","Liability",,,"No",,509,5092,"5092 - Vărsăminte de efectuat pentru alte investiţii pe termen scurt",,,,,,,,,509200003
@@ -315,7 +315,7 @@
 5124,"5124 - Conturi la bănci în valuta","5124 - Conturi la bănci în valuta","Asset",,"Yes","No",,512,5124,"5124 - Conturi la bănci în valuta",,,,,,,,,512400003
 5125,"5125 - Sume în curs de decontare","5125 - Sume în curs de decontare","Asset",,"Yes","No","B_INTRANSIT_ACCT",512,5125,"5125 - Sume în curs de decontare",,,,,,,,,512500003
 5129,"5129 - Disponibilităţi ale clienţilor","5129 - Disponibilităţi ale clienţilor","Asset",,,"No","B_UNIDENTIFIED_ACCT",512,5129,"5129 - Disponibilităţi ale clienţilor",,,,,,,,,512900003
-518,"518 – DOBÂNZI","518 - Dobânzi","Asset",,"Yes","Yes",,51,518,"518 – DOBÂNZI",,,,,,,,,518000002
+518,"518 - DOBÂNZI","518 - Dobânzi","Asset",,"Yes","Yes",,51,518,"518 - DOBÂNZI",,,,,,,,,518000002
 5186,"5186 - Dobânzi de plătit","5186 - Dobânzi de plătit","Liability",,"Yes","No",,518,5186,"5186 - Dobânzi de plătit",,,,,,,,,518600003
 5187,"5187 - Dobânzi de încasat","5187 - Dobânzi de încasat","Asset",,"Yes","No",,518,5187,"5187 - Dobânzi de încasat",,,,,,,,,518700003
 519,"519 - CREDITE BANCARE PE TERMEN SCURT","519 - Credite bancare pe termen scurt","Liability",,,"Yes",,51,519,"519 - CREDITE BANCARE PE TERMEN SCURT",,,,,,,,,519000002
@@ -343,11 +343,11 @@
 542,"542 - Avansuri de trezorerie","542 - Avansuri de trezorerie","Asset",,,"No",,54,542,"542 - Avansuri de trezorerie",,,,,,,,,542000002
 58,"58 - VIRAMENTE INTERNE","58 - VIRAMENTE INTERNE","Asset",,,"Yes",,5,58,"58 - VIRAMENTE INTERNE",,,,,,,,,580000001
 581,"581 - Viramente interne","581 - Viramente interne","Asset",,"Yes","No","CB_CASHTRANSFER_ACCT",58,581,"581 - Viramente interne",,,,,,,,,581000002
-59,"59 – AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE","59 – AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE","Liability",,,"Yes",,5,59,"59 – AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE",,,,,,,,,590000001
-591,"591 – Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate","591 – Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate","Liability",,,"No",,59,591,"591 – Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate",,,,,,,,,591000002
-595,"595 – Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ","595 – Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ","Liability",,,"No",,59,595,"595 – Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ",,,,,,,,,595000002
-596,"596 – Ajustări pentru  pierderea de valoare a obligaţiunilor","596 – Ajustări pentru  pierderea de valoare a obligaţiunilor","Liability",,,"No",,59,596,"596 – Ajustări pentru  pierderea de valoare a obligaţiunilor",,,,,,,,,596000002
-598,"598 – Ajustări pentru pierderea de valoare a altor investiţii pe termen scurt şi creanţe asimilate","598 – Ajustări pentru pierderea de valoare a altor investiţii pe termen scurt şi creanţe asimilate","Liability",,,"No",,59,598,"598 – Ajustări pentru pierderea de valoare a altor investitii pe termen scurt şi creanţe asimilate",,,,,,,,,598000002
+59,"59 - AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE","59 - AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE","Liability",,,"Yes",,5,59,"59 - AJUSTĂRI  PENTRU PIERDEREA DE VALOARE A CONTURILOR DE TREZORERIE",,,,,,,,,590000001
+591,"591 - Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate","591 - Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate","Liability",,,"No",,59,591,"591 - Ajustări pentru pierderea de valoare a acţiunilor deţinute la entităţile afiliate",,,,,,,,,591000002
+595,"595 - Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ","595 - Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ","Liability",,,"No",,59,595,"595 - Ajustări pentru  pierderea de valoare a obligaţiunilor emise şi răscumpărate ",,,,,,,,,595000002
+596,"596 - Ajustări pentru  pierderea de valoare a obligaţiunilor","596 - Ajustări pentru  pierderea de valoare a obligaţiunilor","Liability",,,"No",,59,596,"596 - Ajustări pentru  pierderea de valoare a obligaţiunilor",,,,,,,,,596000002
+598,"598 - Ajustări pentru pierderea de valoare a altor investiţii pe termen scurt şi creanţe asimilate","598 - Ajustări pentru pierderea de valoare a altor investiţii pe termen scurt şi creanţe asimilate","Liability",,,"No",,59,598,"598 - Ajustări pentru pierderea de valoare a altor investitii pe termen scurt şi creanţe asimilate",,,,,,,,,598000002
 6,"6 - CONTURI DE CHELTUIELI   ","6 - CONTURI DE CHELTUIELI   ","Expense","Debit","Yes","Yes",,,6,"6 - CONTURI DE CHELTUIELI   ",,,,,,,,,600000000
 60,"60 - CHELTUIELI PRIVIND STOCURILE","60 - CHELTUIELI PRIVIND STOCURILE","Expense","Debit",,"Yes",,6,60,"60 - CHELTUIELI PRIVIND STOCURILE",,,,,,,,,600000001
 601,"601 - Cheltuieli cu materiile prime","601 - Cheltuieli cu materiile prime","Expense","Debit","Yes","No",,60,601,"601 - Cheltuieli cu materiile prime",,,,,,,,,601000002
@@ -408,7 +408,7 @@
 666,"666 - Cheltuieli privind dobânzile","666 - Cheltuieli privind dobânzile","Expense","Debit",,"No","B_INTERESTEXP_ACCT",66,666,"666 - CHELTUIELI PRIVIND DOBÂNZILE",,,,,,,,,666000002
 667,"667 - CHELTUIELI PRIVIND SCONTURILE ACORDATE","667 - Cheltuieli privind sconturile acordate","Expense","Debit","Yes","Yes",,66,667,"667 - CHELTUIELI PRIVIND SCONTURILE ACORDATE",,,,,,,,,667000002
 6671,"6671 - Cheltuieli privind sconturile acordate","6671 - Cheltuieli privind sconturile acordate","Expense","Debit",,"No","P_TRADEDISCOUNTGRANT_ACCT",667,6671,"6671 - CHELTUIELI PRIVIND SCONTURILE ACORDATE",,,,,,,,,667100003
-6672,"6672 - Cheltuieli privind sconturile – încasări","6672 - Cheltuieli privind sconturile – încasări","Expense","Debit",,"No","PAYDISCOUNT_EXP_ACCT",667,6672,"6672 - CHELTUIELI PRIVIND SCONTURILE – ÎNCASĂRI",,,,,,,,,667200003
+6672,"6672 - Cheltuieli privind sconturile - încasări","6672 - Cheltuieli privind sconturile - încasări","Expense","Debit",,"No","PAYDISCOUNT_EXP_ACCT",667,6672,"6672 - CHELTUIELI PRIVIND SCONTURILE - ÎNCASĂRI",,,,,,,,,667200003
 6675,"6675 - Cheltuieli - diferenţe pret achiziţie","6675 - Cheltuieli - diferenţe preţ achiziţie","Expense","Debit",,"No","P_PURCHASEPRICEVARIANCE_ACCT",667,6675,"6675 - CHELTUIELI - DIFERENTE PRET ACHIZITIE",,,,,,,,,667500003
 668,"668 - Alte cheltuieli financiare","668 - Alte cheltuieli financiare","Expense","Debit","Yes","No","B_SETTLEMENTLOSS_ACCT",66,668,"668 - ALTE CHELTUIELI FINANCIARE",,,,,,,,,668000002
 67,"67 - CHELTUIELI EXTRAORDINARE/ EXCEPTIONALE","67 - CHELTUIELI EXTRAORDINARE/ EXCEPTIONALE","Expense","Debit","Yes","Yes",,6,67,"67 - CHELTUIELI EXTRAORDINARE/ EXCEPTIONALE",,,,,,,,,670000001
@@ -475,7 +475,7 @@
 766,"766 - Venituri din dobânzi","766 - Venituri din dobânzi","Liability","Credit","Yes","No","B_INTERESTREV_ACCT",76,766,"766 - VENITURI DIN DOBÂNZI",,,,,,,,,766000002
 767,"767 - VENITURI DIN SCONTURI OBTINUTE","767 - Venituri din sconturi obţinute","Liability","Credit","Yes","Yes",,76,767,"767 - VENITURI DIN SCONTURI OBTINUTE",,,,,,,,,767000002
 7671,"7671 - Venituri din sconturi obţinute","7671 - Venituri din sconturi obţinute","Revenue","Credit","Yes","No","P_TRADEDISCOUNTREC_ACCT",767,7671,"7671 - VENITURI DIN SCONTURI OBTINUTE",,,,,,,,,767100003
-7672,"7672 - Venituri din sconturi obţinute – plăţi","7672 - Venituri din sconturi obţinute – plăţi","Revenue","Credit","Yes","No","PAYDISCOUNT_REV_ACCT",767,7672,"7672 - VENITURI DIN SCONTURI OBTINUTE - PLATI",,,,,,,,,767200003
+7672,"7672 - Venituri din sconturi obţinute - plăţi","7672 - Venituri din sconturi obţinute - plăţi","Revenue","Credit","Yes","No","PAYDISCOUNT_REV_ACCT",767,7672,"7672 - VENITURI DIN SCONTURI OBTINUTE - PLATI",,,,,,,,,767200003
 768,"768 - Alte venituri financiare","768 - Alte venituri financiare","Liability","Credit","Yes","No","B_SETTLEMENTGAIN_ACCT",76,768,"768 - ALTE VENITURI FINANCIARE",,,,,,,,,768000002
 77,"77 - VENITURI EXTRAORDINARE","77 - VENITURI EXTRAORDINARE","Liability","Credit",,"Yes",,7,77,"77 - VENITURI EXTRAORDINARE",,,,,,,,,770000001
 771,"771 - Venituri din subvenţii pentru evenimente extraordinare şi altele similare","771 - Venituri din subvenţii pentru evenimente extraordinare şi altele similare","Liability","Credit","Yes","No",,77,771,"771 - Venituri din subvenţii pentru evenimente extraordinare şi altele similare",,,,,,,,,771000002
@@ -490,13 +490,13 @@
 8,"8 - CONTURI SPECIALE","8 - CONTURI SPECIALE","Memo",,"Yes","Yes",,,8,"8 - CONTURI SPECIALE",,,,,,,,,800000000
 80,"80 - CONTURI ÎN AFARA BILANŢULUI","80 - CONTURI ÎN AFARA BILANŢULUI","Memo",,,"Yes",,8,80,"80 - CONTURI ÎN AFARA BILANŢULUI",,,,,,,,,800000001
 801,"801 - ANGAJAMENTE ACORDATE","801 - Angajamente acordate","Memo",,,"Yes",,80,801,"801 - ANGAJAMENTE ACORDATE",,,,,,,,,801000002
-8011,"8011 – Giruri şi garanţii acordate","8011 – Giruri şi garanţii acordate","Memo",,,"No","COMMITMENTOFFSET_ACCT",801,8011,"8011 – Giruri şi garanţii acordate",,,,,,,,,801100003
+8011,"8011 - Giruri şi garanţii acordate","8011 - Giruri şi garanţii acordate","Memo",,,"No","COMMITMENTOFFSET_ACCT",801,8011,"8011 - Giruri şi garanţii acordate",,,,,,,,,801100003
 8018,"8018 - Alte angajamente acordate","8018 - Alte angajamente acordate","Memo",,,"No",,801,8018,"8018 - Alte angajamente acordate",,,,,,,,,801800003
 802,"802 - ANGAJAMENTE PRIMITE","802 - Angajamente primite","Memo",,,"Yes",,80,802,"802 - ANGAJAMENTE PRIMITE",,,,,,,,,802000002
 8021,"8021 - Giruri şi garanţii primite","8021 - Giruri şi garanţii primite","Memo",,,"No",,802,8021,"8021 - Giruri şi garanţii primite",,,,,,,,,802100003
 8028,"8028 - Alte angajamente primite","8028 - Alte angajamente primite","Memo",,,"No",,802,8028,"8028 - Alte angajamente primite",,,,,,,,,802800003
 803,"803 - ALTE CONTURI ÎN AFARA BILANŢULUI","803 - Alte conturi în afara bilanţului","Memo",,,"Yes",,80,803,"803 - ALTE CONTURI ÎN AFARA BILANŢULUI",,,,,,,,,803000002
-8031,"8031 – Imobilizări corporale luate cu chirie ","8031 – Imobilizări corporale luate cu chirie ","Memo",,,"No",,803,8031,"8031 – Imobilizări corporale luate cu chirie ",,,,,,,,,803100003
+8031,"8031 - Imobilizări corporale luate cu chirie ","8031 - Imobilizări corporale luate cu chirie ","Memo",,,"No",,803,8031,"8031 - Imobilizări corporale luate cu chirie ",,,,,,,,,803100003
 8032,"8032 - Valori materiale primite spre prelucrare sau reparare","8032 - Valori materiale primite spre prelucrare sau reparare","Memo",,,"No",,803,8032,"8032 - Valori materiale primite spre prelucrare sau reparare",,,,,,,,,803200003
 8033,"8033 - Valori materiale primite în păstrare sau custodie","8033 - Valori materiale primite în păstrare sau custodie","Memo",,,"No",,803,8033,"8033 - Valori materiale primite în păstrare sau custodie",,,,,,,,,803300003
 8034,"8034 - Debitori scoşi din activ, urmăriţi în continuare","8034 - Debitori scoşi din activ, urmăriţi în continuare","Memo",,,"No",,803,8034,"8034 - Debitori scoşi din activ, urmăriţi în continuare",,,,,,,,,803400003
@@ -506,36 +506,44 @@
 8038,"8038 - Alte valori în afara bilanţului","8038 - Alte valori în afara bilanţului","Memo",,,"No",,803,8038,"8038 - Alte valori în afara bilanţului",,,,,,,,,803800003
 804,"804 - AMORTIZAREA AFERENTA GRADULUI DE NEUTILIZARE A MIJLOAC","804 - Amortizarea aferentă gradului de neutilizare a mijloacelor fixe","Memo",,,"Yes",,80,804,"804 - AMORTIZAREA AFERENTA GRADULUI DE NEUTILIZARE A MIJLOAC",,,,,,,,,804000002
 8045,"8045 - Amortizarea aferentă gradului de neutilizare a mijloacelor fixe","8045 - Amortizarea aferentă gradului de neutilizare a mijloacelor fixe","Memo",,,"No",,804,8045,"8045 - AMORTIZAREA AFERENTA GRADULUI DE NEUTILIZARE A MIJLOA",,,,,,,,,804500003
-805,"805 – DOBÂNZI AFERENTE CONTRACTELOR DE LEASING ŞI ALTOR CONTRACTE ASIMILATE, NEAJUNSE LA SCADENŢĂ","805 – Dobânzi aferente contractelor de leasing şi altor contracte asimilate, neajunse la scadenţă","Memo",,,"Yes",,80,805,"805 – DOBÂNZI AFERENTE CONTRACTELOR DE LEASING ŞI ALTOR CONTRACTE ASIMILATE, NEAJUNSE LA SCADENŢĂ",,,,,,,,,805000002
-8051,"8051 – Dobânzi de plătit","8051 – Dobânzi de plătit","Memo",,,"No",,805,8051,"8051 – Dobânzi de plătit",,,,,,,,,805100003
-8052,"8052 – Dobânzi de încasat","8052 – Dobânzi de încasat","Memo",,,"No",,805,8052,"8052 – Dobânzi de încasat",,,,,,,,,805200003
-88,"88 – CONTURI IMPLICITE NEUTILIZATE","88 – CONTURI IMPLICITE NEUTILIZATE","Memo",,,"Yes",,8,88,"88 – CONTURI X-ERP NEUTILIZATE",,,,,,,,,880000001
-881,"881 – CONTURI IMPLICITE DE STOCURI","881 – CONTURI IMPLICITE DE STOCURI","Memo",,,"Yes",,88,881,"881 – CONTURI X-ERP DE STOCURI",,,,,,,,,881000002
-8811,"8811 – Ajustare stoc real","8811 – Ajustare stoc real","Memo",,"Yes","No","W_INVACTUALADJUST_ACCT",881,8811,"8811 – Ajustare stoc real",,,,,,,,,881100003
+805,"805 - DOBÂNZI AFERENTE CONTRACTELOR DE LEASING ŞI ALTOR CONTRACTE ASIMILATE, NEAJUNSE LA SCADENŢĂ","805 - Dobânzi aferente contractelor de leasing şi altor contracte asimilate, neajunse la scadenţă","Memo",,,"Yes",,80,805,"805 - DOBÂNZI AFERENTE CONTRACTELOR DE LEASING ŞI ALTOR CONTRACTE ASIMILATE, NEAJUNSE LA SCADENŢĂ",,,,,,,,,805000002
+8051,"8051 - Dobânzi de plătit","8051 - Dobânzi de plătit","Memo",,,"No",,805,8051,"8051 - Dobânzi de plătit",,,,,,,,,805100003
+8052,"8052 - Dobânzi de încasat","8052 - Dobânzi de încasat","Memo",,,"No",,805,8052,"8052 - Dobânzi de încasat",,,,,,,,,805200003
+88,"88 - CONTURI IMPLICITE NEUTILIZATE","88 - CONTURI IMPLICITE NEUTILIZATE","Memo",,,"Yes",,8,88,"88 - CONTURI X-ERP NEUTILIZATE",,,,,,,,,880000001
+881,"881 - CONTURI IMPLICITE DE STOCURI","881 - CONTURI IMPLICITE DE STOCURI","Memo",,,"Yes",,88,881,"881 - CONTURI X-ERP DE STOCURI",,,,,,,,,881000002
+8811,"8811 - Ajustare stoc real","8811 - Ajustare stoc real","Memo",,"Yes","No","W_INVACTUALADJUST_ACCT",881,8811,"8811 - Ajustare stoc real",,,,,,,,,881100003
 8812,"8812 - Reevaluare stoc","8812 - Reevaluare stoc","Memo",,"Yes","No","W_REVALUATION_ACCT",881,8812,"8812 - Reevaluare stoc",,,,,,,,,881200003
-882,"882 – CONTURI IMPLICITE DIVERSE","882 – CONTURI IMPLICITE DIVERSE","Memo",,,"Yes",,88,882,"882 – Conturi X-ERP diverse",,,,,,,,,882000002
-8821,"8821 – Suspense error","8821 – Suspense error","Memo",,"Yes","No","SUSPENSEERROR_ACCT",882,8821,"8821 – Suspense error",,,,,,,,,882100003
-8822,"8822 – Suspense Balancing","8822 – Suspense Balancing","Memo",,"Yes","No","SUSPENSEBALANCING_ACCT",882,8822,"8822 – Suspense Balancing",,,,,,,,,882200003
+882,"882 - CONTURI IMPLICITE DIVERSE","882 - CONTURI IMPLICITE DIVERSE","Memo",,,"Yes",,88,882,"882 - Conturi X-ERP diverse",,,,,,,,,882000002
+8821,"8821 - Suspense error","8821 - Suspense error","Memo",,"Yes","No","SUSPENSEERROR_ACCT",882,8821,"8821 - Suspense error",,,,,,,,,882100003
+8822,"8822 - Suspense Balancing","8822 - Suspense Balancing","Memo",,"Yes","No","SUSPENSEBALANCING_ACCT",882,8822,"8822 - Suspense Balancing",,,,,,,,,882200003
 8823,"8823 - Currency Balancing","8823 - Currency Balancing","Memo",,"Yes","No","CURRENCYBALANCING_ACCT",882,8823,"8823 - Currency Balancing",,,,,,,,,882300003
 8824,"8824 - PPV Offset","8824 - PPV Offset","Memo",,"Yes","No","PPVOFFSET_ACCT",882,8824,"8824 - PPV Offset",,,,,,,,,882400003
-8825,"8825 – Default","8825 – Default","Memo",,"Yes","No","DEFAULT_ACCT",882,8825,"8825 – Default",,,,,,,,,882500003
-8826,"8826 – Retained Earning","8826 – Retained Earning","Memo",,"Yes","No","RETAINEDEARNING_ACCT",882,8826,"8826 – Retained Earning",,,,,,,,,882600003
-8827,"8827 – INTERCOMPANYDUETO_ACCT","8827 – INTERCOMPANYDUETO_ACCT","Memo",,"Yes","No","INTERCOMPANYDUETO_ACCT",882,,,,,,,,,,,882700003
+8825,"8825 - Default","8825 - Default","Memo",,"Yes","No","DEFAULT_ACCT",882,8825,"8825 - Default",,,,,,,,,882500003
+8826,"8826 - Retained Earning","8826 - Retained Earning","Memo",,"Yes","No","RETAINEDEARNING_ACCT",882,8826,"8826 - Retained Earning",,,,,,,,,882600003
+8827,"8827 - INTERCOMPANYDUETO_ACCT","8827 - INTERCOMPANYDUETO_ACCT","Memo",,"Yes","No","INTERCOMPANYDUETO_ACCT",882,,,,,,,,,,,882700003
 8828,"8828 - INTERCOMPANYDUEFROM_ACCT","8828 - INTERCOMPANYDUEFROM_ACCT","Memo",,"Yes","No","INTERCOMPANYDUEFROM_ACCT",882,,,,,,,,,,,882800003
-89,"89 – BILANŢ","89 - BILANT","Memo",,,"Yes",,8,89,"89 - BILANT",,,,,,,,,890000001
+89,"89 - BILANŢ","89 - BILANT","Memo",,,"Yes",,8,89,"89 - BILANT",,,,,,,,,890000001
 891,"891 - Bilanţ de deschidere","891 - Bilanţ de deschidere","Memo",,"Yes","No",,89,891,"891 - BILANT DE DESCHIDERE",,,,,,,,,891000002
 892,"892 - Bilanţ de închidere","892 - Bilanţ de închidere","Memo",,"Yes","No",,89,892,"892 - BILANT DE ÎNCHIDERE",,,,,,,,,892000002
 9,"9 - CONTURI DE GESTIUNE","9 - CONTURI DE GESTIUNE","Asset",,"Yes","Yes",,,9,"9 - CONTURI DE GESTIUNE",,,,,,,,,900000000
 90,"90 - DECONTARI INTERNE","90 - DECONTARI INTERNE","Asset",,"Yes","Yes",,9,90,"90 - DECONTARI INTERNE",,,,,,,,,900000001
 901,"901 - DECONTARI INTERNE PRIVIND CHELTUIELILE","901 - Decontări interne privind cheltuielile","Asset",,"Yes","No",,90,901,"901 - DECONTARI INTERNE PRIVIND CHELTUIELILE",,,,,,,,,901000002
 902,"902 - DECONTARI INTERNE PRIVIND PRODUCTIA OBTINUTA","902 - Decontări interne privind producţia obţinută","Asset",,"Yes","No",,90,902,"902 - DECONTARI INTERNE PRIVIND PRODUCTIA OBTINUTA",,,,,,,,,902000002
-903,"903 - DECONTARI INTERNE PRIVIND DIFERENTELE DE PRET","903 - Decontări interne privind diferenţele de preţ","Asset",,"Yes","No",,90,903,"903 - DECONTARI INTERNE PRIVIND DIFERENTELE DE PRET",,,,,,,,,903000002
+903,"903 - DECONTARI INTERNE PRIVIND DIFERENTELE DE PRET","903 - Decontări interne privind diferenţele de preţ","Asset",,"Yes","Yes",,90,903,"903 - DECONTARI INTERNE PRIVIND DIFERENTELE DE PRET",,,,,,,,,903000002
+9031,"9031 - Abatere de metodă","9031 - Abatere de metodă","Asset",,"No","No","P_METHODCHANGEVARIANCE_ACCT ",903,9031,"9031 - Abatere de metodă",,,,,,,,,903100003
+9032,"9032 - Abatere de tarif","9032 - Abatere de tarif","Asset",,"No","No","P_RATEVARIANCE_ACCT ",903,9032,"9032 - Abatere de tarif",,,,,,,,,903200003
+9033,"9033 - Abatere de utilizare","9033 - Abatere de utilizare","Asset",,"No","No","P_USAGEVARIANCE_ACCT ",903,9033,"9033 - Abatere de utilizare",,,,,,,,,903300003
+9034,"9034 - Abatere mixta","9034 - Abatere mixta","Asset",,"No","No","P_MIXVARIANCE_ACCT ",903,9034,"9034 - Abatere mixta",,,,,,,,,903400003
 92,"92 - CONTURI DE CALCULATIE","92 - CONTURI DE CALCULATIE","Asset",,"Yes","Yes",,9,92,"92 - CONTURI DE CALCULATIE",,,,,,,,,920000001
-921,"921 - Cheltuielile activităţii de bază","921 - Cheltuielile activităţii de bază","Asset",,,"No",,92,921,"921 - CHELTUIELILE ACTIVITATII DE BAZA",,,,,,,,,921000002
-922,"922 - Cheltuielile activităţilor auxiliare","922 - Cheltuielile activităţilor auxiliare","Asset",,,"No",,92,922,"922 - CHELTUIELILE ACTIVITATILOR AUXILIARE",,,,,,,,,922000002
-923,"923 - Cheltuieli comune ale secţiei","923 - Cheltuieli comune ale secţiei","Asset",,,"No",,92,923,"923 - CHELTUIELI COMUNE ALE SECTIEI",,,,,,,,,923000002
-924,"924 - Cheltuieli generale de administraţie","924 - Cheltuieli generale de administraţie","Asset",,,"No",,92,924,"924 - CHELTUIELI GENERALE DE ADMINISTRATIE",,,,,,,,,924000002
+921,"921 - Cheltuielile activităţii de bază","921 - Cheltuielile activităţii de bază","Asset",,,"Yes",,92,921,"921 - CHELTUIELILE ACTIVITATII DE BAZA",,,,,,,,,921000002
+9211,"9211 - Cheltuieli cu productia in curs de executie","9211- Cheltuieli cu productia in curs de executie","Asset",,,"No","P_WIP_ACCT ",921,9211,"9211- Cheltuieli cu productia in curs de executie",,,,,,,,,921100003
+9212,"9212 - Stocuri in sectie","9212 - Stocuri in sectie","Asset",,,"No","P_FLOORSTOCK_ACCT ",921,9212,"9212 - Stocuri in sectie",,,,,,,,,921200003
+9213,"9213 - Cheltuieli cu rebuturi","9213 - Cheltuieli cu rebuturi","Asset",,,"No","P_SCRAP_ACCT ",921,9213,"9213 - Cheltuieli cu rebuturi",,,,,,,,,921300003
+9214,"9214 - Cheltuieli cu colaborarile","9214 - Cheltuieli cu colaborarile","Asset",,,"No","P_OUTSIDEPROCESSING_ACCT ",921,9214,"9214 - Cheltuieli cu colaborarile",,,,,,,,,921400003
+922,"922 - Cheltuielile activităţilor auxiliare","922 - Cheltuielile activităţilor auxiliare","Asset",,,"No","P_LABOR_ACCT ",92,922,"922 - CHELTUIELILE ACTIVITATILOR AUXILIARE",,,,,,,,,922000002
+923,"923 - Cheltuieli comune ale secţiei","923 - Cheltuieli comune ale secţiei","Asset",,,"No","P_BURDEN_ACCT ",92,923,"923 - CHELTUIELI COMUNE ALE SECTIEI",,,,,,,,,923000002
+924,"924 - Cheltuieli generale de administraţie","924 - Cheltuieli generale de administraţie","Asset",,,"No","P_OVERHEAD_ACCT ",92,924,"924 - CHELTUIELI GENERALE DE ADMINISTRATIE",,,,,,,,,924000002
 925,"925 - Cheltuieli de desfacere","925 - Cheltuieli de desfacere","Asset",,,"No",,92,925,"925 - CHELTUIELI DE DESFACERE",,,,,,,,,925000002
 93,"93 - COSTUL PRODUCTIEI","93 - COSTUL PRODUCTIEI","Asset",,,"Yes",,9,93,"93 - COSTUL PRODUCTIEI",,,,,,,,,930000001
-931,"931 - Costul producţiei obţinute","931 - Costul producţiei obţinute","Asset",,,"No",,93,931,"931 - COSTUL PRODUCTIEI OBTINUTE",,,,,,,,,931000002
+931,"931 - Costul producţiei obţinute","931 - Costul producţiei obţinute","Asset",,,"No","P_COSTOFPRODUCTION_ACCT ",93,931,"931 - COSTUL PRODUCTIEI OBTINUTE",,,,,,,,,931000002
 933,"933 - Costul producţiei în curs de execuţie","933 - Costul producţiei în curs de execuţie","Asset",,"No","No",,93,933,"933 - COSTUL PRODUCTIEI IN CURS DE EXECUTIE",,,,,,,,,933000002
