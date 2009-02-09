@@ -866,10 +866,7 @@ public class MCostDetail extends X_M_CostDetail
 			
 			if (ce.isAveragePO())
 			{
-				if (!isReturnTrx)
-					cost.setWeightedAverage(amt, qty);
-				else
-					cost.add(amt, qty);
+				cost.setWeightedAverage(amt, qty);
 				log.finer("PO - AveragePO - " + cost);
 			}
 			else if (ce.isLastPOPrice())
@@ -907,10 +904,7 @@ public class MCostDetail extends X_M_CostDetail
 			
 			if (ce.isAverageInvoice())
 			{
-				if (!isReturnTrx)
-					cost.setWeightedAverage(amt, qty);
-				else
-					cost.add(amt, qty);
+				cost.setWeightedAverage(amt, qty);
 				log.finer("Inv - AverageInv - " + cost);
 			}
 			else if (ce.isFifo()
