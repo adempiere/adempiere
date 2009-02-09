@@ -42,9 +42,9 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.X_M_Production;
 import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MHRProcess;
-import org.eevolution.model.MPPOrder;
+import org.eevolution.model.X_DD_Order;
+import org.eevolution.model.X_HR_Process;
+import org.eevolution.model.X_PP_Order;
 
 /**
  *	Accounting Fact Reset
@@ -235,13 +235,13 @@ public class FactAcctReset extends SvrProcess
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchInvoice + "'";
 		else if (AD_Table_ID == MMatchPO.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_MatchPO + "'";
-		else if (AD_Table_ID == MPPOrder.Table_ID)
+		else if (AD_Table_ID == X_PP_Order.Table_ID)
 			docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingOrder 
 				+ "','" + MPeriodControl.DOCBASETYPE_MaintenanceOrder
 				+ "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
-		else if (AD_Table_ID == MDDOrder.Table_ID)
+		else if (AD_Table_ID == X_DD_Order.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder+ "'";
-		else if (AD_Table_ID == MHRProcess.Table_ID)
+		else if (AD_Table_ID == X_HR_Process.Table_ID)
 			docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll+ "'";
 		//
 		if (docBaseType == null)

@@ -31,7 +31,6 @@ import org.compiere.model.MSession;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.wf.MWorkflowProcessor;
-import org.eevolution.model.MIMPProcessor;
 
 /**
  *	Adempiere Server Manager
@@ -164,18 +163,7 @@ public class AdempiereServerMgr
 			server.start();
 			server.setPriority(Thread.NORM_PRIORITY-1);
 			m_servers.add(server);
-		}
-		//	ImportProcessor - @Trifon
-		MIMPProcessor[] importModels = MIMPProcessor.getActive(m_ctx);
-		for (int i = 0; i < importModels.length; i++)
-		{
-			MIMPProcessor lp = importModels[i];
-			AdempiereServer server = AdempiereServer.create(lp);
-			server.start();
-			server.setPriority(Thread.NORM_PRIORITY-1);
-			m_servers.add(server);
-		}
-		
+		}		
 		log.fine("#" + noServers);
 		return startAll();
 	}	//	startEnvironment

@@ -169,14 +169,6 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		return plant_id;
 	}
 	
-	/**
-	 * @return Qty On Hand
-	 */
-	public BigDecimal getQtyOnHand()
-	{
-		return MPPMRP.getQtyOnHand(getCtx(), getM_Warehouse_ID(), getM_Product_ID(), get_TrxName());
-	}
-	
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{

@@ -60,8 +60,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.MHRProcess;
-import org.eevolution.model.MPPCostCollector;
+import org.eevolution.model.X_HR_Process;
+import org.eevolution.model.X_PP_Cost_Collector;
 
 /**
  *  Posting Document Root.
@@ -141,8 +141,6 @@ public abstract class Doc
 		MMatchPO.Table_ID,		    //  M_MatchPO
 		MProjectIssue.Table_ID,		//	C_ProjectIssue
 		MRequisition.Table_ID,		//	M_Requisition
-		MHRProcess.Table_ID,		//  HR_Process
-		MPPCostCollector.Table_ID   //  PP_CostCollector
 	};
 	
 	/** Table Names of documents          */
@@ -162,8 +160,6 @@ public abstract class Doc
 		MMatchPO.Table_Name,	    //  M_MatchPO
 		MProjectIssue.Table_Name,	//	C_ProjectIssue
 		MRequisition.Table_Name,	//	M_Requisition
-		MHRProcess.Table_Name,		//  HR_Process
-		MPPCostCollector.Table_Name //  PP_CostCollector
 	};
 
 	/**************************************************************************
@@ -226,10 +222,7 @@ public abstract class Doc
 	public static final String	DOCTYPE_ProjectIssue	= "PJI";
 	/** Purchase Requisition    */
 	public static final String	DOCTYPE_PurchaseRequisition	= "POR";
-	/** Process Payroll **/
-	public static final String	DOCTYPE_Payroll			= "HRP";
-	/** Manufacturing Order        */
-	public static final String 	DOCTYPE_MOrder          = "MOO";
+
 		
 	//  Posting Status - AD_Reference_ID=234     //
 	/**	Document Status         */
@@ -347,10 +340,6 @@ public abstract class Doc
 			doc = new Doc_ProjectIssue (ass, rs, trxName);
 		else if (AD_Table_ID == MRequisition.Table_ID)
 			doc = new Doc_Requisition (ass, rs, trxName);
-		else if (AD_Table_ID == MHRProcess.Table_ID)
-			doc = new Doc_Payroll (ass, rs, trxName);
-		else if (AD_Table_ID == MPPCostCollector.Table_ID)
-			doc = new Doc_CostCollector (ass, rs, trxName);
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;

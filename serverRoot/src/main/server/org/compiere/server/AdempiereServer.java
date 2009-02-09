@@ -35,7 +35,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflowProcessor;
-import org.eevolution.model.MIMPProcessor;
 
 /**
  *	Adempiere Server Base
@@ -64,8 +63,6 @@ public abstract class AdempiereServer extends Thread
 			return new Scheduler ((MScheduler)model);
 		if (model instanceof MLdapProcessor)
 			return new LdapProcessor((MLdapProcessor)model);
-		if (model instanceof MIMPProcessor) // @Trifon
-			return new ReplicationProcessor((MIMPProcessor)model);
 		//
 		throw new IllegalArgumentException("Unknown Processor");
 	}	//	 create
