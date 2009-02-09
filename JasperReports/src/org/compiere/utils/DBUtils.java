@@ -14,6 +14,10 @@ import java.sql.Types;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
+/**
+ * 
+ * @deprecated please use {@link DB} class instead
+ */
 public class DBUtils {
     static {
         try {

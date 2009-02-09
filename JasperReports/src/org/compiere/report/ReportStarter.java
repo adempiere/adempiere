@@ -21,6 +21,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
@@ -32,7 +33,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +40,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
+import java.util.logging.Level;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -53,11 +54,13 @@ import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MProcess;
+import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
@@ -68,7 +71,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
-import org.compiere.utils.DBUtils;
+import org.compiere.util.Util;
 import org.compiere.utils.DigestOfFile;
 
 /**
@@ -80,9 +83,12 @@ import org.compiere.utils.DigestOfFile;
  * @author Ashley Ramdass 
  * @author victor.perez@e-evolution.com 
  * @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>FR [ 2581145 ] Jasper: Provide parameters info
  */
-public class ReportStarter implements ProcessCall, ClientProcess {
-//logger
+public class ReportStarter implements ProcessCall, ClientProcess
+{
+	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ReportStarter.class);
 	private static File REPORT_HOME = null;
 	
@@ -348,13 +354,13 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	 *  It should only return false, if the function could not be performed
 	 *  as this causes the process to abort.
 	 *  @author rlemeill
-	 *  @param ctx  context
-	 *  @param pi            Compiere standard process info
+	 *  @param ctx context
+	 *  @param pi standard process info
 	 *  @param trx
 	 *  @return true if success
 	 */
-    public boolean startProcess(Properties ctx, ProcessInfo pi, Trx trx) {
-		
+    public boolean startProcess(Properties ctx, ProcessInfo pi, Trx trx)
+    {
     	processInfo = pi;
 		String Name=pi.getTitle();
         int AD_PInstance_ID=pi.getAD_PInstance_ID();
@@ -364,15 +370,16 @@ public class ReportStarter implements ProcessCall, ClientProcess {
         if (trx != null) {
         	trxName = trx.getTrxName();
         }
-        ReportData reportData = getReportData( pi, trxName);
-        if (reportData==null) {
-            reportResult( AD_PInstance_ID, "Can not find report data", trxName);
+        ReportData reportData = getReportData(pi, trxName);
+        if (reportData == null) {
+            reportResult(AD_PInstance_ID, "Can not find report data", trxName);
             return false;
         }
 
         String reportPath =  reportData.getReportFilePath();
-        if ((reportPath==null)||(reportPath.length()==0)) {
-            reportResult( AD_PInstance_ID, "Can not find report", trxName);
+        if (Util.isEmpty(reportPath, true))
+		{
+            reportResult(AD_PInstance_ID, "Can not find report", trxName);
             return false;
         }
         
@@ -381,19 +388,18 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 		String fileExtension = "";
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		
-		addProcessParameters( AD_PInstance_ID, params, trxName);
-		
+		addProcessParameters(AD_PInstance_ID, params, trxName);
 		addProcessInfoParameters(params, pi.getParameter());
 		
 		reportFile = getReportFile(reportPath, (String)params.get("ReportType"));
-		
 		if (reportFile == null || reportFile.exists() == false) 
 		{
 			log.severe("No report file found for given type, falling back to " + reportPath);
 			reportFile = getReportFile(reportPath);
 		}
 		
-		if (reportFile == null || reportFile.exists() == false) {
+		if (reportFile == null || reportFile.exists() == false)
+		{
 			String tmp = "Can not find report file at path - " + reportPath;
 			log.severe(tmp);
 			reportResult(AD_PInstance_ID, tmp, trxName);
@@ -658,7 +664,8 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	 * @param reportPath
 	 * @return the abstract file corresponding to report
 	 */
-	protected File getReportFile(String reportPath) {
+	protected File getReportFile(String reportPath)
+	{
 		File reportFile = null;
 		
 		// Reports deployment on web server Thanks to Alin Vaida
@@ -688,7 +695,10 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 		}
 		
 		// Set org.compiere.report.path because it is used in reports which refer to subreports
-		System.setProperty("org.compiere.report.path", reportFile.getParentFile().getAbsolutePath());
+		if (reportFile != null)
+		{
+			System.setProperty("org.compiere.report.path", reportFile.getParentFile().getAbsolutePath());
+		}
 		return reportFile;
 	}
 
@@ -779,25 +789,17 @@ public class ReportStarter implements ProcessCall, ClientProcess {
 	}
 
 	/**
+	 * Update AD_PInstance result and error message
      * @author rlemeill
      * @param AD_PInstance_ID
-     * @param errMsg
+     * @param errMsg error message or null if there is no error
      */
-    protected void reportResult( int AD_PInstance_ID, String errMsg, String trxName) {
-        int result = (errMsg==null)?1:0;
-        errMsg = (errMsg==null)?"":errMsg;
-        String sql = "UPDATE AD_PInstance SET result="+result+", errormsg='"+errMsg+"' "+
-                     "WHERE AD_PInstance_ID="+AD_PInstance_ID;
-        Statement pstmt = null;
-        try {
-            pstmt = DB.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, trxName);
-            pstmt.executeUpdate(sql);
-            pstmt.close();
-        } catch (SQLException e) {
-            log.severe(sql+e.getMessage());
-        } finally {
-            DBUtils.close( pstmt);
-        }
+    protected void reportResult(int AD_PInstance_ID, String errMsg, String trxName)
+    {
+        int result = (errMsg == null ? 1 : 0);
+        String sql = "UPDATE AD_PInstance SET Result=?, ErrorMsg=?"
+                     +" WHERE AD_PInstance_ID="+AD_PInstance_ID;
+        DB.executeUpdateEx(sql, new Object[]{result, errMsg}, trxName);
     }
 
     /**
@@ -835,30 +837,38 @@ public class ReportStarter implements ProcessCall, ClientProcess {
         return new JasperData( jasperReport, reportDir, jasperName, jasperFile);
     }
 
-
-    protected void addProcessParameters( int AD_PInstance_ID, Map<String, Object> params, String trxName) {
-        log.info("");
-        String sql = "SELECT ParameterName, "+
-                        "P_String, "+
-                        "P_String_To, "+
-                        "P_Number, "+
-                        "P_Number_To, "+
-                        "P_Date, "+
-                        "P_Date_To "+
-                    "FROM AD_PInstance_Para "+
-                    "WHERE AD_PInstance_ID=?";
+    /**
+     * Load Process Parameters into given params map
+     * @param AD_PInstance_ID
+     * @param params
+     * @param trxName
+     */
+    private static void addProcessParameters(int AD_PInstance_ID, Map<String, Object> params, String trxName)
+    {
+        final String sql = "SELECT "
+        				+" "+X_AD_PInstance_Para.COLUMNNAME_ParameterName
+        				+","+X_AD_PInstance_Para.COLUMNNAME_P_String
+                        +","+X_AD_PInstance_Para.COLUMNNAME_P_String_To
+                        +","+X_AD_PInstance_Para.COLUMNNAME_P_Number
+                        +","+X_AD_PInstance_Para.COLUMNNAME_P_Number_To
+                        +","+X_AD_PInstance_Para.COLUMNNAME_P_Date
+                        +","+X_AD_PInstance_Para.COLUMNNAME_P_Date_To
+                        +","+X_AD_PInstance_Para.COLUMNNAME_Info
+                        +","+X_AD_PInstance_Para.COLUMNNAME_Info_To
+                    +" FROM "+X_AD_PInstance_Para.Table_Name
+                    +" WHERE "+X_AD_PInstance_Para.COLUMNNAME_AD_PInstance_ID+"=?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        try {
+        try
+        {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
             pstmt.setInt(1, AD_PInstance_ID);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 String name = rs.getString(1);
                 String pStr = rs.getString(2);
                 String pStrTo = rs.getString(3);
-                //Double pNum = new Double( rs.getDouble(4));
-                //Double pNumTo = new Double( rs.getDouble(5));
                 BigDecimal pNum = rs.getBigDecimal(4);
                 BigDecimal pNumTo = rs.getBigDecimal(5);
                 
@@ -879,23 +889,35 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                         params.put( name, pDate);
                     }
                 } else if (pNum != null) {
-                    if (rs.getBigDecimal(5)!=null) {
+                    if (pNumTo!=null) {
                         params.put( name+"1", pNum);
                         params.put( name+"2", pNumTo);
                     } else {
                         params.put( name, pNum);
                     }
                 }
+                //
+                // Add parameter info - teo_sarca FR [ 2581145 ]
+                String info = rs.getString(8);
+                String infoTo = rs.getString(9);
+        		params.put(name+"_Info1", (info != null ? info : ""));
+        		params.put(name+"_Info2", (infoTo != null ? infoTo : ""));
             }
-        } catch (SQLException e) {
-            log.severe("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
-        } finally {
-            DBUtils.close( rs);
-            DBUtils.close( pstmt);
+        }
+        catch (SQLException e)
+        {
+//            log.severe("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
+            throw new DBException(e, sql);
+        }
+        finally
+        {
+            DB.close(rs, pstmt);
+            rs = null; pstmt = null;
         }
     }
 
-    private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] para) {
+    private void addProcessInfoParameters(Map<String, Object> params, ProcessInfoParameter[] para)
+    {
     	if (para != null) {
 			for (int i = 0; i < para.length; i++) {
 				if (para[i].getParameter_To() == null) {
@@ -981,7 +1003,8 @@ public class ReportStarter implements ProcessCall, ClientProcess {
      * @param jasperFile
      * @return compiled JasperReport
      */
-    private JasperReport compileReport( File reportFile, File jasperFile) {
+    private JasperReport compileReport( File reportFile, File jasperFile)
+    {
     	JWScorrectClassPath();
         JasperReport compiledJasperReport = null;
         try {
@@ -989,7 +1012,7 @@ public class ReportStarter implements ProcessCall, ClientProcess {
             jasperFile.setLastModified( reportFile.lastModified()); //Synchronize Dates
             compiledJasperReport =  (JasperReport)JRLoader.loadObject(jasperFile);
         } catch (JRException e) {
-            log.severe("JRException; e.getMessage()= "+ e.getMessage());
+            log.log(Level.SEVERE, "Error", e);
         }
         return compiledJasperReport;
     }
@@ -997,9 +1020,10 @@ public class ReportStarter implements ProcessCall, ClientProcess {
     /**
      * @author rlemeill
      * @param ProcessInfo
-     * @return ReportData
+     * @return ReportData or null if no data found
      */
-    public ReportData getReportData( ProcessInfo pi, String trxName) {
+    public ReportData getReportData (ProcessInfo pi, String trxName)
+    {
     	log.info("");
         String sql = "SELECT pr.JasperReport, pr.IsDirectPrint "
         		   + "FROM AD_Process pr, AD_PInstance pi "
@@ -1007,7 +1031,8 @@ public class ReportStarter implements ProcessCall, ClientProcess {
                    + " AND pi.AD_PInstance_ID=?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        try {
+        try
+        {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, trxName);
             pstmt.setInt(1, pi.getAD_PInstance_ID());
             rs = pstmt.executeQuery();
@@ -1026,12 +1051,17 @@ public class ReportStarter implements ProcessCall, ClientProcess {
             }
             
             return new ReportData( path, directPrint);
-        } catch (SQLException e) {
-            log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
-            return null;
-        } finally {
-            DBUtils.close( rs);
-            DBUtils.close( pstmt);
+        }
+        catch (SQLException e)
+        {
+        	throw new DBException(e, sql);
+//        	log.severe("sql = "+sql+"; e.getMessage() = "+ e.getMessage());
+//        	return null;
+        }
+        finally
+        {
+            DB.close(rs, pstmt);
+            rs = null; pstmt = null;
         }
     }
     
@@ -1071,8 +1101,14 @@ public class ReportStarter implements ProcessCall, ClientProcess {
         }
     }
 
-    class JasperData {
-        private JasperReport jasperReport;
+    public static class JasperData
+    implements Serializable
+    {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4375195020654531202L;
+		private JasperReport jasperReport;
         private File reportDir;
         private String jasperName;
         private File jasperFile;
