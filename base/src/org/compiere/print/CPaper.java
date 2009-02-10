@@ -39,7 +39,7 @@ import org.compiere.util.Msg;
  *
  *  Change log:
  *  <ul>
- *  <li>2009-02-10 - armen - [ 2580531 ] Custom Paper Support
+ *  <li>2009-02-10 - armen - [ 2580531 ] Custom Paper Support - https://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2580531&group_id=176962
  *  </ul>
  *   
  * 	@author 	Jorg Janke
