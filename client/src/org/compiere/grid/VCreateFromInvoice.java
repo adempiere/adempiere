@@ -53,9 +53,15 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1896947 ] Generate invoice from Order error
+ * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
 public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7102932507855655539L;
+
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
@@ -67,7 +73,8 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	}   //  VCreateFromInvoice
 
 	private boolean 	m_actionActive = false;
-	private MInOut		m_inout = null;
+//	private MInOut		m_inout = null;
+	private int			m_M_InOut_ID = -1;
 	/**  Loaded RMA             */
 	private MRMA        m_rma = null;
 
@@ -295,10 +302,10 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	private void loadShipment (int M_InOut_ID)
 	{
 		log.config("M_InOut_ID=" + M_InOut_ID);
-		m_inout = new MInOut(Env.getCtx(), M_InOut_ID, null);
+		MInOut inout = new MInOut(Env.getCtx(), M_InOut_ID, null);
 		p_order = null;
-		if (m_inout.getC_Order_ID() != 0)
-			p_order = new MOrder (Env.getCtx(), m_inout.getC_Order_ID(), null);
+		if (inout.getC_Order_ID() != 0)
+			p_order = new MOrder (Env.getCtx(), inout.getC_Order_ID(), null);
 
 		//
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
@@ -374,7 +381,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	        
 	    m_rma = new MRMA(Env.getCtx(), M_RMA_ID, null);
 	        
-	    Vector<Vector> data = new Vector<Vector>();
+	    Vector<Vector<?>> data = new Vector<Vector<?>>();
 	    StringBuffer sqlStmt = new StringBuffer();
 	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
 	    sqlStmt.append("FROM M_RMALine rl INNER JOIN M_InOutLine iol ON rl.M_InOutLine_ID=iol.M_InOutLine_ID ");
@@ -409,13 +416,13 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	    sqlStmt.append("AND rl.C_Charge_ID IS NOT NULL");
 	         
 	    PreparedStatement pstmt = null;
-	            
+	    ResultSet rs = null;
 	    try
 	    {
 	        pstmt = DB.prepareStatement(sqlStmt.toString(), null);
 	        pstmt.setInt(1, M_RMA_ID);
 	        pstmt.setInt(2, M_RMA_ID);
-	        ResultSet rs = pstmt.executeQuery();
+	        rs = pstmt.executeQuery();
 	               
 	        while (rs.next())
             {
@@ -441,17 +448,8 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	    }
 	    finally
 	    {
-	        if (pstmt != null)
-	        {
-	            try
-	            {
-	                pstmt.close();
-	            }
-	            catch (Exception ex)
-	            {
-	                log.severe("Could not close prepared statement");
-	            }
-	        }
+	    	DB.close(rs, pstmt);
+	    	rs = null; pstmt = null;
 	    }
 	    loadTableOIS(data);
 	}
@@ -476,7 +474,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	 *  Save - Create Invoice Lines
 	 *  @return true if saved
 	 */
-	protected boolean save()
+	protected boolean save(String trxName)
 	{
 		dataTable.stopEditor(true);
 		log.config("");
@@ -487,19 +485,25 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 
 		//  Invoice
 		int C_Invoice_ID = ((Integer)p_mTab.getValue("C_Invoice_ID")).intValue();
-		MInvoice invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);
+		MInvoice invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);
 		log.config(invoice.toString());
 
 		if (p_order != null)
 		{
 			invoice.setOrder(p_order);	//	overwrite header values
-			invoice.save();
+			invoice.saveEx();
 		}
-		if (m_inout != null && m_inout.getM_InOut_ID() != 0 
-			&& m_inout.getC_Invoice_ID() == 0)	//	only first time
+		
+		MInOut inout = null;
+		if (m_M_InOut_ID > 0)
 		{
-			m_inout.setC_Invoice_ID(C_Invoice_ID);
-			m_inout.save();
+			inout = new MInOut(Env.getCtx(), m_M_InOut_ID, trxName);
+		}
+		if (inout != null && inout.getM_InOut_ID() != 0 
+			&& inout.getC_Invoice_ID() == 0)	//	only first time
+		{
+			inout.setC_Invoice_ID(C_Invoice_ID);
+			inout.saveEx();
 		}
 
 
@@ -509,7 +513,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 			if (((Boolean)model.getValueAt(i, 0)).booleanValue())
 			{
 				//  variable values
-				BigDecimal QtyEntered= (BigDecimal)model.getValueAt(i, 1);//  1-Qty
+				BigDecimal QtyEntered = (BigDecimal) model.getValueAt(i, 1);              //  1-Qty
 				
 				KeyNamePair pp = (KeyNamePair)model.getValueAt(i, 2);   //  2-UOM
 				int C_UOM_ID = pp.getKey();
@@ -518,7 +522,6 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 				int M_Product_ID = 0;
 				if (pp != null)
 					M_Product_ID = pp.getKey();
-				int C_Charge_ID = 0;
 				//
 				int C_OrderLine_ID = 0;
 				pp = (KeyNamePair)model.getValueAt(i, 5);               //  5-OrderLine
@@ -549,22 +552,22 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 				//  Info
 				MOrderLine orderLine = null;
 				if (C_OrderLine_ID != 0)
-					orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, null);
+					orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, trxName);
 				MInOutLine inoutLine = null;
 				if (M_InOutLine_ID != 0)
 				{
-					inoutLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, null);
+					inoutLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, trxName);
 					if (orderLine == null && inoutLine.getC_OrderLine_ID() != 0)
 					{
 						C_OrderLine_ID = inoutLine.getC_OrderLine_ID();
-						orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, null);
+						orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, trxName);
 					}
 				}
 				else
 				{
 					String whereClause = "EXISTS (SELECT 1 FROM M_InOut io WHERE io.M_InOut_ID=M_InOutLine.M_InOut_ID AND io.DocStatus IN ('CO','CL'))";
 					MInOutLine[] lines = MInOutLine.getOfOrderLine(Env.getCtx(), 
-						C_OrderLine_ID, whereClause, null);
+						C_OrderLine_ID, whereClause, trxName);
 					log.fine ("Receipt Lines with OrderLine = #" + lines.length);
 					if (lines.length > 0)
 					{
@@ -613,8 +616,7 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 						invoiceLine.setTax();
 					}
 				}
-				if (!invoiceLine.save())
-					log.log(Level.SEVERE, "Line NOT created #" + i);
+				invoiceLine.saveEx();
 			}   //   if selected
 		}   //  for all rows
 
@@ -622,7 +624,8 @@ public class VCreateFromInvoice extends VCreateFrom implements VetoableChangeLis
 	}   //  saveInvoice
 
 	@Override
-	protected void loadTableOIS(Vector data) {
+	protected void loadTableOIS(Vector<?> data)
+	{
 	//  Header Info
 	    Vector<String> columnNames = new Vector<String>(7);
 	    columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));

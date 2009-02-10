@@ -32,10 +32,18 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 /**
+ *  Create Transactions for RMA
  * @author ashley
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
 public class VCreateFromRMA extends VCreateFrom
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8621409442057992906L;
+
 	/**
 	 * 
 	 * @param mTab
@@ -81,11 +89,8 @@ public class VCreateFromRMA extends VCreateFrom
         return true;
     }
     
-    /**
-     *  Load Order/Invoice/Shipment data into Table
-     *  @param data data
-     */
-    protected void loadTableOIS (Vector data)
+    @Override
+    protected void loadTableOIS (Vector<?> data)
     {
         //  Header Info
         Vector<String> columnNames = new Vector<String>(7);
@@ -191,7 +196,7 @@ public class VCreateFromRMA extends VCreateFrom
         
     }
     
-    protected boolean save()
+    protected boolean save(String trxName)
     {
         log.config("");
         int m_rma_id = Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_RMA_ID");
@@ -203,7 +208,7 @@ public class VCreateFromRMA extends VCreateFrom
         }
         
 //        Integer bpId = (Integer)bPartnerField.getValue();
-        MRMA rma = new MRMA(Env.getCtx(), m_rma_id, null);
+        MRMA rma = new MRMA(Env.getCtx(), m_rma_id, trxName);
         //update BP
 //        rma.setC_BPartner_ID(bpId);
         
@@ -216,7 +221,7 @@ public class VCreateFromRMA extends VCreateFrom
                 
                 int inOutLineId = pp.getKey();
                 
-                MRMALine rmaLine = new MRMALine(Env.getCtx(), 0, null);
+                MRMALine rmaLine = new MRMALine(rma.getCtx(), 0, rma.get_TrxName());
                 rmaLine.setM_RMA_ID(m_rma_id);
                 rmaLine.setM_InOutLine_ID(inOutLineId);
                 rmaLine.setQty(d);
@@ -227,12 +232,7 @@ public class VCreateFromRMA extends VCreateFrom
                 }
             }
         }
-        
-        if (!rma.save())
-        {
-            throw new IllegalStateException("Could not update RMA");
-        }
-        
+        rma.saveEx();
         return true;
     }
 

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -58,9 +58,15 @@ import org.compiere.util.Msg;
  *  @version  $Id: VCreateFromStatement.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *  @author Victor Perez, e-Evolucion 
  *  <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
+ *  @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
-public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
+public class VCreateFromStatement extends VCreateFrom implements ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5544131841459717303L;
 	private MBankAccount bankAccount;
 
 	/**
@@ -298,13 +304,13 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 
 		sql = sql + getSQLWhere() + " ORDER BY p.DateTrx";
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
-			
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			setParameters( pstmt, false);
-			
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(6);
@@ -319,12 +325,15 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 				line.add(rs.getString(8));      	//  6-BParner
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(6);
@@ -380,7 +389,7 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 	 *  Save Statement - Insert Data
 	 *  @return true if saved
 	 */
-	protected boolean save()
+	protected boolean save(String trxName)
 	{
 		log.config("");
 		TableModel model = dataTable.getModel();
@@ -390,7 +399,7 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 
 		//  fixed values
 		int C_BankStatement_ID = ((Integer)p_mTab.getValue("C_BankStatement_ID")).intValue();
-		MBankStatement bs = new MBankStatement (Env.getCtx(), C_BankStatement_ID, null);
+		MBankStatement bs = new MBankStatement (Env.getCtx(), C_BankStatement_ID, trxName);
 		log.config(bs.toString());
 
 		//  Lines
@@ -410,7 +419,7 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 				//	
 				MBankStatementLine bsl = new MBankStatementLine (bs);
 				bsl.setStatementLineDate(trxDate);
-				bsl.setPayment(new MPayment(Env.getCtx(), C_Payment_ID, null));
+				bsl.setPayment(new MPayment(Env.getCtx(), C_Payment_ID, trxName));
 				
 				bsl.setTrxAmt(TrxAmt);
 				bsl.setStmtAmt(TrxAmt);
@@ -430,15 +439,18 @@ public class VCreateFromStatement	extends VCreateFrom	implements ActionListener
 	public void  actionPerformed(ActionEvent e)
 	{
 		log.config("Action=" + e.getActionCommand());
-		Object source = e.getSource();
-		if ( e.getActionCommand().equals(confirmPanel.A_REFRESH) )	{
+//		Object source = e.getSource();
+		if ( e.getActionCommand().equals(ConfirmPanel.A_REFRESH) )
+		{
 			Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
 			loadBankAccount();
 			tableChanged(null);
 			Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
 		}
 		else
+		{
 			super.actionPerformed(e);
+		}
 	}
 
 }   //  VCreateFromStatement

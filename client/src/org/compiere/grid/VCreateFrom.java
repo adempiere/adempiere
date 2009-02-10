@@ -42,6 +42,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
@@ -71,6 +72,8 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 
 /**
  *  CreateFrom (Called from GridController.startProcess)
@@ -81,6 +84,7 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
  * 			<li>FR [ 1974354 ] VCreateFrom.create should be more flexible
+ * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  * @author Victor Perez, e-Evolucion 
  *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  * @author Karsten Thiemann, Schaeffer AG
@@ -89,6 +93,11 @@ import org.compiere.util.Msg;
 public abstract class VCreateFrom extends CDialog
 	implements ActionListener, TableModelListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7749087067953806144L;
+	
 	/**
 	 * Register custom VCreateFrom* class
 	 * @param ad_table_id
@@ -192,7 +201,7 @@ public abstract class VCreateFrom extends CDialog
 	private static CLogger 	s_log = CLogger.getCLogger (VCreateFrom.class);
 	
 	//
-	private CPanel parameterPanel = new CPanel();
+	protected CPanel parameterPanel = new CPanel();
 	protected CPanel parameterBankPanel = new CPanel();
 	private BorderLayout parameterLayout = new BorderLayout();
 	private JLabel bankAccountLabel = new JLabel();
@@ -458,7 +467,7 @@ public abstract class VCreateFrom extends CDialog
 	 *  Save & Insert Data
 	 *  @return true if saved
 	 */
-	abstract boolean save();
+	abstract boolean save(String trxName);
 
 	/*************************************************************************/
 
@@ -476,8 +485,23 @@ public abstract class VCreateFrom extends CDialog
 		//  OK - Save
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			if (save())
-				dispose();
+			try
+			{
+				Trx.run(new TrxRunnable()
+				{
+					public void run(String trxName)
+					{
+						if (save(trxName))
+						{
+							dispose();
+						}
+					}
+				});
+			}
+			catch (Exception ex)
+			{
+				ADialog.error(p_WindowNo, this, "Error", ex.getLocalizedMessage());
+			}
 		}
 		//  Cancel
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
@@ -615,9 +639,9 @@ public abstract class VCreateFrom extends CDialog
 		 *  InvoiceLine     - 7
 		 */
 		log.config("C_Order_ID=" + C_Order_ID);
-		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);      //  save
+		p_order = new MOrder (Env.getCtx(), C_Order_ID, null);
 
-		Vector<Vector> data = new Vector<Vector>();
+		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT "
 			+ "l.QtyOrdered-SUM(COALESCE(m.Qty,0)),"					//	1
 			+ "CASE WHEN l.QtyOrdered=0 THEN 0 ELSE l.QtyEntered/l.QtyOrdered END,"	//	2
@@ -644,11 +668,13 @@ public abstract class VCreateFrom extends CDialog
 			+ "ORDER BY l.Line");
 		//
 		log.finer(sql.toString());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_Order_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>();
@@ -656,10 +682,10 @@ public abstract class VCreateFrom extends CDialog
 				BigDecimal qtyOrdered = rs.getBigDecimal(1);
 				BigDecimal multiplier = rs.getBigDecimal(2);
 				BigDecimal qtyEntered = qtyOrdered.multiply(multiplier);
-				line.add(qtyEntered);  //  1-Qty
+				line.add(qtyEntered);                   //  1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
-                                pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
+				pp = new KeyNamePair(rs.getInt(5), rs.getString(6));
 				line.add(pp);                           //  3-Product
 				line.add(rs.getString(7));				// 4-VendorProductNo
 				pp = new KeyNamePair(rs.getInt(8), rs.getString(9));
@@ -668,13 +694,17 @@ public abstract class VCreateFrom extends CDialog
 				line.add(null);                         //  7-Invoice
 				data.add(line);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
 		loadTableOIS (data);
 	}   //  LoadOrder
 
@@ -683,7 +713,7 @@ public abstract class VCreateFrom extends CDialog
 	 *  Load Order/Invoice/Shipment data into Table
 	 *  @param data data
 	 */
-	protected void loadTableOIS (Vector data)
+	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(7);
@@ -730,5 +760,4 @@ public abstract class VCreateFrom extends CDialog
 		//
 		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
 	}
-
 }   //  VCreateFrom

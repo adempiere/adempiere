@@ -66,10 +66,16 @@ import org.compiere.util.Msg;
  * 			<li> BF 2530254 It is wrong locator in material receipt for outsourced PO's
  * 	@see	http://sourceforge.net/tracker2/?func=detail&atid=879332&aid=2530254&group_id=176962
  *  @version  $Id: VCreateFromShipment.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
 public class VCreateFromShipment extends VCreateFrom implements VetoableChangeListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6317997004973385619L;
 
 	/**
 	 * Cell editor specific for the MLocator in this form's table.
@@ -194,7 +200,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 *  @param data data
 	 */
 	@Override
-	protected void loadTableOIS (Vector data)
+	protected void loadTableOIS (Vector<?> data)
 	{
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(colNames.length);
@@ -291,23 +297,28 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				+ " OR mi.C_InvoiceLine_ID IS NULL) "
 				+ "ORDER BY i.DateInvoiced");
 
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
 			pstmt.setInt(2, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
 				invoiceField.addItem(pp);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		invoiceField.setSelectedIndex(0);
 		invoiceField.addActionListener(this);
@@ -334,17 +345,17 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			+ "AND rl.M_InOutLine_ID IS NOT NULL)";
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sqlStmt, null);
 			pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
 				rmaField.addItem(pp);
 			}
-			rs.close();
 		}
 		catch (SQLException e)
 		{
@@ -352,17 +363,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		}
 		finally
 		{
-			if (pstmt != null)
-			{
-				try
-				{
-					pstmt.close();
-				}
-				catch (Exception ex)
-				{
-					log.severe("Could not close prepared statement");
-				}
-			}
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		rmaField.setSelectedIndex(0);
 		rmaField.addActionListener(this);
@@ -794,7 +796,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	 * 
 	 * @return true if saved
 	 */
-	protected boolean save()
+	protected boolean save(String trxName)
 	{	
 		dataTable.stopEditor(true);
 		log.config("");
@@ -811,7 +813,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		int M_Locator_ID = defaultLoc.intValue();
 		// Get Shipment
 		int M_InOut_ID = ((Integer) p_mTab.getValue("M_InOut_ID")).intValue();
-		MInOut inout = new MInOut(Env.getCtx(), M_InOut_ID, null);
+		MInOut inout = new MInOut(Env.getCtx(), M_InOut_ID, trxName);
 		log.config(inout + ", C_Locator_ID=" + M_Locator_ID);
 
 		// Lines
@@ -843,7 +845,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				if (pp != null)
 					C_InvoiceLine_ID = pp.getKey();
 				if (C_InvoiceLine_ID != 0)
-					il = new MInvoiceLine (Env.getCtx(), C_InvoiceLine_ID, null);
+					il = new MInvoiceLine (Env.getCtx(), C_InvoiceLine_ID, trxName);
 				//boolean isInvoiced = (C_InvoiceLine_ID != 0);
 				//	Precision of Qty UOM
 				int precision = 2;
@@ -872,7 +874,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				if (C_OrderLine_ID != 0)
 				{
 					iol.setC_OrderLine_ID(C_OrderLine_ID);
-					ol = new MOrderLine (Env.getCtx(), C_OrderLine_ID, null);
+					ol = new MOrderLine (Env.getCtx(), C_OrderLine_ID, trxName);
 					if (ol.getQtyEntered().compareTo(ol.getQtyOrdered()) != 0)
 					{
 						iol.setMovementQty(QtyEntered
@@ -913,7 +915,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				}
 				else if (M_RMALine_ID != 0)
 				{
-					rmal = new MRMALine(Env.getCtx(), M_RMALine_ID, null);
+					rmal = new MRMALine(Env.getCtx(), M_RMALine_ID, trxName);
 					iol.setM_RMALine_ID(M_RMALine_ID);
 					iol.setQtyEntered(QtyEntered);
 					iol.setDescription(rmal.getDescription());
@@ -945,7 +947,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				else if (il != null)
 				{
 					il.setM_InOutLine_ID(iol.getM_InOutLine_ID());
-					il.save();
+					il.saveEx();
 				}
 			}   //   if selected
 		}   //  for all rows
@@ -1000,7 +1002,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 			inout.setUser1_ID(originalIO.getUser1_ID());
 			inout.setUser2_ID(originalIO.getUser2_ID());
 		}
-		inout.save();
+		inout.saveEx();
 		return true;
 	}   //  save
 
