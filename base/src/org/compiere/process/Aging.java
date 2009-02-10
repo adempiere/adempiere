@@ -19,9 +19,11 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAging;
 import org.compiere.model.MRole;
 import org.compiere.util.DB;
@@ -103,37 +105,56 @@ public class Aging extends SvrProcess
 			+ "oi.C_Currency_ID, oi.IsSOTrx, "								//	5..6
 			+ "oi.DateInvoiced, oi.NetDays,oi.DueDate,oi.DaysDue, ");		//	7..10
 		if (p_C_Currency_ID == 0)
+		{
 			if (!p_DateAcct)//FR 1933937
-				sql.append("oi.GrandTotal, oi.PaidAmt, oi.OpenAmt ");			//	11..13	
-			else 
-				sql.append("oi.GrandTotal, invoicePaidToDate(oi.C_Invoice_ID, oi.C_Currency_ID, 1,"+dateacct+") AS PaidAmt, invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") AS OpenAmt ");			//	11..13
+			{
+				sql.append(" oi.GrandTotal, oi.PaidAmt, oi.OpenAmt ");			//	11..13
+			}
+			else
+			{
+				sql.append(" oi.GrandTotal, invoicePaidToDate(oi.C_Invoice_ID, oi.C_Currency_ID, 1,"+dateacct+") AS PaidAmt, invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") AS OpenAmt ");			//	11..13
+			}
+		}
 		else
 		{
 			String s = ",oi.C_Currency_ID," + p_C_Currency_ID + ",oi.DateAcct,oi.C_ConversionType_ID,oi.AD_Client_ID,oi.AD_Org_ID)";
 			sql.append("currencyConvert(oi.GrandTotal").append(s);		//	11..
 			if (!p_DateAcct)
+			{
 				sql.append(", currencyConvert(oi.PaidAmt").append(s)
 				.append(", currencyConvert(oi.OpenAmt").append(s);
+			}
 			else
+			{
 				sql.append(", currencyConvert(invoicePaidToDate(oi.C_Invoice_ID, oi.C_Currency_ID, 1,"+dateacct+")").append(s)
 				.append(", currencyConvert(invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+")").append(s);
-				
+			}
 		}
 		sql.append(",oi.C_Activity_ID,oi.C_Campaign_ID,oi.C_Project_ID ");	//	14
-			if (!p_DateAcct)//FR 1933937	
-				sql.append( "FROM RV_OpenItem oi");
-			else 
-				sql.append( "FROM RV_OpenItemToDate oi");
+		if (!p_DateAcct)//FR 1933937
+		{
+			sql.append(" FROM RV_OpenItem oi");
+		}
+		else
+		{
+			sql.append(" FROM RV_OpenItemToDate oi");
+		}
 		
 		sql.append(" INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE oi.ISSoTrx=").append(p_IsSOTrx ? "'Y'" : "'N'");
 		if (p_C_BPartner_ID > 0)
+		{
 			sql.append(" AND oi.C_BPartner_ID=").append(p_C_BPartner_ID);
+		}
 		else if (p_C_BP_Group_ID > 0)
+		{
 			sql.append(" AND bp.C_BP_Group_ID=").append(p_C_BP_Group_ID);
+		}
 		
 		if (p_DateAcct)//FR 1933937
-			sql.append("AND invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") <> 0 ");
+		{
+			sql.append(" AND invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") <> 0 ");
+		}
 		
 		sql.append(" ORDER BY oi.C_BPartner_ID, oi.C_Currency_ID, oi.C_Invoice_ID");
 		
@@ -143,6 +164,7 @@ public class Aging extends SvrProcess
 		log.finer(finalSql);
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		//
 		MAging aging = null;
 		int counter = 0;
@@ -152,7 +174,7 @@ public class Aging extends SvrProcess
 		try
 		{
 			pstmt = DB.prepareStatement(finalSql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int C_BP_Group_ID = rs.getInt(1);
@@ -188,13 +210,8 @@ public class Aging extends SvrProcess
 				{
 					if (aging != null)
 					{
-						if (aging.save())
-							log.fine("#" + ++counter + " - " + aging);
-						else
-						{
-							log.log(Level.SEVERE, "Not saved " + aging);
-							break;
-						}
+						aging.saveEx();
+						log.fine("#" + ++counter + " - " + aging);
 					}
 					aging = new MAging (getCtx(), AD_PInstance_ID, p_StatementDate, 
 						C_BPartner_ID, C_Currency_ID, 
@@ -210,29 +227,20 @@ public class Aging extends SvrProcess
 			}
 			if (aging != null)
 			{
-				if (aging.save())
-					log.fine("#" + ++counter + " - " + aging);
-				else
-					log.log(Level.SEVERE, "Not saved " + aging);
+				aging.saveEx();
+				counter++;
+				log.fine("#" + counter + " - " + aging);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, finalSql, e);
+			throw new DBException(e, finalSql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}	
 		//	
 		log.info("#" + counter + " - rows=" + rows);
 		return "";
