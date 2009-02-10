@@ -1018,10 +1018,9 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		KeyNamePair pp =  null ;
 		if(M_Locator_ID == 0)
 		{
-
-			MLocator locator = getM_Warehouse().getDefaultLocator();
+			MLocator locator = getM_Locator();
 			if (locator != null)
-			{	
+			{
 				pp = new KeyNamePair(locator.get_ID(),  locator.getValue());
 			}
 		}
@@ -1033,12 +1032,28 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	}
 
 	/**
-	 * get the Warehouse from Order
-	 * @return MWarehouse
+	 * Get Locator from Order or locatorField
+	 * @return MLocator
 	 */
-	protected MWarehouse getM_Warehouse()
+	protected MLocator getM_Locator()
 	{
-		return MWarehouse.get(p_order.getCtx(),p_order.getM_Warehouse_ID());
+		MLocator locator = null;
+		if (p_order != null)
+		{
+			MWarehouse wh = MWarehouse.get(Env.getCtx(), p_order.getM_Warehouse_ID());
+			if (wh != null)
+			{
+				locator = wh.getDefaultLocator();
+			}
+		}
+		if (locator == null)
+		{
+			Integer M_Locator_ID = (Integer) locatorField.getValue();
+			if (M_Locator_ID != null && M_Locator_ID > 0)
+			{
+				locator = MLocator.get(Env.getCtx(), M_Locator_ID);
+			}
+		}
+		return locator;
 	}
-
 }   //  VCreateFromShipment
