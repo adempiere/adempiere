@@ -27,7 +27,7 @@ FROM RV_C_Invoice i
 WHERE --    i.IsPaid='N'
     invoiceOpen(i.C_Invoice_ID,0) <> 0 AND 
     i.IsPayScheduleValid<>'Y'
-    AND i.DocStatus<>'DR'
+    AND i.DocStatus IN ('CO','CL')
 UNION
 SELECT i.AD_Org_ID, i.AD_Client_ID,
     i.DocumentNo, i.C_Invoice_ID, i.C_Order_ID, i.C_BPartner_ID, i.IsSOTrx,
@@ -49,7 +49,7 @@ FROM RV_C_Invoice i
 WHERE  --   i.IsPaid='N'
     invoiceOpen(i.C_Invoice_ID,ips.C_InvoicePaySchedule_ID) <> 0 AND 
     i.IsPayScheduleValid='Y'
-    AND i.DocStatus<>'DR'
+    AND i.DocStatus IN ('CO','CL')
     AND ips.IsValid='Y';
 
 
