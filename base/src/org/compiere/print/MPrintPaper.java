@@ -34,6 +34,11 @@ import org.compiere.util.Language;
 /**
  *	AD_PrintPaper Print Paper Model
  *
+ *  Change log:
+ *  <ul>
+ *  <li>2009-02-10 - armen - [ 2580531 ] Custom Paper Support
+ *  </ul>
+ *  
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPrintPaper.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  */
@@ -198,8 +203,17 @@ public class MPrintPaper extends X_AD_PrintPaper
 	 */
 	public CPaper getCPaper()
 	{
-		CPaper retValue = new CPaper (getMediaSize(), isLandscape(),
-			getMarginLeft(), getMarginTop(), getMarginRight(), getMarginBottom());
+		//Modify Lines By AA Goodwill : Custom Paper Support 
+		CPaper retValue;
+		if (getCode().toLowerCase().startsWith("custom")){
+			retValue = new CPaper (getSizeX().doubleValue(), getSizeY().doubleValue(), isLandscape(),
+					getMarginLeft(), getMarginTop(), getMarginRight(), getMarginBottom());			
+		}
+		else{
+			retValue = new CPaper (getMediaSize(), isLandscape(),
+					getMarginLeft(), getMarginTop(), getMarginRight(), getMarginBottom());
+		}
+		//End Of AA Goodwill
 		return retValue;
 	}	//	getCPaper
 

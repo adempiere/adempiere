@@ -37,6 +37,11 @@ import org.compiere.util.Msg;
 /**
  *	Adempiere Paper
  *
+ *  Change log:
+ *  <ul>
+ *  <li>2009-02-10 - armen - [ 2580531 ] Custom Paper Support
+ *  </ul>
+ *   
  * 	@author 	Jorg Janke
  * 	@version 	$Id: CPaper.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
  */
@@ -146,8 +151,41 @@ public class CPaper extends Paper
 	 * 	Get Media Size
 	 * 	@return media size
 	 */
+	//AA Goodwill : Custom Paper Support
+	public CPaper (double x, double y, boolean landscape,
+			double left, double top, double right, double bottom)
+	{
+		super();
+		setMediaSize (x,y, landscape);
+		setImageableArea(left, top, getWidth()-left-right, getHeight()-top-bottom);
+	}
+	
+	public void setMediaSize (double x, double y, boolean landscape)
+	{
+		if (x == 0 || y == 0)
+			throw new IllegalArgumentException("MediaSize is null");
+		
+		m_landscape = landscape;
+
+		//	Get Sise in Inch * 72
+		double width = x * 72;
+		double height = y * 72;
+		//	Set Size
+		setSize (width, height);
+		log.fine("Width & Height" + ": " + String.valueOf(x) + "/" + String.valueOf(y)  + " - Landscape=" + m_landscape);
+	}	//	setMediaSize
+	//End Of AA Goodwill
+
+	/**
+	 * 	Get Media Size
+	 * 	@return media size
+	 */
 	public MediaSizeName getMediaSizeName()
 	{
+		//AA Goodwill: Custom Paper Support
+		if(m_mediaSize == null)
+			return MediaSizeName.ISO_A4;
+		//End Of AA Goodwill
 		return m_mediaSize.getMediaSizeName();
 	}	//	getMediaSizeName
 
@@ -224,7 +262,9 @@ public class CPaper extends Paper
 		else
 			pratts.add(OrientationRequested.PORTRAIT);
 		//	media = na-legal
-		pratts.add(getMediaSizeName());
+		//Commented Lines By AA Goodwill: Custom Paper Support 
+		//pratts.add(getMediaSizeName());
+		//End Of AA Goodwill
 
 		return pratts;
 	}   //  getPrintRequestAttributes
@@ -313,18 +353,23 @@ public class CPaper extends Paper
 	{
 		StringBuffer sb = new StringBuffer();
 		//	Print Media size
-		sb.append(m_mediaSize.getMediaSizeName());
-		//	Print dimension
-		String name = m_mediaSize.getMediaSizeName().toString();
-		if (!name.startsWith("iso"))
-			sb.append(" - ").append(m_mediaSize.toString(MediaSize.INCH,"\""))
-				.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.INCH,"\""));
-		if (!name.startsWith("na"))
-			sb.append(" - ").append(m_mediaSize.toString(MediaSize.MM,"mm"))
-				.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.MM,"mm"));
-		//	Print Orientation
-		sb.append(") - ")
-			.append(Msg.getMsg(ctx, m_landscape ? "Landscape" : "Portrait"));
+		//AA Goodwill : Custom Paper Support
+		if (m_mediaSize != null){
+			sb.append(m_mediaSize.getMediaSizeName());
+			//	Print dimension
+			String name = m_mediaSize.getMediaSizeName().toString();
+			if (!name.startsWith("iso"))
+				sb.append(" - ").append(m_mediaSize.toString(MediaSize.INCH,"\""))
+					.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.INCH,"\""));
+			if (!name.startsWith("na"))
+				sb.append(" - ").append(m_mediaSize.toString(MediaSize.MM,"mm"))
+					.append(" (").append(getMediaPrintableArea().toString(MediaPrintableArea.MM,"mm"));
+			//	Print Orientation
+			sb.append(") - ")
+				.append(Msg.getMsg(ctx, m_landscape ? "Landscape" : "Portrait"));
+		}		
+		else sb.append("Custom - ").append(toString());
+		//End Of AA Goodwill
 		return sb.toString();
 	}	//	toString
 
