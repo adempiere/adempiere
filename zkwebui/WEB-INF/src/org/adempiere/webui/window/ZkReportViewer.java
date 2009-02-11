@@ -863,9 +863,14 @@ public class ZkReportViewer extends Window implements EventListener {
             FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,"", findFields, 1, AD_Tab_ID);
             find.setVisible(true);
             AEnv.showWindow(find);
-            m_reportEngine.setQuery(find.getQuery());  
+            if (!find.isCancel())
+            {
+            	m_reportEngine.setQuery(find.getQuery());
+            	AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
+        		iframe.setContent(media);
+            	revalidate();
+            }
             find = null;
-			revalidate();
 		}
 		cmd_drill();	//	setCursor
 	}	//	cmd_find
