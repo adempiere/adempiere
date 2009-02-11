@@ -46,11 +46,15 @@ import org.compiere.util.TimeUtil;
  * 			<li>BF [ 1831997 ] Cash journal allocation reversed
  * 			<li>BF [ 1894524 ] Pay an reversed invoice
  * 			<li>BF [ 1899477 ] MCash.getLines should return only active lines
+ * 			<li>BF [ 2588326 ] Cash Lines are not correctly updated on voiding
  */
 public class MCash extends X_C_Cash implements DocAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9153922329895288746L;
 
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 	Get Cash Journal for currency, org and date
@@ -126,7 +130,7 @@ public class MCash extends X_C_Cash implements DocAction
 		
 		//	Create New Journal
 		retValue = new MCash (cb, dateAcct);
-		retValue.save(trxName);
+		retValue.saveEx(trxName);
 		return retValue;
 	}	//	get
 
@@ -627,18 +631,18 @@ public class MCash extends X_C_Cash implements DocAction
 					
 				MPayment payment = new MPayment(getCtx(), cashline.getC_Payment_ID(),get_TrxName());
 				payment.reverseCorrectIt();
-				if (!payment.save())
-					throw new IllegalStateException("Cannot reverse payment");
+				payment.saveEx();
 			}
+			cashline.saveEx();
 		}
 		
 		setName(getName()+"^");
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		setDocStatus(DOCSTATUS_Reversed);	//	for direct calls
 		setProcessed(true);
+		setPosted(true);
 		setDocAction(DOCACTION_None);
-		if (!save())
-			throw new IllegalStateException("Cannot save journal cash");
+		saveEx();
 			
 		//	Delete Posting
 		MFactAcct.deleteEx(Table_ID, getC_Cash_ID(), get_TrxName());

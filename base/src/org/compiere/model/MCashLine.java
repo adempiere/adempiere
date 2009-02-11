@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -38,6 +38,12 @@ import org.compiere.util.Msg;
  */
 public class MCashLine extends X_C_CashLine
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2962077554051498950L;
+
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -146,10 +152,10 @@ public class MCashLine extends X_C_CashLine
 		//
 		if (MOrder.DOCSTATUS_WaitingPayment.equals(order.getDocStatus()))
 		{
-			save(trxName);
+			saveEx(trxName);
 			order.setC_CashLine_ID(getC_CashLine_ID());
 			order.processIt(MOrder.ACTION_WaitComplete);
-			order.save(trxName);
+			order.saveEx(trxName);
 			//	Set Invoice
 			MInvoice[] invoices = order.getInvoices();
 			int length = invoices.length;
@@ -298,9 +304,9 @@ public class MCashLine extends X_C_CashLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Cannot change generated Invoices
-		if (is_ValueChanged("C_Invoice_ID"))
+		if (is_ValueChanged(COLUMNNAME_C_Invoice_ID))
 		{
-			Object generated = get_ValueOld("IsGenerated");
+			Object generated = get_ValueOld(COLUMNNAME_IsGenerated);
 			if (generated != null && ((Boolean)generated).booleanValue())
 			{
 				log.saveError("Error", Msg.getMsg(getCtx(), "CannotChangeCashGenInvoice"));
