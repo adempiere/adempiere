@@ -238,7 +238,11 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 			return "";
 		
 		GridField[] gridField = gridTab.getFields();
-		if (gridField[columnIndex].isLookup())
+		if (gridField[columnIndex].isEncryptedField())
+		{
+			return "********";
+		}
+		else if (gridField[columnIndex].isLookup())
     	{
 			NamePair namepair = gridField[columnIndex].getLookup().get(value);
 			if (namepair != null)
