@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -43,8 +44,7 @@ import org.compiere.util.Msg;
  *  @version $Id: MOrderLine.java,v 1.6 2006/10/02 05:18:39 jjanke Exp $
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 			<li>FR [ 1883362 ] Usability: force Product/Charge on Invoice Line as an option
- * 					TODO: integrate to trunk
+ *			<li>BF [ 2588043 ] Insufficient message ProductNotOnPriceList
  */
 public class MOrderLine extends X_C_OrderLine
 {
@@ -751,8 +751,7 @@ public class MOrderLine extends X_C_OrderLine
 				getProductPricing(m_M_PriceList_ID);
 			if (!m_productPrice.isCalculated())
 			{
-				log.saveError("Error", Msg.getMsg(getCtx(), "ProductNotOnPriceList"));
-				return false;
+				throw new AdempiereException("@ProductNotOnPriceList@ @Line@: "+getLine());
 			}
 		}
 
