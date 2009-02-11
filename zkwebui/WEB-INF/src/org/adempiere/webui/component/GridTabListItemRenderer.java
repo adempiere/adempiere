@@ -31,12 +31,9 @@ import org.adempiere.webui.util.GridTabDataBinder;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MAccountLookup;
-import org.compiere.model.MLookup;
-import org.compiere.model.MLookupFactory;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 import org.compiere.util.NamePair;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -77,6 +74,11 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 	 * @see ListitemRenderer#render(Listitem, Object)
 	 */
 	public void render(Listitem listitem, Object data) throws Exception {
+		//don't render if not visible
+		for(Component c = listitem.getParent(); c != null; c = c.getParent()) {
+			if (!c.isVisible())
+				return;
+		}
 		Object[] values = (Object[])data;
 		int columnCount = gridTab.getTableModel().getColumnCount();
 		GridField[] gridField = gridTab.getFields();
@@ -238,20 +240,7 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		GridField[] gridField = gridTab.getFields();
 		if (gridField[columnIndex].isLookup())
     	{
-			NamePair namepair = null;
-			if (gridField[columnIndex].getDisplayType() == DisplayType.Account)
-			{
-				MAccountLookup lookup = new MAccountLookup(Env.getCtx(), windowNo);
-				namepair = lookup.get(value);
-			}
-			else
-			{
-    			MLookup lookup = MLookupFactory.get(
-    						Env.getCtx(), windowNo, 0, gridField[columnIndex].getAD_Column_ID(), 
-    						gridField[columnIndex].getDisplayType());
-    					
-    			namepair = lookup.get(value);
-			}
+			NamePair namepair = gridField[columnIndex].getLookup().get(value);
 			if (namepair != null)
 				return namepair.getName();
 			else
