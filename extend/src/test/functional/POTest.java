@@ -1,7 +1,10 @@
 package test.functional;
 
+import java.util.Properties;
+
 import org.compiere.model.MTest;
 import org.compiere.model.POInfo;
+import org.compiere.util.DB;
 
 import test.AdempiereTestCase;
 
@@ -23,7 +26,8 @@ public class POTest extends AdempiereTestCase
 	 * </ul>
 	 * @throws Exception
 	 */
-	public void test_Changed() throws Exception {
+	public void test_Changed() throws Exception
+	{
 		String[] testStrings = new String[] {
 				"a",
 				"test",
@@ -32,9 +36,10 @@ public class POTest extends AdempiereTestCase
 		MTest testPO = new MTest(getCtx(), getClass().getName(), 1);
 		testPO.set_TrxName(getTrxName());
 
-		for (String str : testStrings) {
+		for (String str : testStrings)
+		{
 			testPO.setHelp(str);
-			testPO.save();
+			testPO.saveEx();
 			String originalString = testPO.getHelp();
 			String info = "testString=[" + str + "]" + ", originalString=[" + originalString + "]";
 
@@ -109,9 +114,60 @@ public class POTest extends AdempiereTestCase
 			testPO.setName(bigString);
 			assertEquals("String was not truncated correctly (6)", maxLength, testPO.getName().length());
 		}
-		//
-		// Finally, delete the testPO
-		testPO.delete(true, getTrxName());
 	}
 	
+	/**
+	 * Object should NOT be saved if afterSave fails EVEN if is outside transaction (trxName=null)
+	 */
+	public void testAfterSaveError()
+	{
+		class MyTest extends MTest {
+			private static final long serialVersionUID = 1L;
+			protected boolean failOnSave = false;
+			public MyTest(Properties ctx, boolean failOnSave, String trxName) {
+				super(ctx, "Test_"+System.currentTimeMillis(), 10);
+				this.set_TrxName(trxName);
+				this.setDescription(""+getClass());
+				this.failOnSave = failOnSave;
+			}
+			public MyTest(Properties ctx, int id, String trxName) {
+				super(ctx, id, trxName);
+			}
+			@Override
+			protected boolean afterSave(boolean newRecord, boolean success) {
+				if (this.failOnSave)
+					throw new RuntimeException("Never save this object [trxName="+getTrxName()+", success="+success+"]");
+				return true;
+			}
+		};
+		//
+		// Test for new objects
+		{
+			MyTest test = new MyTest(getCtx(), true, null);
+			assertFalse("Object should not be saved -- "+test, test.save());
+			assertFalse("Object should not be saved -- "+test, test.get_ID() <= 0);
+			//
+			String sql = "SELECT "+MyTest.COLUMNNAME_Test_ID+" FROM "+MyTest.Table_Name
+							+" WHERE "+MyTest.COLUMNNAME_Test_ID+"=?";
+			int id = DB.getSQLValueEx(null, sql, test.get_ID());
+			assertTrue("Object should not be saved(2) -- id="+id, id <= 0);
+		}
+		//
+		// Test for old objects
+		{
+			MyTest test = new MyTest(getCtx(), false, null);
+			assertTrue("Object *should* be saved -- "+test, test.save());
+			//
+			MyTest test2 = new MyTest(getCtx(), test.get_ID(), null);
+			assertEquals("Object not found", test.get_ID(), test2.get_ID());
+			test2.failOnSave = true;
+			test2.setName(test2.getName()+"_2");
+			assertFalse("Object should not be saved -- "+test2, test2.save());
+			//
+			String sql = "SELECT "+MyTest.COLUMNNAME_Name+" FROM "+MyTest.Table_Name
+							+" WHERE "+MyTest.COLUMNNAME_Test_ID+"=?";
+			String name = DB.getSQLValueStringEx(null, sql, test2.get_ID());
+			assertEquals("Object should not be modified(2) -- id="+test2, test.getName(), name);
+		}
+	}
 }
