@@ -45,6 +45,7 @@ import org.compiere.util.Trx;
  * 			<li>BF [ 1877935 ] SvrProcess.process should catch all throwables
  * 			<li>FR [ 1877937 ] SvrProcess: added commitEx method
  * 			<li>BF [ 1878743 ] SvrProcess.getAD_User_ID
+ *			<li>BF [ 1935093 ] SvrProcess.unlock() is setting invalid result
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -493,7 +494,7 @@ public abstract class SvrProcess implements ProcessCall
 				return;
 			}
 			mpi.setIsProcessing(false);
-			mpi.setResult(m_pi.isError());
+			mpi.setResult(!m_pi.isError());
 			mpi.setErrorMsg(m_pi.getSummary());
 			mpi.save();
 			log.fine(mpi.toString());
