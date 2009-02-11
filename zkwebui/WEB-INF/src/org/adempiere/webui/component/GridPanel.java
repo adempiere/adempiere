@@ -24,6 +24,7 @@ import org.adempiere.webui.editor.WEditor;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -49,7 +50,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	
 	private Listbox listbox = null;
 	
-	private int pageSize = 1000;
+	private int pageSize = 100;
 	
 	private GridField[] gridField;
 	private AbstractTableModel tableModel;
@@ -70,6 +71,8 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private South south;
 	
+	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
+	
 	public GridPanel()
 	{
 		this(0);
@@ -81,6 +84,9 @@ public class GridPanel extends Borderlayout implements EventListener
 		listbox = new Listbox();
 		south = new South();
 		this.appendChild(south);
+		
+		//default paging size
+		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
 	}
 	
 	public void init(GridTab gridTab)
