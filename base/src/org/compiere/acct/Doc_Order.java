@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -596,20 +596,15 @@ public class Doc_Order extends Doc
 		Fact fact = new Fact(doc, as, Fact.POST_Commitment);
 		DocLine[] commitments = Doc_Order.getCommitments(doc, Qty, 
 				C_InvoiceLine_ID);
-		if (commitments.length == 0)
-		{
-			return fact;
-		}
 		
 		BigDecimal total = Env.ZERO;
+		FactLine fl = null;
 		int C_Currency_ID = -1;
 		for (int i = 0; i < commitments.length; i++)
 		{
 			DocLine line = commitments[i];
 			if (C_Currency_ID == -1)
-			{
 				C_Currency_ID = line.getC_Currency_ID();
-			}
 			else if (C_Currency_ID != line.getC_Currency_ID())
 			{
 				doc.p_Error = "Different Currencies of Order Lines";
@@ -621,7 +616,8 @@ public class Doc_Order extends Doc
 
 			//	Account
 			MAccount expense = line.getAccount(ProductCost.ACCTTYPE_P_Expense, as);
-			fact.createLine (line, expense, C_Currency_ID, null, cost);
+			fl = fact.createLine (line, expense,
+				C_Currency_ID, null, cost);
 		}
 		//	Offset
 		MAccount offset = doc.getAccount(ACCTTYPE_CommitmentOffset, as);
@@ -631,7 +627,8 @@ public class Doc_Order extends Doc
 			s_log.log(Level.SEVERE, doc.p_Error);
 			return null;
 		}
-		fact.createLine (null, offset, C_Currency_ID, total, null);
+		fact.createLine (null, offset,
+			C_Currency_ID, total, null);
 		return fact;
 	}	//	getCommitmentRelease
 	
@@ -737,21 +734,17 @@ public class Doc_Order extends Doc
 		BigDecimal Qty, int M_InOutLine_ID, BigDecimal multiplier)
 	{
 		Fact fact = new Fact(doc, as, Fact.POST_Commitment);
-		DocLine[] commitments = Doc_Order.getCommitmentsSales(doc, Qty, M_InOutLine_ID);
-		if (commitments.length == 0)
-		{
-			return fact;
-		}
+		DocLine[] commitments = Doc_Order.getCommitmentsSales(doc, Qty, 
+				M_InOutLine_ID);
 		
 		BigDecimal total = Env.ZERO;
+		FactLine fl = null;
 		int C_Currency_ID = -1;
 		for (int i = 0; i < commitments.length; i++)
 		{
 			DocLine line = commitments[i];
 			if (C_Currency_ID == -1)
-			{
 				C_Currency_ID = line.getC_Currency_ID();
-			}
 			else if (C_Currency_ID != line.getC_Currency_ID())
 			{
 				doc.p_Error = "Different Currencies of Order Lines";
@@ -763,7 +756,8 @@ public class Doc_Order extends Doc
 
 			//	Account
 			MAccount revenue = line.getAccount(ProductCost.ACCTTYPE_P_Revenue, as);
-			fact.createLine (line, revenue, C_Currency_ID, cost, null);
+			fl = fact.createLine (line, revenue,
+				C_Currency_ID, cost, null);
 		}
 		//	Offset
 		MAccount offset = doc.getAccount(ACCTTYPE_CommitmentOffsetSales, as);
@@ -773,7 +767,8 @@ public class Doc_Order extends Doc
 			s_log.log(Level.SEVERE, doc.p_Error);
 			return null;
 		}
-		fact.createLine (null, offset, C_Currency_ID, null, total);
+		fact.createLine (null, offset,
+			C_Currency_ID, null, total);
 		return fact;
 	}	//	getCommitmentSalesRelease
 	
