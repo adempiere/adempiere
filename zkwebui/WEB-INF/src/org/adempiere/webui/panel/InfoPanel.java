@@ -368,6 +368,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void executeQuery()
 	{
+		line = new Vector<Object>();
 		if (!testCount())
 		{
 			return ;
@@ -394,7 +395,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			log.fine("Start query - " + (System.currentTimeMillis()-start) + "ms");
 			m_rs = m_pstmt.executeQuery();
 			log.fine("End query - " + (System.currentTimeMillis()-start) + "ms");
-            line = new Vector<Object>();
+            
 			while (m_rs.next())
 			{
 															
