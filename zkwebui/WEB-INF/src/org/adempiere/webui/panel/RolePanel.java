@@ -379,10 +379,10 @@ public class RolePanel extends Window implements EventListener
         // Elaine 2009/02/06 save preference to AD_Preference
         UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
         userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(Env.getCtx(), "Language"));
-        userPreference.setProperty(UserPreference.P_ROLE, Integer.parseInt((String) lstItemRole.getValue()));
-        userPreference.setProperty(UserPreference.P_CLIENT, Integer.parseInt((String) lstItemClient.getValue()));
-        userPreference.setProperty(UserPreference.P_ORG, Integer.parseInt((String) lstItemOrg.getValue()));
-        userPreference.setProperty(UserPreference.P_WAREHOUSE, Integer.parseInt((String) lstItemWarehouse.getValue()));
+        userPreference.setProperty(UserPreference.P_ROLE, lstItemRole != null ? (String) lstItemRole.getValue() : "0");
+        userPreference.setProperty(UserPreference.P_CLIENT, lstItemClient != null ? (String) lstItemClient.getValue() : "0");
+        userPreference.setProperty(UserPreference.P_ORG, lstItemOrg != null ? (String) lstItemOrg.getValue() : "0");
+        userPreference.setProperty(UserPreference.P_WAREHOUSE, lstItemWarehouse != null ? (String) lstItemWarehouse.getValue() : "0");
         userPreference.savePreference();
         //
     }
