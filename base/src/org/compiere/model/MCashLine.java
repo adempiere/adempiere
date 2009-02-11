@@ -31,7 +31,10 @@ import org.compiere.util.Msg;
  *  @author Jorg Janke
  *  @version $Id: MCashLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  *  
- *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1760240 ]
+ *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ *  			<li>BF [ 1760240 ] CashLine bank account is filled even if is not bank transfer
+ *  			<li>BF [ 1918266 ] MCashLine.updateHeader should ignore not active lines
+ * 				<li>BF [ 1918290 ] MCashLine.createReversal should inactivate if not processed
  */
 public class MCashLine extends X_C_CashLine
 {
@@ -169,8 +172,8 @@ public class MCashLine extends X_C_CashLine
 	}	//	getStatementDate
 
 	/**
-	 * 	Create Line Reversal
-	 *	@return new reversed CashLine
+	 * 	Create Line Reversal or inactivate this line if is not processed
+	 *	@return new reversed CashLine or this one if not processed
 	 */
 	public MCashLine createReversal()
 	{
@@ -179,6 +182,12 @@ public class MCashLine extends X_C_CashLine
 		{	//	saved
 			parent = MCash.get(getCtx(), parent.getAD_Org_ID(), 
 				parent.getStatementDate(), parent.getC_Currency_ID(), get_TrxName());
+		}
+		// Inactivate not processed lines - teo_sarca BF [ 1918290 ]
+		else
+		{
+			this.setIsActive(false);
+			return this;
 		}
 		//
 		MCashLine reversal = new MCashLine (parent);
@@ -380,7 +389,9 @@ public class MCashLine extends X_C_CashLine
 				+ "(SELECT COALESCE(SUM(currencyConvert(cl.Amount, cl.C_Currency_ID, cb.C_Currency_ID, c.DateAcct, 0, c.AD_Client_ID, c.AD_Org_ID)),0) "
 				+ "FROM C_CashLine cl, C_CashBook cb "
 				+ "WHERE cb.C_CashBook_ID=c.C_CashBook_ID"
-				+ " AND cl.C_Cash_ID=c.C_Cash_ID) "
+				+ " AND cl.C_Cash_ID=c.C_Cash_ID"
+				+ " AND cl.IsActive='Y'"
+				+") "
 			+ "WHERE C_Cash_ID=" + getC_Cash_ID();
 		int no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 1)
