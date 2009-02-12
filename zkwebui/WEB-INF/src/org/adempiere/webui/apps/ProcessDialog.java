@@ -16,6 +16,7 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.process.WProcessInfo;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
@@ -247,7 +248,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Start"));
 
 		//	Move from APanel.actionButton
-		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID);
+		m_pi = new WProcessInfo(m_Name, m_AD_Process_ID);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi, "70%");

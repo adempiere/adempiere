@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.ADClassNameMap;
 import org.compiere.model.MForm;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -188,13 +189,10 @@ public abstract class ADForm extends Window implements EventListener
     		
     		logger.info("AD_Form_ID=" + adFormID + " - Class=" + richClassName);
     	
-    		if ("org.compiere.apps.form.ArchiveViewer".equals(richClassName))
-    			webClassName = "org.adempiere.webui.apps.form.WArchiveViewer"; // TEMP
-    		else if ("org.compiere.apps.wf.WFActivity".equals(richClassName))
-    			webClassName = "org.adempiere.webui.apps.wf.WWFActivity"; // TEMP
-    		else if ("org.compiere.apps.wf.WFPanel".equals(richClassName))
-    			webClassName = "org.adempiere.webui.apps.wf.WFEditor";
-    		else
+    		//static lookup
+    		webClassName = ADClassNameMap.get(richClassName);
+    		//fallback to dynamic translation
+    		if (webClassName == null || webClassName.trim().length() == 0)
     			webClassName = translateFormClassName(richClassName);
     		
     		try
