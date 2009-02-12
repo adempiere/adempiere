@@ -2,13 +2,18 @@
 <classpath>
 	<classpathentry kind="src" path="WEB-INF/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zk.jar" sourcepath="WEB-INF/lib/zk-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zcommon.jar" sourcepath="WEB-INF/lib/zcommon-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zul.jar" sourcepath="WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/junit.jar"/>
+	<classpathentry kind="src" path="/client"/>
+	<classpathentry kind="src" path="/JasperReports"/>
+	<classpathentry kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/C-_applications_apache-tomcat-5.5.26"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkmax.jar" sourcepath="WEB-INF/lib/zkmax-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkex.jar" sourcepath="WEB-INF/lib/zkex-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkplus.jar" sourcepath="WEB-INF/lib/zkplus-sources.jar"/>
@@ -17,11 +22,9 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zweb.jar" sourcepath="WEB-INF/lib/zweb-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jfreechart.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
+	<classpathentry kind="lib" path="/tools/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
-	<classpathentry kind="lib" path="/adempiere352a/tools/lib/j2ee.jar"/>
-	<classpathentry kind="lib" path="/adempiere352a/tools/lib/xercesImpl.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ssp"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/patches_352"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
