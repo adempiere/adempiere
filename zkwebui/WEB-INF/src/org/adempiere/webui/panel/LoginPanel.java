@@ -181,10 +181,10 @@ public class LoginPanel extends Window implements EventListener
         if (event.getName().equals(Events.ON_SELECT))
         {
             if(eventComp.getId().equals(lstLanguage.getId())) {
-            	String langName = (String) lstLanguage.getSelectedItem().getValue();
-            	Env.setContext(ctx, Env.LANGUAGE, langName);
-        		Language language = Language.getLanguage(langName);
+            	String langName = (String) lstLanguage.getSelectedItem().getLabel();
+            	Language language = Language.getLanguage(langName);
             	Env.verifyLanguage(ctx, language);
+            	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language());
             	
             	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
             	lblUserId.setValue(res.getString("User"));
@@ -210,7 +210,10 @@ public class LoginPanel extends Window implements EventListener
 	        	        {
 	        	        	Listitem li = lstLanguage.getItemAtIndex(i);
 	        	        	if(li.getLabel().equals(initDefault))
-	        	        		lstLanguage.setSelectedItem(li);
+	        	        	{
+	        	        		lstLanguage.setSelectedIndex(i);
+	        	        		break;
+	        	        	}
 	        	        }
 	        		}
         		}
@@ -235,15 +238,14 @@ public class LoginPanel extends Window implements EventListener
         {
         	String langName = null;
         	if ( lstLanguage.getSelectedItem() != null )
-        		langName = (String) lstLanguage.getSelectedItem().getValue();
+        		langName = (String) lstLanguage.getSelectedItem().getLabel();
         	else
         		langName = Language.getBaseLanguage().getName();
-        	Env.setContext(ctx, Env.LANGUAGE, langName);
-    		Language language = Language.getLanguage(langName);
+        	Language language = Language.getLanguage(langName);
         	Env.verifyLanguage(ctx, language);
             wndLogin.loginOk(userId, userPassword);      
             
-            Env.setContext(ctx, "Language", lstLanguage.getSelectedItem().getLabel()); // Elaine 2009/02/06
+            Env.setContext(ctx, UserPreference.LANGUAGE_NAME, language.getName()); // Elaine 2009/02/06
         }
     }
 }

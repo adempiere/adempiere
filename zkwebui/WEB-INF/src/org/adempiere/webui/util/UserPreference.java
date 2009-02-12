@@ -48,6 +48,9 @@ public final class UserPreference implements Serializable {
 	public static final String P_WAREHOUSE = "Warehouse";
 	private static final String DEFAULT_WAREHOUSE = "";
 
+	/** Language Name Context **/
+	public static final String LANGUAGE_NAME = "#LanguageName";
+	
 	/** Ini Properties */
 	private static final String[] PROPERTIES = new String[] { 
 		P_LANGUAGE,
