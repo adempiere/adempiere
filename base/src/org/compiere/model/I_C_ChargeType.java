@@ -23,17 +23,17 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_Charge
+/** Generated Interface for C_ChargeType
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_C_Charge 
+public interface I_C_ChargeType 
 {
 
-    /** TableName=C_Charge */
-    public static final String Table_Name = "C_Charge";
+    /** TableName=C_ChargeType */
+    public static final String Table_Name = "C_ChargeType";
 
-    /** AD_Table_ID=313 */
+    /** AD_Table_ID=53145 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -65,34 +65,6 @@ public interface I_C_Charge
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
     /** Column name C_ChargeType_ID */
     public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
 
@@ -101,21 +73,6 @@ public interface I_C_Charge
 
 	/** Get Charge Type	  */
 	public int getC_ChargeType_ID();
-
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -133,21 +90,6 @@ public interface I_C_Charge
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_TaxCategory_ID */
-    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
-
-	/** Set Tax Category.
-	  * Tax Category
-	  */
-	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
-
-	/** Get Tax Category.
-	  * Tax Category
-	  */
-	public int getC_TaxCategory_ID();
-
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -161,6 +103,19 @@ public interface I_C_Charge
 	  */
 	public String getDescription();
 
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -173,41 +128,6 @@ public interface I_C_Charge
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsSameCurrency */
-    public static final String COLUMNNAME_IsSameCurrency = "IsSameCurrency";
-
-	/** Set Same Currency	  */
-	public void setIsSameCurrency (boolean IsSameCurrency);
-
-	/** Get Same Currency	  */
-	public boolean isSameCurrency();
-
-    /** Column name IsSameTax */
-    public static final String COLUMNNAME_IsSameTax = "IsSameTax";
-
-	/** Set Same Tax.
-	  * Use the same tax as the main transaction
-	  */
-	public void setIsSameTax (boolean IsSameTax);
-
-	/** Get Same Tax.
-	  * Use the same tax as the main transaction
-	  */
-	public boolean isSameTax();
-
-    /** Column name IsTaxIncluded */
-    public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
-
-	/** Set Price includes Tax.
-	  * Tax is included in the price 
-	  */
-	public void setIsTaxIncluded (boolean IsTaxIncluded);
-
-	/** Get Price includes Tax.
-	  * Tax is included in the price 
-	  */
-	public boolean isTaxIncluded();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -237,4 +157,17 @@ public interface I_C_Charge
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
+
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value);
+
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
+	  */
+	public String getValue();
 }

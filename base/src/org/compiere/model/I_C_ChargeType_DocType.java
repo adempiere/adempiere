@@ -23,17 +23,17 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for C_Charge
+/** Generated Interface for C_ChargeType_DocType
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_C_Charge 
+public interface I_C_ChargeType_DocType 
 {
 
-    /** TableName=C_Charge */
-    public static final String Table_Name = "C_Charge";
+    /** TableName=C_ChargeType_DocType */
+    public static final String Table_Name = "C_ChargeType_DocType";
 
-    /** AD_Table_ID=313 */
+    /** AD_Table_ID=53146 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -65,34 +65,6 @@ public interface I_C_Charge
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
-
     /** Column name C_ChargeType_ID */
     public static final String COLUMNNAME_C_ChargeType_ID = "C_ChargeType_ID";
 
@@ -104,18 +76,20 @@ public interface I_C_Charge
 
 	public I_C_ChargeType getC_ChargeType() throws RuntimeException;
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
-	/** Set Charge amount.
-	  * Charge Amount
+	/** Set Document Type.
+	  * Document type or rules
 	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
+	public void setC_DocType_ID (int C_DocType_ID);
 
-	/** Get Charge amount.
-	  * Charge Amount
+	/** Get Document Type.
+	  * Document type or rules
 	  */
-	public BigDecimal getChargeAmt();
+	public int getC_DocType_ID();
+
+	public I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -133,34 +107,6 @@ public interface I_C_Charge
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_TaxCategory_ID */
-    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
-
-	/** Set Tax Category.
-	  * Tax Category
-	  */
-	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
-
-	/** Get Tax Category.
-	  * Tax Category
-	  */
-	public int getC_TaxCategory_ID();
-
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
-
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -174,53 +120,23 @@ public interface I_C_Charge
 	  */
 	public boolean isActive();
 
-    /** Column name IsSameCurrency */
-    public static final String COLUMNNAME_IsSameCurrency = "IsSameCurrency";
+    /** Column name IsAllowNegative */
+    public static final String COLUMNNAME_IsAllowNegative = "IsAllowNegative";
 
-	/** Set Same Currency	  */
-	public void setIsSameCurrency (boolean IsSameCurrency);
+	/** Set Allow Negative	  */
+	public void setIsAllowNegative (boolean IsAllowNegative);
 
-	/** Get Same Currency	  */
-	public boolean isSameCurrency();
+	/** Get Allow Negative	  */
+	public boolean isAllowNegative();
 
-    /** Column name IsSameTax */
-    public static final String COLUMNNAME_IsSameTax = "IsSameTax";
+    /** Column name IsAllowPositive */
+    public static final String COLUMNNAME_IsAllowPositive = "IsAllowPositive";
 
-	/** Set Same Tax.
-	  * Use the same tax as the main transaction
-	  */
-	public void setIsSameTax (boolean IsSameTax);
+	/** Set Allow Positive	  */
+	public void setIsAllowPositive (boolean IsAllowPositive);
 
-	/** Get Same Tax.
-	  * Use the same tax as the main transaction
-	  */
-	public boolean isSameTax();
-
-    /** Column name IsTaxIncluded */
-    public static final String COLUMNNAME_IsTaxIncluded = "IsTaxIncluded";
-
-	/** Set Price includes Tax.
-	  * Tax is included in the price 
-	  */
-	public void setIsTaxIncluded (boolean IsTaxIncluded);
-
-	/** Get Price includes Tax.
-	  * Tax is included in the price 
-	  */
-	public boolean isTaxIncluded();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
+	/** Get Allow Positive	  */
+	public boolean isAllowPositive();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
