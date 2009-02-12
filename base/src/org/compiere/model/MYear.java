@@ -224,7 +224,7 @@ public class MYear extends X_C_Year
 			cal.add(Calendar.DAY_OF_YEAR, -1);
 			Timestamp end = new Timestamp(cal.getTimeInMillis());
 			//
-			MPeriod period = MPeriod.get(getCtx(), start, getAD_Org_ID());
+			MPeriod period = MPeriod.findByCalendar(getCtx(), start, getC_Calendar_ID());
 			if (period == null)
 			{
 				period = new MPeriod (this, month+1, name, start, end);

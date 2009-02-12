@@ -95,12 +95,26 @@ public class MPeriod extends X_C_Period
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
+		
 		if (DateAcct == null)
 			return null;
 		
         int C_Calendar_ID = getC_Calendar_ID(ctx,AD_Org_ID);
         
+        return findByCalendar(ctx, DateAcct, C_Calendar_ID);
+	}	//	get
+
+	/**
+	 * 
+	 * @param ctx
+	 * @param DateAcct
+	 * @param C_Calendar_ID
+	 * @return MPeriod
+	 */
+	public static MPeriod findByCalendar(Properties ctx, Timestamp DateAcct,
+			int C_Calendar_ID) {
+		
+		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		//	Search in Cache first
 		Iterator<MPeriod> it = s_cache.values().iterator();
 		while (it.hasNext())
@@ -152,7 +166,7 @@ public class MPeriod extends X_C_Period
 			s_log.warning("No Standard Period for " + DateAcct 
 				+ " (AD_Client_ID=" + AD_Client_ID + ")");
 		return retValue;
-	}	//	get
+	}
 
 	/**
 	 * 	Find valid standard Period of DateAcct based on Client Calendar
