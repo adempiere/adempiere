@@ -280,7 +280,7 @@ public final class APanel extends CPanel
 
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
 							aNew, aCopy, aDelete, aPrint, aPrintPreview,
-							aExport,
+							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aWinSize, aArchive;
 	/** Ignore Button		*/
@@ -318,7 +318,7 @@ public final class APanel extends CPanel
 		aPrintPreview = addAction("PrintPreview",	mFile, KeyStroke.getKeyStroke(KeyEvent.VK_P, Event.SHIFT_MASK+Event.ALT_MASK), false);
 		if (MRole.getDefault().isCanExport())
 		{
-			aExport =	addAction("Export", mFile, null, false);
+			aExport = addAction("Export", mFile, null, false);
 		}
 		mFile.addSeparator();
 		aEnd =	 	addAction("End",			mFile, 	KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.ALT_MASK),	false);
@@ -1498,7 +1498,7 @@ public final class APanel extends CPanel
 				cmd_print();
 			else if (cmd.equals(aPrintPreview.getName()))
 				cmd_print(true);
-			else if (cmd.equals(aExport.getName()))
+			else if (aExport != null && cmd.equals(aExport.getName()))
 				cmd_export();
 			else if (cmd.equals(aEnd.getName()))
 				cmd_end(false);
