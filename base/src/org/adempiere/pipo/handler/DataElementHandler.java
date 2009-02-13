@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +10,9 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                                                                            *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -29,11 +29,12 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.IDFinder;
 import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.DB;
@@ -51,7 +52,7 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class DataElementHandler extends AbstractElementHandler {
 
-	private GenericPO genericPO = null;
+	private PO genericPO = null;
 	int AD_Backup_ID = -1;
 	String objectStatus = null;
 	String d_tablename = null;
@@ -100,7 +101,8 @@ public class DataElementHandler extends AbstractElementHandler {
 			String elementValue = element.getElementValue();
 			Attributes atts = element.attributes;
 			log.info(elementValue+" "+atts.getValue("name"));			
-				   	    			
+
+			MTable table = MTable.get(ctx, d_tablename);
 			// use keyXname and lookupkeyXname if available
 			if (atts.getValue("key1name") != null && atts.getValue("key1name").trim().length() > 0)
 			{
@@ -137,14 +139,14 @@ public class DataElementHandler extends AbstractElementHandler {
 					
 					ResultSet rs = pstmt.executeQuery();
 					if (rs.next()) {
-						objectStatus = "Update";	
-						genericPO = new GenericPO(d_tablename, ctx, rs, getTrxName(ctx));
+						objectStatus = "Update";
+						genericPO = table.getPO(rs, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
 						pstmt = null;
 					}
 					else {
-						genericPO = new GenericPO(d_tablename, ctx, 0, getTrxName(ctx));
+						genericPO = table.getPO(0, getTrxName(ctx));
 						rs.close();
 						pstmt.close();
 						pstmt = null;
@@ -158,7 +160,7 @@ public class DataElementHandler extends AbstractElementHandler {
 				//fallback to name attribute
 				String nameAttribute = atts.getValue("name");
 				int id = get_ID(ctx, d_tablename, nameAttribute);
-				genericPO = new GenericPO(d_tablename, ctx, id, getTrxName(ctx));
+				genericPO = table.getPO(id, getTrxName(ctx));
 				if (id > 0){
 					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
 					objectStatus = "Update";			
@@ -227,7 +229,8 @@ public class DataElementHandler extends AbstractElementHandler {
 					if (atts.getValue("class").equals("String") || atts.getValue("class").equals("Text")
 							|| atts.getValue("class").equals("List")|| atts.getValue("class").equals("Yes-No")				
 							|| atts.getValue("class").equals("Button")
-							|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")) {
+							|| atts.getValue("class").equals("Memo")|| atts.getValue("class").equals("Text Long")
+							|| atts.getValue("name").equals("AD_Language") || atts.getValue("name").equals("EntityType")) {
 						genericPO.set_ValueOfColumn(atts.getValue("name"), value);
 					}
 					else if (atts.getValue("class").equals("Number") || atts.getValue("class").equals("Amount")
