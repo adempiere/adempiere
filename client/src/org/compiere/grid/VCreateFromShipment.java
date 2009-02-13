@@ -132,12 +132,6 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				MLocator locator = new MLocator(Env.getCtx(), key, null);
 				m_locatorKey = new KeyNamePair(key, locator.getValue());
 				m_table.getModel().setValueAt(m_locatorKey, m_row, m_column);
-
-				// Get product and save new locator
-				KeyNamePair prodKey = (KeyNamePair)m_table.getModel().getValueAt(m_row, m_column + 1);
-				MProduct prod = new MProduct(Env.getCtx(), prodKey.getKey(), null);
-				prod.setM_Locator_ID(key);
-				prod.save();
 			}
 		}
 
