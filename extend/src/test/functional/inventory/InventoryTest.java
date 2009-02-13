@@ -121,7 +121,6 @@ public class InventoryTest extends AdempiereTestCase
 	private void createDocument(final MMDocument doc, String trxName)
 	{
 		Trx.run(trxName, new TrxRunnable(){
-			@Override
 			public void run(String trxName) {
 				if (doc.IsReversal)
 				{
