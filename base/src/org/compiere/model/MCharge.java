@@ -115,7 +115,7 @@ public class MCharge extends X_C_Charge
 	 */
 	public MCharge (Properties ctx, int C_Charge_ID, String trxName)
 	{
-		super (ctx, C_Charge_ID, null);
+		super (ctx, C_Charge_ID, trxName);
 		if (C_Charge_ID == 0)
 		{
 			setChargeAmt (Env.ZERO);
