@@ -85,6 +85,7 @@ import org.compiere.util.TrxRunnable;
  * 			<li>FR [ 1794050 ] Usability: VCreateFrom OK button always enabled
  * 			<li>FR [ 1974354 ] VCreateFrom.create should be more flexible
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ * 			<li>BF [ 2584790 ] Material Receipt error
  * @author Victor Perez, e-Evolucion 
  *          <li> RF [1811114] http://sourceforge.net/tracker/index.php?func=detail&aid=1811114&group_id=176962&atid=879335
  * @author Karsten Thiemann, Schaeffer AG
@@ -444,6 +445,15 @@ public abstract class VCreateFrom extends CDialog
 	{
 		return p_initOK;
 	}	//	isInitOK
+	
+	/**
+	 * Get Warehouse from window's context
+	 * @return warehouse id
+	 */
+	public int getM_Warehouse_ID()
+	{
+		return Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
+	}
 
 	/**
 	 *  Dynamic Init
@@ -510,7 +520,8 @@ public abstract class VCreateFrom extends CDialog
 		}
 		// Select All
 		// Trifon
-		else if (e.getActionCommand().equals(SELECT_ALL)) {
+		else if (e.getActionCommand().equals(SELECT_ALL))
+		{
 			TableModel model = dataTable.getModel();
 			int rows = model.getRowCount();
 			for (int i = 0; i < rows; i++)
@@ -589,30 +600,38 @@ public abstract class VCreateFrom extends CDialog
 			+ " AND o.C_Order_ID IN "
 				  + "(SELECT ol.C_Order_ID FROM C_OrderLine ol"
 				  + " WHERE ol.QtyOrdered - ").append(column).append(" != 0) ");
-		if(sameWarehouseOnly) {
+		if(sameWarehouseOnly)
+		{
 			sql = sql.append(" AND o.M_Warehouse_ID=? ");
 		}
 		sql = sql.append("ORDER BY o.DateOrdered");
+		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, C_BPartner_ID);
-			if(sameWarehouseOnly) {
+			if(sameWarehouseOnly)
+			{
 				//only active for material receipts
-				pstmt.setInt(2, Env.getContextAsInt(Env.getCtx(), p_WindowNo, "M_Warehouse_ID"));
+				pstmt.setInt(2, getM_Warehouse_ID());
 			}
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
 				orderField.addItem(pp);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		orderField.setSelectedIndex(0);
 		orderField.addActionListener(this);

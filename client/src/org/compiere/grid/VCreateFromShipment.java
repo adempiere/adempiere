@@ -69,6 +69,7 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
+ * 			<li>BF [ 2584790 ] Material Receipt error
  */
 public class VCreateFromShipment extends VCreateFrom implements VetoableChangeListener
 {
@@ -79,44 +80,46 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 
 	/**
 	 * Cell editor specific for the MLocator in this form's table.
-	 * 
 	 */
 	public class InnerLocatorTableCellEditor extends AbstractCellEditor
 	implements TableCellEditor, CellEditorListener
 	{
 		private static final long serialVersionUID = 1L;
 		private KeyNamePair        m_locatorKey;
-		private VLocator           v_loc;
+		private VLocator           m_editor;
 		private JTable             m_table;
 		private int                m_row;
 		private int                m_column;
 
-		public InnerLocatorTableCellEditor() {
+		public InnerLocatorTableCellEditor()
+		{
 			addCellEditorListener(this);
 		}
 
-		public Object getCellEditorValue() {
-			return(m_locatorKey);
+		public Object getCellEditorValue()
+		{
+			return m_locatorKey;
 		}
 
 		/**
 		 * 
 		 * @param table
-		 * @param value         The current value in the cell. In this case, a KeyName pair of the locator
+		 * @param value The current value in the cell. In this case, a KeyName pair of the locator
 		 * @param isSelected
 		 * @param row
 		 * @param column
 		 * @return
 		 */
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
+		{
 			m_table = table;
 			m_row = row;
 			m_column = column;
 			m_locatorKey = (KeyNamePair)value;
 			MLocatorLookup mLocatorLookup = new MLocatorLookup(Env.getCtx(), 0);
-			v_loc = new VLocator("M_Locator_ID", true, false, true, mLocatorLookup, 0);
-			v_loc.setValue(m_locatorKey.getKey());
-			return(v_loc);
+			m_editor = new VLocator("M_Locator_ID", true, false, true, mLocatorLookup, 0);
+			m_editor.setValue(m_locatorKey.getKey());
+			return m_editor;
 		}
 
 		/**
@@ -125,11 +128,13 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		 * 
 		 * @param e
 		 */
-		public void editingStopped(ChangeEvent e) {
+		public void editingStopped(ChangeEvent e)
+		{
 			// Editing ends, save value
-			if (v_loc.getValue()!=null) {
-				int key = ((Integer)v_loc.getValue()).intValue();
-				MLocator locator = new MLocator(Env.getCtx(), key, null);
+			if (m_editor.getValue() != null)
+			{
+				int key = ((Integer)m_editor.getValue()).intValue();
+				MLocator locator = MLocator.get(Env.getCtx(), key);
 				m_locatorKey = new KeyNamePair(key, locator.getValue());
 				m_table.getModel().setValueAt(m_locatorKey, m_row, m_column);
 			}
@@ -139,8 +144,8 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 		 * When editing stops, do nothing.
 		 * @param e
 		 */
-		public void editingCanceled(ChangeEvent e) {
-
+		public void editingCanceled(ChangeEvent e)
+		{
 		}
 
 	}
@@ -569,7 +574,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp);                           //  2-UOM
 				// Add locator
-				line.add(getKeyDefaultLocator(rs.getInt(5), rs.getString(6)));// 3-Locator
+				line.add(getLocatorKeyNamePair(rs.getInt(5)));// 3-Locator
 				// Add product
 				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
 				line.add(pp);                           //  4-Product
@@ -659,7 +664,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				KeyNamePair pp = new KeyNamePair(rs.getInt(3), rs.getString(4).trim());
 				line.add(pp); // 2-UOM
 				// Add locator
-				line.add(getKeyDefaultLocator(rs.getInt(5), rs.getString(6))); // 3-Locator
+				line.add(getLocatorKeyNamePair(rs.getInt(5))); // 3-Locator
 				pp = new KeyNamePair(rs.getInt(7), rs.getString(8));
 				line.add(pp); // 4-Product
 				line.add(rs.getString(9));				// 5-VendorProductNo
@@ -748,7 +753,7 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				line.add(rs.getBigDecimal(3));  // 1-Qty
 				KeyNamePair pp = new KeyNamePair(rs.getInt(6), rs.getString(7));
 				line.add(pp); // 2-UOM
-				line.add(getKeyDefaultLocator(0,null));
+				line.add(getLocatorKeyNamePair(0));
 				pp = new KeyNamePair(rs.getInt(4), rs.getString(5));
 				line.add(pp); // 4-Product
 				line.add(null); //5-Vendor Product No
@@ -1002,37 +1007,29 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 
 
 	/**
-	 * get KeyNamePair for Locator
+	 * Get KeyNamePair for Locator.
+	 * If no locator specified or the specified locator is not valid (e.g. warehouse not match),
+	 * a default one will be used.
 	 * @param M_Locator_ID
-	 * @param value
 	 * @return KeyNamePair
 	 */
-	protected KeyNamePair getKeyDefaultLocator(int M_Locator_ID, String value)
-	{
-		KeyNamePair pp =  null ;
-		if(M_Locator_ID == 0)
-		{
-			MLocator locator = getM_Locator();
-			if (locator != null)
-			{
-				pp = new KeyNamePair(locator.get_ID(),  locator.getValue());
-			}
-		}
-		else
-		{	
-			pp = new KeyNamePair(M_Locator_ID,  value);
-		}
-		return pp;
-	}
-
-	/**
-	 * Get Locator from Order or locatorField
-	 * @return MLocator
-	 */
-	protected MLocator getM_Locator()
+	protected KeyNamePair getLocatorKeyNamePair(int M_Locator_ID)
 	{
 		MLocator locator = null;
-		if (p_order != null)
+		
+		// Load desired Locator
+		if (M_Locator_ID > 0)
+		{
+			locator = MLocator.get(Env.getCtx(), M_Locator_ID);
+			// Validate warehouse
+			if (locator != null && locator.getM_Warehouse_ID() != getM_Warehouse_ID())
+			{
+				locator = null;
+			}
+		}
+		
+		// Try to use default locator from Order Warehouse
+		if (locator == null && p_order != null && p_order.getM_Warehouse_ID() == getM_Warehouse_ID())
 		{
 			MWarehouse wh = MWarehouse.get(Env.getCtx(), p_order.getM_Warehouse_ID());
 			if (wh != null)
@@ -1040,14 +1037,26 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 				locator = wh.getDefaultLocator();
 			}
 		}
+		// Try to get from locator field
 		if (locator == null)
 		{
-			Integer M_Locator_ID = (Integer) locatorField.getValue();
-			if (M_Locator_ID != null && M_Locator_ID > 0)
+			Integer id = (Integer) locatorField.getValue();
+			if (id != null && id > 0)
 			{
-				locator = MLocator.get(Env.getCtx(), M_Locator_ID);
+				locator = MLocator.get(Env.getCtx(), id);
 			}
 		}
-		return locator;
+		// Validate Warehouse
+		if (locator == null || locator.getM_Warehouse_ID() != getM_Warehouse_ID())
+		{
+			locator = MWarehouse.get(Env.getCtx(), getM_Warehouse_ID()).getDefaultLocator();
+		}
+		
+		KeyNamePair pp = null ;
+		if (locator != null)
+		{
+			pp = new KeyNamePair(locator.get_ID(), locator.getValue());
+		}
+		return pp;
 	}
 }   //  VCreateFromShipment
