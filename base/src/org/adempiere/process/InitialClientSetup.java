@@ -33,8 +33,6 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.ADialog;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MSetup;
 import org.compiere.model.X_C_City;
