@@ -23,6 +23,7 @@ import org.adempiere.webui.component.FilenameBox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -121,13 +122,16 @@ public class WFilenameEditor extends WEditor
 			return;
 		}
 		
-		String fileName = System.getProperty("java.io.tmpdir") 
-			+ System.getProperty("file.separator") + file.getName();
-			
-		File tempFile = new File(fileName);
-		FileOutputStream fos = null;
+		// String fileName = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + ;
+		// File tempFile = new File(fileName);
 		
+		FileOutputStream fos = null;
+		String fileName = null;
 		try {
+
+			File tempFile = File.createTempFile(Env.getContext(Env.getCtx(), "#AD_User_Name")+"_", "_"+file.getName());
+			fileName = tempFile.getAbsolutePath();
+
 			fos = new FileOutputStream(tempFile);
 			fos.write(file.getByteData());
 			fos.flush();
