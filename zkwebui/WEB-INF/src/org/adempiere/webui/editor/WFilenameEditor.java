@@ -131,7 +131,7 @@ public class WFilenameEditor extends WEditor
 		String fileName = null;
 		try {
 
-			File tempFile = File.createTempFile(Env.getContext(Env.getCtx(), "#AD_User_Name")+"_", "_"+file.getName());
+			File tempFile = File.createTempFile("adempiere_", "_"+file.getName());
 			fileName = tempFile.getAbsolutePath();
 
 			fos = new FileOutputStream(tempFile);
