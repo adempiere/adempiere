@@ -14,9 +14,11 @@
 package org.adempiere.webui.editor;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.FilenameBox;
@@ -133,7 +135,21 @@ public class WFilenameEditor extends WEditor
 			fileName = tempFile.getAbsolutePath();
 
 			fos = new FileOutputStream(tempFile);
-			fos.write(file.getByteData());
+			byte[] bytes = null;
+			try {
+				bytes = file.getByteData();
+			}
+			catch ( IllegalStateException ise ) {
+				InputStream is = file.getStreamData();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				byte[] buf = new byte[ 1000 ];
+				int byteread = 0;
+				while (( byteread=is.read(buf) )!=-1)
+					baos.write(buf,0,byteread);
+				bytes = baos.toByteArray();
+			}
+
+			fos.write(bytes);
 			fos.flush();
 			fos.close();
 		} catch (IOException e) {
