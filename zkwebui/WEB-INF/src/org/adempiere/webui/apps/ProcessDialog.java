@@ -305,10 +305,10 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		if (component instanceof Button) {
 			Button element = (Button)component;
 			if ("Ok".equalsIgnoreCase(element.getId())) {
-				if (!isResult)
+				if (element.getLabel().length() > 0)
 					this.startProcess();
 				else
-					restart();
+					this.dispose();
 			} else if ("Cancel".equalsIgnoreCase(element.getId())) {
 				this.dispose();
 			}
@@ -379,38 +379,26 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_messageText.append(pi.getLogInfo(true));
 		message.setContent(m_messageText.toString());
 		
-		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Parameter"));
-		bOK.setImage("/images/Reset16.png");
-		isResult = true;
+		bOK.setLabel("");
 		
 		m_ids = pi.getIDs();
 		
 		//no longer needed, hide to give more space to display log
-		centerPanel.setVisible(false);
+		centerPanel.detach();
 		invalidate();
 		
 		Clients.response(new AuEcho(this, "onAfterProcess", null));
-	}
-	
-	private void restart() {
-		m_messageText = new StringBuffer(initialMessage);
-		message.setContent(initialMessage);
-		
-		centerPanel.setVisible(true);
-		
-		isResult = false;
-		
-		bOK.setLabel(Msg.getMsg(Env.getCtx(), "Start"));
-		bOK.setImage("/images/Ok16.png");
-		
-		invalidate();
 	}
 	
 	public void onAfterProcess() 
 	{
 		//
 		afterProcessTask();
-		
+
+		//      Close automatically
+		if (m_IsReport && !m_pi.isError())
+			this.dispose();
+
 		// If the process is a silent one and no errors occured, close the dialog
 		if(m_ShowHelp != null && m_ShowHelp.equals("S"))
 			this.dispose();	
