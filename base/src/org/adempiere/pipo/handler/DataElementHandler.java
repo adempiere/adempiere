@@ -162,6 +162,8 @@ public class DataElementHandler extends AbstractElementHandler {
 				int id = get_ID(ctx, d_tablename, nameAttribute);
 				genericPO = table.getPO(id, getTrxName(ctx));
 				if (id > 0){
+					if (genericPO == null || genericPO.get_ID() != id)
+						throw new SAXException("id not found");
 					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
 					objectStatus = "Update";			
 				}

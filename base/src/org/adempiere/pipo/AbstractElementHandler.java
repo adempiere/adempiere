@@ -258,10 +258,10 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	    		int idDetail = DB.getSQLValue(getTrxName(ctx),sqlD.toString())+1;
 	    		
 	    		if (referenceID == 10 || referenceID == 14 || referenceID == 34 || referenceID == 17)
-	    			if (from.get_Value(i)!= null)
+	    			if (from != null && from.get_Value(i)!= null)
 	    				colValue = from.get_Value(i).toString().replaceAll("'","''");	    		
 				else if (referenceID == 20|| referenceID == 28)
-					if (from.get_Value(i)!= null)	    				    				
+					if (from != null && from.get_Value(i)!= null)	    				    				
 	    				colValue = from.get_Value(i).toString().replaceAll("'","''");
 				else
 					;//Ignore
@@ -281,7 +281,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	    				.append( ", " + tableID )
 	    				.append( ", " + (columnID == -1 ? "null" : columnID) )
 	    				.append( ", " + (referenceID == -1 ? "null" : referenceID) )
-	    				.append( ", '" + (colValue != null ? colValue : from.get_Value(i)) )
+	    				.append( ", '" + (colValue != null ? colValue : (from != null ? from.get_Value(i) : "null")) )
 	    				.append( "')");
 	    		
 	    		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
