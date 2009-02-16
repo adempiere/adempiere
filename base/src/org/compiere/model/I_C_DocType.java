@@ -20,6 +20,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocType
@@ -42,6 +43,14 @@ public interface I_C_DocType
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -84,19 +93,6 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeDifference_ID();
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
 
@@ -135,6 +131,35 @@ public interface I_C_DocType
 	  * Document type used for shipments generated from this sales document
 	  */
 	public int getC_DocTypeShipment_ID();
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DefiniteSequence_ID */
     public static final String COLUMNNAME_DefiniteSequence_ID = "DefiniteSequence_ID";
@@ -264,6 +289,19 @@ public interface I_C_DocType
 	  */
 	public boolean isHasProforma();
 
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
     /** Column name IsCreateCounter */
     public static final String COLUMNNAME_IsCreateCounter = "IsCreateCounter";
 
@@ -316,19 +354,6 @@ public interface I_C_DocType
 	  */
 	public boolean isDocNoControlled();
 
-    /** Column name IsIndexed */
-    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
-
-	/** Set Indexed.
-	  * Index the document for the internal search engine
-	  */
-	public void setIsIndexed (boolean IsIndexed);
-
-	/** Get Indexed.
-	  * Index the document for the internal search engine
-	  */
-	public boolean isIndexed();
-
     /** Column name IsInTransit */
     public static final String COLUMNNAME_IsInTransit = "IsInTransit";
 
@@ -341,6 +366,19 @@ public interface I_C_DocType
 	  * Movement is in transit
 	  */
 	public boolean isInTransit();
+
+    /** Column name IsIndexed */
+    public static final String COLUMNNAME_IsIndexed = "IsIndexed";
+
+	/** Set Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public void setIsIndexed (boolean IsIndexed);
+
+	/** Get Indexed.
+	  * Index the document for the internal search engine
+	  */
+	public boolean isIndexed();
 
     /** Column name IsOverwriteDateOnComplete */
     public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
@@ -373,19 +411,6 @@ public interface I_C_DocType
 	  */
 	public boolean isPickQAConfirm();
 
-    /** Column name IsShipConfirm */
-    public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
-
-	/** Set Ship/Receipt Confirmation.
-	  * Require Ship or Receipt Confirmation before processing
-	  */
-	public void setIsShipConfirm (boolean IsShipConfirm);
-
-	/** Get Ship/Receipt Confirmation.
-	  * Require Ship or Receipt Confirmation before processing
-	  */
-	public boolean isShipConfirm();
-
     /** Column name IsSOTrx */
     public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
 
@@ -398,6 +423,19 @@ public interface I_C_DocType
 	  * This is a Sales Transaction
 	  */
 	public boolean isSOTrx();
+
+    /** Column name IsShipConfirm */
+    public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
+
+	/** Set Ship/Receipt Confirmation.
+	  * Require Ship or Receipt Confirmation before processing
+	  */
+	public void setIsShipConfirm (boolean IsShipConfirm);
+
+	/** Get Ship/Receipt Confirmation.
+	  * Require Ship or Receipt Confirmation before processing
+	  */
+	public boolean isShipConfirm();
 
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";
@@ -437,4 +475,20 @@ public interface I_C_DocType
 	  * The label text to be printed on a document or correspondence.
 	  */
 	public String getPrintName();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

@@ -685,8 +685,8 @@ public final class MSetup
 		createDocType("Manufacturing Order", "Manufacturing Order", 
 			MDocType.DOCBASETYPE_ManufacturingOrder, null,
 			0, 0, 80000, GL_Manufacturing);
-		createDocType("Manufacturing Order Planning","Order Planning", 
-			MDocType.DOCBASETYPE_ManufacturingOrder, null, 
+		createDocType("Manufacturing Cost Collector","Cost Collector", 
+			MDocType.DOCBASETYPE_ManufacturingCostCollector, null, 
 			0, 0, 81000, GL_Manufacturing);
 		createDocType("Maintenance Order","Maintenance Order",
 			MDocType.DOCBASETYPE_MaintenanceOrder, null,

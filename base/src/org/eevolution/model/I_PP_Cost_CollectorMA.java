@@ -20,18 +20,19 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for PP_Order_BOMLineMA
+/** Generated Interface for PP_Cost_CollectorMA
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_PP_Order_BOMLineMA 
+public interface I_PP_Cost_CollectorMA 
 {
 
-    /** TableName=PP_Order_BOMLineMA */
-    public static final String Table_Name = "PP_Order_BOMLineMA";
+    /** TableName=PP_Cost_CollectorMA */
+    public static final String Table_Name = "PP_Cost_CollectorMA";
 
     /** AD_Table_ID=53062 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -43,6 +44,14 @@ public interface I_PP_Order_BOMLineMA
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -56,6 +65,35 @@ public interface I_PP_Order_BOMLineMA
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -83,23 +121,39 @@ public interface I_PP_Order_BOMLineMA
 	  */
 	public BigDecimal getMovementQty();
 
-    /** Column name PP_Order_BOMLineMA_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLineMA_ID = "PP_Order_BOMLineMA_ID";
+    /** Column name PP_Cost_CollectorMA_ID */
+    public static final String COLUMNNAME_PP_Cost_CollectorMA_ID = "PP_Cost_CollectorMA_ID";
 
-	/** Set Manufacturing Order BOM Line MA	  */
-	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID);
+	/** Set Manufacturing Order MA	  */
+	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID);
 
-	/** Get Manufacturing Order BOM Line MA	  */
-	public int getPP_Order_BOMLineMA_ID();
+	/** Get Manufacturing Order MA	  */
+	public int getPP_Cost_CollectorMA_ID();
 
-    /** Column name PP_Order_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+    /** Column name PP_Cost_Collector_ID */
+    public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
 
-	/** Set Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+	/** Set Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID);
 
-	/** Get Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID();
+	/** Get Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID();
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

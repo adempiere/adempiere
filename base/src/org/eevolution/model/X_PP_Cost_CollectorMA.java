@@ -25,32 +25,32 @@ import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
-/** Generated Model for PP_Order_BOMLineMA
+/** Generated Model for PP_Cost_CollectorMA
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_Persistent 
+public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_PP_Order_BOMLineMA (Properties ctx, int PP_Order_BOMLineMA_ID, String trxName)
+    public X_PP_Cost_CollectorMA (Properties ctx, int PP_Cost_CollectorMA_ID, String trxName)
     {
-      super (ctx, PP_Order_BOMLineMA_ID, trxName);
-      /** if (PP_Order_BOMLineMA_ID == 0)
+      super (ctx, PP_Cost_CollectorMA_ID, trxName);
+      /** if (PP_Cost_CollectorMA_ID == 0)
         {
 			setM_AttributeSetInstance_ID (0);
 			setMovementQty (Env.ZERO);
-			setPP_Order_BOMLineMA_ID (0);
-			setPP_Order_BOMLine_ID (0);
+			setPP_Cost_CollectorMA_ID (0);
+			setPP_Cost_Collector_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_PP_Order_BOMLineMA (Properties ctx, ResultSet rs, String trxName)
+    public X_PP_Cost_CollectorMA (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -72,7 +72,7 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_PP_Order_BOMLineMA[")
+      StringBuffer sb = new StringBuffer ("X_PP_Cost_CollectorMA[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -121,33 +121,33 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
 		return bd;
 	}
 
-	/** Set Manufacturing Order BOM Line MA.
-		@param PP_Order_BOMLineMA_ID Manufacturing Order BOM Line MA	  */
-	public void setPP_Order_BOMLineMA_ID (int PP_Order_BOMLineMA_ID)
+	/** Set Manufacturing Order MA.
+		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
+	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
 	{
-		if (PP_Order_BOMLineMA_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_BOMLineMA_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_BOMLineMA_ID, Integer.valueOf(PP_Order_BOMLineMA_ID));
+		if (PP_Cost_CollectorMA_ID < 1)
+			 throw new IllegalArgumentException ("PP_Cost_CollectorMA_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
 	}
 
-	/** Get Manufacturing Order BOM Line MA.
-		@return Manufacturing Order BOM Line MA	  */
-	public int getPP_Order_BOMLineMA_ID () 
+	/** Get Manufacturing Order MA.
+		@return Manufacturing Order MA	  */
+	public int getPP_Cost_CollectorMA_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLineMA_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_CollectorMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException 
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
-        org.eevolution.model.I_PP_Order_BOMLine result = null;
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Cost_Collector.Table_Name);
+        org.eevolution.model.I_PP_Cost_Collector result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Order_BOMLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_BOMLine_ID()), get_TrxName()});
+    	    result = (org.eevolution.model.I_PP_Cost_Collector)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Cost_Collector_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -156,20 +156,20 @@ public class X_PP_Order_BOMLineMA extends PO implements I_PP_Order_BOMLineMA, I_
         return result;
     }
 
-	/** Set Manufacturing Order BOM Line.
-		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
+	/** Set Manufacturing Cost Collector.
+		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
 	{
-		if (PP_Order_BOMLine_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_BOMLine_ID is mandatory.");
-		set_Value (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
+		if (PP_Cost_Collector_ID < 1)
+			 throw new IllegalArgumentException ("PP_Cost_Collector_ID is mandatory.");
+		set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
 	}
 
-	/** Get Manufacturing Order BOM Line.
-		@return Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID () 
+	/** Get Manufacturing Cost Collector.
+		@return Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
