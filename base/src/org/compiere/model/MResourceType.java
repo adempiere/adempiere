@@ -166,6 +166,52 @@ public class MResourceType extends X_S_ResourceType
 			return 24*60*60*1000; // 24 hours
 		}
 	}
+
+	/**
+	 * Get how many hours/day a is available.
+	 * Minutes, secords and millis are discarded.  
+	 * @return available hours
+	 */
+	public int getTimeSlotHours()
+	{
+		long hours;
+		 if (isTimeSlot())                			
+			 hours = (getTimeSlotEnd().getTime() - getTimeSlotStart().getTime()) / (60 * 60 * 1000);
+		 else 
+			 hours  = 24;
+		 return (int) hours;
+	}
+	
+	/**
+	 * Get available days / week.
+	 * @return available days / week
+	 */
+	public int getAvailableDaysWeek()
+	{
+		int availableDays = 0;
+		if (isDateSlot())
+		{
+			if (isOnMonday())
+				availableDays += 1; 
+			if (isOnTuesday())
+				availableDays += 1;
+			if (isOnThursday())
+				availableDays += 1;
+			if (isOnWednesday())	
+				availableDays += 1;
+			if (isOnFriday())	 
+				availableDays += 1;
+			if (isOnSaturday())	
+				availableDays += 1;
+			if (isOnSunday())
+				availableDays += 1;
+		}
+		else
+		{
+			availableDays = 7;
+		}
+		return availableDays;
+	}
 	
 	public boolean isDayAvailable(Timestamp dateTime)
 	{
@@ -173,7 +219,7 @@ public class MResourceType extends X_S_ResourceType
 		{
 			return false;
 		}
-		if(isDateSlot())
+		if(!isDateSlot())
 		{
 			return true;
 		}
