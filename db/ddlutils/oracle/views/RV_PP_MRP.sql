@@ -1,5 +1,4 @@
--- DROP VIEW rv_pp_mrp;
-
+--DROP VIEW rv_pp_mrp;
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
 mrp.ad_client_id,
@@ -36,4 +35,6 @@ mrp.ordertype,
 mrp.typemrp,
 documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_mrp mrp
-LEFT JOIN pp_product_planning pp ON pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id;
+LEFT JOIN pp_product_planning pp ON (pp.m_product_id = mrp.m_product_id AND mrp.m_warehouse_id = pp.m_warehouse_id)
+WHERE mrp.Qty<>0
+;
