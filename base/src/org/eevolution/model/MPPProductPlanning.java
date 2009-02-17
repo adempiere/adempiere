@@ -214,6 +214,17 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	{
 		return MWorkflow.get(getCtx(), getAD_Workflow_ID());
 	}
+	
+	private int m_C_BPartner_ID = 0;
+	public void setC_BPartner_ID(int C_BPartner_ID)
+	{
+		this.m_C_BPartner_ID = C_BPartner_ID;
+	}
+	
+	public int getC_BPartner_ID()
+	{
+		return this.m_C_BPartner_ID;
+	}
 
 	public void dump()
 	{
