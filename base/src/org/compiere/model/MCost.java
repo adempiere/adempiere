@@ -79,12 +79,13 @@ public class MCost extends X_M_Cost
 	}	//	get
 	
 	 /**
-     * Get MCosts for Cost Type and Cost Element Type
+     * Get MCosts for Cost Type and Cost Element Type.
+     * NOTE: It uses Product's trxName.
      * @param product Product
      * @param as  Account Schema
      * @param AD_Org_ID Organization ID
      * @param M_AttributeSetInstance_ID Attribute Set Instance ID
-     * @param CostElementType Cost Element Type
+     * @param CostElementType Cost Element Type or null
      * @return Get MCost Collection for Cost Type and Cost Element Type
      */
 	public static Collection<MCost> getByCostType (MProduct product, MAcctSchema as, 
@@ -110,9 +111,7 @@ public class MCost extends X_M_Cost
 			+ " AND "+COLUMNNAME_M_Product_ID+"=?"
 			+ " AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?"
 			+ " AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
-			+ " AND "+COLUMNNAME_M_CostType_ID+"=?"
-		    + " AND EXISTS (SELECT 1 FROM M_CostElement ce "
-		    + " WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID "; 
+			+ " AND "+COLUMNNAME_M_CostType_ID+"=?";
 		
 		List<Object> params = new  ArrayList<Object>();
 		params.add(product.getAD_Client_ID());
@@ -123,11 +122,12 @@ public class MCost extends X_M_Cost
 		params.add(M_CostType_ID);	
 		if(CostElementType != null)
 		{
-			whereClause += "AND ce.CostElementType=?";
+		    whereClause += " AND EXISTS (SELECT 1 FROM M_CostElement ce"
+		    							+" WHERE ce.M_CostElement_ID=M_Cost.M_CostElement_ID " 
+										+" AND ce.CostElementType=?"
+										+")";
 			params.add(CostElementType);
 		}
-		
-		whereClause += ")";
 		
 		return new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
 						.setParameters(params)
@@ -135,23 +135,6 @@ public class MCost extends X_M_Cost
 						.list();
 	}	//	get
 	
-	 /**
-     * Get MCosts for for Cost Type
-     * @param product Product
-     * @param as  Account Schema
-     * @param M_CostType_ID Cost Type
-     * @param AD_Org_ID Organization ID
-     * @param M_AttributeSetInstance_ID Attribute Set Instance ID
-     * @param CostElementType Cost Element Type
-     * @return Get MCost Collection for Cost Type
-     */
-	public static Collection<MCost> getByCostType (MProduct product, MAcctSchema as, int M_CostType_ID , 
-			int AD_Org_ID, int M_AttributeSetInstance_ID)			
-	{
-		return getByCostType (product, as,  M_CostType_ID,
-				AD_Org_ID, M_AttributeSetInstance_ID, null);
-	}	//	get
-
 	/**
 	 * 	Retrieve/Calculate Current Cost Price
 	 *	@param product product
@@ -1395,20 +1378,22 @@ public class MCost extends X_M_Cost
 	}	//	get
 
 	/**
-	 * 	Get Costs
-	 * 	@param ctx context
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 *	@param M_Product_ID product
-	 *	@param M_CostType_ID cost type
-	 *	@param C_AcctSchema_ID as
-	 *	@param M_CostElement_ID cost element
-	 *	@param M_AttributeSetInstance_ID asi
-	 *	@return cost or null
+	 * Get Cost Record
+	 * @param ctx context
+	 * @param AD_Client_ID client
+	 * @param AD_Org_ID org
+	 * @param M_Product_ID product
+	 * @param M_CostType_ID cost type
+	 * @param C_AcctSchema_ID as
+	 * @param M_CostElement_ID cost element
+	 * @param M_AttributeSetInstance_ID asi
+	 * @param trxName transaction name
+	 * @return cost or null
 	 */
 	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Product_ID, 
 		int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
-		int M_AttributeSetInstance_ID)
+		int M_AttributeSetInstance_ID,
+		String trxName)
 	{
 		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
 									+" AND "+COLUMNNAME_M_Product_ID+"=?"
@@ -1419,41 +1404,22 @@ public class MCost extends X_M_Cost
 		final Object[] params = new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID,
 												M_CostType_ID, C_AcctSchema_ID,
 												M_CostElement_ID, M_AttributeSetInstance_ID};
-		return new Query(ctx, Table_Name, whereClause, null)
+		return new Query(ctx, Table_Name, whereClause, trxName)
 					.setOnlyActiveRecords(true)
 					.setParameters(params)
-					.first();
+					.firstOnly();
 	}	//	get
 	
-
-	
-	/**
-	 * 	Get Costs Record for a Cost Type
-	 * 	@param ctx context
-	 *	@param AD_Client_ID client
-	 *	@param AD_Org_ID org
-	 *	@param M_Product_ID product
-	 *	@param M_CostType_ID cost type
-	 *	@param C_AcctSchema_ID as
-	 *	@param TrxName transaction name
-	 *	@return array costs
-	 */
-	public static MCost get(Properties ctx , int AD_Client_ID, int AD_Org_ID , int M_Product_ID,  int M_CostType_ID ,int C_AcctSchema_ID , int M_CostElement_ID ,String  trxName)
+	@Deprecated
+	public static MCost get (Properties ctx, int AD_Client_ID, int AD_Org_ID, int M_Product_ID, 
+			int M_CostType_ID, int C_AcctSchema_ID, int M_CostElement_ID,
+			int M_AttributeSetInstance_ID)
 	{
-		
-		String whereClause = "AD_Client_ID = ? AND AD_Org_ID = ? AND M_Product_ID=? AND  C_Acctschema_ID = ? AND M_CostType_ID = ? AND M_CostElement_ID=?";
-		Query query = MTable.get(ctx, MCost.Table_ID)
-							.createQuery(whereClause, trxName);
-		query.setParameters(new Object[]{AD_Client_ID, AD_Org_ID, M_Product_ID, C_AcctSchema_ID, M_CostType_ID, M_CostElement_ID});
-		query.setOnlyActiveRecords(true);
-		List<MCost> list = query.list();
-		for (MCost cost : list)
-		{
-			return cost;
-		}
-		return null;	
+		return get(ctx, AD_Client_ID, AD_Org_ID,
+				M_Product_ID, M_CostType_ID, C_AcctSchema_ID, M_CostElement_ID,
+				M_AttributeSetInstance_ID,
+				null); // trxName
 	}
-
 	
 	/**	Logger	*/
 	private static CLogger 	s_log = CLogger.getCLogger (MCost.class);
