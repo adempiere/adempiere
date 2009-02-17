@@ -1,3 +1,15 @@
+ALTER TABLE PP_Order_BOMLineMA RENAME TO PP_Cost_CollectorMA;
+ALTER TABLE PP_Cost_CollectorMA RENAME COLUMN pp_order_bomlinema_id TO pp_cost_collectorma_id;
+ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pporderbomline_pporderbomlinem;
+ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pp_order_bomlinema_key;
+ALTER TABLE pp_cost_collectorma ADD CONSTRAINT pp_cost_collectorma_key PRIMARY KEY(pp_cost_collectorma_id);
+ALTER TABLE PP_Cost_CollectorMA RENAME COLUMN pp_order_bomline_id TO pp_cost_collector_id;
+ALTER TABLE pp_cost_collectorma ADD CONSTRAINT ppcostcollector_ppccma FOREIGN KEY (pp_cost_collector_id)
+      REFERENCES pp_cost_collector (pp_cost_collector_id);      
+--ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pp_order_bomlinema_isactive_check;
+ALTER TABLE pp_cost_collectorma ADD CONSTRAINT pp_ccma_isactive_check CHECK (isactive IN('Y','N'));
+
+
 -- Feb 13, 2009 11:10:45 AM ECT
 -- Fix Allocation with Collector Cost
 UPDATE AD_Table SET Name='Manufacturing Order MA', TableName='PP_Cost_CollectorMA',Updated=TO_DATE('2009-02-13 11:10:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Table_ID=53062
@@ -265,17 +277,6 @@ UPDATE C_DocType SET DocNoSequence_ID=53272,Updated=TO_DATE('2009-02-16 14:26:40
 ','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_DocType_ID=50013
 ;
 
-ALTER TABLE PP_Order_BOMLineMA RENAME TO PP_Cost_CollectorMA;
-ALTER TABLE PP_Cost_CollectorMA RENAME COLUMN pp_order_bomlinema_id TO pp_cost_collectorma_id;
-ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pporderbomline_pporderbomlinem;
-ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pp_order_bomlinema_key;
-ALTER TABLE pp_cost_collectorma ADD CONSTRAINT pp_cost_collectorma_key PRIMARY KEY(pp_cost_collectorma_id);
-ALTER TABLE PP_Cost_CollectorMA RENAME COLUMN pp_order_bomline_id TO pp_cost_collector_id;
-ALTER TABLE pp_cost_collectorma ADD CONSTRAINT ppcostcollector_ppcostcollectorma FOREIGN KEY (pp_cost_collector_id)
-      REFERENCES pp_cost_collector (pp_cost_collector_id);      
-ALTER TABLE pp_cost_collectorma DROP CONSTRAINT pp_order_bomlinema_isactive_check;
-ALTER TABLE pp_cost_collectorma ADD CONSTRAINT pp_cost_collectorma_isactive_check CHECK (isactive IN('Y','N'));
-  
 DELETE FROM AD_Sequence WHERE AD_Sequence_ID=53170;
 DELETE FROM AD_Sequence WHERE AD_Sequence_ID=53171;
 DELETE FROM AD_Sequence WHERE AD_Sequence_ID=53172;
