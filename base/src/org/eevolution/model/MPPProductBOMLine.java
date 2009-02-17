@@ -30,6 +30,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -67,7 +68,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	public MPPProductBOMLine(MPPProductBOM bom)
 	{
 		super(bom.getCtx(), 0, bom.get_TableName());
-		if (bom.get_ID() == 0)
+		if (bom.get_ID() <= 0)
 			throw new IllegalArgumentException("Header not saved");
 		setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID()); //	parent
 	}
@@ -106,6 +107,14 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
+		//
+		// For Co/By Products, Qty should be always negative:
+		if (isCoProduct() && getQty(false).signum() >= 0)
+		{
+			throw new AdempiereException("@Qty@ > 0");
+		}
+		//
+		// Update Line#
 		if (getLine() <= 0)
 		{
 			final String sql = "SELECT COALESCE(MAX("+COLUMNNAME_Line+"),0) + 10 FROM "+Table_Name
@@ -120,13 +129,14 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success)
 	{
-		if (success)
-		{
-			int lowlevel = getLowLevel();
-			MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
-			product.setLowLevel(lowlevel); //update lowlevel
-			product.saveEx();
-		}
+		if (!success)
+			return false;
+
+		int lowlevel = getLowLevel();
+		MProduct product = new MProduct(getCtx(), getM_Product_ID(), get_TrxName());
+		product.setLowLevel(lowlevel); //update lowlevel
+		product.saveEx();
+		
 		return true;
 	}
 	
@@ -142,20 +152,74 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		return true;
 	}
 	
+	public boolean isCoProduct()
+	{
+		String componentType = getComponentType();
+		return COMPONENTTYPE_ByProduct.equals(componentType); // TODO
+	}
+	
 	/**
 	 * Return absolute (unified) quantity value.
-	 * If QtyBOM is filled, QtyBOM will be returned.
-	 * If QtyBatch is filled, QtyBatch / 100 will be returned 
+	 * If IsQtyPercentage then QtyBatch / 100 will be returned.
+	 * Else QtyBOM will be returned.
+	 * @param includeScrapQty if true, scrap qty will be used for calculating qty 
 	 * @return qty
+	 */
+	public BigDecimal getQty(boolean includeScrapQty)
+	{
+		final int precision = getPrecision();
+		BigDecimal qty;
+		if (isQtyPercentage())
+		{
+			qty = getQtyBatch().divide(Env.ONEHUNDRED, precision, RoundingMode.HALF_UP);
+		}
+		else
+		{
+			qty = getQtyBOM();
+		}
+		//
+		if (includeScrapQty)
+		{
+			BigDecimal scrapDec = getScrap().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_UP);
+			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, BigDecimal.ROUND_HALF_UP);
+		}
+		//
+		if (qty.scale() > precision)
+		{
+			qty = qty.setScale(getPrecision(), RoundingMode.HALF_UP);
+		}
+		//
+		return qty;
+	}
+
+	/**
+	 * Like {@link #getQty(boolean)}, includeScrapQty = false
 	 */
 	public BigDecimal getQty()
 	{
-		if(getQtyBOM().signum() != 0)
-			return getQtyBOM();
-		else if(getQtyBatch().signum() != 0)
-			return getQtyBatch().divide(Env.ONEHUNDRED, 12, RoundingMode.HALF_UP);
-		else
-			return Env.ZERO;
+		return getQty(false);
+	}
+	
+	/**
+	 * @return UOM precision
+	 */
+	public int getPrecision()
+	{
+		return MUOM.getPrecision(getCtx(), getC_UOM_ID());
+	}
+	
+	/**
+	 * @return co-product cost allocation percent (i.e. -1/qty)
+	 */
+	public BigDecimal getCostAllocationPerc()
+	{
+		BigDecimal qty = getQty(false).negate();
+		BigDecimal allocationPercent = Env.ZERO;
+		if (qty.signum() != 0)
+		{
+			allocationPercent = Env.ONE.divide(qty, 4, RoundingMode.HALF_UP);
+		}
+		return allocationPercent;
 	}
 }
 
