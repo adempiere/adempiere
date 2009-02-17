@@ -33,10 +33,14 @@ import org.compiere.util.Env;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
+ * 			<li>BF [ 2608617 ] Error when I want to delete a PO document
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6288086509043522278L;
 
 	/**
 	 * Get corresponding Requisition Line for given Order Line
@@ -73,18 +77,19 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	
 
 	/**
-	 * Get corresponding Requisition Line for given Order Line
+	 * Get corresponding Requisition Line(s) for given Order Line
 	 * @param ctx
 	 * @param C_OrderLine_ID order line
 	 * @param trxName
-	 * @return Requisition Line
+	 * @return array of Requisition Line(s)
 	 */
-	public static MRequisitionLine forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
+	public static MRequisitionLine[] forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
 		final String whereClause = COLUMNNAME_C_OrderLine_ID+"=?";
-		return new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
+		List<MRequisitionLine> list = new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
 			.setParameters(new Object[]{C_OrderLine_ID})
-			.firstOnly();
+			.list();
+		return list.toArray(new MRequisitionLine[list.size()]);
 	}
 
 	/**
@@ -95,8 +100,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	 */
 	public static void unlinkC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
-		MRequisitionLine line = forC_OrderLine_ID(ctx, C_OrderLine_ID, trxName);
-		if (line != null)
+		for (MRequisitionLine line : forC_OrderLine_ID(ctx, C_OrderLine_ID, trxName))
 		{
 			line.setC_OrderLine_ID(0);
 			line.saveEx();

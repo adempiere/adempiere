@@ -18,12 +18,10 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -40,9 +38,16 @@ import org.compiere.util.Msg;
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  @version $Id: MRequisition.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  @author red1
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query  
  */
 public class MRequisition extends X_M_Requisition implements DocAction
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4111474920471624816L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -93,34 +98,14 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			return m_lines;
 		}
 		
-		ArrayList<MRequisitionLine> list = new ArrayList<MRequisitionLine>();
-		String sql = "SELECT * FROM M_RequisitionLine WHERE M_Requisition_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Requisition_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRequisitionLine (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query  
+ 	 	String whereClause = MRequisitionLine.COLUMNNAME_M_Requisition_ID+"=?";
+	 	List <MRequisitionLine> list = new Query(getCtx(), MRequisitionLine.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{get_ID()})
+			.setOrderBy(MRequisitionLine.COLUMNNAME_Line)
+			.list();
+	 	//  red1 - end -
+
 		m_lines = new MRequisitionLine[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
@@ -286,14 +271,14 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			if (lineNet.compareTo(line.getLineNetAmt()) != 0)
 			{
 				line.setLineNetAmt(lineNet);
-				line.save();
+				line.saveEx();
 			}
 			totalLines = totalLines.add (line.getLineNetAmt());
 		}
 		if (totalLines.compareTo(getTotalLines()) != 0)
 		{
 			setTotalLines(totalLines);
-			save();
+			saveEx();
 		}
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -442,14 +427,14 @@ public class MRequisition extends X_M_Requisition implements DocAction
 				line.setDescription(description);
 				line.setQty(finalQty);
 				line.setLineNetAmt();
-				line.save();
+				line.saveEx();
 			}
 			totalLines = totalLines.add (line.getLineNetAmt());
 		}
 		if (totalLines.compareTo(getTotalLines()) != 0)
 		{
 			setTotalLines(totalLines);
-			save();
+			saveEx();
 		}
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
