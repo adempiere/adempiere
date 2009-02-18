@@ -707,10 +707,16 @@ public class MTable extends X_AD_Table
 		getColumns(true);
 		for (int i = 0; i < m_columns.length; i++)
 		{
-			if (i > 0)
-				sb.append(", ");
 			MColumn column = m_columns[i];
-			sb.append(column.getSQLDDL());
+			String colSQL = column.getSQLDDL();
+			if ( colSQL != null )
+			{
+				if (i > 0)
+					sb.append(", ");
+					sb.append(column.getSQLDDL());
+			}
+			else // virtual column
+				continue;
 			//
 			if (column.isKey())
 				hasPK = true;
