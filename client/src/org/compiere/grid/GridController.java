@@ -689,6 +689,7 @@ public class GridController extends CPanel
 		//  Update UI
 		if (!isSingleRow())
 			vTable.autoSize(true);
+		activateChilds();
 	}   //  query
 
 	/*
