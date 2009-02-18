@@ -130,6 +130,7 @@ public class MProductPricing
 			+ " INNER JOIN  M_PriceList_Version pv ON (pp.M_PriceList_Version_ID=pv.M_PriceList_Version_ID)"
 			+ " INNER JOIN M_Pricelist pl ON (pv.M_PriceList_ID=pl.M_PriceList_ID) "
 			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pv.M_PriceList_Version_ID=?";	//	#2
 		m_calculated = false;
@@ -239,6 +240,7 @@ public class MProductPricing
 			+ " INNER JOIN  M_PriceList_Version pv ON (pp.M_PriceList_Version_ID=pv.M_PriceList_Version_ID)"
 			+ " INNER JOIN M_Pricelist pl ON (pv.M_PriceList_ID=pl.M_PriceList_ID) "
 			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pv.M_PriceList_ID=?"			//	#2
 			+ "ORDER BY pv.ValidFrom DESC";
@@ -313,6 +315,7 @@ public class MProductPricing
 			+ " INNER JOIN M_Pricelist bpl ON (pv.M_PriceList_ID=bpl.M_PriceList_ID)"
 			+ " INNER JOIN M_Pricelist pl ON (bpl.M_PriceList_ID=pl.BasePriceList_ID) "
 			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pl.M_PriceList_ID=?"			//	#2
 			+ "ORDER BY pv.ValidFrom DESC";
