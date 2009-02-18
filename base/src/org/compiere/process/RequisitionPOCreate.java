@@ -16,11 +16,13 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.NoVendorForProductException;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCharge;
 import org.compiere.model.MOrder;
@@ -29,9 +31,9 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MProductPO;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
-import org.compiere.util.AdempiereSystemError;
+import org.compiere.model.POResultSet;
+import org.compiere.model.Query;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
@@ -41,6 +43,10 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: RequisitionPOCreate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2609760 ] RequisitionPOCreate not using DateRequired
+ *  		<li>BF [ 2605888 ] CreatePOfromRequisition creates more PO than needed
  */
 public class RequisitionPOCreate extends SvrProcess
 {
@@ -72,6 +78,8 @@ public class RequisitionPOCreate extends SvrProcess
 	private MOrder		m_order = null;
 	/** Order Line			*/
 	private MOrderLine	m_orderLine = null;
+	/** Orders Cache : (C_BPartner_ID, DateRequired, M_PriceList_ID) -> MOrder */
+	private HashMap<MultiKey, MOrder> m_cacheOrders = new HashMap<MultiKey, MOrder>();
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -126,12 +134,16 @@ public class RequisitionPOCreate extends SvrProcess
 			log.info("M_Requisition_ID=" + p_M_Requisition_ID);
 			MRequisition req = new MRequisition(getCtx(), p_M_Requisition_ID, get_TrxName());
 			if (!MRequisition.DOCSTATUS_Completed.equals(req.getDocStatus()))
+			{
 				throw new AdempiereUserError("@DocStatus@ = " + req.getDocStatus());
+			}
 			MRequisitionLine[] lines = req.getLines();
 			for (int i = 0; i < lines.length; i++)
 			{
 				if (lines[i].getC_OrderLine_ID() == 0)
+				{
 					process (lines[i]);
+				}
 			}
 			closeOrder();
 			return "";
@@ -147,97 +159,82 @@ public class RequisitionPOCreate extends SvrProcess
 			+ ", M_Product_ID=" + p_M_Product_ID
 			+ ", ConsolidateDocument" + p_ConsolidateDocument);
 		
-		StringBuffer sql = new StringBuffer("SELECT * FROM M_RequisitionLine rl ")
-			.append("WHERE rl.C_OrderLine_ID IS NULL");
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("C_OrderLine_ID IS NULL");
 		if (p_AD_Org_ID != 0)
-			sql.append(" AND AD_Org_ID=?");
+		{
+			whereClause.append(" AND AD_Org_ID=?");
+			params.add(p_AD_Org_ID);
+		}
 		if (p_M_Product_ID != 0)
-			sql.append(" AND M_Product_ID=?");
+		{
+			whereClause.append(" AND M_Product_ID=?");
+			params.add(p_M_Product_ID);
+		}
+		//
 		//	Requisition Header
-		sql.append(" AND EXISTS (SELECT * FROM M_Requisition r WHERE rl.M_Requisition_ID=r.M_Requisition_ID")
+		whereClause.append(" AND EXISTS (SELECT 1 FROM M_Requisition r WHERE M_RequisitionLine.M_Requisition_ID=r.M_Requisition_ID")
 			.append(" AND r.DocStatus='CO'");
 		if (p_M_Warehouse_ID != 0)
-			sql.append(" AND r.M_Warehouse_ID=?");
-		//
-		if (p_DateDoc_From != null && p_DateDoc_To != null)
-			sql.append(" AND r.DateDoc BETWEEN ? AND ?");
-		else if (p_DateDoc_From != null)
-			sql.append(" AND r.DateDoc => ?");
-		else if (p_DateDoc_To != null)
-			sql.append(" AND r.DateDoc <= ?");
-		//
-		if (p_DateRequired_From != null && p_DateRequired_To != null)
-			sql.append(" AND r.DateRequired BETWEEN ? AND ?");
-		else if (p_DateRequired_From != null)
-			sql.append(" AND r.DateRequired => ?");
-		else if (p_DateRequired_To != null)
-			sql.append(" AND r.DateRequired <= ?");
-		//
+		{
+			whereClause.append(" AND r.M_Warehouse_ID=?");
+			params.add(p_M_Warehouse_ID);
+		}
+		if (p_DateDoc_From != null)
+		{
+			whereClause.append(" AND r.DateDoc => ?");
+			params.add(p_DateDoc_From);
+		}
+		if (p_DateDoc_To != null)
+		{
+			whereClause.append(" AND r.DateDoc <= ?");
+			params.add(p_DateDoc_To);
+		}
+		if (p_DateRequired_From != null)
+		{
+			whereClause.append(" AND r.DateRequired => ?");
+			params.add(p_DateRequired_From);
+		}
+		if (p_DateRequired_To != null)
+		{
+			whereClause.append(" AND r.DateRequired <= ?");
+			params.add(p_DateRequired_To);
+		}
 		if (p_PriorityRule != null)
-			sql.append(" AND r.PriorityRule => ?");
+		{
+			whereClause.append(" AND r.PriorityRule => ?");
+			params.add(p_PriorityRule);
+		}
 		if (p_AD_User_ID != 0)
-			sql.append(" AND r.AD_User_ID=?");
+		{
+			whereClause.append(" AND r.AD_User_ID=?");
+			params.add(p_AD_User_ID);
+		}
+		whereClause.append(")"); // End Requisition Header
 		//
-		sql.append(") ORDER BY ");
+		// ORDER BY clause
+		StringBuffer orderClause = new StringBuffer();
 		if (!p_ConsolidateDocument)
-			sql.append("M_Requisition_ID, ");
-		sql.append("M_Product_ID, C_Charge_ID, M_AttributeSetInstance_ID");
+		{
+			orderClause.append("M_Requisition_ID, ");
+		}
+		orderClause.append("(SELECT DateRequired FROM M_Requisition r WHERE M_RequisitionLine.M_Requisition_ID=r.M_Requisition_ID),");
+		orderClause.append("M_Product_ID, C_Charge_ID, M_AttributeSetInstance_ID");
 		
-		PreparedStatement pstmt = null;
+		POResultSet<MRequisitionLine> rs = new Query(getCtx(), MRequisitionLine.Table_Name, whereClause.toString(), get_TrxName())
+											.setParameters(params)
+											.setOrderBy(orderClause.toString())
+											.scroll();
 		try
 		{
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
-			int index = 1;
-			if (p_AD_Org_ID != 0)
-				pstmt.setInt (index++, p_AD_Org_ID);
-			if (p_M_Product_ID != 0)
-				pstmt.setInt (index++, p_M_Product_ID);
-			if (p_M_Warehouse_ID != 0)
-				pstmt.setInt (index++, p_M_Warehouse_ID);
-			if (p_DateDoc_From != null && p_DateDoc_To != null)
+			while (rs.hasNext())
 			{
-				pstmt.setTimestamp(index++, p_DateDoc_From);
-				pstmt.setTimestamp(index++, p_DateDoc_To);
+				process(rs.next());
 			}
-			else if (p_DateDoc_From != null)
-				pstmt.setTimestamp(index++, p_DateDoc_From);
-			else if (p_DateDoc_To != null)
-				pstmt.setTimestamp(index++, p_DateDoc_To);
-			if (p_DateRequired_From != null && p_DateRequired_To != null)
-			{
-				pstmt.setTimestamp(index++, p_DateRequired_From);
-				pstmt.setTimestamp(index++, p_DateRequired_To);
-			}
-			else if (p_DateRequired_From != null)
-				pstmt.setTimestamp(index++, p_DateRequired_From);
-			else if (p_DateRequired_To != null)
-				pstmt.setTimestamp(index++, p_DateRequired_To);
-			if (p_PriorityRule != null)
-				pstmt.setString(index++, p_PriorityRule);
-			if (p_AD_User_ID != 0)
-				pstmt.setInt (index++, p_AD_User_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				process (new MRequisitionLine (getCtx(), rs, get_TrxName()));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		finally
 		{
-			log.log (Level.SEVERE, sql.toString(), e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs); rs = null;
 		}
 		closeOrder();
 		return "";
@@ -264,21 +261,26 @@ public class RequisitionPOCreate extends SvrProcess
 			return;
 		}
 		
-		if (!p_ConsolidateDocument
-			&& rLine.getM_Requisition_ID() != m_M_Requisition_ID)
+		if (!p_ConsolidateDocument && rLine.getM_Requisition_ID() != m_M_Requisition_ID)
+		{
 			closeOrder();
+		}
 		if (m_orderLine == null
 			|| rLine.getM_Product_ID() != m_M_Product_ID
 			|| rLine.getM_AttributeSetInstance_ID() != m_M_AttributeSetInstance_ID
-			|| rLine.getC_Charge_ID() != 0)		//	single line per charge
+			|| rLine.getC_Charge_ID() != 0		//	single line per charge
+			|| m_order == null
+			|| m_order.getDatePromised().compareTo(rLine.getDateRequired()) != 0
+			)
+		{
 			newLine(rLine);
+		}
 
 		//	Update Order Line
 		m_orderLine.setQty(m_orderLine.getQtyOrdered().add(rLine.getQty()));
 		//	Update Requisition Line
 		rLine.setC_OrderLine_ID(m_orderLine.getC_OrderLine_ID());
-		if (!rLine.save())
-			throw new AdempiereSystemError("Cannot update Request Line");
+		rLine.saveEx();
 	}	//	process
 	
 	/**
@@ -290,26 +292,43 @@ public class RequisitionPOCreate extends SvrProcess
 	private void newOrder(MRequisitionLine rLine, int C_BPartner_ID) throws Exception
 	{
 		if (m_order != null)
+		{
 			closeOrder();
-		//	BPartner
-		if (m_bpartner == null || C_BPartner_ID != m_bpartner.getC_BPartner_ID())
-			m_bpartner = new MBPartner (getCtx(), C_BPartner_ID, null);
-
-		//	Order
-		m_order = new MOrder(getCtx(), 0, get_TrxName());
-		m_order.setIsSOTrx(false);
-		m_order.setC_DocTypeTarget_ID();
-		m_order.setBPartner(m_bpartner);
-		m_order.setM_PriceList_ID(rLine.getParent().getM_PriceList_ID());
-		//	default po document type
-		if (!p_ConsolidateDocument)
-			m_order.setDescription(Msg.getElement(getCtx(), "M_Requisition_ID") 
-				+ ": " + rLine.getParent().getDocumentNo());
+		}
 		
-		//	Prepare Save
+		//	BPartner
+		if (m_bpartner == null || C_BPartner_ID != m_bpartner.get_ID())
+		{
+			m_bpartner = MBPartner.get(getCtx(), C_BPartner_ID);
+		}
+		
+		
+		//	Order
+		Timestamp DateRequired = rLine.getDateRequired();
+		int M_PriceList_ID = rLine.getParent().getM_PriceList_ID();
+		MultiKey key = new MultiKey(C_BPartner_ID, DateRequired, M_PriceList_ID);
+		m_order = m_cacheOrders.get(key);
+		if (m_order == null)
+		{
+			m_order = new MOrder(getCtx(), 0, get_TrxName());
+			m_order.setDatePromised(DateRequired);
+			m_order.setIsSOTrx(false);
+			m_order.setC_DocTypeTarget_ID();
+			m_order.setBPartner(m_bpartner);
+			m_order.setM_PriceList_ID(M_PriceList_ID);
+			//	default po document type
+			if (!p_ConsolidateDocument)
+			{
+				m_order.setDescription(Msg.getElement(getCtx(), "M_Requisition_ID") 
+					+ ": " + rLine.getParent().getDocumentNo());
+			}
+			
+			//	Prepare Save
+			m_order.saveEx();
+			// Put to cache
+			m_cacheOrders.put(key, m_order);
+		}
 		m_M_Requisition_ID = rLine.getM_Requisition_ID();
-		if (!m_order.save())
-			throw new AdempiereSystemError("Cannot save Order");
 	}	//	newOrder
 
 	/**
@@ -320,8 +339,7 @@ public class RequisitionPOCreate extends SvrProcess
 	{
 		if (m_orderLine != null)
 		{
-			if (!m_orderLine.save())
-				throw new AdempiereSystemError("Cannot update Order Line");
+			m_orderLine.saveEx();
 		}
 		if (m_order != null)
 		{
@@ -341,25 +359,31 @@ public class RequisitionPOCreate extends SvrProcess
 	private void newLine(MRequisitionLine rLine) throws Exception
 	{
 		if (m_orderLine != null)
-			if (!m_orderLine.save())
-				throw new AdempiereSystemError("Cannot update Order Line");
+		{
+			m_orderLine.saveEx();
+		}
 		m_orderLine = null;
 		MProduct product = null;
 
 		//	Get Business Partner
 		int C_BPartner_ID = rLine.getC_BPartner_ID();
 		if (C_BPartner_ID != 0)
+		{
 			;
+		}
 		else if (rLine.getC_Charge_ID() != 0)
 		{
 			MCharge charge = MCharge.get(getCtx(), rLine.getC_Charge_ID());
 			C_BPartner_ID = charge.getC_BPartner_ID();
 			if (C_BPartner_ID == 0)
+			{
 				throw new AdempiereUserError("No Vendor for Charge " + charge.getName());
+			}
 		}
 		else
 		{
-			//	Find Vendor from Produt
+			// Find Strategic Vendor for Product
+			// TODO: refactor
 			product = MProduct.get(getCtx(), rLine.getM_Product_ID());
 			MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), null);
 			for (int i = 0; i < ppos.length; i++)
@@ -371,19 +395,27 @@ public class RequisitionPOCreate extends SvrProcess
 				}
 			}
 			if (C_BPartner_ID == 0 && ppos.length > 0)
+			{
 				C_BPartner_ID = ppos[0].getC_BPartner_ID();
+			}
 			if (C_BPartner_ID == 0)
-				throw new AdempiereUserError("No Vendor for " + product.getName());
+			{
+				throw new NoVendorForProductException(product.getName());
+			}
 		}
 
 		//	New Order - Different Vendor
 		if (m_order == null 
-			|| m_order.getC_BPartner_ID() != C_BPartner_ID)
+			|| m_order.getC_BPartner_ID() != C_BPartner_ID
+			|| m_order.getDatePromised().compareTo(rLine.getDateRequired()) != 0
+			)
+		{
 			newOrder(rLine, C_BPartner_ID);
-		
+		}
 		
 		//	No Order Line
 		m_orderLine = new MOrderLine(m_order);
+		m_orderLine.setDatePromised(rLine.getDateRequired());
 		if (product != null)
 		{
 			m_orderLine.setProduct(product);
@@ -400,8 +432,7 @@ public class RequisitionPOCreate extends SvrProcess
 		//	Prepare Save
 		m_M_Product_ID = rLine.getM_Product_ID();
 		m_M_AttributeSetInstance_ID = rLine.getM_AttributeSetInstance_ID();
-		if (!m_orderLine.save())
-			throw new AdempiereSystemError(CLogger.retrieveErrorString("Cannot save Order Line"));
+		m_orderLine.saveEx();
 	}	//	newLine
 	
 }	//	RequisitionPOCreate

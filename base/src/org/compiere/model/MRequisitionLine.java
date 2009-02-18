@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -197,6 +198,15 @@ public class MRequisitionLine extends X_M_RequisitionLine
 			m_parent = new MRequisition (getCtx(), getM_Requisition_ID(), get_TrxName());
 		return m_parent;
 	}	//	getParent
+	
+	/**
+	 * @return Date when this product is required by planner
+	 * @see MRequisition#getDateRequired()
+	 */
+	public Timestamp getDateRequired()
+	{
+		return getParent().getDateRequired();
+	}
 	
 	/**
 	 * 	Set Price
