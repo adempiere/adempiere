@@ -282,6 +282,10 @@
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
 			</manifest>
+			<!-- Commons -->
+			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 		</jar>
 
 	</target>
@@ -420,6 +424,10 @@
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
 			</manifest>
+			<!-- Commons -->
+			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 		</jar>
 
 	</target>

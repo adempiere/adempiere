@@ -65,7 +65,6 @@
 	      <pathelement path="../lib/oracle.jar"/>
 		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.0.0.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
-	      <pathelement path="../tools/lib/commons-collections-3.1.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
@@ -134,9 +133,6 @@
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >
-		<patternset refid="manifest.exclude"/>
-	  </zipfileset>
-  	  <zipfileset src="../tools/lib/commons-collections-3.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../tools/lib/commons-logging.jar" >
