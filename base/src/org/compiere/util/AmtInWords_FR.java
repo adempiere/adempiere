@@ -202,8 +202,21 @@ public class AmtInWords_FR implements AmtInWords
 			pos = pos2;
 		String oldamt = amount;
 		amount = amount.replaceAll (",", "");
-		int newpos = amount.lastIndexOf ('.');
-		int pesos = Integer.parseInt (amount.substring (0, newpos));
+		
+		String amttobetranslate = amount.substring (0, (pos));
+
+		// Here we clean unexpected space in the amount  
+		String finalamount = new String();
+	    char[] mychararray = amttobetranslate.toCharArray(); 
+		for (int i = 0; i < amttobetranslate.length (); i++)
+		{
+			if ( !Character.isSpaceChar(mychararray[i])) 
+			{
+				finalamount = finalamount.concat(String.valueOf(mychararray[i]));
+			}	
+		}
+
+		int pesos = Integer.parseInt (finalamount);
 		sb.append (convert (pesos));
 		for (int i = 0; i < oldamt.length (); i++)
 		{
