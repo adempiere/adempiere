@@ -167,10 +167,11 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 */
 	public BigDecimal getQty(boolean includeScrapQty)
 	{
-		final int precision = getPrecision();
+		int precision = getPrecision();
 		BigDecimal qty;
 		if (isQtyPercentage())
 		{
+			precision += 2;
 			qty = getQtyBatch().divide(Env.ONEHUNDRED, precision, RoundingMode.HALF_UP);
 		}
 		else
@@ -186,7 +187,7 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		//
 		if (qty.scale() > precision)
 		{
-			qty = qty.setScale(getPrecision(), RoundingMode.HALF_UP);
+			qty = qty.setScale(precision, RoundingMode.HALF_UP);
 		}
 		//
 		return qty;
