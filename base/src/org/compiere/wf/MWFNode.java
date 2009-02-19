@@ -18,6 +18,7 @@ package org.compiere.wf;
 
 import java.awt.Point;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -674,42 +675,63 @@ public class MWFNode extends X_AD_WF_Node
 	 * @return cost for this Cost Element Type (Labor or Burden)
 	 * @throws Exception when the UOM do not is Hours
 	 */
-	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID,int M_CostType_ID,int AD_Org_ID,int setuptime, int duration)
+	public BigDecimal getCostForCostElementType(String CostElementType, int C_AcctSchema_ID, int M_CostType_ID, int AD_Org_ID,
+												int setuptime, int duration)
 	{
 		MResource resource = MResource.get(getCtx(), getS_Resource_ID());
 		if(resource == null)
 			return Env.ZERO;
-		//get the rate and convert in second for this cost type element (Resource, Burden)
-		MWorkflow workflow = getWorkflow();
+		
+		BigDecimal cost =  Env.ZERO;
+		
 		// Validate the CostingLevel 
 		MAcctSchema as = MAcctSchema.get(getCtx(), C_AcctSchema_ID);
+		final int precision = as.getCostingPrecision();
 		MProduct product = resource.getProduct();
 		if(MAcctSchema.COSTINGLEVEL_Client.equals(product.getCostingLevel(as)))
 		{
 			AD_Org_ID = 0;
 		}
 		
+		//
+		// Get Resource Rate
 		double rate = resource.getResouceRate(C_AcctSchema_ID, M_CostType_ID,CostElementType, AD_Org_ID);
-		BigDecimal cost =  Env.ZERO;
 		if (rate == 0)
 		{
 			return Env.ZERO;
 		}
 		
+		//
+		// Calculate duration in hours
+		double hours;
 		int C_UOM_ID = DB.getSQLValueEx(get_TrxName(),"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , getS_Resource_ID());
 		MUOM uom = MUOM.get(getCtx(), C_UOM_ID);
 		if (uom.isHour())
 		{
-			double hours = (setuptime / workflow.getQtyBatchSize().doubleValue() + duration)
-			* workflow.getDurationBaseSec() / 3600; 
-			double nodeCost = rate * hours;
-			cost = cost.add(new BigDecimal(nodeCost));
-			log.info("Node: " + getName() + " Resouce: " + resource.getName() +" CostElementType: " + CostElementType +  " Time Base: "+workflow.getDurationUnit() +" Duration (H): " + hours +  " Rate: " + rate + " Activity Cost: " +  nodeCost +" =>Cost: "+cost);
+			MWorkflow workflow = getWorkflow();
+			hours = (setuptime / workflow.getQtyBatchSize().doubleValue() + duration)
+							* workflow.getDurationBaseSec() / 3600; 
 		}
 		else
 		{
 			throw new AdempiereException("@NotSupported@ @C_UOM_ID@="+uom.getName());
 		}
+		
+		//
+		// Calculate Activity Cost
+		double nodeCost = rate * hours;
+		cost = cost.add(new BigDecimal(nodeCost));
+		
+		//
+		// Round to Costing Precision
+		if (cost.scale() > precision)
+		{
+			cost = cost.setScale(precision, RoundingMode.HALF_UP);
+		}
+		
+		log.info("Node: " + getName() + ", Resouce: " + resource.getName() +", CostElementType: " + CostElementType);
+		log.info("Duration (H): " + hours +  " Rate: " + rate);
+		log.info("Activity Cost: " +  nodeCost +" => Cost: "+cost);
 		return cost;
 	}
 }	//	M_WFNext
