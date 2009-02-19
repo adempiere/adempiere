@@ -260,19 +260,19 @@ public class MResourceType extends X_S_ResourceType
 
 		return retValue;
 	}
-	
+
+	/**
+	 * @return true if a resource of this type is generally available
+	 * 			(i.e. active, at least 1 day available, at least 1 hour available) 
+	 */
 	public boolean isAvailable()
 	{
 		if (!isActive())
 		{
 			return false;
 		}
-		if(!isDateSlot())
-		{
-			return true;
-		}
-		return isOnMonday() || isOnTuesday() || isOnWednesday() || isOnThursday() || isOnFriday()
-				|| isOnSaturday() || isOnSunday();
+		return getAvailableDaysWeek() > 0
+				&& getTimeSlotHours() > 0;
 	}
 
 	@Override

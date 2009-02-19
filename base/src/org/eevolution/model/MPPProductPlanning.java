@@ -37,7 +37,10 @@ import org.compiere.wf.MWorkflow;
  */
 public class MPPProductPlanning extends X_PP_Product_Planning
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3061309620804116277L;
 	
 	/** Log									*/
 	private static CLogger log = CLogger.getCLogger(MPPProductPlanning.class); 
@@ -155,10 +158,14 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 								+", COALESCE(S_Resource_ID, 0) DESC")
 				.first();
 	}
-	
+
+	/**
+	 * Get plant resource for warehouse. If more than one resource is found, first will be used.
+	 * @param M_Warehouse_ID
+	 * @return Plant_ID (S_Resource_ID)
+	 */
 	public static int getPlantForWarehouse(int M_Warehouse_ID)
 	{
-		// Get plant resource for warehouse. If more than one resource is found, first will be used
 		final String sql = "SELECT MIN("+MResource.COLUMNNAME_S_Resource_ID+")"
 							+" FROM "+MResource.Table_Name
 							+" WHERE "+MResource.COLUMNNAME_IsManufacturingResource+"=?"
@@ -216,11 +223,19 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	}
 	
 	private int m_C_BPartner_ID = 0;
+	
+	/**
+	 * Set Supplier
+	 * @param C_BPartner_ID
+	 */
 	public void setC_BPartner_ID(int C_BPartner_ID)
 	{
 		this.m_C_BPartner_ID = C_BPartner_ID;
 	}
 	
+	/**
+	 * @return Supplier
+	 */
 	public int getC_BPartner_ID()
 	{
 		return this.m_C_BPartner_ID;
@@ -246,6 +261,6 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		log.info("          Order Policy: " + getOrder_Policy());
 		log.info("             Warehouse: " + getM_Warehouse_ID());
 		log.info("               Planner: " + getPlanner_ID());
+		log.info("              Supplier: " + getC_BPartner_ID());
 	}
 }	//	Product Data Planning
-
