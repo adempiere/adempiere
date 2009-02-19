@@ -1371,14 +1371,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
-		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
-			m_processMsg = "@PeriodClosed@";
-			return DocAction.STATUS_Invalid;
-		}
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
+		
 		//	Lines
 		MInvoiceLine[] lines = getLines(true);
 		if (lines.length == 0)
@@ -2036,7 +2031,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return null;
 		
 		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
-		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
+//		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
 		log.info("Counter BP=" + counterBP.getName());
 
 		//	Document Type
@@ -2202,12 +2197,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (m_processMsg != null)
 			return false;
 				
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
-			m_processMsg = "@PeriodClosed@";
-			return false;
-		}
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
 		//
 		MAllocationHdr[] allocations = MAllocationHdr.getOfInvoice(getCtx(), 
 			getC_Invoice_ID(), get_TrxName());
