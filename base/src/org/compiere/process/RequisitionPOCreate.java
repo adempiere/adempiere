@@ -363,7 +363,7 @@ public class RequisitionPOCreate extends SvrProcess
 			m_orderLine.saveEx();
 		}
 		m_orderLine = null;
-		MProduct product = null;
+		MProduct product = MProduct.get(getCtx(), rLine.getM_Product_ID());
 
 		//	Get Business Partner
 		int C_BPartner_ID = rLine.getC_BPartner_ID();
@@ -384,7 +384,6 @@ public class RequisitionPOCreate extends SvrProcess
 		{
 			// Find Strategic Vendor for Product
 			// TODO: refactor
-			product = MProduct.get(getCtx(), rLine.getM_Product_ID());
 			MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), null);
 			for (int i = 0; i < ppos.length; i++)
 			{
