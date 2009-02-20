@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import org.adempiere.pdf.viewer.PDFViewerBean;
+import org.compiere.model.MSysConfig;
 
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Rectangle;
@@ -41,6 +42,8 @@ public class Document {
 		FontFactory.registerDirectories();
 	}
 	
+	private final static String PDF_FONT_DIR = "PDF_FONT_DIR";
+	
 	private static void writePDF(Pageable pageable, OutputStream output)
 	{
 		try {
@@ -53,7 +56,19 @@ public class Document {
                     document, output);
             writer.setPdfVersion(PdfWriter.VERSION_1_2);
             document.open();
-            final DefaultFontMapper mapper = new DefaultFontMapper();            
+            final DefaultFontMapper mapper = new DefaultFontMapper();     
+            
+            //Elaine 2009/02/17 - load additional font from directory set in PDF_FONT_DIR of System Configurator 
+            String pdfFontDir = MSysConfig.getValue(PDF_FONT_DIR, ""); 
+            if(pdfFontDir != null && pdfFontDir.trim().length() > 0)
+            {
+            	pdfFontDir = pdfFontDir.trim();
+	            File dir = new File(pdfFontDir);
+	            if(dir.exists() && dir.isDirectory())
+	            	mapper.insertDirectory(pdfFontDir);
+            }
+            //
+            
             final float w = (float) pf.getWidth();
             final float h = (float) pf.getHeight();
             final PdfContentByte cb = writer.getDirectContent();
