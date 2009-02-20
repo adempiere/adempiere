@@ -35,13 +35,14 @@ import org.compiere.util.Env;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
  * 			<li>BF [ 2608617 ] Error when I want to delete a PO document
+ * 			<li>BF [ 2609604 ] Add M_RequisitionLine.C_BPartner_ID
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6288086509043522278L;
+	private static final long serialVersionUID = 3556301115666692794L;
 
 	/**
 	 * Get corresponding Requisition Line for given Order Line
@@ -158,23 +159,6 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	
 	/**	PriceList				*/
 	private int 	m_M_PriceList_ID = 0;
-	/** Temp BPartner			*/
-	private int		m_C_BPartner_ID = 0;
-	
-	/**
-	 * @return Returns the c_BPartner_ID.
-	 */
-	public int getC_BPartner_ID ()
-	{
-		return m_C_BPartner_ID;
-	}
-	/**
-	 * @param partner_ID The c_BPartner_ID to set.
-	 */
-	public void setC_BPartner_ID (int partner_ID)
-	{
-		m_C_BPartner_ID = partner_ID;
-	}
 	
 	/**
 	 * Get Ordered Qty
