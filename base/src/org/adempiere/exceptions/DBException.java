@@ -18,6 +18,8 @@ package org.adempiere.exceptions;
 
 import java.sql.SQLException;
 
+import org.compiere.util.CLogMgt;
+
 
 /**
  * This RuntimeException is used to pass SQLException up the chain of calling
@@ -41,7 +43,11 @@ public class DBException extends AdempiereException
 	public DBException(Exception e)
 	{
 		super(e);
-	}	//	DBException
+		if (CLogMgt.isLevelFinest())
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Create a new DBException based on a SQLException and SQL Query
@@ -50,7 +56,7 @@ public class DBException extends AdempiereException
 	 */
 	public DBException(SQLException e, String sql)
 	{
-		super(e);
+		this(e);
 		m_sql = sql;
 	}
 
@@ -61,7 +67,7 @@ public class DBException extends AdempiereException
 	public DBException(String msg) 
 	{
 		super(msg);
-	}	//	DBException
+	}
 
 	/**
 	 * @return SQL Query or null
