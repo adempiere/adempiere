@@ -20,6 +20,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -43,6 +44,14 @@ public interface I_PP_Order_Cost
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -99,6 +108,22 @@ public interface I_PP_Order_Cost
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name CumulatedAmt */
     public static final String COLUMNNAME_CumulatedAmt = "CumulatedAmt";
@@ -160,10 +185,14 @@ public interface I_PP_Order_Cost
     /** Column name CurrentCostPriceLL */
     public static final String COLUMNNAME_CurrentCostPriceLL = "CurrentCostPriceLL";
 
-	/** Set Current Cost Price Lower Level	  */
+	/** Set Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL);
 
-	/** Get Current Cost Price Lower Level	  */
+	/** Get Current Cost Price Lower Level.
+	  * Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public BigDecimal getCurrentCostPriceLL();
 
     /** Column name CurrentQty */
@@ -178,6 +207,19 @@ public interface I_PP_Order_Cost
 	  * Current Quantity
 	  */
 	public BigDecimal getCurrentQty();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
 
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
@@ -256,4 +298,20 @@ public interface I_PP_Order_Cost
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

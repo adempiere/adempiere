@@ -34,7 +34,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_Order_Cost (Properties ctx, int PP_Order_Cost_ID, String trxName)
@@ -43,6 +43,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
       /** if (PP_Order_Cost_ID == 0)
         {
 			setC_AcctSchema_ID (0);
+			setM_CostType_ID (0);
 			setM_Product_ID (0);
 			setPP_Order_Cost_ID (0);
 			setPP_Order_ID (0);
@@ -181,10 +182,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x"));
-		else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");
-
-		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
+		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.
@@ -290,14 +288,17 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	}
 
 	/** Set Current Cost Price Lower Level.
-		@param CurrentCostPriceLL Current Cost Price Lower Level	  */
+		@param CurrentCostPriceLL 
+		Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
 	{
 		set_ValueNoCheck (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
 	/** Get Current Cost Price Lower Level.
-		@return Current Cost Price Lower Level	  */
+		@return Current Price Lower Level Is the sum of the costs of the components of this product manufactured for this level.
+	  */
 	public BigDecimal getCurrentCostPriceLL () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPriceLL);
@@ -410,10 +411,9 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	  */
 	public void setM_CostType_ID (int M_CostType_ID)
 	{
-		if (M_CostType_ID < 1) 
-			set_Value (COLUMNNAME_M_CostType_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+		if (M_CostType_ID < 1)
+			 throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
+		set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
 	}
 
 	/** Get Cost Type.
