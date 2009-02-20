@@ -150,17 +150,17 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
                 
 		if (columnName.equals("C_BPartner_ID"))
 		{
-			popupMenu = new WEditorPopupMenu(true, true, true, true);
+			popupMenu = new WEditorPopupMenu(true, true, true, true, true);
 			getComponent().setButtonImage("/images/BPartner10.png");
 		}
 		else if (columnName.equals("M_Product_ID"))
 		{
-			popupMenu = new WEditorPopupMenu(true, true, true, false);
+			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
 			getComponent().setButtonImage("/images/Product10.png");
 		}
 		else
 		{
-			popupMenu = new WEditorPopupMenu(true, true, true, false);
+			popupMenu = new WEditorPopupMenu(true, true, true, false, false);
 			getComponent().setButtonImage("/images/PickOpen10.png");
 		}
 		
@@ -287,6 +287,17 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			}
 			actionBPartner(true);
 		}
+		// Elaine 2009/02/16 - update record
+		else if (WEditorPopupMenu.UPDATE_EVENT.equals(evt.getContextEvent()))
+		{
+			if (infoPanel != null)
+			{
+				infoPanel.detach();
+				infoPanel = null;
+			}
+			actionBPartner(false);
+		}
+		//
 	}
 
 	private void actionText(String text)

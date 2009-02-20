@@ -42,8 +42,10 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
     public static final String REQUERY_EVENT = "REQUERY";
     public static final String PREFERENCE_EVENT = "VALUE_PREFERENCE";
     public static final String NEW_EVENT = "NEW_RECORD";
+    public static final String UPDATE_EVENT = "UPDATE_RECORD"; // Elaine 2009/02/16 - update record
    
     private boolean newEnabled = true;
+    private boolean updateEnabled = true; // Elaine 2009/02/16 - update record
     private boolean zoomEnabled  = true;
     private boolean requeryEnabled = true;
     private boolean preferencesEnabled = true;
@@ -52,22 +54,28 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
     private Menuitem requeryItem;
     private Menuitem prefItem;
     private Menuitem newItem;
-   
+    private Menuitem updateItem; // Elaine 2009/02/16 - update record   
     
     private ArrayList<ContextMenuListener> menuListeners = new ArrayList<ContextMenuListener>();
     
     public WEditorPopupMenu(boolean zoom, boolean requery, boolean preferences)
     {
-        this(zoom, requery, preferences, false);
+        this(zoom, requery, preferences, false, false);
     }
     
     public WEditorPopupMenu(boolean zoom, boolean requery, boolean preferences, boolean newRecord)
+    {
+    	this(zoom, requery, preferences, newRecord, false);
+    }
+    
+    public WEditorPopupMenu(boolean zoom, boolean requery, boolean preferences, boolean newRecord, boolean updateRecord)
     {
         super();
         this.zoomEnabled = zoom;
         this.requeryEnabled = requery;
         this.preferencesEnabled = preferences;
         this.newEnabled = newRecord;
+        this.updateEnabled = updateRecord; // Elaine 2009/02/16 - update record
         init();
     }
 
@@ -117,6 +125,18 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         	newItem.addEventListener(Events.ON_CLICK, this);
         	this.appendChild(newItem);
         }
+        
+        // Elaine 2009/02/16 - update record
+        if (updateEnabled)
+        {
+        	updateItem = new Menuitem();
+        	updateItem.setAttribute(EVENT_ATTRIBUTE, UPDATE_EVENT);
+        	updateItem.setLabel("Update Record");
+        	updateItem.setImage("/images/InfoBPartner16.png");
+        	updateItem.addEventListener(Events.ON_CLICK, this);
+        	this.appendChild(updateItem);
+        }
+        //
     }
     
     public void addMenuListener(ContextMenuListener listener)
