@@ -104,6 +104,39 @@ public class MProduct extends X_M_Product
 	}
 
 	/**
+	 * Get Product from Cache
+	 * @param ctx context
+	 * @param S_Resource_ID resource ID
+	 * @return MProduct or null if not found
+	 */
+	public static MProduct forS_Resource_ID(Properties ctx, int S_Resource_ID)
+	{
+		if (S_Resource_ID <= 0)
+		{
+			return null;
+		}
+		
+		// Try Cache
+		for (MProduct p : s_cache.values())
+		{
+			if (p.getS_Resource_ID() == S_Resource_ID)
+			{
+				return p;
+			}
+		}
+		// Load from DB
+		MProduct p = new Query(ctx, Table_Name, COLUMNNAME_S_Resource_ID+"=?", null)
+						.setParameters(new Object[]{S_Resource_ID})
+						.firstOnly();
+		if (p != null)
+		{
+			s_cache.put(p.get_ID(), p);
+		}
+		return p;
+	}
+	
+	
+	/**
 	 * 	Is Product Stocked
 	 * 	@param ctx context
 	 *	@param M_Product_ID id
