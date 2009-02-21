@@ -680,7 +680,7 @@ public class MCost extends X_M_Cost
 					for(MCostElement ce : ces)
 					{	
 						MCost cost = MCost.get (product, M_ASI_ID, 
-							as, 0, ce.getM_CostElement_ID());
+							as, 0, ce.getM_CostElement_ID(), product.get_TrxName());
 						if (cost.is_new())
 						{
 							if (cost.save())
@@ -701,7 +701,7 @@ public class MCost extends X_M_Cost
 						for(MCostElement ce : ces)
 						{	
 							MCost cost = MCost.get (product, M_ASI_ID, 
-								as, o.getAD_Org_ID(), ce.getM_CostElement_ID());
+								as, o.getAD_Org_ID(), ce.getM_CostElement_ID(), product.get_TrxName());
 							if (cost.is_new())
 							{
 								if (cost.save())
@@ -748,7 +748,7 @@ public class MCost extends X_M_Cost
 					for(MCostElement ce : ces)
 					{	
 						MCost cost = MCost.get (product, M_ASI_ID, 
-							as, 0, ce.getM_CostElement_ID());
+							as, 0, ce.getM_CostElement_ID(), product.get_TrxName());
 						if(cost != null)
 						cost.deleteEx(true);	
 					}
@@ -762,7 +762,7 @@ public class MCost extends X_M_Cost
 						for(MCostElement ce : ces)
 						{	
 							MCost cost = MCost.get (product, M_ASI_ID, 
-								as, o.getAD_Org_ID(), ce.getM_CostElement_ID());
+								as, o.getAD_Org_ID(), ce.getM_CostElement_ID(), product.get_TrxName());
 							if(cost != null)
 								cost.deleteEx(true);
 						}
@@ -1266,7 +1266,7 @@ public class MCost extends X_M_Cost
 	 *	@return cost price or null
 	 */
 	public static MCost get (MProduct product, int M_AttributeSetInstance_ID,
-		MAcctSchema as, int AD_Org_ID, int M_CostElement_ID)
+		MAcctSchema as, int AD_Org_ID, int M_CostElement_ID, String trxName)
 	{
 		MCost cost = null;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
@@ -1275,7 +1275,7 @@ public class MCost extends X_M_Cost
 			+ " AND M_AttributeSetInstance_ID=?"
 			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=?"
 			+ " AND M_CostElement_ID=?";
-		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, product.get_TrxName())
+		cost = new Query(product.getCtx(), MCost.Table_Name, whereClause, trxName)
 		.setParameters(new Object[]{
 						product.getAD_Client_ID(), 
 						AD_Org_ID, 
@@ -1292,7 +1292,14 @@ public class MCost extends X_M_Cost
 				as, AD_Org_ID, M_CostElement_ID);
 		return cost;
 	}	//	get
-
+	
+	@Deprecated
+	public static MCost get (MProduct product, int M_AttributeSetInstance_ID,
+			MAcctSchema as, int AD_Org_ID, int M_CostElement_ID)
+	{
+		return get(product, M_AttributeSetInstance_ID, as, AD_Org_ID, M_CostElement_ID, product.get_TrxName());
+	}
+	
 	/**
 	 * Get Cost Record
 	 * @param ctx context

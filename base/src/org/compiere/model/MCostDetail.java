@@ -762,7 +762,7 @@ public class MCostDetail extends X_M_CostDetail
 		boolean ok = false;
 
 		//	get costing level for product
-		MAcctSchema as = new MAcctSchema (getCtx(), getC_AcctSchema_ID(), null);
+		MAcctSchema as = MAcctSchema.get(getCtx(), getC_AcctSchema_ID());
 		MProduct product = MProduct.get(getCtx(), getM_Product_ID());
 		String CostingLevel = product.getCostingLevel(as);
 		//	Org Element
@@ -821,7 +821,7 @@ public class MCostDetail extends X_M_CostDetail
 		int Org_ID, int M_ASI_ID)
 	{
 		MCost cost = MCost.get(product, M_ASI_ID, as, 
-			Org_ID, ce.getM_CostElement_ID());
+			Org_ID, ce.getM_CostElement_ID(), get_TrxName());
 	//	if (cost == null)
 	//		cost = new MCost(product, M_ASI_ID, 
 	//			as, Org_ID, ce.getM_CostElement_ID());
