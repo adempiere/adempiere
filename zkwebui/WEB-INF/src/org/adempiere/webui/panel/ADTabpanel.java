@@ -168,6 +168,13 @@ DataStatusListener, IADTabpanel
                 
     }
 
+    /**
+     * 
+     * @param winPanel
+     * @param windowNo
+     * @param gridTab
+     * @param gridWindow
+     */
     public void init(AbstractADWindowPanel winPanel, int windowNo, GridTab gridTab,
             GridWindow gridWindow)
     {
@@ -218,6 +225,9 @@ DataStatusListener, IADTabpanel
         listPanel.setWindowNo(windowNo);
     }
 
+    /**
+     * Create UI components if not already created
+     */
     public void createUI()
     {
     	if (uiCreated) return;
@@ -489,6 +499,10 @@ DataStatusListener, IADTabpanel
 		return new Space();
 	}
     
+	/**
+	 * Validate display properties of fields of current row
+	 * @param col
+	 */
     public void dynamicDisplay (int col)
     {
         if (!gridTab.isOpen())
@@ -595,11 +609,17 @@ DataStatusListener, IADTabpanel
         logger.config(gridTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
     }   //  dynamicDisplay
 
+    /**
+     * @return String
+     */
     public String getDisplayLogic()
     {
         return gridTab.getDisplayLogic();
     }
 
+    /**
+     * @return String
+     */
     public String getTitle()
     {
         return gridTab.getName();
@@ -621,36 +641,63 @@ DataStatusListener, IADTabpanel
         return gridTab.getTabLevel();
     }
 
+    /**
+     * Is panel need refresh
+     * @return boolean
+     */
     public boolean isCurrent()
     {
         return gridTab != null ? gridTab.isCurrent() : false;
     }
 
+    /**
+     * 
+     * @return windowNo
+     */
     public int getWindowNo()
     {
         return windowNo;
     }
 
+    /**
+     * Retrieve from db
+     */
     public void query()
     {
         gridTab.query(false);
     }
     
+    /**
+     * Retrieve from db
+     * @param onlyCurrentRows
+     * @param onlyCurrentDays
+     * @param maxRows
+     */
     public void query (boolean onlyCurrentRows, int onlyCurrentDays, int maxRows)
     {
         gridTab.query(onlyCurrentRows, onlyCurrentDays, maxRows);
     }
     
+    /**
+     * @return GridTab
+     */
     public GridTab getGridTab()
     {
         return gridTab;
     }
     
+    /**
+     * Refresh current row
+     */
     public void refresh()
     {
         gridTab.dataRefresh();
     }
     
+    /**
+     * Activate/deactivate panel
+     * @param activate
+     */
     public void activate(boolean activate)
     {
     	active = activate;
@@ -693,6 +740,10 @@ DataStatusListener, IADTabpanel
 		
 	}
 
+    /**
+     * @param event
+     * @see EventListener#onEvent(Event)
+     */
     public void onEvent(Event event)
     {
     	if (event.getTarget() instanceof Listbox) 
@@ -735,6 +786,10 @@ DataStatusListener, IADTabpanel
 		gridTab.navigate(row);		
 	}
 
+    /**
+     * @param e
+     * @see DataStatusListener#dataStatusChanged(DataStatusEvent)
+     */
 	public void dataStatusChanged(DataStatusEvent e)
     {
     	//ignore background event
@@ -863,6 +918,9 @@ DataStatusListener, IADTabpanel
 		}
 	}
 
+	/**
+	 * Toggle between form and grid view
+	 */
 	public void switchRowPresentation() {
 		if (formComponent.isVisible()) {
 			formComponent.setVisible(false);
@@ -871,7 +929,7 @@ DataStatusListener, IADTabpanel
 		}
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
-			listPanel.activate(gridTab);
+			listPanel.refresh(gridTab);
 		}
 	}
 	

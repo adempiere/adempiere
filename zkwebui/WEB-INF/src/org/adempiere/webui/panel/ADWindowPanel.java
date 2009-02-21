@@ -30,6 +30,7 @@ import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Events;
@@ -39,7 +40,6 @@ import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Tab;
-import org.zkoss.zul.Window;
 
 /**
  * 
@@ -99,7 +99,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	        n.setCollapsible(false);
 	        n.setHeight("30px");
 	        toolbar.setHeight("30px");
-	        toolbar.setParent(n);	        	        
+	        toolbar.setParent(n);
+	        toolbar.setWindowNo(getWindowNo());
         }
         
         South s = new South();        
@@ -130,9 +131,11 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	((Tabpanel)parent).setOnCloseHandler(handler);
         }
         
-        if (!isEmbedded() && adTab.getComponent() instanceof Window) {
-        	Window w = (Window) adTab.getComponent();
-        	w.addEventListener(Events.ON_CTRL_KEY, toolbar);
+        if (!isEmbedded()) {
+        	Keylistener keyListener = new Keylistener();
+        	statusBar.appendChild(keyListener);
+        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^x@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x");
+        	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
         }
         
         return layout;

@@ -14,8 +14,10 @@ package org.adempiere.webui.component;
 
 import java.util.Comparator;
 
-import org.compiere.model.DataStatusEvent;
-import org.compiere.model.DataStatusListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTable;
 import org.zkoss.zk.ui.Executions;
@@ -30,10 +32,14 @@ import org.zkoss.zul.event.ListDataEvent;
  * @author Low Heng Sin
  *
  */
-public class GridTableListModel extends AbstractListModel implements DataStatusListener, ListModelExt {
+public class GridTableListModel extends AbstractListModel implements TableModelListener, ListModelExt {
 
+	private static final long serialVersionUID = 1L;
+	
 	private GridTable tableModel;
+	@SuppressWarnings("unused")
 	private GridField[] gridField;
+	@SuppressWarnings("unused")
 	private int windowNo;
 	
 	private int pageSize = -1;
@@ -48,7 +54,7 @@ public class GridTableListModel extends AbstractListModel implements DataStatusL
 		this.tableModel = tableModel;
 		this.windowNo = windowNo;
 		gridField = tableModel.getFields();
-		tableModel.addDataStatusListener(this);
+		tableModel.addTableModelListener(this);
 	}
 
 	/**
@@ -132,17 +138,6 @@ public class GridTableListModel extends AbstractListModel implements DataStatusL
 	}
 	
 	/**
-	 * @param e
-	 * @see DataStatusListener#dataStatusChanged(DataStatusEvent)
-	 */
-	public void dataStatusChanged(DataStatusEvent e) {
-		if (Executions.getCurrent() != null) {
-			fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
-		}
-		
-	}
-	
-	/**
 	 * Request components that attached to this model to re-render a row.
 	 * @param row
 	 */
@@ -167,11 +162,34 @@ public class GridTableListModel extends AbstractListModel implements DataStatusL
 	 * @param ascending
 	 * @see ListModelExt#sort(Comparator, boolean) 
 	 */
+	@SuppressWarnings("unchecked")
 	public void sort(Comparator cmpr, boolean ascending) {
 		//use default zk comparator
-		ListitemComparator lic = (ListitemComparator) cmpr;
-		tableModel.sort(lic.getListheader().getColumnIndex(), ascending);
+		if (cmpr instanceof ListitemComparator) {			
+			ListitemComparator lic = (ListitemComparator) cmpr;
+			tableModel.sort(lic.getListheader().getColumnIndex(), ascending);
+		} else if (cmpr instanceof SortComparator) {
+			SortComparator sc = (SortComparator)cmpr;
+			tableModel.sort(sc.getColumnIndex(), ascending);
+		}
 		fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
+	}
+
+	/**
+	 * @param e
+	 * @see TableModelListener#tableChanged(TableModelEvent) 
+	 */
+	public void tableChanged(TableModelEvent e) {
+		if (Executions.getCurrent() != null) {
+			if (e.getLastRow() == Integer.MAX_VALUE)
+			{
+				fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
+			}
+			else
+			{
+				fireEvent(ListDataEvent.CONTENTS_CHANGED, e.getFirstRow(), e.getLastRow());
+			}
+		}
 	}
 
 }

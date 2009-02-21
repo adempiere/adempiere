@@ -252,7 +252,8 @@ public class WButtonEditor extends WEditor
     
     public void addActionListener(ActionListener actionListener)
     {
-    	actionListeners.add(actionListener);
+    	if (!actionListeners.contains(actionListener))
+    		actionListeners.add(actionListener);
     }
 
     @Override

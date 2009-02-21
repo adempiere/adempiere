@@ -12,6 +12,7 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,29 +21,26 @@ import javax.swing.table.AbstractTableModel;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.editor.WEditor;
-import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Column;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 
 /**
- * Grid view implemented using the Grid component.
+ * Grid view implemented using the Listbox component
  * @author Low Heng Sin
  *
  */
-public class GridPanel extends Borderlayout implements EventListener
+public class ListPanel extends Borderlayout implements EventListener
 {
 	private static final int MIN_COLUMN_WIDTH = 100;
 
@@ -50,7 +48,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private static final long serialVersionUID = 1L;
 	
-	private Grid listbox = null;
+	private Listbox listbox = null;
 	
 	private int pageSize = 100;
 	
@@ -69,13 +67,13 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private Paging paging;
 
-	private GridTabRowRenderer renderer;
+	private GridTabListItemRenderer renderer;
 
 	private South south;
 	
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 	
-	public GridPanel()
+	public ListPanel()
 	{
 		this(0);
 	}
@@ -83,10 +81,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	/**
 	 * @param windowNo
 	 */
-	public GridPanel(int windowNo)
+	public ListPanel(int windowNo)
 	{
 		this.windowNo = windowNo;
-		listbox = new Grid();
+		listbox = new Listbox();
 		south = new South();
 		this.appendChild(south);
 		
@@ -112,7 +110,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		setupColumns();
 		render();
 		
-		updateListIndex();
+		updateListIndex(true);
 		
 		this.init = true;
 	}
@@ -126,17 +124,34 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	/**
-	 * call when tab is activated
+	 * 
 	 * @param gridTab
 	 */
 	public void activate(GridTab gridTab) {		
-		if (!isInit()) {
-			init(gridTab);
+		if (isInit())
+		{
+			if (this.gridTab != gridTab)
+			{
+				init = false;
+				init(gridTab);
+			}
+			else
+			{
+				if (renderer != null)
+					renderer.stopEditing(false);
+				
+				int oldSelected = listbox.getSelectedIndex();
+				updateListIndex(false);
+				if (listbox.getSelectedIndex() == oldSelected && oldSelected >= 0)
+					listModel.updateComponent(oldSelected);
+			}
 		}
+		else
+			init(gridTab);
 	}
 	
 	/**
-	 * refresh after switching from form view
+	 * 
 	 * @param gridTab
 	 */
 	public void refresh(GridTab gridTab) {
@@ -147,17 +162,24 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 		else
 		{
-			if (renderer != null)
-				renderer.stopEditing(false);
-			
+			renderer.stopEditing(false);
 			listbox.setModel(listModel);
-		}
+			updateListIndex(true);
+		}				
 	}
 
 	/**
-	 * Update current row from model
+	 * Update listbox selection to sync with grid current row pointer changes
 	 */
 	public void updateListIndex() {
+		updateListIndex(false);
+	}
+	
+	/**
+	 * Update listbox selection to sync with grid current row pointer changes
+	 * @param updateSelectionOnly if true, doesn't attempt to refresh current row from model
+	 */
+	public void updateListIndex(boolean updateSelectionOnly) {
 		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
 		if (pageSize > 0) {			
 			if (paging.getTotalSize() != gridTab.getRowCount())
@@ -165,22 +187,38 @@ public class GridPanel extends Borderlayout implements EventListener
 			int pgIndex = rowIndex % pageSize;
 			int pgNo = (rowIndex - pgIndex) / pageSize;
 			
+			boolean pgChange = false;
 			if (listModel.getPage() != pgNo) {
 				listModel.setPage(pgNo);
+				pgChange = true;
 			}
 			if (paging.getActivePage() != pgNo) {
 				paging.setActivePage(pgNo);
 			}			
-			renderer.stopEditing(false);
-			listModel.updateComponent(pgIndex);
+			if (listbox.getSelectedIndex() != pgIndex) {
+				if (!updateSelectionOnly) {					
+					renderer.stopEditing(false);
+					if (!pgChange) {					
+						listModel.updateComponent(listbox.getSelectedIndex());
+					}
+					listModel.updateComponent(pgIndex);
+				}
+				listbox.setSelectedIndex(pgIndex);				
+			}
 		} else {
-			renderer.stopEditing(false);
-			listModel.updateComponent(rowIndex);
+			if (listbox.getSelectedIndex() != rowIndex) {
+				if (!updateSelectionOnly) {
+					renderer.stopEditing(false);
+					listModel.updateComponent(listbox.getSelectedIndex());
+					listModel.updateComponent(rowIndex);
+				}
+				listbox.setSelectedIndex(rowIndex);				
+			}
 		}
 	}
 
 	/**
-	 * set paging size
+	 * Set paging size
 	 * @param pageSize
 	 */
 	public void setPageSize(int pageSize)
@@ -194,7 +232,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	/**
-	 * toggle visibility
+	 * 
 	 * @param bool
 	 */
 	public void showGrid(boolean bool)
@@ -209,11 +247,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	{		
 		if (init) return;
 		
-		Columns columns = new Columns(); 
-		listbox.appendChild(columns);
-		columns.setSizable(true);
-		columns.setMenupopup("auto");
-		columns.setColumnsgroup(false);
+		ListHead header = new ListHead();
+		header.setSizable(true);
 		
 		Map<Integer, String> colnames = new HashMap<Integer, String>();
 		int index = 0;
@@ -223,10 +258,9 @@ public class GridPanel extends Borderlayout implements EventListener
 			{
 				colnames.put(index, gridField[i].getHeader());
 				index++;
-				org.zkoss.zul.Column column = new Column();
-				column.setSortAscending(new SortComparator(i, true, Env.getLanguage(Env.getCtx())));
-				column.setSortDescending(new SortComparator(i, false, Env.getLanguage(Env.getCtx())));
-				column.setLabel(gridField[i].getHeader());
+				ListHeader colHeader = new ListHeader();
+				colHeader.setSort("auto");
+				colHeader.setLabel(gridField[i].getHeader());
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType()) 
 					? 100 : gridField[i].getDisplayLength() * 9;
 				if (gridField[i].getHeader().length() * 9 > l)
@@ -235,10 +269,11 @@ public class GridPanel extends Borderlayout implements EventListener
 					l = MAX_COLUMN_WIDTH;
 				else if ( l < MIN_COLUMN_WIDTH)
 					l = MIN_COLUMN_WIDTH;
-				column.setWidth(Integer.toString(l) + "px");
-				columns.appendChild(column);
+				colHeader.setWidth(Integer.toString(l) + "px");
+				header.appendChild(colHeader);
 			}
 		}		
+		listbox.appendChild(header);
 	}
 	
 	private void render()
@@ -247,7 +282,9 @@ public class GridPanel extends Borderlayout implements EventListener
 		
 		listbox.setVflex(true);
 		listbox.setFixedLayout(true);
-		listbox.addEventListener(Events.ON_CLICK, this);
+		listbox.addEventListener(Events.ON_SELECT, this);
+		
+		LayoutUtils.addSclass("adtab-grid", listbox);
 		
 		updateModel();				
 		
@@ -264,6 +301,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			south.appendChild(paging);
 			paging.addEventListener(ZulEvents.ON_PAGING, this);
 			renderer.setPaging(paging);
+			this.getParent().invalidate();						
 		}
 		else
 		{
@@ -277,14 +315,14 @@ public class GridPanel extends Borderlayout implements EventListener
 		listModel.setPageSize(pageSize);
 		if (renderer != null)
 			renderer.stopEditing(false);
-		renderer = new GridTabRowRenderer(gridTab, windowNo);
+		renderer = new GridTabListItemRenderer(gridTab, windowNo);
 				
-		listbox.setRowRenderer(renderer);
-		listbox.setModel(listModel);		
+		listbox.setItemRenderer(renderer);
+		listbox.setModel(listModel);
 	}
 	
 	/**
-	 * deactivate panel
+	 * deactive panel
 	 */
 	public void deactivate() {
 		if (renderer != null)
@@ -297,33 +335,34 @@ public class GridPanel extends Borderlayout implements EventListener
 			return;		
 		else if (event.getTarget() == listbox)
 		{
-			Object data = event.getData();
-			if (data != null && data instanceof org.zkoss.zul.Row)
-			{
-				int index = listbox.getRows().getChildren().indexOf(data);
-				onSelectedRowChange(index);
-			}
+			int index = listbox.getSelectedIndex();
+			onSelectedRowChange(index);				
         }
 		else if (event.getTarget() == paging)
 		{
 			int pgNo = paging.getActivePage();
 			if (pgNo != listModel.getPage())
 			{
+				listbox.clearSelection();
 				listModel.setPage(pgNo);
+				listbox.setSelectedIndex(0);
 				onSelectedRowChange(0);
 			}
 		}
 	}
 
 	private void onSelectedRowChange(int index) {
-		if (updateModelIndex(index)) {			
+		if (updateModelIndex()) {			
 			listModel.updateComponent(index);
+			listbox.setSelectedIndex(index);
 		} else if (!renderer.isInitialize()) {
 			listModel.updateComponent(index);
+			listbox.setSelectedIndex(index);
 		}
 	}
 
-	private boolean updateModelIndex(int rowIndex) {
+	private boolean updateModelIndex() {
+		int rowIndex = listbox.getSelectedIndex();
 		if (pageSize > 0) {
 			int start = listModel.getPage() * listModel.getPageSize();
 			rowIndex = start + rowIndex;
@@ -338,14 +377,15 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	/**
-	 * @return Grid
+	 * 
+	 * @return Listbox
 	 */
-	public Grid getListbox() {
+	public Listbox getListbox() {
 		return listbox;
 	}
-
+	
 	/**
-	 * Validate display properties of fields of current row
+	 * validate the display properties of fields of current row
 	 * @param col
 	 */
 	public void dynamicDisplay(int col) {

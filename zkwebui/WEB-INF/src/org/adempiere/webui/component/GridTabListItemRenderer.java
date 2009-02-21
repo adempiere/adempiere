@@ -43,19 +43,22 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.ListitemRenderer;
 import org.zkoss.zul.ListitemRendererExt;
+import org.zkoss.zul.Paging;
+import org.zkoss.zul.RendererCtrl;
 
 /**
  * ListItem renderer for GridTab list box.
  * @author hengsin
  *
  */
-public class GridTabListItemRenderer implements ListitemRenderer, ListitemRendererExt {
+public class GridTabListItemRenderer implements ListitemRenderer, ListitemRendererExt, RendererCtrl {
 
 	private static final int MAX_TEXT_LENGTH = 60;
 	private GridTab gridTab;
 	private int windowNo;
 	private GridTabDataBinder dataBinder;
 	private Map<GridField, WEditor> editors = new HashMap<GridField, WEditor>();
+	private Paging paging;
 
 	/**
 	 * 
@@ -90,6 +93,9 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 				editors.put(gridField[i], WebEditorFactory.getEditor(gridField[i], true));
 			
 			int rowIndex = listitem.getIndex();			
+			if (paging != null && paging.getPageSize() > 0) {
+				rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
+			}
 			Listcell cell = null;
 			if (rowIndex == gridTab.getCurrentRow() && gridField[i].isEditable(true)) {
 				cell = getEditorCell(gridField[i], values[i], i);
@@ -232,6 +238,8 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		return item;
 	}
 
+	private Map<Integer, Map<Object, String>> lookupCache = null;
+	
 	private String getDisplayText(Object value, int columnIndex)
 	{
 		if (value == null)
@@ -244,9 +252,36 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 		}
 		else if (gridField[columnIndex].isLookup())
     	{
+			if (value == null) return "";
+			
+			if (lookupCache != null)
+			{
+				Map<Object, String> cache = lookupCache.get(columnIndex);
+				if (cache != null && cache.size() >0) 
+				{
+					String text = cache.get(value);
+					if (text != null) 
+					{
+						return text;
+					}				
+				}
+			}
 			NamePair namepair = gridField[columnIndex].getLookup().get(value);
 			if (namepair != null)
-				return namepair.getName();
+			{
+				String text = namepair.getName();
+				if (lookupCache != null)
+				{
+					Map<Object, String> cache = lookupCache.get(columnIndex);
+					if (cache == null) 
+					{
+						cache = new HashMap<Object, String>();
+						lookupCache.put(columnIndex, cache);
+					}
+					cache.put(value, text);
+				}
+				return text;
+			}
 			else
 				return "";
     	}
@@ -309,5 +344,33 @@ public class GridTabListItemRenderer implements ListitemRenderer, ListitemRender
 			editorList.addAll(editors.values());
 		
 		return editorList;
+	}
+	
+	/**
+	 * @param paging
+	 */
+	public void setPaging(Paging paging) {
+		this.paging = paging;
+	}
+
+	/**
+	 * @see RendererCtrl#doCatch(Throwable)
+	 */
+	public void doCatch(Throwable ex) throws Throwable {
+		lookupCache = null;
+	}
+
+	/**
+	 * @see RendererCtrl#doFinally()
+	 */
+	public void doFinally() {
+		lookupCache = null;
+	}
+
+	/**
+	 * @see RendererCtrl#doTry()
+	 */
+	public void doTry() {
+		lookupCache = new HashMap<Integer, Map<Object,String>>();
 	}
 }

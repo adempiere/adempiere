@@ -27,6 +27,7 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -80,12 +81,17 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private Event event;
     
     private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
+    private Map<Integer, ToolBarButton> altKeyMap = new HashMap<Integer, ToolBarButton>();
+    private Map<Integer, ToolBarButton> ctrlKeyMap = new HashMap<Integer, ToolBarButton>();
 
 	private boolean embedded;
 	
 	// Elaine 2008/12/04
 	/** Show Personal Lock								*/
 	public boolean			isPersonalLock = MRole.getDefault().isPersonalLock();
+
+	private int windowNo = 0;
+	
 	/**	Last Modifier of Action Event					*/
 //	public int 				lastModifiers;
 	//
@@ -203,6 +209,34 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	return buttons.get(name);
     }
 
+    /** VK_A thru VK_Z are the same as ASCII 'A' thru 'Z' (0x41 - 0x5A) */
+    public static final int VK_A              = 0x41;
+    public static final int VK_B              = 0x42;
+    public static final int VK_C              = 0x43;
+    public static final int VK_D              = 0x44;
+    public static final int VK_E              = 0x45;
+    public static final int VK_F              = 0x46;
+    public static final int VK_G              = 0x47;
+    public static final int VK_H              = 0x48;
+    public static final int VK_I              = 0x49;
+    public static final int VK_J              = 0x4A;
+    public static final int VK_K              = 0x4B;
+    public static final int VK_L              = 0x4C;
+    public static final int VK_M              = 0x4D;
+    public static final int VK_N              = 0x4E;
+    public static final int VK_O              = 0x4F;
+    public static final int VK_P              = 0x50;
+    public static final int VK_Q              = 0x51;
+    public static final int VK_R              = 0x52;
+    public static final int VK_S              = 0x53;
+    public static final int VK_T              = 0x54;
+    public static final int VK_U              = 0x55;
+    public static final int VK_V              = 0x56;
+    public static final int VK_W              = 0x57;
+    public static final int VK_X              = 0x58;
+    public static final int VK_Y              = 0x59;
+    public static final int VK_Z              = 0x5A;
+    
     private void configureKeyMap() 
     {
 		keyMap.put(KeyEvent.F1, btnHelp);		
@@ -216,6 +250,22 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		keyMap.put(KeyEvent.F9, btnHistoryRecords);
 		keyMap.put(KeyEvent.F11, btnReport);
 		keyMap.put(KeyEvent.F12, btnPrint);
+		
+		altKeyMap.put(KeyEvent.LEFT, btnParentRecord);
+		altKeyMap.put(KeyEvent.RIGHT, btnDetailRecord);
+		altKeyMap.put(KeyEvent.UP, btnPrevious);
+		altKeyMap.put(KeyEvent.DOWN, btnNext);
+		altKeyMap.put(KeyEvent.PAGE_UP, btnFirst);
+		altKeyMap.put(KeyEvent.PAGE_DOWN, btnLast);
+		altKeyMap.put(VK_P, btnReport);
+		altKeyMap.put(VK_Z, btnIgnore);
+		
+		ctrlKeyMap.put(VK_I, btnProductInfo);
+		ctrlKeyMap.put(VK_P, btnPrint);
+		ctrlKeyMap.put(VK_N, btnNew);
+		ctrlKeyMap.put(VK_S, btnSave);
+		ctrlKeyMap.put(VK_X, btnDelete);
+		ctrlKeyMap.put(VK_F, btnFind);
 	}
 
 	protected void addSeparator()
@@ -251,7 +301,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         } else if (eventName.equals(Events.ON_CTRL_KEY)) 
         {
         	KeyEvent keyEvent = (KeyEvent) event;
-        	this.onCtrlKeyEvent(keyEvent.getKeyCode());
+        	this.onCtrlKeyEvent(keyEvent);
         }
     }
 
@@ -429,9 +479,26 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	return event;
     }
 
-	public void onCtrlKeyEvent(int keycode) {
+	private void onCtrlKeyEvent(KeyEvent keyEvent) {
 		if (isRealVisible()) {
-			ToolBarButton btn = keyMap.get(keycode);
+			ToolBarButton btn = null;
+			if (keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+			{
+				if (keyEvent.getKeyCode() == VK_X)
+				{
+					if (windowNo > 0)
+						SessionManager.getAppDesktop().closeWindow(windowNo);
+				}
+				else
+				{
+					btn = altKeyMap.get(keyEvent.getKeyCode());
+				}
+			}
+			else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+				btn = ctrlKeyMap.get(keyEvent.getKeyCode());
+			else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+				btn = keyMap.get(keyEvent.getKeyCode());
+			
 			if (btn != null && !btn.isDisabled() && btn.isVisible()) {
 				Events.sendEvent(btn, new Event(Events.ON_CLICK, btn));
 			}
@@ -466,6 +533,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		{
 			btn.setVisible(visible);
 		}
+	}
+
+	public void setWindowNo(int windowNo) {
+		this.windowNo = windowNo;
 	}
 	
 }
