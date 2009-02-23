@@ -31,6 +31,8 @@ import org.compiere.util.Env;
  *  @author Karsten Thiemann FR [ 1782412 ]
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2476824 ] MDocType.getOfDocBaseType should return ONLY active records
+ *  		<li>BF [ -       ] MDocType.getOfClient should return ONLY active records.
+ *  							See https://sourceforge.net/forum/message.php?msg_id=6499893
  *  @version $Id: MDocType.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
  */
 public class MDocType extends X_C_DocType
@@ -73,6 +75,7 @@ public class MDocType extends X_C_DocType
 		String whereClause  = "AD_Client_ID=?";
 		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
 									.setParameters(new Object[]{Env.getAD_Client_ID(ctx)})
+									.setOnlyActiveRecords(true)
 									.list();
 		return list.toArray(new MDocType[list.size()]);
 	}	//	getOfClient
@@ -95,7 +98,7 @@ public class MDocType extends X_C_DocType
 	} 	//	get
 	
 	/**	Cache					*/
-	static private CCache<Integer,MDocType>	s_cache = new CCache<Integer,MDocType>("C_DocType", 20);
+	static private CCache<Integer,MDocType>	s_cache = new CCache<Integer,MDocType>(Table_Name, 20);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
