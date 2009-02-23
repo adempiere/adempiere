@@ -1086,11 +1086,11 @@ CREATE TABLE WS_WebService_Para (AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NU
 
 ALTER TABLE WS_WebServiceFieldInput ADD CONSTRAINT ADColumn_WSWebServiceFieldInpu FOREIGN KEY (AD_Column_ID) REFERENCES AD_Column;
 
-ALTER TABLE WS_WebServiceFieldInput ADD CONSTRAINT WSWebServiceType_WSWebServiceF FOREIGN KEY (WS_WebServiceType_ID) REFERENCES WS_WebServiceType;
+ALTER TABLE WS_WebServiceFieldInput ADD CONSTRAINT WSWebServiceType_WSWebServicFI FOREIGN KEY (WS_WebServiceType_ID) REFERENCES WS_WebServiceType;
 
 ALTER TABLE WS_WebServiceFieldOutput ADD CONSTRAINT ADColumn_WSWebServiceFieldOutp FOREIGN KEY (AD_Column_ID) REFERENCES AD_Column;
 
-ALTER TABLE WS_WebServiceFieldOutput ADD CONSTRAINT WSWebServiceType_WSWebServiceF FOREIGN KEY (WS_WebServiceType_ID) REFERENCES WS_WebServiceType;
+ALTER TABLE WS_WebServiceFieldOutput ADD CONSTRAINT WSWebServiceType_WSWebServicFO FOREIGN KEY (WS_WebServiceType_ID) REFERENCES WS_WebServiceType;
 
 ALTER TABLE WS_WebServiceMethod ADD CONSTRAINT WSWebService_WSWebServiceMetho FOREIGN KEY (WS_WebService_ID) REFERENCES WS_WebService;
 
