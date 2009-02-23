@@ -295,6 +295,10 @@ public class ModelADServiceImpl implements ModelADService {
 				return "Error logging in - client not allowed for this role";
 
 			KeyNamePair[] orgs  = login.getOrgs( new KeyNamePair(r.getClientID(), "" ));
+
+			if (orgs == null)
+				return "Error logging in - no organizations for this role";
+
 			KeyNamePair orglogin = null;
 			boolean okorg = false;
 			for (KeyNamePair org : orgs) {
