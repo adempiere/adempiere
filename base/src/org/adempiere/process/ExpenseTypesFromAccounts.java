@@ -32,6 +32,7 @@ import java.util.*;
 import java.util.logging.*;
 import org.compiere.model.*;
 import org.compiere.process.*;
+import org.compiere.util.*;
 
 /**
  * Creates expense type products from a given range of expense account 
@@ -106,13 +107,10 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
         MProduct product;
 
         // Read all existing applicable products into memory for quick comparison.
-        Query q1 = new Query(
-                getCtx(),
-                MProduct.Table_Name,
-                "ProductType=?",
-                get_TrxName());
-        q1.setParameters(new Object[]{MProduct.PRODUCTTYPE_ExpenseType});
-        List<MProduct> products = q1.list();
+        List<MProduct> products = new Query(getCtx(), MProduct.Table_Name, "ProductType=?", get_TrxName())
+                .setParameters(new Object[]{MProduct.PRODUCTTYPE_ExpenseType})
+                .list();
+
         Map<String,MProduct> productMap = new TreeMap<String, MProduct>();
         for (Iterator<MProduct> it = products.iterator(); it.hasNext();) {
             product = it.next();
@@ -121,9 +119,14 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
 
         // Read all existing valid combinations comparison
         MAccount validComb;
-        q1 = new Query(getCtx(), MAccount.Table_Name, "C_AcctSchema_ID=? and AD_Client_ID=? and AD_Org_ID=0", get_TrxName());
-        q1.setParameters(new Object[]{m_acctSchemaId, m_clientId});
-        List<MAccount> validCombs = q1.list();
+        List<MAccount> validCombs = new Query(
+                    getCtx(),
+                    MAccount.Table_Name,
+                    "C_AcctSchema_ID=? and AD_Client_ID=? and AD_Org_ID=0",
+                    get_TrxName())
+                .setParameters(new Object[]{m_acctSchemaId, m_clientId})
+                .list();
+
         Map<Integer, MAccount> validCombMap = new TreeMap<Integer, MAccount>();
         for (Iterator<MAccount> it = validCombs.iterator(); it.hasNext();) {
             validComb = it.next();
@@ -131,19 +134,19 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
         }
 
         // Read all accounttypes that fit the given criteria.
-        Query q2 = new Query(
-                getCtx(),
-                MElementValue.Table_Name,
-                "AccountType=? and isSummary='N' and Value>=? and Value<=? and AD_Client_ID=?",
-                get_TrxName());
-        q2.setParameters(new Object[]{MElementValue.ACCOUNTTYPE_Expense, m_startElement, m_endElement, m_clientId});
-        List<MElementValue> result = q2.list();
+        List<MElementValue> result = new Query(
+                    getCtx(),
+                    MElementValue.Table_Name,
+                    "AccountType=? and isSummary='N' and Value>=? and Value<=? and AD_Client_ID=?",
+                    get_TrxName())
+                .setParameters(new Object[]{MElementValue.ACCOUNTTYPE_Expense, m_startElement, m_endElement, m_clientId})
+                .list();
 
         MElementValue elem;
         MProductPrice priceRec;
         X_M_Product_Acct productAcct;
         String expenseItemValue;
-        BigDecimal zero = new BigDecimal("0");
+        BigDecimal zero = Env.ZERO;
         int addCount = 0;
         int skipCount = 0;
 
@@ -155,7 +158,7 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
             if (product==null) {
                 // Create a new product from the account element
                 product = new MProduct(getCtx(), 0, get_TrxName());
-                product.set_ValueOfColumn("AD_Client_ID", new Integer(m_clientId));
+                product.set_ValueOfColumn("AD_Client_ID", Integer.valueOf(m_clientId));
                 product.setValue(expenseItemValue);
                 product.setName(elem.getName());
                 product.setDescription(elem.getDescription());
@@ -168,13 +171,13 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
                 product.setIsPurchased(true);
                 product.setIsSold(false);
                 // Save the product
-                product.save(get_TrxName());
+                product.saveEx(get_TrxName());
 
                 // Add a zero product price to the price list so it shows up in the price list
                 priceRec = new MProductPrice(getCtx(), pv.get_ID(), product.get_ID(), get_TrxName());
-                priceRec.set_ValueOfColumn("AD_Client_ID", new Integer(m_clientId));
+                priceRec.set_ValueOfColumn("AD_Client_ID", Integer.valueOf(m_clientId));
                 priceRec.setPrices(zero, zero, zero);
-                priceRec.save();
+                priceRec.saveEx(get_TrxName());
 
                 // Set the revenue and expense accounting of the product to the given account element
                 // Get the valid combination
@@ -182,20 +185,22 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
                 if (validComb==null) {
                     // Create new valid combination
                     validComb = new MAccount(getCtx(), 0, get_TrxName());
-                    validComb.set_ValueOfColumn("AD_Client_ID", new Integer(m_clientId));
+                    validComb.set_ValueOfColumn("AD_Client_ID", Integer.valueOf(m_clientId));
                     validComb.setAD_Org_ID(0);
                     validComb.setAlias(elem.getValue());
                     validComb.setAccount_ID(elem.get_ID());
                     validComb.setC_AcctSchema_ID(m_acctSchemaId);
-                    validComb.save(get_TrxName());
+                    validComb.saveEx(get_TrxName());
                 }
 
-                q1 = new Query(getCtx(), X_M_Product_Acct.Table_Name, "M_Product_ID=?", get_TrxName());
-                q1.setParameters(new Object[]{product.get_ID()});
-                productAcct = q1.first();
+                // TODO: It might be needed to make the accounting more specific, but the purpose
+                // of the process now is to create general accounts so this is intentional.
+                productAcct = new Query(getCtx(), X_M_Product_Acct.Table_Name, "M_Product_ID=?", get_TrxName())
+                        .setParameters(new Object[]{product.get_ID()})
+                        .first();
                 productAcct.setP_Expense_Acct(validComb.get_ID());
                 productAcct.setP_Revenue_Acct(validComb.get_ID());
-                productAcct.save(get_TrxName());
+                productAcct.saveEx(get_TrxName());
 
                 addCount++;
             } else {
