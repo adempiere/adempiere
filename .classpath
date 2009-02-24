@@ -144,6 +144,6 @@
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/spiffy-with_source-all-0.05.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
