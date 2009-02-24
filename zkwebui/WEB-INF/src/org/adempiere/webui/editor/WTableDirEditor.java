@@ -174,27 +174,45 @@ ContextMenuListener, IZoomableEditor
         }
         return retVal;
     }
-    
+
     public void setValue(Object value)
     {
     	if (value != null && (value instanceof Integer || value instanceof String))
         {
-            getComponent().setValue(value);
-            
-            if (getComponent().getSelectedIndex() == -1 && lookup != null)
+
+            getComponent().setValue(value);            
+            if (!getComponent().isSelected(value))
             {
-            	if (isReadWrite())
+            	if (isReadWrite() && lookup != null)
             		lookup.refresh();
+            	Object curValue = oldValue;
                 oldValue = value;
                 refreshList();
+                
+                //still not in list, reset to zero
+                if (!getComponent().isSelected(value))
+                {
+                	if (value instanceof Integer && (Integer)value == 0)
+                	{
+                		getComponent().setValue(null);
+                		if (curValue == null)
+                			curValue = value;
+                		ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), curValue, null);
+            	        super.fireValueChange(changeEvent);
+                		oldValue = null;
+                	}
+                }
+            }
+            else
+            {
+            	oldValue = value;
             }
         }
         else
         {
             getComponent().setValue(null);
-        }
-        
-        oldValue = value;
+            oldValue = value;
+        }                                
     }
     
     @Override

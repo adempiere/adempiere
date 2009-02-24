@@ -99,6 +99,23 @@ public class Combobox extends org.zkoss.zul.Combobox
         }
     }
     
+    /**
+     * 
+     * @param value
+     * @return boolean
+     */
+    public boolean isSelected(Object value) 
+    {
+    	if (value == null)
+    		return false;
+    	
+    	Comboitem item = getSelectedItem();
+    	if (item == null)
+    		return false;
+    	
+    	return item.getValue().equals(value);
+    }
+    
     /** Returns RS_NO_WIDTH|RS_NO_HEIGHT.
 	 */
 	protected int getRealStyleFlags() {
