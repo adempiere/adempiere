@@ -924,8 +924,19 @@ DataStatusListener, IADTabpanel
 	public void switchRowPresentation() {
 		if (formComponent.isVisible()) {
 			formComponent.setVisible(false);
+			//de-activate embedded panel
+	        for(EmbeddedPanel ep : includedPanel)
+	        {
+	        	activateChild(false, ep);
+	        }
 		} else {
 			formComponent.setVisible(true);
+			//activate embedded panel
+	        for(EmbeddedPanel ep : includedPanel)
+	        {
+	        	activateChild(true, ep);
+	        }
+			
 		}
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
