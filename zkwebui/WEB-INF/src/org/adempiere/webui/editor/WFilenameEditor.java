@@ -25,7 +25,6 @@ import org.adempiere.webui.component.FilenameBox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -113,7 +112,7 @@ public class WFilenameEditor extends WEditor
 		
 		try 
 		{
-			file = Fileupload.get(); 
+			file = Fileupload.get(true); 
 			
 			if (file == null)
 				return;
@@ -136,10 +135,9 @@ public class WFilenameEditor extends WEditor
 
 			fos = new FileOutputStream(tempFile);
 			byte[] bytes = null;
-			try {
+			if (file.inMemory()) {
 				bytes = file.getByteData();
-			}
-			catch ( IllegalStateException ise ) {
+			} else {
 				InputStream is = file.getStreamData();
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				byte[] buf = new byte[ 1000 ];

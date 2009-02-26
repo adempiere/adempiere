@@ -17,6 +17,9 @@
 package org.adempiere.webui.panel;
 
 import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
@@ -412,7 +415,7 @@ public class WAttachment extends Window implements EventListener
 		
 		try 
 		{
-			media = Fileupload.get(); 
+			media = Fileupload.get(true); 
 			
 			if (media != null)
 			{
@@ -437,7 +440,7 @@ public class WAttachment extends Window implements EventListener
 		{
 			if (m_attachment.getEntryName(i).equals(fileName))
 			{
-				m_attachment.updateEntry(i, media.getByteData());
+				m_attachment.updateEntry(i, getMediaData(media));
 				cbContent.setSelectedIndex(i);
 				m_change = true;
 				return;
@@ -446,13 +449,36 @@ public class WAttachment extends Window implements EventListener
 		
 		//new
 		
-		if (m_attachment.addEntry(fileName, media.getByteData()))
+		if (m_attachment.addEntry(fileName, getMediaData(media)))
 		{
 			cbContent.appendItem(media.getName(), media.getName());
 			cbContent.setSelectedIndex(cbContent.getItemCount()-1);
 			m_change = true;
 		}
 	}	//	getFileName
+
+	private byte[] getMediaData(Media media) {
+		byte[] bytes = null;
+		
+		if (media.inMemory())
+			bytes = media.getByteData();
+		else {			
+			InputStream is = media.getStreamData();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			byte[] buf = new byte[ 1000 ];
+			int byteread = 0;
+			try {
+				while (( byteread=is.read(buf) )!=-1)
+					baos.write(buf,0,byteread);
+			} catch (IOException e) {
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				throw new IllegalStateException(e.getLocalizedMessage());
+			}
+			bytes = baos.toByteArray();
+		}
+						
+		return bytes;
+	}
 
 	/**
 	 *	Delete entire Attachment
