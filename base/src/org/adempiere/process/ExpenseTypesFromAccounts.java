@@ -195,8 +195,8 @@ public class ExpenseTypesFromAccounts extends SvrProcess {
 
                 // TODO: It might be needed to make the accounting more specific, but the purpose
                 // of the process now is to create general accounts so this is intentional.
-                productAcct = new Query(getCtx(), X_M_Product_Acct.Table_Name, "M_Product_ID=?", get_TrxName())
-                        .setParameters(new Object[]{product.get_ID()})
+                productAcct = new Query(getCtx(), X_M_Product_Acct.Table_Name, "M_Product_ID=? and C_AcctSchema_ID=?", get_TrxName())
+                        .setParameters(new Object[]{product.get_ID(), m_acctSchemaId})
                         .first();
                 productAcct.setP_Expense_Acct(validComb.get_ID());
                 productAcct.setP_Revenue_Acct(validComb.get_ID());
