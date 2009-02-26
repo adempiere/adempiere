@@ -88,7 +88,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	
 	// Elaine 2008/12/04
 	/** Show Personal Lock								*/
-	public boolean			isPersonalLock = MRole.getDefault().isPersonalLock();
+	public boolean	isPersonalLock = MRole.getDefault().isPersonalLock();
+	private boolean isAllowProductInfo = MRole.getDefault().isAllow_Info_Product();
 
 	private int windowNo = 0;
 	
@@ -144,6 +145,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
+        btnProductInfo.setVisible(isAllowProductInfo);
         
         for (Object obj : this.getChildren())
         {
@@ -167,7 +169,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
                 
         btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
         btnRequests.setDisabled(false); // Elaine 2008/07/22
-        btnProductInfo.setDisabled(false); // Elaine 2008/07/22
+        btnProductInfo.setDisabled(isAllowProductInfo); // Elaine 2008/07/22
         btnArchive.setDisabled(false); // Elaine 2008/07/28
         btnLock.setDisabled(!isPersonalLock); // Elaine 2008/12/04
         
