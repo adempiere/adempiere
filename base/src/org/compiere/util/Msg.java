@@ -609,7 +609,7 @@ public final class Msg
 	{
 		if (text == null || text.length() == 0)
 			return text;
-		String s = (String)ctx.get(text);
+		String s = (String)ctx.getProperty(text);
 		if (s != null && s.length() > 0)
 			return s;
 		return translate (Env.getAD_Language(ctx), Env.isSOTrx(ctx), text);
