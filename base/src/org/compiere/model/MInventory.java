@@ -137,30 +137,11 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return m_lines;
 		}
 		//
-		ArrayList<MInventoryLine> list = new ArrayList<MInventoryLine>();
-		String sql = "SELECT * FROM M_InventoryLine WHERE M_Inventory_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Inventory_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MInventoryLine (getCtx(), rs, get_TrxName()));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
-		m_lines = new MInventoryLine[list.size ()];
-		list.toArray (m_lines);
+		List<MInventoryLine> list = new Query(getCtx(), MInventoryLine.Table_Name, "M_Inventory_ID=?", get_TrxName())
+										.setParameters(new Object[]{get_ID()})
+										.setOrderBy(MInventoryLine.COLUMNNAME_Line)
+										.list();
+		m_lines = list.toArray(new MInventoryLine[list.size()]);
 		return m_lines;
 	}	//	getLines
 	
@@ -275,10 +256,9 @@ public class MInventory extends X_M_Inventory implements DocAction
 		super.setProcessed (processed);
 		if (get_ID() == 0)
 			return;
-		String sql = "UPDATE M_InventoryLine SET Processed='"
-			+ (processed ? "Y" : "N")
-			+ "' WHERE M_Inventory_ID=" + getM_Inventory_ID();
-		int noLine = DB.executeUpdate(sql, get_TrxName());
+		//
+		final String sql = "UPDATE M_InventoryLine SET Processed=? WHERE M_Inventory_ID=?";
+		int noLine = DB.executeUpdateEx(sql, new Object[]{processed, getM_Inventory_ID()}, get_TrxName());
 		m_lines = null;
 		log.fine("Processed=" + processed + " - Lines=" + noLine);
 	}	//	setProcessed
@@ -335,11 +315,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return DocAction.STATUS_Invalid;
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_MaterialPhysicalInventory, getAD_Org_ID()))
-		{
-			m_processMsg = "@PeriodClosed@";
-			return DocAction.STATUS_Invalid;
-		}
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_MaterialPhysicalInventory, getAD_Org_ID());
 		MInventoryLine[] lines = getLines(false);
 		if (lines.length == 0)
 		{
@@ -523,7 +499,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 						}
 					}
 
-					String m_MovementType =null;
+					String m_MovementType = null;
 					if(qtyDiff.compareTo(Env.ZERO) > 0 )
 						m_MovementType = MTransaction.MOVEMENTTYPE_InventoryIn;
 					else
@@ -761,11 +737,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			return false;
 
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (!MPeriod.isOpen(getCtx(), getMovementDate(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
-			m_processMsg = "@PeriodClosed@";
-			return false;
-		}
+		MPeriod.testPeriodOpen(getCtx(), getMovementDate(), dt.getDocBaseType(), getAD_Org_ID());
 
 		//	Deep Copy
 		MInventory reversal = new MInventory(getCtx(), 0, get_TrxName());
@@ -778,11 +750,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR1948157
 		reversal.setReversal_ID(getM_Inventory_ID());
-		if (!reversal.save())
-		{
-			m_processMsg = "Could not create Inventory Reversal";
-			return false;
-		}
+		reversal.saveEx();
 		reversal.setReversal(true);
 
 		//	Reverse Line Qty
@@ -801,12 +769,8 @@ public class MInventory extends X_M_Inventory implements DocAction
 			rLine.setQtyBook (oLine.getQtyCount());		//	switch
 			rLine.setQtyCount (oLine.getQtyBook());
 			rLine.setQtyInternalUse (oLine.getQtyInternalUse().negate());		
-
-			if (!rLine.save())
-			{
-				m_processMsg = "Could not create Inventory Reversal Line";
-				return false;
-			}
+			
+			rLine.saveEx();
 
 			//We need to copy MA
 			if (rLine.getM_AttributeSetInstance_ID() == 0)
@@ -818,8 +782,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 					MInventoryLineMA ma = new MInventoryLineMA (rLine, 
 							mas[j].getM_AttributeSetInstance_ID(),
 							mas[j].getMovementQty().negate());
-					if (!ma.save())
-						  throw new IllegalStateException("Error try create ASI Reservation");
+					ma.saveEx();
 				}
 			}
 		}
@@ -832,7 +795,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 		reversal.closeIt();
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save();
+		reversal.saveEx();
 		m_processMsg = reversal.getDocumentNo();
 
 		//	Update Reversed (this)
