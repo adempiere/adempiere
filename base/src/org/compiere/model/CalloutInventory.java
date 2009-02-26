@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -73,13 +73,20 @@ public class CalloutInventory extends CalloutEngine
 		if (ASI != null)
 			M_AttributeSetInstance_ID = ASI.intValue();
 		//	Product Selection
-		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID)
+		if (MInventoryLine.COLUMNNAME_M_Product_ID.equals(mField.getColumnName()))
 		{
-			M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
-			if (M_AttributeSetInstance_ID != 0)
-				mTab.setValue("M_AttributeSetInstance_ID", new Integer(M_AttributeSetInstance_ID));
+			if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID)
+			{
+				M_AttributeSetInstance_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");
+			}
 			else
-				mTab.setValue("M_AttributeSetInstance_ID", null);
+			{
+				M_AttributeSetInstance_ID = 0;
+			}
+			if (M_AttributeSetInstance_ID != 0)
+				mTab.setValue(MInventoryLine.COLUMNNAME_M_AttributeSetInstance_ID, M_AttributeSetInstance_ID);
+			else
+				mTab.setValue(MInventoryLine.COLUMNNAME_M_AttributeSetInstance_ID, null);
 		}
 			
 		// Set QtyBook from first storage location

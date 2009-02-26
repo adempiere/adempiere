@@ -809,9 +809,7 @@ public class VLookup extends JComponent
 		else if (col.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Lookup_ID", "0");
+			resetTabInfo();
 			//  Replace Value with name if no value exists
 			if (queryValue.length() == 0 && m_text.getText().length() > 0)
 				queryValue = "@" + m_text.getText() + "@";   //  Name indicator - otherwise Value
@@ -935,9 +933,7 @@ public class VLookup extends JComponent
 		if (m_columnName.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
+			resetTabInfo();
 			//
 			sql.append(" AND (UPPER(p.Value) LIKE ")
 				.append(DB.TO_STRING(text))
@@ -1049,6 +1045,7 @@ public class VLookup extends JComponent
 		}
 		log.fine(m_columnName + " - Unique ID=" + id);
 		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
+		resetTabInfo();
 		actionCombo (new Integer(id));          //  data binding
 		//
 		// Don't request focus if value was solved - teo_sarca [ 2552901 ]
@@ -1080,9 +1077,7 @@ public class VLookup extends JComponent
 		if (m_columnName.equals("M_Product_ID"))
 		{
 			//	Reset
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Product_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_AttributeSetInstance_ID", "0");
-			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, "M_Locator_ID", "0");
+			resetTabInfo();
 			//
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (UPPER(Value) LIKE ")
 				.append(DB.TO_STRING(text))
@@ -1524,6 +1519,32 @@ public class VLookup extends JComponent
 		m_text.setToolTipText(text);
 		m_combo.setToolTipText(text);
 	}   //  setToolTipText
+	
+	/**
+	 * Reset Env.TAB_INFO context variables
+	 * @param columnName
+	 */
+	private void resetTabInfo()
+	{
+		if (this.m_lookup == null)
+			return;
+		String columnName = m_columnName;
+		//
+		// TODO : hardcoded
+		final String[] infoNames;
+		if ("M_Product_ID".equals(columnName))
+		{
+			infoNames = new String[]{"M_Product_ID","M_AttributeSetInstance_ID","M_Locator_ID","M_Lookup_ID"};
+		}
+		else
+		{
+			infoNames = new String[]{};
+		}
+		for (String name : infoNames)
+		{
+			Env.setContext(Env.getCtx(), m_lookup.getWindowNo(), Env.TAB_INFO, name, null);
+		}
+	}
 
 	/**
 	 * 	Refresh Query

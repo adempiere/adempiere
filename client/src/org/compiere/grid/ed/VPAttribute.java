@@ -331,6 +331,7 @@ public class VPAttribute extends JComponent
 		int M_AttributeSetInstance_ID = oldValueInt;
 		int M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Product_ID");
 		int M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_ProductBOM_ID");
+		int M_Locator_ID = -1;
 
 		log.config("M_Product_ID=" + M_Product_ID + "/" + M_ProductBOM_ID
 			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
@@ -372,48 +373,13 @@ public class VPAttribute extends JComponent
 			{
 				m_text.setText(vad.getM_AttributeSetInstanceName());
 				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
-				if (m_GridTab != null && !productWindow && vad.getM_Locator_ID() > 0)
-					m_GridTab.setValue("M_Locator_ID", vad.getM_Locator_ID());
+				if (!productWindow && vad.getM_Locator_ID() > 0)
+				{
+					M_Locator_ID = vad.getM_Locator_ID();
+				}
 				changed = true;
 			}
 		}
-		/** Selection
-		{
-			//	Get Model
-			MAttributeSetInstance masi = MAttributeSetInstance.get(Env.getCtx(), M_AttributeSetInstance_ID, M_Product_ID);
-			if (masi == null)
-			{
-				log.log(Level.SEVERE, "No Model for M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID + ", M_Product_ID=" + M_Product_ID);
-			}
-			else
-			{
-				Env.setContext(Env.getCtx(), m_WindowNo, "M_AttributeSet_ID", masi.getM_AttributeSet_ID());
-				//	Get Attribute Set
-				MAttributeSet as = masi.getMAttributeSet();
-				//	Product has no Attribute Set
-				if (as == null)		
-					ADialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
-				//	Product has no Instance Attributes
-				else if (!as.isInstanceAttribute())
-					ADialog.error(m_WindowNo, this, "PAttributeNoInstanceAttribute");
-				else
-				{
-					int M_Warehouse_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Warehouse_ID");
-					int M_Locator_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Locator_ID");
-					String title = "";
-					PAttributeInstance pai = new PAttributeInstance (
-						Env.getFrame(this), title, 
-						M_Warehouse_ID, M_Locator_ID, M_Product_ID, m_C_BPartner_ID);
-					if (pai.getM_AttributeSetInstance_ID() != -1)
-					{
-						m_text.setText(pai.getM_AttributeSetInstanceName());
-						M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
-						changed = true;
-					}
-				}
-			}
-		}
-		**/
 		
 		//	Set Value
 		if (changed)
@@ -424,6 +390,13 @@ public class VPAttribute extends JComponent
 				setValue(null);
 			else
 				setValue(new Integer(M_AttributeSetInstance_ID));
+			// Change Locator
+			if (m_GridTab != null && M_Locator_ID > 0)
+			{
+				log.finest("Change M_Locator_ID="+M_Locator_ID);
+				m_GridTab.setValue("M_Locator_ID", M_Locator_ID);
+			}
+			//
 			try
 			{
 				String columnName = "M_AttributeSetInstance_ID";
