@@ -63,7 +63,7 @@ public class InOutGenerate extends SvrProcess
 	
 	/**	The current Shipment	*/
 	private MInOut 		m_shipment = null;
-	/** Numner of Shipments		*/
+	/** Number of Shipments	being created	*/
 	private int			m_created = 0;
 	/**	Line Number				*/
 	private int			m_line = 0;
@@ -280,7 +280,7 @@ public class InOutGenerate extends SvrProcess
 						}
 						//	Adjust On Hand
 						onHand = onHand.subtract(unconfirmedShippedQty);
-						log.fine(logInfo);					
+						log.fine(logInfo);
 					}
 					
 					//	Comments & lines w/o product & services
