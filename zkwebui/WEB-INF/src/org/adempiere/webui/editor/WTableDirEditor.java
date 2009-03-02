@@ -285,9 +285,21 @@ ContextMenuListener, IZoomableEditor
     	}
     	else if (Events.ON_BLUR.equalsIgnoreCase(event.getName()))
     	{
-    		if (getComponent().getSelectedItem() == null) 
+    		Comboitem item = getComponent().getSelectedItem();
+    		if (item == null) 
     		{
     			setValue(oldValue);
+    		}
+    		else 
+    		{
+    			//on select not fire for empty label item
+    			if (item.getLabel().equals(""))
+    			{
+    				Object newValue = getValue();
+    				ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+    		        super.fireValueChange(changeEvent);
+    		        oldValue = newValue;
+    			}
     		}
     	}
     }
