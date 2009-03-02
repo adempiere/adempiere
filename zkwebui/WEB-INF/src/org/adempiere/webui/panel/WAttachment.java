@@ -16,7 +16,6 @@
 
 package org.adempiere.webui.panel;
 
-import java.awt.Dimension;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,24 +36,29 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.util.media.Media;
+import org.zkoss.zk.au.AuScript;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
+import org.zkoss.zul.Timer;
 
 /**
  * 
  * @author Low Heng Sin
  *
  */
+@SuppressWarnings("deprecation")
 public class WAttachment extends Window implements EventListener
 {
 	private static final long serialVersionUID = 1L;
@@ -82,6 +86,7 @@ public class WAttachment extends Window implements EventListener
 	private Button bLoad = new Button();
 	private Button bCancel = new Button();
 	private Button bOk = new Button();
+	private Button bRefresh = new Button();
 	
 	private Panel previewPanel = new Panel();
 
@@ -90,6 +95,8 @@ public class WAttachment extends Window implements EventListener
 	private Hbox toolBar = new Hbox();	
 	
 	private Hbox confirmPanel = new Hbox();
+
+	private int displayIndex;
 
 	/**
 	 *	Constructor.
@@ -130,7 +137,15 @@ public class WAttachment extends Window implements EventListener
 
 		try
 		{
+			setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);			
 			AEnv.showWindow(this);
+			displayData(0, true);
+			String script = "setTimeout(\"$e('"+ preview.getUuid() + "').src = $e('" +
+			preview.getUuid() + "').src\", 1000)";
+			Clients.response(new AuScript(null, script));
+			
+			//enter modal
+			doModal();
 		}
 		catch (Exception e)
 		{
@@ -154,15 +169,15 @@ public class WAttachment extends Window implements EventListener
 	
 	void staticInit() throws Exception
 	{
-		this.setWidth("500px");
+		this.setWidth("700px");
 		this.setHeight("600px");
 		this.setTitle("Attachment");
 		this.setClosable(true);
+		this.setSizable(true);
 		this.setBorder("normal");
 		this.appendChild(mainPanel);
 		mainPanel.setHeight("100%");
-		mainPanel.setWidth("100%");
-		
+		mainPanel.setWidth("100%");		
 		
 		North northPanel = new North();
 		northPanel.setCollapsible(false);
@@ -178,18 +193,23 @@ public class WAttachment extends Window implements EventListener
 		toolBar.appendChild(cbContent);
 		
 		mainPanel.appendChild(northPanel);
-		northPanel.appendChild(toolBar);
+		Div div = new Div();
+		div.appendChild(toolBar);
+		text.setRows(3);
+		text.setWidth("100%");
+		div.appendChild(text);
+		northPanel.appendChild(div);
 		
 		bSave.setEnabled(false);
-		bSave.setSrc("/images/Export24.png");
+		bSave.setImage("/images/Export24.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 
-		bLoad.setSrc("/images/Import24.png");
+		bLoad.setImage("/images/Import24.png");
 		bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load"));
 		bLoad.addEventListener(Events.ON_CLICK, this);
 
-		bDelete.setSrc("/images/Delete24.png");
+		bDelete.setImage("/images/Delete24.png");
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
@@ -203,13 +223,6 @@ public class WAttachment extends Window implements EventListener
 		mainPanel.appendChild(centerPane);
 		centerPane.appendChild(previewPanel);
 		
-		West westPane = new West();
-		westPane.setWidth("20%");
-		westPane.setSplittable(true);
-		westPane.setCollapsible(true);
-		mainPanel.appendChild(westPane);
-		westPane.appendChild(text);
-
 		South southPane = new South();
 		mainPanel.appendChild(southPane);
 		southPane.appendChild(confirmPanel);
@@ -224,7 +237,11 @@ public class WAttachment extends Window implements EventListener
 		bDeleteAll.setImage("/images/Delete24.png");
 		bDeleteAll.addEventListener(Events.ON_CLICK, this);
 		
+		bRefresh.setImage("/images/Refresh24.png");
+		bRefresh.addEventListener(Events.ON_CLICK, this);
+		
 		confirmPanel.appendChild(bDeleteAll);
+		confirmPanel.appendChild(bRefresh);
 		confirmPanel.appendChild(bCancel);
 		confirmPanel.appendChild(bOk);
 	}
@@ -266,8 +283,7 @@ public class WAttachment extends Window implements EventListener
 		if (size > 0)
 		{
 			cbContent.setSelectedIndex(0);					
-		}
-		displayData(0);
+		}		
 		
 	} // loadAttachment
 	
@@ -276,19 +292,28 @@ public class WAttachment extends Window implements EventListener
 	 * 	@param index index
 	 */
 	
-	private void displayData (int index)
+	private void displayData (int index, boolean immediate)
 	{
-		MAttachmentEntry entry = m_attachment.getEntry(index); 
-		log.config("Index=" + index + " - " + entry);
-		
 		//	Reset UI		
-		preview.setVisible(false);
+		preview.setSrc(null);
 
 		bDelete.setEnabled(false);
 		bSave.setEnabled(false);
-
-		Dimension size = null;
 		
+		displayIndex = index;
+
+		if (immediate)
+			displaySelected();
+		else
+			Clients.response(new AuEcho(this, "displaySelected", null));
+	}   //  displayData
+
+	/**
+	 * Use to refresh preview frame, don't call directly.
+	 */
+	public void displaySelected() {
+		MAttachmentEntry entry = m_attachment.getEntry(displayIndex); 
+		log.config("Index=" + displayIndex + " - " + entry);
 		if (entry != null && entry.getData() != null)
 		{
 			bSave.setEnabled(true);
@@ -299,15 +324,17 @@ public class WAttachment extends Window implements EventListener
 			try
 			{
 				AMedia media = new AMedia(entry.getName(), null, entry.getContentType(), entry.getData());
+				
 				preview.setContent(media);
 				preview.setVisible(true);
+				preview.invalidate();
 			}
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, "attachment", e);
 			}
-		}		
-	}   //  displayData
+		}
+	}
 	
 	/**
 	 * 	Get File Name with index
@@ -389,7 +416,7 @@ public class WAttachment extends Window implements EventListener
 		//	Show Data
 		
 		else if (e.getTarget() == cbContent)
-			displayData (cbContent.getSelectedIndex());
+			displayData (cbContent.getSelectedIndex(), false);
 		
 		//	Load Attachment
 		
@@ -401,6 +428,11 @@ public class WAttachment extends Window implements EventListener
 		else if (e.getTarget() == bSave)
 			saveAttachmentToFile();
 		
+		else if (e.getTarget() == bRefresh)
+			displayData(displayIndex, true);
+		else if (e.getTarget() instanceof Timer)
+			displayData(displayIndex, true);
+		
 	}	//	onEvent
 	
 	/**************************************************************************
@@ -410,6 +442,8 @@ public class WAttachment extends Window implements EventListener
 	private void loadFile()
 	{
 		log.info("");
+		
+		preview.setVisible(false);
 		
 		Media media = null;
 		
@@ -422,8 +456,12 @@ public class WAttachment extends Window implements EventListener
 //				pdfViewer.setContent(media);
 				;
 			}
-			else
+			else 
+			{
+				preview.setVisible(true);
+				preview.invalidate();
 				return;
+			}
 		}
 		catch (InterruptedException e) 
 		{
@@ -434,25 +472,25 @@ public class WAttachment extends Window implements EventListener
 		log.config(fileName);
 		int cnt = m_attachment.getEntryCount();
 		
-		//update
-		
+		//update		
 		for (int i = 0; i < cnt; i++) 
 		{
 			if (m_attachment.getEntryName(i).equals(fileName))
 			{
 				m_attachment.updateEntry(i, getMediaData(media));
 				cbContent.setSelectedIndex(i);
+				displayData(cbContent.getSelectedIndex(), false);
 				m_change = true;
 				return;
 			}
 		}
 		
-		//new
-		
+		//new		
 		if (m_attachment.addEntry(fileName, getMediaData(media)))
 		{
 			cbContent.appendItem(media.getName(), media.getName());
 			cbContent.setSelectedIndex(cbContent.getItemCount()-1);
+			displayData(cbContent.getSelectedIndex(), false);
 			m_change = true;
 		}
 	}	//	getFileName
