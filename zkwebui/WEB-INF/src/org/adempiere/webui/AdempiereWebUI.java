@@ -17,6 +17,8 @@
 
 package org.adempiere.webui;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
@@ -30,6 +32,7 @@ import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -146,27 +149,48 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute("execution.carryover");
 			if (eco != null) {
 				//try restore
-				appDesktop = (IDesktop) d;
-				
-				ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
-				ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
-				Visualizer vi = ctrl.getVisualizer();
-				eco.carryOver();
 				try {
-					ctrl = ExecutionsCtrl.getCurrentCtrl();
-					ctrl.setVisualizer(vi);
+					appDesktop = (IDesktop) d;
 					
-					appDesktop.getComponent().detach();
-				} catch (Exception e) {
+					ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
+					ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
+					Visualizer vi = ctrl.getVisualizer();
+					eco.carryOver();
+					Collection<Component> rootComponents = new ArrayList<Component>();
+					try {
+						ctrl = ExecutionsCtrl.getCurrentCtrl();
+						ctrl.setVisualizer(vi);
+						
+						//detach root component from old page
+						Page page = appDesktop.getComponent().getPage();
+						Collection<?> collection = page.getRoots();
+						Object[] objects = new Object[0];
+						objects = collection.toArray(objects);
+						for(Object obj : objects) {
+							if (obj instanceof Component) {
+								((Component)obj).detach();
+								rootComponents.add((Component) obj);
+							}
+						}
+						appDesktop.getComponent().detach();
+					} catch (Exception e) {
+						appDesktop = null;
+					} finally {
+						eco.cleanup();
+						current.carryOver();
+					}
+					
+					if (appDesktop != null) {
+						//re-attach root components
+						for (Component component : rootComponents) {
+							component.setPage(this.getPage());
+						}
+						appDesktop.setPage(this.getPage());					
+						currSess.setAttribute("execution.carryover", current);
+					}
+				} catch (Throwable t) {
+					//restore fail
 					appDesktop = null;
-				} finally {
-					eco.cleanup();
-					current.carryOver();
-				}
-				
-				if (appDesktop != null) {										
-					appDesktop.setPage(this.getPage());					
-					currSess.setAttribute("execution.carryover", current);
 				}
 				
 			}
