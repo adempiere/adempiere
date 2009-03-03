@@ -170,6 +170,11 @@ public class ModelADServiceImpl implements ModelADService {
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
 
+    	// set explicitly the column DocAction to avoid automatic process of default option
+   		po.set_ValueOfColumn("DocAction", docAction);
+		if (!po.save())
+			return rollbackAndSetError(trx, resp, ret, true, "Cannot save before set docAction: " + CLogger.retrieveErrorString("no log message"));
+    	
     	// call process it
     	try {
 			if (! ((org.compiere.process.DocAction) po).processIt(docAction))
