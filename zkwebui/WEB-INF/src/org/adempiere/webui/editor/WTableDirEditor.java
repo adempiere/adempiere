@@ -279,9 +279,11 @@ ContextMenuListener, IZoomableEditor
     	if (Events.ON_SELECT.equalsIgnoreCase(event.getName()))
     	{
 	        Object newValue = getValue();
-	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
-	        super.fireValueChange(changeEvent);
-	        oldValue = newValue;
+	        if (isValueChange(newValue)) {
+		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+		        super.fireValueChange(changeEvent);
+		        oldValue = newValue;
+	        }
     	}
     	else if (Events.ON_BLUR.equalsIgnoreCase(event.getName()))
     	{
@@ -296,13 +298,19 @@ ContextMenuListener, IZoomableEditor
     			if (item.getLabel().equals(""))
     			{
     				Object newValue = getValue();
-    				ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
-    		        super.fireValueChange(changeEvent);
-    		        oldValue = newValue;
+    				if (isValueChange(newValue)) {
+	    				ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+	    		        super.fireValueChange(changeEvent);
+	    		        oldValue = newValue;
+    				}
     			}
     		}
     	}
     }
+
+	private boolean isValueChange(Object newValue) {
+		return (oldValue == null && newValue != null) || (oldValue != null && newValue == null) || (!oldValue.equals(newValue));
+	}
     
     public String[] getEvents()
     {
