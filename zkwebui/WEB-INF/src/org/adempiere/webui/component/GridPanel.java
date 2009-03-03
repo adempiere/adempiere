@@ -178,6 +178,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				//this is needed to make focus and auto scroll work
 				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(pgIndex);
 				listbox.renderRow(row);
+				Events.echoEvent("onPostRenderSelectedRow", this, null);
 			}
 		} else {
 			renderer.stopEditing(false);
@@ -186,8 +187,16 @@ public class GridPanel extends Borderlayout implements EventListener
 				//this is needed to make focus and auto scroll work
 				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(rowIndex);
 				listbox.renderRow(row);
+				Events.echoEvent("onPostRenderSelectedRow", this, null);
 			}
 		}
+	}
+	
+	/**
+	 * Don't call this directly, use internally to send post render event
+	 */
+	public void onPostRenderSelectedRow() {
+		renderer.setFocusToField();
 	}
 
 	/**

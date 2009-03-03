@@ -391,8 +391,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void doFinally() {
 		lookupCache = null;
-		if (grid != null)
-			Events.echoEvent("onPostGridRender", grid, null);
 	}
 
 	/**
@@ -407,6 +405,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void setFocusToField() {
 		WEditor toFocus = null;
+		Label firstLabel = null;
 		for (WEditor editor : getEditors()) {
 			if (editor.isHasFocus()) {
 				toFocus = editor;
@@ -418,9 +417,16 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 					toFocus = editor;				
 				}
 			}
+			if (firstLabel == null) {
+				if (editor.getComponent() instanceof Label) {
+					firstLabel = (Label) editor.getComponent();
+				}
+			}
 		}		
 		if (toFocus != null)
 			Clients.response(new AuFocus(toFocus.getComponent()));
+		else if (firstLabel != null)
+			Clients.response(new AuFocus(firstLabel));
 	}
 	
 	/**
