@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -31,6 +31,11 @@ import org.compiere.util.Env;
  */
 public class MAging extends X_T_Aging
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3067400117623770188L;
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -89,9 +94,51 @@ public class MAging extends X_T_Aging
 	 *	@param C_Invoice_ID invoice
 	 *	@param C_InvoicePaySchedule_ID invoice schedule
 	 *	@param C_BP_Group_ID group
+	 *	@param AD_Org_ID organization
 	 *	@param DueDate due date
 	 *	@param IsSOTrx SO Trx
 	 *	@param trxName transaction
+	 */
+	public MAging (Properties ctx, int AD_PInstance_ID, Timestamp StatementDate, 
+		int C_BPartner_ID, int C_Currency_ID, 
+		int C_Invoice_ID, int C_InvoicePaySchedule_ID,
+		int C_BP_Group_ID, int AD_Org_ID, Timestamp DueDate, boolean IsSOTrx, String trxName)
+	{
+		this (ctx, 0, trxName);
+		setAD_PInstance_ID (AD_PInstance_ID);
+		setStatementDate(StatementDate);
+		//
+		setC_BPartner_ID (C_BPartner_ID);
+		setC_Currency_ID (C_Currency_ID);
+		setC_BP_Group_ID (C_BP_Group_ID);
+		setAD_Org_ID(AD_Org_ID);
+		setIsSOTrx (IsSOTrx);
+
+		//	Optional
+	//	setC_Invoice_ID (C_Invoice_ID);		// may be zero
+		set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
+	//	setC_InvoicePaySchedule_ID(C_InvoicePaySchedule_ID);	//	may be zero
+		set_Value ("C_InvoicePaySchedule_ID", new Integer(C_InvoicePaySchedule_ID));
+		setIsListInvoices(C_Invoice_ID != 0);
+		//
+		setDueDate(DueDate);		//	only sensible if List invoices
+	}	//	MAging
+
+	/**
+	 * 	Partial Constructor - backward compatibility
+	 *	@param ctx context
+	 *	@param AD_PInstance_ID instance
+	 *	@param StatementDate statement date
+	 *	@param C_BPartner_ID bpartner
+	 *	@param C_Currency_ID currency
+	 *	@param C_Invoice_ID invoice
+	 *	@param C_InvoicePaySchedule_ID invoice schedule
+	 *	@param C_BP_Group_ID group
+	 *	@param DueDate due date
+	 *	@param IsSOTrx SO Trx
+	 *	@param trxName transaction
+	 *
+	 * @deprecated - better use the new constructor with organization included
 	 */
 	public MAging (Properties ctx, int AD_PInstance_ID, Timestamp StatementDate, 
 		int C_BPartner_ID, int C_Currency_ID, 
@@ -116,7 +163,6 @@ public class MAging extends X_T_Aging
 		//
 		setDueDate(DueDate);		//	only sensible if List invoices
 	}	//	MAging
-
 	
 	/**
 	 * 	Load Constructor
