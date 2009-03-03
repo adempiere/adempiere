@@ -151,6 +151,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				renderer.stopEditing(false);
 			
 			listbox.setModel(listModel);
+			updateListIndex();
 		}
 	}
 
@@ -162,8 +163,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (pageSize > 0) {			
 			if (paging.getTotalSize() != gridTab.getRowCount())
 				paging.setTotalSize(gridTab.getRowCount());
-			int pgIndex = rowIndex % pageSize;
-			int pgNo = (rowIndex - pgIndex) / pageSize;
+			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
+			int pgNo = rowIndex >= 0 ? (rowIndex - pgIndex) / pageSize : 0;
 			
 			if (listModel.getPage() != pgNo) {
 				listModel.setPage(pgNo);
@@ -172,10 +173,20 @@ public class GridPanel extends Borderlayout implements EventListener
 				paging.setActivePage(pgNo);
 			}			
 			renderer.stopEditing(false);
-			listModel.updateComponent(pgIndex);
+			if (rowIndex >= 0 && pgIndex >= 0) {
+				listModel.updateComponent(pgIndex);
+				//this is needed to make focus and auto scroll work
+				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(pgIndex);
+				listbox.renderRow(row);
+			}
 		} else {
 			renderer.stopEditing(false);
-			listModel.updateComponent(rowIndex);
+			if (rowIndex >= 0) {
+				listModel.updateComponent(rowIndex);
+				//this is needed to make focus and auto scroll work
+				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(rowIndex);
+				listbox.renderRow(row);
+			}
 		}
 	}
 
@@ -228,7 +239,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setSortDescending(new SortComparator(i, false, Env.getLanguage(Env.getCtx())));
 				column.setLabel(gridField[i].getHeader());
 				int l = DisplayType.isNumeric(gridField[i].getDisplayType()) 
-					? 100 : gridField[i].getDisplayLength() * 9;
+					? 120 : gridField[i].getDisplayLength() * 9;
 				if (gridField[i].getHeader().length() * 9 > l)
 					l = gridField[i].getHeader().length() * 9;
 				if (l > MAX_COLUMN_WIDTH) 
@@ -278,6 +289,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (renderer != null)
 			renderer.stopEditing(false);
 		renderer = new GridTabRowRenderer(gridTab, windowNo);
+		renderer.setGridPanel(this);
 				
 		listbox.setRowRenderer(renderer);
 		listbox.setModel(listModel);		
@@ -295,13 +307,15 @@ public class GridPanel extends Borderlayout implements EventListener
 	{		
 		if (event == null)
 			return;		
-		else if (event.getTarget() == listbox)
+		else if (event.getTarget() == listbox && Events.ON_CLICK.equals(event.getName()))
 		{
 			Object data = event.getData();
 			if (data != null && data instanceof org.zkoss.zul.Row)
 			{
 				int index = listbox.getRows().getChildren().indexOf(data);
-				onSelectedRowChange(index);
+				if (index >= 0 ) {
+					onSelectedRowChange(index);
+				}
 			}
         }
 		else if (event.getTarget() == paging)
@@ -316,7 +330,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	private void onSelectedRowChange(int index) {
-		if (updateModelIndex(index)) {			
+		if (updateModelIndex(index)) {		
 			listModel.updateComponent(index);
 		} else if (!renderer.isInitialize()) {
 			listModel.updateComponent(index);
@@ -385,5 +399,11 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void setWindowNo(int windowNo) {
 		this.windowNo = windowNo;
+	}
+
+	@Override
+	public void focus() {
+		if (renderer != null)
+			renderer.setFocusToField();
 	}
 }

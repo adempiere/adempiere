@@ -335,10 +335,11 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof IDColumn)
 			{
 				listcell.setValue(((IDColumn) field).getRecord_ID());
-				if (!table.isCheckmark())
+				if (!table.isCheckmark()) {
 					table.setCheckmark(true);
-				table.removeEventListener(Events.ON_SELECT, this);
-				table.addEventListener(Events.ON_SELECT, this);
+					table.removeEventListener(Events.ON_SELECT, this);
+					table.addEventListener(Events.ON_SELECT, this);
+				}
 			}
 			else
 			{

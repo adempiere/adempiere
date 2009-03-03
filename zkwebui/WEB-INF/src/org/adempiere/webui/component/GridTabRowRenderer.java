@@ -16,6 +16,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,11 +34,13 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
 import org.compiere.util.NamePair;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Paging;
@@ -57,11 +60,14 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private GridTab gridTab;
 	private int windowNo;
 	private GridTabDataBinder dataBinder;
-	private Map<GridField, WEditor> editors = new HashMap<GridField, WEditor>();
+	private Map<GridField, WEditor> editors = new LinkedHashMap<GridField, WEditor>();
 	private Paging paging;
 
 	private Map<String, Map<Object, String>> lookupCache = null;
 	private RowListener rowListener;
+	
+	private Grid grid = null;
+	private GridPanel gridPanel = null;
 	
 	/**
 	 * 
@@ -285,10 +291,13 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void render(Row row, Object data) throws Exception {
 		//don't render if not visible
-		for(Component c = row.getParent(); c != null; c = c.getParent()) {
-			if (!c.isVisible())
-				return;
+		if (gridPanel != null && !gridPanel.isVisible()) {
+			return;
 		}
+		
+		if (grid == null)
+			grid = (Grid) row.getParent().getParent();
+		
 		if (rowListener == null)
 			rowListener = new RowListener((Grid)row.getParent().getParent());
 		
@@ -382,6 +391,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void doFinally() {
 		lookupCache = null;
+		if (grid != null)
+			Events.echoEvent("onPostGridRender", grid, null);
 	}
 
 	/**
@@ -389,6 +400,35 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 */
 	public void doTry() {
 		lookupCache = new HashMap<String, Map<Object,String>>();
+	}
+	
+	/**
+	 * set focus to first active editor
+	 */
+	public void setFocusToField() {
+		WEditor toFocus = null;
+		for (WEditor editor : getEditors()) {
+			if (editor.isHasFocus()) {
+				toFocus = editor;
+				break;
+			}
+			
+			if (toFocus == null) {
+				if (editor.isVisible() && editor.isReadWrite()) {
+					toFocus = editor;				
+				}
+			}
+		}		
+		if (toFocus != null)
+			Clients.response(new AuFocus(toFocus.getComponent()));
+	}
+	
+	/**
+	 * 
+	 * @param gridPanel
+	 */
+	public void setGridPanel(GridPanel gridPanel) {
+		this.gridPanel = gridPanel;
 	}
 	
 	class RowListener implements EventListener {
@@ -406,5 +446,5 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			}
 		}
 		
-	}
+	}	
 }

@@ -76,7 +76,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.ext.AfterCompose;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
@@ -90,7 +89,7 @@ import org.zkoss.zul.Vbox;
  *  @author     Sendy Yagambrum
  *  @date       June 27, 2007
  */
-public class FindWindow extends Window implements EventListener,ValueChangeListener, AfterCompose
+public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
     private static final long serialVersionUID = 1L;
     /** Main Window for the Lookup Panel   */
@@ -1666,10 +1665,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         }
     }
     
-    /**
-     * @see AfterCompose#afterCompose()
-     */
-	public void afterCompose() {
+	public void OnPostVisible() {
 		if (hasDocNo)
 			Clients.response(new AuFocus(fieldDocumentNo));
 		else if (hasValue)
@@ -1679,13 +1675,21 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 		else if (m_sEditors.size() > 0 && m_sEditors.get(0) != null)
 			Clients.response(new AuFocus(m_sEditors.get(0).getComponent()));
 	}
-    
+	
 	/**
 	 * 
 	 * @return true if dialog cancel by user, false otherwise
 	 */
 	public boolean isCancel() {
 		return m_isCancel;
+	}
+	@Override
+	public boolean setVisible(boolean visible) {
+		boolean ret = super.setVisible(visible);
+		if (ret && visible) {
+			Events.echoEvent("OnPostVisible", this, null);
+		}
+		return ret;
 	}
     
 }   //  FindPanel

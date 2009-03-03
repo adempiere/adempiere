@@ -709,7 +709,7 @@ DataStatusListener, IADTabpanel
         } else {
         	if (activate) {
         		formComponent.setVisible(activate);
-        		setInitialFocus();
+        		setFocusToField();
         	}
         }
         
@@ -730,14 +730,22 @@ DataStatusListener, IADTabpanel
 		panel.tabPanel.activate(activate);
 	}
     
-    private void setInitialFocus() {
+    private void setFocusToField() {
+    	WEditor toFocus = null;
 		for (WEditor editor : editors) {
-			if (editor.isVisible() && editor.isReadWrite()) {
-				Clients.response(new AuFocus(editor.getComponent()));
+			if (editor.isHasFocus()) {
+				toFocus = editor;
 				break;
 			}
+			if (toFocus == null) {
+				if (editor.isVisible() && editor.isReadWrite()) {
+					toFocus = editor;
+				}
+			}
 		}
-		
+		if (toFocus != null) {
+			Clients.response(new AuFocus(toFocus.getComponent()));
+		}
 	}
 
     /**
@@ -1027,6 +1035,14 @@ DataStatusListener, IADTabpanel
 		ep.group.appendChild(ep.windowPanel.getToolbar());
 		ep.windowPanel.getStatusBar().setZclass("z-group-foot");
 		ep.windowPanel.initPanel(-1, null);
+	}
+
+	@Override
+	public void focus() {
+		if (formComponent.isVisible())
+			this.setFocusToField();
+		else
+			listPanel.focus();
 	}
 }
 

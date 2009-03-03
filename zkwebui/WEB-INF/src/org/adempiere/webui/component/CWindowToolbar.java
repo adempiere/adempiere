@@ -27,12 +27,14 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
+import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -92,6 +94,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	private boolean isAllowProductInfo = MRole.getDefault().isAllow_Info_Product();
 
 	private int windowNo = 0;
+	
+	private IADTab adTab = null;
 	
 	/**	Last Modifier of Action Event					*/
 //	public int 				lastModifiers;
@@ -159,12 +163,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         
         // Help and Exit should always be enabled
         btnHelp.setDisabled(false);
-//        btnExit.setDisabled(false);
-        
-        // Testing Purposes
-        
         btnGridToggle.setDisabled(false);
-        
         btnZoomAcross.setDisabled(false);
                 
         btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
@@ -343,6 +342,12 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		    }
 		}
 		this.event = null;
+		if (adTab != null) {
+			IADTabpanel adTabPanel = adTab.getSelectedTabpanel();
+			if (adTabPanel != null && adTabPanel instanceof HtmlBasedComponent) {
+				((HtmlBasedComponent)adTabPanel).focus();
+			}
+		}
 	}
     
     public void enableHistoryRecords(boolean enabled)
@@ -520,6 +525,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param visible
+	 */
 	public void setVisibleAll(boolean visible)
 	{
 		for (ToolBarButton btn : buttons.values())
@@ -528,6 +537,11 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		}
 	}
 	
+	/**
+	 * 
+	 * @param buttonName
+	 * @param visible
+	 */
 	public void setVisible(String buttonName, boolean visible)
 	{
 		ToolBarButton btn = buttons.get(buttonName);
@@ -537,8 +551,20 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		}
 	}
 
+	/**
+	 * 
+	 * @param windowNo
+	 */
 	public void setWindowNo(int windowNo) {
 		this.windowNo = windowNo;
+	}
+
+	/**
+	 * 
+	 * @param adTab
+	 */
+	public void setADTab(IADTab adTab) {
+		this.adTab = adTab;
 	}
 	
 }

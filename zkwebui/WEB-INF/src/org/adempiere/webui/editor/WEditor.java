@@ -33,7 +33,9 @@ import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Image;
 
 /**
@@ -69,6 +71,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     private boolean updateable;
 
     private String columnName;
+
+	protected boolean hasFocus;
 
     /**
      * 
@@ -196,6 +200,18 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         {
             component.addEventListener(event, this);
         }
+        component.addEventListener(Events.ON_FOCUS, new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				hasFocus = true;
+			}
+        	
+        });
+        component.addEventListener(Events.ON_BLUR, new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				hasFocus = false;
+			}
+        	
+        });
     }
 
     /**
@@ -458,4 +474,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         	}
         }
     }
+
+	public boolean isHasFocus() {
+		return hasFocus;
+	}
 }

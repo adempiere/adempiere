@@ -71,6 +71,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -183,6 +184,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 		adTab = createADTab();
 		adTab.addSelectionEventListener(this);
+		
+		toolbar.setADTab(adTab);
         
         return super.createPart(parent);
     }
@@ -473,7 +476,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (curInd > 0)
         {
             setActiveTab(curInd - 1);
-        }        
+        }     
     }
 
     /**
@@ -597,7 +600,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			+ ", MaxRows=" + maxRows);
 		
 		curTab.query(m_onlyCurrentRows, onlyCurrentDays, maxRows);
-
+		
     }
     
     /**
@@ -620,6 +623,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 		curTab.loadAttachments();				//	reload
 		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
+		
 	}
     
     /**
@@ -627,7 +631,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public void onToggle()
     {
-    	curTabpanel.switchRowPresentation();    	
+    	curTabpanel.switchRowPresentation();
     }
     
     public boolean onExit()
@@ -1038,6 +1042,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         FindWindow find = new FindWindow (curTab.getWindowNo(), curTab.getName(),
             curTab.getAD_Table_ID(), curTab.getTableName(), 
             curTab.getWhereExtended(), findFields, 1, curTab.getAD_Tab_ID());
+        find.setVisible(true);
         AEnv.showWindow(find);
         MQuery query = find.getQuery();
         
@@ -1052,6 +1057,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         }
         
         curTab.dataRefresh(); // Elaine 2008/07/25
+        
     }
     
     /**

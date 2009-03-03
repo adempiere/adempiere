@@ -18,6 +18,7 @@
 package org.adempiere.webui.component;
 
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zul.RowRenderer;
 
 /**
  *
@@ -50,5 +51,15 @@ public class Grid extends org.zkoss.zul.Grid
 			rows.setNoStrip(true);
 		}
 		return b;
+	}
+	
+	/**
+	 * Don't call this directly, only use by GridTabRowRenderer to send post render event
+	 */
+	public void onPostGridRender() {
+		RowRenderer renderer = this.getRowRenderer();
+		if (renderer instanceof GridTabRowRenderer) {
+			((GridTabRowRenderer)renderer).setFocusToField();
+		}
 	}
 }
