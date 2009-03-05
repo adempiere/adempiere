@@ -25,6 +25,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Image;
@@ -81,14 +82,26 @@ public class HeaderPanel extends Panel implements EventListener
     	//the following doesn't work when declare as part of the header-left style
     	west.setStyle("background-color: transparent; border: none;");
     	
-    	East east = new East();
-    	east.setParent(layout);
-    	userPanel.setParent(east);
+    	// Elaine 2009/03/02
+    	Center center = new Center();
+    	center.setParent(layout);
+    	userPanel.setParent(center);
+    	userPanel.setWidth("100%");
     	userPanel.setHeight("100%");
-    	east.setFlex(true);
-    	LayoutUtils.addSclass("header-right", east);
+    	userPanel.setStyle("position: absolute");
+    	center.setFlex(true);
+    	LayoutUtils.addSclass("header-right", center);
     	//the following doesn't work when declare as part of the header-right style
-    	east.setStyle("background-color: transparent; border: none;");
+    	center.setStyle("background-color: transparent; border: none;");
+    	
+//    	East east = new East();
+//    	east.setParent(layout);
+//    	userPanel.setParent(east);
+//    	userPanel.setHeight("100%");
+//    	east.setFlex(true);
+//    	LayoutUtils.addSclass("header-right", east);
+//    	//the following doesn't work when declare as part of the header-right style
+//    	east.setStyle("background-color: transparent; border: none;");
     }
 
 	public void onEvent(Event event) throws Exception {
