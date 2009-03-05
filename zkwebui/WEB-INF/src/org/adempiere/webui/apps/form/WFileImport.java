@@ -22,7 +22,6 @@
 package org.adempiere.webui.apps.form;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -37,9 +36,7 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.ReaderInputStream;
@@ -56,6 +53,11 @@ import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Fileupload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
@@ -104,13 +106,11 @@ public class WFileImport extends ADForm implements EventListener
 	private Label record = new Label();
 	private Label labelFormat = new Label();
 
-	private VerticalBox previewPanel = new VerticalBox();
+	private Div previewPanel = new Div();
 
 	private Hbox northPanel = new Hbox();
 
-	private Panel rawDataPane = new Panel();
-
-	private VerticalBox centerPanel = new VerticalBox();
+	private Div centerPanel = new Div();
 
 	public WFileImport()
 	{
@@ -133,11 +133,20 @@ public class WFileImport extends ADForm implements EventListener
 			this.setTitle("Import File Loader");
 			this.setBorder("normal");
 			
-			this.appendChild(northPanel);
-			this.appendChild(new Separator());
-			this.appendChild(centerPanel);
-			this.appendChild(new Separator());
-			this.appendChild(confirmPanel);
+			Borderlayout layout = new Borderlayout();
+			layout.setHeight("100%");
+			layout.setWidth("100%");
+			this.appendChild(layout);
+			North north = new North();
+			layout.appendChild(north);
+			north.appendChild(northPanel);
+			Center center = new Center();
+			center.setFlex(true);
+			layout.appendChild(center);
+			center.appendChild(centerPanel);
+			South south = new South();
+			layout.appendChild(south);
+			south.appendChild(confirmPanel);
 		}
 		catch(Exception e)
 		{
@@ -173,14 +182,12 @@ public class WFileImport extends ADForm implements EventListener
 		pickFormat.setRows(0);
 		
 		bNext.setTooltiptext(Msg.getMsg(Env.getCtx(), "Next"));
-		//bNext.setMargin(new Insets(2, 2, 2, 2));
 		bNext.setLabel(">");
 		bNext.addEventListener(Events.ON_CLICK, this);
 		
 		record.setValue("------");
 		
 		bPrevious.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
-		//bPrevious.setMargin(new Insets(2, 2, 2, 2));
 		bPrevious.setLabel("<");
 		bPrevious.addEventListener(Events.ON_CLICK, this);
 		
@@ -196,20 +203,18 @@ public class WFileImport extends ADForm implements EventListener
 		rawData.setWidth("100%");
 		rawData.setCols(80);
 		rawData.setRows(MAX_SHOWN_LINES);
+		rawData.setHeight("40%");
 		
 		previewPanel.setWidth("100%");
+		previewPanel.setHeight("58%");
+		previewPanel.setStyle("overflow: auto");
 		
 		centerPanel.setWidth("100%"); // Elaine 2008/11/07 - fix text area is not expanded in IE7
+		centerPanel.setHeight("100%");
 		centerPanel.appendChild(rawData);
 		centerPanel.appendChild(new Separator());
 		centerPanel.appendChild(previewPanel);
 		
-		//previewPanel.setLayout(previewLayout);
-		//previewPane.getViewport().add(previewPanel, null);
-		//previewPane.setPreferredSize(new Dimension(700,80));
-		
-		//confirmPanel.getButton("Ok").addEventListener(Events.ON_CLICK, this);
-		//confirmPanel.getButton("Cancel").addEventListener(Events.ON_CLICK, this);
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
 	}
 	
@@ -291,20 +296,7 @@ public class WFileImport extends ADForm implements EventListener
 		{
 			confirmPanel.setEnabled("Ok", false);
 
-			cmd_process();
-			
-			/*org.compiere.apps.SwingWorker worker = new org.compiere.apps.SwingWorker()
-			{
-				public Object construct()
-			    {
-			    	cmd_process();
-					return Boolean.TRUE;
-				}
-			};*/
-			//worker.start();
-
-			//  when you need the result:
-			//	x = worker.get();   //  this blocks the UI !!
+			cmd_process();			
 		}
 		else if (e.getTarget() == confirmPanel.getButton("Cancel"))
 		{
@@ -325,11 +317,6 @@ public class WFileImport extends ADForm implements EventListener
 	
 	private void cmd_loadFile()
 	{
-		String directory = org.compiere.Adempiere.getAdempiereHome() 
-			+ File.separator + "data" 
-			+ File.separator + "import";
-		log.config(directory);
-		
 		Media media = null;
 		
 		try 
@@ -461,11 +448,9 @@ public class WFileImport extends ADForm implements EventListener
 			Hbox hbox = new Hbox();
 			hbox.setWidth("100%");
 			hbox.setWidths("30%, 70%");
+			hbox.setStyle("padding-bottom: 3px");
 			
-			//previewPanel.add(m_labels[i], new GridBagConstraints(i, 0, 1, 1, 1.0, 1.0,
-			//	GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(2, 2, 2, 2), 0, 0));
-			
-			hbox.appendChild(m_labels[i]);
+			hbox.appendChild(m_labels[i].rightAlign());
 			
 			int length = row.getEndNo() - row.getStartNo();
 			
@@ -475,11 +460,9 @@ public class WFileImport extends ADForm implements EventListener
 				length = 20;
 			
 			m_fields[i] = new Textbox();
+			m_fields[i].setStyle("margin-left: 2px");
 			
 			hbox.appendChild(m_fields[i]);
-			
-			//previewPanel.add(m_fields[i], new GridBagConstraints(i, 1, 1, 1, 1.0, 1.0,
-			//	GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0));
 			
 			previewPanel.appendChild(hbox);
 		}
