@@ -1044,20 +1044,21 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             curTab.getWhereExtended(), findFields, 1, curTab.getAD_Tab_ID());
         find.setVisible(true);
         AEnv.showWindow(find);
-        MQuery query = find.getQuery();
         
-        find = null;
-
-        //  Confirmed query
-        if (query != null)
+        if (!find.isCancel()) 
         {
-            m_onlyCurrentRows = false;          //  search history too
-            curTab.setQuery(query);
-            curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
-        }
-        
-        curTab.dataRefresh(); // Elaine 2008/07/25
-        
+	        MQuery query = find.getQuery();
+	        
+	        //  Confirmed query
+	        if (query != null)
+	        {
+	            m_onlyCurrentRows = false;          //  search history too
+	            curTab.setQuery(query);
+	            curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
+	        }
+	        
+	        curTab.dataRefresh(); // Elaine 2008/07/25
+        }        
     }
     
     /**
