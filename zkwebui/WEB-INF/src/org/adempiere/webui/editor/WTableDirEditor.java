@@ -308,8 +308,9 @@ ContextMenuListener, IZoomableEditor
     	}
     }
 
-	private boolean isValueChange(Object newValue) {
-		return (oldValue == null && newValue != null) || (oldValue != null && newValue == null) || (!oldValue.equals(newValue));
+    private boolean isValueChange(Object newValue) {
+		return (oldValue == null && newValue != null) || (oldValue != null && newValue == null) 
+			|| ((oldValue != null && newValue != null) && !oldValue.equals(newValue));
 	}
     
     public String[] getEvents()
