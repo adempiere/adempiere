@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -265,7 +265,7 @@ public class InventoryValue extends SvrProcess
 					+ "FROM C_AcctSchema acs WHERE acs.C_AcctSchema_ID=" + as.getC_AcctSchema_ID() + ") "
 				+ "WHERE AD_PInstance_ID=" + getAD_PInstance_ID());
 			no = DB.executeUpdate (sql.toString(), get_TrxName());
-			log.fine("Convered=" + no);
+			log.fine("Converted=" + no);
 		}
 		
 		//  Update Values
