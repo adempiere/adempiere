@@ -5,7 +5,7 @@
 # mode (the default mode -- this strips out all the "commit" statements)
 # and a commit mode for deployment. You need to pipe the output of this
 # script into sqlplus, for example:
-# ./migrate.sh 313-314 commit | psql -U adempiere -d adempiere > 313-314.lst
+# ./migrate_postgresql.sh 313-314 commit | psql -U adempiere -d adempiere > 313-314.lst
 
 # Original contribution by by Chris Farley - northernbrewer
 # Adapted to postgresql by Carlos Ruiz - globalqss
