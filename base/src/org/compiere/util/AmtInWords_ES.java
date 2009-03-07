@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -37,20 +37,20 @@ public class AmtInWords_ES implements AmtInWords
 		"", 
 		" MIL", 
 		" MILL\u00d3N",
+		" MILLARDO", 
 		" BILL\u00d3N", 
-		" TRILL\u00d3N", 
-		" CUATRILL\u00d3N", 
-		" QUINTILL\u00d3N"  
+		" BILLARDO", 
+		" TRILL\u00d3N"  
 		};
 
 	private static final String[]	majorNamesPlural	= {
 		"", 
 		" MIL", 
 		" MILLONES",
+		" MILLARDOS", 
 		" BILLONES", 
-		" TRILLONES", 
-		" CUATRILLONES", 
-		" QUINTILLONES"  
+		" BILLARDOS", 
+		" TRILLONES"  
 		};
 
 	private static final String[]	tensNames	= { 
@@ -133,7 +133,7 @@ public class AmtInWords_ES implements AmtInWords
 	 *	@param number
 	 *	@return amt
 	 */
-	private String convert (int number)
+	private String convert (long number)
 	{
 		/* special case */
 		if (number == 0)
@@ -148,10 +148,10 @@ public class AmtInWords_ES implements AmtInWords
 		int place = 0;
 		do
 		{
-			int n = number % 1000;
+			long n = number % 1000;
 			if (n != 0)
 			{
-				String s = convertLessThanOneThousand (n);
+				String s = convertLessThanOneThousand ((int)n);
 				if (s.startsWith ("UN CIENTO", 1))
 				{
 					s = s.replaceFirst ("UN CIENTO", "CIEN");
@@ -230,7 +230,7 @@ public class AmtInWords_ES implements AmtInWords
 		else
 			newpos = amount.lastIndexOf (',');
 		
-		int pesos = Integer.parseInt (amount.substring (0, newpos));
+		long pesos = Long.parseLong(amount.substring (0, newpos));
 		sb.append (convert (pesos));
 		for (int i = 0; i < oldamt.length (); i++)
 		{
@@ -250,8 +250,8 @@ public class AmtInWords_ES implements AmtInWords
 	public static void main(String[] args) throws Exception {
 		AmtInWords_ES aiw = new AmtInWords_ES();
 		// for (int i=0; i<=2147000000; i++)
-			// System.out.println(aiw.getAmtInWords(i+",00"));	
-		System.out.println(aiw.getAmtInWords("2147483647,99"));
+			// System.out.println(aiw.getAmtInWords(i+",00"));
+		System.out.println(aiw.getAmtInWords("9223372036854775807.99"));
 	}
 	
 }	//	AmtInWords_ES
