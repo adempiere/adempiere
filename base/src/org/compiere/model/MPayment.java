@@ -1599,6 +1599,11 @@ public final class MPayment extends X_C_Payment
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 
+		if (! MPaySelectionCheck.deleteGeneratedDraft(getCtx(), getC_Payment_ID(), get_TrxName())) {
+			m_processMsg = "Could not delete draft generated payment selection lines";
+			return DocAction.STATUS_Invalid;
+		}
+
 		//	Std Period open?
 		if (!MPeriod.isOpen(getCtx(), getDateAcct(), 
 			isReceipt() ? X_C_DocType.DOCBASETYPE_ARReceipt : X_C_DocType.DOCBASETYPE_APPayment, getAD_Org_ID()))
@@ -1606,7 +1611,7 @@ public final class MPayment extends X_C_Payment
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-		
+
 		//	Unsuccessful Online Payment
 		if (isOnline() && !isApproved())
 		{
