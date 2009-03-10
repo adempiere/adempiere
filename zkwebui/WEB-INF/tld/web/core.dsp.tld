@@ -211,6 +211,16 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	<!-- String Utilities -->
 	<!--                  -->
 	<function>
+		<name>eatQuot</name>
+		<function-class>org.zkoss.xel.fn.StringFns</function-class>
+		<function-signature>
+	java.lang.String eatQuot(java.lang.String)
+		</function-signature>
+		<description>
+	Eliminates single and double quotations to avoid JavaScript injection.
+		</description>
+	</function>
+	<function>
 		<name>cat</name>
 		<function-class>org.zkoss.xel.fn.StringFns</function-class>
 		<function-signature>

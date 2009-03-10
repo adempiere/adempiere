@@ -347,6 +347,18 @@
     <!--
     ATTRIBUTEGROUP
     -->
+	<xs:attributeGroup name="mouseAttrGroup">
+		<xs:attribute name="onClick" use="optional"/>
+		<xs:attribute name="onRightClick" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="mouseExtAttrGroup">
+		<xs:attributeGroup ref="mouseAttrGroup" />
+		<xs:attribute name="onDoubleClick" use="optional"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="rootAttrGroup">
+		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
+		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+	</xs:attributeGroup>
 	<xs:attributeGroup name="zkAttrGroup">
 		<xs:attribute name="apply" type="xs:string" use="optional" />
 		<xs:attribute name="forEach" type="xs:string" use="optional" />
@@ -411,6 +423,7 @@
 	<xs:attributeGroup name="labelElementAttrGroup">
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="label" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="labelImageElementAttrGroup">
 		<xs:attributeGroup ref="labelElementAttrGroup" />
@@ -587,8 +600,7 @@
 		<xs:attribute name="border" type="xs:string" use="optional" />
 		<xs:attribute name="src" type="xs:string" use="optional" />
 		<xs:attribute name="autostart" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- auxhead -->
 	<xs:element name="auxhead" type="auxheadType" />
@@ -629,8 +641,7 @@
 		<xs:attribute name="type" type="textboxTypeAttrType" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="onOK" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- bandpopup -->
@@ -666,8 +677,7 @@
 		<xs:attribute name="spacing" type="xs:string" use="optional" />
 		<xs:attribute name="widths" type="xs:string" use="optional" />
 		<xs:attribute name="heights" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="align" type="packAttrType" use="optional" />
 		<xs:attribute name="pack" type="packAttrType" use="optional" />
 	</xs:complexType>
@@ -683,8 +693,7 @@
 		<xs:attribute name="disabled" type="booleanType" use="optional" />
 		<xs:attribute name="readonly" type="booleanType" use="optional" />
 		<xs:attribute name="tabindex" type="intType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- calendar -->
 	<xs:element name="calendar" type="calendarType" />
@@ -696,8 +705,7 @@
 		<xs:attribute name="compact" type="booleanType" use="optional" />
 		<xs:attribute name="timeZone" type="xs:string" use="optional" />
 		<xs:attribute name="onChange" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- caption -->
 	<xs:element name="caption" type="captionType" />
@@ -745,10 +753,8 @@
 		<xs:attribute name="timeZone" type="xs:string" use="optional" />
 		<xs:attribute name="period" type="chartPeriodAttrType" use="optional" />
 		<xs:attribute name="areaListener" type="xs:string" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- checkbox -->
 	<xs:element name="checkbox" type="checkboxType" />
@@ -761,8 +767,7 @@
 		<xs:attribute name="readonly" type="booleanType" use="optional" />
 		<xs:attribute name="tabindex" type="intType" use="optional" />
 		<xs:attribute name="onCheck" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- column -->
 	<xs:element name="column" type="columnType" />
@@ -773,6 +778,7 @@
 		<xs:attribute name="sortAscending" type="xs:string" use="optional" />
 		<xs:attribute name="sortDescending" type="xs:string" use="optional" />
 		<xs:attribute name="onSort" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- columnchildren -->
 	<xs:element name="columnchildren" type="columnchildrenType" />
@@ -801,6 +807,7 @@
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="sizable" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- combobox -->
 	<xs:element name="combobox" type="comboboxType" />
@@ -823,8 +830,7 @@
 		<xs:attribute name="selectedIndex" type="intType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 		<xs:attribute name="onSelect" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- comboitem -->
 	<xs:element name="comboitem" type="comboitemType" />
@@ -854,8 +860,7 @@
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
 		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- decimalbox -->
 	<xs:element name="decimalbox" type="decimalboxType" />
@@ -865,8 +870,7 @@
 		<xs:attribute name="constraint" type="numberConstraintAttrType" use="optional" />
 		<xs:attribute name="value" type="decimalType" use="optional" />
 		<xs:attribute name="scale" type="intType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     
     <!-- detail -->
@@ -885,11 +889,8 @@
 		<xs:group ref="anyGroup" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="align" type="divAlignAttrType" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- doublebox -->
 	<xs:element name="doublebox" type="doubleboxType" />
@@ -898,8 +899,7 @@
 		<xs:attributeGroup ref="formatInputElementAttrGroup" />
 		<xs:attribute name="constraint" type="numberConstraintAttrType" use="optional" />
 		<xs:attribute name="value" type="doubleType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- east -->
 	<xs:element name="east" type="eastType" />
@@ -1119,8 +1119,7 @@
 		<xs:attribute name="fixedLayout" type="booleanType" use="optional" />
 		<xs:attribute name="oddRowSclass" type="xs:string" use="optional" />
 		<xs:attribute name="onPaging" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="preloadSize" type="intType" use="optional" />
 	</xs:complexType>
 
@@ -1138,12 +1137,9 @@
 		<xs:attribute name="open" type="booleanType" use="optional" />
 		<xs:attribute name="closable" type="booleanType" use="optional" />
 		<xs:attribute name="contentStyle" type="xs:string" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- hbox -->
     <!-- group -->
@@ -1184,8 +1180,7 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="spacing" type="xs:string" use="optional" />
 		<xs:attribute name="widths" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="align" type="packAttrType" use="optional" />
 		<xs:attribute name="pack" type="packAttrType" use="optional" />
 	</xs:complexType>
@@ -1195,8 +1190,7 @@
 		<xs:group ref="baseGroup" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="content" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- iframe -->
 	<xs:element name="iframe" type="iframeType" />
@@ -1208,8 +1202,7 @@
 		<xs:attribute name="scrolling" type="iframeScrollingAttrType" use="optional" />
 		<xs:attribute name="align" type="alignAttrType" use="optional" />
 		<xs:attribute name="autohide" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="onURIChange" type="xs:string" use="optional" />
 	</xs:complexType>
 	<xs:simpleType name="iframeScrollingAttrType">
@@ -1239,11 +1232,8 @@
 		<xs:attribute name="align" type="alignAttrType" use="optional" />
 		<xs:attribute name="hspace" type="xs:string" use="optional" />
 		<xs:attribute name="vspace" type="xs:string" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- imagemap -->
 	<xs:element name="imagemap" type="imagemapType" />
@@ -1259,10 +1249,8 @@
 		<xs:attribute name="hspace" type="xs:string" use="optional" />
 		<xs:attribute name="vspace" type="xs:string" use="optional" />
 		<xs:attribute name="content" type="xs:string" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- include -->
 	<xs:element name="include" type="includeType" />
@@ -1272,8 +1260,7 @@
 		<xs:attribute name="src" type="xs:string" use="optional" />
 		<xs:attribute name="localized" type="booleanType" use="optional" />
 		<xs:attribute name="progressing" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- intbox -->
 	<xs:element name="intbox" type="intboxType" />
@@ -1282,8 +1269,7 @@
 		<xs:attributeGroup ref="formatInputElementAttrGroup" />
 		<xs:attribute name="constraint" type="numberConstraintAttrType" use="optional" />
 		<xs:attribute name="value" type="intType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- longbox -->
 	<xs:element name="longbox" type="longboxType" />
@@ -1292,8 +1278,7 @@
 		<xs:attributeGroup ref="formatInputElementAttrGroup" />
 		<xs:attribute name="constraint" type="numberConstraintAttrType" use="optional" />
 		<xs:attribute name="value" type="longType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- label -->
 	<xs:element name="label" type="labelType" />
@@ -1303,11 +1288,8 @@
 		<xs:attribute name="value" type="xs:string" use="optional" />
 		<xs:attribute name="multiline" type="booleanType" use="optional" />
 		<xs:attribute name="maxlength" type="intType" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- listbox -->
 	<xs:element name="listbox" type="listboxType" />
@@ -1383,8 +1365,7 @@
 		<xs:attribute name="itemRenderer" type="xs:string" use="optional" />
 		<xs:attribute name="fixedLayout" type="booleanType" use="optional" />
 		<xs:attribute name="onSelect" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="pagingPosition" type="listboxPagingPositionAttrType" use="optional" />
 		<xs:attribute name="preloadSize" type="intType" use="optional" />
 		<xs:attribute name="innerWidth" type="xs:string" use="optional" />
@@ -1470,6 +1451,7 @@
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="sizable" type="booleanType" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- listheader -->
 	<xs:element name="listheader" type="listheaderType" />
@@ -1482,6 +1464,7 @@
 		<xs:attribute name="sortDescending" type="xs:string" use="optional" />
 		<xs:attribute name="maxlength" type="intType" use="optional" />
 		<xs:attribute name="onSort" type="xs:string" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- listitem -->
 	<xs:element name="listitem" type="listitemType" />
@@ -1520,8 +1503,7 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="autodrop" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- menuitem -->
 	<xs:element name="menuitem" type="menuitemType" />
@@ -1642,8 +1624,7 @@
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
 	<!-- portalchildren -->
 	<xs:element name="portalchildren" type="portalchildrenType" />
@@ -1690,8 +1671,7 @@
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="onCheck" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- row -->
 	<xs:element name="row" type="rowType" />
@@ -1756,8 +1736,7 @@
 		<xs:attribute name="spacing" type="xs:string" use="optional" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="bar" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- slider -->
 	<xs:element name="slider" type="sliderType" />
@@ -1772,8 +1751,7 @@
 		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
 		<xs:attribute name="onScroll" type="xs:string" use="optional" />
 		<xs:attribute name="onScrolling" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- south -->
 	<xs:element name="south" type="southType" />
@@ -1803,8 +1781,7 @@
 		<xs:attribute name="spacing" type="xs:string" use="optional" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="bar" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- spinner -->
 	<xs:element name="spinner" type="spinnerType" />
@@ -1814,7 +1791,7 @@
 		<xs:attribute name="constraint" type="constraintAttrType" use="optional" />
 		<xs:attribute name="buttonVisible" type="xs:string" use="optional" />
 		<xs:attribute name="image" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="step" type="xs:integer" use="optional" />
 		<xs:attribute name="value" type="xs:dateTime" use="optional" />
 	</xs:complexType>
@@ -1863,17 +1840,14 @@
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
 		<xs:attribute name="onSelect" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- tabpanel -->
 	<xs:element name="tabpanel" type="tabpanelType" />
 	<xs:complexType name="tabpanelType" mixed="true">
 		<xs:group ref="anyGroup" minOccurs="0" maxOccurs="unbounded" />
 		<xs:attributeGroup ref="xulElementAttrGroup" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 	</xs:complexType>
     <!-- tabpanels -->
 	<xs:element name="tabpanels" type="tabpanelsType" />
@@ -1897,7 +1871,10 @@
     <!-- tablechildren -->
 	<xs:element name="tablechildren" type="tablechildrenType" />
 	<xs:complexType name="tablechildrenType">
-		<xs:group ref="anyGroup" minOccurs="0" maxOccurs="unbounded" />
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:group ref="baseGroup" />
+			<xs:element ref="panel" />
+		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 	</xs:complexType>
     
@@ -1920,8 +1897,8 @@
 		<xs:attribute name="type" type="textboxTypeAttrType" use="optional" />
 		<xs:attribute name="rows" type="intType" use="optional" />
 		<xs:attribute name="multiline" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attribute name="tabbable" type="booleanType" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- timer -->
 	<xs:element name="timer" type="timerType" />
@@ -1932,8 +1909,7 @@
 		<xs:attribute name="repeats" type="booleanType" use="optional" />
 		<xs:attribute name="running" type="booleanType" use="optional" />
 		<xs:attribute name="onTimer" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- timebox -->
 	<xs:element name="timebox" type="timeboxType" />
@@ -1945,8 +1921,7 @@
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
 		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="timeZone" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- toolbar -->
 	<xs:element name="toolbar" type="toolbarType" />
@@ -1959,11 +1934,8 @@
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- toolbarbutton -->
 	<xs:element name="toolbarbutton" type="toolbarbuttonType" />
@@ -1976,8 +1948,7 @@
 		<xs:attribute name="target" type="xs:string" use="optional" />
 		<xs:attribute name="tabindex" type="intType" use="optional" />
 		<xs:attribute name="disabled" type="booleanType" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- tree -->
 	<xs:element name="tree" type="treeType" />
@@ -2111,8 +2082,7 @@
 		<xs:attribute name="vflex" type="booleanType" use="optional" />
 		<xs:attribute name="fixedLayout" type="booleanType" use="optional" />
 		<xs:attribute name="onSelect" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="model" type="xs:string" use="optional" />
 		<xs:attribute name="treeitemRenderer" type="xs:string" use="optional" />
 	</xs:complexType>
@@ -2206,6 +2176,7 @@
 			<xs:element ref="treecell" />
 		</xs:choice>
 		<xs:attributeGroup ref="xulElementAttrGroup" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 	</xs:complexType>
     <!-- variables -->
 	<xs:element name="variables" type="variablesType" />
@@ -2222,8 +2193,7 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="spacing" type="xs:string" use="optional" />
 		<xs:attribute name="heights" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 		<xs:attribute name="align" type="packAttrType" use="optional" />
 		<xs:attribute name="pack" type="packAttrType" use="optional" />
 	</xs:complexType>
@@ -2274,9 +2244,7 @@
 		<xs:attribute name="minimized" type="booleanType" use="optional" />
 		<xs:attribute name="minimizable" type="booleanType" use="optional" />
 		<xs:attribute name="contentSclass" type="xs:string" use="optional" />
-		<xs:attribute name="onClick" type="xs:string" use="optional" />
-		<xs:attribute name="onRightClick" type="xs:string" use="optional" />
-		<xs:attribute name="onDoubleClick" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="mouseExtAttrGroup" />
 		<xs:attribute name="onOK" type="xs:string" use="optional" />
 		<xs:attribute name="onCancel" type="xs:string" use="optional" />
 		<xs:attribute name="onCtrlKey" type="xs:string" use="optional" />
@@ -2284,8 +2252,7 @@
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 		<xs:attribute name="onClose" type="xs:string" use="optional" />
 		<xs:attribute name="onZIndex" type="xs:string" use="optional" />
-		<xs:attribute name="onBookmarkChange" type="xs:string" use="optional" />
-		<xs:attribute name="onClientInfo" type="xs:string" use="optional" />
+		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
 	<xs:simpleType name="windowActionOnShowAttrType">
 		<xs:union>

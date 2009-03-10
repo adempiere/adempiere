@@ -74,17 +74,15 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</description>
 	</function>
 	<function>
-		<name>outDeviceStyleSheets</name>
+		<name>outHtmlUnavailable</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
-	java.lang.String outDeviceStyleSheets(java.lang.String deviceType)
+	java.lang.String outHtmlUnavailable(org.zkoss.zk.ui.Page)
 		</function-signature>
 		<description>
-	Returns HTML tags to include all style sheets used by the specified device.
-	Note: unlike outLangStyleSheets, it can be called without current execution.
+	Generates the unavailable message in HTML tags, if any.
 		</description>
 	</function>
-
 	<function>
 		<name>outHeaders</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
@@ -151,17 +149,6 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	</function>
 
 	<function>
-		<name>outLocaleJavaScript</name>
-		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
-		<function-signature>
-	java.lang.String outLocaleJavaScript()
-		</function-signature>
-		<description>
-	Returns date relevant labels in JavaScript.
-		</description>
-	</function>
-
-	<function>
 		<name>outPageAttrs</name>
 		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
 		<function-signature>
@@ -202,6 +189,30 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</function-signature>
 		<description>
 	Returns only the class and style attributes from the specified one.
+		</description>
+	</function>
+
+	<!-- DSP only -->
+	<function>
+		<name>outLocaleJavaScript</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	java.lang.String outLocaleJavaScript()
+		</function-signature>
+		<description>
+	Returns date relevant labels in JavaScript.
+		</description>
+	</function>
+	<function>
+		<name>outDeviceStyleSheets</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	java.lang.String outDeviceStyleSheets(java.lang.String)
+		</function-signature>
+		<description>
+	Returns HTML tags to include all style sheets used by the specified device.
+	Note: unlike outLangStyleSheets, it can be called without current execution.
+	@param deviceType the device type. If null, "ajax" is assumed.
 		</description>
 	</function>
 </taglib>
