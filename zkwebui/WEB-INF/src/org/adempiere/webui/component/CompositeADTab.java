@@ -27,6 +27,7 @@ import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Div;
 
 /**
  *
@@ -44,7 +45,7 @@ public class CompositeADTab extends AbstractADTab
     
     private List<ADTabListModel.ADTabLabel> tabLabelList = new ArrayList<ADTabListModel.ADTabLabel>();
 
-    private Window window;
+    private Div div;
 	
 	protected ADButtonTabList tabList;
     
@@ -56,20 +57,19 @@ public class CompositeADTab extends AbstractADTab
     
     protected Component doCreatePart(Component parent)
     {
-    	window = new Window();
+    	div= new Div();
     	if (parent != null) {
-    		window.setParent(parent);
-    		LayoutUtils.addSclass("adtab-body", window);
-    		window.setContentSclass("adtab-body");
+    		div.setParent(parent);
+    		LayoutUtils.addSclass("adtab-body", div);
     	} else {
-    		window.setPage(page);
+    		div.setPage(page);
     	}
-    	return window;
+    	return div;
     }
     
     @Override
 	protected void doAddTab(GridTab gTab, IADTabpanel tabPanel) {
-    	tabPanel.setParent(window);
+    	tabPanel.setParent(div);
         tabPanel.setVisible(false);
         
         ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel());
@@ -140,6 +140,6 @@ public class CompositeADTab extends AbstractADTab
 	}
 
 	public Component getComponent() {
-		return window;
+		return div;
 	}	
 }

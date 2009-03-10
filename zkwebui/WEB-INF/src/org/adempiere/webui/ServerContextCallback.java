@@ -15,9 +15,9 @@ package org.adempiere.webui;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 
-import net.sf.cglib.proxy.InvocationHandler;
-
 import org.adempiere.webui.session.ServerContext;
+
+import net.sf.cglib.proxy.InvocationHandler;
 
 /**
  * Intercaptor for Server context properties that delegate to the threadlocal instance
@@ -31,6 +31,18 @@ public class ServerContextCallback implements InvocationHandler, Serializable {
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
 		ServerContext context = ServerContext.getCurrentInstance();
+		//optimize for the 2 most common access
+		if (method.getName().equals("getProperty")) {
+			Class<?>[] types = method.getParameterTypes();
+			if (types != null && types.length == 1 && types[0] == String.class &&
+				args != null && args.length == 1 && args[0] instanceof String) {
+				return context.getProperty((String)args[0]);
+			}
+			else if (types != null && types.length == 2 && types[0] == String.class &&
+					types[1] == String.class && args != null && args[0] instanceof String &&
+					args[1] instanceof String)
+				return context.getProperty((String)args[0], (String)args[1]);
+		}
 		Method m = context.getClass().getMethod(method.getName(), method.getParameterTypes());
 		return m.invoke(context, args);
 	}

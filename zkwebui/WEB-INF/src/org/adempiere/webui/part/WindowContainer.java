@@ -13,24 +13,19 @@
 
 package org.adempiere.webui.part;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Tab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zkex.zul.Borderlayout;
 
 /**
  * 
  * @author Low Heng Sin
  *
  */
-public class WindowContainer extends AbstractUIPart implements EventListener
+public class WindowContainer extends AbstractUIPart 
 {
     private static final long serialVersionUID = 1L;
 
@@ -67,8 +62,6 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         tabbox.setWidth("100%");
         tabbox.setHeight("100%");
         
-        tabbox.addEventListener(Events.ON_SELECT, this);
-
         if (parent != null)
         	tabbox.setParent(parent);
         else
@@ -151,7 +144,6 @@ public class WindowContainer extends AbstractUIPart implements EventListener
         if (enable)
         	setSelectedTab(tab);
         
-        deferLayout();
     }
     
     /**
@@ -215,23 +207,6 @@ public class WindowContainer extends AbstractUIPart implements EventListener
     	tab.setTooltiptext(tooltip);
     }
     //
-
-    /**
-     * @param event
-     */
-	public void onEvent(Event event) throws Exception {
-		if (Events.ON_SELECT.equals(event.getName()))
-			deferLayout();
-	}
-	
-	private void deferLayout() {
-		Tabpanel panel = (Tabpanel) tabbox.getSelectedPanel();
-		if (panel.getFirstChild() instanceof Borderlayout) {
-			LayoutUtils.sendDeferLayoutEvent((Borderlayout) panel.getChildren().get(0), 50);
-		} else if (panel.getFirstChild() != null){
-			panel.getFirstChild().invalidate();
-		}
-	}
 
 	/**
 	 * @return Tabbox
