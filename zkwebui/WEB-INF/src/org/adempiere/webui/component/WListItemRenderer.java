@@ -66,6 +66,10 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	/** Array of {@link ListHeader}s for the list head. */
     private ArrayList<ListHeader> m_headers = new ArrayList<ListHeader>();
 
+    private Listbox listBox;
+
+	private EventListener cellListener;
+	
 	/**
 	 * Default constructor.
 	 *
@@ -148,10 +152,20 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			throw new IllegalArgumentException("A model element was not a list");
 		}
 
+		if (listBox == null || listBox != item.getListbox()) 
+		{
+			listBox = item.getListbox();
+		}
+		if (cellListener == null)
+		{
+			cellListener = new CellListener();
+		}
+		
 		for (Object field : (List<?>)data)
 		{
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
 			listcell.setParent(item);
+			listcell.addEventListener(Events.ON_DOUBLE_CLICK, cellListener);
 			colIndex++;
 		}
 
@@ -768,6 +782,19 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		}		
 	}
 
+	class CellListener implements EventListener {
+
+		public CellListener() {
+		}
+		
+		public void onEvent(Event event) throws Exception {
+			if (listBox != null && Events.ON_DOUBLE_CLICK.equals(event.getName())) {
+				Event evt = new Event(Events.ON_DOUBLE_CLICK, listBox);
+				Events.sendEvent(listBox, evt);
+			}
+		}
+		
+	}
 }
 
 

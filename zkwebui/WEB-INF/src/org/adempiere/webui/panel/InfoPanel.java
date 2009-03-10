@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -64,6 +65,10 @@ import org.zkoss.zul.event.ZulEvents;
 public abstract class InfoPanel extends Window implements EventListener, WTableModelListener
 {
 	
+	/**
+	 * default serial version id
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static int PAGE_SIZE = 100;
 	
     public static InfoPanel create (int WindowNo,
@@ -264,7 +269,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		confirmPanel.getButton(ConfirmPanel.A_ZOOM).setVisible(hasZoom());
 		//
 		
-        this.setSizable(true);        
+        this.setSizable(true);      
+        this.setMaximizable(true);
         
         this.addEventListener(Events.ON_OK, this);
 	}  //  init
@@ -404,7 +410,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 				for (int col = 0; col < p_layout.length; col++)
 				{
 					Object value = null;
-					Class c = p_layout[col].getColClass();
+					Class<?> c = p_layout[col].getColClass();
 					int colIndex = col + colOffset;
 					if (c == IDColumn.class)
 					{
@@ -506,9 +512,19 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
                 
+        addDoubleClickListener();
         //workaround for scrollbar position problem
         contentPanel.renderAll();
     }
+    
+    private void addDoubleClickListener() {
+		Iterator<?> i = contentPanel.getListenerIterator(Events.ON_DOUBLE_CLICK);
+		while (i.hasNext()) {
+			if (i.next() == this)
+				return;
+		}
+		contentPanel.addEventListener(Events.ON_DOUBLE_CLICK, this);
+	}
     
     protected void insertPagingComponent() {
 		contentPanel.getParent().insertBefore(paging, contentPanel.getNextSibling());
