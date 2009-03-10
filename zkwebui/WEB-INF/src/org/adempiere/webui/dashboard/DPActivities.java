@@ -99,6 +99,7 @@ public class DPActivities extends DashboardPanel implements EventListener {
 		String sql = "SELECT COUNT(1) FROM AD_Note "
 			+ "WHERE AD_Client_ID=? AND AD_User_ID IN (0,?)"
 			+ " AND Processed='N'";
+				
 		int retValue = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()), Env.getAD_User_ID(Env.getCtx()));
 		return retValue;
 	}
@@ -171,7 +172,7 @@ public class DPActivities extends DashboardPanel implements EventListener {
 	
 	@Override
     public void refresh(ServerPushTemplate template)
-	{
+	{		
     	noOfNotice = getNoticeCount();
     	noOfRequest = getRequestCount();
     	noOfWorkflow = getWorkflowCount();
@@ -181,6 +182,13 @@ public class DPActivities extends DashboardPanel implements EventListener {
 		        
     @Override
 	public void updateUI() {
+    	//don't update if not visible
+    	Component c = this.getParent();
+    	while (c != null) {
+    		if (!c.isVisible())
+    			return;
+    		c = c.getParent();
+    	}
     	btnNotice.setLabel("Notice : " + noOfNotice);
 		btnRequest.setLabel("Request : " + noOfRequest);
 		btnWorkflow.setLabel("Workflow Activities : " + noOfWorkflow);

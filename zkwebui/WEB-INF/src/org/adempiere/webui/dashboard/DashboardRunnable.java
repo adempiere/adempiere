@@ -17,10 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.session.ServerContext;
+import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.Executions;
 
 /**
  * 
@@ -74,10 +77,25 @@ public class DashboardRunnable implements Runnable {
 	 */
 	public void refreshDashboard()
 	{
+		
 		ServerPushTemplate template = new ServerPushTemplate(desktop);
-    	for(int i = 0; i < dashboardPanels.size(); i++)
+    	for(int i = 0; i < dashboardPanels.size(); i++) 
+    	{
+    		//make sure context is correct
+			ServerContext ctx = (ServerContext)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
+	        if (ctx != null && ServerContext.getCurrentInstance() != ctx)
+	        {
+	        	ServerContext.setCurrentInstance(ctx);
+	        }
     		dashboardPanels.get(i).refresh(template);
+    	}
     	
+    	//make sure context is correct
+		ServerContext ctx = (ServerContext)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
+        if (ctx != null && ServerContext.getCurrentInstance() != ctx)
+        {
+        	ServerContext.setCurrentInstance(ctx);
+        }
     	appDesktop.onServerPush(template);    	
 	}
 

@@ -45,17 +45,22 @@ public class ServerPushTemplate {
 	 */
 	public void execute(IServerPushCallback callback) {
 		boolean inUIThread = Executions.getCurrent() != null;
+		boolean desktopActivated = false;
 		
 		try {
 	    	if (!inUIThread) {
 	    		//1 second timeout
-	    		Executions.activate(desktop, 1000);
+	    		if (Executions.activate(desktop, 1000)) {
+	    			desktopActivated = true;
+	    		} else {
+	    			return;
+	    		}
 	    	}
 			callback.updateUI();
     	} catch (Exception e) {
     		logger.log(Level.WARNING, "Server push error="+e.getLocalizedMessage(), e);
     	} finally {
-    		if (!inUIThread) {
+    		if (!inUIThread && desktopActivated) {
     			Executions.deactivate(desktop);
     		}
     	}
