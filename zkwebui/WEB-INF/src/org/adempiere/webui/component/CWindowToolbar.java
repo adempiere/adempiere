@@ -27,14 +27,12 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.event.ToolbarListener;
-import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -90,12 +88,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	
 	// Elaine 2008/12/04
 	/** Show Personal Lock								*/
-	public boolean	isPersonalLock = MRole.getDefault().isPersonalLock();
+	public boolean isPersonalLock = MRole.getDefault().isPersonalLock();
 	private boolean isAllowProductInfo = MRole.getDefault().isAllow_Info_Product();
 
 	private int windowNo = 0;
-	
-	private IADTab adTab = null;
 	
 	/**	Last Modifier of Action Event					*/
 //	public int 				lastModifiers;
@@ -144,8 +140,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnPrint = createButton("Print", "Print", "Print");
         addSeparator();
         btnLock = createButton("Lock", "Lock", "Lock"); // Elaine 2008/12/04
-		btnLock.setVisible(isPersonalLock);	
-        btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
+		btnLock.setVisible(isPersonalLock);
+		btnZoomAcross = createButton("ZoomAcross", "ZoomAcross", "ZoomAcross");
         btnActiveWorkflows = createButton("ActiveWorkflows", "WorkFlow", "WorkFlow");
         btnRequests = createButton("Requests", "Request", "Request");
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
@@ -291,7 +287,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public void onEvent(Event event)
     {
         String eventName = event.getName();
-        Component eventComp = event.getTarget();
         
         if(eventName.equals(Events.ON_CLICK))
         {
@@ -342,12 +337,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		    }
 		}
 		this.event = null;
-		if (adTab != null) {
-			IADTabpanel adTabPanel = adTab.getSelectedTabpanel();
-			if (adTabPanel != null && adTabPanel instanceof HtmlBasedComponent) {
-				((HtmlBasedComponent)adTabPanel).focus();
-			}
-		}
 	}
     
     public void enableHistoryRecords(boolean enabled)
@@ -558,13 +547,4 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	public void setWindowNo(int windowNo) {
 		this.windowNo = windowNo;
 	}
-
-	/**
-	 * 
-	 * @param adTab
-	 */
-	public void setADTab(IADTab adTab) {
-		this.adTab = adTab;
-	}
-	
 }

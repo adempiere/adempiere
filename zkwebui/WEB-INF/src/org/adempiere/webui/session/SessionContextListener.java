@@ -41,6 +41,12 @@ public class SessionContextListener implements ExecutionInit,
 {
     public static final String SESSION_CTX = "WebUISessionContext";
 
+    /**
+     * @param exec
+     * @param parent
+     * 
+     * @see ExecutionInit#init(Execution, Execution)
+     */
     public void init(Execution exec, Execution parent)
     {
         if (parent == null)
@@ -62,6 +68,12 @@ public class SessionContextListener implements ExecutionInit,
         }
     }
 
+    /**
+     * @param exec
+     * @param parent
+     * @param errs
+     * @see ExecutionCleanup#cleanup(Execution, Execution, List) 
+     */
     public void cleanup(Execution exec, Execution parent, List errs)
     {
         if (parent == null)
@@ -71,10 +83,20 @@ public class SessionContextListener implements ExecutionInit,
         }        
     }
 
+    /**
+     * @param comp
+     * @param evt
+     * @see EventThreadInit#prepare(Component, Event)
+     */
     public void prepare(Component comp, Event evt)
     {
     }
 
+    /**
+     * @param comp
+     * @param evt
+     * @see EventThreadInit#init(Component, Event)
+     */
     public boolean init(Component comp, Event evt)
     {
         ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
@@ -87,10 +109,20 @@ public class SessionContextListener implements ExecutionInit,
 		return true; 
     }
 
+    /**
+     * @param comp
+     * @param evt
+     * @see EventThreadResume#beforeResume(Component, Event)
+     */
     public void beforeResume(Component comp, Event evt)
     {
     }
 
+    /**
+     * @param comp
+     * @param evt
+     * @see EventThreadResume#afterResume(Component, Event)
+     */
     public void afterResume(Component comp, Event evt)
     {
         ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
@@ -98,6 +130,11 @@ public class SessionContextListener implements ExecutionInit,
         ServerContext.setCurrentInstance(ctx);
     }
 
+    /**
+     * @param comp
+     * @param evt
+     * @see EventThreadResume#abortResume(Component, Event)
+     */
     public void abortResume(Component comp, Event evt)
     {
         // do nothing

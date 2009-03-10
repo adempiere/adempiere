@@ -177,6 +177,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         initComponents();
     }
     
+    /**
+     * @param parent
+     * @return Component
+     */
 	public Component createPart(Object parent)
     {				
 		if (parent instanceof Component)
@@ -185,16 +189,20 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		adTab = createADTab();
 		adTab.addSelectionEventListener(this);
 		
-		toolbar.setADTab(adTab);
-        
         return super.createPart(parent);
     }
 
+	/**
+	 * @return StatusBarPanel
+	 */
 	public StatusBarPanel getStatusBar()
     {
     	return statusBar;
     }
 	
+	/**
+	 * @return boolean
+	 */
 	public boolean isEmbedded() {
 		return embeddedTabindex >= 0;
 	}
@@ -208,8 +216,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         statusBar = new StatusBarPanel();                
     }
 
+    /**
+     * @return IADTab
+     */
     protected abstract IADTab createADTab();
-
+    
+    private void focusToActivePanel() {
+    	IADTabpanel adTabPanel = adTab.getSelectedTabpanel();
+		if (adTabPanel != null && adTabPanel instanceof HtmlBasedComponent) {
+			((HtmlBasedComponent)adTabPanel).focus();
+		}
+	}
+    
+    /**
+     * @param adWindowId
+     * @param query
+     * @return boolean
+     */
 	public boolean initPanel(int adWindowId, MQuery query)
     {
         // Set AutoCommit for this Window
@@ -300,6 +323,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 	}
 
+	/**
+	 * @param query
+	 * @param tabIndex
+	 */
 	protected void initTab(MQuery query, int tabIndex) {
 		gridWindow.initTab(tabIndex);
 
@@ -465,9 +492,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             setActiveTab(curInd + 1);
         }
+        
+        focusToActivePanel();
     }
 
-    /**
+	/**
      * @see ToolbarListener#onParentRecord()
      */
     public void onParentRecord()
@@ -477,6 +506,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             setActiveTab(curInd - 1);
         }     
+        
+        focusToActivePanel();
     }
 
     /**
@@ -485,6 +516,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onFirst()
     {
         curTab.navigate(0);
+        focusToActivePanel();
     }
 
     /**
@@ -493,6 +525,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onLast()
     {
         curTab.navigate(curTab.getRowCount() - 1);
+        focusToActivePanel();
     }
 
     /**
@@ -501,6 +534,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onNext()
     {
         curTab.navigateRelative(+1);
+        focusToActivePanel();
     }
 
     /**
@@ -509,6 +543,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onPrevious()
     {
         curTab.navigateRelative(-1);
+        focusToActivePanel();
     }
     
     // Elaine 2008/12/04
@@ -579,6 +614,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			
 			history(m_onlyCurrentDays);
 		}
+		focusToActivePanel();
     }
     
     private void history(int onlyCurrentDays)
@@ -623,7 +659,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 		curTab.loadAttachments();				//	reload
 		toolbar.getButton("Attachment").setPressed(curTab.hasAttachment());
-		
+		focusToActivePanel();		
 	}
     
     /**
@@ -632,8 +668,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onToggle()
     {
     	curTabpanel.switchRowPresentation();
+    	focusToActivePanel();
     }
     
+    /**
+     * @return boolean
+     */
     public boolean onExit()
     {
     	String message = "Please save changes before closing";
@@ -648,6 +688,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	return false;
     }
 
+    /**
+     * @param event
+     * @see EventListener#onEvent(Event)
+     */
     public void onEvent(Event event)
     {
     	if (!Events.ON_SELECT.equals(event.getName()))
@@ -801,6 +845,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 	}
 
+	/**
+	 * @param e
+	 * @see DataStatusListener#dataStatusChanged(DataStatusEvent)
+	 */
     public void dataStatusChanged(DataStatusEvent e)
     {
     	//ignore non-ui thread event for now.
@@ -943,6 +991,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         toolbar.enableReport(true);
     }
 
+    /**
+     * @return boolean
+     */
     public boolean isFirstTab()
     {
         int selTabIndex = adTab.getSelectedIndex();
@@ -956,6 +1007,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     {
         curTab.dataRefreshAll();
         curTabpanel.dynamicDisplay(0);
+        focusToActivePanel();
     }
     
     /**
@@ -995,6 +1047,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             logger.severe("Could not create new record");
         }
+        focusToActivePanel();
     }
     
     // Elaine 2008/11/19
@@ -1026,6 +1079,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             logger.severe("Could not create new record");
         }
+        focusToActivePanel();
     }
     //
     
@@ -1059,6 +1113,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        
 	        curTab.dataRefresh(); // Elaine 2008/07/25
         }        
+        focusToActivePanel();
     }
     
     /**
@@ -1078,6 +1133,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        curTabpanel.dynamicDisplay(0);
 	        toolbar.enableIgnore(false);
     	}
+    	focusToActivePanel();
     }
     
     /**
@@ -1086,6 +1142,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     public void onSave()
     {
     	onSave(true);
+    	focusToActivePanel();
     }
     
     /**
@@ -1139,6 +1196,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             }
         }
         curTabpanel.dynamicDisplay(0);
+        focusToActivePanel();
     }
     
     // Elaine 2008/12/01
@@ -1178,7 +1236,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		if(curTab.getField("Name")!=null){
 			columnNames.add(curTab.getField("Name").getColumnName());
-		}
+		}		
 		for(int i = 0, count = columnNames.size(); i < fields.length && count < 5; i++)
 		{
 			GridField field = fields[i];
@@ -1306,6 +1364,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		hbox.appendChild(btnCancel);
 				
 		AEnv.showWindow(messagePanel);
+		focusToActivePanel();
 	}
 	//
 
@@ -1669,36 +1728,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (curTab.needSave(true, false))
 			this.onSave();
 
-		// hengsin - [ 1639242 ] Inconsistent appearance of Process/Report Dialog
-		// globalqss - Add support for Don't ShowHelp option in Process
-		// this code must be changed if integrated the parameters and help in only one window
-		/*
-		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
-		if (pr.getShowHelp() != null && pr.getShowHelp().equals("N")) {
-			startWOasking = true;
-		}
-		// end globalqss
-		
-		//	Ask user to start process, if Description and Help is not empty
-		
-		if (!startWOasking && !(vButton.getDescription().equals("") && vButton.getHelp().equals("")))
-			if (!ADialog.ask(m_curWindowNo, this, "StartProcess?", 
-				//	"<b><i>" + vButton.getText() + "</i></b><br>" +
-				vButton.getDescription() + "\n" + vButton.getHelp()))
-				return;
-		//
-		String title = vButton.getDescription();
-		if (title == null || title.length() == 0)
-			title = vButton.getName();
-		ProcessInfo pi = new ProcessInfo (title, vButton.getProcess_ID(), table_ID, record_ID);
-		pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
-		pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
-		pi.setIsBatch(batch);
-
-	//	Trx trx = Trx.get(Trx.createTrxName("AppsPanel"), true);
-		ProcessCtl.process(this, m_curWindowNo, pi, null); //  calls lockUI, unlockUI
-		*/
-
 		if (!getComponent().getDesktop().isServerPushEnabled())
 			getComponent().getDesktop().enableServerPush(true);
 		
@@ -1713,10 +1742,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			dialog.setPosition("center");
 			AEnv.showWindow(dialog);           
 		}
-//         curTab.dataRefresh();
-//         curTabpanel.dynamicDisplay(0);
 	} // actionButton
    
+	/**
+	 * @param event
+	 * @see ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent event) 
 	{
 		 if (event.getSource() instanceof WButtonEditor)

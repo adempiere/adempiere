@@ -75,6 +75,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 	
+	//copy from org.zkoss.zul.Grid
+	private static final String ATTR_ON_INIT_RENDER_POSTED =
+		"org.zkoss.zul.Grid.onInitLaterPosted";
+	
 	public GridPanel()
 	{
 		this(0);
@@ -175,18 +179,24 @@ public class GridPanel extends Borderlayout implements EventListener
 			renderer.stopEditing(false);
 			if (rowIndex >= 0 && pgIndex >= 0) {
 				listModel.updateComponent(pgIndex);
-				//this is needed to make focus and auto scroll work
-				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(pgIndex);
-				listbox.renderRow(row);
+				//don't have to call renderRow if render event have been posted
+				if (listbox.getAttribute(ATTR_ON_INIT_RENDER_POSTED) == null) {
+					//this is needed to make focus and auto scroll work
+					org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(pgIndex);
+					listbox.renderRow(row);
+				}
 				Events.echoEvent("onPostRenderSelectedRow", this, null);
 			}
 		} else {
 			renderer.stopEditing(false);
 			if (rowIndex >= 0) {
 				listModel.updateComponent(rowIndex);
-				//this is needed to make focus and auto scroll work
-				org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(rowIndex);
-				listbox.renderRow(row);
+				//don't have to call renderRow if render event have been posted
+				if (listbox.getAttribute(ATTR_ON_INIT_RENDER_POSTED) == null) {
+					//this is needed to make focus and auto scroll work
+					org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(rowIndex);
+					listbox.renderRow(row);
+				}
 				Events.echoEvent("onPostRenderSelectedRow", this, null);
 			}
 		}
@@ -199,6 +209,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		renderer.setFocusToField();
 	}
 
+
+	
 	/**
 	 * set paging size
 	 * @param pageSize
