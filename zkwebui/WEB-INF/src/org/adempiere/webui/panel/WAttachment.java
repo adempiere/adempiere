@@ -169,6 +169,7 @@ public class WAttachment extends Window implements EventListener
 	
 	void staticInit() throws Exception
 	{
+		this.setMaximizable(true);
 		this.setWidth("700px");
 		this.setHeight("600px");
 		this.setTitle("Attachment");
