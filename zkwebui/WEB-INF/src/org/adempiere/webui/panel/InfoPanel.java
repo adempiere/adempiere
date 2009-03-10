@@ -310,8 +310,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected CLogger log = CLogger.getCLogger(getClass());
 	
 	protected WListbox contentPanel = new WListbox();
-	private Paging paging;
-	private int pageNo;
+	protected Paging paging;
+	protected int pageNo;
 	
 	private static final String[] lISTENER_EVENTS = {};
 
@@ -475,7 +475,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	    			paging.setTotalSize(line.size());
 	    			paging.setDetailed(true);
 	    			paging.addEventListener(ZulEvents.ON_PAGING, this);
-	    			contentPanel.getParent().insertBefore(paging, contentPanel.getNextSibling());
+	    			insertPagingComponent();
+        		}
+        		else
+        		{
+        			paging.setTotalSize(line.size());
+        			paging.setActivePage(0);
         		}
     			List<Object> subList = line.subList(0, PAGE_SIZE);
     			model = new ListModelTable(subList);
@@ -489,6 +494,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         		if (paging != null) 
         		{
         			paging.setTotalSize(line.size());
+        			paging.setActivePage(0);
         			pageNo = 0;
         		}
 	            model = new ListModelTable(line);
@@ -504,7 +510,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         contentPanel.renderAll();
     }
     
-   
+    protected void insertPagingComponent() {
+		contentPanel.getParent().insertBefore(paging, contentPanel.getNextSibling());
+	}
+    
     public Vector<String> getColumnHeader(ColumnInfo[] p_layout)
     {
         Vector<String> columnHeader = new Vector<String>();

@@ -29,10 +29,10 @@ import java.util.logging.Level;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.Columns;
+import org.adempiere.webui.component.EditorBox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridPanel;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.SimpleTreeModel;
@@ -730,21 +730,29 @@ DataStatusListener, IADTabpanel
 		panel.tabPanel.activate(activate);
 	}
     
-    private void setFocusToField() {
-    	WEditor toFocus = null;
+	/**
+	 * set focus to first active editor
+	 */
+	private void setFocusToField() {
+		WEditor toFocus = null;
 		for (WEditor editor : editors) {
-			if (editor.isHasFocus()) {
+			if (editor.isHasFocus() && editor.isVisible() && editor.getComponent().getParent() != null) {
 				toFocus = editor;
 				break;
 			}
+			
 			if (toFocus == null) {
-				if (editor.isVisible() && editor.isReadWrite()) {
-					toFocus = editor;
+				if (editor.isVisible() && editor.isReadWrite() && editor.getComponent().getParent() != null) {
+					toFocus = editor;				
 				}
 			}
-		}
+		}		
 		if (toFocus != null) {
-			Clients.response(new AuFocus(toFocus.getComponent()));
+			Component c = toFocus.getComponent();
+			if (c instanceof EditorBox) {
+				c = ((EditorBox)c).getTextbox();
+			}
+			Clients.response(new AuFocus(c));
 		}
 	}
 

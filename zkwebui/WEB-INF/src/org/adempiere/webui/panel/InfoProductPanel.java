@@ -80,6 +80,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
@@ -404,18 +405,15 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		desktopTabPanel.setHeight("100%");
 		desktopTabPanel.appendChild(m_tableAtp);
 		tabPanels.appendChild(desktopTabPanel);
-		//
-		
+		//		
         borderlayout.setWidth("100%");
-        borderlayout.setHeight("400px");
+        borderlayout.setHeight("100%");
         borderlayout.setStyle("border: none; position: relative");
         Center center = new Center();
         center.setAutoscroll(true);
         center.setFlex(true);
 		borderlayout.appendChild(center);
-		Div div = new Div();
-		div.appendChild(contentPanel);
-		center.appendChild(div);
+		center.appendChild(contentPanel);
 		South south = new South();
 		south.setHeight("120px");
 		south.setCollapsible(true);
@@ -426,18 +424,24 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		borderlayout.appendChild(south);
 		south.appendChild(tabbedPane);
 		
-		Panel mainPanel = new Panel();
+        Borderlayout mainPanel = new Borderlayout();
         mainPanel.setWidth("100%");
-        mainPanel.appendChild(grid);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(borderlayout);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(confirmPanel);
+        mainPanel.setHeight("100%");
+        North north = new North();
+        mainPanel.appendChild(north);
+        north.appendChild(grid);
+        center = new Center();
+        mainPanel.appendChild(center);
+        center.appendChild(borderlayout);
+        south = new South();
+        mainPanel.appendChild(south);
+        south.appendChild(confirmPanel);
 		
 		this.appendChild(mainPanel);
 		this.setClosable(true);
 		this.setBorder("normal");
 		this.setWidth("1000px");
+		this.setHeight("650px");
 		
 		contentPanel.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {
@@ -458,7 +462,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			}
 		});				
 	}
-	
+			
+	@Override
+	protected void insertPagingComponent() {
+		North north = new North();
+		north.appendChild(paging);
+		borderlayout.appendChild(north);
+	}
+
 	/**
 	 * 	Refresh Query
 	 */
