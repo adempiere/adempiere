@@ -754,7 +754,7 @@ DataStatusListener, IADTabpanel
      */
     public void onEvent(Event event)
     {
-    	if (event.getTarget() instanceof Listbox) 
+    	if (event.getTarget() == listPanel.getListbox()) 
     	{
     		this.switchRowPresentation();
     	} 
@@ -944,7 +944,6 @@ DataStatusListener, IADTabpanel
 	        {
 	        	activateChild(true, ep);
 	        }
-			
 		}
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {

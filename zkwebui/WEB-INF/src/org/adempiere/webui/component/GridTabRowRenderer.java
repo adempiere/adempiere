@@ -355,7 +355,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (rowIndex == gridTab.getCurrentRow()) {
 			row.setStyle("border-top: 1px solid #6f97d2; border-bottom: 1px solid #6f97d2");
 		}
-		row.addEventListener(Events.ON_CLICK, rowListener);		
+		row.addEventListener(Events.ON_CLICK, rowListener);
+		row.addEventListener(Events.ON_DOUBLE_CLICK, rowListener);
 	}	
 
 	/**
@@ -407,24 +408,29 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		WEditor toFocus = null;
 		Label firstLabel = null;
 		for (WEditor editor : getEditors()) {
-			if (editor.isHasFocus()) {
+			if (editor.isHasFocus() && editor.isVisible() && editor.getComponent().getParent() != null) {
 				toFocus = editor;
 				break;
 			}
 			
 			if (toFocus == null) {
-				if (editor.isVisible() && editor.isReadWrite()) {
+				if (editor.isVisible() && editor.isReadWrite() && editor.getComponent().getParent() != null) {
 					toFocus = editor;				
 				}
 			}
 			if (firstLabel == null) {
-				if (editor.getComponent() instanceof Label) {
+				if (editor.getComponent() instanceof Label && editor.getComponent().getParent() != null) {
 					firstLabel = (Label) editor.getComponent();
 				}
 			}
 		}		
-		if (toFocus != null)
-			Clients.response(new AuFocus(toFocus.getComponent()));
+		if (toFocus != null) {
+			Component c = toFocus.getComponent();
+			if (c instanceof EditorBox) {
+				c = ((EditorBox)c).getTextbox();
+			}
+			Clients.response(new AuFocus(c));
+		}
 		else if (firstLabel != null)
 			Clients.response(new AuFocus(firstLabel));
 	}
@@ -448,6 +454,10 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		public void onEvent(Event event) throws Exception {
 			if (Events.ON_CLICK.equals(event.getName())) {
 				Event evt = new Event(Events.ON_CLICK, _grid, event.getTarget());
+				Events.sendEvent(_grid, evt);
+			}
+			else if (Events.ON_DOUBLE_CLICK.equals(event.getName())) {
+				Event evt = new Event(Events.ON_DOUBLE_CLICK, _grid, _grid);
 				Events.sendEvent(_grid, evt);
 			}
 		}
