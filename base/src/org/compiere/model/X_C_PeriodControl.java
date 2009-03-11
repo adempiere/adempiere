@@ -199,6 +199,9 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public static final String DOCBASETYPE_Payroll = "HRP";
 	/** Distribution Order = DOO */
 	public static final String DOCBASETYPE_DistributionOrder = "DOO";
+	/** Manufacturing Cost Collector = MCC */
+	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
+	
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
@@ -206,7 +209,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setDocBaseType (String DocBaseType)
 	{
 		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
-		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOF") || DocBaseType.equals("MOP") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOF - MOP - MQO - HRP - DOO");		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
+		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOF") || DocBaseType.equals("MOP") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO") || DocBaseType.equals("MCC")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOF - MOP - MQO - HRP - DOO - MCC");		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
 	/** Get Document BaseType.
