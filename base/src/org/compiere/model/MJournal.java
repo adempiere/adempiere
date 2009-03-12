@@ -450,8 +450,8 @@ public class MJournal extends X_GL_Journal implements DocAction
 			MJournalLine line = lines[i];
 			if (!isActive())
 				continue;
-			//
-			if (line.isDocControlled())
+			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
+			if (line.isDocControlled() && getPostingType().equals(POSTINGTYPE_Actual))
 			{
 				m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
 					+ " - " + line.getAccountElementValue();
