@@ -30,6 +30,8 @@ import org.compiere.util.DB;
  *
  *  @author     Jorg Janke
  *  @version    $Id: InventoryValue.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  @author 	Michael Judd (mjudd) Akuna Ltd - BF [ 2685127 ]
+ *  
  */
 public class InventoryValue extends SvrProcess
 {
@@ -166,7 +168,8 @@ public class InventoryValue extends SvrProcess
 			.append("DateValue=TO_DATE('").append(myDate.substring(0,10))
 			.append(" 23:59:59','YYYY-MM-DD HH24:MI:SS'),")
 			.append("M_PriceList_Version_ID=").append(p_M_PriceList_Version_ID).append(",")
-			.append("C_Currency_ID=").append(p_C_Currency_ID);
+			.append("C_Currency_ID=").append(p_C_Currency_ID)
+			.append(" WHERE AD_PInstance_ID=" + getAD_PInstance_ID());
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Constants=" + no);
 
@@ -187,7 +190,7 @@ public class InventoryValue extends SvrProcess
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) "
 				+ "WHERE iv.M_Product_ID=s.M_Product_ID"
 				+ " AND iv.M_Warehouse_ID=l.M_Warehouse_ID) "
-			+ "WHERE AD_PInstance_ID=").append(getAD_PInstance_ID())
+			+ "WHERE iv.AD_PInstance_ID=").append(getAD_PInstance_ID())
 			.append(" AND iv.M_AttributeSetInstance_ID=0");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("QtHand w/o ASI=" + no);
@@ -202,7 +205,8 @@ public class InventoryValue extends SvrProcess
 				+ " AND t.M_AttributeSetInstance_ID=iv.M_AttributeSetInstance_ID"
 				+ " AND t.MovementDate > iv.DateValue"
 				+ " AND l.M_Warehouse_ID=iv.M_Warehouse_ID) "
-			+ "WHERE iv.M_AttributeSetInstance_ID<>0");
+			+ "WHERE iv.M_AttributeSetInstance_ID<>0" 
+			+ " AND iv.AD_PInstance_ID=").append(getAD_PInstance_ID());
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Update with ASI=" + no);
 		//
@@ -214,7 +218,9 @@ public class InventoryValue extends SvrProcess
 				+ "WHERE t.M_Product_ID=iv.M_Product_ID"
 				+ " AND t.MovementDate > iv.DateValue"
 				+ " AND l.M_Warehouse_ID=iv.M_Warehouse_ID) "
-			+ "WHERE iv.M_AttributeSetInstance_ID=0");
+			+ "WHERE iv.M_AttributeSetInstance_ID=0 "
+			+ "AND iv.AD_PInstance_ID=").append(getAD_PInstance_ID());
+
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Update w/o ASI=" + no);
 		
@@ -225,7 +231,7 @@ public class InventoryValue extends SvrProcess
 		log.fine("NoQty Deleted=" + noQty);
 
 		//  Update Prices
-		no = DB.executeUpdate ("UPDATE T_InventoryValue iv "
+		sql = new StringBuffer("UPDATE T_InventoryValue iv "
 			+ "SET PricePO = "
 				+ "(SELECT MAX(currencyConvert (po.PriceList,po.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, po.AD_Client_ID,po.AD_Org_ID))"
 				+ " FROM M_Product_PO po WHERE po.M_Product_ID=iv.M_Product_ID"
@@ -248,7 +254,9 @@ public class InventoryValue extends SvrProcess
 				+ " WHERE pp.M_Product_ID=iv.M_Product_ID AND pp.M_PriceList_Version_ID=iv.M_PriceList_Version_ID"
 				+ " AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID"
 				+ " AND plv.M_PriceList_ID=pl.M_PriceList_ID)"
-				, get_TrxName());
+				+ " WHERE iv.AD_PInstance_ID=").append(getAD_PInstance_ID());
+
+		no = DB.executeUpdate (sql.toString(), get_TrxName());
 		String msg = "";
 		if (no == 0)
 			msg = "No Prices";
@@ -263,7 +271,7 @@ public class InventoryValue extends SvrProcess
 				+ "	Cost= "
 					+ "(SELECT currencyConvert(iv.Cost,acs.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, iv.AD_Client_ID,iv.AD_Org_ID) "
 					+ "FROM C_AcctSchema acs WHERE acs.C_AcctSchema_ID=" + as.getC_AcctSchema_ID() + ") "
-				+ "WHERE AD_PInstance_ID=" + getAD_PInstance_ID());
+				+ "WHERE iv.AD_PInstance_ID=" + getAD_PInstance_ID());
 			no = DB.executeUpdate (sql.toString(), get_TrxName());
 			log.fine("Converted=" + no);
 		}
