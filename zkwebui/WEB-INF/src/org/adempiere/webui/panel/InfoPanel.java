@@ -857,10 +857,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         {
             if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_OK)))
             {
-                if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
-                {
-                    dispose(true);
-                }
+                onOk();
+            }
+            else if (event.getTarget() == contentPanel && event.getName().equals(Events.ON_DOUBLE_CLICK))
+            {
+            	onOk();
             }
             else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
             {
@@ -926,6 +927,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             }
         }
     }  //  onEvent
+    
+    private void onOk() 
+    {
+		if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
+		{
+		    dispose(true);
+		}
+	}
     
     public void tableChanged(WTableModelEvent event)
     {
