@@ -699,10 +699,19 @@ public final class Fact
 			if (distributions.length > 1)
 				log.warning("More then one Distributiion for " + dLine.getAccount());
 			MDistribution distribution = distributions[0]; 
-			//	Add Reversal
-			FactLine reversal = dLine.reverse(distribution.getName());
-			log.info("Reversal=" + reversal);
-			newLines.add(reversal);		//	saved in postCommit
+
+			// FR 2685367 - GL Distribution delete line instead reverse
+			if (distribution.isCreateReversal()) {
+				//	Add Reversal
+				FactLine reversal = dLine.reverse(distribution.getName());
+				log.info("Reversal=" + reversal);
+				newLines.add(reversal);		//	saved in postCommit
+			} else {
+				// delete the line being distributed
+				m_lines.remove(i);    // or it could be m_lines.remove(dLine);
+				i--;
+			}
+
 			//	Prepare
 			distribution.distribute(dLine.getAccount(), dLine.getSourceBalance(), dLine.getC_Currency_ID());
 			MDistributionLine[] lines = distribution.getLines(false);
