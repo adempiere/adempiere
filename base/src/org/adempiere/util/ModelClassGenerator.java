@@ -753,9 +753,10 @@ public class ModelClassGenerator
 			+ "throw new IllegalArgumentException (\"").append(columnName)
 			.append(" Invalid value - \" + ").append(columnName)
 			.append(" + \" - ").append(values).append("\");");
-		//
-		if (found && !columnName.equals("EntityType"))
-			sb.append (statement);
+		// [1762461] - Remove hardcoded list items checking in generated models
+		// if (found && !columnName.equals("EntityType"))
+		//	sb.append (statement);
+		sb.append("\n");
 		return retValue.toString();
 	}	//	addListValidation
 

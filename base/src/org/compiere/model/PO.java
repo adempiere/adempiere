@@ -778,6 +778,17 @@ public abstract class PO
 					m_newValues[index] = stringValue.substring(0,length);
 				}
 			}
+			// Validate reference list [1762461]
+			if (p_info.getColumn(index).DisplayType == DisplayType.List &&
+				p_info.getColumn(index).AD_Reference_Value_ID > 0 &&
+				value instanceof String) {
+				if (MRefList.get(getCtx(), p_info.getColumn(index).AD_Reference_Value_ID,
+						(String) value, get_TrxName()) != null)
+					;
+				else
+					throw new IllegalArgumentException(ColumnName + " Invalid value - "
+							+ value + " - Reference_ID=" + p_info.getColumn(index).AD_Reference_Value_ID);
+			}
 			if (CLogMgt.isLevelFinest())
 				log.finest(ColumnName + " = " + m_newValues[index] + " (OldValue="+m_oldValues[index]+")");
 		}
