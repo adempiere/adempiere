@@ -320,7 +320,7 @@ public class POInfo implements Serializable
 	{
 		for (int i = 0; i < m_columns.length; i++)
 		{
-			if (m_columns[i].ColumnName.equals(columnName))
+			if (columnName.equalsIgnoreCase(m_columns[i].ColumnName)) // globalqss : modified to compare ignoring case [ 1619179 ]
 				return m_columns[i].AD_Column_ID;
 		}
 		return -1;
