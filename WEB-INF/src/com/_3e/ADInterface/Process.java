@@ -465,7 +465,7 @@ public class Process {
 			if (value == null && DisplayType.YesNo != pPara.getAD_Reference_ID()) 
 			{
 				if (pPara.isMandatory())
-					throw new Exception(" Parametr "+pPara.getName() +" jest wymagany.");
+					throw new Exception(" Parameter "+pPara.getName() +" is required.");
 			}
 			else
 			{
