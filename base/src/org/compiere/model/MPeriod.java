@@ -581,8 +581,7 @@ public class MPeriod extends X_C_Period
 		{
 			if ( periods.get(i).getC_Period_ID() != getC_Period_ID() )
 			{
-				log.log(Level.WARNING, "Period overlaps with: "
-					+ periods.get(i).getName());
+				log.saveError("Error", "Period overlaps with: "	+ periods.get(i).getName());
 				return false;
 			}
 		}
