@@ -1,3 +1,5 @@
+set define off;
+
 -- 06.03.2009 08:58:57 EET
 -- 
 UPDATE AD_Process SET IsActive='N',Updated=TO_DATE('2009-03-06 08:58:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Process_ID=53054
