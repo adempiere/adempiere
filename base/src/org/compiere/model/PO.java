@@ -785,9 +785,13 @@ public abstract class PO
 				if (MRefList.get(getCtx(), p_info.getColumn(index).AD_Reference_Value_ID,
 						(String) value, get_TrxName()) != null)
 					;
-				else
+				else {
+					StringBuffer validValues = new StringBuffer();
+					for (ValueNamePair vp : MRefList.getList(getCtx(), p_info.getColumn(index).AD_Reference_Value_ID, false))
+						validValues.append(" - ").append(vp.getValue());
 					throw new IllegalArgumentException(ColumnName + " Invalid value - "
-							+ value + " - Reference_ID=" + p_info.getColumn(index).AD_Reference_Value_ID);
+							+ value + " - Reference_ID=" + p_info.getColumn(index).AD_Reference_Value_ID + validValues.toString());
+				}
 			}
 			if (CLogMgt.isLevelFinest())
 				log.finest(ColumnName + " = " + m_newValues[index] + " (OldValue="+m_oldValues[index]+")");
