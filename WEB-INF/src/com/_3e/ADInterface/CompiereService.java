@@ -19,7 +19,7 @@ import org.compiere.util.Login;
 
 public class CompiereService {
 
-	private static CLogger	log = CLogger.getCLogger(ADService.class);
+	private static CLogger	log = CLogger.getCLogger(CompiereService.class);
 	
 	public final static String datePattern = "dd-MM-yyyy"; 
 

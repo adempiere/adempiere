@@ -35,7 +35,7 @@ import org.compiere.util.Util;
 public class ReportEngineEx { //extends  ReportEngine  {
 
 	
-	private static CLogger	log = CLogger.getCLogger(Process.class);
+	private static CLogger	log = CLogger.getCLogger(ReportEngineEx.class);
 	
 
 	
