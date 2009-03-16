@@ -833,12 +833,14 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         	String value = fields.length > INDEX_VALUE ? fields[INDEX_VALUE] : "";
         	if(value.length() > 0)
         	{
+        		cellQueryFrom.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
     	        cellQueryFrom.appendChild(parseString(getTargetMField(columnName), value, listItem, false));
         	}
         	
         	String value2 = fields.length > INDEX_VALUE2 ? fields[INDEX_VALUE2] : "";
         	if(value2.length() > 0)
         	{
+        		cellQueryTo.setAttribute("value", value); // Elaine 2009/03/16 - set attribute value
         		cellQueryTo.appendChild(parseString(getTargetMField(columnName), value2, listItem, true));
         	}
 		}
