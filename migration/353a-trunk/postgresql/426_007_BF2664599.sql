@@ -33,11 +33,6 @@ UPDATE AD_Process_Para SET SeqNo=40,IsActive='Y' WHERE AD_Process_Para_ID=53092
 UPDATE AD_Process_Para SET SeqNo=50,IsActive='Y' WHERE AD_Process_Para_ID=53266
 ;
 
--- Mar 5, 2009 12:10:22 PM EET
--- [ 2609604 ] Add M_RequisitionLine.C_BPartner_ID
-UPDATE AD_SysConfig SET Value='[ 2664599 ] Fix CreateCostElement process parameters',Updated=TO_TIMESTAMP('2009-03-05 12:10:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_SysConfig_ID=50003
-;
-
 -- Mar 5, 2009 12:11:23 PM EET
 -- [ 2664599 ] Fix CreateCostElement process parameters
 INSERT INTO AD_Process_Para (AD_Process_Para_ID,AD_Client_ID,Created,CreatedBy,UpdatedBy,IsActive,AD_Org_ID,Updated,Name,IsRange,Description,Help,AD_Process_ID,EntityType,FieldLength,IsCentrallyMaintained,ColumnName,SeqNo,AD_Reference_ID,IsMandatory,AD_Element_ID) VALUES (53298,0,TO_TIMESTAMP('2009-03-05 12:11:21','YYYY-MM-DD HH24:MI:SS'),0,0,'Y',0,TO_TIMESTAMP('2009-03-05 12:11:21','YYYY-MM-DD HH24:MI:SS'),'Product Category','N','Category of a Product','Identifies the category which this product belongs to.  Product categories are used for pricing and selection.',53052,'D',10,'Y','M_Product_Category_ID',60,30,'N',453)
