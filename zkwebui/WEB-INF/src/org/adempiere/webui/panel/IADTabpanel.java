@@ -95,4 +95,9 @@ public interface IADTabpanel extends Component, Evaluatee {
 	 * @param onSaveEvent
 	 */
 	public void afterSave(boolean onSaveEvent);
+
+	/**
+	 * Enter key event
+	 */
+	public void onEnterKey();
 }

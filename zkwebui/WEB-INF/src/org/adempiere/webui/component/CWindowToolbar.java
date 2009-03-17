@@ -92,6 +92,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	private boolean isAllowProductInfo = MRole.getDefault().isAllow_Info_Product();
 
 	private int windowNo = 0;
+
+	private long prevKeyEventTime = 0;
+	
+	private KeyEvent prevKeyEvent;
 	
 	/**	Last Modifier of Action Event					*/
 //	public int 				lastModifiers;
@@ -198,6 +202,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         	btn.setStyle("background: transparent none");
         buttons.put(name, btn);
         this.appendChild(btn);
+        //make toolbar button last to receive focus
+        btn.setTabindex(32767);
         return btn;
     }
     
@@ -297,7 +303,22 @@ public class CWindowToolbar extends FToolbar implements EventListener
         } else if (eventName.equals(Events.ON_CTRL_KEY)) 
         {
         	KeyEvent keyEvent = (KeyEvent) event;
-        	this.onCtrlKeyEvent(keyEvent);
+        	if (isRealVisible()) {
+	        	//filter same key event that is too close
+	        	//firefox fire key event twice when grid is visible
+	        	long time = System.currentTimeMillis();
+	        	if (prevKeyEvent != null && prevKeyEventTime > 0 && 
+	        			prevKeyEvent.getKeyCode() == keyEvent.getKeyCode() &&
+	    				prevKeyEvent.getTarget() == keyEvent.getTarget() &&
+	    				prevKeyEvent.isAltKey() == keyEvent.isAltKey() &&
+	    				prevKeyEvent.isCtrlKey() == keyEvent.isCtrlKey() &&
+	    				prevKeyEvent.isShiftKey() == keyEvent.isShiftKey()) {
+	        		if ((time - prevKeyEventTime) <= 300) {	        			
+	        			return;
+	        		}
+	        	}	        	        	
+	        	this.onCtrlKeyEvent(keyEvent);
+        	}
         }
     }
 
@@ -475,31 +496,38 @@ public class CWindowToolbar extends FToolbar implements EventListener
     	return event;
     }
 
-	private void onCtrlKeyEvent(KeyEvent keyEvent) {
-		if (isRealVisible()) {
-			ToolBarButton btn = null;
-			if (keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+	private void onCtrlKeyEvent(KeyEvent keyEvent) {		
+		ToolBarButton btn = null;
+		if (keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+		{
+			if (keyEvent.getKeyCode() == VK_X)
 			{
-				if (keyEvent.getKeyCode() == VK_X)
+				if (windowNo > 0)
 				{
-					if (windowNo > 0)
-						SessionManager.getAppDesktop().closeWindow(windowNo);
-				}
-				else
-				{
-					btn = altKeyMap.get(keyEvent.getKeyCode());
+					prevKeyEventTime = System.currentTimeMillis();
+		        	prevKeyEvent = keyEvent;
+					keyEvent.stopPropagation();
+					SessionManager.getAppDesktop().closeWindow(windowNo);
 				}
 			}
-			else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
-				btn = ctrlKeyMap.get(keyEvent.getKeyCode());
-			else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
-				btn = keyMap.get(keyEvent.getKeyCode());
-			
-			if (btn != null && !btn.isDisabled() && btn.isVisible()) {
+			else
+			{
+				btn = altKeyMap.get(keyEvent.getKeyCode());
+			}
+		}
+		else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
+		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+			btn = keyMap.get(keyEvent.getKeyCode());
+		
+		if (btn != null) {
+			prevKeyEventTime = System.currentTimeMillis();
+        	prevKeyEvent = keyEvent;
+			keyEvent.stopPropagation();
+			if (!btn.isDisabled() && btn.isVisible()) {
 				Events.sendEvent(btn, new Event(Events.ON_CLICK, btn));
 			}
 		}
-		
 	}
 
 	private boolean isRealVisible() {

@@ -165,7 +165,7 @@ DataStatusListener, IADTabpanel
                 
         listPanel = new GridPanel();
         listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
-                
+        
     }
 
     /**
@@ -956,6 +956,8 @@ DataStatusListener, IADTabpanel
 		listPanel.setVisible(!formComponent.isVisible());
 		if (listPanel.isVisible()) {
 			listPanel.refresh(gridTab);
+		} else {
+			listPanel.deactivate();
 		}
 	}
 	
@@ -1050,6 +1052,15 @@ DataStatusListener, IADTabpanel
 			this.setFocusToField();
 		else
 			listPanel.focus();
+	}
+
+	/**
+	 * @see IADTabpanel#onEnterKey()
+	 */
+	public void onEnterKey() {
+		if (listPanel.isVisible()) {
+			listPanel.onEnterKey();
+		}
 	}
 }
 

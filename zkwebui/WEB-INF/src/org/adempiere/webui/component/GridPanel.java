@@ -27,13 +27,17 @@ import org.compiere.model.GridTable;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.zk.au.out.AuScript;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Column;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 
@@ -72,12 +76,12 @@ public class GridPanel extends Borderlayout implements EventListener
 	private GridTabRowRenderer renderer;
 
 	private South south;
-	
+
+	private boolean modeless;
+
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 	
-	//copy from org.zkoss.zul.Grid
-	private static final String ATTR_ON_INIT_RENDER_POSTED =
-		"org.zkoss.zul.Grid.onInitLaterPosted";
+	public static final String MODE_LESS_KEY = "ZK_GRID_EDIT_MODELESS";
 	
 	public GridPanel()
 	{
@@ -96,6 +100,9 @@ public class GridPanel extends Borderlayout implements EventListener
 		
 		//default paging size
 		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
+		
+		//default true for backward compatibility
+		modeless = MSysConfig.getBooleanValue(MODE_LESS_KEY, true);
 	}
 
 	/**
@@ -144,16 +151,15 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * @param gridTab
 	 */
 	public void refresh(GridTab gridTab) {
-		if (this.gridTab != gridTab)
+		if (!gridTab.isOpen()) return;
+		
+		if (this.gridTab != gridTab || !isInit())
 		{
 			init = false;
 			init(gridTab);
 		}
 		else
 		{
-			if (renderer != null)
-				renderer.stopEditing(false);
-			
 			listbox.setModel(listModel);
 			updateListIndex();
 		}
@@ -163,54 +169,44 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * Update current row from model
 	 */
 	public void updateListIndex() {
-		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
+		if (gridTab == null) return;
+		
+		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;		
 		if (pageSize > 0) {			
 			if (paging.getTotalSize() != gridTab.getRowCount())
 				paging.setTotalSize(gridTab.getRowCount());
 			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
 			int pgNo = rowIndex >= 0 ? (rowIndex - pgIndex) / pageSize : 0;
-			
 			if (listModel.getPage() != pgNo) {
 				listModel.setPage(pgNo);
+				if (renderer.isEditing()) {
+					renderer.stopEditing(false);
+				}
+			} else if (rowIndex == renderer.getCurrentRowIndex()){
+				if (modeless && !renderer.isEditing())
+					Events.echoEvent("onPostSelectedRowChanged", this, null);
+				return;				
+			} else {
+				if (renderer.isEditing()) {
+					renderer.stopEditing(false);
+					if (((renderer.getCurrentRowIndex() - pgIndex) / pageSize) == pgNo) { 
+						listModel.updateComponent(renderer.getCurrentRowIndex() % pageSize);
+					}
+				}
 			}
 			if (paging.getActivePage() != pgNo) {
 				paging.setActivePage(pgNo);
-			}			
-			renderer.stopEditing(false);
+			}						
 			if (rowIndex >= 0 && pgIndex >= 0) {
-				listModel.updateComponent(pgIndex);
-				//don't have to call renderRow if render event have been posted
-				if (listbox.getAttribute(ATTR_ON_INIT_RENDER_POSTED) == null) {
-					//this is needed to make focus and auto scroll work
-					org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(pgIndex);
-					listbox.renderRow(row);
-				}
-				Events.echoEvent("onPostRenderSelectedRow", this, null);
+				Events.echoEvent("onPostSelectedRowChanged", this, null);
 			}
 		} else {
-			renderer.stopEditing(false);
 			if (rowIndex >= 0) {
-				listModel.updateComponent(rowIndex);
-				//don't have to call renderRow if render event have been posted
-				if (listbox.getAttribute(ATTR_ON_INIT_RENDER_POSTED) == null) {
-					//this is needed to make focus and auto scroll work
-					org.zkoss.zul.Row row = (org.zkoss.zul.Row)listbox.getRows().getChildren().get(rowIndex);
-					listbox.renderRow(row);
-				}
-				Events.echoEvent("onPostRenderSelectedRow", this, null);
+				Events.echoEvent("onPostSelectedRowChanged", this, null);
 			}
 		}
 	}
-	
-	/**
-	 * Don't call this directly, use internally to send post render event
-	 */
-	public void onPostRenderSelectedRow() {
-		renderer.setFocusToField();
-	}
 
-
-	
 	/**
 	 * set paging size
 	 * @param pageSize
@@ -307,7 +303,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	private void updateModel() {
 		listModel = new GridTableListModel((GridTable)tableModel, windowNo);		
 		listModel.setPageSize(pageSize);
-		if (renderer != null)
+		if (renderer != null && renderer.isEditing())
 			renderer.stopEditing(false);
 		renderer = new GridTabRowRenderer(gridTab, windowNo);
 		renderer.setGridPanel(this);
@@ -320,8 +316,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * deactivate panel
 	 */
 	public void deactivate() {
-		if (renderer != null)
-			renderer.stopEditing(false);
+		if (renderer != null && renderer.isEditing())
+			renderer.stopEditing(true);
 	}
 
 	public void onEvent(Event event) throws Exception
@@ -333,9 +329,21 @@ public class GridPanel extends Borderlayout implements EventListener
 			Object data = event.getData();
 			if (data != null && data instanceof org.zkoss.zul.Row)
 			{
-				int index = listbox.getRows().getChildren().indexOf(data);
-				if (index >= 0 ) {
-					onSelectedRowChange(index);
+				//click on selected row to enter edit mode
+				if (data == renderer.getCurrentRow())
+				{
+					if (!renderer.isEditing())
+					{
+						renderer.editCurrentRow();
+						renderer.setFocusToEditor();
+					}
+				}
+				else
+				{
+					int index = listbox.getRows().getChildren().indexOf(data);
+					if (index >= 0 ) {					
+						onSelectedRowChange(index);
+					}
 				}
 			}
         }
@@ -351,13 +359,62 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	private void onSelectedRowChange(int index) {
-		if (updateModelIndex(index)) {		
-			listModel.updateComponent(index);
-		} else if (!renderer.isInitialize()) {
-			listModel.updateComponent(index);
+		if (updateModelIndex(index)) {
+			updateListIndex();
+		} 
+	}
+	
+	/**
+	 * Event after the current selected row change
+	 */
+	public void onPostSelectedRowChanged() {		
+		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
+		if (rowIndex >= 0 && pageSize > 0) {			
+			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
+			org.zkoss.zul.Row row = (org.zkoss.zul.Row) listbox.getRows().getChildren().get(pgIndex);
+			if (!isRowRendered(row, pgIndex)) {
+				listbox.renderRow(row);				
+			} else {
+				renderer.setCurrentRow(row);				
+			}
+			if (modeless && !renderer.isEditing()) {
+				renderer.editCurrentRow();
+				renderer.setFocusToEditor();
+			} else {
+				focusToRow(row);
+			}
+		} else if (rowIndex >= 0) {
+			org.zkoss.zul.Row row = (org.zkoss.zul.Row) listbox.getRows().getChildren().get(rowIndex);
+			if (!isRowRendered(row, rowIndex)) {
+				listbox.renderRow(row);
+			} else {
+				renderer.setCurrentRow(row);				
+			}
+			if (modeless && !renderer.isEditing()) {
+				renderer.editCurrentRow();
+				renderer.setFocusToEditor();
+			} else {
+				focusToRow(row);
+			}
 		}
 	}
 
+	private void focusToRow(org.zkoss.zul.Row row) {
+		Component c = row.getFirstChild().getFirstChild().getNextSibling();
+		Clients.response(new AuScript(null, "scrollToRow('" + c.getUuid() + "');"));
+	}
+
+	private boolean isRowRendered(org.zkoss.zul.Row row, int index) {
+		if (row.getChildren().size() == 0) {			
+			return false;
+		} else if (row.getChildren().size() == 1) {
+			if (!(row.getChildren().get(0) instanceof Div)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	private boolean updateModelIndex(int rowIndex) {
 		if (pageSize > 0) {
 			int start = listModel.getPage() * listModel.getPageSize();
@@ -365,7 +422,6 @@ public class GridPanel extends Borderlayout implements EventListener
 		} 
 		
 		if (gridTab.getCurrentRow() != rowIndex) {
-			renderer.stopEditing(true);
 			gridTab.navigate(rowIndex);
 			return true;
 		}
@@ -384,7 +440,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * @param col
 	 */
 	public void dynamicDisplay(int col) {
-		if (!gridTab.isOpen())
+		if (gridTab == null || !gridTab.isOpen())
         {
             return;
         }
@@ -424,7 +480,18 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	@Override
 	public void focus() {
-		if (renderer != null)
-			renderer.setFocusToField();
+		if (renderer != null && renderer.isEditing()) {
+			renderer.setFocusToEditor();
+		}
+	}
+
+	/**
+	 * Handle enter key event
+	 */
+	public void onEnterKey() {
+		if (!modeless && renderer != null && !renderer.isEditing()) {
+			renderer.editCurrentRow();
+			renderer.setFocusToEditor();
+		}
 	}
 }

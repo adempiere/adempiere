@@ -869,5 +869,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 	public void afterSave(boolean onSaveEvent) {
 	}
 
+	public void onEnterKey() {
+	}
 }	//ADSortTab
 

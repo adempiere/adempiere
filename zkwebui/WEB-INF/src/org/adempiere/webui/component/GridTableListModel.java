@@ -45,6 +45,8 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	private int pageSize = -1;
 	private int pageNo = 0;
 
+	private boolean editing = false;
+
 	/**
 	 * 
 	 * @param tableModel
@@ -123,7 +125,7 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	 */
 	public int getSize() {
 		int total = tableModel.getRowCount(); 
-		if (pageSize < 0)
+		if (pageSize <= 0)
 			return total;
 		else if ((total - ( pageNo * pageSize)) < 0) {
 			pageNo = 0;
@@ -181,15 +183,43 @@ public class GridTableListModel extends AbstractListModel implements TableModelL
 	 */
 	public void tableChanged(TableModelEvent e) {
 		if (Executions.getCurrent() != null) {
-			if (e.getLastRow() == Integer.MAX_VALUE)
+			if (e.getType() == TableModelEvent.DELETE) 
+			{
+				if (pageSize > 0)
+				{
+					int pgIndex = e.getFirstRow() % pageSize;
+					fireEvent(ListDataEvent.CONTENTS_CHANGED, pgIndex, getSize());
+				}
+				else
+					fireEvent(ListDataEvent.INTERVAL_REMOVED, e.getFirstRow(), e.getLastRow());
+			}
+			else if (e.getType() == TableModelEvent.INSERT)
+			{
+				if (pageSize > 0)
+				{
+					int pgIndex = e.getFirstRow() % pageSize;
+					fireEvent(ListDataEvent.CONTENTS_CHANGED, pgIndex, getSize());
+				}
+				else
+					fireEvent(ListDataEvent.INTERVAL_ADDED, e.getFirstRow(), e.getLastRow());
+			}
+			else if (e.getLastRow() == Integer.MAX_VALUE)
 			{
 				fireEvent(ListDataEvent.CONTENTS_CHANGED, -1, -1);
 			}
 			else
 			{
-				fireEvent(ListDataEvent.CONTENTS_CHANGED, e.getFirstRow(), e.getLastRow());
+				if (!editing)
+					fireEvent(ListDataEvent.CONTENTS_CHANGED, e.getFirstRow(), e.getLastRow());
 			}
 		}
+	}
+
+	/**
+	 * @param b
+	 */
+	public void setEditing(boolean b) {
+		editing = b;
 	}
 
 }

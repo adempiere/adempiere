@@ -33,7 +33,10 @@ import org.compiere.util.CLogger;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -67,6 +70,8 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	private Center contentArea;
 
 	private West west;
+
+	private Keylistener keyListener;
 	
     public ADWindowPanel(Properties ctx, int windowNo)
     {
@@ -132,10 +137,13 @@ public class ADWindowPanel extends AbstractADWindowPanel
         }
         
         if (!isEmbedded()) {
-        	Keylistener keyListener = new Keylistener();
+        	if (keyListener != null)
+        		keyListener.detach();
+        	keyListener = new Keylistener();
         	statusBar.appendChild(keyListener);
-        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^x@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x");
+        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^x@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
         	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
+        	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
         }
         
         return layout;
@@ -162,6 +170,24 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	}
 
 
+	/**
+     * @param event
+     * @see EventListener#onEvent(Event)
+     */
+    public void onEvent(Event event) {
+    	if (Events.ON_CTRL_KEY.equals(event.getName())) {
+    		KeyEvent keyEvent = (KeyEvent) event;
+    		//enter == 13
+    		if (keyEvent.getKeyCode() == 13 && this.getComponent().getParent().isVisible()) {
+    			keyEvent.stopPropagation();
+    			IADTabpanel panel = adTab.getSelectedTabpanel();
+    			if (panel != null)
+    				panel.onEnterKey();
+    		}
+    	} else {
+    		super.onEvent(event);
+    	}
+    }
 
 	class TabOnCloseHanlder implements ITabOnCloseHandler {
 		
