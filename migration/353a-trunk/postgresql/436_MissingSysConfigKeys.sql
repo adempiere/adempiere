@@ -1,6 +1,6 @@
 -- Mar 17, 2009 12:16:31 AM COT
 -- Missing system configurator keys
-INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50018,'S',TO_TIMESTAMP('2009-03-17 00:16:11','YYYY-MM-DD HH24:MI:SS'),100,'Default paging size for grid view in zk webui','D','Y','ZK_PAGING_SIZE',TO_TIMESTAMP('2009-03-17 00:16:11','YYYY-MM-DD HH24:MI:SS'),100,'10')
+INSERT INTO AD_SysConfig (AD_Client_ID,AD_Org_ID,AD_SysConfig_ID,ConfigurationLevel,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50018,'S',TO_TIMESTAMP('2009-03-17 00:16:11','YYYY-MM-DD HH24:MI:SS'),100,'Default paging size for grid view in zk webui','D','Y','ZK_PAGING_SIZE',TO_TIMESTAMP('2009-03-17 00:16:11','YYYY-MM-DD HH24:MI:SS'),100,'100')
 ;
 
 -- Mar 17, 2009 12:19:46 AM COT
