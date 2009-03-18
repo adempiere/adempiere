@@ -362,6 +362,28 @@ public class WInvoiceGen extends ADForm
         
         return sql.toString();
     }
+    
+    private void postQueryEvent() 
+    {
+    	Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+    	Events.echoEvent("onExecuteQuery", this, null);
+    }
+    
+    /**
+     * Dont call this directly, use internally to handle execute query event 
+     */
+    public void onExecuteQuery()
+    {
+    	try
+    	{
+    		executeQuery();
+    	}
+    	finally
+    	{
+    		Clients.showBusy(null, false);
+    	}
+    }
+    
 	/**
 	 *  Query Info
 	 */
@@ -443,7 +465,7 @@ public class WInvoiceGen extends ADForm
 		}
 		else if (cmbDocType.equals(e.getTarget()))
         {
-            executeQuery();
+            postQueryEvent();
             return;
         }
 		//
@@ -468,7 +490,7 @@ public class WInvoiceGen extends ADForm
 			m_C_BPartner_ID = e.getNewValue();
 			fBPartner.setValue(m_C_BPartner_ID);	//	display value
 		}
-		executeQuery();
+		postQueryEvent();
 	}	//	vetoableChange
 
 	/**

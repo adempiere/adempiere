@@ -123,7 +123,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 			LayoutUtils.addSclass("status-border", statusBar);
 			south.setHeight("22px");
 			
-			executeQuery();
+			postQueryEvent();
 		}
 		catch(Exception ex)
 		{
@@ -376,6 +376,27 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	    return sql.toString();
 	}
 	
+	private void postQueryEvent() 
+    {
+		Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+    	Events.echoEvent("onExecuteQuery", this, null);
+    }
+    
+    /**
+     * Dont call this directly, use internally to handle execute query event 
+     */
+    public void onExecuteQuery()
+    {
+    	try
+    	{
+    		executeQuery();
+    	}
+    	finally
+    	{
+    		Clients.showBusy(null, false);
+    	}
+    }
+    
 	/**
 	 *  Query Info
 	 */
@@ -457,7 +478,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		}
 		else if (cmbDocType.equals(e.getTarget()))
 		{
-		    executeQuery();
+		    postQueryEvent();
 		    return;
 		}
 		
@@ -490,7 +511,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 			m_C_BPartner_ID = e.getNewValue();
 			fBPartner.setValue(m_C_BPartner_ID);	//	display value
 		}
-		executeQuery();
+		postQueryEvent();
 	}	//	vetoableChange
 
 
