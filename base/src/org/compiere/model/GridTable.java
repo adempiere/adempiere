@@ -296,7 +296,18 @@ public class GridTable extends AbstractTableModel
 			if (m_whereClause.indexOf('@') == -1)
 				where.append(m_whereClause);
 			else    //  replace variables
-				where.append(Env.parseContext(m_ctx, m_WindowNo, m_whereClause, false));
+			{
+				String context = Env.parseContext(m_ctx, m_WindowNo, m_whereClause, false);
+				if(context != null && context.length() > 0)
+				{
+					where.append(context);
+				}
+				else
+				{
+					log.log(Level.WARNING, "Failed to parse where clause. whereClause="+m_whereClause);
+					where.append(" 1 = 2 ");
+				}
+			}
 		}
 		if (m_onlyCurrentRows && m_TabNo == 0)
 		{
