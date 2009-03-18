@@ -298,7 +298,7 @@ public class GridTable extends AbstractTableModel
 			else    //  replace variables
 			{
 				String context = Env.parseContext(m_ctx, m_WindowNo, m_whereClause, false);
-				if(context != null && context.length() > 0)
+				if(context != null && context.trim().length() > 0)
 				{
 					where.append(context);
 				}
