@@ -65,6 +65,7 @@ import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPrivateAccess;
 import org.compiere.model.MRMA;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
@@ -97,6 +98,8 @@ import org.zkoss.zul.Space;
  */
 public class WInOutGen extends ADForm implements EventListener, ValueChangeListener, WTableModelListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	protected void initForm()
 	{
@@ -155,6 +158,8 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 	
 	private Label     lDocType = new Label();
 	private Listbox  cmbDocType = ListboxFactory.newDropdownListbox();
+	private Label   lDocAction = new Label();
+	private WTableDirEditor docAction;
 
 	/** User selection */
 	private ArrayList<Integer> selection = null;
@@ -234,6 +239,10 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		selNorthPanel.getRows().appendChild(row);
 		row.appendChild(lDocType.rightAlign());
 		row.appendChild(cmbDocType);
+		row.appendChild(new Space());
+		row.appendChild(lDocAction.rightAlign());
+		row.appendChild(docAction.getComponent());
+		row.appendChild(new Space());
 	}	//	jbInit
 
 	/**
@@ -250,6 +259,14 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		fWarehouse.addValueChangeListener(this);
 		fWarehouse.setValue(Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID"));
 		m_M_Warehouse_ID = fWarehouse.getValue();
+		//      Document Action Prepared/ Completed
+		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */,
+				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+				false, "AD_Ref_List.Value IN ('CO','PR')");
+		docAction = new WTableDirEditor("DocAction", true, false, true,docActionL);
+		docAction.setValue(DocAction.ACTION_Complete);
+		docAction.addValueChangeListener(this);
 		//	C_Order.C_BPartner_ID
 		MLookup bpL = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 		fBPartner = new WSearchEditor("C_BPartner_ID", false, false, true, bpL);
@@ -653,8 +670,19 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 			log.log(Level.SEVERE, msg);
 			return;
 		}
-		//	Add Parameter - M_Warehouse_ID=x
+		//Add Document action parameter
 		ip = new MPInstancePara(instance, 20);
+		String docActionSelected = (String)docAction.getValue();
+		ip.setParameter("DocAction", docActionSelected);
+		if(!ip.save())
+		{
+			String msg = "No DocAction Parameter added";
+			info.setContent(msg);
+			log.log(Level.SEVERE, msg);
+			return;
+		}
+		//	Add Parameter - M_Warehouse_ID=x
+		ip = new MPInstancePara(instance, 30);
 		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
 		if (!ip.save())
 		{

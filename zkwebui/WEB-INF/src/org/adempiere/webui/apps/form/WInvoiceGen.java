@@ -64,6 +64,7 @@ import org.compiere.model.MPInstancePara;
 import org.compiere.model.MPrivateAccess;
 import org.compiere.model.MRMA;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
@@ -98,6 +99,8 @@ import org.zkoss.zul.Space;
 public class WInvoiceGen extends ADForm
 	implements EventListener, ValueChangeListener, WTableModelListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize Panel
 	 */
@@ -155,6 +158,8 @@ public class WInvoiceGen extends ADForm
 	
 	private Label     lDocType = new Label();
     private Listbox cmbDocType = ListboxFactory.newDropdownListbox();
+    private Label      lDocAction = new Label();
+    private WTableDirEditor docAction;
 	private ProcessInfo m_pi;
 	private int[] m_ids;
 	
@@ -193,6 +198,7 @@ public class WInvoiceGen extends ADForm
 		Row row = selNorthPanel.newRows().newRow();
 		row.appendChild(lOrg.rightAlign());
 		row.appendChild(fOrg.getComponent());
+		row.appendChild(new Space());
 		row.appendChild(lBPartner.rightAlign());
 		row.appendChild(fBPartner.getComponent());
 		row.appendChild(new Space());
@@ -231,6 +237,10 @@ public class WInvoiceGen extends ADForm
 		selNorthPanel.getRows().appendChild(row);
         row.appendChild(lDocType.rightAlign());
         row.appendChild(cmbDocType);
+        row.appendChild(new Space());
+        row.appendChild(lDocAction.rightAlign());
+        row.appendChild(docAction.getComponent());
+        row.appendChild(new Space());
 	}	//	jbInit
 
 	/**
@@ -249,6 +259,14 @@ public class WInvoiceGen extends ADForm
 		fBPartner = new WSearchEditor ("C_BPartner_ID", false, false, true, bpL);
 	//	lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		fBPartner.addValueChangeListener(this);
+		//      Document Action Prepared/ Completed
+		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */,
+				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+				false, "AD_Ref_List.Value IN ('CO','PR')");
+		docAction = new WTableDirEditor("DocAction", true, false, true,docActionL);
+		docAction.setValue(DocAction.ACTION_Complete);
+		docAction.addValueChangeListener(this);
         
 //      Document Type Sales Order/Vendor RMA
         lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
@@ -626,8 +644,10 @@ public class WInvoiceGen extends ADForm
 			log.log(Level.SEVERE, msg);
 			return;
 		}
+		//Add Document action parameter
 		para = new MPInstancePara(instance, 20);
-		para.setParameter("DocAction", "CO");
+		String docActionSelected = (String)docAction.getValue();
+		para.setParameter("DocAction", docActionSelected);
 		if (!para.save())
 		{
 			String msg = "No DocAction Parameter added";  //  not translated
