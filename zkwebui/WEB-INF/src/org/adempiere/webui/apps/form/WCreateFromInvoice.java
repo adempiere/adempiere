@@ -51,6 +51,8 @@ import org.zkoss.zk.ui.event.Event;
  */
 public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
@@ -455,11 +457,11 @@ public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListen
 	protected void info()
 	{
 		ListModelTable model = dataTable.getModel();
-		int rows = model.getSize();
+		int rows = model.getRowCount();
 		int count = 0;
 		for (int i = 0; i < rows; i++)
 		{
-			if (dataTable.getItemAtIndex(i).isSelected())
+			if (((Boolean) model.getValueAt(i, 0)).booleanValue())
 				count++;
 		}
 		setStatusLine(count, null);
@@ -614,7 +616,8 @@ public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListen
 
 	@Override
 	protected void loadTableOIS(Vector data) {
-	//  Header Info
+		dataTable.clear();
+		//  Header Info
 	    Vector<String> columnNames = new Vector<String>(7);
 	    columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
 	    columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));

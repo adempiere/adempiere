@@ -574,6 +574,7 @@ public abstract class WCreateFrom extends Window
 	 */
 	protected void loadTableOIS (Vector<Vector<Object>> data)
 	{
+		dataTable.clear();
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(7);
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));

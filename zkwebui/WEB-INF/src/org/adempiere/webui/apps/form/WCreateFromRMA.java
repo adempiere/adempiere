@@ -34,6 +34,8 @@ import org.compiere.util.Msg;
  */
 public class WCreateFromRMA extends WCreateFrom
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 
 	 * @param mTab
@@ -85,6 +87,7 @@ public class WCreateFromRMA extends WCreateFrom
      */
     protected void loadTableOIS (Vector data)
     {
+    	dataTable.clear();
         //  Header Info
         Vector<String> columnNames = new Vector<String>(7);
         columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));

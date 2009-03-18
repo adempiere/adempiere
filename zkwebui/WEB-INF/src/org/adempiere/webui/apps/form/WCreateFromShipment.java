@@ -54,6 +54,8 @@ import org.zkoss.zul.Popup;
  */
 public class WCreateFromShipment extends WCreateFrom implements ValueChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
@@ -75,6 +77,7 @@ public class WCreateFromShipment extends WCreateFrom implements ValueChangeListe
      */
     protected void loadTableOIS (Vector data)
     {
+    	dataTable.clear();
         //  Header Info
         Vector<String> columnNames = new Vector<String>(7);
         columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));

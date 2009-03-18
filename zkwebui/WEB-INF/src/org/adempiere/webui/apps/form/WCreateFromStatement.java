@@ -55,6 +55,8 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WCreateFromStatement extends WCreateFrom implements ValueChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab
@@ -206,6 +208,8 @@ public class WCreateFromStatement extends WCreateFrom implements ValueChangeList
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
+		
+		dataTable.clear();
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>(6);
 		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
