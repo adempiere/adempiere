@@ -261,6 +261,7 @@ public class InvoiceGenerate extends SvrProcess
 						if (completeOrder && !fullyDelivered)
 						{
 							log.fine("Failed CompleteOrder - " + oLine);
+							addLog("Failed CompleteOrder - " + oLine); // Elaine 2008/11/25
 							completeOrder = false;
 							break;
 						}
@@ -277,8 +278,12 @@ public class InvoiceGenerate extends SvrProcess
 							createLine (order, oLine, toInvoice, qtyEntered);
 						}
 						else
+						{
 							log.fine("Failed: " + order.getInvoiceRule() 
 								+ " - ToInvoice=" + toInvoice + " - " + oLine);
+							addLog("Failed: " + order.getInvoiceRule() 
+								+ " - ToInvoice=" + toInvoice + " - " + oLine);
+						}
 					}	//	for all order lines
 					if (MOrder.INVOICERULE_Immediate.equals(order.getInvoiceRule()))
 						m_line += 1000;
@@ -440,7 +445,10 @@ public class InvoiceGenerate extends SvrProcess
 		if (m_invoice != null)
 		{
 			if (!m_invoice.processIt(p_docAction))
+			{
 				log.warning("completeInvoice - failed: " + m_invoice);
+				addLog("completeInvoice - failed: " + m_invoice); // Elaine 2008/11/25
+			}
 			m_invoice.save();
 			//
 			addLog(m_invoice.getC_Invoice_ID(), m_invoice.getDateInvoiced(), null, m_invoice.getDocumentNo());
