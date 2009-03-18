@@ -19,8 +19,10 @@ package org.adempiere.webui.panel;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
@@ -28,6 +30,7 @@ import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -56,6 +59,8 @@ public class MenuPanel extends Panel implements EventListener
     private MenuSearchPanel pnlSearch;
     private Tree menuTree;
     private ArrayList<MenuListener> menuListeners = new ArrayList<MenuListener>();
+    
+    private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree
     
     public MenuPanel()
     {
@@ -98,7 +103,15 @@ public class MenuPanel extends Panel implements EventListener
         
         Panelchildren pc = new Panelchildren();
         this.appendChild(pc);
-        pc.appendChild(menuTree);                
+        pc.appendChild(menuTree);  
+        
+        // Elaine 2009/02/27 - expand tree
+        toolbar = new Toolbar();
+        chkExpand = new Checkbox();
+        chkExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
+        chkExpand.addEventListener(Events.ON_CHECK, this);
+        toolbar.appendChild(chkExpand);
+        this.appendChild(toolbar);
     }
     
     private void initMenu(MTreeNode rootNode)
@@ -193,6 +206,15 @@ public class MenuPanel extends Panel implements EventListener
                 }
         	}
         }
+        // Elaine 2009/02/27 - expand tree
+        else if (eventName.equals(Events.ON_CHECK) && event.getTarget() == chkExpand)
+        {
+        	if(comp.equals(chkExpand))
+        	{
+        		expandTree();
+        	}
+        }
+        //
     }
     
     protected void fireMenuSelectedEvent(Treeitem selectedItem) {
@@ -219,4 +241,67 @@ public class MenuPanel extends Panel implements EventListener
 	{
 		return menuTree;
 	}
+	
+	// Elaine 2009/02/27 - expand tree
+	private void expand(Treechildren treechildren, boolean expand)
+	{
+		List<?> list = treechildren.getChildren();
+		for(int index = 0; index < list.size(); index++)
+		{
+			Object o = list.get(index);
+			if(o instanceof Treechildren)
+			{
+				Treechildren treechild = (Treechildren) o;
+				expand(treechild, expand);
+			}
+			else if(o instanceof Treeitem)
+			{
+				Treeitem treeitem = (Treeitem) o;
+				treeitem.setOpen(expand);
+	
+				List<?> treeitemChildren = treeitem.getChildren();
+				for(int childIndex = 0; childIndex < treeitemChildren.size(); childIndex++)
+				{
+					Object child = treeitemChildren.get(childIndex);
+					if(child instanceof Treechildren)
+					{
+						Treechildren treechild = (Treechildren) child;
+						expand(treechild, expand);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	* expand all node
+	*/
+	public void expandAll()
+	{
+		if (!chkExpand.isChecked())
+			chkExpand.setChecked(true);
+	
+		expandTree();
+	}
+	
+	/**
+	 * collapse all node
+	 */
+	public void collapseAll()
+	{
+		if (chkExpand.isChecked())
+			chkExpand.setChecked(false);
+	
+		expandTree();
+	}
+	
+	/**
+	 *  Clicked on Expand All
+	 */
+	private void expandTree()
+	{
+		Treechildren treechildren = menuTree.getTreechildren();
+		expand(treechildren, chkExpand.isChecked());
+	}
+	//
 }
