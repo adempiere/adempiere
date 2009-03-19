@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -35,6 +35,7 @@ import org.compiere.util.Trace;
  */
 public class MProductPricing
 {
+
 	/**
 	 * 	Constructor
 	 * 	@param M_Product_ID product
@@ -50,6 +51,10 @@ public class MProductPricing
 		if (Qty != null && Env.ZERO.compareTo(Qty) != 0)
 			m_Qty = Qty;
 		m_isSOTrx = isSOTrx;
+		int thereAreVendorBreakRecords = DB.getSQLValue(null, 
+				"SELECT 1 FROM M_ProductPriceVendorBreak WHERE M_Product_ID=? AND C_BPartner_ID=?",
+				m_M_Product_ID, m_C_BPartner_ID);
+		m_useVendorBreak = thereAreVendorBreakRecords == 1;
 	}	//	MProductPricing
 
 	private int 		m_M_Product_ID;
@@ -65,6 +70,8 @@ public class MProductPricing
 	
 	
 	private boolean 	m_calculated = false;
+	private boolean 	m_vendorbreak = false;
+	private boolean 	m_useVendorBreak;
 	private Boolean		m_found = null;
 	
 	private BigDecimal 	m_PriceList = Env.ZERO;
@@ -90,6 +97,28 @@ public class MProductPricing
 		if (m_M_Product_ID == 0 
 			|| (m_found != null && !m_found.booleanValue()))	//	previously not found
 			return false;
+		
+		if (m_useVendorBreak) {
+			//	Price List Version known - vendor break
+			if (!m_calculated &&  !m_isSOTrx) {
+				m_calculated = calculatePLV_VB ();
+				if (m_calculated)
+					m_vendorbreak = true;
+			}
+			//	Price List known - vendor break
+			if (!m_calculated &&  !m_isSOTrx) {
+				m_calculated = calculatePL_VB();
+				if (m_calculated)
+					m_vendorbreak = true;
+			}
+			//	Base Price List used - vendor break
+			if (!m_calculated &&  !m_isSOTrx) {
+				m_calculated = calculateBPL_VB();
+				if (m_calculated)
+					m_vendorbreak = true;
+			}
+		}
+		
 		//	Price List Version known
 		if (!m_calculated)
 			m_calculated = calculatePLV ();
@@ -103,7 +132,7 @@ public class MProductPricing
 		if (!m_calculated)
 			setBaseInfo();
 		//	User based Discount
-		if (m_calculated)
+		if (m_calculated && !m_vendorbreak)
 			calculateDiscount();
 		setPrecision();		//	from Price List
 		//
@@ -134,12 +163,14 @@ public class MProductPricing
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pv.M_PriceList_Version_ID=?";	//	#2
 		m_calculated = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, m_M_PriceList_Version_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				//	Prices
@@ -162,13 +193,17 @@ public class MProductPricing
 				log.fine("M_PriceList_Version_ID=" + m_M_PriceList_Version_ID + " - " + m_PriceStd);
 				m_calculated = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e); 
 			m_calculated = false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 		return m_calculated;
 	}	//	calculatePLV
@@ -243,16 +278,18 @@ public class MProductPricing
 			+ " AND pp.IsActive='Y'"
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pv.M_PriceList_ID=?"			//	#2
-			+ "ORDER BY pv.ValidFrom DESC";
+			+ " ORDER BY pv.ValidFrom DESC";
 		m_calculated = false;
 		if (m_PriceDate == null)
 			m_PriceDate = new Timestamp (System.currentTimeMillis());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, m_M_PriceList_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (!m_calculated && rs.next())
 			{
 				Timestamp plDate = rs.getTimestamp(5);
@@ -282,13 +319,17 @@ public class MProductPricing
 					break;
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			m_calculated = false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 		if (!m_calculated)
 			log.finer("Not found (PL)");
@@ -318,16 +359,18 @@ public class MProductPricing
 			+ " AND pp.IsActive='Y'"
 			+ " AND p.M_Product_ID=?"				//	#1
 			+ " AND pl.M_PriceList_ID=?"			//	#2
-			+ "ORDER BY pv.ValidFrom DESC";
+			+ " ORDER BY pv.ValidFrom DESC";
 		m_calculated = false;
 		if (m_PriceDate == null)
 			m_PriceDate = new Timestamp (System.currentTimeMillis());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
 			pstmt.setInt(2, m_M_PriceList_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (!m_calculated && rs.next())
 			{
 				Timestamp plDate = rs.getTimestamp(5);
@@ -358,18 +401,313 @@ public class MProductPricing
 					break;
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			m_calculated = false;
 		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
 		if (!m_calculated)
 			log.finer("Not found (BPL)");
 		return m_calculated;
 	}	//	calculateBPL
+
+	/**
+	 * 	Calculate Price based on Price List Version and Vendor Break
+	 * 	@return true if calculated
+	 */
+	private boolean calculatePLV_VB()
+	{
+		if (m_M_Product_ID == 0 || m_M_PriceList_Version_ID == 0)
+			return false;
+		//
+		String sql = "SELECT pp.PriceStd,"	//	1
+			+ " pp.PriceList,"		//	2
+			+ " pp.PriceLimit,"	//	3
+			+ " p.C_UOM_ID,pv.ValidFrom,pl.C_Currency_ID,p.M_Product_Category_ID,"	//	4..7
+			+ " pl.EnforcePriceLimit, pl.IsTaxIncluded "	// 8..9
+			+ "FROM M_Product p"
+			+ " INNER JOIN M_ProductPriceVendorBreak pp ON (p.M_Product_ID=pp.M_Product_ID)"
+			+ " INNER JOIN  M_PriceList_Version pv ON (pp.M_PriceList_Version_ID=pv.M_PriceList_Version_ID)"
+			+ " INNER JOIN M_Pricelist pl ON (pv.M_PriceList_ID=pl.M_PriceList_ID) "
+			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
+			+ " AND p.M_Product_ID=?"				//	#1
+			+ " AND pv.M_PriceList_Version_ID=?"	//	#2
+			+ " AND pp.C_BPartner_ID=?"				//	#3
+			+ " AND ?>=pp.BreakValue"				//  #4
+			+ " ORDER BY BreakValue DESC";
+		m_calculated = false;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(2, m_M_PriceList_Version_ID);
+			pstmt.setInt(3, m_C_BPartner_ID);
+			pstmt.setBigDecimal(4, m_Qty);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				//	Prices
+				m_PriceStd = rs.getBigDecimal(1);
+				if (rs.wasNull())
+					m_PriceStd = Env.ZERO;
+				m_PriceList = rs.getBigDecimal(2);
+				if (rs.wasNull())
+					m_PriceList = Env.ZERO;
+				m_PriceLimit = rs.getBigDecimal(3);
+				if (rs.wasNull())
+					m_PriceLimit = Env.ZERO;
+				//
+				m_C_UOM_ID = rs.getInt(4);
+				m_C_Currency_ID = rs.getInt(6);
+				m_M_Product_Category_ID = rs.getInt(7);
+				m_enforcePriceLimit = "Y".equals(rs.getString(8));
+				m_isTaxIncluded = "Y".equals(rs.getString(9));
+				//
+				log.fine("M_PriceList_Version_ID=" + m_M_PriceList_Version_ID + " - " + m_PriceStd);
+				m_calculated = true;
+			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e); 
+			m_calculated = false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		return m_calculated;
+	}	//	calculatePLV_VB
+
+	/**
+	 * 	Calculate Price based on P rice List and Vendor break
+	 * 	@return true if calculated
+	 */
+	private boolean calculatePL_VB()
+	{
+		if (m_M_Product_ID == 0)
+			return false;
+
+		//	Get Price List
+		/**
+		if (m_M_PriceList_ID == 0)
+		{
+			String sql = "SELECT M_PriceList_ID, IsTaxIncluded "
+				+ "FROM M_PriceList pl"
+				+ " INNER JOIN M_Product p ON (pl.AD_Client_ID=p.AD_Client_ID) "
+				+ "WHERE M_Product_ID=? "
+				+ "ORDER BY IsDefault DESC";
+			PreparedStatement pstmt = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql);
+				pstmt.setInt(1, m_M_Product_ID);
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					m_M_PriceList_ID = rs.getInt(1);
+					m_isTaxIncluded = "Y".equals(rs.getString(2));
+				}
+				rs.close();
+				pstmt.close();
+				pstmt = null;
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, "calculatePL (PL)", e);
+			}
+			finally
+			{
+				try
+				{
+					if (pstmt != null)
+						pstmt.close ();
+				}
+				catch (Exception e)
+				{}
+				pstmt = null;
+			}
+		}
+		/** **/
+		if (m_M_PriceList_ID == 0)
+		{
+			log.log(Level.SEVERE, "No PriceList");
+			Trace.printStack();
+			return false;
+		}
+
+		//	Get Prices for Price List
+		String sql = "SELECT pp.PriceStd,"	//	1
+			+ " pp.PriceList,"		//	2
+			+ " pp.PriceLimit,"	//	3
+			+ " p.C_UOM_ID,pv.ValidFrom,pl.C_Currency_ID,p.M_Product_Category_ID,pl.EnforcePriceLimit "	// 4..8
+			+ "FROM M_Product p"
+			+ " INNER JOIN M_ProductPriceVendorBreak pp ON (p.M_Product_ID=pp.M_Product_ID)"
+			+ " INNER JOIN  M_PriceList_Version pv ON (pp.M_PriceList_Version_ID=pv.M_PriceList_Version_ID)"
+			+ " INNER JOIN M_Pricelist pl ON (pv.M_PriceList_ID=pl.M_PriceList_ID) "
+			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
+			+ " AND p.M_Product_ID=?"				//	#1
+			+ " AND pv.M_PriceList_ID=?"			//	#2
+			+ " AND pp.C_BPartner_ID=?"				//	#3
+			+ " AND ?>=pp.BreakValue"				//  #4
+			+ " ORDER BY pv.ValidFrom DESC, BreakValue DESC";
+		m_calculated = false;
+		if (m_PriceDate == null)
+			m_PriceDate = new Timestamp (System.currentTimeMillis());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(2, m_M_PriceList_ID);
+			pstmt.setInt(3, m_C_BPartner_ID);
+			pstmt.setBigDecimal(4, m_Qty);
+			rs = pstmt.executeQuery();
+			while (!m_calculated && rs.next())
+			{
+				Timestamp plDate = rs.getTimestamp(5);
+				//	we have the price list
+				//	if order date is after or equal PriceList validFrom
+				if (plDate == null || !m_PriceDate.before(plDate))
+				{
+					//	Prices
+					m_PriceStd = rs.getBigDecimal (1);
+					if (rs.wasNull ())
+						m_PriceStd = Env.ZERO;
+					m_PriceList = rs.getBigDecimal (2);
+					if (rs.wasNull ())
+						m_PriceList = Env.ZERO;
+					m_PriceLimit = rs.getBigDecimal (3);
+					if (rs.wasNull ())
+						m_PriceLimit = Env.ZERO;
+						//
+					m_C_UOM_ID = rs.getInt (4);
+					m_C_Currency_ID = rs.getInt (6);
+					m_M_Product_Category_ID = rs.getInt(7);
+					m_enforcePriceLimit = "Y".equals(rs.getString(8));
+					//
+					log.fine("M_PriceList_ID=" + m_M_PriceList_ID 
+						+ "(" + plDate + ")" + " - " + m_PriceStd);
+					m_calculated = true;
+					break;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			m_calculated = false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		if (!m_calculated)
+			log.finer("Not found (PL)");
+		return m_calculated;
+	}	//	calculatePL_VB
+
+	/**
+	 * 	Calculate Price based on Base Price List and Vendor Break
+	 * 	@return true if calculated
+	 */
+	private boolean calculateBPL_VB()
+	{
+		if (m_M_Product_ID == 0 || m_M_PriceList_ID == 0)
+			return false;
+		//
+		String sql = "SELECT pp.PriceStd,"	//	1
+			+ " pp.PriceList,"		//	2
+			+ " pp.PriceLimit,"	//	3
+			+ " p.C_UOM_ID,pv.ValidFrom,pl.C_Currency_ID,p.M_Product_Category_ID,"	//	4..7
+			+ " pl.EnforcePriceLimit, pl.IsTaxIncluded "	// 8..9
+			+ "FROM M_Product p"
+			+ " INNER JOIN M_ProductPriceVendorBreak pp ON (p.M_Product_ID=pp.M_Product_ID)"
+			+ " INNER JOIN  M_PriceList_Version pv ON (pp.M_PriceList_Version_ID=pv.M_PriceList_Version_ID)"
+			+ " INNER JOIN M_Pricelist bpl ON (pv.M_PriceList_ID=bpl.M_PriceList_ID)"
+			+ " INNER JOIN M_Pricelist pl ON (bpl.M_PriceList_ID=pl.BasePriceList_ID) "
+			+ "WHERE pv.IsActive='Y'"
+			+ " AND pp.IsActive='Y'"
+			+ " AND p.M_Product_ID=?"				//	#1
+			+ " AND pl.M_PriceList_ID=?"			//	#2
+			+ " AND pp.C_BPartner_ID=?"				//	#3
+			+ " AND ?>=pp.BreakValue"				//  #4
+			+ " ORDER BY pv.ValidFrom DESC, BreakValue DESC";
+		m_calculated = false;
+		if (m_PriceDate == null)
+			m_PriceDate = new Timestamp (System.currentTimeMillis());
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(2, m_M_PriceList_ID);
+			pstmt.setInt(3, m_C_BPartner_ID);
+			pstmt.setBigDecimal(4, m_Qty);
+			rs = pstmt.executeQuery();
+			while (!m_calculated && rs.next())
+			{
+				Timestamp plDate = rs.getTimestamp(5);
+				//	we have the price list
+				//	if order date is after or equal PriceList validFrom
+				if (plDate == null || !m_PriceDate.before(plDate))
+				{
+					//	Prices
+					m_PriceStd = rs.getBigDecimal (1);
+					if (rs.wasNull ())
+						m_PriceStd = Env.ZERO;
+					m_PriceList = rs.getBigDecimal (2);
+					if (rs.wasNull ())
+						m_PriceList = Env.ZERO;
+					m_PriceLimit = rs.getBigDecimal (3);
+					if (rs.wasNull ())
+						m_PriceLimit = Env.ZERO;
+						//
+					m_C_UOM_ID = rs.getInt (4);
+					m_C_Currency_ID = rs.getInt (6);
+					m_M_Product_Category_ID = rs.getInt(7);
+					m_enforcePriceLimit = "Y".equals(rs.getString(8));
+					m_isTaxIncluded = "Y".equals(rs.getString(9));
+					//
+					log.fine("M_PriceList_ID=" + m_M_PriceList_ID 
+						+ "(" + plDate + ")" + " - " + m_PriceStd);
+					m_calculated = true;
+					break;
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			m_calculated = false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		if (!m_calculated)
+			log.finer("Not found (BPL)");
+		return m_calculated;
+	}	//	calculateBPL_VB
 
 	/**
 	 * 	Set Base Info (UOM)
@@ -380,22 +718,28 @@ public class MProductPricing
 			return;
 		//
 		String sql = "SELECT C_UOM_ID, M_Product_Category_ID FROM M_Product WHERE M_Product_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_C_UOM_ID = rs.getInt (1);
 				m_M_Product_Category_ID = rs.getInt(2);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
 		}
 	}	//	setBaseInfo
 
@@ -426,11 +770,12 @@ public class MProductPricing
 			+ " INNER JOIN C_BP_Group g ON (p.C_BP_Group_ID=g.C_BP_Group_ID) "
 			+ "WHERE p.C_BPartner_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setInt (1, m_C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				M_DiscountSchema_ID = rs.getInt(m_isSOTrx ? 1 : 2);
@@ -438,22 +783,15 @@ public class MProductPricing
 				if (FlatDiscount == null)
 					FlatDiscount = Env.ZERO;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 		//	No Discount Schema
@@ -654,7 +992,7 @@ public class MProductPricing
 	 */
 	public boolean isDiscountSchema()
 	{
-		return m_discountSchema;	
+		return m_discountSchema || m_useVendorBreak;	
 	}	//	isDiscountSchema
 	
 	/**
