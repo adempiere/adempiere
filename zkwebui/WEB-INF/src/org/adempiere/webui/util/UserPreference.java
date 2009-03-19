@@ -26,7 +26,8 @@ import org.compiere.util.Language;
 /**
  * 
  * @author hengsin
- *
+ * @author Teo Sarca, www.arhipac.ro
+ *			<li>FR [ 2694043 ] Query. first/firstOnly usage best practice
  */
 public final class UserPreference implements Serializable {
 	
@@ -86,7 +87,7 @@ public final class UserPreference implements Serializable {
 				String attribute = PROPERTIES[i];
 				String value = props.getProperty(attribute);
 
-				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).first(); 
+				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly(); 
 				if (preference == null) {
 					preference = new MPreference(Env.getCtx(), 0, null);				
 					preference.setAD_User_ID(m_AD_User_ID);
@@ -113,7 +114,7 @@ public final class UserPreference implements Serializable {
 				String attribute = PROPERTIES[i];
 				String value = VALUES[i];
 
-				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).first();
+				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
 				if (preference != null) {
 					value = preference.getValue();
 				} 
@@ -134,7 +135,7 @@ public final class UserPreference implements Serializable {
 			for (int i = 0; i < PROPERTIES.length; i++) {
 				String attribute = PROPERTIES[i];
 
-				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).first();
+				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
 				if (preference != null) {
 					preference.deleteEx(true);
 				}
