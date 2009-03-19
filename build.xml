@@ -96,6 +96,7 @@
 				WEB-INF/src/**,
 		      		**/web.xml,
 		      		testScripts/**,
+		      		migration/**,
 		      		WEB-INF/lib/*-sources.jar"
 		      		>
 		      </fileset>

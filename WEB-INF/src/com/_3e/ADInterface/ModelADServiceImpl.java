@@ -29,6 +29,7 @@
 
 package com._3e.ADInterface;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -717,12 +718,21 @@ public class ModelADServiceImpl implements ModelADService {
     	PO po = table.getPO(0, trxName);
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "Cannot create PO for " + tableName);
+    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	
     	DataRow dr = modelCRUD.getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
-        		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+				int idxcol = po.get_ColumnIndex(field.getColumn());
+				if (idxcol < 0) {
+	    			// The column doesn't exist try set_CustomColumn
+					log.log(Level.SEVERE, "Web service type "
+							+ m_webservicetype.getValue() + ": input column "
+							+ field.getColumn() + " not exists");
+				} else {
+	    			setValueAccordingToClass(po, poinfo, field, idxcol);
+				}
     		} else {
 				log.log(Level.SEVERE, "Web service type "
 						+ m_webservicetype.getValue() + ": input column "
@@ -743,6 +753,30 @@ public class ModelADServiceImpl implements ModelADService {
 		trx.close();
     	
 		return ret;
+	}
+
+	private void setValueAccordingToClass(PO po, POInfo poinfo,
+			DataField field, int idxcol) {
+		// Evaluate the type of the column and assign a proper variable
+		Class columnClass = poinfo.getColumnClass(idxcol);
+		Object value = null;
+		if (columnClass == Boolean.class) {
+			if ("Y".equalsIgnoreCase(field.getVal()) || "true".equalsIgnoreCase(field.getVal()))
+				value = new Boolean(true);
+			else
+				value = new Boolean(false);
+		} else if (columnClass == Integer.class) {
+			value = Integer.parseInt(field.getVal());
+		} else if (columnClass == BigDecimal.class) {
+			value = new BigDecimal(field.getVal());
+		} else if (columnClass == byte[].class) {
+			log.log(Level.SEVERE, "Web service type "
+					+ m_webservicetype.getValue() + ": input column "
+					+ field.getColumn() + " LOB not supported");
+		} else  {
+			value = field.getVal();
+		}
+		po.set_ValueOfColumn(field.getColumn(), value);
 	}
 
 	public StandardResponseDocument updateData(ModelCRUDRequestDocument req)
@@ -780,16 +814,25 @@ public class ModelADServiceImpl implements ModelADService {
     	PO po = table.getPO(recordID, trxName);
     	if (po == null)
     		return rollbackAndSetError(trx, resp, ret, true, "No Record " + recordID + " in " + tableName);
+    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
 
     	DataRow dr = modelCRUD.getDataRow();
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
-        		po.set_ValueOfColumn(field.getColumn(), field.getVal());
+    			int idxcol = po.get_ColumnIndex(field.getColumn());
+    			if (idxcol < 0) {
+    				// The column doesn't exist try set_CustomColumn
+    				log.log(Level.SEVERE, "Web service type "
+    						+ m_webservicetype.getValue() + ": input column "
+    						+ field.getColumn() + " not exists");
+    			} else {
+    				setValueAccordingToClass(po, poinfo, field, idxcol);
+    			}
     		} else {
-				log.log(Level.SEVERE, "Web service type "
-						+ m_webservicetype.getValue() + ": input column "
-						+ field.getColumn() + " not allowed");
+    			log.log(Level.SEVERE, "Web service type "
+    					+ m_webservicetype.getValue() + ": input column "
+    					+ field.getColumn() + " not allowed");
     		}
     	}
 
