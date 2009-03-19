@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -36,7 +36,10 @@ import org.compiere.util.Env;
  */
 public class MPriceList extends X_M_PriceList
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 221716795566010352L;
 
 
 	/**
@@ -146,7 +149,7 @@ public class MPriceList extends X_M_PriceList
 	}	//	MPriceList
 
 	/**
-	 * 	Load Cosntructor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 *	@param trxName transaction
@@ -154,6 +157,25 @@ public class MPriceList extends X_M_PriceList
 	public MPriceList (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
+	}	//	MPriceList
+
+	/**
+	 * 	Import Constructor
+	 *	@param impPL import
+	 */
+	public MPriceList (X_I_PriceList impPL)
+	{
+		this (impPL.getCtx(), 0, impPL.get_TrxName());
+		setClientOrg(impPL);
+		setUpdatedBy(impPL.getUpdatedBy());
+		//
+		setName(impPL.getName());
+		setDescription(impPL.getDescription());
+		setC_Currency_ID(impPL.getC_Currency_ID());
+		setPricePrecision(impPL.getPricePrecision());
+		setIsSOPriceList(impPL.isSOPriceList());
+		setIsTaxIncluded(impPL.isTaxIncluded());
+		setEnforcePriceLimit(impPL.isEnforcePriceLimit());
 	}	//	MPriceList
 
 	/**	Cached PLV					*/
