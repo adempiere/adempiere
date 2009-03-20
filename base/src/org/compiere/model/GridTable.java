@@ -1154,7 +1154,9 @@ public class GridTable extends AbstractTableModel
 		catch (PropertyVetoException pve)
 		{
 			log.warning(pve.getMessage());
-			dataIgnore();
+			//[ 2696732 ] Save changes dialog's cancel button shouldn't reset status
+			//https://sourceforge.net/tracker/index.php?func=detail&aid=2696732&group_id=176962&atid=879332
+			//dataIgnore();
 			return SAVE_ABORT;
 		}
 
