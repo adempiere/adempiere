@@ -1036,7 +1036,8 @@ public final class APanel extends CPanel
 		boolean insertRecord = !readOnly;
 		if (insertRecord)
 			insertRecord = m_curTab.isInsertRecord();
-		aNew.setEnabled(!changed && insertRecord);
+//		aNew.setEnabled(!changed && insertRecord);
+		aNew.setEnabled(insertRecord);
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
@@ -1673,7 +1674,38 @@ public final class APanel extends CPanel
 			log.warning("Insert Record disabled for Tab");
 			return;
 		}
-		cmd_save(false);
+		
+		m_curGC.stopEditor(true);
+		m_curGC.acceptEditorChanges();
+		
+		//  has anything changed?
+		if (m_curTab.needSave(true, false))
+		{   //  do we have real change
+			if (m_curTab.needSave(true, true))
+			{
+				//	Automatic Save
+				if (Env.isAutoCommit(m_ctx, m_curWindowNo))
+				{
+					if (!cmd_save(true))
+					{	
+						return;
+					}
+				}
+				//  explicitly ask when changing tabs
+				else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
+				{   //  yes we want to save
+					if (!cmd_save(true))
+					{   
+						return;
+					}
+				}
+				else    //  Don't save
+					m_curTab.dataIgnore();
+			}
+			else    //  new record, but nothing changed
+				m_curTab.dataIgnore();
+		}   //  there is a change
+		
 		m_curTab.dataNew (copy);
 		m_curGC.dynamicDisplay(0);
 	//	m_curTab.getTableModel().setChanged(false);
