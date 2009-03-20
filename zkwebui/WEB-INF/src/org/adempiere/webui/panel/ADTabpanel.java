@@ -17,6 +17,9 @@
 
 package org.adempiere.webui.panel;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,6 +51,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MLookup;
 import org.compiere.model.MTree;
@@ -89,7 +93,7 @@ import org.zkoss.zul.Treeitem;
  * @author Low Heng Sin 
  */
 public class ADTabpanel extends Div implements Evaluatee, EventListener, 
-DataStatusListener, IADTabpanel
+DataStatusListener, IADTabpanel, VetoableChangeListener
 {
     
 	private static final long serialVersionUID = 212250368715189455L;
@@ -141,6 +145,8 @@ DataStatusListener, IADTabpanel
 
 	private Group currentGroup;
 
+	private boolean m_vetoActive = false;
+
 	public ADTabpanel() 
 	{
         init();
@@ -164,8 +170,7 @@ DataStatusListener, IADTabpanel
         grid.makeNoStrip();
                 
         listPanel = new GridPanel();
-        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
-        
+        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);                
     }
 
     /**
@@ -223,6 +228,8 @@ DataStatusListener, IADTabpanel
         this.appendChild(listPanel);
         listPanel.setVisible(false);
         listPanel.setWindowNo(windowNo);
+        
+        gridTab.getTableModel().addVetoableChangeListener(this);
     }
 
     /**
@@ -1061,6 +1068,33 @@ DataStatusListener, IADTabpanel
 		if (listPanel.isVisible()) {
 			listPanel.onEnterKey();
 		}
+	}
+
+	/**
+	 * @param e
+	 * @see VetoableChangeListener#vetoableChange(PropertyChangeEvent)
+	 */
+	public void vetoableChange(PropertyChangeEvent e)
+			throws PropertyVetoException {
+		//  Save Confirmation dialog    MTable-RowSave
+		if (e.getPropertyName().equals(GridTable.PROPERTY))
+		{
+			//  throw new PropertyVetoException calls this method (??) again
+			if (m_vetoActive)
+			{
+				m_vetoActive = false;
+				return;
+			}
+			if (!Env.isAutoCommit(Env.getCtx(), getWindowNo()) || gridTab.getCommitWarning().length() > 0)
+			{
+				if (!FDialog.ask(getWindowNo(), this, "SaveChanges?", gridTab.getCommitWarning()))
+				{
+					m_vetoActive = true;
+					throw new PropertyVetoException ("UserDeniedSave", e);
+				}
+			}
+			return;
+		}   //  saveConfirmation
 	}
 }
 
