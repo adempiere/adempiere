@@ -1079,9 +1079,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		//  Save Confirmation dialog    MTable-RowSave
 		if (e.getPropertyName().equals(GridTable.PROPERTY))
 		{
-			//  throw new PropertyVetoException calls this method (??) again
+			//  throw new PropertyVetoException will call this listener again to revert to old value
 			if (m_vetoActive)
 			{
+				//ignore
 				m_vetoActive = false;
 				return;
 			}
@@ -1090,6 +1091,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 				if (!FDialog.ask(getWindowNo(), this, "SaveChanges?", gridTab.getCommitWarning()))
 				{
 					m_vetoActive = true;
+					System.out.println("throw PropertyVetoException ");
 					throw new PropertyVetoException ("UserDeniedSave", e);
 				}
 			}
