@@ -289,9 +289,9 @@ public class FDialog
         try
         {
         	String s = Msg.getMsg(Env.getCtx(), adMessage).replace("\n", "<br>");
-            int response = Messagebox.showDialog(s, Env.getHeader(Env.getCtx(), windowNo), Messagebox.YES | Messagebox.NO, Messagebox.QUESTION);
+            int response = Messagebox.showDialog(s, Env.getHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
 
-            return (response == Messagebox.YES);
+            return (response == Messagebox.OK);
         }
         catch (InterruptedException ex)
         {
