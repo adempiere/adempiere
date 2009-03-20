@@ -116,6 +116,7 @@ stop () {
 
 restart () {
     stop
+    sleep 1
     start
 }
 
