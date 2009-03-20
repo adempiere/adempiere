@@ -915,7 +915,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         {
             insertRecord = curTab.isInsertRecord();
         }
-        toolbar.enabledNew(!changed && insertRecord && !curTab.isSortTab());
+//        toolbar.enabledNew(!changed && insertRecord && !curTab.isSortTab());
+        toolbar.enabledNew(insertRecord && !curTab.isSortTab());
         toolbar.enableCopy(!changed && insertRecord && !curTab.isSortTab());
         toolbar.enableRefresh(!changed);
         toolbar.enableDelete(!changed && !readOnly && !curTab.isSortTab());
@@ -1030,13 +1031,17 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             return;
         }
         
+        if (!autoSave()) {
+        	return;
+        }
+		
         newRecord = curTab.dataNew(false);
         if (newRecord)
         {
             curTabpanel.dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
-            toolbar.enableDeleteSelection(false);
+    		toolbar.enableDeleteSelection(false);
             toolbar.enableNavigation(false);
             toolbar.enableTabNavigation(false);
             toolbar.enableIgnore(true);
@@ -1050,7 +1055,24 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         focusToActivePanel();
     }
     
-    // Elaine 2008/11/19
+    private boolean autoSave() {
+    	//  has anything changed?
+		if (curTab.needSave(true, false))
+		{   //  do we have real change
+			if (curTab.needSave(true, true))
+			{
+				if (!onSave(false))
+				{	
+					return false;
+				}
+			}
+			else    //  new record, but nothing changed
+				curTab.dataIgnore();
+		}   //  there is a change
+		return true;
+	}
+
+	// Elaine 2008/11/19
     /**
      * @see ToolbarListener#onCopy()
      */
@@ -1148,21 +1170,22 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     /**
      * @param onSaveEvent
      */
-    private void onSave(boolean onSaveEvent)
+    private boolean onSave(boolean onSaveEvent)
     {
     	if (curTab.isSortTab())
     	{
     		((ADSortTab)curTabpanel).saveData();
     		toolbar.enableSave(true);	//	set explicitly
     		toolbar.enableIgnore(false);
+    		return true;
     	}
     	else
     	{
-    		if (curTab.getCommitWarning() != null && curTab.getCommitWarning().trim().length() > 0)
+    		if (onSaveEvent && curTab.getCommitWarning() != null && curTab.getCommitWarning().trim().length() > 0)
     		{
     			if (!FDialog.ask(curWindowNo, this.getComponent(), "SaveChanges?", curTab.getCommitWarning()))
     			{
-    				return;
+    				return false;
     			}
     		}
 	    	boolean retValue = curTab.dataSave(onSaveEvent);
@@ -1172,9 +1195,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        	//actual error will prompt in the dataStatusChanged event
 //	            FDialog.error(curWindowNo, parent, "SaveIgnored");
 	            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
+	            return false;
 	        }
 	        curTabpanel.dynamicDisplay(0);
 	        curTabpanel.afterSave(onSaveEvent);
+	        return true;
     	}
     }
     

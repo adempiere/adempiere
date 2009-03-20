@@ -49,6 +49,10 @@ public final class UserPreference implements Serializable {
 	/** Warehouse Name */
 	public static final String P_WAREHOUSE = "Warehouse";
 	private static final String DEFAULT_WAREHOUSE = "";
+	
+	/** Auto Commit */
+	public static final String P_AUTO_COMMIT = "AutoCommit";
+	private static final String DEFAULT_AUTO_COMMIT = "Y";
 
 	/** Language Name Context **/
 	public static final String LANGUAGE_NAME = "#LanguageName";
@@ -59,14 +63,16 @@ public final class UserPreference implements Serializable {
 		P_ROLE, 
 		P_CLIENT,
 		P_ORG, 
-		P_WAREHOUSE };
+		P_WAREHOUSE,
+		P_AUTO_COMMIT};
 	/** Ini Property Values */
 	private static final String[] VALUES = new String[] { 
 		DEFAULT_LANGUAGE,
 		DEFAULT_ROLE,
 		DEFAULT_CLIENT, 
 		DEFAULT_ORG, 
-		DEFAULT_WAREHOUSE };
+		DEFAULT_WAREHOUSE,
+		DEFAULT_AUTO_COMMIT};
 
 	/** Container for Properties */
 	private Properties props = new Properties();

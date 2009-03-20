@@ -142,6 +142,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(ctx, "#ShowTrl", true);
 		Env.setContext(ctx, "#ShowAcct", true);
 		Env.setContext(ctx, "#ShowAdvanced", true);
+		
+		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
+		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
         
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
 		if (d != null && d instanceof IDesktop) 
