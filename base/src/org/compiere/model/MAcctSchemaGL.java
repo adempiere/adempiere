@@ -52,7 +52,7 @@ public class MAcctSchemaGL extends X_C_AcctSchema_GL
 		String whereClause = "C_AcctSchema_ID=?";
 		return new Query(ctx,MAcctSchemaGL.Table_Name,whereClause,null)
 		.setParameters(new Object[]{C_AcctSchema_ID})
-		.first();		
+		.firstOnly();		
 	}	//	get
 	
 	/**	Logger							*/

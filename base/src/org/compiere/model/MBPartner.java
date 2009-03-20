@@ -152,7 +152,8 @@ public class MBPartner extends X_C_BPartner
 	{
 		String whereClause = "C_BPartner_ID=? AND AD_Client_ID=?";
 		MBPartner retValue = new Query(ctx,MBPartner.Table_Name,whereClause.toString(),null)
-		.setParameters(new Object[]{C_BPartner_ID,Env.getAD_Client_ID(ctx)}).first();
+		.setParameters(new Object[]{C_BPartner_ID,Env.getAD_Client_ID(ctx)})
+		.firstOnly();
 		return retValue;
 	}	//	get
 

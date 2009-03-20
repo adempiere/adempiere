@@ -53,7 +53,7 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 		final String whereClause = "M_Product_Category_ID=? AND C_AcctSchema_ID=?";
 		acct = new Query(ctx, Table_Name, whereClause, trxName)
 					.setParameters(new Object[]{M_Product_Category_ID, C_AcctSchema_ID})
-					.first();
+					.firstOnly();
 		if (acct != null)
 		{
 			s_cache.put(key, acct);

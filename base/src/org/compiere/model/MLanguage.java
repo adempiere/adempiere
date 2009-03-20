@@ -68,7 +68,7 @@ public class MLanguage extends X_AD_Language
 	{
 		return new Query(ctx, Table_Name, COLUMNNAME_AD_Language+"=?", null)
 					.setParameters(new Object[]{AD_Language})
-					.first();
+					.firstOnly();
 	}	//	get
 
 	/**
