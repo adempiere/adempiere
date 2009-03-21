@@ -81,7 +81,7 @@ public abstract class PO
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7147383015345754638L;
+	private static final long serialVersionUID = 1876469108787009999L;
 
 	/**
 	 * 	Set Document Value Workflow Manager
@@ -897,11 +897,22 @@ public abstract class PO
 	 */
 	public final void set_ValueOfColumn(String columnName, Object value)
 	{
+		set_ValueOfColumnReturningBoolean(columnName, value);
+	}
+	
+	/**
+	 * Set value of Column returning boolean
+	 * @param columnName
+	 * @param value
+	 *  @returns boolean indicating success or failure
+	 */
+	public final boolean set_ValueOfColumnReturningBoolean(String columnName, Object value)
+	{
 		int AD_Column_ID = p_info.getAD_Column_ID(columnName);
-		if (AD_Column_ID > 0) 
-		{
-			set_ValueOfColumn(AD_Column_ID, value);
-		}
+		if (AD_Column_ID > 0)
+			return set_ValueOfColumnReturningBoolean(AD_Column_ID, value);
+		else
+			return false;
 	}
 	
 	/**
@@ -911,14 +922,26 @@ public abstract class PO
 	 */
 	public final void set_ValueOfColumn (int AD_Column_ID, Object value)
 	{
+		set_ValueOfColumnReturningBoolean (AD_Column_ID, value);
+	}   //  setValueOfColumn
+	
+	
+	/**
+	 *  Set Value of Column
+	 *  @param AD_Column_ID column
+	 *  @param value value
+	 *  @returns boolean indicating success or failure
+	 */
+	public final boolean set_ValueOfColumnReturningBoolean (int AD_Column_ID, Object value)
+	{
 		int index = p_info.getColumnIndex(AD_Column_ID);
 		if (index < 0)
 			log.log(Level.SEVERE, "Not found - AD_Column_ID=" + AD_Column_ID);
 		String ColumnName = p_info.getColumnName(index);
 		if (ColumnName.equals("IsApproved"))
-			set_ValueNoCheck(ColumnName, value);
+			return set_ValueNoCheck(ColumnName, value);
 		else
-		set_Value (index, value);
+			return set_Value (index, value);
 	}   //  setValueOfColumn
 	
 	
@@ -929,13 +952,23 @@ public abstract class PO
 	 */
 	public final void set_CustomColumn (String columnName, Object value)
 	{
+		set_CustomColumnReturningBoolean (columnName, value);
+	}	//	set_CustomColumn
+	
+	/**
+	 * 	Set Custom Column returning boolean
+	 *	@param columnName column
+	 *	@param value value
+	 *  @returns boolean indicating success or failure
+	 */
+	public final boolean set_CustomColumnReturningBoolean (String columnName, Object value)
+	{
 		// [ 1845793 ] PO.set_CustomColumn not updating correctly m_newValues
 		// this is for columns not in PO - verify and call proper method if exists
 		int poIndex = get_ColumnIndex(columnName);
 		if (poIndex > 0) {
 			// is not custom column - it exists in the PO
-			set_Value(columnName, value);
-			return;
+			return set_Value(columnName, value);
 		}
 		if (m_custom == null)
 			m_custom = new HashMap<String,String>();
@@ -953,8 +986,8 @@ public abstract class PO
 		//	Save it
 		log.log(Level.INFO, columnName + "=" + valueString);
 		m_custom.put(columnName, valueString);
+		return true;
 	}	//	set_CustomColumn
-	
 	
 	/**
 	 *  Set (numeric) Key Value
