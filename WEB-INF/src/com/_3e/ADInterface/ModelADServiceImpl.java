@@ -207,7 +207,7 @@ public class ModelADServiceImpl implements ModelADService {
 			throw new XFireFault("Web service type "
 					+ m_webservicetype.getValue() + ": invalid parameter "
 					+ parameterName,
-					new QName("parameterName"));
+					new QName("validateParameter"));
 
 		if (X_WS_WebService_Para.PARAMETERTYPE_Constant.equals(para.getParameterType())) {
 			if (string == null || string.length() == 0) {
@@ -217,7 +217,7 @@ public class ModelADServiceImpl implements ModelADService {
 						+ para.getConstantValue());
 				return para.getConstantValue();
 			} else if (! para.getConstantValue().equals(string)) {
-				log.log(Level.SEVERE, "Web service type "
+				log.log(Level.WARNING, "Web service type "
 						+ m_webservicetype.getValue() + ": constant parameter "
 						+ parameterName + " changed to "
 						+ para.getConstantValue());
@@ -262,7 +262,7 @@ public class ModelADServiceImpl implements ModelADService {
     	return ret;
 	}
 
-	private String modelLogin(ADLoginRequest r, String webService, String method, String serviceType) {
+	private String modelLogin(ADLoginRequest r, String webService, String method, String serviceType) throws XFireFault {
 
     	// TODO: Share login between different sessions
 		if (   m_cs.isLoggedIn()
@@ -344,7 +344,7 @@ public class ModelADServiceImpl implements ModelADService {
 		return authenticate(webService, method, serviceType);
 	}
 
-	private String authenticate(String webServiceValue, String methodValue, String serviceTypeValue) {
+	private String authenticate(String webServiceValue, String methodValue, String serviceTypeValue) throws XFireFault {
 		m_webservice  = MWebService.get(m_cs.getM_ctx(), webServiceValue);
 		if (m_webservice == null || ! m_webservice.isActive())
 			return "Web Service " + webServiceValue + " not registered";
@@ -375,7 +375,7 @@ public class ModelADServiceImpl implements ModelADService {
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("authenticate"));
 		}
 		finally
 		{
@@ -488,10 +488,11 @@ public class ModelADServiceImpl implements ModelADService {
 	   			rs = pstmt.executeQuery();
 			} catch (SQLException e)
     		{
-    			log.log(Level.SEVERE, sql, e);
     			res.setError(e.getMessage());
     			res.setErrorInfo(sql);
     			res.setSuccess(false);
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
+    		} finally {
     			DB.close(rs, pstmt);
     			rs = null; pstmt = null;
     		}
@@ -524,7 +525,7 @@ public class ModelADServiceImpl implements ModelADService {
     			throw new XFireFault("Web service type "
     					+ m_webservicetype.getValue() + ": reference table "
     					+ ref_id + " not found",
-    					new QName("AD_Reference_ID"));
+    					new QName("getList"));
     		
     		MTable table = new MTable(ctx, rt.getAD_Table_ID(), null);
     		MColumn column = new MColumn(ctx, rt.getAD_Key(), null);
@@ -576,12 +577,12 @@ public class ModelADServiceImpl implements ModelADService {
     		try {
    	   			pstmt = DB.prepareStatement(sql, null);
 	   			rs = pstmt.executeQuery();
-			} catch (SQLException e)
-    		{
-    			log.log(Level.SEVERE, sql, e);
+			} catch (SQLException e) {
     			res.setError(e.getMessage());
     			res.setErrorInfo(sql);
     			res.setSuccess(false);
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
+    		} finally {
     			DB.close(rs, pstmt);
     			rs = null; pstmt = null;
     		}
@@ -609,10 +610,10 @@ public class ModelADServiceImpl implements ModelADService {
     		}
     		catch (SQLException e)
     		{
-    			log.log(Level.SEVERE, sql, e);
     			res.setError(e.getMessage());
     			res.setErrorInfo(sql);
     			res.setSuccess(false);
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
     		}
     		finally
     		{
@@ -627,7 +628,7 @@ public class ModelADServiceImpl implements ModelADService {
     	res.setStartRow(1);
 
 		return resdoc;
-	}
+	} // getList
 
 	public StandardResponseDocument deleteData(ModelCRUDRequestDocument req)
 			throws XFireFault {
@@ -726,17 +727,19 @@ public class ModelADServiceImpl implements ModelADService {
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
 				if (idxcol < 0) {
-	    			// The column doesn't exist try set_CustomColumn
-					log.log(Level.SEVERE, "Web service type "
+	    			// The column doesn't exist - it must exist as it's defined in security
+					throw new XFireFault("Web service type "
 							+ m_webservicetype.getValue() + ": input column "
-							+ field.getColumn() + " not exists");
+							+ field.getColumn() + " not exists",
+							new QName("createData"));
 				} else {
 	    			setValueAccordingToClass(po, poinfo, field, idxcol);
 				}
     		} else {
-				log.log(Level.SEVERE, "Web service type "
+				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "
-						+ field.getColumn() + " not allowed");
+						+ field.getColumn() + " not allowed",
+						new QName("createData"));
     		}
     	}
 
@@ -753,30 +756,55 @@ public class ModelADServiceImpl implements ModelADService {
 		trx.close();
     	
 		return ret;
-	}
+	} // createData
 
 	private void setValueAccordingToClass(PO po, POInfo poinfo,
-			DataField field, int idxcol) {
+			DataField field, int idxcol) throws XFireFault {
 		// Evaluate the type of the column and assign a proper variable
 		Class columnClass = poinfo.getColumnClass(idxcol);
 		Object value = null;
-		if (columnClass == Boolean.class) {
+		if (field.getVal() == null || field.getVal().length() == 0) {
+			value = null;
+		} else if (columnClass == Boolean.class) {
 			if ("Y".equalsIgnoreCase(field.getVal()) || "true".equalsIgnoreCase(field.getVal()))
 				value = new Boolean(true);
-			else
+			else if ("N".equalsIgnoreCase(field.getVal()) || "false".equalsIgnoreCase(field.getVal()))
 				value = new Boolean(false);
+			else
+				throw new XFireFault("Web service type "
+						+ m_webservicetype.getValue() + ": input column "
+						+ field.getColumn() + " wrong value " + field.getVal(),
+						new QName("setValueAccordingToClass"));
 		} else if (columnClass == Integer.class) {
-			value = Integer.parseInt(field.getVal());
+			try {
+				value = Integer.parseInt(field.getVal());
+			} catch (NumberFormatException e) {
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " for " + field.getColumn(), e.getCause(), new QName("setValueAccordingToClass"));
+			}
 		} else if (columnClass == BigDecimal.class) {
-			value = new BigDecimal(field.getVal());
+			try {
+				value = new BigDecimal(field.getVal());
+			} catch (Exception e) {
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " for " + field.getColumn(), e.getCause(), new QName("setValueAccordingToClass"));
+			}
+		} else if (columnClass == Timestamp.class) {
+			try {
+				value = Timestamp.valueOf(field.getVal());
+			} catch (Exception e) {
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " for " + field.getColumn(), e.getCause(), new QName("setValueAccordingToClass"));
+			}
 		} else if (columnClass == byte[].class) {
-			log.log(Level.SEVERE, "Web service type "
+			throw new XFireFault("Web service type "
 					+ m_webservicetype.getValue() + ": input column "
-					+ field.getColumn() + " LOB not supported");
+					+ field.getColumn() + " LOB not supported",
+					new QName("setValueAccordingToClass"));
 		} else  {
 			value = field.getVal();
 		}
-		po.set_ValueOfColumn(field.getColumn(), value);
+		if (!po.set_ValueOfColumnReturningBoolean(field.getColumn(), value))
+			throw new XFireFault("Cannot set value of column "
+					+ field.getColumn(),
+					new QName("setValueAccordingToClass"));
 	}
 
 	public StandardResponseDocument updateData(ModelCRUDRequestDocument req)
@@ -823,16 +851,18 @@ public class ModelADServiceImpl implements ModelADService {
     			int idxcol = po.get_ColumnIndex(field.getColumn());
     			if (idxcol < 0) {
     				// The column doesn't exist try set_CustomColumn
-    				log.log(Level.SEVERE, "Web service type "
-    						+ m_webservicetype.getValue() + ": input column "
-    						+ field.getColumn() + " not exists");
+					throw new XFireFault("Web service type "
+							+ m_webservicetype.getValue() + ": input column "
+							+ field.getColumn() + " not exists",
+							new QName("updateData"));
     			} else {
     				setValueAccordingToClass(po, poinfo, field, idxcol);
     			}
     		} else {
-    			log.log(Level.SEVERE, "Web service type "
-    					+ m_webservicetype.getValue() + ": input column "
-    					+ field.getColumn() + " not allowed");
+				throw new XFireFault("Web service type "
+						+ m_webservicetype.getValue() + ": input column "
+						+ field.getColumn() + " not allowed",
+						new QName("updateData"));
     		}
     	}
 
@@ -846,7 +876,7 @@ public class ModelADServiceImpl implements ModelADService {
 		trx.close();
     	
 		return ret;
-	}
+	} // updateData
 
 	public WindowTabDataDocument readData(ModelCRUDRequestDocument req)
 			throws XFireFault {
@@ -876,7 +906,7 @@ public class ModelADServiceImpl implements ModelADService {
 			throw new XFireFault("Web service type "
 					+ m_webservicetype.getValue() + ": table "
 					+ tableName + " not found",
-					new QName("tableName"));
+					new QName("readData"));
     	PO po = table.getPO(recordID, null);
     	if (po == null) {
     		resp.setSuccess(false);
@@ -936,7 +966,7 @@ public class ModelADServiceImpl implements ModelADService {
 			throw new XFireFault("Web service type "
 					+ m_webservicetype.getValue() + ": table "
 					+ tableName + " not found",
-					new QName("tableName"));
+					new QName("queryData"));
 
 		int roleid = reqlogin.getRoleID();
 		MRole role = new MRole(ctx, roleid, null);
@@ -950,7 +980,7 @@ public class ModelADServiceImpl implements ModelADService {
     		} else {
 				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "
-						+ field.getColumn() + " not allowed", new QName(field.getColumn()));
+						+ field.getColumn() + " not allowed", new QName("queryData"));
     		}
 		}
 		

@@ -609,8 +609,20 @@
                   <adin:field column="IsTaxExempt">
                      <adin:val>N</adin:val>
                   </adin:field>
+                  <adin:field column="PotentialLifeTimeValue">
+                     <adin:val>12345.67</adin:val>
+                  </adin:field>
+                  <adin:field column="FirstSale">
+                     <adin:val>2009-03-18 13:30:45.34</adin:val>
+                  </adin:field>
+                  <adin:field column="SOCreditStatus">
+                     <adin:val>H</adin:val>
+                  </adin:field>
                   <adin:field column="Name2">
                      <adin:val>QSS Ltda. - http://www.globalqss.com</adin:val>
+                  </adin:field>
+                  <adin:field column="Description">
+                     <adin:val></adin:val>
                   </adin:field>
                   <adin:field column="C_BP_Group_ID">
                      <adin:val>104</adin:val>

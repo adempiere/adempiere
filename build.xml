@@ -19,7 +19,7 @@
         <!-- <property name="Adempiere.dir" value="${basedir}/../lib"></property>  To enable when integrated in trunk -->
 
         <!-- Point to the directory where you have adempiere built -->
-        <property name="Adempiere.dir" value="${user.home}/makes/adempiere342/lib"></property>  <!-- To delete when integrated in trunk -->
+        <property name="Adempiere.dir" value="${user.home}/makes/adempiere343/lib"></property>  <!-- To delete when integrated in trunk -->
 
 	<property name="war.name"	value="ADInterface-1.0"/>
 	<property name="compile.debug"       value="true"/>
