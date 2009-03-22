@@ -151,8 +151,6 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * @param gridTab
 	 */
 	public void refresh(GridTab gridTab) {
-		if (!gridTab.isOpen()) return;
-		
 		if (this.gridTab != gridTab || !isInit())
 		{
 			init = false;
@@ -169,9 +167,9 @@ public class GridPanel extends Borderlayout implements EventListener
 	 * Update current row from model
 	 */
 	public void updateListIndex() {
-		if (gridTab == null) return;
+		if (gridTab == null || !gridTab.isOpen()) return;
 		
-		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;		
+		int rowIndex  = gridTab.getCurrentRow();		
 		if (pageSize > 0) {			
 			if (paging.getTotalSize() != gridTab.getRowCount())
 				paging.setTotalSize(gridTab.getRowCount());
@@ -367,7 +365,10 @@ public class GridPanel extends Borderlayout implements EventListener
 	/**
 	 * Event after the current selected row change
 	 */
-	public void onPostSelectedRowChanged() {		
+	public void onPostSelectedRowChanged() {
+		if (listbox.getRows().getChildren().isEmpty()) 
+			return;
+		
 		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
 		if (rowIndex >= 0 && pageSize > 0) {			
 			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;

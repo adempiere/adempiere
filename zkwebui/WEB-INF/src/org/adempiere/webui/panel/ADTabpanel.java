@@ -671,7 +671,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
      */
     public void query()
     {
+    	boolean open = gridTab.isOpen();
         gridTab.query(false);
+        if (listPanel.isVisible() && !open)
+        	gridTab.getTableModel().fireTableDataChanged();
     }
     
     /**
@@ -682,7 +685,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
      */
     public void query (boolean onlyCurrentRows, int onlyCurrentDays, int maxRows)
     {
+    	boolean open = gridTab.isOpen();
         gridTab.query(onlyCurrentRows, onlyCurrentDays, maxRows);
+        if (listPanel.isVisible() && !open)
+        	gridTab.getTableModel().fireTableDataChanged();
     }
     
     /**
