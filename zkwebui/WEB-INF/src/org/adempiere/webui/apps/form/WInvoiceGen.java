@@ -261,7 +261,7 @@ public class WInvoiceGen extends ADForm
 		fBPartner.addValueChangeListener(this);
 		//      Document Action Prepared/ Completed
 		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
-		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */,
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 3495 /* C_Invoice.DocAction */,
 				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
 				false, "AD_Ref_List.Value IN ('CO','PR')");
 		docAction = new WTableDirEditor("DocAction", true, false, true,docActionL);
@@ -559,7 +559,7 @@ public class WInvoiceGen extends ADForm
 	 *	Generate Invoices
 	 */
 	private void generateInvoices ()
-        {
+    {
 		String trxName = Trx.createTrxName("IVG");
 		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
 		//String trxName = null;

@@ -261,7 +261,7 @@ public class WInOutGen extends ADForm implements EventListener, ValueChangeListe
 		m_M_Warehouse_ID = fWarehouse.getValue();
 		//      Document Action Prepared/ Completed
 		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
-		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */,
+		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocAction */,
 				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
 				false, "AD_Ref_List.Value IN ('CO','PR')");
 		docAction = new WTableDirEditor("DocAction", true, false, true,docActionL);
