@@ -27,6 +27,7 @@ import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.Util;
 
 /**
@@ -34,6 +35,9 @@ import org.compiere.util.Util;
  *	
  *  @author Jorg Janke
  *  @version $Id: MLocation.java,v 1.3 2006/07/30 00:54:54 jjanke Exp $
+ *  
+ *  @author Michael Judd (Akuna Ltd)
+ * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
 public class MLocation extends X_C_Location implements Comparator
 {
@@ -225,7 +229,20 @@ public class MLocation extends X_C_Location implements Comparator
 			return null;
 		return getCountryName();
 	}	//	getCountry
-
+	/**
+	 * 	Get Country Line
+	 * 	@param local if true only foreign country is returned
+	 * 	@return country or null
+	 */
+	public String getCountry (boolean local, String language)
+	{
+		if (local 
+			&& getC_Country_ID() == MCountry.getDefault(getCtx()).getC_Country_ID())
+			return null;
+		MCountry mc = getCountry();
+		return mc.getTrlName(language);
+	
+	}	//	getCountry
 	
 	/**
 	 * 	Set Region
@@ -595,5 +612,5 @@ public class MLocation extends X_C_Location implements Comparator
 				+ " OR C_LocTo_ID=" + getC_Location_ID() + ")", get_TrxName());
 		return success;
 	}	//	afterSave
-
+	
 }	//	MLocation

@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.compiere.model.MLocation;
+import org.compiere.util.Language;
 
 /**
  *	Location/Address Element.
@@ -33,6 +34,10 @@ import org.compiere.model.MLocation;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1888085 ] One line location field not working
  * 			<li>BF [ 1888094 ] PF: label & label suffix not working for location field
+ * 			<li>BF [ 2695078 } Country is not translated on invoice
+ * 
+ *  @author Michael Judd (Akuna Ltd)
+ * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
 public class LocationElement extends GridElement
 {
@@ -48,7 +53,7 @@ public class LocationElement extends GridElement
 	 */
 	public LocationElement(Properties ctx, int C_Location_ID, Font font, Paint color,
 			boolean isHeightOneLine,
-			String label, String labelSuffix)
+			String label, String labelSuffix, String language)
 	{
 		super(isHeightOneLine ? 1 : 10, 1);		//	max
 		setGap(0,0);
@@ -66,7 +71,7 @@ public class LocationElement extends GridElement
 			}
 			else if (ml.isAddressLinesReverse())
 			{
-				setData(index++, 0, ml.getCountry(true), font, color);
+				setData(index++, 0, ml.getCountry(true, language), font, color);
 				String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(ml.getCityRegionPostal());
 				for (int i = 0; i < lines.length; i++)
 					setData(index++, 0, lines[i], font, color);
@@ -92,7 +97,7 @@ public class LocationElement extends GridElement
 				String[] lines = Pattern.compile("$", Pattern.MULTILINE).split(ml.getCityRegionPostal());
 				for (int i = 0; i < lines.length; i++)
 					setData(index++, 0, lines[i], font, color);
-				setData(index++, 0, ml.getCountry(true), font, color);
+				setData(index++, 0, ml.getCountry(true, language), font, color);
 			}
 		}
 	}	//	LocationElement
@@ -102,7 +107,7 @@ public class LocationElement extends GridElement
 	 * @see #LocationElement(Properties, int, Font, Paint, boolean, String, String)
 	 */
 	public LocationElement(Properties ctx, int C_Location_ID, Font font, Paint color) {
-		this(ctx, C_Location_ID, font, color, false, null, null);
+		this(ctx, C_Location_ID, font, color, false, null, null, null);
 	}
 	
 }	//	LocationElement

@@ -88,6 +88,8 @@ import org.compiere.util.ValueNamePair;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
+ * @author Michael Judd (Akuna Ltd)
+ * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
 public class LayoutEngine implements Pageable, Printable, Doc
 {
@@ -1389,7 +1391,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (data.getDisplayType() == DisplayType.Location)
 		{
 			e = new LocationElement(m_printCtx, ((KeyNamePair)ID).getKey(), font, color,
-					item.isHeightOneLine(), label, labelSuffix);
+					item.isHeightOneLine(), label, labelSuffix, m_format.getLanguage().getAD_Language());
 			e.layout (maxWidth, item.getMaxHeight(), item.isHeightOneLine(), FieldAlignmentType);
 		}
 		else

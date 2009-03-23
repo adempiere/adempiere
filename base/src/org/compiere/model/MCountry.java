@@ -35,6 +35,9 @@ import org.compiere.util.Language;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: MCountry.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ *   
+ *   * @author Michael Judd (Akuna Ltd)
+ * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
 public final class MCountry extends X_C_Country
 	implements Comparator, Serializable
@@ -219,6 +222,19 @@ public final class MCountry extends X_C_Country
 		return m_trlName;
 	}	//	getTrlName
 	
+	/**
+	 * 	Get Translated Name
+	 *  @param language 
+	 *	@return name
+	 */
+	public String getTrlName(String language)
+	{
+		if ( language != null)
+		{
+			m_trlName = get_Translation(COLUMNNAME_Name, language);
+		}
+		return m_trlName;
+	}	//	getTrlName
 	
 	
 	/**
