@@ -118,6 +118,7 @@ import org.compiere.util.Util;
  *				<li>BF [ 1824621 ] History button can't be canceled
  *				<li>BF [ 1941271 ] VTreePanel is modifying even if is save wasn't successfull
  *				<li>FR [ 1943731 ] Window data export functionality
+ *				<li>FR [ 1974354 ] VCreateFrom.create should be more flexible
  * 				<li>BF [ 1996056 ] Report error message is not displayed
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author victor.perez@e-evolution.com 
@@ -2322,21 +2323,25 @@ public final class APanel extends CPanel
 		//  Pop up Create From
 		else if (col.equals("CreateFrom"))
 		{
-			//  m_curWindowNo
-			VCreateFrom vcf = VCreateFrom.create (m_curTab);
-			if (vcf != null)
+			// Run form only if the button has no process defined - teo_sarca [ 1974354 ] 
+			if (vButton.getProcess_ID() <= 0)
 			{
-				if (vcf.isInitOK())
+				//  m_curWindowNo
+				VCreateFrom vcf = VCreateFrom.create (m_curTab);
+				if (vcf != null)
 				{
-					vcf.setVisible(true);
-					vcf.dispose();
-					m_curTab.dataRefresh();
+					if (vcf.isInitOK())
+					{
+						vcf.setVisible(true);
+						vcf.dispose();
+						m_curTab.dataRefresh();
+					}
+					else
+						vcf.dispose();
+					return;
 				}
-				else
-					vcf.dispose();
-				return;
+				//	else may start process
 			}
-			//	else may start process
 		}	//	CreateFrom
 
 		//  Posting -----
