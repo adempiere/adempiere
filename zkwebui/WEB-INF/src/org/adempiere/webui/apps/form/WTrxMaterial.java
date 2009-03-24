@@ -72,6 +72,8 @@ public class WTrxMaterial extends ADForm
 	implements EventListener, ValueChangeListener
 {
 
+	private static final long serialVersionUID = 1L;
+	
 	/** GridController          */
 	private ADTabpanel  m_gridController = null;
 	/** MWindow                 */
@@ -222,7 +224,8 @@ public class WTrxMaterial extends ADForm
 		//
 		m_gridController = new ADTabpanel();
 		m_gridController.init(null, m_WindowNo, m_mTab, m_mWindow);
-		m_gridController.switchRowPresentation();
+		if (!m_gridController.isGridView())
+			m_gridController.switchRowPresentation();
 		Center center = new Center();
 		mainLayout.appendChild(center);
 		center.setFlex(true);

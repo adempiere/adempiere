@@ -498,7 +498,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
         }
         
-        if (!gridTab.isSingleRow())
+        if (!gridTab.isSingleRow() && !isGridView())
         	switchRowPresentation();
     }
 
@@ -1103,6 +1103,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			}
 			return;
 		}   //  saveConfirmation
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public boolean isGridView() {
+		return listPanel.isVisible();
 	}
 }
 
