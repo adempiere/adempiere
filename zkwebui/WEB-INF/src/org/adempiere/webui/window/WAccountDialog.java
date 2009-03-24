@@ -448,7 +448,8 @@ public final class WAccountDialog extends Window
 		m_mTab.query(false);
 		m_adTabPanel.getGridTab().addDataStatusListener(this);
 		m_adTabPanel.activate(true);
-		m_adTabPanel.switchRowPresentation();
+		if (!m_adTabPanel.isGridView())
+			m_adTabPanel.switchRowPresentation();
 
 		statusBar.setStatusLine(s_AcctSchema.toString());
 		statusBar.setStatusDB("?");
