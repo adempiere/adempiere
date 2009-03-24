@@ -104,10 +104,10 @@ public class CalloutInOut extends CalloutEngine
 			return "";
 
 		String sql = "SELECT d.DocBaseType, d.IsDocNoControlled, s.CurrentNext, " //1..3
-			+ "s.AD_Sequence_ID, s.StartNewYear, s.DateColumn " //4..6
-			+ "FROM C_DocType d, AD_Sequence s "
-			+ "WHERE C_DocType_ID=?"		//	1
-			+ " AND d.DocNoSequence_ID=s.AD_Sequence_ID(+)";
+			+ "s.AD_Sequence_ID, s.StartNewYear, s.DateColumn, d.IsSOTrx " //4..7
+			+ "FROM C_DocType d "
+			+ "LEFT OUTER JOIN AD_Sequence s ON (d.DocNoSequence_ID=s.AD_Sequence_ID) "
+			+ "WHERE C_DocType_ID=?";		//	1			
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 			try
@@ -120,29 +120,30 @@ public class CalloutInOut extends CalloutEngine
 			{
 				//	Set Movement Type
 				String DocBaseType = rs.getString("DocBaseType");
+				// BF [2708789] Read IsSOTrx from C_DocType
+				String trxFlag = rs.getString(7);
+				mTab.setValue("IsSOTrx", trxFlag);
 				if (DocBaseType.equals("MMS"))					//	Material Shipments
 				/**solve 1648131 bug vpj-cd e-evolution */ 
-				//mTab.setValue("MovementType", "C-");				//	Customer Shipments
 				{
-						boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+						boolean IsSOTrx = "Y".equals(trxFlag);
 						if (IsSOTrx)
-							mTab.setValue("MovementType", "C-");	
+							mTab.setValue("MovementType", "C-");	// Customer Shipments
 						else	
-							mTab.setValue("MovementType", "V-");
+							mTab.setValue("MovementType", "V-");	// Vendor Return
 										
 				}
 				/**END vpj-cd e-evolution */	
 				else if (DocBaseType.equals("MMR"))				//	Material Receipts
 			    /**solve 1648131 bug vpj-cd e-evolution  */	
-			    //mTab.setValue("MovementType", "V+");				//	Vendor Receipts
 				{
-						boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
+						boolean IsSOTrx = "Y".equals(trxFlag);
 						if (IsSOTrx)
-							mTab.setValue("MovementType", "C+");	
+							mTab.setValue("MovementType", "C+"); // Customer Return	
 						else	
-							mTab.setValue("MovementType", "V+");
+							mTab.setValue("MovementType", "V+"); // Vendor Receipts
 				}
-				/**END vpj-cd e-evolution */
+				/**END vpj-cd e-evolution */				
 
 				//	DocumentNo
 				if (rs.getString("IsDocNoControlled").equals("Y"))
