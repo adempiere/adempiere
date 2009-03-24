@@ -42,6 +42,8 @@ import org.zkoss.zul.event.TreeDataEvent;
  */
 public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements TreeitemRenderer, EventListener {
 
+	private static final long serialVersionUID = 1L;
+
 	private static final CLogger logger = CLogger.getCLogger(SimpleTreeModel.class);
 	
 	private boolean itemDraggable;
@@ -51,8 +53,26 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		super(root);
 	}
 	
-	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo) { 
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, false, true, null);
+	/**
+	 * @param tree
+	 * @param AD_Tree_ID
+	 * @param windowNo
+	 * @return SimpleTreeModel
+	 */
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo) {
+		return initADTree(tree, AD_Tree_ID, windowNo, true, null);
+	}
+	
+	/**
+	 * @param tree
+	 * @param AD_Tree_ID
+	 * @param windowNo
+	 * @param editable
+	 * @param trxName
+	 * @return SimpleTreeModel
+	 */
+	public static SimpleTreeModel initADTree(Tree tree, int AD_Tree_ID, int windowNo, boolean editable, String trxName) { 
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, trxName);
 		MTreeNode root = vTree.getRoot();
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(true);
@@ -73,6 +93,11 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		return treeModel;
 	}
 	
+	/**
+	 * 
+	 * @param root
+	 * @return SimpleTreeModel
+	 */
 	public static SimpleTreeModel createFrom(MTreeNode root) {
 		SimpleTreeModel model = null;
 		Enumeration nodeEnum = root.children();
@@ -102,6 +127,10 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		}
 	}
 
+	/**
+	 * @param ti
+	 * @param node
+	 */
 	public void render(Treeitem ti, Object node) {
 		Treecell tc = new Treecell(Objects.toString(node));
 		Treerow tr = null;
@@ -144,6 +173,9 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		return (SimpleTreeNode) super.getChild(parent, index);
 	}
 
+	/**
+	 * @param treeNode
+	 */
 	public void removeNode(SimpleTreeNode treeNode) {
 		int path[] = this.getPath(getRoot(), treeNode);
 		
@@ -160,18 +192,31 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		}
 	}
 	
+	/**
+	 * @param b
+	 */
 	public void setItemDraggable(boolean b) {
 		itemDraggable = b;
 	}
 	
+	/**
+	 * @return boolean
+	 */
 	public boolean isItemDraggable() {
 		return itemDraggable;
 	}
 	
+	/**
+	 * @param listener
+	 */
 	public void addOnDropEventListener(EventListener listener) {
 		onDropListners.add(listener);
 	}
 
+	/**
+	 * @param event
+	 * @see EventListener#onEvent(Event)
+	 */
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_DROP.equals(event.getName())) {
 			for (EventListener listener : onDropListners) {
@@ -180,6 +225,10 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		}
 	}
 
+	/**
+	 * @param treeNode
+	 * @return SimpleTreeNode
+	 */
 	public SimpleTreeNode getParent(SimpleTreeNode treeNode) {
 		int path[] = this.getPath(getRoot(), treeNode);
 		
@@ -196,12 +245,22 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		return null;
 	}
 
+	/**
+	 * @param newParent
+	 * @param newNode
+	 * @param index
+	 */
 	public void addNode(SimpleTreeNode newParent, SimpleTreeNode newNode,
 			int index) {
 		newParent.getChildren().add(index, newNode);
 		fireEvent(newParent, index, index, TreeDataEvent.INTERVAL_ADDED);
 	}
 	
+	/**
+	 * @param fromNode
+	 * @param recordId
+	 * @return SimpleTreeNode
+	 */
 	public SimpleTreeNode find(SimpleTreeNode fromNode, int recordId) {
 		if (fromNode == null)
 			fromNode = getRoot();
@@ -220,6 +279,9 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		return null;
 	}
 	
+	/**
+	 * @param node
+	 */
 	public void nodeUpdated(SimpleTreeNode node) {
 		SimpleTreeNode parent = getParent(node);
 		if (parent != null) {
