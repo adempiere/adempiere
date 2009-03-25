@@ -2999,7 +2999,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="860" trl="N">
-  <value column="MsgText" original="&amp;Lookup">&amp;Kersés</value>
+  <value column="MsgText" original="&amp;Lookup">&amp;Keresés</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="861" trl="N">
