@@ -1,4 +1,330 @@
-<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">--><adempiereTrl language="hu_HU" table="AD_Field"><row id="1546" trl="N"><value column="Name" original="Link Column">Link Column</value><value column="Description" original="Link Column for Multi-Parent tables">Link Column for Multi-Parent tables</value><value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).</value></row><row id="2124" trl="N"><value column="Name" original="Language">Language</value><value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value><value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value></row><row id="3665" trl="N"><value column="Name" original="Start Node">Start Node</value><value column="Description" original="Workflow Node, step or process">Workflow Node, step or process</value><value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">The Workflow Node indicates a unique step or process in a Workflow.</value></row><row id="4055" trl="N"><value column="Name" original="Tax Amount">Tax Amount</value><value column="Description" original="Tax Amount for Credit Card transaction">Tax Amount for Credit Card transaction</value><value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.</value></row><row id="4253" trl="N"><value column="Name" original="Only Currency">Only Currency</value><value column="Description" original="Restrict accepting only this currency">Restrict accepting only this currency</value><value column="Help" original="The Only Currency field indicates that this bank account accepts only the currency identified here.">The Only Currency field indicates that this bank account accepts only the currency identified here.</value></row><row id="4462" trl="N"><value column="Name" original="Business Partner / Sales Rep">Business Partner / Sales Rep</value><value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Identifies a Business Partner (Sales Rep) receiving the Commission</value><value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">The Business Partner should be a vendor and may be a Sales Representative</value></row><row id="4725" trl="N"><value column="Name" original="Acknowledge">Acknowledge</value><value column="Description" original="System Notice acknowledged">System Notice acknowledged</value><value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">The Acknowledged checkbox indicates if this notice does not need to be retained.</value></row><row id="5092" trl="N"><value column="Name" original="Driving Column">Driving Column</value><value column="Description" original="Column which controls all tabs in the workbench">Column which controls all tabs in the workbench</value><value column="Help" original=""></value></row><row id="5899" trl="N"><value column="Name" original="System Name">System Name</value><value column="Description" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Name your Adempiere System installation, e.g. Joe Block, Inc.</value><value column="Help" original="The name if the system to differentiate support contracts">The name if the system to differentiate support contracts</value></row><row id="6344" trl="N"><value column="Name" original="Attribute Set Instance">Attribute Set Instance</value><value column="Description" original="Product Attribute Values">Product Attribute Values</value><value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value></row><row id="8985" trl="N"><value column="Name" original="Document No">Document No</value><value column="Description" original="Document sequence number of the document">Document sequence number of the document</value><value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.3.1b_2007-12-05 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20071229-0902 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 
-If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</value></row><row id="10097" trl="N"><value column="Name" original="Value">Value</value><value column="Description" original="Condition Value">Condition Value</value><value column="Help" original=""></value></row><row id="10886" trl="N"><value column="Name" original="Overwrite Project">Overwrite Project</value><value column="Description" original="Overwrite the account segment Project with the value specified">Overwrite the account segment Project with the value specified</value><value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.</value></row><row id="11799" trl="N"><value column="Name" original="Attribute Set Instance">Attribute Set Instance</value><value column="Description" original="Product Attribute Values">Product Attribute Values</value><value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.</value></row><row id="12732" trl="N"><value column="Name" original="Language">Language</value><value column="Description" original="Language for this Business Partner if Multi-Language enabled">Language for this Business Partner if Multi-Language enabled</value><value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.</value></row><row id="13179" trl="N"><value column="Name" original="UserName">UserName</value><value column="Description" original="UserName / Login to use for login">UserName / Login to use for login</value><value column="Help" original="UserName / Login to use for the login&#10;Email of the responsible person for the system (registered in WebStore)">UserName / Login to use for the login
-Email of the responsible person for the system (registered in WebStore)</value></row><row id="13424" trl="N"><value column="Name" original="Mandatory Overwrite">Mandatory Overwrite</value><value column="Description" original="Overwrite Field Mandatory status">Overwrite Field Mandatory status</value><value column="Help" original="The field must have a value for the record to be saved to the database.">The field must have a value for the record to be saved to the database.</value></row><row id="13425" trl="N"><value column="Name" original="Reference Overwrite">Reference Overwrite</value><value column="Description" original="System Reference - optional Overwrite">System Reference - optional Overwrite</value><value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">You can overwrite the Display Type, but only use this if you aware of the consequences.</value></row><row id="13755" trl="N"><value column="Name" original="Search Key">Search Key</value><value column="Description" original="Search key for the record in the format required">Search key for the record in the format required</value><value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7 bit lower case alpha numeric - max length 8 - can be used for operating system names.</value></row><row id="50066" trl="N"><value column="Name" original="AD_Package_Exp_ID">AD_Package_Exp_ID</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50067" trl="N"><value column="Name" original="Processed">Processed</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50068" trl="N"><value column="Name" original="IsActive">IsActive</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50069" trl="N"><value column="Name" original="Client">Client</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50070" trl="N"><value column="Name" original="Organization">Organization</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50071" trl="N"><value column="Name" original="Name of Package">Name of Package</value><value column="Description" original="Name of Package">Name of Package</value><value column="Help" original=""></value></row><row id="50075" trl="N"><value column="Name" original="Creation Directory">Creation Directory</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50076" trl="N"><value column="Name" original="Created By">Created By</value><value column="Description" original="User who created the package">User who created the package</value><value column="Help" original=""></value></row><row id="50077" trl="N"><value column="Name" original="Create Date">Create Date</value><value column="Description" original="Date when Package was created">Date when Package was created</value><value column="Help" original=""></value></row><row id="50080" trl="N"><value column="Name" original="Processed By">Processed By</value><value column="Description" original="User who Processed the package">User who Processed the package</value><value column="Help" original=""></value></row><row id="50081" trl="N"><value column="Name" original="Processed Date">Processed Date</value><value column="Description" original="Date when the package was processed">Date when the package was processed</value><value column="Help" original=""></value></row><row id="50082" trl="N"><value column="Name" original="Description of Package">Description of Package</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50085" trl="N"><value column="Name" original="Export Package">Export Package</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50086" trl="N"><value column="Name" original="AD_Package_Exp_Detail_ID">AD_Package_Exp_Detail_ID</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50087" trl="N"><value column="Name" original="Item Name">Item Name</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50088" trl="N"><value column="Name" original="Processing">Processing</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50089" trl="N"><value column="Name" original="IsActive">IsActive</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50090" trl="N"><value column="Name" original="Processed">Processed</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50091" trl="N"><value column="Name" original="Package Build ID">Package Build ID</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50092" trl="N"><value column="Name" original="Client">Client</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50093" trl="N"><value column="Name" original="Organization">Organization</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50096" trl="N"><value column="Name" original="Type">Type</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50097" trl="N"><value column="Name" original="Menu">Menu</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50099" trl="N"><value column="Name" original="Source File Directory">Source File Directory</value><value column="Description" original="Current location of source file">Current location of source file</value><value column="Help" original=""></value></row><row id="50103" trl="N"><value column="Name" original="Table">Table</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50108" trl="N"><value column="Name" original="Form">Form</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50109" trl="N"><value column="Name" original="Process">Process</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50110" trl="N"><value column="Name" original="Workflow">Workflow</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50112" trl="N"><value column="Name" original="Workbench">Workbench</value><value column="Description" original=""></value><value column="Help" original=""></value></row><row id="50117" trl="N"><value column="Name" original="Notes">Notes</value><value column="Description" original=""></value><value column="Help" original=""></value></row></adempiereTrl>
+<adempiereTrl language="hu_HU" table="AD_Field">
+ <row id="1546" trl="N">
+  <value column="Name" original="Link Column">Oszlop kapcsolat</value>
+  <value column="Description" original="Link Column for Multi-Parent tables">Több felettes tábla oszlop kapcsolata</value>
+  <value column="Help" original="The Link Column indicates which column is the primary key for those situations where there is more than one parent.  Only define it, if the table has more than one parent column (e.g. AD_User_Roles).">Az oszlop kapcsolat jelenti azt, hogy melyik oszlop az elsődleges azonosító olyan esetekben, amikor több szülő, vagy felettes táblához kapcsolódik. Csak akkor kerül meghatározásra, ha a táblának több szülő, vagy felettes táblája van (pl. AD_User_Roles).</value>
+ </row>
+ <row id="2124" trl="N">
+  <value column="Name" original="Language">Nyelv</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Az üzleti partner nyelve, amennyiben a többnyelvű alkalmazás lehetősége beállításra került.</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">A Nyelv megadja a dokumentumokon megjelenített és alkalmazott nyelvet. Ha vállalati szinten igényelt, hogy többnyelvű dokumentumok kerüljenek kiválasztásra, akkor Önnek létre kell hoznia, és betöltenie a nyelvet.</value>
+ </row>
+ <row id="3665" trl="N">
+  <value column="Name" original="Start Node">Kiinduló csomópont</value>
+  <value column="Description" original="Workflow Node, step or process">Munkafolyamat csomópont, lépés, vagy feldolgozás</value>
+  <value column="Help" original="The Workflow Node indicates a unique step or process in a Workflow.">A Munkafolyamat csomópont jelenti a munkafolyamat egy lépését, vagy a folyamat egy részét.</value>
+ </row>
+ <row id="4055" trl="N">
+  <value column="Name" original="Tax Amount">Adó összege</value>
+  <value column="Description" original="Tax Amount for Credit Card transaction">Hitelkártya tranzakció Adó összege.</value>
+  <value column="Help" original="The Tax Amount displays the total tax amount. The tax amount is only used for credit card processing.">Az Adó összege mutatja az összes felmerült adót. Az adó összege csak a kártya feldolgozásához kerül felhasználásra.</value>
+ </row>
+ <row id="4253" trl="N">
+  <value column="Name" original="Only Currency">Csak deviza</value>
+  <value column="Description" original="Restrict accepting only this currency">A megadott devizán kívül más deviza elfogadásának tiltása</value>
+  <value column="Help" original="The Only Currency field indicates that this bank account accepts only the currency identified here.">A Csak deviza mező bemutatja, hogy a ez a bankszámla csak az itt meghatározott devizát fogadja.</value>
+ </row>
+ <row id="4462" trl="N">
+  <value column="Name" original="Business Partner / Sales Rep">Üzleti partner (ügynök, vagy ért. képv.)</value>
+  <value column="Description" original="Identifies a Business Partner (Sales Rep) receiving the Commission">Egy üzleti partnert azonosít, aki kapja a jutalékot.</value>
+  <value column="Help" original="The Business Partner should be a vendor and may be a Sales Representative">Az üzleti partnernek szállítónak, vagy ügynöknek kell lennie</value>
+ </row>
+ <row id="4725" trl="N">
+  <value column="Name" original="Acknowledge">Tudomásulvétel</value>
+  <value column="Description" original="System Notice acknowledged">Rendszer üzenet tudomásulvéve</value>
+  <value column="Help" original="The Acknowledged checkbox indicates if this notice does not need to be retained.">A Tudomásulvett jelölőnégyzet mutatja, hogy ezt az üzenetet nem kell megtartani.</value>
+ </row>
+ <row id="5092" trl="N">
+  <value column="Name" original="Driving Column">Vezető oszlop</value>
+  <value column="Description" original="Column which controls all tabs in the workbench">Az az oszlop, amely a munkaterület oszlopait vezérli</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="5899" trl="N">
+  <value column="Name" original="System Name">Rendszer neve</value>
+  <value column="Description" original="Name your Adempiere System installation, e.g. Joe Block, Inc.">Az Adempiere rendszer telepítésének neve, pl. Szörny Rt.</value>
+  <value column="Help" original="The name if the system to differentiate support contracts">A rendszer névvel a támogatási szerződéseket lehet megkülönböztetni.</value>
+ </row>
+ <row id="6344" trl="N">
+  <value column="Name" original="Attribute Set Instance">Egyedei jellemzők</value>
+  <value column="Description" original="Product Attribute Values">Termékjellemző értékek</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Termékjellemzők aktuális értékei. A Termék egyedi jellemzői az aktuális tranzakció alapján kerülnek meghatározásra.</value>
+ </row>
+ <row id="8985" trl="N">
+  <value column="Name" original="Document No">Dokumentum azon.</value>
+  <value column="Description" original="Document sequence number of the document">Dokumentum sorrendi azonosítója. </value>
+  <value column="Help" original="The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in &quot;&lt;&gt;&quot;.&#10;&#10;If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order).">A dokumentum azonosítóját a rendszer automatikusan állítja elő, illeszkedve a dokumentum típusához.  Ha a dokumentum nem került mentésre , akkor az előzetesen megadott azonosító "&lt;&gt;" jelek között áll. Ha a dokumentum típusnak nicsen automatikus számozása, a mező üres marad egy új dokumentum elkészítésekor. Ezek a dokumentumok főleg azok, amelyek külső azonosítóval rendelkeznek (például szállítói számla). Ha a mezőt üresen hagyja, a rendszer generál egy dokumentum azonosító számot. A Dokumentum sorrend használatos ezen dokumentum azonosítóinak meghatározására a "Sorrend beállítása" ablakban. A nevet a "DocumentNo_&lt;TableName&gt;" tartalmazza, ahol a TableName a tábla aktuális elnevezése (pl. C_Order).</value>
+ </row>
+ <row id="10097" trl="N">
+  <value column="Name" original="Value">Érték</value>
+  <value column="Description" original="Condition Value">Feltétel érték</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="10886" trl="N">
+  <value column="Name" original="Overwrite Project">Projekt felülírása</value>
+  <value column="Description" original="Overwrite the account segment Project with the value specified">A számla projekt részének felülírása a kiválasztott értékkel.</value>
+  <value column="Help" original="If not overwritten, the value of the original account combination is used. If selected, but not specified, the segment is set to null.">Ha nem kerül felülírásra, az eredeti kontír szerint kerül alkalmazásra. Ha kiválasztásra került, de nem került megadásra, az elem 0 értéket kap.</value>
+ </row>
+ <row id="11799" trl="N">
+  <value column="Name" original="Attribute Set Instance">Egyedei jellemzők</value>
+  <value column="Description" original="Product Attribute Values">Termékjellemző értékek</value>
+  <value column="Help" original="The values of the actual Product Attributes. Product Instance attributes are defined in the actual transactions.">Termékjellemzők aktuális értékei. A Termék egyedi jellemzői az aktuális tranzakció alapján kerülnek meghatározásra.</value>
+ </row>
+ <row id="12732" trl="N">
+  <value column="Name" original="Language">Nyelv</value>
+  <value column="Description" original="Language for this Business Partner if Multi-Language enabled">Az üzleti partner nyelve, amennyiben a többnyelvű alkalmazás lehetősége beállításra került.</value>
+  <value column="Help" original="The Language identifies the language to use for display and formatting documents. It requires, that on Client level, Multi-Lingual documents are selected and that you have created/loaded the language.">A Nyelv megadja a dokumentumokon megjelenített és alkalmazott nyelvet. Ha vállalati szinten igényelt, hogy többnyelvű dokumentumok kerüljenek kiválasztásra, akkor Önnek létre kell hoznia, és betöltenie a nyelvet.</value>
+ </row>
+ <row id="13179" trl="N">
+  <value column="Name" original="UserName">Felhasználói név</value>
+  <value column="Description" original="UserName / Login to use for login">Felhasználói, vagy bejelentkezési név</value>
+  <value column="Help" original="UserName / Login to use for the login&#10;Email of the responsible person for the system (registered in WebStore)">Felhasználói, vagy bejelentkezési név elküldése a rendszergazda részére, E-mail-ben (a webes üzletben regisztált).</value>
+ </row>
+ <row id="13424" trl="N">
+  <value column="Name" original="Mandatory Overwrite">Kötelező felülírás</value>
+  <value column="Description" original="Overwrite Field Mandatory status">Mező felülírásának kötelező státusza</value>
+  <value column="Help" original="The field must have a value for the record to be saved to the database.">A mezőnek tartalmaznia kell adatot, hogy a rekord mentésre kerüljön az adatbázisba.</value>
+ </row>
+ <row id="13425" trl="N">
+  <value column="Name" original="Reference Overwrite">Hivatkozás felülírás</value>
+  <value column="Description" original="System Reference - optional Overwrite">Rendszer hivatkozás - választható felülírás</value>
+  <value column="Help" original="You can overwrite the Display Type, but only use this if you aware of the consequences.">Felülírhatja a megjelenítési típust, de csak akkor, ha mérlegelte a következményeket.</value>
+ </row>
+ <row id="13755" trl="N">
+  <value column="Name" original="Search Key">Keresési kulcs</value>
+  <value column="Description" original="Search key for the record in the format required">Keresési kulcs a rekordhoz, annak formátumában</value>
+  <value column="Help" original="7 bit lower case alpha numeric - max length 8 - can be used for operating system names.">7 bit kisbetús, alfanumerikus - maximális hossz: 8 karakter - alkalmazható operációs rendszer nevekhez.</value>
+ </row>
+ <row id="50066" trl="N">
+  <value column="Name" original="AD_Package_Exp_ID">Exportált csomag azonosító</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50067" trl="N">
+  <value column="Name" original="Processed">Feldolgozva</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50068" trl="N">
+  <value column="Name" original="IsActive">Aktív</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50069" trl="N">
+  <value column="Name" original="Client">Vállalat</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50070" trl="N">
+  <value column="Name" original="Organization">Költséghely</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50071" trl="N">
+  <value column="Name" original="Name of Package">Csomag neve</value>
+  <value column="Description" original="Name of Package">Csomag neve</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50075" trl="N">
+  <value column="Name" original="Creation Directory">Létrehozás könyvtára</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50076" trl="N">
+  <value column="Name" original="Created By">Létrehozta</value>
+  <value column="Description" original="User who created the package">A felhasználó, aki a csomagot létrehozta</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50077" trl="N">
+  <value column="Name" original="Create Date">Létrehozás dátuma</value>
+  <value column="Description" original="Date when Package was created">A csomag létrehozásának dátuma</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50080" trl="N">
+  <value column="Name" original="Processed By">Feldolgozta</value>
+  <value column="Description" original="User who Processed the package">A felhasználó, aki a csomagot feldolgozta</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50081" trl="N">
+  <value column="Name" original="Processed Date">Feldolgozás dátuma</value>
+  <value column="Description" original="Date when the package was processed">A csomag feldolgozásának dátuma</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50082" trl="N">
+  <value column="Name" original="Description of Package">Csomag leírása</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50085" trl="N">
+  <value column="Name" original="Export Package">Csomagok exportálása</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50086" trl="N">
+  <value column="Name" original="AD_Package_Exp_Detail_ID">Exportált csomag részletei</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50087" trl="N">
+  <value column="Name" original="Item Name">Tétel neve</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50088" trl="N">
+  <value column="Name" original="Processing">Feldolgozás</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50089" trl="N">
+  <value column="Name" original="IsActive">Aktív</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50090" trl="N">
+  <value column="Name" original="Processed">Feldolgozva</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50091" trl="N">
+  <value column="Name" original="Package Build ID">Csomag elkészítési azonosítója</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50092" trl="N">
+  <value column="Name" original="Client">Vállalat</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50093" trl="N">
+  <value column="Name" original="Organization">Költséghely</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50096" trl="N">
+  <value column="Name" original="Type">Típus</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50097" trl="N">
+  <value column="Name" original="Menu">Menü</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50099" trl="N">
+  <value column="Name" original="Source File Directory">Forrásfájlok könyvtára</value>
+  <value column="Description" original="Current location of source file">A forrásfájlok aktuális könyvtára</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50103" trl="N">
+  <value column="Name" original="Table">Tábla</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50108" trl="N">
+  <value column="Name" original="Form">Űrlap</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50109" trl="N">
+  <value column="Name" original="Process">Feldolgoz</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50110" trl="N">
+  <value column="Name" original="Workflow">Munkafolyamat</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50112" trl="N">
+  <value column="Name" original="Workbench">Munkaterület</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50117" trl="N">
+  <value column="Name" original="Notes">Jegyzetek</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000754" trl="N">
+  <value column="Name" original="Period 1 %">Időszak 1 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000755" trl="N">
+  <value column="Name" original="Period 2 %">Időszak 2 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000756" trl="N">
+  <value column="Name" original="Period 3 %">Időszak 3 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000757" trl="N">
+  <value column="Name" original="Period 4 %">Időszak 4 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000758" trl="N">
+  <value column="Name" original="Period 5 %">Időszak 5 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000759" trl="N">
+  <value column="Name" original="Period 6 %">Időszak 6 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000760" trl="N">
+  <value column="Name" original="Period 7 %">Időszak 7 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000761" trl="N">
+  <value column="Name" original="Period 8 %">Időszak 8 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000762" trl="N">
+  <value column="Name" original="Period 9 %">Időszak 9 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000763" trl="N">
+  <value column="Name" original="Period 10 %">Időszak 10 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000764" trl="N">
+  <value column="Name" original="Period 11 %">Időszak 11 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000765" trl="N">
+  <value column="Name" original="Period 12 %">Időszak 12 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000766" trl="N">
+  <value column="Name" original="Period 13 %">Időszak 13 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000767" trl="N">
+  <value column="Name" original="Period 14 %">Időszak 14 %</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000771" trl="N">
+  <value column="Name" original="Script">Program utasítás</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="1000774" trl="N">
+  <value column="Name" original="Name">Név</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

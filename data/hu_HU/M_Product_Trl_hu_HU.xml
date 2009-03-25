@@ -1,1 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">--><adempiereTrl language="hu_HU" table="M_Product"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.3.1b_2007-12-05 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20071229-0902 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="hu_HU" table="M_Product">
+ <row id="122" trl="N">
+  <value column="Name" original="Standard">Alap</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Oak Tree">Tölgy</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original="Oak Trees may grow quite a bit.">A tölgyfák lassan nőnek.</value>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="Elm Tree">Szilfa</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Grass Seed Container">Fűmag tároló</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Planting Service">Ültetési szolgáltatás</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Rose Bush">Rózsabokor</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Azalea Bush">Azalea-bokor</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Holly Bush">Mályvarózsa-bokor</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Plum Tree">Szilvafa</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="Travel cost">Utazási költség</value>
+  <value column="Description" original="Travel related costs">Utazással összefüggő költség</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Mary Consultant">Tanácsadó</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="Patio Chair">Kerti szék</value>
+  <value column="Description" original="Nice Chair for outdoors">Szép kültéri szék</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Patio Table">Kerti asztal</value>
+  <value column="Description" original="Nice Table for outdoors">Szép kültéri asztal</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="Patio Sun Screen">Napernyő</value>
+  <value column="Description" original="Protect from UV">UV ellen véd</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="136" trl="N">
+  <value column="Name" original="Fertilizer #50">Műtrágya #50</value>
+  <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # zsák műtrágya</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Mulch 10#">Talajtakaró 10#</value>
+  <value column="Description" original="10# Bag of Mulch">10# Zsák talajtakaró</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="Hoe 4 ft">Kapa 4 ft</value>
+  <value column="Description" original="4 Foot Metal Hoe">4 láb hosszú fém kapa</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="139" trl="N">
+  <value column="Name" original="Rake Bamboo">Bambusz gereblye</value>
+  <value column="Description" original="4 Foot Bamboo Rake">4 láb hosszú bambusz gereblye</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="140" trl="N">
+  <value column="Name" original="Rake Metal">Fém gereblye</value>
+  <value column="Description" original="4 Foot Metal Rake">4 láb hosszú fém gereblye</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="Weeder">Gyomláló</value>
+  <value column="Description" original="Hand Weeder">Kézi gyomláló</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="Transplanter">Ültető</value>
+  <value column="Description" original="Hand Transplanter">Kézi ültető</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="Grass Seeder">Fűmag szóró-ültető</value>
+  <value column="Description" original="Manual Grass Seeder">Kézi fűmag szóró</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="Lawn Tiller">Fűnyíró</value>
+  <value column="Description" original="Manual Lawn Tiller">Kézi fűnyíró</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="145" trl="N">
+  <value column="Name" original="Patio Furniture Set">Kerti bútor garnitúra</value>
+  <value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">1 tábla, 4 szék és 1 napernyő</value>
+  <value column="DocumentNote" original="&#9;">	</value>
+ </row>
+ <row id="146" trl="N">
+  <value column="Name" original="How To Plant">Hogy ültessünk?</value>
+  <value column="Description" original="Information on how to best to plant your future.">Ötletek a legjobb ültetési eljárásokkal kapcsolatban.</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="147" trl="N">
+  <value column="Name" original="TShirt - Red Large">Póló - piros, nagy</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="148" trl="N">
+  <value column="Name" original="TShirt - Green Large">Póló - Zöld, nagy</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+</adempiereTrl>

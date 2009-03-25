@@ -1,1 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">--><adempiereTrl language="hu_HU" table="C_Tax"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.3.1b_2007-12-05 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20071229-0902 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="hu_HU" table="C_Tax">
+ <row id="104" trl="N">
+  <value column="Name" original="Standard">Alap</value>
+  <value column="Description" original=""/>
+  <value column="TaxIndicator" original=""/>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="CT Sales">ÁFA</value>
+  <value column="Description" original=""/>
+  <value column="TaxIndicator" original="6%CT">6%ÁFA</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="GST">Á ÁFA</value>
+  <value column="Description" original="Canadian Federal Sales Tax">Kanadai Állami ÁFA</value>
+  <value column="TaxIndicator" original="GST">Á ÁFA</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="PST">R ÁFA</value>
+  <value column="Description" original="Canadian Provintial Tax">Kanadai régiós ÁFA</value>
+  <value column="TaxIndicator" original="PST">R ÁFA</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="GST/PST">Á ÁFA / P ÁFA</value>
+  <value column="Description" original="Canadian Federal &amp; State Tax">Kanadai Állami és Régiós ÁFA</value>
+  <value column="TaxIndicator" original="Tax">Adó</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Exempt">Adómentes</value>
+  <value column="Description" original="Used when Business Partners are exempt from tax">Akkor kerül alkalmazásra, ha az Üzleti Partner alanyi adómentes</value>
+  <value column="TaxIndicator" original=""/>
+ </row>
+</adempiereTrl>

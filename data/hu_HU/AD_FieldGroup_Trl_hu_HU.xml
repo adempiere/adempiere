@@ -1,1 +1,140 @@
-<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">--><adempiereTrl language="hu_HU" table="AD_FieldGroup"><row id="101" trl="N"><value column="Name" original="Status">Status</value></row><row id="102" trl="N"><value column="Name" original="Quantities">Quantities</value></row><row id="103" trl="N"><value column="Name" original="Amounts">Amounts</value></row><row id="104" trl="N"><value column="Name" original="Reference">Reference</value></row><row id="105" trl="N"><value column="Name" original="History">History</value></row><row id="106" trl="N"><value column="Name" original="Product">Product</value></row><row id="107" trl="N"><value column="Name" original="Business Partner">Business Partner</value></row><row id="108" trl="N"><value column="Name" original="Warehouse">Warehouse</value></row><row id="109" trl="N"><value column="Name" original="Bank">Bank</value></row><row id="110" trl="N"><value column="Name" original="Cash Book">Cash Book</value></row><row id="111" trl="N"><value column="Name" original="Tax">Tax</value></row><row id="112" trl="N"><value column="Name" original="Project">Project</value></row><row id="113" trl="N"><value column="Name" original="General">General</value></row><row id="114" trl="N"><value column="Name" original="Action">Action</value></row><row id="115" trl="N"><value column="Name" original="Standard Cost">Standard Cost</value></row><row id="116" trl="N"><value column="Name" original="Actual Costs">Actual Costs</value></row><row id="117" trl="N"><value column="Name" original="Statistics">Statistics</value></row><row id="118" trl="N"><value column="Name" original="Defaults">Defaults</value></row><row id="119" trl="N"><value column="Name" original="Request Management">Request Management</value></row><row id="120" trl="N"><value column="Name" original="Web Store">Web Store</value></row><row id="121" trl="N"><value column="Name" original="Internal">Internal</value></row><row id="122" trl="N"><value column="Name" original="External">External</value></row><row id="123" trl="N"><value column="Name" original="Common">Common</value></row><row id="124" trl="N"><value column="Name" original="Shipment">Shipment</value></row><row id="125" trl="N"><value column="Name" original="Document">Document</value></row><row id="126" trl="N"><value column="Name" original="Line">Line</value></row><row id="127" trl="N"><value column="Name" original="Simulation">Simulation</value></row><row id="128" trl="N"><value column="Name" original="Calculations">Calculations</value></row><row id="129" trl="N"><value column="Name" original="Proxy">Proxy</value></row><row id="130" trl="N"><value column="Name" original="Delivery">Delivery</value></row><row id="131" trl="N"><value column="Name" original="Invoicing">Invoicing</value></row><row id="132" trl="N"><value column="Name" original="Only ..">Only ..</value></row><row id="133" trl="N"><value column="Name" original="Selection">Selection</value></row><row id="134" trl="N"><value column="Name" original="Workflow">Workflow</value></row><row id="135" trl="N"><value column="Name" original="Access">Access</value></row><row id="50000" trl="N"><value column="Name" original="Allow Info In Role">Allow Info In Role</value></row></adempiereTrl>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.3.1b_2007-12-05 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20071229-0902 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="hu_HU" table="AD_FieldGroup">
+ <row id="101" trl="N">
+  <value column="Name" original="Status">Státusz</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="Quantities">Mennyiségek</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Amounts">Összegek</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Reference">Hivatkozás</value>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="History">Történet</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="Product">Termék</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="Business Partner">Üzleti partner</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="Warehouse">Üzlet/Raktár</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Bank">Bank</value>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="Cash Book">Pénztárkönyv</value>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="Tax">Adó</value>
+ </row>
+ <row id="112" trl="N">
+  <value column="Name" original="Project">Projekt</value>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="General">Általános</value>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="Action">Tevékenység</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="Standard Cost">Standard (ön)költség</value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="Actual Costs">Aktuális költség</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="Statistics">Statisztika</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="Defaults">Alapértelmezettek</value>
+ </row>
+ <row id="119" trl="N">
+  <value column="Name" original="Request Management">Igény menedzsment</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="Web Store">Webes üzlet</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="Internal">Belső</value>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="External">Külső</value>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Common">Közös</value>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="Shipment">Szállítás</value>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Document">Dokumentum</value>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Line">Sor</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Simulation">Szimuláció</value>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Calculations">Számítások</value>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Proxy">Proxy</value>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Delivery">Szállítás</value>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="Invoicing">Számlázás</value>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Only ..">Csak ..</value>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="Selection">Kiválasztás</value>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Workflow">Munkafolyamat</value>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="Access">Hozzáférés</value>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Allow Info In Role">Jogosultsági infó engedélyezése</value>
+ </row>
+ <row id="1000000" trl="N">
+  <value column="Name" original="Accounts">Számlák</value>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="Name" original="Setup">Beállítás</value>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="Name" original="Dates">Dátumok</value>
+ </row>
+ <row id="1000003" trl="N">
+  <value column="Name" original="Revaluation Accounts">Átértékelési számlák</value>
+ </row>
+ <row id="1000004" trl="N">
+  <value column="Name" original="Contract">Szerződés</value>
+ </row>
+ <row id="1000005" trl="N">
+  <value column="Name" original="Options">Beállítások</value>
+ </row>
+ <row id="1000006" trl="N">
+  <value column="Name" original="General Ledger">Főkönyv</value>
+ </row>
+ <row id="1000007" trl="N">
+  <value column="Name" original="Machines">Gépek, berendezések</value>
+ </row>
+ <row id="1000008" trl="N">
+  <value column="Name" original="Database">Adatbázis</value>
+ </row>
+</adempiereTrl>

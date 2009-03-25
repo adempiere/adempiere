@@ -1,1 +1,195 @@
-<?xml version="1.0" encoding="UTF-8"?><!--Adempiere(r) Release 3.1.6_2007-04-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">--><adempiereTrl language="hu_HU" table="C_DocType"><row id="0" trl="N"><value column="Name" original="** New **">** New **</value><value column="PrintName" original="** New **">** New **</value><value column="DocumentNote" original="** NO INVOICE **">** NO INVOICE **</value></row></adempiereTrl>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.3.1b_2007-12-05 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20071229-0902 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="hu_HU" table="C_DocType">
+ <row id="0" trl="N">
+  <value column="Name" original="** New **">** Új **</value>
+  <value column="PrintName" original="** New **">** Új **</value>
+  <value column="DocumentNote" original="** NO INVOICE **">** NINCS SZÁMLA **</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="GL Journal">FK napló</value>
+  <value column="PrintName" original="Journal">Napló</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="AR Invoice">Kimenő számla</value>
+  <value column="PrintName" original="Invoice">Számla</value>
+  <value column="DocumentNote" original="Document Type Note for general and promotional text.">Általános és promóciós szövegek dokumentum típusa.</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="AR Invoice Indirect">Indirekt Kimenő számla</value>
+  <value column="PrintName" original="Invoice">Számla</value>
+  <value column="DocumentNote" original="Document Type Note for general and promotional text.">Általános és promóciós szövegek dokumentum típusa.</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="AR Credit Memo">Vevői követelés bizonylat</value>
+  <value column="PrintName" original="Credit Memo">Hitel (követelés) feljegyzés</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="119" trl="N">
+  <value column="Name" original="AR Receipt">Bevétel</value>
+  <value column="PrintName" original="Receipt">Átvétel</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="MM Shipment">Szállítási mozg.</value>
+  <value column="PrintName" original="Delivery Note">Szállítólevél</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="MM Shipment Indirect">Indirekt szállítási mozg.</value>
+  <value column="PrintName" original="Delivery Note">Szállítólevél</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="MM Receipt">Bevételezési mozg.</value>
+  <value column="PrintName" original="Vendor Delivery">Szállítói beszállítás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="AP Invoice">Bejövő számla</value>
+  <value column="PrintName" original="Vendor Invoice">Bejövő számla</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="AP CreditMemo">Szállítói követelés bizonylat</value>
+  <value column="PrintName" original="Vendor Credit Memo">Szállítói követelés bizonylat</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="AP Payment">Kifizetés</value>
+  <value column="PrintName" original="Vendor Payment">Szállító kifizetése</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Purchase Order">Beszerzési rendelés</value>
+  <value column="PrintName" original="Purchase Order">Beszerzési rendelés</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Purchase Requisition">Beszerzési igény</value>
+  <value column="PrintName" original="Purchase Requisition">Beszerzési igény</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Quotation">Ajánlat</value>
+  <value column="PrintName" original="Quotation">Ajánlat</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Proposal">Javaslat</value>
+  <value column="PrintName" original="Proposal">Javaslat</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Prepay Order">Rendelés előrefizetése</value>
+  <value column="PrintName" original="Prepay Order">Rendelés előrefizetése</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="Return Material">Visszáru</value>
+  <value column="PrintName" original="Return Material Authorization">Vevői visszáru engedélyeztetése</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Standard Order">Standard rendelés</value>
+  <value column="PrintName" original="Order Confirmation">Rendelés visszaigazolás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="On Credit Order">Hitelezési megbízásra</value>
+  <value column="PrintName" original="Order Confirmation">Rendelés visszaigazolás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Warehouse Order">Raktári rendelés</value>
+  <value column="PrintName" original="Order Confirmation">Rendelés visszaigazolás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="POS Order">KP rendelés</value>
+  <value column="PrintName" original="Order Confirmation">Rendelés visszaigazolás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="136" trl="N">
+  <value column="Name" original="Project Issue">Projekt felhasználás</value>
+  <value column="PrintName" original="Project Issue">Projekt felhasználás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Payment Allocation">Fizetés elosztása</value>
+  <value column="PrintName" original="Payment Allocation">Fizetés elosztása</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="Match Invoice">Számla pontozása</value>
+  <value column="PrintName" original="Match Invoice">Számla pontozása</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="139" trl="N">
+  <value column="Name" original="Material Production">Termelés</value>
+  <value column="PrintName" original="Material Production">Termelés</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="140" trl="N">
+  <value column="Name" original="GL Document">FK dokumentum</value>
+  <value column="PrintName" original="GL Document">FK dokumentum</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="Cash Journal">Pénztárnapló</value>
+  <value column="PrintName" original="Cash Journal">Pénztárnapló</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="Match PO">Beszerzési rendelés pontozása</value>
+  <value column="PrintName" original="Match PO">Beszerzési rendelés pontozása</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="Material Movement">készletmozgás</value>
+  <value column="PrintName" original="Material Movement">készletmozgás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="Material Physical Inventory">Fizikai készlet</value>
+  <value column="PrintName" original="Material Physical Inventory">Fizikai készlet</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="145" trl="N">
+  <value column="Name" original="AR Pro Forma Invoice">Kimenő proforma számla</value>
+  <value column="PrintName" original="AR Pro Forma Invoice">Kimenő proforma számla</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="146" trl="N">
+  <value column="Name" original="Bank Statement">Bankkivonat</value>
+  <value column="PrintName" original="Bank Statement">Bankkivonat</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="147" trl="N">
+  <value column="Name" original="MM Receipt with Confirmation">Megerősített bevételezési mozg.</value>
+  <value column="PrintName" original="Vendor Delivery">Szállítói beszállítás</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="148" trl="N">
+  <value column="Name" original="MM Shipment with Pick">Kivétlistás szállítás mozg.</value>
+  <value column="PrintName" original="Delivery Note">Szállítólevél</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="149" trl="N">
+  <value column="Name" original="MM Returns">Visszáru mozg.</value>
+  <value column="PrintName" original="Return Material">Visszáru</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="150" trl="N">
+  <value column="Name" original="Vendor Return Material">Szállítói visszáru</value>
+  <value column="PrintName" original="Vendor Return Material Authorization">Szállítói visszáru engedélyeztetése</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="151" trl="N">
+  <value column="Name" original="MM Vendor Return">Szállítói visszáru mozg.</value>
+  <value column="PrintName" original="Vendor Return Material">Szállítói visszáru</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+</adempiereTrl>
