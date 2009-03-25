@@ -7,6 +7,7 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zcommon.jar" sourcepath="WEB-INF/lib/zcommon-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zul.jar" sourcepath="WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/junit.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/keylistener.jar"/>
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
