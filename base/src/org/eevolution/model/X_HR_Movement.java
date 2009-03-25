@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -407,9 +407,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public void setColumnType (String ColumnType)
 	{
 
-		if (ColumnType == null || ColumnType.equals("A") || ColumnType.equals("D") || ColumnType.equals("Q") || ColumnType.equals("T"));
-		else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=53243 - A - D - Q - T");
-
 		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
@@ -691,14 +688,14 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return false;
 	}
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
-        org.eevolution.model.I_PP_Order_Node result = null;
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Cost_Collector.Table_Name);
+        org.eevolution.model.I_PP_Cost_Collector result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Order_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_Node_ID()), get_TrxName()});
+    	    result = (org.eevolution.model.I_PP_Cost_Collector)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Cost_Collector_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -707,21 +704,21 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         return result;
     }
 
-	/** Set Manufacturing Order Activity.
-		@param PP_Order_Node_ID Manufacturing Order Activity	  */
-	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
+	/** Set Manufacturing Cost Collector.
+		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
+	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
 	{
-		if (PP_Order_Node_ID < 1) 
-			set_Value (COLUMNNAME_PP_Order_Node_ID, null);
+		if (PP_Cost_Collector_ID < 1) 
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, null);
 		else 
-			set_Value (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
 	}
 
-	/** Get Manufacturing Order Activity.
-		@return Manufacturing Order Activity	  */
-	public int getPP_Order_Node_ID () 
+	/** Get Manufacturing Cost Collector.
+		@return Manufacturing Cost Collector	  */
+	public int getPP_Cost_Collector_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
