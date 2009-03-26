@@ -3,11 +3,6 @@
 INSERT INTO AD_Val_Rule (CreatedBy,Updated,UpdatedBy,Name,Type,Code,AD_Val_Rule_ID,AD_Client_ID,Created,IsActive,AD_Org_ID,EntityType) VALUES (0,TO_TIMESTAMP('2009-03-12 16:36:15','YYYY-MM-DD HH24:MI:SS'),0,'AD_Reference List','S','AD_Reference.ValidationType=''L''',52047,0,TO_TIMESTAMP('2009-03-12 16:36:15','YYYY-MM-DD HH24:MI:SS'),'Y',0,'EE02')
 ;
 
--- 12.03.2009 16:36:24 EET
--- HR - add list reference types
-INSERT INTO AD_Val_Rule_Trl (AD_Language,AD_Val_Rule_ID, Description, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Val_Rule_ID, t.Description, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Val_Rule t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Val_Rule_ID=52047 AND EXISTS (SELECT * FROM AD_Val_Rule_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Val_Rule_ID!=t.AD_Val_Rule_ID)
-;
-
 -- 12.03.2009 16:37:41 EET
 -- HR - add list reference types
 INSERT INTO AD_Column (Help,Created,CreatedBy,Updated,Version,IsActive,AD_Reference_ID,IsMandatory,IsIdentifier,SeqNo,IsAutocomplete,ColumnName,AD_Column_ID,IsParent,AD_Val_Rule_ID,AD_Table_ID,FieldLength,Description,IsKey,IsTranslated,AD_Client_ID,AD_Org_ID,AD_Element_ID,IsSelectionColumn,IsUpdateable,IsSyncDatabase,Name,EntityType,UpdatedBy,IsAlwaysUpdateable,IsEncrypted,IsAllowLogging) VALUES ('The Reference could be a display type, list or table validation.',TO_TIMESTAMP('2009-03-12 16:37:40','YYYY-MM-DD HH24:MI:SS'),0,TO_TIMESTAMP('2009-03-12 16:37:40','YYYY-MM-DD HH24:MI:SS'),0,'Y',30,'N','N',0,'N','AD_Reference_ID',56911,'N',52047,53090,10,'System Reference and Validation','N','N',0,0,120,'N','Y','N','Reference','EE02',0,'N','N','Y')
