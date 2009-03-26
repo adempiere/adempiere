@@ -76,7 +76,6 @@ import org.zkoss.zul.Groupfoot;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Space;
-import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
 
 /**
@@ -132,7 +131,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	
 	private Component formComponent = null;
 	
-	private Tree tree = null;
+	private ADTreePanel treePanel = null;
 
 	private GridTabDataBinder dataBinder;
 
@@ -202,10 +201,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			layout.setParent(this);
 			layout.setStyle("width: 100%; height: 100%; position: absolute;");
 		
-			tree = new Tree();
-			tree.setStyle("border: none");
+			treePanel = new ADTreePanel();
 			West west = new West();
-			west.appendChild(tree);
+			west.appendChild(treePanel);
 			west.setWidth("300px");
 			west.setCollapsible(true);
 			west.setSplittable(true);
@@ -218,7 +216,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			layout.appendChild(center);
 			
 			formComponent = layout;
-			tree.addEventListener(Events.ON_SELECT, this);
+			treePanel.getTree().addEventListener(Events.ON_SELECT, this);
 		}
 		else
 		{
@@ -492,10 +490,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         }
         
         //create tree
-        if (gridTab.isTreeTab() && tree != null) {
+        if (gridTab.isTreeTab() && treePanel != null) {
 			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
-			SimpleTreeModel.initADTree(tree, AD_Tree_ID, windowNo);
+			treePanel.initTree(AD_Tree_ID, windowNo);
         }
         
         if (!gridTab.isSingleRow() && !isGridView())
@@ -779,8 +777,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	{
     		this.switchRowPresentation();
     	} 
-    	else if (event.getTarget() == tree) {
-    		Treeitem item =  tree.getSelectedItem();
+    	else if (event.getTarget() == treePanel.getTree()) {
+    		Treeitem item =  treePanel.getTree().getSelectedItem();
     		navigateTo((SimpleTreeNode)item.getValue());
     	}
     }
@@ -863,7 +861,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         dynamicDisplay(col);
         
         //sync tree 
-        if (tree != null) {
+        if (treePanel != null) {
         	if ("Deleted".equalsIgnoreCase(e.getAD_Message()))
         		if (e.Record_ID != null 
         				&& e.Record_ID instanceof Integer 
@@ -890,10 +888,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     private void deleteNode(int recordId) {
 		if (recordId <= 0) return;
 		
-		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
 		
-		if (tree.getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) tree.getSelectedItem().getValue();
+		if (treePanel.getTree().getSelectedItem() != null) {
+			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
 			MTreeNode data = (MTreeNode) treeNode.getData();
 			if (data.getNode_ID() == recordId) {
 				model.removeNode(treeNode);
@@ -914,7 +912,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			boolean summary = gridTab.getValueAsBoolean("IsSummary"); 
 			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
 			//
-			SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+			SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
 			SimpleTreeNode treeNode = model.getRoot();
 			MTreeNode root = (MTreeNode) treeNode.getData();
 			MTreeNode node = new MTreeNode (gridTab.getRecord_ID(), 0, name, description,
@@ -922,26 +920,26 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			SimpleTreeNode newNode = new SimpleTreeNode(node, new ArrayList<Object>());
 			model.addNode(newNode);
 			int[] path = model.getPath(model.getRoot(), newNode);
-			Treeitem ti = tree.renderItemByPath(path);
-			tree.setSelectedItem(ti);
+			Treeitem ti = treePanel.getTree().renderItemByPath(path);
+			treePanel.getTree().setSelectedItem(ti);
     	}
 	}
 
 	private void setSelectedNode(int recordId) {
 		if (recordId <= 0) return;
 		
-		if (tree.getSelectedItem() != null) {
-			SimpleTreeNode treeNode = (SimpleTreeNode) tree.getSelectedItem().getValue();
+		if (treePanel.getTree().getSelectedItem() != null) {
+			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
 			MTreeNode data = (MTreeNode) treeNode.getData();
 			if (data.getNode_ID() == recordId) return;
 		}
 		
-		SimpleTreeModel model = (SimpleTreeModel) tree.getModel();
+		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
 		SimpleTreeNode treeNode = model.find(null, recordId);
 		if (treeNode != null) {
 			int[] path = model.getPath(model.getRoot(), treeNode);
-			Treeitem ti = tree.renderItemByPath(path);
-			tree.setSelectedItem(ti);
+			Treeitem ti = treePanel.getTree().renderItemByPath(path);
+			treePanel.getTree().setSelectedItem(ti);
 		} else {
 			addNewNode();
 		}

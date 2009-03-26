@@ -26,6 +26,7 @@ import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.TreeUtils;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.DB;
@@ -56,7 +57,7 @@ public class MenuPanel extends Panel implements EventListener
     private static final long serialVersionUID = 1L;
     
     private Properties ctx;
-    private MenuSearchPanel pnlSearch;
+    private TreeSearchPanel pnlSearch;
     private Tree menuTree;
     private ArrayList<MenuListener> menuListeners = new ArrayList<MenuListener>();
     
@@ -95,7 +96,7 @@ public class MenuPanel extends Panel implements EventListener
         
         menuTree.setStyle("border: none");
         
-        pnlSearch = new MenuSearchPanel(this);
+        pnlSearch = new TreeSearchPanel(menuTree);
         
         Toolbar toolbar = new Toolbar();
         toolbar.appendChild(pnlSearch);
@@ -173,7 +174,6 @@ public class MenuPanel extends Panel implements EventListener
                 	treeitem.setImage("/images/mWindow.png");
                 
                 treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
-                pnlSearch.addTreeItem(treeitem);
                 
                 treeitem.getTreerow().addEventListener(Events.ON_CLICK, this);
             }
@@ -209,10 +209,7 @@ public class MenuPanel extends Panel implements EventListener
         // Elaine 2009/02/27 - expand tree
         else if (eventName.equals(Events.ON_CHECK) && event.getTarget() == chkExpand)
         {
-        	if(comp.equals(chkExpand))
-        	{
-        		expandTree();
-        	}
+        	expandOnCheck();
         }
         //
     }
@@ -242,37 +239,6 @@ public class MenuPanel extends Panel implements EventListener
 		return menuTree;
 	}
 	
-	// Elaine 2009/02/27 - expand tree
-	private void expand(Treechildren treechildren, boolean expand)
-	{
-		List<?> list = treechildren.getChildren();
-		for(int index = 0; index < list.size(); index++)
-		{
-			Object o = list.get(index);
-			if(o instanceof Treechildren)
-			{
-				Treechildren treechild = (Treechildren) o;
-				expand(treechild, expand);
-			}
-			else if(o instanceof Treeitem)
-			{
-				Treeitem treeitem = (Treeitem) o;
-				treeitem.setOpen(expand);
-	
-				List<?> treeitemChildren = treeitem.getChildren();
-				for(int childIndex = 0; childIndex < treeitemChildren.size(); childIndex++)
-				{
-					Object child = treeitemChildren.get(childIndex);
-					if(child instanceof Treechildren)
-					{
-						Treechildren treechild = (Treechildren) child;
-						expand(treechild, expand);
-					}
-				}
-			}
-		}
-	}
-	
 	/**
 	* expand all node
 	*/
@@ -281,7 +247,7 @@ public class MenuPanel extends Panel implements EventListener
 		if (!chkExpand.isChecked())
 			chkExpand.setChecked(true);
 	
-		expandTree();
+		TreeUtils.expandAll(menuTree);
 	}
 	
 	/**
@@ -292,16 +258,18 @@ public class MenuPanel extends Panel implements EventListener
 		if (chkExpand.isChecked())
 			chkExpand.setChecked(false);
 	
-		expandTree();
+		TreeUtils.collapseAll(menuTree);
 	}
 	
 	/**
-	 *  Clicked on Expand All
+	 *  On check event for the expand checkbox
 	 */
-	private void expandTree()
+	private void expandOnCheck()
 	{
-		Treechildren treechildren = menuTree.getTreechildren();
-		expand(treechildren, chkExpand.isChecked());
+		if (chkExpand.isChecked())
+			expandAll();
+		else
+			collapseAll();
 	}
 	//
 }

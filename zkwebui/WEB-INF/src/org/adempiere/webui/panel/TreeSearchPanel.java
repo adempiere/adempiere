@@ -22,13 +22,21 @@ import java.util.TreeMap;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.util.TreeItemAction;
+import org.adempiere.webui.util.TreeNodeAction;
+import org.adempiere.webui.util.TreeUtils;
+import org.compiere.model.MTreeNode;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.SimpleTreeNode;
+import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.event.TreeDataEvent;
+import org.zkoss.zul.event.TreeDataListener;
 
 /**
  *
@@ -36,24 +44,38 @@ import org.zkoss.zul.Treeitem;
  * @date    Mar 3, 2007
  * @version $Revision: 0.10 $
  */
-public class MenuSearchPanel extends Panel implements EventListener
+public class TreeSearchPanel extends Panel implements EventListener, TreeDataListener
 {
     private static final long serialVersionUID = 1L;
     
-    private TreeMap<String, Treeitem> treeNodeItemMap = new TreeMap<String, Treeitem>();
+    private TreeMap<String, Object> treeNodeItemMap = new TreeMap<String, Object>();
     private String[] treeValues;
     private String[] treeDescription;
     
     private Label lblSearch;
     private AutoComplete cmbSearch;
     
-    private MenuPanel menuPanel;
+	private Tree tree;
+
+	private String eventToFire;
 	
+	/**
+     * @param tree
+     */
+    public TreeSearchPanel(Tree tree)
+    {
+    	this(tree, Events.ON_CLICK);
+    }
     
-    public MenuSearchPanel(MenuPanel menuPanel)
+    /**
+     * @param tree
+     * @param event
+     */
+    public TreeSearchPanel(Tree tree, String event)
     {
         super();
-        this.menuPanel = menuPanel; 
+        this.tree = tree; 
+        this.eventToFire = event;
         init();
     }
     
@@ -71,38 +93,96 @@ public class MenuSearchPanel extends Panel implements EventListener
         this.appendChild(lblSearch);
         this.appendChild(cmbSearch);
     }
-    
-    public void addTreeItem(Treeitem treeItem)
+        
+    private void addTreeItem(Treeitem treeItem)
     {
         String key = treeItem.getLabel();
         treeNodeItemMap.put(key, treeItem);
     }
     
+    private void addTreeItem(SimpleTreeNode node) {
+    	Object data = node.getData();
+    	if (data instanceof MTreeNode) {
+    		MTreeNode mNode = (MTreeNode) data;
+    		treeNodeItemMap.put(mNode.getName(), node);
+    	}		
+	}
+    
+    /**
+     * populate the searchable list
+     */
     public void initialise()
     {
+    	refreshSearchList();
+        
+        if (tree.getModel() != null) 
+        {
+        	tree.getModel().addTreeDataListener(this);
+        }
+    }
+
+	private void refreshSearchList() {
+		treeNodeItemMap.clear();
+		if (tree.getModel() == null) {
+	    	TreeUtils.traverse(tree, new TreeItemAction() {
+				public void run(Treeitem treeItem) {
+					addTreeItem(treeItem);
+				}    		
+	    	});
+		} else {
+			TreeUtils.traverse(tree.getModel(), new TreeNodeAction() {
+				public void run(SimpleTreeNode treeNode) {
+					addTreeItem(treeNode);
+				}    		
+	    	});
+		}
+    	
     	treeValues = new String[treeNodeItemMap.size()];
     	treeDescription = new String[treeNodeItemMap.size()];
     	
     	int i = -1;
     	
-        for (Treeitem treeItem: treeNodeItemMap.values())
+        for (Object value : treeNodeItemMap.values())
         {   
         	i++;
-        	
-            treeValues[i] = treeItem.getLabel();
-            treeDescription[i] = treeItem.getTooltiptext();
+        	if (value instanceof Treeitem)
+        	{
+        		Treeitem treeItem = (Treeitem) value;
+        		treeValues[i] = treeItem.getLabel();
+        		treeDescription[i] = treeItem.getTooltiptext();
+        	}
+        	else if (value instanceof SimpleTreeNode)
+        	{
+        		SimpleTreeNode sNode = (SimpleTreeNode) value;
+        		MTreeNode mNode = (MTreeNode) sNode.getData();
+        		treeValues[i] = mNode.getName();
+        		treeDescription[i] = mNode.getDescription();
+        	}
         }
         
         cmbSearch.setDescription(treeDescription);
         cmbSearch.setDict(treeValues);
-   }
+	}
 
+	/**
+     * @param event
+     * @see EventListener#onEvent(Event)
+     */
     public void onEvent(Event event)
     {
         if (cmbSearch.equals(event.getTarget()) && (event.getName().equals(Events.ON_CHANGE)))
         {
             String value = cmbSearch.getValue();
-            Treeitem treeItem = treeNodeItemMap.get(value);
+            Object node = treeNodeItemMap.get(value);
+            Treeitem treeItem = null;
+            if (node instanceof Treeitem) {
+	            treeItem = (Treeitem) node;
+            } else {
+            	SimpleTreeNode sNode = (SimpleTreeNode) node;            	
+            	int[] path = tree.getModel().getPath(tree.getModel().getRoot(), sNode);
+    			treeItem = tree.renderItemByPath(path);
+    			tree.setSelectedItem(treeItem);
+            }
             if (treeItem != null)
             {
                 select(treeItem);
@@ -112,9 +192,16 @@ public class MenuSearchPanel extends Panel implements EventListener
         }
     }
     
+    /**
+     * don't call this directly, use internally for post selection event
+     */
     public void onPostSelect() {
     	Clients.showBusy(null, false);
-    	Event event = new Event(Events.ON_CLICK, menuPanel.getMenuTree().getSelectedItem().getTreerow());
+    	Event event = null;
+    	if (eventToFire.equals(Events.ON_CLICK))
+    		event = new Event(Events.ON_CLICK, tree.getSelectedItem().getTreerow());
+    	else
+    		event = new Event(eventToFire, tree);
     	Events.postEvent(event);
     }
 
@@ -127,5 +214,13 @@ public class MenuSearchPanel extends Panel implements EventListener
 			parent = parent.getParentItem();
 		}
 		selectedItem.getTree().setSelectedItem(selectedItem);
+	}
+
+	/**
+	 * @param event
+	 * @see TreeDataListener#onChange(TreeDataEvent)
+	 */
+	public void onChange(TreeDataEvent event) {
+		refreshSearchList();
 	}
 }
