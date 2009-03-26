@@ -36,10 +36,10 @@ public class AutoComplete extends Combobox
 	private static final long serialVersionUID = 1L;
 	
 	/** comboItems	All menu labels	 */
-	private static String[] comboItems;
+	private String[] comboItems;
 	
 	/** strDescription	Description of menu items	 */
-	private static String[] strDescription;
+	private String[] strDescription;
 
 	/**
 	 * Set menu labels
