@@ -18,80 +18,6 @@ INSERT INTO AD_Field (UpdatedBy,IsSameLine,IsHeading,CreatedBy,Updated,DisplayLe
 INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Help,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Help,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56827 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
 ;
 
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem (IsPrinted,IsOrderBy,CreatedBy,AD_Org_ID,XPosition,IsGroupBy,IsHeightOneLine,Updated,SortNo,PrintFormatType,PrintAreaType,AD_PrintFormat_ID,MaxHeight,IsSuppressNull,IsNextPage,FieldAlignmentType,Name,ImageIsAttached,AD_Client_ID,XSpace,PrintName,IsCounted,IsAveraged,YSpace,IsSetNLPosition,IsPageBreak,IsFixedWidth,SeqNo,IsRelativePosition,YPosition,LineAlignmentType,AD_Column_ID,UpdatedBy,IsSummarized,MaxWidth,Created,IsNextLine,IsActive,AD_PrintFormatItem_ID,IsMinCalc,IsMaxCalc,IsRunningTotal,IsVarianceCalc,IsDeviationCalc,IsFilledRectangle,LineWidth,IsCentrallyMaintained,ArcDiameter,ShapeType,IsImageField) VALUES ('N','N',0,0,0,'N','N',TO_DATE('2009-03-25 16:56:42','YYYY-MM-DD HH24:MI:SS'),0,'F','C',1500136,0,'N','N','L','Manufacturing Cost Collector','N',0,0,'Manufacturing Cost Collector','N','N',0,'N','N','N',0,'Y',0,'X',57008,0,'N',0,TO_DATE('2009-03-25 16:56:42','YYYY-MM-DD HH24:MI:SS'),'N','Y',51072,'N','N','N','N','N','N',1,'Y',0,'N','N')
-;
-
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=51072 AND EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_PrintFormatItem_ID!=t.AD_PrintFormatItem_ID)
-;
-
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-UPDATE AD_PrintFormatItem_Trl trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008) WHERE AD_PrintFormatItem_ID = 51072 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008 AND trl.AD_PrintFormatItem_ID = 51072) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
-
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem (IsPrinted,IsOrderBy,CreatedBy,AD_Org_ID,XPosition,IsGroupBy,IsHeightOneLine,Updated,SortNo,PrintFormatType,PrintAreaType,AD_PrintFormat_ID,MaxHeight,IsSuppressNull,IsNextPage,FieldAlignmentType,Name,ImageIsAttached,AD_Client_ID,XSpace,PrintName,IsCounted,IsAveraged,YSpace,IsSetNLPosition,IsPageBreak,IsFixedWidth,SeqNo,IsRelativePosition,YPosition,LineAlignmentType,AD_Column_ID,UpdatedBy,IsSummarized,MaxWidth,Created,IsNextLine,IsActive,AD_PrintFormatItem_ID,IsMinCalc,IsMaxCalc,IsRunningTotal,IsVarianceCalc,IsDeviationCalc,IsFilledRectangle,LineWidth,IsCentrallyMaintained,ArcDiameter,ShapeType,IsImageField) VALUES ('N','N',0,1500001,0,'N','N',TO_DATE('2009-03-25 16:56:43','YYYY-MM-DD HH24:MI:SS'),0,'F','C',1500184,0,'N','N','L','Manufacturing Cost Collector','N',1000011,0,'Manufacturing Cost Collector','N','N',0,'N','N','N',0,'Y',0,'X',57008,0,'N',0,TO_DATE('2009-03-25 16:56:43','YYYY-MM-DD HH24:MI:SS'),'N','Y',1508873,'N','N','N','N','N','N',1,'Y',0,'N','N')
-;
-
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=1508873 AND EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_PrintFormatItem_ID!=t.AD_PrintFormatItem_ID)
-;
-
--- 25.03.2009 16:56:43 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-UPDATE AD_PrintFormatItem_Trl trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008) WHERE AD_PrintFormatItem_ID = 1508873 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008 AND trl.AD_PrintFormatItem_ID = 1508873) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem (IsPrinted,IsOrderBy,CreatedBy,AD_Org_ID,XPosition,IsGroupBy,IsHeightOneLine,Updated,SortNo,PrintFormatType,PrintAreaType,AD_PrintFormat_ID,MaxHeight,IsSuppressNull,IsNextPage,FieldAlignmentType,Name,ImageIsAttached,AD_Client_ID,XSpace,PrintName,IsCounted,IsAveraged,YSpace,IsSetNLPosition,IsPageBreak,IsFixedWidth,SeqNo,IsRelativePosition,YPosition,LineAlignmentType,AD_Column_ID,UpdatedBy,IsSummarized,MaxWidth,Created,IsNextLine,IsActive,AD_PrintFormatItem_ID,IsMinCalc,IsMaxCalc,IsRunningTotal,IsVarianceCalc,IsDeviationCalc,IsFilledRectangle,LineWidth,IsCentrallyMaintained,ArcDiameter,ShapeType,IsImageField) VALUES ('N','N',0,0,0,'N','N',TO_DATE('2009-03-25 16:56:43','YYYY-MM-DD HH24:MI:SS'),0,'F','C',1500139,0,'N','N','L','Manufacturing Cost Collector','N',0,0,'Manufacturing Cost Collector','N','N',0,'N','N','N',0,'Y',0,'X',57008,0,'N',0,TO_DATE('2009-03-25 16:56:43','YYYY-MM-DD HH24:MI:SS'),'N','Y',51073,'N','N','N','N','N','N',1,'Y',0,'N','N')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=51073 AND EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_PrintFormatItem_ID!=t.AD_PrintFormatItem_ID)
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-UPDATE AD_PrintFormatItem_Trl trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008) WHERE AD_PrintFormatItem_ID = 51073 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008 AND trl.AD_PrintFormatItem_ID = 51073) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem (IsPrinted,IsOrderBy,CreatedBy,AD_Org_ID,XPosition,IsGroupBy,IsHeightOneLine,Updated,SortNo,PrintFormatType,PrintAreaType,AD_PrintFormat_ID,MaxHeight,IsSuppressNull,IsNextPage,FieldAlignmentType,Name,ImageIsAttached,AD_Client_ID,XSpace,PrintName,IsCounted,IsAveraged,YSpace,IsSetNLPosition,IsPageBreak,IsFixedWidth,SeqNo,IsRelativePosition,YPosition,LineAlignmentType,AD_Column_ID,UpdatedBy,IsSummarized,MaxWidth,Created,IsNextLine,IsActive,AD_PrintFormatItem_ID,IsMinCalc,IsMaxCalc,IsRunningTotal,IsVarianceCalc,IsDeviationCalc,IsFilledRectangle,LineWidth,IsCentrallyMaintained,ArcDiameter,ShapeType,IsImageField) VALUES ('N','N',0,0,0,'N','N',TO_DATE('2009-03-25 16:56:44','YYYY-MM-DD HH24:MI:SS'),0,'F','C',1500141,0,'N','N','L','Manufacturing Cost Collector','N',1000011,0,'Manufacturing Cost Collector','N','N',0,'N','N','N',0,'Y',0,'X',57008,0,'N',0,TO_DATE('2009-03-25 16:56:44','YYYY-MM-DD HH24:MI:SS'),'N','Y',1508874,'N','N','N','N','N','N',1,'Y',0,'N','N')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=1508874 AND EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_PrintFormatItem_ID!=t.AD_PrintFormatItem_ID)
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-UPDATE AD_PrintFormatItem_Trl trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008) WHERE AD_PrintFormatItem_ID = 1508874 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008 AND trl.AD_PrintFormatItem_ID = 1508874) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem (IsPrinted,IsOrderBy,CreatedBy,AD_Org_ID,XPosition,IsGroupBy,IsHeightOneLine,Updated,SortNo,PrintFormatType,PrintAreaType,AD_PrintFormat_ID,MaxHeight,IsSuppressNull,IsNextPage,FieldAlignmentType,Name,ImageIsAttached,AD_Client_ID,XSpace,PrintName,IsCounted,IsAveraged,YSpace,IsSetNLPosition,IsPageBreak,IsFixedWidth,SeqNo,IsRelativePosition,YPosition,LineAlignmentType,AD_Column_ID,UpdatedBy,IsSummarized,MaxWidth,Created,IsNextLine,IsActive,AD_PrintFormatItem_ID,IsMinCalc,IsMaxCalc,IsRunningTotal,IsVarianceCalc,IsDeviationCalc,IsFilledRectangle,LineWidth,IsCentrallyMaintained,ArcDiameter,ShapeType,IsImageField) VALUES ('N','N',0,1500001,0,'N','N',TO_DATE('2009-03-25 16:56:44','YYYY-MM-DD HH24:MI:SS'),0,'F','C',1500181,0,'N','N','L','Manufacturing Cost Collector','N',1000011,0,'Manufacturing Cost Collector','N','N',0,'N','N','N',0,'Y',0,'X',57008,0,'N',0,TO_DATE('2009-03-25 16:56:44','YYYY-MM-DD HH24:MI:SS'),'N','Y',1508875,'N','N','N','N','N','N',1,'Y',0,'N','N')
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-INSERT INTO AD_PrintFormatItem_Trl (AD_Language,AD_PrintFormatItem_ID, PrintName,PrintNameSuffix, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_PrintFormatItem_ID, t.PrintName,t.PrintNameSuffix, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_PrintFormatItem t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_PrintFormatItem_ID=1508875 AND EXISTS (SELECT * FROM AD_PrintFormatItem_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_PrintFormatItem_ID!=t.AD_PrintFormatItem_ID)
-;
-
--- 25.03.2009 16:56:44 EET
--- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
-UPDATE AD_PrintFormatItem_Trl trl SET PrintName = (SELECT e.PrintName FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008) WHERE AD_PrintFormatItem_ID = 1508875 AND EXISTS (SELECT * FROM AD_Element_Trl e, AD_Column c WHERE e.AD_Language=trl.AD_Language AND e.AD_Element_ID=c.AD_Element_ID AND c.AD_Column_ID=57008 AND trl.AD_PrintFormatItem_ID = 1508875) AND EXISTS (SELECT * FROM AD_Client WHERE AD_Client_ID=trl.AD_Client_ID AND IsMultiLingualDocument='Y')
-;
 
 -- 25.03.2009 16:56:46 EET
 -- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
@@ -175,6 +101,7 @@ UPDATE AD_Field SET SeqNo=310,IsDisplayed='Y' WHERE AD_Field_ID=56309
 
 ALTER TABLE HR_Movement ADD (CONSTRAINT PPCostCollector_HRMovement FOREIGN KEY (PP_Cost_Collector_ID) REFERENCES PP_Cost_Collector);
 
+delete from AD_Field where AD_Column_ID=56185;
 
 -- 25.03.2009 18:11:04 EET
 -- https://sourceforge.net/tracker/?func=detail&aid=2711495&group_id=176962&atid=934929
