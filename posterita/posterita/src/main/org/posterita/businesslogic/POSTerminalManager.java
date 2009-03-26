@@ -607,7 +607,7 @@ public class POSTerminalManager
         MPOSTerminal terminal = MPOSTerminal.get(ctx, terminalId);
         if (terminal == null)
         {
-            throw new TerminalNotFoundException("Terminal cannot be loaded");
+            throw new TerminalNotFoundException("Terminal cannot be loaded; terminalId["+terminalId+"]");
         }
         return terminal;
     }
