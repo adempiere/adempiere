@@ -55,9 +55,10 @@ BEGIN
 	END IF;
 	--	Calculate Allocated Amount
 	FOR allocation IN 
-	SELECT	allocation.AD_Client_ID, allocation.AD_Org_ID,al.Amount, al.DiscountAmt, al.WriteOffAmt,allocation.C_Currency_ID, allocation.DateTrx
+	SELECT	al.AD_Client_ID, al.AD_Org_ID,al.Amount, al.DiscountAmt, al.WriteOffAmt,a.C_Currency_ID, a.DateTrx
 	FROM	C_ALLOCATIONLINE al
-        WHERE	al.C_Invoice_ID = p_C_Invoice_ID AND   allocation.IsActive='Y' AND allocation.DateAcct <= p_DateAcct
+	INNER JOIN C_ALLOCATIONHDR a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
+    WHERE	al.C_Invoice_ID = p_C_Invoice_ID AND   a.IsActive='Y' AND a.DateAcct <= p_DateAcct
 	LOOP
 		v_PaymentAmt := v_PaymentAmt
 			+ Currencyconvert(allocation.Amount + allocation.DisCountAmt + allocation.WriteOffAmt,

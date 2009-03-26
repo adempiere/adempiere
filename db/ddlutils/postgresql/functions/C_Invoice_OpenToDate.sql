@@ -37,7 +37,7 @@ CREATE OR REPLACE FUNCTION InvoiceopenToDate
 (
  p_C_Invoice_ID             IN numeric,
     p_C_InvoicePaySchedule_ID   IN  numeric,
-	p_DateAcct IN DATE
+	p_DateAcct IN timestamp with time zone
 )
 RETURNS numeric
 AS
