@@ -67,7 +67,6 @@ public class MenuSearchPanel extends Panel implements EventListener
         cmbSearch.setAutodrop(true);
         
         cmbSearch.addEventListener(Events.ON_CHANGE, this);
-        cmbSearch.addEventListener(Events.ON_CHANGING, this);
         
         this.appendChild(lblSearch);
         this.appendChild(cmbSearch);
@@ -100,7 +99,7 @@ public class MenuSearchPanel extends Panel implements EventListener
 
     public void onEvent(Event event)
     {
-        if (cmbSearch.equals(event.getTarget()) && (event.getName() != Events.ON_CHANGING))
+        if (cmbSearch.equals(event.getTarget()) && (event.getName().equals(Events.ON_CHANGE)))
         {
             String value = cmbSearch.getValue();
             Treeitem treeItem = treeNodeItemMap.get(value);

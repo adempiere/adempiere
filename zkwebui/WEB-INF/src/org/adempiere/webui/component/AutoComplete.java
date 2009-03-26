@@ -18,6 +18,7 @@
 package org.adempiere.webui.component;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zul.Comboitem;
@@ -39,7 +40,7 @@ public class AutoComplete extends Combobox
 	
 	/** strDescription	Description of menu items	 */
 	private static String[] strDescription;
-	
+
 	/**
 	 * Set menu labels
 	 * 
@@ -98,69 +99,53 @@ public class AutoComplete extends Combobox
 	public void onChanging(InputEvent evt) 
 	{
 		if (!evt.isChangingBySelectBack())
+		{
 			refresh(evt.getValue());
+		}
 	}
-
+	
 	/** 
 	 * Refresh comboitem based on the specified value.
-	*/
-	
+	*/	
 	private void refresh(String val) 
 	{
-		val = val.toLowerCase();
-		
-/*		int j = Arrays.binarySearch(comboItemsL, val);
-		
-		if (j < 0) 
-			j = -j-1;
-
-		Iterator it = getItems().iterator();
-		
-		for (; j < comboItems.length; ++j) 
-		{
-			if (!comboItemsL[j].contains(val))
-				break;
-			
-			if (it != null && it.hasNext()) 
-			{
-				((Comboitem)it.next()).setLabel(comboItems[j]);
-				
-				//if (strDescription[j] != null)
-				//	comboitem.setDescription(strDescription[j]);
-			}
-			else 
-			{
-				it = null;
-				
-				Comboitem comboitem = new Comboitem(comboItems[j]);
-				
-				if (strDescription[j] != null)
-					comboitem.setDescription(strDescription[j]);
-				
-				comboitem.setParent(this);
-			}
-		}
-
-		while (it != null && it.hasNext()) 
-		{
-			it.next();
-			it.remove();
-		}*/
-		
-		super.getChildren().clear();
-		
-		if ((val == null) || (val.trim() == null))
+		if ((val == null) || (val.trim().length() == 0)) {
+			super.getChildren().clear();
 			return;
+		}
 		
+		String compare = val.toLowerCase().trim();
+		
+		Iterator<?> it = getItems().iterator();
 		for (int i = 0; i < comboItems.length; i++)
 		{
-			if (comboItems[i].toLowerCase().contains(val))
+			boolean match = false;
+			if (compare.length() < 3)
 			{
-				Comboitem comboitem = new Comboitem();
+				match = comboItems[i].toLowerCase().startsWith(compare);
+			}
+			else
+			{
+				match = comboItems[i].toLowerCase().contains(compare);
+			}
+			if (match)
+			{
+				Comboitem comboitem = null;
+				if (it != null && it.hasNext()) {
+					comboitem = ((Comboitem)it.next());
+			    } else {
+			        it = null;
+			        comboitem = new Comboitem();
+			        super.appendChild(comboitem);
+			    }
+
 				comboitem.setLabel(comboItems[i]);
-				comboitem.setDescription(strDescription[i]);
-				super.appendChild(comboitem);
+				comboitem.setDescription(strDescription[i]);				
 			}
 		}
+		while (it != null && it.hasNext()) {
+	      it.next();
+	      it.remove();
+	    }		
 	}
 }
