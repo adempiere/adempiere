@@ -429,12 +429,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			org.zkoss.zul.Columns columns = grid.getColumns();
 			int colIndex = -1;
 			for (int i = 0; i < columnCount; i++) {
+				if (!gridField[i].isDisplayed()) {
+					continue;
+				}
+				colIndex ++;	
+				
+				//check context
 				if (!gridField[i].isDisplayed(true)) {
 					continue;
 				}
 				if (editors.get(gridField[i]) == null)
 					editors.put(gridField[i], WebEditorFactory.getEditor(gridField[i], true));
-				colIndex ++;
 				org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
 				if (column.isVisible() && gridField[i].isEditable(true)) {
 					Div div = (Div) currentRow.getChildren().get(colIndex);
