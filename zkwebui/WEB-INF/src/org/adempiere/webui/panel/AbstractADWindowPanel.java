@@ -791,8 +791,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		    return false;
 		}
 
-		back = (newTabIndex < oldTabIndex);
-
 		IADTabpanel oldTabpanel = curTabpanel;
 		IADTabpanel newTabpanel = adTab.getSelectedTabpanel();
 		curTab = newTabpanel.getGridTab();
@@ -801,6 +799,25 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			oldTabpanel.activate(false);
 		newTabpanel.activate(true);
 
+		back = (newTabIndex < oldTabIndex);
+		if (back)
+		{
+			if (newTabpanel.getTabLevel() >= oldTabpanel.getTabLevel())
+				back = false;
+			else if ((newTabIndex - oldTabIndex) > 1)
+			{
+				for (int i = oldTabIndex - 1; i > newTabIndex; i--)
+				{
+					IADTabpanel next = adTab.getADTabpanel(i);
+					if (next != null && next.getTabLevel() <= newTabpanel.getTabLevel())
+					{
+						back = false;
+						break;
+					}
+				}
+			}
+		}
+		
 		if (!back)
 		{
 		    newTabpanel.query();
