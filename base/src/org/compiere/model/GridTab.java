@@ -587,7 +587,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 			else
 			{
-				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc);
+				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true);
 				//	Same link value?
 				if (refresh)
 					refresh = m_linkValue.equals(value);
