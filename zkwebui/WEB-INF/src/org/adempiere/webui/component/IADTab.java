@@ -100,5 +100,11 @@ public interface IADTab extends UIPart {
 	/**
 	 * @return boolean
 	 */
-	public boolean isUseExternalSelection();		
+	public boolean isUseExternalSelection();
+
+	/**
+	 * @param index
+	 * @return IADTabpanel
+	 */
+	public IADTabpanel getADTabpanel(int index);		
 }
