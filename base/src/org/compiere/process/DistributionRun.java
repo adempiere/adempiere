@@ -217,23 +217,22 @@ public class DistributionRun extends SvrProcess
 	private int insertDetails()
 	{
 		//	Handle NULL
-		String sql = "UPDATE M_DistributionRunLine SET MinQty = 0 WHERE MinQty IS NULL";
-		int no = DB.executeUpdate(sql, get_TrxName());
+		String sql = "UPDATE M_DistributionRunLine SET MinQty = 0 WHERE MinQty IS NULL AND M_DistributionRun_ID=?";
+		int no = DB.executeUpdateEx(sql,new Object[]{p_M_DistributionRun_ID} ,get_TrxName());
 		sql = "UPDATE M_DistributionListLine SET MinQty = 0 WHERE MinQty IS NULL";
-		no = DB.executeUpdate(sql, get_TrxName());
+		no = DB.executeUpdateEx(sql, get_TrxName());
 		//	Total Ratio
 		sql = "UPDATE M_DistributionList l "
 			+ "SET RatioTotal = (SELECT SUM(Ratio) FROM M_DistributionListLine ll "
 				+ " WHERE l.M_DistributionList_ID=ll.M_DistributionList_ID) "
 			+ "WHERE EXISTS (SELECT * FROM M_DistributionRunLine rl"
 				+ " WHERE l.M_DistributionList_ID=rl.M_DistributionList_ID"
-				+ " AND rl.M_DistributionRun_ID=" + p_M_DistributionRun_ID + ")";
-		no = DB.executeUpdate(sql, get_TrxName());
+				+ " AND rl.M_DistributionRun_ID=?)";
+		no = DB.executeUpdateEx(sql,new Object[]{p_M_DistributionRun_ID},get_TrxName());
 		
 		//	Delete Old
-		sql = "DELETE FROM T_DistributionRunDetail WHERE M_DistributionRun_ID="
-			+ p_M_DistributionRun_ID;
-		no = DB.executeUpdate(sql, get_TrxName());
+		sql = "DELETE FROM T_DistributionRunDetail WHERE M_DistributionRun_ID=?";
+		no = DB.executeUpdateEx(sql,new Object[]{p_M_DistributionRun_ID}, get_TrxName());
 		log.fine("insertDetails - deleted #" + no);
 		//	Insert New
 		sql = "INSERT INTO T_DistributionRunDetail "
@@ -252,9 +251,9 @@ public class DistributionRun extends SvrProcess
 			+ "FROM M_DistributionRunLine rl"
 			+ " INNER JOIN M_DistributionList l ON (rl.M_DistributionList_ID=l.M_DistributionList_ID)"
 			+ " INNER JOIN M_DistributionListLine ll ON (rl.M_DistributionList_ID=ll.M_DistributionList_ID) "
-			+ "WHERE rl.M_DistributionRun_ID=" + p_M_DistributionRun_ID
+			+ "WHERE rl.M_DistributionRun_ID=?"
 			+ " AND l.RatioTotal<>0 AND rl.IsActive='Y' AND ll.IsActive='Y'";
-		no = DB.executeUpdate(sql, get_TrxName());
+		no = DB.executeUpdateEx(sql,new Object[]{p_M_DistributionRun_ID}, get_TrxName());
 		log.fine("inserted #" + no);
 		return no;
 	}	//	insertDetails
@@ -928,19 +927,17 @@ public class DistributionRun extends SvrProcess
 			
 			if(p_ConsolidateDocument)
 			{
-				MTable table = MTable.get(getCtx(), MDDOrder.Table_ID);
 				
-				Query query = table.createQuery("DocStatus IN ('DR','IN') AND AD_Org_ID=" + bp.getAD_OrgBP_ID_Int() +	" AND "	+	
-											    MDDOrder.COLUMNNAME_C_BPartner_ID  +"=? AND " +
-											    MDDOrder.COLUMNNAME_M_Warehouse_ID +"=?  AND " +
-											    MDDOrder.COLUMNNAME_DatePromised   +"<=? ", get_TrxName());	
-											    //MDDOrder.COLUMNNAME_DatePromised   +" BETWEEN ? AND ? ", get_TrxName());			
-							//query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised,p_DatePromised_To});
-							  query.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised});
-							  query.setOrderBy(MDDOrder.COLUMNNAME_DatePromised +" DESC");
+				String whereClause = "DocStatus IN ('DR','IN') AND AD_Org_ID=" + bp.getAD_OrgBP_ID_Int() +	" AND "	+	
+									    MDDOrder.COLUMNNAME_C_BPartner_ID  +"=? AND " +
+									    MDDOrder.COLUMNNAME_M_Warehouse_ID +"=?  AND " +
+									    MDDOrder.COLUMNNAME_DatePromised   +"<=? ";
 				
-			    order = query.first();
-			}
+				order = new Query(getCtx(), MDDOrder.Table_Name, whereClause, get_TrxName())
+							.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised})
+							.setOrderBy(MDDOrder.COLUMNNAME_DatePromised +" DESC")
+							.first();
+		}
 			
 			//	New Order
 			if (order == null)
@@ -998,7 +995,7 @@ public class DistributionRun extends SvrProcess
 			{
 
 				String sql = "SELECT DD_OrderLine_ID FROM DD_OrderLine ol INNER JOIN DD_Order o ON (o.DD_Order_ID=ol.DD_Order_ID) WHERE o.DocStatus IN ('DR','IN') AND o.C_BPartner_ID = ? AND M_Product_ID=? AND  ol.M_Locator_ID=?  AND ol.DatePromised <= ? ORDER BY ol.DatePromised DESC";				
-				int DD_OrderLine_ID = DB.getSQLValue(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
+				int DD_OrderLine_ID = DB.getSQLValueEx(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
 				if (DD_OrderLine_ID  <= 0)
 				{	
 					MDDOrderLine line = new MDDOrderLine(order);
@@ -1007,11 +1004,19 @@ public class DistributionRun extends SvrProcess
 					line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
 					line.setIsInvoiced(false);
 					line.setProduct(product);
-					line.setQty(detail.getActualAllocation());
-					line.setTargetQty(detail.getActualAllocation());
-					line.setQtyEntered(detail.getActualAllocation());
-					line.setConfirmedQty(detail.getActualAllocation());
-					line.setDescription(m_run.getDescription());
+					BigDecimal QtyAllocation = detail.getActualAllocation();
+					if(QtyAllocation == null)
+						QtyAllocation = Env.ZERO;
+					
+					line.setQty(QtyAllocation);
+					line.setQtyEntered(QtyAllocation);
+					//line.setTargetQty(detail.getActualAllocation());
+					line.setTargetQty(Env.ZERO);
+					String Description ="";
+					if (m_run.getName() != null)
+						Description =Description.concat(m_run.getName());
+					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
+					line.setConfirmedQty(QtyAllocation);
 					line.saveEx();
 				}
 				else 
@@ -1023,10 +1028,11 @@ public class DistributionRun extends SvrProcess
 					String Description = line.getDescription();
 					if (Description ==  null)
 						Description ="";
-					if (m_run.getDescription() != null)
-						Description =Description.concat(m_run.getDescription());
-					line.setDescription(Description + Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation);
-					line.setConfirmedQty(line.getConfirmedQty().add(detail.getActualAllocation()));
+					if (m_run.getName() != null)
+						Description =Description.concat(m_run.getName());
+					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
+					line.setQty(line.getQtyEntered().add(QtyAllocation));
+					line.setConfirmedQty(line.getConfirmedQty().add( QtyAllocation));
 					line.saveEx();
 				}
 			}
@@ -1049,10 +1055,11 @@ public class DistributionRun extends SvrProcess
 				line.setIsInvoiced(false);
 				line.setProduct(product);
 				line.setQty(detail.getActualAllocation());
-				line.setTargetQty(detail.getActualAllocation());
 				line.setQtyEntered(detail.getActualAllocation());
+				//line.setTargetQty(detail.getActualAllocation());
+				line.setTargetQty(Env.ZERO);
 				line.setConfirmedQty(detail.getActualAllocation());
-				line.setDescription(m_run.getDescription());
+				line.setDescription(m_run.getName());
 				if (!line.save())
 				{
 					log.log(Level.SEVERE, "OrderLine not saved");
