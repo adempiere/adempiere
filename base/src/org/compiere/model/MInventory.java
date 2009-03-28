@@ -963,7 +963,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 			MCostDetail.createInventory(as, line.getAD_Org_ID(), 
 					line.getM_Product_ID(), M_AttributeSetInstance_ID,
 					line.getM_InventoryLine_ID(), 0,	//	no cost element
-					costs.multiply(qty), qty,			
+					costs, qty,			
 					line.getDescription(), line.get_TrxName());
 		}
 		
