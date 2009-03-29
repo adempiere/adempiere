@@ -122,7 +122,6 @@ public class CalloutInOut extends CalloutEngine
 				String DocBaseType = rs.getString("DocBaseType");
 				// BF [2708789] Read IsSOTrx from C_DocType
 				String trxFlag = rs.getString(7);
-				mTab.setValue("IsSOTrx", trxFlag);
 				if (DocBaseType.equals("MMS"))					//	Material Shipments
 				/**solve 1648131 bug vpj-cd e-evolution */ 
 				{
