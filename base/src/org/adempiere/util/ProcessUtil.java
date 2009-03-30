@@ -84,9 +84,13 @@ public final class ProcessUtil {
 		}
 		//Get Class
 		Class<?> processClass = null;
+		//use context classloader if available
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		if (classLoader == null)
+			classLoader = ProcessUtil.class.getClassLoader();
 		try
 		{
-			processClass = Class.forName (className);
+			processClass = classLoader.loadClass(className);
 		}
 		catch (ClassNotFoundException ex)
 		{
