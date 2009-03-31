@@ -21,8 +21,6 @@ import java.util.logging.Level;
 
 import javax.imageio.ImageIO;
 
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.wf.WFLine;
@@ -36,19 +34,23 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.MouseEvent;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Area;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Imagemap;
-import org.zkoss.zul.Separator;
 
 /**
  *	WorkFlow Panel
  *
  * 	@author Low Heng Sin
  */
-public class WFPanel extends Panel implements EventListener
+public class WFPanel extends Borderlayout implements EventListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Create Workflow Panel
 	 */
@@ -98,17 +100,22 @@ public class WFPanel extends Panel implements EventListener
 	 */
 	private void jbInit() throws Exception
 	{
-		VerticalBox vbox = new VerticalBox();
-		appendChild(vbox);
-		//	Center
-		contentPanel.setStyle("width: 100%; heigh: 100%; overflow: auto;");
-		vbox.appendChild(new Separator());
-		vbox.appendChild(contentPanel);
-		vbox.appendChild(new Separator());
-		vbox.appendChild(infoTextPane);
-		vbox.setHeights("85%,15%");
-		vbox.setStyle("padding-left: 10px");
+		this.setStyle("height: 100%; width: 100%; position: absolute");
+		Center center = new Center();
+		this.appendChild(center);
+		center.appendChild(contentPanel);
+		contentPanel.setStyle("width: 100%; heigh: 100%;");
+		center.setAutoscroll(true);
+		center.setFlex(true);
 		
+		South south = new South();
+		this.appendChild(south);
+		south.appendChild(infoTextPane);
+		south.setHeight("15%");
+		south.setSplittable(true);
+		south.setCollapsible(true);
+		south.setAutoscroll(true);
+		south.setFlex(true);		
 	}	//	jbInit
 
 	/**

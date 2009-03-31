@@ -23,7 +23,6 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.ListboxFactory;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.panel.ADForm;
 import org.compiere.apps.wf.WFLine;
 import org.compiere.model.MRole;
@@ -37,8 +36,11 @@ import org.zkoss.image.AImage;
 import org.zkoss.image.Image;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Imagemap;
-import org.zkoss.zul.Separator;
 
 /**
  * 
@@ -48,13 +50,17 @@ import org.zkoss.zul.Separator;
  */
 public class WFEditor extends ADForm {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Listbox workflowList;
 	private Imagemap imageMap;
 
 	@Override
 	protected void initForm() {
-		VerticalBox vbox = new VerticalBox();
-		appendChild(vbox);
+		this.setHeight("100%");
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("width: 100%; height: 100%; position: absolute;");
+		appendChild(layout);
 		
 		String sql = MRole.getDefault().addAccessSQL(
 				"SELECT AD_Workflow_ID, Name FROM AD_Workflow ORDER BY 2",
@@ -67,16 +73,25 @@ public class WFEditor extends ADForm {
 		}
 		workflowList.addEventListener(Events.ON_SELECT, this);
 		
-		vbox.appendChild(workflowList);
-		vbox.appendChild(new Separator());
+		North north = new North();
+		layout.appendChild(north);
+		north.appendChild(workflowList);
+		workflowList.setStyle("margin-left: 10px; margin-top: 5px;");
+		north.setHeight("30px");
 		
 		imageMap = new Imagemap();
-		vbox.appendChild(imageMap);
+		Center center = new Center();
+		layout.appendChild(center);
+		center.setAutoscroll(true);
+//		center.setFlex(true);
+		center.appendChild(imageMap);
 		
 		ConfirmPanel confirmPanel = new ConfirmPanel(true);
 		confirmPanel.addActionListener(this);
-		vbox.appendChild(new Separator());
-		vbox.appendChild(confirmPanel);
+		South south = new South();
+		layout.appendChild(south);
+		south.appendChild(confirmPanel);
+		south.setHeight("36px");
 	}
 
 	@Override
