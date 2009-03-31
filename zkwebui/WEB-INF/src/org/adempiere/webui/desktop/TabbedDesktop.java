@@ -29,6 +29,7 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MTask;
 import org.compiere.util.Env;
 import org.compiere.util.WebDoc;
+import org.compiere.wf.MWorkflow;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Iframe;
@@ -94,7 +95,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		p.setParent(tabPanel);
-		windowContainer.addWindow(tabPanel, p.getWorkflow().getName(), true);
+		windowContainer.addWindow(tabPanel, p.getWorkflow().get_Translation(MWorkflow.COLUMNNAME_Name), true);
 	}
 	
 	/**

@@ -178,7 +178,7 @@ public abstract class ADForm extends Window implements EventListener
 		String webClassName = "";
 		MForm mform = new MForm(Env.getCtx(), adFormID, null);
     	String richClassName = mform.getClassname();
-    	String name = mform.getName();
+    	String name = mform.get_Translation(MForm.COLUMNNAME_Name);
     	
     	if (mform.get_ID() == 0 || richClassName == null)
     	{
