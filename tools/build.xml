@@ -286,6 +286,13 @@
 			<zipfileset src="lib/commons-collections-3.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- jars for 2pack                         -->
+			<zipfileset src="lib/ant.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/xercesImpl.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 		</jar>
 
 	</target>
