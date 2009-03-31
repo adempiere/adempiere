@@ -316,7 +316,6 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setDateAcct(getDateInvoiced());
 		//
 		setSalesRep_ID(ship.getSalesRep_ID());
-		setAD_User_ID(ship.getAD_User_ID());
 	}	//	MInvoice
 	
 	/**
@@ -485,6 +484,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		MBPartner bp = new MBPartner (getCtx(), ship.getC_BPartner_ID(), null);
 		setBPartner (bp);
 		//
+		setAD_User_ID(ship.getAD_User_ID());
+		//
 		setSendEMail(ship.isSendEMail());
 		//
 		setPOReference(ship.getPOReference());
@@ -513,8 +514,13 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			MDocType dt = MDocType.get(getCtx(), order.getC_DocType_ID());
 			if (dt.getC_DocTypeInvoice_ID() != 0)
 				setC_DocTypeTarget_ID(dt.getC_DocTypeInvoice_ID());
-			//	Overwrite Invoice Address
+			// Overwrite Invoice BPartner
+			setC_BPartner_ID(order.getBill_BPartner_ID());
+			// Overwrite Invoice Address
 			setC_BPartner_Location_ID(order.getBill_Location_ID());
+			// Overwrite Contact
+			setAD_User_ID(order.getBill_User_ID());
+			//
 		}
         // Check if Shipment/Receipt is based on RMA 
         if (ship.getM_RMA_ID() != 0)
