@@ -39,14 +39,19 @@ import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
 
 /**
+ * Production of BOMs
+ *   1) Creating ProductionLines when IsCreated = 'N'
+ *   2) Posting the Lines (optionally only when fully stocked)
+ * 
  * @author victor.perez@e-evolution.com
+ * @contributor: Carlos Ruiz (globalqss) - review backward compatibility - implement mustBeStocked properly
  */
 public class M_Production_Run extends SvrProcess {
 
 	/** The Record */
 	private int p_Record_ID = 0;
 
-	private String mustBeStocked;
+	private boolean mustBeStocked = false;
 	
 	private int m_level = 0;
 
@@ -60,7 +65,7 @@ public class M_Production_Run extends SvrProcess {
 			if (para[i].getParameter() == null)
 				;
 			else if (name.equals("MustBeStocked"))
-				mustBeStocked = (String) para[i].getParameter();
+				mustBeStocked = ((String) para[i].getParameter()).equals("Y");
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -92,6 +97,7 @@ public class M_Production_Run extends SvrProcess {
 			String whereClause = "M_Production_ID=? ";
 			List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
 													  .setParameters(new Object[]{p_Record_ID })
+													  .setOrderBy("Line, M_Product_ID")
 													  .list();
 				for (X_M_ProductionPlan pp :lines)
 				{	
@@ -99,29 +105,29 @@ public class M_Production_Run extends SvrProcess {
 					if (!production.isCreated()) 
 					{
 						int line = 100;
-						int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.get_ID()},get_TrxName());
-						if (no == -1) raiseError("ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.get_ID());
+						int no = DB.executeUpdateEx("DELETE M_ProductionLine WHERE M_ProductionPlan_ID = ?", new Object[]{pp.getM_ProductionPlan_ID()},get_TrxName());
+						if (no == -1) raiseError("ERROR", "DELETE M_ProductionLine WHERE M_ProductionPlan_ID = "+ pp.getM_ProductionPlan_ID());
 						
 						MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
 			
 						X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
 						pl.setLine(line);
 						pl.setDescription(pp.getDescription());
-						pl.setIsActive(true);
 						pl.setM_Product_ID(pp.getM_Product_ID());
 						pl.setM_Locator_ID(pp.getM_Locator_ID());
-						pl.setM_ProductionPlan_ID(pp.get_ID());
+						pl.setM_ProductionPlan_ID(pp.getM_ProductionPlan_ID());
 						pl.setMovementQty(pp.getProductionQty());
 						pl.saveEx();
 						if (explosion(pp, product, pp.getProductionQty() , line) == 0 )
-							raiseError("Do not exist componets", "");
+							raiseError("No BOM Lines", "");
 						
 					}
 					else
 					{	
 						whereClause = "M_ProductionPlan_ID= ? ";
 						List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
-																  .setParameters(new Object[]{pp.get_ID()})
+																  .setParameters(new Object[]{pp.getM_ProductionPlan_ID()})
+																  .setOrderBy("Line")
 															  .list();
 					
 						for (X_M_ProductionLine pline : production_lines)
@@ -140,9 +146,9 @@ public class M_Production_Run extends SvrProcess {
 										pline.getM_AttributeSetInstance_ID(),
 										get_TrxName());
 								
-								if(QtyAvailable.add(MovementQty).signum() < 0)
+								if(mustBeStocked && QtyAvailable.add(MovementQty).signum() < 0)
 								{	
-									raiseError(Msg.getMsg(getCtx(),"NoQtyAvailable"), "");
+									raiseError("@NotEnoughStocked@: " + pline.getM_Product().getName(), "");
 								}
 								
 								MovementType = MTransaction.MOVEMENTTYPE_Production_;
@@ -165,7 +171,7 @@ public class M_Production_Run extends SvrProcess {
 								MovementType, locator.getM_Locator_ID(),
 								pline.getM_Product_ID(), pline.getM_AttributeSetInstance_ID(), 
 								MovementQty, production.getMovementDate(), get_TrxName());
-							mtrx.setM_ProductionLine_ID(pline.get_ID());
+							mtrx.setM_ProductionLine_ID(pline.getM_ProductionLine_ID());
 							mtrx.saveEx();
 							
 							pline.setProcessed(true);
@@ -222,16 +228,15 @@ public class M_Production_Run extends SvrProcess {
 			{	
 				explosion(pp, component, bomline.getQtyBOM() , line);
 			}
-			else if(!component.isBOM() && component.isStocked() || MPPProductBOMLine.COMPONENTTYPE_Phantom.equals(bomline.getComponentType()))
+			else
 			{	
 				line += 1;
 				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
 				pl.setLine(line);
 				pl.setDescription(bomline.getDescription());
-				pl.setIsActive(true);
 				pl.setM_Product_ID(bomline.getM_Product_ID());
 				pl.setM_Locator_ID(pp.getM_Locator_ID());
-				pl.setM_ProductionPlan_ID(pp.get_ID());
+				pl.setM_ProductionPlan_ID(pp.getM_ProductionPlan_ID());
 				pl.setMovementQty(bomline.getQtyBOM().multiply(qty).negate());
 				pl.saveEx();
 				components += 1;
@@ -243,7 +248,6 @@ public class M_Production_Run extends SvrProcess {
 	}	
 	
 	private void raiseError(String string, String sql) throws Exception {
-		DB.rollback(false, get_TrxName());
 		String msg = string;
 		ValueNamePair pp = CLogger.retrieveError();
 		if (pp != null)
