@@ -144,7 +144,7 @@ public class MAlertRule extends X_AD_AlertRule
 		File file = null;
 		try
 		{
-			file = new File(name+"."+extension);
+			file = new File(System.getProperty("java.io.tmpdir"), name+"."+extension);
 			file.createNewFile();
 			return file;
 		}
