@@ -17,9 +17,11 @@ SELECT l.AD_Client_ID, l.AD_Org_ID,
 	l.M_AttributeSetInstanceTo_ID, productAttribute(l.M_AttributeSetInstanceTo_ID) AS ProductAttributeTo,
 	pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
 	l.C_UOM_ID, l.QtyEntered, l.QtyOrdered, l.QtyReserved, l.QtyDelivered, l.Confirmedqty,  l.Qtyintransit, l.TargetQty,
-	l.QtyOrdered-l.QtyDelivered AS QtyToDeliver
+	l.QtyOrdered-l.QtyDelivered AS QtyToDeliver,
+	l.Description
 FROM DD_Order o
   INNER JOIN DD_OrderLine l ON (l.DD_Order_ID=o.DD_Order_ID)
   INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasito ON (l.M_AttributeSetInstanceTo_ID=pasito.M_AttributeSetInstance_ID);
+
