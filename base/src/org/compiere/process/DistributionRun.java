@@ -1016,7 +1016,7 @@ public class DistributionRun extends SvrProcess
 					if (m_run.getName() != null)
 						Description =Description.concat(m_run.getName());
 					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
-					line.setConfirmedQty(QtyAllocation);
+					//line.setConfirmedQty(QtyAllocation);
 					line.saveEx();
 				}
 				else 
