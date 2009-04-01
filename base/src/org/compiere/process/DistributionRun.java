@@ -1032,7 +1032,7 @@ public class DistributionRun extends SvrProcess
 						Description =Description.concat(m_run.getName());
 					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
 					line.setQty(line.getQtyEntered().add(QtyAllocation));
-					line.setConfirmedQty(line.getConfirmedQty().add( QtyAllocation));
+					//line.setConfirmedQty(line.getConfirmedQty().add( QtyAllocation));
 					line.saveEx();
 				}
 			}
@@ -1058,7 +1058,7 @@ public class DistributionRun extends SvrProcess
 				line.setQtyEntered(detail.getActualAllocation());
 				//line.setTargetQty(detail.getActualAllocation());
 				line.setTargetQty(Env.ZERO);
-				line.setConfirmedQty(detail.getActualAllocation());
+				//line.setConfirmedQty(detail.getActualAllocation());
 				line.setDescription(m_run.getName());
 				if (!line.save())
 				{
