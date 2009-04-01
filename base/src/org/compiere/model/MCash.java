@@ -509,8 +509,8 @@ public class MCash extends X_C_Cash implements DocAction
 				String documentNo = getName();
 				pay.setDocumentNo(documentNo);
 				pay.setR_PnRef(documentNo);
-				pay.set_Value("TrxType", "X");		//	Transfer
-				pay.set_Value("TenderType", "X");
+				pay.set_ValueNoCheck("TrxType", "X");		//	Transfer
+				pay.set_ValueNoCheck("TenderType", "X");
 				//
 				//Modification for cash payment - Posterita
 				pay.setC_CashBook_ID(getC_CashBook_ID());
