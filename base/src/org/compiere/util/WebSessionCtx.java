@@ -417,16 +417,6 @@ public class WebSessionCtx implements Serializable
 	}	//	setLanguage
 	
 	/**
-	 * 	Finalize
-	 *	@throws java.lang.Throwable
-	 */
-	protected void finalize ()
-		throws Throwable
-	{
-		super.finalize ();
-	}	//	finalize
-	
-	/**
 	 * 	String representation
 	 *	@return Session + count
 	 */
