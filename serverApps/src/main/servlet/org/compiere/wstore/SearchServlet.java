@@ -45,6 +45,7 @@ import org.compiere.util.WebUtil;
  *	
  *  @author Jorg Janke
  *  @version $Id$
+ *  @author Michael Judd BF [2728388]  - fix potential CSS velnerability
  */
 public class SearchServlet extends HttpServlet
 {
@@ -126,7 +127,7 @@ public class SearchServlet extends HttpServlet
         int warehouseID = WebUtil.getParameterAsInt(request, "warehouseID");
         int partnerID = WebUtil.getParameterAsInt(request, "partnerID");
         
-        String get = request.getParameter("get");
+        String get = Util.maskHTML(request.getParameter("get"), true);
         if(get == null)
         {
             out.println("<error>Unknown Request: NULL</error>");        	

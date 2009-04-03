@@ -32,13 +32,14 @@ import org.compiere.model.MLocation;
 import org.compiere.model.MRegion;
 import org.compiere.util.CLogger;
 import org.compiere.util.WebEnv;
-
+import org.compiere.util.Util;
 
 /**
  * 	Location Servlet
  *	
  *  @author Jorg Janke
  *  @version $Id: LocationServlet.java,v 1.5 2006/07/30 00:53:21 jjanke Exp $
+ *  @author Michael Judd BF [2728388] - fix potential CSS velnerability
  */
 public class LocationServlet extends HttpServlet
 {
@@ -110,8 +111,9 @@ public class LocationServlet extends HttpServlet
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-
         String cmd = request.getParameter("cmd");
+        cmd = Util.maskHTML(cmd, true);
+        
         if(cmd == null)
         {
             out.println("<error>Unknown Request: NULL</error>");
@@ -137,7 +139,7 @@ public class LocationServlet extends HttpServlet
                 }
                 out.println("</countries>");
             }else if(cmd.equalsIgnoreCase("regions")){
-                String country = request.getParameter("country");
+                String country = Util.maskHTML(request.getParameter("country"), true);
                 try{
                     int countryId = Integer.parseInt(country);
 
