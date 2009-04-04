@@ -137,7 +137,7 @@ public class StatusInfo extends HttpServlet
 			getServletContext().log("Connection CatalogsIn DML " + dbmd.supportsCatalogsInDataManipulation());
 			getServletContext().log("Connection Schema In DML " + dbmd.supportsSchemasInDataManipulation());
 
-
+			con.close();
 
 		}
 		catch (Exception e)
