@@ -224,7 +224,7 @@ public class Messagebox extends Window implements EventListener
 		
 		init();
 		
-		if (icon == QUESTION)
+		if (icon.equals(QUESTION))
 		{
 			this.setTitle(title);
 			this.setWidth("500px");

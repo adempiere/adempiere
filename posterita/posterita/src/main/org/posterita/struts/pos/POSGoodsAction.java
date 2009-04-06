@@ -305,7 +305,7 @@ public class POSGoodsAction extends POSDispatchAction
         {
         	throw new OperationException("Quantity cannot be null");
         }
-        if( quantity.equals(0) == true)
+        if( quantity.equals(0) )
         {
         	throw new OperationException("Quantity cannot be zero");
         }       
