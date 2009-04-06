@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.net.URL;
+import java.net.URI;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -37,6 +37,7 @@ import org.compiere.util.EMail;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: AssetDelivery.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ * 	@author 	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
  */
 public class AssetDelivery extends SvrProcess
 {
@@ -274,7 +275,7 @@ public class AssetDelivery extends SvrProcess
 			{
 				for (int i = 0; i < pdls.length; i++)
 				{
-					URL url = pdls[i].getDownloadURL(m_client.getDocumentDir());
+					URI url = pdls[i].getDownloadURL(m_client.getDocumentDir());
 					if (url != null)
 						email.addAttachment(url);
 				}

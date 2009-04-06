@@ -19,7 +19,7 @@ package org.compiere.model;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.net.URL;
+import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
@@ -33,6 +33,7 @@ import org.compiere.util.DB;
  * 	Product Download Model
  *  @author Jorg Janke
  *  @version $Id: MProductDownload.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ *	@author	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
  */
 public class MProductDownload extends X_M_ProductDownload
 {
@@ -169,22 +170,22 @@ public class MProductDownload extends X_M_ProductDownload
 	 * 	@param directory optional directory
 	 *	@return url
 	 */
-	public URL getDownloadURL (String directory)
+	public URI getDownloadURL (String directory)
 	{
 		String dl_url = getDownloadURL();
 		if (dl_url == null || !isActive())
 			return null;
 
-		URL url = null;
+		URI url = null;
 		try
 		{
 			if (dl_url.indexOf ("://") != -1)
-				url = new URL (dl_url);
+				url = new URI (dl_url);
 			else
 			{
 				File f = getDownloadFile (directory);
 				if (f != null)
-					url = f.toURL ();
+					url = f.toURI ();
 			}
 		}
 		catch (Exception ex)
@@ -239,8 +240,8 @@ public class MProductDownload extends X_M_ProductDownload
 		{
 			if (dl_url.indexOf ("://") != -1)
 			{
-				URL url = new URL (dl_url);
-				in = url.openStream();
+				URI url = new URI (dl_url);
+				in = url.toURL().openStream();
 			}
 			else //	file
 			{

@@ -19,7 +19,7 @@ package org.compiere.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -62,6 +62,7 @@ import com.sun.mail.smtp.SMTPMessage;
  *
  *  @author Jorg Janke
  *  @version  $Id: EMail.java,v 1.4 2006/07/30 00:54:35 jjanke Exp $
+ *	@author	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
  */
 public final class EMail implements Serializable
 {
@@ -799,9 +800,9 @@ public final class EMail implements Serializable
 
 	/**
 	 *	Add url based file Attachment
-	 * 	@param url url content to attach
+	 * 	@param uri url content to attach
 	 */
-	public void addAttachment (URL url)
+	public void addAttachment (URI url)
 	{
 		if (url == null)
 			return;
@@ -894,10 +895,10 @@ public final class EMail implements Serializable
 						continue;
 					}
 				}
-				else if (attachment instanceof URL)
+				else if (attachment instanceof URI)
 				{
-					URL url = (URL)attachment;
-					ds = new URLDataSource (url);
+					URI url = (URI)attachment;
+					ds = new URLDataSource (url.toURL());
 				}
 				else if (attachment instanceof DataSource)
 					ds = (DataSource)attachment;

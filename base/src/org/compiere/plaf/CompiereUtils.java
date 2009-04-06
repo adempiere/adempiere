@@ -32,7 +32,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -46,6 +46,7 @@ import com.sun.image.codec.jpeg.JPEGImageDecoder;
  *
  *  @author     Jorg Janke
  *  @version    $Id: AdempiereUtils.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
+ *  @author		Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
  */
 public class CompiereUtils
 {
@@ -55,7 +56,7 @@ public class CompiereUtils
 
 	/**
 	 *  Fill Background with Color.
-	 *  (Ususlly called from update methods)
+	 *  (Usually called from update methods)
 	 *
 	 *  @param g2D  Graphics
 	 *  @param c    Component
@@ -242,10 +243,10 @@ public class CompiereUtils
 		try
 		{
 			File file = new File(path);
-			URL url = file.toURL();
-			image = loadImage(url);
+			URI url = file.toURI();
+			image = loadImage(url.toString());
 		}
-		catch (MalformedURLException e)
+		catch (SecurityException e)
 		{
 			log.severe("Path= " + path + " - " + e.getMessage());
 		}
@@ -315,10 +316,10 @@ public class CompiereUtils
 		BufferedImage image = null;
 		try
 		{
-			URL url = file.toURL();
-			image = loadBufferedImage(url, imageType);
+			URI url = file.toURI();
+			image = loadBufferedImage(url.toString(), imageType);
 		}
-		catch (MalformedURLException e)
+		catch (SecurityException e)
 		{
 			log.severe("File: " + file + " - " + e.getMessage());
 		}
@@ -342,10 +343,10 @@ public class CompiereUtils
 		BufferedImage image = null;
 		try
 		{
-			 URL url = file.toURL();
-			 image = loadBufferedImage(url, imageType);
+			 URI url = file.toURI();
+			 image = loadBufferedImage(url.toString(), imageType);
 		}
-		catch (MalformedURLException e)
+		catch (SecurityException e)
 		{
 			log.severe("Path: " + path + " - " + e.getMessage());
 		}
