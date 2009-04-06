@@ -33,7 +33,7 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
-import sun.misc.BASE64Decoder;
+import org.apache.commons.codec.binary.Base64; 
 
 /**
  * 	Adempiere Monitor Filter.
@@ -41,6 +41,7 @@ import sun.misc.BASE64Decoder;
  * 	
  *  @author Jorg Janke
  *  @version $Id: AdempiereMonitorFilter.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
+ *  @author Michael Judd BF [ 2736817 ] - remove deprecated BASE64Encoder classes
  */
 public class AdempiereMonitorFilter implements Filter
 {
@@ -138,8 +139,8 @@ public class AdempiereMonitorFilter implements Filter
 		try
 		{
 			String userInfo = authorization.substring(6).trim();
-			BASE64Decoder decoder = new BASE64Decoder();
-			String namePassword = new String (decoder.decodeBuffer(userInfo));
+			Base64 decoder = new Base64();
+			String namePassword = new String (decoder.decode(userInfo.getBytes()));
 		//	log.fine("checkAuthorization - Name:Password=" + namePassword);
 			int index = namePassword.indexOf(':');
 			String name = namePassword.substring(0, index);
