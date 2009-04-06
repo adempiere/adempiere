@@ -19,15 +19,58 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
+
 
 /**
  *	Activity Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MActivity.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2736867 ] Add caching support to MActivity
  */
 public class MActivity extends X_C_Activity
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3014706648686670575L;
+	
+	/** Static Cache */
+	private static CCache<Integer, MActivity> s_cache = new CCache<Integer, MActivity>(Table_Name, 30);
+
+	/**
+	 * Get/Load Activity [CACHED]
+	 * @param ctx context
+	 * @param C_Activity_ID
+	 * @return activity or null
+	 */
+	public static MActivity get(Properties ctx, int C_Activity_ID)
+	{
+		if (C_Activity_ID <= 0)
+		{
+			return null;
+		}
+		// Try cache
+		MActivity activity = s_cache.get(C_Activity_ID);
+		if (activity != null)
+		{
+			return activity;
+		}
+		// Load from DB
+		activity = new MActivity(ctx, C_Activity_ID, null);
+		if (activity.get_ID() == C_Activity_ID)
+		{
+			s_cache.put(C_Activity_ID, activity);
+		}
+		else
+		{
+			activity = null;
+		}
+		return activity;
+	}
 
 	/**
 	 * 	Standard Constructor
