@@ -90,7 +90,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
-import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
 import org.posterita.beans.BPartnerBean;
 import org.posterita.beans.CloseTillBean;
@@ -2433,8 +2432,8 @@ public class POSReportManager {
     	}
     	finally 
     	{
-    		DBUtils.close(rs);
-    		DBUtils.close(pstmt);
+    		DB.close(rs);
+    		DB.close(pstmt);
     	}
     	
     	String doubleLine = "";
@@ -2588,8 +2587,8 @@ public class POSReportManager {
         }
         finally
         {
-        	DBUtils.close(rs);
-	    	DBUtils.close(pstmt);
+        	DB.close(rs);
+	    	DB.close(pstmt);
             
         }
 		
@@ -2674,8 +2673,8 @@ public class POSReportManager {
         }
         finally
         {
-        	DBUtils.close(rs);
-	    	DBUtils.close(pstmt);
+        	DB.close(rs);
+	    	DB.close(pstmt);
             
         }
 		

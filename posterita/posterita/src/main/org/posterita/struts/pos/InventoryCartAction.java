@@ -50,7 +50,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
 import org.posterita.beans.InventoryCartBean;
 import org.posterita.beans.InventoryLineBean;
@@ -490,8 +489,8 @@ public class InventoryCartAction extends POSDispatchAction
         }
         finally 
         {
-            DBUtils.close(rs);
-            DBUtils.close(pstmt);
+            DB.close(rs);
+            DB.close(pstmt);
         }
         
         //constructing the table

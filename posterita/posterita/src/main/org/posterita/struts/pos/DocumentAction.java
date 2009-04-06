@@ -46,7 +46,6 @@ import org.compiere.model.MInventory;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
 import org.posterita.beans.DocumentBean;
 import org.posterita.beans.InventoryBean;
@@ -270,8 +269,8 @@ public class DocumentAction extends POSDispatchAction
 	     }
 	     finally 
 	     {
-	    	 DBUtils.close(rs);
-	    	 DBUtils.close(pstmt);
+	    	 DB.close(rs);
+	    	 DB.close(pstmt);
     	 }
 	     
 	     //constructing the table

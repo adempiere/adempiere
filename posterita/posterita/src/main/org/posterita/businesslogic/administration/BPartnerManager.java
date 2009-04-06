@@ -41,7 +41,6 @@ import org.compiere.model.MOrg;
 import org.compiere.model.MRegion;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.utils.DBUtils;
 import org.posterita.beans.AddressBean;
 import org.posterita.beans.BPartnerBean;
 import org.posterita.beans.StatementOfAccountBean;
@@ -854,8 +853,8 @@ public class BPartnerManager
 		}
 		finally
 		{
-			DBUtils.close(rs);
-			DBUtils.close(pstmt);
+			DB.close(rs);
+			DB.close(pstmt);
 		}
 		
 		return bpList;

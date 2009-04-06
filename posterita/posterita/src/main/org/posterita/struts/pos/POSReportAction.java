@@ -69,7 +69,6 @@ import org.compiere.report.ReportStarter;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
-import org.compiere.utils.DBUtils;
 import org.posterita.Constants;
 import org.posterita.beans.POSHistoryBean;
 import org.posterita.beans.ReportBean;
@@ -816,8 +815,8 @@ public class POSReportAction extends BaseDispatchAction
 	     }
 	     finally 
 	     {
-	    	 DBUtils.close(rs);
-	    	 DBUtils.close(pstmt);
+	    	 DB.close(rs);
+	    	 DB.close(pstmt);
     	 }
 	     
 	     SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
@@ -949,8 +948,8 @@ public class POSReportAction extends BaseDispatchAction
 	     }
 	     finally 
 	     {
-	    	 DBUtils.close(rs);
-	    	 DBUtils.close(pstmt);
+	    	 DB.close(rs);
+	    	 DB.close(pstmt);
     	 }
 	     
 	     SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd-MMM-yyyy");
