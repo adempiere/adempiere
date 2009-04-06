@@ -1,0 +1,285 @@
+[Account_Value],[Account_Name],[Account_Description],[Account_Type],[Account_Sign],[Account_Document],[Account_Summary],[Default_Account],[Account_Parent],[Balance Sheet],[Balance Sheet_Name],[US 1120 Balance Sheet],[US 1120 Balance Sheet_Name],[Profit & Loss],[Profit & Loss_Name],[US 1120 Income Statement],[US 1120 Income Statement_Name],[Cash Flow],[Cash Flow_Name]
+1,Activo,,Asset,Debit,,Yes,,,,,,,,,,,,
+11,Activo Corriente,,Asset,Debit,,Yes,,1,,,,,,,,,,
+111,Disponibilidades,,Asset,Debit,,Yes,,11,,,,,,,,,,
+1111,Caja,,Asset,Debit,,Yes,,111,,,,,,,,,,
+111101,Caja,Caja,Asset,Debit,Yes,,CB_ASSET_ACCT,1111,,,,,,,,,,
+111102,Caja en Transferencia,Caja en Transferencia,Asset,Debit,Yes,,CB_CASHTRANSFER_ACCT,1111,,,,,,,,,,
+111103,Fondo Fijo,Fondo Fijo,Asset,Debit,Yes,,,1111,,,,,,,,,,
+111104,Valores a Depositar,Valores a Depositar,Asset,Debit,Yes,,,1111,,,,,,,,,,
+1112,Bancos,,Asset,Debit,,Yes,,111,,,,,,,,,,
+111201,Banco XX,Banco XX,Asset,Debit,Yes,,B_ASSET_ACCT,1112,,,,,,,,,,
+111202,Banco YY,Banco YY,Asset,Debit,Yes,,,1112,,,,,,,,,,
+111203,Banco en Transferencia,Transacciones Bancarias en Transito,Asset,Debit,Yes,,B_INTRANSIT_ACCT,1112,,,,,,,,,,
+111204,Banco Recibos No Identificados,Recibos de Clientes No Identificados,Asset,Debit,Yes,,B_UNIDENTIFIED_ACCT,1112,,,,,,,,,,
+111205,Banco Recibos No Imputados,Pagos recibidos no imputados,Asset,Debit,Yes,,B_UNALLOCATEDCASH_ACCT,1112,,,,,,,,,,
+112,Creditos  ,,Asset,Debit,,Yes,,11,,,,,,,,,,
+1121,Creditos por Ventas  ,,Asset,Debit,,Yes,,112
+112101,Deudores por Ventas,Deudores por Ventas,Asset,Debit,Yes,,C_RECEIVABLE_ACCT,1121
+112102,Documentos a Cobrar,Documentos a Cobrar,Asset,Debit,,,,1121
+112103,Documentos Descontados,Documentos Descontados,Asset,Debit,,,,1121
+112104,Deudores Morosos,Deudores Morosos,Asset,Debit,,,,1121
+112105,Deudores en Gestion Judicial,Deudores en Gestion Judicial,Asset,Debit,,,,1121
+112106,Documentos a Cobrar Vencidos,Documentos a Cobrar Vencidos,Asset,Debit,,,,1121
+112107,Documentos a Cobrar en Gestion,Documentos a Cobrar en Gestion,Asset,Debit,,,,1121
+112108,Intereses Positivos a Devengar,Intereses Positivos a Devengar ( Reg del Activo)      ,Asset,Debit,,,,1121
+112109,Deudores del Exterior,Deudores del Exterior,Asset,Debit,,,,1121
+112110,Prevision para Deudores Incobrables,Prevision para Deudores Incobrables(Reg. del Activo),Asset,Debit,,,,1121
+112111,Facturas pendientes de Emitir,Facturas pendientes de Emitir,Asset,Debit,Yes,,NOTINVOICEDRECEIVABLES_ACCT,1121
+112112,Otros Ingresos no facturados,,Asset,Debit,Yes,,NOTINVOICEDREVENUE_ACCT,1121
+1122,Creditos Impositivos,,Asset,Debit,,Yes,,112
+112201,Retenciones Imp.a las Ganancias,Retenciones Imp.a las Ganancias,Asset,Debit,Yes,,,1122
+112202,Anticipo Imp.a las Ganancias,Anticipo Imp.a las Ganancias,Asset,Debit,Yes,,,1122
+112203,Retenciones IIBB,Retenciones IIBB,Asset,Debit,Yes,,,1122
+112204,Percepciones IIBB,Percepciones IIBB,Asset,Debit,Yes,,,1122
+112205,Retenciones IVA,Retenciones IVA,Asset,Debit,Yes,,,1122
+112206,Percepciones IVA,Percepciones IVA,Asset,Debit,Yes,,,1122
+112207,IVA Credito Fiscal,IVA Credito Fiscal,Asset,Debit,Yes,,T_CREDIT_ACCT,1122
+112208,IVA Saldo a Favor,IVA Saldo a Favor,Asset,Debit,Yes,,,1122
+112209,Retenciones Contribuciones Patronales,Retenciones Contribuciones Patronales,Asset,Debit,Yes,,,1122
+112210,Otros Creditos Impositivos,,Asset,Debit,Yes,,T_RECEIVABLES_ACCT,1122
+1123,Otros Creditos,,Asset,Debit,,Yes,,112
+112301,Deudores varios,Deudores varios,Asset,Debit,Yes,,C_RECEIVABLE_SERVICES_ACCT,1123
+112302,Accionistas  ( Socio X Cuenta aporte),Accionistas  ( Socio X Cuenta aporte),Asset,Debit,,,,1123
+112303,Prestamos al Personal,Prestamos al Personal,Asset,Debit,Yes,,E_PREPAYMENT_ACCT,1123
+112304,Alquileres pagados por adelantado,Alquileres pagados por adelantado,Asset,Debit,,,,1123
+112305,Seguros pagados por adelantado,Seguros pagados por adelantado,Asset,Debit,,,,1123
+112306,Otros Gastos pagados por adelantado,Otros Gastos pagados por adelantado,Asset,Debit,,,,1123
+112307,Dividendos a Cobrar,Dividendos a Cobrar,Asset,Debit,,,,1123
+112308,Intereses a cobrar,Intereses a cobrar,Asset,Debit,,,,1123
+112309,Depositos en Garantia,Depositos en Garantia,Asset,Debit,,,,1123
+112310,Anticipo a Proveedores,Anticipo a Proveedores,Asset,Debit,Yes,,V_PREPAYMENT_ACCT,1123
+112320,Payment discount expense,,Asset,Debit,Yes,,PAYDISCOUNT_EXP_ACCT,1123
+112330,Payment discount revenue,,Asset,Debit,Yes,,PAYDISCOUNT_REV_ACCT,1123
+113,Bienes de Cambio,,Asset,Debit,,Yes,,11
+1131,Materias Primas,,Asset,Debit,,Yes,,113
+113101,Materias Primas,Materias Primas,Asset,Debit,Yes,,,1131
+113102,Materias Primas en Transito,Materias Primas en Transito,Asset,Debit,Yes,,,1131
+1132,Productos en Proceso,,Asset,Debit,,Yes,,113
+113201,Productos en Proceso,Productos en Proceso,Asset,Debit,Yes,,W_INVENTORY_ACCT,1132
+1133,Productos Terminados,,Asset,Debit,,Yes,,113
+113301,Productos Terminados,Productos Terminados,Asset,Debit,Yes,,P_ASSET_ACCT,1133
+113302,Productos Terminados en Transito,Productos Terminados en Transito,Asset,Debit,Yes,,,1133
+1134,Ajuste de Inventario,,Asset,Debit,Yes,,W_INVACTUALADJUST_ACCT,113
+1135,Revaluo de inventario,,Asset,Debit,Yes,,W_REVALUATION_ACCT,113
+114,Inversiones CP,,Asset,Debit,,Yes,,11
+1141,Inversiones CP,,Asset,Debit,,Yes,,114
+114101,Banco Plazo Fijo,Banco Plazo Fijo,Asset,Debit,,,,1141
+114102,Titulos Publicos,Titulos Publicos,Asset,Debit,,,,1141
+114103,Acciones,Acciones,Asset,Debit,,,,1141
+114104,Intereses a Devengar,Intereses a Devengar,Asset,Debit,,,,1141
+114105,Moneda extranjera,Moneda extranjera,Asset,Debit,,,,1141
+115,Proyectos,,Asset,Debit,,Yes,,11
+11501,Activos de Proyecto,,Asset,Debit,Yes,,PJ_ASSET_ACCT,115
+11502,Project WIP,,Asset,Debit,Yes,,PJ_WIP_ACCT,115
+12,Activo No Corriente,,Asset,Debit,,Yes,,1
+121,Creditos LP,,Asset,Debit,,Yes,,12
+122,Inversiones LP,,Asset,Debit,,Yes,,12
+123,Otros Creditos LP,,Asset,Debit,,Yes,,12
+123101,Otras Cuentas por Cobrar,Otras Cuentas por Cobrar,Asset,Debit,Yes,,INTERCOMPANYDUEFROM_ACCT,123
+124,Bienes de Uso,,Asset,Debit,,Yes,,12
+1241,Inmubles - Terrenos,,Asset,Debit,,Yes,,124
+124101,Inmuebles - Terrenos V.O.,Inmuebles - Terrenos V.O.,Asset,Debit,,,,1241
+1242,Inmuebles - Edificios,,Asset,Debit,,Yes,,124
+124201,Inmuebles - Edificios V.O.,Inmuebles - Edificios V.O.,Asset,Debit,,,,1242
+124202,Amort.Acum Inmuebles - Edificios,Amort.Acum Inmuebles - Edificios,Asset,Credit,Yes,,,1242
+1243,Rodados,,Asset,Debit,,Yes,,124
+124301,Rodados V.O.,Rodados V.O.,Asset,Debit,,,,1243
+124302,Amort.Acum. Rodados,Amort.Acum. Rodados,Asset,Credit,Yes,,,1243
+1244,Maquinarias,,Asset,Debit,,Yes,,124
+124401,Maquinarias V.O.,Maquinarias V.O.,Asset,Debit,,,,1244
+124402,Amort.Acum. Maquinarias,Amort.Acum. Maquinarias,Asset,Credit,Yes,,,1244
+1245,Equipos de Computacion,,Asset,Debit,,Yes,,124
+124501,Equipos de Computacion V.O.,Equipos de Computacion V.O.,Asset,Debit,,,,1245
+124502,Amort. Acum. Equipos de Computacion,Amort. Acum. Equipos de Computacion,Asset,Credit,Yes,,,1245
+1246,Instalaciones,,Asset,Debit,,Yes,,124
+124601,Instalaciones V.O.,Instalaciones V.O.,Asset,Debit,,,,1246
+124602,Amort.Acum. Instalaciones,Amort.Acum. Instalaciones,Asset,Credit,Yes,,,1246
+1247,Muebles y utiles,,Asset,Debit,,Yes,,124
+124701,Muebles y ultiles V.O.,Muebles y ultiles V.O.,Asset,Debit,,,,1247
+124702,Amort.Acum. Muebles y utiles,Amort.Acum. Muebles y utiles,Asset,Credit,Yes,,,1247
+125,Activos Intangibles,,Asset,Debit,,Yes,,12
+1251,Marcas y Patentes,,Asset,Debit,,Yes,,125
+125101,Marcas y Patentes V.O.,Marcas y Patentes V.O.,Asset,Debit,,,,1251
+125102,Amort.Acum. Marcas y Patentes,Amort.Acum. Marcas y Patentes,Asset,Credit,Yes,,,1251
+1252,Fondo de Comercio,,Asset,Debit,,Yes,,125
+125201,Fondo de Comercio V.O.,Fondo de Comercio V.O.,Asset,Debit,,,,1252
+125202,Amort. Acum. Fondo de Comercio,Amort. Acum. Fondo de Comercio,Asset,Credit,Yes,,,1252
+1253,Licencias de Software,,Asset,Debit,,Yes,,125
+125301,Licencias de Software V.O.,Licencias de Software V.O.,Asset,Debit,,,,1253
+125302,Amort. Acum. Licencias de Software,Amort. Acum. Licencias de Software,Asset,Credit,Yes,,,1253
+126,Cargos Diferidos,,Asset,Debit,,Yes,,12
+1261,Gastos de Constitucion,,Asset,Debit,,Yes,,126
+126101,Gastos de Constitucion V.O.,Gastos de Constitucion V.O.,Asset,Debit,,,,1261
+126102,Amort. Acum. Gastos de Constitucion,Amort. Acum. Gastos de Constitucion,Asset,Credit,Yes,,,1261
+1262,Gastos de Investigacion y Desarrollo,,Asset,Debit,,Yes,,126
+126201,Gastos de Investigacion y Desarrollo V.O.,Gastos de Investigacion y Desarrollo V.O.,Asset,Debit,,,,1262
+126202,Amort. Acum. Investigacion y Desarrollo,Amort. Acum. Investigacion y Desarrollo,Asset,Credit,Yes,,,1262
+2,Pasivo,,Liability,Credit,,Yes,,
+21,Pasivo Corriente,,Liability,Credit,,Yes,,2
+211,Deudas Comerciales,,Liability,Credit,,Yes,,21
+211101,Proveedores,Proveedores,Liability,Credit,Yes,,V_LIABILITY_ACCT,211
+211102,Obligaciones a Pagar,Obligaciones a Pagar,Liability,Credit,,,,211
+211103,Acreedores Varios Servicios,Acreedores Varios,Liability,Credit,Yes,,V_LIABILITY_SERVICES_ACCT,211
+211104,Int.negativos a devengar (reg.del pasivo),Int.negativos a devengar (reg.del pasivo),Liability,Debit,,,,211
+211105,Otros Gastos a Pagar,Otros Gastos a Pagar,Liability,Credit,,,,211
+211106,Anticipos de Clientes,Anticipos de Clientes,Liability,Credit,Yes,,C_PREPAYMENT_ACCT,211
+211200,Payment Selection,,Liability,Credit,,,B_PAYMENTSELECT_ACCT,211
+212,Deudas Bancarias y Financieras,,Liability,Credit,,Yes,,21
+212101,Prestamos Bancarios,Prestamos Bancarios,Liability,Credit,,,,212
+212102,Hipotecas a  Pagar,Hipotecas a  Pagar,Liability,Credit,,,,212
+212103,Efectos por Pagar,Efectos por Pagar,Liability,Credit,,,,212
+212104,Cuentas por Pagar,Cuentas por Pagar,Liability,Credit,Yes,,INTERCOMPANYDUETO_ACCT,212
+212105,Intereses Negativos a Devengar (reg.del pasivo),Intereses Negativos a Devengar (reg.del pasivo),Liability,Debit,,,,212
+213,Deudas Fiscales,,Liability,Credit,,Yes,,21
+213101,IVA Debito Fiscal,IVA Debito Fiscal,Liability,Credit,Yes,,T_DUE_ACCT,213
+213102,IVA a Pagar,IVA a Pagar,Liability,Credit,Yes,,,213
+213103,Imp.a las Ganancias a Pagar,Imp.a las Ganancias a Pagar,Liability,Credit,Yes,,,213
+213104,IIBB a Pagar,IIBB a Pagar,Liability,Credit,Yes,,,213
+213105,Otros Impuestos a Pagar,Otros Impuestos a Pagar,Liability,Credit,Yes,,T_LIABILITY_ACCT,213
+213106,Provision para Impuestos,Provision para Impuestos,Liability,Credit,,,,213
+213107,Retenciones Imp.a las Ganancias a 3ros,Retenciones Imp.a las Ganancias a 3ros,Liability,Credit,Yes,,,213
+214,Deudas Sociales,,Liability,Credit,,Yes,,21
+214101,Sueldos a Pagar,Sueldos a Pagar,Liability,Credit,,,,214
+214102,Cargas Sociales a Pagar,Cargas Sociales a Pagar,Liability,Credit,,,,214
+214103,Cuota Sindical a Pagar,Cuota Sindical a Pagar,Liability,Credit,,,,214
+214104,Provision para SAC,Provision para SAC,Liability,Credit,,,,214
+214105,Provision para Vacaciones,Provision para Vacaciones,Liability,Credit,,,,214
+215,Otros Pasivos  ,,Liability,Credit,,Yes,,21
+215101,Alquileres a Pagar,Alquileres a Pagar,Liability,Credit,,,,215
+215102,Seguros a Pagar,Seguros a Pagar,Liability,Credit,,,,215
+215103,Dividendos a Pagar,Dividendos a Pagar,Liability,Credit,,,,215
+215104,Provision para gastos,Provision para gastos,Liability,Credit,Yes,,NOTINVOICEDRECEIPTS_ACCT,215
+215105,Provision para honorarios,Provision para honorarios,Liability,Credit,Yes,,,215
+215106,Ingresos Cobrados por adelantado,Ingresos Cobrados por adelantado,Liability,Credit,,,,215
+215107,Otros Gastos a Pagar,Otros Gastos a Pagar,Liability,Credit,,,,215
+215110,Purchase price variance offset,,Liability,Credit,Yes,,PPVOFFSET_ACCT,215
+215120,Ajuste de costo de producto,,Liability,Credit,Yes,,P_COSTADJUSTMENT_ACCT,215
+215130,Withholding (Tax),,Liability,Credit,Yes,,WITHHOLDING_ACCT,215
+216,Previsiones,,Liability,Credit,,Yes,,21
+216101,Prevision para Juicios Pendientes,Prevision para Juicios Pendientes,Liability,Credit,,,,216
+216102,Prevision para Indemnizaciones,Prevision para Indemnizaciones,Liability,Credit,,,,216
+22,Pasivo No Corriente,,Liability,Credit,,Yes,,2
+221,Deudas Comerciales LP,,Liability,Credit,,Yes,,22
+222,Deudas Bancarias y Financieras LP,,Liability,Credit,,Yes,,22
+223,Otros Pasivos LP,,Liability,Credit,,Yes,,22
+224,Previsiones,,Liability,Credit,,Yes,,22
+3,Patrimonio Neto,,Owner's Equity,Credit,,Yes,,
+31,Capital Social,,Owner's Equity,Credit,,Yes,,3
+311101,Capital Suscripto,Capital Suscripto,Owner's Equity,Credit,,,,31
+311102,Acciones en Circulacion,Acciones en Circulacion,Owner's Equity,Credit,,,,31
+311103,Acciones a Distribuir,Acciones a Distribuir,Owner's Equity,Credit,,,,31
+32,Aportes No Capitalizados,,Owner's Equity,Credit,,Yes,,3
+321101,Prima de Emision,Prima de Emision,Owner's Equity,Credit,Yes,,,32
+321102,Aportes Irrevocables para futura Suscripcion de Acciones,Aportes Irrevocables para futura Suscripcion de Acciones,Owner's Equity,Credit,,,,32
+33,Ajustes de Capital,,Owner's Equity,Natural,,Yes,,3
+331101,Ajuste por Inflacion Acumulado,Ajuste por Inflacion Acumulado,Owner's Equity,Natural,,,,33
+331102,Ajuste por Inflacion del Ejercicio,Ajuste por Inflacion del Ejercicio,Owner's Equity,Natural,,,,33
+34,Reservas,,Owner's Equity,Credit,,Yes,,3
+341101,Reserva Legal,Reserva Legal,Owner's Equity,Credit,,,,34
+341102,Reserva Estatutaria,Reserva Estatutaria,Owner's Equity,Credit,,,,34
+341103,Reserva Voluntaria,Reserva Voluntaria,Owner's Equity,Credit,,,,34
+35,Resultados Acumulados,,Owner's Equity,Natural,,Yes,,3
+351101,Resultados de Ejercicios Anteriores,Resultados de Ejercicios Anteriores,Owner's Equity,Natural,Yes,,RETAINEDEARNING_ACCT,35
+351102,Resultados del Ejercicio,Resultados del Ejercicio,Owner's Equity,Natural,Yes,,INCOMESUMMARY_ACCT,35
+4,Ingresos,,Revenue,Credit,,Yes,,
+41,Ingresos Ordinarios,,Revenue,Credit,,Yes,,4
+411101,Venta de Bienes,Venta de Bienes,Revenue,Credit,Yes,,,41
+411102,Venta de Servicios,Venta de Servicios,Revenue,Credit,Yes,,P_REVENUE_ACCT,41
+411103,Comisiones ,Comisiones ,Revenue,Credit,,,,41
+411104,Descuentos Obtenidos,Descuentos Obtenidos,Revenue,Credit,Yes,,P_TRADEDISCOUNTREC_ACCT,42
+42,Otros Ingresos,,Revenue,Credit,,Yes,,4
+421101,Intereses Ganados,Intereses Ganados,Revenue,Credit,Yes,,B_INTERESTREV_ACCT,42
+421102,Ganancia Venta Bs.de Uso,Ganancia Venta Bs.de Uso,Revenue,Credit,Yes,,,42
+421103,Diferencia de Cambio,Diferencia de Cambio,Revenue,Credit,Yes,,B_REVALUATIONGAIN_ACCT,42
+421104,Ajuste de centavos,Ajuste de centavos,Revenue,Credit,,,,42
+421110,Unearned revenue,,Revenue,Credit,Yes,,UNEARNEDREVENUE_ACCT,42
+5,Gastos Ordinarios,,Expense,Debit,,Yes,,
+51,Costo de Ventas,,Expense,Debit,,Yes,,5
+511105,Product Inventory Clearing,,Expense,Debit,Yes,,P_INVENTORYCLEARING_ACCT,51
+511101,Costo Mercaderias Vendidas,Costo Mercaderias Vendidas,Expense,Debit,Yes,,,51
+511102,Costo Servicios Prestados,Costo Servicios Prestados,Expense,Debit,Yes,,P_COGS_ACCT,51
+511103,Gastos atribuibles al costo,Gastos atribuibles al costo,Expense,Debit,Yes,,P_EXPENSE_ACCT,51
+511107,Variaciones de precio en facturas,,Expense,Debit,Yes,,P_INVOICEPRICEVARIANCE_ACCT,51
+511108,Variacion de precio de compra,,Expense,Debit,Yes,,P_PURCHASEPRICEVARIANCE_ACCT,51
+52,Gastos de Administracion,,Expense,Debit,,Yes,,5
+521101,Papeleria y Utiles,Papeleria y Utiles,Expense,Debit,,,,52
+521102,Servicios,Servicios,Expense,Debit,,,,52
+521103,Alquileres Pagados  ,Alquileres Pagados  ,Expense,Debit,,,,52
+521104,Seguros,Seguros,Expense,Debit,,,,52
+521105,Movilidad y Viaticos,Movilidad y Viaticos,Expense,Debit,,,,52
+521106,Servicios de Limpieza,Servicios de Limpieza,Expense,Debit,,,,52
+521107,Sueldos y Jornales,Sueldos y Jornales,Expense,Debit,Yes,,E_EXPENSE_ACCT,52
+521108,Cargas Sociales  ,Cargas Sociales  ,Expense,Debit,Yes,,,52
+521109,Indemnizaciones,Indemnizaciones,Expense,Debit,Yes,,,52
+521110,Amortizacion Bienes de Uso,Amortizacion Bienes de Uso,Expense,Debit,Yes,,,52
+521111,Amortizacion Activos Intangibles,Amortizacion Activos Intangibles,Expense,Debit,Yes,,,52
+521112,Amortizacion Cargos Diferidos,Amortizacion Cargos Diferidos,Expense,Debit,Yes,,,52
+521113,Comisiones y Gastos Bancarios,Comisiones y Gastos Bancarios,Expense,Debit,Yes,,B_EXPENSE_ACCT,52
+521114,Impuesto a las Ganancias,Impuesto a las Ganancias,Expense,Debit,Yes,,T_EXPENSE_ACCT,52
+521115,Impuesto a los Ingresos Brutos,Impuesto a los Ingresos Brutos,Expense,Debit,Yes,,,52
+521199,Otros,Otros,Expense,Debit,,,,52
+53,Gastos de Comercializacion,,Expense,Debit,,Yes,,5
+531101,Publicidad,Publicidad,Expense,Debit,,,,53
+531102,Marketing,Marketing,Expense,Debit,,,,53
+531103,Gtos de Embarque,Gtos de Embarque,Expense,Debit,,,,53
+531104,Fletes,Fletes,Expense,Debit,,,,53
+531105,Sueldos y Jornales,Sueldos y Jornales,Expense,Debit,,,,53
+531106,Cargas Sociales,Cargas Sociales,Expense,Debit,,,,53
+531107,Indemnizaciones,Indemnizaciones,Expense,Debit,,,,53
+531108,Descuentos Otorgados,Descuentos Otorgados,Expense,Debit,Yes,,P_TRADEDISCOUNTGRANT_ACCT,53
+531109,Deudores Incobrables,Deudores Incobrables,Expense,Debit,Yes,,WRITEOFF_ACCT,53
+531199,Otros,Otros,Expense,Debit,,,,54
+54,Otros Gastos,,Expense,Debit,,Yes,,5
+541101,Intereses Pagados,Intereses Pagados,Expense,Debit,Yes,,B_INTERESTEXP_ACCT,54
+541102,Perdida Venta Bs.de Uso,Perdida Venta Bs.de Uso,Expense,Debit,Yes,,,54
+541103,Diferencia de Cambio,Diferencia de Cambio,Expense,Debit,Yes,,B_REVALUATIONLOSS_ACCT,54
+541104,Ajuste de centavos,Ajuste de centavos,Expense,Debit,Yes,,CB_DIFFERENCES_ACCT,54
+541105,Diferencias de Inventario,Diferencias de Inventario,Expense,Debit,Yes,,W_DIFFERENCES_ACCT,54
+6,Cuentas Temporales y de Orden,,Expense,Debit,,Yes,,
+61,Cuentas Temporales  ,,Expense,Debit,,Yes,,6
+611101,Cuenta por Defecto,Cuenta por Defecto,Expense,Debit,Yes,,DEFAULT_ACCT,61
+611102,Otros gastos por transacciones de caja,Otros gastos por transacciones de caja,Expense,Debit,Yes,,CB_EXPENSE_ACCT,61
+611103,Otros ingresos de caja,Otros ingresos de caja,Revenue,Credit,Yes,,CB_RECEIPT_ACCT,61
+611104,Otros gastos,Otros gastos,Expense,Debit,Yes,,CH_EXPENSE_ACCT,61
+611105,Balance Monetario,Balance Monetario,Expense,Debit,Yes,,CURRENCYBALANCING_ACCT,61
+611106,Descuadre de Balance,Descuadre de Balance,Expense,Debit,Yes,,SUSPENSEBALANCING_ACCT,61
+611107,Error de Descuadre,Error de Descuadre,Expense,Debit,Yes,,SUSPENSEERROR_ACCT,61
+611110,Ingresos por Comisiones en suspenso,,Expense,Debit,,,CH_REVENUE_ACCT,61
+80,Otros Ingresos,,Revenue,,,Yes,,
+80100,Interest Income,Bank interest revenue,Revenue,,Yes,,B_INTERESTREV_ACCT,80
+80200,Divident Income,,Revenue,,,,,80
+80300,Rental Income,,Revenue,,,,,80
+80400,Sales Tax Commission,,Revenue,,,,,80
+805,Currency Gain,,Revenue,,,Yes,,80
+80510,Bank revaluation gain,Foreign currency bank account gain,Revenue,,Yes,,B_REVALUATIONGAIN_ACCT,805
+80520,Bank settlement gain,Difference between payment and bank account currency,Revenue,,Yes,,B_SETTLEMENTGAIN_ACCT,805
+80530,Unrealized gain,Difference between foreign currency receivables/payables and current rate,Revenue,,Yes,,UNREALIZEDGAIN_ACCT,805
+80540,Realized gain,Difference between invoice and payment currency,Revenue,,Yes,,REALIZEDGAIN_ACCT,805
+80700,Capital Gains Income,,Revenue,,,,,80
+80800,Fixed Asset Sale Gain,,Revenue,,,,,80
+80900,Other Income,,Revenue,,,,,80
+82,Otros Gastos,,Expense,,,Yes,,
+82100,Intereses bancarios,Bank interest expense,Expense,,Yes,,B_INTERESTEXP_ACCT,82
+82200,Otros Gastos x,,Expense,,,,,82
+82300,Otros Gastos y,,Expense,,,,,82
+82400,Otros Gastos z,,Expense,,,,,82
+825,Diferencias de Cotizacion de Moneda Extranjera,,Expense,,,Yes,,82
+82510,Diferencia  Cotizacion Depositos moneda extranjera,Foreign currency bank account loss,Expense,,Yes,,B_REVALUATIONLOSS_ACCT,825
+82520,Diferencia por liquidacion bancaria,Difference between payment and bank account currency,Expense,,Yes,,B_SETTLEMENTLOSS_ACCT,825
+82530,Diferencia de Cambio Ctas.Apagar/Ctas.Acobrar,Difference between foreign currency receivables/payables and current rate,Expense,,Yes,,UNREALIZEDLOSS_ACCT,825
+82540,Diferencia de Cambio factura/pago,Difference between invoice and payment currency,Expense,,Yes,,REALIZEDLOSS_ACCT,825
+82550,Diferencia por redondeo,Rounding difference to make journal balance in accounting currency,Expense,,Yes,,CURRENCYBALANCING_ACCT,825
+82700,Capital Gains Loss,,Expense,,,,,82
+82800,Perdida por venta de activos fijos,,Expense,,,,,82
+82900,Otros gastos,,Expense,,,,,82
+89,Impuestos ingresados y ganancicas retenidas,,Expense,,,Yes,,
+89100,Ingresos Impuestos Nacionales,,Expense,,,,,89
+89200,Ingresos Impuestos Provinciales,,Expense,,,,,89
+89300,Ingresos Impuestos Municipales,,Expense,,,,,89
+89900,Ganancias retenidas,Year end processing to balance account (Retained Earnings),Expense,,Yes,,INCOMESUMMARY_ACCT,89
+95,Obligaciones Diferidas,,Memo,,,Yes,,
+952,Ordenes de Compra Comprometidas,,Memo,,,,COMMITMENTOFFSET_ACCT,95
+953,Ordenes de Servicio Comprometidas,,Memo,,,,COMMITMENTOFFSETSALES_ACCT,95
+
+ 	  	 
