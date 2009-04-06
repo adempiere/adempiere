@@ -6,12 +6,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64; 
+
 import sun.security.provider.Sun;
 
 
 /**
  * @author rlemeill
+ * @author Michael Judd BF [ 2736817 ] - remove deprecated BASE64Encoder classes
  *
  */
 public class DigestOfFile
@@ -59,7 +61,8 @@ public class DigestOfFile
     synchronized public String digestAsBase64(File file) throws Exception
     {
         byte[] digest = digestAsByteArray(file);
-        String digestAsBase64 = base64Encoder.encode(digest);
+        Base64 encoder = new Base64();
+        String digestAsBase64 = encoder.encode(digest).toString();
         return digestAsBase64;
     }
     
@@ -71,7 +74,8 @@ public class DigestOfFile
     public synchronized String digestAsBase64(byte[] input) throws Exception
     {
     	byte[] digest = digestAsByteArray(input);
-        String digestAsBase64 = base64Encoder.encode(digest);
+    	Base64 encoder = new Base64();
+    	String digestAsBase64 = encoder.encode(digest).toString();
         return digestAsBase64;
     }
     
@@ -80,7 +84,7 @@ public class DigestOfFile
     //private static final char[] HEX_CHARS = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
     
     private MessageDigest digestAgent;
-    private BASE64Encoder base64Encoder = new BASE64Encoder();
+    //private Base64 base64Encoder = new Base64();
     private byte[] buffer = new byte[4096];
     
     /**
