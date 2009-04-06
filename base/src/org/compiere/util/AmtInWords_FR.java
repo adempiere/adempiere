@@ -93,6 +93,24 @@ public class AmtInWords_FR implements AmtInWords
 			soFar = numNames[number % 100];
 			number /= 100;
 		}
+		else if ((number % 100 < 80) && (number % 100 > 70))
+		{
+			// 71 ->79 (soixante et onze )
+			soFar = numNames[(number-60) % 100];
+			number /= 10;
+			soFar = tensNames[ (number-1) % 10] + soFar;
+			number /= 10;	
+		}
+		else if ((number % 100 < 100) && (number % 100 > 90))
+		{
+			// 91->99
+			soFar = numNames[(number-80) % 100];
+			number /= 10;
+			soFar = tensNames[ (number-1) % 10] + soFar;
+			number /= 10;	
+						
+		}
+		
 		else
 		{
 			// 9 et moins
