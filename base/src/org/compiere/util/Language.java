@@ -352,7 +352,7 @@ public class Language implements Serializable
 		{
 			for (int i = 0; i < s_languages.length; i++)
 			{
-				if 	(locale.equals(s_languages[i].getLocale()))
+				if (locale.getLanguage().equals(s_languages[i].getLocale().getLanguage()))
 					return s_languages[i].getAD_Language();
 			}
 		}
