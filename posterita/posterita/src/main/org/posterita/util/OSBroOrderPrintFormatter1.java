@@ -32,14 +32,10 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
-import org.compiere.model.MCashLine;
 import org.compiere.model.MInvoice;
-import org.compiere.model.MLocation;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrg;
 import org.compiere.model.MPOS;
-import org.compiere.model.MPayment;
-import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.posterita.Constants;
@@ -51,7 +47,6 @@ import org.posterita.businesslogic.POSManager;
 import org.posterita.businesslogic.administration.BPartnerManager;
 import org.posterita.exceptions.FormattingException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.lib.UdiConstants;
 import org.posterita.order.UDIOrderTypes;
 
 

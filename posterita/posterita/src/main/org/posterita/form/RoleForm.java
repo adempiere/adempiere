@@ -26,9 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.posterita.beans.RoleBean;
-import org.posterita.struts.admin.OrganisationAction;
 import org.posterita.struts.core.DefaultForm;
-import org.posterita.struts.pos.POSReportAction;
 import org.posterita.struts.pos.POSRoleAction;
 
 public class RoleForm extends DefaultForm

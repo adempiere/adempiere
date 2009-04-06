@@ -23,10 +23,8 @@
 package org.posterita.struts.pos;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +43,6 @@ import org.posterita.businesslogic.performanceanalysis.POSReportManager;
 import org.posterita.businesslogic.performanceanalysis.ReportDateManager;
 import org.posterita.businesslogic.performanceanalysis.ReportManager;
 import org.posterita.core.TabularReport;
-import org.posterita.core.TimestampConvertor;
 import org.posterita.core.TmkJSPEnv;
 import org.posterita.exceptions.ApplicationException;
 import org.posterita.exceptions.OperationException;

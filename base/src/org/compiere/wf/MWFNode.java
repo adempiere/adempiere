@@ -18,7 +18,6 @@ package org.compiere.wf;
 
 import java.awt.Point;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,12 +26,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MAcctSchema;
 import org.compiere.model.MColumn;
-import org.compiere.model.MProduct;
-import org.compiere.model.MResource;
-import org.compiere.model.MUOM;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

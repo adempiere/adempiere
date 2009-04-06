@@ -36,8 +36,6 @@ import java.util.StringTokenizer;
 
 import org.apache.struts.upload.FormFile;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MBank;
-import org.compiere.model.MBankAccount;
 import org.compiere.model.MPaymentTerm;
 import org.compiere.model.MPriceList;
 import org.compiere.util.Env;
@@ -51,12 +49,9 @@ import org.posterita.core.RandomStringGenerator;
 import org.posterita.core.TrxPrefix;
 import org.posterita.exceptions.BPartnerAlreadyExistException;
 import org.posterita.exceptions.BPartnerNotFoundException;
-import org.posterita.exceptions.BarcodeAlreadyExistsException;
 import org.posterita.exceptions.CustomerNotImportedException;
 import org.posterita.exceptions.InvalidDateTimeException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.exceptions.ProductAlreadyExistException;
-import org.posterita.exceptions.ProductNotImportedException;
 
 
 public class ImportCustomerManager

@@ -48,7 +48,6 @@ import org.posterita.businesslogic.POSTerminalManager;
 import org.posterita.businesslogic.PartialPOSManager;
 import org.posterita.businesslogic.administration.BPartnerManager;
 import org.posterita.businesslogic.administration.RoleManager;
-import org.posterita.businesslogic.administration.UserManager;
 import org.posterita.businesslogic.stock.StockManager;
 import org.posterita.core.SessionStorage;
 import org.posterita.core.TmkJSPEnv;

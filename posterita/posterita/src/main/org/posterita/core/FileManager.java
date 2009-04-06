@@ -31,17 +31,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import org.compiere.util.KeyNamePair;
 
 import org.posterita.beans.AttributeValuesPair;
-import org.posterita.beans.InventoryBean;
 import org.posterita.beans.ProductBean;
-import org.posterita.businesslogic.stock.InventoryManager;
-import org.posterita.exceptions.BarcodeAlreadyExistsException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.exceptions.ProductAlreadyExistException;
 
 public class FileManager 
 {

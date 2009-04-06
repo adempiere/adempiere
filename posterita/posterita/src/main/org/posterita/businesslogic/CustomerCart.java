@@ -31,8 +31,6 @@ import java.util.Set;
 
 import org.posterita.beans.CustomerBean;
 import org.posterita.businesslogic.administration.CustomerManager;
-import org.posterita.exceptions.InvalidDateTimeException;
-import org.posterita.exceptions.OperationException;
 
 public class CustomerCart 
 {

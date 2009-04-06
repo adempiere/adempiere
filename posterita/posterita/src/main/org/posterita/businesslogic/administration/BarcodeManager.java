@@ -40,9 +40,6 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sourceforge.barbecue.formatter.BarcodeFormatter;
-
-import org.apache.ecs.xhtml.sub;
 import org.compiere.model.MProduct;
 import org.compiere.model.MSequence;
 import org.compiere.util.Env;
@@ -52,12 +49,9 @@ import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
 import org.krysalis.barcode4j.tools.UnitConv;
 
 import org.posterita.Constants;
-import org.posterita.beans.CheckoutBean;
 import org.posterita.beans.CustomerBean;
 import org.posterita.beans.ItemBean;
-import org.posterita.beans.PrintBarcodeBean;
 import org.posterita.businesslogic.CustomerCart;
-import org.posterita.businesslogic.OrderManager;
 import org.posterita.businesslogic.performanceanalysis.ReportManager;
 import org.posterita.core.RandomStringGenerator;
 import org.posterita.exceptions.OperationException;

@@ -44,7 +44,6 @@ import org.posterita.beans.TerminalBean;
 import org.posterita.beans.UserBean;
 import org.posterita.businesslogic.LoginManager;
 import org.posterita.businesslogic.MenuManager;
-import org.posterita.businesslogic.POSManager;
 import org.posterita.businesslogic.POSTerminalManager;
 import org.posterita.businesslogic.administration.RoleManager;
 import org.posterita.businesslogic.core.ApplicationManager;

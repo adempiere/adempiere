@@ -26,7 +26,6 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Vbox;

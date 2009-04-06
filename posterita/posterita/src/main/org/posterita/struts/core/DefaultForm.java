@@ -19,7 +19,6 @@
  */
 package org.posterita.struts.core;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 

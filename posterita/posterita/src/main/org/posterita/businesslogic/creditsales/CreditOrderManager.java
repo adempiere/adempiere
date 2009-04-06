@@ -55,20 +55,17 @@ import org.posterita.beans.OrderLineBean;
 import org.posterita.beans.PaymentAllocationBean;
 import org.posterita.beans.PaymentTypeBean;
 import org.posterita.beans.ShoppingCartBean;
-import org.posterita.businesslogic.CashManager;
 import org.posterita.businesslogic.InvoiceManager;
 import org.posterita.businesslogic.MinOutManager;
 import org.posterita.businesslogic.OrderManager;
 import org.posterita.businesslogic.POSManager;
 import org.posterita.businesslogic.PaymentManager;
-import org.posterita.businesslogic.administration.BPartnerManager;
 import org.posterita.exceptions.BPartnerNotFoundException;
 import org.posterita.exceptions.BPartnerOverCreditLimitException;
 import org.posterita.exceptions.DiscountLimitException;
 import org.posterita.exceptions.MandatoryException;
 import org.posterita.exceptions.NoPaymentAmountException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.lib.UdiConstants;
 import org.posterita.util.PoManager;
 
 

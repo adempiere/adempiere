@@ -32,12 +32,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Trx;
 import org.posterita.Constants;
 import org.posterita.beans.AttributeValueDetailBean;
 import org.posterita.businesslogic.AttributeValuesManager;
 import org.posterita.core.TmkJSPEnv;
-import org.posterita.core.TrxPrefix;
 import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
 

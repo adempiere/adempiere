@@ -24,15 +24,8 @@ package org.posterita.pos.help;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.compiere.model.MClient;
 import org.compiere.util.EMail;
-import org.compiere.util.Env;
 
 public class POSHelpManager 
 {	

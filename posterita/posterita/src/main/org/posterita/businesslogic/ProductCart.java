@@ -31,9 +31,7 @@ import java.util.Set;
 
 import org.compiere.util.Env;
 import org.posterita.beans.ProductDetailsBean;
-import org.posterita.beans.StockMovementBean;
 import org.posterita.businesslogic.administration.ProductManager;
-import org.posterita.businesslogic.stock.MMovementManager;
 import org.posterita.exceptions.OperationException;
 
 public class ProductCart 

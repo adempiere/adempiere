@@ -1,7 +1,6 @@
 package org.posterita.beans;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class SalesDetailsBean

@@ -30,18 +30,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.compiere.util.Trx;
 
 import org.posterita.Constants;
 import org.posterita.beans.CustomerBean;
 import org.posterita.businesslogic.administration.ImportCustomerManager;
 import org.posterita.businesslogic.performanceanalysis.ReportManager;
 import org.posterita.core.TmkJSPEnv;
-import org.posterita.core.TrxPrefix;
 import org.posterita.exceptions.ApplicationException;
-import org.posterita.exceptions.BarcodeAlreadyExistsException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.exceptions.ProductAlreadyExistException;
 import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
 

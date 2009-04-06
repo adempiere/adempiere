@@ -42,7 +42,6 @@ import org.compiere.model.MDiscountSchema;
 import org.compiere.model.MLocation;
 import org.compiere.model.MOrg;
 import org.compiere.model.MOrgInfo;
-import org.compiere.model.MPOS;
 import org.compiere.model.MPOSTerminal;
 import org.compiere.model.MPriceList;
 import org.compiere.model.MPriceListVersion;

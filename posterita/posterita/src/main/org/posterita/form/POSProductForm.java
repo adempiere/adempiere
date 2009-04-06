@@ -5,9 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
 import org.posterita.beans.ProductBean;
-import org.posterita.struts.admin.OrganisationAction;
 import org.posterita.struts.core.DefaultForm;
-import org.posterita.struts.pos.POSGoodsAction;
 import org.posterita.struts.pos.POSProductAction;
 
 public class POSProductForm extends DefaultForm

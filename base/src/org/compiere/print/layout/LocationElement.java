@@ -22,7 +22,6 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.compiere.model.MLocation;
-import org.compiere.util.Language;
 
 /**
  *	Location/Address Element.

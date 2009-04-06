@@ -19,7 +19,6 @@
  */
 package org.posterita.struts.menu;
 
-import java.awt.Menu;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;

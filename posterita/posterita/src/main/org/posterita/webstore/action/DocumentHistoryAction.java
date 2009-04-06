@@ -37,7 +37,6 @@ import org.compiere.util.Env;
 import org.posterita.Constants;
 import org.posterita.beans.DocumentHistortFilterBean;
 import org.posterita.beans.DocumentHistoryBean;
-import org.posterita.beans.FilterBean;
 import org.posterita.businesslogic.performanceanalysis.POSReportManager;
 import org.posterita.core.TmkJSPEnv;
 import org.posterita.exceptions.ApplicationException;

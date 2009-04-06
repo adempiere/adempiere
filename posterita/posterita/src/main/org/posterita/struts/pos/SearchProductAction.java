@@ -36,7 +36,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.compiere.util.CLogger;
-import org.posterita.TangoColors;
 import org.posterita.beans.ProductStatusBean;
 import org.posterita.businesslogic.administration.ProductManager;
 import org.posterita.businesslogic.POSTerminalManager;

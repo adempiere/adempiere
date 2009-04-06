@@ -44,7 +44,6 @@ import org.compiere.util.Env;
 import org.posterita.beans.CommissionBean;
 import org.posterita.businesslogic.POSTerminalManager;
 import org.posterita.businesslogic.performanceanalysis.CSVReportManager;
-import org.posterita.core.TimestampConvertor;
 import org.posterita.exceptions.InvalidDateTimeException;
 import org.posterita.exceptions.OperationException;
 import org.posterita.factory.SystemObjectsFactory;

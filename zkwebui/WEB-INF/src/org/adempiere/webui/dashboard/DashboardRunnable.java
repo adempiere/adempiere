@@ -23,7 +23,6 @@ import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Executions;
 
 /**
  * 

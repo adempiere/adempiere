@@ -23,9 +23,7 @@ package org.posterita.businesslogic.performanceanalysis;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.StringTokenizer;
 
 import org.jfree.date.SerialDate;

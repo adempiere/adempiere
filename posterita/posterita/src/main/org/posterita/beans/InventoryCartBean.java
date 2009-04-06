@@ -24,8 +24,6 @@ package org.posterita.beans;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import org.compiere.util.Env;
-
 public class InventoryCartBean extends UDIBean
 {
     private ArrayList<ItemBean> items;

@@ -28,20 +28,14 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Trx;
 import org.posterita.Constants;
 import org.posterita.beans.AttributeValueDetailBean;
-import org.posterita.beans.ProductKeywordsBean;
 import org.posterita.businesslogic.AttributeValuesManager;
-import org.posterita.businesslogic.administration.ProductManager;
 import org.posterita.core.TmkJSPEnv;
-import org.posterita.core.TrxPrefix;
-import org.posterita.form.EditAttributeForm;
 import org.posterita.struts.core.DefaultForm;
 
 public class POSAttributesAction extends POSDispatchAction

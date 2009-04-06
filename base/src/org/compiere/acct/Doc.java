@@ -60,8 +60,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.X_HR_Process;
-import org.eevolution.model.X_PP_Cost_Collector;
 
 /**
  *  Posting Document Root.

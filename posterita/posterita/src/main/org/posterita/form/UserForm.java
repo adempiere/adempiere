@@ -26,7 +26,6 @@ import org.apache.struts.action.ActionMapping;
 import org.posterita.Constants;
 import org.posterita.beans.UserBean;
 import org.posterita.struts.core.DefaultForm;
-import org.posterita.struts.login.LoginAction;
 
 
 public class UserForm extends DefaultForm

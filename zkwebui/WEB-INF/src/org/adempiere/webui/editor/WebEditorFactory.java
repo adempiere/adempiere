@@ -19,8 +19,6 @@ package org.adempiere.webui.editor;
 
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MLocationLookup;
-import org.compiere.model.MLocatorLookup;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 

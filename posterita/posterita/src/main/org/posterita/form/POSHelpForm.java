@@ -28,8 +28,6 @@ import org.apache.struts.action.ActionMapping;
 import org.posterita.beans.POSHelpBean;
 import org.posterita.pos.help.POSHelpAction;
 import org.posterita.struts.core.DefaultForm;
-import org.posterita.struts.pos.POSGoodsAction;
-import org.posterita.struts.pos.POSProductAction;
 
 public class POSHelpForm extends DefaultForm
 {

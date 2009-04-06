@@ -28,7 +28,6 @@ import java.util.Properties;
 import org.compiere.model.X_AD_Org;
 import org.compiere.util.Env;
 
-import org.posterita.businesslogic.OrganisationManager;
 import org.posterita.core.KeyNamePairUtil;
 import org.posterita.exceptions.OperationException;
 

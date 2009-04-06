@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.compiere.model.X_U_WebMenu;
 import org.posterita.factory.AbstractFactory;
 import org.compiere.model.MWebMenu;
 

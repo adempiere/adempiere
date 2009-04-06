@@ -19,7 +19,6 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;

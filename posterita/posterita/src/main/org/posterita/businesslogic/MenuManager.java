@@ -22,7 +22,6 @@ package org.posterita.businesslogic;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,12 +30,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.MMenu;
-import org.compiere.model.X_U_WebMenu;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.posterita.Constants;

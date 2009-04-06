@@ -24,7 +24,6 @@ package org.posterita.struts.pos;
 
 import java.awt.Color;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -49,7 +48,6 @@ import org.posterita.core.PieChart;
 import org.posterita.core.RandomStringGenerator;
 import org.posterita.core.SessionStorage;
 import org.posterita.core.TimeSeriesChart;
-import org.posterita.core.TimestampConvertor;
 import org.posterita.core.TmkJSPEnv;
 import org.posterita.exceptions.ApplicationException;
 import org.posterita.exceptions.OperationException;

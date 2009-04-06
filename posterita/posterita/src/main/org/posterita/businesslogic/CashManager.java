@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.MAttachment;
-import org.compiere.model.MAttachmentEntry;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MBankAccount;
@@ -62,7 +60,6 @@ import org.posterita.beans.CurrentTillAmountBean;
 import org.posterita.beans.OpenItemBean;
 import org.posterita.beans.WebDocumentBean;
 import org.posterita.beans.WebDocumentHeaderBean;
-import org.posterita.businesslogic.performanceanalysis.POSReportManager;
 import org.posterita.core.JulianDate;
 import org.posterita.core.utils.FormatBigDecimal;
 import org.posterita.exceptions.CanNotCloseTillException;

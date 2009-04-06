@@ -27,7 +27,6 @@
 
 package org.posterita.core.action;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -45,15 +44,11 @@ import org.posterita.beans.UserBean;
 import org.posterita.businesslogic.CurrencyManager;
 import org.posterita.businesslogic.POSClientManager;
 import org.posterita.core.KeyNamePairUtil;
-import org.posterita.core.TmkJSPEnv;
 import org.posterita.core.bean.ClientBean;
 import org.posterita.exceptions.ClientAlreadyExistException;
 import org.posterita.exceptions.OperationException;
-import org.posterita.form.UserRegistrationForm;
 import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
-
-import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 public class ClientAction extends BaseDispatchAction
 {

@@ -31,10 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.compiere.model.MOrg;
 import org.compiere.model.MRole;
-import org.compiere.model.MRoleOrgAccess;
-import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.posterita.Constants;
 import org.posterita.beans.RoleBean;
@@ -50,7 +47,6 @@ import org.posterita.exceptions.OperationException;
 import org.posterita.exceptions.RoleAlreadyExistsException;
 import org.posterita.exceptions.SystemException;
 import org.posterita.form.RoleForm;
-import org.posterita.lib.UdiConstants;
 import org.posterita.struts.core.DefaultForm;
 
 public class POSRoleAction extends POSDispatchAction

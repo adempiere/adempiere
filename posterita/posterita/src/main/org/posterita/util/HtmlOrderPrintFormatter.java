@@ -24,14 +24,12 @@ package org.posterita.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCashLine;
-import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLocation;
 import org.compiere.model.MOrder;
@@ -44,7 +42,6 @@ import org.posterita.beans.BPartnerBean;
 import org.posterita.beans.ItemBean;
 import org.posterita.beans.OrderLineBean;
 import org.posterita.beans.ShoppingCartBean;
-import org.posterita.beans.WebOrderLineBean;
 import org.posterita.businesslogic.OrganisationManager;
 import org.posterita.businesslogic.POSManager;
 import org.posterita.businesslogic.administration.BPartnerManager;

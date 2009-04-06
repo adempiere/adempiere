@@ -19,7 +19,6 @@ package org.adempiere.webui.panel;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.webui.component.Checkbox;
