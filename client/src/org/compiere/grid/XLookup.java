@@ -119,7 +119,6 @@ public class XLookup extends Lookup
 	 * 	@param temporary force load for temporary display
 	 * 	@return list of data
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayList<Object> getData (boolean mandatory, 
 		boolean onlyValidated, boolean onlyActive, boolean temporary)
 	{

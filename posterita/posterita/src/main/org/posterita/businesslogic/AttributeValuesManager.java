@@ -270,8 +270,7 @@ public class AttributeValuesManager
     	}
     }
     
-    @SuppressWarnings("unchecked")
-	public static ArrayList<KeyNamePair> getAttributes(Properties ctx) throws OperationException
+    public static ArrayList<KeyNamePair> getAttributes(Properties ctx) throws OperationException
     {
     	String whereClause = "AD_Client_ID=" + Env.getAD_Client_ID(ctx) + " and IsActive='Y'";
     	

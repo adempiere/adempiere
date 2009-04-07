@@ -142,7 +142,6 @@ public class SessionStorage
         
     }
     
-	@SuppressWarnings({"unchecked","unchecked"})
 	public static void putOrderFiltering(Properties ctx, HttpServletRequest request, FilterBean filterBean) 
 	{
 		ArrayList bpList = (ArrayList) filterBean.getBpList();

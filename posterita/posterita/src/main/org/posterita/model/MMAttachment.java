@@ -39,7 +39,6 @@ public class MMAttachment extends MAttachment
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
 	private MMAttachment(Properties ctx, int AD_Table_ID, int Record_ID, String trxName)
 	{
 		super(ctx, AD_Table_ID, Record_ID, trxName);

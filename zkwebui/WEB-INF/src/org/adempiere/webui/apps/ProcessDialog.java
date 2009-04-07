@@ -145,7 +145,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	private Properties m_ctx;
 	private int 		    m_AD_Process_ID;
 	private String		    m_Name = null;
-	@SuppressWarnings("unused")
+	
 	private boolean		    m_IsReport = false;
 	private int[]		    m_ids = null;
 	private StringBuffer	m_messageText = new StringBuffer();

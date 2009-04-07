@@ -88,8 +88,7 @@ public class SystemObjects
         return purchase;
     }
     
-    @SuppressWarnings("deprecation")
-	public static MPriceListVersion getPriceListVersion(Properties ctx, String name)
+    public static MPriceListVersion getPriceListVersion(Properties ctx, String name)
     {
         MPriceListVersion priceListVersionPurchase = new MPriceListVersion(ctx, 0, null);
         priceListVersionPurchase.setName(name);
