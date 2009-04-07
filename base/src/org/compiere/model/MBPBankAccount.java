@@ -33,9 +33,10 @@ import org.compiere.util.DB;
  */
 public class MBPBankAccount extends X_C_BP_BankAccount
 {
+	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 	Get Accounst Of BPartner
+	 * 	Get Account Of BPartner
 	 *	@param ctx context
 	 *	@param C_BPartner_ID bpartner
 	 *	@return

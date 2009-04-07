@@ -29,7 +29,8 @@ import java.util.Properties;
 public class MAcctProcessorLog extends X_C_AcctProcessorLog
 	implements AdempiereProcessorLog
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

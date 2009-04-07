@@ -68,7 +68,7 @@ public class WMenu extends HttpServlet
 
 	/** Logger */
 	protected CLogger	log	= CLogger.getCLogger (getClass ());
-
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Initialize global variables
 	 * 

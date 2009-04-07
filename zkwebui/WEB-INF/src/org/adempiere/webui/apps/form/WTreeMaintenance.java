@@ -87,6 +87,7 @@ public class WTreeMaintenance extends ADForm implements EventListener
 	private Tree			centerTree;
 	private Listbox			centerList	= new Listbox();
 
+	private static final long serialVersionUID = 1L;
 	
 	@Override
 	public void initForm()

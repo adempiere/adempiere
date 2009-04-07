@@ -27,6 +27,8 @@ package org.compiere.util;
  */
 public class AdempiereSystemError extends Exception
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Adempiere System Error
 	 *	@param message message

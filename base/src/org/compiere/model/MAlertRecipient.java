@@ -28,6 +28,8 @@ import java.util.Properties;
  */
 public class MAlertRecipient extends X_AD_AlertRecipient
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

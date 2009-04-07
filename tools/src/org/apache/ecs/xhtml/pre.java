@@ -44,7 +44,8 @@ import org.apache.ecs.MultiPartElement;
 public class pre extends MultiPartElement implements MouseEvents, KeyEvents
 
 {
-
+	private static final long serialVersionUID = 1L;
+	
     /**
 
         Private initialization routine.

@@ -84,6 +84,8 @@ import org.zkoss.zul.Space;
 public class WAllocation extends ADForm
 	implements EventListener, WTableModelListener, ValueChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	
 	/**
 	 *	Initialize Panel

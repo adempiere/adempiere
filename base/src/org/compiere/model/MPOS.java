@@ -31,6 +31,8 @@ import org.compiere.util.Msg;
  */
 public class MPOS extends X_C_POS
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get POS from Cache
 	 *	@param ctx context

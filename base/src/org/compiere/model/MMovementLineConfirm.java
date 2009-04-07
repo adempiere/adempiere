@@ -30,7 +30,8 @@ import org.compiere.util.Env;
  */
 public class MMovementLineConfirm extends X_M_MovementLineConfirm
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx ctx

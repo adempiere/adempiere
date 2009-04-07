@@ -27,6 +27,8 @@ import java.util.Properties;
  */
 public class MReplication extends X_AD_Replication
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context

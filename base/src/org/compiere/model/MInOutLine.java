@@ -34,6 +34,8 @@ import org.compiere.util.Util;
  */
 public class MInOutLine extends X_M_InOutLine
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Ship lines Of Order Line
 	 *	@param ctx context

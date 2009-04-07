@@ -45,7 +45,8 @@ import org.apache.ecs.SinglePartElement;
 public class img extends SinglePartElement implements Printable, MouseEvents, KeyEvents
 
 {
-
+	private static final long serialVersionUID = 1L;
+	
     /**
 
             Private initialization routine.

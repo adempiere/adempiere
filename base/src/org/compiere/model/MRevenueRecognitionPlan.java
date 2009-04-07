@@ -29,6 +29,8 @@ import org.compiere.util.Env;
  */
 public class MRevenueRecognitionPlan extends X_C_RevenueRecognition_Plan
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

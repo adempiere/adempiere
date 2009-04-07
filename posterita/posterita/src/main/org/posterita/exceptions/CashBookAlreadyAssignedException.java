@@ -25,6 +25,8 @@ package org.posterita.exceptions;
  */
 public class CashBookAlreadyAssignedException extends OperationException
 {
+	private static final long serialVersionUID = 1L;
+	
     public CashBookAlreadyAssignedException(String msg)
     {
         super(msg);

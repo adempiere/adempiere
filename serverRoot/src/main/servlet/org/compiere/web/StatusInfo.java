@@ -41,6 +41,8 @@ import org.compiere.interfaces.Status;
 public class StatusInfo extends HttpServlet
 {
 	static final private String CONTENT_TYPE = "text/html";
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *	@throws ServletException

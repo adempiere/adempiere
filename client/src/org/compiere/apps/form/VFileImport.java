@@ -68,7 +68,7 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1658127 ] Select charset encoding on import
  * 			<li>BF [ 1619158 ] Import is not working with UTF-8
- * 			<li>BF [ 1738641 ] Import Formats are accesible for all tenants
+ * 			<li>BF [ 1738641 ] Import Formats are accessible for all tenants
  *			<li>BF [ 1778356 ] VFileImport: IndexOfBound exp if the file is not loaded
  */
 public class VFileImport extends CPanel
@@ -76,7 +76,8 @@ public class VFileImport extends CPanel
 {
 	private static final int MAX_LOADED_LINES = 100;
 	private static final int MAX_SHOWN_LINES = 10;
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window

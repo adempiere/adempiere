@@ -64,6 +64,8 @@ import org.compiere.util.Msg;
 public class ValuePreference extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Factory
 	 *  @param mField	field

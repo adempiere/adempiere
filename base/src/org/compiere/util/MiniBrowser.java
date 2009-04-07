@@ -35,6 +35,8 @@ import org.adempiere.plaf.AdempierePLAF;
  */
 public class MiniBrowser extends JDialog
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Default Constructor
 	 */

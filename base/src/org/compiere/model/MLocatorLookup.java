@@ -40,11 +40,13 @@ import org.compiere.util.NamePair;
  *  @version 	$Id: MLocatorLookup.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 				<li>BF [ 1892920 ] Locators fieldshould be ordered by Warehouse/Value
+ * 				<li>BF [ 1892920 ] Locators field should be ordered by Warehouse/Value
  *              <li>FR [ 2306161 ] Removed limit of 200 on max number of locators.
  */
 public final class MLocatorLookup extends Lookup implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param ctx context

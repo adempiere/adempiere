@@ -29,6 +29,8 @@ import org.compiere.model.X_AD_PrintGraph;
  */
 public class MPrintGraph extends X_AD_PrintGraph
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Standard Constructor
 	 *  @param ctx context

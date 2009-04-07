@@ -29,6 +29,8 @@ import org.compiere.util.CCache;
  */
 public class MWebProject extends X_CM_WebProject
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MWebProject from Cache
 	 *	@param ctx context

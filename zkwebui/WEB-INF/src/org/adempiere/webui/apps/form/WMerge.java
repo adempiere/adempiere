@@ -75,6 +75,8 @@ public class WMerge extends ADForm
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WMerge.class);
 
+	private static final long serialVersionUID = 1L;
+	
 	static private String	AD_ORG_ID = "AD_Org_ID";
 	static private String	C_BPARTNER_ID = "C_BPartner_ID";
 	static private String	AD_USER_ID = "AD_User_ID";

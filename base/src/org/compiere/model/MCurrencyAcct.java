@@ -32,6 +32,8 @@ import org.compiere.util.DB;
  */
 public class MCurrencyAcct extends X_C_Currency_Acct
 {
+	private static final long serialVersionUID = 1L;
+	
 	/** Static Logger					*/
 	private static CLogger s_log = CLogger.getCLogger(MCurrencyAcct.class);
 	

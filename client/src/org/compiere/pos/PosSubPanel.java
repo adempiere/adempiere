@@ -41,6 +41,8 @@ import org.compiere.util.Env;
 public abstract class PosSubPanel extends CPanel 
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel

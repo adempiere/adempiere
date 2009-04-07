@@ -50,7 +50,7 @@ public class iframe extends MultiPartElement implements Printable
 
     public final static String auto = "auto";
 
-    
+    private static final long serialVersionUID = 1L;    
 
     /**
 

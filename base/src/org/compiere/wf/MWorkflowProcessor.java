@@ -39,6 +39,8 @@ import org.compiere.util.DB;
 public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 	implements AdempiereProcessor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Active
 	 *	@param ctx context

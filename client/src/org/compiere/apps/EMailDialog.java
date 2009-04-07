@@ -68,6 +68,8 @@ import org.compiere.util.Msg;
 public class EMailDialog extends CDialog 
 	implements ActionListener, VetoableChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	EMail Dialog
 	 *	@param owner calling window

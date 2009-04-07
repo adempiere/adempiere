@@ -48,6 +48,7 @@ import org.compiere.util.WebUtil;
  */
 public class WStart extends HttpServlet
 {
+	private static final long serialVersionUID = 1L;
 	/**
 	 *  Set UI directory to Servlet init param
 	 */

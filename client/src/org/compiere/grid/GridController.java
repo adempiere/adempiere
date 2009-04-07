@@ -154,6 +154,8 @@ public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
 		VetoableChangeListener,	PropertyChangeListener, MouseListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor - you need to call initGrid for instanciation
 	 */

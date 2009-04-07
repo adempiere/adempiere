@@ -29,6 +29,8 @@ import java.util.Properties;
 public class MDiscountSchemaLine extends X_M_DiscountSchemaLine
 {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

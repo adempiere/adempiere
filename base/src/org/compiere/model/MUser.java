@@ -42,6 +42,8 @@ import org.compiere.util.SecureEngine;
  */
 public class MUser extends X_AD_User
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get active Users of BPartner
 	 *	@param ctx context

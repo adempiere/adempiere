@@ -66,6 +66,8 @@ import com.sun.mail.smtp.SMTPMessage;
  */
 public final class EMail implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	//use in serverbean
 	public final static String HTML_MAIL_MARKER = "ContentType=text/html;";
 	/**

@@ -65,6 +65,8 @@ public class LocationTag extends TagSupport
 	private static final String C_MANDATORY = "mandatory";
 	private static final String C_ERROR     = "error";
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Set Country
 	 *	@param info_el country info

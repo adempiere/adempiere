@@ -46,6 +46,8 @@ public class IssueReportServlet extends HttpServlet
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(IssueReportServlet.class);
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Initialize global variables
 	 *  @param config servlet configuration

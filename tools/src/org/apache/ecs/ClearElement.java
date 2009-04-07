@@ -26,6 +26,8 @@ use raw HTML.  Don't use this unless you have to do so for compatibilty reasons
 
 public class ClearElement extends StringElement {
     
+	private static final long serialVersionUID = 1L;
+	
     public ClearElement(String string) {
         super( string );
         

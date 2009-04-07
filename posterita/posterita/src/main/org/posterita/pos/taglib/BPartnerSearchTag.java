@@ -68,6 +68,7 @@ public class BPartnerSearchTag extends TagSupport implements AjaxTag
     private int     bpartnerId = 0;
     private String  bpartnerValue = "";
     
+    private static final long serialVersionUID = 1L;
     
     public int doStartTag() throws JspException
     {

@@ -43,7 +43,8 @@ import org.apache.ecs.SinglePartElement;
 public class br extends SinglePartElement implements Printable
 
 {
-
+	private static final long serialVersionUID = 1L;
+	
     /**
 
         Private initialization routine.

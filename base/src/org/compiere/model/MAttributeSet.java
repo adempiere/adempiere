@@ -34,6 +34,8 @@ import org.compiere.util.DB;
  */
 public class MAttributeSet extends X_M_AttributeSet
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MAttributeSet from Cache
 	 *	@param ctx context

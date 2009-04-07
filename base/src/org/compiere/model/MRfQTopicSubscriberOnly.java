@@ -28,7 +28,8 @@ import java.util.Properties;
  */
 public class MRfQTopicSubscriberOnly extends X_C_RfQ_TopicSubscriberOnly
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

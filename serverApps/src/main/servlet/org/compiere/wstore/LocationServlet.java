@@ -39,13 +39,14 @@ import org.compiere.util.Util;
  *	
  *  @author Jorg Janke
  *  @version $Id: LocationServlet.java,v 1.5 2006/07/30 00:53:21 jjanke Exp $
- *  @author Michael Judd BF [2728388] - fix potential CSS velnerability
+ *  @author Michael Judd BF [2728388] - fix potential CSS vulnerability
  */
 public class LocationServlet extends HttpServlet
 {
     /**	Logging						*/
     private CLogger			log = CLogger.getCLogger(getClass());
-
+    private static final long serialVersionUID = 1L;
+    
     /**
      * 	Initialize global variables
      *  @param config servlet configuration

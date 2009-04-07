@@ -47,6 +47,8 @@ public class RequestTypeTag extends TagSupport
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (RequestTypeTag.class);
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Start Tag
 	 *  @return SKIP_BODY

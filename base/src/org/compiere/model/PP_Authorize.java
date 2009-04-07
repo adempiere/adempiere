@@ -30,6 +30,8 @@ public class PP_Authorize extends PaymentProcessor
 	/**	Status					*/
 	private boolean		m_ok = false;
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Process CC
 	 *	@return processed ok

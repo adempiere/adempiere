@@ -35,7 +35,8 @@ import org.compiere.util.Env;
  */
 public class MAllocationLine extends X_C_AllocationLine
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -36,6 +36,8 @@ import org.compiere.util.WebUtil;
  */
 public class WStatus extends HttpServlet
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Initialize global variables
 	 *  This servlet is also loaded on startup to initialize the system

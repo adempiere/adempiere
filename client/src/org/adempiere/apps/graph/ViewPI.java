@@ -41,6 +41,8 @@ import org.compiere.util.Env;
 public class ViewPI extends CPanel
 implements FormPanel, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Init
 	 *	@param WindowNo

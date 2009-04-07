@@ -64,6 +64,7 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 	private CMenuItem 			mRefresh = new CMenuItem(Msg.getMsg(Env.getCtx(), "Refresh"), Env.getImageIcon("Refresh16.gif"));
 	URL	lastUrl  = null;
 
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 	Constructor

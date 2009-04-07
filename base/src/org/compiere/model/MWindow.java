@@ -37,6 +37,8 @@ public class MWindow extends X_AD_Window
 {
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MWindow.class);
+
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	Standard Constructor

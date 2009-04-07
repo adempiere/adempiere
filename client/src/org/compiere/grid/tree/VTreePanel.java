@@ -112,7 +112,8 @@ public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
 {
 	protected boolean m_lookAndFeelChanged = false;
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Tree Panel for browsing and editing of a tree.
 	 *  Need to call initTree

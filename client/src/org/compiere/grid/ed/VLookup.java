@@ -100,6 +100,8 @@ import org.eevolution.model.X_PP_Product_BOMLine;
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	@Override
 	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 			int condition, boolean pressed) {

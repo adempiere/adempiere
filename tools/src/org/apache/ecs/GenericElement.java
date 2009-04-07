@@ -36,6 +36,8 @@ import org.apache.ecs.filter.CharacterFilter;
 */
 public abstract class GenericElement implements Element,Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
     /**
         Create default filter to use in all GenericElements
         Can be overridden by setFilter method. Of course

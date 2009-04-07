@@ -24,6 +24,8 @@ import org.compiere.interfaces.MD5;
  */
 public class GetMD5FileServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 
 	 */

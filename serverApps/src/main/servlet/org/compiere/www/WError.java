@@ -30,6 +30,8 @@ public class WError extends HttpServlet
 	static final private String CONTENT_TYPE = "text/html";
 	static final private String DOC_TYPE = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n" +
 	  "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
+	private static final long serialVersionUID = 1L;
+	
 	/**Initialize global variables*/
 	public void init(ServletConfig config) throws ServletException
 	{

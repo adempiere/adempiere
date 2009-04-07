@@ -34,6 +34,10 @@ import org.compiere.util.Msg;
  */
 public class MCStage extends X_CM_CStage
 {
+	
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * 	Get Stages
 	 *	@param project project

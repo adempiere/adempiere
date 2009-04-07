@@ -64,6 +64,8 @@ import org.compiere.util.Msg;
 public final class Calculator extends CDialog
 	implements ActionListener, KeyListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Create Calculator
 	 * 	@param frame parent

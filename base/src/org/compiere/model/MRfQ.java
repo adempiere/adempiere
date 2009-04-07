@@ -35,6 +35,8 @@ import org.compiere.util.TimeUtil;
  */
 public class MRfQ extends X_C_RfQ
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MRfQ from Cache
 	 *	@param ctx context

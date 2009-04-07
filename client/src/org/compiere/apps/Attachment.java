@@ -58,6 +58,8 @@ import org.compiere.util.Msg;
 public final class Attachment extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor.
 	 *	loads Attachment, if ID <> 0
@@ -566,6 +568,8 @@ public final class Attachment extends CDialog
 	 */
 	class GImage extends JPanel
 	{
+		private static final long serialVersionUID = 1L;
+		
 		/**
 		 *  Graphic Image
 		 */

@@ -58,6 +58,8 @@ import org.compiere.util.Msg;
 public class VURL extends JComponent
 	implements VEditor, ActionListener, KeyListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	IDE Constructor
 	 */

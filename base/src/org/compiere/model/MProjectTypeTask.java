@@ -29,6 +29,8 @@ import org.compiere.util.Env;
  */
 public class MProjectTypeTask extends X_C_Task
 {
+	private static final long serialVersionUID = 1L;
+	
 	public MProjectTypeTask (Properties ctx, int C_Task_ID, String trxName)
 	{
 		super (ctx, C_Task_ID, trxName);

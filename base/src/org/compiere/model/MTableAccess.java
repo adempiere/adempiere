@@ -32,6 +32,7 @@ import org.compiere.util.Msg;
  */
 public class MTableAccess extends X_AD_Table_Access
 {
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

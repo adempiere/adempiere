@@ -16,26 +16,17 @@
  *****************************************************************************/
 package org.apache.ecs.xhtml;
 
-
-
 import org.apache.ecs.Element;
 import org.apache.ecs.Printable;
 import org.apache.ecs.SinglePartElement;
-
-
 
 /**
 
     This class creates an param Element
 
-
-
     @version $Id: param.java,v 1.2 2006/07/30 00:54:02 jjanke Exp $
-
     @author <a href="mailto:snagy@servletapi.com">Stephan Nagy</a>
-
     @author <a href="mailto:jon@clearink.com">Jon S. Stevens</a>
-
     @author <a href="mailto:bojan@binarix.com">Bojan Smojver</a>
 
 */
@@ -43,23 +34,15 @@ import org.apache.ecs.SinglePartElement;
 public class param extends SinglePartElement implements Printable
 
 {
+	private static final long serialVersionUID = 1L;
 
-    // Convience variables.
-
-
-
+    // Convenience variables.
     public final static String ref = "ref";
-
     public final static String data = "data";
-
     public final static String object = "object";
 
-
-
     /**
-
         private initializer.
-
     */
 
     {

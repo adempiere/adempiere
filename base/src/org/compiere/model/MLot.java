@@ -40,6 +40,8 @@ public class MLot extends X_M_Lot
 	/**	Logger					*/
 	private static CLogger		s_log = CLogger.getCLogger(MLot.class);
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Lots for Product
 	 *	@param ctx context

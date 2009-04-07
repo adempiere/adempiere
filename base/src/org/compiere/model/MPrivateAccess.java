@@ -32,8 +32,10 @@ import org.compiere.util.DB;
  */
 public class MPrivateAccess extends X_AD_Private_Access
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 * 	Load Pricate Access
+	 * 	Load Private Access
 	 *	@param ctx context 
 	 *	@param AD_User_ID user
 	 *	@param AD_Table_ID table

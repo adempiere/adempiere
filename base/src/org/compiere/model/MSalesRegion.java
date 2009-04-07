@@ -30,6 +30,8 @@ import org.compiere.util.CCache;
  */
 public class MSalesRegion extends X_C_SalesRegion
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get SalesRegion from Cache
 	 *	@param ctx context

@@ -71,6 +71,7 @@ import org.compiere.util.TimeUtil;
 public class ArchiveViewer extends CTabbedPane
 	implements FormPanel, ActionListener, VetoableChangeListener
 {
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 *	Initialize Panel

@@ -32,6 +32,8 @@ import org.compiere.model.POInfo;
  */
 public class MyModelExample extends PO
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard constructor.
 	 * 	You must implement this constructor for Adempiere Persistency

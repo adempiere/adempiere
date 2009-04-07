@@ -52,8 +52,9 @@ import org.compiere.util.Msg;
 public class VMemo extends CTextArea
 	implements VEditor, KeyListener, FocusListener, ActionListener
 {
+	private static final long serialVersionUID = 1L;
 	/**
-	 *	IDE Baan Constructor
+	 *	IDE Bean Constructor
 	 */
 	public VMemo()
 	{

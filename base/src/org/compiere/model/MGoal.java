@@ -44,6 +44,8 @@ import org.compiere.util.TimeUtil;
  */
 public class MGoal extends X_PA_Goal
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get User Goals
 	 *	@param ctx context

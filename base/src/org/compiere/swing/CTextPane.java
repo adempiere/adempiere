@@ -41,6 +41,8 @@ public class CTextPane extends JScrollPane
 	implements CEditor
 
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructs a new TextPane (HTML)
 	 */

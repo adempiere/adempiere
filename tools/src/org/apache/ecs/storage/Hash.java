@@ -22,7 +22,8 @@ public class Hash implements java.io.Serializable
 {
     private Array keys = new Array();
     private Array elements = new Array();
-
+    private static final long serialVersionUID = 1L;
+    
     public Hash()
     {
     }

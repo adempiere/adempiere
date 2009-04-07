@@ -47,6 +47,8 @@ import org.apache.ecs.Filter;
 */
 public class CharacterFilter extends java.util.Hashtable<String, Object> implements Filter
 {
+	private static final long serialVersionUID = 1L;
+	
     /**
         Private initializer. 
         " ' & < > are the default filters.

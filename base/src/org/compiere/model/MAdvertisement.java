@@ -30,6 +30,8 @@ import org.compiere.util.ValueNamePair;
  */
 public class MAdvertisement extends X_W_Advertisement
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

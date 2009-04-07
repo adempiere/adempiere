@@ -63,6 +63,8 @@ import org.compiere.util.TimeUtil;
 public class VAssignmentDialog extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Assignment Dialog.
 	 * 	<pre>

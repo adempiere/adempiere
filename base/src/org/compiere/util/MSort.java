@@ -37,6 +37,8 @@ import java.util.Comparator;
  */
 public final class MSort implements Comparator, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor - Sort Entity
 	 *  @param new_index index

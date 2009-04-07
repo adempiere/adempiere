@@ -53,6 +53,8 @@ import org.compiere.util.Msg;
 public class VFile extends JComponent
 	implements VEditor, ActionListener, KeyListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *

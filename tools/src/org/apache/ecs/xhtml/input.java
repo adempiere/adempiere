@@ -37,6 +37,7 @@ public class input extends SinglePartElement
 	implements Printable, FormEvents, PageEvents, FocusEvents, MouseEvents,
 	KeyEvents
 {
+	private static final long serialVersionUID = 1L;
 
 	public static final String	TYPE_TEXT		= "text";
 

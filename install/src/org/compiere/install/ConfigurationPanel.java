@@ -56,6 +56,8 @@ import org.compiere.util.CLogger;
  */
 public class ConfigurationPanel extends CPanel implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 *  @param statusBar for info

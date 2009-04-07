@@ -34,7 +34,8 @@ import org.apache.ecs.Printable;
 public class form extends MultiPartElement
 	implements Printable, FormEvents, MouseEvents, KeyEvents
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	public static final String	METHOD_GET	= "get";
 
 	public static final String	METHOD_POST	= "post";

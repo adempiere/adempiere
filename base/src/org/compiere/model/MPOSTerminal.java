@@ -33,7 +33,8 @@ public class MPOSTerminal extends X_U_POSTerminal
 {
     /** Cache                   */
     static private CCache<Integer,MPOSTerminal> s_cache = new CCache<Integer,MPOSTerminal>(X_U_POSTerminal.Table_Name, 10, 60);
-    
+	
+    private static final long serialVersionUID = 1L;
     /**
      * @param ctx Context
      * @param rs Result Set

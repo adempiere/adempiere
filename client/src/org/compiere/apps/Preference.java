@@ -89,6 +89,8 @@ import org.compiere.util.ValueNamePair;
 public final class Preference extends CDialog
 	implements ActionListener, ListSelectionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Standard Constructor
 	 *  @param frame frame

@@ -40,6 +40,8 @@ import org.compiere.util.Util;
  */
 public class MLocation extends X_C_Location implements Comparator
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context

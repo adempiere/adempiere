@@ -35,6 +35,8 @@ import org.compiere.util.Msg;
  */
 public class MLdapProcessor extends X_AD_LdapProcessor implements AdempiereProcessor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Active LDAP Server
 	 *	@return array of Servers

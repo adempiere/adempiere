@@ -37,6 +37,8 @@ import org.compiere.util.DB;
  */
 public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 {
+	private static final long serialVersionUID = 1L;
+	
 
 	/**
 	 * 	Get table script validator from cache

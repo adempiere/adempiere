@@ -34,7 +34,8 @@ import org.compiere.util.DB;
  */
 public class MImpFormat extends X_AD_ImpFormat
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

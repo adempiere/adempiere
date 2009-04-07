@@ -40,13 +40,15 @@ import org.compiere.util.Msg;
 
 
 /**
- *  View Assignments and optionally create Resource Assigments
+ *  View Assignments and optionally create Resource Assignments
  *
  *  @author     Jorg Janke
  *  @version    $Id: InfoAssignment.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
 public class InfoAssignment extends Info
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 *  @param frame frame

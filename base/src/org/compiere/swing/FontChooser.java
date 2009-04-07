@@ -44,6 +44,8 @@ import org.adempiere.plaf.AdempierePLAF;
 public class FontChooser extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Show Dialog with initial font and return selected font
 	 *  @param owner Base window

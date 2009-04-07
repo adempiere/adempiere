@@ -29,6 +29,8 @@ import javax.swing.table.AbstractTableModel;
  */
 class ResultTableModel extends AbstractTableModel
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Create a JTable Model from ReportModel
 	 *  @param reportModel

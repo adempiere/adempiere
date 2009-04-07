@@ -35,6 +35,8 @@ import org.adempiere.plaf.AdempierePLAF;
  */
 public final class CheckRenderer extends DefaultTableCellRenderer
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 */

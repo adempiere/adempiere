@@ -32,6 +32,8 @@ import org.compiere.util.Env;
  */
 public class MTimeExpenseLine extends X_S_TimeExpenseLine
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

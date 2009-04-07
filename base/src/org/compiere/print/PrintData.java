@@ -51,6 +51,8 @@ import org.w3c.dom.Element;
  */
 public class PrintData implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Data Parent Constructor
 	 * 	@param ctx context

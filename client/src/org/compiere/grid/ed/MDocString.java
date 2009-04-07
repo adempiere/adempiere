@@ -53,6 +53,8 @@ import org.compiere.util.CLogger;
  */
 public final class MDocString extends PlainDocument implements CaretListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param VFormat

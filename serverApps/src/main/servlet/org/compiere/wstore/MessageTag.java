@@ -40,6 +40,8 @@ public class MessageTag  extends TagSupport
 	/** Text				*/
 	private String		m_txt;
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Set text
 	 * 	@param txt text to be translated

@@ -61,6 +61,8 @@ import org.compiere.util.Msg;
 public class VSetup extends CPanel
 	implements FormPanel, ActionListener, Runnable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window

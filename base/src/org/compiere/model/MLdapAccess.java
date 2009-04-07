@@ -27,7 +27,8 @@ import java.util.Properties;
  */
 public class MLdapAccess extends X_AD_LdapAccess
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -70,6 +70,8 @@ import org.zkoss.zul.Filedownload;
 public class WPayPrint extends ADForm
 	implements EventListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize Panel
 	 */

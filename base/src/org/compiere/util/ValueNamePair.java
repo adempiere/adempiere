@@ -24,6 +24,8 @@ package org.compiere.util;
  */
 public final class ValueNamePair extends NamePair
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Construct KeyValue Pair
 	 *  @param value value

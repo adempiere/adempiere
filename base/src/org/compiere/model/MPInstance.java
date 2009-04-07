@@ -35,6 +35,8 @@ import org.compiere.util.Env;
  */
 public class MPInstance extends X_AD_PInstance
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

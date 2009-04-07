@@ -63,6 +63,8 @@ import org.compiere.util.Env;
 public class ProcessParameter extends CDialog
 	implements ActionListener, VetoableChangeListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Dynamic generated Parameter Dialog screen.
 	 *	Called from ProcessCtl.process

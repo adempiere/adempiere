@@ -38,6 +38,8 @@ import org.compiere.model.POInfo;
  */
 public class GenericPO extends PO {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * @param tableName
 	 * @param ctx
@@ -137,6 +139,8 @@ class PropertiesWrapper extends Properties {
 	protected Properties source;
 	protected String tableName;
 
+	private static final long serialVersionUID = 1L;
+	
 	PropertiesWrapper(Properties source, String tableName) {
 		this.source = source;
 		this.tableName = tableName;

@@ -29,6 +29,8 @@ import org.compiere.util.CCache;
  */
 public class MAssetGroup extends X_A_Asset_Group
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get from Cache
 	 *	@param ctx context

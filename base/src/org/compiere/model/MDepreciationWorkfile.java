@@ -26,6 +26,8 @@ import org.compiere.util.DB;
  */
 public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Default Constructor X_A_Depreciation_Workfile
 	 *	@param ctx context

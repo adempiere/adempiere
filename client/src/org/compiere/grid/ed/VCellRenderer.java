@@ -42,6 +42,8 @@ import org.compiere.util.DisplayType;
  */
 public final class VCellRenderer extends DefaultTableCellRenderer
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor for Grid
 	 *  @param mField field model

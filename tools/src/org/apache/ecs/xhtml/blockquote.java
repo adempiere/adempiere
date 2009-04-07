@@ -34,6 +34,8 @@ public class blockquote extends MultiPartElement
 	implements Printable, MouseEvents, KeyEvents
 {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
      * Private initialization routine.
      */

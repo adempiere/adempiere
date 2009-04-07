@@ -48,6 +48,7 @@ import org.compiere.util.Msg;
  */
 public class MDDOrderLine extends X_DD_OrderLine
 {
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	Get Order Unreserved Qty

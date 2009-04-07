@@ -42,6 +42,8 @@ import org.compiere.util.Trace;
 public class CComboBox extends JComboBox
 	implements CEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Creates a <code>JComboBox</code> that takes it's items from an
 	 * existing <code>ComboBoxModel</code>.  Since the

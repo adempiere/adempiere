@@ -43,6 +43,8 @@ import org.compiere.util.Env;
  */
 public class MTree extends MTree_Base
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Default Constructor.
 	 * 	Need to call loadNodes explicitly

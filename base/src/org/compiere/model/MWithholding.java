@@ -28,6 +28,8 @@ import java.util.Properties;
  */
 public class MWithholding extends X_C_Withholding
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

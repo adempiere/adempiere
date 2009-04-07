@@ -43,6 +43,8 @@ import org.compiere.swing.CCheckBox;
 public class IDColumnEditor extends AbstractCellEditor
 	implements TableCellEditor, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 */

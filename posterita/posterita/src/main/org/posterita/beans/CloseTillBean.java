@@ -43,6 +43,8 @@ public class CloseTillBean implements Serializable
 	private BigDecimal chequeAmtEntered;
 	private BigDecimal chequeDifference;
 	
+	private static final long serialVersionUID = 1L;
+	
 	public String getTillNo() {
 		return tillNo;
 	}

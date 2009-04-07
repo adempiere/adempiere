@@ -42,6 +42,8 @@ import org.compiere.util.Language;
 public final class MCountry extends X_C_Country
 	implements Comparator, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Country (cached)
 	 * 	@param ctx context

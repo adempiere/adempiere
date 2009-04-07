@@ -38,6 +38,8 @@ import org.compiere.util.Env;
  */
 public class MContactInterest extends X_R_ContactInterest
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Contact Interest
 	 *	@param ctx context

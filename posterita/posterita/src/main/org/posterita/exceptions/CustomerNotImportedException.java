@@ -2,6 +2,8 @@ package org.posterita.exceptions;
 
 public class CustomerNotImportedException extends OperationException
 {
+	private static final long serialVersionUID = 1L;
+	
     public CustomerNotImportedException() 
     {
         super();

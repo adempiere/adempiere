@@ -32,6 +32,8 @@ import org.compiere.util.Env;
 public class MSLAMeasure extends X_PA_SLA_Measure
 {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

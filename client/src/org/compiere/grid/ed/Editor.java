@@ -64,6 +64,8 @@ import org.compiere.util.Msg;
 public class Editor extends CDialog
 	implements ChangeListener, ActionListener, KeyListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Factory: Start Editor
 	 *	@param jc container to get parent frame

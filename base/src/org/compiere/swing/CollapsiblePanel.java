@@ -46,7 +46,7 @@ public class CollapsiblePanel extends JPanel {
 	private Border separatorBorder;
 	private JXHyperlink link;
 	private JXCollapsiblePane collapsible;
-
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 * @param title

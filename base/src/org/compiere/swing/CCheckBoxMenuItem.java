@@ -28,7 +28,8 @@ import javax.swing.JCheckBoxMenuItem;
  */
 public class CCheckBoxMenuItem extends JCheckBoxMenuItem
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	public CCheckBoxMenuItem ()
 	{
 		super ();

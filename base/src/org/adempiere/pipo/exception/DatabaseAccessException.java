@@ -2,6 +2,8 @@ package org.adempiere.pipo.exception;
 
 public class DatabaseAccessException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+	
 	public DatabaseAccessException() {
 		super();
 	}

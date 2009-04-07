@@ -30,6 +30,8 @@ import java.text.StringCharacterIterator;
 */
 public class StringElement extends ConcreteElement implements Printable
 {
+	private static final long serialVersionUID = 1L;
+	
     /**
         Basic constructor
     */

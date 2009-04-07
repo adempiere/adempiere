@@ -59,6 +59,8 @@ public final class VString extends CTextField
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
 	 */

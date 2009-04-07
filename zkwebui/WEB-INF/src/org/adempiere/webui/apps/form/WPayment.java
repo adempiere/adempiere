@@ -108,6 +108,8 @@ import org.zkoss.zul.Space;
 public class WPayment extends Window
 	implements EventListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *

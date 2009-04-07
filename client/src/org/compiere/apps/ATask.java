@@ -42,6 +42,8 @@ import org.compiere.util.Task;
 public class ATask extends CFrame 
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Start Application Task
 	 *  @param task task model

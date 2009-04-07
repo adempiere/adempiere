@@ -59,6 +59,8 @@ import org.compiere.util.Msg;
  */
 public class InfoPAttribute extends CDialog
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor.
 	 * 	Called from InfoProduct,cmd_InfoPAttribute

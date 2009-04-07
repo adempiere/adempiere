@@ -36,6 +36,8 @@ import org.compiere.util.WebUtil;
  */
 public class Test extends HttpServlet
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Initialize global variables
 	 */

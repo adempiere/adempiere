@@ -39,8 +39,10 @@ import org.compiere.util.Env;
  */
 public class PAPanel extends CPanel implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 * 	Get Panel if User has Perfpormance Goals
+	 * 	Get Panel if User has Performance Goals
 	 *	@return panel pr null
 	 */
 	public static PAPanel get()

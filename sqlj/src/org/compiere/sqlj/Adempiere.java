@@ -37,6 +37,8 @@ import java.util.GregorianCalendar;
  */
 public class Adempiere implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Version
 	 *	@return version

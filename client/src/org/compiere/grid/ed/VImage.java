@@ -37,6 +37,8 @@ import org.compiere.util.Env;
 public class VImage extends JButton
 	implements VEditor, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Image Editor
 	 *  @param columnName column name

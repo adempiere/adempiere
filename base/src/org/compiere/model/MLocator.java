@@ -36,6 +36,8 @@ import org.compiere.util.DB;
  */
 public class MLocator extends X_M_Locator
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get oldest Default Locator of warehouse with locator
 	 *	@param ctx context

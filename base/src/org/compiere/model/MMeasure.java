@@ -39,6 +39,8 @@ import org.compiere.util.TimeUtil;
  */
 public class MMeasure extends X_PA_Measure
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MMeasure from Cache
 	 *	@param ctx context

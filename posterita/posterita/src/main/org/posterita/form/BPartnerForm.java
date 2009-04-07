@@ -31,6 +31,8 @@ import org.posterita.struts.core.DefaultForm;
 
 public class BPartnerForm extends DefaultForm
 {
+	private static final long serialVersionUID = 1L;
+	
 	public BPartnerForm()
 	{
 		setBean(new BPartnerBean());

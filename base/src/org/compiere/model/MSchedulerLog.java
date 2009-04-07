@@ -29,6 +29,8 @@ import java.util.Properties;
 public class MSchedulerLog extends X_AD_SchedulerLog
 	implements AdempiereProcessorLog
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

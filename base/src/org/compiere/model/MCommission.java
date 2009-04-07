@@ -33,6 +33,8 @@ import java.util.logging.Level;
  */
 public class MCommission extends X_C_Commission
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -54,6 +54,8 @@ public class RfQServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "RfQServlet";
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *

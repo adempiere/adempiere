@@ -44,6 +44,8 @@ import org.compiere.util.Language;
  */
 public class MPrintPaper extends X_AD_PrintPaper
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Paper
 	 * 	@param AD_PrintPaper_ID id
@@ -222,6 +224,8 @@ public class MPrintPaper extends X_AD_PrintPaper
 	 */
 	class CMediaSizeName extends MediaSizeName
 	{
+		private static final long serialVersionUID = 1L;
+		
 		/**
 		 * 	CMediaSizeName
 		 *	@param code

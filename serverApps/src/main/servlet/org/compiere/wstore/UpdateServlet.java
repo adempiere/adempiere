@@ -59,6 +59,8 @@ public class UpdateServlet
     /** Update Page                         */
     public static final String      UPDATE_JSP = "/update.jsp";
 
+	private static final long serialVersionUID = 1L;
+	
     /**
      *	Initialize global variables
      *

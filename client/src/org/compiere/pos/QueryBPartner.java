@@ -53,6 +53,8 @@ import org.compiere.util.Msg;
 public class QueryBPartner extends PosSubPanel
 	implements ActionListener, MouseListener, ListSelectionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 */

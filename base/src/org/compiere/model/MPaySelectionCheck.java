@@ -40,6 +40,8 @@ import org.compiere.util.Msg;
  */
 public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Check for Payment
 	 *	@param ctx context

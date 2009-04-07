@@ -35,6 +35,8 @@ public class PP_PayPal extends PaymentProcessor
 	/** PayPal Caller Service	*/
 //	private CallerServices 	m_caller; 
 
+	private static final long serialVersionUID = 1L;
+	
 	
 	/**
 	 * 	Process CC

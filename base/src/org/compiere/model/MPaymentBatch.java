@@ -27,6 +27,8 @@ import java.util.Properties;
  */
 public class MPaymentBatch extends X_C_PaymentBatch
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Payment Batch for PaySelection
 	 *	@param ctx context

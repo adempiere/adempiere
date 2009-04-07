@@ -80,6 +80,8 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Create Tab (Model) from Value Object.
 	 *  <p>

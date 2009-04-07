@@ -30,6 +30,7 @@ import org.compiere.util.DB;
  */
 public class MPackageExpDetail extends X_AD_Package_Exp_Detail
 {	
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	MPackageExpDetail

@@ -37,6 +37,8 @@ import org.compiere.util.WebUtil;
  */
 public class MRegistration extends X_A_Registration
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

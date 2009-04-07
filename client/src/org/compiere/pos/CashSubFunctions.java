@@ -58,6 +58,8 @@ import org.compiere.util.TimeUtil;
 
 public class CashSubFunctions extends PosSubPanel implements ActionListener, InputMethodListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 */

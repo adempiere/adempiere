@@ -82,6 +82,8 @@ import org.zkoss.zul.Space;
 public abstract class WCreateFrom extends Window
 	implements EventListener, WTableModelListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Factory - called from APanel
 	 *  @param  mTab        Model Tab for the trx

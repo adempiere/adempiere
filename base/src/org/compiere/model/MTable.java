@@ -47,6 +47,8 @@ import org.compiere.util.Util;
  */
 public class MTable extends X_AD_Table
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Table from Cache
 	 *	@param ctx context

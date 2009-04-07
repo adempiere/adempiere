@@ -27,6 +27,8 @@ import java.util.Properties;
  */
 public class MCStageElement extends X_CM_CStage_Element
 {
+	private static final long serialVersionUID = 1L;
+	
 	/***************************************************************************
      * Standard Constructor
      * 

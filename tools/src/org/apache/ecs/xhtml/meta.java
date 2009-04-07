@@ -31,7 +31,8 @@ import org.apache.ecs.SinglePartElement;
 public class meta extends SinglePartElement
 	implements Printable
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Private initialization routine.
 	 */

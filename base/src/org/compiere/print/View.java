@@ -37,6 +37,8 @@ import org.compiere.util.CLogger;
  */
 public class View extends CPanel
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Print Preview
 	 *  @param layout Layout

@@ -31,6 +31,8 @@ import org.adempiere.plaf.AdempierePLAF;
  */
 public class CPassword extends JPasswordField implements CEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Constructs a new <code>JPasswordField</code>,
 	 * with a default document, <code>null</code> starting

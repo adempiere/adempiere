@@ -45,6 +45,8 @@ import org.compiere.util.DB;
 public class CConnectionEditor extends JComponent
 	implements CEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Connection Editor creating new Connection
 	 */

@@ -36,6 +36,7 @@ import org.compiere.util.Env;
  */
 public class MPackageExp extends X_AD_Package_Exp
 {	
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	MPackageExp

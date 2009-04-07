@@ -54,6 +54,8 @@ import org.compiere.util.NamePair;
 public final class VButton extends CButton
 	implements VEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param columnName column

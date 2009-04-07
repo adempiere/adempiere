@@ -37,6 +37,8 @@ import org.compiere.util.DB;
 public class MAlertProcessor extends X_AD_AlertProcessor
 	implements AdempiereProcessor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Active
 	 *	@param ctx context

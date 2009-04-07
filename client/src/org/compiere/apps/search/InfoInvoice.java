@@ -52,8 +52,10 @@ import org.compiere.util.Util;
  */
 public class InfoInvoice extends Info
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 *  Detail Protected Contructor
+	 *  Detail Protected Constructor
 	 *
 	 *  @param frame parent frame
 	 *  @param modal modal

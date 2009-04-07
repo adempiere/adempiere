@@ -29,6 +29,8 @@ import org.compiere.util.CCache;
  */
 public class MHierarchy extends X_PA_Hierarchy
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MHierarchy from Cache
 	 *	@param ctx context

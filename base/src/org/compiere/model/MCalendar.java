@@ -32,6 +32,8 @@ import org.compiere.util.Msg;
  */
 public class MCalendar extends X_C_Calendar
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MCalendar from Cache
 	 *	@param ctx context

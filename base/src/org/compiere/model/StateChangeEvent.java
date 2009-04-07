@@ -23,7 +23,8 @@ import java.util.EventObject;
 public class StateChangeEvent extends EventObject {
 
 	private int eventType;
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 
 	 * @param source

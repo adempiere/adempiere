@@ -33,6 +33,8 @@ import javax.swing.text.Position;
  */
 public class VOvrCaret extends DefaultCaret
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 */

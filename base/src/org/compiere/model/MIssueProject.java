@@ -32,6 +32,8 @@ import org.compiere.util.DB;
  */
 public class MIssueProject extends X_R_IssueProject
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get/Set Project
 	 *	@param issue issue

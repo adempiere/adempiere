@@ -39,6 +39,8 @@ import java.util.Vector;
 */
 public class ElementContainer extends ConcreteElement implements Printable
 {
+	private static final long serialVersionUID = 1L;
+	
     /** 
         internal use only
         @serial ec ec

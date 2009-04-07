@@ -33,6 +33,8 @@ import org.compiere.util.Env;
  */
 public class MPaySelection extends X_C_PaySelection
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

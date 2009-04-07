@@ -48,6 +48,8 @@ import org.compiere.util.Msg;
 public class Waiting extends CDialog 
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor - non nodal as otherwise process is blocked
 	 *  @param owner

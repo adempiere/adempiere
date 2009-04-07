@@ -62,7 +62,7 @@ public class ProcessModalDialog extends Window implements EventListener
 {
 	
 	private boolean m_autoStart;
-
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Dialog to start a process/report

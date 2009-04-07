@@ -64,6 +64,8 @@ import org.compiere.util.Msg;
 public class VLocator extends JComponent
 	implements VEditor, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  IDE Constructor
 	 */

@@ -43,6 +43,8 @@ import org.compiere.util.Msg;
  */
 public class InfoAsset extends Info
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Standard Constructor
 

@@ -72,6 +72,8 @@ import org.compiere.wf.MWFNode;
 public class WFActivity extends CPanel 
 	implements FormPanel, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	WF Activity
 	 */

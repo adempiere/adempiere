@@ -33,6 +33,8 @@ import org.compiere.util.Env;
  */
 public class MAchievement extends X_PA_Achievement
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get achieved Achievements Of Measure
 	 *	@param measure Measure

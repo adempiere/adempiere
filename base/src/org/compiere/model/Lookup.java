@@ -39,6 +39,8 @@ import org.compiere.util.ValueNamePair;
 public abstract class Lookup extends AbstractListModel
 	implements MutableComboBoxModel, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Lookup
 	 * 	@param displayType display type

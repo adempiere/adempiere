@@ -47,6 +47,8 @@ import org.compiere.util.Trx;
  */
 public class MWorkflow extends X_AD_Workflow
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Workflow from Cache
 	 *	@param ctx context

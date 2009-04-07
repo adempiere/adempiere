@@ -80,7 +80,8 @@ public class XhtmlFrameSetDocument implements Serializable,Cloneable
     /** @serial codeset codeset */
 
     private String codeset = null;
-
+    
+    private static final long serialVersionUID = 1L;
     
 
     {

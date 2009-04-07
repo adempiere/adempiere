@@ -57,7 +57,8 @@ public class Click  extends HttpServlet
 	static public final String			PARA_TARGET = "target";
 	/**	Fallback Target				*/
 	static public final String			DEFAULT_TARGET = "http://www.adempiere.org/";
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *

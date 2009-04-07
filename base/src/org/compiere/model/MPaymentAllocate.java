@@ -32,6 +32,8 @@ import org.compiere.util.Msg;
  */
 public class MPaymentAllocate extends X_C_PaymentAllocate
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get active Payment Allocation of Payment
 	 *	@param parent payment

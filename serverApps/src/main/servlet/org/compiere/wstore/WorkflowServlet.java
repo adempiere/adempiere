@@ -50,6 +50,8 @@ public class WorkflowServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "WorkflowServlet";
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *

@@ -37,6 +37,8 @@ import org.compiere.swing.CFrame;
 public class PerformanceDetail extends CFrame
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor.
 	 * 	Called from PAPanel, ViewPI (Performance Indicator)

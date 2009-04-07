@@ -45,6 +45,8 @@ import javax.swing.KeyStroke;
 public class CDialog extends JDialog 
 	implements ActionListener, MouseListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	CDialog
 	 *	@throws HeadlessException
@@ -260,6 +262,8 @@ public class CDialog extends JDialog
 	 */
 	static class DialogAction extends AbstractAction
 	{
+		private static final long serialVersionUID = 1L;
+		
 		DialogAction (String actionName)
 		{
 			super(actionName);

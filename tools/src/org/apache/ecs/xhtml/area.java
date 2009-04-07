@@ -34,7 +34,8 @@ import org.apache.ecs.SinglePartElement;
 public class area extends SinglePartElement
 	implements Printable, FocusEvents, MouseEvents, KeyEvents
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	public static final String DEFAULT = "default";
 
 	public static final String rect	= "rect";

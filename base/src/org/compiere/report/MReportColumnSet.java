@@ -34,6 +34,8 @@ import org.compiere.util.DB;
  */
 public class MReportColumnSet extends X_PA_ReportColumnSet
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 * 	@param ctx context

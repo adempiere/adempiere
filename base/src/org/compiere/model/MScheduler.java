@@ -36,6 +36,8 @@ import org.compiere.util.DB;
 public class MScheduler extends X_AD_Scheduler
 	implements AdempiereProcessor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Active
 	 *	@param ctx context

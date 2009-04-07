@@ -2,6 +2,8 @@ package org.adempiere.pipo.exception;
 
 public class POSaveFailedException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+	
 	public POSaveFailedException() {
 		super();
 	}

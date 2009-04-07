@@ -34,6 +34,8 @@ import org.compiere.util.DB;
  */
 public class MCashBook extends X_C_CashBook
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MCashBook from Cache
 	 *	@param ctx context

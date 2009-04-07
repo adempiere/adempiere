@@ -43,6 +43,7 @@ import org.compiere.util.Msg;
  */
 public class AChat extends CDialog
 {
+	private static final long serialVersionUID = 1L;
 	/**
 	 *	Constructor.
 	 *	loads Chat, if ID <> 0

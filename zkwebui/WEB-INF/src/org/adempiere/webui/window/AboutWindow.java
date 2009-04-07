@@ -63,6 +63,8 @@ public class AboutWindow extends Window implements EventListener {
 	private Button btnDownload;
 	private Button btnErrorEmail;
 
+	private static final long serialVersionUID = 1L;
+	
 	public AboutWindow() {
 		super();
 		init();

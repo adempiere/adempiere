@@ -375,6 +375,8 @@ public class PLAFEditorPanel extends CPanel {
  * @author Low Heng Sin
  */
 class GlassPane extends JComponent {
+	private static final long serialVersionUID = 1L;
+	
 	GlassPane() {
 		addMouseListener(new MouseAdapter() {});
 		addKeyListener(new KeyAdapter() {});
@@ -391,6 +393,8 @@ class PreviewPanel extends CPanel {
 	private LookAndFeel laf = null;
 	private MetalTheme theme = null;
 	private BufferedImage image;
+	private static final long serialVersionUID = 1L;
+	
 	
 	@Override
 	public void paint(Graphics g) {

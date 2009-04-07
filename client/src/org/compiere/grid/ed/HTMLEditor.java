@@ -60,6 +60,7 @@ import org.compiere.util.Msg;
  */
 public class HTMLEditor extends CDialog
 {
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 	HTML Editor
 	 *	@param owner owner

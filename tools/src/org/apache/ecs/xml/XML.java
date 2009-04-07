@@ -32,7 +32,7 @@ import org.apache.ecs.StringElement;
 public class XML extends MultiPartElement
 	implements Printable
 {
-
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Default constructor use set* Methods. With this name.
 	 * 

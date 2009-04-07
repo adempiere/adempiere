@@ -42,6 +42,8 @@ import sun.swing.UIAction;
  */
 public class CTabbedPane extends JTabbedPane
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Creates an empty <code>TabbedPane</code> with a default
 	 * tab placement of <code>JTabbedPane.TOP</code> and default

@@ -41,7 +41,8 @@ import org.compiere.util.NamePair;
 public class MPAttributeLookup extends Lookup
 	implements Serializable
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 * 	@param ctx context

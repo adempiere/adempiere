@@ -73,6 +73,8 @@ import org.compiere.util.Util;
  */
 public class MWFActivity extends X_AD_WF_Activity implements Runnable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Activities for table/record 
 	 *	@param ctx context

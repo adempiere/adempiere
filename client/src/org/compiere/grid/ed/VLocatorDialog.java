@@ -60,6 +60,9 @@ import org.compiere.util.Msg;
 public class VLocatorDialog extends CDialog
 	implements ActionListener, KeyListener
 {
+	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param frame frame

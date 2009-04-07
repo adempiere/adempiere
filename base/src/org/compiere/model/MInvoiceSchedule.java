@@ -33,6 +33,8 @@ import org.compiere.util.TimeUtil;
  */
 public class MInvoiceSchedule extends X_C_InvoiceSchedule
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MInvoiceSchedule from Cache
 	 *	@param ctx context

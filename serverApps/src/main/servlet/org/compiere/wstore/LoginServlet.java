@@ -50,7 +50,9 @@ public class LoginServlet extends HttpServlet
 	private CLogger				log = CLogger.getCLogger(getClass());
 	/** Name						*/
 	static public final String	NAME = "loginServlet";
-
+	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *

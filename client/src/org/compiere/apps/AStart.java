@@ -33,6 +33,7 @@ import javax.swing.UIManager;
 public final class AStart extends JApplet
 {
 	boolean isStandalone = false;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 *  Get a parameter value

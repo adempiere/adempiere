@@ -32,6 +32,8 @@ import org.compiere.util.DB;
  */
 public class MMailText extends X_R_MailText
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

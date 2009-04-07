@@ -52,6 +52,8 @@ import org.zkoss.zul.Hbox;
  */
 public class WPAttributeInstance extends Window implements EventListener 
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 * 	@param title title

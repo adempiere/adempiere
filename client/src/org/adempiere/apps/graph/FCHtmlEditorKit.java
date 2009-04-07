@@ -13,6 +13,9 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.ImageView;
 
 public class FCHtmlEditorKit extends HTMLEditorKit {
+	
+	private static final long serialVersionUID = 1L;
+	
 	public ViewFactory getViewFactory() {
 		if (defaultFactory == null) {
 			defaultFactory = new FCHtmlFactory(super.getViewFactory());

@@ -49,6 +49,8 @@ import org.compiere.util.WebUtil;
  */
 public class PaymentServlet  extends HttpServlet
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(PaymentServlet.class);
 

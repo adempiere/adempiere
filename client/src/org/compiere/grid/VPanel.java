@@ -86,7 +86,7 @@ import org.jdesktop.swingx.border.DropShadowBorder;
  */
 public final class VPanel extends CTabbedPane
 {
-	
+	private static final long serialVersionUID = 1L;
 	private int m_WindowNo;
 
 	public VPanel(String Name) 

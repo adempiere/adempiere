@@ -56,6 +56,8 @@ import org.compiere.util.Util;
  */
 public final class NaturalAccountMap<K,V> extends CCache<K,V>
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor.
 	 *  Parse File does the processing

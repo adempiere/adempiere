@@ -35,6 +35,8 @@ import com.Verisign.payment.PFProAPI;
 public final class PP_PayFlowPro extends PaymentProcessor
 	implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  PayFowPro Constructor
 	 */

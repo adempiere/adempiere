@@ -41,6 +41,8 @@ import org.compiere.util.Util;
  */
 public class MRule extends X_AD_Rule
 {
+	private static final long serialVersionUID = 1L;
+	
 	//global or login context variable prefix
 	public final static String GLOBAL_CONTEXT_PREFIX = "G_";
 	//window context variable prefix

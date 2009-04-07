@@ -90,6 +90,8 @@ import org.zkoss.zul.Space;
 public class WPaySelect extends ADForm
 	implements EventListener, WTableModelListener, ASyncProcess
 {
+	private static final long serialVersionUID = 1L;
+	
 	/** @todo withholding */
 	
 	/**

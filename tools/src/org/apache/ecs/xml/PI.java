@@ -22,6 +22,8 @@ import org.apache.ecs.Printable;
 
 public class PI extends ConcreteElement implements Printable
 {
+	private static final long serialVersionUID = 1L;
+	
     // Private initializer
     {
         setBeginStartModifier('?');

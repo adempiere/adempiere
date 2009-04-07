@@ -30,8 +30,10 @@ import java.util.Properties;
  */
 public class MResourceAssignment extends X_S_ResourceAssignment
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 * 	Stnadard Constructor
+	 * 	Standard Constructor
 	 *	@param ctx
 	 *	@param S_ResourceAssignment_ID
 	 */

@@ -48,6 +48,8 @@ import org.compiere.util.Env;
 public class VColor extends CButton
 	implements VEditor, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 *  @param mTab	Tab

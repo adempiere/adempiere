@@ -1311,6 +1311,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
     
     private static class ScrollTabsForwardAction extends AbstractAction {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public void actionPerformed(ActionEvent e) {
             JTabbedPane pane = null;
             Object src = e.getSource();
@@ -1332,6 +1334,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private static class ScrollTabsBackwardAction extends AbstractAction {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public void actionPerformed(ActionEvent e) {
             JTabbedPane pane = null;
             Object src = e.getSource();
@@ -1901,6 +1905,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private class ScrollableTabViewport extends JViewport implements UIResource {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public ScrollableTabViewport() {
             super();
             setName("TabbedPane.scrollableViewport");
@@ -1916,6 +1922,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private class ScrollableTabPanel extends JPanel implements UIResource {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public ScrollableTabPanel() {
             super(null);
             setOpaque(tabPane.isOpaque());
@@ -1939,7 +1947,8 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
         private final int buttonWidth;
         private final int direction;
         private boolean mouseIsOver;
-
+        private static final long serialVersionUID = 1L;
+        
         ArrowButton(int direction, int buttonWidth) {
             this.direction = direction;
             this.buttonWidth = buttonWidth;

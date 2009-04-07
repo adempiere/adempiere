@@ -46,7 +46,6 @@ import org.jdesktop.swingx.autocomplete.TextComponentAdaptor;
  * Adds Ctrl+Tab invoked action to run through all potential auto completion values.
  */
 public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
-    
     /**
      * Enables automatic completion for the given JTextComponent based on the
      * items contained in the given <tt>List</tt>.
@@ -120,6 +119,8 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
     }
     
     static class NonStrictBackspaceAction extends TextAction {
+    	private static final long serialVersionUID = 1L;
+    	
         Action backspace;
         Action selectionBackward;
         AbstractAutoCompleteAdaptor adaptor;
@@ -141,6 +142,8 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
     }
     
     static class NextMatchAction extends TextAction {
+    	private static final long serialVersionUID = 1L;
+    	
     	JTextComponent textComponent;
     	AutoCompleteDocument document;
     	final AbstractAutoCompleteAdaptor adaptor;
@@ -200,7 +203,13 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
      * the action. The error feedback is most likely a "beep".
      */
     static Object errorFeedbackAction = new TextAction("provide-error-feedback") {
-        public void actionPerformed(ActionEvent e) {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public void actionPerformed(ActionEvent e) {
             UIManager.getLookAndFeel().provideErrorFeedback(getTextComponent(e));
         }
     };

@@ -35,6 +35,8 @@ import org.compiere.util.DB;
  */
 public class MProjectType extends X_C_ProjectType
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MProjectType from Cache
 	 *	@param ctx context

@@ -30,6 +30,8 @@ import org.compiere.util.DB;
  */
 public class MAttributeUse extends X_M_AttributeUse
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

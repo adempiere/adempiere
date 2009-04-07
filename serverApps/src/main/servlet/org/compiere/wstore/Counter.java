@@ -52,6 +52,8 @@ public class Counter extends HttpServlet implements Runnable
 	/**	Requests					*/
 	private List<HttpServletRequest>	m_requests = Collections.synchronizedList(new ArrayList<HttpServletRequest>());
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Initialize global variables
 	 *

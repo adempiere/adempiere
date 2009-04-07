@@ -49,6 +49,8 @@ public class RequestOrderRefTag extends TagSupport
 	
 	/** Business Partner Parameter		*/
 	private String m_bpartnerID_el	= null;
+
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	Set B.Partner parameter

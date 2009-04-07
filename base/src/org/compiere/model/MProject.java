@@ -35,6 +35,8 @@ import org.compiere.util.Env;
  */
 public class MProject extends X_C_Project
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Create new Project by copying
 	 * 	@param ctx context

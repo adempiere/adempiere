@@ -25,6 +25,8 @@ package org.posterita.exceptions;
  */
 public class InvalidTerminalCashBookException extends OperationException
 {
+	private static final long serialVersionUID = 1L;
+	
     public InvalidTerminalCashBookException(String msg)
     {
         super(msg);

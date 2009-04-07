@@ -28,6 +28,7 @@ public class DatetimeBox extends Panel {
 
 	private Datebox dateBox;
 	private Timebox timeBox;
+	private static final long serialVersionUID = 1L;
 	
 	public DatetimeBox() {
 		dateBox = new Datebox();

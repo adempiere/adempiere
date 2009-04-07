@@ -34,6 +34,8 @@ import org.apache.ecs.PageEvents;
 public class textarea extends MultiPartElement
 	implements PageEvents, FormEvents, MouseEvents, KeyEvents
 {
+	private static final long serialVersionUID = 1L;
+	
 
 	public final static String	off			= "off";
 

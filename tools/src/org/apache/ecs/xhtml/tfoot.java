@@ -43,7 +43,8 @@ import org.apache.ecs.Printable;
 public class tfoot extends MultiPartElement implements Printable, MouseEvents, KeyEvents
 
 {
-
+	private static final long serialVersionUID = 1L;
+	
     /**
 
         private initializer.

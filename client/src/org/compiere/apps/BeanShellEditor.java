@@ -61,7 +61,8 @@ import bsh.ParseException;
 public class BeanShellEditor extends CDialog implements ActionListener
 {
 	private Frame m_owner;
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Minimum Constructor
 	 */

@@ -40,6 +40,8 @@ import org.compiere.util.Env;
  */
 public class VSchedule extends CPanel
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param is InfoSchedule for call back

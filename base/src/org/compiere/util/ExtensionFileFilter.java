@@ -31,6 +31,8 @@ import javax.swing.filechooser.FileFilter;
 public class ExtensionFileFilter extends FileFilter
 	implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 */

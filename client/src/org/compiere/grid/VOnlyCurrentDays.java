@@ -42,11 +42,13 @@ import org.compiere.util.Msg;
  * 	@version 	$Id: VOnlyCurrentDays.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *  
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
- *  			<li>BF [ 1824621 ] History button can't be canceled
+ *  			<li>BF [ 1824621 ] History button can't be cancelled
  */
 public class VOnlyCurrentDays extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param parent parent frame

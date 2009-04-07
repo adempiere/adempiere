@@ -25,6 +25,8 @@ package org.posterita.exceptions;
  */
 public class TerminalLockedException extends OperationException
 {
+	private static final long serialVersionUID = 1L;
+	
     public TerminalLockedException(String message)
     {
         super(message);

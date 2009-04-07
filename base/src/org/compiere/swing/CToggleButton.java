@@ -34,6 +34,8 @@ import org.compiere.plaf.CompiereLookAndFeel;
  */
 public class CToggleButton extends JToggleButton implements CEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Creates an initially unselected toggle button
 	 * without setting the text or image.

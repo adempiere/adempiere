@@ -66,6 +66,8 @@ import org.compiere.util.Msg;
 public class VBOMDrop extends CPanel 
 	implements FormPanel, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window

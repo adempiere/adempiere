@@ -64,6 +64,8 @@ import org.compiere.util.Env;
 public class VDate extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  IDE Bean Constructor
 	 */

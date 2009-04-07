@@ -43,6 +43,8 @@ import org.compiere.util.ValueNamePair;
  */
 public final class FindValueEditor extends AbstractCellEditor implements TableCellEditor
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor
 	 *  @param find find

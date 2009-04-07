@@ -45,6 +45,8 @@ import org.compiere.swing.CPanel;
  */
 public class Setup_Help extends JDialog implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Constructor
 	 * 	@param parent parent frame

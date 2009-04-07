@@ -64,6 +64,8 @@ public class WReport extends HttpServlet
 	/**	The Option List					*/
 	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Initialize global variables
 	 */

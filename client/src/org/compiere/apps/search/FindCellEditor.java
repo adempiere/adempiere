@@ -49,6 +49,8 @@ import org.compiere.util.CLogger;
 public final class FindCellEditor extends AbstractCellEditor
 	implements TableCellEditor, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor for Grid
 	 *  @param mField

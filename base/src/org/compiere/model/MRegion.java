@@ -42,6 +42,8 @@ import org.compiere.util.Env;
 public final class MRegion extends X_C_Region
 	implements Comparator, Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Load Regions (cached)
 	 *	@param ctx context

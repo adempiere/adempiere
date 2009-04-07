@@ -28,6 +28,8 @@ import org.compiere.util.Msg;
  */
 public class MCostType extends X_M_CostType
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

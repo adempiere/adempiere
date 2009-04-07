@@ -72,6 +72,8 @@ import org.zkoss.zul.Listheader;
  */
 public class WRecordInfo extends Window implements EventListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Record Info
 	 *	@param title title

@@ -52,6 +52,8 @@ import org.compiere.util.Msg;
 public class VImageDialog extends CDialog
 	implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 *  @param owner

@@ -72,6 +72,8 @@ public class VMerge extends CPanel
 	static private String	AD_USER_ID = "AD_User_ID";
 	static private String	M_PRODUCT_ID = "M_Product_ID";
 
+	private static final long serialVersionUID = 1L;
+	
 	/** Tables to delete (not update) for AD_Org	*/
 	static private String[]	s_delete_Org = new String[]
 		{"AD_OrgInfo", "AD_Role_OrgAccess"};

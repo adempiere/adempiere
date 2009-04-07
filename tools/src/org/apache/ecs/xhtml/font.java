@@ -43,7 +43,7 @@ public class font extends MultiPartElement implements Printable
 
 {
 
-
+	private static final long serialVersionUID = 1L;
 
     /**
 

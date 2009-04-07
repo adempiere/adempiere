@@ -31,6 +31,8 @@ import org.compiere.util.Env;
  */
 public class MShipper extends X_M_Shipper
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -225,7 +225,10 @@ public class CompiereUtils
 	/*************************************************************************/
 
 	/** Component for media tracker         */
-	protected final static Component    s_component = new Component() {};
+	protected final static Component    s_component = new Component() {
+
+	private static final long serialVersionUID = 1L;};
+	
 	/** Media tracker                       */
 	protected final static MediaTracker s_tracker = new MediaTracker(s_component);
 

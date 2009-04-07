@@ -58,7 +58,9 @@ public class CheckoutForm extends DefaultForm
     private String[] qtyPerLine;
     private String m_productId;
     private String grandTotal;
-   
+    
+    private static final long serialVersionUID = 1L;
+    
     public CheckoutForm()
     {
         setBean(new CheckoutBean());

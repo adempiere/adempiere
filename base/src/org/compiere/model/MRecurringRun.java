@@ -27,7 +27,8 @@ import java.util.Properties;
  */
 public class MRecurringRun extends X_C_Recurring_Run
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	public MRecurringRun (Properties ctx, int C_Recurring_Run_ID, String trxName)
 	{
 		super (ctx, C_Recurring_Run_ID, trxName);

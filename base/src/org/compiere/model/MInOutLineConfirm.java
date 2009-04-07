@@ -31,6 +31,8 @@ import org.compiere.util.Msg;
  */
 public class MInOutLineConfirm extends X_M_InOutLineConfirm
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

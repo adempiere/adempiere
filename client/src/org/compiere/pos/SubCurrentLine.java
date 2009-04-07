@@ -49,6 +49,9 @@ import org.compiere.util.Msg;
  * red1 - [2093355 ] Small bugs in OpenXpertya POS
  */
 public class SubCurrentLine extends PosSubPanel implements ActionListener {
+	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Constructor
 	 * 

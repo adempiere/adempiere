@@ -36,6 +36,8 @@ import org.compiere.util.Env;
  */
 public class MAttribute extends X_M_Attribute
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Attributes Of Client
 	 *	@param ctx Properties

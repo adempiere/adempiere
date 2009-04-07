@@ -47,6 +47,8 @@ public class CheckOutLinkTag extends TagSupport
 	/** One Line						*/
 	private boolean			m_oneLine = false;
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Set to one line
 	 *	@param var Y or something else

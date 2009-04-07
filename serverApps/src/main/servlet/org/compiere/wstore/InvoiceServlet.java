@@ -54,6 +54,8 @@ public class InvoiceServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "invoiceServlet";
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Initialize global variables
 	 *

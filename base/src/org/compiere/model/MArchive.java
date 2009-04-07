@@ -62,6 +62,9 @@ import org.xml.sax.SAXException;
  * @version $Id: MArchive.java,v 1.3 2006/07/30 00:58:36 jjanke Exp $
  */
 public class MArchive extends X_AD_Archive {
+	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Get Archives
 	 * 

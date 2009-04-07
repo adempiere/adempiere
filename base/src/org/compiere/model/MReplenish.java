@@ -43,6 +43,8 @@ import org.compiere.util.Env;
  */
 public class MReplenish extends X_M_Replenish {
 
+	private static final long serialVersionUID = 1L;
+	
     /**
      * Standard constructor
      * 

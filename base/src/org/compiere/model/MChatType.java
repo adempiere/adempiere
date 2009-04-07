@@ -29,6 +29,8 @@ import org.compiere.util.CCache;
  */
 public class MChatType extends X_CM_ChatType
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get MChatType from Cache
 	 *	@param ctx context

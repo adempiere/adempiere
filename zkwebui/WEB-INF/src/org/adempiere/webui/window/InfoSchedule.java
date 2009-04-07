@@ -73,6 +73,8 @@ import org.zkoss.zul.Vbox;
  */
 public class InfoSchedule extends Window implements EventListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *  Constructor
 	 *  @param mAssignment optional assignment

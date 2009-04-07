@@ -81,6 +81,9 @@ public class VTrxMaterial extends CPanel
 	private MQuery          m_staticQuery = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VTrxMaterial.class);
+	
+	private static final long serialVersionUID = 1L;
+	
 	//
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();

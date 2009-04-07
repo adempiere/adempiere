@@ -25,6 +25,8 @@ package org.posterita.exceptions;
  */
 public class NoCashJournalPresentException extends OperationException
 {
+	private static final long serialVersionUID = 1L;
+	
     public NoCashJournalPresentException(String msg)
     {
         super(msg);

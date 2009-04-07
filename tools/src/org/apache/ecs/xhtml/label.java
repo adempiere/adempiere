@@ -34,7 +34,8 @@ import org.apache.ecs.Printable;
 public class label extends MultiPartElement
 	implements Printable, PageEvents, MouseEvents, KeyEvents
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * private initializer.
 	 */

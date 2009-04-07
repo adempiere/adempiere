@@ -35,6 +35,8 @@ import org.compiere.util.Env;
  */
 public class MDistributionRunDetail extends X_T_DistributionRunDetail
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Get Distribution Dun details
 	 *	@param ctx context

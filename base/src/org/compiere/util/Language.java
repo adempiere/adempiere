@@ -36,6 +36,8 @@ import javax.print.attribute.standard.MediaSize;
  */
 public class Language implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 
 	 */

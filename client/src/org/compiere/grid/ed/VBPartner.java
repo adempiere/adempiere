@@ -58,6 +58,8 @@ import org.compiere.util.Msg;
  */
 public final class VBPartner extends CDialog implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 *	Constructor.
 	 *	Requires call loadBPartner

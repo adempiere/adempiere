@@ -32,6 +32,8 @@ import org.compiere.model.X_AD_WorkflowProcessorLog;
 public class MWorkflowProcessorLog extends X_AD_WorkflowProcessorLog
 	implements AdempiereProcessorLog
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

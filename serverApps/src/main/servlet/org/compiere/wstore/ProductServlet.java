@@ -43,6 +43,8 @@ public class ProductServlet  extends HttpServlet
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Initialize global variables
 	 *  @param config servlet configuration

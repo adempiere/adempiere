@@ -33,7 +33,8 @@ import org.apache.ecs.Printable;
 public class i extends MultiPartElement
 	implements Printable, MouseEvents, KeyEvents
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Private initialization routine.
 	 */

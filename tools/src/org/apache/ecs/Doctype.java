@@ -103,6 +103,8 @@ public class Doctype extends SinglePartElement implements Printable
     public static final String elementName = "!DOCTYPE";
     public static final String PUBLIC = "PUBLIC";
     
+    private static final long serialVersionUID = 1L;
+    
     protected String name;
     protected String visibility;
     protected String identifier;
@@ -291,6 +293,8 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class Html40Strict extends Doctype {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public Html40Strict() {
             this.name = "HTML";
             this.visibility = PUBLIC;
@@ -309,7 +313,8 @@ public class Doctype extends SinglePartElement implements Printable
      * http://www.w3.org/TR/REC-html40/sgml/loosedtd.html</a>
      */
     public static class Html40Transitional extends Doctype {
-
+    	private static final long serialVersionUID = 1L;
+    	
         public Html40Transitional() {
             this.name = "HTML";
             this.visibility = PUBLIC;
@@ -328,6 +333,8 @@ public class Doctype extends SinglePartElement implements Printable
      */ 
     public static class Html40Frameset extends Doctype {
 
+    	private static final long serialVersionUID = 1L;
+    	
         public Html40Frameset() {
             this.name = "HTML";
             this.visibility = PUBLIC;
@@ -346,7 +353,7 @@ public class Doctype extends SinglePartElement implements Printable
      * http://www.w3.org/TR/xhtml1</a>
      */
     public static class XHtml10Strict extends Doctype {
-
+    	private static final long serialVersionUID = 1L;
         public XHtml10Strict() {
             this.name = "html";
             this.visibility = PUBLIC;
@@ -365,7 +372,8 @@ public class Doctype extends SinglePartElement implements Printable
      * http://www.w3.org/TR/xhtml1</a>
      */
     public static class XHtml10Transitional extends Doctype {
-
+    	private static final long serialVersionUID = 1L;
+    	
         public XHtml10Transitional() {
             this.name = "html";
             this.visibility = PUBLIC;
@@ -385,7 +393,7 @@ public class Doctype extends SinglePartElement implements Printable
      * http://www.w3.org/TR/xhtml1</a>
      */
     public static class XHtml10Frameset extends Doctype {
-
+    	private static final long serialVersionUID = 1L;
         public XHtml10Frameset() {
             this.name = "html";
             this.visibility = PUBLIC;

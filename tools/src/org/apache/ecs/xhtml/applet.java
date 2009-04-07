@@ -31,7 +31,8 @@ import org.apache.ecs.Printable;
 public class applet extends MultiPartElement
 	implements Printable
 {
-
+	private static final long serialVersionUID = 1L;
+	
 	/**
      * Private initializer.
      */

@@ -37,6 +37,8 @@ import org.compiere.util.ValueNamePair;
  */
 public class MClickCount extends X_W_ClickCount
 {
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
