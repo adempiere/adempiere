@@ -19,6 +19,8 @@ package org.compiere.util;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import org.compiere.db.CConnectionDialog;
+
 /**
  *  Trace Information
  *
@@ -27,6 +29,9 @@ import java.util.logging.Logger;
  */
 public class Trace
 {
+	/**	Logger	*/
+	private static CLogger	log	= CLogger.getCLogger (CConnectionDialog.class);
+	
 	/**
 	 * Get Caller Array
 	 *
@@ -110,7 +115,7 @@ public class Trace
 				|| (adempiereOnly && elements[i].getClassName().startsWith("org.compiere"))
 				)
 			{
-				Logger.global.fine(i + ": " + elements[i]);
+				log.fine(i + ": " + elements[i]);
 				if (first9only && ++counter > 8)
 					break;
 			}
