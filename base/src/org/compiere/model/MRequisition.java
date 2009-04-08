@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
@@ -40,6 +41,8 @@ import org.compiere.util.Msg;
  *  @version $Id: MRequisition.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  @author red1
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>FR [ 2744682 ] Requisition: improve error reporting
  */
 public class MRequisition extends X_M_Requisition implements DocAction
 {
@@ -249,16 +252,18 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		//	Invalid
 		if (getAD_User_ID() == 0 
 			|| getM_PriceList_ID() == 0
-			|| getM_Warehouse_ID() == 0
-			|| lines.length == 0)
-			return DocAction.STATUS_Invalid;
-		
-		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_PurchaseRequisition, getAD_Org_ID()))
+			|| getM_Warehouse_ID() == 0)
 		{
-			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
+		
+		if(lines.length == 0)
+		{
+			throw new AdempiereException("@NoLines@");
+		}
+		
+		//	Std Period open?
+		MPeriod.testPeriodOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_PurchaseRequisition, getAD_Org_ID());
 		
 		//	Add up Amounts
 		int precision = MPriceList.getStandardPrecision(getCtx(), getM_PriceList_ID());
