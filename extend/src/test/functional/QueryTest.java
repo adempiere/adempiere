@@ -1,8 +1,19 @@
-/**
- * 
- */
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2008 SC ARHIPAC SERVICE SRL. All Rights Reserved.            *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package test.functional;
 
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,7 +28,7 @@ import test.AdempiereTestCase;
 
 /**
  * Test {@link org.compiere.model.Query} class
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, www.arhipac.ro
  */
 public class QueryTest extends AdempiereTestCase
 {	
@@ -211,6 +222,16 @@ public class QueryTest extends AdempiereTestCase
 		assertEquals("MAX not match",
 				DB.getSQLValueBDEx(getTrxName(), "SELECT MAX(LineNetAmt) "+sqlFrom),
 				query.aggregate("LineNetAmt", Query.AGGREGATE_MAX));
+		//
+		// Test aggregate (String) - FR [ 2726447 ]
+		assertEquals("MAX not match (String)",
+				DB.getSQLValueStringEx(getTrxName(), "SELECT MAX(Description) "+sqlFrom),
+				(String)query.aggregate("Description", Query.AGGREGATE_MAX, String.class));
+		//
+		// Test aggregate (Timestamp) - FR [ 2726447 ]
+		assertEquals("MAX not match (Timestamp)",
+				DB.getSQLValueTSEx(getTrxName(), "SELECT MAX(Updated) "+sqlFrom),
+				(Timestamp)query.aggregate("Updated", Query.AGGREGATE_MAX, Timestamp.class));
 		//
 		// Test Exception : No Aggregate Function defined
 		assertExceptionThrown("No Aggregate Function defined", DBException.class, new Runnable(){

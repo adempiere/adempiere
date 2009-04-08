@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -48,6 +49,7 @@ import org.compiere.util.Util;
  * 			<li>FR [ 2107109 ] Add method Query.setOnlyActiveRecords
  * 			<li>FR [ 2421313 ] Introduce Query.firstOnly convenient method
  * 			<li>FR [ 2546052 ] Introduce Query aggregate methods
+ * 			<li>FR [ 2726447 ] Query aggregate methods for all return types
  * @author Redhuan D. Oon
  * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
  *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
@@ -308,8 +310,24 @@ public class Query
 	 * @param sqlExpression
 	 * @param sqlFunction 
 	 * @return aggregated value
+	 * @throws DBException
 	 */
 	public BigDecimal aggregate(String sqlExpression, String sqlFunction) throws DBException
+	{
+		return aggregate(sqlExpression, sqlFunction, BigDecimal.class);
+	}
+
+	/**
+	 * Aggregate given expression on this criteria
+	 * @param <T>
+	 * @param sqlExpression
+	 * @param sqlFunction
+	 * @param returnType
+	 * @return aggregated value
+	 * @throws DBException
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T aggregate(String sqlExpression, String sqlFunction, Class<T> returnType) throws DBException
 	{
 		if (Util.isEmpty(sqlFunction, true))
 		{
@@ -331,7 +349,9 @@ public class Query
 					.append(sqlExpression).append(")")
 					.append(" FROM ").append(table.getTableName());
 		
-		BigDecimal value = null;
+		T value = null;
+		T defaultValue = null;
+		
 		String sql = buildSQL(sqlSelect, false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -341,7 +361,34 @@ public class Query
 			rs = createResultSet(pstmt);
 			if (rs.next())
 			{
-				value = rs.getBigDecimal(1);
+				if (returnType.isAssignableFrom(BigDecimal.class))
+				{
+					value = (T)rs.getBigDecimal(1);
+					defaultValue = (T)Env.ZERO;
+				}
+				else if (returnType.isAssignableFrom(Double.class))
+				{
+					value = (T)Double.valueOf(rs.getDouble(1));
+					defaultValue = (T)Double.valueOf(0.00);
+				}
+				else if (returnType.isAssignableFrom(Integer.class))
+				{
+					value = (T)Integer.valueOf(rs.getInt(1));
+					defaultValue = (T)Integer.valueOf(0);
+				}
+				else if (returnType.isAssignableFrom(Timestamp.class))
+				{
+					value = (T)rs.getTimestamp(1);
+				}
+				else if (returnType.isAssignableFrom(Boolean.class))
+				{
+					value = (T) Boolean.valueOf("Y".equals(rs.getString(1)));
+					defaultValue = (T) Boolean.FALSE;
+				}
+				else
+				{
+					value = (T)rs.getObject(1);
+				}
 			}
 			if (rs.next())
 			{
@@ -360,7 +407,7 @@ public class Query
 		//
 		if (value == null)
 		{
-			value = Env.ZERO;
+			value = defaultValue;
 		}
 		return value;
 	}
