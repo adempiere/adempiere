@@ -370,7 +370,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				if (tabIndex == 0) {
 					curTabpanel = sortTab;
 					curTabpanel.createUI();
-					curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+					curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());
 					curTabpanel.activate(true);
 				}
 				gTab.addDataStatusListener(this);
@@ -401,7 +401,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			    if (tabIndex == 0) {
 			    	fTabPanel.createUI();                
 			    	curTabpanel = fTabPanel;
-			    	curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);
+			    	curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());
 			        curTabpanel.activate(true);
 			    }
 		    }
@@ -1147,7 +1147,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        {
 	            m_onlyCurrentRows = false;          //  search history too
 	            curTab.setQuery(query);
-	            curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
+	            curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());   //  autoSize
 	        }
 	        
 	        curTab.dataRefresh(); // Elaine 2008/07/25
