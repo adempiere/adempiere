@@ -175,7 +175,9 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
             String value = cmbSearch.getValue();
             Object node = treeNodeItemMap.get(value);
             Treeitem treeItem = null;
-            if (node instanceof Treeitem) {
+            if (node == null) {
+            	return;
+            } else if (node instanceof Treeitem) {
 	            treeItem = (Treeitem) node;
             } else {
             	SimpleTreeNode sNode = (SimpleTreeNode) node;            	
