@@ -35,8 +35,6 @@ import org.compiere.util.Env;
  */
 public class MCostQueue extends X_M_CostQueue
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get/Create Cost Queue Record.
 	 * 	CostingLevel is not validated

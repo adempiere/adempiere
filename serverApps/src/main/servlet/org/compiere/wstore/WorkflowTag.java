@@ -39,15 +39,13 @@ import org.compiere.wf.MWFActivity;
  *	<pre>
  *	<cws:workflow activityID="${act.AD_WF_Activity_ID}" />
  *	</pre>
- *	Depending on activity creates response items
+ *	Depending on activity creates respose items
  *	
  *  @author Jorg Janke
  *  @version $Id: WorkflowTag.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
  */
 public class WorkflowTag extends TagSupport
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 

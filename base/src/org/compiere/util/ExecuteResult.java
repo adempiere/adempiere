@@ -10,7 +10,6 @@ public class ExecuteResult implements Serializable {
 	private ArrayList<ResultSet> m_resultSets = new ArrayList<ResultSet>();
 	private int resultSetPointer = 0;
 	private boolean firstResult = false;
-	private static final long serialVersionUID = 1L;
 	
 	public int getUpdateCount() {
 		if (resultSetPointer >= m_resultSets.size()) {

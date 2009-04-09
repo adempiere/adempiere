@@ -37,8 +37,6 @@ import org.compiere.util.Env;
  */
 public class MPaymentProcessor extends X_C_PaymentProcessor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get BankAccount & PaymentProcessor
 	 * 	@param ctx context

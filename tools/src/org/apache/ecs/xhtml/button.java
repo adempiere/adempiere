@@ -34,8 +34,7 @@ import org.apache.ecs.Printable;
 public class button extends MultiPartElement
 	implements Printable, FocusEvents, MouseEvents, KeyEvents
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	// convience variables
 	public final static String	TYPE_RESET	= "reset";
 

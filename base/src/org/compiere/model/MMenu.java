@@ -36,8 +36,7 @@ import org.compiere.util.DB;
  */
 public class MMenu extends X_AD_Menu
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Get menues with where clause
 	 * @param ctx context

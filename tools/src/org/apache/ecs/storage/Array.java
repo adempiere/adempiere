@@ -26,8 +26,7 @@ public class Array implements java.util.Enumeration, Serializable
     private int place = 0;
     private Object[] elements = null;
     private Object[] tmpElements = null;
-    private static final long serialVersionUID = 1L;
-    
+
     public Array()
     {
         init();

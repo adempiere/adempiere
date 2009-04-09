@@ -27,8 +27,6 @@ import java.util.Properties;
  */
 public class MGoalRestriction extends X_PA_GoalRestriction
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -35,8 +35,7 @@ import org.apache.ecs.Printable;
 public class body extends MultiPartElement
 	implements Printable, PageEvents, MouseEvents, KeyEvents
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Private initialization routine.
 	 */

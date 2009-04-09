@@ -64,8 +64,6 @@ import org.compiere.util.ValueNamePair;
 public class VPayPrint extends CPanel
 	implements FormPanel, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window

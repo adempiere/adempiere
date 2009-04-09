@@ -30,8 +30,6 @@ import org.compiere.swing.CField;
  */
 public class CompiereComboPopup extends BasicComboPopup
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param combo

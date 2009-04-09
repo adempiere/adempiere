@@ -46,8 +46,6 @@ public class small extends MultiPartElement implements Printable, MouseEvents, K
 
 {
 
-	private static final long serialVersionUID = 1L;
-	
     /**
 
         Private initialization routine.

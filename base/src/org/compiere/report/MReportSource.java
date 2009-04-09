@@ -30,8 +30,6 @@ import org.compiere.model.X_PA_ReportSource;
  */
 public class MReportSource extends X_PA_ReportSource
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 * 	@param ctx context

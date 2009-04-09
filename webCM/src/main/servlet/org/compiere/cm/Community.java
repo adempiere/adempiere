@@ -42,8 +42,6 @@ public class Community extends HttpServletCM
 	/**	Logging				  				*/
 	private CLogger				log = CLogger.getCLogger(getClass());
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Process Get Request
 	 *	@param request

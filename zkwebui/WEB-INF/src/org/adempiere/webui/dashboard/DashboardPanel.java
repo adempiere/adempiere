@@ -23,8 +23,6 @@ import org.adempiere.webui.util.ServerPushTemplate;
  */
 public abstract class DashboardPanel extends Window implements IDashboardPanel {
 
-	private static final long serialVersionUID = 1L;
-	
 	public DashboardPanel()
 	{
 		super();

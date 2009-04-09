@@ -59,8 +59,6 @@ import org.compiere.util.Trace;
 public class FormFrame extends CFrame 
 	implements ActionListener 
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Create Form.
 	 *  Need to call openForm

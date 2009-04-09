@@ -30,8 +30,6 @@ import java.util.EventObject;
  */
 public final class DataStatusEvent extends EventObject implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *  @param source1 source

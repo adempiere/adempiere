@@ -33,7 +33,6 @@ import org.compiere.util.ValueNamePair;
  */
 public class XLookup extends Lookup
 {
-	private static final long serialVersionUID = 1L;
 	/**
 	 *	Manual Lookup
 	 * 	@param keyColumn key Column

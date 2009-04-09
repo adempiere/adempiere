@@ -39,8 +39,6 @@ public class RemoteSetupVO implements Serializable
 	public String			Prefix = null;
 	public String			Suffix = null;
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	String Representation
 	 * 	@return info

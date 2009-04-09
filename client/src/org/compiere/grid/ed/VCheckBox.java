@@ -36,8 +36,6 @@ import org.compiere.util.Msg;
 public class VCheckBox extends CCheckBox
 	implements VEditor, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Default Constructor
 	 */

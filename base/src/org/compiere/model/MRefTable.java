@@ -22,8 +22,6 @@ import java.util.Properties;
 
 public class MRefTable extends X_AD_Ref_Table
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

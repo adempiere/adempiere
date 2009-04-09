@@ -80,8 +80,6 @@ import org.zkoss.zul.Space;
 public class WMatch extends ADForm
 	implements EventListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize Panel
 	 */

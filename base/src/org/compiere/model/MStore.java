@@ -41,8 +41,6 @@ import org.compiere.util.Msg;
  */
 public class MStore extends X_W_Store
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get WStore from Cache
 	 *	@param ctx context

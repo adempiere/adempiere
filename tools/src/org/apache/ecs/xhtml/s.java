@@ -46,8 +46,6 @@ public class s extends MultiPartElement implements Printable, MouseEvents, KeyEv
 
 {
 
-	private static final long serialVersionUID = 1L;
-	
     /**
 
         Private initialization routine.

@@ -34,8 +34,6 @@ import org.compiere.util.Env;
  */
 public class MElementValue extends X_C_ElementValue
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

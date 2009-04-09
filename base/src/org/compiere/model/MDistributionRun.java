@@ -32,8 +32,7 @@ import org.compiere.util.DB;
  */
 public class MDistributionRun extends X_M_DistributionRun
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

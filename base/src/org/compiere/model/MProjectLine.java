@@ -32,8 +32,6 @@ import org.compiere.util.Env;
  */
 public class MProjectLine extends X_C_ProjectLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

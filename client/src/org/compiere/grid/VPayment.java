@@ -105,8 +105,6 @@ import org.compiere.util.ValueNamePair;
 public class VPayment extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *

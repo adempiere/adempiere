@@ -35,8 +35,6 @@ import org.compiere.util.KeyNamePair;
  */
 public class MAcctSchema extends X_C_AcctSchema
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Get AccountSchema of Client
 	 * 	@param ctx context

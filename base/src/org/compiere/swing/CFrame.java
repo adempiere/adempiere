@@ -31,8 +31,6 @@ import javax.swing.JPanel;
  */
 public class CFrame extends JFrame
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	CFrame
 	 *	@throws HeadlessException

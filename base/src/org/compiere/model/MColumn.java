@@ -37,8 +37,6 @@ import org.compiere.util.Msg;
  */
 public class MColumn extends X_AD_Column
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MColumn from Cache
 	 *	@param ctx context

@@ -35,8 +35,6 @@ import java.util.TreeSet;
  */
 public class MAlert extends X_AD_Alert
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

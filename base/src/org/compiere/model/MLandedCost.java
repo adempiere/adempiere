@@ -33,8 +33,6 @@ import org.compiere.util.Msg;
  */
 public class MLandedCost extends X_C_LandedCost
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Get Costs of Invoice Line
 	 * 	@param il invoice line

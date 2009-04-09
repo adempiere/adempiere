@@ -49,8 +49,7 @@ import org.zkoss.zk.ui.event.MouseEvent;
 public class WSchedule extends Panel implements EventListener
 {
 	private InfoSchedule infoSchedule;
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 *	Constructor
 	 *  @param is InfoSchedule for call back

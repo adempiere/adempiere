@@ -31,8 +31,6 @@ import org.compiere.util.Env;
  */
 public class MCommissionDetail extends X_C_CommissionDetail
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

@@ -52,8 +52,6 @@ import org.compiere.util.Msg;
  */
 public class InfoGeneral extends Info
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Detail Protected Constructor.
 	 *

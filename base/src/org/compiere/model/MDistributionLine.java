@@ -32,8 +32,6 @@ import org.compiere.util.Msg;
  */
 public class MDistributionLine extends X_GL_DistributionLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

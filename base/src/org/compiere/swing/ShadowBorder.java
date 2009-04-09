@@ -30,8 +30,7 @@ import javax.swing.border.AbstractBorder;
 public class ShadowBorder extends AbstractBorder {
     
 	private static final Insets INSETS = new Insets(1, 1, 3, 3);
-	private static final long serialVersionUID = 1L;
-	
+
     public Insets getBorderInsets(Component c) { return INSETS; }
 
     public void paintBorder(Component c, Graphics g,

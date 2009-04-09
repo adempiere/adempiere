@@ -49,8 +49,6 @@ public class PriceListTag extends TagSupport
 	/**	Logger							*/
 	private CLogger				log = CLogger.getCLogger (getClass());
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Set Price List
 	 * 	@param var price list

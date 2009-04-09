@@ -52,8 +52,6 @@ import org.zkoss.zul.Separator;
  */
 public class WImageDialog extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param mImage

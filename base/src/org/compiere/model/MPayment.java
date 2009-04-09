@@ -76,8 +76,6 @@ import org.compiere.util.ValueNamePair;
 public final class MPayment extends X_C_Payment 
 	implements DocAction, ProcessCall
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Payments Of BPartner
 	 *	@param ctx context

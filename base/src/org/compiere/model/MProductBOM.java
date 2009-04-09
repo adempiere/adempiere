@@ -37,8 +37,6 @@ import org.compiere.util.Env;
  */
 public class MProductBOM extends X_M_Product_BOM
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get BOM Lines for Product
 	 *	@param product product

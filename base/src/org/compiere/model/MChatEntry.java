@@ -27,11 +27,9 @@ import java.util.Properties;
  */
 public class MChatEntry extends X_CM_ChatEntry
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
-	 *	@param ctx context
+	 *	@param ctx cintext
 	 *	@param CM_ChatEntry_ID id
 	 *	@param trxName transaction
 	 */

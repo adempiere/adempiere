@@ -53,8 +53,6 @@ import org.compiere.wf.MWFActivity;
 public class VDocAction extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor.
 	 *  Started from APanel. 

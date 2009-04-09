@@ -28,8 +28,7 @@ import java.util.Properties;
  */
 public class MExpenseType extends X_S_ExpenseType
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

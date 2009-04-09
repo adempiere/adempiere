@@ -33,8 +33,6 @@ import java.util.Set;
  */
 public class CCache<K,V> extends HashMap<K,V> implements CacheInterface
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Adempiere Cache - expires after 2 hours
 	 * 	@param name (table) name of the cache

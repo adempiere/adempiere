@@ -49,8 +49,6 @@ public class NoteServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "NoteServlet";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

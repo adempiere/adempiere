@@ -74,7 +74,6 @@ public class WWindow extends HttpServlet
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WWindow.class);
 	
-	private static final long serialVersionUID = 1L;
 	/**
 	 *  Initialize global variables
 	 *  @param config

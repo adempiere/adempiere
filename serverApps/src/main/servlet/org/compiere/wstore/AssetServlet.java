@@ -57,8 +57,6 @@ public class AssetServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "assetServlet";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

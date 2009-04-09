@@ -28,8 +28,6 @@ import java.util.Properties;
  */
 public class MTaxPostal extends X_C_TaxPostal
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

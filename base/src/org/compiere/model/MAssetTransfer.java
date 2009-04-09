@@ -17,14 +17,12 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 /**
- *  Asset Transfer Model
+ *  Asset Trnasfer Model
  *
  *
  */
 public class MAssetTransfer extends X_A_Asset_Transfer
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Default ConstructorX_A_Asset_Group_Acct
 	 *	@param ctx context

@@ -72,8 +72,6 @@ import org.compiere.util.Msg;
 public class Calendar extends CDialog
 	implements ActionListener, MouseListener, ChangeListener, KeyListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Mimimum Constructor for Date editor
 	 *  @param frame frame
@@ -780,7 +778,7 @@ public class Calendar extends CDialog
 /**
  *	Minute Spinner Model.
  *  Based on Number Model - uses snap size to determine next value.
- *  Allows to manually set any minute, but return even snap value
+ *  Allows to manually set any ninute, but return even snap value
  *  when spinner buttons are used.
  *
  * 	@author 	Jorg Janke
@@ -788,8 +786,6 @@ public class Calendar extends CDialog
  */
 class MinuteModel extends SpinnerNumberModel
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor.
 	 *  Creates Integer Spinner with minimum=0, maximum=59, stepsize=1

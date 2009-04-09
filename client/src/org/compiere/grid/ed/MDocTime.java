@@ -34,8 +34,6 @@ import org.compiere.util.CLogger;
  */
 public final class MDocTime extends PlainDocument
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *  @param isHour Hour field

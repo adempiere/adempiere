@@ -56,7 +56,7 @@ import org.compiere.util.Msg;
 
 
 /**
- *	Schedule - Resource availability & assignment.
+ *	Schedule - Resource availability & assigment.
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: InfoSchedule.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
@@ -64,8 +64,6 @@ import org.compiere.util.Msg;
 public class InfoSchedule extends CDialog
 	implements ActionListener, ChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param frame Parent

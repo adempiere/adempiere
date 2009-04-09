@@ -43,8 +43,6 @@ import org.compiere.swing.CTextField;
  */
 public class KeyStoreDialog extends CDialog
 {
-	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * 	Constructor

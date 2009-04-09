@@ -61,8 +61,6 @@ public class WChat extends HttpServlet
 	private int		m_displayLength;
 	private String 	m_columnName;
 		
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Initialize global variables
 	 */

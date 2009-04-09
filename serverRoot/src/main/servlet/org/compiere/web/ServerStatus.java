@@ -33,8 +33,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServerStatus extends HttpServlet
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	doGet
 	 *	@see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)

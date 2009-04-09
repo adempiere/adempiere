@@ -32,8 +32,6 @@ import org.compiere.util.Msg;
  */
 public class MRecordAccess extends X_AD_Record_Access
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

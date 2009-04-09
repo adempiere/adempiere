@@ -35,8 +35,6 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 	private IADTab tabbox;
 	private int selectedIndex = 0;
 	
-	private static final long serialVersionUID = 1L;
-	
 	public ADButtonTabList() {
 		this.setStyle("margin:0;padding:0");
 	}

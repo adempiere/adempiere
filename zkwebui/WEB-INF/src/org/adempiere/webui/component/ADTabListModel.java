@@ -25,7 +25,6 @@ public class ADTabListModel extends AbstractListModel implements ListitemRendere
 	
 	List<ADTabLabel> listItems = null;
 	private IADTab tabbox;
-	private static final long serialVersionUID = 1L;
 	
 	public ADTabListModel(List<ADTabLabel> listItems, IADTab tabbox) {
 		this.listItems = listItems;

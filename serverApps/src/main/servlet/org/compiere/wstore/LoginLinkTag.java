@@ -46,8 +46,6 @@ public class LoginLinkTag extends TagSupport
 	/**	Logger							*/
 	protected static CLogger	log = CLogger.getCLogger (LoginLinkTag.class);
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Start Tag
 	 *  @return SKIP_BODY

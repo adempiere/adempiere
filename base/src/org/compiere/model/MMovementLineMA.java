@@ -35,8 +35,6 @@ import org.compiere.util.DB;
  */
 public class MMovementLineMA extends X_M_MovementLineMA
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Material Allocations for Line
 	 *	@param ctx context

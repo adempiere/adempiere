@@ -77,7 +77,6 @@ import org.compiere.util.ValueNamePair;
 public class AcctViewer extends CFrame 
 	implements ActionListener, ChangeListener
 {
-	private static final long serialVersionUID = 1L;
 	/**
 	 *  Default constructor
 	 */

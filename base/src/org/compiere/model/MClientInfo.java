@@ -35,8 +35,6 @@ import org.compiere.util.Env;
  */
 public class MClientInfo extends X_AD_ClientInfo
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Client Info
 	 * 	@param ctx context

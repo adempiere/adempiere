@@ -35,8 +35,6 @@ import org.compiere.util.Msg;
  */
 public class MIndex extends X_K_Index
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

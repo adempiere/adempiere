@@ -34,8 +34,6 @@ import org.compiere.util.DB;
  */
 public class MTree_NodeCMC extends X_AD_TreeNodeCMC
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Tree
 	 *	@param ctx context

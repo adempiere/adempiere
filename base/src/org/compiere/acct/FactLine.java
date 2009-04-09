@@ -54,8 +54,6 @@ import org.compiere.util.Env;
  */
 public final class FactLine extends X_Fact_Acct
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *	@param ctx context

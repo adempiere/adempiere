@@ -29,15 +29,13 @@ import org.compiere.util.NamePair;
 /**
  *  Combobox with KeyNamePair/ValueNamePair or Locator.
  *  <p>
- *  It has the same height as a TextField
+ *  It has the same hight as a TextField
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VComboBox.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VComboBox extends CComboBox
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 */

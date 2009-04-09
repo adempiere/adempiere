@@ -34,8 +34,6 @@ import org.compiere.util.DB;
  */
 public class MSysConfig extends X_AD_SysConfig
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

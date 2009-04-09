@@ -37,8 +37,6 @@ public class MDunningLevel extends X_C_DunningLevel
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MDunningLevel.class);
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

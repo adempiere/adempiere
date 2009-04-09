@@ -42,7 +42,6 @@ public class MConversionRate extends X_C_Conversion_Rate
 	/**	Logger						*/
 	private static CLogger		s_log = CLogger.getCLogger (MConversionRate.class);
 
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 *	Convert an amount to base Currency

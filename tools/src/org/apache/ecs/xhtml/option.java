@@ -37,8 +37,7 @@ import org.apache.ecs.Printable;
 public class option extends MultiPartElement
 	implements Printable, FocusEvents, FormEvents, MouseEvents, KeyEvents
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Private initialization routine.
 	 */

@@ -54,8 +54,6 @@ import org.compiere.util.Msg;
 public class PAttributeInstance extends CDialog 
 	implements ListSelectionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 * 	@param parent frame parent

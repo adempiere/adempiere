@@ -34,7 +34,7 @@ import org.apache.ecs.ConcreteElement;
 public class XMLDocument
 	implements Serializable, Cloneable
 {
-	
+
 	/** Default Version */
 	private static final float DEFAULT_XML_VERSION = 1.0f;
 
@@ -49,8 +49,6 @@ public class XMLDocument
 
 	/** @serial codeset codeset */
 	private String			 codeset			 = null;
-	
-	private static final long serialVersionUID = 1L;
 
 	/**
      * This sets the document up. Since an XML document can be pretty much

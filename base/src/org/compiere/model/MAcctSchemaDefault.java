@@ -33,8 +33,6 @@ import org.compiere.util.KeyNamePair;
  */
 public class MAcctSchemaDefault extends X_C_AcctSchema_Default
 {
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 	Get Accounting Schema Default Info
 	 *	@param ctx context

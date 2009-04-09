@@ -72,8 +72,6 @@ import org.compiere.util.Msg;
 public final class ALogin extends CDialog
 	implements ActionListener, ChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Construct the dialog.
 	 *	Need to call initLogin for dynamic start

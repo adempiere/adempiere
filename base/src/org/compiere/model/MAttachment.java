@@ -65,8 +65,6 @@ import org.xml.sax.SAXException;
  */
 public class MAttachment extends X_AD_Attachment
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Attachment
 	 *	@param ctx context

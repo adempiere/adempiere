@@ -41,8 +41,6 @@ import org.compiere.util.Util;
  */
 public class MChat extends X_CM_Chat
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Chats Of Table - of client in context
 	 *	@param ctx context

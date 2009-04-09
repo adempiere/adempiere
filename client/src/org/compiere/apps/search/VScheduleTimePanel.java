@@ -45,8 +45,7 @@ import org.compiere.util.Env;
  */
 public class VScheduleTimePanel extends JComponent
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	public VScheduleTimePanel()
 	{
 		setOpaque(false);

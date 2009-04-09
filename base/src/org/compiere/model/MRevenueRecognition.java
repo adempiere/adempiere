@@ -28,8 +28,7 @@ import java.util.Properties;
  */
 public class MRevenueRecognition extends X_C_RevenueRecognition
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

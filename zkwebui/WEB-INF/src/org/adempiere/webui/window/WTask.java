@@ -48,8 +48,6 @@ import org.zkoss.zul.Html;
  */
 public class WTask extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Start Application Task
 	 *  @param task task model

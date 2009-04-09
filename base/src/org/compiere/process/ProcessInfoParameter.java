@@ -31,8 +31,6 @@ import java.math.BigDecimal;
  */
 public class ProcessInfoParameter implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Construct Parameter
 	 *  @param parameterName parameter name

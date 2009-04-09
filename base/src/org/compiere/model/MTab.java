@@ -34,8 +34,6 @@ import org.compiere.util.DB;
  */
 public class MTab extends X_AD_Tab
 {
-	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * 	Standard Constructor

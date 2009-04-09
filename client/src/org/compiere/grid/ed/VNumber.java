@@ -70,9 +70,6 @@ public final class VNumber extends JComponent
 	public final static int SIZE = 12;
 	/** Automatically pop up calculator */
 	public final static boolean AUTO_POPUP = false;
-	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  IDE Bean Constructor
 	 */

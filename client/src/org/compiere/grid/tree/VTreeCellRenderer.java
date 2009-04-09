@@ -31,8 +31,6 @@ import org.compiere.model.MTreeNode;
  */
 public final class VTreeCellRenderer extends DefaultTreeCellRenderer
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 */

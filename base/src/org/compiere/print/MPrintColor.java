@@ -36,7 +36,6 @@ import org.compiere.util.Util;
  */
 public class MPrintColor extends X_AD_PrintColor
 {
-	private static final long serialVersionUID = 1L;
 
 	/**************************************************************************
 	 * 	Create Color in Database and save

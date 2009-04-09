@@ -51,8 +51,6 @@ import org.compiere.util.TimeUtil;
  */
 public class MPeriod extends X_C_Period
 {
-	private static final long serialVersionUID = 1L;
-	
 	
 	/**
 	 * Get Period from Cache

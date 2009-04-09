@@ -47,8 +47,6 @@ public class ExpenseServlet extends HttpServlet
 	/** Submit type					*/
 	public static String			P_SubmitType_Name = "Submit";
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

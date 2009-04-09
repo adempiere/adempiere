@@ -45,8 +45,6 @@ import org.apache.ecs.Printable;
 public class ul extends MultiPartElement implements Printable, MouseEvents, KeyEvents
 
 {
-	private static final long serialVersionUID = 1L;
-	
 
     /**
 

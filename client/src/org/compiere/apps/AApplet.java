@@ -33,7 +33,6 @@ import org.compiere.util.Splash;
  */
 public class AApplet extends Applet
 {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 	Adempiere Application Applet

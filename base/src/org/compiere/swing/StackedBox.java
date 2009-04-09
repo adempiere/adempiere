@@ -59,8 +59,7 @@ public class StackedBox extends JPanel implements Scrollable {
   private Color titleForegroundColor;
   private Color separatorColor;
   private Border separatorBorder;
-  private static final long serialVersionUID = 1L;
-	
+
   public StackedBox() {
     setLayout(new VerticalLayout());
     setOpaque(true);

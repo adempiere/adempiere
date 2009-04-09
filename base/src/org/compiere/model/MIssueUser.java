@@ -32,8 +32,6 @@ import org.compiere.util.DB;
  */
 public class MIssueUser extends X_R_IssueUser
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get/Set User for Issue
 	 *	@param issue issue

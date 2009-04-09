@@ -44,9 +44,6 @@ import javax.swing.plaf.ComponentInputMapUIResource;
  * @version $Id: CCheckBox.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
 public class CCheckBox extends JCheckBox implements CEditor {
-	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Creates an initially unselected check box button with no text, no icon.
 	 */

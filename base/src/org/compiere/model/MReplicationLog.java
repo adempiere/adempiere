@@ -26,8 +26,7 @@ import java.util.Properties;
  */
 public class MReplicationLog extends X_AD_Replication_Log
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Create new Log
 	 * 	@param ctx context

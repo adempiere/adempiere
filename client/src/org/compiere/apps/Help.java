@@ -47,8 +47,6 @@ import org.compiere.util.WebDoc;
 public class Help extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Help System for Window Help
 	 *

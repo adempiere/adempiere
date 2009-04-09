@@ -91,8 +91,6 @@ public class WProcess extends HttpServlet
 	private static String[]		s_name;
 	private static String[]		s_description;
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *	@param config 

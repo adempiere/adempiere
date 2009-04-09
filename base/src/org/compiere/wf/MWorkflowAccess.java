@@ -31,8 +31,6 @@ import org.compiere.model.X_AD_Workflow_Access;
 public class MWorkflowAccess extends X_AD_Workflow_Access
 {
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -29,8 +29,6 @@ import org.compiere.util.Env;
  */
 public class MTaxDeclarationLine extends X_C_TaxDeclarationLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx ctx

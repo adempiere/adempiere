@@ -43,8 +43,6 @@ import org.compiere.util.ValueNamePair;
  */
 public final class FindValueRenderer extends DefaultTableCellRenderer
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *  @param find find

@@ -44,8 +44,6 @@ import org.compiere.swing.CPanel;
  */
 public final class IniDialog extends JDialog implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 */

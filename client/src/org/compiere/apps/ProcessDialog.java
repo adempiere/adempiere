@@ -68,8 +68,6 @@ import org.compiere.util.Msg;
 public class ProcessDialog extends CFrame
 	implements ActionListener, ASyncProcess
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Dialog to start Process
 	 *
@@ -108,8 +106,6 @@ public class ProcessDialog extends CFrame
 
 	private CPanel dialog = new CPanel()
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMinimumSize();
@@ -128,8 +124,6 @@ public class ProcessDialog extends CFrame
 	private FlowLayout southLayout = new FlowLayout();
 	private JEditorPane message = new JEditorPane()
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();
@@ -144,8 +138,6 @@ public class ProcessDialog extends CFrame
 	};
 	private JScrollPane messagePane = new JScrollPane(message)
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();

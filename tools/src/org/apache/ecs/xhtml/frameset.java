@@ -44,8 +44,7 @@ import org.apache.ecs.Printable;
 public class frameset extends MultiPartElement implements Printable, PageEvents
 
 {
-	private static final long serialVersionUID = 1L;
-	
+
     /**
 
         Private initialization routine.

@@ -34,8 +34,6 @@ import org.compiere.util.Msg;
  */
 public class MRoleOrgAccess extends X_AD_Role_OrgAccess
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Organizational Access of Role
 	 *	@param ctx context

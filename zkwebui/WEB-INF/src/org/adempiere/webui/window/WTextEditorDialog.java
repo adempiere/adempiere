@@ -46,8 +46,6 @@ public class WTextEditorDialog extends Window implements EventListener{
 	private FCKeditor editor;
 	private Label status;
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 
 	 * @param title

@@ -32,8 +32,7 @@ import org.compiere.plaf.CompiereLookAndFeel;
  */
 public class CScrollPane extends JScrollPane
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Adempiere ScollPane
 	 */

@@ -37,8 +37,6 @@ import org.compiere.util.Msg;
 public class MAcctProcessor extends X_C_AcctProcessor
 	implements AdempiereProcessor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Active
 	 *	@param ctx context

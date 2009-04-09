@@ -75,9 +75,7 @@ public class VLocationDialog extends CDialog
 	private Object[] header = null;
 
 	//private int m_WindowNo = 0;
-	
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 *	Constructor
 	 *

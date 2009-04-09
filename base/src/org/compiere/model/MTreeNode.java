@@ -35,8 +35,6 @@ import org.compiere.wf.MWFNode;
  */
 public final class MTreeNode extends DefaultMutableTreeNode
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Construct Model TreeNode
 	 *  @param node_ID	node

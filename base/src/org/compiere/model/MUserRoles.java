@@ -33,8 +33,6 @@ import org.compiere.util.DB;
  */
 public class MUserRoles extends X_AD_User_Roles
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get User Roles Of Role
 	 *	@param ctx context

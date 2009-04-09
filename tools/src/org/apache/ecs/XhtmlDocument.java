@@ -73,7 +73,7 @@ public class XhtmlDocument implements Serializable,Cloneable
 
     private Doctype doctype = null;
 
-    private static final long serialVersionUID = 1L;    
+    
 
     {
 

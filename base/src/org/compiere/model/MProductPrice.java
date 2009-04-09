@@ -34,7 +34,6 @@ import org.compiere.util.Env;
  */
 public class MProductPrice extends X_M_ProductPrice
 {
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	Get Product Price

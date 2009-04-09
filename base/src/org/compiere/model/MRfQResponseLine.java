@@ -33,8 +33,6 @@ import org.compiere.util.TimeUtil;
  */
 public class MRfQResponseLine extends X_C_RfQResponseLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

@@ -2,8 +2,7 @@ package org.posterita.exceptions;
 
 public class ProductNotImportedException extends OperationException 
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	public ProductNotImportedException() 
 	{
 		super();

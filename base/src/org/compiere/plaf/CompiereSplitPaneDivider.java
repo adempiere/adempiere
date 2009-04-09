@@ -29,8 +29,6 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
  */
 class CompiereSplitPaneDivider extends BasicSplitPaneDivider
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param ui

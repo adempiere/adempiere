@@ -30,8 +30,7 @@ import org.compiere.model.X_AD_ImpFormat_Row;
  */
 public class MImpFormatRow extends X_AD_ImpFormat_Row
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

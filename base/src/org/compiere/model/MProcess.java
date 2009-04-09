@@ -39,8 +39,6 @@ import org.compiere.util.Trx;
  */
 public class MProcess extends X_AD_Process
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MProcess from Cache
 	 *	@param ctx context

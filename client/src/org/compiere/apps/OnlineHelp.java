@@ -51,8 +51,6 @@ import org.compiere.util.Env;
  */
 public class OnlineHelp extends JEditorPane implements HyperlinkListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Default Constructor
 	 */

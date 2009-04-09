@@ -35,9 +35,6 @@ public class SimpleListModel extends AbstractListModel implements ListitemRender
 	protected List list;
 	
 	private int[] maxLength;
-	
-	private static final long serialVersionUID = 1L;
-	
 
 	public SimpleListModel() {
 		this(new ArrayList());

@@ -31,8 +31,6 @@ import org.compiere.util.Env;
  */
 public class MDistributionListLine extends X_M_DistributionListLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -50,8 +50,6 @@ import org.compiere.util.Env;
 public final class VAccount extends JComponent
 	implements VEditor, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *  @param columnName

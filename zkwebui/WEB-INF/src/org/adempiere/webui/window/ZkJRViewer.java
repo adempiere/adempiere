@@ -17,8 +17,7 @@ import org.zkoss.zul.Toolbarbutton;
 public class ZkJRViewer extends Window {
 
 	private JasperPrint jasperPrint;
-	private static final long serialVersionUID = 1L;
-	
+
 	public ZkJRViewer(JasperPrint jasperPrint, String title) {
 		this.setTitle(title);
 		this.jasperPrint = jasperPrint;

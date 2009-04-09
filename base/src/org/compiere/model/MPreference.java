@@ -30,8 +30,6 @@ public class MPreference extends X_AD_Preference
 	/**	Null Indicator				*/
 	public static String		NULL = "null";
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standatrd Constructor
 	 *	@param ctx ctx

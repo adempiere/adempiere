@@ -77,8 +77,6 @@ import org.compiere.util.ValueNamePair;
 public class GridTable extends AbstractTableModel
 	implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	JDBC Based Buffered Table
 	 *
@@ -2920,8 +2918,6 @@ public class GridTable extends AbstractTableModel
 	 */
 	class Loader extends Thread implements Serializable
 	{
-		private static final long serialVersionUID = 1L;
-		
 		/**
 		 *  Construct Loader
 		 */

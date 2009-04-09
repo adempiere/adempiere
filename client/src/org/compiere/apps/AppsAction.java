@@ -48,8 +48,6 @@ import org.compiere.util.Msg;
  */
 public final class AppsAction extends AbstractAction
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Application Action
 	 *

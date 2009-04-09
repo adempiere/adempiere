@@ -43,8 +43,7 @@ import org.apache.ecs.Printable;
 public class title extends MultiPartElement implements Printable
 
 {
-	private static final long serialVersionUID = 1L;
-	
+
     /**
 
         Private initialization routine.

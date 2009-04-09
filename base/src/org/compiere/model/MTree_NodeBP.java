@@ -32,8 +32,6 @@ import org.compiere.util.DB;
  */
 public class MTree_NodeBP extends X_AD_TreeNodeBP
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Tree Node
 	 *	@param tree tree

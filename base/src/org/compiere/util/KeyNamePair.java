@@ -24,8 +24,6 @@ package org.compiere.util;
  */
 public final class KeyNamePair extends NamePair
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor KeyValue Pair -
 	 *  @param key Key (-1 is considered as null)

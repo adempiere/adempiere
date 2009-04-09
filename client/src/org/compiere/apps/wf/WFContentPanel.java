@@ -56,8 +56,6 @@ import org.compiere.wf.MWorkflow;
 public class WFContentPanel extends CPanel 	
 	implements MouseListener, MouseMotionListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	WFContentPanel
 	 */
@@ -520,8 +518,6 @@ public class WFContentPanel extends CPanel
 	 */
 	class WFPopupItem extends JMenuItem
 	{
-		private static final long serialVersionUID = 1L;
-		
 		/**
 		 * 	Add Line Item
 		 *	@param title title

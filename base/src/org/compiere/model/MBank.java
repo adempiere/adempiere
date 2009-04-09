@@ -29,8 +29,6 @@ import org.compiere.util.CCache;
  */
 public class MBank extends X_C_Bank
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MBank from Cache
 	 *	@param ctx context

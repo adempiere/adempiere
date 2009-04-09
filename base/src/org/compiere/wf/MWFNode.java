@@ -41,8 +41,6 @@ import org.compiere.util.Msg;
  */
 public class MWFNode extends X_AD_WF_Node
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get WF Node from Cache
 	 *	@param ctx context

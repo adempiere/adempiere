@@ -40,8 +40,6 @@ import org.compiere.util.Msg;
  */
 public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Factory: Return ArrayList of Account Schema Elements
 	 * @param as Accounting Schema

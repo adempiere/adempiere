@@ -3,8 +3,6 @@ package org.compiere.util;
 import java.io.Serializable;
 
 public class OutputParameter implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
 	public OutputParameter(int sqlType, int scale, String typeName) {
 		this.sqlType = sqlType;
 		this.scale = scale;

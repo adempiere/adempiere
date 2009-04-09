@@ -48,8 +48,6 @@ import org.compiere.util.CLogger;
  */
 public class Setup extends CFrame implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 */

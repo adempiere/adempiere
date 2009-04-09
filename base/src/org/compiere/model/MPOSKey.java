@@ -28,8 +28,7 @@ import java.util.Properties;
  */
 public class MPOSKey extends X_C_POSKey
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

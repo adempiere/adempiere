@@ -36,8 +36,6 @@ import org.compiere.util.DB;
  */
 public class MMedia extends X_CM_Media
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Media
 	 *	@param project

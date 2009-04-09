@@ -52,8 +52,6 @@ import org.compiere.swing.CPanel;
 public class ALoginTest extends CDialog 
 	implements ActionListener, Runnable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Consatructor
 	 */

@@ -35,8 +35,6 @@ import org.compiere.util.Env;
  */
 public class MMeasureCalc extends X_PA_MeasureCalc
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MMeasureCalc from Cache
 	 *	@param ctx context

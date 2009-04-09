@@ -74,8 +74,6 @@ import org.compiere.util.Msg;
 public class VAttributeGrid extends CPanel
 	implements FormPanel, ChangeListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Init
 	 *	@param WindowNo

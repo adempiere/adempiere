@@ -48,7 +48,6 @@ import org.compiere.util.Msg;
  */
 public class MOrderLine extends X_C_OrderLine
 {
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * 	Get Order Unreserved Qty

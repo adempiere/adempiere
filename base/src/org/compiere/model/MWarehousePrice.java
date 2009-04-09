@@ -37,8 +37,6 @@ import org.compiere.util.DB;
  */
 public class MWarehousePrice extends X_RV_WarehousePrice
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Find Products in Warehouse with Price
 	 * 	@param ctx context

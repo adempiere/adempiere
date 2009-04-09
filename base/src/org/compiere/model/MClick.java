@@ -36,8 +36,6 @@ import org.compiere.util.Env;
  */
 public class MClick extends X_W_Click
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Unprocessed Clicks
 	 *	@param ctx context

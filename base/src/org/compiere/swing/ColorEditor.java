@@ -50,8 +50,6 @@ import org.compiere.util.ValueNamePair;
 public class ColorEditor extends CDialog
 	implements ActionListener, PropertyEditor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Get Background AdempiereColor
 	 *  @param owner owner

@@ -49,8 +49,6 @@ import org.compiere.util.Msg;
 public class VTextLong extends CTextPane
 	implements VEditor, KeyListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Factory: Start Editor
 	 *	@param jc container to get parent frame

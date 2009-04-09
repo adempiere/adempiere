@@ -30,8 +30,7 @@ import org.compiere.util.Env;
  */
 public class MForm extends X_AD_Form
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

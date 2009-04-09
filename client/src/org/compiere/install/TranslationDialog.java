@@ -56,8 +56,6 @@ import org.compiere.util.ValueNamePair;
 public class TranslationDialog extends CPanel
 	implements FormPanel, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	TranslationDialog Constructor.
 	 * 	(Initiated via init())

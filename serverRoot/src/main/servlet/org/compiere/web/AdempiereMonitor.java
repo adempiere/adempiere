@@ -89,7 +89,7 @@ public class AdempiereMonitor extends HttpServlet
 	/** Message				*/
 	private p				m_message = null;
 	
-	private static final long serialVersionUID = 1L;
+
 	
 	/**
 	 * 	Get

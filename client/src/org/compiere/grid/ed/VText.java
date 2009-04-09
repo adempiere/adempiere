@@ -47,8 +47,6 @@ import org.compiere.util.Msg;
 public class VText extends CTextArea
 	implements VEditor, KeyListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Standard Constructor
 	 *  @param columnName column name

@@ -36,8 +36,6 @@ public class RemoteUpdateVO implements Serializable
 	public String[]			KeyColumns = null;
 	public RowSet			CentralData = null;
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	String Representation
 	 * 	@return info

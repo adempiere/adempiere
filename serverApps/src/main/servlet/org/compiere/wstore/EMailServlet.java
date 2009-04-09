@@ -45,9 +45,7 @@ public class EMailServlet extends HttpServlet
 
 	/** Name						*/
 	static public final String		NAME = "emailServlet";
-	
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Initialize global variables
 	 *

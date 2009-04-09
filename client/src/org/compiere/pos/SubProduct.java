@@ -49,8 +49,6 @@ import org.compiere.util.Msg;
 public class SubProduct extends PosSubPanel 
 	implements ActionListener, FocusListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel

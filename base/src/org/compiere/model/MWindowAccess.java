@@ -28,8 +28,6 @@ import java.util.Properties;
  */
 public class MWindowAccess extends X_AD_Window_Access
 {
-	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * 	Standard Constructor

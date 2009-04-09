@@ -34,8 +34,6 @@ import org.compiere.swing.CEditor;
  */
 public class AFocusTraversalPolicy extends LayoutFocusTraversalPolicy
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Get singleton
 	 *  @return AFocusTraversalPolicy

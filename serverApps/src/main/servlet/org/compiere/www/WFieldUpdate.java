@@ -50,8 +50,6 @@ public class WFieldUpdate extends HttpServlet
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (WFieldUpdate.class);
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Initialize global variables
 	 *  @param config

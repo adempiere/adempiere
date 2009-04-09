@@ -31,8 +31,7 @@ import org.apache.ecs.Printable;
 public class html extends MultiPartElement
 	implements Printable
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	public html ()
 	{
 		setElementType ("html");

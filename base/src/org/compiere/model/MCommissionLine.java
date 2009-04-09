@@ -30,8 +30,6 @@ import org.compiere.util.Env;
  */
 public class MCommissionLine extends X_C_CommissionLine
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

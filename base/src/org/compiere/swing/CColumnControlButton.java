@@ -97,7 +97,6 @@ public class CColumnControlButton extends JButton {
     TableColumnModelListener columnModelListener;
     /** the list of actions for column menuitems.*/
     private List<ColumnVisibilityAction> columnVisibilityActions;
-    private static final long serialVersionUID = 1L;
 
     /**
      * Creates a column control button for the table. The button
@@ -153,8 +152,6 @@ public class CColumnControlButton extends JButton {
 
         private PropertyChangeListener columnListener;
 
-        private static final long serialVersionUID = 1L;
-        
         /** flag to distinguish selection changes triggered by
          *  column's property change from those triggered by
          *  user interaction. Hack around #212-swingx.
@@ -778,12 +775,7 @@ public class CColumnControlButton extends JButton {
     private Action createControlAction(Icon icon) {
         Action control = new AbstractAction() {
 
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 togglePopup();
             }
 

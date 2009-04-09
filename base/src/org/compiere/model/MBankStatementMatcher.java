@@ -35,8 +35,6 @@ import org.compiere.util.Env;
  */
 public class MBankStatementMatcher extends X_C_BankStatementMatcher
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Bank Statement Matcher Algorithms
 	 * 	@param ctx context

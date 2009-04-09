@@ -26,8 +26,7 @@ import java.util.Properties;
  */
 public class MLdapProcessorLog extends X_AD_LdapProcessorLog implements AdempiereProcessorLog
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

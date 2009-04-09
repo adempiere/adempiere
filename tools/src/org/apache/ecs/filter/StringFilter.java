@@ -32,8 +32,7 @@ import org.apache.ecs.Filter;
 */
 public class StringFilter extends java.util.Hashtable<String, Object> implements Filter
 {
-	private static final long serialVersionUID = 1L;
-	
+
     public StringFilter()
     {
 		super(4);

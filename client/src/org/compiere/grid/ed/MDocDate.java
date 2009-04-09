@@ -41,8 +41,6 @@ import org.compiere.util.CLogger;
  */
 public final class MDocDate extends PlainDocument implements CaretListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Constructor
 	 *  @param displayType display type

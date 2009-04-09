@@ -27,8 +27,6 @@ import java.util.Properties;
  */
 public class MPeriodControl extends X_C_PeriodControl
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

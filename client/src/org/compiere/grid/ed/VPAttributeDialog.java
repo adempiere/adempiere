@@ -81,8 +81,6 @@ import org.compiere.util.Msg;
 public class VPAttributeDialog extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Product Attribute Instance Dialog
 	 *	@param frame parent frame

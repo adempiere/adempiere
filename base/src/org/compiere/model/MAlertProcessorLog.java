@@ -29,7 +29,6 @@ import java.util.Properties;
 public class MAlertProcessorLog extends X_AD_AlertProcessorLog
 	implements AdempiereProcessorLog
 {
-	private static final long serialVersionUID = 1L;
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

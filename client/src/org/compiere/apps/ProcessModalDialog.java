@@ -57,7 +57,6 @@ import org.compiere.util.Msg;
 public class ProcessModalDialog extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Dialog to start a process/report
@@ -113,8 +112,6 @@ public class ProcessModalDialog extends CDialog
 
 	private CPanel dialog = new CPanel()
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMinimumSize();
@@ -132,8 +129,6 @@ public class ProcessModalDialog extends CDialog
 	private CButton bOK = null;
 	private JEditorPane message = new JEditorPane()
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();
@@ -148,8 +143,6 @@ public class ProcessModalDialog extends CDialog
 	};
 	private JScrollPane messagePane = new JScrollPane(message)
 	{
-		private static final long serialVersionUID = 1L;
-
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();

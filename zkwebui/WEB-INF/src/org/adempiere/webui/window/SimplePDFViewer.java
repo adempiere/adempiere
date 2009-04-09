@@ -26,8 +26,6 @@ import org.zkoss.zul.Iframe;
  */
 public class SimplePDFViewer extends Window {
 
-	private static final long serialVersionUID = 1L;
-	
 	public SimplePDFViewer(String title, InputStream pdfInput) {
 		Iframe iframe = new Iframe();
 		iframe.setId("reportFrame");

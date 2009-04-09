@@ -28,8 +28,7 @@ import org.posterita.struts.core.DefaultForm;
  */
 public class CashBookForm extends DefaultForm
 {
-	private static final long serialVersionUID = 1L;
-	
+
     public CashBookForm()
     {
         super.setBean(new CashBookBean());

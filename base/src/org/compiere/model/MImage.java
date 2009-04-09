@@ -41,8 +41,6 @@ import org.compiere.util.Ini;
  */
 public class MImage extends X_AD_Image
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MImage from Cache
 	 *	@param ctx context

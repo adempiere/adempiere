@@ -33,6 +33,10 @@ import org.posterita.exceptions.OperationException;
 
 public class MMAttachment extends MAttachment
 {
+
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	private MMAttachment(Properties ctx, int AD_Table_ID, int Record_ID, String trxName)

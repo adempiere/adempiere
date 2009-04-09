@@ -37,8 +37,6 @@ import org.compiere.util.Env;
  */
 public class MDistribution extends X_GL_Distribution
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Distribution for combination
 	 *	@param acct account (ValidCombination)

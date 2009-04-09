@@ -40,8 +40,6 @@ import org.compiere.util.Env;
  */
 public class MFreightCategory extends X_M_FreightCategory {
 
-	private static final long serialVersionUID = 1L;
-	
     /**
      * Default constructor 
      * 

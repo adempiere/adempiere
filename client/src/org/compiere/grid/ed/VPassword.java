@@ -40,8 +40,6 @@ import org.compiere.swing.CPassword;
 public final class VPassword extends CPassword
 	implements VEditor, KeyListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
 	 */

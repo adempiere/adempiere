@@ -36,8 +36,7 @@ import org.apache.ecs.Printable;
 
 public class comment extends MultiPartElement implements Printable
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 
 	 * private initializer.

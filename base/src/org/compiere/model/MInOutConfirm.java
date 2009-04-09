@@ -40,8 +40,6 @@ import org.compiere.util.Msg;
  */
 public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Create Confirmation or return existing one
 	 *	@param ship shipment

@@ -61,8 +61,6 @@ import org.jfree.ui.RectangleInsets;
 public class PerformanceIndicator extends JPanel         
 	implements MouseListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 *	@param goal goal model

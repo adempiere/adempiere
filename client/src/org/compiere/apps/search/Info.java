@@ -77,8 +77,6 @@ import org.compiere.util.Msg;
 public abstract class Info extends CDialog
 	implements ListSelectionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Factory Constructor
 	 *  @param  frame   parent frame

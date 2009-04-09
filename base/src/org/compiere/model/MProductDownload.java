@@ -37,7 +37,6 @@ import org.compiere.util.DB;
  */
 public class MProductDownload extends X_M_ProductDownload
 {
-	private static final long serialVersionUID = 1L;
 	/**
 	 * 	Migrate Download URLs (2.5.2c)
 	 *	@param ctx context

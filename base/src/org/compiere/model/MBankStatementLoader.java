@@ -65,7 +65,7 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 	/**	File name from process parameter							*/
 	private String localFileName = null;
 
-	private static final long serialVersionUID = 1L;	
+	
 	
 	/**
 	 * 	Create a Statement Loader

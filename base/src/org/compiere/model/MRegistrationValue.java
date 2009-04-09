@@ -28,8 +28,6 @@ import java.util.Properties;
 public class MRegistrationValue extends X_A_RegistrationValue
 	implements Comparable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

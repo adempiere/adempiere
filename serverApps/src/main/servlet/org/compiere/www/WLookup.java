@@ -77,8 +77,6 @@ public class WLookup extends HttpServlet
 	
 	private StringBuffer HeaderSelect = null;
 	
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Initialize global variables
 	 *

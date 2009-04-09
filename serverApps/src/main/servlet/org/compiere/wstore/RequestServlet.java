@@ -55,8 +55,6 @@ public class RequestServlet extends HttpServlet
 	/** Name						*/
 	static public final String		NAME = "requestServlet";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

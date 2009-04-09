@@ -36,8 +36,6 @@ import org.compiere.util.DB;
  */
 public class MColor extends X_AD_Color
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Color Model
 	 *  @param ctx context

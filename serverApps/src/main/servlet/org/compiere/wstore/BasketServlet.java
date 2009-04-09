@@ -55,7 +55,6 @@ public class BasketServlet extends HttpServlet
 	static public final String		P_SalesRep_ID = "SalesRep_ID";
 	/** Product Parameter			*/
 	static public final String		P_Product_ID = "M_Product_ID";
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 *	Initialize global variables

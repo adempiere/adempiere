@@ -28,7 +28,6 @@ import java.util.Properties;
  */
 public class MPInstancePara extends X_AD_PInstance_Para
 {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 	Persistency Constructor

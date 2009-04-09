@@ -37,7 +37,6 @@ public abstract class Extend implements Serializable
 	protected WebInfo wi = null;
 	private StringBuffer e_xmlCode;
 	private String e_redirectURL;
-	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Extend

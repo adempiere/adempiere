@@ -42,8 +42,6 @@ import org.compiere.util.CLogger;
 public class VBinary extends JButton
 	implements VEditor, ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Binary Editor
 	 *  @param columnName column name

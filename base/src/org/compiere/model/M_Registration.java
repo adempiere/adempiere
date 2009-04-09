@@ -28,8 +28,6 @@ import java.util.Properties;
  */
 public class M_Registration extends X_AD_Registration
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

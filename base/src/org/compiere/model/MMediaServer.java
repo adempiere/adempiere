@@ -35,8 +35,6 @@ import org.compiere.util.DB;
  */
 public class MMediaServer extends X_CM_Media_Server
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Media Server
 	 *	@param project

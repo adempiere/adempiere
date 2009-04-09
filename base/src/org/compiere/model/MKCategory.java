@@ -23,8 +23,6 @@ import java.util.Properties;
 public class MKCategory extends X_K_Category
 {
 
-	private static final long serialVersionUID = 1L;
-	
 	public MKCategory (Properties ctx, int K_Category_ID, String trxName)
 	{
 		super (ctx, K_Category_ID, trxName);

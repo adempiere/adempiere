@@ -35,8 +35,6 @@ import org.compiere.util.DB;
  */
 public class MInventoryLineMA extends X_M_InventoryLineMA
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Material Allocations for Line
 	 *	@param ctx context

@@ -34,8 +34,6 @@ import org.adempiere.plaf.AdempierePLAF;
 public class CTextField extends JTextField 
 	implements CEditor, KeyListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Constructs a new <code>TextField</code>.  A default model is created,
 	 * the initial string is <code>null</code>,

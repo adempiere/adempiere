@@ -34,8 +34,6 @@ import org.compiere.util.Msg;
  */
 public class M_Element extends X_AD_Element
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get case sensitive Column Name
 	 *	@param columnName case insentitive column name

@@ -33,8 +33,6 @@ import org.compiere.util.Msg;
  */
 public class MWFResponsible extends X_AD_WF_Responsible
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get WF Responsible from Cache
 	 *	@param ctx context

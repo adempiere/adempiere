@@ -46,8 +46,6 @@ public class span extends MultiPartElement implements Printable, MouseEvents, Ke
 
 {
 
-	private static final long serialVersionUID = 1L;
-	
     /**
 
         Private initialization routine.

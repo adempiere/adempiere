@@ -84,8 +84,6 @@ import org.compiere.util.ValueNamePair;
 public class VPaySelect extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
-	private static final long serialVersionUID = 1L;
-	
 	/** @todo withholding */
 
 	/**

@@ -50,8 +50,6 @@ import org.compiere.util.ValueNamePair;
  */
 public final class MLookup extends Lookup implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  MLookup Constructor
 	 *  @param info info
@@ -656,8 +654,6 @@ public final class MLookup extends Lookup implements Serializable
 	 */
 	class MLoader extends Thread implements Serializable
 	{
-		private static final long serialVersionUID = 1L;
-		
 		/**
 		 * 	MLoader Constructor
 		 */

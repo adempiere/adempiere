@@ -28,8 +28,6 @@ import java.util.Properties;
  */
 public class MRequestProcessorRoute extends X_R_RequestProcessor_Route
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

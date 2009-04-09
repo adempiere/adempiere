@@ -33,8 +33,6 @@ import org.posterita.struts.pos.TerminalAction;
  */
 public class TerminalForm extends DefaultForm
 {
-	private static final long serialVersionUID = 1L;
-	
     public TerminalForm()
     {
         super.setBean(new TerminalBean());

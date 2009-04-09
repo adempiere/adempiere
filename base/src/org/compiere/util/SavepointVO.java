@@ -8,7 +8,6 @@ public class SavepointVO implements Savepoint, Serializable {
 
 	int savePointId = -1;
 	String savePointName = null;
-	private static final long serialVersionUID = 1L;
 	
 	public SavepointVO(Savepoint sp) {
 		try {

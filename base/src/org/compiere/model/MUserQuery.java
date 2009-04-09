@@ -34,8 +34,6 @@ import org.compiere.util.Env;
  */
 public class MUserQuery extends X_AD_UserQuery
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get all active queries of client for Tab
 	 *	@param ctx context

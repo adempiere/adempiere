@@ -52,7 +52,6 @@ import org.compiere.util.CLogger;
 public final class VCellEditor extends AbstractCellEditor
 	implements TableCellEditor, VetoableChangeListener, ActionListener
 {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 *	Constructor for Grid

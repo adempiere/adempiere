@@ -32,8 +32,7 @@ import org.compiere.util.Env;
  */
 public class MRMALine extends X_M_RMALine
 {
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

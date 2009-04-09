@@ -29,8 +29,6 @@ import org.compiere.util.Msg;
  */
 public class MRequestAction extends X_R_RequestAction
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

@@ -61,8 +61,6 @@ import org.compiere.util.Msg;
 public class InvoiceHistory extends CDialog
 	implements ActionListener, ChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Show History
 	 *	@param C_BPartner_ID partner

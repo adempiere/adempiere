@@ -33,8 +33,7 @@ import javax.swing.text.JTextComponent;
 public class CLabel extends JLabel
 {
 	public static int   DEFAULT_ALIGNMENT = JLabel.TRAILING;
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Creates a <code>Label</code> instance with the specified
 	 * text, image, and horizontal alignment.

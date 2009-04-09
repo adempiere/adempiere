@@ -40,8 +40,7 @@ public class WTest extends HttpServlet
 {
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(WTest.class);
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Initialize global variables
 	 */

@@ -29,8 +29,6 @@ import javax.swing.JTextField;
  */
 public final class ROCellEditor extends DefaultCellEditor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 */

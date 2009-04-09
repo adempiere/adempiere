@@ -30,8 +30,6 @@ import org.compiere.util.CCache;
  */
 public class MTree_Base extends X_AD_Tree
 {
-	private static final long serialVersionUID = 1L;
-	
 	
 	/**
 	 * 	Add Node to correct tree

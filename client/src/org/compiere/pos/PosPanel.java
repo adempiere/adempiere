@@ -45,8 +45,6 @@ import org.compiere.util.Msg;
 public class PosPanel extends CPanel
 	implements FormPanel
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor - see init 
 	 */

@@ -107,11 +107,6 @@ public class ADSortTab extends Panel implements IADTabpanel
 	private Button bDown = new Button();
 	//
 	SimpleListModel noModel = new SimpleListModel() {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		@Override
 		public void addElement(Object obj) {
 			Object[] elements = list.toArray();

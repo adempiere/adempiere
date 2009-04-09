@@ -27,8 +27,6 @@ import java.util.Properties;
  */
 public class MTaxDeclarationAcct extends X_C_TaxDeclarationAcct
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx ctx

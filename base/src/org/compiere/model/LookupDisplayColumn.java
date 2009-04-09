@@ -27,8 +27,6 @@ import java.io.Serializable;
  */
 public class LookupDisplayColumn implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Lookup Column Value Object
 	 * 	@param columnName column name

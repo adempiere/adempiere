@@ -41,8 +41,6 @@ import org.adempiere.plaf.AdempierePLAF;
 public class CTextArea extends JScrollPane
 	implements CEditor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * Constructs a new TextArea.  A default model is set, the initial string
 	 * is null, and rows/columns are set to 0.

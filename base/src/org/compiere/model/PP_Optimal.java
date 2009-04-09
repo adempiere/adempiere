@@ -31,8 +31,6 @@ import org.compiere.util.CLogMgt;
 public class PP_Optimal extends PaymentProcessor
 	implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	PP_Optimal
 	 */

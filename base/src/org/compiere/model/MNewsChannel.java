@@ -32,8 +32,6 @@ import org.compiere.util.DB;
  */
 public class MNewsChannel extends X_CM_NewsChannel
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
      * Standard Constructor
      * 

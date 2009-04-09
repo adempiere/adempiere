@@ -71,7 +71,6 @@ public class WLocation extends HttpServlet
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLocation.class);
 	
-	private static final long serialVersionUID = 1L;
 	/**
 	 * Initialize global variables
 	 *

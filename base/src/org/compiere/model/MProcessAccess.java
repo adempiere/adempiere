@@ -28,7 +28,7 @@ import java.util.Properties;
  */
 public class MProcessAccess extends X_AD_Process_Access
 {
-	private static final long serialVersionUID = 1L;
+	
 	
 	
 	/**************************************************************************

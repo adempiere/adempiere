@@ -36,8 +36,6 @@ import org.compiere.util.Msg;
 public class MRequestProcessor extends X_R_RequestProcessor 
 	implements AdempiereProcessor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get Active Request Processors
 	 *	@param ctx context

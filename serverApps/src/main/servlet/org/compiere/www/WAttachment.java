@@ -57,9 +57,7 @@ public class WAttachment extends HttpServlet
 {
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
-	
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * Initialize global variables
 	 */

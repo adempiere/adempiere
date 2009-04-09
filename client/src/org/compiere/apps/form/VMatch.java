@@ -77,8 +77,6 @@ import org.compiere.util.Msg;
 public class VMatch extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ListSelectionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window

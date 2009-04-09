@@ -45,9 +45,7 @@ public class AdvertisementServlet extends HttpServlet
 	private static CLogger			log = CLogger.getCLogger(AdvertisementServlet.class);
 	/** Name						*/
 	static public final String		NAME = "AdvertisementServlet";
-	
-	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 *	Initialize global variables
 	 *

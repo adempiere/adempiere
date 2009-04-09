@@ -29,8 +29,6 @@ import org.compiere.util.DB;
  */
 public class MAssetAddition extends X_A_Asset_Addition
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Default Constructor
 	 *	@param ctx context

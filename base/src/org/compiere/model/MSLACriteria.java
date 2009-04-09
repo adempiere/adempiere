@@ -35,8 +35,6 @@ import org.compiere.util.DB;
  */
 public class MSLACriteria extends X_PA_SLA_Criteria
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MSLACriteria from Cache
 	 *	@param ctx context

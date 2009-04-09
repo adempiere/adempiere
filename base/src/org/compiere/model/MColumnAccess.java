@@ -32,8 +32,6 @@ import org.compiere.util.Msg;
  */
 public class MColumnAccess extends X_AD_Column_Access
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context

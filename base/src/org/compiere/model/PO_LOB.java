@@ -37,8 +37,6 @@ import org.compiere.util.Trx;
  */
 public class PO_LOB implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Constructor
 	 *	@param tableName table name

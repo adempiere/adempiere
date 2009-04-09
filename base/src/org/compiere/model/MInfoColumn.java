@@ -27,10 +27,8 @@ import java.util.Properties;
  */
 public class MInfoColumn extends X_AD_InfoColumn
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
-	 * 	Standard Constructor
+	 * 	Stanfard Constructor
 	 *	@param ctx context
 	 *	@param AD_InfoColumn_ID id
 	 *	@param trxName transaction

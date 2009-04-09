@@ -56,8 +56,6 @@ public class OrderServlet extends HttpServlet
 	/** Name						*/
 	static public final String			NAME = "orderServlet";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

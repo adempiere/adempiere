@@ -34,8 +34,6 @@ import org.compiere.util.Env;
  */
 public class MRfQLineQty extends X_C_RfQLineQty
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MRfQLineQty from Cache
 	 *	@param ctx context

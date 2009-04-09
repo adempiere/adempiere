@@ -42,8 +42,6 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 	/** HTML nbsp				*/
 	public static final String	NBSP = "&nbsp;";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * keep a list of elements that need to be added to the element 
 	 * @serial registry registry */

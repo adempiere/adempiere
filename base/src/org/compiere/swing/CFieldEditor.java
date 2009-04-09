@@ -30,8 +30,6 @@ import javax.swing.JTextField;
  */
 public class CFieldEditor extends JTextField implements ComboBoxEditor
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *
 	 */

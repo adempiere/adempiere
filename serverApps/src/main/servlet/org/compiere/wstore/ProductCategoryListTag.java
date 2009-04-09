@@ -47,7 +47,6 @@ public class ProductCategoryListTag extends TagSupport
 	/**	Logging						*/
 	private static CLogger		log = CLogger.getCLogger(ProductCategoryListTag.class);
 	
-	private static final long serialVersionUID = 1L;	
 	
 	/**
 	 *  Start Tag

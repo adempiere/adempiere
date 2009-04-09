@@ -44,8 +44,6 @@ import org.compiere.util.Msg;
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context

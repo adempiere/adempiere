@@ -63,8 +63,6 @@ import org.compiere.util.Msg;
 public class VTreeMaintenance extends CPanel
 	implements FormPanel, ActionListener, ListSelectionListener, PropertyChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**	Window No				*/
 	private int         	m_WindowNo = 0;
 	/**	FormFrame				*/

@@ -38,8 +38,6 @@ import javax.swing.plaf.metal.MetalTheme;
  */
 public class CompiereLookAndFeel extends MetalLookAndFeel
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 */

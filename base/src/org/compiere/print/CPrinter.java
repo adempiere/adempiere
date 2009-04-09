@@ -36,8 +36,6 @@ import org.compiere.util.Ini;
  */
 public class CPrinter extends CComboBox implements ActionListener 
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Get Print (Services) Names
 	 *  @return Printer Name array

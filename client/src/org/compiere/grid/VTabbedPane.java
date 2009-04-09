@@ -40,8 +40,6 @@ import org.compiere.util.Language;
  */
 public class VTabbedPane extends CTabbedPane
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param isWorkbench is this a workbench tab (tabs on the left side)

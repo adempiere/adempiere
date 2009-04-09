@@ -48,8 +48,6 @@ import org.compiere.swing.FontChooser;
 public class CompiereThemeEditor extends CDialog
 	implements ActionListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Constructor
 	 *  @param  owner Frame owner

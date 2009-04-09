@@ -47,8 +47,6 @@ public class CheckOutServlet extends HttpServlet
 	/** Attribute					*/
 	static public final String		ATTR_CHECKOUT = "CheckOut";
 
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *	Initialize global variables
 	 *

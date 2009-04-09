@@ -68,8 +68,6 @@ import org.zkoss.zul.Timebox;
  */
 public class WAssignmentDialog extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Assignment Dialog.
 	 * 	<pre>

@@ -47,8 +47,6 @@ import org.compiere.util.Util;
  */
 public class InfoInOut extends Info
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Detail Protected Contructor
 	 *  @param frame parent frame

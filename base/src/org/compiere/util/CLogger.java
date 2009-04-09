@@ -33,7 +33,7 @@ public class CLogger extends Logger implements Serializable
 	private static final String LAST_WARNING = "org.compiere.util.CLogger.lastWarning";
 	private static final String LAST_ERROR = "org.compiere.util.CLogger.lastError";
 	private static final String LAST_EXCEPTION = "org.compiere.util.CLogger.lastException";
-	private static final long serialVersionUID = 1L;
+
 
 	/**
 	 * 	Get Logger

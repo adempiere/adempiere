@@ -28,8 +28,6 @@ import org.compiere.util.CCache;
  */
 public class MResolution extends X_R_Resolution
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 * 	Get MResolution from Cache
 	 *	@param ctx context

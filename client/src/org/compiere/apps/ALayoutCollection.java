@@ -28,8 +28,6 @@ import java.util.Iterator;
  */
 class ALayoutCollection extends HashMap<Object,Object>
 {
-	private static final long serialVersionUID = 1L;
-	
 	/**
 	 *  Create Collection
 	 */

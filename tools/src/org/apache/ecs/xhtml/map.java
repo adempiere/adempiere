@@ -46,8 +46,7 @@ import org.apache.ecs.Printable;
 public class map extends MultiPartElement implements Printable, FocusEvents, MouseEvents, KeyEvents
 
 {
-	private static final long serialVersionUID = 1L;
-	
+
     /**
 
         Private initialization routine.
