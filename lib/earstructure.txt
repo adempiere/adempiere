@@ -3,7 +3,7 @@ adempiereWebCM.ear
 -- classpath = AdempiereSLib.jar
 - AdempiereSLib.jar
 -- (none)
-- compuiereWebCM.war
+- adempiereWebCM.war
 -- classpath = Adempiere.jar AdempiereSLib.jar
 
 
