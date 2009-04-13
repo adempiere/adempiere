@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -21,19 +21,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
+import org.adempiere.exceptions.TaxCriteriaNotFoundException;
+import org.adempiere.exceptions.TaxForChangeNotFoundException;
+import org.adempiere.exceptions.TaxNoExemptFoundException;
+import org.adempiere.exceptions.TaxNotFoundException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  *	Tax Handling
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: Tax.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2758097 ] Implement TaxNotFoundException
  */
 public class Tax
 {
@@ -64,7 +70,7 @@ public class Tax
 	 * 	@param shipC_BPartner_Location_ID ship location
 	 * 	@param IsSOTrx is a sales trx
 	 * 	@return C_Tax_ID
-	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
+	 *  @throws TaxCriteriaNotFoundException if a criteria was not found
 	 */
 	public static int get (Properties ctx, int M_Product_ID, int C_Charge_ID,
 		Timestamp billDate, Timestamp shipDate,
@@ -104,7 +110,8 @@ public class Tax
 	 * 	@param shipC_BPartner_Location_ID ship location
 	 * 	@param IsSOTrx is a sales trx
 	 * 	@return C_Tax_ID
-	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
+	 *  @throws TaxForChangeNotFoundException if criteria not found for given change
+	 *  @throws TaxCriteriaNotFoundException if a criteria was not found
 	 */
 	public static int getCharge (Properties ctx, int C_Charge_ID,
 		Timestamp billDate, Timestamp shipDate,
@@ -112,12 +119,13 @@ public class Tax
 		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
 		boolean IsSOTrx)
 	{
-		if (M_Warehouse_ID == 0)
+		if (M_Warehouse_ID <= 0)
 			M_Warehouse_ID = Env.getContextAsInt(ctx, "M_Warehouse_ID");
-		if (M_Warehouse_ID == 0)
+		if (M_Warehouse_ID <= 0)
 		{
-			log.warning("No Warehouse - C_Charge_ID=" + C_Charge_ID);
-			return 0;
+			throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
+						billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+						"@NotFound@ @M_Warehouse_ID@");
 		}
 		int C_TaxCategory_ID = 0;
 		int shipFromC_Location_ID = 0;
@@ -163,21 +171,21 @@ public class Tax
 			//
 			if (!found)
 			{
-				log.warning("Not found for C_Charge_ID=" + C_Charge_ID 
-					+ ", AD_Org_ID=" + AD_Org_ID + ", M_Warehouse_ID=" + M_Warehouse_ID
-					+ ", C_BPartner_Location_ID=" + billC_BPartner_Location_ID 
-					+ "/" + shipC_BPartner_Location_ID);
-				return 0;
+				throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
+						billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+						null);
 			}
 			else if ("Y".equals (IsTaxExempt))
+			{
 				return getExemptTax (ctx, AD_Org_ID);
+			}
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
-			return 0;
+			throw new DBException(e);
 		}
-		finally {
+		finally
+		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
@@ -242,12 +250,13 @@ public class Tax
 		int billToC_Location_ID = 0;
 		String IsTaxExempt = null;
 
-		PreparedStatement  pstmt = null;
+		String sql = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			//	Get all at once
-			String sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
+			sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
 				+ " w.C_Location_ID, sl.C_Location_ID "
 				+ "FROM M_Product p, AD_OrgInfo o,"
 				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID),"
@@ -308,53 +317,32 @@ public class Tax
 			//	Detail for error isolation
 
 		//	M_Product_ID				->	C_TaxCategory_ID
-			sql = "SELECT C_TaxCategory_ID FROM M_Product "
-				+ "WHERE M_Product_ID=?";
 			variable = "M_Product_ID";
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Product_ID);
-			rs = pstmt.executeQuery();
-			found = false;
-			if (rs.next())
+			sql = "SELECT C_TaxCategory_ID FROM M_Product WHERE M_Product_ID=?";
+			C_TaxCategory_ID = DB.getSQLValueEx(null, sql, M_Product_ID);
+			found = C_TaxCategory_ID != -1;
+			if (C_TaxCategory_ID <= 0)
 			{
-				C_TaxCategory_ID = rs.getInt(1);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			if (C_TaxCategory_ID == 0)
-			{
-				log.saveError("TaxCriteriaNotFound", Msg.translate(ctx, variable)
-					+ (found ? "" : " (Product=" + M_Product_ID + " not found)"));
-				return 0;
+				throw new TaxCriteriaNotFoundException(variable, M_Product_ID);
 			}
 			log.fine("getProduct - C_TaxCategory_ID=" + C_TaxCategory_ID);
 
 		//	AD_Org_ID					->	billFromC_Location_ID
-			sql = "SELECT C_Location_ID FROM AD_OrgInfo "
-				+ "WHERE AD_Org_ID=?";
 			variable = "AD_Org_ID";
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Org_ID);
-			rs = pstmt.executeQuery();
-			found = false;
-			if (rs.next())
+			sql = "SELECT C_Location_ID FROM AD_OrgInfo WHERE AD_Org_ID=?";
+			billFromC_Location_ID = DB.getSQLValueEx(null, sql, AD_Org_ID);
+			found = billFromC_Location_ID != -1;
+			if (billFromC_Location_ID <= 0)
 			{
-				billFromC_Location_ID = rs.getInt (1);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			if (billFromC_Location_ID == 0)
-			{
-				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
-				  + (found ? "" : " (Info/Org=" + AD_Org_ID + " not found)"));
-				return 0;
+				throw new TaxCriteriaNotFoundException(variable, AD_Org_ID);
 			}
 
 		//	billC_BPartner_Location_ID  ->	billToC_Location_ID
-			sql = "SELECT l.C_Location_ID, b.IsTaxExempt "
-				+ "FROM C_BPartner_Location l INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
-				+ "WHERE C_BPartner_Location_ID=?";
 			variable = "BillTo_ID";
+			sql = "SELECT l.C_Location_ID, b.IsTaxExempt "
+				+ " FROM C_BPartner_Location l"
+				+ " INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
+				+ " WHERE C_BPartner_Location_ID=?";
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, billC_BPartner_Location_ID);
 			rs = pstmt.executeQuery();
@@ -366,11 +354,9 @@ public class Tax
 				found = true;
 			}
 			DB.close(rs, pstmt);
-			if (billToC_Location_ID == 0)
+			if (billToC_Location_ID <= 0)
 			{
-				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
-					+ (found ? "" : " (BPLocation=" + billC_BPartner_Location_ID + " not found)"));
-				return 0;
+				throw new TaxCriteriaNotFoundException(variable, billC_BPartner_Location_ID);
 			}
 			if ("Y".equals(IsTaxExempt))
 				return getExemptTax(ctx, AD_Org_ID);
@@ -388,45 +374,23 @@ public class Tax
 			//-----------------------------------------------------------------
 
 		//	M_Warehouse_ID				->	shipFromC_Location_ID
-			sql = "SELECT C_Location_ID FROM M_Warehouse "
-				+ "WHERE M_Warehouse_ID=?";
 			variable = "M_Warehouse_ID";
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Warehouse_ID);
-			rs = pstmt.executeQuery();
-			found = false;
-			if (rs.next())
+			sql = "SELECT C_Location_ID FROM M_Warehouse WHERE M_Warehouse_ID=?";
+			shipFromC_Location_ID = DB.getSQLValueEx(null, sql, M_Warehouse_ID);
+			found = shipFromC_Location_ID != -1;
+			if (shipFromC_Location_ID <= 0)
 			{
-				shipFromC_Location_ID = rs.getInt (1);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			if (shipFromC_Location_ID == 0)
-			{
-				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
-					+ (found ? "" : " (Warehouse=" + M_Warehouse_ID + " not found)"));
-				return 0;
+				throw new TaxCriteriaNotFoundException(variable, M_Warehouse_ID);
 			}
 
 		//	shipC_BPartner_Location_ID 	->	shipToC_Location_ID
-			sql = "SELECT C_Location_ID FROM C_BPartner_Location "
-				+ "WHERE C_BPartner_Location_ID=?";
 			variable = "C_BPartner_Location_ID";
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, shipC_BPartner_Location_ID);
-			rs = pstmt.executeQuery();
-			found = false;
-			if (rs.next())
+			sql = "SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?";
+			shipToC_Location_ID = DB.getSQLValueEx(null, sql, shipC_BPartner_Location_ID);
+			found = shipToC_Location_ID != -1;
+			if (shipToC_Location_ID <= 0)
 			{
-				shipToC_Location_ID = rs.getInt (1);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			if (shipToC_Location_ID == 0)
-			{
-				log.saveError("TaxCriteriaNotFound", Msg.translate(Env.getAD_Language(ctx), variable)
-					+ (found ? "" : " (BPLocation=" + shipC_BPartner_Location_ID + " not found)"));
-				return 0;
+				throw new TaxCriteriaNotFoundException(variable, shipC_BPartner_Location_ID);
 			}
 
 			//  Reverse for PO
@@ -441,12 +405,11 @@ public class Tax
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, "getProduct (" + variable + ")", e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
-			DB.close(rs);
-			DB.close(pstmt);
+			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
 
@@ -456,52 +419,34 @@ public class Tax
 	}	//	getProduct
 
 	/**
-	 * 	Get Exempt Tax Code
-	 * 	@param ctx context
-	 * 	@param AD_Org_ID org to find client
-	 * 	@return C_Tax_ID
+	 * Get Exempt Tax Code
+	 * @param ctx context
+	 * @param AD_Org_ID org to find client
+	 * @return C_Tax_ID
+	 * @throws TaxNoExemptFoundException if no tax exempt found
 	 */
 	private static int getExemptTax (Properties ctx, int AD_Org_ID)
 	{
-		int C_Tax_ID = 0;
-		String sql = "SELECT t.C_Tax_ID "
+		final String sql = "SELECT t.C_Tax_ID "
 			+ "FROM C_Tax t"
 			+ " INNER JOIN AD_Org o ON (t.AD_Client_ID=o.AD_Client_ID) "
 			+ "WHERE t.IsTaxExempt='Y' AND o.AD_Org_ID=? "
 			+ "ORDER BY t.Rate DESC";
-		boolean found = false;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Org_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				C_Tax_ID = rs.getInt (1);
-				found = true;
-			}
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, "getExemptTax", e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		int C_Tax_ID = DB.getSQLValueEx(null, sql, AD_Org_ID);
 		log.fine("getExemptTax - TaxExempt=Y - C_Tax_ID=" + C_Tax_ID);
-		if (C_Tax_ID == 0)
-			log.saveError("TaxCriteriaNotFound", Msg.getMsg(ctx, "TaxNoExemptFound")
-				+ (found ? "" : " (Tax/Org=" + AD_Org_ID + " not found)"));
-		return C_Tax_ID;
+		if (C_Tax_ID <= 0)
+		{
+			throw new TaxNoExemptFoundException(AD_Org_ID);
+		}
+		else
+		{
+			return C_Tax_ID;
+		}
 	}	//	getExemptTax
 
 	
 	/**************************************************************************
 	 *	Get Tax ID (Detail).
-	 *  If error return 0 and set error log (TaxNotFound)
 	 *  @param ctx context
 	 *	@param C_TaxCategory_ID tax category
 	 * 	@param IsSOTrx Sales Order Trx
@@ -512,6 +457,7 @@ public class Tax
 	 *	@param billFromC_Location_ID invoice from
 	 *	@param billToC_Location_ID invoice to
 	 *	@return C_Tax_ID
+	 *  @throws TaxNotFoundException if no tax found for given criteria
 	 */
 	protected static int get (Properties ctx,
 		int C_TaxCategory_ID, boolean IsSOTrx,
@@ -610,8 +556,9 @@ public class Tax
 			return tax.getC_Tax_ID();
 		}	//	for all taxes
 		
-		log.saveError("TaxNotFound", "");
-		return 0;
+		throw new TaxNotFoundException(C_TaxCategory_ID, IsSOTrx,
+				shipDate, shipFromC_Locction_ID, shipToC_Location_ID,
+				billDate, billFromC_Location_ID, billToC_Location_ID);
 	}	//	get
 	
 }	//	Tax
