@@ -18,9 +18,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.compiere.interfaces.MD5;
+import org.compiere.util.Util;
 
 /**
  * Servlet Class
+ * 
+ * @author Michael Judd BF [2728388] - fix potential CSS vulnerability
  */
 public class GetMD5FileServlet extends HttpServlet {
 
@@ -55,7 +58,7 @@ public class GetMD5FileServlet extends HttpServlet {
 		throws ServletException,
 		IOException {
 		// TODO Auto-generated method stub
-		String file = req.getParameter("File");
+		String file = Util.maskHTML(req.getParameter("File"));
 		PrintWriter out = resp.getWriter();
 		out.println("<HTML><HEAD><TITLE>MD5 Hash</TITLE></HEAD><BODY>");
 		out.println("File is: "+ file + "<BR>MD5 : "+ md5.getFileMD5(file)+"<BR>");
