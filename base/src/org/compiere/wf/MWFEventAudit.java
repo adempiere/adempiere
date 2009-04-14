@@ -40,6 +40,12 @@ import org.compiere.util.Env;
 public class MWFEventAudit extends X_AD_WF_EventAudit
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3760514881823970823L;
+
+
+	/**
 	 * Get Event Audit for node
 	 * @param ctx context
 	 * @param AD_WF_Process_ID process

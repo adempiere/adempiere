@@ -38,6 +38,12 @@ import org.compiere.util.Msg;
 public class MCostElement extends X_M_CostElement
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8676787942212800906L;
+
+
+	/**
 	 * 	Get Material Cost Element or create it
 	 *	@param po parent
 	 *	@param CostingMethod method

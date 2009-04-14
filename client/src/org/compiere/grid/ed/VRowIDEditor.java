@@ -37,6 +37,11 @@ import org.compiere.util.CLogger;
 public class VRowIDEditor extends AbstractCellEditor implements TableCellEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -787968703981149591L;
+
+	/**
 	 *	Constructor
 	 */
 	public VRowIDEditor(boolean select)

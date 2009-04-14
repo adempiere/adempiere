@@ -23,6 +23,11 @@ import org.compiere.process.ProcessInfo;
 public class WProcessInfo extends ProcessInfo {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2034681838152013686L;
+
+	/**
 	 * @param Title
 	 * @param AD_Process_ID
 	 * @param Table_ID

@@ -35,6 +35,11 @@ public class blockquote extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6288156600346011385L;
+
+	/**
      * Private initialization routine.
      */
 	{

@@ -65,6 +65,11 @@ public class QueryTicket extends PosSubPanel
 	implements ActionListener, MouseListener, ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7713957495649128816L;
+
+	/**
 	 * 	Constructor
 	 */
 	public QueryTicket (PosPanel posPanel)

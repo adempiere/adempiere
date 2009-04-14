@@ -46,6 +46,12 @@ import org.compiere.util.Msg;
 public final class ConfirmPanel extends CPanel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6041019802043360966L;
+
+
+	/**
 	 *	Create OK Button with label text and F4 Shortcut
 	 *  @param text text
 	 *  @return OK Button

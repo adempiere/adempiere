@@ -35,6 +35,11 @@ import org.compiere.util.Env;
 public class MProjectTypePhase extends X_C_Phase
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5111329904215151458L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_Phase_ID id

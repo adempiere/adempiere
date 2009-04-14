@@ -33,6 +33,12 @@ import org.compiere.util.Env;
 public class MProductCosting extends X_M_Product_Costing
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7980130899951986948L;
+
+
+	/**
 	 * 	Get Costing Of Product
 	 *	@param ctx context
 	 *	@param M_Product_ID product

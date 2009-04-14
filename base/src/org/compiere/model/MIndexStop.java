@@ -30,6 +30,11 @@ import org.compiere.util.Msg;
 public class MIndexStop extends X_K_IndexStop
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 772357618338902018L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param K_IndexStop_ID id

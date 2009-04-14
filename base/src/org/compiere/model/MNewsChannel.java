@@ -33,6 +33,12 @@ import org.compiere.util.DB;
 public class MNewsChannel extends X_CM_NewsChannel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6310767119517226147L;
+
+
+	/**
      * Standard Constructor
      * 
      * @param ctx context

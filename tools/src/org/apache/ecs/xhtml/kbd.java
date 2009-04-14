@@ -47,6 +47,13 @@ public class kbd extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -308898549058393522L;
+
+
+
+	/**
 
         Private initialization routine.
 

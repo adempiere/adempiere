@@ -35,6 +35,11 @@ import org.compiere.util.CLogger;
 public final class MDocTime extends PlainDocument
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5359545674957190259L;
+
+	/**
 	 *	Constructor
 	 *  @param isHour Hour field
 	 *  @param is12Hour 12 hour format

@@ -35,6 +35,12 @@ import org.compiere.util.Env;
 public class MGLCategory extends X_GL_Category
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -272365151811522531L;
+
+
+	/**
 	 * 	Get MGLCategory from Cache
 	 *	@param ctx context
 	 *	@param GL_Category_ID id

@@ -35,6 +35,11 @@ public final class MLocationLookup extends Lookup
 	implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7335118019935048922L;
+
+	/**
 	 *	Constructor
 	 *  @param ctx context
 	 *  @param WindowNo window no (to derive AD_Client/Org for new records)

@@ -30,6 +30,11 @@ import org.compiere.util.CCache;
 public class MAssetGroup extends X_A_Asset_Group
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1364948077775028283L;
+
+	/**
 	 * 	Get from Cache
 	 *	@param ctx context
 	 *	@param A_Asset_Group_ID id

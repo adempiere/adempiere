@@ -29,6 +29,11 @@ import org.compiere.util.Env;
  */
 public class MAttachmentNote extends X_AD_AttachmentNote
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5902789937430504039L;
+
 	/** 
 	 * 	Standard Constructor
 	 * 	@param ctx context

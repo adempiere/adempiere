@@ -32,6 +32,11 @@ public class MMovementLineConfirm extends X_M_MovementLineConfirm
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2406580342096137696L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx ctx
 	 *	@param M_MovementLineConfirm_ID id

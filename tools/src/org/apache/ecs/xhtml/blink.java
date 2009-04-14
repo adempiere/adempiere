@@ -45,6 +45,11 @@ public class blink extends MultiPartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1262496922875046287L;
+
+	/**
 
         Private initialization routine.
 

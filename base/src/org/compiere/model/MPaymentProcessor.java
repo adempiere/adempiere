@@ -38,6 +38,12 @@ import org.compiere.util.Env;
 public class MPaymentProcessor extends X_C_PaymentProcessor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1825454310856682804L;
+
+
+	/**
 	 * 	Get BankAccount & PaymentProcessor
 	 * 	@param ctx context
 	 *  @param tender optional Tender see TENDER_

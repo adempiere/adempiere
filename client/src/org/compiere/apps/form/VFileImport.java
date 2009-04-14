@@ -74,6 +74,10 @@ import org.compiere.util.Msg;
 public class VFileImport extends CPanel
 	implements FormPanel, ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3996535986364873964L;
 	private static final int MAX_LOADED_LINES = 100;
 	private static final int MAX_SHOWN_LINES = 10;
 

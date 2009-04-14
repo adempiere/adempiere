@@ -42,6 +42,12 @@ import org.compiere.util.Language;
 public class MPrintFormatItem extends X_AD_PrintFormatItem
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -679302944951915141L;
+
+
+	/**
 	 *	Constructor
 	 *  @param ctx context
 	 *  @param AD_PrintFormatItem_ID AD_PrintFormatItem_ID

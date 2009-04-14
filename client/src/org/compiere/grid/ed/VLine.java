@@ -35,6 +35,11 @@ import org.compiere.util.Language;
 public class VLine extends AbstractBorder
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3510090015856709962L;
+
+	/**
 	 *  IDE Bean Constructor
 	 */
 	public VLine()

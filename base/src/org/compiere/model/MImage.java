@@ -42,6 +42,11 @@ import org.compiere.util.Ini;
 public class MImage extends X_AD_Image
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7361463683427300715L;
+
+	/**
 	 * 	Get MImage from Cache
 	 *	@param ctx context
 	 *	@param AD_Image_ID id

@@ -39,6 +39,11 @@ public class comment extends MultiPartElement implements Printable
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 8877511030959410207L;
+
+	/**
+	 * 
 	 * private initializer.
 	 *  
 	 */

@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MBPartnerInfo extends X_RV_BPartner
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7947336480731180299L;
+
+	/**
 	 * 	Find BPartners
 	 *	@param ctx context
 	 *	@param Value Business Partner Value

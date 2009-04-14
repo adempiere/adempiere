@@ -47,6 +47,13 @@ public class sub extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8396652313966222433L;
+
+
+
+	/**
 
         Private initialization routine.
 

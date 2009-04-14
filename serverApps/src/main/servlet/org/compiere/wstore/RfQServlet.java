@@ -49,6 +49,10 @@ import org.compiere.util.WebUtil;
  */
 public class RfQServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8679854236415741882L;
 	/**	Logging						*/
 	private CLogger					log = CLogger.getCLogger(getClass());
 	/** Name						*/

@@ -39,6 +39,12 @@ import org.compiere.util.DB;
 public class MInterestArea extends X_R_InterestArea
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6910076559329764930L;
+
+
+	/**
 	 * 	Get all active interest areas
 	 *	@param ctx context
 	 *	@return interest areas

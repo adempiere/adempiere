@@ -49,6 +49,11 @@ public class VColor extends CButton
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1668126756160533715L;
+
+	/**
 	 *  Constructor
 	 *  @param mTab	Tab
 	 *  @param mandatory mandatory

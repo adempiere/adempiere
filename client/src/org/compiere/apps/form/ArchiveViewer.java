@@ -73,6 +73,12 @@ public class ArchiveViewer extends CTabbedPane
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 876677286190292132L;
+
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame parent frame

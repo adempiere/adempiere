@@ -50,6 +50,11 @@ import org.compiere.util.Util;
  */
 public class LocationTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1083458086024632709L;
+
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 

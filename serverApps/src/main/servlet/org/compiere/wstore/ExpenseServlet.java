@@ -40,6 +40,10 @@ import org.compiere.util.WebUtil;
  */
 public class ExpenseServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3162975286315508379L;
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(ExpenseServlet.class);
 	/** Name						*/

@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MSerNoCtl extends X_M_SerNoCtl
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6746210722573475011L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_SerNoCtl_ID id

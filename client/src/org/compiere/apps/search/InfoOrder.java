@@ -49,6 +49,11 @@ import org.compiere.util.Util;
 public class InfoOrder extends Info
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2246871771555208114L;
+
+	/**
 	 *  Detail Protected Contructor
 	 *  @param frame parent frame
 	 *  @param modal modal

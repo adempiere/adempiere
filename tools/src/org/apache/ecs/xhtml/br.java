@@ -45,6 +45,11 @@ public class br extends SinglePartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2453784396275762602L;
+
+	/**
 
         Private initialization routine.
 

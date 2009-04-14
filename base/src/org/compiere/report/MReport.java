@@ -31,6 +31,11 @@ import org.compiere.model.X_PA_Report;
 public class MReport extends X_PA_Report
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1765138347185608173L;
+
+	/**
 	 * 	Constructor
 	 * 	@param ctx context
 	 * 	@param PA_Report_ID id

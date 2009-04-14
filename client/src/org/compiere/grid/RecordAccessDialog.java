@@ -55,6 +55,11 @@ import org.compiere.util.Msg;
 public class RecordAccessDialog extends CDialog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5208621373205009190L;
+
+	/**
 	 * 	Record Access Dialog
 	 *	@param owner owner
 	 *	@param AD_Table_ID table

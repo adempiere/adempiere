@@ -27,6 +27,11 @@ import java.util.Properties;
 public class MRequestUpdate extends X_R_RequestUpdate
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8862921042436867124L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param R_RequestUpdate_ID id

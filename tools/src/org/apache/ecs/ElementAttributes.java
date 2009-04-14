@@ -29,6 +29,11 @@ import java.util.Enumeration;
 public abstract class ElementAttributes extends GenericElement implements Attributes
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5646571780677625947L;
+
+	/**
         Basic Constructor.
     */
     public ElementAttributes()

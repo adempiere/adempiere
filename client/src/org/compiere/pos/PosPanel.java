@@ -46,6 +46,11 @@ public class PosPanel extends CPanel
 	implements FormPanel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3010214392188209281L;
+
+	/**
 	 * 	Constructor - see init 
 	 */
 	public PosPanel()

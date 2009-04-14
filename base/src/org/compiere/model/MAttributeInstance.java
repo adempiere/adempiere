@@ -29,6 +29,12 @@ import java.util.Properties;
 public class MAttributeInstance extends X_M_AttributeInstance
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6154044437449512042L;
+
+
+	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context
 	 *	@param ignored ignored

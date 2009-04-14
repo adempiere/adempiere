@@ -56,6 +56,10 @@ import org.compiere.util.Msg;
 public final class VString extends CTextField
 	implements VEditor, ActionListener, FocusListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3142768153171970900L;
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
 

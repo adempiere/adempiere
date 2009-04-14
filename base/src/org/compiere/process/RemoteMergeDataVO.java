@@ -29,6 +29,10 @@ import javax.sql.RowSet;
 public class RemoteMergeDataVO implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4466234572385621657L;
 	public Boolean			Test = Boolean.FALSE;
 	public String			TableName = null;
 	public String			Sql = null;

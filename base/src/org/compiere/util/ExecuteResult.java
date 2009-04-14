@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ExecuteResult implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1121381937893681417L;
 	private int m_updateCount = 0;
 	private ArrayList<ResultSet> m_resultSets = new ArrayList<ResultSet>();
 	private int resultSetPointer = 0;

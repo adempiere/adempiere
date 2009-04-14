@@ -36,6 +36,11 @@ import org.compiere.util.Env;
 public class MRegistrationAttribute extends X_A_RegistrationAttribute
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5306354702182270968L;
+
+	/**
 	 * 	Get All Asset Registration Attributes (not cached).
 	 * 	Refreshes Cache for direct addess
 	 *	@param ctx context

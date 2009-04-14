@@ -31,6 +31,12 @@ import org.compiere.swing.CField;
 public class AdempiereComboPopup extends BasicComboPopup
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 274215317393292721L;
+
+
+	/**
 	 *  Constructor
 	 *  @param combo
 	 */

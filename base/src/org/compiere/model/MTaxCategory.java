@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MTaxCategory extends X_C_TaxCategory
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2154364435808111060L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_TaxCategory_ID id

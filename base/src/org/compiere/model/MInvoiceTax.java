@@ -35,6 +35,12 @@ import org.compiere.util.Env;
 public class MInvoiceTax extends X_C_InvoiceTax
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5560880305482497098L;
+
+
+	/**
 	 * 	Get Tax Line for Invoice Line
 	 *	@param line invoice line
 	 *	@param precision currency precision

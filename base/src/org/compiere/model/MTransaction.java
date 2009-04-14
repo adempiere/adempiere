@@ -32,6 +32,12 @@ import org.compiere.util.Env;
 public class MTransaction extends X_M_Transaction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3411351000865493212L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_Transaction_ID id

@@ -35,6 +35,11 @@ import org.compiere.model.POInfo;
 public class DocActionTemplate extends PO implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7588955558162632796L;
+
+	/**
 	 * 	DocActionTemplate
 	 */
 	private DocActionTemplate()

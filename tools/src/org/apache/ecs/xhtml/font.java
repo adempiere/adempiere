@@ -46,6 +46,11 @@ public class font extends MultiPartElement implements Printable
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8438524129542982400L;
+
+	/**
 
         Private initializer.
 

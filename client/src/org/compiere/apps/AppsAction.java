@@ -49,6 +49,11 @@ import org.compiere.util.Msg;
 public final class AppsAction extends AbstractAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8522301377339185496L;
+
+	/**
 	 *  Application Action
 	 *
 	 *  @param   action base action command - used as AD_Message for Text and Icon name

@@ -109,6 +109,11 @@ public class WPayment extends Window
 	implements EventListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5886626149128018585L;
+
+	/**
 	 *	Constructor
 	 *
 	 *	@param WindowNo	owning window

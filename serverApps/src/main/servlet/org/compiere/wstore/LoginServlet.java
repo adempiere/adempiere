@@ -46,6 +46,10 @@ import org.compiere.util.WebUtil;
  */
 public class LoginServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7356209202584278247L;
 	/**	Logging						*/
 	private CLogger				log = CLogger.getCLogger(getClass());
 	/** Name						*/

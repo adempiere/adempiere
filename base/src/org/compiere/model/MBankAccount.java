@@ -32,6 +32,11 @@ import org.compiere.util.Env;
 public class MBankAccount extends X_C_BankAccount
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8742307130542608791L;
+
+	/**
 	 * 	Get BankAccount from Cache
 	 *	@param ctx context
 	 *	@param C_BankAccount_ID id

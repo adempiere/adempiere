@@ -30,6 +30,11 @@ import org.compiere.util.Msg;
 public class MElement extends X_C_Element
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7656092284157893366L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_Element_ID id

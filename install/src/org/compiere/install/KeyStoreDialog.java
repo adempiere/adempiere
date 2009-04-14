@@ -45,6 +45,11 @@ public class KeyStoreDialog extends CDialog
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6114800010246854563L;
+
+	/**
 	 * 	Constructor
 	 * 	@param owner frame
 	 *	@param cn common name

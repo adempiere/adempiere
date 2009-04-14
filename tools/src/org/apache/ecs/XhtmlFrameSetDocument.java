@@ -51,7 +51,12 @@ public class XhtmlFrameSetDocument implements Serializable,Cloneable
 
 {
 
-    /** @serial html html */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2548492591611250782L;
+
+	/** @serial html html */
 
     private html html; // this is the actual container for head and body
 

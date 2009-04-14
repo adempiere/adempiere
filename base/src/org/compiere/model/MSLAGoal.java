@@ -36,6 +36,11 @@ public class MSLAGoal extends X_PA_SLA_Goal
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5165579804502911120L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param PA_SLA_Goal_ID id

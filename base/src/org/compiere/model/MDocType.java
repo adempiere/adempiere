@@ -38,6 +38,11 @@ import org.compiere.util.Env;
 public class MDocType extends X_C_DocType
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1406832071359080959L;
+
+	/**
 	 * Return the first Doc Type for this BaseType
 	 * @param DocBaseType
 	 * @return

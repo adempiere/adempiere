@@ -38,6 +38,11 @@ public class li extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2991699729593217486L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

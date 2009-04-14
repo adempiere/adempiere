@@ -27,6 +27,11 @@ import org.zkoss.xml.XMLs;
 
 public class TimelineEventFeed extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5507229085571123451L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

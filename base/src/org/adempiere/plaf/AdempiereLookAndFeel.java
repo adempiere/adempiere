@@ -28,6 +28,11 @@ import com.jgoodies.looks.plastic.PlasticTheme;
 public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLookAndFeel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5681571518701552477L;
+
+	/**
 	 *  Constructor
 	 */
 	public AdempiereLookAndFeel()

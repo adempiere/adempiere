@@ -45,6 +45,11 @@ public class col extends SinglePartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4517663898410235000L;
+
+	/**
 
         private initializer.
 

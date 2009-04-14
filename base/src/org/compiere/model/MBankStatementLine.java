@@ -42,6 +42,11 @@ import org.compiere.util.Msg;
  public class MBankStatementLine extends X_C_BankStatementLine
  {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7260240724584085587L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_BankStatementLine_ID id

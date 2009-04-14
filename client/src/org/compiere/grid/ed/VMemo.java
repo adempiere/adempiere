@@ -53,6 +53,11 @@ public class VMemo extends CTextArea
 	implements VEditor, KeyListener, FocusListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9218826231484540367L;
+
+	/**
 	 *	IDE Baan Constructor
 	 */
 	public VMemo()

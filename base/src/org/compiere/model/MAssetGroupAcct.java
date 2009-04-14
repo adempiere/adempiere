@@ -24,6 +24,10 @@ import java.util.Properties;
 public class MAssetGroupAcct extends X_A_Asset_Group_Acct
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1097065220838511473L;
+	/**
 	 * 	Default ConstructorX_A_Asset_Group_Acct
 	 *	@param ctx context
 	 *	@param M_InventoryLine_ID line

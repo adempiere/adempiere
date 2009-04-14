@@ -37,6 +37,13 @@ import org.compiere.util.Env;
 public class MAccount extends X_C_ValidCombination
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8887316767838767993L;
+
+
+
+	/**
 	 * 	Get existing Account or create it 
 	 *	@param ctx context
 	 *	@param AD_Client_ID

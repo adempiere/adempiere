@@ -30,6 +30,11 @@ public class MCampaign extends X_C_Campaign
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5881057827687596119L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_Campaign_ID id

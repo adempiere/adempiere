@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MAttributeValue extends X_M_AttributeValue
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4105427429027399512L;
+
+	/**
 	 * 	Constructor
 	 *	@param ctx context
 	 *	@param M_AttributeValue_ID id

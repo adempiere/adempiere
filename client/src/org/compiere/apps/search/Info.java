@@ -78,6 +78,12 @@ public abstract class Info extends CDialog
 	implements ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5606614040914295869L;
+
+
+	/**
 	 *  Factory Constructor
 	 *  @param  frame   parent frame
 	 *  @param  modal   new window is modal

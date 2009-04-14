@@ -57,6 +57,11 @@ import org.compiere.util.WebDoc;
 public class GridWindow implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3342733142743698614L;
+
+	/**
 	 * 	Get Grid Window
 	 *  @param ctx context
 	 *  @param WindowNo window no for ctx

@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MAccessProfile extends X_CM_AccessProfile
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7399451749843773853L;
+
+	/**
 	 * 	Access to Container
 	 *	@param ctx context
 	 *	@param CM_Container_ID

@@ -30,6 +30,11 @@ public class MRevenueRecognition extends X_C_RevenueRecognition
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8528224265258285903L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_RevenueRecognition_ID id

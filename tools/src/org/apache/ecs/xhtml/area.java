@@ -35,6 +35,11 @@ public class area extends SinglePartElement
 	implements Printable, FocusEvents, MouseEvents, KeyEvents
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3902415084288774961L;
+
 	public static final String DEFAULT = "default";
 
 	public static final String rect	= "rect";

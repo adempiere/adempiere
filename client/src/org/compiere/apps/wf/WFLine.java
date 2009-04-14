@@ -42,6 +42,11 @@ import org.compiere.wf.MWFNodeNext;
 public class WFLine extends Component
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7599996355185021897L;
+
+	/**
 	 * 	Create Line
 	 * 	@param next model
 	 */

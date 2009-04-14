@@ -37,6 +37,12 @@ import org.compiere.util.WebUtil;
 public class WTask extends HttpServlet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4088461230847084532L;
+
+
+	/**
 	 * Initialize global variables
 	 */
 	public void init(ServletConfig config)

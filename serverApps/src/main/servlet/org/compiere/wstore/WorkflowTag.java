@@ -46,6 +46,11 @@ import org.compiere.wf.MWFActivity;
  */
 public class WorkflowTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -862613015608850843L;
+
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 

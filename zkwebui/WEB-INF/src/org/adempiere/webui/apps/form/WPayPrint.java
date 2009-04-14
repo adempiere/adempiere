@@ -71,6 +71,11 @@ public class WPayPrint extends ADForm
 	implements EventListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3005095685182033400L;
+
+	/**
 	 *	Initialize Panel
 	 */
 	protected void initForm()

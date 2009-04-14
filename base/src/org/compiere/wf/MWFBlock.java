@@ -32,6 +32,12 @@ import org.compiere.util.CCache;
 public class MWFBlock extends X_AD_WF_Block
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2084396539959122888L;
+
+
+	/**
 	 * 	Get MWFBlock from Cache
 	 *	@param ctx context
 	 *	@param AD_WF_Block_ID id

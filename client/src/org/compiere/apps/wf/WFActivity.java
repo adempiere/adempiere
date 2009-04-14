@@ -73,6 +73,11 @@ public class WFActivity extends CPanel
 	implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1317405409770050809L;
+
+	/**
 	 * 	WF Activity
 	 */
 	public WFActivity()

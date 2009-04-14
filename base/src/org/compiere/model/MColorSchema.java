@@ -34,6 +34,11 @@ import org.compiere.util.Env;
 public class MColorSchema extends X_PA_ColorSchema
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4645092884363283719L;
+
+	/**
 	 * 	Get Color
 	 *	@param ctx context
 	 *	@param PA_ColorSchema_ID id

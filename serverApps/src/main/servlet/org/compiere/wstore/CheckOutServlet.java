@@ -40,6 +40,10 @@ import org.compiere.util.WebUser;
  */
 public class CheckOutServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8593119091754611172L;
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 	/** Name						*/

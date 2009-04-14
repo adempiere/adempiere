@@ -43,6 +43,11 @@ public class MPAttributeLookup extends Lookup
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 70273805106666111L;
+
+	/**
 	 * 	Constructor
 	 * 	@param ctx context
 	 *	@param WindowNo window no

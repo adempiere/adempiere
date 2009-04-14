@@ -39,6 +39,12 @@ import org.compiere.util.Msg;
 public class MInventoryLine extends X_M_InventoryLine 
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1336000922103246463L;
+
+
+	/**
 	 * 	Get Inventory Line with parameters
 	 *	@param inventory inventory
 	 *	@param M_Locator_ID locator

@@ -79,6 +79,11 @@ public final class VAccountDialog extends CDialog
 	implements ActionListener, DataStatusListener, VetoableChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1980622319541357651L;
+
+	/**
 	 * 	Constructor
 	 *  @param frame frame
 	 *  @param title title

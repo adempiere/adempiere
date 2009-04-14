@@ -36,6 +36,11 @@ public class MImpFormat extends X_AD_ImpFormat
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3768339618622673968L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_ImpFormat_ID id

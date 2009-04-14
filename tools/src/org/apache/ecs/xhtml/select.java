@@ -37,6 +37,11 @@ public class select extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1713354093825899777L;
+
+	/**
 	 * Private initializer
 	 */
 	{

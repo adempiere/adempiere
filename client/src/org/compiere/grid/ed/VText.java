@@ -48,6 +48,11 @@ public class VText extends CTextArea
 	implements VEditor, KeyListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2479847373606754733L;
+
+	/**
 	 *	Standard Constructor
 	 *  @param columnName column name
 	 *  @param mandatory mandatory

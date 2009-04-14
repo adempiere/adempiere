@@ -25,7 +25,12 @@ package org.posterita.exceptions;
  */
 public class TerminalNotFoundException extends OperationException
 {
-    public TerminalNotFoundException(String msg)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4008118103736618982L;
+
+	public TerminalNotFoundException(String msg)
     {
         super(msg);
     }

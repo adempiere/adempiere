@@ -32,6 +32,11 @@ public class html extends MultiPartElement
 	implements Printable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7278682794036518806L;
+
 	public html ()
 	{
 		setElementType ("html");

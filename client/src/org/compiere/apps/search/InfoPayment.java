@@ -49,6 +49,11 @@ import org.compiere.util.Util;
 public class InfoPayment extends Info
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2917241055484901704L;
+
+	/**
 	 *  Detail Protected Contructor
 	 *  @param frame parent frame
 	 *  @param modal modal

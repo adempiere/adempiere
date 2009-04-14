@@ -28,6 +28,11 @@ import java.util.Comparator;
 public abstract class NamePair implements Comparator<Object>, Serializable, Comparable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8951176533385087242L;
+
+	/**
 	 *  Protected Constructor
 	 *  @param   name    (Display) Name of the Pair
 	 */

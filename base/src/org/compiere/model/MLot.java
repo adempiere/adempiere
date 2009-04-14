@@ -37,6 +37,10 @@ import org.compiere.util.KeyNamePair;
  */
 public class MLot extends X_M_Lot
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2238962371935615958L;
 	/**	Logger					*/
 	private static CLogger		s_log = CLogger.getCLogger(MLot.class);
 

@@ -155,6 +155,11 @@ public class GridController extends CPanel
 		VetoableChangeListener,	PropertyChangeListener, MouseListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7308782933999556880L;
+
+	/**
 	 *  Constructor - you need to call initGrid for instanciation
 	 */
 	public GridController()

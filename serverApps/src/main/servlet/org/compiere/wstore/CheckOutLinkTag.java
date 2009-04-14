@@ -42,6 +42,10 @@ import org.compiere.util.HtmlCode;
  */
 public class CheckOutLinkTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6103865361649483332L;
 	/**	Logger							*/
 	private CLogger			log = CLogger.getCLogger (getClass());
 	/** One Line						*/

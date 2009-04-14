@@ -39,6 +39,11 @@ import java.util.Vector;
 */
 public class ConcreteElement extends ElementAttributes implements Cloneable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6348409634468876553L;
+
 	/** HTML nbsp				*/
 	public static final String	NBSP = "&nbsp;";
 

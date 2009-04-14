@@ -31,6 +31,11 @@ public class MProcessAccess extends X_AD_Process_Access
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2468108979800832171L;
+
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context

@@ -29,6 +29,11 @@ import org.compiere.util.DB;
  */
 public class MAssetAcct extends X_A_Asset_Acct {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4779953750434068382L;
+
+	/**
 	 * Default ConstructorX_A_Asset_Group_Acct
 	 * 
 	 * @param ctx

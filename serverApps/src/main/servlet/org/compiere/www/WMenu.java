@@ -66,6 +66,10 @@ import org.compiere.util.WebUtil;
 public class WMenu extends HttpServlet
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6357775290362135602L;
 	/** Logger */
 	protected CLogger	log	= CLogger.getCLogger (getClass ());
 

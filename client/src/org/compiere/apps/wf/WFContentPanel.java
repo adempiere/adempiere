@@ -57,6 +57,11 @@ public class WFContentPanel extends CPanel
 	implements MouseListener, MouseMotionListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4868946962536126669L;
+
+	/**
 	 * 	WFContentPanel
 	 */
 	public WFContentPanel (WFPanel parent)
@@ -518,6 +523,11 @@ public class WFContentPanel extends CPanel
 	 */
 	class WFPopupItem extends JMenuItem
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4634863991042969718L;
+
 		/**
 		 * 	Add Line Item
 		 *	@param title title

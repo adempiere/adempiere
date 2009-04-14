@@ -47,6 +47,13 @@ public class dl extends MultiPartElement implements Printable, MouseEvents, KeyE
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6379360964343798828L;
+
+
+
+	/**
 
         Private initialization routine.
 

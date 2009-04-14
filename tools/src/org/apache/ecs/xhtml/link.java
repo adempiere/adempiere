@@ -35,6 +35,11 @@ public class link extends SinglePartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1178989836654363914L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

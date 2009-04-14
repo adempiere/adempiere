@@ -66,6 +66,11 @@ import org.compiere.util.NamePair;
 public class RecordInfo extends CDialog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8984246906639442417L;
+
+	/**
 	 *	Record Info
 	 *	@param owner owner
 	 *	@param title title

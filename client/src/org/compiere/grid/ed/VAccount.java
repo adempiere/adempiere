@@ -51,6 +51,11 @@ public final class VAccount extends JComponent
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 906418220544555281L;
+
+	/**
 	 *	Constructor
 	 *  @param columnName
 	 *  @param mandatory

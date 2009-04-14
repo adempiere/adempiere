@@ -33,6 +33,11 @@ public class base extends SinglePartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7276739960215382631L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

@@ -52,6 +52,10 @@ import org.compiere.util.WebUtil;
  */
 public class WChat extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6826855534161342772L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	private MChat			m_chat;

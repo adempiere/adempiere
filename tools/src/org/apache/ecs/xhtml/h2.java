@@ -35,6 +35,11 @@ public class h2 extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 917142913548607988L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

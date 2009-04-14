@@ -28,6 +28,11 @@ public class MReplicationLog extends X_AD_Replication_Log
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5188563816312329819L;
+
+	/**
 	 * 	Create new Log
 	 * 	@param ctx context
 	 * 	@param AD_Replication_Run_ID id

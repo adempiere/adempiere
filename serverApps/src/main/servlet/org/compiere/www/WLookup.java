@@ -67,6 +67,11 @@ import org.compiere.util.WebUtil;
  */
 public class WLookup extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1564370055815050553L;
+
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLookup.class);
 	

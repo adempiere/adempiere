@@ -32,6 +32,11 @@ import org.compiere.util.Msg;
 public class MPOS extends X_C_POS
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1568195843844720536L;
+
+	/**
 	 * 	Get POS from Cache
 	 *	@param ctx context
 	 *	@param C_POS_ID id

@@ -50,6 +50,12 @@ import org.compiere.util.Msg;
 public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4780252534394959680L;
+
+
+	/**
 	 * 	Get Allocations of Payment
 	 *	@param ctx context
 	 *	@param C_Payment_ID payment

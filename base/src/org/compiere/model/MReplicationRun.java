@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MReplicationRun extends X_AD_Replication_Run
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2619966943083677072L;
+
+	/**
 	 * 	Create new Run
 	 *	@param ctx context
 	 *	@param AD_Replication_ID id

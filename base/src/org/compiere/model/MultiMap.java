@@ -38,6 +38,11 @@ import org.compiere.util.CLogger;
 public final class MultiMap<K,V> implements Map<K,V>, Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -947723044316916542L;
+
+	/**
 	 *  Constructor with 10 initial Capacity (same as ArrayList)
 	 */
 	public MultiMap()

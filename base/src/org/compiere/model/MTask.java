@@ -33,6 +33,11 @@ import org.compiere.util.Task;
 public class MTask extends X_AD_Task
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3798377076931060582L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Task_ID id

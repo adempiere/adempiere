@@ -32,6 +32,12 @@ public class ExtensionFileFilter extends FileFilter
 	implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1653311024184813302L;
+
+
+	/**
 	 *	Constructor
 	 */
 	public ExtensionFileFilter()

@@ -44,6 +44,11 @@ import org.compiere.util.ValueNamePair;
 public final class FindValueRenderer extends DefaultTableCellRenderer
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5290173817551899865L;
+
+	/**
 	 *	Constructor
 	 *  @param find find
 	 *  @param valueTo true if it is the "to" value column

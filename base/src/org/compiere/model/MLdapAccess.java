@@ -29,6 +29,11 @@ public class MLdapAccess extends X_AD_LdapAccess
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7873484319494804583L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_LdapAccess_ID id

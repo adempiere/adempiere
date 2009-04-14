@@ -36,6 +36,11 @@ public class table extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6841603851523601317L;
+
+	/**
 	 * Private iniitialization routine
 	 */
 	{

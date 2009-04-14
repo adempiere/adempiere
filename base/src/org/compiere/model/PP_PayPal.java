@@ -30,6 +30,10 @@ import org.compiere.util.CLogMgt;
 public class PP_PayPal extends PaymentProcessor
 	implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6199700578420668764L;
 	/**	Status					*/
 	private boolean			m_ok = false;
 	/** PayPal Caller Service	*/

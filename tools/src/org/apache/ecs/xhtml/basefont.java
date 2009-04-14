@@ -46,6 +46,11 @@ public class basefont extends SinglePartElement implements Printable
 
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1576819240099436748L;
+
+	/**
 
         Private initializer.
 

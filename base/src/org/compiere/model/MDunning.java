@@ -29,6 +29,11 @@ import java.util.Properties;
 public class MDunning extends X_C_Dunning
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 796291742140033745L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_Dunning_ID id

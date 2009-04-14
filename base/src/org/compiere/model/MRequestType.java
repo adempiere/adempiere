@@ -40,6 +40,11 @@ import org.compiere.util.Env;
 public class MRequestType extends X_R_RequestType
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6235793036503665638L;
+
+	/**
 	 * 	Get Request Type (cached)
 	 *	@param ctx context
 	 *	@param R_RequestType_ID id

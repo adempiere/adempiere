@@ -37,6 +37,12 @@ import org.compiere.util.WebUtil;
 public class WWorkflow extends HttpServlet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7535552109735485229L;
+
+
+	/**
 	 * Initialize global variables
 	 */
 	public void init(ServletConfig config)

@@ -52,6 +52,10 @@ import org.compiere.util.WebUtil;
  */
 public class AssetServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8335032857740563624L;
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(AssetServlet.class);
 	/** Name						*/

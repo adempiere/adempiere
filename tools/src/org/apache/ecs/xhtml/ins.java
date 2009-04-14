@@ -47,6 +47,13 @@ public class ins extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2337325955657304926L;
+
+
+
+	/**
 
         Private initializer.
 

@@ -34,6 +34,12 @@ import org.compiere.util.Env;
 public class MProcessPara extends X_AD_Process_Para
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2387741816477468470L;
+
+
+	/**
 	 * 	Get MProcessPara from Cache
 	 *	@param ctx context
 	 *	@param AD_Process_Para_ID id

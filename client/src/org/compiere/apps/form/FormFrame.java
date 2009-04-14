@@ -60,6 +60,11 @@ public class FormFrame extends CFrame
 	implements ActionListener 
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2559005548469735515L;
+
+	/**
 	 *	Create Form.
 	 *  Need to call openForm
 	 */

@@ -55,6 +55,11 @@ import org.compiere.util.Env;
 public final class FactLine extends X_Fact_Acct
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6141312459030795891L;
+
+	/**
 	 *	Constructor
 	 *	@param ctx context
 	 *  @param AD_Table_ID  - Table of Document Source

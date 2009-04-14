@@ -35,6 +35,11 @@ public class MProjectIssue extends X_C_ProjectIssue
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4714411434615096132L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_ProjectIssue_ID id

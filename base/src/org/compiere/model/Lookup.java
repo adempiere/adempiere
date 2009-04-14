@@ -40,6 +40,11 @@ public abstract class Lookup extends AbstractListModel
 	implements MutableComboBoxModel, Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2811763289904455349L;
+
+	/**
 	 *  Lookup
 	 * 	@param displayType display type
 	 * 	@param windowNo window no

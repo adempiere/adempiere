@@ -35,6 +35,12 @@ import org.compiere.util.Env;
 public class MOrderTax extends X_C_OrderTax
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6776007249310373908L;
+
+
+	/**
 	 * 	Get Tax Line for Order Line
 	 *	@param line Order line
 	 *	@param precision currenct precision

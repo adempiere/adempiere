@@ -47,6 +47,13 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5114271037437929363L;
+
+
+
+	/**
 
         Private initialization routine.
 

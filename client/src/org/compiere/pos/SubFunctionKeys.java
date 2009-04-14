@@ -44,6 +44,11 @@ import org.compiere.util.Msg;
 public class SubFunctionKeys extends PosSubPanel implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2131406504920855582L;
+
+	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */

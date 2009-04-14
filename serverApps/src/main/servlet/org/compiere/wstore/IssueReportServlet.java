@@ -43,6 +43,10 @@ import org.compiere.util.WebUtil;
  */
 public class IssueReportServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5347264108766751365L;
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(IssueReportServlet.class);
 

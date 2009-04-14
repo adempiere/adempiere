@@ -35,6 +35,11 @@ public class legend extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7381299904685582631L;
+
+	/**
      * private initializer.
      */
 	{

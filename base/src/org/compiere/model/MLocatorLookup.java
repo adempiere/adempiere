@@ -46,6 +46,11 @@ import org.compiere.util.NamePair;
 public final class MLocatorLookup extends Lookup implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8932848190660391496L;
+
+	/**
 	 *	Constructor
 	 *  @param ctx context
 	 *  @param WindowNo window no

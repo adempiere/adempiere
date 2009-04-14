@@ -47,6 +47,10 @@ import org.compiere.util.WebUtil;
  */
 public class BasketServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3636119916937667318L;
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(BasketServlet.class);
 	/** Name						*/

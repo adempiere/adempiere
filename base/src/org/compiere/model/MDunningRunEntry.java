@@ -36,6 +36,10 @@ import org.compiere.util.Env;
  */
 public class MDunningRunEntry extends X_C_DunningRunEntry
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2028055451030209868L;
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
 

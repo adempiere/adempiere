@@ -66,6 +66,12 @@ import org.xml.sax.SAXException;
 public class MAttachment extends X_AD_Attachment
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1948066627503677516L;
+
+
+	/**
 	 * 	Get Attachment
 	 *	@param ctx context
 	 *	@param AD_Table_ID table

@@ -43,7 +43,11 @@ import org.compiere.util.Util;
  */
 public class LocationServlet extends HttpServlet
 {
-    /**	Logging						*/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1379510686568875557L;
+	/**	Logging						*/
     private CLogger			log = CLogger.getCLogger(getClass());
 
     /**

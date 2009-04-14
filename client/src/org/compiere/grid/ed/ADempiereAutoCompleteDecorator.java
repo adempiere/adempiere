@@ -120,7 +120,11 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
     }
     
     static class NonStrictBackspaceAction extends TextAction {
-        Action backspace;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 7260685268274438388L;
+		Action backspace;
         Action selectionBackward;
         AbstractAutoCompleteAdaptor adaptor;
         
@@ -141,7 +145,11 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
     }
     
     static class NextMatchAction extends TextAction {
-    	JTextComponent textComponent;
+    	/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2987063701364646859L;
+		JTextComponent textComponent;
     	AutoCompleteDocument document;
     	final AbstractAutoCompleteAdaptor adaptor;
     	final List<String> items;
@@ -200,7 +208,12 @@ public class ADempiereAutoCompleteDecorator extends AutoCompleteDecorator{
      * the action. The error feedback is most likely a "beep".
      */
     static Object errorFeedbackAction = new TextAction("provide-error-feedback") {
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 6251452041316544686L;
+
+		public void actionPerformed(ActionEvent e) {
             UIManager.getLookAndFeel().provideErrorFeedback(getTextComponent(e));
         }
     };

@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MReplication extends X_AD_Replication
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7363193371925559167L;
+
+	/**
 	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param AD_Replication_ID id

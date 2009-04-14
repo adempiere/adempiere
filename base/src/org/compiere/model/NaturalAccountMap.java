@@ -57,6 +57,11 @@ import org.compiere.util.Util;
 public final class NaturalAccountMap<K,V> extends CCache<K,V>
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2246313934440519036L;
+
+	/**
 	 *  Constructor.
 	 *  Parse File does the processing
 	 *  @param ctx context

@@ -28,6 +28,11 @@ import java.io.Serializable;
  */
 public final class Queue implements Serializable
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4858407108018676415L;
 /*
 	private static Connection	s_connection;
 	private static AQSession	s_session;

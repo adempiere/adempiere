@@ -54,6 +54,11 @@ public class VDocAction extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7800828832602048052L;
+
+	/**
 	 *	Constructor.
 	 *  Started from APanel. 
 	 * 	getNumberOfOptions()is used to determine to show the dialog

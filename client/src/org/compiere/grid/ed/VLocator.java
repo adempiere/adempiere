@@ -65,6 +65,11 @@ public class VLocator extends JComponent
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6173109396306219205L;
+
+	/**
 	 *  IDE Constructor
 	 */
 	public VLocator ()

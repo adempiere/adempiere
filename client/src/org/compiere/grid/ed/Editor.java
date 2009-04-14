@@ -65,6 +65,11 @@ public class Editor extends CDialog
 	implements ChangeListener, ActionListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8314686583942866712L;
+
+	/**
 	 *	Factory: Start Editor
 	 *	@param jc container to get parent frame
 	 *	@param header heading

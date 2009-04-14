@@ -40,6 +40,12 @@ import org.compiere.util.TimeUtil;
 public class MRfQResponse extends X_C_RfQResponse
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1472377321844135042L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_RfQResponse_ID id

@@ -67,6 +67,12 @@ public class VBOMDrop extends CPanel
 	implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3135475369002895149L;
+
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame parent frame

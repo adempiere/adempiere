@@ -71,6 +71,10 @@ public class VLocationDialog extends CDialog
 	/** Lookup result */
 	//private Object[][] data = null;
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6593340606631477392L;
 	/** Lookup result header */
 	private Object[] header = null;
 

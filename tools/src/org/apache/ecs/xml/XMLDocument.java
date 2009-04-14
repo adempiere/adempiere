@@ -35,6 +35,11 @@ public class XMLDocument
 	implements Serializable, Cloneable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2777290564966686983L;
+
 	/** Default Version */
 	private static final float DEFAULT_XML_VERSION = 1.0f;
 

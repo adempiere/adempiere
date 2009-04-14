@@ -39,6 +39,10 @@ import org.compiere.util.WebUtil;
  */
 public class Community extends HttpServletCM
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1137119385690937015L;
 	/**	Logging				  				*/
 	private CLogger				log = CLogger.getCLogger(getClass());
 

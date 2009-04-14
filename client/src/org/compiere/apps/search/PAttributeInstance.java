@@ -55,6 +55,11 @@ public class PAttributeInstance extends CDialog
 	implements ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3743466565716139916L;
+
+	/**
 	 * 	Constructor
 	 * 	@param parent frame parent
 	 * 	@param title title

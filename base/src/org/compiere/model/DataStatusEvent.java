@@ -31,6 +31,11 @@ import java.util.EventObject;
 public final class DataStatusEvent extends EventObject implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8126804905593738238L;
+
+	/**
 	 *	Constructor
 	 *  @param source1 source
 	 *  @param totalRows total rows

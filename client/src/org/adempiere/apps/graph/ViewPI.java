@@ -42,6 +42,12 @@ public class ViewPI extends CPanel
 implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8022906851004145960L;
+
+
+	/**
 	 * 	Init
 	 *	@param WindowNo
 	 *	@param frame

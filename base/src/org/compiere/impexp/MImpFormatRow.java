@@ -32,6 +32,11 @@ public class MImpFormatRow extends X_AD_ImpFormat_Row
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6251836513717968622L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_ImpFormat_Row_ID id

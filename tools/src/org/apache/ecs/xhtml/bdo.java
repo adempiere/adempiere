@@ -45,6 +45,11 @@ public class bdo extends MultiPartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3807320218056339305L;
+
+	/**
 
         Private initialization routine.
 

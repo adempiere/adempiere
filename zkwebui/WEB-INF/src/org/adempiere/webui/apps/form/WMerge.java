@@ -66,6 +66,10 @@ import org.zkoss.zkex.zul.South;
 public class WMerge extends ADForm 
 	implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5797395051958101596L;
 	private int				m_totalCount = 0;
 	/** Error Log			*/
 	private StringBuffer	m_errorLog = new StringBuffer();

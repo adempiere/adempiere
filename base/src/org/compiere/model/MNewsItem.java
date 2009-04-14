@@ -27,6 +27,11 @@ import java.util.Properties;
  */
 public class MNewsItem extends X_CM_NewsItem
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8217571535161436997L;
+
 	/***
      * Standard Constructor
      * 

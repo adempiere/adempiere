@@ -43,6 +43,11 @@ import org.compiere.util.TimeUtil;
 public class MWFProcess extends X_AD_WF_Process
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8992222567597358696L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_WF_Process_ID process

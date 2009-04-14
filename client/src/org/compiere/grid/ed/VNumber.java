@@ -66,6 +66,10 @@ import org.compiere.util.Env;
 public final class VNumber extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener, VManagedEditor
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -516704171367798447L;
 	/**	Number of Columns (12)		*/
 	public final static int SIZE = 12;
 	/** Automatically pop up calculator */

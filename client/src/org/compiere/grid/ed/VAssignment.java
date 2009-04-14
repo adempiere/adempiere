@@ -61,6 +61,11 @@ public class VAssignment extends JComponent
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 796127013756416974L;
+
+	/**
 	 *	IDE Constructor
 	 */
 	public VAssignment()

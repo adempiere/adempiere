@@ -83,6 +83,10 @@ public abstract class WCreateFrom extends Window
 	implements EventListener, WTableModelListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 15158515174358003L;
+	/**
 	 *  Factory - called from APanel
 	 *  @param  mTab        Model Tab for the trx
 	 *  @return JDialog

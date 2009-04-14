@@ -35,6 +35,11 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2580706419593695062L;
+
+	/**
 	 * 	Get Accounst Of BPartner
 	 *	@param ctx context
 	 *	@param C_BPartner_ID bpartner

@@ -29,6 +29,11 @@ import java.util.Properties;
 public class MFormAccess extends X_AD_Form_Access
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7818255846843514899L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param ignored id=0

@@ -37,6 +37,11 @@ import org.compiere.util.NamePair;
 public class VComboBox extends CComboBox
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2024662772161020317L;
+
+	/**
 	 *  Constructor
 	 */
 	public VComboBox()

@@ -34,6 +34,11 @@ import org.compiere.util.Msg;
 public class MInvoiceBatchLine extends X_C_InvoiceBatchLine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4022629343631759064L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_InvoiceBatchLine_ID id

@@ -39,6 +39,11 @@ import org.compiere.util.Env;
 public class MContactInterest extends X_R_ContactInterest
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4720845687902863428L;
+
+	/**
 	 * 	Get Contact Interest
 	 *	@param ctx context
 	 *	@param R_InterestArea_ID interest ares

@@ -62,6 +62,11 @@ public class VSetup extends CPanel
 	implements FormPanel, ActionListener, Runnable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3255776374935155456L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

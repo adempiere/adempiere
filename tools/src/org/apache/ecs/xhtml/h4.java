@@ -35,6 +35,11 @@ public class h4 extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6372365775306910161L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

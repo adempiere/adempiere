@@ -29,6 +29,11 @@ import org.compiere.util.EMail;
 public class MUserMail extends X_AD_UserMail
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1019980049099249013L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_UserMail_ID id

@@ -53,6 +53,11 @@ public class VImageDialog extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2630060904081520523L;
+
+	/**
 	 *  Constructor
 	 *  @param owner
 	 *  @param mImage

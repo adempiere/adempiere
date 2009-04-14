@@ -32,6 +32,11 @@ import org.compiere.util.Env;
 public class MRfQResponseLineQty extends X_C_RfQResponseLineQty implements Comparator
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4118030805518374853L;
+
+	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context
 	 *	@param C_RfQResponseLineQty_ID id

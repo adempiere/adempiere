@@ -30,6 +30,11 @@ public class MPInstancePara extends X_AD_PInstance_Para
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8688626861772200167L;
+
+	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context
 	 *	@param ignored ignored

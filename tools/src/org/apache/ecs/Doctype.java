@@ -100,7 +100,11 @@ package org.apache.ecs;
 */
 public class Doctype extends SinglePartElement implements Printable 
 {
-    public static final String elementName = "!DOCTYPE";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2075836145789129398L;
+	public static final String elementName = "!DOCTYPE";
     public static final String PUBLIC = "PUBLIC";
     
     protected String name;
@@ -291,7 +295,12 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class Html40Strict extends Doctype {
 
-        public Html40Strict() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -6768117303055082689L;
+
+		public Html40Strict() {
             this.name = "HTML";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD HTML 4.0//EN\"";
@@ -310,7 +319,12 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class Html40Transitional extends Doctype {
 
-        public Html40Transitional() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -2561532059315520359L;
+
+		public Html40Transitional() {
             this.name = "HTML";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD HTML 4.0 Transitional//EN\"";
@@ -328,7 +342,12 @@ public class Doctype extends SinglePartElement implements Printable
      */ 
     public static class Html40Frameset extends Doctype {
 
-        public Html40Frameset() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 5442355270707253725L;
+
+		public Html40Frameset() {
             this.name = "HTML";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD HTML 4.0 Frameset//EN\"";
@@ -347,7 +366,12 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class XHtml10Strict extends Doctype {
 
-        public XHtml10Strict() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 906251485117803601L;
+
+		public XHtml10Strict() {
             this.name = "html";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD XHTML 1.0 Strict//EN\"";
@@ -366,7 +390,12 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class XHtml10Transitional extends Doctype {
 
-        public XHtml10Transitional() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -79107605400685902L;
+
+		public XHtml10Transitional() {
             this.name = "html";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD XHTML 1.0 Transitional//EN\"";
@@ -386,7 +415,12 @@ public class Doctype extends SinglePartElement implements Printable
      */
     public static class XHtml10Frameset extends Doctype {
 
-        public XHtml10Frameset() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 4590750316568237831L;
+
+		public XHtml10Frameset() {
             this.name = "html";
             this.visibility = PUBLIC;
             this.identifier = "\"-//W3C//DTD XHTML 1.0 Frameset//EN\"";

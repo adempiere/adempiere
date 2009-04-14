@@ -45,6 +45,11 @@ import org.compiere.util.MSort;
 public class ResultTable extends JTable implements MouseListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2633317327407673345L;
+
+	/**
 	 *  Constructor
 	 */
 	public ResultTable()

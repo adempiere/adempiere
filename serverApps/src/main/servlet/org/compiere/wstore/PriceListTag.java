@@ -41,6 +41,11 @@ import org.compiere.util.WebUser;
  */
 public class PriceListTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2109422988040998327L;
+
 	/**	Price List ID			*/
 	private int					m_priceList_ID = 0;
 

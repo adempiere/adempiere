@@ -27,6 +27,10 @@ import java.util.Properties;
  */
 public class MPreference extends X_AD_Preference
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5098559160325123593L;
 	/**	Null Indicator				*/
 	public static String		NULL = "null";
 	

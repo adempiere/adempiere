@@ -71,6 +71,10 @@ import org.compiere.util.WebUtil;
  */
 public class WWindow extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8801734074649997374L;
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WWindow.class);
 	

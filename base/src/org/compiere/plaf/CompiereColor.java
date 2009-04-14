@@ -56,6 +56,10 @@ import org.compiere.util.ValueNamePair;
  */
 public class CompiereColor implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 756220720952973781L;
 	/** Background type Flat            */
 	public static final String  TYPE_FLAT = "F";
 	/** Background type Gradient        */

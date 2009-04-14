@@ -32,6 +32,13 @@ public class MPackageExpDetail extends X_AD_Package_Exp_Detail
 {	
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5110078103695767282L;
+
+
+
+	/**
 	 * 	MPackageExpDetail
 	 *	@param ctx
 	 *	@param int

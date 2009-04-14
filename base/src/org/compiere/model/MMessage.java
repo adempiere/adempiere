@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MMessage extends X_AD_Message
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7362947218094337783L;
+
+	/**
 	 * 	Get Message (cached)
 	 *	@param ctx context
 	 *	@param Value message value

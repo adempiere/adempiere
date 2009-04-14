@@ -38,6 +38,12 @@ import org.compiere.util.CLogger;
 public class SubBasicKeys extends PosSubPanel implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3296839634889851637L;
+
+
+	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */

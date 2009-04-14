@@ -53,6 +53,10 @@ import org.compiere.util.Trx;
 public class VMerge extends CPanel 
 	implements FormPanel, ActionListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 149783846292562740L;
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/

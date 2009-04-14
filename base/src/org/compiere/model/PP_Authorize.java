@@ -27,6 +27,10 @@ import java.io.Serializable;
 public class PP_Authorize extends PaymentProcessor
 	implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4010515114494556626L;
 	/**	Status					*/
 	private boolean		m_ok = false;
 

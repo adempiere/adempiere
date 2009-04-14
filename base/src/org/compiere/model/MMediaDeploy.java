@@ -29,6 +29,11 @@ import java.util.Properties;
 public class MMediaDeploy extends X_CM_MediaDeploy
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -339938737506660238L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param CM_MediaDeploy_ID id

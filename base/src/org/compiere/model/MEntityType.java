@@ -35,6 +35,11 @@ import org.compiere.util.DB;
 public class MEntityType extends X_AD_EntityType
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8906219523978497906L;
+
+	/**
 	 * 	Get Entity Types
 	 * 	@param ctx context
 	 *	@return entity type array

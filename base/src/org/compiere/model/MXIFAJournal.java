@@ -12,6 +12,11 @@ import org.compiere.util.Env;
  * @version $Id: X_A_Asset.java,v 1.88 2004/08/27 21:26:37 jjanke Exp $ *
  ******************************************************************************/
 public class MXIFAJournal extends X_I_FAJournal {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3922040740843729868L;
+
 	public MXIFAJournal(Properties ctx, int I_FAJournal_ID, String trxName) {
 		super(ctx, I_FAJournal_ID, trxName);
 		if (I_FAJournal_ID == 0) {

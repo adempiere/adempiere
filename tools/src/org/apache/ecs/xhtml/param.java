@@ -48,7 +48,12 @@ public class param extends SinglePartElement implements Printable
 
 
 
-    public final static String ref = "ref";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8523078370350242925L;
+
+	public final static String ref = "ref";
 
     public final static String data = "data";
 

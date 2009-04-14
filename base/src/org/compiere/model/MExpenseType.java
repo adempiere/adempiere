@@ -30,6 +30,11 @@ public class MExpenseType extends X_S_ExpenseType
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5721855125106737886L;
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param S_ExpenseType_ID id

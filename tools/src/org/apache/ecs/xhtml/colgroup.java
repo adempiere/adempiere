@@ -45,6 +45,11 @@ public class colgroup extends MultiPartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7610169537948275866L;
+
+	/**
 
         private initializer.
 

@@ -41,6 +41,11 @@ public final class VPassword extends CPassword
 	implements VEditor, KeyListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7727795751575110982L;
+
+	/**
 	 *	IDE Bean Constructor for 30 character updateable field
 	 */
 	public VPassword()

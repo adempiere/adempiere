@@ -35,6 +35,11 @@ public class CTextField extends JTextField
 	implements CEditor, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 460529728891168659L;
+
+	/**
 	 * Constructs a new <code>TextField</code>.  A default model is created,
 	 * the initial string is <code>null</code>,
 	 * and the number of columns is set to 0.

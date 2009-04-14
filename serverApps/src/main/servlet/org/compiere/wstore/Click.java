@@ -47,6 +47,11 @@ import org.compiere.util.WebUtil;
  */
 public class Click  extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5255937471697633035L;
+
 	/**	Logging						*/
 	private CLogger						log = CLogger.getCLogger(getClass());
 

@@ -78,6 +78,11 @@ public class GridTable extends AbstractTableModel
 	implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4468782288142337285L;
+
+	/**
 	 *	JDBC Based Buffered Table
 	 *
 	 *  @param ctx Properties
@@ -2918,6 +2923,11 @@ public class GridTable extends AbstractTableModel
 	 */
 	class Loader extends Thread implements Serializable
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8735217685095696892L;
+
 		/**
 		 *  Construct Loader
 		 */

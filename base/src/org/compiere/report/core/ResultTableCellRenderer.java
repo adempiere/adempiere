@@ -40,6 +40,12 @@ import org.compiere.util.DisplayType;
 class ResultTableCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1491594061244117003L;
+
+
+	/**
 	 *  Constructor (extends Label)
 	 *  @param rm
 	 *  @param rc

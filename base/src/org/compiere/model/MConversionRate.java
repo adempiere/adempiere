@@ -39,6 +39,10 @@ import org.compiere.util.TimeUtil;
  */
 public class MConversionRate extends X_C_Conversion_Rate
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2753651400799848008L;
 	/**	Logger						*/
 	private static CLogger		s_log = CLogger.getCLogger (MConversionRate.class);
 

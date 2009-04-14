@@ -50,6 +50,12 @@ public final class FindCellEditor extends AbstractCellEditor
 	implements TableCellEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6542861196427426178L;
+
+
+	/**
 	 *	Constructor for Grid
 	 *  @param mField
 	 */

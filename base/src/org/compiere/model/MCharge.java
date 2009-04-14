@@ -37,6 +37,12 @@ import org.compiere.util.Env;
 public class MCharge extends X_C_Charge
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 630271473830196435L;
+
+
+	/**
 	 *  Get Charge Account
 	 *  @param C_Charge_ID charge
 	 *  @param as account schema

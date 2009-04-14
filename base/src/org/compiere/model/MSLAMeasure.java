@@ -33,6 +33,11 @@ public class MSLAMeasure extends X_PA_SLA_Measure
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2844941499854811255L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param PA_SLA_Measure_ID id

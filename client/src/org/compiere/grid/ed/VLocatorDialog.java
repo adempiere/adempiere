@@ -61,6 +61,11 @@ public class VLocatorDialog extends CDialog
 	implements ActionListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4727764506935600690L;
+
+	/**
 	 *	Constructor
 	 *  @param frame frame
 	 *  @param title title

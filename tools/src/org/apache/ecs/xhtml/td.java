@@ -37,6 +37,11 @@ public class td extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2600951455950300475L;
+
+	/**
 	 * private initializer.
 	 */
 	{

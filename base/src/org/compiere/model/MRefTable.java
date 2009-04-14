@@ -23,6 +23,11 @@ import java.util.Properties;
 public class MRefTable extends X_AD_Ref_Table
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9123965213307214868L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Reference_ID id

@@ -34,6 +34,11 @@ public class VO
 	implements Map, Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8437638669140712217L;
+
+	/**
 	 * 	Constructor
 	 */
 	public VO ()

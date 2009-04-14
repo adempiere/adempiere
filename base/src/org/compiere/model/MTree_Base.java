@@ -32,6 +32,12 @@ public class MTree_Base extends X_AD_Tree
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7657958239525901547L;
+
+
+	/**
 	 * 	Add Node to correct tree
 	 *	@param ctx cpntext
 	 *	@param treeType tree type

@@ -35,6 +35,11 @@ public class acronym extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2543564716179796020L;
+
+	/**
      * Private initialization routine.
      */
 	{

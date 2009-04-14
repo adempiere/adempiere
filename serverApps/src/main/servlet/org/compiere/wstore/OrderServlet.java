@@ -49,6 +49,11 @@ import org.compiere.util.WebUtil;
  */
 public class OrderServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -94012227184686536L;
+
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(OrderServlet.class);
 //	private static Logger	s_log = Logger.getCLogger(OrderServlet.class);

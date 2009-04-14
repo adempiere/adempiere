@@ -38,6 +38,12 @@ import org.compiere.util.WebUtil;
 public class Test2 extends HttpServlet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6839830507472511719L;
+
+
+	/**
 	 * Initialize global variables
 	 */
 	public void init(ServletConfig config) throws ServletException

@@ -55,6 +55,11 @@ public class QueryProduct extends PosSubPanel
 	implements ActionListener, MouseListener, ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9172276999827406833L;
+
+	/**
 	 * 	Constructor
 	 */
 	public QueryProduct (PosPanel posPanel)

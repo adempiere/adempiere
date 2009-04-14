@@ -43,6 +43,12 @@ import com.sun.rowset.CachedRowSetImpl;
 public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -233983261449861555L;
+
+
+	/**
 	 * 	Get Cached Row Set.
 	 * 	Required due to Java Sun bug 393865
 	 *	@return Cached Row Set

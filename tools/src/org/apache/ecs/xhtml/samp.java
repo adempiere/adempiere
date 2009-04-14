@@ -47,6 +47,13 @@ public class samp extends MultiPartElement implements Printable, MouseEvents, Ke
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8358314770790872672L;
+
+
+
+	/**
 
         Private initialization routine.
 

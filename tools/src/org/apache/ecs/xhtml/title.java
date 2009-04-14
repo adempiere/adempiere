@@ -45,6 +45,11 @@ public class title extends MultiPartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6917790537056196697L;
+
+	/**
 
         Private initialization routine.
 

@@ -38,6 +38,11 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	implements AdempiereProcessor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6558688522646469260L;
+
+	/**
 	 * 	Get Active
 	 *	@param ctx context
 	 *	@return active processors

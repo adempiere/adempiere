@@ -42,6 +42,11 @@ public abstract class PosSubPanel extends CPanel
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -158167614949876569L;
+
+	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */

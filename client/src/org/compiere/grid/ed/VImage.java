@@ -38,6 +38,11 @@ public class VImage extends JButton
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -176278573866019572L;
+
+	/**
 	 *  Image Editor
 	 *  @param columnName column name
 	 *  @param WindowNo window no

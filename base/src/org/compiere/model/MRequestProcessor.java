@@ -37,6 +37,12 @@ public class MRequestProcessor extends X_R_RequestProcessor
 	implements AdempiereProcessor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3149710397208186523L;
+
+
+	/**
 	 * 	Get Active Request Processors
 	 *	@param ctx context
 	 *	@return array of Request 

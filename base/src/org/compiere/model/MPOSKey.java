@@ -30,6 +30,11 @@ public class MPOSKey extends X_C_POSKey
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5810613982853803837L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_POSKey_ID id

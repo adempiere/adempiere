@@ -46,6 +46,13 @@ public class pre extends MultiPartElement implements MouseEvents, KeyEvents
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2940107215887001778L;
+
+
+
+	/**
 
         Private initialization routine.
 

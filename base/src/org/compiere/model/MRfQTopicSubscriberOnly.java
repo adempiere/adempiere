@@ -30,6 +30,11 @@ public class MRfQTopicSubscriberOnly extends X_C_RfQ_TopicSubscriberOnly
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7744686970311507813L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_RfQ_TopicSubscriberOnly_ID id

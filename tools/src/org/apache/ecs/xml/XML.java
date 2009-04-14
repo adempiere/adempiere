@@ -34,6 +34,11 @@ public class XML extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7562733665733930129L;
+
+	/**
 	 * Default constructor use set* Methods. With this name.
 	 * 
 	 * @param element_type

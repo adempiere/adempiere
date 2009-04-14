@@ -48,6 +48,11 @@ public class VOnlyCurrentDays extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2619306709535014989L;
+
+	/**
 	 *	Constructor
 	 *  @param parent parent frame
 	 *  @param buttonLocation lower left corner of the button

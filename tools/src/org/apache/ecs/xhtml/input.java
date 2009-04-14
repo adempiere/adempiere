@@ -38,6 +38,11 @@ public class input extends SinglePartElement
 	KeyEvents
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8437101559802594863L;
+
 	public static final String	TYPE_TEXT		= "text";
 
 	public static final String	TYPE_PASSWORD	= "password";

@@ -30,6 +30,10 @@ import javax.sql.RowSet;
 public class RemoteSetupVO implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2767440202354732666L;
 	public Boolean			Test = Boolean.FALSE;
 	public RowSet			ReplicationTable = null;
 	public BigDecimal		IDRangeStart = null;

@@ -48,6 +48,11 @@ public class Help extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2840473201179240876L;
+
+	/**
 	 *	Help System for Window Help
 	 *
 	 * @param frame Parent

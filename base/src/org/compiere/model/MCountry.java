@@ -43,6 +43,12 @@ public final class MCountry extends X_C_Country
 	implements Comparator, Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3098295201595847612L;
+
+
+	/**
 	 * 	Get Country (cached)
 	 * 	@param ctx context
 	 *	@param C_Country_ID ID

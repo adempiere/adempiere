@@ -32,6 +32,11 @@ import java.math.BigDecimal;
 public class ProcessInfoParameter implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4536416337960754407L;
+
+	/**
 	 *  Construct Parameter
 	 *  @param parameterName parameter name
 	 *  @param parameter parameter

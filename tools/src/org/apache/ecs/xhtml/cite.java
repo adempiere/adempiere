@@ -47,6 +47,13 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3057340437639659979L;
+
+
+
+	/**
 
         Private initialization routine.
 

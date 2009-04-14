@@ -82,6 +82,10 @@ import org.compiere.util.WebUtil;
  */
 public class AdempiereMonitor extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1821229399092760008L;
 	/**	Logger				*/
 	private static CLogger	log = CLogger.getCLogger(AdempiereMonitor.class);
 	/**	The Server			*/

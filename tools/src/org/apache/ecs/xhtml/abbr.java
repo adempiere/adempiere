@@ -37,6 +37,11 @@ public class abbr extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1418476249735976058L;
+
+	/**
      * Private initialization routine.
      */
 	{

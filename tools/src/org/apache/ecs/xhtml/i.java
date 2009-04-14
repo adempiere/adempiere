@@ -35,6 +35,11 @@ public class i extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3560745812778223365L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

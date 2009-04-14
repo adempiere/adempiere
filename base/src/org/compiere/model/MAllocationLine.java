@@ -37,6 +37,11 @@ public class MAllocationLine extends X_C_AllocationLine
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5532305715886380749L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_AllocationLine_ID id

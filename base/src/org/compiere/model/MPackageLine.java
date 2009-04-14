@@ -30,6 +30,11 @@ import org.compiere.util.Env;
 public class MPackageLine extends X_M_PackageLine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6018805803189654348L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_PackageLine_ID id

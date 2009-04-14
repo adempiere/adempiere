@@ -44,6 +44,12 @@ import org.compiere.util.Msg;
 public class MUOMConversion extends X_C_UOM_Conversion
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8449239579085422641L;
+
+
+	/**
 	 *	Convert qty to target UOM and round.
 	 *  @param ctx context
 	 *  @param C_UOM_ID from UOM

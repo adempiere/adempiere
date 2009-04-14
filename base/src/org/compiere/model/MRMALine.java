@@ -34,6 +34,11 @@ public class MRMALine extends X_M_RMALine
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4939372209739721247L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_RMALine_ID id

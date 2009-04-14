@@ -34,6 +34,11 @@ import java.util.logging.Level;
 public class MCommission extends X_C_Commission
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1786202619739310928L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_Commission_ID id

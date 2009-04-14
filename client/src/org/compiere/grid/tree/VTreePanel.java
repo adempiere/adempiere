@@ -111,6 +111,11 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
 public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8277846412907513244L;
+
 	protected boolean m_lookAndFeelChanged = false;
 
 	/**

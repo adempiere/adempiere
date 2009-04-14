@@ -43,6 +43,11 @@ public class ATask extends CFrame
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8998998120736876682L;
+
+	/**
 	 *  Start Application Task
 	 *  @param task task model
 	 */

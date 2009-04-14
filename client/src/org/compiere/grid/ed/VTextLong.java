@@ -50,6 +50,11 @@ public class VTextLong extends CTextPane
 	implements VEditor, KeyListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4776186117962407679L;
+
+	/**
 	 *	Factory: Start Editor
 	 *	@param jc container to get parent frame
 	 *	@param header heading

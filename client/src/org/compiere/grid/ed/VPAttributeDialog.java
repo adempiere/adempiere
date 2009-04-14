@@ -82,6 +82,11 @@ public class VPAttributeDialog extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1062346984681892620L;
+
+	/**
 	 *	Product Attribute Instance Dialog
 	 *	@param frame parent frame
 	 *	@param M_AttributeSetInstance_ID Product Attribute Set Instance id

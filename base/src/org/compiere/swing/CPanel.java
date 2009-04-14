@@ -35,6 +35,12 @@ import org.compiere.plaf.CompiereLookAndFeel;
 public class CPanel extends JPanel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4153588317643163582L;
+
+
+	/**
 	 * Creates a new AdempierePanel with the specified layout manager
 	 * and buffering strategy.
 	 * @param layout  the LayoutManager to use

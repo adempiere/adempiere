@@ -49,6 +49,11 @@ import org.compiere.plaf.CompiereLookAndFeel;
  */
 public class CButton extends JButton implements CEditor {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 70278798402299341L;
+
+	/**
 	 * Creates a button with no set text or icon.
 	 */
 	public CButton() {

@@ -41,6 +41,12 @@ import org.compiere.util.TimeUtil;
 public class MAsset extends X_A_Asset
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7537696364072606170L;
+
+
+	/**
 	 * 	Get Asset From Shipment
 	 *	@param ctx context
 	 *	@param M_InOutLine_ID shipment line

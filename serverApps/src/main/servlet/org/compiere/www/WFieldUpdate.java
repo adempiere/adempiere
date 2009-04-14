@@ -47,6 +47,10 @@ import org.compiere.util.WebUtil;
  */
 public class WFieldUpdate extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1576213475379404148L;
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (WFieldUpdate.class);
 	

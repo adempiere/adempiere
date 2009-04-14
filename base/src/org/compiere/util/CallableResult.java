@@ -4,6 +4,10 @@ import java.util.Map;
 
 public class CallableResult extends ExecuteResult {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3931232160704716852L;
 	private Map<Integer, OutputParameter> m_ordinalOutput = null;	
 	private Map<String, OutputParameter> m_namedOutput = null;	
 	

@@ -29,6 +29,12 @@ import org.compiere.util.CCache;
 public class MRequestCategory extends X_R_Category
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9174605980194362716L;
+
+
+	/**
 	 * 	Get MCategory from Cache
 	 *	@param ctx context
 	 *	@param R_Category_ID id

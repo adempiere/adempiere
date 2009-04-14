@@ -29,6 +29,11 @@ import java.util.Properties;
 public class MRequestProcessorRoute extends X_R_RequestProcessor_Route
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8739358607059413339L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param R_RequestProcessor_Route_ID id

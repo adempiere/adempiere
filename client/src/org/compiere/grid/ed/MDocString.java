@@ -54,6 +54,11 @@ import org.compiere.util.CLogger;
 public final class MDocString extends PlainDocument implements CaretListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1714284669663890694L;
+
+	/**
 	 *	Constructor
 	 *  @param VFormat
 	 *  @param fieldLength

@@ -53,6 +53,11 @@ public class ALoginTest extends CDialog
 	implements ActionListener, Runnable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 23728881908041435L;
+
+	/**
 	 *  Consatructor
 	 */
 	public ALoginTest (Dialog frame, String host, String dbName, String port, String uid, String pwd)

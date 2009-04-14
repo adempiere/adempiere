@@ -55,7 +55,11 @@ import org.jdesktop.swingx.VerticalLayout;
  */
 public class StackedBox extends JPanel implements Scrollable {
 
-  private Color titleBackgroundColor;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8233461475245242991L;
+private Color titleBackgroundColor;
   private Color titleForegroundColor;
   private Color separatorColor;
   private Border separatorBorder;

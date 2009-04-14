@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MDunningRun extends X_C_DunningRun
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3786948971790998292L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_DunningRun_ID id

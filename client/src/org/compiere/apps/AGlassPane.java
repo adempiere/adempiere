@@ -45,6 +45,11 @@ import org.compiere.util.Msg;
 public class AGlassPane extends JPanel implements MouseListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 618724937492933184L;
+
+	/**
 	 *  Constructor
 	 */
 	public AGlassPane()

@@ -37,6 +37,11 @@ public class optgroup extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3141961288412442519L;
+
+	/**
      * Private initialization routine.
      */
 	{

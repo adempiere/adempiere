@@ -36,6 +36,11 @@ import org.compiere.util.DB;
 public class MWFNodeNext extends X_AD_WF_NodeNext
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7925133581626319200L;
+
+	/**
 	 * 	Standard Costructor
 	 *	@param ctx context
 	 *	@param AD_WF_NodeNext_ID id

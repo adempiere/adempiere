@@ -45,7 +45,12 @@ import org.apache.ecs.Filter;
 */
 public class WordFilter extends java.util.Hashtable<String, Object> implements Filter
 {
-    public WordFilter()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7530768970669548477L;
+
+	public WordFilter()
     {
 		super(4);
     }

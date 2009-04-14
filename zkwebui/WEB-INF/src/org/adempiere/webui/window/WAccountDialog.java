@@ -75,6 +75,11 @@ public final class WAccountDialog extends Window
 	implements EventListener, DataStatusListener, ValueChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7999516267209766287L;
+
+	/**
 	 * 	Constructor
 	 *  @param title title
 	 *  @param mAccount account info

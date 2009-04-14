@@ -35,6 +35,11 @@ import org.compiere.util.Env;
 public class MCommissionRun extends X_C_CommissionRun
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3103035295526318283L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_CommissionRun_ID id

@@ -78,6 +78,11 @@ public class VMatch extends CPanel
 	implements FormPanel, ActionListener, TableModelListener, ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6381583335194660502L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

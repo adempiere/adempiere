@@ -28,6 +28,11 @@ public class MLdapProcessorLog extends X_AD_LdapProcessorLog implements Adempier
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2587778949013986055L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_LdapProcessorLog_ID id

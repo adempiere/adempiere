@@ -29,6 +29,11 @@ public class MRegistrationValue extends X_A_RegistrationValue
 	implements Comparable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3380153548447464552L;
+
+	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context
 	 *	@param ignored ignored

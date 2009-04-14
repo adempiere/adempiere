@@ -35,6 +35,10 @@ import org.compiere.util.DB;
  */
 public class MWindow extends X_AD_Window
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6783399136841920556L;
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MWindow.class);
 	

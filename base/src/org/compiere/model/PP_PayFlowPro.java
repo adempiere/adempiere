@@ -36,6 +36,11 @@ public final class PP_PayFlowPro extends PaymentProcessor
 	implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5694889644110445790L;
+
+	/**
 	 *  PayFowPro Constructor
 	 */
 	public PP_PayFlowPro()

@@ -26,6 +26,11 @@ import org.compiere.util.DB;
  ** @version $Id: X_A_Asset.java,v 1.88 2004/08/27 21:26:37 jjanke Exp $ */
 public class MAssetUse extends X_A_Asset_Use
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1247516669047870893L;
+
 	public MAssetUse (Properties ctx, int A_Asset_Use_ID, String trxName)
 	{
 		super (ctx, A_Asset_Use_ID, trxName);

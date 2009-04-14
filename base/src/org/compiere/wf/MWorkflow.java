@@ -48,6 +48,12 @@ import org.compiere.util.Trx;
 public class MWorkflow extends X_AD_Workflow
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4925514638954671534L;
+
+
+	/**
 	 * 	Get Workflow from Cache
 	 *	@param ctx context
 	 *	@param AD_Workflow_ID id

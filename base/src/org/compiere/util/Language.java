@@ -46,6 +46,10 @@ public class Language implements Serializable
 	 *      http://www.iso.org/iso/country_codes/iso_3166_code_lists/english_country_names_and_code_elements.htm
 	 *************************************************************************/
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -964846521004545703L;
 	/** Base Language               */
 	public static final String  AD_Language_en_US = "en_US";
 	/** Additional Languages         */

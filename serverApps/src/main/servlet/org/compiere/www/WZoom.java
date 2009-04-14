@@ -50,6 +50,10 @@ import org.compiere.util.WebUtil;
  */
 public class WZoom extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7075820778158654964L;
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
 

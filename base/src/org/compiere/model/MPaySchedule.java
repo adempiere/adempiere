@@ -30,6 +30,11 @@ import org.compiere.util.Env;
 public class MPaySchedule extends X_C_PaySchedule
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7773501661681911294L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_PaySchedule_ID id

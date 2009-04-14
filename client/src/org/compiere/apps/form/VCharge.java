@@ -64,6 +64,11 @@ public class VCharge extends CPanel
 	implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2478440763968206819L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame parent frame

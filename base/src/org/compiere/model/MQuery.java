@@ -806,6 +806,11 @@ public class MQuery implements Serializable
 class Restriction  implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4521978087587321242L;
+
+	/**
 	 * 	Restriction
 	 * 	@param columnName ColumnName
 	 * 	@param operator Operator, e.g. = != ..

@@ -80,6 +80,11 @@ import org.jdesktop.swingx.JXTaskPane;
 public final class InfoProduct extends Info implements ActionListener, ChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2674502713710863413L;
+
+	/**
 	 *	Standard Constructor
 	 * 	@param frame frame
 	 * 	@param modal modal

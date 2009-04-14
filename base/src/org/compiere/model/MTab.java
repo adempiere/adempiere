@@ -36,6 +36,11 @@ public class MTab extends X_AD_Tab
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4946144044358216142L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Tab_ID id

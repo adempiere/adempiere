@@ -35,6 +35,11 @@ public class AApplet extends Applet
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3725929727697509228L;
+
+	/**
 	 * 	Adempiere Application Applet
 	 *	@throws java.awt.HeadlessException
 	 */

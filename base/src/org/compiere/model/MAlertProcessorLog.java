@@ -30,6 +30,11 @@ public class MAlertProcessorLog extends X_AD_AlertProcessorLog
 	implements AdempiereProcessorLog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6720267177398838915L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_AlertProcessorLog_ID id

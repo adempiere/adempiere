@@ -29,6 +29,10 @@ import javax.swing.border.AbstractBorder;
  */
 public class ShadowBorder extends AbstractBorder {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4027643023639628783L;
 	private static final Insets INSETS = new Insets(1, 1, 3, 3);
 
     public Insets getBorderInsets(Component c) { return INSETS; }

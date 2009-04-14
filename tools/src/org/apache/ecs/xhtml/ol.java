@@ -35,6 +35,11 @@ public class ol extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2524043672030267360L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

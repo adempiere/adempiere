@@ -35,6 +35,11 @@ public class h3 extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2287974336559275829L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

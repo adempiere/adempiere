@@ -49,6 +49,11 @@ public class Waiting extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2078889004176093095L;
+
+	/**
 	 *  Constructor - non nodal as otherwise process is blocked
 	 *  @param owner
 	 *  @param text     Message to be displayed

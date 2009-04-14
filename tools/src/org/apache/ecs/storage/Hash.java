@@ -20,7 +20,11 @@ import java.util.Enumeration;
 
 public class Hash implements java.io.Serializable
 {
-    private Array keys = new Array();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7635193444611108511L;
+	private Array keys = new Array();
     private Array elements = new Array();
 
     public Hash()

@@ -45,6 +45,12 @@ import org.compiere.util.Msg;
 public class MTimeExpense extends X_S_TimeExpense implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6059700156141021371L;
+
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param S_TimeExpense_ID id

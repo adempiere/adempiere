@@ -35,6 +35,12 @@ import org.compiere.util.DB;
 public class MDocTypeCounter extends X_C_DocTypeCounter
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3469046560457430527L;
+
+
+	/**
 	 * 	Get Counter document for document type
 	 *	@param ctx context
 	 *	@param C_DocType_ID base document

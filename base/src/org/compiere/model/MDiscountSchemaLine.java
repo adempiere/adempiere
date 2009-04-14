@@ -30,6 +30,11 @@ public class MDiscountSchemaLine extends X_M_DiscountSchemaLine
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1632154004024021493L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_DiscountSchemaLine_ID id

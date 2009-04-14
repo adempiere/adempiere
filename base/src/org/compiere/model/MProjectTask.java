@@ -30,6 +30,11 @@ import org.compiere.util.Env;
 public class MProjectTask extends X_C_ProjectTask
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4031011454351572357L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_ProjectTask_ID id

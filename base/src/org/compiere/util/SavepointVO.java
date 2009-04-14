@@ -6,6 +6,10 @@ import java.sql.Savepoint;
 
 public class SavepointVO implements Savepoint, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3108395063700087876L;
 	int savePointId = -1;
 	String savePointName = null;
 	

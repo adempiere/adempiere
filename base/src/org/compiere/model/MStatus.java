@@ -36,6 +36,12 @@ import org.compiere.util.Env;
 public class MStatus extends X_R_Status
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4549127671165860354L;
+
+
+	/**
 	 * 	Get Request Status (cached)
 	 *	@param ctx context
 	 *	@param R_Status_ID id

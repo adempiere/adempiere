@@ -38,6 +38,12 @@ import org.compiere.util.Env;
 public class MInvoiceLine extends X_C_InvoiceLine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4264055057724565805L;
+
+
+	/**
 	 * 	Get Invoice Line referencing InOut Line
 	 *	@param sLine shipment line
 	 *	@return (first) invoice line

@@ -52,6 +52,11 @@ import org.compiere.Adempiere;
 public class Splash extends Frame
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7671371032359729541L;
+
+	/**
 	 *  Get Splash Screen
 	 *  @return Splash Screen
 	 */
@@ -197,6 +202,11 @@ public class Splash extends Frame
 	private class CImage extends Component
 	{
 		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4980770762959724071L;
+
+		/**
 		 *  Adempiere Image
 		 */
 		public CImage ()
@@ -247,6 +257,11 @@ public class Splash extends Frame
 	 */
 	private class AImage extends Component
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3003967119777877704L;
+
 		/**
 		 *  Animation Image
 		 */

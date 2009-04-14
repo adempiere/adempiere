@@ -38,6 +38,11 @@ public class PerformanceDetail extends CFrame
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 806635848484287844L;
+
+	/**
 	 * 	Constructor.
 	 * 	Called from PAPanel, ViewPI (Performance Indicator)
 	 *	@param goal goal

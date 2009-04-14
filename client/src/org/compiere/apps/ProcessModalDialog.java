@@ -59,6 +59,11 @@ public class ProcessModalDialog extends CDialog
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6613814452809135635L;
+
+	/**
 	 * Dialog to start a process/report
 	 * @param ctx
 	 * @param parent
@@ -112,6 +117,11 @@ public class ProcessModalDialog extends CDialog
 
 	private CPanel dialog = new CPanel()
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8093428846912456722L;
+
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMinimumSize();
@@ -129,6 +139,11 @@ public class ProcessModalDialog extends CDialog
 	private CButton bOK = null;
 	private JEditorPane message = new JEditorPane()
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1218214722657165651L;
+
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();
@@ -143,6 +158,11 @@ public class ProcessModalDialog extends CDialog
 	};
 	private JScrollPane messagePane = new JScrollPane(message)
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8653555758412012675L;
+
 		public Dimension getPreferredSize() {
 			Dimension d = super.getPreferredSize();
 			Dimension m = getMaximumSize();

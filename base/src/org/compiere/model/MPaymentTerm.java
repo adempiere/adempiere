@@ -38,6 +38,11 @@ public class MPaymentTerm extends X_C_PaymentTerm
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2494915482340569386L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_PaymentTerm_ID id

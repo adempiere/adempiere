@@ -78,6 +78,11 @@ public class AcctViewer extends CFrame
 	implements ActionListener, ChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6160970582569467185L;
+
+	/**
 	 *  Default constructor
 	 */
 	public AcctViewer()

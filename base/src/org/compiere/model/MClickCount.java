@@ -38,6 +38,12 @@ import org.compiere.util.ValueNamePair;
 public class MClickCount extends X_W_ClickCount
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5233509415147834823L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param W_ClickCount_ID id

@@ -33,6 +33,11 @@ public class applet extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 404866759736299122L;
+
+	/**
      * Private initializer.
      */
 	{

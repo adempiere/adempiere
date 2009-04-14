@@ -45,6 +45,13 @@ public class tfoot extends MultiPartElement implements Printable, MouseEvents, K
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1663886800759150608L;
+
+
+
+	/**
 
         private initializer.
 

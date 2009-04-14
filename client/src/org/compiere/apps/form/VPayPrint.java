@@ -65,6 +65,11 @@ public class VPayPrint extends CPanel
 	implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6359854263967310497L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

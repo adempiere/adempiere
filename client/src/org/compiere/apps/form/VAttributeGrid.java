@@ -75,6 +75,11 @@ public class VAttributeGrid extends CPanel
 	implements FormPanel, ChangeListener, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3207678550566202041L;
+
+	/**
 	 * 	Init
 	 *	@param WindowNo
 	 *	@param frame

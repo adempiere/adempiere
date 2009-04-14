@@ -55,6 +55,11 @@ public class SubBPartner extends PosSubPanel
 	implements ActionListener, FocusListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5895558315889871887L;
+
+	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */

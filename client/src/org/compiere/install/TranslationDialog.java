@@ -57,6 +57,12 @@ public class TranslationDialog extends CPanel
 	implements FormPanel, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5072470836657762574L;
+
+
+	/**
 	 *	TranslationDialog Constructor.
 	 * 	(Initiated via init())
 	 */

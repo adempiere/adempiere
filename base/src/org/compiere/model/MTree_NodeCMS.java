@@ -35,6 +35,11 @@ import org.compiere.util.DB;
 public class MTree_NodeCMS extends X_AD_TreeNodeCMS
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8092902713429554718L;
+
+	/**
 	 * 	Get Tree
 	 *	@param ctx context
 	 *	@param AD_Tree_ID tree

@@ -20,7 +20,11 @@ import java.io.Serializable;
 
 public class Array implements java.util.Enumeration, Serializable
 {
-    private int current = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7392079695735049505L;
+	private int current = 0;
     private int size = 10;
     private int grow = 2;
     private int place = 0;

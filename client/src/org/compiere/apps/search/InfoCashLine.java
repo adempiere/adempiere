@@ -53,6 +53,11 @@ import org.compiere.util.Util;
 public class InfoCashLine extends Info
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3315036454469996930L;
+
+	/**
 	 *  Detail Protected Contructor
 	 *  @param frame parent frame
 	 *  @param modal modal

@@ -49,7 +49,11 @@ import org.compiere.util.WebUtil;
  */
 public class SearchServlet extends HttpServlet
 {
-    /**	Logging						*/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3716389906162825762L;
+	/**	Logging						*/
     private CLogger			log = CLogger.getCLogger(getClass());
 
     /**

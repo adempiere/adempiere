@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MRfQTopicSubscriber extends X_C_RfQ_TopicSubscriber
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7364350828501354344L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_RfQ_TopicSubscriber_ID id

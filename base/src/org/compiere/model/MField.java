@@ -30,6 +30,11 @@ public class MField extends X_AD_Field
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7124162742037904113L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Field_ID id

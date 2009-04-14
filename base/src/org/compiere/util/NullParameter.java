@@ -27,6 +27,11 @@ import java.io.Serializable;
 public class NullParameter implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5098594046699488306L;
+
+	/**
 	 * 	Cosntructor
 	 *	@param type SQL Type java.sql.Types.*
 	 */

@@ -39,6 +39,12 @@ import org.compiere.util.TimeUtil;
 public class MAttributeSetInstance extends X_M_AttributeSetInstance
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7870720973216607658L;
+
+
+	/**
 	 * 	Get Attribute Set Instance from ID or Product
 	 *	@param ctx context
 	 * 	@param M_AttributeSetInstance_ID id or 0

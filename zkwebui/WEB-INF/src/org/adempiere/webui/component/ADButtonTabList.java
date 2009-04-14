@@ -30,6 +30,10 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class ADButtonTabList extends Panel implements IADTabList, EventListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9203013067784673646L;
 	private List<ADTabLabel> listItems = new ArrayList<ADTabLabel>();
 	private List<EventListener> listeners = new ArrayList<EventListener>();	
 	private IADTab tabbox;

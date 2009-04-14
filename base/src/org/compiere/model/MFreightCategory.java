@@ -41,6 +41,12 @@ import org.compiere.util.Env;
 public class MFreightCategory extends X_M_FreightCategory {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4790439008800915010L;
+
+
+	/**
      * Default constructor 
      * 
      * @param ctx                   Context

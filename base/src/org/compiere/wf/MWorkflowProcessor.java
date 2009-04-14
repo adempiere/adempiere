@@ -40,6 +40,12 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 	implements AdempiereProcessor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9164558879064747427L;
+
+
+	/**
 	 * 	Get Active
 	 *	@param ctx context
 	 *	@return active processors

@@ -47,6 +47,13 @@ public class div extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1163359358204295737L;
+
+
+
+	/**
 
         Private initialization routine.
 

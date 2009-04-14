@@ -23,6 +23,10 @@ import org.zkoss.zul.ListitemRendererExt;
 
 public class ADTabListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7683969121090679214L;
 	List<ADTabLabel> listItems = null;
 	private IADTab tabbox;
 	

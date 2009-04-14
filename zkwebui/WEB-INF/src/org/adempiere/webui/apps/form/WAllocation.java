@@ -86,6 +86,11 @@ public class WAllocation extends ADForm
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7806119329546820204L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

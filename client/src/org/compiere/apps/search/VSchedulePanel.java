@@ -55,6 +55,11 @@ import org.compiere.util.TimeUtil;
 public class VSchedulePanel extends JComponent implements MouseListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7779310781236274016L;
+
+	/**
 	 *	Constructor
 	 */
 	public VSchedulePanel ()

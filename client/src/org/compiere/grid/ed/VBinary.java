@@ -43,6 +43,11 @@ public class VBinary extends JButton
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2651582926471195345L;
+
+	/**
 	 *  Binary Editor
 	 *  @param columnName column name
 	 *  @param WindowNo

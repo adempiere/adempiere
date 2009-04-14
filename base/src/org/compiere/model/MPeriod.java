@@ -53,6 +53,12 @@ public class MPeriod extends X_C_Period
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4342181292848531751L;
+
+
+	/**
 	 * Get Period from Cache
 	 * @param ctx context
 	 * @param C_Period_ID id

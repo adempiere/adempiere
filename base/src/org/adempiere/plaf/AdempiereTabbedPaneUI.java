@@ -1311,7 +1311,12 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
     
     private static class ScrollTabsForwardAction extends AbstractAction {
 
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -270810699887568982L;
+
+		public void actionPerformed(ActionEvent e) {
             JTabbedPane pane = null;
             Object src = e.getSource();
             if (src instanceof JTabbedPane) {
@@ -1332,7 +1337,12 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private static class ScrollTabsBackwardAction extends AbstractAction {
 
-        public void actionPerformed(ActionEvent e) {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -3249390793846061809L;
+
+		public void actionPerformed(ActionEvent e) {
             JTabbedPane pane = null;
             Object src = e.getSource();
             if (src instanceof JTabbedPane) {
@@ -1901,7 +1911,12 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private class ScrollableTabViewport extends JViewport implements UIResource {
 
-        public ScrollableTabViewport() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 327251688467352279L;
+
+		public ScrollableTabViewport() {
             super();
             setName("TabbedPane.scrollableViewport");
             setScrollMode(SIMPLE_SCROLL_MODE);
@@ -1916,7 +1931,12 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private class ScrollableTabPanel extends JPanel implements UIResource {
 
-        public ScrollableTabPanel() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -7751954262914422261L;
+
+		public ScrollableTabPanel() {
             super(null);
             setOpaque(tabPane.isOpaque());
             Color bgColor = UIManager.getColor("TabbedPane.tabAreaBackground");
@@ -1936,7 +1956,11 @@ public final class AdempiereTabbedPaneUI extends MetalTabbedPaneUI {
 
     private static class ArrowButton extends JButton implements UIResource {
 
-        private final int buttonWidth;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2076478876425671827L;
+		private final int buttonWidth;
         private final int direction;
         private boolean mouseIsOver;
 

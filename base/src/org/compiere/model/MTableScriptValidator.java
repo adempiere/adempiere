@@ -39,6 +39,11 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3640498344452542348L;
+
+	/**
 	 * 	Get table script validator from cache
 	 *	@param ctx context
 	 *	@param AD_Table_ScriptValidator_ID id

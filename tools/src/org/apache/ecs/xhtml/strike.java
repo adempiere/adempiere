@@ -47,6 +47,13 @@ public class strike extends MultiPartElement implements Printable, MouseEvents, 
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1252165475630204556L;
+
+
+
+	/**
 
         Private initialization routine.
 

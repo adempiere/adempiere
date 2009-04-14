@@ -31,6 +31,11 @@ import org.compiere.util.DB;
 public class MConversionType extends X_C_ConversionType
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7198388106444590667L;
+
+	/**
 	 * 	Get Default Conversion Rate for Client/Org
 	 *	@param AD_Client_ID client
 	 *	@return C_ConversionType_ID or 0 if not found

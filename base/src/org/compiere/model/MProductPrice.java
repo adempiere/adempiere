@@ -36,6 +36,11 @@ public class MProductPrice extends X_M_ProductPrice
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9187555438223385521L;
+
+	/**
 	 * 	Get Product Price
 	 *	@param ctx ctx
 	 *	@param M_PriceList_Version_ID id

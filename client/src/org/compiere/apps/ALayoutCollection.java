@@ -29,6 +29,11 @@ import java.util.Iterator;
 class ALayoutCollection extends HashMap<Object,Object>
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2906536401026546141L;
+
+	/**
 	 *  Create Collection
 	 */
 	public ALayoutCollection()

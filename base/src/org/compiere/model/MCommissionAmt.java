@@ -35,6 +35,11 @@ import org.compiere.util.Env;
 public class MCommissionAmt extends X_C_CommissionAmt
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1747802539808391638L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_CommissionAmt_ID id

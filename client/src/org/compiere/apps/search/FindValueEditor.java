@@ -44,6 +44,11 @@ import org.compiere.util.ValueNamePair;
 public final class FindValueEditor extends AbstractCellEditor implements TableCellEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4819832280924881253L;
+
+	/**
 	 *	Constructor
 	 *  @param find find
 	 *  @param valueTo true if it is the "to" value column

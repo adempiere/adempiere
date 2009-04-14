@@ -39,6 +39,11 @@ public class option extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5820197859460370783L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

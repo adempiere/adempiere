@@ -41,6 +41,11 @@ import org.compiere.util.Msg;
 public class StatusBar extends CPanel
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1465783013058042860L;
+
+	/**
 	 *	Standard Status Bar
 	 */
 	public StatusBar()

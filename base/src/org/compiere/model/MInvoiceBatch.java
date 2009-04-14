@@ -37,6 +37,12 @@ public class MInvoiceBatch extends X_C_InvoiceBatch
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3449653049236263604L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param C_InvoiceBatch_ID id

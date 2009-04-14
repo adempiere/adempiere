@@ -32,6 +32,13 @@ public class PP_Optimal extends PaymentProcessor
 	implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3588486265248400291L;
+
+
+
+	/**
 	 * 	PP_Optimal
 	 */
 	public PP_Optimal ()

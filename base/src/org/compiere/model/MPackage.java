@@ -30,6 +30,11 @@ import java.util.Properties;
 public class MPackage extends X_M_Package
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6082002551560148518L;
+
+	/**
 	 * 	Create one Package for Shipment 
 	 *	@param shipment shipment
 	 *	@param shipper shipper

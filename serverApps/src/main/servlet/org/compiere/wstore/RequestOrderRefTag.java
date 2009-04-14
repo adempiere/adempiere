@@ -44,6 +44,11 @@ import org.compiere.util.Util;
  */
 public class RequestOrderRefTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3277546457746182498L;
+
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (RequestOrderRefTag.class);
 	

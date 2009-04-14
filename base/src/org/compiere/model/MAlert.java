@@ -36,6 +36,11 @@ import java.util.TreeSet;
 public class MAlert extends X_AD_Alert
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5684705878618526801L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Alert_ID id

@@ -46,6 +46,11 @@ public class CDialog extends JDialog
 	implements ActionListener, MouseListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1698027199524570661L;
+
+	/**
 	 * 	CDialog
 	 *	@throws HeadlessException
 	 */
@@ -260,6 +265,11 @@ public class CDialog extends JDialog
 	 */
 	static class DialogAction extends AbstractAction
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1502992970807699945L;
+
 		DialogAction (String actionName)
 		{
 			super(actionName);

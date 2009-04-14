@@ -62,6 +62,12 @@ public class VPAttribute extends JComponent
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 108156477716619163L;
+
+
+	/**
 	 *	IDE Constructor
 	 */
 	public VPAttribute()

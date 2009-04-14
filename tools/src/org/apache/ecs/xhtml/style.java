@@ -44,7 +44,11 @@ public class style extends MultiPartElement implements Printable
 
 {
 
-    /** type=text/css */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3915246292057799666L;
+	/** type=text/css */
 
     public static final String css = "text/css";
 

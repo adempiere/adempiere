@@ -55,6 +55,10 @@ import org.compiere.util.WebUtil;
  */
 public class WAttachment extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4241116889907930155L;
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
 

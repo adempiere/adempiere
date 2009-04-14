@@ -41,6 +41,12 @@ import org.compiere.util.Util;
 public class MLocation extends X_C_Location implements Comparator
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1326655776792201217L;
+
+
+	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context
 	 *	@param C_Location_ID id

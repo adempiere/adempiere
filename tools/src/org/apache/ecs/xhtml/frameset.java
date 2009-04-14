@@ -46,6 +46,13 @@ public class frameset extends MultiPartElement implements Printable, PageEvents
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5103453601086001403L;
+
+
+
+	/**
 
         Private initialization routine.
 

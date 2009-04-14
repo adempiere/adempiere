@@ -32,6 +32,12 @@ import org.compiere.util.DB;
 public class MNote extends X_AD_Note
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -422120961441035731L;
+
+
+	/**
 	 * 	Standard Constructor
 	 * 	@param ctx context
 	 * 	@param AD_Note_ID id

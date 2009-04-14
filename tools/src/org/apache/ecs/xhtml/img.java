@@ -47,6 +47,13 @@ public class img extends SinglePartElement implements Printable, MouseEvents, Ke
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8168015457971219546L;
+
+
+
+	/**
 
             Private initialization routine.
 

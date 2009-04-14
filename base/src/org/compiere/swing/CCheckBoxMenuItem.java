@@ -29,6 +29,11 @@ import javax.swing.JCheckBoxMenuItem;
 public class CCheckBoxMenuItem extends JCheckBoxMenuItem
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6701152155152356260L;
+
 	public CCheckBoxMenuItem ()
 	{
 		super ();

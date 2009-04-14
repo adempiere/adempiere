@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MClientShare extends X_AD_ClientShare
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8104352403537353753L;
+
+	/**
 	 * 	Is Table Client Level Only
 	 *	@param AD_Client_ID client
 	 *	@param AD_Table_ID table

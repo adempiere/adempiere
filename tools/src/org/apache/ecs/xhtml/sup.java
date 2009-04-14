@@ -47,6 +47,13 @@ public class sup extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8890962715679412065L;
+
+
+
+	/**
 
         Private initialization routine.
 

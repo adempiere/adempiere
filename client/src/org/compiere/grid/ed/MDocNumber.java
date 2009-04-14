@@ -42,6 +42,11 @@ import org.compiere.util.DisplayType;
 public final class MDocNumber extends PlainDocument
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2586631851842406102L;
+
+	/**
 	 *	Constructor
 	 *  @param displayType
 	 *  @param format

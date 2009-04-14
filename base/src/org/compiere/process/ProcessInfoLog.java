@@ -29,6 +29,13 @@ import java.sql.Timestamp;
 public class ProcessInfoLog implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4064380205358897097L;
+
+
+
+	/**
 	 * 	Create Process Info Log.
 	 *	@param P_ID Process ID
 	 *	@param P_Date Process Date

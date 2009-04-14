@@ -48,6 +48,13 @@ public class map extends MultiPartElement implements Printable, FocusEvents, Mou
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5245261398203047570L;
+
+
+
+	/**
 
         Private initialization routine.
 

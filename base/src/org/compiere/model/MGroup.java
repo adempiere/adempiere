@@ -29,6 +29,12 @@ import org.compiere.util.CCache;
 public class MGroup extends X_R_Group
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3218102715154328611L;
+
+
+	/**
 	 * 	Get MGroup from Cache
 	 *	@param ctx context
 	 *	@param R_Group_ID id

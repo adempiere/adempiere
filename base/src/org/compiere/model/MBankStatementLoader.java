@@ -50,7 +50,12 @@ import org.compiere.impexp.BankStatementLoaderInterface;
  */
  public class MBankStatementLoader extends X_C_BankStatementLoader
  {
- 	/**	Number of statement lines imported			*/
+ 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4096456424277340847L;
+
+	/**	Number of statement lines imported			*/
 	private int loadCount = 0;
 	
 	/**	Message will be handled by Adempiere (e.g. translated)	*/

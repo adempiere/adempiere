@@ -54,6 +54,11 @@ public class VFile extends JComponent
 	implements VEditor, ActionListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7246339063197204992L;
+
+	/**
 	 *	Constructor
 	 *
 	 * 	@param columnName column name

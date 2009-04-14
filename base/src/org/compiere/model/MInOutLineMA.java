@@ -32,6 +32,11 @@ import org.compiere.util.DB;
 public class MInOutLineMA extends X_M_InOutLineMA
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3229418883339488380L;
+
+	/**
 	 * 	Get Material Allocations for Line
 	 *	@param ctx context
 	 *	@param M_InOutLine_ID line

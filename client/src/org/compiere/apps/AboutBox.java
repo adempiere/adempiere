@@ -44,6 +44,11 @@ import org.compiere.util.Msg;
 public final class AboutBox extends CDialog implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5126987147443121045L;
+
+	/**
 	 *	Constructor for modal about dialog
 	 *  @param parent parent
 	 */

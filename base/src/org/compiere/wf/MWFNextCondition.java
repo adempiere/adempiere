@@ -35,6 +35,11 @@ import org.compiere.model.X_AD_WF_NextCondition;
 public class MWFNextCondition extends X_AD_WF_NextCondition
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1690335423407194318L;
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param id id

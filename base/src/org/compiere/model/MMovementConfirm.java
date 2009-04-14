@@ -44,6 +44,11 @@ import org.compiere.util.Msg;
 public class MMovementConfirm extends X_M_MovementConfirm implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5210710606049843678L;
+
+	/**
 	 * 	Create Confirmation or return existing one
 	 *	@param move movement
 	 *	@param checkExisting if false, new confirmation is created

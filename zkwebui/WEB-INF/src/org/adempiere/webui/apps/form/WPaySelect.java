@@ -93,6 +93,11 @@ public class WPaySelect extends ADForm
 	/** @todo withholding */
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6031404894392912610L;
+
+	/**
 	 *	Initialize Panel
 	 */
 	protected void initForm()

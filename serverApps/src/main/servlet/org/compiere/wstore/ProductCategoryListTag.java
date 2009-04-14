@@ -44,6 +44,10 @@ import org.compiere.util.Util;
  */
 public class ProductCategoryListTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5125199548679756479L;
 	/**	Logging						*/
 	private static CLogger		log = CLogger.getCLogger(ProductCategoryListTag.class);
 	

@@ -26,6 +26,11 @@ import java.util.Properties;
  */
 public class MMailMsg extends X_W_MailMsg
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6181691633960939054L;
+
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context

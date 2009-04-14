@@ -26,6 +26,10 @@ import java.math.BigDecimal;
 
 public class CloseTillBean implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7556804983067360454L;
 	private String currency;
 	private String tillNo;
 	private String tillName;

@@ -35,6 +35,11 @@ import org.compiere.util.Msg;
 public class M_Element extends X_AD_Element
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7426812810619889250L;
+
+	/**
 	 * 	Get case sensitive Column Name
 	 *	@param columnName case insentitive column name
 	 *	@return case sensitive column name

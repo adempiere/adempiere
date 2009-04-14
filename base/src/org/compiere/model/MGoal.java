@@ -45,6 +45,11 @@ import org.compiere.util.TimeUtil;
 public class MGoal extends X_PA_Goal
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4612113288233473730L;
+
+	/**
 	 * 	Get User Goals
 	 *	@param ctx context
 	 *	@param AD_User_ID user

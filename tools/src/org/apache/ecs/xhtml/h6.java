@@ -47,6 +47,13 @@ public class h6 extends MultiPartElement implements Printable, MouseEvents, KeyE
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8489084711017964900L;
+
+
+
+	/**
 
         Private initialization routine.
 

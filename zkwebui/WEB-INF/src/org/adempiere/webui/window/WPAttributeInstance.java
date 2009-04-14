@@ -53,6 +53,11 @@ import org.zkoss.zul.Hbox;
 public class WPAttributeInstance extends Window implements EventListener 
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4052029122256207113L;
+
+	/**
 	 * 	Constructor
 	 * 	@param title title
 	 * 	@param M_Warehouse_ID warehouse key name pair

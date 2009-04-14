@@ -41,7 +41,12 @@ import org.compiere.util.WebUtil;
 public class UpdateServlet
     extends HttpServlet
 {
-    /**	Logging						*/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4366607660993185848L;
+
+	/**	Logging						*/
     private CLogger				log = CLogger.getCLogger(getClass());
 
     /** Name						*/

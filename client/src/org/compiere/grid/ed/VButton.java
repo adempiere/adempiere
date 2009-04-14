@@ -55,6 +55,11 @@ public final class VButton extends CButton
 	implements VEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5979521568246908136L;
+
+	/**
 	 *	Constructor
 	 *  @param columnName column
 	 *  @param mandatory mandatory

@@ -44,7 +44,12 @@ public class iframe extends MultiPartElement implements Printable
 
 {
 
-    public final static String yes = "yes";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4391141296697320141L;
+
+	public final static String yes = "yes";
 
     public final static String no = "no";
 

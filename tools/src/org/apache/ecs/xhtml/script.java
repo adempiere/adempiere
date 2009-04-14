@@ -38,6 +38,11 @@ public class script extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -117144945976065646L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

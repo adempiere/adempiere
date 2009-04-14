@@ -56,6 +56,10 @@ import org.zkoss.zul.Vbox;
  */
 public class AboutWindow extends Window implements EventListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -257313771447940626L;
 	private Checkbox bErrorsOnly;
 	private Listbox logTable;
 	private Tabbox tabbox;

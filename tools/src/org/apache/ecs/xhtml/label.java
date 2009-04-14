@@ -36,6 +36,11 @@ public class label extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5813732432507308032L;
+
+	/**
 	 * private initializer.
 	 */
 	{

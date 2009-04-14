@@ -43,6 +43,10 @@ import org.compiere.util.WebUser;
  */
 public class LoginLinkTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3808804739017792308L;
 	/**	Logger							*/
 	protected static CLogger	log = CLogger.getCLogger (LoginLinkTag.class);
 

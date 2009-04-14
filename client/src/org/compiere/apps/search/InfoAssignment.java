@@ -48,6 +48,11 @@ import org.compiere.util.Msg;
 public class InfoAssignment extends Info
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5017170699571459745L;
+
+	/**
 	 *  Constructor
 	 *  @param frame frame
 	 *  @param modal modal

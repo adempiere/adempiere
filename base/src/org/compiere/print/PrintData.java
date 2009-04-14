@@ -52,6 +52,11 @@ import org.w3c.dom.Element;
 public class PrintData implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5013410697934610197L;
+
+	/**
 	 * 	Data Parent Constructor
 	 * 	@param ctx context
 	 * 	@param name data element name

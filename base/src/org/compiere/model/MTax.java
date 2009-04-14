@@ -38,6 +38,12 @@ import org.compiere.util.TimeUtil;
 public class MTax extends X_C_Tax
 {	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4140382472528327237L;
+
+
+	/**
 	 * 	Get All Tax codes (for AD_Client)
 	 *	@param ctx context
 	 *	@return MTax

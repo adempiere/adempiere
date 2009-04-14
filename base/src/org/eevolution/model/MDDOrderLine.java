@@ -50,6 +50,11 @@ public class MDDOrderLine extends X_DD_OrderLine
 {
 	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8878804332001384969L;
+
+	/**
 	 * 	Get Order Unreserved Qty
 	 *	@param ctx context
 	 *	@param M_Locator_ID wh

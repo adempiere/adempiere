@@ -37,6 +37,11 @@ import org.compiere.util.Env;
 public class MPrintFont extends X_AD_PrintFont
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4721840631004326810L;
+
+	/**
 	 *	Constructor
 	 *  @param ctx context
 	 *  @param AD_PrintFont_ID ID

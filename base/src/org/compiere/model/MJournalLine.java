@@ -33,6 +33,11 @@ import org.compiere.util.Env;
 public class MJournalLine extends X_GL_JournalLine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1873359101491826792L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param GL_JournalLine_ID id

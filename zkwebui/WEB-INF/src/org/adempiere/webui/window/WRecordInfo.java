@@ -73,6 +73,11 @@ import org.zkoss.zul.Listheader;
 public class WRecordInfo extends Window implements EventListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8325604065202356483L;
+
+	/**
 	 *	Record Info
 	 *	@param title title
 	 *	@param dse data status event

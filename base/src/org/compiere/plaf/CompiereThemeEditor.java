@@ -49,6 +49,11 @@ public class CompiereThemeEditor extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6865599987532875192L;
+
+	/**
 	 *  Constructor
 	 *  @param  owner Frame owner
 	 */

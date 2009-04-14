@@ -36,6 +36,11 @@ import org.compiere.util.Msg;
 public class MBOMProduct extends X_M_BOMProduct
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3431041011059529621L;
+
+	/**
 	 * 	Get Products of BOM
 	 *	@param bom bom
 	 *	@return array of BOM Products

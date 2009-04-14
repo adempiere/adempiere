@@ -45,6 +45,10 @@ import org.compiere.wf.MWFActivity;
  */
 public class WorkflowServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5194115425645974027L;
 	/**	Logging						*/
 	private CLogger					log = CLogger.getCLogger(getClass());
 	/** Name						*/

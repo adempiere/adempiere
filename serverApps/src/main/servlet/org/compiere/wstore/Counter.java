@@ -43,6 +43,11 @@ import org.compiere.util.WebEnv;
  */
 public class Counter extends HttpServlet implements Runnable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 194411094026644834L;
+
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(Counter.class);
 

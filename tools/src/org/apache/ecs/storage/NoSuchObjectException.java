@@ -19,7 +19,12 @@ package org.apache.ecs.storage;
 public class NoSuchObjectException extends Exception
 {
 
-    public NoSuchObjectException()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6350273186451436082L;
+
+	public NoSuchObjectException()
     {
         super("No such object found.");
     }

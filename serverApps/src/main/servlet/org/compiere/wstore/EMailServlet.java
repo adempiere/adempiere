@@ -40,6 +40,11 @@ import org.compiere.util.WebUtil;
  */
 public class EMailServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6237307729376702569L;
+
 	/**	Logging						*/
 	private static CLogger			log = CLogger.getCLogger(EMailServlet.class);
 

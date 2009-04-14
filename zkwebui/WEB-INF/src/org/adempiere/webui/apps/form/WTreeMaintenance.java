@@ -66,6 +66,10 @@ import org.zkoss.zul.Treeitem;
  */
 public class WTreeMaintenance extends ADForm implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3630156132596215136L;
 	/**	Active Tree				*/
 	private MTree		 	m_tree;
 	/**	Logger			*/

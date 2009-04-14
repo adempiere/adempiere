@@ -37,6 +37,11 @@ import org.compiere.util.DB;
 public class MColor extends X_AD_Color
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8672637038417465668L;
+
+	/**
 	 *  Color Model
 	 *  @param ctx context
 	 *  @param AD_Color_ID color

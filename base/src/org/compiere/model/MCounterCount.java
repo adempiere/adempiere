@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MCounterCount extends X_W_CounterCount
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5348749341548369844L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param W_CounterCount_ID id

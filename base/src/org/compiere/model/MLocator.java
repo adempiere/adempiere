@@ -37,6 +37,12 @@ import org.compiere.util.DB;
 public class MLocator extends X_M_Locator
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6019655556196171287L;
+
+
+	/**
 	 * 	Get oldest Default Locator of warehouse with locator
 	 *	@param ctx context
 	 *	@param M_Locator_ID locator

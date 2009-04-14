@@ -32,6 +32,11 @@ import org.compiere.util.Msg;
  */
 public class MRecurring extends X_C_Recurring
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4003753259402759121L;
+
 	public MRecurring (Properties ctx, int C_Recurring_ID, String trxName)
 	{
 		super (ctx, C_Recurring_ID, trxName);

@@ -31,7 +31,11 @@ import org.compiere.util.CCache;
  */
 public class MPOSTerminal extends X_U_POSTerminal
 {
-    /** Cache                   */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6972567212871993024L;
+	/** Cache                   */
     static private CCache<Integer,MPOSTerminal> s_cache = new CCache<Integer,MPOSTerminal>(X_U_POSTerminal.Table_Name, 10, 60);
     
     /**

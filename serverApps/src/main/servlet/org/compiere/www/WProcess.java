@@ -83,6 +83,10 @@ import org.compiere.wf.MWFActivity;
  */
 public class WProcess extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3937980012432969521L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	//Modified by Rob Klein 4/29/07

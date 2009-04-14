@@ -69,6 +69,11 @@ public class EMailDialog extends CDialog
 	implements ActionListener, VetoableChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6850428309037475213L;
+
+	/**
 	 * 	EMail Dialog
 	 *	@param owner calling window
 	 *	@param title title

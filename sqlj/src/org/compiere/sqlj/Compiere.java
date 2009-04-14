@@ -38,6 +38,11 @@ import java.util.GregorianCalendar;
 public class Compiere implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8646701476222261073L;
+
+	/**
 	 * 	Get Version
 	 *	@return version
 	 */

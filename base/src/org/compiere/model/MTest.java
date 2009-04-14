@@ -33,6 +33,12 @@ import org.compiere.util.Env;
 public class MTest extends X_Test
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5750690186875693958L;
+
+
+	/**
 	 * 	Constructor
 	 *	@param ctx context
 	 *	@param Test_ID

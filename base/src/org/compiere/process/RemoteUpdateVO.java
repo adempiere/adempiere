@@ -29,6 +29,10 @@ import javax.sql.RowSet;
 public class RemoteUpdateVO implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1609568403006050326L;
 	public Boolean			Test = Boolean.FALSE;
 //	public Integer			AD_Table_ID = null;
 	public String			TableName = null;

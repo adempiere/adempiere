@@ -32,6 +32,11 @@ import org.compiere.util.Env;
 public class MDunningRunLine extends X_C_DunningRunLine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6329441027195611155L;
+
+	/**
 	 * 	Standarc Constructor
 	 *	@param ctx ctx
 	 *	@param C_DunningRunLine_ID id

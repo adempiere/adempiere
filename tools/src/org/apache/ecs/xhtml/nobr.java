@@ -45,6 +45,11 @@ public class nobr extends MultiPartElement implements Printable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3116149804660625675L;
+
+	/**
 
         Private initialization routine.
 

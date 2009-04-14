@@ -26,7 +26,11 @@ package org.apache.ecs;
 */
 public abstract class MultiPartElement extends ConcreteElement
 {
-    /** Private Initializer */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3255728444113917683L;
+	/** Private Initializer */
     {
         setNeedClosingTag(true);
     }

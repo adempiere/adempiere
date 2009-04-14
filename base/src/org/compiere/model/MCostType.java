@@ -29,6 +29,11 @@ import org.compiere.util.Msg;
 public class MCostType extends X_M_CostType
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2060640115481013228L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_CostType_ID id

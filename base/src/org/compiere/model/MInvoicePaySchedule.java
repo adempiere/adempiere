@@ -38,6 +38,12 @@ import org.compiere.util.TimeUtil;
 public class MInvoicePaySchedule extends X_C_InvoicePaySchedule
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1529278048406862670L;
+
+
+	/**
 	 * 	Get Payment Schedule of the invoice
 	 * 	@param ctx context
 	 * 	@param C_Invoice_ID invoice id (direct)

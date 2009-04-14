@@ -64,6 +64,12 @@ public class VAssignmentDialog extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4130085811212412204L;
+
+
+	/**
 	 * 	Assignment Dialog.
 	 * 	<pre>
 	 * 		Creates a new assignment oor displays an assignment

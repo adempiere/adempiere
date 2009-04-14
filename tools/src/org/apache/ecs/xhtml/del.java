@@ -47,6 +47,13 @@ public class del extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7543846966757024036L;
+
+
+
+	/**
 
         Private initializer.
 

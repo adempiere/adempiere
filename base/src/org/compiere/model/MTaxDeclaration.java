@@ -30,6 +30,11 @@ import org.compiere.util.TimeUtil;
 public class MTaxDeclaration extends X_C_TaxDeclaration
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 560499885058913281L;
+
+	/**
 	 * 	Standard Constructors
 	 *	@param ctx context
 	 *	@param C_TaxDeclaration_ID ic

@@ -54,6 +54,11 @@ public class QueryBPartner extends PosSubPanel
 	implements ActionListener, MouseListener, ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7109518709654253628L;
+
+	/**
 	 * 	Constructor
 	 */
 	public QueryBPartner (PosPanel posPanel)

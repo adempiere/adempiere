@@ -26,7 +26,12 @@ use raw HTML.  Don't use this unless you have to do so for compatibilty reasons
 
 public class ClearElement extends StringElement {
     
-    public ClearElement(String string) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5370305711773510334L;
+
+	public ClearElement(String string) {
         super( string );
         
         this.setFilter( new NullFilter() );

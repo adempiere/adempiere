@@ -35,6 +35,12 @@ import org.compiere.util.Env;
 public class MLandedCostAllocation extends X_C_LandedCostAllocation
 {	
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8645283018475474574L;
+
+
+	/**
 	 * 	Get Cost Allocations for invoice Line
 	 *	@param ctx context
 	 *	@param C_InvoiceLine_ID invoice line

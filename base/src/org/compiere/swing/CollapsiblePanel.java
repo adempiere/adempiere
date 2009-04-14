@@ -40,6 +40,10 @@ import org.jdesktop.swingx.VerticalLayout;
  */
 public class CollapsiblePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7372966868790589720L;
 	private Color titleBackgroundColor;
 	private Color titleForegroundColor;
 	private Color separatorColor;

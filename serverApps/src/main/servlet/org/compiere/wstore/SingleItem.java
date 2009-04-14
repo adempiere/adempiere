@@ -35,6 +35,10 @@ import org.compiere.util.WebEnv;
  */
 public class SingleItem extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6314271823384026972L;
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 

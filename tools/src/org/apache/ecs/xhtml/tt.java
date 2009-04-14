@@ -49,6 +49,13 @@ public class tt extends MultiPartElement implements Printable, MouseEvents, KeyE
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7367987221576210407L;
+
+
+
+	/**
 
         Private initialization routine.
 

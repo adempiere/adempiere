@@ -32,6 +32,12 @@ import org.compiere.util.Env;
 public class MShipper extends X_M_Shipper
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4026295839866634739L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_Shipper_ID id

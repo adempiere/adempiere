@@ -34,6 +34,11 @@ import org.compiere.util.DB;
 public class MPOSKeyLayout extends X_C_POSKeyLayout
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5047330258566607212L;
+
+	/**
 	 * 	Get POS Key Layout from Cache
 	 *	@param ctx context
 	 *	@param C_POSKeyLayout_ID id

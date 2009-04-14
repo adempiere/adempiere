@@ -62,6 +62,11 @@ import org.compiere.util.WebUtil;
 public class WAccount extends HttpServlet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7932467581955114222L;
+
+	/**
 	 * Initialize global variables
 	 *
 	 * @param config

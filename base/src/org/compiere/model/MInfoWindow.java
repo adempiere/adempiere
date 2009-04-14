@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MInfoWindow extends X_AD_InfoWindow
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4040291733093824436L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_InfoWindow_ID id

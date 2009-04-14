@@ -35,6 +35,11 @@ import org.compiere.util.DB;
 public class MReportLineSet extends X_PA_ReportLineSet
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2540937629148624046L;
+
+	/**
 	 * 	Constructor
 	 * 	@param ctx context
 	 * 	@param PA_ReportLineSet_ID id

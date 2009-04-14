@@ -47,6 +47,13 @@ public class dfn extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 874320923974607093L;
+
+
+
+	/**
 
         Private initialization routine.
 

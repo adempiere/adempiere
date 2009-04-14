@@ -55,6 +55,11 @@ public class VLocation extends JComponent
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3155246553879767899L;
+
+	/**
 	 *	Constructor
 	 *
 	 * 	@param columnName column name

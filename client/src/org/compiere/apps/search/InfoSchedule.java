@@ -65,6 +65,11 @@ public class InfoSchedule extends CDialog
 	implements ActionListener, ChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7364837484557281167L;
+
+	/**
 	 *  Constructor
 	 *  @param frame Parent
 	 *  @param mAssignment optional assignment

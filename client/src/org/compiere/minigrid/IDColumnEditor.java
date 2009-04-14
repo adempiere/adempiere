@@ -44,6 +44,11 @@ public class IDColumnEditor extends AbstractCellEditor
 	implements TableCellEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7263316764540177503L;
+
+	/**
 	 *  Constructor
 	 */
 	public IDColumnEditor()

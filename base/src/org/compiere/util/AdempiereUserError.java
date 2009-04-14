@@ -28,6 +28,11 @@ package org.compiere.util;
 public class AdempiereUserError extends Exception
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5318376918072817705L;
+
+	/**
 	 * 	Adempiere User Error
 	 *	@param message message
 	 */

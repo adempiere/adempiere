@@ -32,6 +32,11 @@ public class MForm extends X_AD_Form
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2013533837940046638L;
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param AD_Form_ID id

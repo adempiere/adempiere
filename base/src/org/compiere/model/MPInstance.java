@@ -36,6 +36,11 @@ import org.compiere.util.Env;
 public class MPInstance extends X_AD_PInstance
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 209806970824523840L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_PInstance_ID instance or 0

@@ -36,6 +36,12 @@ import org.compiere.util.Msg;
 public class MUserOrgAccess extends X_AD_User_OrgAccess
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 11601583764711895L;
+
+
+	/**
 	 * 	Get Organizational Access of User
 	 *	@param ctx context
 	 *	@param AD_User_ID user

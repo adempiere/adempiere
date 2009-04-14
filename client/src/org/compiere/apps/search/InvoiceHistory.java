@@ -62,6 +62,11 @@ public class InvoiceHistory extends CDialog
 	implements ActionListener, ChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7886949815469558804L;
+
+	/**
 	 *	Show History
 	 *	@param C_BPartner_ID partner
 	 *	@param M_Product_ID product

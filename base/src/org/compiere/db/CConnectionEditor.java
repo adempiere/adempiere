@@ -46,6 +46,11 @@ public class CConnectionEditor extends JComponent
 	implements CEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 259945316129032408L;
+
+	/**
 	 *  Connection Editor creating new Connection
 	 */
 	public CConnectionEditor()

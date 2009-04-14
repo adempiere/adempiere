@@ -38,6 +38,10 @@ import org.compiere.util.WebUtil;
  */
 public class WTest extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -669477433080711028L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(WTest.class);
 

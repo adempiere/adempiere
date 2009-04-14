@@ -67,7 +67,11 @@ import org.jdesktop.swingx.painter.Painter;
  * 				<li>BF [ 1808617 ] Close Windows from "Viewer" (report) is not working
  */
 public class WindowMenu extends JMenu {
-    private WindowManager windowManager;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 381665816099431316L;
+	private WindowManager windowManager;
     private JFrame frame;
     private JMenuItem closeAll=new JMenuItem("Close All Windows");
     private JMenuItem closeOthers = new JMenuItem("Close Other Windows");
@@ -294,7 +298,11 @@ public class WindowMenu extends JMenu {
     /* This JCheckBoxMenuItem descendant is used to track the child frame that corresponds
        to a give menu. */
     class ChildMenuItem extends JCheckBoxMenuItem {
-        private CFrame window;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2258141282389818588L;
+		private CFrame window;
 
         public ChildMenuItem(CFrame window) {
             super(window.getTitle());

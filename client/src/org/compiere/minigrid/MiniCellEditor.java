@@ -39,6 +39,11 @@ import org.compiere.util.DisplayType;
 public class MiniCellEditor extends AbstractCellEditor implements TableCellEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4431508736596874253L;
+
+	/**
 	 *  Default Constructor
 	 *  @param c Class
 	 */

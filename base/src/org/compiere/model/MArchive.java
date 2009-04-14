@@ -63,6 +63,11 @@ import org.xml.sax.SAXException;
  */
 public class MArchive extends X_AD_Archive {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3476918478008050158L;
+
+	/**
 	 * Get Archives
 	 * 
 	 * @param ctx

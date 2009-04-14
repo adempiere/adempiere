@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MLotCtl extends X_M_LotCtl
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1020114756336617138L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_LotCtl_ID id

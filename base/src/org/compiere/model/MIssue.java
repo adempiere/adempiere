@@ -53,6 +53,11 @@ import org.compiere.util.Secure;
 public class MIssue extends X_AD_Issue
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3680542992654002121L;
+
+	/**
 	 * 	Create and report issue
 	 *	@param record log record
 	 *	@return reported issue or null

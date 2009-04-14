@@ -29,6 +29,11 @@ import javax.swing.JMenuItem;
 public class CMenuItem extends JMenuItem
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5241542923170919340L;
+
 	public CMenuItem ()
 	{
 		super ();

@@ -47,6 +47,12 @@ import org.compiere.wf.MWFNode;
 public class WFNode extends JComponent
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3267215731910132678L;
+
+
+	/**
 	 * 	Create WF Node
 	 * 	@param node model
 	 */

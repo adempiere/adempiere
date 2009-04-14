@@ -40,6 +40,12 @@ import org.compiere.util.Trx;
 public class MProcess extends X_AD_Process
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2404724380401712390L;
+
+
+	/**
 	 * 	Get MProcess from Cache
 	 *	@param ctx context
 	 *	@param AD_Process_ID id

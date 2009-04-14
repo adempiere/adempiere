@@ -40,6 +40,10 @@ import org.compiere.util.WebUtil;
  */
 public class ProductServlet  extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3205810155766880833L;
 	/**	Logging						*/
 	private CLogger			log = CLogger.getCLogger(getClass());
 

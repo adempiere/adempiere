@@ -47,6 +47,13 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5032895808756452814L;
+
+
+
+	/**
 
         Private initialization routine.
 

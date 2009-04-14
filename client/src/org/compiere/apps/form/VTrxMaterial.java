@@ -66,6 +66,10 @@ import org.compiere.util.Msg;
 public class VTrxMaterial extends CPanel
 	implements FormPanel, ActionListener, VetoableChangeListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7435309844451490697L;
 	/**	Window No			*/
 	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/

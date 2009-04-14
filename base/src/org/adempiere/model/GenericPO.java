@@ -39,6 +39,11 @@ import org.compiere.model.POInfo;
 public class GenericPO extends PO {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6558017105997010172L;
+
+	/**
 	 * @param tableName
 	 * @param ctx
 	 * @param ID
@@ -134,6 +139,10 @@ public class GenericPO extends PO {
  *
  */
 class PropertiesWrapper extends Properties {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8887531951501323594L;
 	protected Properties source;
 	protected String tableName;
 

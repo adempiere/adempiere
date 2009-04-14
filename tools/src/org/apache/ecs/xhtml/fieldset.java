@@ -47,6 +47,13 @@ public class fieldset extends MultiPartElement implements Printable, MouseEvents
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2264934716083970804L;
+
+
+
+	/**
 
         private initializer.
 

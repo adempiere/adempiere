@@ -26,6 +26,10 @@ import org.zkoss.zul.Timebox;
  */
 public class DatetimeBox extends Panel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1075410511739601354L;
 	private Datebox dateBox;
 	private Timebox timeBox;
 	

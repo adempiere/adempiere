@@ -31,6 +31,12 @@ import org.compiere.util.ValueNamePair;
 public class MAdvertisement extends X_W_Advertisement
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8129122675267734690L;
+
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param W_Advertisement_ID id

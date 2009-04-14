@@ -55,6 +55,10 @@ import org.compiere.util.Msg;
 public class HtmlDashboard extends JPanel implements MouseListener,
 		ActionListener, HyperlinkListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8125801717324723271L;
 	private static Dimension paneldimensionMin = new Dimension(80, 80);
 	private	JEditorPane	html;
 	private enum PAGE_TYPE {PAGE_HOME, PAGE_PERFORMANCE, PAGE_LOGO};

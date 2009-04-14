@@ -44,6 +44,10 @@ import org.compiere.util.Util;
  */
 public class RequestTypeTag extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2043760294335793259L;
 	/**	Logger							*/
 	private static CLogger			log = CLogger.getCLogger (RequestTypeTag.class);
 

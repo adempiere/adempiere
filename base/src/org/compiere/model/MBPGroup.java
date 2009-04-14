@@ -36,6 +36,11 @@ import org.compiere.util.Env;
 public class MBPGroup extends X_C_BP_Group
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3037428352124938328L;
+
+	/**
 	 * 	Get MBPGroup from Cache
 	 *	@param ctx context
 	 *	@param C_BP_Group_ID id

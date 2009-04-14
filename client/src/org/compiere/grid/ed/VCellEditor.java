@@ -54,6 +54,11 @@ public final class VCellEditor extends AbstractCellEditor
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1406944397509282968L;
+
+	/**
 	 *	Constructor for Grid
 	 *  @param mField
 	 */

@@ -32,6 +32,10 @@ import javax.swing.text.JTextComponent;
  */
 public class CLabel extends JLabel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3836688834452881595L;
 	public static int   DEFAULT_ALIGNMENT = JLabel.TRAILING;
 
 	/**

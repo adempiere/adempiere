@@ -65,6 +65,11 @@ public class ValuePreference extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6718115525965508049L;
+
+	/**
 	 *  Factory
 	 *  @param mField	field
 	 *  @param aValue	value

@@ -35,6 +35,11 @@ public class form extends MultiPartElement
 	implements Printable, FormEvents, MouseEvents, KeyEvents
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6994351036405706353L;
+
 	public static final String	METHOD_GET	= "get";
 
 	public static final String	METHOD_POST	= "post";

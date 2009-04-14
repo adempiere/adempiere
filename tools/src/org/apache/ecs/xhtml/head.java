@@ -33,6 +33,11 @@ public class head extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2597905260419035106L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

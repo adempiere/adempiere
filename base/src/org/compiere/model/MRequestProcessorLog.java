@@ -30,6 +30,11 @@ public class MRequestProcessorLog extends X_R_RequestProcessorLog
 	implements AdempiereProcessorLog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3295903266591998482L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param R_RequestProcessorLog_ID id

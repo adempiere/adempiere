@@ -65,6 +65,11 @@ public class VDate extends JComponent
 	implements VEditor, ActionListener, KeyListener, FocusListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9090302458969544529L;
+
+	/**
 	 *  IDE Bean Constructor
 	 */
 	public VDate()

@@ -73,6 +73,11 @@ public class Calendar extends CDialog
 	implements ActionListener, MouseListener, ChangeListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1547404617639717922L;
+
+	/**
 	 *  Mimimum Constructor for Date editor
 	 *  @param frame frame
 	 */
@@ -786,6 +791,11 @@ public class Calendar extends CDialog
  */
 class MinuteModel extends SpinnerNumberModel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7328155195096551848L;
+
 	/**
 	 *  Constructor.
 	 *  Creates Integer Spinner with minimum=0, maximum=59, stepsize=1

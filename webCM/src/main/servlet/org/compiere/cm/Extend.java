@@ -31,6 +31,10 @@ import org.compiere.util.WebInfo;
  */
 public abstract class Extend implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6808492189985974917L;
 	protected HttpServletRequest e_request;
 	protected HttpSession e_session;
 	protected Properties ctx;

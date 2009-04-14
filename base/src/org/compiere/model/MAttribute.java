@@ -37,6 +37,12 @@ import org.compiere.util.Env;
 public class MAttribute extends X_M_Attribute
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7869800574413317999L;
+
+
+	/**
 	 * 	Get Attributes Of Client
 	 *	@param ctx Properties
 	 *	@param onlyProductAttributes only Product Attributes

@@ -84,7 +84,11 @@ import org.jdesktop.swingx.table.ColumnControlPopup;
  * 
  */
 public class CColumnControlButton extends JButton {
-    /** Marker to auto-recognize actions which should be added to the popup. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3052540263336100861L;
+	/** Marker to auto-recognize actions which should be added to the popup. */
     public static final String COLUMN_CONTROL_MARKER = "column.";
     /** exposed for testing. */
     protected ColumnControlPopup popup;
@@ -148,7 +152,12 @@ public class CColumnControlButton extends JButton {
      */
     public class ColumnVisibilityAction extends AbstractActionExt {
 
-        private TableColumn column;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5843080042335689992L;
+
+		private TableColumn column;
 
         private PropertyChangeListener columnListener;
 
@@ -775,7 +784,12 @@ public class CColumnControlButton extends JButton {
     private Action createControlAction(Icon icon) {
         Action control = new AbstractAction() {
 
-            public void actionPerformed(ActionEvent e) {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -6683797828219296451L;
+
+			public void actionPerformed(ActionEvent e) {
                 togglePopup();
             }
 

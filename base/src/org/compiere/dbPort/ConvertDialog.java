@@ -62,6 +62,11 @@ import org.compiere.swing.CFrame;
 public class ConvertDialog extends CFrame implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4748833703849693696L;
+
+	/**
 	 *  Convert Dialog
 	 */
 	public ConvertDialog()

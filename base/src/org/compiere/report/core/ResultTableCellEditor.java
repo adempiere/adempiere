@@ -32,6 +32,11 @@ import javax.swing.table.TableCellEditor;
 public class ResultTableCellEditor extends AbstractCellEditor implements TableCellEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5173884011593230904L;
+
+	/**
 	 *  Constructor (read only)
 	 */
 	public ResultTableCellEditor()

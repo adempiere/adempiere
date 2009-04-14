@@ -37,6 +37,12 @@ import org.compiere.util.DB;
 public class MWFNodePara extends X_AD_WF_Node_Para
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4132254339643230238L;
+
+
+	/**
 	 * 	Get Parameters for a node
 	 *	@param ctx context
 	 *	@param AD_WF_Node_ID node

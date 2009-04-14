@@ -33,6 +33,11 @@ public class MWorkflowProcessorLog extends X_AD_WorkflowProcessorLog
 	implements AdempiereProcessorLog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7646579803939292482L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_WorkflowProcessorLog_ID id

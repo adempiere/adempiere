@@ -45,6 +45,12 @@ import org.compiere.util.Msg;
 public class MBPartner extends X_C_BPartner
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3669895599574182217L;
+
+
+	/**
 	 * 	Get Empty Template Business Partner
 	 * 	@param ctx context
 	 * 	@param AD_Client_ID client

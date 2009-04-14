@@ -49,6 +49,11 @@ import org.compiere.util.Util;
 public class MPrintFormat extends X_AD_PrintFormat
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3626220385155526700L;
+
+	/**
 	 *	Public Constructor.
 	 * 	Use static get methods
 	 *  @param ctx context

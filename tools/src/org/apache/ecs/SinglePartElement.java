@@ -26,7 +26,12 @@ package org.apache.ecs;
 */
 public abstract class SinglePartElement extends ConcreteElement
 {
-    /** Private Initializer */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2083214335522183298L;
+
+	/** Private Initializer */
     {
         setNeedClosingTag(false);
     }

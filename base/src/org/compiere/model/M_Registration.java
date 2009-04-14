@@ -29,6 +29,12 @@ import java.util.Properties;
 public class M_Registration extends X_AD_Registration
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7480114737626722067L;
+
+
+	/**
 	 * 	Default Constructor
 	 *	@param ctx context
 	 *	@param AD_Registration_ID id

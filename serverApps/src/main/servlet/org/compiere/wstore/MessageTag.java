@@ -35,6 +35,10 @@ import org.compiere.util.Msg;
  */
 public class MessageTag  extends TagSupport
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5706293833314600951L;
 	/**	Logger				*/
 	private CLogger		log = CLogger.getCLogger (getClass());
 	/** Text				*/

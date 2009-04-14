@@ -47,6 +47,13 @@ public class center extends MultiPartElement implements Printable, MouseEvents, 
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4769726889627863443L;
+
+
+
+	/**
 
         Private initialization routine.
 

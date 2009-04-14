@@ -37,6 +37,11 @@ public class VCheckBox extends CCheckBox
 	implements VEditor, ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3822806631369725112L;
+
+	/**
 	 *	Default Constructor
 	 */
 	public VCheckBox()

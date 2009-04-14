@@ -34,6 +34,11 @@ public class MDiscountSchemaBreak extends X_M_DiscountSchemaBreak
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6413962940750128351L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_DiscountSchemaBreak_ID id

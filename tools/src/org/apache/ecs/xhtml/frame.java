@@ -44,7 +44,12 @@ public class frame extends MultiPartElement implements Printable
 
 {
 
-    public final static String yes = "yes";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5304662633349757578L;
+
+	public final static String yes = "yes";
 
     public final static String no = "no";
 

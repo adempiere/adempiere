@@ -30,6 +30,11 @@ public class MWindowAccess extends X_AD_Window_Access
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1236781018671637481L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param ignored -

@@ -56,6 +56,11 @@ import org.compiere.util.Util;
 public final class ADialogDialog extends CDialog implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5670261006862936363L;
+
+	/**
 	 *	Create Dialog Window for Frame
 	 *
 	 * @param frame

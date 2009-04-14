@@ -35,6 +35,12 @@ import org.compiere.util.Msg;
 public class MBOM extends X_M_BOM
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8885316310068284701L;
+
+
+	/**
 	 * 	Get BOM from Cache
 	 *	@param ctx context
 	 *	@param M_BOM_ID id

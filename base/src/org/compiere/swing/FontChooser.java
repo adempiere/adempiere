@@ -45,6 +45,11 @@ public class FontChooser extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -755094979517882166L;
+
+	/**
 	 *  Show Dialog with initial font and return selected font
 	 *  @param owner Base window
 	 *  @param title Chooser Title

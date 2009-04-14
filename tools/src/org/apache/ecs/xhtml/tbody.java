@@ -45,6 +45,13 @@ public class tbody extends MultiPartElement implements Printable, MouseEvents, K
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1939268528814481986L;
+
+
+
+	/**
 
         private initializer.
 

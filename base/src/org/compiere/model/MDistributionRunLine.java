@@ -32,6 +32,12 @@ public class MDistributionRunLine extends X_M_DistributionRunLine
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4106664830581774843L;
+
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_DistributionRunLine_ID id

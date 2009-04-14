@@ -35,6 +35,11 @@ public class textarea extends MultiPartElement
 	implements PageEvents, FormEvents, MouseEvents, KeyEvents
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6436851093868560041L;
+
 	public final static String	off			= "off";
 
 	public final static String	physical	= "physical";

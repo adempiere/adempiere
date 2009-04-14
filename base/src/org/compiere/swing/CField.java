@@ -48,6 +48,11 @@ public class CField extends JComboBox
 	implements CEditor, ActionListener
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2570380982649145678L;
+
 	public static CField createNumeric(NumberFormat format)
 	{
 		return null;

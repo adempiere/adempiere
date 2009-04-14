@@ -61,6 +61,10 @@ import org.zkoss.zul.Html;
 public class ProcessModalDialog extends Window implements EventListener
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -351486051681812866L;
 	private boolean m_autoStart;
 
 

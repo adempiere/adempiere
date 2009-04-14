@@ -33,6 +33,11 @@ public class meta extends SinglePartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7943556377713623573L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

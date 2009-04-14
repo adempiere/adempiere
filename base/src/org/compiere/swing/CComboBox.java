@@ -43,6 +43,11 @@ public class CComboBox extends JComboBox
 	implements CEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4605625077881909766L;
+
+	/**
 	 * Creates a <code>JComboBox</code> that takes it's items from an
 	 * existing <code>ComboBoxModel</code>.  Since the
 	 * <code>ComboBoxModel</code> is provided, a combo box created using

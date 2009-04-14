@@ -32,6 +32,10 @@ import javax.swing.UIManager;
  */
 public final class AStart extends JApplet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2871413592908347578L;
 	boolean isStandalone = false;
 
 	/**

@@ -375,6 +375,11 @@ public class PLAFEditorPanel extends CPanel {
  * @author Low Heng Sin
  */
 class GlassPane extends JComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4416920279272513L;
+
 	GlassPane() {
 		addMouseListener(new MouseAdapter() {});
 		addKeyListener(new KeyAdapter() {});
@@ -387,6 +392,10 @@ class GlassPane extends JComponent {
  * @author Low Heng Sin
  */
 class PreviewPanel extends CPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6028614986952449622L;
 	private boolean capture = true;
 	private LookAndFeel laf = null;
 	private MetalTheme theme = null;

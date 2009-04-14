@@ -37,6 +37,12 @@ import org.compiere.util.TimeUtil;
 public class MDiscountSchema extends X_M_DiscountSchema
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3314884382853756019L;
+
+
+	/**
 	 * 	Get Discount Schema from Cache
 	 *	@param ctx context
 	 *	@param M_DiscountSchema_ID id

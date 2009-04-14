@@ -59,6 +59,11 @@ public final class Attachment extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2497487523050526742L;
+
+	/**
 	 *	Constructor.
 	 *	loads Attachment, if ID <> 0
 	 *  @param frame frame
@@ -566,6 +571,11 @@ public final class Attachment extends CDialog
 	 */
 	class GImage extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 4991225210651641722L;
+
 		/**
 		 *  Graphic Image
 		 */

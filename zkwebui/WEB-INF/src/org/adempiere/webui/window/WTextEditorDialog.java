@@ -37,6 +37,10 @@ import org.zkoss.zul.Separator;
  */
 public class WTextEditorDialog extends Window implements EventListener{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3852236029054284848L;
 	private boolean editable;
 	private int maxSize;
 	private String text;

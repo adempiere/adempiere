@@ -81,6 +81,11 @@ public class WMatch extends ADForm
 	implements EventListener, WTableModelListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6383121932802974801L;
+
+	/**
 	 *	Initialize Panel
 	 */
 	protected void initForm()

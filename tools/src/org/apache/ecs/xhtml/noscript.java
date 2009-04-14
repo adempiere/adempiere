@@ -47,6 +47,13 @@ public class noscript extends MultiPartElement implements Printable, MouseEvents
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1316345973193928096L;
+
+
+
+	/**
 
         Private initialization routine.
 

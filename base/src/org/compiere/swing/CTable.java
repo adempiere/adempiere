@@ -63,6 +63,11 @@ import org.jdesktop.swingx.icon.ColumnControlIcon;
 public class CTable extends JTable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 772619961990977001L;
+
+	/**
 	 *	Default Constructor
 	 */
 	public CTable()

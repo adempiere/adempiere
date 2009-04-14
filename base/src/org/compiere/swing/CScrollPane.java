@@ -34,6 +34,12 @@ public class CScrollPane extends JScrollPane
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2941967111871448295L;
+
+
+	/**
 	 * 	Adempiere ScollPane
 	 */
 	public CScrollPane ()

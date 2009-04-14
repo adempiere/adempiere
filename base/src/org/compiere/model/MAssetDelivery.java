@@ -33,6 +33,11 @@ import org.compiere.util.EMail;
 public class MAssetDelivery extends X_A_Asset_Delivery
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1731010685101745675L;
+
+	/**
 	 * 	Constructor
 	 * 	@param ctx context
 	 * 	@param A_Asset_Delivery_ID id or 0

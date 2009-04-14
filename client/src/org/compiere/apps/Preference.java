@@ -90,6 +90,11 @@ public final class Preference extends CDialog
 	implements ActionListener, ListSelectionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8923143271736597338L;
+
+	/**
 	 *	Standard Constructor
 	 *  @param frame frame
 	 *  @param WindowNo window

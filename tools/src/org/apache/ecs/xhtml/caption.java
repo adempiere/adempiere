@@ -35,6 +35,11 @@ public class caption extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2141182880730136407L;
+
+	/**
      * Private initializer.
      */
 	{

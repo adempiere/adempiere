@@ -25,7 +25,12 @@ package org.posterita.exceptions;
  */
 public class TerminalInactivateException extends OperationException
 {
-    public TerminalInactivateException(String msg)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4346728923232617443L;
+
+	public TerminalInactivateException(String msg)
     {
         super(msg);
     }

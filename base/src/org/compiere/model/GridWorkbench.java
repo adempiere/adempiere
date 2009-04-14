@@ -41,6 +41,11 @@ import org.compiere.util.Env;
 public class GridWorkbench implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3947016961582548630L;
+
+	/**
 	 *  Workbench Model Constructor
 	 *  @param ctx context
 	 */

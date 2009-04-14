@@ -65,6 +65,11 @@ public final class Calculator extends CDialog
 	implements ActionListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 467225451773238663L;
+
+	/**
 	 *	Create Calculator
 	 * 	@param frame parent
 	 * 	@param title title

@@ -38,6 +38,12 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 	implements AdempiereProcessor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9060358751064718910L;
+
+
+	/**
 	 * 	Get Active
 	 *	@param ctx context
 	 *	@return active processors

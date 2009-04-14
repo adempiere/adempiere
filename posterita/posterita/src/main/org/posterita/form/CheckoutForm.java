@@ -31,7 +31,11 @@ import org.posterita.struts.core.DefaultForm;
 
 public class CheckoutForm extends DefaultForm
 {
-    private String amountTendered;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1512494983524778853L;
+	private String amountTendered;
     private String amountRefunded;
     private String cardNo;
     private String chequeNo;

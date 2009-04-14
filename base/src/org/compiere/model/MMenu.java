@@ -38,6 +38,11 @@ public class MMenu extends X_AD_Menu
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6671861281736697100L;
+
+	/**
 	 * Get menues with where clause
 	 * @param ctx context
 	 * @param whereClause where clause w/o the actual WHERE

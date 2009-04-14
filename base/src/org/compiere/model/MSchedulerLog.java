@@ -30,6 +30,11 @@ public class MSchedulerLog extends X_AD_SchedulerLog
 	implements AdempiereProcessorLog
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8105976307507562851L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_SchedulerLog_ID id

@@ -41,6 +41,11 @@ import org.compiere.util.Msg;
 public class MRMA extends X_M_RMA implements DocAction
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7911024337541702346L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_RMA_ID id

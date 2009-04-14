@@ -59,6 +59,11 @@ public class VURL extends JComponent
 	implements VEditor, ActionListener, KeyListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5090157084793992376L;
+
+	/**
 	 * 	IDE Constructor
 	 */
 	public VURL ()

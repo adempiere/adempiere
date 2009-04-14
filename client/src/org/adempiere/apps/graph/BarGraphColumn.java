@@ -54,6 +54,11 @@ import org.compiere.util.DisplayType;
 public class BarGraphColumn extends JComponent implements MouseListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8249071636376812900L;
+
+	/**
 	 * 	Base Constructor
 	 *	@param label label
 	 *	@param value value

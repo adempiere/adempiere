@@ -47,6 +47,13 @@ public class var extends MultiPartElement implements Printable, MouseEvents, Key
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4309343288094863628L;
+
+
+
+	/**
 
         Private initialization routine.
 

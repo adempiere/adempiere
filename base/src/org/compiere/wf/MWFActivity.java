@@ -74,6 +74,12 @@ import org.compiere.util.Util;
 public class MWFActivity extends X_AD_WF_Activity implements Runnable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2104882570953130237L;
+
+
+	/**
 	 * 	Get Activities for table/record 
 	 *	@param ctx context
 	 *	@param AD_Table_ID table

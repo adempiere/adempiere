@@ -45,6 +45,13 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5745112657288575821L;
+
+
+
+	/**
 
         private initializer.
 

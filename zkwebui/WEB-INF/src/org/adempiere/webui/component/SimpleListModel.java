@@ -32,6 +32,11 @@ import org.zkoss.zul.event.ListDataEvent;
  */
 public class SimpleListModel extends AbstractListModel implements ListitemRenderer, ListitemRendererExt {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -572148106182756840L;
+
 	protected List list;
 	
 	private int[] maxLength;

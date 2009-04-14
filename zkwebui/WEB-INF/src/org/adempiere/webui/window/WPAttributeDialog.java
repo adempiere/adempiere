@@ -80,6 +80,11 @@ import org.zkoss.zul.impl.InputElement;
 public class WPAttributeDialog extends Window implements EventListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7810825026970615029L;
+
+	/**
 	 *	Product Attribute Instance Dialog
 	 *	@param M_AttributeSetInstance_ID Product Attribute Set Instance id
 	 * 	@param M_Product_ID Product id

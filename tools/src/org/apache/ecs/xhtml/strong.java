@@ -47,6 +47,13 @@ public class strong extends MultiPartElement implements Printable, MouseEvents, 
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 268553785344159249L;
+
+
+
+	/**
 
         Private initializer
 

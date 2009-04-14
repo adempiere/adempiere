@@ -44,6 +44,10 @@ import org.compiere.util.WebUtil;
  */
 public class NoteServlet extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1253263675147711219L;
 	/**	Logging						*/
 	private CLogger					log = CLogger.getCLogger(getClass());
 	/** Name						*/

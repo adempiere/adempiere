@@ -34,6 +34,10 @@ import org.compiere.util.DB;
  */
 public class MDunningLevel extends X_C_DunningLevel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4869909989789113387L;
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MDunningLevel.class);
 	

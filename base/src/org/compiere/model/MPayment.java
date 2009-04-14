@@ -77,6 +77,11 @@ public final class MPayment extends X_C_Payment
 	implements DocAction, ProcessCall
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5273805787122033169L;
+
+	/**
 	 * 	Get Payments Of BPartner
 	 *	@param ctx context
 	 *	@param C_BPartner_ID id

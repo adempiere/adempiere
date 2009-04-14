@@ -27,6 +27,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class indexSearch extends org.compiere.cm.Extend
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2182007427785520124L;
+
 	public indexSearch (HttpServletRequest request, Properties ctx)
 	{
 		super (request, ctx);

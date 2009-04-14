@@ -64,6 +64,11 @@ public class ProcessParameter extends CDialog
 	implements ActionListener, VetoableChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3898982577949513358L;
+
+	/**
 	 *	Dynamic generated Parameter Dialog screen.
 	 *	Called from ProcessCtl.process
 	 *

@@ -49,7 +49,12 @@ public class XhtmlDocument implements Serializable,Cloneable
 
 {
 
-    /** @serial html html */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8143619141939879559L;
+
+	/** @serial html html */
 
     private html html; // this is the actual container for head and body
 

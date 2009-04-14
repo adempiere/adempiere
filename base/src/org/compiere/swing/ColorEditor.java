@@ -51,6 +51,11 @@ public class ColorEditor extends CDialog
 	implements ActionListener, PropertyEditor
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -484760951046013782L;
+
+	/**
 	 *  Get Background AdempiereColor
 	 *  @param owner owner
 	 *  @param color optional initial color

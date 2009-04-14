@@ -29,6 +29,10 @@ import java.util.logging.Logger;
  */
 public class CLogger extends Logger implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6492376264463028357L;
 	private static final String LAST_INFO = "org.compiere.util.CLogger.lastInfo";
 	private static final String LAST_WARNING = "org.compiere.util.CLogger.lastWarning";
 	private static final String LAST_ERROR = "org.compiere.util.CLogger.lastError";

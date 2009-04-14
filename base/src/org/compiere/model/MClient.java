@@ -54,6 +54,12 @@ import org.compiere.util.Language;
 public class MClient extends X_AD_Client
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -295299248474003249L;
+
+
+	/**
 	 * 	Get client
 	 *	@param ctx context
 	 * 	@param AD_Client_ID id

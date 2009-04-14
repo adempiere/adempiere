@@ -87,6 +87,11 @@ public class VPaySelect extends CPanel
 	/** @todo withholding */
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2872767371244295934L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

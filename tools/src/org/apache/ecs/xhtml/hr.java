@@ -35,6 +35,11 @@ public class hr extends SinglePartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1776012475110450414L;
+
+	/**
 	 * Private initialization routine.
 	 */
 	{

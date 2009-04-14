@@ -28,6 +28,11 @@ import java.util.Properties;
 public class MSchedulerPara extends X_AD_Scheduler_Para
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -703173920039087748L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param AD_Scheduler_Para_ID id

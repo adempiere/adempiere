@@ -56,6 +56,11 @@ import org.zkoss.zul.Vbox;
 public class ValuePreference extends Window implements EventListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8490929927886340040L;
+
+	/**
 	 *  Factory
 	 *  @param mField	field
 	 *  @param aValue	value

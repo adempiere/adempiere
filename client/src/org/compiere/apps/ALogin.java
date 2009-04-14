@@ -73,6 +73,12 @@ public final class ALogin extends CDialog
 	implements ActionListener, ChangeListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7789299589024390163L;
+
+
+	/**
 	 *	Construct the dialog.
 	 *	Need to call initLogin for dynamic start
 	 *  @param parent parent

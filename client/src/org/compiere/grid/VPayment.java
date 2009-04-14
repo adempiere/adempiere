@@ -106,6 +106,11 @@ public class VPayment extends CDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1752767963788940234L;
+
+	/**
 	 *	Constructor
 	 *
 	 *	@param WindowNo	owning window

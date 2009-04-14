@@ -35,6 +35,11 @@ public class address extends MultiPartElement
 {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8022241169559184828L;
+
+	/**
      * Private initialization routine.
      */
 	{

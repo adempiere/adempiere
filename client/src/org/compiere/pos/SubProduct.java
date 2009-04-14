@@ -50,6 +50,11 @@ public class SubProduct extends PosSubPanel
 	implements ActionListener, FocusListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6626441083848884910L;
+
+	/**
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */

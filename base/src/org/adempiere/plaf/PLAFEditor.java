@@ -87,6 +87,12 @@ public class PLAFEditor extends JDialog
 	implements ActionListener
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6010229234801706748L;
+
+
+	/**
 	 *  Default Constructor
 	 *  Don't Show Example
 	 */

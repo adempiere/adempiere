@@ -42,6 +42,11 @@ public class CTextPane extends JScrollPane
 
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6702310899755509377L;
+
+	/**
 	 *	Constructs a new TextPane (HTML)
 	 */
 	public CTextPane()

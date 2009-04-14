@@ -37,6 +37,12 @@ import org.compiere.util.Msg;
 public class MStatusCategory extends X_R_StatusCategory
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7538457243144691380L;
+
+
+	/**
 	 * 	Get Default Status Categpru for Client
 	 *	@param ctx context
 	 *	@return status category or null

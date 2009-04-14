@@ -52,7 +52,11 @@ import org.posterita.struts.core.AjaxAction;
  */
 public class BPartnerSearchTag extends TagSupport implements AjaxTag
 {
-    private static final CLogger log = CLogger.getCLogger(BPartnerSearchTag.class);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8706630531517614664L;
+	private static final CLogger log = CLogger.getCLogger(BPartnerSearchTag.class);
     private static final String REQUEST_PARAM = "bpValue";
     private String  name = "";
     private String  property = "";

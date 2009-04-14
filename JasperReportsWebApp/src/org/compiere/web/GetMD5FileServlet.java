@@ -27,6 +27,10 @@ public class GetMD5FileServlet extends HttpServlet {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -2625917637549702574L;
+	/**
+	 * 
+	 */
 	private MD5 md5;
 	
 	public GetMD5FileServlet() {
