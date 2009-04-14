@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -34,6 +34,10 @@ import org.compiere.util.Msg;
  * 	Cost Element Model
  *  @author Jorg Janke
  *  @version $Id: MCostElement.java,v 1.2 2006/07/30 00:58:04 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2664529 ] More then one Labor/Burden//Overhead is not allowed
+ *  		<li>BF [ 2667470 ] MCostElement.getMaterialCostElement should check only material
  */
 public class MCostElement extends X_M_CostElement
 {
@@ -57,83 +61,13 @@ public class MCostElement extends X_M_CostElement
 			return null;
 		}
 		//
-		MCostElement retValue = null;
-		String sql = "SELECT * FROM M_CostElement WHERE AD_Client_ID=? AND CostingMethod=? ORDER BY AD_Org_ID";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, po.get_TrxName());
-			pstmt.setInt (1, po.getAD_Client_ID());
-			pstmt.setString(2, CostingMethod);
-			ResultSet rs = pstmt.executeQuery ();
-			boolean n = rs.next(); //jz to fix DB2 resultSet closed problem
-			if (n)
-				retValue = new MCostElement (po.getCtx(), rs, po.get_TrxName());
-			if (n && rs.next())
-				s_log.warning("More then one Material Cost Element for CostingMethod=" + CostingMethod);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = "AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
+		MCostElement retValue = new Query(po.getCtx(), Table_Name, whereClause, po.get_TrxName())
+			.setParameters(new Object[]{po.getAD_Client_ID(), CostingMethod, COSTELEMENTTYPE_Material})
+			.setOrderBy("AD_Org_ID")
+			.firstOnly();
 		if (retValue != null)
 			return retValue;
-		
-		if(CostingMethod.equals(MCostElement.COSTINGMETHOD_StandardCosting))
-		{
-			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
-			retValue.setClientOrg(po.getAD_Client_ID(), 0);
-			String name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_Resource);
-			if (name == null || name.length() == 0)
-				name = CostingMethod;
-			retValue.setName(name);
-			retValue.setCostElementType(COSTELEMENTTYPE_Resource);
-			retValue.setCostingMethod(CostingMethod);
-			retValue.save();
-			
-			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
-			retValue.setClientOrg(po.getAD_Client_ID(), 0);
-			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_BurdenMOverhead);
-			if (name == null || name.length() == 0)
-				name = "BurdenMOverhead";
-			retValue.setName(name);
-			retValue.setCostElementType(COSTELEMENTTYPE_BurdenMOverhead);
-			retValue.setCostingMethod(CostingMethod);
-			retValue.save();
-			
-			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
-			retValue.setClientOrg(po.getAD_Client_ID(), 0);
-			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_Overhead);
-			if (name == null || name.length() == 0)
-				name = "Overhead";
-			retValue.setName(name);
-			retValue.setCostElementType(COSTELEMENTTYPE_Overhead);
-			retValue.setCostingMethod(CostingMethod);
-			retValue.save();
-			
-			retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
-			retValue.setClientOrg(po.getAD_Client_ID(), 0);
-			name = MRefList.getListName(po.getCtx(), COSTELEMENTTYPE_AD_Reference_ID, COSTELEMENTTYPE_OutsideProcessing);
-			if (name == null || name.length() == 0)
-				name = "OutsideProcessing";
-			retValue.setName(name);
-			retValue.setCostElementType(COSTELEMENTTYPE_OutsideProcessing);
-			retValue.setCostingMethod(CostingMethod);
-			retValue.save();
-		}
 		
 		//	Create New
 		retValue = new MCostElement (po.getCtx(), 0, po.get_TrxName());
@@ -144,7 +78,7 @@ public class MCostElement extends X_M_CostElement
 		retValue.setName(name);
 		retValue.setCostElementType(COSTELEMENTTYPE_Material);
 		retValue.setCostingMethod(CostingMethod);
-		retValue.save();
+		retValue.saveEx();
 		
 		//
 		return retValue;
@@ -394,12 +328,12 @@ public class MCostElement extends X_M_CostElement
 		//	Check Unique Costing Method
 		if (
 			(  COSTELEMENTTYPE_Material.equals(getCostElementType())
-			|| COSTELEMENTTYPE_Resource.equals(getCostElementType())
-			|| COSTELEMENTTYPE_BurdenMOverhead.equals(getCostElementType())
-			|| COSTELEMENTTYPE_Overhead.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_Resource.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_BurdenMOverhead.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_Overhead.equals(getCostElementType())
 			|| COSTELEMENTTYPE_OutsideProcessing.equals(getCostElementType())
-			)		
-			&& (newRecord || is_ValueChanged("CostingMethod")))
+			)
+			&& (newRecord || is_ValueChanged(COLUMNNAME_CostingMethod)))
 		{
 			String sql = "SELECT  COALESCE(MAX(M_CostElement_ID),0) FROM M_CostElement "
 				+ "WHERE AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
