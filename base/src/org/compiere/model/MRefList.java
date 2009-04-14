@@ -35,11 +35,16 @@ import org.compiere.util.ValueNamePair;
  *  @author Jorg Janke
  *  @version $Id: MRefList.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
  *  
- *  @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 1748449 ] Info Account - Posting Type is not translated
+ *  		<li>FR [ 2694043 ] Query. first/firstOnly usage best practice
  */
 public class MRefList extends X_AD_Ref_List
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6948532574960232289L;
 
 
 	/**
@@ -54,7 +59,7 @@ public class MRefList extends X_AD_Ref_List
 	{
 		return new Query(ctx, Table_Name, "AD_Reference_ID=? AND Value=?", trxName)
 					.setParameters(new Object[]{AD_Reference_ID, Value})
-					.first();
+					.firstOnly();
 	}	//	get
 
 	/**
