@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -19,9 +19,10 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -31,6 +32,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MInvoiceTax.java,v 1.5 2006/10/06 00:42:24 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MInvoiceTax extends X_C_InvoiceTax
 {
@@ -69,36 +73,9 @@ public class MInvoiceTax extends X_C_InvoiceTax
 			return null;
 		}
 		
-		String sql = "SELECT * FROM C_InvoiceTax WHERE C_Invoice_ID=? AND C_Tax_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, line.getC_Invoice_ID());
-			pstmt.setInt (2, C_Tax_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MInvoiceTax (line.getCtx(), rs, trxName);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		retValue = new Query(line.getCtx(), Table_Name, "C_Invoice_ID=? AND C_Tax_ID=?", trxName)
+						.setParameters(new Object[]{line.getC_Invoice_ID(), C_Tax_ID})
+						.firstOnly();
 		if (retValue != null)
 		{
 			retValue.set_TrxName(trxName);
@@ -212,12 +189,13 @@ public class MInvoiceTax extends X_C_InvoiceTax
 			+ " INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) "
 			+ "WHERE il.C_Invoice_ID=? AND il.C_Tax_ID=?";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getC_Invoice_ID());
 			pstmt.setInt (2, getC_Tax_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
 				//	BaseAmt
@@ -240,27 +218,16 @@ public class MInvoiceTax extends X_C_InvoiceTax
 				//
 				taxAmt = taxAmt.add(amt);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, "setTaxBaseAmt", e);
-			taxBaseAmt = null;
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		if (taxBaseAmt == null)
-			return false;
 		
 		//	Calculate Tax
 		if (documentLevel || taxAmt.signum() == 0)
