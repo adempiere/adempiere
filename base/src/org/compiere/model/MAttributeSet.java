@@ -20,9 +20,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 
@@ -31,6 +32,9 @@ import org.compiere.util.DB;
  *
  *	@author Jorg Janke
  *	@version $Id: MAttributeSet.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *
+ * @author Teo Sarca, www.arhipac.ro
+ *			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MAttributeSet extends X_M_AttributeSet
 {
@@ -127,34 +131,28 @@ public class MAttributeSet extends X_M_AttributeSet
 				+ "ORDER BY mau.SeqNo";
 			ArrayList<MAttribute> list = new ArrayList<MAttribute>();
 			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql, get_TrxName());
 				pstmt.setInt(1, getM_AttributeSet_ID());
 				pstmt.setString(2, instanceAttributes ? "Y" : "N");
-				ResultSet rs = pstmt.executeQuery();
+				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
 					MAttribute ma = new MAttribute (getCtx(), rs.getInt(1), get_TrxName());
 					list.add (ma);
 				}
-				rs.close();
-				pstmt.close();
-				pstmt = null;
 			}
 			catch (SQLException ex)
 			{
-				log.log(Level.SEVERE, sql, ex);
+				throw new DBException(ex, sql);
 			}
-			try
+			finally
 			{
-				if (pstmt != null)
-					pstmt.close();
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
-			catch (SQLException ex1)
-			{
-			}
-			pstmt = null;
 			
 			//	Differentiate attributes
 			if (instanceAttributes)
@@ -221,34 +219,11 @@ public class MAttributeSet extends X_M_AttributeSet
 	{
 		if (m_excludes == null)
 		{
-			ArrayList<X_M_AttributeSetExclude> list = new ArrayList<X_M_AttributeSetExclude>();
-			String sql = "SELECT * FROM M_AttributeSetExclude WHERE IsActive='Y' AND M_AttributeSet_ID=?";
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt (1, getM_AttributeSet_ID());
-				ResultSet rs = pstmt.executeQuery ();
-				while (rs.next ())
-					list.add (new X_M_AttributeSetExclude (getCtx(), rs, null));
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			final String whereClause = X_M_AttributeSetExclude.COLUMNNAME_M_AttributeSet_ID+"=?";
+			List<X_M_AttributeSetExclude> list = new Query(getCtx(), X_M_AttributeSetExclude.Table_Name, whereClause, null)
+				.setParameters(new Object[]{get_ID()})
+				.setOnlyActiveRecords(true)
+				.list();
 			m_excludes = new X_M_AttributeSetExclude[list.size ()];
 			list.toArray (m_excludes);
 		}
@@ -278,34 +253,11 @@ public class MAttributeSet extends X_M_AttributeSet
 			return true;
 		if (m_excludeLots == null)
 		{
-			ArrayList<X_M_LotCtlExclude> list = new ArrayList<X_M_LotCtlExclude>();
-			String sql = "SELECT * FROM M_LotCtlExclude WHERE IsActive='Y' AND M_LotCtl_ID=?";
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt (1, getM_LotCtl_ID());
-				ResultSet rs = pstmt.executeQuery ();
-				while (rs.next ())
-					list.add (new X_M_LotCtlExclude (getCtx(), rs, null));
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			String whereClause = X_M_LotCtlExclude.COLUMNNAME_M_LotCtl_ID+"=?";
+			List<X_M_LotCtlExclude> list = new Query(getCtx(), X_M_LotCtlExclude.Table_Name, whereClause, null)
+			.setParameters(new Object[]{getM_LotCtl_ID()})
+			.setOnlyActiveRecords(true)
+			.list();
 			m_excludeLots = new X_M_LotCtlExclude[list.size ()];
 			list.toArray (m_excludeLots);
 		}
@@ -335,34 +287,11 @@ public class MAttributeSet extends X_M_AttributeSet
 			return true;
 		if (m_excludeSerNos == null)
 		{
-			ArrayList<X_M_SerNoCtlExclude> list = new ArrayList<X_M_SerNoCtlExclude>();
-			String sql = "SELECT * FROM M_SerNoCtlExclude WHERE IsActive='Y' AND M_SerNoCtl_ID=?";
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, null);
-				pstmt.setInt (1, getM_SerNoCtl_ID());
-				ResultSet rs = pstmt.executeQuery ();
-				while (rs.next ())
-					list.add (new X_M_SerNoCtlExclude (getCtx(), rs, null));
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				log.log (Level.SEVERE, sql, e);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
-			}
+			String whereClause = X_M_SerNoCtlExclude.COLUMNNAME_M_SerNoCtl_ID+"=?";
+			List<X_M_SerNoCtlExclude> list = new Query(getCtx(), X_M_SerNoCtlExclude.Table_Name, whereClause, null)
+			.setParameters(new Object[]{getM_SerNoCtl_ID()})
+			.setOnlyActiveRecords(true)
+			.list();
 			m_excludeSerNos = new X_M_SerNoCtlExclude[list.size ()];
 			list.toArray (m_excludeSerNos);
 		}
