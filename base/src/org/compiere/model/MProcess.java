@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,16 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.adempiere.util.ProcessUtil;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
 
@@ -35,7 +32,9 @@ import org.compiere.util.Trx;
  *  @author Jorg Janke
  *  @version $Id: MProcess.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
  * 
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1757523 ]
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 1757523 ] Server Processes are using Server's context
+ * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MProcess extends X_AD_Process
 {
@@ -71,50 +70,21 @@ public class MProcess extends X_AD_Process
 	 */
 	public static MProcess getFromMenu (Properties ctx, int AD_Menu_ID)
 	{
-		MProcess retValue = null;
-		String sql = "SELECT * FROM AD_Process p "
-			+ "WHERE EXISTS (SELECT * FROM AD_Menu m "
-				+ "WHERE m.AD_Process_ID=p.AD_Process_ID AND m.AD_Menu_ID=?)";
-		PreparedStatement pstmt = null;
-		try
+		String whereClause = "EXISTS (SELECT 1 FROM AD_Menu m"
+							+" WHERE m.AD_Process_ID=AD_Process.AD_Process_ID AND m.AD_Menu_ID=?)";
+		MProcess p = new Query(ctx, MProcess.Table_Name, whereClause, null)
+			.setParameters(new Object[]{AD_Menu_ID})
+			.firstOnly();
+		if (p != null)
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Menu_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next())
-			{
-				retValue = new MProcess (ctx, rs, null);
-				//	Save in cache
-				Integer key = new Integer (retValue.getAD_Process_ID());
-				s_cache.put (key, retValue);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+			s_cache.put (p.get_ID(), p);
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		return retValue;
+		return p;
 	}	//	getFromMenu
 
 
 	/**	Cache						*/
-	private static CCache<Integer,MProcess>	s_cache	= new CCache<Integer,MProcess>("AD_Process", 20);
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MProcess.class);
+	private static CCache<Integer,MProcess>	s_cache	= new CCache<Integer,MProcess>(Table_Name, 20);
 	
 	
 	/**************************************************************************
@@ -161,36 +131,12 @@ public class MProcess extends X_AD_Process
 	{
 		if (m_parameters != null)
 			return m_parameters;
-		ArrayList<MProcessPara> list = new ArrayList<MProcessPara>();
 		//
-		String sql = "SELECT * FROM AD_Process_Para WHERE AD_Process_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, getAD_Process_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProcessPara(getCtx(), rs, null));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
+		String whereClause = MProcessPara.COLUMNNAME_AD_Process_ID+"=?";
+		List<MProcessPara> list = new Query(getCtx(), MProcessPara.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{get_ID()})
+			.setOrderBy(MProcessPara.COLUMNNAME_SeqNo)
+			.list();
 		//
 		m_parameters = new MProcessPara[list.size()];
 		list.toArray(m_parameters);
@@ -240,7 +186,7 @@ public class MProcess extends X_AD_Process
 		MPInstance pInstance = new MPInstance (this, Record_ID);
 		//	Lock
 		pInstance.setIsProcessing(true);
-		pInstance.save();
+		pInstance.saveEx();
 
 		boolean ok = true;
 
@@ -252,7 +198,7 @@ public class MProcess extends X_AD_Process
 		pInstance.setResult(ok ? MPInstance.RESULT_OK : MPInstance.RESULT_ERROR);
 		pInstance.setErrorMsg(processInfo.getSummary());
 		pInstance.setIsProcessing(false);
-		pInstance.save();
+		pInstance.saveEx();
 		//
 		pInstance.log();
 		return pInstance;
@@ -271,7 +217,7 @@ public class MProcess extends X_AD_Process
 			MPInstance pInstance = new MPInstance (this, pi.getRecord_ID());
 			//	Lock
 			pInstance.setIsProcessing(true);
-			pInstance.save();
+			pInstance.saveEx();
 		}
 
 		boolean ok = false;
@@ -386,7 +332,7 @@ public class MProcess extends X_AD_Process
 			{
 				
 				MProcessAccess pa = new MProcessAccess(this, roles[i].getAD_Role_ID());
-				pa.save();
+				pa.saveEx();
 			}
 		}
 		//	Menu/Workflow
@@ -399,7 +345,7 @@ public class MProcess extends X_AD_Process
 				menues[i].setIsActive(isActive());
 				menues[i].setName(getName());
 				menues[i].setDescription(getDescription());
-				menues[i].save();
+				menues[i].saveEx();
 			}
 			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Process_ID=" + getAD_Process_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
@@ -418,35 +364,21 @@ public class MProcess extends X_AD_Process
 					changed = true;
 				}
 				if (changed)
-					nodes[i].save();
+					nodes[i].saveEx();
 			}
 		}
 		return success;
 	}	//	afterSave
 	
 	/**
-	 * 	Grant independence to GenerateModel from AD_Process_ID
-	 *	@param String tableName
-	 *	@return int retValue
+	 * Grant independence to GenerateModel from AD_Process_ID
+	 * @param value
+	 * @param trxName
+	 * @return
 	 */
-	public static int getProcess_ID(String value, String trxname) {
-		int retValue = 0;
-		String SQL = "SELECT AD_Process_ID FROM AD_Process WHERE value = ?";
-		try
-		{
-				PreparedStatement pstmt = DB.prepareStatement(SQL, trxname);
-				pstmt.setString(1, value);
-				ResultSet rs = pstmt.executeQuery();
-				if (rs.next())
-					retValue = rs.getInt(1);
-				rs.close();
-				pstmt.close();
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, SQL, e);
-			retValue = -1;
-		}
+	public static int getProcess_ID(String value, String trxName)
+	{
+		int retValue = DB.getSQLValueEx(trxName, "SELECT AD_Process_ID FROM AD_Process WHERE Value=?", value);
 		return retValue;
 	}
 	
