@@ -22,12 +22,15 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
 import org.compiere.model.MWindow;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.model.X_AD_Workflow;
 import org.compiere.process.ProcessInfo;
@@ -44,6 +47,9 @@ import org.compiere.util.Trx;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MWorkflow.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query 
  */
 public class MWorkflow extends X_AD_Workflow
 {
@@ -61,13 +67,12 @@ public class MWorkflow extends X_AD_Workflow
 	 */
 	public static MWorkflow get (Properties ctx, int AD_Workflow_ID)
 	{
-		Integer key = new Integer (AD_Workflow_ID);
-		MWorkflow retValue = (MWorkflow)s_cache.get(key);
+		MWorkflow retValue = (MWorkflow)s_cache.get(AD_Workflow_ID);
 		if (retValue != null)
 			return retValue;
 		retValue = new MWorkflow (ctx, AD_Workflow_ID, null);
 		if (retValue.get_ID() != 0)
-			s_cache.put(key, retValue);
+			s_cache.put(AD_Workflow_ID, retValue);
 		return retValue;
 	}	//	get
 	
@@ -87,41 +92,27 @@ public class MWorkflow extends X_AD_Workflow
 		//	Reload
 		if (s_cacheDocValue.isReset())
 		{
-			String sql = "SELECT * FROM AD_Workflow "
-				+ "WHERE WorkflowType='V' AND IsActive='Y' AND IsValid='Y' "
-				+ "ORDER BY AD_Client_ID, AD_Table_ID";
+			final String whereClause = "WorkflowType=? AND IsValid=?";
+			List<MWorkflow> workflows = new Query(ctx, Table_Name, whereClause, trxName)
+				.setParameters(new Object[]{WORKFLOWTYPE_DocumentValue, true})
+				.setOnlyActiveRecords(true)
+				.setOrderBy("AD_Client_ID, AD_Table_ID")
+				.list();
 			ArrayList<MWorkflow> list = new ArrayList<MWorkflow>();
 			String oldKey = "";
 			String newKey = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
+			for (MWorkflow wf : workflows)
 			{
-				pstmt = DB.prepareStatement (sql, trxName); //Bug 1568766
-				rs = pstmt.executeQuery ();
-				while (rs.next ())
+				newKey = "C" + wf.getAD_Client_ID() + "T" + wf.getAD_Table_ID();
+				if (!newKey.equals(oldKey) && list.size() > 0)
 				{
-					MWorkflow wf = new MWorkflow (ctx, rs, null); 
-					newKey = "C" + wf.getAD_Client_ID() + "T" + wf.getAD_Table_ID();
-					if (!newKey.equals(oldKey) && list.size() > 0)
-					{
-						MWorkflow[] wfs = new MWorkflow[list.size()];
-						list.toArray(wfs);
-						s_cacheDocValue.put (oldKey, wfs);
-						list = new ArrayList<MWorkflow>();
-					}
-					oldKey = newKey;
-					list.add(wf);
+					MWorkflow[] wfs = new MWorkflow[list.size()];
+					list.toArray(new MWorkflow[list.size()]);
+					s_cacheDocValue.put (oldKey, wfs);
+					list = new ArrayList<MWorkflow>();
 				}
-			}
-			catch (Exception e)
-			{
-				s_log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
+				oldKey = newKey;
+				list.add(wf);
 			}
 			
 			//	Last one
@@ -202,7 +193,7 @@ public class MWorkflow extends X_AD_Workflow
 	}	//	Workflow
 
 	/**	WF Nodes				*/
-	private ArrayList<MWFNode>	m_nodes = new ArrayList<MWFNode>();
+	private List<MWFNode>	m_nodes = new ArrayList<MWFNode>();
 
 	/**	Translated Name			*/
 	private String			m_name_trl = null;
@@ -221,12 +212,14 @@ public class MWorkflow extends X_AD_Workflow
 		if (Env.isBaseLanguage(getCtx(), "AD_Workflow") || get_ID() == 0)
 			return;
 		String sql = "SELECT Name, Description, Help FROM AD_Workflow_Trl WHERE AD_Workflow_ID=? AND AD_Language=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, get_ID());
 			pstmt.setString(2, Env.getAD_Language(getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_name_trl = rs.getString(1);
@@ -234,12 +227,16 @@ public class MWorkflow extends X_AD_Workflow
 				m_help_trl = rs.getString(3);
 				m_translated = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			//log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("Translated=" + m_translated);
 	}	//	loadTrl
@@ -249,21 +246,10 @@ public class MWorkflow extends X_AD_Workflow
 	 */
 	private void loadNodes()
 	{
-		String sql = "SELECT * FROM AD_WF_Node WHERE AD_WorkFlow_ID=? AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				m_nodes.add (new MWFNode (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		m_nodes = new Query(getCtx(), MWFNode.Table_Name, "AD_WorkFlow_ID=?", get_TrxName())
+			.setParameters(new Object[]{get_ID()})
+			.setOnlyActiveRecords(true)
+			.list();
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
 

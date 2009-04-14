@@ -23,10 +23,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MColumn;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -38,6 +40,9 @@ import org.compiere.util.Msg;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MWFNode.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query 
  */
 public class MWFNode extends X_AD_WF_Node
 {
@@ -66,7 +71,7 @@ public class MWFNode extends X_AD_WF_Node
 	}	//	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MWFNode>	s_cache	= new CCache<Integer,MWFNode> ("AD_WF_Node", 50);
+	private static CCache<Integer,MWFNode>	s_cache	= new CCache<Integer,MWFNode> (Table_Name, 50);
 	
 	
 	/**************************************************************************
@@ -129,13 +134,13 @@ public class MWFNode extends X_AD_WF_Node
 		loadNext();
 		loadTrl();
 		//	Save to Cache
-		s_cache.put (new Integer(getAD_WF_Node_ID()), this);
+		s_cache.put (get_ID(), this);
 	}	//	MWFNode
 
 	
 	
 	/**	Next Modes				*/
-	private ArrayList<MWFNodeNext>	m_next = new ArrayList<MWFNodeNext>();
+	private List<MWFNodeNext>	m_next = new ArrayList<MWFNodeNext>();
 	/**	Translated Name			*/
 	private String			m_name_trl = null;
 	/**	Translated Description	*/
@@ -166,25 +171,15 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	private void loadNext()
 	{
-		String sql = "SELECT * FROM AD_WF_NodeNext WHERE AD_WF_Node_ID=? AND IsActive='Y' ORDER BY SeqNo";
+		m_next = new Query(getCtx(), MWFNodeNext.Table_Name, "AD_WF_Node_ID=?", get_TrxName())
+								.setParameters(new Object[]{get_ID()})
+								.setOnlyActiveRecords(true)
+								.setOrderBy(MWFNodeNext.COLUMNNAME_SeqNo)
+								.list();
 		boolean splitAnd = SPLITELEMENT_AND.equals(getSplitElement());
-		try
+		for (MWFNodeNext next : m_next)
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, get_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MWFNodeNext next = new MWFNodeNext (getCtx(), rs, get_TrxName());
-				next.setFromSplitAnd(splitAnd);
-				m_next.add(next);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
+			next.setFromSplitAnd(splitAnd);
 		}
 		log.fine("#" + m_next.size());
 	}	//	loadNext
@@ -196,13 +191,16 @@ public class MWFNode extends X_AD_WF_Node
 	{
 		if (Env.isBaseLanguage(getCtx(), "AD_Workflow") || get_ID() == 0)
 			return;
-		String sql = "SELECT Name, Description, Help FROM AD_WF_Node_Trl WHERE AD_WF_Node_ID=? AND AD_Language=?";
+		final String sql = "SELECT Name, Description, Help FROM AD_WF_Node_Trl"
+							+" WHERE AD_WF_Node_ID=? AND AD_Language=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, get_ID());
 			pstmt.setString(2, Env.getAD_Language(getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_name_trl = rs.getString(1);
@@ -210,12 +208,16 @@ public class MWFNode extends X_AD_WF_Node
 				m_help_trl = rs.getString(3);
 				m_translated = true;
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			//log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("Trl=" + m_translated);
 	}	//	loadTrl
