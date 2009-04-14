@@ -335,7 +335,6 @@ public class DataEngine
 					//	=> (..) AS AName, Table.ID,
 					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
 						.append(tableName).append(".").append(ColumnName).append(",");
-					groupByColumns.add(m_synonym+display);
 					groupByColumns.add(tableName+"."+ColumnName);
 					orderName = m_synonym + display;
 					//
