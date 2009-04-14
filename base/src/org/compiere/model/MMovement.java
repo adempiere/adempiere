@@ -18,13 +18,10 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -43,6 +40,8 @@ import org.compiere.util.Msg;
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MMovement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MMovement extends X_M_Movement implements DocAction
@@ -122,37 +121,10 @@ public class MMovement extends X_M_Movement implements DocAction
 		if (m_confirms != null && !requery)
 			return m_confirms;
 
-		ArrayList<MMovementConfirm> list = new ArrayList<MMovementConfirm>();
-		String sql = "SELECT * FROM M_MovementConfirm WHERE M_Movement_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Movement_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MMovementConfirm(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getConfirmations", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		m_confirms = new MMovementConfirm[list.size ()];
-		list.toArray (m_confirms);
+		List<MMovementConfirm> list = new Query(getCtx(), MMovementConfirm.Table_Name, "M_Movement_ID=?", get_TrxName())
+										.setParameters(new Object[]{get_ID()})
+										.list();
+		m_confirms = list.toArray(new MMovementConfirm[list.size()]);
 		return m_confirms;
 	}	//	getConfirmations
 
@@ -237,15 +209,14 @@ public class MMovement extends X_M_Movement implements DocAction
 	 * 	Propergate to Lines/Taxes
 	 *	@param processed processed
 	 */
+	@Override
 	public void setProcessed (boolean processed)
 	{
 		super.setProcessed (processed);
 		if (get_ID() == 0)
 			return;
-		String sql = "UPDATE M_MovementLine SET Processed='"
-			+ (processed ? "Y" : "N")
-			+ "' WHERE M_Movement_ID=" + getM_Movement_ID();
-		int noLine = DB.executeUpdate(sql, get_TrxName());
+		final String sql = "UPDATE M_MovementLine SET Processed=? WHERE M_Movement_ID=?";
+		int noLine = DB.executeUpdateEx(sql, new Object[]{processed, get_ID()}, get_TrxName());
 		m_lines = null;
 		log.fine("Processed=" + processed + " - Lines=" + noLine);
 	}	//	setProcessed
