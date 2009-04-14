@@ -17,11 +17,8 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -33,6 +30,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MCharge.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MCharge extends X_C_Charge
 {
@@ -54,29 +54,13 @@ public class MCharge extends X_C_Charge
 		if (C_Charge_ID == 0 || as == null)
 			return null;
 
-		int acct_index = 1;     //  Expense (positive amt)
+		String acctName = X_C_Charge_Acct.COLUMNNAME_Ch_Expense_Acct;		//  Expense (positive amt)
 		if (amount != null && amount.signum() < 0)
-			acct_index = 2;     //  Revenue (negative amt)
-		String sql = "SELECT CH_Expense_Acct, CH_Revenue_Acct FROM C_Charge_Acct WHERE C_Charge_ID=? AND C_AcctSchema_ID=?";
-		int Account_ID = 0;
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt (1, C_Charge_ID);
-			pstmt.setInt (2, as.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				Account_ID = rs.getInt(acct_index);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-			return null;
-		}
+			acctName = X_C_Charge_Acct.COLUMNNAME_Ch_Revenue_Acct;			//  Revenue (negative amt)
+		String sql = "SELECT "+acctName+" FROM C_Charge_Acct WHERE C_Charge_ID=? AND C_AcctSchema_ID=?";
+		int Account_ID = DB.getSQLValueEx(null, sql, C_Charge_ID, as.get_ID());
 		//	No account
-		if (Account_ID == 0)
+		if (Account_ID <= 0)
 		{
 			s_log.severe ("NO account for C_Charge_ID=" + C_Charge_ID);
 			return null;
