@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -35,7 +35,6 @@ import org.compiere.db.CConnection;
 import org.compiere.db.Database;
 import org.compiere.db.LDAP;
 import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -47,10 +46,16 @@ import org.compiere.util.TimeUtil;
  *
  *  @author Jorg Janke
  *  @version $Id: MSystem.java,v 1.3 2006/10/09 00:22:28 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MSystem extends X_AD_System
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5528932721084369075L;
 
 	/**
 	 * 	Load System Record
@@ -62,41 +67,19 @@ public class MSystem extends X_AD_System
 		if (s_system != null)
 			return s_system;
 		//
-		String sql = "SELECT * FROM AD_System ORDER BY AD_System_ID";	//	0 first
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				s_system = new MSystem (ctx, rs, null);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, "get", ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		s_system = new Query(ctx, Table_Name, null, null)
+						.setOrderBy(COLUMNNAME_AD_System_ID)
+						.firstOnly();
 		if (s_system == null)
 			return null;
 		//
 		if (!Ini.isClient() && s_system.setInfo())
-			s_system.save();
+		{
+			s_system.saveEx();
+		}
 		return s_system;
 	}	//	get
-
-	/**	Logger							*/
-	private static CLogger		s_log = CLogger.getCLogger (MSystem.class);
+	
 	/** System - cached					*/
 	private static MSystem		s_system = null;
 	
