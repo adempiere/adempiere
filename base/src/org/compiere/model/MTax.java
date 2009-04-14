@@ -17,15 +17,11 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
@@ -34,6 +30,7 @@ import org.compiere.util.TimeUtil;
  *
  *	@author Jorg Janke
  *	@version $Id: MTax.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 	red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query 
  */
 public class MTax extends X_C_Tax
 {	
@@ -51,51 +48,23 @@ public class MTax extends X_C_Tax
 	public static MTax[] getAll (Properties ctx)
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		Integer key = new Integer (AD_Client_ID);
-		MTax[] retValue = (MTax[])s_cacheAll.get(key);
+		MTax[] retValue = (MTax[])s_cacheAll.get(AD_Client_ID);
 		if (retValue != null)
 			return retValue;
-		
+
 		//	Create it
-		String sql = "SELECT * FROM C_Tax WHERE AD_Client_ID=?"
-			+ "ORDER BY C_Country_ID, C_Region_ID, To_Country_ID, To_Region_ID";
-		ArrayList<MTax> list = new ArrayList<MTax>();
-		PreparedStatement pstmt = null;
-		try
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Client_ID=?";
+		List<MTax> list = new Query(ctx, MTax.Table_Name, whereClause, null)
+								.setParameters(new Object[]{AD_Client_ID})
+								.setOrderBy("C_Country_ID, C_Region_ID, To_Country_ID, To_Region_ID")
+								.list();
+		for (MTax tax : list)
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MTax tax = new MTax(ctx, rs, null);
-				s_cache.put (new Integer(tax.getC_Tax_ID()), tax);
-				list.add (tax);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} 
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
+			s_cache.put(tax.get_ID(), tax);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} 
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		//	Create Array
-		retValue = new MTax[list.size ()];
-		list.toArray (retValue);
-		//
-		s_cacheAll.put(key, retValue);
+		retValue = list.toArray(new MTax[list.size()]);
+		s_cacheAll.put(AD_Client_ID, retValue);
 		return retValue;
 	}	//	getAll
 
@@ -119,12 +88,9 @@ public class MTax extends X_C_Tax
 	}	//	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MTax>		s_cache	= new CCache<Integer,MTax>("C_Tax", 5);
+	private static CCache<Integer,MTax>		s_cache	= new CCache<Integer,MTax>(Table_Name, 5);
 	/**	Cache of Client						*/
-	private static CCache<Integer,MTax[]>	s_cacheAll = new CCache<Integer,MTax[]>("C_Tax", 5);
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MTax.class);
-
+	private static CCache<Integer,MTax[]>	s_cacheAll = new CCache<Integer,MTax[]>(Table_Name, 5);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -199,79 +165,37 @@ public class MTax extends X_C_Tax
 		if (m_childTaxes != null && !requery)
 			return m_childTaxes;
 		//
-		String sql = "SELECT * FROM C_Tax WHERE Parent_Tax_ID=?";
-		ArrayList<MTax> list = new ArrayList<MTax>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_Tax_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MTax(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = COLUMNNAME_Parent_Tax_ID+"=?";
+		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
+		.setParameters(new Object[]{getC_Tax_ID()})
+	 	.list();	
+		//red1 - end -
+	 
 		m_childTaxes = new MTax[list.size ()];
 		list.toArray (m_childTaxes);
 		return m_childTaxes;
 	}	//	getChildTaxes
 	
 	/**
-	 * 	Get Postal Qualifiers
-	 *	@param requery requery
-	 *	@return array of postal codes
+	 * Get Postal Qualifiers
+	 * @param requery requery
+	 * @return array of postal codes
 	 */
 	public MTaxPostal[] getPostals (boolean requery)
 	{
 		if (m_postals != null && !requery)
 			return m_postals;
-	
-		String sql = "SELECT * FROM C_TaxPostal WHERE IsActive='Y' AND C_Tax_ID=? ORDER BY Postal, Postal_To";
-		ArrayList<MTaxPostal> list = new ArrayList<MTaxPostal>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_Tax_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MTaxPostal taxpostal = new MTaxPostal(getCtx(), rs, null);
-				list.add (taxpostal);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		} catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = MTaxPostal.COLUMNNAME_C_Tax_ID+"=?";
+		List<MTaxPostal> list = new Query(getCtx(), MTaxPostal.Table_Name, whereClause,  get_TrxName())
+		.setParameters(new Object[]{getC_Tax_ID()})
+		.setOnlyActiveRecords(true)
+		.setOrderBy(MTaxPostal.COLUMNNAME_Postal+", "+MTaxPostal.COLUMNNAME_Postal_To)
+		.list();	
+		//red1 - end -
+
 		if (list.size() > 0) { 
 			m_postals = new MTaxPostal[list.size ()];
 			list.toArray (m_postals);
@@ -280,8 +204,8 @@ public class MTax extends X_C_Tax
 	}	//	getPostals
 	
 	/**
-	 * 	Do we have Postal Codes
-	 *	@return true if postal codes exist
+	 * Do we have Postal Codes
+	 * @return true if postal codes exist
 	 */
 	public boolean isPostal()
 	{
@@ -292,18 +216,14 @@ public class MTax extends X_C_Tax
 	}	//	isPostal
 	
 	/**
-	 * 	Is Zero Tax
-	 *	@return true if tax rate is 0
+	 * Is Zero Tax
+	 * @return true if tax rate is 0
 	 */
 	public boolean isZeroTax()
 	{
-		return Env.ZERO.compareTo(getRate()) == 0;
+		return getRate().signum() == 0;
 	}	//	isZeroTax
 	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("MTax[");
