@@ -35,6 +35,9 @@ import org.compiere.util.TimeUtil;
  *
  *	@author Jorg Janke
  *	@version $Id: MAttributeSetInstance.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *
+ * @author Teo Sarca, www.arhipac.ro
+ *			<li>BF [ 2675699 ] MAttributeSetInstance.create should create Lot/Serial/Guaran
  */
 public class MAttributeSetInstance extends X_M_AttributeSetInstance
 {
@@ -378,7 +381,8 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 	}
 	
 	/**
-	 * Create & save a new ASI for given product
+	 * Create & save a new ASI for given product.
+	 * Automatically creates Lot#, Serial# and Guarantee Date.
 	 * @param ctx
 	 * @param product
 	 * @param trxName
@@ -389,6 +393,14 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 		MAttributeSetInstance asi = new MAttributeSetInstance(ctx, 0, trxName);
 		asi.setClientOrg(product.getAD_Client_ID(), 0);
 		asi.setM_AttributeSet_ID(product.getM_AttributeSet_ID());
+		// Create new Lot, Serial# and Guarantee Date
+		if (asi.getM_AttributeSet_ID() > 0)
+		{
+			asi.getLot(true, product.get_ID());
+			asi.getSerNo(true);
+			asi.getGuaranteeDate(true);
+		}
+		//
 		asi.saveEx();
 		return asi;
 	}
