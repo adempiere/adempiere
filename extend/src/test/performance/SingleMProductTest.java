@@ -82,7 +82,7 @@ public class SingleMProductTest extends TestCase {
 	public void testMProductCreation() {
 		boolean singleCommit = true;
 		String trxName = "test";
-		m_Ctx.setProperty("#AD_Client_ID", new Integer(11).toString());
+		m_Ctx.setProperty("#AD_Client_ID", Integer.valueOf(11).toString());
 		
 		// Start time - 20:16
 		long startTime = System.currentTimeMillis();

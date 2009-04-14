@@ -45,7 +45,7 @@ public class MProductTest extends TestCase {
 		AD_User_ID_Value = Integer.parseInt(testProperties.getProperty(AD_User_ID_Key, AD_User_ID_DefaultValue) );
 		
 		m_Ctx = new Properties();
-		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
+		m_Ctx.setProperty("#AD_User_ID", Integer.valueOf(AD_User_ID_Value).toString());
 		System.out.println("m_Ctx: " + m_Ctx);
 		
 		if (fileName_Value.length() < 1) {
