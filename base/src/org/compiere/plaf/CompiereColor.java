@@ -237,14 +237,14 @@ public class CompiereColor implements Serializable
 	public CompiereColor (String type)
 	{
 		if (type == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		if (type.equals(TYPE_FLAT) || type.equals(TYPE_GRADIENT)
 			|| type.equals(TYPE_TEXTURE) || type.equals(TYPE_LINES))
 		{
 			m_type = type;
 		}
 		else
-			new java.lang.IllegalArgumentException ("Invalid Type");
+			throw new java.lang.IllegalArgumentException ("Invalid Type");
 	}	//  AdempiereColor
 
 	/**
@@ -264,7 +264,7 @@ public class CompiereColor implements Serializable
 	public CompiereColor (Color bg, boolean flat)
 	{
 		if (bg == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		m_type = flat ? TYPE_FLAT : TYPE_GRADIENT;
 		m_primaryColor = bg;
 	}   //  AdempiereColor
@@ -279,7 +279,7 @@ public class CompiereColor implements Serializable
 	public CompiereColor (Color upperColor, Color lowerColor, int startPoint, int repeatDistance)
 	{
 		if (upperColor == null || lowerColor == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		m_type = TYPE_GRADIENT;
 		m_primaryColor = upperColor;
 		m_secondaryColor = lowerColor;
@@ -303,12 +303,12 @@ public class CompiereColor implements Serializable
 	 *
 	 *  @param textureURL URL to a *.gif or *.jpg graphic file
 	 *  @param taint  Color to taint the texture (use white for not tainting it)
-	 *  @param compositeAlpha Value from 0(no) to 1(full) taining
+	 *  @param compositeAlpha Value from 0(no) to 1(full) tainting
 	 */
 	public CompiereColor (URL textureURL, Color taint, float compositeAlpha)
 	{
 		if (textureURL == null || taint == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		m_type = TYPE_TEXTURE;
 		m_textureURL = textureURL;
 		m_primaryColor = taint;
@@ -325,7 +325,7 @@ public class CompiereColor implements Serializable
 	public CompiereColor (String textureURL, Color taint, float compositeAlpha)
 	{
 		if (textureURL == null || taint == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		m_type = TYPE_TEXTURE;
 		setTextureURL(textureURL);
 		m_primaryColor = taint;
@@ -343,7 +343,7 @@ public class CompiereColor implements Serializable
 	public CompiereColor (Color lineColor, Color backColor, float lineWidth, int lineDistance)
 	{
 		if (lineColor == null || backColor == null)
-			new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
+			throw new java.lang.IllegalArgumentException (EXCEPTION_TEXT);
 		m_type = TYPE_LINES;
 		m_primaryColor = backColor;
 		m_secondaryColor = lineColor;
