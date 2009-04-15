@@ -1004,7 +1004,8 @@ public class MCostDetail extends X_M_CostDetail
 			|| getM_MovementLine_ID() != 0 
 			|| getM_InventoryLine_ID() != 0
 			|| getM_ProductionLine_ID() != 0
-			|| getC_ProjectIssue_ID() != 0)
+			|| getC_ProjectIssue_ID() != 0
+			|| getPP_Cost_Collector_ID() != 0)
 		{
 			boolean addition = qty.signum() > 0;
 			//
