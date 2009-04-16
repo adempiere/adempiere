@@ -69,13 +69,13 @@ public class VStringBeanInfo extends SimpleBeanInfo
 	{
 		switch (iconKind) {
 		case BeanInfo.ICON_COLOR_16x16:
-			  return loadImage(iconColor16x16Filename);
+			  return iconColor16x16Filename != null ? loadImage(iconColor16x16Filename) : null;
 		case BeanInfo.ICON_COLOR_32x32:
-			  return loadImage(iconColor32x32Filename);
+			  return iconColor32x32Filename != null ? loadImage(iconColor32x32Filename) : null;
 		case BeanInfo.ICON_MONO_16x16:
-			  return loadImage(iconMono16x16Filename);
+			  return iconMono16x16Filename != null ? loadImage(iconMono16x16Filename) : null;
 		case BeanInfo.ICON_MONO_32x32:
-			  return loadImage(iconMono32x32Filename);
+			  return iconMono32x32Filename != null ? loadImage(iconMono32x32Filename) : null;
 								}
 		return null;
 	}
