@@ -32,12 +32,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
+import com.sun.enterprise.naming.java.javaURLContext;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 
@@ -46,17 +47,16 @@ import com.sun.image.codec.jpeg.JPEGImageDecoder;
  *
  *  @author     Jorg Janke
  *  @version    $Id: AdempiereUtils.java,v 1.2 2006/07/30 00:52:23 jjanke Exp $
- *  @author		Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
  */
 public class CompiereUtils
 {
-	
+
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(CompiereUtils.class.getName());
 
 	/**
 	 *  Fill Background with Color.
-	 *  (Usually called from update methods)
+	 *  (Ususlly called from update methods)
 	 *
 	 *  @param g2D  Graphics
 	 *  @param c    Component
@@ -192,7 +192,7 @@ public class CompiereUtils
 		g2D.fill(endRec);
 	}   //  paint3Deffect
 
-	
+
 	/*************************************************************************
 	 *  Helper to simplify creation of translucent colors
 	 *  @param c Color
@@ -228,7 +228,7 @@ public class CompiereUtils
 	protected final static Component    s_component = new Component() {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 2185807624882290223L;};
 	/** Media tracker                       */
@@ -240,20 +240,24 @@ public class CompiereUtils
 	 *  @param path location of image file in local file system
 	 *  - otherwise relative to class
 	 *  @return loaded image at path or url
-	 *  @see java.io.File#toURL()
+	 *  @see java.io.File#toURI()
+	 *  @see java.net.URI#toURL()
 	 */
 	public static synchronized Image loadImage(String path)
 	{
 		Image image = null;
-		try
+		if (path != null)
 		{
-			File file = new File(path);
-			URI url = file.toURI();
-			image = loadImage(url.toString());
-		}
-		catch (SecurityException e)
-		{
-			log.severe("Path= " + path + " - " + e.getMessage());
+			try
+			{
+				File file = new File(path);
+				URL url = file.toURI().toURL();
+				image = loadImage(url);
+			}
+			catch (MalformedURLException e)
+			{
+				log.severe("Path= " + path + " - " + e.getMessage());
+			}
 		}
 		return image;
 	}   //  loadImage
@@ -263,7 +267,7 @@ public class CompiereUtils
 	 *
 	 *  @param url URL where the image file is located.
 	 *  @return loaded image at path or url
-	 *  @see java.io.File#toURL()
+	 *  @see java.io.File#toURI()
 	 */
 	public static synchronized Image loadImage(URL url)
 	{
@@ -321,10 +325,10 @@ public class CompiereUtils
 		BufferedImage image = null;
 		try
 		{
-			URI url = file.toURI();
-			image = loadBufferedImage(url.toString(), imageType);
+			URL url = file.toURI().toURL();
+			image = loadBufferedImage(url, imageType);
 		}
-		catch (SecurityException e)
+		catch (MalformedURLException e)
 		{
 			log.severe("File: " + file + " - " + e.getMessage());
 		}
@@ -341,6 +345,8 @@ public class CompiereUtils
 	 *  @param imageType one of the image type defined in the BufferedImage class.
 	 *  @return loaded image at path or url
 	 *  @see java.awt.image.BufferedImage
+	 *  @see java.io.File#toURI()
+	 *  @see java.net.URI#toURL()
 	 */
 	public static synchronized BufferedImage loadBufferedImage(String path, int imageType)
 	{
@@ -348,10 +354,10 @@ public class CompiereUtils
 		BufferedImage image = null;
 		try
 		{
-			 URI url = file.toURI();
-			 image = loadBufferedImage(url.toString(), imageType);
+			 URL url = file.toURI().toURL();
+			 image = loadBufferedImage(url, imageType);
 		}
-		catch (SecurityException e)
+		catch (MalformedURLException e)
 		{
 			log.severe("Path: " + path + " - " + e.getMessage());
 		}
@@ -452,7 +458,7 @@ public class CompiereUtils
 		return image;
 	}
 
-	
+
 	/*************************************************************************
 	 *  Convenience function for determining ComponentOrientation.
 	 *  Copied from MetalUtils
