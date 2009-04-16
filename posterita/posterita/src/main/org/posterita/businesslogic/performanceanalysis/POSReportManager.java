@@ -2992,14 +2992,14 @@ public class POSReportManager {
 		int end_month = 0;
 		int end_year = 0;
 		
-		if (s_date1 != null);
+		if (s_date1 != null)
 		{
 			begin_month = Integer.parseInt(s_date1[1]);
 			begin_year = Integer.parseInt(s_date1[2]);
 			
 		}
 						
-		if (s_date2 != null);
+		if (s_date2 != null)
 		{
 			end_month = Integer.parseInt(s_date2[1]);
 			end_year = Integer.parseInt(s_date2[2]);
