@@ -75,7 +75,7 @@ public class ScheduleUtil
 	/**	Begin Timestamp		1/1/1970			*/
 	public static final Timestamp	EARLIEST = new Timestamp(new GregorianCalendar(1970,1,1).getTimeInMillis());
 	/**	End Timestamp		12/31/2070			*/
-	public static final Timestamp	LATEST = new Timestamp(new GregorianCalendar(2070,12,31).getTimeInMillis());
+	public static final Timestamp	LATEST = new Timestamp(new GregorianCalendar(2070,11,31).getTimeInMillis());
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ScheduleUtil.class);
