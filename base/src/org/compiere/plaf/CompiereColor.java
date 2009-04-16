@@ -603,7 +603,7 @@ public class CompiereColor implements Serializable
 		if (m_image == null)
 		{
 			URL url = getTextureURL();
-			m_image = CompiereUtils.loadBufferedImage(url, BufferedImage.TYPE_INT_ARGB_PRE);
+			m_image = CompiereUtils.loadBufferedImage(url.toString(), BufferedImage.TYPE_INT_ARGB_PRE);
 		}
 		return m_image;
 	}	//  getTextureImage
