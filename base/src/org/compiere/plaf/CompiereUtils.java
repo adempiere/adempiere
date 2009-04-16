@@ -38,7 +38,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
-import com.sun.enterprise.naming.java.javaURLContext;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageDecoder;
 
