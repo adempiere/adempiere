@@ -177,7 +177,7 @@ public class InvoiceWriteOff extends SvrProcess
 			while (rs.next ())
 			{
 				if (writeOff(rs.getInt(1), rs.getString(2), rs.getTimestamp(3),
-					rs.getInt(4), rs.getBigDecimal(6)));
+					rs.getInt(4), rs.getBigDecimal(6)))
 					counter++;
 			}
 			rs.close ();
