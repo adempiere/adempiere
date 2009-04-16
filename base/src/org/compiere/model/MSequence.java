@@ -693,7 +693,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND s.AD_Sequence_ID = ? "
 						+ "AND y.CalendarYear = ? "
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' "
-						+ "FOR UPDATE OF AD_Sequence_No";
+						+ "FOR UPDATE OF y";
 			} 
 			else 
 			{				
