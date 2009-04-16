@@ -673,7 +673,7 @@ public class InOutGenerate extends SvrProcess
 
 			if (allAttributeInstances)
 				hash *= -1;
-			if (FiFo);	
+			if (FiFo)	
 				hash *= -2;
 			if (hash < 0)
 				hash = -hash + 7;
