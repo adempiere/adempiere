@@ -247,9 +247,13 @@ public class CompiereUtils
 		Image image = null;
 		try
 		{
-			File file = new File(path);
-			URI url = file.toURI();
-			image = loadImage(url.toString());
+			// if path is null then return null
+			if(!path.equals(null))
+			{
+			   File file = new File(path);
+			   URI url = file.toURI();
+			   image = loadImage(url);
+			}
 		}
 		catch (SecurityException e)
 		{
@@ -265,10 +269,10 @@ public class CompiereUtils
 	 *  @return loaded image at path or url
 	 *  @see java.io.File#toURL()
 	 */
-	public static synchronized Image loadImage(URL url)
+	public static synchronized Image loadImage(URI url)
 	{
 		Image image = null;
-		image = Toolkit.getDefaultToolkit().getImage(url);
+		image = Toolkit.getDefaultToolkit().getImage(url.toString());
 		if (image != null)
 		{
 			s_tracker.addImage(image, 0);
@@ -349,7 +353,7 @@ public class CompiereUtils
 		try
 		{
 			 URI url = file.toURI();
-			 image = loadBufferedImage(url.toString(), imageType);
+			 image = loadBufferedImage(url, imageType);
 		}
 		catch (SecurityException e)
 		{
@@ -369,13 +373,13 @@ public class CompiereUtils
 	 *  @return loaded image at path or url
 	 *  @see java.awt.image.BufferedImage
 	 */
-	public static synchronized BufferedImage loadBufferedImage(URL url, int imageType)
+	public static synchronized BufferedImage loadBufferedImage(URI url, int imageType)
 	{
 		BufferedImage image = null;
 		// Special handling for JPEG images to avoid extra processing if possible.
 		if (url == null || !url.toString().toLowerCase().endsWith(".jpg"))
 		{
-			Image tmpImage = loadImage(url);
+			Image tmpImage = loadImage(url.toString());
 			if (tmpImage != null)
 			{
 				image = new BufferedImage(tmpImage.getWidth(null), tmpImage.getHeight(null), imageType);
@@ -410,7 +414,7 @@ public class CompiereUtils
 	 *  @param url URL where the image file is located.
 	 *  @return loaded image at path or url
 	 */
-	public static synchronized BufferedImage loadBufferedJPEGImage (URL url)
+	public static synchronized BufferedImage loadBufferedJPEGImage (URI url)
 	{
 		BufferedImage image = null;
 		if (url != null)
@@ -418,7 +422,7 @@ public class CompiereUtils
 			InputStream in = null;
 			try
 			{
-				in = url.openStream();
+				in = url.toURL().openStream();
 				JPEGImageDecoder decoder = JPEGCodec.createJPEGDecoder(in);
 				image = decoder.decodeAsBufferedImage();
 			}
