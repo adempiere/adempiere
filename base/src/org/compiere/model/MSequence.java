@@ -411,7 +411,7 @@ public class MSequence extends X_AD_Sequence
 						+ "AND y.CalendarYear = ? "
 						+ "AND s.IsActive='Y' AND s.IsTableID='N' AND s.IsAutoSequence='Y' "
 						+ "ORDER BY s.AD_Client_ID DESC "
-						+ "FOR UPDATE OF AD_Sequence_No";
+						+ "FOR UPDATE OF y";
 			} else {				
 				selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, Prefix, Suffix, DecimalPattern, AD_Sequence_ID "
 						+ "FROM AD_Sequence "
