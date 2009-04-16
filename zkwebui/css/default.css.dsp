@@ -210,3 +210,11 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .form-button {
 	width: 99%;
 }
+
+.z-combobox-disd {
+	color: black !important;
+}
+
+.z-combobox-disd * {
+	color: black !important;
+}
