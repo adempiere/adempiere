@@ -896,7 +896,12 @@ public final class APanel extends CPanel
 			if (wh1 == null || wh1.length() == 0)
 				wh1 = mTab.getWhereClause();
 			if (wh1 != null && wh1.length() > 0)
-				where.append(wh1);
+			{
+				if (wh1.indexOf('@') == -1)
+					where.append(wh1);
+				else    //  replace variables
+					where.append(Env.parseContext(m_ctx, m_curWindowNo, wh1, false));  
+			}
 			//
 			if (query != null)
 			{
