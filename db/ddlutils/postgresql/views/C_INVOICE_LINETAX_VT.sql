@@ -39,7 +39,7 @@ FROM C_InvoiceLine il
 	INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID)
     LEFT OUTER JOIN C_Tax_Trl t ON (il.C_Tax_ID=t.C_Tax_ID AND uom.AD_Language=t.AD_Language)
 	LEFT OUTER JOIN M_Product p ON (il.M_Product_ID=p.M_Product_ID)
-	LEFT OUTER JOIN C_Charge c ON (il.C_Charge_ID=c.C_Charge_ID)
+	LEFT OUTER JOIN C_Charge_Trl c ON (il.C_Charge_ID=c.C_Charge_ID)
     LEFT OUTER JOIN C_BPartner_Product pp ON (il.M_Product_ID=pp.M_Product_ID AND i.C_BPartner_ID=pp.C_BPartner_ID)
 	LEFT OUTER JOIN M_Product_Trl pt ON (il.M_Product_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)
 	LEFT OUTER JOIN S_ResourceAssignment ra ON (il.S_ResourceAssignment_ID=ra.S_ResourceAssignment_ID)
