@@ -182,14 +182,7 @@ public class LoginPanel extends Window implements EventListener
         {
             if(eventComp.getId().equals(lstLanguage.getId())) {
             	String langName = (String) lstLanguage.getSelectedItem().getLabel();
-            	Language language = Language.getLanguage(langName);
-            	Env.verifyLanguage(ctx, language);
-            	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language());
-            	
-            	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
-            	lblUserId.setValue(res.getString("User"));
-            	lblPassword.setValue(res.getString("Password"));
-            	lblLanguage.setValue(res.getString("Language"));
+            	languageChanged(langName);
             }
         }
         // Elaine 2009/02/06 - initial language
@@ -212,6 +205,7 @@ public class LoginPanel extends Window implements EventListener
 	        	        	if(li.getLabel().equals(initDefault))
 	        	        	{
 	        	        		lstLanguage.setSelectedIndex(i);
+	        	        		languageChanged(li.getLabel()); // Elaine 2009/04/17 language changed
 	        	        		break;
 	        	        	}
 	        	        }
@@ -220,6 +214,18 @@ public class LoginPanel extends Window implements EventListener
         	}
         }
         //
+    }
+    
+    private void languageChanged(String langName)
+    {
+    	Language language = Language.getLanguage(langName);
+    	Env.verifyLanguage(ctx, language);
+    	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language());
+    	
+    	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
+    	lblUserId.setValue(res.getString("User"));
+    	lblPassword.setValue(res.getString("Password"));
+    	lblLanguage.setValue(res.getString("Language"));
     }
     /**
      *  validates user name and password when logging in
