@@ -28,10 +28,10 @@ do
     if [ "$DIR" = "commit" ]; then
        COMMIT=1
     else
-        for file in $DIR/oracle/*.sql; do
-           echo "SELECT '`basename $file`' AS Filename FROM dual;"
+	ls $DIR/oracle/*.sql | while read file; do
+           echo "SELECT '`basename "$file"`' AS Filename FROM dual;"
            echo
-           cat $file | dos2unix
+           cat "$file" | dos2unix
            echo
            echo
         done
@@ -39,20 +39,20 @@ do
 done
 if [ -d $DIRINI/../processes_post_migration/oracle ]
 then
-   for file in $DIRINI/../processes_post_migration/oracle/*.sql; do
-      echo "SELECT '`basename $file`' AS Filename FROM dual;"
+   ls $DIRINI/../processes_post_migration/oracle/*.sql | while read file; do
+      echo "SELECT '`basename "$file"`' AS Filename FROM dual;"
       echo
-      cat $file | dos2unix
+      cat "$file" | dos2unix
       echo
       echo
    done
 fi
 if [ -d $DIRINI/../my_processes_post_migration/oracle ]
 then
-   for file in $DIRINI/../my_processes_post_migration/oracle/*.sql; do
-      echo "SELECT '`basename $file`' AS Filename FROM dual;"
+   ls $DIRINI/../my_processes_post_migration/oracle/*.sql | while read file; do
+      echo "SELECT '`basename "$file"`' AS Filename FROM dual;"
       echo
-      cat $file | dos2unix
+      cat "$file" | dos2unix
       echo
       echo
    done

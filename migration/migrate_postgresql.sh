@@ -25,10 +25,10 @@ do
     if [ "$DIR" = "commit" ]; then
        COMMIT=1
     else
-        for file in $DIR/postgresql/*.sql; do
-           echo "SELECT '`basename $file`' AS Filename;"
+	ls $DIR/postgresql/*.sql | while read file; do
+           echo "SELECT '`basename "$file"`' AS Filename;"
            echo
-           cat $file | dos2unix | sed 's/commit[ ]*;//I'
+           cat "$file" | dos2unix | sed 's/commit[ ]*;//I'
            echo
            echo
         done
@@ -36,7 +36,7 @@ do
 done
 if [ -d $DIRINI/../processes_post_migration/postgresql ]
 then
-   for file in $DIRINI/../processes_post_migration/postgresql/*.sql; do
+   ls $DIRINI/../processes_post_migration/postgresql/*.sql | while read file; do
       echo "SELECT '`basename $file`' AS Filename;"
       echo
       cat $file | dos2unix | sed 's/commit[ ]*;//I'
@@ -46,10 +46,10 @@ then
 fi
 if [ -d $DIRINI/../my_processes_post_migration/postgresql ]
 then
-   for file in $DIRINI/../my_processes_post_migration/postgresql/*.sql; do
-      echo "SELECT '`basename $file`' AS Filename;"
+   ls $DIRINI/../my_processes_post_migration/postgresql/*.sql | while read file; do
+      echo "SELECT '`basename "$file"`' AS Filename;"
       echo
-      cat $file | dos2unix | sed 's/commit[ ]*;//I'
+      cat "$file" | dos2unix | sed 's/commit[ ]*;//I'
       echo
       echo
    done
