@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/serverApps"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
