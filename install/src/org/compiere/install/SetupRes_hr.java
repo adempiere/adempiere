@@ -16,12 +16,12 @@
  *****************************************************************************/
 package org.compiere.install;
 
-import java.util.ListResourceBundle;
+import java.util.*;
 
 /**
  *	Setup Resources
  *
- * 	@author 	Marko Bubalo
+ * 	@author 	Marko Bubalo, Mislav KaÅ¡ner
  * 	@version 	$Id: SetupRes_hr.java,v 1.2 2006/07/30 00:57:42 jjanke Exp $
  */
 public class SetupRes_hr extends ListResourceBundle
@@ -33,9 +33,9 @@ public class SetupRes_hr extends ListResourceBundle
 	{ "Ok", 					"U redu" },
 	{ "File", 					"Datoteka" },
 	{ "Exit", 					"Izlaz" },
-	{ "Help", 					"Pomo�" },
+	{ "Help", 					"Pomo\u0107" },
 	{ "PleaseCheck", 			"Molim provjeriti" },
-	{ "UnableToConnect", 		"Gre�ka u spajanju na Adempiere web pomo�" },
+	{ "UnableToConnect", 		"GreÅ¡ka u spajanju na Adempiere web pomo\u0107" },
 	//
 	{ "AdempiereHomeInfo", 		"Adempiere Home je glavni direktorij" },
 	{ "AdempiereHome", 			"Adempiere Home" },
@@ -84,9 +84,9 @@ public class SetupRes_hr extends ListResourceBundle
 	//
 	{ "TestInfo", 				"Test postavki" },
 	{ "Test", 					"Test" },
-	{ "SaveInfo", 				"Sa�uvati postavke" },
-	{ "Save", 					"Sa�uvati" },
-	{ "HelpInfo", 				"Pomo�" },
+	{ "SaveInfo", 				"Sa\u010duvati postavke" },
+	{ "Save", 					"Sa\u010duvati" },
+	{ "HelpInfo", 				"Pomo\u0107" },
 	//
 	{ "ServerError", 			"Server Setup Error" },
 	{ "ErrorJavaHome", 			"Error Java Home" },
