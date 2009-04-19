@@ -17,31 +17,30 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for IMP_Processor
+/** Generated Interface for EXP_Processor
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_IMP_Processor 
+public interface I_EXP_Processor 
 {
 
-    /** TableName=IMP_Processor */
-    public static final String Table_Name = "IMP_Processor";
+    /** TableName=EXP_Processor */
+    public static final String Table_Name = "EXP_Processor";
 
-    /** AD_Table_ID=53077 */
+    /** AD_Table_ID=53074 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -67,32 +66,6 @@ public interface I_IMP_Processor
 	/** Get Account	  */
 	public String getAccount();
 
-    /** Column name DateLastRun */
-    public static final String COLUMNNAME_DateLastRun = "DateLastRun";
-
-	/** Set Date last run.
-	  * Date the process was last run.
-	  */
-	public void setDateLastRun (Timestamp DateLastRun);
-
-	/** Get Date last run.
-	  * Date the process was last run.
-	  */
-	public Timestamp getDateLastRun();
-
-    /** Column name DateNextRun */
-    public static final String COLUMNNAME_DateNextRun = "DateNextRun";
-
-	/** Set Date next run.
-	  * Date the process will run next
-	  */
-	public void setDateNextRun (Timestamp DateNextRun);
-
-	/** Get Date next run.
-	  * Date the process will run next
-	  */
-	public Timestamp getDateNextRun();
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -106,31 +79,25 @@ public interface I_IMP_Processor
 	  */
 	public String getDescription();
 
-    /** Column name Frequency */
-    public static final String COLUMNNAME_Frequency = "Frequency";
+    /** Column name EXP_Processor_ID */
+    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
 
-	/** Set Frequency.
-	  * Frequency of events
-	  */
-	public void setFrequency (int Frequency);
+	/** Set Export Processor	  */
+	public void setEXP_Processor_ID (int EXP_Processor_ID);
 
-	/** Get Frequency.
-	  * Frequency of events
-	  */
-	public int getFrequency();
+	/** Get Export Processor	  */
+	public int getEXP_Processor_ID();
 
-    /** Column name FrequencyType */
-    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+    /** Column name EXP_Processor_Type_ID */
+    public static final String COLUMNNAME_EXP_Processor_Type_ID = "EXP_Processor_Type_ID";
 
-	/** Set Frequency Type.
-	  * Frequency of event
-	  */
-	public void setFrequencyType (String FrequencyType);
+	/** Set Export Processor Type	  */
+	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID);
 
-	/** Get Frequency Type.
-	  * Frequency of event
-	  */
-	public String getFrequencyType();
+	/** Get Export Processor Type	  */
+	public int getEXP_Processor_Type_ID();
+
+	public org.compiere.model.I_EXP_Processor_Type getEXP_Processor_Type() throws RuntimeException;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -153,39 +120,6 @@ public interface I_IMP_Processor
 
 	/** Get Host	  */
 	public String getHost();
-
-    /** Column name IMP_Processor_ID */
-    public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
-
-	/** Set Import Processor	  */
-	public void setIMP_Processor_ID (int IMP_Processor_ID);
-
-	/** Get Import Processor	  */
-	public int getIMP_Processor_ID();
-
-    /** Column name IMP_Processor_Type_ID */
-    public static final String COLUMNNAME_IMP_Processor_Type_ID = "IMP_Processor_Type_ID";
-
-	/** Set Import Processor Type	  */
-	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID);
-
-	/** Get Import Processor Type	  */
-	public int getIMP_Processor_Type_ID();
-
-	public org.eevolution.model.I_IMP_Processor_Type getIMP_Processor_Type() throws RuntimeException;
-
-    /** Column name KeepLogDays */
-    public static final String COLUMNNAME_KeepLogDays = "KeepLogDays";
-
-	/** Set Days to keep Log.
-	  * Number of days to keep the log entries
-	  */
-	public void setKeepLogDays (int KeepLogDays);
-
-	/** Get Days to keep Log.
-	  * Number of days to keep the log entries
-	  */
-	public int getKeepLogDays();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -217,15 +151,6 @@ public interface I_IMP_Processor
 
 	/** Get Port	  */
 	public int getPort();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

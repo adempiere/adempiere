@@ -15,7 +15,7 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
@@ -125,14 +125,14 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_EXP_Processor_Type getEXP_Processor_Type() throws RuntimeException 
+	public org.compiere.model.I_EXP_Processor_Type getEXP_Processor_Type() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Processor_Type.Table_Name);
-        org.eevolution.model.I_EXP_Processor_Type result = null;
+        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor_Type.Table_Name);
+        org.compiere.model.I_EXP_Processor_Type result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_EXP_Processor_Type)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_Type_ID()), get_TrxName()});
+    	    result = (org.compiere.model.I_EXP_Processor_Type)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_Type_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);

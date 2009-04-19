@@ -17,30 +17,30 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for IMP_ProcessorLog
+/** Generated Interface for EXP_Processor_Type
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_IMP_ProcessorLog 
+public interface I_EXP_Processor_Type 
 {
 
-    /** TableName=IMP_ProcessorLog */
-    public static final String Table_Name = "IMP_ProcessorLog";
+    /** TableName=EXP_Processor_Type */
+    public static final String Table_Name = "EXP_Processor_Type";
 
-    /** AD_Table_ID=53079 */
+    /** AD_Table_ID=53076 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 3 - Client - Org 
+    /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -57,19 +57,6 @@ public interface I_IMP_ProcessorLog
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name BinaryData */
-    public static final String COLUMNNAME_BinaryData = "BinaryData";
-
-	/** Set BinaryData.
-	  * Binary Data
-	  */
-	public void setBinaryData (byte[] BinaryData);
-
-	/** Get BinaryData.
-	  * Binary Data
-	  */
-	public byte[] getBinaryData();
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -82,6 +69,15 @@ public interface I_IMP_ProcessorLog
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name EXP_Processor_Type_ID */
+    public static final String COLUMNNAME_EXP_Processor_Type_ID = "EXP_Processor_Type_ID";
+
+	/** Set Export Processor Type	  */
+	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID);
+
+	/** Get Export Processor Type	  */
+	public int getEXP_Processor_Type_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -96,75 +92,38 @@ public interface I_IMP_ProcessorLog
 	  */
 	public String getHelp();
 
-    /** Column name IMP_ProcessorLog_ID */
-    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
+    /** Column name JavaClass */
+    public static final String COLUMNNAME_JavaClass = "JavaClass";
 
-	/** Set Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
+	/** Set Java Class	  */
+	public void setJavaClass (String JavaClass);
 
-	/** Get Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID();
+	/** Get Java Class	  */
+	public String getJavaClass();
 
-    /** Column name IMP_Processor_ID */
-    public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Import Processor	  */
-	public void setIMP_Processor_ID (int IMP_Processor_ID);
-
-	/** Get Import Processor	  */
-	public int getIMP_Processor_ID();
-
-	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
-
-    /** Column name IsError */
-    public static final String COLUMNNAME_IsError = "IsError";
-
-	/** Set Error.
-	  * An Error occured in the execution
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setIsError (boolean IsError);
+	public void setName (String Name);
 
-	/** Get Error.
-	  * An Error occured in the execution
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public boolean isError();
+	public String getName();
 
-    /** Column name Reference */
-    public static final String COLUMNNAME_Reference = "Reference";
+    /** Column name Value */
+    public static final String COLUMNNAME_Value = "Value";
 
-	/** Set Reference.
-	  * Reference for this record
+	/** Set Search Key.
+	  * Search key for the record in the format required - must be unique
 	  */
-	public void setReference (String Reference);
+	public void setValue (String Value);
 
-	/** Get Reference.
-	  * Reference for this record
+	/** Get Search Key.
+	  * Search key for the record in the format required - must be unique
 	  */
-	public String getReference();
-
-    /** Column name Summary */
-    public static final String COLUMNNAME_Summary = "Summary";
-
-	/** Set Summary.
-	  * Textual summary of this request
-	  */
-	public void setSummary (String Summary);
-
-	/** Get Summary.
-	  * Textual summary of this request
-	  */
-	public String getSummary();
-
-    /** Column name TextMsg */
-    public static final String COLUMNNAME_TextMsg = "TextMsg";
-
-	/** Set Text Message.
-	  * Text Message
-	  */
-	public void setTextMsg (String TextMsg);
-
-	/** Get Text Message.
-	  * Text Message
-	  */
-	public String getTextMsg();
+	public String getValue();
 }

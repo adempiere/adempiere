@@ -15,7 +15,7 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
@@ -207,14 +207,14 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_EXP_Format getEXP_Format() throws RuntimeException 
+	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Format.Table_Name);
-        org.eevolution.model.I_EXP_Format result = null;
+        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Format.Table_Name);
+        org.compiere.model.I_EXP_Format result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_EXP_Format)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Format_ID()), get_TrxName()});
+    	    result = (org.compiere.model.I_EXP_Format)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Format_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);

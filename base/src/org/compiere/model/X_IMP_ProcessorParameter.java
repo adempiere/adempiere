@@ -15,7 +15,7 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
@@ -23,10 +23,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
 
-/** Generated Model for IMP_ProcessorLog
+/** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Persistent 
+public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParameter, I_Persistent 
 {
 
 	/**
@@ -35,26 +35,26 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	private static final long serialVersionUID = 1L;
 
     /** Standard Constructor */
-    public X_IMP_ProcessorLog (Properties ctx, int IMP_ProcessorLog_ID, String trxName)
+    public X_IMP_ProcessorParameter (Properties ctx, int IMP_ProcessorParameter_ID, String trxName)
     {
-      super (ctx, IMP_ProcessorLog_ID, trxName);
-      /** if (IMP_ProcessorLog_ID == 0)
+      super (ctx, IMP_ProcessorParameter_ID, trxName);
+      /** if (IMP_ProcessorParameter_ID == 0)
         {
-			setIMP_ProcessorLog_ID (0);
+			setIMP_ProcessorParameter_ID (0);
 			setIMP_Processor_ID (0);
-			setIsError (true);
-// 'Y'
+			setName (null);
+			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_IMP_ProcessorLog (Properties ctx, ResultSet rs, String trxName)
+    public X_IMP_ProcessorParameter (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 3 - Client - Org 
+      * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -70,27 +70,10 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_IMP_ProcessorLog[")
+      StringBuffer sb = new StringBuffer ("X_IMP_ProcessorParameter[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set BinaryData.
-		@param BinaryData 
-		Binary Data
-	  */
-	public void setBinaryData (byte[] BinaryData)
-	{
-		set_Value (COLUMNNAME_BinaryData, BinaryData);
-	}
-
-	/** Get BinaryData.
-		@return Binary Data
-	  */
-	public byte[] getBinaryData () 
-	{
-		return (byte[])get_Value(COLUMNNAME_BinaryData);
-	}
 
 	/** Set Description.
 		@param Description 
@@ -126,33 +109,33 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Import Processor Log.
-		@param IMP_ProcessorLog_ID Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
+	/** Set Import Processor Parameter.
+		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
 	{
-		if (IMP_ProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
+		if (IMP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
 	}
 
-	/** Get Import Processor Log.
-		@return Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID () 
+	/** Get Import Processor Parameter.
+		@return Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorLog_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException 
+	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_IMP_Processor.Table_Name);
-        org.eevolution.model.I_IMP_Processor result = null;
+        Class<?> clazz = MTable.getClass(org.compiere.model.I_IMP_Processor.Table_Name);
+        org.compiere.model.I_IMP_Processor result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_IMP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getIMP_Processor_ID()), get_TrxName()});
+    	    result = (org.compiere.model.I_IMP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getIMP_Processor_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -180,78 +163,55 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Error.
-		@param IsError 
-		An Error occured in the execution
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
 	  */
-	public void setIsError (boolean IsError)
+	public void setName (String Name)
 	{
-		set_Value (COLUMNNAME_IsError, Boolean.valueOf(IsError));
+		if (Name == null)
+			throw new IllegalArgumentException ("Name is mandatory.");
+		set_Value (COLUMNNAME_Name, Name);
 	}
 
-	/** Get Error.
-		@return An Error occured in the execution
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
 	  */
-	public boolean isError () 
+	public String getName () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsError);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Reference.
-		@param Reference 
-		Reference for this record
-	  */
-	public void setReference (String Reference)
+	/** Set Parameter Value.
+		@param ParameterValue Parameter Value	  */
+	public void setParameterValue (String ParameterValue)
 	{
-		set_Value (COLUMNNAME_Reference, Reference);
+		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
 	}
 
-	/** Get Reference.
-		@return Reference for this record
-	  */
-	public String getReference () 
+	/** Get Parameter Value.
+		@return Parameter Value	  */
+	public String getParameterValue () 
 	{
-		return (String)get_Value(COLUMNNAME_Reference);
+		return (String)get_Value(COLUMNNAME_ParameterValue);
 	}
 
-	/** Set Summary.
-		@param Summary 
-		Textual summary of this request
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
 	  */
-	public void setSummary (String Summary)
+	public void setValue (String Value)
 	{
-		set_Value (COLUMNNAME_Summary, Summary);
+		if (Value == null)
+			throw new IllegalArgumentException ("Value is mandatory.");
+		set_Value (COLUMNNAME_Value, Value);
 	}
 
-	/** Get Summary.
-		@return Textual summary of this request
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
 	  */
-	public String getSummary () 
+	public String getValue () 
 	{
-		return (String)get_Value(COLUMNNAME_Summary);
-	}
-
-	/** Set Text Message.
-		@param TextMsg 
-		Text Message
-	  */
-	public void setTextMsg (String TextMsg)
-	{
-		set_Value (COLUMNNAME_TextMsg, TextMsg);
-	}
-
-	/** Get Text Message.
-		@return Text Message
-	  */
-	public String getTextMsg () 
-	{
-		return (String)get_Value(COLUMNNAME_TextMsg);
+		return (String)get_Value(COLUMNNAME_Value);
 	}
 }

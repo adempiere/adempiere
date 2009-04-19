@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import org.compiere.Adempiere;
 import org.compiere.model.MAcctProcessor;
 import org.compiere.model.MAlertProcessor;
+import org.compiere.model.MIMPProcessor;
 import org.compiere.model.MLdapProcessor;
 import org.compiere.model.MRequestProcessor;
 import org.compiere.model.MScheduler;
@@ -163,7 +164,18 @@ public class AdempiereServerMgr
 			server.start();
 			server.setPriority(Thread.NORM_PRIORITY-1);
 			m_servers.add(server);
-		}		
+		}
+		//	ImportProcessor - @Trifon
+		MIMPProcessor[] importModels = MIMPProcessor.getActive(m_ctx);
+		for (int i = 0; i < importModels.length; i++)
+		{
+			MIMPProcessor lp = importModels[i];
+			AdempiereServer server = AdempiereServer.create(lp);
+			server.start();
+			server.setPriority(Thread.NORM_PRIORITY-1);
+			m_servers.add(server);
+		}
+		
 		log.fine("#" + noServers);
 		return startAll();
 	}	//	startEnvironment

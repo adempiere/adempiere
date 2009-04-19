@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_ReplicationStrategy (Properties ctx, int AD_ReplicationStrategy_ID, String trxName)
@@ -114,33 +114,14 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** EntityType AD_Reference_ID=389 */
-	public static final int ENTITYTYPE_AD_Reference_ID=389;
-	/** Set Entity Type.
-		@param EntityType 
-		Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType)
-	{
-		set_Value (COLUMNNAME_EntityType, EntityType);
-	}
-
-	/** Get Entity Type.
-		@return Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public String getEntityType () 
-	{
-		return (String)get_Value(COLUMNNAME_EntityType);
-	}
-
-	public org.eevolution.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
+	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_EXP_Processor.Table_Name);
-        org.eevolution.model.I_EXP_Processor result = null;
+        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor.Table_Name);
+        org.compiere.model.I_EXP_Processor result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_EXP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_ID()), get_TrxName()});
+    	    result = (org.compiere.model.I_EXP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -167,6 +148,26 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** Set Entity Type.
+		@param EntityType 
+		Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType)
+	{
+
+		set_Value (COLUMNNAME_EntityType, EntityType);
+	}
+
+	/** Get Entity Type.
+		@return Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public String getEntityType () 
+	{
+		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
 	/** Set Comment/Help.

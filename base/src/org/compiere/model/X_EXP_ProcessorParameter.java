@@ -15,16 +15,18 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.eevolution.model;
+package org.compiere.model;
 
+import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.logging.Level;
 import org.compiere.model.*;
 
-/** Generated Model for EXP_Processor_Type
+/** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_Persistent 
+public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParameter, I_Persistent 
 {
 
 	/**
@@ -33,20 +35,20 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	private static final long serialVersionUID = 1L;
 
     /** Standard Constructor */
-    public X_EXP_Processor_Type (Properties ctx, int EXP_Processor_Type_ID, String trxName)
+    public X_EXP_ProcessorParameter (Properties ctx, int EXP_ProcessorParameter_ID, String trxName)
     {
-      super (ctx, EXP_Processor_Type_ID, trxName);
-      /** if (EXP_Processor_Type_ID == 0)
+      super (ctx, EXP_ProcessorParameter_ID, trxName);
+      /** if (EXP_ProcessorParameter_ID == 0)
         {
-			setEXP_Processor_Type_ID (0);
-			setJavaClass (null);
+			setEXP_ProcessorParameter_ID (0);
+			setEXP_Processor_ID (0);
 			setName (null);
 			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_EXP_Processor_Type (Properties ctx, ResultSet rs, String trxName)
+    public X_EXP_ProcessorParameter (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -68,7 +70,7 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_EXP_Processor_Type[")
+      StringBuffer sb = new StringBuffer ("X_EXP_ProcessorParameter[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -90,20 +92,55 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Export Processor Type.
-		@param EXP_Processor_Type_ID Export Processor Type	  */
-	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID)
+	/** Set Processor Parameter.
+		@param EXP_ProcessorParameter_ID Processor Parameter	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
 	{
-		if (EXP_Processor_Type_ID < 1)
-			 throw new IllegalArgumentException ("EXP_Processor_Type_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_Processor_Type_ID, Integer.valueOf(EXP_Processor_Type_ID));
+		if (EXP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
 	}
 
-	/** Get Export Processor Type.
-		@return Export Processor Type	  */
-	public int getEXP_Processor_Type_ID () 
+	/** Get Processor Parameter.
+		@return Processor Parameter	  */
+	public int getEXP_ProcessorParameter_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_Type_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor.Table_Name);
+        org.compiere.model.I_EXP_Processor result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.compiere.model.I_EXP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Export Processor.
+		@param EXP_Processor_ID Export Processor	  */
+	public void setEXP_Processor_ID (int EXP_Processor_ID)
+	{
+		if (EXP_Processor_ID < 1)
+			 throw new IllegalArgumentException ("EXP_Processor_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_Processor_ID, Integer.valueOf(EXP_Processor_ID));
+	}
+
+	/** Get Export Processor.
+		@return Export Processor	  */
+	public int getEXP_Processor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -126,22 +163,6 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Java Class.
-		@param JavaClass Java Class	  */
-	public void setJavaClass (String JavaClass)
-	{
-		if (JavaClass == null)
-			throw new IllegalArgumentException ("JavaClass is mandatory.");
-		set_Value (COLUMNNAME_JavaClass, JavaClass);
-	}
-
-	/** Get Java Class.
-		@return Java Class	  */
-	public String getJavaClass () 
-	{
-		return (String)get_Value(COLUMNNAME_JavaClass);
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -159,6 +180,20 @@ public class X_EXP_Processor_Type extends PO implements I_EXP_Processor_Type, I_
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Parameter Value.
+		@param ParameterValue Parameter Value	  */
+	public void setParameterValue (String ParameterValue)
+	{
+		set_Value (COLUMNNAME_ParameterValue, ParameterValue);
+	}
+
+	/** Get Parameter Value.
+		@return Parameter Value	  */
+	public String getParameterValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ParameterValue);
 	}
 
 	/** Set Search Key.

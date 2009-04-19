@@ -17,7 +17,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import org.compiere.model.*;
@@ -101,7 +101,7 @@ public interface I_IMP_ProcessorParameter
 	/** Get Import Processor	  */
 	public int getIMP_Processor_ID();
 
-	public org.eevolution.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
+	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

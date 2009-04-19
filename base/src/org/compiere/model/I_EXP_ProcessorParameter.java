@@ -17,30 +17,30 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for EXP_Format
+/** Generated Interface for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_EXP_Format 
+public interface I_EXP_ProcessorParameter 
 {
 
-    /** TableName=EXP_Format */
-    public static final String Table_Name = "EXP_Format";
+    /** TableName=EXP_ProcessorParameter */
+    public static final String Table_Name = "EXP_ProcessorParameter";
 
-    /** AD_Table_ID=53072 */
+    /** AD_Table_ID=53075 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
@@ -57,21 +57,6 @@ public interface I_EXP_Format
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Table_ID */
-    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
-
-	/** Set Table.
-	  * Database Table information
-	  */
-	public void setAD_Table_ID (int AD_Table_ID);
-
-	/** Get Table.
-	  * Database Table information
-	  */
-	public int getAD_Table_ID();
-
-	public I_AD_Table getAD_Table() throws RuntimeException;
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -85,14 +70,25 @@ public interface I_EXP_Format
 	  */
 	public String getDescription();
 
-    /** Column name EXP_Format_ID */
-    public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
+    /** Column name EXP_ProcessorParameter_ID */
+    public static final String COLUMNNAME_EXP_ProcessorParameter_ID = "EXP_ProcessorParameter_ID";
 
-	/** Set Export Format	  */
-	public void setEXP_Format_ID (int EXP_Format_ID);
+	/** Set Processor Parameter	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID);
 
-	/** Get Export Format	  */
-	public int getEXP_Format_ID();
+	/** Get Processor Parameter	  */
+	public int getEXP_ProcessorParameter_ID();
+
+    /** Column name EXP_Processor_ID */
+    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
+
+	/** Set Export Processor	  */
+	public void setEXP_Processor_ID (int EXP_Processor_ID);
+
+	/** Get Export Processor	  */
+	public int getEXP_Processor_ID();
+
+	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -120,32 +116,14 @@ public interface I_EXP_Format
 	  */
 	public String getName();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name ParameterValue */
+    public static final String COLUMNNAME_ParameterValue = "ParameterValue";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Parameter Value	  */
+	public void setParameterValue (String ParameterValue);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
-    /** Column name TestExportModel */
-    public static final String COLUMNNAME_TestExportModel = "TestExportModel";
-
-	/** Set Test Export Model	  */
-	public void setTestExportModel (String TestExportModel);
-
-	/** Get Test Export Model	  */
-	public String getTestExportModel();
-
-    /** Column name TestImportModel */
-    public static final String COLUMNNAME_TestImportModel = "TestImportModel";
-
-	/** Set Test Import Model	  */
-	public void setTestImportModel (String TestImportModel);
-
-	/** Get Test Import Model	  */
-	public String getTestImportModel();
+	/** Get Parameter Value	  */
+	public String getParameterValue();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
@@ -159,30 +137,4 @@ public interface I_EXP_Format
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
-
-    /** Column name Version */
-    public static final String COLUMNNAME_Version = "Version";
-
-	/** Set Version.
-	  * Version of the table definition
-	  */
-	public void setVersion (String Version);
-
-	/** Get Version.
-	  * Version of the table definition
-	  */
-	public String getVersion();
-
-    /** Column name WhereClause */
-    public static final String COLUMNNAME_WhereClause = "WhereClause";
-
-	/** Set Sql WHERE.
-	  * Fully qualified SQL WHERE clause
-	  */
-	public void setWhereClause (String WhereClause);
-
-	/** Get Sql WHERE.
-	  * Fully qualified SQL WHERE clause
-	  */
-	public String getWhereClause();
 }

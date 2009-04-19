@@ -56,10 +56,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	 */
 	public Collection <X_AD_ReplicationTable> getReplicationTables() {
 		String whereClause = new StringBuffer(X_AD_ReplicationTable.COLUMNNAME_AD_ReplicationStrategy_ID)+"=?"; // #1
-		return new Query(getCtx(),X_AD_ReplicationTable.Table_Name,whereClause,get_TrxName())
-		.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
-		.setApplyAccessFilter(true)
-		.list();
+		return new Query(getCtx(), X_AD_ReplicationTable.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
+			.setApplyAccessFilter(false)
+			.list()
+		;
 	}
 	
 	/**
@@ -68,9 +69,10 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public Collection<X_AD_ReplicationDocument> getReplicationDocuments() {
 		String whereClause = "AD_ReplicationStrategy_ID=?"; // #1
 		return new Query(getCtx(),X_AD_ReplicationDocument.Table_Name,whereClause,get_TrxName())
-		.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
-		.setApplyAccessFilter(true)
-		.list();	
+			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
+			.setApplyAccessFilter(false)
+			.list()
+		;	
 	}
 	
 	/**
@@ -81,10 +83,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public static X_AD_ReplicationTable getReplicationTable(Properties ctx ,int AD_ReplicationStrategy_ID, int AD_Table_ID)
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
-		return new Query(ctx,X_AD_ReplicationTable.Table_Name,whereClause, null)
-		.setApplyAccessFilter(true)
-		.setParameters(new Object[]{AD_ReplicationStrategy_ID,AD_Table_ID})
-		.first();	
+		return new Query(ctx, X_AD_ReplicationTable.Table_Name, whereClause, null)
+			.setApplyAccessFilter(false)
+			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
+			.first()
+		;	
 	}
 	
 	/**
@@ -95,11 +98,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public static X_AD_ReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID)
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
-		new Query(ctx ,X_AD_ReplicationDocument.Table_Name,whereClause, null)
-		.setApplyAccessFilter(true)
-		.setParameters(new Object[]{AD_ReplicationStrategy_ID,AD_Table_ID})
-		.first();
-		return null;
+		return new Query(ctx, X_AD_ReplicationDocument.Table_Name, whereClause, null)
+			.setApplyAccessFilter(true)
+			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
+			.first()
+		;
 	}
 
 }

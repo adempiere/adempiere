@@ -17,23 +17,23 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for EXP_FormatLine
+/** Generated Interface for EXP_Format
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_EXP_FormatLine 
+public interface I_EXP_Format 
 {
 
-    /** TableName=EXP_FormatLine */
-    public static final String Table_Name = "EXP_FormatLine";
+    /** TableName=EXP_Format */
+    public static final String Table_Name = "EXP_Format";
 
-    /** AD_Table_ID=53073 */
+    /** AD_Table_ID=53072 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -43,21 +43,6 @@ public interface I_EXP_FormatLine
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
-
-	/** Set Column.
-	  * Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID);
-
-	/** Get Column.
-	  * Column in the table
-	  */
-	public int getAD_Column_ID();
-
-	public I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -72,31 +57,20 @@ public interface I_EXP_FormatLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Reference_ID */
-    public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Reference.
-	  * System Reference and Validation
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setAD_Reference_ID (int AD_Reference_ID);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Reference.
-	  * System Reference and Validation
+	/** Get Table.
+	  * Database Table information
 	  */
-	public int getAD_Reference_ID();
+	public int getAD_Table_ID();
 
-    /** Column name DateFormat */
-    public static final String COLUMNNAME_DateFormat = "DateFormat";
-
-	/** Set Date Format.
-	  * Date format used in the imput format
-	  */
-	public void setDateFormat (String DateFormat);
-
-	/** Get Date Format.
-	  * Date format used in the imput format
-	  */
-	public String getDateFormat();
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -111,24 +85,6 @@ public interface I_EXP_FormatLine
 	  */
 	public String getDescription();
 
-    /** Column name EXP_EmbeddedFormat_ID */
-    public static final String COLUMNNAME_EXP_EmbeddedFormat_ID = "EXP_EmbeddedFormat_ID";
-
-	/** Set Embedded Format	  */
-	public void setEXP_EmbeddedFormat_ID (int EXP_EmbeddedFormat_ID);
-
-	/** Get Embedded Format	  */
-	public int getEXP_EmbeddedFormat_ID();
-
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get Format Line	  */
-	public int getEXP_FormatLine_ID();
-
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -137,8 +93,6 @@ public interface I_EXP_FormatLine
 
 	/** Get Export Format	  */
 	public int getEXP_Format_ID();
-
-	public org.eevolution.model.I_EXP_Format getEXP_Format() throws RuntimeException;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -153,28 +107,6 @@ public interface I_EXP_FormatLine
 	  */
 	public String getHelp();
 
-    /** Column name IsMandatory */
-    public static final String COLUMNNAME_IsMandatory = "IsMandatory";
-
-	/** Set Mandatory.
-	  * Data entry is required in this column
-	  */
-	public void setIsMandatory (boolean IsMandatory);
-
-	/** Get Mandatory.
-	  * Data entry is required in this column
-	  */
-	public boolean isMandatory();
-
-    /** Column name IsPartUniqueIndex */
-    public static final String COLUMNNAME_IsPartUniqueIndex = "IsPartUniqueIndex";
-
-	/** Set Is Part Unique Index	  */
-	public void setIsPartUniqueIndex (boolean IsPartUniqueIndex);
-
-	/** Get Is Part Unique Index	  */
-	public boolean isPartUniqueIndex();
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -188,27 +120,32 @@ public interface I_EXP_FormatLine
 	  */
 	public String getName();
 
-    /** Column name Position */
-    public static final String COLUMNNAME_Position = "Position";
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
 
-	/** Set Position	  */
-	public void setPosition (int Position);
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
 
-	/** Get Position	  */
-	public int getPosition();
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
-    /** Column name Type */
-    public static final String COLUMNNAME_Type = "Type";
+    /** Column name TestExportModel */
+    public static final String COLUMNNAME_TestExportModel = "TestExportModel";
 
-	/** Set Type.
-	  * Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public void setType (String Type);
+	/** Set Test Export Model	  */
+	public void setTestExportModel (String TestExportModel);
 
-	/** Get Type.
-	  * Type of Validation (SQL, Java Script, Java Language)
-	  */
-	public String getType();
+	/** Get Test Export Model	  */
+	public String getTestExportModel();
+
+    /** Column name TestImportModel */
+    public static final String COLUMNNAME_TestImportModel = "TestImportModel";
+
+	/** Set Test Import Model	  */
+	public void setTestImportModel (String TestImportModel);
+
+	/** Get Test Import Model	  */
+	public String getTestImportModel();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
@@ -222,4 +159,30 @@ public interface I_EXP_FormatLine
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
+
+    /** Column name Version */
+    public static final String COLUMNNAME_Version = "Version";
+
+	/** Set Version.
+	  * Version of the table definition
+	  */
+	public void setVersion (String Version);
+
+	/** Get Version.
+	  * Version of the table definition
+	  */
+	public String getVersion();
+
+    /** Column name WhereClause */
+    public static final String COLUMNNAME_WhereClause = "WhereClause";
+
+	/** Set Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause);
+
+	/** Get Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause();
 }

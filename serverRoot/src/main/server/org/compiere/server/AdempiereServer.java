@@ -26,6 +26,7 @@ import org.compiere.model.AdempiereProcessorLog;
 import org.compiere.model.MAcctProcessor;
 import org.compiere.model.MAlertProcessor;
 import org.compiere.model.MClient;
+import org.compiere.model.MIMPProcessor;
 import org.compiere.model.MLdapProcessor;
 import org.compiere.model.MRequestProcessor;
 import org.compiere.model.MScheduler;
@@ -63,6 +64,8 @@ public abstract class AdempiereServer extends Thread
 			return new Scheduler ((MScheduler)model);
 		if (model instanceof MLdapProcessor)
 			return new LdapProcessor((MLdapProcessor)model);
+		if (model instanceof MIMPProcessor) // @Trifon
+			return new ReplicationProcessor((MIMPProcessor)model);
 		//
 		throw new IllegalArgumentException("Unknown Processor");
 	}	//	 create

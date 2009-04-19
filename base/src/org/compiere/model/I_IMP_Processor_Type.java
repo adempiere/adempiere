@@ -17,23 +17,23 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for EXP_Processor
+/** Generated Interface for IMP_Processor_Type
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_EXP_Processor 
+public interface I_IMP_Processor_Type 
 {
 
-    /** TableName=EXP_Processor */
-    public static final String Table_Name = "EXP_Processor";
+    /** TableName=IMP_Processor_Type */
+    public static final String Table_Name = "IMP_Processor_Type";
 
-    /** AD_Table_ID=53074 */
+    /** AD_Table_ID=53080 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -57,15 +57,6 @@ public interface I_EXP_Processor
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Account */
-    public static final String COLUMNNAME_Account = "Account";
-
-	/** Set Account	  */
-	public void setAccount (String Account);
-
-	/** Get Account	  */
-	public String getAccount();
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -78,26 +69,6 @@ public interface I_EXP_Processor
 	  * Optional short description of the record
 	  */
 	public String getDescription();
-
-    /** Column name EXP_Processor_ID */
-    public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
-
-	/** Set Export Processor	  */
-	public void setEXP_Processor_ID (int EXP_Processor_ID);
-
-	/** Get Export Processor	  */
-	public int getEXP_Processor_ID();
-
-    /** Column name EXP_Processor_Type_ID */
-    public static final String COLUMNNAME_EXP_Processor_Type_ID = "EXP_Processor_Type_ID";
-
-	/** Set Export Processor Type	  */
-	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID);
-
-	/** Get Export Processor Type	  */
-	public int getEXP_Processor_Type_ID();
-
-	public org.eevolution.model.I_EXP_Processor_Type getEXP_Processor_Type() throws RuntimeException;
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -112,14 +83,23 @@ public interface I_EXP_Processor
 	  */
 	public String getHelp();
 
-    /** Column name Host */
-    public static final String COLUMNNAME_Host = "Host";
+    /** Column name IMP_Processor_Type_ID */
+    public static final String COLUMNNAME_IMP_Processor_Type_ID = "IMP_Processor_Type_ID";
 
-	/** Set Host	  */
-	public void setHost (String Host);
+	/** Set Import Processor Type	  */
+	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID);
 
-	/** Get Host	  */
-	public String getHost();
+	/** Get Import Processor Type	  */
+	public int getIMP_Processor_Type_ID();
+
+    /** Column name JavaClass */
+    public static final String COLUMNNAME_JavaClass = "JavaClass";
+
+	/** Set Java Class	  */
+	public void setJavaClass (String JavaClass);
+
+	/** Get Java Class	  */
+	public String getJavaClass();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -133,24 +113,6 @@ public interface I_EXP_Processor
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name PasswordInfo */
-    public static final String COLUMNNAME_PasswordInfo = "PasswordInfo";
-
-	/** Set Password Info	  */
-	public void setPasswordInfo (String PasswordInfo);
-
-	/** Get Password Info	  */
-	public String getPasswordInfo();
-
-    /** Column name Port */
-    public static final String COLUMNNAME_Port = "Port";
-
-	/** Set Port	  */
-	public void setPort (int Port);
-
-	/** Get Port	  */
-	public int getPort();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

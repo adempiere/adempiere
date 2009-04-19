@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Replication (Properties ctx, int AD_Replication_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
       super (ctx, AD_Replication_ID, trxName);
       /** if (AD_Replication_ID == 0)
         {
-			setAD_Replication_ID (0);
 			setAD_ReplicationStrategy_ID (0);
+			setAD_Replication_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
 // 80
@@ -84,28 +84,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
       return sb.toString();
     }
 
-	/** Set Replication.
-		@param AD_Replication_ID 
-		Data Replication Target
-	  */
-	public void setAD_Replication_ID (int AD_Replication_ID)
-	{
-		if (AD_Replication_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
-	}
-
-	/** Get Replication.
-		@return Data Replication Target
-	  */
-	public int getAD_Replication_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Replication_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_ReplicationStrategy.Table_Name);
@@ -139,6 +117,28 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	public int getAD_ReplicationStrategy_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationStrategy_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Replication.
+		@param AD_Replication_ID 
+		Data Replication Target
+	  */
+	public void setAD_Replication_ID (int AD_Replication_ID)
+	{
+		if (AD_Replication_ID < 1)
+			 throw new IllegalArgumentException ("AD_Replication_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
+	}
+
+	/** Get Replication.
+		@return Data Replication Target
+	  */
+	public int getAD_Replication_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Replication_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
