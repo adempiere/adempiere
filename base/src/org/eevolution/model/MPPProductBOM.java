@@ -163,7 +163,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	public MPPProductBOMLine[] getLines (Timestamp valid)
 	{
 		List<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine>(); // Selected BOM Lines Only
-		for (MPPProductBOMLine bl : getLines(false))
+		for (MPPProductBOMLine bl : getLines(true))
 		{
 			if (bl.isValidFromTo(valid))
 			{
