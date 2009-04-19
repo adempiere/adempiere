@@ -163,7 +163,7 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	public MPPProductBOMLine[] getLines (Timestamp valid)
 	{
 		List<MPPProductBOMLine> list = new ArrayList<MPPProductBOMLine>(); // Selected BOM Lines Only
-		for (MPPProductBOMLine bl : getLines())
+		for (MPPProductBOMLine bl : getLines(false))
 		{
 			if (bl.isValidFromTo(valid))
 			{
@@ -175,12 +175,21 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	}	//	getLines
 
 	/**
-	 * 	Get BOM Lines for Product BOM
+	 * 	Get BOM Lines for Product BOM from cache
 	 * 	@return BOM Lines
 	 */
 	public  MPPProductBOMLine[] getLines()
 	{
-		if (this.m_lines == null)
+		return getLines(false);
+	}
+	
+	/**
+	 * 	Get BOM Lines for Product BOM
+	 * 	@return BOM Lines
+	 */
+	public  MPPProductBOMLine[] getLines(boolean reload)
+	{
+		if (this.m_lines == null || reload)
 		{
 			final String whereClause = MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?";
 			this.m_lines = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause, get_TrxName())
