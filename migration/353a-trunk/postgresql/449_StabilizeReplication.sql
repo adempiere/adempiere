@@ -42,6 +42,11 @@ commit;
 UPDATE AD_EntityType SET ModelPackage='org.compiere.model',Updated=TO_TIMESTAMP('2009-04-18 23:38:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_EntityType_ID=50003
 ;
 
+-- Apr 18, 2009 11:43:34 PM EEST
+-- Replication stabilization
+INSERT INTO AD_Column (AD_Column_ID,AD_Table_ID,EntityType,Version,IsMandatory,IsTranslated,IsIdentifier,SeqNo,CreatedBy,Updated,Help,IsParent,AD_Client_ID,AD_Org_ID,Description,Name,IsActive,FieldLength,IsSelectionColumn,AD_Reference_ID,Created,IsUpdateable,IsKey,AD_Element_ID,UpdatedBy,IsEncrypted,IsAlwaysUpdateable,ColumnName) VALUES (57227,155,'A',0,'N','N','N',10,0,TO_DATE('2009-04-18 23:43:26','YYYY-MM-DD HH24:MI:SS'),'The Data Replication Strategy determines what and how tables are replicated ','N',0,0,'Data Replication Strategy','Replication Strategy','Y',10,'N',10,TO_DATE('2009-04-18 23:43:26','YYYY-MM-DD HH24:MI:SS'),'Y','N',2133,0,'N','N','AD_ReplicationStrategy_ID')
+;
+
 -- Apr 18, 2009 11:43:35 PM EEST
 -- Replication stabilization
 INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Column_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Column t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Column_ID=57227 AND EXISTS (SELECT * FROM AD_Column_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Column_ID!=t.AD_Column_ID)
@@ -89,6 +94,11 @@ If you leave the search key empty, the system automatically creates a numeric nu
 -- Apr 19, 2009 1:08:19 AM EEST
 -- Replication stabilization
 INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Name,Help, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Field_ID, t.Description,t.Name,t.Help, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Field t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Field_ID=56982 AND EXISTS (SELECT * FROM AD_Field_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Field_ID!=t.AD_Field_ID)
+;
+
+-- Apr 19, 2009 1:08:19 AM EEST
+-- Replication stabilization
+UPDATE AD_Field SET DisplayLength=20, Name='Search Key', IsDisplayed='Y', SeqNo=35, IsReadOnly='N', EntityType='EE05',Updated=TO_DATE('2009-04-19 01:08:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Field_ID=56982
 ;
 
 -- Apr 19, 2009 1:08:20 AM EEST
