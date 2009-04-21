@@ -491,10 +491,9 @@ public class ModelADServiceImpl implements ModelADService {
     			res.setError(e.getMessage());
     			res.setErrorInfo(sql);
     			res.setSuccess(false);
-				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
-    		} finally {
     			DB.close(rs, pstmt);
     			rs = null; pstmt = null;
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
     		}
 
     	} else if (X_AD_Reference.VALIDATIONTYPE_TableValidation.equals(ref.getValidationType())) {
@@ -581,10 +580,9 @@ public class ModelADServiceImpl implements ModelADService {
     			res.setError(e.getMessage());
     			res.setErrorInfo(sql);
     			res.setSuccess(false);
-				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
-    		} finally {
     			DB.close(rs, pstmt);
     			rs = null; pstmt = null;
+				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " sql=" + sql, e.getCause(), new QName("getList"));
     		}
     		
     	} else {
@@ -595,6 +593,7 @@ public class ModelADServiceImpl implements ModelADService {
     		try
     		{
     			while (rs.next()) {
+    				cnt++;
     				// Add values to the dataset
     				DataRow dr = ds.addNewDataRow();
     				for (String listColumnName : listColumnNames) {
@@ -602,7 +601,6 @@ public class ModelADServiceImpl implements ModelADService {
         					DataField dfid = dr.addNewField();
         					dfid.setColumn(listColumnName);
         					dfid.setVal(rs.getString(listColumnName));
-            				cnt++;
     					}
     				}
     			}
