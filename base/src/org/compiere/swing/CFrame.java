@@ -105,7 +105,7 @@ public class CFrame extends JFrame
 		if (title != null)
 		{
 			int pos = title.indexOf('&');
-			if (pos != -1 && title.length() > pos)	//	We have a nemonic
+			if (pos != -1 && title.length() > pos)	//	We have a mnemonic
 			{
 				int mnemonic = title.toUpperCase().charAt(pos+1);
 				if (mnemonic != ' ')
