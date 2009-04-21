@@ -118,7 +118,7 @@ public final class AMenu extends CFrame
 			System.exit(1);		
 		MSession.get (Env.getCtx(), true);		//	Start Session
 
-		// Setting close operation/listner - teo_sarca [ 1684168 ]
+		// Setting close operation/listener - teo_sarca [ 1684168 ]
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowListener() {
 			public void windowClosing(WindowEvent e) {
