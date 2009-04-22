@@ -50,7 +50,7 @@ public class OSTask extends Thread
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(OSTask.class);
-	
+
 	/** Read Out                            */
 	private Thread          m_outReader = new Thread()
 	{
@@ -116,9 +116,9 @@ public class OSTask extends Thread
 				return;
 			m_outReader.start();
 			m_errReader.start();
-			
+
 			Integer exitValue = null;
-			while(exitValue == null) 
+			while(exitValue == null)
 			{
 				//
 				try
@@ -140,6 +140,7 @@ public class OSTask extends Thread
 		catch (IOException ioe)
 		{
 			log.log(Level.SEVERE, "(ioe)", ioe);
+			m_err.append(ioe.getLocalizedMessage());
 		}
 	}   //  run
 
@@ -204,5 +205,5 @@ public class OSTask extends Thread
 	{
 		return m_inStream;
 	}   //  getInStream
-	
+
 }   //  Task

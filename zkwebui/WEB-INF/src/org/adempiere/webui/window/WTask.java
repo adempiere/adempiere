@@ -43,13 +43,13 @@ import org.zkoss.zul.Html;
  *
  *  @author     Jorg Janke
  *  @version    $Id: ATask.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
- *  
+ *
  *  @author Low Heng Sin
  */
 public class WTask extends Window implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1235619876719378703L;
 
@@ -67,7 +67,7 @@ public class WTask extends Window implements EventListener
 
 	private Thread taskThread;
 
-	
+
 	/**************************************************************************
 	 *  Full Constructor
 	 *  @param title title
@@ -80,18 +80,18 @@ public class WTask extends Window implements EventListener
 		try
 		{
 			zkInit();
-			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);			
-			
+			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+
 			//
 			m_task = task;
 			if (task.isServerProcess())
 				info.setContent("Executing on Server ...");
 			else
 				info.setContent("Executing locally ...");
-			
+
 			SessionManager.getAppDesktop().showWindow(this);
-			
-			Events.echoEvent("executeTask", this, null);				
+
+			Events.echoEvent("executeTask", this, null);
 		}
 		catch(Exception e)
 		{
@@ -108,20 +108,20 @@ public class WTask extends Window implements EventListener
 				String cmd = Msg.parseTranslation(Env.getCtx(), m_task.getOS_Command()).trim();
 				if (cmd == null || cmd.equals(""))
 					info.setContent("Cannot execute '" + m_task.getOS_Command() + "'");
-				OSTask osTask = new OSTask(cmd);				
+				OSTask osTask = new OSTask(cmd);
 				osTask.start();
-				
-				while (true) {					
+
+				while (true) {
 					try {
 						Thread.sleep(500);
 						Executions.activate(desktop);
-						try {                    
+						try {
 							StringBuffer sb = new StringBuffer();
 							sb.append(osTask.getOut())
 							.append("<br>-----------<br>")
 							.append(osTask.getErr())
 							.append("<br>-----------");
-							
+
 							info.setContent(sb.toString().replace("\n", "<br>"));
 							if (!osTask.isAlive())
 							{
@@ -134,14 +134,16 @@ public class WTask extends Window implements EventListener
 							Executions.deactivate(desktop);
 						}
 					} catch (DesktopUnavailableException e) {
-						log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-					} catch (InterruptedException e) {
-						log.log(Level.WARNING, e.getLocalizedMessage(), e);
+						log.log(Level.FINE, e.getLocalizedMessage(), e);
 						osTask.interrupt();
 						break;
-					}												
+					} catch (InterruptedException e) {
+						log.log(Level.FINE, e.getLocalizedMessage(), e);
+						osTask.interrupt();
+						break;
+					}
 				}
-			}			
+			}
 		};
 		taskThread = new Thread(runnable);
 		taskThread.start();
@@ -173,15 +175,15 @@ public class WTask extends Window implements EventListener
 		div.appendChild(info);
 		center.appendChild(div);
 		center.setFlex(true);
-		
+
 		South south = new South();
 		layout.appendChild(south);
 		south.setStyle("border: none");
 		south.appendChild(confirmPanel);
 		//
 		confirmPanel.addActionListener(this);
-		confirmPanel.getOKButton().setEnabled(false);		
-		
+		confirmPanel.getOKButton().setEnabled(false);
+
 		LayoutUtils.sendDeferLayoutEvent(layout, 100);
 	}   //  jbInit
 
@@ -194,7 +196,7 @@ public class WTask extends Window implements EventListener
 	{
 		if (taskThread != null && taskThread.isAlive())
 			taskThread.interrupt();
-		
+
 		SessionManager.getAppDesktop().closeActiveWindow();
 	}   //  actionPerformed
 
