@@ -211,10 +211,16 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	width: 99%;
 }
 
+<%-- Combobox --%>
 .z-combobox-disd {
-	color: black !important;
+	color: black !important; cursor: default !important; opacity: 1; -moz-opacity: 1; -khtml-opacity: 1; filter: alpha(opacity=100);
 }
 
 .z-combobox-disd * {
-	color: black !important;
+	color: black !important; cursor: default !important;
+}
+
+<%-- Button --%>
+.z-button-disd {
+	color: black; cursor: default; opacity: .6; -moz-opacity: .6; -khtml-opacity: .6; filter: alpha(opacity=60);
 }
