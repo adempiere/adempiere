@@ -53,7 +53,7 @@ set JAVAC_JAR=%JAVA_HOME%\lib\tools.jar
 
 :SKIP_TOOLS
 
-rem If JBOSS_CLASSPATH or JAVAC_JAR is empty, don't include it, as this will 
+rem If JBOSS_CLASSPATH or JAVAC_JAR is empty, don't include it, as this will
 rem result in including the local directory in the classpath, which makes
 rem error tracking harder.
 if not "%JAVAC_JAR%" == "" set RUNJAR=%JAVAC_JAR%;%RUNJAR%
@@ -70,7 +70,7 @@ rem Add -server to the JVM options, if supported
 if not errorlevel == 1 (set JAVA_OPTS=%JAVA_OPTS% -server)
 
 rem JVM memory allocation pool parameters. Modify as appropriate.
-set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m
+set JAVA_OPTS=%JAVA_OPTS% -Xms128m -Xmx512m -XX:MaxPermGen=128m
 
 rem With Sun JVMs reduce the RMI GCs to once per hour
 set JAVA_OPTS=%JAVA_OPTS% -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000
