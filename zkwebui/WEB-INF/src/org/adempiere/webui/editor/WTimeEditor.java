@@ -25,32 +25,32 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Timebox;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  */
 public class WTimeEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     private static final CLogger logger;
-    
+
     static
     {
         logger = CLogger.getCLogger(WDateEditor.class);
     }
-    
+
     private Timestamp oldValue = new Timestamp(0);
-    
+
     /**
-     * 
+     *
      * @param gridField
      */
     public WTimeEditor(GridField gridField)
     {
         super(new Timebox(), gridField);
     }
-    
+
     /**
-	 * 
+	 *
 	 * @param columnName
 	 * @param mandatory
 	 * @param readonly
@@ -62,10 +62,10 @@ public class WTimeEditor extends WEditor
 	{
 		super(new Timebox(), columnName, title, null, mandatory, readonly, updateable);
 	}
-	
+
 	/**
 	 * Constructor for use if a grid field is unavailable
-	 * 
+	 *
 	 * @param label
 	 *            column name (not displayed)
 	 * @param description
@@ -82,24 +82,24 @@ public class WTimeEditor extends WEditor
 		super(new Timebox(), label, description, mandatory, readonly, updateable);
 		setColumnName("Time");
 	}
-	
+
 	public WTimeEditor()
 	{
 		this("Time", "Time", false, false, true);
 	}   // VDate
-    
+
 	public void onEvent(Event event)
     {
 		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
 		{
 	        Date date = getComponent().getValue();
 	        Timestamp newValue = null;
-	        
+
 	        if (date != null)
 	        {
 	            newValue = new Timestamp(date.getTime());
-	        }        
-	        
+	        }
+
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
@@ -152,7 +152,7 @@ public class WTimeEditor extends WEditor
             logger.log(Level.SEVERE, "New field value is not of type timestamp");
         }
     }
-    
+
 	@Override
 	public Timebox getComponent() {
 		return (Timebox) component;
@@ -174,4 +174,7 @@ public class WTimeEditor extends WEditor
         return LISTENER_EVENTS;
     }
 
+	public void fillHorizontal() {
+		//do nothing, can't stretch a timebox
+	}
 }
