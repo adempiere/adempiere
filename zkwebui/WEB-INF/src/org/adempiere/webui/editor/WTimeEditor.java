@@ -169,11 +169,13 @@ public class WTimeEditor extends WEditor
 		getComponent().setReadonly(!readWrite);
 	}
 
+	@Override
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
 
+	@Override
 	public void fillHorizontal() {
 		//do nothing, can't stretch a timebox
 	}
