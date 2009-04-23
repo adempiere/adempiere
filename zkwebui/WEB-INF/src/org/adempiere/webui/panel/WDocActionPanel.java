@@ -48,54 +48,54 @@ import org.zkoss.zul.Space;
 public class WDocActionPanel extends Window implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private Label lblDocAction;
 	private Label label;
 	private Listbox lstDocAction;
-	
+
 	private static GridTab gridTab;
 	private static String[]		s_value = null;
 	private static String[]		s_name;
 	private static String[]		s_description;
-	private String DocStatus; 
+	private String DocStatus;
 	private String DocAction;
 	private int m_AD_Table_ID;
 	private boolean m_OKpressed;
     private ConfirmPanel confirmPanel;
-	
+
 	private static final CLogger logger;
-	 
+
     static
     {
         logger = CLogger.getCLogger(WDocActionPanel.class);
     }
-	
+
 	public WDocActionPanel(GridTab mgridTab)
 	{
 		gridTab = mgridTab;
 		DocStatus = (String)gridTab.getValue("DocStatus");
 		DocAction = (String)gridTab.getValue("DocAction");
-		
+
 		m_AD_Table_ID = Env.getContextAsInt(Env.getCtx(), gridTab.getWindowNo(), "BaseTable_ID");
-		
+
 		readReference();
 		initComponents();
 		dynInit();
-		
+
 		init();
 		this.setAttribute("mode","modal");
-		
-		
+
+
 	}
-	
+
 	/**
 	 *	Dynamic Init - determine valid DocActions based on DocStatus for the different documents.
 	 */
 	private void dynInit()
 	{
-		
+
 		//
 		Object Processing = gridTab.getValue("Processing");
 		String OrderType = Env.getContext(Env.getCtx(), gridTab.getWindowNo(), "OrderType");
@@ -106,17 +106,17 @@ public class WDocActionPanel extends Window implements EventListener
 			//message.setText("*** ERROR ***");
 			return;
 		}
-		
-		logger.fine("DocStatus=" + DocStatus 
-			+ ", DocAction=" + DocAction + ", OrderType=" + OrderType 
-			+ ", IsSOTrx=" + IsSOTrx + ", Processing=" + Processing 
+
+		logger.fine("DocStatus=" + DocStatus
+			+ ", DocAction=" + DocAction + ", OrderType=" + OrderType
+			+ ", IsSOTrx=" + IsSOTrx + ", Processing=" + Processing
 			+ ", AD_Table_ID=" +gridTab.getAD_Table_ID() + ", Record_ID=" + gridTab.getRecord_ID());
         int index = 0;
         if(lstDocAction.getSelectedItem() != null)
         {
             String selected = (lstDocAction.getSelectedItem().getValue()).toString();
-        
-            for(int i = 0; i < s_value.length && index == 0; i++)       
+
+            for(int i = 0; i < s_value.length && index == 0; i++)
             {
                 if(s_value[i].equals(selected))
                 {
@@ -124,18 +124,18 @@ public class WDocActionPanel extends Window implements EventListener
                 }
             }
         }
-        
+
 		String[] options = new String[s_value.length];
 		/**
 		 * 	Check Existence of Workflow Acrivities
 		 */
-		String wfStatus = MWFActivity.getActiveInfo(Env.getCtx(), m_AD_Table_ID, gridTab.getRecord_ID()); 
+		String wfStatus = MWFActivity.getActiveInfo(Env.getCtx(), m_AD_Table_ID, gridTab.getRecord_ID());
 		if (wfStatus != null)
 		{
 			FDialog.error(gridTab.getWindowNo(), this, "WFActiveForRecord", wfStatus);
 			return;
 		}
-		
+
 		//	Status Change
 		if (!checkStatus(gridTab.getTableName(), gridTab.getRecord_ID(), DocStatus))
 		{
@@ -147,19 +147,31 @@ public class WDocActionPanel extends Window implements EventListener
 		 */
 
 		String[] docActionHolder = new String[]{DocAction};
-		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx, 
+		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx,
 				m_AD_Table_ID, docActionHolder, options);
+
+		Integer doctypeId = (Integer)gridTab.getValue("C_DocType_ID");
+		if(doctypeId==null || doctypeId.intValue()==0){
+			doctypeId = (Integer)gridTab.getValue("C_DocTypeTarget_ID");
+		}
+		logger.fine("get doctype: " + doctypeId);
+		if (doctypeId != null) {
+			index = DocumentEngine.checkActionAccess(Env.getAD_Client_ID(Env.getCtx()),
+					Env.getAD_Role_ID(Env.getCtx()),
+					doctypeId, options, index);
+		}
+
 		DocAction = docActionHolder[0];
-		
+
 		/**
 		 *	Fill actionCombo
 		 */
-		
+
 		for (int i = 0; i < index; i++)
 		{
 			//	Serach for option and add it
 			boolean added = false;
-		
+
 			for (int j = 0; j < s_value.length && !added; j++)
 			{
 				if (options[i].equals(s_value[j]))
@@ -173,7 +185,7 @@ public class WDocActionPanel extends Window implements EventListener
 		for(Listitem item: lst)
 		{
 			String value = item.getValue().toString();
-			
+
 			if(DocAction.equals(value))
 			{
 				lstDocAction.setSelectedItem(item);
@@ -184,55 +196,55 @@ public class WDocActionPanel extends Window implements EventListener
 		if (DocAction.equals("--"))		//	If None, suggest closing
 			DocAction = DocumentEngine.ACTION_Close;
 	}
-	
+
 	private boolean checkStatus (String TableName, int Record_ID, String DocStatus)
 	{
-		String sql = "SELECT 2 FROM " + TableName 
+		String sql = "SELECT 2 FROM " + TableName
 			+ " WHERE " + TableName + "_ID=" + Record_ID
 			+ " AND DocStatus='" + DocStatus + "'";
 		int result = DB.getSQLValue(null, sql);
 		return result == 2;
 	}
-	
+
 	private void initComponents()
 	{
 		lblDocAction = new Label();
 		lblDocAction.setId("lblDocAction");
 		lblDocAction.setValue(Msg.translate(Env.getCtx(), "DocAction"));
-				
+
 		label = new Label();
 		label.setId("label");
-				
+
 		lstDocAction  = new Listbox();
 		lstDocAction.setId("lstDocAction");
 		lstDocAction.setRows(0);
 		lstDocAction.setMold("select");
 		lstDocAction.setWidth("100px");
 		lstDocAction.addEventListener(Events.ON_SELECT, this);
-		
+
         confirmPanel = new ConfirmPanel(true);
         confirmPanel.addActionListener(Events.ON_CLICK, this);
-		
+
 	}
-	
+
 	private void init()
 	{
-			
+
 		Grid grid = GridFactory.newGridLayout();
         grid.setId("grd");
         grid.setWidth("400px");
-		
+
         Rows rows = new Rows();
-       
+
 		Row rowDocAction = new Row();
-		Row rowLabel = new Row();	
+		Row rowLabel = new Row();
         Row rowConfirm = new Row();
         Row rowSpacer = new Row();
-        
+
 		Panel pnlDocAction = new Panel();
 		pnlDocAction.appendChild(lblDocAction);
 		pnlDocAction.appendChild(lstDocAction);
-		
+
 		rowDocAction.appendChild(pnlDocAction);
 		rowDocAction.setAlign("right");
 		rowLabel.appendChild(label);
@@ -242,15 +254,15 @@ public class WDocActionPanel extends Window implements EventListener
 	    rows.appendChild(rowLabel);
 	    rows.appendChild(rowSpacer);
 	    rows.appendChild(rowConfirm);
-	    
+
 	    grid.appendChild(rows);
 	    this.setTitle(Msg.translate(Env.getCtx(), "DocAction"));
 	    this.setWidth("410px");
 	    this.setBorder("normal");
 	    this.appendChild(grid);
-	    
+
 	}
-	
+
 	/**
 	 *	Should the process be started?
 	 *  @return OK pressed
@@ -262,7 +274,7 @@ public class WDocActionPanel extends Window implements EventListener
 
 	public void onEvent(Event event)
 	{
-			
+
 		if (Events.ON_CLICK.equals(event.getName()))
 		{
 			if (confirmPanel.getButton("Ok").equals(event.getTarget()))
@@ -275,18 +287,18 @@ public class WDocActionPanel extends Window implements EventListener
 			{
 				m_OKpressed = false;
 				this.detach();
-			}			
+			}
 		}
 		else if (Events.ON_SELECT.equals(event.getName()))
 		{
-				
+
 			if (lstDocAction.equals(event.getTarget()))
 			{
 				label.setValue(s_description[getSelectedIndex()]);
 			}
 		}
 	}
-		
+
 	private void setValue()
 	{
 		int index = getSelectedIndex();
@@ -300,14 +312,14 @@ public class WDocActionPanel extends Window implements EventListener
 	        ArrayList<String> v_value = new ArrayList<String>();
     		ArrayList<String> v_name = new ArrayList<String>();
     		ArrayList<String> v_description = new ArrayList<String>();
-    	
+
     		DocumentEngine.readReferenceList(v_value, v_name, v_description);
-	        
+
 	    	int size = v_value.size();
 			s_value = new String[size];
 			s_name = new String[size];
 			s_description = new String[size];
-			
+
 			for (int i = 0; i < size; i++)
 			{
 				s_value[i] = (String)v_value.get(i);
@@ -315,15 +327,15 @@ public class WDocActionPanel extends Window implements EventListener
 				s_description[i] = (String)v_description.get(i);
 			}
 	 }   //  readReference
-     
+
 	 public int getSelectedIndex()
 	 {
 		int index = 0;
 		if(lstDocAction.getSelectedItem() != null)
 		{
 			String selected = (lstDocAction.getSelectedItem().getValue()).toString();
-		
-			for(int i = 0; i < s_value.length && index == 0; i++)		
+
+			for(int i = 0; i < s_value.length && index == 0; i++)
 			{
 				if(s_value[i].equals(selected))
 				{
@@ -338,5 +350,5 @@ public class WDocActionPanel extends Window implements EventListener
 	public int getNumberOfOptions() {
 		return lstDocAction != null ? lstDocAction.getItemCount() : 0;
 	}
-	
+
 }
