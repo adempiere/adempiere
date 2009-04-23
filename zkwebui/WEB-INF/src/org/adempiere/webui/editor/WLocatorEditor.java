@@ -26,12 +26,16 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.EditorBox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WLocatorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -48,13 +52,15 @@ import org.zkoss.zk.ui.event.Events;
  * @date    Jul 23, 2007
  */
 
-public class WLocatorEditor extends WEditor implements EventListener, PropertyChangeListener
+public class WLocatorEditor extends WEditor implements EventListener, PropertyChangeListener, ContextMenuListener, IZoomableEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
 	private MLocatorLookup m_mLocator;
 	private Object m_value;
 	private int m_WindowNo;
+	
+	private WEditorPopupMenu popupMenu;
 	
 	private static CLogger log = CLogger.getCLogger(WLocatorEditor.class);
 	/**
@@ -102,7 +108,13 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 		
-		m_WindowNo = gridField.getWindowNo();		
+		m_WindowNo = gridField.getWindowNo();
+		
+		if (gridField != null) 
+        {
+        	popupMenu = new WEditorPopupMenu(true, true, false);
+        	getComponent().setContext(popupMenu.getId());
+        }
 	}
 
 	public void setValue(Object value)
@@ -229,6 +241,53 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 			if (!ld.isChanged())
 				return;
 			setValue (ld.getValue(), true);
+		}
+	}
+	
+	public WEditorPopupMenu getPopupMenu()
+    {
+    	return popupMenu;
+    }
+	
+	public void actionRefresh()
+    {    	
+		if (m_mLocator != null)
+        {
+			Object curValue = getValue();
+			
+			if (isReadWrite())
+				m_mLocator.refresh();
+            if (curValue != null)
+            {
+            	setValue(curValue);
+            }
+        }
+    }
+	
+	public void actionZoom()
+	{
+		int AD_Window_ID = MTable.get(Env.getCtx(), MLocator.Table_ID).getAD_Window_ID();
+		if (AD_Window_ID <= 0)
+			AD_Window_ID = 139;	//	hardcoded window Warehouse & Locators
+		log.info("");
+		//
+		
+		MQuery zoomQuery = new MQuery();
+		zoomQuery.addRestriction(MLocator.COLUMNNAME_M_Locator_ID, MQuery.EQUAL, getValue());
+		zoomQuery.setRecordCount(1);	//	guess
+		
+    	AEnv.zoom(AD_Window_ID, zoomQuery);
+	}
+	
+	public void onMenu(ContextMenuEvent evt) 
+	{
+		if (WEditorPopupMenu.REQUERY_EVENT.equals(evt.getContextEvent()))
+		{
+			actionRefresh();
+		}
+		else if (WEditorPopupMenu.ZOOM_EVENT.equals(evt.getContextEvent()))
+		{
+			actionZoom();
 		}
 	}
 	
