@@ -264,27 +264,27 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Agramdass");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
-		link = new ToolBarButton();
-		link.setLabel("Carlos Ruiz");
-		link.setHref("http://www.adempiere.com/wiki/index.php/User:CarlosRuiz");
-		link.setTarget("_blank");
-		link.setParent(content);				
-		
+
 		link = new ToolBarButton();
 		link.setLabel("Low Heng Sin");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Hengsin");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
+
+		link = new ToolBarButton();
+		link.setLabel("Carlos Ruiz");
+		link.setHref("http://www.adempiere.com/wiki/index.php/User:CarlosRuiz");
+		link.setTarget("_blank");
+		link.setParent(content);				
+
 		link = new ToolBarButton();
 		link.setLabel("Teo Sarca");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Teo_sarca");
 		link.setTarget("_blank");
 		link.setParent(content);
-				
+
 		link = new ToolBarButton();
-		link.setLabel("Trifonnt");
+		link.setLabel("Trifon Trifonov");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Trifonnt");
 		link.setTarget("_blank");
 		link.setParent(content);
