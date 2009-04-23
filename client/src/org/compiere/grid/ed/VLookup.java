@@ -1293,6 +1293,7 @@ public class VLookup extends JComponent
 		Object value = getValue();
 		if (value == null)
 			value = selectedItem;
+		int AD_Window_ID = 0;
 		//	If not already exist or exact value
 		if (zoomQuery == null || value != null)
 		{
@@ -1304,7 +1305,7 @@ public class VLookup extends JComponent
 				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
 				if (AD_Reference_ID != 0)
 				{
-					String query = "SELECT kc.ColumnName"
+					String query = "SELECT kc.ColumnName, rt.AD_Window_ID"
 						+ " FROM AD_Ref_Table rt"
 						+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
 						+ "WHERE rt.AD_Reference_ID=?";
@@ -1319,6 +1320,7 @@ public class VLookup extends JComponent
 						if (rs.next())
 						{
 							keyColumnName = rs.getString(1);
+							AD_Window_ID = rs.getInt(2);
 						}
 					}
 					catch (Exception e)
@@ -1340,7 +1342,8 @@ public class VLookup extends JComponent
 
 			zoomQuery.setRecordCount(1);	//	guess
 		}
-		int AD_Window_ID = m_lookup.getZoom(zoomQuery);
+		if ( AD_Window_ID == 0 )
+			AD_Window_ID = m_lookup.getZoom(zoomQuery);
 		//
 		log.info(m_columnName + " - AD_Window_ID=" + AD_Window_ID 
 			+ " - Query=" + zoomQuery + " - Value=" + value);
