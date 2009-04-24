@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -33,7 +33,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_A_Asset_Split (Properties ctx, int A_Asset_Split_ID, String trxName)
@@ -312,7 +312,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public void setA_Split_Type (String A_Split_Type)
 	{
 		if (A_Split_Type == null) throw new IllegalArgumentException ("A_Split_Type is mandatory");
-		if (A_Split_Type.equals("AMT") || A_Split_Type.equals("PER") || A_Split_Type.equals("QTY")); else throw new IllegalArgumentException ("A_Split_Type Invalid value - " + A_Split_Type + " - Reference_ID=53263 - AMT - PER - QTY");		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
+		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
 	}
 
 	/** Get Split Type.
@@ -403,7 +403,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
+		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

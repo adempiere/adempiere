@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Client (Properties ctx, int AD_Client_ID, String trxName)
@@ -99,6 +99,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -166,7 +167,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	public void setAutoArchive (String AutoArchive)
 	{
 		if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is mandatory");
-		if (AutoArchive.equals("N") || AutoArchive.equals("1") || AutoArchive.equals("2") || AutoArchive.equals("3")); else throw new IllegalArgumentException ("AutoArchive Invalid value - " + AutoArchive + " - Reference_ID=334 - N - 1 - 2 - 3");		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
+		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
 	}
 
 	/** Get Auto Archive.
@@ -406,7 +407,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	public void setMMPolicy (String MMPolicy)
 	{
 		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
-		if (MMPolicy.equals("L") || MMPolicy.equals("F")); else throw new IllegalArgumentException ("MMPolicy Invalid value - " + MMPolicy + " - Reference_ID=335 - L - F");		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
+		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
 
 	/** Get Material Policy.

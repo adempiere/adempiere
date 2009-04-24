@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 
 /** Generated Model for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
@@ -32,7 +31,7 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_EXP_ProcessorParameter (Properties ctx, int EXP_ProcessorParameter_ID, String trxName)
@@ -40,8 +39,8 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
       super (ctx, EXP_ProcessorParameter_ID, trxName);
       /** if (EXP_ProcessorParameter_ID == 0)
         {
-			setEXP_ProcessorParameter_ID (0);
 			setEXP_Processor_ID (0);
+			setEXP_ProcessorParameter_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -92,25 +91,6 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Processor Parameter.
-		@param EXP_ProcessorParameter_ID Processor Parameter	  */
-	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
-	{
-		if (EXP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
-	}
-
-	/** Get Processor Parameter.
-		@return Processor Parameter	  */
-	public int getEXP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor.Table_Name);
@@ -141,6 +121,25 @@ public class X_EXP_ProcessorParameter extends PO implements I_EXP_ProcessorParam
 	public int getEXP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Processor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Processor Parameter.
+		@param EXP_ProcessorParameter_ID Processor Parameter	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID)
+	{
+		if (EXP_ProcessorParameter_ID < 1)
+			 throw new IllegalArgumentException ("EXP_ProcessorParameter_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_ProcessorParameter_ID, Integer.valueOf(EXP_ProcessorParameter_ID));
+	}
+
+	/** Get Processor Parameter.
+		@return Processor Parameter	  */
+	public int getEXP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

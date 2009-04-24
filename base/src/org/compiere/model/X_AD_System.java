@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -33,7 +33,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_System (Properties ctx, int AD_System_ID, String trxName)
@@ -591,7 +591,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public void setReplicationType (String ReplicationType)
 	{
 		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
-		if (ReplicationType.equals("L") || ReplicationType.equals("M") || ReplicationType.equals("R")); else throw new IllegalArgumentException ("ReplicationType Invalid value - " + ReplicationType + " - Reference_ID=126 - L - M - R");		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
+		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 
 	/** Get Replication Type.
@@ -705,7 +705,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public void setSystemStatus (String SystemStatus)
 	{
 		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
-		if (SystemStatus.equals("E") || SystemStatus.equals("I") || SystemStatus.equals("P")); else throw new IllegalArgumentException ("SystemStatus Invalid value - " + SystemStatus + " - Reference_ID=374 - E - I - P");		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
+		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 
 	/** Get System Status.

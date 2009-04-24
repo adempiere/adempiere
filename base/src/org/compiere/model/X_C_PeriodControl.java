@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -201,7 +201,6 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public static final String DOCBASETYPE_DistributionOrder = "DOO";
 	/** Manufacturing Cost Collector = MCC */
 	public static final String DOCBASETYPE_ManufacturingCostCollector = "MCC";
-	
 	/** Set Document BaseType.
 		@param DocBaseType 
 		Logical type of document
@@ -209,7 +208,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setDocBaseType (String DocBaseType)
 	{
 		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
-		if (DocBaseType.equals("GLJ") || DocBaseType.equals("GLD") || DocBaseType.equals("API") || DocBaseType.equals("APP") || DocBaseType.equals("ARI") || DocBaseType.equals("ARR") || DocBaseType.equals("SOO") || DocBaseType.equals("ARF") || DocBaseType.equals("MMS") || DocBaseType.equals("MMR") || DocBaseType.equals("MMM") || DocBaseType.equals("POO") || DocBaseType.equals("POR") || DocBaseType.equals("MMI") || DocBaseType.equals("APC") || DocBaseType.equals("ARC") || DocBaseType.equals("CMB") || DocBaseType.equals("CMC") || DocBaseType.equals("CMA") || DocBaseType.equals("MMP") || DocBaseType.equals("MXI") || DocBaseType.equals("MXP") || DocBaseType.equals("PJI") || DocBaseType.equals("MOF") || DocBaseType.equals("MOP") || DocBaseType.equals("MQO") || DocBaseType.equals("HRP") || DocBaseType.equals("DOO") || DocBaseType.equals("MCC")); else throw new IllegalArgumentException ("DocBaseType Invalid value - " + DocBaseType + " - Reference_ID=183 - GLJ - GLD - API - APP - ARI - ARR - SOO - ARF - MMS - MMR - MMM - POO - POR - MMI - APC - ARC - CMB - CMC - CMA - MMP - MXI - MXP - PJI - MOF - MOP - MQO - HRP - DOO - MCC");		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
+		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
 	/** Get Document BaseType.
@@ -237,7 +236,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setPeriodAction (String PeriodAction)
 	{
 		if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is mandatory");
-		if (PeriodAction.equals("O") || PeriodAction.equals("C") || PeriodAction.equals("P") || PeriodAction.equals("N")); else throw new IllegalArgumentException ("PeriodAction Invalid value - " + PeriodAction + " - Reference_ID=176 - O - C - P - N");		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
+		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
 	}
 
 	/** Get Period Action.
@@ -265,7 +264,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	public void setPeriodStatus (String PeriodStatus)
 	{
 
-		if (PeriodStatus == null || PeriodStatus.equals("O") || PeriodStatus.equals("C") || PeriodStatus.equals("P") || PeriodStatus.equals("N")); else throw new IllegalArgumentException ("PeriodStatus Invalid value - " + PeriodStatus + " - Reference_ID=177 - O - C - P - N");		set_ValueNoCheck (COLUMNNAME_PeriodStatus, PeriodStatus);
+		set_ValueNoCheck (COLUMNNAME_PeriodStatus, PeriodStatus);
 	}
 
 	/** Get Period Status.

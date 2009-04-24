@@ -75,45 +75,6 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
       return sb.toString();
     }
 
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_ReplicationTable.Table_Name);
-        I_AD_ReplicationTable result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_ReplicationTable)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReplicationTable_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Replication Table.
-		@param AD_ReplicationTable_ID 
-		Data Replication Strategy Table Info
-	  */
-	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
-	{
-		if (AD_ReplicationTable_ID < 1) 
-			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
-	}
-
-	/** Get Replication Table.
-		@return Data Replication Strategy Table Info
-	  */
-	public int getAD_ReplicationTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Replication Log.
 		@param AD_Replication_Log_ID 
 		Data Replication Log Details
@@ -181,6 +142,45 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
     }
+
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_ReplicationTable.Table_Name);
+        I_AD_ReplicationTable result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_ReplicationTable)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReplicationTable_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Replication Table.
+		@param AD_ReplicationTable_ID 
+		Data Replication Strategy Table Info
+	  */
+	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
+	{
+		if (AD_ReplicationTable_ID < 1) 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
+	}
+
+	/** Get Replication Table.
+		@return Data Replication Strategy Table Info
+	  */
+	public int getAD_ReplicationTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Replicated.
 		@param IsReplicated 

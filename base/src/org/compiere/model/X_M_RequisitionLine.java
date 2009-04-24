@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -45,8 +45,8 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM M_RequisitionLine WHERE M_Requisition_ID=@M_Requisition_ID@
 			setLineNetAmt (Env.ZERO);
-			setM_RequisitionLine_ID (0);
 			setM_Requisition_ID (0);
+			setM_RequisitionLine_ID (0);
 			setPriceActual (Env.ZERO);
 			setQty (Env.ZERO);
 // 1
@@ -327,28 +327,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Requisition Line.
-		@param M_RequisitionLine_ID 
-		Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
-	{
-		if (M_RequisitionLine_ID < 1)
-			 throw new IllegalArgumentException ("M_RequisitionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
-	}
-
-	/** Get Requisition Line.
-		@return Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Requisition getM_Requisition() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Requisition.Table_Name);
@@ -382,6 +360,28 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	public int getM_Requisition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Requisition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Requisition Line.
+		@param M_RequisitionLine_ID 
+		Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
+	{
+		if (M_RequisitionLine_ID < 1)
+			 throw new IllegalArgumentException ("M_RequisitionLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+	}
+
+	/** Get Requisition Line.
+		@return Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

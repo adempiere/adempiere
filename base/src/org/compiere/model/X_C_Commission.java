@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -33,7 +33,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -268,7 +268,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public void setDocBasisType (String DocBasisType)
 	{
 		if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is mandatory");
-		if (DocBasisType.equals("O") || DocBasisType.equals("I") || DocBasisType.equals("R")); else throw new IllegalArgumentException ("DocBasisType Invalid value - " + DocBasisType + " - Reference_ID=224 - O - I - R");		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
+		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
 	}
 
 	/** Get Calculation Basis.
@@ -296,7 +296,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("W") || FrequencyType.equals("M") || FrequencyType.equals("Q") || FrequencyType.equals("Y")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=225 - W - M - Q - Y");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.

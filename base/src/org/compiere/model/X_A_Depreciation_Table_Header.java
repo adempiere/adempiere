@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -30,7 +30,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Table_Header (Properties ctx, int A_Depreciation_Table_Header_ID, String trxName)
@@ -129,7 +129,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public void setA_Table_Rate_Type (String A_Table_Rate_Type)
 	{
 		if (A_Table_Rate_Type == null) throw new IllegalArgumentException ("A_Table_Rate_Type is mandatory");
-		if (A_Table_Rate_Type.equals("AM") || A_Table_Rate_Type.equals("RT")); else throw new IllegalArgumentException ("A_Table_Rate_Type Invalid value - " + A_Table_Rate_Type + " - Reference_ID=53255 - AM - RT");		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
+		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
 	}
 
 	/** Get Type.
@@ -150,7 +150,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	public void setA_Term (String A_Term)
 	{
 		if (A_Term == null) throw new IllegalArgumentException ("A_Term is mandatory");
-		if (A_Term.equals("PR") || A_Term.equals("YR")); else throw new IllegalArgumentException ("A_Term Invalid value - " + A_Term + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Term, A_Term);
+		set_Value (COLUMNNAME_A_Term, A_Term);
 	}
 
 	/** Get Period/Yearly.

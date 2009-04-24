@@ -114,6 +114,26 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** EntityType AD_Reference_ID=389 */
+	public static final int ENTITYTYPE_AD_Reference_ID=389;
+	/** Set Entity Type.
+		@param EntityType 
+		Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType)
+	{
+
+		set_Value (COLUMNNAME_EntityType, EntityType);
+	}
+
+	/** Get Entity Type.
+		@return Dictionary Entity Type; Determines ownership and synchronization
+	  */
+	public String getEntityType () 
+	{
+		return (String)get_Value(COLUMNNAME_EntityType);
+	}
+
 	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor.Table_Name);
@@ -148,26 +168,6 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** EntityType AD_Reference_ID=389 */
-	public static final int ENTITYTYPE_AD_Reference_ID=389;
-	/** Set Entity Type.
-		@param EntityType 
-		Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType)
-	{
-
-		set_Value (COLUMNNAME_EntityType, EntityType);
-	}
-
-	/** Get Entity Type.
-		@return Dictionary Entity Type; Determines ownership and synchronization
-	  */
-	public String getEntityType () 
-	{
-		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
 	/** Set Comment/Help.
@@ -213,4 +213,21 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
 }

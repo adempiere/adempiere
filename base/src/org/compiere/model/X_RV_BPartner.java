@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_RV_BPartner (Properties ctx, int RV_BPartner_ID, String trxName)
@@ -190,6 +190,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
+
 		set_ValueNoCheck (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -787,7 +788,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setDeliveryRule (String DeliveryRule)
 	{
 
-		if (DeliveryRule == null || DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M")); else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");		set_ValueNoCheck (COLUMNNAME_DeliveryRule, DeliveryRule);
+		set_ValueNoCheck (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
 
 	/** Get Delivery Rule.
@@ -813,7 +814,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
 
-		if (DeliveryViaRule == null || DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S")); else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");		set_ValueNoCheck (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
+		set_ValueNoCheck (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
 
 	/** Get Delivery Via.
@@ -1017,7 +1018,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setFreightCostRule (String FreightCostRule)
 	{
 
-		if (FreightCostRule == null || FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L")); else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");		set_ValueNoCheck (COLUMNNAME_FreightCostRule, FreightCostRule);
+		set_ValueNoCheck (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
 
 	/** Get Freight Cost Rule.
@@ -1068,7 +1069,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setInvoiceRule (String InvoiceRule)
 	{
 
-		if (InvoiceRule == null || InvoiceRule.equals("O") || InvoiceRule.equals("D") || InvoiceRule.equals("S") || InvoiceRule.equals("I")); else throw new IllegalArgumentException ("InvoiceRule Invalid value - " + InvoiceRule + " - Reference_ID=150 - O - D - S - I");		set_ValueNoCheck (COLUMNNAME_InvoiceRule, InvoiceRule);
+		set_ValueNoCheck (COLUMNNAME_InvoiceRule, InvoiceRule);
 	}
 
 	/** Get Invoice Rule.
@@ -1498,7 +1499,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setNotificationType (String NotificationType)
 	{
 		if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");
-		if (NotificationType.equals("E") || NotificationType.equals("N") || NotificationType.equals("X") || NotificationType.equals("B")); else throw new IllegalArgumentException ("NotificationType Invalid value - " + NotificationType + " - Reference_ID=344 - E - N - X - B");		set_ValueNoCheck (COLUMNNAME_NotificationType, NotificationType);
+		set_ValueNoCheck (COLUMNNAME_NotificationType, NotificationType);
 	}
 
 	/** Get Notification Type.
@@ -1552,7 +1553,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setPaymentRule (String PaymentRule)
 	{
 
-		if (PaymentRule == null || PaymentRule.equals("B") || PaymentRule.equals("K") || PaymentRule.equals("T") || PaymentRule.equals("S") || PaymentRule.equals("P") || PaymentRule.equals("D") || PaymentRule.equals("M")); else throw new IllegalArgumentException ("PaymentRule Invalid value - " + PaymentRule + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_ValueNoCheck (COLUMNNAME_PaymentRule, PaymentRule);
+		set_ValueNoCheck (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
 	/** Get Payment Rule.
@@ -1586,7 +1587,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setPaymentRulePO (String PaymentRulePO)
 	{
 
-		if (PaymentRulePO == null || PaymentRulePO.equals("B") || PaymentRulePO.equals("K") || PaymentRulePO.equals("T") || PaymentRulePO.equals("S") || PaymentRulePO.equals("P") || PaymentRulePO.equals("D") || PaymentRulePO.equals("M")); else throw new IllegalArgumentException ("PaymentRulePO Invalid value - " + PaymentRulePO + " - Reference_ID=195 - B - K - T - S - P - D - M");		set_ValueNoCheck (COLUMNNAME_PaymentRulePO, PaymentRulePO);
+		set_ValueNoCheck (COLUMNNAME_PaymentRulePO, PaymentRulePO);
 	}
 
 	/** Get Payment Rule.
@@ -1971,7 +1972,7 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public void setSOCreditStatus (String SOCreditStatus)
 	{
 
-		if (SOCreditStatus == null || SOCreditStatus.equals("S") || SOCreditStatus.equals("H") || SOCreditStatus.equals("W") || SOCreditStatus.equals("X") || SOCreditStatus.equals("O")); else throw new IllegalArgumentException ("SOCreditStatus Invalid value - " + SOCreditStatus + " - Reference_ID=289 - S - H - W - X - O");		set_ValueNoCheck (COLUMNNAME_SOCreditStatus, SOCreditStatus);
+		set_ValueNoCheck (COLUMNNAME_SOCreditStatus, SOCreditStatus);
 	}
 
 	/** Get Credit Status.

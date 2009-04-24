@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -982,7 +982,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setCreditCardType (String CreditCardType)
 	{
 
-		if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("M") || CreditCardType.equals("V") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("N") || CreditCardType.equals("P")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - M - V - C - D - N - P");		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
+		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
 	}
 
 	/** Get Credit Card.
@@ -1122,7 +1122,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC")); else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");		set_Value (COLUMNNAME_DocAction, DocAction);
+		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
 	/** Get Document Action.
@@ -1166,7 +1166,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -1648,7 +1648,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setR_AvsAddr (String R_AvsAddr)
 	{
 
-		if (R_AvsAddr == null || R_AvsAddr.equals("Y") || R_AvsAddr.equals("N") || R_AvsAddr.equals("X")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
+		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
 	}
 
 	/** Get Address verified.
@@ -1674,7 +1674,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setR_AvsZip (String R_AvsZip)
 	{
 
-		if (R_AvsZip == null || R_AvsZip.equals("Y") || R_AvsZip.equals("N") || R_AvsZip.equals("X")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
+		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
 	}
 
 	/** Get Zip verified.
@@ -1912,7 +1912,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setTenderType (String TenderType)
 	{
 		if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
-		if (TenderType.equals("C") || TenderType.equals("K") || TenderType.equals("A") || TenderType.equals("D") || TenderType.equals("T") || TenderType.equals("X")); else throw new IllegalArgumentException ("TenderType Invalid value - " + TenderType + " - Reference_ID=214 - C - K - A - D - T - X");		set_Value (COLUMNNAME_TenderType, TenderType);
+		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
 
 	/** Get Tender type.
@@ -1944,7 +1944,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setTrxType (String TrxType)
 	{
 		if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
-		if (TrxType.equals("S") || TrxType.equals("D") || TrxType.equals("C") || TrxType.equals("F") || TrxType.equals("A") || TrxType.equals("V")); else throw new IllegalArgumentException ("TrxType Invalid value - " + TrxType + " - Reference_ID=215 - S - D - C - F - A - V");		set_Value (COLUMNNAME_TrxType, TrxType);
+		set_Value (COLUMNNAME_TrxType, TrxType);
 	}
 
 	/** Get Transaction Type.

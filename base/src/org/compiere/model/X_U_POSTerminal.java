@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_U_POSTerminal (Properties ctx, int U_POSTerminal_ID, String trxName)
@@ -181,7 +181,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public void setCardTransferType (String CardTransferType)
 	{
 
-		if (CardTransferType == null || CardTransferType.equals("B") || CardTransferType.equals("C")); else throw new IllegalArgumentException ("CardTransferType Invalid value - " + CardTransferType + " - Reference_ID=52002 - B - C");		set_Value (COLUMNNAME_CardTransferType, CardTransferType);
+		set_Value (COLUMNNAME_CardTransferType, CardTransferType);
 	}
 
 	/** Get Card Transfer Type.
@@ -204,7 +204,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public void setCashBookTransferType (String CashBookTransferType)
 	{
 		if (CashBookTransferType == null) throw new IllegalArgumentException ("CashBookTransferType is mandatory");
-		if (CashBookTransferType.equals("B") || CashBookTransferType.equals("C")); else throw new IllegalArgumentException ("CashBookTransferType Invalid value - " + CashBookTransferType + " - Reference_ID=52002 - B - C");		set_Value (COLUMNNAME_CashBookTransferType, CashBookTransferType);
+		set_Value (COLUMNNAME_CashBookTransferType, CashBookTransferType);
 	}
 
 	/** Get Cash Book Transfer Type.
@@ -401,7 +401,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public void setCheckTransferType (String CheckTransferType)
 	{
 
-		if (CheckTransferType == null || CheckTransferType.equals("B") || CheckTransferType.equals("C")); else throw new IllegalArgumentException ("CheckTransferType Invalid value - " + CheckTransferType + " - Reference_ID=52002 - B - C");		set_Value (COLUMNNAME_CheckTransferType, CheckTransferType);
+		set_Value (COLUMNNAME_CheckTransferType, CheckTransferType);
 	}
 
 	/** Get Check Transfer Type.
@@ -702,5 +702,22 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
 	}
 }

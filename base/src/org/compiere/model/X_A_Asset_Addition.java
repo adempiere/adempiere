@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_A_Asset_Addition (Properties ctx, int A_Asset_Addition_ID, String trxName)
@@ -136,7 +136,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setA_CapvsExp (String A_CapvsExp)
 	{
 
-		if (A_CapvsExp == null || A_CapvsExp.equals("Cap") || A_CapvsExp.equals("Exp")); else throw new IllegalArgumentException ("A_CapvsExp Invalid value - " + A_CapvsExp + " - Reference_ID=53277 - Cap - Exp");		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
+		set_Value (COLUMNNAME_A_CapvsExp, A_CapvsExp);
 	}
 
 	/** Get Capital vs Expense.
@@ -178,7 +178,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setA_SourceType (String A_SourceType)
 	{
 
-		if (A_SourceType == null || A_SourceType.equals("IMP") || A_SourceType.equals("INV") || A_SourceType.equals("JRN") || A_SourceType.equals("MAN")); else throw new IllegalArgumentException ("A_SourceType Invalid value - " + A_SourceType + " - Reference_ID=53276 - IMP - INV - JRN - MAN");		set_Value (COLUMNNAME_A_SourceType, A_SourceType);
+		set_Value (COLUMNNAME_A_SourceType, A_SourceType);
 	}
 
 	/** Get Source of Entry.
@@ -274,6 +274,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
+
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -386,7 +387,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

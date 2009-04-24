@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_DiscountSchemaLine (Properties ctx, int M_DiscountSchemaLine_ID, String trxName)
@@ -285,7 +285,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setLimit_Base (String Limit_Base)
 	{
 		if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is mandatory");
-		if (Limit_Base.equals("L") || Limit_Base.equals("S") || Limit_Base.equals("X") || Limit_Base.equals("F")); else throw new IllegalArgumentException ("Limit_Base Invalid value - " + Limit_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
+		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
 	}
 
 	/** Get Limit price Base.
@@ -407,7 +407,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setLimit_Rounding (String Limit_Rounding)
 	{
 		if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");
-		if (Limit_Rounding.equals("0") || Limit_Rounding.equals("N") || Limit_Rounding.equals("Q") || Limit_Rounding.equals("D") || Limit_Rounding.equals("5") || Limit_Rounding.equals("T") || Limit_Rounding.equals("C") || Limit_Rounding.equals("9")); else throw new IllegalArgumentException ("Limit_Rounding Invalid value - " + Limit_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
+		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
 	}
 
 	/** Get Limit price Rounding.
@@ -457,7 +457,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setList_Base (String List_Base)
 	{
 		if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandatory");
-		if (List_Base.equals("L") || List_Base.equals("S") || List_Base.equals("X") || List_Base.equals("F")); else throw new IllegalArgumentException ("List_Base Invalid value - " + List_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_List_Base, List_Base);
+		set_Value (COLUMNNAME_List_Base, List_Base);
 	}
 
 	/** Get List price Base.
@@ -579,7 +579,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setList_Rounding (String List_Rounding)
 	{
 		if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");
-		if (List_Rounding.equals("0") || List_Rounding.equals("N") || List_Rounding.equals("Q") || List_Rounding.equals("D") || List_Rounding.equals("5") || List_Rounding.equals("T") || List_Rounding.equals("C") || List_Rounding.equals("9")); else throw new IllegalArgumentException ("List_Rounding Invalid value - " + List_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
+		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
 	}
 
 	/** Get List price Rounding.
@@ -795,7 +795,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setStd_Base (String Std_Base)
 	{
 		if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory");
-		if (Std_Base.equals("L") || Std_Base.equals("S") || Std_Base.equals("X") || Std_Base.equals("F")); else throw new IllegalArgumentException ("Std_Base Invalid value - " + Std_Base + " - Reference_ID=194 - L - S - X - F");		set_Value (COLUMNNAME_Std_Base, Std_Base);
+		set_Value (COLUMNNAME_Std_Base, Std_Base);
 	}
 
 	/** Get Standard price Base.
@@ -917,7 +917,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public void setStd_Rounding (String Std_Rounding)
 	{
 		if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");
-		if (Std_Rounding.equals("0") || Std_Rounding.equals("N") || Std_Rounding.equals("Q") || Std_Rounding.equals("D") || Std_Rounding.equals("5") || Std_Rounding.equals("T") || Std_Rounding.equals("C") || Std_Rounding.equals("9")); else throw new IllegalArgumentException ("Std_Rounding Invalid value - " + Std_Rounding + " - Reference_ID=155 - 0 - N - Q - D - 5 - T - C - 9");		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
+		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
 	}
 
 	/** Get Standard price Rounding.

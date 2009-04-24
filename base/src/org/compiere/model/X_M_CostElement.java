@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -30,7 +30,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_CostElement (Properties ctx, int M_CostElement_ID, String trxName)
@@ -92,7 +92,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public void setCostElementType (String CostElementType)
 	{
 		if (CostElementType == null) throw new IllegalArgumentException ("CostElementType is mandatory");
-		if (CostElementType.equals("M") || CostElementType.equals("O") || CostElementType.equals("B") || CostElementType.equals("X") || CostElementType.equals("R")); else throw new IllegalArgumentException ("CostElementType Invalid value - " + CostElementType + " - Reference_ID=338 - M - O - B - X - R");		set_Value (COLUMNNAME_CostElementType, CostElementType);
+		set_Value (COLUMNNAME_CostElementType, CostElementType);
 	}
 
 	/** Get Cost Element Type.
@@ -130,7 +130,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.

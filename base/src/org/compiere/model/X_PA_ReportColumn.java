@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PA_ReportColumn (Properties ctx, int PA_ReportColumn_ID, String trxName)
@@ -166,7 +166,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setAmountType (String AmountType)
 	{
 
-		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY") || AmountType.equals("BN")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY - BN");		set_Value (COLUMNNAME_AmountType, AmountType);
+		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
 
 	/** Get Amount Type.
@@ -231,7 +231,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setCalculationType (String CalculationType)
 	{
 
-		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");		set_Value (COLUMNNAME_CalculationType, CalculationType);
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
 	}
 
 	/** Get Calculation.
@@ -433,7 +433,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setColumnType (String ColumnType)
 	{
 		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
-		if (ColumnType.equals("R") || ColumnType.equals("C") || ColumnType.equals("S")); else throw new IllegalArgumentException ("ColumnType Invalid value - " + ColumnType + " - Reference_ID=237 - R - C - S");		set_Value (COLUMNNAME_ColumnType, ColumnType);
+		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
 	/** Get Column Type.
@@ -532,7 +532,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setCurrencyType (String CurrencyType)
 	{
 
-		if (CurrencyType == null || CurrencyType.equals("S") || CurrencyType.equals("A")); else throw new IllegalArgumentException ("CurrencyType Invalid value - " + CurrencyType + " - Reference_ID=238 - S - A");		set_Value (COLUMNNAME_CurrencyType, CurrencyType);
+		set_Value (COLUMNNAME_CurrencyType, CurrencyType);
 	}
 
 	/** Get Currency Type.
@@ -602,7 +602,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setElementType (String ElementType)
 	{
 
-		if (ElementType == null || ElementType.equals("AC") || ElementType.equals("AY") || ElementType.equals("BP") || ElementType.equals("LF") || ElementType.equals("LT") || ElementType.equals("MC") || ElementType.equals("OO") || ElementType.equals("OT") || ElementType.equals("PJ") || ElementType.equals("PR") || ElementType.equals("SA") || ElementType.equals("SR") || ElementType.equals("U1") || ElementType.equals("U2") || ElementType.equals("X1") || ElementType.equals("X2") || ElementType.equals("CO")); else throw new IllegalArgumentException ("ElementType Invalid value - " + ElementType + " - Reference_ID=53280 - AC - AY - BP - LF - LT - MC - OO - OT - PJ - PR - SA - SR - U1 - U2 - X1 - X2 - CO");		set_Value (COLUMNNAME_ElementType, ElementType);
+		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
 
 	/** Get Type.
@@ -626,7 +626,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setFactor (String Factor)
 	{
 
-		if (Factor == null || Factor.equals("k") || Factor.equals("M")); else throw new IllegalArgumentException ("Factor Invalid value - " + Factor + " - Reference_ID=53285 - k - M");		set_Value (COLUMNNAME_Factor, Factor);
+		set_Value (COLUMNNAME_Factor, Factor);
 	}
 
 	/** Get Factor.
@@ -1243,7 +1243,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

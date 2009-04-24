@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
@@ -32,7 +31,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_EXP_FormatLine (Properties ctx, int EXP_FormatLine_ID, String trxName)
@@ -188,25 +187,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Format Line.
-		@param EXP_FormatLine_ID Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
-	{
-		if (EXP_FormatLine_ID < 1)
-			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
-	}
-
-	/** Get Format Line.
-		@return Format Line	  */
-	public int getEXP_FormatLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Format.Table_Name);
@@ -238,6 +218,25 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public int getEXP_Format_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Format Line.
+		@param EXP_FormatLine_ID Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
+	{
+		if (EXP_FormatLine_ID < 1)
+			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
+	}
+
+	/** Get Format Line.
+		@return Format Line	  */
+	public int getEXP_FormatLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_FormatLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -358,9 +357,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public void setType (String Type)
 	{
 		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
-		if (Type.equals("E") || Type.equals("A") || Type.equals("M") || Type.equals("R"));
-		else throw new IllegalArgumentException ("Type Invalid value - " + Type + " - Reference_ID=53241 - E - A - M - R");
-
 		set_Value (COLUMNNAME_Type, Type);
 	}
 

@@ -1,17 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -20,7 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import org.compiere.model.*;
+import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
@@ -43,6 +40,14 @@ public interface I_EXP_FormatLine
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Column_ID */
     public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
@@ -85,6 +90,22 @@ public interface I_EXP_FormatLine
 	  */
 	public int getAD_Reference_ID();
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name DateFormat */
     public static final String COLUMNNAME_DateFormat = "DateFormat";
 
@@ -120,15 +141,6 @@ public interface I_EXP_FormatLine
 	/** Get Embedded Format	  */
 	public int getEXP_EmbeddedFormat_ID();
 
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get Format Line	  */
-	public int getEXP_FormatLine_ID();
-
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -139,6 +151,15 @@ public interface I_EXP_FormatLine
 	public int getEXP_Format_ID();
 
 	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException;
+
+    /** Column name EXP_FormatLine_ID */
+    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
+
+	/** Set Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
+
+	/** Get Format Line	  */
+	public int getEXP_FormatLine_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -152,6 +173,19 @@ public interface I_EXP_FormatLine
 	  * Comment or Hint
 	  */
 	public String getHelp();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
 
     /** Column name IsMandatory */
     public static final String COLUMNNAME_IsMandatory = "IsMandatory";
@@ -209,6 +243,22 @@ public interface I_EXP_FormatLine
 	  * Type of Validation (SQL, Java Script, Java Language)
 	  */
 	public String getType();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

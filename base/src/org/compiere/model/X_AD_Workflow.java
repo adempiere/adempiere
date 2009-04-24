@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -43,8 +43,8 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
       super (ctx, AD_Workflow_ID, trxName);
       /** if (AD_Workflow_ID == 0)
         {
-			setAD_Workflow_ID (0);
 			setAccessLevel (null);
+			setAD_Workflow_ID (0);
 			setAuthor (null);
 			setCost (Env.ZERO);
 			setDuration (0);
@@ -93,6 +93,38 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
 
 	public I_AD_Table getAD_Table() throws RuntimeException 
     {
@@ -211,6 +243,28 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Workflow.
+		@param AD_Workflow_ID 
+		Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID)
+	{
+		if (AD_Workflow_ID < 1)
+			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
+		set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+	}
+
+	/** Get Workflow.
+		@return Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_WorkflowProcessor.Table_Name);
@@ -248,60 +302,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Workflow.
-		@param AD_Workflow_ID 
-		Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID)
-	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
-	}
-
-	/** Get Workflow.
-		@return Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Workflow_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2")); else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Author.
@@ -362,23 +362,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Document Value Logic.
-		@param DocValueLogic 
-		Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public void setDocValueLogic (String DocValueLogic)
-	{
-		set_Value (COLUMNNAME_DocValueLogic, DocValueLogic);
-	}
-
-	/** Get Document Value Logic.
-		@return Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public String getDocValueLogic () 
-	{
-		return (String)get_Value(COLUMNNAME_DocValueLogic);
-	}
-
 	/** Set Document No.
 		@param DocumentNo 
 		Document sequence number of the document
@@ -394,6 +377,23 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Document Value Logic.
+		@param DocValueLogic 
+		Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public void setDocValueLogic (String DocValueLogic)
+	{
+		set_Value (COLUMNNAME_DocValueLogic, DocValueLogic);
+	}
+
+	/** Get Document Value Logic.
+		@return Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public String getDocValueLogic () 
+	{
+		return (String)get_Value(COLUMNNAME_DocValueLogic);
 	}
 
 	/** Set Duration.
@@ -437,7 +437,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setDurationUnit (String DurationUnit)
 	{
 
-		if (DurationUnit == null || DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s")); else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
 	}
 
 	/** Get Duration Unit.
@@ -456,6 +456,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -679,7 +680,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setProcessType (String ProcessType)
 	{
 
-		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL")); else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");		set_Value (COLUMNNAME_ProcessType, ProcessType);
+		set_Value (COLUMNNAME_ProcessType, ProcessType);
 	}
 
 	/** Get Process Type.
@@ -706,7 +707,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setPublishStatus (String PublishStatus)
 	{
 		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
-		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V")); else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
+		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
 	/** Get Publication Status.
@@ -751,6 +752,26 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Setup Time.
+		@param SetupTime 
+		Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime)
+	{
+		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
+	}
+
+	/** Get Setup Time.
+		@return Setup time before starting Production
+	  */
+	public int getSetupTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -790,26 +811,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Setup Time.
-		@param SetupTime 
-		Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime)
-	{
-		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
-	}
-
-	/** Get Setup Time.
-		@return Setup time before starting Production
-	  */
-	public int getSetupTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Units by Cycles.
 		@param UnitsCycles 
 		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
@@ -828,6 +829,20 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Validate Workflow.
+		@param ValidateWorkflow Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow)
+	{
+		set_Value (COLUMNNAME_ValidateWorkflow, ValidateWorkflow);
+	}
+
+	/** Get Validate Workflow.
+		@return Validate Workflow	  */
+	public String getValidateWorkflow () 
+	{
+		return (String)get_Value(COLUMNNAME_ValidateWorkflow);
 	}
 
 	/** Set Valid from.
@@ -862,20 +877,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public Timestamp getValidTo () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
-	}
-
-	/** Set Validate Workflow.
-		@param ValidateWorkflow Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow)
-	{
-		set_Value (COLUMNNAME_ValidateWorkflow, ValidateWorkflow);
-	}
-
-	/** Get Validate Workflow.
-		@return Validate Workflow	  */
-	public String getValidateWorkflow () 
-	{
-		return (String)get_Value(COLUMNNAME_ValidateWorkflow);
 	}
 
 	/** Set Search Key.
@@ -956,7 +957,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public void setWorkflowType (String WorkflowType)
 	{
 		if (WorkflowType == null) throw new IllegalArgumentException ("WorkflowType is mandatory");
-		if (WorkflowType.equals("G") || WorkflowType.equals("P") || WorkflowType.equals("V") || WorkflowType.equals("M") || WorkflowType.equals("Q")); else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=328 - G - P - V - M - Q");		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
+		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}
 
 	/** Get Workflow Type.

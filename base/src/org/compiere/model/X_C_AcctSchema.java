@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_AcctSchema (Properties ctx, int C_AcctSchema_ID, String trxName)
@@ -225,7 +225,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setCommitmentType (String CommitmentType)
 	{
 		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
-		if (CommitmentType.equals("C") || CommitmentType.equals("B") || CommitmentType.equals("N") || CommitmentType.equals("A") || CommitmentType.equals("S") || CommitmentType.equals("O")); else throw new IllegalArgumentException ("CommitmentType Invalid value - " + CommitmentType + " - Reference_ID=359 - C - B - N - A - S - O");		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
+		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
 	}
 
 	/** Get Commitment Type.
@@ -251,7 +251,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setCostingLevel (String CostingLevel)
 	{
 		if (CostingLevel == null) throw new IllegalArgumentException ("CostingLevel is mandatory");
-		if (CostingLevel.equals("C") || CostingLevel.equals("O") || CostingLevel.equals("B")); else throw new IllegalArgumentException ("CostingLevel Invalid value - " + CostingLevel + " - Reference_ID=355 - C - O - B");		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
+		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
 	}
 
 	/** Get Costing Level.
@@ -289,7 +289,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 		if (CostingMethod == null) throw new IllegalArgumentException ("CostingMethod is mandatory");
-		if (CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
+		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.
@@ -375,7 +375,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setGAAP (String GAAP)
 	{
 		if (GAAP == null) throw new IllegalArgumentException ("GAAP is mandatory");
-		if (GAAP.equals("UN") || GAAP.equals("US") || GAAP.equals("DE") || GAAP.equals("FR") || GAAP.equals("XX")); else throw new IllegalArgumentException ("GAAP Invalid value - " + GAAP + " - Reference_ID=123 - UN - US - DE - FR - XX");		set_Value (COLUMNNAME_GAAP, GAAP);
+		set_Value (COLUMNNAME_GAAP, GAAP);
 	}
 
 	/** Get GAAP.
@@ -788,7 +788,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public void setTaxCorrectionType (String TaxCorrectionType)
 	{
 		if (TaxCorrectionType == null) throw new IllegalArgumentException ("TaxCorrectionType is mandatory");
-		if (TaxCorrectionType.equals("N") || TaxCorrectionType.equals("W") || TaxCorrectionType.equals("D") || TaxCorrectionType.equals("B")); else throw new IllegalArgumentException ("TaxCorrectionType Invalid value - " + TaxCorrectionType + " - Reference_ID=392 - N - W - D - B");		set_Value (COLUMNNAME_TaxCorrectionType, TaxCorrectionType);
+		set_Value (COLUMNNAME_TaxCorrectionType, TaxCorrectionType);
 	}
 
 	/** Get Tax Correction.

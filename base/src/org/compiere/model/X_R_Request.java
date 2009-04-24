@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_R_Request (Properties ctx, int R_Request_ID, String trxName)
@@ -60,8 +60,6 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 			setRequestAmt (Env.ZERO);
 			setR_Request_ID (0);
 			setR_RequestType_ID (0);
-			setSalesRep_ID (0);
-// @AD_User_ID@
 			setSummary (null);
         } */
     }
@@ -463,7 +461,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setConfidentialType (String ConfidentialType)
 	{
 		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
-		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
+		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
 	/** Get Confidentiality.
@@ -491,7 +489,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
 	{
 		if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");
-		if (ConfidentialTypeEntry.equals("A") || ConfidentialTypeEntry.equals("C") || ConfidentialTypeEntry.equals("I") || ConfidentialTypeEntry.equals("P")); else throw new IllegalArgumentException ("ConfidentialTypeEntry Invalid value - " + ConfidentialTypeEntry + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
+		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
 	}
 
 	/** Get Entry Confidentiality.
@@ -746,7 +744,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setDueType (String DueType)
 	{
 		if (DueType == null) throw new IllegalArgumentException ("DueType is mandatory");
-		if (DueType.equals("3") || DueType.equals("5") || DueType.equals("7")); else throw new IllegalArgumentException ("DueType Invalid value - " + DueType + " - Reference_ID=222 - 3 - 5 - 7");		set_Value (COLUMNNAME_DueType, DueType);
+		set_Value (COLUMNNAME_DueType, DueType);
 	}
 
 	/** Get Due type.
@@ -1078,7 +1076,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setNextAction (String NextAction)
 	{
 
-		if (NextAction == null || NextAction.equals("N") || NextAction.equals("F")); else throw new IllegalArgumentException ("NextAction Invalid value - " + NextAction + " - Reference_ID=219 - N - F");		set_Value (COLUMNNAME_NextAction, NextAction);
+		set_Value (COLUMNNAME_NextAction, NextAction);
 	}
 
 	/** Get Next action.
@@ -1108,7 +1106,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setPriority (String Priority)
 	{
 		if (Priority == null) throw new IllegalArgumentException ("Priority is mandatory");
-		if (Priority.equals("3") || Priority.equals("5") || Priority.equals("7") || Priority.equals("1") || Priority.equals("9")); else throw new IllegalArgumentException ("Priority Invalid value - " + Priority + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");		set_Value (COLUMNNAME_Priority, Priority);
+		set_Value (COLUMNNAME_Priority, Priority);
 	}
 
 	/** Get Priority.
@@ -1138,7 +1136,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setPriorityUser (String PriorityUser)
 	{
 
-		if (PriorityUser == null || PriorityUser.equals("3") || PriorityUser.equals("5") || PriorityUser.equals("7") || PriorityUser.equals("1") || PriorityUser.equals("9")); else throw new IllegalArgumentException ("PriorityUser Invalid value - " + PriorityUser + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");		set_Value (COLUMNNAME_PriorityUser, PriorityUser);
+		set_Value (COLUMNNAME_PriorityUser, PriorityUser);
 	}
 
 	/** Get User Importance.
@@ -1618,9 +1616,10 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID < 1)
-			 throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -1714,7 +1713,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public void setTaskStatus (String TaskStatus)
 	{
 
-		if (TaskStatus == null || TaskStatus.equals("0") || TaskStatus.equals("D") || TaskStatus.equals("2") || TaskStatus.equals("8") || TaskStatus.equals("4") || TaskStatus.equals("6") || TaskStatus.equals("9") || TaskStatus.equals("A") || TaskStatus.equals("C")); else throw new IllegalArgumentException ("TaskStatus Invalid value - " + TaskStatus + " - Reference_ID=366 - 0 - D - 2 - 8 - 4 - 6 - 9 - A - C");		set_Value (COLUMNNAME_TaskStatus, TaskStatus);
+		set_Value (COLUMNNAME_TaskStatus, TaskStatus);
 	}
 
 	/** Get Task Status.

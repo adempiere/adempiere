@@ -43,6 +43,7 @@ public class X_I_PriceList extends PO implements I_I_PriceList, I_Persistent
       /** if (I_PriceList_ID == 0)
         {
 			setI_IsImported (false);
+// N
 			setI_PriceList_ID (0);
         } */
     }

@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_InvoiceSchedule (Properties ctx, int C_InvoiceSchedule_ID, String trxName)
@@ -222,7 +222,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceFrequency (String InvoiceFrequency)
 	{
 		if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFrequency is mandatory");
-		if (InvoiceFrequency.equals("D") || InvoiceFrequency.equals("W") || InvoiceFrequency.equals("M") || InvoiceFrequency.equals("T")); else throw new IllegalArgumentException ("InvoiceFrequency Invalid value - " + InvoiceFrequency + " - Reference_ID=168 - D - W - M - T");		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
+		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
 	}
 
 	/** Get Invoice Frequency.
@@ -256,7 +256,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceWeekDay (String InvoiceWeekDay)
 	{
 		if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay is mandatory");
-		if (InvoiceWeekDay.equals("7") || InvoiceWeekDay.equals("1") || InvoiceWeekDay.equals("2") || InvoiceWeekDay.equals("3") || InvoiceWeekDay.equals("4") || InvoiceWeekDay.equals("5") || InvoiceWeekDay.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDay Invalid value - " + InvoiceWeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
+		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
 	}
 
 	/** Get Invoice Week Day.
@@ -290,7 +290,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	public void setInvoiceWeekDayCutoff (String InvoiceWeekDayCutoff)
 	{
 
-		if (InvoiceWeekDayCutoff == null || InvoiceWeekDayCutoff.equals("7") || InvoiceWeekDayCutoff.equals("1") || InvoiceWeekDayCutoff.equals("2") || InvoiceWeekDayCutoff.equals("3") || InvoiceWeekDayCutoff.equals("4") || InvoiceWeekDayCutoff.equals("5") || InvoiceWeekDayCutoff.equals("6")); else throw new IllegalArgumentException ("InvoiceWeekDayCutoff Invalid value - " + InvoiceWeekDayCutoff + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_InvoiceWeekDayCutoff, InvoiceWeekDayCutoff);
+		set_Value (COLUMNNAME_InvoiceWeekDayCutoff, InvoiceWeekDayCutoff);
 	}
 
 	/** Get Invoice weekday cutoff.

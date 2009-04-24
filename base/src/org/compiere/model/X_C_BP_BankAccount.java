@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
@@ -307,7 +307,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public void setBankAccountType (String BankAccountType)
 	{
 
-		if (BankAccountType == null || BankAccountType.equals("C") || BankAccountType.equals("S")); else throw new IllegalArgumentException ("BankAccountType Invalid value - " + BankAccountType + " - Reference_ID=216 - C - S");		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
 	}
 
 	/** Get Bank Account Type.
@@ -335,7 +335,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public void setBPBankAcctUse (String BPBankAcctUse)
 	{
 
-		if (BPBankAcctUse == null || BPBankAcctUse.equals("N") || BPBankAcctUse.equals("B") || BPBankAcctUse.equals("D") || BPBankAcctUse.equals("T")); else throw new IllegalArgumentException ("BPBankAcctUse Invalid value - " + BPBankAcctUse + " - Reference_ID=393 - N - B - D - T");		set_Value (COLUMNNAME_BPBankAcctUse, BPBankAcctUse);
+		set_Value (COLUMNNAME_BPBankAcctUse, BPBankAcctUse);
 	}
 
 	/** Get Account Usage.
@@ -525,7 +525,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public void setCreditCardType (String CreditCardType)
 	{
 
-		if (CreditCardType == null || CreditCardType.equals("A") || CreditCardType.equals("M") || CreditCardType.equals("V") || CreditCardType.equals("C") || CreditCardType.equals("D") || CreditCardType.equals("N") || CreditCardType.equals("P")); else throw new IllegalArgumentException ("CreditCardType Invalid value - " + CreditCardType + " - Reference_ID=149 - A - M - V - C - D - N - P");		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
+		set_Value (COLUMNNAME_CreditCardType, CreditCardType);
 	}
 
 	/** Get Credit Card.
@@ -592,7 +592,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public void setR_AvsAddr (String R_AvsAddr)
 	{
 
-		if (R_AvsAddr == null || R_AvsAddr.equals("Y") || R_AvsAddr.equals("N") || R_AvsAddr.equals("X")); else throw new IllegalArgumentException ("R_AvsAddr Invalid value - " + R_AvsAddr + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
+		set_ValueNoCheck (COLUMNNAME_R_AvsAddr, R_AvsAddr);
 	}
 
 	/** Get Address verified.
@@ -618,7 +618,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public void setR_AvsZip (String R_AvsZip)
 	{
 
-		if (R_AvsZip == null || R_AvsZip.equals("Y") || R_AvsZip.equals("N") || R_AvsZip.equals("X")); else throw new IllegalArgumentException ("R_AvsZip Invalid value - " + R_AvsZip + " - Reference_ID=213 - Y - N - X");		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
+		set_ValueNoCheck (COLUMNNAME_R_AvsZip, R_AvsZip);
 	}
 
 	/** Get Zip verified.

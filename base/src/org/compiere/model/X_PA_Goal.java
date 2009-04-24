@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PA_Goal (Properties ctx, int PA_Goal_ID, String trxName)
@@ -320,7 +320,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public void setMeasureDisplay (String MeasureDisplay)
 	{
 
-		if (MeasureDisplay == null || MeasureDisplay.equals("1") || MeasureDisplay.equals("3") || MeasureDisplay.equals("5") || MeasureDisplay.equals("0") || MeasureDisplay.equals("7") || MeasureDisplay.equals("8")); else throw new IllegalArgumentException ("MeasureDisplay Invalid value - " + MeasureDisplay + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");		set_Value (COLUMNNAME_MeasureDisplay, MeasureDisplay);
+		set_Value (COLUMNNAME_MeasureDisplay, MeasureDisplay);
 	}
 
 	/** Get Measure Display.
@@ -352,7 +352,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	public void setMeasureScope (String MeasureScope)
 	{
 		if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is mandatory");
-		if (MeasureScope.equals("1") || MeasureScope.equals("3") || MeasureScope.equals("5") || MeasureScope.equals("0") || MeasureScope.equals("7") || MeasureScope.equals("8")); else throw new IllegalArgumentException ("MeasureScope Invalid value - " + MeasureScope + " - Reference_ID=367 - 1 - 3 - 5 - 0 - 7 - 8");		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
+		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
 	}
 
 	/** Get Measure Scope.

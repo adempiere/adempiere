@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -33,7 +33,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval_Entry (Properties ctx, int A_Asset_Reval_Entry_ID, String trxName)
@@ -140,7 +140,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 		if (A_Reval_Cal_Method == null) throw new IllegalArgumentException ("A_Reval_Cal_Method is mandatory");
-		if (A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
+		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
 	/** Get Revaluation Calculation Method.
@@ -163,7 +163,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Effective_Date (String A_Reval_Effective_Date)
 	{
 		if (A_Reval_Effective_Date == null) throw new IllegalArgumentException ("A_Reval_Effective_Date is mandatory");
-		if (A_Reval_Effective_Date.equals("DA") || A_Reval_Effective_Date.equals("RD") || A_Reval_Effective_Date.equals("SD")); else throw new IllegalArgumentException ("A_Reval_Effective_Date Invalid value - " + A_Reval_Effective_Date + " - Reference_ID=53261 - DA - RD - SD");		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
+		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
 	}
 
 	/** Get A_Reval_Effective_Date.
@@ -184,7 +184,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
 		if (A_Reval_Multiplier == null) throw new IllegalArgumentException ("A_Reval_Multiplier is mandatory");
-		if (A_Reval_Multiplier.equals("FAC") || A_Reval_Multiplier.equals("IND")); else throw new IllegalArgumentException ("A_Reval_Multiplier Invalid value - " + A_Reval_Multiplier + " - Reference_ID=53260 - FAC - IND");		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
+		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
 	/** Get A_Reval_Multiplier.
@@ -207,7 +207,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setA_Rev_Code (String A_Rev_Code)
 	{
 		if (A_Rev_Code == null) throw new IllegalArgumentException ("A_Rev_Code is mandatory");
-		if (A_Rev_Code.equals("R01") || A_Rev_Code.equals("R02") || A_Rev_Code.equals("R03")); else throw new IllegalArgumentException ("A_Rev_Code Invalid value - " + A_Rev_Code + " - Reference_ID=53262 - R01 - R02 - R03");		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
+		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
 	}
 
 	/** Get A_Rev_Code.
@@ -486,7 +486,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public void setPostingType (String PostingType)
 	{
 		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
-		if (PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

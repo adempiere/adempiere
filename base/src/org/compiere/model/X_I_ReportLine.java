@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_I_ReportLine (Properties ctx, int I_ReportLine_ID, String trxName)
@@ -108,7 +108,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setAmountType (String AmountType)
 	{
 
-		if (AmountType == null || AmountType.equals("DT") || AmountType.equals("CT") || AmountType.equals("BT") || AmountType.equals("BP") || AmountType.equals("CP") || AmountType.equals("DP") || AmountType.equals("QP") || AmountType.equals("QT") || AmountType.equals("BY") || AmountType.equals("CY") || AmountType.equals("DY") || AmountType.equals("QY") || AmountType.equals("BN")); else throw new IllegalArgumentException ("AmountType Invalid value - " + AmountType + " - Reference_ID=235 - DT - CT - BT - BP - CP - DP - QP - QT - BY - CY - DY - QY - BN");		set_Value (COLUMNNAME_AmountType, AmountType);
+		set_Value (COLUMNNAME_AmountType, AmountType);
 	}
 
 	/** Get Amount Type.
@@ -134,7 +134,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setCalculationType (String CalculationType)
 	{
 
-		if (CalculationType == null || CalculationType.equals("A") || CalculationType.equals("S") || CalculationType.equals("P") || CalculationType.equals("R")); else throw new IllegalArgumentException ("CalculationType Invalid value - " + CalculationType + " - Reference_ID=236 - A - S - P - R");		set_Value (COLUMNNAME_CalculationType, CalculationType);
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
 	}
 
 	/** Get Calculation.
@@ -339,7 +339,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setLineType (String LineType)
 	{
 
-		if (LineType == null || LineType.equals("S") || LineType.equals("C")); else throw new IllegalArgumentException ("LineType Invalid value - " + LineType + " - Reference_ID=241 - S - C");		set_Value (COLUMNNAME_LineType, LineType);
+		set_Value (COLUMNNAME_LineType, LineType);
 	}
 
 	/** Get Line Type.
@@ -504,7 +504,7 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

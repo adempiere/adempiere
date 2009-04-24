@@ -1,17 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -20,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_Category_Acct
@@ -42,6 +40,14 @@ public interface I_M_Product_Category_Acct
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -97,6 +103,35 @@ public interface I_M_Product_Category_Acct
 	  */
 	public String getCostingMethod();
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
+    /** Column name IsActive */
+    public static final String COLUMNNAME_IsActive = "IsActive";
+
+	/** Set Active.
+	  * The record is active in the system
+	  */
+	public void setIsActive (boolean IsActive);
+
+	/** Get Active.
+	  * The record is active in the system
+	  */
+	public boolean isActive();
+
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -125,6 +160,19 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getP_Asset_Acct();
 
+    /** Column name P_Burden_Acct */
+    public static final String COLUMNNAME_P_Burden_Acct = "P_Burden_Acct";
+
+	/** Set Burden.
+	  * The Burden account is the account used Manufacturing Order
+	  */
+	public void setP_Burden_Acct (int P_Burden_Acct);
+
+	/** Get Burden.
+	  * The Burden account is the account used Manufacturing Order
+	  */
+	public int getP_Burden_Acct();
+
     /** Column name P_COGS_Acct */
     public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
 
@@ -151,6 +199,19 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getP_CostAdjustment_Acct();
 
+    /** Column name P_CostOfProduction_Acct */
+    public static final String COLUMNNAME_P_CostOfProduction_Acct = "P_CostOfProduction_Acct";
+
+	/** Set Cost Of Production.
+	  * The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public void setP_CostOfProduction_Acct (int P_CostOfProduction_Acct);
+
+	/** Get Cost Of Production.
+	  * The Cost Of Production account is the account used Manufacturing Order
+	  */
+	public int getP_CostOfProduction_Acct();
+
     /** Column name P_Expense_Acct */
     public static final String COLUMNNAME_P_Expense_Acct = "P_Expense_Acct";
 
@@ -163,6 +224,19 @@ public interface I_M_Product_Category_Acct
 	  * Account for Product Expense
 	  */
 	public int getP_Expense_Acct();
+
+    /** Column name P_FloorStock_Acct */
+    public static final String COLUMNNAME_P_FloorStock_Acct = "P_FloorStock_Acct";
+
+	/** Set Floor Stock.
+	  * The Floor Stock account is the account used Manufacturing Order
+	  */
+	public void setP_FloorStock_Acct (int P_FloorStock_Acct);
+
+	/** Get Floor Stock.
+	  * The Floor Stock account is the account used Manufacturing Order
+	  */
+	public int getP_FloorStock_Acct();
 
     /** Column name P_InventoryClearing_Acct */
     public static final String COLUMNNAME_P_InventoryClearing_Acct = "P_InventoryClearing_Acct";
@@ -190,6 +264,71 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getP_InvoicePriceVariance_Acct();
 
+    /** Column name P_Labor_Acct */
+    public static final String COLUMNNAME_P_Labor_Acct = "P_Labor_Acct";
+
+	/** Set Labor.
+	  * The Labor account is the account used Manufacturing Order
+	  */
+	public void setP_Labor_Acct (int P_Labor_Acct);
+
+	/** Get Labor.
+	  * The Labor account is the account used Manufacturing Order
+	  */
+	public int getP_Labor_Acct();
+
+    /** Column name P_MethodChangeVariance_Acct */
+    public static final String COLUMNNAME_P_MethodChangeVariance_Acct = "P_MethodChangeVariance_Acct";
+
+	/** Set Method Change Variance.
+	  * The Method Change Variance account is the account used Manufacturing Order
+	  */
+	public void setP_MethodChangeVariance_Acct (int P_MethodChangeVariance_Acct);
+
+	/** Get Method Change Variance.
+	  * The Method Change Variance account is the account used Manufacturing Order
+	  */
+	public int getP_MethodChangeVariance_Acct();
+
+    /** Column name P_MixVariance_Acct */
+    public static final String COLUMNNAME_P_MixVariance_Acct = "P_MixVariance_Acct";
+
+	/** Set Mix Variance.
+	  * The Mix Variance account is the account used Manufacturing Order
+	  */
+	public void setP_MixVariance_Acct (int P_MixVariance_Acct);
+
+	/** Get Mix Variance.
+	  * The Mix Variance account is the account used Manufacturing Order
+	  */
+	public int getP_MixVariance_Acct();
+
+    /** Column name P_OutsideProcessing_Acct */
+    public static final String COLUMNNAME_P_OutsideProcessing_Acct = "P_OutsideProcessing_Acct";
+
+	/** Set Outside Processing.
+	  * The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public void setP_OutsideProcessing_Acct (int P_OutsideProcessing_Acct);
+
+	/** Get Outside Processing.
+	  * The Outside Processing Account is the account used in Manufacturing Order
+	  */
+	public int getP_OutsideProcessing_Acct();
+
+    /** Column name P_Overhead_Acct */
+    public static final String COLUMNNAME_P_Overhead_Acct = "P_Overhead_Acct";
+
+	/** Set Overhead.
+	  * The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Overhead_Acct (int P_Overhead_Acct);
+
+	/** Get Overhead.
+	  * The Overhead account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Overhead_Acct();
+
     /** Column name P_PurchasePriceVariance_Acct */
     public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
 
@@ -202,6 +341,19 @@ public interface I_M_Product_Category_Acct
 	  * Difference between Standard Cost and Purchase Price (PPV)
 	  */
 	public int getP_PurchasePriceVariance_Acct();
+
+    /** Column name P_RateVariance_Acct */
+    public static final String COLUMNNAME_P_RateVariance_Acct = "P_RateVariance_Acct";
+
+	/** Set Rate Variance.
+	  * The Rate Variance account is the account used Manufacturing Order
+	  */
+	public void setP_RateVariance_Acct (int P_RateVariance_Acct);
+
+	/** Get Rate Variance.
+	  * The Rate Variance account is the account used Manufacturing Order
+	  */
+	public int getP_RateVariance_Acct();
 
     /** Column name P_Revenue_Acct */
     public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
@@ -224,6 +376,19 @@ public interface I_M_Product_Category_Acct
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name P_Scrap_Acct */
+    public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
+
+	/** Set Scrap.
+	  * The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public void setP_Scrap_Acct (int P_Scrap_Acct);
+
+	/** Get Scrap.
+	  * The Scrap account is the account used  in Manufacturing Order 
+	  */
+	public int getP_Scrap_Acct();
 
     /** Column name P_TradeDiscountGrant_Acct */
     public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
@@ -250,4 +415,46 @@ public interface I_M_Product_Category_Acct
 	  * Trade Discount Receivable Account
 	  */
 	public int getP_TradeDiscountRec_Acct();
+
+    /** Column name P_UsageVariance_Acct */
+    public static final String COLUMNNAME_P_UsageVariance_Acct = "P_UsageVariance_Acct";
+
+	/** Set Usage Variance.
+	  * The Usage Variance account is the account used Manufacturing Order
+	  */
+	public void setP_UsageVariance_Acct (int P_UsageVariance_Acct);
+
+	/** Get Usage Variance.
+	  * The Usage Variance account is the account used Manufacturing Order
+	  */
+	public int getP_UsageVariance_Acct();
+
+    /** Column name P_WIP_Acct */
+    public static final String COLUMNNAME_P_WIP_Acct = "P_WIP_Acct";
+
+	/** Set Work In Process.
+	  * The Work in Process account is the account used Manufacturing Order
+	  */
+	public void setP_WIP_Acct (int P_WIP_Acct);
+
+	/** Get Work In Process.
+	  * The Work in Process account is the account used Manufacturing Order
+	  */
+	public int getP_WIP_Acct();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PA_RatioElement (Properties ctx, int PA_RatioElement_ID, String trxName)
@@ -300,7 +300,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.
@@ -328,7 +328,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setRatioElementType (String RatioElementType)
 	{
 		if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementType is mandatory");
-		if (RatioElementType.equals("R") || RatioElementType.equals("C") || RatioElementType.equals("X") || RatioElementType.equals("A")); else throw new IllegalArgumentException ("RatioElementType Invalid value - " + RatioElementType + " - Reference_ID=372 - R - C - X - A");		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
+		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
 	}
 
 	/** Get Element Type.
@@ -356,7 +356,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public void setRatioOperand (String RatioOperand)
 	{
 		if (RatioOperand == null) throw new IllegalArgumentException ("RatioOperand is mandatory");
-		if (RatioOperand.equals("P") || RatioOperand.equals("N") || RatioOperand.equals("M") || RatioOperand.equals("D")); else throw new IllegalArgumentException ("RatioOperand Invalid value - " + RatioOperand + " - Reference_ID=373 - P - N - M - D");		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
+		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
 	}
 
 	/** Get Operand.

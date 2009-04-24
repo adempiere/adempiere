@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -30,7 +30,7 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Tree (Properties ctx, int AD_Tree_ID, String trxName)
@@ -257,7 +257,7 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	public void setTreeType (String TreeType)
 	{
 		if (TreeType == null) throw new IllegalArgumentException ("TreeType is mandatory");
-		if (TreeType.equals("MM") || TreeType.equals("EV") || TreeType.equals("PR") || TreeType.equals("BP") || TreeType.equals("OO") || TreeType.equals("BB") || TreeType.equals("PJ") || TreeType.equals("SR") || TreeType.equals("PC") || TreeType.equals("MC") || TreeType.equals("AY") || TreeType.equals("U1") || TreeType.equals("U2") || TreeType.equals("U3") || TreeType.equals("U4") || TreeType.equals("CC") || TreeType.equals("CS") || TreeType.equals("CT") || TreeType.equals("CM")); else throw new IllegalArgumentException ("TreeType Invalid value - " + TreeType + " - Reference_ID=120 - MM - EV - PR - BP - OO - BB - PJ - SR - PC - MC - AY - U1 - U2 - U3 - U4 - CC - CS - CT - CM");		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
+		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
 	}
 
 	/** Get Type | Area.

@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_I_Asset (Properties ctx, int I_Asset_ID, String trxName)
@@ -386,7 +386,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
-		if (A_Depreciation_Manual_Period == null || A_Depreciation_Manual_Period.equals("PR") || A_Depreciation_Manual_Period.equals("YR")); else throw new IllegalArgumentException ("A_Depreciation_Manual_Period Invalid value - " + A_Depreciation_Manual_Period + " - Reference_ID=53256 - PR - YR");		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
+		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
 	/** Get A_Depreciation_Manual_Period.
@@ -676,7 +676,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
 
-		if (A_Reval_Cal_Method == null || A_Reval_Cal_Method.equals("DFT") || A_Reval_Cal_Method.equals("IDF") || A_Reval_Cal_Method.equals("YBF")); else throw new IllegalArgumentException ("A_Reval_Cal_Method Invalid value - " + A_Reval_Cal_Method + " - Reference_ID=53259 - DFT - IDF - YBF");		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
+		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
 	/** Get Revaluation Calculation Method.
@@ -1459,7 +1459,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public void setPostingType (String PostingType)
 	{
 
-		if (PostingType == null || PostingType.equals("A") || PostingType.equals("B") || PostingType.equals("E") || PostingType.equals("S") || PostingType.equals("R")); else throw new IllegalArgumentException ("PostingType Invalid value - " + PostingType + " - Reference_ID=125 - A - B - E - S - R");		set_Value (COLUMNNAME_PostingType, PostingType);
+		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
 	/** Get PostingType.

@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -33,7 +33,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Scheduler (Properties ctx, int AD_Scheduler_ID, String trxName)
@@ -228,7 +228,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setFrequencyType (String FrequencyType)
 	{
 		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
-		if (FrequencyType.equals("M") || FrequencyType.equals("H") || FrequencyType.equals("D")); else throw new IllegalArgumentException ("FrequencyType Invalid value - " + FrequencyType + " - Reference_ID=221 - M - H - D");		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
 	/** Get Frequency Type.
@@ -342,7 +342,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setScheduleType (String ScheduleType)
 	{
 		if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is mandatory");
-		if (ScheduleType.equals("F") || ScheduleType.equals("W") || ScheduleType.equals("M")); else throw new IllegalArgumentException ("ScheduleType Invalid value - " + ScheduleType + " - Reference_ID=318 - F - W - M");		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
+		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
 	}
 
 	/** Get Schedule Type.
@@ -398,7 +398,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public void setWeekDay (String WeekDay)
 	{
 
-		if (WeekDay == null || WeekDay.equals("7") || WeekDay.equals("1") || WeekDay.equals("2") || WeekDay.equals("3") || WeekDay.equals("4") || WeekDay.equals("5") || WeekDay.equals("6")); else throw new IllegalArgumentException ("WeekDay Invalid value - " + WeekDay + " - Reference_ID=167 - 7 - 1 - 2 - 3 - 4 - 5 - 6");		set_Value (COLUMNNAME_WeekDay, WeekDay);
+		set_Value (COLUMNNAME_WeekDay, WeekDay);
 	}
 
 	/** Get Day of the Week.

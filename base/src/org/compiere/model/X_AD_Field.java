@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -389,6 +389,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -567,7 +568,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public void setIsMandatory (String IsMandatory)
 	{
 
-		if (IsMandatory == null || IsMandatory.equals("Y") || IsMandatory.equals("N")); else throw new IllegalArgumentException ("IsMandatory Invalid value - " + IsMandatory + " - Reference_ID=319 - Y - N");		set_Value (COLUMNNAME_IsMandatory, IsMandatory);
+		set_Value (COLUMNNAME_IsMandatory, IsMandatory);
 	}
 
 	/** Get Mandatory.
@@ -670,7 +671,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public void setObscureType (String ObscureType)
 	{
 
-		if (ObscureType == null || ObscureType.equals("904") || ObscureType.equals("944") || ObscureType.equals("A44") || ObscureType.equals("A04")); else throw new IllegalArgumentException ("ObscureType Invalid value - " + ObscureType + " - Reference_ID=291 - 904 - 944 - A44 - A04");		set_Value (COLUMNNAME_ObscureType, ObscureType);
+		set_Value (COLUMNNAME_ObscureType, ObscureType);
 	}
 
 	/** Get Obscure.

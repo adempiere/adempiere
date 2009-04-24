@@ -1,17 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -93,6 +90,19 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeDifference_ID();
 
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
 
@@ -131,19 +141,6 @@ public interface I_C_DocType
 	  * Document type used for shipments generated from this sales document
 	  */
 	public int getC_DocTypeShipment_ID();
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -354,19 +351,6 @@ public interface I_C_DocType
 	  */
 	public boolean isDocNoControlled();
 
-    /** Column name IsInTransit */
-    public static final String COLUMNNAME_IsInTransit = "IsInTransit";
-
-	/** Set In Transit.
-	  * Movement is in transit
-	  */
-	public void setIsInTransit (boolean IsInTransit);
-
-	/** Get In Transit.
-	  * Movement is in transit
-	  */
-	public boolean isInTransit();
-
     /** Column name IsIndexed */
     public static final String COLUMNNAME_IsIndexed = "IsIndexed";
 
@@ -379,6 +363,19 @@ public interface I_C_DocType
 	  * Index the document for the internal search engine
 	  */
 	public boolean isIndexed();
+
+    /** Column name IsInTransit */
+    public static final String COLUMNNAME_IsInTransit = "IsInTransit";
+
+	/** Set In Transit.
+	  * Movement is in transit
+	  */
+	public void setIsInTransit (boolean IsInTransit);
+
+	/** Get In Transit.
+	  * Movement is in transit
+	  */
+	public boolean isInTransit();
 
     /** Column name IsOverwriteDateOnComplete */
     public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
@@ -411,19 +408,6 @@ public interface I_C_DocType
 	  */
 	public boolean isPickQAConfirm();
 
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
-
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx);
-
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public boolean isSOTrx();
-
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
 
@@ -436,6 +420,19 @@ public interface I_C_DocType
 	  * Require Ship or Receipt Confirmation before processing
 	  */
 	public boolean isShipConfirm();
+
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public boolean isSOTrx();
 
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";

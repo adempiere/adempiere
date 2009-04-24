@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -32,7 +32,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_CM_ChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)
@@ -150,7 +150,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public void setChatEntryType (String ChatEntryType)
 	{
 		if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");
-		if (ChatEntryType.equals("W") || ChatEntryType.equals("N") || ChatEntryType.equals("F")); else throw new IllegalArgumentException ("ChatEntryType Invalid value - " + ChatEntryType + " - Reference_ID=398 - W - N - F");		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
+		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
 	}
 
 	/** Get Chat Entry Type.
@@ -292,7 +292,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public void setConfidentialType (String ConfidentialType)
 	{
 		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
-		if (ConfidentialType.equals("A") || ConfidentialType.equals("C") || ConfidentialType.equals("I") || ConfidentialType.equals("P")); else throw new IllegalArgumentException ("ConfidentialType Invalid value - " + ConfidentialType + " - Reference_ID=340 - A - C - I - P");		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
+		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
 	/** Get Confidentiality.
@@ -320,7 +320,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public void setModeratorStatus (String ModeratorStatus)
 	{
 
-		if (ModeratorStatus == null || ModeratorStatus.equals("N") || ModeratorStatus.equals("P") || ModeratorStatus.equals("R") || ModeratorStatus.equals("S")); else throw new IllegalArgumentException ("ModeratorStatus Invalid value - " + ModeratorStatus + " - Reference_ID=396 - N - P - R - S");		set_Value (COLUMNNAME_ModeratorStatus, ModeratorStatus);
+		set_Value (COLUMNNAME_ModeratorStatus, ModeratorStatus);
 	}
 
 	/** Get Moderation Status.
