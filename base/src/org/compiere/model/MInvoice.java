@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -20,11 +20,14 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -65,39 +68,10 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	public static MInvoice[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
-		ArrayList<MInvoice> list = new ArrayList<MInvoice>();
-		String sql = "SELECT * FROM C_Invoice WHERE C_BPartner_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MInvoice(ctx,rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-
-		//
-		MInvoice[] retValue = new MInvoice[list.size()];
-		list.toArray(retValue);
-		return retValue;
+		List<MInvoice> list = new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
+									.setParameters(new Object[]{C_BPartner_ID})
+									.list();
+		return list.toArray(new MInvoice[list.size()]);
 	}	//	getOfBPartner
 
 	/**
@@ -166,8 +140,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		else
 			to.setRef_Invoice_ID(0);
 
-		if (!to.save(trxName))
-			throw new IllegalStateException("Could not create Invoice");
+		to.saveEx(trxName);
 		if (counter)
 			from.setRef_Invoice_ID(to.getC_Invoice_ID());
 
@@ -610,47 +583,14 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	private MInvoiceLine[] getLines (String whereClause)
 	{
-		ArrayList<MInvoiceLine> list = new ArrayList<MInvoiceLine>();
-		String sql = "SELECT * FROM C_InvoiceLine WHERE C_Invoice_ID=? ";
+		String whereClauseFinal = "C_Invoice_ID=? ";
 		if (whereClause != null)
-			sql += whereClause;
-		sql += " ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Invoice_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MInvoiceLine il = new MInvoiceLine(getCtx(), rs, get_TrxName());
-				il.setInvoice(this);
-				list.add(il);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
-		}
-
-		//
-		MInvoiceLine[] lines = new MInvoiceLine[list.size()];
-		list.toArray(lines);
-		return lines;
+			whereClauseFinal += whereClause;
+		List<MInvoiceLine> list = new Query(getCtx(), MInvoiceLine.Table_Name, whereClauseFinal, get_TrxName())
+										.setParameters(new Object[]{getC_Invoice_ID()})
+										.setOrderBy(MInvoiceLine.COLUMNNAME_Line)
+										.list();
+		return list.toArray(new MInvoiceLine[list.size()]);
 	}	//	getLines
 
 	/**
@@ -688,7 +628,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		{
 			MInvoiceLine line = lines[i];
 			line.setLine(number);
-			line.save();
+			line.saveEx();
 			number += step;
 		}
 		m_lines = null;
@@ -798,37 +738,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	{
 		if (m_taxes != null && !requery)
 			return m_taxes;
-		String sql = "SELECT * FROM C_InvoiceTax WHERE C_Invoice_ID=?";
-		ArrayList<MInvoiceTax> list = new ArrayList<MInvoiceTax>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getC_Invoice_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MInvoiceTax(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getTaxes", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
 		
-		m_taxes = new MInvoiceTax[list.size ()];
-		list.toArray (m_taxes);
+		final String whereClause = MInvoiceTax.COLUMNNAME_C_Invoice_ID+"=?";
+		List<MInvoiceTax> list = new Query(getCtx(), MInvoiceTax.Table_Name, whereClause, get_TrxName())
+										.setParameters(new Object[]{get_ID()})
+										.list();
+		m_taxes = list.toArray(new MInvoiceTax[list.size()]);
 		return m_taxes;
 	}	//	getTaxes
 	
@@ -909,7 +824,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			if (schedule[i].isValid() != valid)
 			{
 				schedule[i].setIsValid(valid);
-				schedule[i].save(get_TrxName());				
+				schedule[i].saveEx(get_TrxName());				
 			}
 		}
 		return valid;
@@ -1056,39 +971,13 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	Set Price List (and Currency) when valid
 	 * 	@param M_PriceList_ID price list
 	 */
+	@Override
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		String sql = "SELECT M_PriceList_ID, C_Currency_ID "
-			+ "FROM M_PriceList WHERE M_PriceList_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_PriceList_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				super.setM_PriceList_ID (rs.getInt(1));
-				setC_Currency_ID (rs.getInt(2));
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "setM_PriceList_ID", e);
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+		MPriceList pl = MPriceList.get(getCtx(), M_PriceList_ID, null);
+		if (pl != null) {
+			setC_Currency_ID(pl.getC_Currency_ID());
+			super.setM_PriceList_ID(M_PriceList_ID);
 		}
 	}	//	setM_PriceList_ID
 
@@ -1115,14 +1004,16 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			pstmt.setInt(1, getC_Invoice_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
+			{
 				retValue = rs.getBigDecimal(1);
+			}
 			rs.close();
 			pstmt.close();
 			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
@@ -1170,44 +1061,33 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 */
 	public static void setIsPaid (Properties ctx, int C_BPartner_ID, String trxName)
 	{
-		int counter = 0;
-		String sql = "SELECT * FROM C_Invoice "
-			+ "WHERE IsPaid='N' AND DocStatus IN ('CO','CL')";
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("IsPaid='N' AND DocStatus IN ('CO','CL')");
 		if (C_BPartner_ID > 1)
-			sql += " AND C_BPartner_ID=?";
-		else
-			sql += " AND AD_Client_ID=" + Env.getAD_Client_ID(ctx);
-		PreparedStatement pstmt = null;
-		try
 		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			if (C_BPartner_ID > 1)
-				pstmt.setInt (1, C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MInvoice invoice = new MInvoice(ctx, rs, trxName);
+			whereClause.append(" AND C_BPartner_ID=?");
+			params.add(C_BPartner_ID);
+		}
+		else
+		{
+			whereClause.append(" AND AD_Client_ID=?");
+			params.add(Env.getAD_Client_ID(ctx));
+		}
+		
+		POResultSet<MInvoice> rs = new Query(ctx, MInvoice.Table_Name, whereClause.toString(), trxName)
+										.setParameters(params)
+										.scroll();
+		int counter = 0;
+		try {
+			while(rs.hasNext()) {
+				MInvoice invoice = rs.next();
 				if (invoice.testAllocation())
 					if (invoice.save())
 						counter++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+		finally {
+			DB.close(rs);
 		}
 		s_log.config("#" + counter);
 		/**/
@@ -1463,7 +1343,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		//
 		String sql = "SELECT COUNT(*) FROM C_InvoiceLine "
 			+ "WHERE C_Invoice_ID=? " + where; 
-		int count = DB.getSQLValue(get_TrxName(), sql, getC_Invoice_ID());
+		int count = DB.getSQLValueEx(get_TrxName(), sql, getC_Invoice_ID());
 		while (count != 0)
 		{
 			renumberLines (100);
@@ -1496,7 +1376,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 							newLine.setDescription (bomline.getDescription ());
 						//
 						newLine.setPrice ();
-						newLine.save (get_TrxName());
+						newLine.saveEx (get_TrxName());
 					}
 				}	
 				
@@ -1532,7 +1412,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				if (line.getDescription () != null)
 					description += " " + line.getDescription ();
 				line.setDescription (description);
-				line.save (get_TrxName());
+				line.saveEx (get_TrxName());
 			} //	for all lines with BOM
 
 			m_lines = null;
