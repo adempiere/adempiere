@@ -33,9 +33,9 @@ public class MSysConfigTest extends AdempiereTestCase {
 		super.setUp();
 		//
 		varname = "MSysConfigTestVariable" + System.currentTimeMillis();
-		new SysConfigTest(getCtx(),  0,  0, varname, "0_0", null).save();
-		new SysConfigTest(getCtx(), 11,  0, varname, "11_0", null).save();
-		new SysConfigTest(getCtx(), 11, 11, varname, "11_11", null).save();
+		new TestableSysConfig(getCtx(),  0,  0, varname, "0_0", null).saveEx();
+		new TestableSysConfig(getCtx(), 11,  0, varname, "11_0", null).saveEx();
+		new TestableSysConfig(getCtx(), 11, 11, varname, "11_11", null).saveEx();
 	}
 	
 	@Override
@@ -44,7 +44,7 @@ public class MSysConfigTest extends AdempiereTestCase {
 		//
 		String sql = "DELETE FROM "+MSysConfig.Table_Name
 						+" WHERE "+MSysConfig.COLUMNNAME_Name+"=?";
-		DB.executeUpdate(sql, new Object[]{varname}, false, null);
+		DB.executeUpdateEx(sql, new Object[]{varname}, null);
 	}
 
 	public void testGetSet1() throws Exception {
@@ -62,10 +62,11 @@ public class MSysConfigTest extends AdempiereTestCase {
 		assertEquals("11_0", MSysConfig.getValue(varname, 11, 12345));
 	}
 	
-	private static class SysConfigTest extends MSysConfig {
+	private static class TestableSysConfig extends MSysConfig
+	{
 		private static final long serialVersionUID = 1L;
 		
-		public SysConfigTest(Properties ctx, 
+		public TestableSysConfig(Properties ctx, 
 				int AD_Client_ID, int AD_Org_ID,
 				String Name, String Value, 
 				String trxName)
