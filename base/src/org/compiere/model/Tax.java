@@ -182,7 +182,7 @@ public class Tax
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{

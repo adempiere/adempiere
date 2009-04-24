@@ -212,7 +212,7 @@ public class Query
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
@@ -245,7 +245,7 @@ public class Query
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
@@ -284,7 +284,7 @@ public class Query
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
@@ -397,7 +397,7 @@ public class Query
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
@@ -448,7 +448,7 @@ public class Query
 				return true;
 		}
 		catch (SQLException e) {
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally {
 			DB.close(rs, pstmt);
@@ -494,7 +494,7 @@ public class Query
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
@@ -525,7 +525,7 @@ public class Query
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{

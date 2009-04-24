@@ -345,7 +345,7 @@ public class MLanguage extends X_AD_Language
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
@@ -397,7 +397,7 @@ public class MLanguage extends X_AD_Language
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
