@@ -281,7 +281,7 @@ public class Doc_Order extends Doc
 	 */
 	public BigDecimal getBalance()
 	{
-		BigDecimal retValue = new BigDecimal(0.0);
+		BigDecimal retValue = Env.ZERO;
 		StringBuffer sb = new StringBuffer (" [");
 		//  Total
 		retValue = retValue.add(getAmount(Doc.AMTTYPE_Gross));
