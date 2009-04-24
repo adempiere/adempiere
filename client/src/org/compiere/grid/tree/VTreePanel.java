@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -58,6 +58,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -93,6 +94,8 @@ import org.compiere.util.Trx;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
+import de.schaeffer.compiere.tools.DocumentSearch;
+
 /**
  *  Tree Panel displays trees.
  *  <br>
@@ -107,6 +110,9 @@ import org.jdesktop.swingx.JXTaskPaneContainer;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VTreePanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  
+ *  Contributors:
+ *    kthiemann / Carlos Ruiz - 2761420 - Advanced Search
  */
 public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
@@ -114,7 +120,9 @@ public final class VTreePanel extends CPanel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8277846412907513244L;
+	private static final long serialVersionUID = -6798614427038652192L;
+
+	private static final String PREFIX_DOCUMENT_SEARCH = "/";
 
 	protected boolean m_lookAndFeelChanged = false;
 
@@ -197,13 +205,13 @@ public final class VTreePanel extends CPanel
 			for (JToolBar jt : toolbar)
 				jt.removeAll();
 			toolbarMap = new HashMap<Integer, JToolBar>();
-			Enumeration enTop = m_root.children();
+			Enumeration<?> enTop = m_root.children();
 			JToolBar jt = null;	
 			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
 			while (enTop.hasMoreElements())
 			{
 				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
-				Enumeration en = ndTop.preorderEnumeration();
+				Enumeration<?> en = ndTop.preorderEnumeration();
 				boolean labelDrawn=false;
 				while (en.hasMoreElements())
 				{
@@ -267,7 +275,6 @@ public final class VTreePanel extends CPanel
 	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
 	private java.util.List<JToolBar> toolbar;
 	private HashMap<Integer, JToolBar> toolbarMap;
-	private int toolBarCols=3;
 	private CMenuItem mBarAdd = new CMenuItem();
 	private CMenuItem mBarRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
@@ -292,7 +299,7 @@ public final class VTreePanel extends CPanel
 
 	private MTreeNode   m_moveNode;    	//	the node to move
 	private String      m_search = "";
-	private Enumeration m_nodeEn;
+	private Enumeration<?> m_nodeEn;
 	private MTreeNode   m_selectedNode;	//	the selected model node
 	private CButton     m_buttonSelected;
 
@@ -652,6 +659,18 @@ public final class VTreePanel extends CPanel
 	 */
 	protected void keyPressed(KeyEvent e)
 	{
+
+		//CHANGED - document search
+		if (e.getSource() == treeSearch && treeSearch.getText() != null
+				&& treeSearch.getText().length() > 0
+				&& treeSearch.getText().substring(0, 1).equals(PREFIX_DOCUMENT_SEARCH)) {
+			setBusy(true);
+			if (DocumentSearch.openDocumentsByDocumentNo(treeSearch.getText().substring(1)))
+				treeSearch.setText(null);
+			setBusy(false);
+			return;
+		}
+		
 		//  *** Tree ***
 		if (e.getSource() instanceof JTree
 			|| (e.getSource() == treeSearch && e.getModifiers() != 0))	//	InputEvent.CTRL_MASK
@@ -734,8 +753,8 @@ public final class VTreePanel extends CPanel
 				&& SwingUtilities.isRightMouseButton(e)
 				&& tree.getSelectionPath() != null)         //  need select first
 			{
-				MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-			//	if (nd.isLeaf())                    //  only leaves
+				// MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
+			    //	if (nd.isLeaf())                    //  only leaves
 				{
 					Rectangle r = tree.getPathBounds(tree.getSelectionPath());
 					popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
@@ -833,7 +852,7 @@ public final class VTreePanel extends CPanel
 
 	
 	/**************************************************************************
-	 *  Node Changed - synchromize Node
+	 *  Node Changed - synchronize Node
 	 *
 	 *  @param  save    true the node was saved (changed/added), false if the row was deleted
 	 *  @param  keyID   the ID of the row changed
@@ -986,7 +1005,7 @@ public final class VTreePanel extends CPanel
 		int topParentId = getTopParentId(nd);
 		JToolBar parent = toolbarMap.get(topParentId);
 		if(parent==null){
-			Enumeration enTop =m_root.children();		
+			Enumeration<?> enTop =m_root.children();		
 			while (enTop.hasMoreElements()) {
 				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
 				if(ndTop.getNode_ID()==topParentId){
@@ -1150,6 +1169,32 @@ public final class VTreePanel extends CPanel
 		super.paint(g);
 	}
 
+	//CHANGED - SET BUSY ADDED
+	/**
+	 *	Indicate Busy
+	 *  @param busy busy
+	 */
+	private void setBusy (boolean busy)
+	{
+		JFrame frame = Env.getFrame(this);
+		log.info("frame: " + frame);
+		if (frame == null)  //  during init
+			return;
+		if (busy)
+		{
+			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			treeSearch.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		}
+		else
+		{
+			this.setCursor(Cursor.getDefaultCursor());
+			frame.setCursor(Cursor.getDefaultCursor());
+			treeSearch.setCursor(Cursor.getDefaultCursor());
+		}
+	}	//	set Busy
+	
+
 }   //  VTreePanel
 
 
@@ -1177,6 +1222,8 @@ class VTreePanel_mouseAdapter extends java.awt.event.MouseAdapter
 	{
 		m_adaptee.mouseClicked(e);
 	}
+	
+	
 }   //  VTreePanel_mouseAdapter
 
 /**
@@ -1205,5 +1252,3 @@ class VTreePanel_keyAdapter extends java.awt.event.KeyAdapter
 			m_adaptee.keyPressed(e);
 	}
 }   //  VTreePanel_keyAdapter
-
- 	  	 
