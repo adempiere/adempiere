@@ -58,6 +58,7 @@ import org.compiere.util.Env;
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * 				<li>FR [ 1990848 ] Generated Models: remove hardcoded field length
  * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
+ * 				<li>BF [ 2780468 ] ModelClassGenerator: not generating methods for Created*
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
  */
@@ -278,8 +279,7 @@ public class ModelClassGenerator
 			+ " AND c.ColumnName <> 'AD_Client_ID'"
 			+ " AND c.ColumnName <> 'AD_Org_ID'"
 			+ " AND c.ColumnName <> 'IsActive'"
-			+ " AND c.ColumnName NOT LIKE 'Created%'"
-			+ " AND c.ColumnName NOT LIKE 'Updated%' "
+			+ " AND c.ColumnName NOT IN ('Created', 'CreatedBy', 'Updated', 'UpdatedBy')"
 			+ " AND c.IsActive='Y'"
 			+ " ORDER BY c.ColumnName";
 		boolean isKeyNamePairCreated = false; // true if the method "getKeyNamePair" is already generated
