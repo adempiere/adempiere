@@ -144,7 +144,8 @@ public class MBPartner extends X_C_BPartner
 			return null;
 		String whereClause = "Value=? AND AD_Client_ID=?";
 		MBPartner retValue = new Query(ctx,MBPartner.Table_Name,whereClause.toString(),null)
-		.setParameters(new Object[]{Value,Env.getAD_Client_ID(ctx)}).first();
+		.setParameters(new Object[]{Value,Env.getAD_Client_ID(ctx)})
+		.firstOnly();
 		return retValue;
 	}	//	get
 
