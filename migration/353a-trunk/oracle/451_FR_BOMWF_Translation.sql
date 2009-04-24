@@ -1,3 +1,5 @@
+SET DEFINE OFF;
+
 -- Apr 18, 2009 10:38:14 AM ECT
 -- Views for Manufacturing Management
 INSERT INTO AD_Table (AD_Client_ID,AD_Org_ID,AD_Table_ID,AD_Window_ID,AccessLevel,CopyColumnsFromTable,Created,CreatedBy,Description,EntityType,ImportTable,IsActive,IsChangeLog,IsDeleteable,IsHighVolume,IsSecurityEnabled,IsView,LoadSeq,Name,ReplicationType,TableName,Updated,UpdatedBy) VALUES (0,0,53189,113,'3','N',TO_DATE('2009-04-18 10:38:12','YYYY-MM-DD HH24:MI:SS'),0,'Workflow or combination of tasks','EE01','N','Y','N','Y','N','N','N',0,'Order Workflow Trl','L','PP_Order_Workflow_Trl',TO_DATE('2009-04-18 10:38:12','YYYY-MM-DD HH24:MI:SS'),0)
@@ -1452,7 +1454,7 @@ Help NVARCHAR2(2000) DEFAULT NULL ,
 IsActive CHAR(1) DEFAULT 'Y' CHECK (IsActive IN ('Y','N')) NOT NULL,
 IsTranslated CHAR(1) CHECK (IsTranslated IN ('Y','N')) NOT NULL, 
 PP_Product_BOMLine_ID NUMBER(10) NOT NULL, 
-Updated DATE DEFAULT SYSDADE NOT NULL, 
+Updated DATE DEFAULT SYSDATE NOT NULL, 
 UpdatedBy NUMBER(10) NOT NULL, 
 CONSTRAINT PP_Product_BOMLine_Trl_Key PRIMARY KEY (AD_Language, PP_Product_BOMLine_ID))
 ;
