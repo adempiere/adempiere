@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpSession;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
@@ -51,7 +52,7 @@ import org.zkoss.zul.Window;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
- * 
+ *
  * @author hengsin
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
@@ -69,19 +70,19 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     private ClientInfo		   clientInfo;
 
 	private String langSession;
-	
+
 	private UserPreference userPreference;
-	
+
 	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
     public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
-    	this.setVisible(false);    	    	
-    	
+    	this.setVisible(false);
+
     	userPreference = new UserPreference();
     }
-    
+
     public void onCreate()
     {
         this.getPage().setTitle(APP_NAME);
@@ -97,7 +98,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         else
         {
             loginCompleted();
-        }                
+        }
     }
 
     public void onOk()
@@ -113,48 +114,63 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void loginCompleted()
     {
-    	if (loginDesktop != null) 
+    	if (loginDesktop != null)
     	{
     		loginDesktop.detach();
     		loginDesktop = null;
     	}
-    	
+
         Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
-        if (langLogin == null || langLogin.length() <= 0) {
+        if (langLogin == null || langLogin.length() <= 0)
+        {
         	langLogin = langSession;
         	Env.setContext(ctx, Env.LANGUAGE, langSession);
         }
-        
+
         // Validate language
 		Language language = Language.getLanguage(langLogin);
+		String locale = Env.getContext(ctx, AEnv.LOCALE);
+		if (locale != null && locale.length() > 0 && !language.getLocale().toString().equals(locale))
+		{
+			String adLanguage = language.getAD_Language();
+			Language tmp = Language.getLanguage(locale);
+			language = new Language(tmp.getName(), adLanguage, tmp.getLocale(), tmp.isDecimalPoint(),
+	    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
+		}
+		else
+		{
+			Language tmp = language;
+			language = new Language(tmp.getName(), tmp.getAD_Language(), tmp.getLocale(), tmp.isDecimalPoint(),
+	    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
+		}
     	Env.verifyLanguage(ctx, language);
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
-        
+
 		//	Create adempiere Session - user id in ctx
         Session currSess = Executions.getCurrent().getDesktop().getSession();
         HttpSession httpSess = (HttpSession) currSess.getNativeSession();
 
-		MSession.get (ctx, currSess.getRemoteAddr(), 
+		MSession.get (ctx, currSess.getRemoteAddr(),
 			currSess.getRemoteHost(), httpSess.getId() );
-		
-		//enable full interface, relook into this when doing preference		
+
+		//enable full interface, relook into this when doing preference
 		Env.setContext(ctx, "#ShowTrl", true);
 		Env.setContext(ctx, "#ShowAcct", true);
 		Env.setContext(ctx, "#ShowAdvanced", true);
-		
+
 		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
 		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
-        
+
 		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
-		if (d != null && d instanceof IDesktop) 
+		if (d != null && d instanceof IDesktop)
 		{
 			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute("execution.carryover");
 			if (eco != null) {
 				//try restore
 				try {
 					appDesktop = (IDesktop) d;
-					
+
 					ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
 					ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
 					Visualizer vi = ctrl.getVisualizer();
@@ -163,7 +179,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 					try {
 						ctrl = ExecutionsCtrl.getCurrentCtrl();
 						ctrl.setVisualizer(vi);
-						
+
 						//detach root component from old page
 						Page page = appDesktop.getComponent().getPage();
 						Collection<?> collection = page.getRoots();
@@ -182,24 +198,24 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 						eco.cleanup();
 						current.carryOver();
 					}
-					
+
 					if (appDesktop != null) {
 						//re-attach root components
 						for (Component component : rootComponents) {
 							component.setPage(this.getPage());
 						}
-						appDesktop.setPage(this.getPage());					
+						appDesktop.setPage(this.getPage());
 						currSess.setAttribute("execution.carryover", current);
 					}
 				} catch (Throwable t) {
 					//restore fail
 					appDesktop = null;
 				}
-				
+
 			}
 		}
-				
-		if (appDesktop == null) 
+
+		if (appDesktop == null)
 		{
 			//create new desktop
 			createDesktop();
@@ -211,22 +227,22 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		}
     }
 
-    private void createDesktop() 
+    private void createDesktop()
     {
     	appDesktop = null;
 		String className = MSysConfig.getValue(IDesktop.CLASS_NAME_KEY);
-		if ( className != null && className.trim().length() > 0) 
+		if ( className != null && className.trim().length() > 0)
 		{
-			try 
+			try
 			{
 				Class<?> clazz = this.getClass().getClassLoader().loadClass(className);
 				appDesktop = (IDesktop) clazz.newInstance();
-			} 
+			}
 			catch (Throwable t)
 			{
 				logger.warning("Failed to instantiate desktop. Class=" + className);
 			}
-		}		
+		}
 		//fallback to default
 		if (appDesktop == null)
 			appDesktop = new DefaultDesktop();
@@ -238,12 +254,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     public void logout()
     {
     	appDesktop.logout();
-    	
+
     	MSession mSession = MSession.get(Env.getCtx(), false);
     	if (mSession != null) {
     		mSession.logout();
     	}
-    	
+
         SessionManager.clearSession();
         super.getChildren().clear();
         Page page = this.getPage();
@@ -258,7 +274,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     	return appDesktop;
     }
-    
+
 	public void onEvent(Event event) {
 		if (event instanceof ClientInfoEvent) {
 			ClientInfoEvent c = (ClientInfoEvent)event;

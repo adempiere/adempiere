@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -49,6 +50,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Language;
 import org.zkoss.web.servlet.Servlets;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
@@ -62,7 +64,7 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- *  Windows Application Environment and utilities
+ *  ZK Application Environment and utilities
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: AEnv.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
@@ -71,6 +73,8 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public final class AEnv
 {
+	public static final String LOCALE = "#Locale";
+
 	/**
 	 *  Show in the center of the screen.
 	 *  (pack, set location and set visibility)
@@ -94,7 +98,7 @@ public final class AEnv
 	 *  Show in the center of the screen.
 	 *  (pack, set location and set visibility)
 	 * 	@param window Window to position
-	 * 	@param position 
+	 * 	@param position
 	 */
 	public static void showScreen(Window window, String position)
 	{
@@ -172,7 +176,7 @@ public final class AEnv
 				AD_Window_ID = PO_Window_ID;
 		}
 
-		log.config(TableName + " - Record_ID=" + Record_ID + " (IsSOTrx=" + isSOTrx + ")");		
+		log.config(TableName + " - Record_ID=" + Record_ID + " (IsSOTrx=" + isSOTrx + ")");
 		zoom(AD_Window_ID, MQuery.getEqualQuery(TableName + "_ID", Record_ID));
 	}	//	zoom
 
@@ -204,10 +208,10 @@ public final class AEnv
 			int AD_Window_ID = DB.getSQLValue(null, "SELECT AD_Window_ID FROM AD_Window WHERE Name = 'Workflow Process'");
 			s_workflow_Window_ID = AD_Window_ID;
 		}
-		
+
 		if (s_workflow_Window_ID <= 0)
 			return;
-		
+
 		MQuery query = new MQuery();
 		query.addRestriction("AD_Table_ID", MQuery.EQUAL, AD_Table_ID);
 		query.addRestriction("Record_ID", MQuery.EQUAL, Record_ID);
@@ -259,11 +263,11 @@ public final class AEnv
 		GridWindowVO mWindowVO = null;
 		String locale = Env.getLanguage(Env.getCtx()).getLocale().toString();
 		if (AD_Window_ID != 0 && Ini.isCacheWindow())	//	try cache
-		{			
+		{
 			synchronized (windowCache)
 			{
 				CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
-				if (cache != null) 
+				if (cache != null)
 				{
 					mWindowVO = cache.get(AD_Window_ID);
 					if (mWindowVO != null)
@@ -274,7 +278,7 @@ public final class AEnv
 				}
 			}
 		}
-		
+
 		//  Create Window Model on Client
 		if (mWindowVO == null)
 		{
@@ -285,14 +289,14 @@ public final class AEnv
 				synchronized (windowCache)
 				{
 					CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
-					if (cache == null) 
+					if (cache == null)
 					{
 						cache = new CCache<Integer, GridWindowVO>("AD_Window", 10);
 						windowCache.put(locale, cache);
 					}
 					cache.put(AD_Window_ID, mWindowVO);
 				}
-			}				
+			}
 		}	//	from Client
 		if (mWindowVO == null)
 			return null;
@@ -583,16 +587,16 @@ public final class AEnv
         }
         return uri;
     }   //  getImageIcon
-    
+
     /**
-     * 
+     *
      * @return boolean
      */
     public static boolean isFirefox2() {
     	Execution execution = Executions.getCurrent();
     	if (execution == null)
     		return false;
-    	
+
     	Object n = execution.getNativeRequest();
     	if (n instanceof ServletRequest) {
     		String userAgent = Servlets.getUserAgent((ServletRequest) n);
@@ -601,9 +605,9 @@ public final class AEnv
     		return false;
     	}
     }
-    
+
     /**
-     * 
+     *
      * @param parent
      * @param child
      * @return boolean
@@ -611,19 +615,19 @@ public final class AEnv
     public static boolean contains(Component parent, Component child) {
     	if (child == parent)
     		return true;
-    	
+
     	Component c = child.getParent();
     	while (c != null) {
     		if (c == parent)
     			return true;
     		c = c.getParent();
     	}
-    	
+
     	return false;
     }
-    
+
     /**
-     * 
+     *
      * @param pdfList
      * @param outFile
      * @throws IOException
@@ -633,13 +637,13 @@ public final class AEnv
     public static void mergePdf(List<File> pdfList, File outFile) throws IOException,
 			DocumentException, FileNotFoundException {
 		Document document = null;
-		PdfWriter copy = null;					
-		for (File f : pdfList) 
+		PdfWriter copy = null;
+		for (File f : pdfList)
 		{
 			PdfReader reader = new PdfReader(f.getAbsolutePath());
 			if (document == null)
 			{
-				document = new Document(reader.getPageSizeWithRotation(1));							
+				document = new Document(reader.getPageSizeWithRotation(1));
 				copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
 				document.open();
 			}
@@ -653,7 +657,7 @@ public final class AEnv
 		}
 		document.close();
     }
-    
+
     /**
 	 *	Get window title
 	 *  @param ctx context
@@ -680,4 +684,42 @@ public final class AEnv
 		}
 		return sb.toString();
 	}	//	getHeader
+
+	/**
+	 * @param ctx
+	 * @return Language
+	 */
+	public static Language getLanguage(Properties ctx) {
+		Locale locale = getLocale(ctx);
+		Language language = Env.getLanguage(ctx);
+		if (!language.getLocale().equals(locale)) {
+			Language tmp = Language.getLanguage(locale.toString());
+			String adLanguage = language.getAD_Language();
+			language = new Language(tmp.getName(), adLanguage, tmp.getLocale(), tmp.isDecimalPoint(),
+	    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
+		}
+		return language;
+	}
+
+	/**
+	 * @param ctx
+	 * @return Locale
+	 */
+	public static Locale getLocale(Properties ctx) {
+		String value = Env.getContext(ctx, AEnv.LOCALE);
+        Locale locale = null;
+        if (value != null && value.length() > 0)
+        {
+	        String[] components = value.split("\\_");
+	        String language = components.length > 0 ? components[0] : "";
+	        String country = components.length > 1 ? components[1] : "";
+	        locale = new Locale(language, country);
+        }
+        else
+        {
+        	locale = Env.getLanguage(ctx).getLocale();
+        }
+
+        return locale;
+	}
 }	//	AEnv

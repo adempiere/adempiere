@@ -20,6 +20,7 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
@@ -35,6 +36,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
+import org.zkoss.util.Locales;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
@@ -57,7 +59,7 @@ import org.zkoss.zul.Listitem;
 public class LoginPanel extends Window implements EventListener
 {
     private static final long serialVersionUID = 1L;
-    
+
     private static final String RESOURCE = "org.compiere.apps.ALoginRes";
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
 
@@ -79,7 +81,7 @@ public class LoginPanel extends Window implements EventListener
         initComponents();
         init();
         this.setId("loginPanel");
-        
+
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
     }
@@ -94,7 +96,7 @@ public class LoginPanel extends Window implements EventListener
         logo.setSpans("2");
         Image image = new Image();
         image.setSrc("images/logo.png");
-        logo.appendChild(image);        
+        logo.appendChild(image);
         Row rowUser = new Row();
         rowUser.setId("rowUser");
         Row rowPassword = new Row();
@@ -160,7 +162,7 @@ public class LoginPanel extends Window implements EventListener
         lstLanguage.setMold("select");
         lstLanguage.addEventListener(Events.ON_SELECT, this);
         lstLanguage.setWidth("220px");
-        
+
         // Update Language List
         lstLanguage.getItems().clear();
         String[] availableLanguages = Language.getNames();
@@ -215,18 +217,26 @@ public class LoginPanel extends Window implements EventListener
         }
         //
     }
-    
+
     private void languageChanged(String langName)
     {
-    	Language language = Language.getLanguage(langName);
-    	Env.verifyLanguage(ctx, language);
-    	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language());
-    	
+    	Language language = findLanguage(langName);
+
     	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
     	lblUserId.setValue(res.getString("User"));
     	lblPassword.setValue(res.getString("Password"));
     	lblLanguage.setValue(res.getString("Language"));
     }
+
+	private Language findLanguage(String langName) {
+		Language tmp = Language.getLanguage(langName);
+    	Language language = new Language(tmp.getName(), tmp.getAD_Language(), tmp.getLocale(), tmp.isDecimalPoint(),
+    			tmp.getDateFormat().toPattern(), tmp.getMediaSize());
+    	Env.verifyLanguage(ctx, language);
+    	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language());
+    	Env.setContext(ctx, AEnv.LOCALE, language.getLocale().toString());
+		return language;
+	}
     /**
      *  validates user name and password when logging in
      *
@@ -247,11 +257,12 @@ public class LoginPanel extends Window implements EventListener
         		langName = (String) lstLanguage.getSelectedItem().getLabel();
         	else
         		langName = Language.getBaseLanguage().getName();
-        	Language language = Language.getLanguage(langName);
-        	Env.verifyLanguage(ctx, language);
-            wndLogin.loginOk(userId, userPassword);      
-            
+        	Language language = findLanguage(langName);
+            wndLogin.loginOk(userId, userPassword);
+
             Env.setContext(ctx, UserPreference.LANGUAGE_NAME, language.getName()); // Elaine 2009/02/06
+
+            Locales.setThreadLocal(language.getLocale());
         }
     }
 }

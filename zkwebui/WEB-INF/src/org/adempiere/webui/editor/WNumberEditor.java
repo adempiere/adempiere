@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.adempiere.webui.ValuePreference;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -36,28 +37,28 @@ import org.zkoss.zk.ui.event.Events;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
- * 
+ *
  * @author Low Heng Sin
  */
 public class WNumberEditor extends WEditor
 {
     public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
-    
+
     public static final int MAX_DISPLAY_LENGTH = 20;
 
     private BigDecimal oldValue;
-    
+
     private boolean mandatory = false;
 
 	private int displayType;
-    
-    public WNumberEditor() 
+
+    public WNumberEditor()
     {
     	this("Number", false, false, true, DisplayType.Number, "");
     }
-    
+
     /**
-     * 
+     *
      * @param gridField
      */
     public WNumberEditor(GridField gridField)
@@ -67,9 +68,9 @@ public class WNumberEditor extends WEditor
         this.displayType = gridField.getDisplayType();
         init();
     }
-    
+
     /**
-     * 
+     *
      * @param gridField
      * @param integral
      */
@@ -81,7 +82,7 @@ public class WNumberEditor extends WEditor
     }
 
     /**
-     * 
+     *
      * @param columnName
      * @param mandatory
      * @param readonly
@@ -90,9 +91,9 @@ public class WNumberEditor extends WEditor
      * @param title
      */
     public WNumberEditor(String columnName, boolean mandatory, boolean readonly, boolean updateable,
-			int displayType, String title) 
+			int displayType, String title)
     {
-		super(new NumberBox(displayType == DisplayType.Integer), columnName, title, null, mandatory, 
+		super(new NumberBox(displayType == DisplayType.Integer), columnName, title, null, mandatory,
 				readonly, updateable);
 		this.displayType = displayType;
 		init();
@@ -103,14 +104,14 @@ public class WNumberEditor extends WEditor
 		if (gridField != null)
 		{
 			getComponent().setTooltiptext(gridField.getDescription());
-		}        
-		
+		}
+
 		if (!DisplayType.isNumeric(displayType))
 			displayType = DisplayType.Number;
-		DecimalFormat format = DisplayType.getNumberFormat(displayType, Env.getLanguage(Env.getCtx()));
+		DecimalFormat format = DisplayType.getNumberFormat(displayType, AEnv.getLanguage(Env.getCtx()));
 		getComponent().getDecimalbox().setFormat(format.toPattern());
     }
-    
+
 	/**
 	 * Event handler
 	 * @param event
@@ -125,7 +126,7 @@ public class WNumberEditor extends WEditor
 	        oldValue = newValue;
     	}
     }
-    
+
     @Override
 	public NumberBox getComponent() {
 		return (NumberBox) component;
@@ -167,29 +168,29 @@ public class WNumberEditor extends WEditor
 
     @Override
     public void setValue(Object value)
-    {    	
+    {
     	if (value == null)
     		oldValue = null;
     	else if (value instanceof BigDecimal)
     		oldValue = (BigDecimal) value;
     	else if (value instanceof Number)
     		oldValue = new BigDecimal(((Number)value).doubleValue());
-    	else 
+    	else
     		oldValue = new BigDecimal(value.toString());
     	getComponent().setValue(oldValue);
     }
-    
+
     @Override
     public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
-    
+
     /**
-     * Handle context menu events 
+     * Handle context menu events
      * @param evt
      */
-    public void onMenu(ContextMenuEvent evt) 
+    public void onMenu(ContextMenuEvent evt)
 	{
 	 	if (WEditorPopupMenu.PREFERENCE_EVENT.equals(evt.getContextEvent()) && gridField != null)
 		{

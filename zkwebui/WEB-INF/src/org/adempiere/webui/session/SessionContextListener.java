@@ -19,6 +19,7 @@ package org.adempiere.webui.session;
 
 import java.util.List;
 
+import org.adempiere.webui.apps.AEnv;
 import org.compiere.util.Env;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
@@ -31,7 +32,7 @@ import org.zkoss.zk.ui.util.ExecutionCleanup;
 import org.zkoss.zk.ui.util.ExecutionInit;
 
 /**
- * 
+ *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
@@ -44,17 +45,17 @@ public class SessionContextListener implements ExecutionInit,
     /**
      * @param exec
      * @param parent
-     * 
+     *
      * @see ExecutionInit#init(Execution, Execution)
      */
     public void init(Execution exec, Execution parent)
     {
         if (parent == null)
-        { 
+        {
             ServerContext ctx = (ServerContext)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
             if (ctx == null)
             {
-            	ctx = ServerContext.newInstance();                
+            	ctx = ServerContext.newInstance();
                 exec.getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
             }
             else
@@ -62,7 +63,7 @@ public class SessionContextListener implements ExecutionInit,
             	ServerContext.setCurrentInstance(ctx);
             }
             exec.setAttribute(SESSION_CTX, ctx);
-            
+
             //set locale
             Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
         }
@@ -72,7 +73,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param exec
      * @param parent
      * @param errs
-     * @see ExecutionCleanup#cleanup(Execution, Execution, List) 
+     * @see ExecutionCleanup#cleanup(Execution, Execution, List)
      */
     public void cleanup(Execution exec, Execution parent, List errs)
     {
@@ -80,7 +81,7 @@ public class SessionContextListener implements ExecutionInit,
         {
             exec.removeAttribute(SESSION_CTX);
             ServerContext.dispose();
-        }        
+        }
     }
 
     /**
@@ -102,11 +103,11 @@ public class SessionContextListener implements ExecutionInit,
         ServerContext ctx = (ServerContext) Executions.getCurrent().getAttribute(
                 SESSION_CTX);
         ServerContext.setCurrentInstance(ctx);
-        
+
         // set locale
-        Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
-        
-		return true; 
+        Locales.setThreadLocal(AEnv.getLocale(ctx));
+
+		return true;
     }
 
     /**
@@ -138,5 +139,5 @@ public class SessionContextListener implements ExecutionInit,
     public void abortResume(Component comp, Event evt)
     {
         // do nothing
-    }    
+    }
 }

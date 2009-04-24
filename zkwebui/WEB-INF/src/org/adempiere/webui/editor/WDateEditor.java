@@ -20,16 +20,18 @@ package org.adempiere.webui.editor;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Datebox;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * 
+ *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date Mar 12, 2007
  * @version $Revision: 0.10 $
@@ -39,16 +41,16 @@ public class WDateEditor extends WEditor
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     @SuppressWarnings("unused")
 	private static final CLogger logger;
-    
+
     static
     {
         logger = CLogger.getCLogger(WDateEditor.class);
     }
-    
+
     private Timestamp oldValue = new Timestamp(0);
-    
+
     /**
-     * 
+     *
      * @param gridField
      */
     public WDateEditor(GridField gridField)
@@ -56,11 +58,11 @@ public class WDateEditor extends WEditor
         super(new Datebox(), gridField);
         init();
     }
-    
-	
+
+
 	/**
 	 * Constructor for use if a grid field is unavailable
-	 * 
+	 *
 	 * @param label
 	 *            column name (not displayed)
 	 * @param description
@@ -78,14 +80,14 @@ public class WDateEditor extends WEditor
 		setColumnName("Date");
 		init();
 	}
-	
+
 	public WDateEditor()
 	{
-		this("Date", "Date", false, false, true);		
+		this("Date", "Date", false, false, true);
 	}   // VDate
-	
+
 	/**
-	 * 
+	 *
 	 * @param columnName
 	 * @param mandatory
 	 * @param readonly
@@ -97,24 +99,24 @@ public class WDateEditor extends WEditor
 	{
 		super(new Datebox(), columnName, title, null, mandatory, readonly, updateable);
 	}
-	
-	private void init() 
+
+	private void init()
 	{
-		getComponent().setFormat(DisplayType.getDateFormat().toPattern());
+		getComponent().setFormat(DisplayType.getDateFormat(AEnv.getLanguage(Env.getCtx())).toPattern());
 	}
-    
+
 	public void onEvent(Event event)
     {
 		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
 		{
 	        Date date = getComponent().getValue();
 	        Timestamp newValue = null;
-	        
+
 	        if (date != null)
 	        {
 	            newValue = new Timestamp(date.getTime());
-	        }        
-	        
+	        }
+
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
@@ -162,9 +164,9 @@ public class WDateEditor extends WEditor
             getComponent().setValue((Timestamp)value);
             oldValue = (Timestamp)value;
         }
-    	else 
+    	else
     	{
-    		try 
+    		try
     		{
     			getComponent().setText(value.toString());
     		} catch (Exception e) {}
@@ -174,7 +176,7 @@ public class WDateEditor extends WEditor
     			oldValue = null;
     	}
     }
-    
+
 	@Override
 	public Datebox getComponent() {
 		return (Datebox) component;
