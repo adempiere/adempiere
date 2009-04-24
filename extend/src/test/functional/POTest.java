@@ -121,16 +121,16 @@ public class POTest extends AdempiereTestCase
 	 */
 	public void testAfterSaveError()
 	{
-		class MyTest extends MTest {
+		class MyTestPO extends MTest {
 			private static final long serialVersionUID = 1L;
 			protected boolean failOnSave = false;
-			public MyTest(Properties ctx, boolean failOnSave, String trxName) {
+			public MyTestPO(Properties ctx, boolean failOnSave, String trxName) {
 				super(ctx, "Test_"+System.currentTimeMillis(), 10);
 				this.set_TrxName(trxName);
 				this.setDescription(""+getClass());
 				this.failOnSave = failOnSave;
 			}
-			public MyTest(Properties ctx, int id, String trxName) {
+			public MyTestPO(Properties ctx, int id, String trxName) {
 				super(ctx, id, trxName);
 			}
 			@Override
@@ -143,29 +143,29 @@ public class POTest extends AdempiereTestCase
 		//
 		// Test for new objects
 		{
-			MyTest test = new MyTest(getCtx(), true, null);
+			MyTestPO test = new MyTestPO(getCtx(), true, null);
 			assertFalse("Object should not be saved -- "+test, test.save());
 			assertFalse("Object should not be saved -- "+test, test.get_ID() <= 0);
 			//
-			String sql = "SELECT "+MyTest.COLUMNNAME_Test_ID+" FROM "+MyTest.Table_Name
-							+" WHERE "+MyTest.COLUMNNAME_Test_ID+"=?";
+			String sql = "SELECT "+MyTestPO.COLUMNNAME_Test_ID+" FROM "+MyTestPO.Table_Name
+							+" WHERE "+MyTestPO.COLUMNNAME_Test_ID+"=?";
 			int id = DB.getSQLValueEx(null, sql, test.get_ID());
 			assertTrue("Object should not be saved(2) -- id="+id, id <= 0);
 		}
 		//
 		// Test for old objects
 		{
-			MyTest test = new MyTest(getCtx(), false, null);
+			MyTestPO test = new MyTestPO(getCtx(), false, null);
 			assertTrue("Object *should* be saved -- "+test, test.save());
 			//
-			MyTest test2 = new MyTest(getCtx(), test.get_ID(), null);
+			MyTestPO test2 = new MyTestPO(getCtx(), test.get_ID(), null);
 			assertEquals("Object not found", test.get_ID(), test2.get_ID());
 			test2.failOnSave = true;
 			test2.setName(test2.getName()+"_2");
 			assertFalse("Object should not be saved -- "+test2, test2.save());
 			//
-			String sql = "SELECT "+MyTest.COLUMNNAME_Name+" FROM "+MyTest.Table_Name
-							+" WHERE "+MyTest.COLUMNNAME_Test_ID+"=?";
+			String sql = "SELECT "+MyTestPO.COLUMNNAME_Name+" FROM "+MyTestPO.Table_Name
+							+" WHERE "+MyTestPO.COLUMNNAME_Test_ID+"=?";
 			String name = DB.getSQLValueStringEx(null, sql, test2.get_ID());
 			assertEquals("Object should not be modified(2) -- id="+test2, test.getName(), name);
 		}
