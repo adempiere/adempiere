@@ -88,7 +88,7 @@ import org.eevolution.model.X_PP_Product_BOMLine;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VLookup.java,v 1.5 2006/10/06 00:42:38 jjanke Exp $
- *  
+ *
  *  @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *				<li>BF [ 1740835 ] NPE when closing a window
  *				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
@@ -101,7 +101,7 @@ public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -104909868954609498L;
 
@@ -111,7 +111,7 @@ public class VLookup extends JComponent
 		if (e.getSource() == m_combo || e.getSource() == m_text || e.getSource() == this) {
 			return super.processKeyBinding(ks, e, condition, pressed);
 		}
-		
+
 		JComponent editorComp = null;
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)
 			editorComp = m_combo;
@@ -141,7 +141,7 @@ public class VLookup extends JComponent
 		int AD_Column_ID = 3499;    //  C_Invoice.C_BPartner_ID
 		try
 		{
-			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo, 
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo,
 				0, AD_Column_ID, DisplayType.Search);
 			return new VLookup ("C_BPartner_ID", false, false, true, lookup);
 		}
@@ -162,7 +162,7 @@ public class VLookup extends JComponent
 		int AD_Column_ID = 3840;    //  C_InvoiceLine.M_Product_ID
 		try
 		{
-			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo, 0, 
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo, 0,
 				AD_Column_ID, DisplayType.Search);
 			return new VLookup ("M_Product_ID", false, false, true, lookup);
 		}
@@ -183,7 +183,7 @@ public class VLookup extends JComponent
 		int AD_Column_ID = 10443;    //  AD_WF_Activity.AD_User_UD
 		try
 		{
-			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo, 0, 
+			Lookup lookup = MLookupFactory.get (Env.getCtx(), WindowNo, 0,
 				AD_Column_ID, DisplayType.Search);
 			return new VLookup ("AD_User_ID", false, false, true, lookup);
 		}
@@ -194,7 +194,7 @@ public class VLookup extends JComponent
 		return null;
 	}   //  createProduct
 
-	
+
 	/*************************************************************************
 	 *	Detail Constructor
 	 *
@@ -336,7 +336,7 @@ public class VLookup extends JComponent
 	private boolean				m_comboActive = true;
 	/** The Value								*/
 	private Object				m_value;
-	
+
 	private boolean 			m_stopediting = false;
 
 	//	Popup
@@ -348,7 +348,7 @@ public class VLookup extends JComponent
 	// Mouse Listener
 	private VLookup_mouseAdapter mouseAdapter;
 
-	
+
 	//	Field for Value Preference
 	private GridField              m_mField = null;
 	/**	Logger			*/
@@ -497,7 +497,7 @@ public class VLookup extends JComponent
 			m_text.requestFocus ();
 	}	//	requestFocus
 
-	
+
 	/**
 	 *  Set Editor to value
 	 *  @param value new Value
@@ -527,10 +527,10 @@ public class VLookup extends JComponent
 		}
 
 		//must call m_combo.setvalue after m_lookup as
-		//loading of combo data might happen in m_lookup.getDisplay 
+		//loading of combo data might happen in m_lookup.getDisplay
 		m_lastDisplay = m_lookup.getDisplay(value);
 		m_combo.setValue (value);
-		
+
 		if (m_lastDisplay.equals("<-1>"))
 		{
 			m_lastDisplay = "";
@@ -591,9 +591,9 @@ public class VLookup extends JComponent
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
-		if (m_stopediting) 
+		if (m_stopediting)
 			return;
-		
+
 	//	log.fine( "VLookup.propertyChange", evt);
 		if (evt.getPropertyName().equals(GridField.PROPERTY))
 		{
@@ -644,7 +644,7 @@ public class VLookup extends JComponent
 			ValuePreference.addMenu (this, popupMenu);
 	}   //  setField
 
-	
+
 	/**************************************************************************
 	 *	Action Listener	- data binding
 	 *  @param e ActionEvent
@@ -737,14 +737,14 @@ public class VLookup extends JComponent
 		}
 		//  is the value updated ?
 		boolean updated = false;
-		
+
 		Object updatedValue = value;
-		
+
 		if (updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
 		{
 			updatedValue = ((Object[])updatedValue)[0];
 		}
-		
+
 		if (updatedValue == null && m_value == null)
 			updated = true;
 		else if (updatedValue != null && value.equals(m_value))
@@ -778,7 +778,7 @@ public class VLookup extends JComponent
 		 *  - Cancel pressed                => store null   => result == null && cancelled
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
-		
+
 		Object result[] = null;
 		boolean cancelled = false;
 		boolean multipleSelection = false;
@@ -789,7 +789,7 @@ public class VLookup extends JComponent
 		//  Zoom / Validation
 		String whereClause = getWhereClause();
 		//
-		log.fine(col 
+		log.fine(col
 			+ ", Zoom=" + m_lookup.getZoom()
 			+ " (" + whereClause + ")");
 		//
@@ -802,7 +802,7 @@ public class VLookup extends JComponent
 				InfoFactory factory = clazz.newInstance();
 				if (m_tableName == null)	//	sets table name & key column
 					getDirectAccessSQL("*");
-				Info ig = factory.create (frame, true, m_lookup.getWindowNo(), 
+				Info ig = factory.create (frame, true, m_lookup.getWindowNo(),
 					m_tableName, m_keyColumnName, queryValue, false, whereClause);
 				ig.setVisible(true);
 				cancelled = ig.isCancelled();
@@ -820,11 +820,11 @@ public class VLookup extends JComponent
 				queryValue = "@" + m_text.getText() + "@";   //  Name indicator - otherwise Value
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
-			
+
 			if(m_mField != null)
-			{	
+			{
 			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
-			
+
 			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (X_PP_Product_BOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
@@ -853,13 +853,13 @@ public class VLookup extends JComponent
 		{
 			if (m_tableName == null)	//	sets table name & key column
 				getDirectAccessSQL("*");
-			Info ig = Info.create (frame, true, m_lookup.getWindowNo(), 
+			Info ig = Info.create (frame, true, m_lookup.getWindowNo(),
 				m_tableName, m_keyColumnName, queryValue, multipleSelection, whereClause);
 			ig.setVisible(true);
 			cancelled = ig.isCancelled();
 			result = ig.getSelectedKeys();
 		}
-				
+
 		//  Result
 		if (result != null && result.length > 0)
 		{
@@ -873,7 +873,7 @@ public class VLookup extends JComponent
 				actionCombo (result);	//	data binding
 			else
 				actionCombo (result[0]);
-					
+
 		}
 		else if (cancelled)
 		{
@@ -925,9 +925,9 @@ public class VLookup extends JComponent
 	}	//	getWhereClause
 
 	/**
-	 * 	
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
 	private String getExtraWhereClause (String text)
 	{
@@ -960,7 +960,7 @@ public class VLookup extends JComponent
 			return MRole.getDefault().addAccessSQL(sql.toString(),
 				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		}*/
-		
+
 		return sql.toString();
 	}
 	/**
@@ -1140,7 +1140,7 @@ public class VLookup extends JComponent
 			return MRole.getDefault().addAccessSQL(sql.toString(),
 				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		}
-		
+
 		//	Check if it is a Table Reference
 		if (m_lookup != null && m_lookup instanceof MLookup)
 		{
@@ -1195,7 +1195,7 @@ public class VLookup extends JComponent
 				}
 			}	//	Table Reference
 		}	//	MLookup
-		
+
 		/** Check Well Known Columns of Table - assumes TableDir	**/
 		String query = "SELECT t.TableName, c.ColumnName "
 			+ "FROM AD_Column c "
@@ -1293,7 +1293,6 @@ public class VLookup extends JComponent
 		Object value = getValue();
 		if (value == null)
 			value = selectedItem;
-		int AD_Window_ID = 0;
 		//	If not already exist or exact value
 		if (zoomQuery == null || value != null)
 		{
@@ -1305,11 +1304,11 @@ public class VLookup extends JComponent
 				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
 				if (AD_Reference_ID != 0)
 				{
-					String query = "SELECT kc.ColumnName, rt.AD_Window_ID"
+					String query = "SELECT kc.ColumnName"
 						+ " FROM AD_Ref_Table rt"
 						+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
 						+ "WHERE rt.AD_Reference_ID=?";
-					
+
 					PreparedStatement pstmt = null;
 					ResultSet rs = null;
 					try
@@ -1320,7 +1319,6 @@ public class VLookup extends JComponent
 						if (rs.next())
 						{
 							keyColumnName = rs.getString(1);
-							AD_Window_ID = rs.getInt(2);
 						}
 					}
 					catch (Exception e)
@@ -1342,10 +1340,10 @@ public class VLookup extends JComponent
 
 			zoomQuery.setRecordCount(1);	//	guess
 		}
-		if ( AD_Window_ID == 0 )
-			AD_Window_ID = m_lookup.getZoom(zoomQuery);
+
+		int	AD_Window_ID = m_lookup.getZoom(zoomQuery);
 		//
-		log.info(m_columnName + " - AD_Window_ID=" + AD_Window_ID 
+		log.info(m_columnName + " - AD_Window_ID=" + AD_Window_ID
 			+ " - Query=" + zoomQuery + " - Value=" + value);
 		//
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -1389,7 +1387,7 @@ public class VLookup extends JComponent
 		Object obj = m_combo.getSelectedItem();
 		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + obj);
 		//no need to refresh readonly lookup, just remove direct cache
-		if (!isReadWrite()) 
+		if (!isReadWrite())
 		{
 			m_settingValue = true;		//	disable actions
 			m_lookup.removeAllElements();
@@ -1397,11 +1395,11 @@ public class VLookup extends JComponent
 			m_text.setText(m_lastDisplay);
 			m_text.setCaretPosition(0);
 			m_settingValue = false;
-		} 
+		}
 		else
 		{
 			m_lookup.refresh();
-			m_lookup.fillComboBox(isMandatory(), true, true, false);		
+			m_lookup.fillComboBox(isMandatory(), true, true, false);
 			m_combo.setSelectedItem(obj);
 			//m_combo.revalidate();
 		}
@@ -1410,7 +1408,7 @@ public class VLookup extends JComponent
 		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + m_combo.getSelectedItem());
 	}	//	actionRefresh
 
-	
+
 	/**************************************************************************
 	 *	Focus Listener for ComboBoxes with missing Validation or invalid entries
 	 *	- Requery listener for updated list
@@ -1420,10 +1418,10 @@ public class VLookup extends JComponent
 	{
 		if (m_combo == null || m_combo.getEditor() == null)
 			return;
-		if ((e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent()) 
+		if ((e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent())
 			|| e.isTemporary() || m_haveFocus || m_lookup == null)
 			return;
-		
+
 		//avoid repeated query
 		if (m_lookup.isValidated() && m_lookup.isLoaded())
 		{
@@ -1435,21 +1433,21 @@ public class VLookup extends JComponent
 		m_settingFocus = true;  //  prevents actionPerformed
 		//
 		Object obj = m_lookup.getSelectedItem();
-		log.config(m_columnName 
+		log.config(m_columnName
 			+ " - Start    Count=" + m_combo.getItemCount() + ", Selected=" + obj);
 	//	log.fine( "VLookupHash=" + this.hashCode());
 		boolean popupVisible = m_combo.isPopupVisible();
-		m_lookup.fillComboBox(isMandatory(), true, true, false);     //  only validated & active 
+		m_lookup.fillComboBox(isMandatory(), true, true, false);     //  only validated & active
 		if (popupVisible)
 		{
 			//refresh
 			m_combo.hidePopup();
 			m_combo.showPopup();
 		}
-		log.config(m_columnName 
+		log.config(m_columnName
 			+ " - Update   Count=" + m_combo.getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
 		m_lookup.setSelectedItem(obj);
-		log.config(m_columnName 
+		log.config(m_columnName
 			+ " - Selected Count=" + m_combo.getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
 		//
 		m_settingFocus = false;
@@ -1461,8 +1459,8 @@ public class VLookup extends JComponent
 	 */
 	public void focusLost(FocusEvent e)
 	{
-		if (e.isTemporary() 
-			|| m_lookup == null 
+		if (e.isTemporary()
+			|| m_lookup == null
 			|| !m_button.isEnabled() )	//	set by actionButton
 			return;
 		//	Text Lost focus
@@ -1472,7 +1470,7 @@ public class VLookup extends JComponent
 			log.config(m_columnName + " (Text) " + m_columnName + " = " + m_value + " - " + text);
 			m_haveFocus = false;
 			//	Skip if empty
-			if ((m_value == null 
+			if ((m_value == null
 				&& m_text.getText().length() == 0))
 				return;
 			if (m_lastDisplay.equals(text))
@@ -1527,7 +1525,7 @@ public class VLookup extends JComponent
 		m_text.setToolTipText(text);
 		m_combo.setToolTipText(text);
 	}   //  setToolTipText
-	
+
 	/**
 	 * Reset Env.TAB_INFO context variables
 	 * @param columnName
@@ -1562,13 +1560,13 @@ public class VLookup extends JComponent
 	{
 		if (m_lookup == null)
 			return -1;
-		
+
 		//no need to refresh readonly lookup, just remove direct cache
 		if (!isReadWrite()) {
 			m_lookup.removeAllElements();
 			return 0;
 		}
-		
+
 		return m_lookup.refresh();
 	}	//	refresh
 
