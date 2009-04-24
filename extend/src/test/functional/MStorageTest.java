@@ -14,7 +14,6 @@
 package test.functional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import org.compiere.model.MLocator;
 import org.compiere.model.MStorage;
@@ -27,38 +26,43 @@ import test.AdempiereTestCase;
  * Test MStorage class
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class MStorageTest extends AdempiereTestCase {
+public class MStorageTest extends AdempiereTestCase
+{
 	int product_id = 122; // standard
 	int location_id = 114; 
 
-	protected void setUp() throws Exception {
+	protected void setUp() throws Exception
+	{
 		super.setUp();
 		assertEquals("Client is not GardenWorld", 11, Env.getAD_Client_ID(getCtx()));
 	}
 	
-	private MLocator createLocator(MWarehouse wh, String locatorValue, double qtyOnHand) {
+	private MLocator createLocator(MWarehouse wh, String locatorValue, double qtyOnHand)
+	{
 		MLocator loc = new MLocator(wh, wh.getValue()+"-"+locatorValue);
 		loc.setXYZ("X"+locatorValue, "Y"+locatorValue, "Z"+locatorValue);
 		loc.saveEx();
 		//
-		BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand);
+		BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand).setScale(12);
 		MStorage s1 = MStorage.getCreate(getCtx(), loc.get_ID(), product_id, 0, getTrxName());
 		s1.setQtyOnHand(targetQty);
 		s1.saveEx();
 		//
-		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id, 0, getTrxName());
+		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id, 0, getTrxName()).setScale(12);
 		assertEquals("Error on locator "+locatorValue, targetQty, qty);
 		//
 		return loc;
 	}
-	private void assertWarehouseQty(MWarehouse wh, BigDecimal targetQty) {
+	private void assertWarehouseQty(MWarehouse wh, BigDecimal targetQty)
+	{
 		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), 0, product_id, 0, getTrxName());
-		qty = qty.setScale(12, RoundingMode.HALF_UP);
-		targetQty = targetQty.setScale(12, RoundingMode.HALF_UP);
+		qty = qty.setScale(12);
+		targetQty = targetQty.setScale(12);
 		assertEquals(targetQty, qty);
 	}
 	
-	public void testGetQtyAvailable() throws Exception {
+	public void testGetQtyAvailable() throws Exception
+	{
 		BigDecimal whQty = Env.ZERO;
 		MWarehouse wh = new MWarehouse(getCtx(), 0, getTrxName());
 		wh.setValue("test-wh");
@@ -67,11 +71,11 @@ public class MStorageTest extends AdempiereTestCase {
 		wh.saveEx();
 		assertWarehouseQty(wh, whQty);
 		//
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 10; i++)
+		{
 			createLocator(wh, ""+i,   i);
 			whQty = whQty.add(BigDecimal.valueOf(i));
 			assertWarehouseQty(wh, whQty);
 		}
 	}
-
 }
