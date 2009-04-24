@@ -110,7 +110,7 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: VTreePanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
- *  
+ *
  *  Contributors:
  *    kthiemann / Carlos Ruiz - 2761420 - Advanced Search
  */
@@ -118,7 +118,7 @@ public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6798614427038652192L;
 
@@ -163,7 +163,7 @@ public final class VTreePanel extends CPanel
 					if ("lookAndFeel".equals(evt.getPropertyName()))
 						m_lookAndFeelChanged = true;
 				}
-				
+
 			});
 		}
 		//  base settings
@@ -193,7 +193,7 @@ public final class VTreePanel extends CPanel
 		m_root = vTree.getRoot();
 		m_root.setName(Msg.getMsg(Env.getCtx(), vTree.getName() ) ); // translate name of menu.
 		// m_root.setName(Msg.getMsg(Env.getCtx(), "Menu") ); // @Trifon; this is the hardcoded way.
-		
+
 		log.config("root=" + m_root);
 		m_nodeTableName = vTree.getNodeTableName();
 		treeModel = new DefaultTreeModel(m_root, true);
@@ -206,7 +206,7 @@ public final class VTreePanel extends CPanel
 				jt.removeAll();
 			toolbarMap = new HashMap<Integer, JToolBar>();
 			Enumeration<?> enTop = m_root.children();
-			JToolBar jt = null;	
+			JToolBar jt = null;
 			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
 			while (enTop.hasMoreElements())
 			{
@@ -237,7 +237,7 @@ public final class VTreePanel extends CPanel
 				jt2.setFloatable(false);
 				jt2.setRollover(true);
 				jt2.setBorder(BorderFactory.createEmptyBorder());
-				
+
 				JXTaskPane barPart = new JXTaskPane();
 				//Begin - [FR 1953769]
 				barPart.setUI(new AdempiereTaskPaneUI());
@@ -247,7 +247,7 @@ public final class VTreePanel extends CPanel
 				barPart.setLayout(new BorderLayout());
 				barPart.add(jt2, BorderLayout.NORTH);
 				barPart.setTitle(titleMap.get(jt2));
-				
+
 				bar.add(barPart);
 				//Begin - [FR 1953769]
 				bar.setBackground(AdempierePLAF.getFormBackground());
@@ -334,12 +334,12 @@ public final class VTreePanel extends CPanel
 		treePane.getViewport().add(tree, null);
 		treePane.setBorder(new ShadowBorder());
 		tree.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		CPanel treePart = new CPanel();
 		treePart.setLayout(new BorderLayout());
 		treePart.add(treePane, BorderLayout.CENTER);
 		treePart.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		//
 		treeExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
 		treeExpand.setActionCommand("Expand");
@@ -367,7 +367,7 @@ public final class VTreePanel extends CPanel
 		removeSplitPaneBorder();
 
 		this.add(centerSplitPane, BorderLayout.CENTER);
-		
+
 		//
 		mFrom.setText(Msg.getMsg(Env.getCtx(), "ItemMove"));
 		mFrom.setActionCommand("From");
@@ -376,7 +376,7 @@ public final class VTreePanel extends CPanel
 		mTo.setText(Msg.getMsg(Env.getCtx(), "ItemInsert"));
 		mTo.setActionCommand("To");
 		mTo.addActionListener(this);
-		
+
 		mBarAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
 		mBarAdd.setActionCommand("BarAdd");
 		mBarAdd.addActionListener(this);
@@ -403,7 +403,7 @@ public final class VTreePanel extends CPanel
 	        }
 		}
 	}
-	
+
 	/**
 	 * 	Set Divider Location
 	 *	@param location location (80 default)
@@ -412,7 +412,7 @@ public final class VTreePanel extends CPanel
 	{
 		centerSplitPane.setDividerLocation(location);
 	}	//	setDividerLocation
-	
+
 	/**
 	 * 	Get Divider Location
 	 *	@return divider location
@@ -421,8 +421,8 @@ public final class VTreePanel extends CPanel
 	{
 		return centerSplitPane.getDividerLocation();
 	}	//	getDividerLocation
-	
-	
+
+
 	/*************************************************************************
 	 *	Drag & Drop
 	 */
@@ -607,10 +607,10 @@ public final class VTreePanel extends CPanel
 					.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
 					.append(" AND Node_ID=").append(nd.getNode_ID());
 				log.fine(sql.toString());
-				//begin vpj-cd e-evolution 07/12/2005 PostgreSQL       
+				//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
 				//stmt.executeUpdate(sql.toString());
 				no = DB.executeUpdate(sql.toString(),trx.getTrxName());
-				//end vpj-cd e-evolution 07/12/2005 PostgreSQL 
+				//end vpj-cd e-evolution 07/12/2005 PostgreSQL
 			}
 			if (oldParent != newParent)
 				for (int i = 0; i < newParent.getChildCount(); i++)
@@ -624,18 +624,18 @@ public final class VTreePanel extends CPanel
 						.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
 						.append(" AND Node_ID=").append(nd.getNode_ID());
 					log.fine(sql.toString());
-					//begin vpj-cd e-evolution 07/12/2005 PostgreSQL     
+					//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
 					//stmt.executeUpdate(sql.toString());
 					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
 					//end vpj-cd e-evolution 07/12/2005 PostgreSQL
 				}
 			//	COMMIT          *********************
 			trx.commit(true);
-			//begin vpj-cd e-evolution 07/12/2005 PostgreSQL     
+			//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
 			//stmt.close();
                         //end vpj-cd e-evolution 07/12/2005 PostgreSQL
 		}
-		 ///begin vpj-cd e-evolution 07/12/2005 PostgreSQL 
+		 ///begin vpj-cd e-evolution 07/12/2005 PostgreSQL
 		//catch (SQLException e)
                 catch (Exception e)
                 //end vpj-cd e-evolution 07/12/2005 PostgreSQL
@@ -665,12 +665,13 @@ public final class VTreePanel extends CPanel
 				&& treeSearch.getText().length() > 0
 				&& treeSearch.getText().substring(0, 1).equals(PREFIX_DOCUMENT_SEARCH)) {
 			setBusy(true);
-			if (DocumentSearch.openDocumentsByDocumentNo(treeSearch.getText().substring(1)))
+			DocumentSearch search = new DocumentSearch();
+			if (search.openDocumentsByDocumentNo(treeSearch.getText().substring(1)))
 				treeSearch.setText(null);
 			setBusy(false);
 			return;
 		}
-		
+
 		//  *** Tree ***
 		if (e.getSource() instanceof JTree
 			|| (e.getSource() == treeSearch && e.getModifiers() != 0))	//	InputEvent.CTRL_MASK
@@ -816,14 +817,14 @@ public final class VTreePanel extends CPanel
 	{
 		if (m_root == null)
 			return false;
-		log.config("NodeID=" + nodeID 
+		log.config("NodeID=" + nodeID
 			+ ", Show=" + show + ", root=" + m_root);
 		//  try to find the node
 		MTreeNode node = m_root.findNode (nodeID);
 		if (node != null)
 		{
 			TreePath treePath = new TreePath(node.getPath());
-			log.config("Node=" + node 
+			log.config("Node=" + node
 				+ ", Path=" + treePath.toString());
 			tree.setSelectionPath(treePath);
 			if (show)
@@ -850,7 +851,7 @@ public final class VTreePanel extends CPanel
 		firePropertyChange(NODE_SELECTION, null, nd);
 	}   //  setSelectedNode
 
-	
+
 	/**************************************************************************
 	 *  Node Changed - synchronize Node
 	 *
@@ -865,13 +866,13 @@ public final class VTreePanel extends CPanel
 		String name, String description, boolean isSummary, String imageIndicator)
 	{
 		log.config("Save=" + save + ", KeyID=" + keyID
-			+ ", Name=" + name + ", Description=" + description 
+			+ ", Name=" + name + ", Description=" + description
 			+ ", IsSummary=" + isSummary + ", ImageInd=" + imageIndicator
 			+ ", root=" + m_root);
 		//	if ID==0=root - don't update it
 		if (keyID == 0)
-			return;	
-			
+			return;
+
 		//  try to find the node
 		MTreeNode node = m_root.findNode(keyID);
 
@@ -994,9 +995,9 @@ public final class VTreePanel extends CPanel
 		else if (CLogger.retrieveException().getMessage().indexOf("ORA-00001")!=-1)
 			ADialog.error(0, this, "BookmarkExist", null);
 	}   //  barAdd
-	
+
 	/**
-	 * Returns the top level parent JToolBar for the given MTreenode. If the parent is not on 
+	 * Returns the top level parent JToolBar for the given MTreenode. If the parent is not on
 	 * the CPanel yet a new one is created and added.
 	 * @param nd
 	 * @return top level parent JToolBar for the given MTreenode
@@ -1005,7 +1006,7 @@ public final class VTreePanel extends CPanel
 		int topParentId = getTopParentId(nd);
 		JToolBar parent = toolbarMap.get(topParentId);
 		if(parent==null){
-			Enumeration<?> enTop =m_root.children();		
+			Enumeration<?> enTop =m_root.children();
 			while (enTop.hasMoreElements()) {
 				MTreeNode ndTop = (MTreeNode)enTop.nextElement();
 				if(ndTop.getNode_ID()==topParentId){
@@ -1105,7 +1106,7 @@ public final class VTreePanel extends CPanel
 			bar.remove(parentPanel);
 			//remove from toolBarMap..
 			toolbarMap.values().remove(parentBar);
-			
+
 		}
 		bar.validate();
 		bar.repaint();
@@ -1193,7 +1194,7 @@ public final class VTreePanel extends CPanel
 			treeSearch.setCursor(Cursor.getDefaultCursor());
 		}
 	}	//	set Busy
-	
+
 
 }   //  VTreePanel
 
@@ -1222,8 +1223,8 @@ class VTreePanel_mouseAdapter extends java.awt.event.MouseAdapter
 	{
 		m_adaptee.mouseClicked(e);
 	}
-	
-	
+
+
 }   //  VTreePanel_mouseAdapter
 
 /**

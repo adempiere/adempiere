@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (C) 2008 Low Heng Sin                                            *
- * Copyright (C) 2008 Idalica Corporation                                     *		
+ * Copyright (C) 2008 Idalica Corporation                                     *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -34,28 +34,28 @@ public interface IDesktop extends UIPart {
 
 	public static final String WINDOWNO_ATTRIBUTE = "desktop.windowno";
 	public static final String CLASS_NAME_KEY = "ZK_DESKTOP_CLASS";
-	
+
 	/**
-	 * 
+	 *
 	 * @return ClientInfo
 	 */
 	public ClientInfo getClientInfo();
 
 	/**
-	 * 
+	 *
 	 * @param nodeId
 	 */
 	public void onMenuSelected(int nodeId);
 
 	/**
-	 * 
+	 *
 	 * @param window
 	 * @return windowNo
 	 */
 	public int registerWindow(Object window);
-	
+
 	/**
-	 * 
+	 *
 	 * @param WindowNo
 	 * @return Object
 	 */
@@ -66,23 +66,23 @@ public interface IDesktop extends UIPart {
 	 * @return boolean
 	 */
 	public boolean closeActiveWindow();
-	
+
 	/**
-	 * 
+	 *
 	 * @param windowNo
 	 * @return boolean
 	 */
-	public boolean closeWindow(int windowNo); 
+	public boolean closeWindow(int windowNo);
 
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @param closeable
 	 */
 	public void showURL(String url, boolean closeable);
 
 	/**
-	 * 
+	 *
 	 * @param doc
 	 * @param string
 	 * @param closeable
@@ -90,48 +90,55 @@ public interface IDesktop extends UIPart {
 	public void showURL(WebDoc doc, String string, boolean closeable);
 
 	/**
-	 * 
+	 *
 	 * @param win
 	 */
 	public void showWindow(Window win);
-	
+
 	/**
-	 * 
+	 *
 	 * @param win
 	 * @param position
 	 */
 	public void showWindow(Window win, String position);
 
 	/**
-	 * 
+	 *
 	 * @param window_ID
 	 * @param query
 	 */
 	public void showZoomWindow(int window_ID, MQuery query);
 
 	/**
-	 * 
+	 *
+	 * @param window_ID
+	 * @param query
+	 */
+	public void showWindow(int window_ID, MQuery query);
+
+	/**
+	 *
 	 * @param windowNo
 	 */
 	public void unregisterWindow(int windowNo);
-	
+
 	/**
-     * 
+     *
      * @param processId
      * @param soTrx
      * @return ProcessDialog
      */
 	public ProcessDialog openProcessDialog(int processId, boolean soTrx);
-	
+
 	/**
-     * 
+     *
      * @param formId
      * @return ADWindow
      */
 	public ADForm openForm(int formId);
-	
+
 	/**
-	 * 
+	 *
 	 * @param windowId
 	 * @return ADWindow
 	 */
@@ -144,7 +151,7 @@ public interface IDesktop extends UIPart {
 	public void openTask(int task_ID);
 
 	/**
-	 * 
+	 *
 	 * @param workflow_ID
 	 */
 	public void openWorkflow(int workflow_ID);
@@ -172,10 +179,10 @@ public interface IDesktop extends UIPart {
 	public void logout();
 
 	/**
-	 * Invoke by the server push thread. If the desktop argument is not null, must activate desktop 
-	 * before making update to UI. For performance reason, keep the activate of desktop as short 
+	 * Invoke by the server push thread. If the desktop argument is not null, must activate desktop
+	 * before making update to UI. For performance reason, keep the activate of desktop as short
 	 * as possible.
-	 * @param template 
+	 * @param template
 	 */
 	public void onServerPush(ServerPushTemplate template);
 }

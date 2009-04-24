@@ -22,6 +22,7 @@ import java.util.TreeMap;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.util.DocumentSearch;
 import org.adempiere.webui.util.TreeItemAction;
 import org.adempiere.webui.util.TreeNodeAction;
 import org.adempiere.webui.util.TreeUtils;
@@ -47,18 +48,20 @@ import org.zkoss.zul.event.TreeDataListener;
 public class TreeSearchPanel extends Panel implements EventListener, TreeDataListener
 {
     private static final long serialVersionUID = 1L;
-    
+
     private TreeMap<String, Object> treeNodeItemMap = new TreeMap<String, Object>();
     private String[] treeValues;
     private String[] treeDescription;
-    
+
     private Label lblSearch;
     private AutoComplete cmbSearch;
-    
+
 	private Tree tree;
 
 	private String eventToFire;
-	
+
+	private static final String PREFIX_DOCUMENT_SEARCH = "/";
+
 	/**
      * @param tree
      */
@@ -66,7 +69,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
     {
     	this(tree, Events.ON_CLICK);
     }
-    
+
     /**
      * @param tree
      * @param event
@@ -74,48 +77,48 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
     public TreeSearchPanel(Tree tree, String event)
     {
         super();
-        this.tree = tree; 
+        this.tree = tree;
         this.eventToFire = event;
         init();
     }
-    
+
     private void init()
     {
         lblSearch = new Label();
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
-        
+
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);
-        
+
         cmbSearch.addEventListener(Events.ON_CHANGE, this);
-        
+
         this.appendChild(lblSearch);
         this.appendChild(cmbSearch);
     }
-        
+
     private void addTreeItem(Treeitem treeItem)
     {
         String key = treeItem.getLabel();
         treeNodeItemMap.put(key, treeItem);
     }
-    
+
     private void addTreeItem(SimpleTreeNode node) {
     	Object data = node.getData();
     	if (data instanceof MTreeNode) {
     		MTreeNode mNode = (MTreeNode) data;
     		treeNodeItemMap.put(mNode.getName(), node);
-    	}		
+    	}
 	}
-    
+
     /**
      * populate the searchable list
      */
     public void initialise()
     {
     	refreshSearchList();
-        
-        if (tree.getModel() != null) 
+
+        if (tree.getModel() != null)
         {
         	tree.getModel().addTreeDataListener(this);
         }
@@ -127,23 +130,23 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 	    	TreeUtils.traverse(tree, new TreeItemAction() {
 				public void run(Treeitem treeItem) {
 					addTreeItem(treeItem);
-				}    		
+				}
 	    	});
 		} else {
 			TreeUtils.traverse(tree.getModel(), new TreeNodeAction() {
 				public void run(SimpleTreeNode treeNode) {
 					addTreeItem(treeNode);
-				}    		
+				}
 	    	});
 		}
-    	
+
     	treeValues = new String[treeNodeItemMap.size()];
     	treeDescription = new String[treeNodeItemMap.size()];
-    	
+
     	int i = -1;
-    	
+
         for (Object value : treeNodeItemMap.values())
-        {   
+        {
         	i++;
         	if (value instanceof Treeitem)
         	{
@@ -159,7 +162,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         		treeDescription[i] = mNode.getDescription();
         	}
         }
-        
+
         cmbSearch.setDescription(treeDescription);
         cmbSearch.setDict(treeValues);
 	}
@@ -173,6 +176,16 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
         if (cmbSearch.equals(event.getTarget()) && (event.getName().equals(Events.ON_CHANGE)))
         {
             String value = cmbSearch.getValue();
+
+            if (value != null && value.trim().length() > 0
+            		&& value.substring(0, 1).equals(PREFIX_DOCUMENT_SEARCH))
+            {
+            	DocumentSearch search = new DocumentSearch();
+            	if (search.openDocumentsByDocumentNo(value.substring(1)))
+    				cmbSearch.setText(null);
+            	return;
+            }
+
             Object node = treeNodeItemMap.get(value);
             Treeitem treeItem = null;
             if (node == null) {
@@ -180,7 +193,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
             } else if (node instanceof Treeitem) {
 	            treeItem = (Treeitem) node;
             } else {
-            	SimpleTreeNode sNode = (SimpleTreeNode) node;            	
+            	SimpleTreeNode sNode = (SimpleTreeNode) node;
             	int[] path = tree.getModel().getPath(tree.getModel().getRoot(), sNode);
     			treeItem = tree.renderItemByPath(path);
     			tree.setSelectedItem(treeItem);
@@ -193,7 +206,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
             }
         }
     }
-    
+
     /**
      * don't call this directly, use internally for post selection event
      */
@@ -212,7 +225,7 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 		while (parent != null) {
 			if (!parent.isOpen())
 				parent.setOpen(true);
-			
+
 			parent = parent.getParentItem();
 		}
 		selectedItem.getTree().setSelectedItem(selectedItem);

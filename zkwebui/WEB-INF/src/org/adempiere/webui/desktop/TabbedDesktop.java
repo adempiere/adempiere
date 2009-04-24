@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (C) 2008 Low Heng Sin                                            *
- * Copyright (C) 2008 Idalica Corporation                                     *		
+ * Copyright (C) 2008 Idalica Corporation                                     *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -42,16 +42,16 @@ import org.zkoss.zul.Tabpanels;
  *
  */
 public abstract class TabbedDesktop extends AbstractDesktop {
-	
+
 	protected WindowContainer windowContainer;
-	
+
 	public TabbedDesktop() {
 		super();
 		windowContainer = new WindowContainer();
 	}
-	
+
 	/**
-     * 
+     *
      * @param processId
      * @param soTrx
      * @return ProcessDialog
@@ -69,62 +69,62 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 	}
 
     /**
-     * 
+     *
      * @param formId
      * @return ADWindow
      */
 	public ADForm openForm(int formId) {
 		ADForm form = ADForm.openForm(formId);
-		
+
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		form.setParent(tabPanel);
 		//do not show window title when open as tab
 		form.setTitle(null);
 		windowContainer.addWindow(tabPanel, form.getFormName(), true);
-		
+
 		return form;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param workflow_ID
 	 */
 	public void openWorkflow(int workflow_ID) {
 		WFPanel p = new WFPanel();
 		p.load(workflow_ID);
-		
+
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		p.setParent(tabPanel);
 		windowContainer.addWindow(tabPanel, p.getWorkflow().get_Translation(MWorkflow.COLUMNNAME_Name), true);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param windowId
 	 * @return ADWindow
 	 */
 	public ADWindow openWindow(int windowId) {
 		ADWindow adWindow = new ADWindow(Env.getCtx(), windowId);
-		
+
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		if (adWindow.createPart(tabPanel) != null) {
-			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);		
+			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
 			return adWindow;
 		} else {
-			//user cancel 
+			//user cancel
 			return null;
 		}
 	}
-	
+
 	/**
-     * 
+     *
      * @param taskId
      */
 	public void openTask(int taskId) {
 		MTask task = new MTask(Env.getCtx(), taskId, null);
 		new WTask(task.getName(), task);
 	}
-	
+
 	/**
 	 * @param url
 	 */
@@ -132,9 +132,9 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     {
     	showURL(url, url, closeable);
     }
-    
+
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @param title
 	 * @param closeable
@@ -144,7 +144,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	Iframe iframe = new Iframe(url);
     	addWin(iframe, title, closeable);
     }
-    
+
     /**
      * @param webDoc
      * @param title
@@ -153,15 +153,15 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     public void showURL(WebDoc webDoc, String title, boolean closeable)
     {
     	Iframe iframe = new Iframe();
-    	
+
     	AMedia media = new AMedia(title, "html", "text/html", webDoc.toString().getBytes());
     	iframe.setContent(media);
-    	
+
     	addWin(iframe, title, closeable);
     }
-    
+
     /**
-     * 
+     *
      * @param fr
      * @param title
      * @param closeable
@@ -177,12 +177,12 @@ public abstract class TabbedDesktop extends AbstractDesktop {
         window.setStyle("padding: 0; margin: 0; border: none");
         window.appendChild(fr);
         window.setStyle("position: absolute");
-        
+
         Tabpanel tabPanel = new Tabpanel();
     	window.setParent(tabPanel);
     	windowContainer.addWindow(tabPanel, title, closeable);
     }
-    
+
     /**
      * @param AD_Window_ID
      * @param query
@@ -190,14 +190,27 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     public void showZoomWindow(int AD_Window_ID, MQuery query)
     {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
-    	
+
     	DesktopTabpanel tabPanel = new DesktopTabpanel();
     	wnd.createPart(tabPanel);
     	windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, wnd.getTitle(), true, true);
 	}
-    
+
+    /**
+     * @param AD_Window_ID
+     * @param query
+     */
+    public void showWindow(int AD_Window_ID, MQuery query)
+    {
+    	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
+
+    	DesktopTabpanel tabPanel = new DesktopTabpanel();
+    	wnd.createPart(tabPanel);
+    	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
+	}
+
 	/**
-	 * 
+	 *
 	 * @param window
 	 */
 	protected void showEmbedded(Window window)
@@ -211,7 +224,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	else
     		windowContainer.addWindow(tabPanel, title, true);
    	}
-	
+
 	/**
 	 * Close active tab
 	 * @return boolean
@@ -223,7 +236,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 			Tabpanel panel = (Tabpanel) windowContainer.getSelectedTab().getLinkedPanel();
 			Component component = panel.getFirstChild();
 			Object att = component.getAttribute(WINDOWNO_ATTRIBUTE);
-			
+
 			if ( windowContainer.closeActiveWindow() )
 			{
 				if (att != null && (att instanceof Integer))
@@ -239,7 +252,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return Component
 	 */
@@ -247,13 +260,13 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 	{
 		return windowContainer.getSelectedTab().getLinkedPanel().getFirstChild();
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param windowNo
 	 * @return boolean
 	 */
-	public boolean closeWindow(int windowNo) 
+	public boolean closeWindow(int windowNo)
 	{
 		Tabbox tabbox = windowContainer.getComponent();
 		Tabpanels panels = tabbox.getTabpanels();
@@ -269,7 +282,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 				{
 					Tab tab = panel.getLinkedTab();
 					panel.getLinkedTab().onClose();
-					if (tab.getParent() == null) 
+					if (tab.getParent() == null)
 					{
 						unregisterWindow(windowNo);
 						return true;
@@ -278,7 +291,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 					{
 						return false;
 					}
-				}				
+				}
 			}
 		}
 		return false;
