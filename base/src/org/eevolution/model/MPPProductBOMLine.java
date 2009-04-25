@@ -154,8 +154,9 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	
 	public boolean isCoProduct()
 	{
-		String componentType = getComponentType();
-		return COMPONENTTYPE_ByProduct.equals(componentType); // TODO
+//		String componentType = getComponentType();
+//		return COMPONENTTYPE_ByProduct.equals(componentType); // TODO
+		return false;
 	}
 	
 	/**
@@ -292,7 +293,7 @@ class ProductLowLevelCalculator
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
@@ -346,7 +347,7 @@ class ProductLowLevelCalculator
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e);
+			throw new DBException(e, sql);
 		}
 		finally
 		{
