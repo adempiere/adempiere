@@ -192,8 +192,10 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
 
     	DesktopTabpanel tabPanel = new DesktopTabpanel();
-    	wnd.createPart(tabPanel);
-    	windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, wnd.getTitle(), true, true);
+    	if (wnd.createPart(tabPanel) != null)
+    	{
+    		windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, wnd.getTitle(), true, true);
+    	}
 	}
 
     /**
@@ -205,8 +207,10 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
 
     	DesktopTabpanel tabPanel = new DesktopTabpanel();
-    	wnd.createPart(tabPanel);
-    	windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
+    	if (wnd.createPart(tabPanel) != null)
+    	{
+    		windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
+    	}
 	}
 
 	/**
