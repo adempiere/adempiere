@@ -61,6 +61,7 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MClient;
@@ -86,7 +87,7 @@ import org.zkoss.zkex.zul.South;
  * Search Product and return selection
  * This class is based on org.compiere.apps.search.InfoPAttribute written by Jorg Janke
  * @author Elaine
- * 
+ *
  * Zk Port
  * @author Elaine
  * @version	InfoPayment.java Adempiere Swing UI 3.4.1
@@ -113,7 +114,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	private Label lblProductCategory = new Label();
 	private Listbox pickProductCategory = new Listbox();
 	//
-	
+
 	// Elaine 2008/11/25
 	private Borderlayout borderlayout = new Borderlayout();
 	private Textbox fieldDescription = new Textbox();
@@ -129,7 +130,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	private int 				m_M_Product_ID = 0;
     int mWindowNo = 0;
     //
-    
+
 	/**	Search Button				*/
 	private Button	m_InfoPAttributeButton = new Button();
 	/** Instance Button				*/
@@ -147,7 +148,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	private static int INDEX_NAME = 0;
 	private static int INDEX_PATTRIBUTE = 0;
 
-	
+
 	/** ASI							*/
 	private int			m_M_AttributeSetInstance_ID = -1;
 	/** Locator						*/
@@ -176,13 +177,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		init();
 		initInfo (value, M_Warehouse_ID, M_PriceList_ID);
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_ID");
-        
+
         int no = contentPanel.getRowCount();
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
 		//	AutoQuery
 		if (value != null && value.length() > 0)
-        {    
+        {
 			executeQuery();
             renderItems();
         }
@@ -190,13 +191,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		tabbedPane.setSelectedIndex(0);
 
 		p_loadedOK = true;
-		
+
 		//Begin - fer_luck @ centuryon
 		mWindowNo = windowNo; // Elaine 2008/12/16
 		//End - fer_luck @ centuryon
-		
+
 	}	//	InfoProductPanel
-		
+
 	/**
 	 *	initialize fields
 	 */
@@ -219,12 +220,12 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		lblWarehouse = new Label();
 		lblWarehouse.setValue(Msg.getMsg(Env.getCtx(), "Warehouse").substring(1));
 		lblVendor = new Label();
-		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));	
-		
+		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));
+
 		m_InfoPAttributeButton.setImage("/images/PAttribute16.png");
 		m_InfoPAttributeButton.setTooltiptext(Msg.getMsg(Env.getCtx(), "PAttribute"));
-		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);		
-		
+		m_InfoPAttributeButton.addEventListener(Events.ON_CLICK,this);
+
 		fieldValue = new Textbox();
 		fieldValue.setMaxlength(40);
 		fieldName = new Textbox();
@@ -239,7 +240,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		pickPriceList.setMold("select");
 		pickPriceList.setWidth("150px");
 		pickPriceList.addEventListener(Events.ON_SELECT, this);
-		
+
 		// Elaine 2008/11/21
 		pickProductCategory = new Listbox();
 		pickProductCategory.setRows(0);
@@ -248,28 +249,28 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		pickProductCategory.setWidth("150px");
 		pickProductCategory.addEventListener(Events.ON_SELECT, this);
 		//
-		
+
 		pickWarehouse = new Listbox();
 		pickWarehouse.setRows(0);
 		pickWarehouse.setMultiple(false);
 		pickWarehouse.setMold("select");
 		pickWarehouse.setWidth("150px");
 		pickWarehouse.addEventListener(Events.ON_SELECT, this);
-		
+
 		fieldVendor = new Textbox();
-		fieldVendor.setMaxlength(40);	
-        
+		fieldVendor.setMaxlength(40);
+
         contentPanel.setWidth("99%");
         contentPanel.setVflex(true);
 	}	//	initComponents
-	
+
 	private void init()
 	{
     	Grid grid = GridFactory.newGridLayout();
-		
+
 		Rows rows = new Rows();
 		grid.appendChild(rows);
-		
+
 		Row row = new Row();
 		rows.appendChild(row);
 		row.appendChild(lblValue.rightAlign());
@@ -281,7 +282,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		row.appendChild(lblPriceList.rightAlign());
 		row.appendChild(pickPriceList);
 		row.appendChild(m_InfoPAttributeButton);
-		
+
 		row = new Row();
 		row.setSpans("1, 1, 1, 1, 1, 1, 1, 2");
 		rows.appendChild(row);
@@ -294,18 +295,18 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		row.appendChild(lblProductCategory.rightAlign());
 		row.appendChild(pickProductCategory);
 		//
-        
+
         // Product Attribute Instance
 		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
 		confirmPanel.addComponentsLeft(m_PAttributeButton);
 		m_PAttributeButton.addActionListener(this);
 		m_PAttributeButton.setEnabled(false);
-		
+
         // Elaine 2008/11/25
         fieldDescription.setMultiline(true);
 		fieldDescription.setReadonly(true);
-        
-		//		
+
+		//
         ColumnInfo[] s_layoutWarehouse = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "Warehouse", String.class),
         		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "sum(QtyAvailable)", Double.class),
@@ -320,13 +321,13 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		warehouseTbl.setMultiSelection(false);
         warehouseTbl.autoSize();
         warehouseTbl.getModel().addTableModelListener(this);
-        
+
         ColumnInfo[] s_layoutSubstitute = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
         		new ColumnInfo(
     					Msg.translate(Env.getCtx(), "Value"),
     					"(Select Value from M_Product p where p.M_Product_ID=M_PRODUCT_SUBSTITUTERELATED_V.Substitute_ID)",
-    					String.class), 
+    					String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
     			new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"), "QtyAvailable", Double.class),
   	        	new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "QtyOnHand", Double.class),
@@ -338,7 +339,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
         substituteTbl.setMultiSelection(false);
         substituteTbl.autoSize();
         substituteTbl.getModel().addTableModelListener(this);
-        
+
         ColumnInfo[] s_layoutRelated = new ColumnInfo[]{
         		new ColumnInfo(Msg.translate(Env.getCtx(), "Warehouse"), "orgname", String.class),
         		new ColumnInfo(
@@ -356,23 +357,23 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
         relatedTbl.setMultiSelection(false);
         relatedTbl.autoSize();
         relatedTbl.getModel().addTableModelListener(this);
-        
+
         //Available to Promise Tab
         m_tableAtp.setMultiSelection(false);
-        
+
         tabbedPane.setHeight("100%");
 		Tabpanels tabPanels = new Tabpanels();
 		tabbedPane.appendChild(tabPanels);
 		Tabs tabs = new Tabs();
 		tabbedPane.appendChild(tabs);
-		
+
 		Tab tab = new Tab(Msg.translate(Env.getCtx(), "Warehouse"));
 		tabs.appendChild(tab);
 		Tabpanel desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
 		desktopTabPanel.appendChild(warehouseTbl);
-		tabPanels.appendChild(desktopTabPanel);		
-		
+		tabPanels.appendChild(desktopTabPanel);
+
 		tab = new Tab(Msg.translate(Env.getCtx(), "Description"));
 		tabs.appendChild(tab);
 		desktopTabPanel = new Tabpanel();
@@ -381,28 +382,31 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		fieldDescription.setHeight("99%");
 		desktopTabPanel.appendChild(fieldDescription);
 		tabPanels.appendChild(desktopTabPanel);
-		
+
 		tab = new Tab(Msg.translate(Env.getCtx(), "Substitute_ID"));
 		tabs.appendChild(tab);
 		desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
 		desktopTabPanel.appendChild(substituteTbl);
 		tabPanels.appendChild(desktopTabPanel);
-		
+
 		tab = new Tab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"));
 		tabs.appendChild(tab);
 		desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
 		desktopTabPanel.appendChild(relatedTbl);
 		tabPanels.appendChild(desktopTabPanel);
-		
+
 		tab = new Tab(Msg.getMsg(Env.getCtx(), "ATP"));
 		tabs.appendChild(tab);
 		desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
 		desktopTabPanel.appendChild(m_tableAtp);
 		tabPanels.appendChild(desktopTabPanel);
-		//		
+		//
+		int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 90 / 100;
+		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
+
         borderlayout.setWidth("100%");
         borderlayout.setHeight("100%");
         borderlayout.setStyle("border: none; position: relative");
@@ -412,7 +416,8 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		borderlayout.appendChild(center);
 		center.appendChild(contentPanel);
 		South south = new South();
-		south.setHeight("120px");
+		int detailHeight = (height * 25 / 100);
+		south.setHeight(detailHeight + "px");
 		south.setCollapsible(true);
 		south.setSplittable(true);
 		south.setFlex(true);
@@ -420,7 +425,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		south.setTooltiptext(Msg.translate(Env.getCtx(), "WarehouseStock"));
 		borderlayout.appendChild(south);
 		south.appendChild(tabbedPane);
-		
+
         Borderlayout mainPanel = new Borderlayout();
         mainPanel.setWidth("100%");
         mainPanel.setHeight("100%");
@@ -433,17 +438,18 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
         south = new South();
         mainPanel.appendChild(south);
         south.appendChild(confirmPanel);
-		
+
 		this.appendChild(mainPanel);
 		this.setClosable(true);
 		this.setBorder("normal");
-		this.setWidth("1000px");
-		this.setHeight("650px");
-		
+
+		this.setWidth(width + "px");
+		this.setHeight(height + "px");
+
 		contentPanel.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				int row = contentPanel.getSelectedRow();
-				
+
 				int M_Warehouse_ID = 0;
 				ListItem listitem = pickWarehouse.getSelectedItem();
 				if (listitem != null)
@@ -457,9 +463,9 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
         		refresh(contentPanel.getValueAt(row,2), M_Warehouse_ID, M_PriceList_Version_ID);
         		borderlayout.getSouth().setOpen(true);
 			}
-		});				
+		});
 	}
-			
+
 	@Override
 	protected void insertPagingComponent() {
 		North north = new North();
@@ -500,7 +506,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-				
+
 		try {
 			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
 			pstmt = DB.prepareStatement(sql, null);
@@ -516,7 +522,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		sql = m_sqlSubstitute;
 		log.finest(sql);
 		try {
@@ -534,7 +540,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		sql = m_sqlRelated;
 		log.finest(sql);
 		try {
@@ -621,7 +627,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			SQL += " AND EXISTS (SELECT * FROM M_PriceList xp WHERE xp.M_PriceList_ID=" + M_PriceList_ID
 				+ " AND pl.C_Currency_ID=xp.C_Currency_ID)";
 		//	Add Access & Order
-		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualidfied - RO 
+		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualidfied - RO
 			+ " ORDER BY M_PriceList_Version.Name";
 		try
 		{
@@ -651,7 +657,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			}
 			rs.close();
 			pstmt.close();
-			
+
 			// Elaine 2008/11/21
 			//	Product Category
 			SQL = MRole.getDefault().addAccessSQL (
@@ -718,7 +724,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	{
 		Timestamp priceDate = null;
 		//	Sales Order Date
-		String dateStr = Env.getContext(Env.getCtx(), p_WindowNo, "DateOrdered"); 
+		String dateStr = Env.getContext(Env.getCtx(), p_WindowNo, "DateOrdered");
 		if (dateStr != null && dateStr.length() > 0)
 			priceDate = Env.getContextAsDate(Env.getCtx(), p_WindowNo, "DateOrdered");
 		else	//	Invoice Date
@@ -728,7 +734,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 				priceDate = Env.getContextAsDate(Env.getCtx(), p_WindowNo, "DateInvoiced");
 		}
 		//	Today
-		if (priceDate == null) 
+		if (priceDate == null)
 			priceDate = new Timestamp(System.currentTimeMillis());
 		//
 		log.config("M_PriceList_ID=" + M_PriceList_ID + " - " + priceDate);
@@ -762,7 +768,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		return retValue;
 	}	//	findPLV
 
-	
+
 	/**************************************************************************
 	 *	Construct SQL Where Clause and define parameters
 	 *  (setParameters needs to set parameters)
@@ -772,7 +778,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	public String getSQLWhere()
 	{
 		StringBuffer where = new StringBuffer();
-		
+
 		//	Optional PLV
 		int M_PriceList_Version_ID = 0;
 		ListItem listitem = pickPriceList.getSelectedItem();
@@ -780,14 +786,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			M_PriceList_Version_ID = (Integer)listitem.getValue();
 		if (M_PriceList_Version_ID != 0)
 			where.append(" AND pr.M_PriceList_Version_ID=?");
-		
+
 		// Elaine 2008/11/29
 		//  Optional Product Category
 		if (getM_Product_Category_ID() > 0) {
 			where.append(" AND p.M_Product_Category_ID=?");
 		}
 		//
-		
+
 		//	Product Attribute Search
 		if (m_pAttributeWhere != null)
 		{
@@ -818,7 +824,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		String vendor = fieldVendor.getText().toUpperCase();
 		if (!(vendor.equals("") || vendor.equals("%")))
 			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y'"); // Elaine 2008/12/16
-		
+
 		return where.toString();
 	}	//	getSQLWhere
 
@@ -955,7 +961,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		if (m_M_AttributeSetInstance_ID < -1)	//	not selected
 			M_AttributeSetInstance_ID = 0;
 		//
-		InvoiceHistory ih = new InvoiceHistory (this, 0, 
+		InvoiceHistory ih = new InvoiceHistory (this, 0,
 			M_Product_ID.intValue(), M_Warehouse_ID, M_AttributeSetInstance_ID);
 		ih.setVisible(true);
 		ih = null;
@@ -981,7 +987,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		Integer M_Product_ID = getSelectedRowKey();
 		if (M_Product_ID == null)
 			return;
-		
+
 		MQuery query = new MQuery("M_Product");
 		query.addRestriction("M_Product_ID", MQuery.EQUAL, M_Product_ID);
 		query.setRecordCount(1);
@@ -989,7 +995,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		AEnv.zoom (AD_WindowNo, query);
 	}	//	zoom
 	//
-	
+
 	/**
 	 *	Has Zoom
 	 *  @return (has zoom)
@@ -1042,9 +1048,9 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		}
 		else
 		{
-			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID", 
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID",
 				String.valueOf(m_M_AttributeSetInstance_ID));
-			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Locator_ID", 
+			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "M_Locator_ID",
 				String.valueOf(m_M_Locator_ID));
 		}
 	}	//	saveSelectionDetail
@@ -1081,7 +1087,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			};
 			INDEX_NAME = 2;
 			INDEX_PATTRIBUTE = frieLayout.length - 1;	//	last item
-			s_productLayout = frieLayout; 
+			s_productLayout = frieLayout;
 			return s_productLayout;
 		}
 		//
@@ -1114,20 +1120,20 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		}
 		return s_productLayout;
 	}   //  getProductLayout
-	
+
 	/**
 	 * 	System has Unforfirmed records
 	 *	@return true if unconfirmed
 	 */
 	private boolean isUnconfirmed()
 	{
-		int no = DB.getSQLValue(null, 
-			"SELECT COUNT(*) FROM M_InOutLineConfirm WHERE AD_Client_ID=?", 
+		int no = DB.getSQLValue(null,
+			"SELECT COUNT(*) FROM M_InOutLineConfirm WHERE AD_Client_ID=?",
 			Env.getAD_Client_ID(Env.getCtx()));
 		if (no > 0)
 			return true;
-		no = DB.getSQLValue(null, 
-			"SELECT COUNT(*) FROM M_MovementLineConfirm WHERE AD_Client_ID=?", 
+		no = DB.getSQLValue(null,
+			"SELECT COUNT(*) FROM M_MovementLineConfirm WHERE AD_Client_ID=?",
 			Env.getAD_Client_ID(Env.getCtx()));
 		return no > 0;
 	}	//	isUnconfirmed
@@ -1135,19 +1141,19 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
     public void onEvent(Event e)
     {
     	Component component = e.getTarget();
-    	
+
     	// Elaine 2008/12/16
 		//  don't requery if fieldValue and fieldName are empty
 		if ((e.getTarget() == pickWarehouse || e.getTarget() == pickPriceList)
 			&& (fieldValue.getText().length() == 0 && fieldName.getText().length() == 0))
 			return;
 		//
-    	
+
     	if(component == m_InfoPAttributeButton)
     	{
     		cmd_InfoPAttribute();
     	}
-    	
+
     	m_pAttributeWhere = null;
     	// Query Product Attribure Instance
 		int row = contentPanel.getSelectedRow();
@@ -1155,28 +1161,28 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		{
 			Integer productInteger = getSelectedRowKey();
 			String productName = (String)contentPanel.getValueAt(row, INDEX_NAME);
-			
+
 			ListItem warehouse = pickWarehouse.getSelectedItem();
 			if (productInteger == null || productInteger.intValue() == 0 || warehouse == null)
 				return;
-			
+
 			int M_Warehouse_ID = 0;
 			if(warehouse.getValue() != null)
 				M_Warehouse_ID = ((Integer)warehouse.getValue()).intValue();
 
 			String title = warehouse.getLabel() + " - " + productName;
-			InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel(this, title,  
+			InfoPAttributeInstancePanel pai = new InfoPAttributeInstancePanel(this, title,
 				M_Warehouse_ID, 0, productInteger.intValue(), m_C_BPartner_ID);
 			m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
 			m_M_Locator_ID = pai.getM_Locator_ID();
 			if (m_M_AttributeSetInstance_ID != -1)
 				dispose(true);
-			return;			
+			return;
 		}
 		//
 		super.onEvent(e);
     }
-        
+
 	/**
 	 *  Enable PAttribute if row selected/changed
 	 */
@@ -1194,10 +1200,10 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 			}
 			m_PAttributeButton.setEnabled(enabled);
 		}
-		
+
 		super.enableButtons();
 	}   //  enableButtons
-    
+
     // Elaine 2008/11/26
 	/**
 	 *	Query ATP
@@ -1236,7 +1242,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 		if (!showDetail)
 			sql += " GROUP BY productAttribute(s.M_AttributeSetInstance_ID), w.Name, l.Value";
 		sql += " ORDER BY l.Value";
-		
+
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		double qty = 0;
 		PreparedStatement pstmt = null;
@@ -1365,14 +1371,14 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	//
 
     // Elaine 2008/11/21
-    public int getM_Product_Category_ID() 
+    public int getM_Product_Category_ID()
     {
 		int M_Product_Category_ID = 0;
-		
+
 		ListItem pickPC = (ListItem)pickProductCategory.getSelectedItem();
 		if (pickPC!=null)
 			M_Product_Category_ID = Integer.parseInt(pickPC.getValue().toString());
-		
+
 		return M_Product_Category_ID;
 	}
     //
