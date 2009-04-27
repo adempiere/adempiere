@@ -165,7 +165,7 @@ public class CConnectionEditor extends JComponent
 	 */
 	public void setVisible (boolean visible)
 	{
-		this.setVisible(visible);
+		super.setVisible(visible);
 	}
 
 	/**
