@@ -24,6 +24,7 @@ import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -39,7 +40,7 @@ import org.zkoss.zul.Vbox;
 public class DPActivities extends DashboardPanel implements EventListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final CLogger logger = CLogger.getCLogger(DPActivities.class);
 
 	private Button btnNotice, btnRequest, btnWorkflow;
@@ -49,47 +50,47 @@ public class DPActivities extends DashboardPanel implements EventListener {
 	private int noOfRequest;
 
 	private int noOfWorkflow;
-		
+
 	public DPActivities()
 	{
 		super();
         this.appendChild(createActivitiesPanel());
 	}
-	
+
 	private Box createActivitiesPanel()
 	{
 		Vbox vbox = new Vbox();
-		
+
         btnNotice = new Button();
         vbox.appendChild(btnNotice);
-        btnNotice.setLabel("Notice : 0");
-        btnNotice.setTooltiptext("Notice");
+        btnNotice.setLabel(Msg.translate(Env.getCtx(), "AD_Note_ID") + " : 0");
+        btnNotice.setTooltiptext(Msg.translate(Env.getCtx(), "AD_Note_ID"));
         btnNotice.setImage("/images/GetMail16.png");
         int AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Notice' AND IsSummary = 'N'");
         btnNotice.setName(String.valueOf(AD_Menu_ID));
         btnNotice.addEventListener(Events.ON_CLICK, this);
-        
+
         btnRequest = new Button();
         vbox.appendChild(btnRequest);
-        btnRequest.setLabel("Request : 0");
-        btnRequest.setTooltiptext("Request");
+        btnRequest.setLabel(Msg.translate(Env.getCtx(), "R_Request_ID") + " : 0");
+        btnRequest.setTooltiptext(Msg.translate(Env.getCtx(), "R_Request_ID"));
         btnRequest.setImage("/images/Request16.png");
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Request' AND IsSummary = 'N'");
         btnRequest.setName(String.valueOf(AD_Menu_ID));
         btnRequest.addEventListener(Events.ON_CLICK, this);
-        
+
         btnWorkflow = new Button();
         vbox.appendChild(btnWorkflow);
-        btnWorkflow.setLabel("Workflow Activities : 0");
-        btnWorkflow.setTooltiptext("Workflow Activities");
+        btnWorkflow.setLabel(Msg.getMsg (Env.getCtx(), "WorkflowActivities") + " : 0");
+        btnWorkflow.setTooltiptext(Msg.getMsg (Env.getCtx(), "WorkflowActivities"));
         btnWorkflow.setImage("/images/Assignment16.png");
         AD_Menu_ID = DB.getSQLValue(null, "SELECT AD_Menu_ID FROM AD_Menu WHERE Name = 'Workflow Activities' AND IsSummary = 'N'");
         btnWorkflow.setName(String.valueOf(AD_Menu_ID));
         btnWorkflow.addEventListener(Events.ON_CLICK, this);
-        
+
         return vbox;
 	}
-	
+
 	/**
 	 * Get notice count
 	 * @return number of notice
@@ -99,11 +100,11 @@ public class DPActivities extends DashboardPanel implements EventListener {
 		String sql = "SELECT COUNT(1) FROM AD_Note "
 			+ "WHERE AD_Client_ID=? AND AD_User_ID IN (0,?)"
 			+ " AND Processed='N'";
-				
+
 		int retValue = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()), Env.getAD_User_ID(Env.getCtx()));
 		return retValue;
 	}
-	
+
 	/**
 	 * Get request count
 	 * @return number of request
@@ -115,18 +116,18 @@ public class DPActivities extends DashboardPanel implements EventListener {
 				+ " AND (DateNextAction IS NULL OR TRUNC(DateNextAction) <= TRUNC(SysDate))"
 				+ " AND (R_Status_ID IS NULL OR R_Status_ID IN (SELECT R_Status_ID FROM R_Status WHERE IsClosed='N'))",
 					"R_Request", false, true);	//	not qualified - RW
-		int retValue = DB.getSQLValue(null, sql, Env.getAD_User_ID(Env.getCtx()), Env.getAD_Role_ID(Env.getCtx())); 
+		int retValue = DB.getSQLValue(null, sql, Env.getAD_User_ID(Env.getCtx()), Env.getAD_Role_ID(Env.getCtx()));
 		return retValue;
 	}
-	
+
 	/**
 	 * Get workflow activity count
 	 * @return number of workflow activity
 	 */
-	public static int getWorkflowCount() 
+	public static int getWorkflowCount()
 	{
 		int count = 0;
-		
+
 		String sql = "SELECT count(*) FROM AD_WF_Activity a "
 			+ "WHERE a.Processed='N' AND a.WFState='OS' AND ("
 			//	Owner of Activity
@@ -166,20 +167,20 @@ public class DPActivities extends DashboardPanel implements EventListener {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		return count;
 	}
-	
+
 	@Override
     public void refresh(ServerPushTemplate template)
-	{		
+	{
     	noOfNotice = getNoticeCount();
     	noOfRequest = getRequestCount();
     	noOfWorkflow = getWorkflowCount();
-    	
+
     	template.execute(this);
 	}
-		        
+
     @Override
 	public void updateUI() {
     	//don't update if not visible
@@ -189,31 +190,31 @@ public class DPActivities extends DashboardPanel implements EventListener {
     			return;
     		c = c.getParent();
     	}
-    	btnNotice.setLabel("Notice : " + noOfNotice);
-		btnRequest.setLabel("Request : " + noOfRequest);
-		btnWorkflow.setLabel("Workflow Activities : " + noOfWorkflow);
+    	btnNotice.setLabel(Msg.translate(Env.getCtx(), "AD_Note_ID") + " : " + noOfNotice);
+		btnRequest.setLabel(Msg.translate(Env.getCtx(), "R_Request_ID") + " : " + noOfRequest);
+		btnWorkflow.setLabel(Msg.getMsg (Env.getCtx(), "WorkflowActivities") + " : " + noOfWorkflow);
 	}
 
 	public void onEvent(Event event)
     {
         Component comp = event.getTarget();
         String eventName = event.getName();
-        
+
         if(eventName.equals(Events.ON_CLICK))
         {
             if(comp instanceof Button)
             {
             	Button btn = (Button) comp;
-            	
+
             	int menuId = 0;
             	try
             	{
-            		menuId = Integer.valueOf(btn.getName());            		
+            		menuId = Integer.valueOf(btn.getName());
             	}
             	catch (Exception e) {
-					
+
 				}
-            	
+
             	if(menuId > 0) SessionManager.getAppDesktop().onMenuSelected(menuId);
             }
         }
