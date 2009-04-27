@@ -46,6 +46,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -80,8 +81,8 @@ import org.compiere.utils.DigestOfFile;
  * ---
  * Modifications: Allow Jasper Reports to be able to be run on VPN profile (i.e: no direct connection to DB).
  *                Implemented ClientProcess for it to run on client.
- * @author Ashley Ramdass 
- * @author victor.perez@e-evolution.com 
+ * @author Ashley Ramdass
+ * @author victor.perez@e-evolution.com
  * @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 2581145 ] Jasper: Provide parameters info
@@ -91,7 +92,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ReportStarter.class);
 	private static File REPORT_HOME = null;
-	
+
 	private static JRViewerProvider viewerProvider = new SwingJRViewerProvider();
 	private static JasperPrint jasperPrint;
 
@@ -107,7 +108,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	private ProcessInfo processInfo;
 	private MAttachment attachment;
 
-    
+
     /**
      * @param requestURL
      * @return true if the report is on the same ip address than Application Server
@@ -134,9 +135,9 @@ public class ReportStarter implements ProcessCall, ClientProcess
     		return false;
     	}
     	return tBool;
-    	
+
     }
-    
+
     /**
      * @return true if the class org.compiere.interfaces.MD5Home is present
      */
@@ -151,10 +152,10 @@ public class ReportStarter implements ProcessCall, ClientProcess
     	catch (ClassNotFoundException e)
 		{
     		log.warning("EJB Client for MD5 remote hashing absent\nyou need the class org.compiere.interfaces.MD5 - from webEJB-client.jar - in classpath");
-    		return false;	
+    		return false;
 		}
     }
-    
+
     /**
      * @param requestedURLString
      * @return md5 hash of remote file computed directly on application server
@@ -178,7 +179,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     			md5Hash = md5.getFileMD5(requestedURLString);
     			log.info("MD5 for " + requestedURLString + " is " + md5Hash);
     		}
-  
+
     	}
     	catch (MalformedURLException e) {
     		log.severe("URL is invalid: "+ e.getMessage());
@@ -190,7 +191,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     	}
     	return md5Hash;
     }
-    
+
     /**
      * @author rlemeill
      * @param reportLocation http://applicationserver/webApp/standalone.jrxml for example
@@ -200,23 +201,23 @@ public class ReportStarter implements ProcessCall, ClientProcess
     private File getRemoteFile(String reportLocation, String localPath)
     {
     	try{
-    		URL reportURL = new URL(reportLocation); 
+    		URL reportURL = new URL(reportLocation);
 			InputStream in = reportURL.openStream();
-			
+
     		File downloadedFile = new File(localPath);
 
     		if (downloadedFile.exists())
     		{
     			downloadedFile.delete();
     		}
-    		
+
     		FileOutputStream fout = new FileOutputStream(downloadedFile);
-			
+
 			byte buf[] = new byte[1024];
 			int s = 0;
  			while((s = in.read(buf, 0, 1024)) > 0)
 				fout.write(buf, 0, s);
-			
+
     		in.close();
     		fout.flush();
     		fout.close();
@@ -230,7 +231,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     		return null;
     	}
     }
-	
+
 	/**
 	 * Search for additional subreports deployed to a webcontext if
 	 * the parent report is located there
@@ -244,7 +245,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	{
 		ArrayList<File> subreports = new ArrayList<File>();
 		String remoteDir = reportPath.substring(0, reportPath.lastIndexOf("/"));
-		
+
 		// Currently check hardcoded for max. 10 subreports
 		for(int i=1; i<10; i++)
 		{
@@ -252,15 +253,15 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			File subreport = httpDownloadedReport(remoteDir + "/" + reportName + i + fileExtension);
 			if(subreport == null) // Subreport doesn't exist, abort further approaches
 				break;
-			
+
 			subreports.add(subreport);
 		}
-		
+
 		File[] subreportsTemp = new File[0];
 		subreportsTemp = subreports.toArray(subreportsTemp);
 		return subreportsTemp;
 	}
-    
+
     /**
      * @author rlemeill
      * @param reportLocation http string url ex: http://adempiereserver.domain.com/webApp/standalone.jrxml
@@ -272,16 +273,16 @@ public class ReportStarter implements ProcessCall, ClientProcess
     	File downloadedFile = null;
     	log.info(" report deployed to " + reportLocation);
     	try {
-    		
-    		
+
+
     		String[] tmps = reportLocation.split("/");
     		String cleanFile = tmps[tmps.length-1];
     		String localFile = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + cleanFile;
     		String downloadedLocalFile = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator")+"TMP" + cleanFile;
-    		
+
     		reportFile = new File(localFile);
-    		
-    		
+
+
     		if (reportFile.exists())
     		{
     			String localMD5hash = DigestOfFile.GetLocalMD5Hash(reportFile);
@@ -323,7 +324,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     		{
     			reportFile = getRemoteFile(reportLocation,localFile);
     		}
-    		
+
     	}
     	catch (Exception e) {
     		log.severe("Unknown exception: "+ e.getMessage());
@@ -331,15 +332,15 @@ public class ReportStarter implements ProcessCall, ClientProcess
     	}
     	return reportFile;
     }
-    
+
     /**
      * Returns the Server Connection if direct connection is not available
      * (VPN, WAN, Terminal) and thus query has to be run on server only else return
      * a direct connection to DB.
-     * 
+     *
      * Notes: Need to refactor and integrate in DB if confirmed to be working as
      * expected.
-     * 
+     *
      * @author Ashley Ramdass
      * @return Connection DB Connection
      */
@@ -347,7 +348,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     {
     	return DB.getConnectionRW();
     }
-    
+
     /**
 	 *  Start the process.
 	 *  Called then pressing the Process button in R_Request.
@@ -382,22 +383,22 @@ public class ReportStarter implements ProcessCall, ClientProcess
             reportResult(AD_PInstance_ID, "Can not find report", trxName);
             return false;
         }
-        
+
 		JasperData data = null;
 		File reportFile = null;
 		String fileExtension = "";
 		HashMap<String, Object> params = new HashMap<String, Object>();
-		
+
 		addProcessParameters(AD_PInstance_ID, params, trxName);
 		addProcessInfoParameters(params, pi.getParameter());
-		
+
 		reportFile = getReportFile(reportPath, (String)params.get("ReportType"));
-		if (reportFile == null || reportFile.exists() == false) 
+		if (reportFile == null || reportFile.exists() == false)
 		{
 			log.severe("No report file found for given type, falling back to " + reportPath);
 			reportFile = getReportFile(reportPath);
 		}
-		
+
 		if (reportFile == null || reportFile.exists() == false)
 		{
 			String tmp = "Can not find report file at path - " + reportPath;
@@ -415,25 +416,25 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		{
 			return false;
 		}
-		
+
 		JasperReport jasperReport = data.getJasperReport();
         String jasperName = data.getJasperName();
         File reportDir = data.getReportDir();
 
         if (jasperReport != null) {
 			File[] subreports;
-			
+
             // Subreports
 			if(reportPath.startsWith("http://") || reportPath.startsWith("https://"))
 			{
 				// Locate and download subreports from remote webcontext
 				subreports = getHttpSubreports(jasperName + "Subreport", reportPath, fileExtension);
 			}
-			else if (reportPath.startsWith("attachment:")) 
+			else if (reportPath.startsWith("attachment:"))
 			{
 				subreports = getAttachmentSubreports(reportPath);
 			}
-			else if (reportPath.startsWith("resource:")) 
+			else if (reportPath.startsWith("resource:"))
 			{
 				subreports = getResourceSubreports(jasperName + "Subreport", reportPath, fileExtension);
 			}
@@ -443,7 +444,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 				// Locate subreports from local/remote filesystem
 				subreports = reportDir.listFiles( new FileFilter( jasperName+"Subreport", reportDir, fileExtension));
 			}
-			
+
             for( int i=0; i<subreports.length; i++) {
                 JasperData subData = processReport( subreports[i]);
                 if (subData.getJasperReport()!=null) {
@@ -453,13 +454,14 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
             if (Record_ID > 0)
             	params.put("RECORD_ID", new Integer( Record_ID));
-            
+
             // contribution from Ricardo (ralexsander)
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
             params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
-            
+
             Language currLang = Env.getLanguage(Env.getCtx());
             params.put("CURRENT_LANG", currLang.getAD_Language());
+            params.put(JRParameter.REPORT_LOCALE, currLang.getLocale());
             // Resources
             File resFile = null;
             if (reportPath.startsWith("attachment:") && attachment != null) {
@@ -492,29 +494,29 @@ public class ReportStarter implements ProcessCall, ClientProcess
             try {
             	conn = getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                if (reportData.isDirectPrint()) 
+                if (reportData.isDirectPrint())
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     //RF 1906632
                     if (!processInfo.isBatch()) {
                     	JasperPrintManager.printReport( jasperPrint, false);
-                    } 
+                    }
                     else
                     {
                     	// You can use JasperPrint to create PDF
                     	// Used For the PH
-                    	try 
+                    	try
                     	{
                     		File PDF = File.createTempFile("mail", ".pdf");
                     		JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
                     		processInfo.setPDFReport(PDF);
-                    	} 
-                    	catch (IOException e) 
+                    	}
+                    	catch (IOException e)
                     	{
                     		log.severe("ReportStarter.startProcess: Can not make PDF File - "+ e.getMessage());
                     	}
                 }
-                    
+
                     // You can use JasperPrint to create PDF
 //                        JasperExportManager.exportReportToPdfFile(jasperPrint, "BasicReport.pdf");
                 } else {
@@ -537,11 +539,11 @@ public class ReportStarter implements ProcessCall, ClientProcess
         return true;
     }
 
-	public static JasperPrint getJasperPrint() 
+	public static JasperPrint getJasperPrint()
 	{
 		return jasperPrint;
 	}
-	
+
 
 	/**
      * Get .property resource file from process attachment
@@ -620,7 +622,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	{
 		ArrayList<File> subreports = new ArrayList<File>();
 		String remoteDir = reportPath.substring(0, reportPath.lastIndexOf("/"));
-		
+
 		// Currently check hardcoded for max. 10 subreports
 		for(int i=1; i<10; i++)
 		{
@@ -633,10 +635,10 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 			if(subreport == null) // Subreport doesn't exist, abort further approaches
 				break;
-			
+
 			subreports.add(subreport);
 		}
-		
+
 		File[] subreportsTemp = new File[0];
 		subreportsTemp = subreports.toArray(subreportsTemp);
 		return subreportsTemp;
@@ -649,16 +651,16 @@ public class ReportStarter implements ProcessCall, ClientProcess
      * @return the abstract file corresponding to typed report
      */
 	protected File getReportFile(String reportPath, String reportType) {
-		
+
 		if (reportType != null)
 		{
 			int cpos = reportPath.lastIndexOf('.');
 			reportPath = reportPath.substring(0, cpos) + "_" + reportType + reportPath.substring(cpos, reportPath.length());
 		}
-		
+
 		return getReportFile(reportPath);
 	}
-	
+
 	/**
 	 * @author alinv
 	 * @param reportPath
@@ -667,7 +669,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	protected File getReportFile(String reportPath)
 	{
 		File reportFile = null;
-		
+
 		// Reports deployment on web server Thanks to Alin Vaida
 		if (reportPath.startsWith("http://") || reportPath.startsWith("https://")) {
 			reportFile = httpDownloadedReport(reportPath);
@@ -693,7 +695,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		} else {
 			reportFile = new File(REPORT_HOME, reportPath);
 		}
-		
+
 		// Set org.compiere.report.path because it is used in reports which refer to subreports
 		if (reportFile != null)
 		{
@@ -705,7 +707,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	/**
 	 * @param reportPath
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private File getFileAsResource(String reportPath) throws Exception {
 		File reportFile;
@@ -733,14 +735,14 @@ public class ReportStarter implements ProcessCall, ClientProcess
 	}
 
 	/**
-	 * Download db attachment 
+	 * Download db attachment
 	 * @param reportPath must of syntax attachment:filename
 	 * @return File
 	 */
 	private File downloadAttachment(String reportPath) {
 		File reportFile = null;
 		String name = reportPath.substring("attachment:".length()).trim();
-		MProcess process = new MProcess(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getTransactionName()); 
+		MProcess process = new MProcess(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getTransactionName());
 		attachment = process.getAttachment();
 		if (attachment != null) {
 			MAttachmentEntry[] entries = attachment.getEntries();
@@ -753,11 +755,11 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 			if (entry != null) {
 				reportFile = getAttachmentEntryFile(entry);
-			}	
+			}
 		}
 		return reportFile;
 	}
-	
+
 	/**
 	 * Download db attachment to local file
 	 * @param entry
@@ -815,7 +817,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
         int pos = jasperName.indexOf('.');
         if (pos!=-1) jasperName = jasperName.substring(0, pos);
         File reportDir = reportFile.getParentFile();
-        
+
         //test if the compiled report exists
         File jasperFile = new File( reportDir.getAbsolutePath(), jasperName+".jasper");
         if (jasperFile.exists()) { // test time
@@ -871,7 +873,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 String pStrTo = rs.getString(3);
                 BigDecimal pNum = rs.getBigDecimal(4);
                 BigDecimal pNumTo = rs.getBigDecimal(5);
-                
+
                 Timestamp pDate = rs.getTimestamp(6);
                 Timestamp pDateTo = rs.getTimestamp(7);
                 if (pStr != null) {
@@ -938,12 +940,12 @@ public class ReportStarter implements ProcessCall, ClientProcess
     {
 		URL jasperreportsAbsoluteURL = Thread.currentThread().getContextClassLoader().getResource("net/sf/jasperreports/engine");
 		String jasperreportsAbsolutePath = "";
-		
+
 		if(jasperreportsAbsoluteURL.toString().startsWith("jar:http:") || jasperreportsAbsoluteURL.toString().startsWith("jar:https:"))
 		{
 			// Jasper classes are deployed to a webserver (Java Webstart)
 			jasperreportsAbsolutePath = jasperreportsAbsoluteURL.toString().split("!")[0].split("jar:")[1];
-			
+
 			// Download the required jasper libraries if they are not already existing
 			File reqLib = new File(System.getProperty("java.io.tmpdir"), "CompiereJasperReqs.jar");
 			if(!reqLib.exists() && !(reqLib.length() > 0))
@@ -956,7 +958,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
 					byte buf[] = new byte[1024];
 					int s = 0;
- 
+
 					while((s = in.read(buf, 0, 1024)) > 0)
 						fout.write(buf, 0, s);
 
@@ -981,7 +983,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			// Jasper classes are locally available (Local client)
 			jasperreportsAbsolutePath = jasperreportsAbsoluteURL.toString().split("!")[0].split("file:")[1];
 		}
-		
+
 		if(jasperreportsAbsolutePath != null && !jasperreportsAbsolutePath.trim().equals(""))
 		{
 			// Check whether the current CLASSPATH already contains our
@@ -996,7 +998,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 		}
     }
-	
+
     /**
      * @author rlemeill
      * @param reportFile
@@ -1041,7 +1043,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             boolean isPrintPreview = pi.isPrintPreview();
             if (rs.next()) {
                 path = rs.getString(1);
-				
+
 				if ("Y".equalsIgnoreCase(rs.getString(2)) && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
 						&& !isPrintPreview )
 					directPrint = true;
@@ -1049,7 +1051,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 log.severe("data not found; sql = "+sql);
 				return null;
             }
-            
+
             return new ReportData( path, directPrint);
         }
         catch (SQLException e)
@@ -1064,7 +1066,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             rs = null; pstmt = null;
         }
     }
-    
+
     /**
      * Set jasper report viewer provider.
      * @param provider
@@ -1074,7 +1076,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     		throw new IllegalArgumentException("Cannot set report viewer provider to null");
     	viewerProvider = provider;
     }
-    
+
     /**
      * Get the current jasper report viewer provider
      * @return JRViewerProvider
@@ -1105,7 +1107,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
     implements Serializable
     {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 4375195020654531202L;
 		private JasperReport jasperReport;
