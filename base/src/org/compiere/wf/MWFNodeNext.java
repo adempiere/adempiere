@@ -16,16 +16,15 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.compiere.model.MRefList;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_NodeNext;
 import org.compiere.process.DocAction;
-import org.compiere.util.DB;
 
 /**
  *	Workflow Node Next - Transition
@@ -128,34 +127,12 @@ public class MWFNodeNext extends X_AD_WF_NodeNext
 		if (!requery && m_conditions != null)
 			return m_conditions;
 		//
-		ArrayList<MWFNextCondition> list = new ArrayList<MWFNextCondition>();
-		String sql = "SELECT * FROM AD_WF_NextCondition WHERE AD_WF_NodeNext_ID=? AND IsActive='Y' ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getAD_WF_NodeNext_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MWFNextCondition(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = MWFNextCondition.COLUMNNAME_AD_WF_NodeNext_ID+"=?";
+		List<MWFNextCondition> list = new Query(getCtx(), MWFNextCondition.Table_Name, whereClause, get_TrxName())
+				.setParameters(new Object[]{getAD_WF_NodeNext_ID()})
+				.setOnlyActiveRecords(true)
+				.setOrderBy(MWFNextCondition.COLUMNNAME_SeqNo)
+				.list();
 		m_conditions = new MWFNextCondition[list.size()];
 		list.toArray (m_conditions);
 		return m_conditions;

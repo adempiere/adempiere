@@ -16,17 +16,15 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.AdempiereProcessor;
 import org.compiere.model.AdempiereProcessorLog;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WorkflowProcessor;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
 
@@ -52,35 +50,13 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 	 */
 	public static MWorkflowProcessor[] getActive (Properties ctx)
 	{
-		ArrayList<MWorkflowProcessor> list = new ArrayList<MWorkflowProcessor>();
-		String sql = "SELECT * FROM AD_WorkflowProcessor WHERE IsActive='Y'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWorkflowProcessor (ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
+		List<MWorkflowProcessor> list = new Query(ctx, Table_Name, null, null)
+					.setOnlyActiveRecords(true)
+					.list();
 		MWorkflowProcessor[] retValue = new MWorkflowProcessor[list.size ()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	getActive
-	
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MWorkflowProcessor.class);
 	
 	
 	/**************************************************************************
@@ -132,31 +108,10 @@ public class MWorkflowProcessor extends X_AD_WorkflowProcessor
 	 */
 	public AdempiereProcessorLog[] getLogs ()
 	{
-		ArrayList<MWorkflowProcessorLog> list = new ArrayList<MWorkflowProcessorLog>();
-		String sql = "SELECT * "
-			+ "FROM AD_WorkflowProcessorLog "
-			+ "WHERE AD_WorkflowProcessor_ID=? " 
-			+ "ORDER BY Created DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getAD_WorkflowProcessor_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWorkflowProcessorLog (getCtx(), rs, get_TrxName()));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
+		List<MWorkflowProcessorLog> list = new Query(getCtx(), MWorkflowProcessorLog.Table_Name, "AD_WorkflowProcessor_ID=?", get_TrxName())
+			.setParameters(new Object[]{getAD_WorkflowProcessor_ID()})
+			.setOrderBy("Created DESC")
+			.list();
 		MWorkflowProcessorLog[] retValue = new MWorkflowProcessorLog[list.size ()];
 		list.toArray (retValue);
 		return retValue;

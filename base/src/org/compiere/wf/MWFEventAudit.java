@@ -16,15 +16,13 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_EventAudit;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -68,32 +66,18 @@ public class MWFEventAudit extends X_AD_WF_EventAudit
 	 */
 	public static MWFEventAudit[] get (Properties ctx, int AD_WF_Process_ID, int AD_WF_Node_ID, String trxName)
 	{
-		ArrayList<MWFEventAudit> list = new ArrayList<MWFEventAudit>();
-		String sql = "SELECT * FROM AD_WF_EventAudit "
-			+ "WHERE AD_WF_Process_ID=?";
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("AD_WF_Process_ID=?"); 
+		params.add(AD_WF_Process_ID);
 		if (AD_WF_Node_ID > 0)
-			sql += " AND AD_WF_Node_ID=?";
-		sql += " ORDER BY AD_WF_EventAudit_ID";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
 		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_WF_Process_ID);
-			if (AD_WF_Node_ID > 0)
-				pstmt.setInt (2, AD_WF_Node_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWFEventAudit (ctx, rs, trxName));
+			whereClause.append(" AND AD_WF_Node_ID=?");
+			params.add(AD_WF_Node_ID);
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "get", e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		List<MWFEventAudit> list = new Query(ctx, Table_Name, whereClause.toString(), trxName)
+					.setParameters(params)
+					.setOrderBy(COLUMNNAME_AD_WF_EventAudit_ID)
+					.list();
 		//
 		MWFEventAudit[] retValue = new MWFEventAudit[list.size()];
 		list.toArray (retValue);
@@ -123,10 +107,6 @@ public class MWFEventAudit extends X_AD_WF_EventAudit
 	{
 		return get(ctx, AD_WF_Process_ID, 0, trxName);
 	}	//	get
-	
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MWFEventAudit.class);
 	
 	
 	/**************************************************************************

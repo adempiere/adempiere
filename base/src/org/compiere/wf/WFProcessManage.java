@@ -107,7 +107,7 @@ public class WFProcessManage extends SvrProcess
 				msg += " - " + msg1;
 		}
 		//
-		process.save();
+		process.saveEx();
 		
 		return "OK";
 	}	//	doIt

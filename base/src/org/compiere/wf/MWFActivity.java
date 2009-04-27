@@ -18,7 +18,6 @@ package org.compiere.wf;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
@@ -26,10 +25,12 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.model.MAttachment;
@@ -49,13 +50,13 @@ import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MUserRoles;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -89,31 +90,19 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 */
 	public static MWFActivity[] get (Properties ctx, int AD_Table_ID, int Record_ID, boolean activeOnly)
 	{
-		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_WF_Activity WHERE AD_Table_ID=? AND Record_ID=?";
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("AD_Table_ID=? AND Record_ID=?");
+		params.add(AD_Table_ID);
+		params.add(Record_ID);
 		if (activeOnly)
-			sql += " AND Processed<>'Y'";
-		sql += " ORDER BY AD_WF_Activity_ID";
-		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Table_ID);
-			pstmt.setInt (2, Record_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MWFActivity (ctx, rs, null));
+			whereClause.append(" AND Processed<>?");
+			params.add(true);
 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		List<MWFActivity> list = new Query(ctx, Table_Name, whereClause.toString(), null)
+					.setParameters(params)
+					.setOrderBy(COLUMNNAME_AD_WF_Activity_ID)
+					.list();
 		
 		MWFActivity[] retValue = new MWFActivity[list.size ()];
 		list.toArray (retValue);
@@ -143,9 +132,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		}
 		return sb.toString();
 	}	//	getActivityInfo
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MWFActivity.class);
 
 	
 	/**************************************************************************
@@ -262,9 +248,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	}	//	getState
 
 	/**
-	 * 	Set Activity State
-	 *	@param WFState
+	 * Set Activity State.
+	 * It also validates the new state and if is valid,
+	 * then create event audit and call {@link MWFProcess#checkActivities(String, PO)} 
+	 * @param WFState
 	 */
+	@Override
 	public void setWFState (String WFState)
 	{
 		if (m_state == null)
@@ -297,6 +286,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			Trace.printStack();
 			setTextMsg(msg);
 			save();
+			// TODO: teo_sarca: throw exception ? please analyze the call hierarchy first 
 		}
 	}	//	setWFState
 	
@@ -446,6 +436,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 * 	(Re)Set to Not Started
 	 *	@param AD_WF_Node_ID now node
 	 */
+	@Override
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
 		if (AD_WF_Node_ID == 0)
@@ -1088,6 +1079,14 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 							}
 						}
 					}
+					else if(resp.isOrganization())
+					{
+						throw new AdempiereException("Support not implemented for "+resp);
+					}
+					else
+					{
+						throw new AdempiereException("@NotSupported@ "+resp);
+					}
 					// end MZ
 				}
 				if (autoApproval
@@ -1216,7 +1215,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			DocAction doc = (DocAction)m_po;
 			try
 			{
-				//	Not pproved
+				//	Not approved
 				if (!"Y".equals(value))
 				{
 					newState = StateEngine.STATE_Aborted;

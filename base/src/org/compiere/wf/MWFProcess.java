@@ -16,15 +16,16 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Process;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -167,30 +168,17 @@ public class MWFProcess extends X_AD_WF_Process
 		if (!requery && m_activities != null)
 			return m_activities;
 		//
-		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_WF_Activity WHERE AD_WF_Process_ID=?";
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer("AD_WF_Process_ID=?");
+		params.add(getAD_WF_Process_ID());
 		if (onlyActive)
-			sql += " AND Processed='N'";
-		try
 		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, getAD_WF_Process_ID());
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MWFActivity(getCtx(), rs, trxName));
-	 	}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
+			whereClause.append(" AND Processed=?");
+			params.add(false);
 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
+		List<MWFActivity> list = new Query(getCtx(), MWFActivity.Table_Name, whereClause.toString(), trxName)
+								.setParameters(params)
+								.list();
 		m_activities = new MWFActivity[list.size ()];
 		list.toArray (m_activities);
 		return m_activities;
@@ -392,7 +380,7 @@ public class MWFProcess extends X_AD_WF_Process
 	 */
 	public void setAD_WF_Responsible_ID ()
 	{
-		int AD_WF_Responsible_ID = DB.getSQLValue(null,
+		int AD_WF_Responsible_ID = DB.getSQLValueEx(null,
 			MRole.getDefault(getCtx(), false).addAccessSQL(	
 			"SELECT AD_WF_Responsible_ID FROM AD_WF_Responsible "
 			+ "WHERE ResponsibleType='H' AND COALESCE(AD_User_ID,0)=0 "

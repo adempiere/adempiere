@@ -16,16 +16,13 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.MProcessPara;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Node_Para;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 
 /**
@@ -50,42 +47,14 @@ public class MWFNodePara extends X_AD_WF_Node_Para
 	 */
 	public static MWFNodePara[] getParameters (Properties ctx, int AD_WF_Node_ID)
 	{
-		ArrayList<MWFNodePara> list = new ArrayList<MWFNodePara>();
-		String sql = "SELECT * FROM AD_WF_Node_Para "
-			+ "WHERE AD_WF_Node_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_WF_Node_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MWFNodePara (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getParameters", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		
+		List<MWFNodePara> list = new Query(ctx, Table_Name, "AD_WF_Node_ID=?", null)
+			.setParameters(new Object[]{AD_WF_Node_ID})
+			.list();
 		MWFNodePara[] retValue = new MWFNodePara[list.size ()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	getParameters
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MWFNodePara.class);
 	
 	
 	/**************************************************************************

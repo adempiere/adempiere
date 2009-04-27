@@ -49,7 +49,7 @@ public class MWFNode extends X_AD_WF_Node
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7541139807980623316L;
+	private static final long serialVersionUID = 4330589837679937718L;
 
 
 	/**
@@ -533,6 +533,7 @@ public class MWFNode extends X_AD_WF_Node
 	 *	@param newRecord new
 	 *	@return true if can be saved
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if(MWorkflow.WORKFLOWTYPE_Manufacturing.equals(getWorkflow().getWorkflowType()))
@@ -632,6 +633,7 @@ public class MWFNode extends X_AD_WF_Node
 	 *	@param success success
 	 *	@return saved
 	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
@@ -644,6 +646,7 @@ public class MWFNode extends X_AD_WF_Node
 	 *	@param success success
 	 *	@return deleted
 	 */
+	@Override
 	protected boolean afterDelete (boolean success)
 	{
 		return success;

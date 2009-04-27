@@ -482,7 +482,7 @@ public class MWorkflow extends X_AD_Workflow
 		}
 		return null;
 	}	//	getNext
-
+	
 	/**
 	 * 	Get (first) Previous Node of ID
 	 * 	@param AD_WF_Node_ID id
@@ -936,7 +936,7 @@ public class MWorkflow extends X_AD_Workflow
 		int AD_Client_ID = Env.getAD_Client_ID(product.getCtx());
 		String sql = "SELECT AD_Workflow_ID FROM AD_Workflow "
 						+" WHERE Value = ? AND AD_Client_ID = ?";
-		return DB.getSQLValue(null, sql, product.getValue(), AD_Client_ID);
+		return DB.getSQLValueEx(null, sql, product.getValue(), AD_Client_ID);
 	}
 
 	/**
