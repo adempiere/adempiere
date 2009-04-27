@@ -28,17 +28,17 @@ import org.zkoss.zk.ui.Executions;
 public class ServerPushTemplate {
 
 	private Desktop desktop;
-	
+
 	private final static CLogger logger = CLogger.getCLogger(ServerPushTemplate.class);
 
 	/**
-	 * 
+	 *
 	 * @param desktop
 	 */
 	public ServerPushTemplate(Desktop desktop) {
 		this.desktop = desktop;
 	}
-	
+
 	/**
 	 * Execute callback in UI thread
 	 * @param callback
@@ -46,7 +46,7 @@ public class ServerPushTemplate {
 	public void execute(IServerPushCallback callback) {
 		boolean inUIThread = Executions.getCurrent() != null;
 		boolean desktopActivated = false;
-		
+
 		try {
 	    	if (!inUIThread) {
 	    		//1 second timeout
@@ -58,16 +58,16 @@ public class ServerPushTemplate {
 	    	}
 			callback.updateUI();
     	} catch (Exception e) {
-    		logger.log(Level.WARNING, "Server push error="+e.getLocalizedMessage(), e);
+    		logger.log(Level.INFO, "Server push error="+e.getLocalizedMessage(), e);
     	} finally {
     		if (!inUIThread && desktopActivated) {
     			Executions.deactivate(desktop);
     		}
     	}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return desktop
 	 */
 	public Desktop getDesktop() {
