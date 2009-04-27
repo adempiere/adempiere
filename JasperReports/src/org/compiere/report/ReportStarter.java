@@ -84,8 +84,10 @@ import org.compiere.utils.DigestOfFile;
  * @author Ashley Ramdass
  * @author victor.perez@e-evolution.com
  * @see FR 1906632 http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1906632&group_id=176962
- * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2581145 ] Jasper: Provide parameters info
+ * @author Cristina Ghita, www.arhipac.ro
+ * 			<li>BF [ 2778472 ] Subreport bug
  */
 public class ReportStarter implements ProcessCall, ClientProcess
 {
@@ -419,6 +421,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
 		JasperReport jasperReport = data.getJasperReport();
         String jasperName = data.getJasperName();
+        String name =  jasperReport.getName();
         File reportDir = data.getReportDir();
 
         if (jasperReport != null) {
@@ -436,7 +439,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 			else if (reportPath.startsWith("resource:"))
 			{
-				subreports = getResourceSubreports(jasperName + "Subreport", reportPath, fileExtension);
+				subreports = getResourceSubreports(name+ "Subreport", reportPath, fileExtension);
 			}
 			// TODO: Implement file:/ lookup for subreports
 			else
@@ -638,8 +641,8 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
 			subreports.add(subreport);
 		}
-
-		File[] subreportsTemp = new File[0];
+		
+		File[] subreportsTemp = new File[subreports.size()];
 		subreportsTemp = subreports.toArray(subreportsTemp);
 		return subreportsTemp;
 	}
