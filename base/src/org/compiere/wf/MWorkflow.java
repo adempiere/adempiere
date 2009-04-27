@@ -29,9 +29,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
-import org.compiere.model.MWindow;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_Node;
 import org.compiere.model.X_AD_Workflow;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
@@ -49,7 +47,8 @@ import org.compiere.util.Trx;
  * 	@version 	$Id: MWorkflow.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
  * 
  * @author Teo Sarca, www.arhipac.ro
- * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query 
+ * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
+ * 			<li>BF [ 2665963 ] Copy Workflow name in Activity name 
  */
 public class MWorkflow extends X_AD_Workflow
 {
@@ -642,25 +641,26 @@ public class MWorkflow extends X_AD_Workflow
 				menues[i].setDescription(getDescription());
 				menues[i].saveEx();
 			}
-			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Workflow_ID=" + getAD_Workflow_ID(), get_TrxName());
-			for (int i = 0; i < nodes.length; i++)
-			{
-				boolean changed = false;
-				if (nodes[i].isActive() != isActive())
-				{
-					nodes[i].setIsActive(isActive());
-					changed = true;
-				}
-				if (nodes[i].isCentrallyMaintained())
-				{
-					nodes[i].setName(getName());
-					nodes[i].setDescription(getDescription());
-					nodes[i].setHelp(getHelp());
-					changed = true;
-				}
-				if (changed)
-					nodes[i].saveEx();
-			}
+// TODO: teo_sarca: why do we need to sync node name with workflow name? - see BF 2665963
+//			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Workflow_ID=" + getAD_Workflow_ID(), get_TrxName());
+//			for (int i = 0; i < nodes.length; i++)
+//			{
+//				boolean changed = false;
+//				if (nodes[i].isActive() != isActive())
+//				{
+//					nodes[i].setIsActive(isActive());
+//					changed = true;
+//				}
+//				if (nodes[i].isCentrallyMaintained())
+//				{
+//					nodes[i].setName(getName());
+//					nodes[i].setDescription(getDescription());
+//					nodes[i].setHelp(getHelp());
+//					changed = true;
+//				}
+//				if (changed)
+//					nodes[i].saveEx();
+//			}
 		}
 
 		return success;
