@@ -43,6 +43,10 @@ import org.compiere.util.Ini;
  *
  *  @author     Jorg Janke, Victor Perez
  *  @version    $Id: Convert.java,v 1.3 2006/07/30 00:55:04 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2782095 ] Do not log *Access records
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2782095&group_id=176962&atid=879332
  */
 public abstract class Convert
 {
@@ -485,7 +489,13 @@ public abstract class Convert
 				"T_SELECTION2",
 				"T_SPOOL",
 				"T_TRANSACTION",
-				"T_TRIALBALANCE"
+				"T_TRIALBALANCE",
+				// Do not log *Access records - teo_Sarca BF [ 2782095 ]
+				"AD_PROCESS_ACCESS",
+				"AD_WINDOW_ACCESS",
+				"AD_WORKFLOW_ACCESS",
+				"AD_FORM_ACCESS",
+				//
 			};
 		String uppStmt = statement.toUpperCase().trim();
 		// don't log selects
