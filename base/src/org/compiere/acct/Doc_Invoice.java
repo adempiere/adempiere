@@ -169,7 +169,7 @@ public class Doc_Invoice extends Doc
 				MTax tax = MTax.get(getCtx(), C_Tax_ID);
 				if (!tax.isZeroTax())
 				{
-					BigDecimal LineNetAmtTax = tax.calculateTax(LineNetAmt, true, getStdPercision());
+					BigDecimal LineNetAmtTax = tax.calculateTax(LineNetAmt, true, getStdPrecision());
 					log.fine("LineNetAmt=" + LineNetAmt + " - Tax=" + LineNetAmtTax);
 					LineNetAmt = LineNetAmt.subtract(LineNetAmtTax);
 					for (int t = 0; t < m_taxes.length; t++)
@@ -180,7 +180,7 @@ public class Doc_Invoice extends Doc
 							break;
 						}
 					}
-					BigDecimal PriceListTax = tax.calculateTax(PriceList, true, getStdPercision());
+					BigDecimal PriceListTax = tax.calculateTax(PriceList, true, getStdPrecision());
 					PriceList = PriceList.subtract(PriceListTax);
 				}
 			}	//	correct included Tax
@@ -224,10 +224,10 @@ public class Doc_Invoice extends Doc
 	}	//	loadLines
 
 	/**
-	 * 	Get Currency Percision
+	 * 	Get Currency Precision
 	 *	@return precision
 	 */
-	private int getStdPercision()
+	private int getStdPrecision()
 	{
 		if (m_precision == -1)
 			m_precision = MCurrency.getStdPrecision(getCtx(), getC_Currency_ID());
