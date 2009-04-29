@@ -33,6 +33,7 @@ import org.compiere.swing.CComboBox;
  * 			<li>BF [ 1735043 ] AutoCompletion: drop down box is showed even if i press Caps
  * 			<li>FR [ 1820783 ] AutoCompletion: posibility to toggle strict mode
  * 			<li>BF [ 1820778 ] ESC(cancel editing) key not working if you are on VComboBox
+ * 			<li>BF [ 1898001 ] AutoComplete: Exception when selecting a text
  * 			<li>FR [ 2552854 ] Combobox AutoCompletion should ignore diacritics
  */
 public class AutoCompletion extends PlainDocument {
@@ -225,6 +226,8 @@ public class AutoCompletion extends PlainDocument {
 
 	private void highlightCompletedText(int start) {
 		editor.setCaretPosition(getLength());
+		if (getLength() < start)
+			start = getLength();
 		editor.moveCaretPosition(start);
 	}
 
