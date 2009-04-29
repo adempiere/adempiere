@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -34,6 +34,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: OrderPOCreate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  Contributor: Carlos Ruiz - globalqss
+ *      Fix [1709952] - Process: "Generate PO from Sales order" bug
  */
 public class OrderPOCreate extends SvrProcess
 {
@@ -153,10 +156,6 @@ public class OrderPOCreate extends SvrProcess
 				counter += createPOFromSO (new MOrder (getCtx(), rs, get_TrxName()));
 			}
  		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
 		finally
 		{
 			DB.close(rs, pstmt);
@@ -171,8 +170,9 @@ public class OrderPOCreate extends SvrProcess
 	 * 	Create PO From SO
 	 *	@param so sales order
 	 *	@return number of POs created
+	 * @throws Exception 
 	 */
-	private int createPOFromSO (MOrder so)
+	private int createPOFromSO (MOrder so) throws Exception
 	{
 		log.info(so.toString());
 		MOrderLine[] soLines = so.getLines(true, null);
@@ -184,10 +184,12 @@ public class OrderPOCreate extends SvrProcess
 		//
 		int counter = 0;
 		//	Order Lines with a Product which has a current vendor 
-		String sql = "SELECT DISTINCT po.C_BPartner_ID, po.M_Product_ID "
-			+ "FROM M_Product_PO po" 
+		String sql = "SELECT MIN(po.C_BPartner_ID), po.M_Product_ID "
+			+ "FROM M_Product_PO po"
 			+ " INNER JOIN C_OrderLine ol ON (po.M_Product_ID=ol.M_Product_ID) "
 			+ "WHERE ol.C_Order_ID=? AND po.IsCurrentVendor='Y' "
+			+ ((p_Vendor_ID > 0) ? " AND po.C_BPartner_ID=? " : "")
+			+ "GROUP BY po.M_Product_ID "
 			+ "ORDER BY 1";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -196,6 +198,8 @@ public class OrderPOCreate extends SvrProcess
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, so.getC_Order_ID());
+			if (p_Vendor_ID != 0)
+				pstmt.setInt (2, p_Vendor_ID);
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
@@ -225,10 +229,10 @@ public class OrderPOCreate extends SvrProcess
 						poLine.setDescription(soLines[i].getDescription());
 						poLine.setDatePromised(soLines[i].getDatePromised());
 						poLine.setPrice();
-						poLine.save();
+						poLine.saveEx();
 						
 						soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
-						soLines[i].save();
+						soLines[i].saveEx();
 					}
 				}
 			}
@@ -236,6 +240,7 @@ public class OrderPOCreate extends SvrProcess
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
+			throw e;
 		}
 		finally
 		{
@@ -246,7 +251,7 @@ public class OrderPOCreate extends SvrProcess
 		if (counter == 1 && po != null)
 		{
 			so.setLink_Order_ID(po.getC_Order_ID());
-			so.save();
+			so.saveEx();
 		}
 		return counter;
 	}	//	createPOFromSO
@@ -301,7 +306,7 @@ public class OrderPOCreate extends SvrProcess
 		po.setUser1_ID(so.getUser1_ID());
 		po.setUser2_ID(so.getUser2_ID());
 		//
-		po.save();
+		po.saveEx();
 		return po;
 	}	//	createPOForVendor
 	
