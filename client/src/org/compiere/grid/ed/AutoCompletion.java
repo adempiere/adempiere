@@ -33,6 +33,7 @@ import org.compiere.swing.CComboBox;
  * 			<li>BF [ 1735043 ] AutoCompletion: drop down box is showed even if i press Caps
  * 			<li>FR [ 1820783 ] AutoCompletion: posibility to toggle strict mode
  * 			<li>BF [ 1820778 ] ESC(cancel editing) key not working if you are on VComboBox
+ * 			<li>FR [ 2552854 ] Combobox AutoCompletion should ignore diacritics
  */
 public class AutoCompletion extends PlainDocument {
 	private static final long serialVersionUID = 1L;
@@ -262,13 +263,15 @@ public class AutoCompletion extends PlainDocument {
 	}
 	
 	/**
-	 * Checks if str1 starts with str2 (ignores case)
+	 * Checks if str1 starts with str2 (ignores case, trim whitespaces, strip diacritics)
 	 * @param str1
 	 * @param str2
 	 * @return true if str1 starts with str2
 	 */ 
-	private boolean startsWithIgnoreCase(String str1, String str2) {
-		return str1.toUpperCase().startsWith(str2.toUpperCase());
+	protected boolean startsWithIgnoreCase(String str1, String str2) {
+		String s1 = org.compiere.util.Util.stripDiacritics(str1.toUpperCase()).trim();
+		String s2 = org.compiere.util.Util.stripDiacritics(str2.toUpperCase()).trim();
+		return s1.startsWith(s2);
 	}
 
 }
