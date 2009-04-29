@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,10 +16,12 @@
  *****************************************************************************/
 package org.compiere.dbPort;
 
-import java.io.DataOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
@@ -47,6 +49,8 @@ import org.compiere.util.Ini;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2782095 ] Do not log *Access records
  *  			https://sourceforge.net/tracker/?func=detail&aid=2782095&group_id=176962&atid=879332
+ *  		<li>TODO: BF [ 2782611 ] Migration scripts are not UTF8
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2782611&group_id=176962&atid=879332
  */
 public abstract class Convert
 {
@@ -68,9 +72,9 @@ public abstract class Convert
 	private static CLogger	log	= CLogger.getCLogger (Convert.class);
 	
     private static FileOutputStream tempFileOr = null;
-    private static DataOutputStream osOr;
+    private static Writer writerOr;
     private static FileOutputStream tempFilePg = null;
-    private static DataOutputStream osPg;
+    private static Writer writerPg;
 
     /**
 	 *  Set Verbose
@@ -429,9 +433,9 @@ public abstract class Convert
 				if (tempFileOr == null) {
 		            File fileNameOr = File.createTempFile("migration_script_", "_oracle.sql");
 		            tempFileOr = new FileOutputStream(fileNameOr, true);
-		            osOr = new DataOutputStream(tempFileOr);
+		            writerOr = new BufferedWriter(new OutputStreamWriter(tempFileOr, "UTF8"));
 				}
-				writeLogMigrationScript(osOr, oraStatement);
+				writeLogMigrationScript(writerOr, oraStatement);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -445,9 +449,9 @@ public abstract class Convert
 				if (tempFilePg == null) {
 		            File fileNamePg = File.createTempFile("migration_script_", "_postgresql.sql");
 		            tempFilePg = new FileOutputStream(fileNamePg, true);
-		            osPg = new DataOutputStream(tempFilePg);
+		            writerPg = new BufferedWriter(new OutputStreamWriter(tempFilePg, "UTF8"));
 				}
-				writeLogMigrationScript(osPg, pgStatement);
+				writeLogMigrationScript(writerPg, pgStatement);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -524,24 +528,25 @@ public abstract class Convert
 		return false;
 	}
 
-	private static void writeLogMigrationScript(DataOutputStream os, String statement) throws IOException {
+	private static void writeLogMigrationScript(Writer w, String statement) throws IOException
+	{
 		String prm_COMMENT = MSysConfig.getValue("DICTIONARY_ID_COMMENTS");
 		// log time and date
 		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.DateTime);
 		String dateTimeText = format.format(new Timestamp(System.currentTimeMillis()));
-		os.writeBytes("-- ");
-		os.writeBytes(dateTimeText);
-		os.writeBytes("\n");
+		w.append("-- ");
+		w.append(dateTimeText);
+		w.append("\n");
 		// log sysconfig comment
-		os.writeBytes("-- ");
-		os.writeBytes(prm_COMMENT);
-		os.writeBytes("\n");
+		w.append("-- ");
+		w.append(prm_COMMENT);
+		w.append("\n");
 		// log statement
-		os.writeBytes(statement);
+		w.append(statement);
 		// close statement
-		os.writeBytes("\n;\n\n");
-		// flush stream - teo_sarca BF [ 1894474 ] 
-		os.flush();
+		w.append("\n;\n\n");
+		// flush stream - teo_sarca BF [ 1894474 ]
+		w.flush();
 	}
 
 }   //  Convert
