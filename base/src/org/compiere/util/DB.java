@@ -77,6 +77,8 @@ import org.compiere.process.SequenceCheck;
  * 		<li>BF [ 2030233 ] Remove duplicate code from DB class
  * 		<li>FR [ 2107062 ] Add more DB.getKeyNamePairs methods
  *		<li>FR [ 2448461 ] Introduce DB.getSQLValue*Ex methods
+ *		<li>FR [ 2781053 ] Introduce DB.getValueNamePairs
+ *
  */
 public final class DB
 {
@@ -2000,5 +2002,91 @@ public final class DB
     {
     	return getSQLValueBD(trxName, sql, new Object[]{int_param1});
     }
+    
+	/**
+	 * Get Array of ValueNamePair items.
+	 * <pre> Example:
+	 * String sql = "SELECT Name, Description FROM AD_Ref_List WHERE AD_Reference_ID=?";
+	 * ValueNamePair[] list = DB.getValueNamePairs(sql, false, params);
+	 * </pre>
+	 * @param sql SELECT Value_Column, Name_Column FROM ...
+	 * @param optional if {@link ValueNamePair#EMPTY} is added
+	 * @param params query parameters
+	 * @return array of {@link ValueNamePair} or empty array
+     * @throws DBException if there is any SQLException
+	 */
+	public static ValueNamePair[] getValueNamePairs(String sql, boolean optional, List<Object> params)
+	{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<ValueNamePair> list = new ArrayList<ValueNamePair>();
+        if (optional)
+        {
+            list.add (ValueNamePair.EMPTY);
+        }
+        try
+        {
+            pstmt = DB.prepareStatement(sql, null);
+            setParameters(pstmt, params);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                list.add(new ValueNamePair(rs.getString(1), rs.getString(2)));
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DBException(e, sql);
+        }
+        finally
+        {
+            close(rs, pstmt);
+            rs = null; pstmt = null;
+        }
+		return list.toArray(new ValueNamePair[list.size()]);
+	}
+	
+	/**
+	 * Get Array of KeyNamePair items.
+	 * <pre> Example:
+	 * String sql = "SELECT C_City_ID, Name FROM C_City WHERE C_City_ID=?";
+	 * KeyNamePair[] list = DB.getKeyNamePairs(sql, false, params);
+	 * </pre>
+	 * @param sql SELECT ID_Column, Name_Column FROM ...
+	 * @param optional if {@link ValueNamePair#EMPTY} is added
+	 * @param params query parameters
+	 * @return array of {@link KeyNamePair} or empty array
+     * @throws DBException if there is any SQLException
+	 */
+	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, List<Object> params)
+	{
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
+        if (optional)
+        {
+            list.add (KeyNamePair.EMPTY);
+        }
+        try
+        {
+            pstmt = DB.prepareStatement(sql, null);
+            setParameters(pstmt, params);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+            {
+                list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new DBException(e, sql);
+        }
+        finally
+        {
+            close(rs, pstmt);
+            rs = null; pstmt = null;
+        }
+		return list.toArray(new KeyNamePair[list.size()]);
+	}
 }	//	DB
 

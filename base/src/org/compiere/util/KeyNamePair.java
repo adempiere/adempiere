@@ -27,7 +27,9 @@ public final class KeyNamePair extends NamePair
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9187402069085556500L;
+	private static final long serialVersionUID = 6347385376010388473L;
+	
+	public static final KeyNamePair EMPTY = new KeyNamePair(-1, "");
 
 	/**
 	 *	Constructor KeyValue Pair -
