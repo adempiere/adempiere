@@ -481,7 +481,7 @@ public abstract class Doc
 	 * 	Get Context
 	 *	@return context
 	 */
-	protected Properties getCtx()
+	public Properties getCtx()
 	{
 		return m_ctx;
 	}	//	getCtx
@@ -884,7 +884,7 @@ public abstract class Doc
 	 * 	Get Trx Name and create Transaction
 	 *	@return Trx Name
 	 */
-	protected String getTrxName()
+	public String getTrxName()
 	{
 		return m_trxName;
 	}	//	getTrxName
