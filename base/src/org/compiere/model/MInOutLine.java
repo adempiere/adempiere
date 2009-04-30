@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -481,7 +482,12 @@ public class MInOutLine extends X_M_InOutLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		log.fine("");
+		log.fine("");	
+		// Locator is mandatory if no charge is defined - teo_sarca BF [ 2757978 ]
+		if (getM_Locator_ID() <= 0 && getC_Charge_ID() <= 0)
+		{
+			throw new FillMandatoryException(COLUMNNAME_M_Locator_ID);
+		}
 		//	Get Line No
 		if (getLine() == 0)
 		{
