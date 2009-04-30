@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.FillMandatoryException;
+import org.adempiere.exceptions.WarehouseLocatorConflictException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -32,6 +33,10 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version $Id: MInOutLine.java,v 1.5 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Teo Sarca, www.arhipac.ro
+ *  		<li>BF [ 2784194 ] Check Warehouse-Locator conflict
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
  */
 public class MInOutLine extends X_M_InOutLine
 {
@@ -254,12 +259,13 @@ public class MInOutLine extends X_M_InOutLine
 	 * 	Set M_Locator_ID
 	 *	@param M_Locator_ID id
 	 */
+	@Override
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
 		if (M_Locator_ID < 0) 
 			throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
 		//	set to 0 explicitly to reset
-		set_Value ("M_Locator_ID", new Integer(M_Locator_ID));	
+		set_Value (COLUMNNAME_M_Locator_ID, new Integer(M_Locator_ID));	
 	}	//	setM_Locator_ID
 	
 	/**
@@ -275,7 +281,7 @@ public class MInOutLine extends X_M_InOutLine
 		//	No Product
 		if (getM_Product_ID() == 0)
 		{
-			set_ValueNoCheck("M_Locator_ID", null);
+			set_ValueNoCheck(COLUMNNAME_M_Locator_ID, null);
 			return;
 		}
 		
@@ -492,7 +498,7 @@ public class MInOutLine extends X_M_InOutLine
 		if (getLine() == 0)
 		{
 			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM M_InOutLine WHERE M_InOut_ID=?";
-			int ii = DB.getSQLValue (get_TrxName(), sql, getM_InOut_ID());
+			int ii = DB.getSQLValueEx (get_TrxName(), sql, getM_InOut_ID());
 			setLine (ii);
 		}
 		//	UOM
@@ -517,6 +523,19 @@ public class MInOutLine extends X_M_InOutLine
 			{
 				log.saveError("FillMandatory", Msg.translate(getCtx(), "C_Order_ID"));
 				return false;
+			}
+		}
+		
+		// Validate Locator/Warehouse - teo_sarca, BF [ 2784194 ]
+		if (getM_Locator_ID() > 0)
+		{
+			MLocator locator = MLocator.get(getCtx(), getM_Locator_ID());
+			if (getM_Warehouse_ID() != locator.getM_Warehouse_ID())
+			{
+				throw new WarehouseLocatorConflictException(
+						MWarehouse.get(getCtx(), getM_Warehouse_ID()),
+						locator,
+						getLine());
 			}
 		}
 		
