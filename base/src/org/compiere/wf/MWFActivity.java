@@ -1272,11 +1272,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			// Send Approval Notification
 			if (newState.equals(StateEngine.STATE_Aborted)) {
 				MUser to = new MUser(getCtx(), doc.getDoc_User_ID(), null);
-				String NotificationType = to.getNotificationType();
 				
 				// send email
-				if (MUser.NOTIFICATIONTYPE_EMail.equals(NotificationType)
-						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
+				if (to.isNotificationEMail()) {
 					MClient client = MClient.get(getCtx(), doc.getAD_Client_ID());
 					client.sendEMail(doc.getDoc_User_ID(), Msg.getMsg(getCtx(), "NotApproved")
 							+ ": " + doc.getDocumentNo(), 
@@ -1286,8 +1284,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				}
 
 				// Send Note
-				if (MUser.NOTIFICATIONTYPE_Notice.equals(NotificationType)
-						|| MUser.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType)) {
+				if (to.isNotificationNote()) {
 					MNote note = new MNote(getCtx(), "NotApproved", doc.getDoc_User_ID(), null);
 					note.setTextMsg((doc.getSummary() != null ? doc.getSummary() + "\n" : "" )
 							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + "\n" : "") 

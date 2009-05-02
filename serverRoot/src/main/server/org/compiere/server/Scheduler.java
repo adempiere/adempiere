@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -31,9 +31,6 @@ import org.compiere.model.MScheduler;
 import org.compiere.model.MSchedulerLog;
 import org.compiere.model.MSchedulerPara;
 import org.compiere.model.MUser;
-import org.compiere.model.X_AD_Note;
-import org.compiere.model.X_AD_PInstance;
-import org.compiere.model.X_AD_User;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
@@ -149,11 +146,8 @@ public class Scheduler extends AdempiereServer
 		for (int i = 0; i < userIDs.length; i++)
 		{
 			MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
-			String type = user.getNotificationType();
-			boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
-				X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
-			boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
-				X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+			boolean email = user.isNotificationEMail();
+			boolean notice = user.isNotificationNote();
 			
 			if (notice)
 			{
@@ -166,7 +160,7 @@ public class Scheduler extends AdempiereServer
 				note.save();
 				//	Attachment
 				MAttachment attachment = new MAttachment (getCtx(), 
-						X_AD_Note.Table_ID, note.getAD_Note_ID(), m_trx.getTrxName());
+						MNote.Table_ID, note.getAD_Note_ID(), m_trx.getTrxName());
 				attachment.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 				attachment.addEntry(report);
 				attachment.setTextMsg(m_model.getName());
@@ -214,11 +208,8 @@ public class Scheduler extends AdempiereServer
 			if (supervisor > 0) 
 			{
 				MUser user = new MUser(getCtx(), supervisor, null);
-				String type = user.getNotificationType();
-				boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
-					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
-				boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
-					X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+				boolean email = user.isNotificationEMail();
+				boolean notice = user.isNotificationNote();
 				
 				if (email || notice)
 					ProcessInfoUtil.setLogFromDB(pi);
@@ -235,7 +226,7 @@ public class Scheduler extends AdempiereServer
 					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 					note.setTextMsg(pi.getSummary());
 					//note.setDescription();
-					note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
+					note.setRecord(MPInstance.Table_ID, pi.getAD_PInstance_ID());
 					note.save();
 				}
 			}
@@ -249,11 +240,8 @@ public class Scheduler extends AdempiereServer
 				for (int i = 0; i < userIDs.length; i++) 
 				{
 					MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
-					String type = user.getNotificationType();
-					boolean email = X_AD_User.NOTIFICATIONTYPE_EMail.equals(type) ||
-						X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
-					boolean notice = X_AD_User.NOTIFICATIONTYPE_Notice.equals(type) ||
-						X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(type);
+					boolean email = user.isNotificationEMail();
+					boolean notice = user.isNotificationNote();
 					
 					if (email) 
 					{
@@ -267,7 +255,7 @@ public class Scheduler extends AdempiereServer
 						note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 						note.setTextMsg(pi.getSummary());
 						//note.setDescription();
-						note.setRecord(X_AD_PInstance.Table_ID, pi.getAD_PInstance_ID());
+						note.setRecord(MPInstance.Table_ID, pi.getAD_PInstance_ID());
 						note.save();
 					}
 				}
