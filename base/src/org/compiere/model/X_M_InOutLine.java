@@ -52,8 +52,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 			setM_AttributeSetInstance_ID (0);
 			setM_InOut_ID (0);
 			setM_InOutLine_ID (0);
-			setM_Locator_ID (0);
-// @M_Locator_ID@
 			setMovementQty (Env.ZERO);
 // 1
 			setProcessed (false);
@@ -625,9 +623,10 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
