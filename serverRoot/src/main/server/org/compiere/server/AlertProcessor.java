@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -32,7 +32,9 @@ import org.compiere.model.MAlert;
 import org.compiere.model.MAlertProcessor;
 import org.compiere.model.MAlertProcessorLog;
 import org.compiere.model.MAlertRule;
+import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
+import org.compiere.model.MNote;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
@@ -53,6 +55,8 @@ import org.compiere.util.ValueNamePair;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1894573 ] Alert Processor Improvements
  * 			<li>FR [ 2453882 ] Alert Processor : attached file name improvement
+ * @author Kubotti
+ * 			<li>BF [ 2785633 ] Adding a Notice in Alert Processor
  */
 public class AlertProcessor extends AdempiereServer
 {
@@ -62,7 +66,7 @@ public class AlertProcessor extends AdempiereServer
 	 */
 	public AlertProcessor (MAlertProcessor model)
 	{
-		super (model, 180);		//	3 monute delay 
+		super (model, 180);		//	3 minute delay 
 		m_model = model;
 		m_client = MClient.get(model.getCtx(), model.getAD_Client_ID());
 	}	//	AlertProcessor
@@ -235,7 +239,7 @@ public class AlertProcessor extends AdempiereServer
 		Collection<Integer> users = alert.getRecipientUsers();
 		int countMail = notifyUsers(users, alert.getAlertSubject(), message.toString(), attachments);
 		
-		m_summary.append(alert.getName()).append(" (EMails=").append(countMail).append(") - ");
+		m_summary.append(alert.getName()).append(" (EMails+Notes=").append(countMail).append(") - ");
 		return valid;
 	}	//	processAlert
 	
@@ -258,9 +262,26 @@ public class AlertProcessor extends AdempiereServer
 					countMail++;
 				}
 			}
+			
+			Trx trx = Trx.get(Trx.createTrxName("AP_NU"), true);
 			if (user.isNotificationNote()) {
-				// TODO: implement
+				// Notice
+				int AD_Message_ID = 52244;  /* Hardcoded message=notes */
+				MNote note = new MNote(getCtx(), AD_Message_ID, user_id, trx.getTrxName());
+				note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+				note.setTextMsg(message);
+				note.saveEx();
+				// Attachment
+				MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
+				for (File f : attachments) {
+					attachment.addEntry(f);
+				}
+				attachment.setTextMsg(message);
+				attachment.saveEx();
+				countMail++;
 			}
+			trx.commit();
+			trx.close();
 		}
 		return countMail;
 	}
