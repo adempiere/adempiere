@@ -630,7 +630,8 @@ public class MUser extends X_AD_User
 	public boolean isNotificationEMail()
 	{
 		String s = getNotificationType();
-		return s == null || NOTIFICATIONTYPE_EMail.equals(s);
+		return s == null || NOTIFICATIONTYPE_EMail.equals(s)
+				|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s);
 	}	//	isNotificationEMail
 	
 	/**
@@ -640,7 +641,8 @@ public class MUser extends X_AD_User
 	public boolean isNotificationNote()
 	{
 		String s = getNotificationType();
-		return s != null && NOTIFICATIONTYPE_Notice.equals(s);
+		return s != null && (NOTIFICATIONTYPE_Notice.equals(s)
+							|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s));
 	}	//	isNotificationNote
 	
 	
