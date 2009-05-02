@@ -29,9 +29,12 @@ import org.zkoss.zul.Comboitem;
  */
 public class Combobox extends org.zkoss.zul.Combobox
 {
-    private static final long serialVersionUID = 1L;
-    
-    public void setEnabled(boolean enabled)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6278632602577424842L;
+
+	public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
     }

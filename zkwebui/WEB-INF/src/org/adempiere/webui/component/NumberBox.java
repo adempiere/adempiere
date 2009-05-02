@@ -46,9 +46,12 @@ import org.zkoss.zul.Vbox;
  */
 public class NumberBox extends Div
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Textbox txtCalc = new Textbox();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7089099079981906933L;
+
+	private Textbox txtCalc = new Textbox();
     
     boolean integral = false;
     

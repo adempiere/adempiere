@@ -28,9 +28,11 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class Button extends org.zkoss.zul.Button
 {
-    private static final long serialVersionUID = 1L;
-
-    private String name;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6562573800018819691L;
+	private String name;
     
     public Button()
     {

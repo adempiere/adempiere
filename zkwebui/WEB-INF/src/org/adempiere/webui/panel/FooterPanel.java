@@ -31,9 +31,11 @@ import org.zkoss.zul.Separator;
 
 public class FooterPanel extends Window
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Panel panel = new Panel();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3281918938762973359L;
+	private Panel panel = new Panel();
     private Label label = new Label();
     
     public FooterPanel()

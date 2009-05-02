@@ -34,8 +34,10 @@ import org.compiere.util.CCache;
  */
 public class MWarehouse extends X_M_Warehouse
 {
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -848214135445693460L;
 	/**
 	 * 	Get from Cache
 	 *	@param ctx context

@@ -45,7 +45,10 @@ import org.compiere.util.Msg;
  */
 public class MLanguage extends X_AD_Language
 {
-	private static final long	serialVersionUID	= 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6415602943484245447L;
 
 	/**
 	 * 	Get Language Model from Language

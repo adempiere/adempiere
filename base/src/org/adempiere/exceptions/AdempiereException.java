@@ -24,7 +24,11 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
 public class AdempiereException extends RuntimeException {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2340179640558569534L;
+
 
 	/**
 	 * Default Constructor (saved logger error will be used as message)

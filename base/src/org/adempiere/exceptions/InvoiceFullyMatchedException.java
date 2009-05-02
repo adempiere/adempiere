@@ -19,7 +19,10 @@ package org.adempiere.exceptions;
  */
 public class InvoiceFullyMatchedException extends AdempiereException
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7474922528576404203L;
 	
 	public static final String AD_Message = "InvoiceFullyMatched";
 	

@@ -72,7 +72,10 @@ import org.compiere.wf.MWorkflow;
 public class WFPanel extends CPanel
 	implements PropertyChangeListener, ActionListener, FormPanel
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4478193785606693055L;
 
 
 	/**

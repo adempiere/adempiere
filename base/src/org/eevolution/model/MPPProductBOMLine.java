@@ -48,7 +48,10 @@ import org.compiere.util.Env;
  */
 public class MPPProductBOMLine extends X_PP_Product_BOMLine
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6729103151164195906L;
 
 	/**
 	 *  Default Constructor

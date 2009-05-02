@@ -63,8 +63,10 @@ import org.zkoss.zul.Separator;
 
 public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7346527589727807179L;
 	private Textbox fDocumentNo = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();

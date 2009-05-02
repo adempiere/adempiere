@@ -122,7 +122,10 @@ public class POTest extends AdempiereTestCase
 	public void testAfterSaveError()
 	{
 		class MyTestPO extends MTest {
-			private static final long serialVersionUID = 1L;
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -6861171283806782985L;
 			protected boolean failOnSave = false;
 			public MyTestPO(Properties ctx, boolean failOnSave, String trxName) {
 				super(ctx, "Test_"+System.currentTimeMillis(), 10);

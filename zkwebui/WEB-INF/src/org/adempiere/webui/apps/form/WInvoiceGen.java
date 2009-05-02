@@ -99,8 +99,11 @@ import org.zkoss.zul.Space;
 public class WInvoiceGen extends ADForm
 	implements EventListener, ValueChangeListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8563031560168180223L;
+
 	/**
 	 *	Initialize Panel
 	 */

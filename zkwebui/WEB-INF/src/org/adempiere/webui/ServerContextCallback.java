@@ -25,8 +25,10 @@ import net.sf.cglib.proxy.InvocationHandler;
  *
  */
 public class ServerContextCallback implements InvocationHandler, Serializable {
-
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6708635918931322152L;
 
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {

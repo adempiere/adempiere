@@ -71,9 +71,10 @@ import org.zkoss.zul.Separator;
 public class WTrxMaterial extends ADForm
 	implements EventListener, ValueChangeListener
 {
-
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2141669182129214237L;
 	/** GridController          */
 	private ADTabpanel  m_gridController = null;
 	/** MWindow                 */

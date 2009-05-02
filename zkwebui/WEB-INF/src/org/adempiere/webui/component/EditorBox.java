@@ -28,7 +28,10 @@ import org.zkoss.zul.Div;
  * @author Low Heng Sin
  */
 public class EditorBox extends Div {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3152111756471436612L;
 	protected PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(
 			this);
 	protected Textbox txt;

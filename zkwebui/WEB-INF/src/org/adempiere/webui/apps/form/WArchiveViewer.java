@@ -76,8 +76,11 @@ import org.zkoss.zul.Iframe;
 
 public class WArchiveViewer extends ADForm implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1861963456140146011L;
+
 	/**	The Archives		*/
 	private MArchive[] m_archives = new MArchive[0];
 	

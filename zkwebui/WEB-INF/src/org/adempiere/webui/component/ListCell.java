@@ -19,9 +19,11 @@ package org.adempiere.webui.component;
 
 public class ListCell extends org.zkoss.zul.Listcell 
 {
-    private static final long serialVersionUID = 1L;
-    
-    public ListCell(String str)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 971168080286017036L;
+	public ListCell(String str)
     {
     	super(str);
     }

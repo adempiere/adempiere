@@ -32,9 +32,8 @@ public class MBPartnerProduct extends X_C_BPartner_Product
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3890764013045208949L;
 
-	
 	public MBPartnerProduct(Properties ctx, int C_BpartnerProduct_ID, String m_trxName)
     {
         super(ctx, C_BpartnerProduct_ID, m_trxName);

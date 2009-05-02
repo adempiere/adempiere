@@ -29,7 +29,10 @@ import org.eevolution.model.MPPProductBOM;
  */
 public class MChangeRequest extends X_M_ChangeRequest
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8374119541472311165L;
 
 
 	/**

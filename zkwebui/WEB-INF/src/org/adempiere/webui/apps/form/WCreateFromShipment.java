@@ -54,8 +54,11 @@ import org.zkoss.zul.Popup;
  */
 public class WCreateFromShipment extends WCreateFrom implements ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1097942250809500954L;
+
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab

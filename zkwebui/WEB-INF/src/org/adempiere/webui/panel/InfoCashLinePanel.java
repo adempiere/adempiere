@@ -62,8 +62,10 @@ import org.zkoss.zul.Separator;
 
 public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener, EventListener
 {
-	private static final long serialVersionUID = 1L;
-		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3042929765363185887L;
 	private Textbox fName = new Textbox();
 	private Textbox fAmtTo = new Textbox();
 	private Textbox fAmtFrom = new Textbox();

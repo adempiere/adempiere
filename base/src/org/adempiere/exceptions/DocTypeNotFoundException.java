@@ -24,8 +24,10 @@ import org.compiere.util.Util;
  */
 public class DocTypeNotFoundException extends AdempiereException
 {
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4218893853798807816L;
 	/** Doc Base Type */
 	private String m_docBaseType = null;
 	

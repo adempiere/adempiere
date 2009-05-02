@@ -25,9 +25,12 @@ package org.adempiere.webui.component;
  */
 public class Datebox extends org.zkoss.zul.Datebox
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5890574778856946570L;
 
-    public void setEnabled(boolean enabled)
+	public void setEnabled(boolean enabled)
     {
         this.setReadonly(!enabled);
         this.setButtonVisible(enabled);

@@ -51,7 +51,7 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6359287546081954105L;
 
 	/**
 	 * 	Constructor

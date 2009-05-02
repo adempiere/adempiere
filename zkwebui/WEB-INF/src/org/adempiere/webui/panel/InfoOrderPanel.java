@@ -64,9 +64,11 @@ import org.zkoss.zul.Separator;
  **/
 public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 {
-    private static final long serialVersionUID = 1L;
-   
-    private Label lblDocumentNo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8725276769956103867L;
+	private Label lblDocumentNo;
     private Label lblDescription;
     private Label lblDateOrdered;
     private Label lblOrderRef;

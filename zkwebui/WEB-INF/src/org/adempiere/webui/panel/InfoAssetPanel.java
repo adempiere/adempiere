@@ -57,7 +57,10 @@ import org.zkoss.zul.Separator;
 
 public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3324796198694097770L;
 
 	/** From Clause             */
 	private static String s_assetFROM = "A_ASSET a"

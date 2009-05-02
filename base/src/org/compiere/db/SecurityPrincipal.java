@@ -20,8 +20,10 @@ import java.io.Serializable;
  *
  */
 class SecurityPrincipal implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4703480025159571932L;
 	String principal;
 	String credential;
 }

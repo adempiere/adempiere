@@ -41,8 +41,10 @@ import org.zkoss.zul.Separator;
 
 public class Messagebox extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4957498533838144942L;
 	private String msg = new String("");
 	private String imgSrc = new String("");
 	

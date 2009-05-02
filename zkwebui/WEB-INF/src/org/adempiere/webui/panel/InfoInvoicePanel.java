@@ -65,6 +65,11 @@ import org.zkoss.zul.Separator;
 public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5632526399922930978L;
+
+	/**
      * Detail protected constructor
      * @param WindowNo window no
      * @param value query value
@@ -134,8 +139,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     
     private static int INDEX_PAYSCHEDULE = s_invoiceLayout.length - 1;  //  last item
    
-    private static final long serialVersionUID = 1L;
-
     private void initComponents()
     {
         lblDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo").substring(1));

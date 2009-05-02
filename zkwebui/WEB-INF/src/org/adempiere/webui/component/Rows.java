@@ -29,7 +29,10 @@ import org.zkoss.zk.ui.Component;
  */
 public class Rows extends org.zkoss.zul.Rows
 {
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5100123951371296683L;
 	private boolean noStrip = false;
     
     public Row newRow() {

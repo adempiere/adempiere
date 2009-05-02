@@ -27,12 +27,10 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evolution.com, e-Evolution
  */
 public class MReplicationStrategy extends X_AD_ReplicationStrategy {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1921892820183119329L;
 	public static final int REPLICATION_TABLE =0;
 	public static final int REPLICATION_DOCUMENT =1;
 	

@@ -35,8 +35,11 @@ import org.zkoss.zul.Vbox;
  */
 public class DPViews extends DashboardPanel implements EventListener {
 
-	private static final long serialVersionUID = 1L;
-		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8375414665766937581L;
+
 	public DPViews()
 	{
 		super();

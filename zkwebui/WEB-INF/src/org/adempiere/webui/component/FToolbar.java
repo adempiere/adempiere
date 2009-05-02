@@ -27,9 +27,12 @@ import org.zkoss.zul.Toolbar;
  */
 public class FToolbar extends Toolbar
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7108523012451551639L;
 
-    public String getName()
+	public String getName()
     {
         return getId();
     }

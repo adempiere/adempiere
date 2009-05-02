@@ -53,7 +53,10 @@ import org.compiere.util.Env;
  */
 public class MMatchPO extends X_M_MatchPO
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7189366329684552916L;
 
 
 	/**

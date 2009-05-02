@@ -53,9 +53,11 @@ import org.zkoss.zul.Treerow;
  */
 public class MenuPanel extends Panel implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Properties ctx;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -593280866781665891L;
+	private Properties ctx;
     private TreeSearchPanel pnlSearch;
     private Tree menuTree;
     private ArrayList<MenuListener> menuListeners = new ArrayList<MenuListener>();

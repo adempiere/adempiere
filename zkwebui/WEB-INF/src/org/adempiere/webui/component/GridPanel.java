@@ -48,12 +48,15 @@ import org.zkoss.zul.event.ZulEvents;
  */
 public class GridPanel extends Borderlayout implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 860960136170704359L;
+
 	private static final int MIN_COLUMN_WIDTH = 100;
 
 	private static final int MAX_COLUMN_WIDTH = 300;
 
-	private static final long serialVersionUID = 1L;
-	
 	private Grid listbox = null;
 	
 	private int pageSize = 100;

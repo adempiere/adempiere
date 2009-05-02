@@ -34,7 +34,10 @@ import org.compiere.util.TimeUtil;
  */
 public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5532695704071630122L;
 
 
 	/**

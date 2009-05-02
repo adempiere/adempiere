@@ -128,7 +128,10 @@ import org.compiere.util.Util;
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2886624470773649284L;
 
 	private boolean isNested = false;
 	
@@ -2589,7 +2592,10 @@ public final class APanel extends CPanel
 	 * 
 	 */
 	class SwitchAction extends AbstractAction {
-		private static final long serialVersionUID = 1L;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3837712049468116744L;
 
 		/** the action listener - APanel */
 		private ActionListener al;

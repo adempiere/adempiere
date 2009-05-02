@@ -72,10 +72,12 @@ import org.zkoss.zul.Separator;
 
 public class WFileImport extends ADForm implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5779187375101512112L;
 	private static final int MAX_LOADED_LINES = 100;
 	private static final int MAX_SHOWN_LINES = 10;
-	
-	private static final long serialVersionUID = 1L;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WFileImport.class);

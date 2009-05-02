@@ -65,7 +65,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class BarGraph extends CPanel implements ChartMouseListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4150122585550132822L;
 
 	/**
 	 * 	Constructor

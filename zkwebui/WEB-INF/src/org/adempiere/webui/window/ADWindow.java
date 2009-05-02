@@ -34,8 +34,6 @@ import org.zkoss.zk.ui.Component;
  */
 public class ADWindow extends AbstractUIPart
 {
-    private static final long serialVersionUID = 1L;
-
     private ADWindowPanel windowPanel;
     private Properties ctx;
     private int adWindowId;

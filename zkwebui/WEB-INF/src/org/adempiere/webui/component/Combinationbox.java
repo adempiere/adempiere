@@ -20,8 +20,10 @@ package org.adempiere.webui.component;
  */
 public class Combinationbox extends EditorBox
 {
-
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3743140893368022592L;
 
 	public Combinationbox()
     {

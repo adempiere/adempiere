@@ -25,9 +25,12 @@ package org.adempiere.webui.component;
  */
 public class ComboItem extends org.zkoss.zul.Comboitem
 {
-    private static final long serialVersionUID = 1L;
-    
-    public ComboItem(String label)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8483161780731035079L;
+
+	public ComboItem(String label)
     {
         super(label);
     }

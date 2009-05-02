@@ -46,9 +46,11 @@ import org.zkoss.zul.Vbox;
  */
 public class UserPanel extends Vbox  implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private Properties ctx;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5340541881809458772L;
+	private Properties ctx;
     private Grid grid;
     
     private ToolBarButton logout = new ToolBarButton();

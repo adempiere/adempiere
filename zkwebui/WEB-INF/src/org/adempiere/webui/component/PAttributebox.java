@@ -22,9 +22,12 @@ package org.adempiere.webui.component;
  */
 public class PAttributebox extends EditorBox
 {
-    private static final long serialVersionUID = 1L;
-    
-    public PAttributebox()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6822449202155516221L;
+
+	public PAttributebox()
     {
     	super();
     }

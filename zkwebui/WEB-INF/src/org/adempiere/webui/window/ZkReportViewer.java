@@ -89,9 +89,10 @@ import org.zkoss.zul.Vbox;
  * @author Low Heng Sin
  */
 public class ZkReportViewer extends Window implements EventListener {
-
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 347074497359766172L;
 	/** Window No					*/
 	private int                 m_WindowNo;
 	/**	Print Context				*/

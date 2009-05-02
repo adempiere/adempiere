@@ -42,12 +42,10 @@ import org.zkoss.zul.event.ListDataEvent;
  */
 public class ListModelTable extends ListModelList implements ListModelExt
 {
-
 	/**
-	 * The Uniqe Identifier of the class
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = 1891313647781142789L;
 	/** Array of listeners to changes in the table model. */
 	protected ArrayList<WTableModelListener> m_listeners = new ArrayList<WTableModelListener>();
 	/** The number of columns in the table. */

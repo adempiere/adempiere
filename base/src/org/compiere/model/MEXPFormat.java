@@ -51,12 +51,11 @@ import org.compiere.util.DB;
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195090&group_id=176962&atid=879335
  */
 public class MEXPFormat extends X_EXP_Format {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 1070027055056912752L;
+
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPFormat.class);
 	

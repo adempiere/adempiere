@@ -33,8 +33,11 @@ import org.zkoss.zul.Comboitem;
 
 public class AutoComplete extends Combobox 
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2642639623099513816L;
+
 	/** comboItems	All menu labels	 */
 	private String[] comboItems;
 	

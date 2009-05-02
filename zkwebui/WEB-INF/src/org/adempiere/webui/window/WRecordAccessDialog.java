@@ -48,7 +48,10 @@ import org.zkoss.zul.Toolbarbutton;
  */
 public class WRecordAccessDialog extends Window implements EventListener 
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3591753244744022795L;
 
 	/**
 	 * 	Record Access Dialog

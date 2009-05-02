@@ -28,9 +28,12 @@ import org.zkoss.zk.ui.Component;
  */
 public class Label extends org.zkoss.zul.Label
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Component decorator;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1912498227823474678L;
+
+	private Component decorator;
     
     private boolean mandatory;
 

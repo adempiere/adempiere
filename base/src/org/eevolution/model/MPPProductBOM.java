@@ -37,8 +37,10 @@ import org.compiere.util.Env;
  */
 public class MPPProductBOM extends X_PP_Product_BOM
 {
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5770988975738210823L;
 	/**	Cache						*/
 	private static CCache<Integer,MPPProductBOM> s_cache = new CCache<Integer,MPPProductBOM>(Table_Name, 40, 5);
 	/** BOM Lines					*/

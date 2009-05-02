@@ -69,9 +69,11 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WCharge extends ADForm implements EventListener
 {
-    /** Unique identifier. */
-    private static final long serialVersionUID = 1L;
-    /** AD_Message for "Create". */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 4210542409436277344L;
+	/** AD_Message for "Create". */
     private static final String AD_MESSAGE_CREATE = "Create";
     /** Logger.          */
     private static CLogger log = CLogger.getCLogger(WCharge.class);

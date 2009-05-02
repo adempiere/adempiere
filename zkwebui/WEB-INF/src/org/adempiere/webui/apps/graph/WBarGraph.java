@@ -53,7 +53,10 @@ import org.zkoss.zul.Imagemap;
  */
 public class WBarGraph extends Panel
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -975989183542113080L;
 
 	/**
 	 * 	Constructor

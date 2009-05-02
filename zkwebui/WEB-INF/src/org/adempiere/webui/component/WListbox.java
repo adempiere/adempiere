@@ -57,10 +57,13 @@ import org.zkoss.zul.ListModel;
 public class WListbox extends Listbox implements TableValueChangeListener, WTableModelListener
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5893174209599272896L;
+
 	/**	Logger. */
 	private static CLogger logger = CLogger.getCLogger(MiniTable.class);
-	/** Unique serial version identifier. */
-	private static final long serialVersionUID = 1L;
 
 	/** Model Index of Key Column.   */
 	protected int m_keyColumnIndex = -1;

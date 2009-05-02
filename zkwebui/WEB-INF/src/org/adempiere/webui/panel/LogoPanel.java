@@ -28,9 +28,11 @@ import org.zkoss.zul.Image;
  */
 public class LogoPanel extends Panel
 {
-    private static final long serialVersionUID = 1L;
-
-    private Image imgLogo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3908377845468033243L;
+	private Image imgLogo;
     
     public LogoPanel()
     {

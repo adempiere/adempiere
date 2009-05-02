@@ -57,9 +57,10 @@ import org.zkoss.zul.Separator;
 
 public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTableModelListener
 {
-	
-	private static final long serialVersionUID = 1L;	
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -660673175154418548L;
 	private Label lblValue ;
 	private Textbox fieldValue ;
 	private Label lblName;

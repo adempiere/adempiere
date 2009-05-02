@@ -70,7 +70,10 @@ import org.compiere.util.Util;
  */
 public class MiniTable extends CTable
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2209340448348079989L;
 
 	/**
 	 *  Default Constructor

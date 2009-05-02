@@ -25,6 +25,8 @@ package org.adempiere.webui.component;
  */
 public class Row extends org.zkoss.zul.Row
 {
-    private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3096460956090507074L;
 }

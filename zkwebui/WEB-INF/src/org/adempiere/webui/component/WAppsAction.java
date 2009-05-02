@@ -35,11 +35,6 @@ import org.compiere.util.Msg;
  */
 public class WAppsAction
 {
-    /**
-    *
-    */
-   private static final long serialVersionUID = 1L;
-
    /**
     *  Application Action
     *

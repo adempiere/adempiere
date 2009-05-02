@@ -39,7 +39,10 @@ import org.zkoss.zul.Vbox;
  */
 public class DPActivities extends DashboardPanel implements EventListener {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8123912981765687655L;
 
 	private static final CLogger logger = CLogger.getCLogger(DPActivities.class);
 

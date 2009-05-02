@@ -59,7 +59,11 @@ import org.zkoss.zul.Separator;
 
 public class WBPartner extends Window implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5842369060073088746L;
+
 	private static CLogger log = CLogger.getCLogger(WBPartner.class);
 	
 	private int m_WindowNo;

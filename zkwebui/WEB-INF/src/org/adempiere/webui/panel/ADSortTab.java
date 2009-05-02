@@ -65,7 +65,10 @@ import org.zkoss.zul.event.ListDataEvent;
  */
 public class ADSortTab extends Panel implements IADTabpanel
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3533927024365752586L;
 	private int m_AD_ColumnSortOrder_ID;
 
 	/**
@@ -685,8 +688,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 	 * @author Teo Sarca
 	 */
 	private class ListElement extends NamePair {
-		private static final long serialVersionUID = 1L;
-		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5645910649588308798L;
 		private int		m_key;
 		private int		m_AD_Client_ID;
 		private int		m_AD_Org_ID;

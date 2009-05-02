@@ -36,7 +36,10 @@ import org.compiere.util.NamePair;
  */
 public final class MAccountLookup extends Lookup implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5565166586045152280L;
 
 	/**
 	 *	Constructor

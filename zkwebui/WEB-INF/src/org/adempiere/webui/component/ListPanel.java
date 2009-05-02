@@ -42,12 +42,15 @@ import org.zkoss.zul.event.ZulEvents;
  */
 public class ListPanel extends Borderlayout implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4145737989132101461L;
+
 	private static final int MIN_COLUMN_WIDTH = 100;
 
 	private static final int MAX_COLUMN_WIDTH = 300;
 
-	private static final long serialVersionUID = 1L;
-	
 	private Listbox listbox = null;
 	
 	private int pageSize = 100;

@@ -25,9 +25,12 @@ package org.adempiere.webui.exception;
  */
 public class ApplicationException extends RuntimeException
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4217881437634023176L;
 
-    public ApplicationException(String msg)
+	public ApplicationException(String msg)
     {
         super(msg);
     }

@@ -33,9 +33,11 @@ import org.zkoss.zul.event.ListDataEvent;
  *
  */
 public class GridTableListModel extends AbstractListModel implements TableModelListener, ListModelExt {
-
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 698185856751242764L;
 	private GridTable tableModel;
 	@SuppressWarnings("unused")
 	private GridField[] gridField;

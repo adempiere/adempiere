@@ -38,8 +38,6 @@ import org.zkoss.zul.Div;
  */
 public class CompositeADTab extends AbstractADTab
 {
-    private static final long serialVersionUID = 1L;
-    
     /** Logger                  */
     private static CLogger  log = CLogger.getCLogger (CompositeADTab.class);
     

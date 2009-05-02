@@ -48,8 +48,12 @@ import org.compiere.util.Trx;
  */
 public class MCost extends X_M_Cost
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -127982599769472918L;
+
+
 	/**
 	 * 	Retrieve/Calculate Current Cost Price
 	 *	@param product product

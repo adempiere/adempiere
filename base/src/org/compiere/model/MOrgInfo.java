@@ -31,7 +31,10 @@ import org.compiere.util.CCache;
  */
 public class MOrgInfo extends X_AD_OrgInfo
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2079223595471129816L;
 
 
 	/**

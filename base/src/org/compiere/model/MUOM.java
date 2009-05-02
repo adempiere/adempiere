@@ -35,8 +35,10 @@ import org.compiere.util.Ini;
  */
 public class MUOM extends X_C_UOM
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7248044516358949324L;
 	/** X12 Element 355 Code	Second	*/
 	public static final String		X12_SECOND = "03";
 	/** X12 Element 355 Code	Minute	*/

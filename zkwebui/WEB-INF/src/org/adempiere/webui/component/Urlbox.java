@@ -18,10 +18,12 @@ package org.adempiere.webui.component;
  */
 public class Urlbox extends EditorBox
 {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3846071364733430994L;
 
-    private static final long serialVersionUID = 1L;
-
-    public Urlbox()
+	public Urlbox()
     {
         super();
     }

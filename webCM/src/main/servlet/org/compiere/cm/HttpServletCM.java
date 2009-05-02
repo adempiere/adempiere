@@ -45,11 +45,10 @@ import org.compiere.util.WebEnv;
  */
 public class HttpServletCM extends HttpServlet
 {
-
 	/**
      * serialVersionUID for serializable HttpServlet
      */
-	private static final long		serialVersionUID = 1L;
+	private static final long serialVersionUID = -4426808307458449693L;
 
 	/**
      * status if config is loaded... true if loaded false is default after

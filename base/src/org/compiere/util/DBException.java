@@ -27,7 +27,10 @@ package org.compiere.util;
  */
 @Deprecated
 public class DBException extends org.adempiere.exceptions.DBException {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7636162347228017698L;
 
 	public DBException(Exception e) {
 		super(e);

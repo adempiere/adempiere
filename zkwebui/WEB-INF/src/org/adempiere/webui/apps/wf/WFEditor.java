@@ -49,9 +49,10 @@ import org.zkoss.zul.Imagemap;
  *
  */
 public class WFEditor extends ADForm {
-
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6874950519612113345L;
 	private Listbox workflowList;
 	private Imagemap imageMap;
 

@@ -48,7 +48,10 @@ import org.zkoss.zul.Div;
  */
 public class InfoPAttributeInstancePanel extends Window implements EventListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2883260173499157121L;
 
 	/**
 	 * 	Constructor

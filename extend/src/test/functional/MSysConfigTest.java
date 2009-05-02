@@ -64,8 +64,11 @@ public class MSysConfigTest extends AdempiereTestCase {
 	
 	private static class TestableSysConfig extends MSysConfig
 	{
-		private static final long serialVersionUID = 1L;
-		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -536206101431286540L;
+
 		public TestableSysConfig(Properties ctx, 
 				int AD_Client_ID, int AD_Org_ID,
 				String Name, String Value, 

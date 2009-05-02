@@ -27,9 +27,12 @@ import org.adempiere.webui.component.Panel;
  */
 public class RequestNoticePanel extends Panel
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2530869089383947019L;
 
-    public RequestNoticePanel()
+	public RequestNoticePanel()
     {
         super();
     }

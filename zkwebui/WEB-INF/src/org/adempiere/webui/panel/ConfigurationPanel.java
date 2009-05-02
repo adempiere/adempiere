@@ -27,9 +27,12 @@ import org.adempiere.webui.component.Panel;
  */
 public class ConfigurationPanel extends Panel
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7604294587769974845L;
 
-    public ConfigurationPanel()
+	public ConfigurationPanel()
     {
         super();
     }

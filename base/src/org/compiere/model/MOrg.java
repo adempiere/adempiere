@@ -32,7 +32,10 @@ import org.compiere.util.Env;
  */
 public class MOrg extends X_AD_Org
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5604686137606338725L;
 
 
 	/**

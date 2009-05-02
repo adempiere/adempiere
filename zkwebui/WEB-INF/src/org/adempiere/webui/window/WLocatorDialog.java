@@ -57,7 +57,10 @@ import org.zkoss.zul.Vbox;
 
 public class WLocatorDialog extends Window implements EventListener 
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1013647722305985723L;
 
 	private Vbox mainBox = new Vbox();
 	

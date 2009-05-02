@@ -60,9 +60,12 @@ import org.jpedal.PdfDecoder;
  *
  */
 public class PDFViewerBean extends JPanel {
-    private static final long serialVersionUID = 1L;
-    
-    private final PdfDecoder decoder = new PdfDecoder();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -365936659584244L;
+	
+	private final PdfDecoder decoder = new PdfDecoder();
     private final JScrollPane center = new JScrollPane(decoder);
     private final JTextField pageField = new JTextField(2);
     private final JLabel pageCountLabel = new JLabel("00");
@@ -73,81 +76,111 @@ public class PDFViewerBean extends JPanel {
             0.25f, 0.33f, 0.50f, 0.75f, 1.00f, 1.50f, 2.00f, 4.00f, 8.00f};
 
     private final Action printAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -4038401603459821668L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             print();
         }
     };
     
     private final Action saveAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 2556454917786013951L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             save();
         }
     };
     
     private final Action goFirstAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 3012006964079877706L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             goFirst();
         }
     };
     
     private final Action goPreviousAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 7146121058674779580L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             goPrevious();
         }
     };
     
     private final Action goNextAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -535856649012053593L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             goNext();
         }
     };
     
     private final Action goLastAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -9129162509234933692L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             goLast();
         }
     };
 
     private final Action zoomInAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 8712227061870874820L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             zoomIn();
         }
     };
 
     private final Action zoomOutAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -796771923722993041L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             zoomOut();
         }
     };
 
     private final Action rotateCClockAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -5323310183497748731L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             rotateCClock();
         }
     };
 
     private final Action rotateClockAction = new AbstractAction() {
-        private static final long serialVersionUID = 1L;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 7048804716310413300L;
 
-        public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
             rotateClock();
         }
     };

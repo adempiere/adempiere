@@ -44,12 +44,10 @@ import org.compiere.util.DB;
  * @author Trifon N. Trifonov
  */
 public class MEXPProcessor extends X_EXP_Processor {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = -2925330684523283775L;
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPProcessor.class);
 	

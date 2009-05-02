@@ -62,8 +62,11 @@ import org.zkoss.zul.Separator;
 
 public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3927370377224858985L;
+
 	private Textbox fDocumentNo = new Textbox();
 
 	private WEditor fBPartner_ID;

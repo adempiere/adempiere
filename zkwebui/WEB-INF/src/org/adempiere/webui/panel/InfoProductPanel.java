@@ -94,9 +94,11 @@ import org.zkoss.zkex.zul.South;
  */
 public final class InfoProductPanel extends InfoPanel implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private Label lblValue = new Label();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8334769481995098193L;
+	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
 	private Label lblName = new Label();
 	private Textbox fieldName = new Textbox();

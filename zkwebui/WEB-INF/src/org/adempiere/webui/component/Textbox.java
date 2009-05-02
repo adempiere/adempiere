@@ -31,9 +31,12 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class Textbox extends org.zkoss.zul.Textbox implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Obscure	m_obscure = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2201466028538929955L;
+
+	private Obscure	m_obscure = null;
 
 	private boolean m_infocus;
 

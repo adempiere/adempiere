@@ -37,8 +37,10 @@ import org.compiere.swing.CComboBox;
  * 			<li>FR [ 2552854 ] Combobox AutoCompletion should ignore diacritics
  */
 public class AutoCompletion extends PlainDocument {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1449135613844313889L;
 	CComboBox comboBox;
 	ComboBoxModel model;
 	JTextComponent editor;

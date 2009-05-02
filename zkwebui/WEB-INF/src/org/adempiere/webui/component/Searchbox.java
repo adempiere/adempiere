@@ -19,7 +19,10 @@ package org.adempiere.webui.component;
  */
 public class Searchbox extends EditorBox
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5164796522319002269L;
 
 	public Searchbox()
 	{

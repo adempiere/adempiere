@@ -39,11 +39,10 @@ public class MIMPProcessorLog
 	extends X_IMP_ProcessorLog
 	implements AdempiereProcessorLog 
 {
-
 	/**
-	 * serialVersionUID
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2314394818152867856L;
 
 	/**
 	 * 

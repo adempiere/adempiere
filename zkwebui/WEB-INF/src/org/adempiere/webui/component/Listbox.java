@@ -37,9 +37,11 @@ import org.zkoss.zul.Listitem;
  */
 public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-    
-    private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -411510408730815382L;
+	private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
 	private boolean draggable;
 	

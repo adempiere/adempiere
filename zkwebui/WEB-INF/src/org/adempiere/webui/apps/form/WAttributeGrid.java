@@ -66,7 +66,10 @@ import org.zkoss.zul.Vbox;
  */
 public class WAttributeGrid extends ADForm implements EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 687630618195901592L;
 
 	/**
 	 * 	Init

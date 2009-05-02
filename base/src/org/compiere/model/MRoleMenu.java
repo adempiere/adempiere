@@ -30,7 +30,7 @@ public class MRoleMenu extends X_U_RoleMenu
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 9022716123964882452L;
 
 	public MRoleMenu(Properties ctx, int U_RoleMenu_ID, String trxName)
 	{

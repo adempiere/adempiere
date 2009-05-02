@@ -35,9 +35,11 @@ import org.zkoss.zul.Menupopup;
  */
 public class WEditorPopupMenu extends Menupopup implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private static final String EVENT_ATTRIBUTE = "EVENT";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8172397145177408454L;
+	private static final String EVENT_ATTRIBUTE = "EVENT";
     public static final String ZOOM_EVENT = "ZOOM";
     public static final String REQUERY_EVENT = "REQUERY";
     public static final String PREFERENCE_EVENT = "VALUE_PREFERENCE";

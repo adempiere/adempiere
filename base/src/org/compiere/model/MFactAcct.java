@@ -36,7 +36,10 @@ import org.compiere.util.DB;
  */
 public class MFactAcct extends X_Fact_Acct
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5251847162314796574L;
 
 	/**
 	 * Delete Accounting

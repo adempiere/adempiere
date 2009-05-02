@@ -25,9 +25,12 @@ package org.adempiere.webui.component;
  */
 public class Tabs extends org.zkoss.zul.Tabs
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2416323107841662771L;
 
-    public Tabs()
+	public Tabs()
     {
         super();
     }

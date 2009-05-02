@@ -50,8 +50,11 @@ import org.zkoss.zul.Iframe;
  */
 public class WMediaDialog extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -329919930778203892L;
+
 	private static CLogger log = CLogger.getCLogger(WMediaDialog.class);
 
 	/** data	*/

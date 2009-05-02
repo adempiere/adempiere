@@ -32,7 +32,10 @@ import org.compiere.util.Env;
  */
 public class PeriodClosedException extends AdempiereException
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2798371272365454799L;
 
 	/**
 	 * 

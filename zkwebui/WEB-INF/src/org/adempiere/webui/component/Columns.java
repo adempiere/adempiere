@@ -20,5 +20,8 @@ package org.adempiere.webui.component;
 
 public class Columns extends org.zkoss.zul.Columns
 {
-    private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 702502881459697527L;
 }

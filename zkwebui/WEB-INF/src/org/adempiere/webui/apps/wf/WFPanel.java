@@ -49,8 +49,12 @@ import org.zkoss.zul.Imagemap;
  */
 public class WFPanel extends Borderlayout implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8777798080154603970L;
+
+
 	/**
 	 * 	Create Workflow Panel
 	 */

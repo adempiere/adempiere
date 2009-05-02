@@ -22,8 +22,11 @@ import org.adempiere.webui.apps.graph.WPAPanel;
  */
 public class DPPerformance extends DashboardPanel {
 
-	private static final long serialVersionUID = 1L;
-		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8878665031716441912L;
+
 	public DPPerformance()
 	{
 		super();

@@ -27,9 +27,12 @@ import org.zkoss.zul.Div;
  */
 public class Panel extends Div 
 {
-    private static final long  serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5549821938132356378L;
 
-    public static final String HORIZONTAL       = "horizontal";
+	public static final String HORIZONTAL       = "horizontal";
 
     public static final String VERTICAL         = "vertical";
     

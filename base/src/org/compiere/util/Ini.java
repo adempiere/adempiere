@@ -60,7 +60,10 @@ import org.compiere.model.ModelValidationEngine;
  */
 public final class Ini implements Serializable
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3666529972922769528L;
 
 	/** Property file name				*/
 	public static final String	ADEMPIERE_PROPERTY_FILE = "Adempiere.properties";

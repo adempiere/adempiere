@@ -55,9 +55,11 @@ import org.zkoss.zk.ui.event.Events;
  **/
 public class WLocationDialog extends Window implements EventListener
 {
-    
-    private static final String LABEL_STYLE = "white-space: nowrap;";
-	private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7510181548669317310L;
+	private static final String LABEL_STYLE = "white-space: nowrap;";
     /** Logger          */
     private static CLogger log = CLogger.getCLogger(WLocationDialog.class);
     private Label lblAddress1;

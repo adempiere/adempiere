@@ -25,6 +25,8 @@ package org.adempiere.webui.component;
  */
 public class VerticalBox extends org.zkoss.zul.Vbox
 {
-    private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5995926218043737398L;
 }

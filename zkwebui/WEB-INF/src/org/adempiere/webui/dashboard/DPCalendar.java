@@ -22,8 +22,11 @@ import org.zkoss.zul.Iframe;
  */
 public class DPCalendar extends DashboardPanel {
 
-	private static final long serialVersionUID = 1L;
-		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6420016898259232438L;
+
 	public DPCalendar()
 	{
 		super();

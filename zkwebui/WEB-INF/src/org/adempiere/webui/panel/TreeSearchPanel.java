@@ -47,9 +47,11 @@ import org.zkoss.zul.event.TreeDataListener;
  */
 public class TreeSearchPanel extends Panel implements EventListener, TreeDataListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private TreeMap<String, Object> treeNodeItemMap = new TreeMap<String, Object>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1788127438140771622L;
+	private TreeMap<String, Object> treeNodeItemMap = new TreeMap<String, Object>();
     private String[] treeValues;
     private String[] treeDescription;
 

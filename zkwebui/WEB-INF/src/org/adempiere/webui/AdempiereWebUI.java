@@ -57,9 +57,12 @@ import org.zkoss.zul.Window;
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
-    private static final long  serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5759422592670132576L;
 
-    public static final String APP_NAME = "Adempiere ZK webUI";
+	public static final String APP_NAME = "Adempiere ZK webUI";
 
     public static final String UID          = "1.0";
 

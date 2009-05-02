@@ -42,7 +42,10 @@ import org.zkoss.zul.event.TreeDataEvent;
  */
 public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements TreeitemRenderer, EventListener {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4649471521757131755L;
 
 	private static final CLogger logger = CLogger.getCLogger(SimpleTreeModel.class);
 	

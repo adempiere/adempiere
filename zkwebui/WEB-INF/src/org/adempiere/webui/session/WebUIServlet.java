@@ -47,9 +47,12 @@ import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
  */
 public class WebUIServlet extends DHtmlLayoutServlet
 {
-    private static final long    serialVersionUID = 1L;
-
-    /** Logger for the class * */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 261899419681731L;
+	
+	/** Logger for the class * */
     private static final CLogger logger;
 
     static

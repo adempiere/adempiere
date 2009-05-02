@@ -20,8 +20,6 @@ import org.compiere.utils.DigestOfFile;
  */
 @Stateless(mappedName=MD5.JNDI_NAME, name=MD5.EJB_NAME)
 public class MD5Bean implements MD5 {
-
-	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */

@@ -75,7 +75,11 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class ProcessDialog extends Window implements EventListener//, ASyncProcess
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4940020114091318176L;
+
 
 	/**
 	 * Dialog to start a process/report

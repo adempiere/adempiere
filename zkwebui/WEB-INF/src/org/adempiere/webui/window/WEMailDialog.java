@@ -68,7 +68,10 @@ import org.zkoss.zul.Separator;
  */
 public class WEMailDialog extends Window implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2960343329714019910L;
 
 	/**
 	 * 	EMail Dialog

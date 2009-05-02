@@ -40,7 +40,11 @@ import org.compiere.util.Env;
  */
 public class MCostDetail extends X_M_CostDetail
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5452006110417178583L;
+
 
 	/**
 	 * 	Create New Order Cost Detail for Purchase Orders.

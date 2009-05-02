@@ -48,9 +48,9 @@ import org.zkoss.zul.Space;
 public class WDocActionPanel extends Window implements EventListener
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5205192043399137291L;
 	private Label lblDocAction;
 	private Label label;
 	private Listbox lstDocAction;

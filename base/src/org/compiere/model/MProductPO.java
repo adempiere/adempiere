@@ -28,7 +28,10 @@ import java.util.Properties;
  */
 public class MProductPO extends X_M_Product_PO
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -747761340543484440L;
 
 
 	/**

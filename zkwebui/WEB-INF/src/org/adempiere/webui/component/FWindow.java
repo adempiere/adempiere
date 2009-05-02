@@ -26,9 +26,12 @@ package org.adempiere.webui.component;
  */
 public class FWindow extends Window
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7047997664627639977L;
 
-    public FWindow()
+	public FWindow()
     {
         super();
     }

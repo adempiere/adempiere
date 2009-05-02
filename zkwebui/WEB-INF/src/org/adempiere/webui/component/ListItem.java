@@ -30,8 +30,11 @@ import org.compiere.util.ValueNamePair;
  */
 public class ListItem extends org.zkoss.zul.Listitem
 {
-    private static final long serialVersionUID = 1L;
-    private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3445426943414051896L;
+	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
     
     public ListItem(String label, Object value)
     {

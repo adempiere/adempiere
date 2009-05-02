@@ -27,8 +27,6 @@ import org.zkoss.zk.ui.Component;
  */
 public class MultiTabPart extends AbstractUIPart
 {
-    private static final long serialVersionUID = 1L;
-    
     private Tabbox           tabbox;
 
     public MultiTabPart()

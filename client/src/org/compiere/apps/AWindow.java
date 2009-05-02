@@ -38,7 +38,10 @@ import org.compiere.util.Env;
  */
 public class AWindow extends CFrame
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1925388774073536474L;
 
 	/**
 	 *	Standard Constructor - requires initWindow

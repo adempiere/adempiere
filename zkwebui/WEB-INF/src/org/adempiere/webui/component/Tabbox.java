@@ -27,9 +27,12 @@ import org.zkoss.zul.Tabpanels;
  */
 public class Tabbox extends org.zkoss.zul.Tabbox
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8453423102898624801L;
 
-    public Tabpanel getTabpanel(int index)
+	public Tabpanel getTabpanel(int index)
     {
         try
         {

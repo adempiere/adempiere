@@ -47,11 +47,12 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WSQLProcess extends ADForm implements EventListener
 {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2038792517003449189L;
 
-    /** Serial Version Unique Identifier. */
-    private static final long serialVersionUID = 1L;
-
-    /** Log. */
+	/** Log. */
     private static CLogger  log = CLogger.getCLogger(VSQLProcess.class);
 
     /** Grid used to layout components. */

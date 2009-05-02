@@ -50,9 +50,12 @@ import org.zkoss.zul.Label;
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private static final String BUTTON_WIDTH = "32px";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8259762910508209764L;
+
+	private static final String BUTTON_WIDTH = "32px";
     
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 

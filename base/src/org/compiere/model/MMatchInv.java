@@ -49,7 +49,11 @@ import org.compiere.util.Env;
  */
 public class MMatchInv extends X_M_MatchInv
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3668871839074170205L;
+
 
 	/**
 	 * 	Get InOut-Invoice Matches

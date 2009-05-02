@@ -55,8 +55,11 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WCreateFromStatement extends WCreateFrom implements ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7169292850233996482L;
+
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab

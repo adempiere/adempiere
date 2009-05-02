@@ -63,8 +63,10 @@ import org.zkoss.zul.Separator;
 
 public class InfoAssignmentPanel extends InfoPanel implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -935642651768066799L;
 	private WEditor fieldResourceType;
 	private WEditor fieldResource;
 	

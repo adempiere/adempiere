@@ -38,7 +38,7 @@ public class MAcctSchemaGL extends X_C_AcctSchema_GL
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5303102649110271896L;
 
 
 	/**

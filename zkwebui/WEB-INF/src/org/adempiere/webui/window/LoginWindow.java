@@ -38,9 +38,11 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class LoginWindow extends FWindow implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private IWebClient app;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -365979563919913804L;
+	private IWebClient app;
     private Properties ctx;
     private LoginPanel pnlLogin;
     private RolePanel pnlRole;

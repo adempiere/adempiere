@@ -29,7 +29,7 @@ public class MBlackListCheque extends X_U_BlackListCheque
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6958839594386806390L;
 
 	public MBlackListCheque(Properties ctx, int U_BlackListCheque_ID, String trxName)
     {

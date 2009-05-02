@@ -19,8 +19,11 @@ package org.adempiere.exceptions;
  */
 public class FillMandatoryException extends AdempiereException
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9074980284529933724L;
+
 	public FillMandatoryException(String...fields)
 	{
 		super("@FillMandatory@ "+buildMessage(fields));

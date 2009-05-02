@@ -34,9 +34,11 @@ import org.zkoss.zul.Tree;
  */
 public class ADTreePanel extends Panel implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private TreeSearchPanel pnlSearch;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5473705529310157142L;
+	private TreeSearchPanel pnlSearch;
     private Tree tree;
     
     private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree

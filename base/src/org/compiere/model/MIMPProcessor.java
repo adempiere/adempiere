@@ -47,12 +47,10 @@ public class MIMPProcessor
 	extends X_IMP_Processor
 	implements AdempiereProcessor 
 {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	
+	private static final long serialVersionUID = 8634765494025824138L;
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MIMPProcessor.class);
 	

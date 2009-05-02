@@ -28,9 +28,12 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class Checkbox extends org.zkoss.zul.Checkbox
 {
-    private static final long serialVersionUID = 1L;
-    
-    public void setEnabled(boolean enabled)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3306775098016676628L;
+
+	public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
     }

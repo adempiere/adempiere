@@ -37,10 +37,11 @@ import org.zkoss.zul.Messagebox;
  **/
 public final class ConfirmPanel extends Hbox
 {
-    
-    private static final long serialVersionUID = 1L;
-
-    /** Action String OK.        */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6050634074454659578L;
+	/** Action String OK.        */
     public static final String A_OK = "Ok";
     /** Action String Cancel.    */
     public static final String A_CANCEL = "Cancel";

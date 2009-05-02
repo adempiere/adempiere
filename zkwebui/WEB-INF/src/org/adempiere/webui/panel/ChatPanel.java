@@ -27,9 +27,12 @@ import org.adempiere.webui.component.Panel;
  */
 public class ChatPanel extends Panel
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3581014332386266757L;
 
-    public ChatPanel()
+	public ChatPanel()
     {
         super();
     }

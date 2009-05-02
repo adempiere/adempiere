@@ -31,12 +31,6 @@ import org.compiere.util.KeyNamePair;
  *  @version Release 3.5.2a - $Id$ */
 public class X_M_EDI extends PO implements I_M_EDI, I_Persistent 
 {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
     /** Standard Constructor */
     public X_M_EDI (Properties ctx, int M_EDI_ID, String trxName)
     {

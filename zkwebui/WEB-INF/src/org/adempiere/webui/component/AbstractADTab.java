@@ -37,8 +37,6 @@ import org.compiere.util.Evaluator;
  */
 public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 {
-    private static final long serialVersionUID = 1L;
-    
     /** Logger                  */
     private static CLogger  log = CLogger.getCLogger (AbstractADTab.class);
     /** List of dependent Variables     */

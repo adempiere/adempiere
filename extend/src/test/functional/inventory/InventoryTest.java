@@ -250,8 +250,10 @@ public class InventoryTest extends AdempiereTestCase
 
 class InventoryTestException extends RuntimeException
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8354291934731598998L;
 	public MMScenario scenario = null;
 	public MMDocument document = null;
 	

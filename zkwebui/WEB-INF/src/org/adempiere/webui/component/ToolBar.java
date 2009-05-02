@@ -23,7 +23,8 @@ package org.adempiere.webui.component;
  */
 public class ToolBar extends org.zkoss.zul.Toolbar
 {
-
-    private static final long serialVersionUID = 1L;
-   
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6908196335129904216L;
 }

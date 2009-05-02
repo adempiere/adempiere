@@ -50,8 +50,10 @@ import org.zkoss.zul.Separator;
  */
 public class InfoGeneralPanel extends InfoPanel implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -665127800885078238L;
 	private Textbox txt1;
 	private Textbox txt2;
 	private Textbox txt3;

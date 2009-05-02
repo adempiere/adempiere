@@ -35,8 +35,10 @@ import org.compiere.util.CCache;
  */
 public class MResource extends X_S_Resource
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 80710753458346709L;
 	/** Cache */
 	private static CCache<Integer, MResource> s_cache = new CCache<Integer, MResource>(Table_Name, 20);
 	

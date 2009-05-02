@@ -27,8 +27,6 @@ import org.zkoss.zk.ui.Component;
  */
 public class WindowContainer extends AbstractUIPart 
 {
-    private static final long serialVersionUID = 1L;
-
 	private static final int MAX_TITLE_LENGTH = 30;
     
     private Tabbox           tabbox;

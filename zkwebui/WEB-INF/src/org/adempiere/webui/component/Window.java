@@ -25,9 +25,11 @@ package org.adempiere.webui.component;
  */
 public class Window extends org.zkoss.zul.Window
 {
-    private static final long serialVersionUID = 1L;
-    
-    /*** Show as modal window ***/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -977158068979292880L;
+	/*** Show as modal window ***/
     public static final String MODE_MODAL = "modal";
     /*** Show as popup window ***/
     public static final String MODE_POPUP =  "popup";

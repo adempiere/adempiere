@@ -57,7 +57,10 @@ import org.zkoss.zkex.zul.South;
  */
 public class InvoiceHistory extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7426909865199278220L;
 
 	/**
 	 *	Show History

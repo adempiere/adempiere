@@ -13,7 +13,10 @@ import org.zkoss.zk.ui.event.Events;
 
 public class WPAPanel extends Panel implements EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6491684272848160726L;
 
 	/**
 	 * 	Get Panel if User has Performance Goals

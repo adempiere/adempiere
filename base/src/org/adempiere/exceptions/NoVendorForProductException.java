@@ -20,8 +20,11 @@ package org.adempiere.exceptions;
  */
 public class NoVendorForProductException extends AdempiereException
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3412903630540562323L;
+
 	/**
 	 * @param productName M_Product Name
 	 */

@@ -33,9 +33,11 @@ import org.zkoss.zul.Button;
 
 public class LogoutPanel extends Panel implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private Button btnLogOut; 
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -456860093240111236L;
+	private Button btnLogOut; 
 
     public LogoutPanel()
     {

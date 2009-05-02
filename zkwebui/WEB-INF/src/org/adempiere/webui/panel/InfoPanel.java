@@ -64,11 +64,10 @@ import org.zkoss.zul.event.ZulEvents;
  */
 public abstract class InfoPanel extends Window implements EventListener, WTableModelListener
 {
-	
 	/**
-	 * default serial version id
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1797443523668842806L;
 	private final static int PAGE_SIZE = 100;
 	
     public static InfoPanel create (int WindowNo,

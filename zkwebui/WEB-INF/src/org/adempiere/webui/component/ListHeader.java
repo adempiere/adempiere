@@ -19,9 +19,11 @@ package org.adempiere.webui.component;
 
 public class ListHeader extends org.zkoss.zul.Listheader 
 {
-    private static final long serialVersionUID = 1L;
-    
-    public ListHeader(String str)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2709047642743510762L;
+	public ListHeader(String str)
     {
     	super(str);
     }

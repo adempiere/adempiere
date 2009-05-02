@@ -73,7 +73,10 @@ import org.compiere.util.NamePair;
  */
 public class VSortTab extends CPanel implements APanelTab
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2133358506913610514L;
 
 	/**
 	 *	Tab Order Constructor
@@ -124,7 +127,10 @@ public class VSortTab extends CPanel implements APanelTab
 	//
 	DefaultListModel noModel = new DefaultListModel()
 	{
-		private static final long serialVersionUID = 1L;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2171680655634744697L;
 		@Override
 		public void addElement(Object obj) {
 			Object[] elements = toArray();
@@ -144,7 +150,11 @@ public class VSortTab extends CPanel implements APanelTab
 	};
 	DefaultListModel yesModel = new DefaultListModel();
 	DefaultListCellRenderer listRenderer = new DefaultListCellRenderer() {
-		private static final long serialVersionUID = 1L;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -101524191283634472L;
+
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 			Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -677,8 +687,10 @@ public class VSortTab extends CPanel implements APanelTab
 	 * @author Teo Sarca
 	 */
 	private class ListItem extends NamePair {
-		private static final long serialVersionUID = 1L;
-		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 5399675004361331697L;
 		private int		m_key;
 		private int		m_AD_Client_ID;
 		private int		m_AD_Org_ID;

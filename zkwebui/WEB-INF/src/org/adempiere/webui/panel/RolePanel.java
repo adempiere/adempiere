@@ -57,9 +57,12 @@ import org.zkoss.zul.Rows;
  */
 public class RolePanel extends Window implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-    
-    private static final String RESOURCE = "org.compiere.apps.ALoginRes";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2808473294679524383L;
+
+	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
 
     private LoginWindow wndLogin;
     private Login login;

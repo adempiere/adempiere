@@ -27,8 +27,11 @@ import org.zkoss.zk.ui.Component;
  */
 public class Grid extends org.zkoss.zul.Grid
 {
-    private static final long serialVersionUID = 1L;
-    private boolean noStrip = false;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8286221761079570001L;
+	private boolean noStrip = false;
     
     public void makeNoStrip() {
     	setStyle("border: none");        

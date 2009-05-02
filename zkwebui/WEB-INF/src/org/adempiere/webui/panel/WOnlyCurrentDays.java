@@ -42,7 +42,10 @@ import org.zkoss.zul.Separator;
 
 public class WOnlyCurrentDays extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2464266193433220449L;
 
 	/**
 	 *	Constructor

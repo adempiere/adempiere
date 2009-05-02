@@ -45,8 +45,10 @@ import org.zkoss.zul.Hbox;
 
 public class WWFActivity extends ADForm implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -653381810053334001L;
 	/**	Window No					*/
 	private int         		m_WindowNo = 0;
 	/**	FormFrame					*/

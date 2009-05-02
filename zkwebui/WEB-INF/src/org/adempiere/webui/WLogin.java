@@ -33,8 +33,6 @@ import org.zkoss.zul.Vbox;
  */
 public class WLogin extends AbstractUIPart
 {
-    private static final long serialVersionUID = 1L;
-
     private IWebClient app;
 	private Borderlayout layout;
     

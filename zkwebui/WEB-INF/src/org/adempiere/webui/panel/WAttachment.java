@@ -61,8 +61,11 @@ import org.zkoss.zul.Timer;
 @SuppressWarnings("deprecation")
 public class WAttachment extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2923895336573554570L;
+
 	private static CLogger log = CLogger.getCLogger(WAttachment.class);
 
 	/**	Window No				*/

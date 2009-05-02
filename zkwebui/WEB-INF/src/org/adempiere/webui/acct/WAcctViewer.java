@@ -78,9 +78,12 @@ import org.zkoss.zul.Separator;
 
 public class WAcctViewer extends Window implements EventListener
 {
-	private static final int PAGE_SIZE = 1000;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -223185724918504685L;
 
-	private static final long serialVersionUID = 1L;
+	private static final int PAGE_SIZE = 1000;
 
 	/** State Info          */
 	private WAcctViewerData	m_data = null;

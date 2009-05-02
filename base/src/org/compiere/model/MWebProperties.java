@@ -32,9 +32,8 @@ public class MWebProperties extends X_U_Web_Properties
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4051314529871227830L;
 
-	
 	public MWebProperties(Properties ctx, int uWebProperties , String trxName)
     {
         super(ctx,uWebProperties,trxName);

@@ -34,8 +34,11 @@ import org.compiere.util.Msg;
  */
 public class WCreateFromRMA extends WCreateFrom
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 485406606040533083L;
+
 	/**
 	 * 
 	 * @param mTab

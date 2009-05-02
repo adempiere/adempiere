@@ -19,7 +19,10 @@ package org.adempiere.webui.component;
  */
 public class Locationbox extends EditorBox
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9199586798474147872L;
 
 	public Locationbox()
     {

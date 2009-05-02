@@ -31,12 +31,6 @@ import org.compiere.util.KeyNamePair;
  *  @version Release 3.5.1a - $Id$ */
 public class X_Fact_Acct_Balance extends PO implements I_Fact_Acct_Balance, I_Persistent 
 {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
     /** Standard Constructor */
     public X_Fact_Acct_Balance (Properties ctx, int Fact_Acct_Balance_ID, String trxName)
     {

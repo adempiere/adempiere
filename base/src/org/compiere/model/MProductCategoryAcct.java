@@ -28,8 +28,10 @@ import org.compiere.util.CCache;
  */
 public class MProductCategoryAcct extends X_M_Product_Category_Acct
 {
-	private static final long serialVersionUID = 1L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2075372131034904732L;
 	/** Static cache */
 	private static CCache<String, MProductCategoryAcct>
 	s_cache = new CCache<String, MProductCategoryAcct>(Table_Name, 40, 5);

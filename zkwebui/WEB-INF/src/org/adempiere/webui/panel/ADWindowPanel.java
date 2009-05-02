@@ -56,8 +56,6 @@ import org.zkoss.zul.Tab;
  */
 public class ADWindowPanel extends AbstractADWindowPanel
 {
-    private static final long    serialVersionUID = 1L;
-
     private static final CLogger logger;
 
     static

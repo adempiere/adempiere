@@ -84,7 +84,10 @@ public class VCreateFromShipment extends VCreateFrom implements VetoableChangeLi
 	public class InnerLocatorTableCellEditor extends AbstractCellEditor
 	implements TableCellEditor, CellEditorListener
 	{
-		private static final long serialVersionUID = 1L;
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8368583005837688626L;
 		private KeyNamePair        m_locatorKey;
 		private VLocator           m_editor;
 		private JTable             m_table;

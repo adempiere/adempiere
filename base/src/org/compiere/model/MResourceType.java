@@ -42,7 +42,10 @@ import org.compiere.util.TimeUtil;
  */
 public class MResourceType extends X_S_ResourceType
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6303797933825680667L;
 	/** Cache */
 	private static CCache<Integer, MResourceType> s_cache = new CCache<Integer, MResourceType>(Table_Name, 20);
 	

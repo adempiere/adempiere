@@ -49,7 +49,10 @@ import org.compiere.util.Env;
  */
 public class MPrintTableFormat extends X_AD_PrintTableFormat
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -357529310875242899L;
 
 	/**
 	 *	Standard Constructor

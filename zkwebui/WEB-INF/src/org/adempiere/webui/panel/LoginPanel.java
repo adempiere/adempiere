@@ -58,9 +58,11 @@ import org.zkoss.zul.Listitem;
  */
 public class LoginPanel extends Window implements EventListener
 {
-    private static final long serialVersionUID = 1L;
-
-    private static final String RESOURCE = "org.compiere.apps.ALoginRes";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5823771596520748214L;
+	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
 
     private Properties ctx;

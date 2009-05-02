@@ -98,8 +98,11 @@ import org.zkoss.zul.Space;
  */
 public class WInOutGen extends ADForm implements EventListener, ValueChangeListener, WTableModelListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2522466013777853310L;
+
 	@Override
 	protected void initForm()
 	{

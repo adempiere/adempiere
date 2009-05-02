@@ -25,9 +25,12 @@ package org.adempiere.webui.component;
  */
 public class Bandbox extends org.zkoss.zul.Bandbox
 {
-    private static final long serialVersionUID = 1L;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5834568392276375501L;
 
-    public void setEnabled(boolean enabled)
+	public void setEnabled(boolean enabled)
     {
         this.setDisabled(!enabled);
     }

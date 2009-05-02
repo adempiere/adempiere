@@ -51,8 +51,11 @@ import org.zkoss.zk.ui.event.Event;
  */
 public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7612348261071199415L;
+
 	/**
 	 *  Protected Constructor
 	 *  @param mTab MTab

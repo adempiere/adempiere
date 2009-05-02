@@ -27,9 +27,11 @@ import org.adempiere.webui.component.Panel;
  */
 public class SidePanel extends Panel
 {
-    private static final long serialVersionUID = 1L;
-    
-    private MenuPanel pnlMenu;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3039805384016666481L;
+	private MenuPanel pnlMenu;
     public SidePanel()
     {
         init();

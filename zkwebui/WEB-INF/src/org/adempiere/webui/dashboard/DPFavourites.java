@@ -43,11 +43,14 @@ import org.zkoss.zul.Vbox;
  */
 public class DPFavourites extends DashboardPanel implements EventListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -481859785800845108L;
+
 	public static final String FAVOURITE_DROPPABLE = "favourite";
 
 	public static final String DELETE_FAV_DROPPABLE = "deleteFav";
-
-	private static final long serialVersionUID = 1L;
 
 	private Box bxFav;
 	

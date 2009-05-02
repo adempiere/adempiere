@@ -71,8 +71,11 @@ import org.zkoss.zul.Space;
 
 public class WBOMDrop extends ADForm implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5065364554398280623L;
+
 	/**	Product to create BOMs from	*/
 	private MProduct m_product;
 	

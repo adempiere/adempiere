@@ -13,7 +13,10 @@ import org.compiere.model.MGoal;
  */
 public class WPerformanceDetail extends Window
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3460594735973451874L;
 
 	/**
 	 * 	Constructor.

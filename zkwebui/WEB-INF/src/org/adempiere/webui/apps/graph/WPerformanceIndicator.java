@@ -38,8 +38,11 @@ import org.zkoss.zul.Menupopup;
  */
 public class WPerformanceIndicator extends Panel implements EventListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3580494126343850939L;
+
 	/**
 	 * 	Constructor
 	 *	@param goal goal model

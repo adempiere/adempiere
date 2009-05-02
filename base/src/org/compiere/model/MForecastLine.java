@@ -27,7 +27,10 @@ import java.util.Properties;
  */
 public class MForecastLine extends  X_M_ForecastLine
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4757137580071600111L;
 
 	/**
 	 * Standard Constructor

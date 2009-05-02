@@ -25,12 +25,6 @@ import java.util.Properties;
  *  @version Release 3.5.1a - $Id$ */
 public class X_DD_Order_Header_v extends PO implements I_DD_Order_Header_v, I_Persistent 
 {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
     /** Standard Constructor */
     public X_DD_Order_Header_v (Properties ctx, int DD_Order_Header_v_ID, String trxName)
     {

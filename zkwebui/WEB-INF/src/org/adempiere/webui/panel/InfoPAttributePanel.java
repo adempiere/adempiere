@@ -57,7 +57,10 @@ import org.zkoss.zul.Vbox;
  */
 public class InfoPAttributePanel extends Window implements EventListener
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6385043105828153806L;
 
 	/**
 	 * 	Constructor.
