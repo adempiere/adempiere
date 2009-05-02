@@ -47,7 +47,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6137737123031721451L;
+	private static final long serialVersionUID = -859925588789443186L;
 
 	/**
 	 * 	Standard Constructor
@@ -671,5 +671,17 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	//	return pl.getC_Currency_ID();
 		return 0;
 	}	//	getC_Currency_ID
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }	//	MBankStatement

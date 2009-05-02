@@ -63,7 +63,10 @@ import org.compiere.util.Util;
  */
 public class MDDOrder extends X_DD_Order implements DocAction
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2407222565384020843L;
 
 	/**
 	 * 	Create new Order by copying
@@ -1248,7 +1251,17 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	
-	
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
+
 }	//	MDDOrder

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -52,7 +52,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4780252534394959680L;
+	private static final long serialVersionUID = 8726957992840702609L;
 
 
 	/**
@@ -758,5 +758,17 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 				log.log(Level.SEVERE, "BP not updated - " + bp);
 		}
 	}	//	updateBP
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }   //  MAllocation

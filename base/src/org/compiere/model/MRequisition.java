@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -49,7 +49,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4111474920471624816L;
+	private static final long serialVersionUID = 898606565778668659L;
 
 	/**
 	 * 	Standard Constructor
@@ -578,5 +578,17 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	{
 		return MUser.get(getCtx(), getAD_User_ID()).getName();
 	}	//	getUserName
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }	//	MRequisition

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -50,7 +50,7 @@ import org.compiere.util.ValueNamePair;
 /**
  *	Grid Table Model for JDBC access including buffering.
  *  <pre>
- *		The following data types are handeled
+ *		The following data types are handled
  *			Integer		for all IDs
  *			BigDecimal	for all Numbers
  *			Timestamp	for all Dates
@@ -80,7 +80,7 @@ public class GridTable extends AbstractTableModel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4468782288142337285L;
+	private static final long serialVersionUID = 4071601543088224064L;
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -3146,4 +3146,33 @@ public class GridTable extends AbstractTableModel
 			}
 		}
 	}	//	setFieldVFormat	
+
+	// verify if the current record has changed
+	public boolean hasChanged(int row) {
+		// not so aggressive (it can has still concurrency problems)
+		// compare Updated, IsProcessed
+		if (getKeyID(row) > 0) {
+			int colUpdated = findColumn("Updated");
+			if (colUpdated > 0) {
+				Timestamp memUpdated = (Timestamp) getValueAt(row, colUpdated);
+				Timestamp dbUpdated = DB.getSQLValueTSEx(null, "SELECT Updated FROM " + m_tableName + " WHERE " + m_tableName + "_ID=?" , getKeyID(row));
+				if (! memUpdated.equals(dbUpdated))
+					return true;
+			}
+			
+			int colProcessed = findColumn("Processed");
+			if (colProcessed > 0) {
+				Boolean memProcessed = (Boolean) getValueAt(row, colProcessed);
+				String dbProcessedS = DB.getSQLValueStringEx(null, "SELECT Processed FROM " + m_tableName + " WHERE " + m_tableName + "_ID=?" , getKeyID(row));
+				Boolean dbProcessed = Boolean.TRUE;
+				if (! dbProcessedS.equals("Y"))
+					dbProcessed = Boolean.FALSE;
+				if (! memProcessed.equals(dbProcessed))
+					return true;
+			}
+		}
+
+		// @TODO: configurable aggressive - compare each column with the DB
+		return false;
+	}
 }

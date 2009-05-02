@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -83,7 +83,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1010889420871357683L;
+	private static final long serialVersionUID = 1021401221795805887L;
 
 	/**
 	 *	Create Tab (Model) from Value Object.
@@ -92,8 +92,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  DataStatusListener for communicating changes of the underlying data
 	 *  @param vo Value Object
 	 */
-	public GridTab(GridTabVO vo)
+	public GridTab(GridTabVO vo, GridWindow w)
 	{
+		m_window = w;
 		m_vo = vo;
 		//  Create MTable
 		m_mTable = new GridTable (m_vo.ctx, m_vo.AD_Table_ID, m_vo.TableName, m_vo.WindowNo, m_vo.TabNo, true);
@@ -105,6 +106,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	/** Value Object                    */
 	private GridTabVO          	m_vo;
+
+	// The window of this tab
+	private GridWindow			m_window;
 
 	/** The Table Model for Query   */
 	private GridTable          	m_mTable = null;
@@ -857,7 +861,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 
 	/**************************************************************************
-	 *  Uncoditionally Save data
+	 *  Unconditionally Save data
 	 *  @param manualCmd if true, no vetoable PropertyChange will be fired for save confirmation from MTable
 	 *  @return true if save complete (or nor required)
 	 */
@@ -866,6 +870,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - row=" + m_currentRow);
 		try
 		{
+			if (hasChangedCurrentTabAndParents())
+				return false;
+			
 			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
 				setCurrentRow(m_currentRow, false);
@@ -878,6 +885,45 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		return false;
 	}   //  dataSave
+
+	// Validate if the current tab record has changed in database or any parent record
+	// Return if there are changes
+	public boolean hasChangedCurrentTabAndParents() {
+		String msg = null;
+		// Carlos Ruiz / globalqss - [ adempiere-Bugs-1985481 ] Processed documents can be edited
+		// Validate that current record has not changed and validate that every parent above has not changed
+		if (m_mTable.hasChanged(m_currentRow)) {
+			// return error stating that current record has changed and it cannot be saved
+			msg = "Current record was changed by another user, please ReQuery";
+			log.saveError("CurrentRecordModified", msg, false);
+			return true;
+		}
+		if (isDetail()) {
+			// get parent tab
+			// the parent tab is the first tab above with level = this_tab_level-1
+			int level = m_vo.TabLevel;
+			for (int i = m_window.getTabIndex(this) - 1; i >= 0; i--) {
+				GridTab parentTab = m_window.getTab(i);
+				if (parentTab.m_vo.TabLevel == level-1) {
+					// this is parent tab
+					if (parentTab.m_mTable.hasChanged(parentTab.m_currentRow)) {
+						// return error stating that current record has changed and it cannot be saved
+						msg = "Record on parent tab " + parentTab.getName() + " was changed by another user, please ReQuery";
+						log.saveError("ParentRecordModified", msg, false);
+						return true;
+					} else {
+						// search for the next parent
+						if (parentTab.isDetail()) {
+							level = parentTab.m_vo.TabLevel;
+						} else {
+							break;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 
 	/**

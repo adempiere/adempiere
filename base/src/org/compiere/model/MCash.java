@@ -53,7 +53,7 @@ public class MCash extends X_C_Cash implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9153922329895288746L;
+	private static final long serialVersionUID = -1221144207418749593L;
 
 
 	/**
@@ -838,4 +838,16 @@ public class MCash extends X_C_Cash implements DocAction
 		return getCashBook().getC_Currency_ID();
 	}	//	getC_Currency_ID
 
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
+	
 }	//	MCash

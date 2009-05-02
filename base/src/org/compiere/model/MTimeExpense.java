@@ -47,7 +47,7 @@ public class MTimeExpense extends X_S_TimeExpense implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6059700156141021371L;
+	private static final long serialVersionUID = 1567303438502090279L;
 
 
 	/**
@@ -580,5 +580,17 @@ public class MTimeExpense extends X_S_TimeExpense implements DocAction
 		MPriceList pl = MPriceList.get(getCtx(), getM_PriceList_ID(), get_TrxName());
 		return pl.getC_Currency_ID();
 	}	//	getC_Currency_ID
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }	//	MTimeExpense

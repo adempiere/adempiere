@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 /**
  *	Requisition Line Model
  *	
@@ -249,6 +250,10 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_RequisitionLine"));
+			return false;
+		}
 		if (getLine() == 0)
 		{
 			String sql = "SELECT COALESCE(MAX(Line),0)+10 FROM M_RequisitionLine WHERE M_Requisition_ID=?";

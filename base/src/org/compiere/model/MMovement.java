@@ -49,7 +49,7 @@ public class MMovement extends X_M_Movement implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2900004259579407998L;
+	private static final long serialVersionUID = 3634169801280239573L;
 
 	/**
 	 * 	Standard Constructor
@@ -867,6 +867,18 @@ public class MMovement extends X_M_Movement implements DocAction
 	{
 		return m_reversal;
 	}	//	isReversal
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }	//	MMovement
 

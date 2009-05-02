@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  * 	Time + Expense Line Model
@@ -35,8 +36,7 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -241908493119023444L;
-
+	private static final long serialVersionUID = -815975460880303779L;
 
 	/**
 	 * 	Standard Constructor
@@ -79,6 +79,20 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 	{
 		super(ctx, rs, trxName);
 	}	//	MTimeExpenseLine
+
+	/** Parent					*/
+	private MTimeExpense			m_parent = null;
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MTimeExpense getParent()
+	{
+		if (m_parent == null)
+			m_parent = new MTimeExpense (getCtx(), getS_TimeExpense_ID(), get_TrxName());
+		return m_parent;
+	}	//	getParent
 
 	/**	Currency of Report			*/
 	private int m_C_Currency_Report_ID = 0;
@@ -176,6 +190,10 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "S_TimeExpenseLine"));
+			return false;
+		}
 		//	Calculate Converted Amount
 		if (newRecord || is_ValueChanged("ExpenseAmt") || is_ValueChanged("C_Currency_ID"))
 		{
@@ -195,7 +213,6 @@ public class MTimeExpenseLine extends X_S_TimeExpenseLine
 		}
 		return true;
 	}	//	beforeSave
-	
 	
 	/**
 	 * 	After Save

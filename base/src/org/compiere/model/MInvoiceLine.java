@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
@@ -764,6 +765,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	protected boolean beforeSave (boolean newRecord)
 	{
 		log.fine("New=" + newRecord);
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "C_InvoiceLine"));
+			return false;
+		}
 		// Re-set invoice header (need to update m_IsSOTrx flag) - phib [ 1686773 ]
 		setInvoice(getParent());
 		//	Charge

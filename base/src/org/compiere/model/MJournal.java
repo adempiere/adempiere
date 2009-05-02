@@ -52,7 +52,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5461368562157627495L;
+	private static final long serialVersionUID = -364132249042527640L;
 
 	/**
 	 * 	Standard Constructor
@@ -882,5 +882,17 @@ public class MJournal extends X_GL_Journal implements DocAction
 	{
 		return getTotalDr();
 	}	//	getApprovalAmt
-	
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
+
 }	//	MJournal

@@ -97,8 +97,6 @@ import org.zkoss.zul.Menupopup;
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
 {
-    private static final long    serialVersionUID = 1L;
-
     private static final CLogger logger;
 
     static
@@ -765,6 +763,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					{
 						if (!curTab.dataSave(true))
 						{
+							showLastError();
 							//  there is a problem, stop here
 							return false;
 						}
@@ -774,6 +773,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					{   //  yes we want to save
 						if (!curTab.dataSave(true))
 						{
+							showLastError();
 							//  there is a problem, stop here
 							return false;
 						}
@@ -1210,9 +1210,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	        if (!retValue)
 	        {
-	        	//actual error will prompt in the dataStatusChanged event
-//	            FDialog.error(curWindowNo, parent, "SaveIgnored");
-	            statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
+	        	showLastError();
 	            return false;
 	        }
 	        curTabpanel.dynamicDisplay(0);
@@ -1220,6 +1218,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        return true;
     	}
     }
+
+	private void showLastError() {
+		String msg = CLogger.retrieveErrorString(null);
+		if (msg != null)
+			FDialog.error(curWindowNo, parent, msg);
+		else
+			FDialog.error(curWindowNo, parent, "SaveIgnored");
+		//actual error will prompt in the dataStatusChanged event
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
+	}
 
     /**
      * @see ToolbarListener#onDelete()
@@ -1596,6 +1604,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	 */
 	private void actionButton (WButtonEditor wButton)
 	{
+		if (curTab.hasChangedCurrentTabAndParents()) {
+			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
+			FDialog.error(curWindowNo, parent, msg);
+			return;
+		}
+
 		logger.info(wButton.toString());
 
 		boolean startWOasking = false;

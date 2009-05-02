@@ -58,7 +58,10 @@ import org.eevolution.model.MPPProductBOMLine;
  */
 public class MOrder extends X_C_Order implements DocAction
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1575104995897726572L;
 
 	/**
 	 * 	Create new Order by copying
@@ -2368,5 +2371,17 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		return "";
 	}
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
 	
 }	//	MOrder

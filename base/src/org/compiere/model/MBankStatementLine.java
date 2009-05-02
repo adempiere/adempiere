@@ -44,7 +44,7 @@ import org.compiere.util.Msg;
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7260240724584085587L;
+	private static final long serialVersionUID = 1914411222159254809L;
 
 	/**
 	 * 	Standard Constructor
@@ -154,6 +154,10 @@ import org.compiere.util.Msg;
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "C_BankStatementLine"));
+			return false;
+		}
 		if (getChargeAmt().signum() != 0 && getC_Charge_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.getElement(getCtx(), "C_Charge_ID"));
@@ -198,6 +202,19 @@ import org.compiere.util.Msg;
 		return true;
 	}	//	beforeSave
 	
+	/** Parent					*/
+	private MBankStatement			m_parent = null;
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MBankStatement getParent()
+	{
+		if (m_parent == null)
+			m_parent = new MBankStatement (getCtx(), getC_BankStatement_ID(), get_TrxName());
+		return m_parent;
+	}	//	getParent
 	
 	/**
 	 * 	After Save

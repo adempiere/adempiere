@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
@@ -35,7 +36,6 @@ import org.compiere.util.Env;
  */
 public class MAllocationLine extends X_C_AllocationLine
 {
-
 	/**
 	 * 
 	 */
@@ -183,6 +183,10 @@ public class MAllocationLine extends X_C_AllocationLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "C_AllocationLine"));
+			return false;
+		}
 		if (!newRecord  
 			&& (is_ValueChanged("C_BPartner_ID") || is_ValueChanged("C_Invoice_ID")))
 		{

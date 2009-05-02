@@ -1215,6 +1215,7 @@ public final class APanel extends CPanel
 						{
 							if (!m_curTab.dataSave(true))
 							{	//  there is a problem, so we go back
+								showLastError();
 								m_curWinTab.setSelectedIndex(m_curTabIndex);
 								setBusy(false, true);
 								return;
@@ -1225,6 +1226,7 @@ public final class APanel extends CPanel
 						{   //  yes we want to save
 							if (!m_curTab.dataSave(true))
 							{   //  there is a problem, so we go back
+								showLastError();
 								m_curWinTab.setSelectedIndex(m_curTabIndex);
 								setBusy(false, true);
 								return;
@@ -1844,8 +1846,7 @@ public final class APanel extends CPanel
 		//   if there is no previous error
 		if (manualCmd && !retValue && !m_errorDisplayed)
 		{
-			ADialog.error(m_curWindowNo, this, "SaveIgnored");
-			setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
+			showLastError();
 		}
 		if (retValue)
 			m_curGC.rowChanged(true, m_curTab.getRecord_ID());
@@ -1863,6 +1864,15 @@ public final class APanel extends CPanel
 		
 		return retValue;
 	}   //  cmd_save
+
+	private void showLastError() {
+		String msg = CLogger.retrieveErrorString(null);
+		if (msg != null)
+			ADialog.error(m_curWindowNo, this, msg);
+		else
+			ADialog.error(m_curWindowNo, this, "SaveIgnored");
+		setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
+	}
 
 	/**
 	 *  Ignore
@@ -2250,6 +2260,12 @@ public final class APanel extends CPanel
 	private void actionButton (VButton vButton)
 	{
 		log.info(vButton.toString());
+
+		if (m_curTab.hasChangedCurrentTabAndParents()) {
+			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
+			ADialog.error(m_curWindowNo, this, msg);
+			return;
+		}
 
 		boolean startWOasking = false;
 //		boolean batch = false;

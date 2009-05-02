@@ -166,6 +166,10 @@ public class MMovementLine extends X_M_MovementLine
 	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_MovementLine"));
+			return false;
+		}
 		//	Set Line No
 		if (getLine() == 0)
 		{

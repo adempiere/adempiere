@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Journal Line Model
@@ -35,7 +36,7 @@ public class MJournalLine extends X_GL_JournalLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1873359101491826792L;
+	private static final long serialVersionUID = -7008806797777773843L;
 
 	/**
 	 * 	Standard Constructor
@@ -89,6 +90,21 @@ public class MJournalLine extends X_GL_JournalLine
 		setDateAcct(parent.getDateAcct());
 		
 	}	//	MJournalLine
+
+	/** Parent					*/
+	private MJournal	m_parent = null;
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MJournal getParent()
+	{
+		if (m_parent == null)
+			m_parent = new MJournal (getCtx(), getGL_Journal_ID(), get_TrxName());
+		return m_parent;
+	}	//	getParent
+	
 
 	/**	Currency Precision		*/
 	private int					m_precision = 2;
@@ -270,6 +286,10 @@ public class MJournalLine extends X_GL_JournalLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "GL_JournalLine"));
+			return false;
+		}
 		//	Acct Amts
 		BigDecimal rate = getCurrencyRate();
 		BigDecimal amt = rate.multiply(getAmtSourceDr());

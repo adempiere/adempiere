@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -488,7 +488,11 @@ public class MInOutLine extends X_M_InOutLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		log.fine("");	
+		log.fine("");
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_InOutLine"));
+			return false;
+		}
 		// Locator is mandatory if no charge is defined - teo_sarca BF [ 2757978 ]
 		if (getM_Locator_ID() <= 0 && getC_Charge_ID() <= 0)
 		{

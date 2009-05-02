@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -22,6 +22,7 @@ import java.util.Properties;
 
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 
 /**
@@ -32,7 +33,6 @@ import org.compiere.util.Env;
  */
 public class MRMALine extends X_M_RMALine
 {
-
 	/**
 	 * 
 	 */
@@ -230,6 +230,10 @@ public class MRMALine extends X_M_RMALine
      */
     protected boolean beforeSave(boolean newRecord)
     {
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_RMALine"));
+			return false;
+		}
         if (this.getM_InOutLine_ID() == 0 && this.getC_Charge_ID() == 0)
         {
             log.saveError("FillMandatory", "Shipment/Receipt Line or charge should be entered");

@@ -47,9 +47,9 @@ import org.compiere.util.Msg;
 public class MInventory extends X_M_Inventory implements DocAction
 {
 	/**
-	 * generated serialVersionUID
+	 * 
 	 */
-	private static final long serialVersionUID = 6039577059413522140L;
+	private static final long serialVersionUID = 910998472569265447L;
 
 
 	/**
@@ -969,4 +969,17 @@ public class MInventory extends X_M_Inventory implements DocAction
 		
 		return "";
 	}
+
+	/**
+	 * 	Document Status is Complete or Closed
+	 *	@return true if CO, CL or RE
+	 */
+	public boolean isComplete()
+	{
+		String ds = getDocStatus();
+		return DOCSTATUS_Completed.equals(ds) 
+			|| DOCSTATUS_Closed.equals(ds)
+			|| DOCSTATUS_Reversed.equals(ds);
+	}	//	isComplete
+	
 }	//	MInventory

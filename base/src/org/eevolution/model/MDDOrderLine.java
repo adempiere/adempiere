@@ -48,7 +48,6 @@ import org.compiere.util.Msg;
  */
 public class MDDOrderLine extends X_DD_OrderLine
 {
-	
 	/**
 	 * 
 	 */
@@ -514,6 +513,10 @@ public class MDDOrderLine extends X_DD_OrderLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord && getParent().isComplete()) {
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "DD_OrderLine"));
+			return false;
+		}
 		//	Get Defaults from Parent
 		/*if (getC_BPartner_ID() == 0 || getC_BPartner_Location_ID() == 0
 			|| getM_Warehouse_ID() == 0)
