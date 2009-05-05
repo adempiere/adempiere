@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
@@ -405,7 +406,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 				setC_BPartner_Location_ID(locs[0].getC_BPartner_Location_ID());
 		}
 		if (getC_BPartner_Location_ID() == 0)
-			log.log(Level.SEVERE, "Has no To Address: " + bp);
+			log.log(Level.SEVERE, new BPartnerNoAddressException(bp).getLocalizedMessage()); //TODO: throw exception?
 
 		//	Set Contact
 		MUser[] contacts = bp.getContacts(false);

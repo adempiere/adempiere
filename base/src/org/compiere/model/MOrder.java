@@ -26,7 +26,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.BPartnerNoBillToAddressException;
+import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
@@ -477,14 +478,12 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		if (getC_BPartner_Location_ID() == 0)
 		{	
-			log.log(Level.SEVERE, "MOrder.setBPartner - Has no Ship To Address: " + bp);
-			throw new AdempiereException("MOrder.setBPartner - Has no Ship To Address: "+bp);
+			throw new BPartnerNoShipToAddressException(bp);
 		}	
 			
 		if (getBill_Location_ID() == 0)
-		{	
-			log.log(Level.SEVERE, "MOrder.setBPartner - Has no Bill To Address: " + bp);
-			throw new AdempiereException("MOrder.setBPartner - Has no Bill To Address: "+bp);
+		{
+			throw new BPartnerNoBillToAddressException(bp);
 		}	
 
 		//	Set Contact
