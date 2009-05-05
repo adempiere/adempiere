@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -106,7 +106,7 @@ public class Generator
 	private void generateSystemHeader (HttpServletCM thisServlet)
 	{
 		xmlCode.append ("<system>\n");
-		xmlCode.append ("<compiere>\n");
+		xmlCode.append ("<adempiere>\n");
 		xmlCode.append ("<mainversion>" + Adempiere.MAIN_VERSION
 			+ "</mainversion>\n");
 		xmlCode.append ("<dateversion>" + Adempiere.DATE_VERSION

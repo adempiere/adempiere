@@ -36,7 +36,7 @@ import org.compiere.util.CLogger;
 
 /**
  * RequestAnalyzer
- * 
+ *
  * @author Yves Sandfort
  * @version $Id$
  */
@@ -52,7 +52,7 @@ public class RequestAnalyzer
 	private String				m_baseURL;
 
 	private String				m_redirectURL;
-	
+
 	private String				m_procClassName = null;
 
 	private MWebProjectDomain	m_WebProjectDomain;
@@ -68,11 +68,11 @@ public class RequestAnalyzer
 	private boolean				m_isRedirect = false;
 
 	private int					m_portNumber = 80;
-	
+
 	private HttpServletRequest  m_request;
-	
+
 	private Properties			m_ctx;
-	
+
 	private HttpSession         m_session;
 
 	/**
@@ -93,8 +93,10 @@ public class RequestAnalyzer
 		m_ctx = servlet.getCtx ();
 		m_requestURL = m_request.getRequestURL ().toString ();
 		m_serverName = m_request.getServerName ();
-		m_baseURL = m_requestURL.substring (0, m_requestURL.indexOf (m_serverName)
-			+ m_serverName.length () + servletExtend.length ())
+		int baseStart = m_requestURL.indexOf(m_request.getContextPath(), m_requestURL.indexOf (m_serverName) + m_serverName.length ());
+		if (baseStart <= 0)
+			baseStart = m_requestURL.indexOf (m_serverName) + m_serverName.length ();
+		m_baseURL = m_requestURL.substring (0, baseStart + servletExtend.length ())
 			+ m_request.getContextPath ();
 		m_relativeURL = m_requestURL.substring (m_baseURL.length ());
 		// If RelativeURL is empty it should be /
@@ -108,7 +110,7 @@ public class RequestAnalyzer
 		if (m_WebProjectDomain != null)
 		{
 			// If we could identify the Domain we will have a project etc.
-			m_WebProject = webProjectCache.getWebProject 
+			m_WebProject = webProjectCache.getWebProject
 				(m_WebProjectDomain.getCM_WebProject_ID ());
 		}
 		else
@@ -121,7 +123,9 @@ public class RequestAnalyzer
 				m_WebProject = webProjectCache.getWebProject (defaultID[0]);
 			else	 {
 				m_isRedirect = true;
-				m_redirectURL = m_requestURL + "admin/";
+				m_redirectURL
+					= m_requestURL.substring(0, m_requestURL.indexOf("/", m_requestURL.indexOf (m_serverName) + m_serverName.length ()));
+				m_redirectURL += "/admin/";
 			}
 				// JJ
 				//throw new IllegalStateException("Unknown context - Set up Web Project"); // no known context
@@ -157,12 +161,12 @@ public class RequestAnalyzer
 				if (m_WebProjectDomain.getCM_Container_ID () > 0)
 				{
 					m_Container = containerCache.getCM_Container (
-						m_WebProjectDomain.getCM_Container_ID (), 
+						m_WebProjectDomain.getCM_Container_ID (),
 							m_WebProject.get_ID ());
 				}
 				if (m_Container == null)
 				{
-					m_Container = containerCache.getCM_ContainerByURL 
+					m_Container = containerCache.getCM_ContainerByURL
 						("/index.html", m_WebProject.get_ID (), true);
 					if (m_Container == null)
 					{
@@ -182,7 +186,7 @@ public class RequestAnalyzer
 			}
 			if (m_isValid == false) {
 				// Try to solve invalid requests
-				if (m_WebProject==null || m_WebProject.getAD_Client_ID()==0) 
+				if (m_WebProject==null || m_WebProject.getAD_Client_ID()==0)
 				{
 					// If we endup with an invalid request in NULL or System Project we redirect to /admin/
 					m_isRedirect = true;
@@ -193,23 +197,23 @@ public class RequestAnalyzer
 				if (m_Container.getContainerType ().equals ("L")) {
 					m_isRedirect = true;
 					MContainer linkedContainer = containerCache.getCM_Container (m_Container.getCM_ContainerLink_ID (), m_WebProject.get_ID());
-					if (linkedContainer!=null) 
+					if (linkedContainer!=null)
 						m_redirectURL = linkedContainer.getRelativeURL ();
 				}
 				servlet.setAD_Client_ID(m_WebProject.getAD_Client_ID());
-				
+
 			}
 		}
 		if (m_request.getParameter ("cn")!=null) {
 			String className = m_request.getParameter("cn");
 			// First check adempiere.cm.
-			if (classChecker("adempiere.cm." + className,servlet.getLogger())) 
+			if (classChecker("adempiere.cm." + className,servlet.getLogger()))
 				m_procClassName = "adempiere.cm." + className;
-			if (classChecker("org.compiere.cm.extend." + className,servlet.getLogger())) 
+			if (classChecker("org.compiere.cm.extend." + className,servlet.getLogger()))
 				m_procClassName = "org.compiere.cm.extend." + className;
 		}
 	}	//	RequestAnalyzer
-	
+
 	private boolean classChecker(String className, CLogger log) {
 		try
 		{
@@ -231,8 +235,8 @@ public class RequestAnalyzer
 		log.finest("Not found: " + className);
 		return false;
 	}
-	
-	public org.compiere.cm.Extend getProcClass() 
+
+	public org.compiere.cm.Extend getProcClass()
 	{
 		if (m_procClassName==null)
 			return null;
@@ -276,7 +280,7 @@ public class RequestAnalyzer
 
 	/**
 	 * 	get WebProject_Domain
-	 *	@return web project domain 
+	 *	@return web project domain
 	 */
 	public MWebProjectDomain getWebProjectDomain()
 	{
@@ -318,7 +322,7 @@ public class RequestAnalyzer
 	{
 		return m_isRedirect;
 	}	//	getIsRedirect
-	
+
 	/**
 	 * 	setRedirectURL
 	 *	@param redirectURL
@@ -336,7 +340,7 @@ public class RequestAnalyzer
 	{
 		try {
 			/* We will use the URL Object to check the validity of the URL
-			 * this would not imply that the URL is reachable, it only 
+			 * this would not imply that the URL is reachable, it only
 			 * checks the format.
 			 */
 			URL testURL = new URL(m_redirectURL);
@@ -352,7 +356,7 @@ public class RequestAnalyzer
 			}
 		}
 	}	//	getRedirectURL
-	
+
 	/**
 	 * 	Get Processor Class Name
 	 *	@return ClassName for Processor
@@ -361,5 +365,5 @@ public class RequestAnalyzer
 	{
 		return m_procClassName;
 	}
-	
+
 }	//	RequestAnalyzer
