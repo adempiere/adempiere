@@ -27,9 +27,9 @@ public abstract class BPartnerException extends AdempiereException
 	private static final long serialVersionUID = -4311798678799373821L;
 	private final int C_BPartner_ID;
 	
-	BPartnerException(String message, I_C_BPartner bp)
+	BPartnerException(String ad_message, I_C_BPartner bp)
 	{
-		super(message+" - "+(bp == null ? "?" : bp.getValue()+"_"+bp.getName()));
+		super("@"+ad_message+"@ - "+(bp == null ? "?" : bp.getValue()+"_"+bp.getName()));
 		if (bp != null)
 		{
 			this.C_BPartner_ID = bp.getC_BPartner_ID();
