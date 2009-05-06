@@ -49,11 +49,23 @@ public class GridTabDataBinder implements ValueChangeListener {
             Object source = e.getSource();
             if (source instanceof WEditor)
             {
-                if (!((WEditor)source).isReadWrite())
-                {
-                    logger.config("(" + gridTab.toString() + ") " + e.getPropertyName());
-                    return;
-                }
+            	// Elaine 2009/05/06
+            	WEditor editor = (WEditor) source;
+            	GridField gridField = editor.getGridField();
+            	
+            	if(gridField != null)
+            	{
+            		if(!gridField.isEditable(true))
+            		{
+            			logger.config("(" + gridTab.toString() + ") " + e.getPropertyName());
+            			return;
+            		}
+            	}
+            	else if(!editor.isReadWrite())
+            	{
+            		logger.config("(" + gridTab.toString() + ") " + e.getPropertyName());
+            		return;            		
+            	}
             }
             else
             {
