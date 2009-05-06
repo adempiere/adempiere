@@ -40,19 +40,19 @@ public class CompositeADTab extends AbstractADTab
 {
     /** Logger                  */
     private static CLogger  log = CLogger.getCLogger (CompositeADTab.class);
-    
+
     private List<ADTabListModel.ADTabLabel> tabLabelList = new ArrayList<ADTabListModel.ADTabLabel>();
 
     private Div div;
-	
+
 	protected ADButtonTabList tabList;
-    
+
     public CompositeADTab()
     {
     	tabList = new ADButtonTabList();
     	tabList.setADTab(this);
     }
-    
+
     protected Component doCreatePart(Component parent)
     {
     	div= new Div();
@@ -64,14 +64,14 @@ public class CompositeADTab extends AbstractADTab
     	}
     	return div;
     }
-    
+
     @Override
 	protected void doAddTab(GridTab gTab, IADTabpanel tabPanel) {
     	tabPanel.setParent(div);
         tabPanel.setVisible(false);
-        
+
         ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel());
-        tabLabelList.add(tabLabel); 
+        tabLabelList.add(tabLabel);
 	}
 
     /**
@@ -81,11 +81,11 @@ public class CompositeADTab extends AbstractADTab
     public void evaluate (DataStatusEvent e)
     {
     	tabList.setItems(tabLabelList);
-    	
+
         super.evaluate(e);
-            
+
     } //  evaluate
-    
+
     @Override
 	protected void updateTabState() {
     	tabList.refresh();
@@ -102,7 +102,7 @@ public class CompositeADTab extends AbstractADTab
         }
         return null;
     }
-    
+
     public int getSelectedIndex() {
     	for(int i = 0; i < tabPanelList.size(); i++) {
         	if (tabPanelList.get(i).isVisible())
@@ -110,11 +110,11 @@ public class CompositeADTab extends AbstractADTab
         }
     	return -1;
     }
-    
+
 	public void addSelectionEventListener(EventListener listener) {
 		tabList.addSelectionEventListener(listener);
 	}
-	
+
 	public Component getTabSelectionComponent() {
 		return tabList;
 	}
@@ -128,7 +128,7 @@ public class CompositeADTab extends AbstractADTab
         }
         newTabpanel.createUI();
         newTabpanel.setVisible(true);
-        
+
         if (tabList.getSelectedIndex() != newIndex)
         	tabList.setSelectedIndex(newIndex);
 	}
@@ -139,5 +139,12 @@ public class CompositeADTab extends AbstractADTab
 
 	public Component getComponent() {
 		return div;
-	}	
+	}
+
+	/**
+	 * @param tabPlacement
+	 */
+	public void setTabplacement(int tabPlacement) {
+		tabList.setTabplacement(tabPlacement);
+	}
 }

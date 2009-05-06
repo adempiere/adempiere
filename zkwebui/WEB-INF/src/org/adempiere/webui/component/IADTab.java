@@ -20,44 +20,44 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.EventListener;
 
 /**
- * 
+ *
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  *
  */
 public interface IADTab extends UIPart {
 
 	/**
-	 * 
+	 *
 	 * @return selected tab index
 	 */
 	public int getSelectedIndex();
-	
+
 	/**
-	 * 
+	 *
 	 * @param tab index
 	 */
 	public void setSelectedIndex(int i);
-	
+
 	/**
 	 * @param oldTabIndex
 	 * @param newTabIndex
 	 * @return
 	 */
 	public boolean updateSelectedIndex(int oldTabIndex, int newTabIndex);
-	
+
 	/**
 	 * @return selected tab panel reference
 	 */
 	public IADTabpanel getSelectedTabpanel();
-			
+
 	/**
-	 * 
+	 *
 	 * @param fromIndex
 	 * @param toIndex
 	 * @return boolean
 	 */
 	public boolean canNavigateTo(int fromIndex, int toIndex);
-	
+
 	/**
 	 * @param index
 	 * @return boolean
@@ -65,7 +65,7 @@ public interface IADTab extends UIPart {
 	public boolean isDisplay(int index);
 
 	/**
-	 * 
+	 *
 	 * @param tab
 	 * @param tabPanel
 	 */
@@ -87,7 +87,7 @@ public interface IADTab extends UIPart {
 	public String getPath();
 
 	/**
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void addSelectionEventListener(EventListener listener);
@@ -96,7 +96,7 @@ public interface IADTab extends UIPart {
 	 * @return tab selection component
 	 */
 	public Component getTabSelectionComponent();
-	
+
 	/**
 	 * @return boolean
 	 */
@@ -106,5 +106,17 @@ public interface IADTab extends UIPart {
 	 * @param index
 	 * @return IADTabpanel
 	 */
-	public IADTabpanel getADTabpanel(int index);		
+	public IADTabpanel getADTabpanel(int index);
+
+	/**
+	 * constant for tab placement
+	 */
+	public final int LEFT = 0;
+	public final int RIGHT = 1;
+
+	/**
+	 * Set tab placement ( left or right )
+	 * @param tabPlacement
+	 */
+	public void setTabplacement(int tabPlacement);
 }

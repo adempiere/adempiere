@@ -27,6 +27,7 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
@@ -39,16 +40,17 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
 import org.zkoss.zul.Tab;
 
 /**
- * 
+ *
  * This class is based on org.compiere.apps.APanel written by Jorg Janke.
  * @author Jorg Janke
- * 
+ *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  * @date Feb 25, 2007
@@ -69,14 +71,16 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
 	private West west;
 
+	private East east;
+
 	private Keylistener keyListener;
-	
+
     public ADWindowPanel(Properties ctx, int windowNo)
     {
         super(ctx, windowNo);
     }
-    
-    
+
+
 	public ADWindowPanel(Properties ctx, int windowNo, GridWindow gridWindow,
 			int tabIndex, IADTabpanel tabPanel) {
 		super(ctx, windowNo, gridWindow, tabIndex, tabPanel);
@@ -84,7 +88,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
 
 	protected Component doCreatePart(Component parent)
-    {				
+    {
         layout = new Borderlayout();
         if (parent != null) {
 	        layout.setParent(parent);
@@ -94,7 +98,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         } else {
         	layout.setPage(page);
         }
-        
+
         if (!isEmbedded())
         {
 	        North n = new North();
@@ -105,35 +109,50 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	        toolbar.setParent(n);
 	        toolbar.setWindowNo(getWindowNo());
         }
-        
-        South s = new South();        
+
+        South s = new South();
         layout.appendChild(s);
         s.setCollapsible(false);
         statusBar.setParent(s);
         LayoutUtils.addSclass("adwindow-status", statusBar);
-        
+
         if (!isEmbedded() && adTab.isUseExternalSelection())
         {
-	        west = new West();
-	        layout.appendChild(west);
-	        west.setSplittable(false);
-	        west.setAutoscroll(true);
-	        LayoutUtils.addSclass("adwindow-nav", west);
-	        adTab.getTabSelectionComponent().setParent(west);
+        	String tabPlacement = SessionManager.getSessionApplication().getUserPreference().getProperty(UserPreference.P_WINDOW_TAB_PLACEMENT);
+        	if (tabPlacement == null || "left".equalsIgnoreCase(tabPlacement))
+        	{
+        		west = new West();
+    	        layout.appendChild(west);
+    	        west.setSplittable(false);
+    	        west.setAutoscroll(true);
+    	        LayoutUtils.addSclass("adwindow-nav", west);
+    	        adTab.setTabplacement(IADTab.LEFT);
+    	        adTab.getTabSelectionComponent().setParent(west);
+        	}
+	        else
+        	{
+	        	east = new East();
+		        layout.appendChild(east);
+		        east.setSplittable(false);
+		        east.setAutoscroll(true);
+		        LayoutUtils.addSclass("adwindow-nav", east);
+		        adTab.setTabplacement(IADTab.RIGHT);
+		        adTab.getTabSelectionComponent().setParent(east);
+        	}
 	        LayoutUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }
-        
+
         contentArea = new Center();
         contentArea.setParent(layout);
         contentArea.setAutoscroll(true);
         contentArea.setFlex(true);
         adTab.createPart(contentArea);
-        
+
         if (parent instanceof Tabpanel) {
         	TabOnCloseHanlder handler = new TabOnCloseHanlder();
         	((Tabpanel)parent).setOnCloseHandler(handler);
         }
-        
+
         if (!isEmbedded()) {
         	if (keyListener != null)
         		keyListener.detach();
@@ -143,7 +162,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
         	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
         }
-        
+
         return layout;
     }
 
@@ -156,9 +175,9 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	public Borderlayout getComponent() {
 		return layout;
 	}
-	
-	
-	
+
+
+
 	@Override
 	public boolean initPanel(int adWindowId, MQuery query) {
 		boolean retValue = super.initPanel(adWindowId, query);
@@ -188,7 +207,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     }
 
 	class TabOnCloseHanlder implements ITabOnCloseHandler {
-		
+
 		public void onClose(Tabpanel tabPanel) {
 			if (ADWindowPanel.this.onExit()) {
 				Tab tab = tabPanel.getLinkedTab();
@@ -198,7 +217,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 					List childs = tabs.getChildren();
 					for(int i = 0; i < childs.size(); i++) {
 						if (childs.get(i) == tab) {
-							if (i > 0) 
+							if (i > 0)
 								tabbox.setSelectedIndex((i-1));
 							break;
 						}
@@ -206,7 +225,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 				}
 				tabPanel.detach();
 				tab.detach();
-				if (getWindowNo() > 0) 
+				if (getWindowNo() > 0)
 					SessionManager.getAppDesktop().unregisterWindow(getWindowNo());
 			}
 		}

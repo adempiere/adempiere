@@ -24,15 +24,15 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 
 /**
- * 
+ *
  * @author hengsin
  * @author Teo Sarca, www.arhipac.ro
  *			<li>FR [ 2694043 ] Query. first/firstOnly usage best practice
  */
 public final class UserPreference implements Serializable {
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1792570749461784394L;
 	/** Language			*/
@@ -51,30 +51,36 @@ public final class UserPreference implements Serializable {
 	/** Warehouse Name */
 	public static final String P_WAREHOUSE = "Warehouse";
 	private static final String DEFAULT_WAREHOUSE = "";
-	
+
 	/** Auto Commit */
 	public static final String P_AUTO_COMMIT = "AutoCommit";
 	private static final String DEFAULT_AUTO_COMMIT = "Y";
 
 	/** Language Name Context **/
 	public static final String LANGUAGE_NAME = "#LanguageName";
-	
+
+	/** window tab placement **/
+	public static final String P_WINDOW_TAB_PLACEMENT = "WindowTabPlacement";
+	public static final String DEFAULT_WINDOW_TAB_PLACEMENT = "Left";
+
 	/** Ini Properties */
-	private static final String[] PROPERTIES = new String[] { 
+	private static final String[] PROPERTIES = new String[] {
 		P_LANGUAGE,
-		P_ROLE, 
+		P_ROLE,
 		P_CLIENT,
-		P_ORG, 
+		P_ORG,
 		P_WAREHOUSE,
-		P_AUTO_COMMIT};
+		P_AUTO_COMMIT,
+		P_WINDOW_TAB_PLACEMENT};
 	/** Ini Property Values */
-	private static final String[] VALUES = new String[] { 
+	private static final String[] VALUES = new String[] {
 		DEFAULT_LANGUAGE,
 		DEFAULT_ROLE,
-		DEFAULT_CLIENT, 
-		DEFAULT_ORG, 
+		DEFAULT_CLIENT,
+		DEFAULT_ORG,
 		DEFAULT_WAREHOUSE,
-		DEFAULT_AUTO_COMMIT};
+		DEFAULT_AUTO_COMMIT,
+		DEFAULT_WINDOW_TAB_PLACEMENT};
 
 	/** Container for Properties */
 	private Properties props = new Properties();
@@ -95,12 +101,14 @@ public final class UserPreference implements Serializable {
 				String attribute = PROPERTIES[i];
 				String value = props.getProperty(attribute);
 
-				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly(); 
+				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
 				if (preference == null) {
-					preference = new MPreference(Env.getCtx(), 0, null);				
+					preference = new MPreference(Env.getCtx(), 0, null);
 					preference.setAD_User_ID(m_AD_User_ID);
+					preference.setAD_Org_ID(0);
 					preference.setAttribute(attribute);
 				}
+				preference.setAD_Org_ID(0);
 				preference.setValue(value);
 				preference.saveEx();
 			}
@@ -125,8 +133,8 @@ public final class UserPreference implements Serializable {
 				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
 				if (preference != null) {
 					value = preference.getValue();
-				} 
-				
+				}
+
 				props.setProperty(attribute, value);
 			}
 		}
@@ -153,7 +161,7 @@ public final class UserPreference implements Serializable {
 
 	/***************************************************************************
 	 * Set Property
-	 * 
+	 *
 	 * @param key
 	 *            Key
 	 * @param value
@@ -170,7 +178,7 @@ public final class UserPreference implements Serializable {
 
 	/**
 	 * Set Property
-	 * 
+	 *
 	 * @param key
 	 *            Key
 	 * @param value
@@ -182,7 +190,7 @@ public final class UserPreference implements Serializable {
 
 	/**
 	 * Set Property
-	 * 
+	 *
 	 * @param key
 	 *            Key
 	 * @param value
@@ -194,7 +202,7 @@ public final class UserPreference implements Serializable {
 
 	/**
 	 * Get Propery
-	 * 
+	 *
 	 * @param key
 	 *            Key
 	 * @return Value
@@ -211,7 +219,7 @@ public final class UserPreference implements Serializable {
 
 	/**
 	 * Get Propery as Boolean
-	 * 
+	 *
 	 * @param key
 	 *            Key
 	 * @return Value

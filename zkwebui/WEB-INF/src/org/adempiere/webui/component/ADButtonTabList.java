@@ -24,25 +24,41 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * 
+ *
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  *
  */
 public class ADButtonTabList extends Panel implements IADTabList, EventListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -9203013067784673646L;
 	private List<ADTabLabel> listItems = new ArrayList<ADTabLabel>();
-	private List<EventListener> listeners = new ArrayList<EventListener>();	
+	private List<EventListener> listeners = new ArrayList<EventListener>();
 	private IADTab tabbox;
 	private int selectedIndex = 0;
-	
+	private int tabPlacement = IADTab.LEFT;
+
 	public ADButtonTabList() {
 		this.setStyle("margin:0;padding:0");
 	}
-	
+
+	/**
+	 * Set tab placement ( left or right )
+	 * @param tabPlacement
+	 */
+	public void setTabplacement(int tabPlacement) {
+		if (tabPlacement != IADTab.LEFT && tabPlacement != IADTab.RIGHT)
+			return;
+		else if (tabPlacement == this.tabPlacement)
+			return;
+		else {
+			this.tabPlacement = tabPlacement;
+			this.invalidate();
+		}
+	}
+
 	public synchronized void refresh() {
 		List childs = getChildren();
 		int childCount = childs.size();
@@ -56,7 +72,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 			Text text = new Text(tabLabel.label);
 			button.appendChild(text);
 			int s = tabbox.getSelectedIndex();
-			
+
 			if ( s == i) {
 				button.setSclass("adwindow-navbtn-sel");
 				button.setDynamicProperty("disabled", null);
@@ -64,7 +80,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 				if (!tabbox.canNavigateTo(s, i)) {
 					button.setDynamicProperty("disabled", "disabled");
 					button.setSclass("adwindow-navbtn-dis");
-					if (!tabbox.isDisplay(i)) 
+					if (!tabbox.isDisplay(i))
 						button.setVisible(false);
 					else
 						button.setVisible(true);
@@ -74,12 +90,12 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 					button.setVisible(true);
 				}
 			}
-			
-			String style = "margin-left:" + (tabLabel.tabLevel*15+5) + "px";
+
+			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*15+5) + "px";
 			String width = (195 - tabLabel.tabLevel*15)+"px";
-			style = style + "; width:" + width; 
+			style = style + "; width:" + width;
 			button.setStyle(style);
-			
+
 			button.setParent(this);
 			button.addEventListener(Events.ON_CLICK, this);
 		}
@@ -90,22 +106,22 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 	}
 
 	public void setSelectedIndex(int index) {
-		this.selectedIndex = index;		
+		this.selectedIndex = index;
 	}
-	
+
 	public synchronized void setItems(List<ADTabLabel> listItems) {
 		this.listItems = listItems;
 		refresh();
 	}
-	
+
 	public void setADTab(IADTab adTab) {
 		this.tabbox = adTab;
 	}
-	
-	public void addSelectionEventListener(EventListener listener) {		
+
+	public void addSelectionEventListener(EventListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public boolean removeSelectionEventListener(EventListener listener) {
 		return listeners.remove(listener);
 	}
@@ -121,10 +137,10 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 			}
 			i++;
 		}
-		
+
 		selectedIndex = i;
 		for (EventListener listener : listeners) {
 			listener.onEvent(selectEvent);
-		}		
+		}
 	}
 }
