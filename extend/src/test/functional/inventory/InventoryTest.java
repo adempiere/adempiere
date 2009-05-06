@@ -79,7 +79,8 @@ public class InventoryTest extends AdempiereTestCase
 		//
 		for (MMScenario scenario : tests)
 		{
-			if ("junit-test-line_053".compareTo(scenario.name) <= 0)
+			// Uncomment below line only if you want to run only one test!
+			//if ("junit-test-line_053".compareTo(scenario.name) <= 0) 
 			runMMScenario(scenario, trxName);
 //			break;
 		}
