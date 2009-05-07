@@ -24,11 +24,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.model.ImportValidator;
+import org.adempiere.process.ImportProcess;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MContactInterest;
 import org.compiere.model.MLocation;
 import org.compiere.model.MUser;
+import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_BPartner;
 import org.compiere.util.DB;
 
@@ -41,8 +44,11 @@ import org.compiere.util.DB;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2788074 ] ImportBPartner: add IsValidateOnly option
  * 				https://sourceforge.net/tracker/?func=detail&aid=2788074&group_id=176962&atid=879335
+ * 			<li>FR [ 2788278 ] Data Import Validator - migrate core processes
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2788278&group_id=176962&atid=879335
  */
 public class ImportBPartner extends SvrProcess
+implements ImportProcess
 {
 	/**	Client to be imported to		*/
 	private int				m_AD_Client_ID = 0;
@@ -86,7 +92,7 @@ public class ImportBPartner extends SvrProcess
 	{
 		StringBuffer sql = null;
 		int no = 0;
-		String clientCheck = " AND AD_Client_ID=" + m_AD_Client_ID;
+		String clientCheck = getWhereClause();
 
 		//	****	Prepare	****
 
@@ -114,6 +120,8 @@ public class ImportBPartner extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Reset=" + no);
 
+		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_BEFORE_VALIDATE);
+		
 		//	Set BP_Group
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET GroupValue=(SELECT MAX(Value) FROM C_BP_Group g WHERE g.IsDefault='Y'"
@@ -264,6 +272,8 @@ public class ImportBPartner extends SvrProcess
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.config("Value is mandatory=" + no);
+		
+		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
 
 		commit();
 		if (p_IsValidateOnly)
@@ -310,6 +320,7 @@ public class ImportBPartner extends SvrProcess
 					if (impBP.getC_BPartner_ID() == 0)	//	Insert new BPartner
 					{
 						bp = new MBPartner(impBP);
+						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
 						if (bp.save())
 						{
 							impBP.setC_BPartner_ID(bp.getC_BPartner_ID());
@@ -346,6 +357,7 @@ public class ImportBPartner extends SvrProcess
 							bp.setDescription(impBP.getDescription());
 						if (impBP.getC_BP_Group_ID() != 0)
 							bp.setC_BP_Group_ID(impBP.getC_BP_Group_ID());
+						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
 						//
 						if (bp.save())
 						{
@@ -386,6 +398,7 @@ public class ImportBPartner extends SvrProcess
 							bpl.setPhone2(impBP.getPhone2());
 						if (impBP.getFax() != null)
 							bpl.setFax(impBP.getFax());
+						ModelValidationEngine.get().fireImportValidate(this, impBP, bpl, ImportValidator.TIMING_AFTER_IMPORT);
 						bpl.save();
 					}
 					else 	//	New Location
@@ -418,6 +431,7 @@ public class ImportBPartner extends SvrProcess
 							bpl.setPhone(impBP.getPhone());
 							bpl.setPhone2(impBP.getPhone2());
 							bpl.setFax(impBP.getFax());
+							ModelValidationEngine.get().fireImportValidate(this, impBP, bpl, ImportValidator.TIMING_AFTER_IMPORT);
 							if (bpl.save())
 							{
 								log.finest("Insert BP Location - " + bpl.getC_BPartner_Location_ID());
@@ -481,6 +495,7 @@ public class ImportBPartner extends SvrProcess
 						user.setBirthday(impBP.getBirthday());
 					if (bpl != null)
 						user.setC_BPartner_Location_ID(bpl.getC_BPartner_Location_ID());
+					ModelValidationEngine.get().fireImportValidate(this, impBP, user, ImportValidator.TIMING_AFTER_IMPORT);
 					if (user.save())
 					{
 						log.finest("Update BP Contact - " + user.getAD_User_ID());
@@ -517,6 +532,7 @@ public class ImportBPartner extends SvrProcess
 						user.setBirthday(impBP.getBirthday());
 						if (bpl != null)
 							user.setC_BPartner_Location_ID(bpl.getC_BPartner_Location_ID());
+						ModelValidationEngine.get().fireImportValidate(this, impBP, user, ImportValidator.TIMING_AFTER_IMPORT);
 						if (user.save())
 						{
 							log.finest("Insert BP Contact - " + user.getAD_User_ID());
@@ -570,4 +586,17 @@ public class ImportBPartner extends SvrProcess
 		return "";
 	}	//	doIt
 
+
+	//@Override
+	public String getWhereClause()
+	{
+		return " AND AD_Client_ID=" + m_AD_Client_ID;
+	}
+
+
+	//@Override
+	public String getImportTableName()
+	{
+		return X_I_BPartner.Table_Name;
+	}
 }	//	ImportBPartner
