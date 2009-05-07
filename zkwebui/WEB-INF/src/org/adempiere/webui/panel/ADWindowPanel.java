@@ -181,8 +181,12 @@ public class ADWindowPanel extends AbstractADWindowPanel
 	@Override
 	public boolean initPanel(int adWindowId, MQuery query) {
 		boolean retValue = super.initPanel(adWindowId, query);
-		if (adTab.getTabCount() == 1 && west != null)
-			west.setVisible(false);
+		if (adTab.getTabCount() == 1) {
+			if (west != null)
+				west.setVisible(false);
+			else if (east != null)
+				east.setVisible(false);
+		}
 		return retValue;
 	}
 
