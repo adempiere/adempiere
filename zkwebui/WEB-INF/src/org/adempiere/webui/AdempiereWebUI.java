@@ -58,11 +58,11 @@ import org.zkoss.zul.Window;
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5759422592670132576L;
 
-	public static final String APP_NAME = "Adempiere ZK webUI";
+	public static final String APP_NAME = "Adempiere";
 
     public static final String UID          = "1.0";
 
@@ -88,7 +88,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     public void onCreate()
     {
-        this.getPage().setTitle(APP_NAME);
+        this.getPage().setTitle(MSysConfig.getValue("ZK_BROWSER_TITLE", APP_NAME));
 
         Properties ctx = Env.getCtx();
         langSession = Env.getContext(ctx, Env.LANGUAGE);
