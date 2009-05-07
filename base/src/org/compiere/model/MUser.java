@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -39,44 +40,44 @@ import org.compiere.util.SecureEngine;
  *
  *  @author Jorg Janke
  *  @version $Id: MUser.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2788430 ] MUser.getOfBPartner add trxName parameter
+ * 				https://sourceforge.net/tracker/index.php?func=detail&aid=2788430&group_id=176962&atid=879335
  */
 public class MUser extends X_AD_User
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6092227157131291023L;
+	private static final long serialVersionUID = 1399447378628744412L;
 
 
 	/**
-	 * 	Get active Users of BPartner
-	 *	@param ctx context
-	 *	@param C_BPartner_ID id
-	 *	@return array of users
+	 * Get active Users of BPartner
+	 * @param ctx context
+	 * @param C_BPartner_ID id
+	 * @return array of users
+	 * @deprecated Since 3.5.3a. Please use {@link #getOfBPartner(Properties, int, String)}.
 	 */
 	public static MUser[] getOfBPartner (Properties ctx, int C_BPartner_ID)
 	{
-		ArrayList<MUser> list = new ArrayList<MUser>();
-		String sql = "SELECT * FROM AD_User WHERE C_BPartner_ID=? AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, C_BPartner_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MUser(ctx, rs, null));
- 		} 
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		return getOfBPartner(ctx, C_BPartner_ID, null);
+	}
+	
+	/**
+	 * Get active Users of BPartner
+	 * @param ctx
+	 * @param C_BPartner_ID
+	 * @param trxName
+	 * @return array of users
+	 */
+	public static MUser[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
+	{
+		List<MUser> list = new Query(ctx, MUser.Table_Name, "C_BPartner_ID=?", trxName)
+		.setParameters(new Object[]{C_BPartner_ID})
+		.setOnlyActiveRecords(true)
+		.list();
 		
 		MUser[] retValue = new MUser[list.size ()];
 		list.toArray (retValue);
