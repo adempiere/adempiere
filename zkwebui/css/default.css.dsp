@@ -265,3 +265,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 .z-button-disd {
 	color: black; cursor: default; opacity: .6; -moz-opacity: .6; -khtml-opacity: .6; filter: alpha(opacity=60);
 }
+
+<%-- highlight focus form element --%>
+input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
+	border: 1px solid #0000ff;
+}
