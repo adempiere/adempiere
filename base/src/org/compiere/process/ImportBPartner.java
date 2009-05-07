@@ -37,6 +37,10 @@ import org.compiere.util.DB;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportBPartner.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2788074 ] ImportBPartner: add IsValidateOnly option
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2788074&group_id=176962&atid=879335
  */
 public class ImportBPartner extends SvrProcess
 {
@@ -44,6 +48,8 @@ public class ImportBPartner extends SvrProcess
 	private int				m_AD_Client_ID = 0;
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
+	/**	Only validate, don't import		*/
+	private boolean			p_IsValidateOnly = false;
 
 	/** Effective						*/
 	private Timestamp		m_DateValue = null;
@@ -61,6 +67,8 @@ public class ImportBPartner extends SvrProcess
 				m_AD_Client_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("DeleteOldImported"))
 				m_deleteOldImported = "Y".equals(para[i].getParameter());
+			else if (name.equals("IsValidateOnly"))
+				p_IsValidateOnly = para[i].getParameterAsBoolean();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -258,6 +266,10 @@ public class ImportBPartner extends SvrProcess
 		log.config("Value is mandatory=" + no);
 
 		commit();
+		if (p_IsValidateOnly)
+		{
+			return "Validated";
+		}
 		//	-------------------------------------------------------------------
 		int noInsert = 0;
 		int noUpdate = 0;
