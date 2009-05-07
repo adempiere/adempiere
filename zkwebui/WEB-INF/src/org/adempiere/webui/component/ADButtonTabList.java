@@ -74,19 +74,19 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 			int s = tabbox.getSelectedIndex();
 
 			if ( s == i) {
-				button.setSclass("adwindow-navbtn-sel");
+				button.setSclass("adwindow-navbtn-sel " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-sel" : "adwindow-right-navbtn-sel"));
 				button.setDynamicProperty("disabled", null);
 			} else {
 				if (!tabbox.canNavigateTo(s, i)) {
 					button.setDynamicProperty("disabled", "disabled");
-					button.setSclass("adwindow-navbtn-dis");
+					button.setSclass("adwindow-navbtn-dis " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-dis" : "adwindow-right-navbtn-dis"));
 					if (!tabbox.isDisplay(i))
 						button.setVisible(false);
 					else
 						button.setVisible(true);
 				} else {
 					button.setDynamicProperty("disabled", null);
-					button.setSclass("adwindow-navbtn-uns");
+					button.setSclass("adwindow-navbtn-uns " + (tabPlacement == IADTab.LEFT ? "adwindow-left-navbtn-uns" : "adwindow-right-navbtn-uns"));
 					button.setVisible(true);
 				}
 			}
