@@ -25,6 +25,8 @@ import java.util.StringTokenizer;
 
 import javax.script.ScriptEngine;
 
+import org.adempiere.model.ImportValidator;
+import org.adempiere.process.ImportProcess;
 import org.compiere.acct.Fact;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -40,6 +42,8 @@ import org.compiere.util.KeyNamePair;
  * 				<li>FR [ 1670025 ] ModelValidator.afterLoadPreferences will be useful
  * 				<li>BF [ 1679692 ] fireDocValidate doesn't treat exceptions as errors
  * 				<li>FR [ 1724662 ] Support Email should contain model validators info
+ * 				<li>FR [ 2788276 ] Data Import Validator
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2788276&group_id=176962&atid=879335
  */
 public class ModelValidationEngine 
 {
@@ -162,6 +166,8 @@ public class ModelValidationEngine
 	private Hashtable<String,ArrayList<ModelValidator>>	m_docValidateListeners = new Hashtable<String,ArrayList<ModelValidator>>();
 	/** Accounting Facts Validation Listeners   */
 	private Hashtable<String,ArrayList<FactsValidator>>m_factsValidateListeners = new Hashtable<String,ArrayList<FactsValidator>>();
+	/** Data Import Validation Listeners   */
+	private Hashtable<String,ArrayList<ImportValidator>>m_impValidateListeners = new Hashtable<String,ArrayList<ImportValidator>>();
 	
 	private ArrayList<ModelValidator> m_globalValidators = new ArrayList<ModelValidator>();
 	
@@ -561,6 +567,27 @@ public class ModelValidationEngine
 			list.add(listener);
 	}	//	addFactsValidate
 
+	/**************************************************************************
+	 * 	Add Date Import Validation Listener
+	 *	@param tableName table name
+	 *	@param listener listener
+	 */
+	public void addImportValidate (String importTableName, ImportValidator listener)
+	{
+		String propertyName = importTableName + "*";
+		ArrayList<ImportValidator> list = (ArrayList<ImportValidator>)m_impValidateListeners.get(propertyName);
+		if (list == null)
+		{
+			list = new ArrayList<ImportValidator>();
+			list.add(listener);
+			m_impValidateListeners.put(propertyName, list);
+		}
+		else
+		{
+			list.add(listener);
+		}
+	}
+
 	/**
 	 * 	Remove Accounting Facts Validation Listener
 	 *	@param tableName table name
@@ -645,6 +672,30 @@ public class ModelValidationEngine
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Fire Import Validation.
+	 * Call {@link ImportValidator#validate(ImportProcess, Object, Object, int)} or registered validators.
+	 * @param process import process
+	 * @param importModel import record (e.g. X_I_BPartner)  
+	 * @param targetModel target model (e.g. MBPartner, MBPartnerLocation, MUser)
+	 * @param timing see ImportValidator.TIMING_* constants
+	 */
+	public void fireImportValidate (ImportProcess process, PO importModel, PO targetModel, int timing)
+	{
+		if (m_impValidateListeners.size() == 0)
+			return;
+		
+		String propertyName = process.getImportTableName() + "*";
+		ArrayList<ImportValidator> list = (ArrayList<ImportValidator>)m_impValidateListeners.get(propertyName);
+		if (list != null)
+		{
+			for (ImportValidator validator : list)
+			{
+				validator.validate(process, importModel, targetModel, timing);
+			}
+		}
 	}
 	
 	/**
