@@ -16,14 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 
 /**
@@ -31,51 +26,45 @@ import org.compiere.util.DB;
  *
  *  @author Jorg Janke
  *  @version $Id: MBPartnerLocation.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Teo Sarca, www.arhipac.ro
+ *     		<li>FR [ 2788465 ] MBPartnerLocation.getForBPartner method  add trxName
+ *				https://sourceforge.net/tracker/index.php?func=detail&aid=2788465&group_id=176962&atid=879335
  */
 public class MBPartnerLocation extends X_C_BPartner_Location
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2563622950216844404L;
-
+	private static final long serialVersionUID = 1062151267747257338L;
 
 	/**
-	 * 	Get Locations for BPartner
-	 *	@param ctx context
-	 *	@param C_BPartner_ID bp
-	 *	@return array of locations
+	 * Get Locations for BPartner
+	 * @param ctx context
+	 * @param C_BPartner_ID bp
+	 * @return array of locations
+	 * @deprecated Since 3.5.3a. Please use {@link #getForBPartner(Properties, int, String)}.
 	 */
 	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID)
 	{
-		ArrayList<MBPartnerLocation> list = new ArrayList<MBPartnerLocation>();
-		String sql = "SELECT * FROM C_BPartner_Location WHERE C_BPartner_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, C_BPartner_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MBPartnerLocation(ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getForBPartner", e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		return getForBPartner(ctx, C_BPartner_ID, null);
+	}
+	
+	/**
+	 * Get Locations for BPartner
+	 * @param ctx context
+	 * @param C_BPartner_ID bp
+	 * @param trxName
+	 * @return array of locations
+	 */
+	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName)
+	{
+		List<MBPartnerLocation> list = new Query(ctx, Table_Name, "C_BPartner_ID=?", trxName)
+			.setParameters(new Object[]{C_BPartner_ID})
+			.list();
 		MBPartnerLocation[] retValue = new MBPartnerLocation[list.size ()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	getForBPartner
-	
-	/**	Static Logger					*/
-	private static CLogger	s_log	= CLogger.getCLogger (MBPartnerLocation.class);
-
 	
 	/**************************************************************************
 	 * 	Default Constructor
