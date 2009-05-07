@@ -46,6 +46,8 @@ import org.compiere.util.Trx;
  * 			<li>FR [ 1877937 ] SvrProcess: added commitEx method
  * 			<li>BF [ 1878743 ] SvrProcess.getAD_User_ID
  *			<li>BF [ 1935093 ] SvrProcess.unlock() is setting invalid result
+ *			<li>FR [ 2788006 ] SvrProcess: change access to some methods
+ *				https://sourceforge.net/tracker/?func=detail&aid=2788006&group_id=176962&atid=879335
  */
 public abstract class SvrProcess implements ProcessCall
 {
@@ -511,7 +513,7 @@ public abstract class SvrProcess implements ProcessCall
 	 * Return the main transaction of the current process.
 	 * @return the transaction name
 	 */
-	protected String get_TrxName()
+	public String get_TrxName()
 	{
 		if (m_trx != null)
 			return m_trx.getTrxName();
