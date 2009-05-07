@@ -31,6 +31,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -59,7 +60,7 @@ import org.zkoss.zul.Listitem;
 public class LoginPanel extends Window implements EventListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -5823771596520748214L;
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
@@ -97,7 +98,7 @@ public class LoginPanel extends Window implements EventListener
         Row logo = new Row();
         logo.setSpans("2");
         Image image = new Image();
-        image.setSrc("images/logo.png");
+        image.setSrc(MSysConfig.getValue("ZK_LOGO_LARGE", "images/logo.png"));
         logo.appendChild(image);
         Row rowUser = new Row();
         rowUser.setId("rowUser");

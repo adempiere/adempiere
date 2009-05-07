@@ -44,20 +44,22 @@ public class HeaderPanel extends Panel implements EventListener
 	private static final long serialVersionUID = -4293371180738797244L;
 
     private Image image = new Image();
-    
+
     public HeaderPanel()
     {
         super();
         init();
     }
-    
+
     private void init()
     {
     	LayoutUtils.addSclass("header", this);
-    	
-    	UserPanel userPanel = new UserPanel();    
 
-    	String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
+    	UserPanel userPanel = new UserPanel();
+
+    	String logoURL = MSysConfig.getValue("ZK_LOGO_SMALL", null);
+    	if (logoURL == null || logoURL.trim().length() == 0)
+    		logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
     	image.setSrc(logoURL);
     	image.addEventListener(Events.ON_CLICK, this);
     	image.setStyle("cursor: pointer;");
@@ -67,20 +69,20 @@ public class HeaderPanel extends Panel implements EventListener
     	layout.setParent(this);
     	West west = new West();
     	west.setParent(layout);
-    	
+
     	Vbox vb = new Vbox();
         vb.setParent(west);
         vb.setHeight("100%");
-//        vb.setWidth("100%"); // Elaine 2008/11/19 the role and logout links don't work if width is set to 100% 
+//        vb.setWidth("100%"); // Elaine 2008/11/19 the role and logout links don't work if width is set to 100%
         vb.setPack("center");
         vb.setAlign("left");
-        
+
     	image.setParent(vb);
-    	    	
+
     	LayoutUtils.addSclass("header-left", west);
     	//the following doesn't work when declare as part of the header-left style
     	west.setStyle("background-color: transparent; border: none;");
-    	
+
     	// Elaine 2009/03/02
     	Center center = new Center();
     	center.setParent(layout);
@@ -92,7 +94,7 @@ public class HeaderPanel extends Panel implements EventListener
     	LayoutUtils.addSclass("header-right", center);
     	//the following doesn't work when declare as part of the header-right style
     	center.setStyle("background-color: transparent; border: none;");
-    	
+
 //    	East east = new East();
 //    	east.setParent(layout);
 //    	userPanel.setParent(east);
@@ -109,10 +111,10 @@ public class HeaderPanel extends Panel implements EventListener
 			if(event.getTarget() == image)
 			{
 				AboutWindow w = new AboutWindow();
-				w.setPage(this.getPage());			
+				w.setPage(this.getPage());
 				w.doModal();
 			}
 		}
-		
+
 	}
 }

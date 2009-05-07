@@ -29,6 +29,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -58,7 +59,7 @@ import org.zkoss.zul.Rows;
 public class RolePanel extends Window implements EventListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 2808473294679524383L;
 
@@ -81,14 +82,14 @@ public class RolePanel extends Window implements EventListener
         rolesKNPairs = login.getRoles(userName, password);
         if(rolesKNPairs == null)
             throw new ApplicationException("Login is invalid, UserName: " + userName + " and Password:" + password);
-        
+
         //set app server credentials
         CConnection.get().setAppServerCredential(userName, password);
-        
+
         initComponents();
         init();
         this.setId("rolePanel");
-        
+
         AuFocus auf = new AuFocus(lstRole);
         Clients.response(auf);
     }
@@ -99,13 +100,13 @@ public class RolePanel extends Window implements EventListener
         grid.setId("grdChooseRole");
         grid.setOddRowSclass("even");
         Rows rows = new Rows();
-        
+
         Row logo = new Row();
         logo.setSpans("2");
         Image image = new Image();
-        image.setSrc("images/logo.png");
+        image.setSrc(MSysConfig.getValue("ZK_LOGO_LARGE", "images/logo.png"));
         logo.appendChild(image);
-        
+
         Row rowRole = new Row();
         Row rowClient = new Row();
         Row rowOrg = new Row();
@@ -147,9 +148,9 @@ public class RolePanel extends Window implements EventListener
     private void initComponents()
     {
     	Language language = Env.getLanguage(Env.getCtx());
-    	
+
     	ResourceBundle res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
-    	
+
         lblErrorMsg = new Label();
         lblErrorMsg.setValue(" ");
 
@@ -245,7 +246,7 @@ public class RolePanel extends Window implements EventListener
                 	lstClient.setSelectedIndex(0);
             }
             //
-            
+
             //force reload of default role
             MRole.getDefault(Env.getCtx(), true);
         }
@@ -370,7 +371,7 @@ public class RolePanel extends Window implements EventListener
 			lblErrorMsg.setValue("Error for user login: " + msg);
 			return;
 		}
-		
+
         msg = login.loadPreferences(orgKNPair, warehouseKNPair, null, null);
         if(!(msg == null || msg.length() == 0))
         {
@@ -378,7 +379,7 @@ public class RolePanel extends Window implements EventListener
             return ;
         }
         wndLogin.loginCompleted();
-        
+
         // Elaine 2009/02/06 save preference to AD_Preference
         UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
         userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));

@@ -30,6 +30,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.compiere.Adempiere;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogErrorBuffer;
 import org.compiere.util.CLogMgt;
@@ -50,14 +51,14 @@ import org.zkoss.zul.Separator;
 import org.zkoss.zul.Vbox;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  *
  */
 public class AboutWindow extends Window implements EventListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -257313771447940626L;
 	private Checkbox bErrorsOnly;
@@ -76,16 +77,16 @@ public class AboutWindow extends Window implements EventListener {
 		this.setWidth("500px");
 		this.setHeight("450px");
 		this.setPosition("center");
-		this.setTitle("ADempiere Zk Web Client");
+		this.setTitle(MSysConfig.getValue("ZK_BROWSER_TITLE", "Adempiere"));
 		this.setClosable(true);
 		this.setSizable(true);
-		
+
 		this.addEventListener(Events.ON_SIZE, this);
-		
+
 		Vbox layout = new Vbox();
 		layout.setWidth("100%");
 		layout.setParent(this);
-		
+
 		tabbox = new Tabbox();
 		tabbox.setParent(layout);
 		tabbox.setWidth("480px");
@@ -96,35 +97,35 @@ public class AboutWindow extends Window implements EventListener {
 		tabPanels = new Tabpanels();
 		tabPanels.setParent(tabbox);
 		tabPanels.setWidth("480px");
-		
+
 		//about
 		Tab tab = new Tab();
 		tab.setLabel("About");
 		tab.setParent(tabs);
 		Tabpanel tabPanel = createAbout();
 		tabPanel.setParent(tabPanels);
-		
+
 		//Credit
 		tab = new Tab();
 		tab.setLabel("Credit");
 		tab.setParent(tabs);
 		tabPanel = createCredit();
 		tabPanel.setParent(tabPanels);
-		
-		//Info		
+
+		//Info
 		tab = new Tab();
 		tab.setLabel("Info");
 		tab.setParent(tabs);
 		tabPanel = createInfo();
 		tabPanel.setParent(tabPanels);
-		
+
 		//Trace
 		tab = new Tab();
 		tab.setLabel("Logs");
 		tab.setParent(tabs);
 		tabPanel = createTrace();
 		tabPanel.setParent(tabPanels);
-		
+
 		Hbox hbox = new Hbox();
 		hbox.setParent(layout);
 		hbox.setPack("end");
@@ -133,7 +134,7 @@ public class AboutWindow extends Window implements EventListener {
 		btnOk.setImage("/images/Ok24.png");
 		btnOk.addEventListener(Events.ON_CLICK, this);
 		btnOk.setParent(hbox);
-		
+
 		this.setBorder("normal");
 	}
 
@@ -143,7 +144,7 @@ public class AboutWindow extends Window implements EventListener {
 		vbox.setParent(tabPanel);
 		vbox.setWidth("100%");
 		vbox.setHeight("100%");
-		
+
 		Hbox hbox = new Hbox();
 		bErrorsOnly = new Checkbox();
 		bErrorsOnly.setLabel(Msg.getMsg(Env.getCtx(), "ErrorsOnly"));
@@ -158,9 +159,9 @@ public class AboutWindow extends Window implements EventListener {
 		btnErrorEmail.addEventListener(Events.ON_CLICK, this);
 		hbox.appendChild(btnErrorEmail);
 		vbox.appendChild(hbox);
-				
+
 		Vector<String> columnNames = CLogErrorBuffer.get(true).getColumnNames(Env.getCtx());
-		
+
 		logTable = new Listbox();
 		ListHead listHead = new ListHead();
 		listHead.setParent(logTable);
@@ -170,14 +171,14 @@ public class AboutWindow extends Window implements EventListener {
 			header.setWidth("100px");
 			listHead.appendChild(header);
 		}
-		
+
 		vbox.appendChild(logTable);
 		logTable.setWidth("480px");
 		logTable.setHeight("310px");
 		logTable.setVflex(false);
-		
+
 		updateLogTable();
-		
+
 		return tabPanel;
 	}
 
@@ -186,7 +187,7 @@ public class AboutWindow extends Window implements EventListener {
 		SimpleListModel model = new SimpleListModel(data);
 		model.setMaxLength(new int[]{0, 0, 0, 200, 0, 200});
 		logTable.setItemRenderer(model);
-		logTable.setModel(model);		
+		logTable.setModel(model);
 	}
 
 	private Tabpanel createInfo() {
@@ -199,13 +200,13 @@ public class AboutWindow extends Window implements EventListener {
 		pre.setParent(div);
 		Text text = new Text(CLogMgt.getInfo(null).toString());
 		text.setParent(pre);
-		
+
 		return tabPanel;
 	}
 
 	private Tabpanel createCredit() {
 		Tabpanel tabPanel = new Tabpanel();
-		Vbox vbox = new Vbox();		
+		Vbox vbox = new Vbox();
 		vbox.setParent(tabPanel);
 		vbox.setWidth("100%");
 		Hbox hbox = new Hbox();
@@ -217,10 +218,10 @@ public class AboutWindow extends Window implements EventListener {
 		link.setTarget("_blank");
 		Label label= new Label("Contributed the initial Zk Web Client code.");
 		label.setParent(hbox);
-		
+
 		Separator separator = new Separator();
 		separator.setParent(vbox);
-		
+
 		Div div = new Div();
 		div.setParent(vbox);
 		div.setWidth("100%");
@@ -243,10 +244,10 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.idalica.com/");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
+
 		separator = new Separator();
 		separator.setParent(vbox);
-		
+
 		div = new Div();
 		div.setParent(vbox);
 		div.setWidth("100%");
@@ -259,7 +260,7 @@ public class AboutWindow extends Window implements EventListener {
 		content = new Vbox();
 		content.setWidth("100%");
 		content.setParent(div);
-		link = new ToolBarButton();						
+		link = new ToolBarButton();
 		link.setLabel("Ashley G Ramdass");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Agramdass");
 		link.setTarget("_blank");
@@ -275,7 +276,7 @@ public class AboutWindow extends Window implements EventListener {
 		link.setLabel("Carlos Ruiz");
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:CarlosRuiz");
 		link.setTarget("_blank");
-		link.setParent(content);				
+		link.setParent(content);
 
 		link = new ToolBarButton();
 		link.setLabel("Teo Sarca");
@@ -288,32 +289,35 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.adempiere.com/wiki/index.php/User:Trifonnt");
 		link.setTarget("_blank");
 		link.setParent(content);
-		
+
 		return tabPanel;
 	}
 
 	private Tabpanel createAbout() {
-		Tabpanel tabPanel = new Tabpanel();				
-		
+		Tabpanel tabPanel = new Tabpanel();
+
 		Vbox vbox = new Vbox();
 		vbox.setWidth("100%");
 		vbox.setHeight("100%");
 		vbox.setAlign("center");
 		vbox.setPack("center");
 		vbox.setParent(tabPanel);
-		Image image = new Image("images/AD10030.png");
+		String logoURL = MSysConfig.getValue("ZK_LOGO_SMALL", null);
+    	if (logoURL == null || logoURL.trim().length() == 0)
+    		logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
+		Image image = new Image(logoURL);
 		image.setParent(vbox);
-		
+
 		Text text = new Text(Adempiere.getSubtitle());
 		text.setParent(vbox);
 		Separator separator = new Separator();
 		separator.setParent(vbox);
-		
+
 		text = new Text(Adempiere.MAIN_VERSION + "<br>");
 		text.setParent(vbox);
 		text = new Text(Adempiere.DB_VERSION +"<br>");
 		text.setParent(vbox);
-		
+
 		separator = new Separator();
 		separator.setParent(vbox);
 		ToolBarButton link = new ToolBarButton();
@@ -321,7 +325,7 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.sourceforge.net/projects/adempiere");
 		link.setTarget("_blank");
 		link.setParent(vbox);
-		
+
 		separator = new Separator();
 		separator.setParent(vbox);
 		link = new ToolBarButton();
@@ -329,7 +333,7 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.adempiere.com/wiki/index.php");
 		link.setTarget("_blank");
 		link.setParent(vbox);
-		
+
 		separator = new Separator();
 		separator.setParent(vbox);
 		link = new ToolBarButton();
@@ -337,7 +341,7 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.adempiere.org");
 		link.setTarget("_blank");
 		link.setParent(vbox);
-		
+
 		separator = new Separator();
 		separator.setParent(vbox);
 		link = new ToolBarButton();
@@ -345,14 +349,14 @@ public class AboutWindow extends Window implements EventListener {
 		link.setHref("http://www.adempiere.com");
 		link.setTarget("_blank");
 		link.setParent(vbox);
-		
+
 		return tabPanel;
 	}
 
 	public void onEvent(Event event) throws Exception {
 		if (event.getTarget() == bErrorsOnly) {
 			this.updateLogTable();
-		} 
+		}
 		else if (event.getTarget() == btnDownload)
 			downloadLog();
 		else if (event.getTarget() == btnErrorEmail)
@@ -366,34 +370,34 @@ public class AboutWindow extends Window implements EventListener {
 	private void doResize(SizeEvent event) {
 		int width = Integer.parseInt(event.getWidth().substring(0, event.getWidth().length() - 2));
 		int height = Integer.parseInt(event.getHeight().substring(0, event.getHeight().length() - 2));
-		
+
 		tabbox.setWidth((width - 20) + "px");
 		tabbox.setHeight((height - 70) + "px");
-		
+
 		tabPanels.setWidth((width - 20) + "px");
-		
+
 		logTable.setHeight((height - 140) + "px");
 		logTable.setWidth((width - 30) + "px");
 	}
-	
+
 	private void downloadLog() {
 		String log = CLogErrorBuffer.get(true).getErrorInfo(Env.getCtx(), bErrorsOnly.isChecked());
 		AMedia media = new AMedia("trace.log", null, "text/plain", log.getBytes());
 		Filedownload.save(media);
 	}
-	
+
 	/**
 	 * 	EMail Errors
 	 */
 	private void cmd_errorEMail()
 	{
-		new WEMailDialog(this, 
-			"EMail Trace", 
-			MUser.get(Env.getCtx()), 
-			"",			//	to 
-			"Adempiere Trace Info", 
-			CLogErrorBuffer.get(true).getErrorInfo(Env.getCtx(), bErrorsOnly.isSelected()), 
+		new WEMailDialog(this,
+			"EMail Trace",
+			MUser.get(Env.getCtx()),
+			"",			//	to
+			"Adempiere Trace Info",
+			CLogErrorBuffer.get(true).getErrorInfo(Env.getCtx(), bErrorsOnly.isSelected()),
 			null);
-		
+
 	}	//	cmd_errorEMail
 }
