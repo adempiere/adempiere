@@ -70,7 +70,7 @@ public class RMACreateOrder extends SvrProcess
         order.setSalesRep_ID(rma.getSalesRep_ID());
         order.setM_PriceList_ID(originalOrder.getM_PriceList_ID());
         order.setM_Warehouse_ID(originalOrder.getM_Warehouse_ID());
-        order.setC_DocTypeTarget_ID(originalOrder.getC_DocTypeTarget_ID());
+        order.setC_DocTypeTarget_ID(rma.getC_DocType_ID());
         order.setC_PaymentTerm_ID(originalOrder.getC_PaymentTerm_ID());
         order.setDeliveryRule(originalOrder.getDeliveryRule());
         
