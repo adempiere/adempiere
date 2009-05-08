@@ -898,6 +898,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			log.saveError("CurrentRecordModified", msg, false);
 			return true;
 		}
+		if (this.m_vo.AD_Window_ID == 123) return false; // FIXME: arhipac: teo_sarca: workaround - issue when we have same table on parent and child records (BPartner), see tracker description (1985481) 
 		if (isDetail()) {
 			// get parent tab
 			// the parent tab is the first tab above with level = this_tab_level-1
