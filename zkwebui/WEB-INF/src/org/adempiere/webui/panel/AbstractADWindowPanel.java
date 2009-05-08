@@ -1222,7 +1222,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private void showLastError() {
 		String msg = CLogger.retrieveErrorString(null);
 		if (msg != null)
-			FDialog.error(curWindowNo, parent, msg);
+			FDialog.error(curWindowNo, parent, null, msg);
 		else
 			FDialog.error(curWindowNo, parent, "SaveIgnored");
 		//actual error will prompt in the dataStatusChanged event
@@ -1606,7 +1606,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		if (curTab.hasChangedCurrentTabAndParents()) {
 			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
-			FDialog.error(curWindowNo, parent, msg);
+			FDialog.error(curWindowNo, parent, null, msg);
 			return;
 		}
 

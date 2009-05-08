@@ -1871,7 +1871,7 @@ public final class APanel extends CPanel
 	private void showLastError() {
 		String msg = CLogger.retrieveErrorString(null);
 		if (msg != null)
-			ADialog.error(m_curWindowNo, this, msg);
+			ADialog.error(m_curWindowNo, this, null, msg);
 		else
 			ADialog.error(m_curWindowNo, this, "SaveIgnored");
 		setStatusLine(Msg.getMsg(m_ctx, "SaveIgnored"), true);
@@ -2266,7 +2266,7 @@ public final class APanel extends CPanel
 
 		if (m_curTab.hasChangedCurrentTabAndParents()) {
 			String msg = CLogger.retrieveErrorString("Please ReQuery Window");
-			ADialog.error(m_curWindowNo, this, msg);
+			ADialog.error(m_curWindowNo, this, null, msg);
 			return;
 		}
 

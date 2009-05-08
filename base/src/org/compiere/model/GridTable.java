@@ -3153,23 +3153,71 @@ public class GridTable extends AbstractTableModel
 		// compare Updated, IsProcessed
 		if (getKeyID(row) > 0) {
 			int colUpdated = findColumn("Updated");
-			if (colUpdated > 0) {
-				Timestamp memUpdated = (Timestamp) getValueAt(row, colUpdated);
-				Timestamp dbUpdated = DB.getSQLValueTSEx(null, "SELECT Updated FROM " + m_tableName + " WHERE " + m_tableName + "_ID=?" , getKeyID(row));
+			int colProcessed = findColumn("Processed");
+			
+			boolean hasUpdated = (colUpdated > 0);
+			boolean hasProcessed = (colProcessed > 0);
+			
+			String columns = null;
+			if (hasUpdated && hasProcessed) {
+				columns = new String("Updated, Processed");
+			} else if (hasUpdated) {
+				columns = new String("Updated");
+			} else if (hasProcessed) {
+				columns = new String("Processed");
+			} else {
+				// no columns updated or processed to commpare
+				return false;
+			}
+
+	    	Timestamp dbUpdated = null;
+	    	String dbProcessedS = null;
+	    	PreparedStatement pstmt = null;
+	    	ResultSet rs = null;
+	    	String sql = "SELECT " + columns + " FROM " + m_tableName + " WHERE " + m_tableName + "_ID=?";
+	    	try
+	    	{
+	    		pstmt = DB.prepareStatement(sql, null);
+	    		pstmt.setInt(1, getKeyID(row));
+	    		rs = pstmt.executeQuery();
+	    		if (rs.next()) {
+	    			int idx = 1;
+	    			if (hasUpdated)
+	    				dbUpdated = rs.getTimestamp(idx++);
+	    			if (hasProcessed)
+	    				dbProcessedS = rs.getString(idx++);
+	    		}
+	    		else
+	    			log.info("No Value " + sql);
+	    	}
+	    	catch (SQLException e)
+	    	{
+	    		throw new DBException(e, sql);
+	    	}
+	    	finally
+	    	{
+	    		DB.close(rs, pstmt);
+	    		rs = null; pstmt = null;
+	    	}
+	    	
+	    	if (hasUpdated) {
+				Timestamp memUpdated = null;
+				memUpdated = (Timestamp) getValueAt(row, colUpdated);
+
 				if (! memUpdated.equals(dbUpdated))
 					return true;
-			}
-			
-			int colProcessed = findColumn("Processed");
-			if (colProcessed > 0) {
-				Boolean memProcessed = (Boolean) getValueAt(row, colProcessed);
-				String dbProcessedS = DB.getSQLValueStringEx(null, "SELECT Processed FROM " + m_tableName + " WHERE " + m_tableName + "_ID=?" , getKeyID(row));
+	    	}
+	    	
+	    	if (hasProcessed) {
+				Boolean memProcessed = null;
+				memProcessed = (Boolean) getValueAt(row, colProcessed);
+		    	
 				Boolean dbProcessed = Boolean.TRUE;
 				if (! dbProcessedS.equals("Y"))
 					dbProcessed = Boolean.FALSE;
 				if (! memProcessed.equals(dbProcessed))
 					return true;
-			}
+	    	}
 		}
 
 		// @TODO: configurable aggressive - compare each column with the DB
