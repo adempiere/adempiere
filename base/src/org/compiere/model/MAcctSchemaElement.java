@@ -478,12 +478,15 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 			else if (ELEMENTTYPE_Project.equals(getElementType()))
 				updateData (COLUMNNAME_C_Project_ID, getC_Project_ID());
 		}
+
+		//	Clear Cache
+		s_cache.clear();
+		
 		//	Resequence
 		if (newRecord || is_ValueChanged(COLUMNNAME_SeqNo))
 			MAccount.updateValueDescription(getCtx(), 
 				"AD_Client_ID=" + getAD_Client_ID(), get_TrxName());
-		//	Clear Cache
-		s_cache.clear();
+
 		return success;
 	}	//	afterSave
 	
