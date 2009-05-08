@@ -54,7 +54,7 @@ public class GetReportAction extends POSAction
 		
 		String mimeType = null;
 			
-		if(reportName.endsWith(".csv"))
+		if(reportName.toLowerCase().endsWith(".csv"))
 		{
 			mimeType = "text/comma-separated-values";
 		}

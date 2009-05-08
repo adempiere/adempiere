@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  * This file is part of Adempiere ERP Bazaar                           *
  * http://www.adempiere.org                                            *
  *                                                                     *
@@ -25,7 +25,7 @@
  *                                                                     *
  * Sponsors:                                                           *
  * - Company (http://www.faire.com.br)                                 *
- ***********************************************************************/
+ **********************************************************************/
 
 package org.adempiere.process;
 
@@ -67,7 +67,7 @@ public class PrepareMigrationScripts extends SvrProcess {
 
 		FilenameFilter filter = new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return name.endsWith(".sql");
+				return name.toLowerCase().endsWith(".sql");
 			}
 		};
 		dirList = dir.listFiles(filter);

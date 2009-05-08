@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -260,16 +260,17 @@ public class MAttachmentEntry
 	 */
 	public boolean isPDF()
 	{
-		return m_name.endsWith(".pdf");
+		return m_name.toLowerCase().endsWith(".pdf");
 	}	//	isPDF
 	
 	/**
-	 * 	Isattachment entry a Graphic
+	 * 	Is attachment entry a Graphic
 	 *	@return true if *.gif, *.jpg, *.png
 	 */
 	public boolean isGraphic()
 	{
-		return m_name.endsWith(".gif") || m_name.endsWith(".jpg") || m_name.endsWith(".png");
+		String m_lowname = m_name.toLowerCase();
+		return m_lowname.endsWith(".gif") || m_lowname.endsWith(".jpg") || m_lowname.endsWith(".png");
 	}	//	isGraphic
 	
 	

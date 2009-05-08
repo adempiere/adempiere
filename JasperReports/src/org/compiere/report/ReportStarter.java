@@ -603,7 +603,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		MAttachmentEntry[] entries = attachment.getEntries();
 		for(int i = 0; i < entries.length; i++) {
 			if (!entries[i].getName().equals(name) &&
-				(entries[i].getName().endsWith(".jrxml") || entries[i].getName().endsWith(".jasper"))) {
+				(entries[i].getName().toLowerCase().endsWith(".jrxml") || entries[i].getName().toLowerCase().endsWith(".jasper"))) {
 				File reportFile = getAttachmentEntryFile(entries[i]);
 				if (reportFile != null)
 					subreports.add(reportFile);

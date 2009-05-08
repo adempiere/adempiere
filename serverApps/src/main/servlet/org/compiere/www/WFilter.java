@@ -139,10 +139,12 @@ public final class WFilter implements javax.servlet.Filter
 		
 		//  Get URI
 		String uri = "";
+		String urilow = "";
 		if (request instanceof HttpServletRequest)
 		{
 			HttpServletRequest req = (HttpServletRequest)request;
 			uri = req.getRequestURI();
+			urilow = uri.toLowerCase();
 		}
 		
 		
@@ -171,9 +173,9 @@ public final class WFilter implements javax.servlet.Filter
 				else
 					pass = false;
 		else if (!uri.startsWith(WebEnv.DIR_BASE)      //  not requesting /adempiere/...
-			|| uri.endsWith(".gif") || uri.endsWith(".jpg") || uri.endsWith(".png") 
-			|| uri.endsWith(".html") || uri.endsWith(".css")
-			|| uri.endsWith(".js"))
+			|| urilow.endsWith(".gif") || urilow.endsWith(".jpg") || urilow.endsWith(".png") 
+			|| urilow.endsWith(".html") || urilow.endsWith(".css")
+			|| urilow.endsWith(".js"))
 			check = false;		
 		else
 			;
