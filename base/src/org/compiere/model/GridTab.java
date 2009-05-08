@@ -877,6 +877,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (manualCmd)
 				setCurrentRow(m_currentRow, false);
 			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_SAVE));
+			
+			if (retValue) {
+				// refresh parent tabs with the same table
+				refreshParentsSameTable();
+			}
+			
 			return retValue;
 		}
 		catch (Exception e)
@@ -894,11 +900,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		// Validate that current record has not changed and validate that every parent above has not changed
 		if (m_mTable.hasChanged(m_currentRow)) {
 			// return error stating that current record has changed and it cannot be saved
-			msg = "Current record was changed by another user, please ReQuery";
+			msg = Msg.getMsg(Env.getCtx(), "CurrentRecordModified");
 			log.saveError("CurrentRecordModified", msg, false);
 			return true;
 		}
-		if (this.m_vo.AD_Window_ID == 123) return false; // FIXME: arhipac: teo_sarca: workaround - issue when we have same table on parent and child records (BPartner), see tracker description (1985481) 
 		if (isDetail()) {
 			// get parent tab
 			// the parent tab is the first tab above with level = this_tab_level-1
@@ -909,7 +914,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					// this is parent tab
 					if (parentTab.m_mTable.hasChanged(parentTab.m_currentRow)) {
 						// return error stating that current record has changed and it cannot be saved
-						msg = "Record on parent tab " + parentTab.getName() + " was changed by another user, please ReQuery";
+						msg = Msg.getMsg(Env.getCtx(), "ParentRecordModified") + ": " + parentTab.getName();
 						log.saveError("ParentRecordModified", msg, false);
 						return true;
 					} else {
@@ -926,6 +931,27 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return false;
 	}
 
+	private void refreshParentsSameTable() {
+		if (isDetail()) {
+			// get parent tab
+			// the parent tab is the first tab above with level = this_tab_level-1
+			int level = m_vo.TabLevel;
+			for (int i = m_window.getTabIndex(this) - 1; i >= 0; i--) {
+				GridTab parentTab = m_window.getTab(i);
+				if (parentTab.m_vo.TabLevel == level-1) {
+					if (parentTab.getAD_Table_ID() == getAD_Table_ID()) {
+						parentTab.dataRefresh();
+					}
+					// search for the next parent
+					if (parentTab.isDetail()) {
+						level = parentTab.m_vo.TabLevel;
+					} else {
+						break;
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 *  Do we need to Save?
