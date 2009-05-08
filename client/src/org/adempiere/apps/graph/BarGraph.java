@@ -137,7 +137,7 @@ public class BarGraph extends CPanel implements ChartMouseListener
 		{
 			MMeasureCalc mc = MMeasureCalc.get(Env.getCtx(), measure.getPA_MeasureCalc_ID());
 			String sql = mc.getSqlBarChart(m_goal.getRestrictions(false), 
-					m_goal.getMeasureDisplay(), null, 
+					m_goal.getMeasureDisplay(), m_goal.getDateFrom(), 
 					MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -234,7 +234,7 @@ public class BarGraph extends CPanel implements ChartMouseListener
 			MRequestType rt = MRequestType.get(Env.getCtx(), measure.getR_RequestType_ID());
 			String sql = rt.getSqlBarChart(m_goal.getRestrictions(false), 
 					m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
-					null, MRole.getDefault());	//	logged in role
+					m_goal.getDateFrom(), MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
@@ -276,7 +276,7 @@ public class BarGraph extends CPanel implements ChartMouseListener
 			MProjectType pt = MProjectType.get(Env.getCtx(), measure.getC_ProjectType_ID());
 			String sql = pt.getSqlBarChart(m_goal.getRestrictions(false), 
 					m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
-					null, MRole.getDefault());	//	logged in role
+					m_goal.getDateFrom(), MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
