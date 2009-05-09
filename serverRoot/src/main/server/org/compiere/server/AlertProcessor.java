@@ -262,26 +262,33 @@ public class AlertProcessor extends AdempiereServer
 					countMail++;
 				}
 			}
-			
-			Trx trx = Trx.get(Trx.createTrxName("AP_NU"), true);
+
 			if (user.isNotificationNote()) {
-				// Notice
-				int AD_Message_ID = 52244;  /* Hardcoded message=notes */
-				MNote note = new MNote(getCtx(), AD_Message_ID, user_id, trx.getTrxName());
-				note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-				note.setTextMsg(message);
-				note.saveEx();
-				// Attachment
-				MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
-				for (File f : attachments) {
-					attachment.addEntry(f);
+				Trx trx = null;
+				try {
+					trx = Trx.get(Trx.createTrxName("AP_NU"), true);
+					// Notice
+					int AD_Message_ID = 52244;  /* Hardcoded message=notes */
+					MNote note = new MNote(getCtx(), AD_Message_ID, user_id, trx.getTrxName());
+					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+					note.setTextMsg(message);
+					note.saveEx();
+					// Attachment
+					MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
+					for (File f : attachments) {
+						attachment.addEntry(f);
+					}
+					attachment.setTextMsg(message);
+					attachment.saveEx();
+					countMail++;
+					trx.commit();
+				} catch (Throwable e) {
+					if (trx != null) trx.rollback();
+				} finally {
+					if (trx != null) trx.close();
 				}
-				attachment.setTextMsg(message);
-				attachment.saveEx();
-				countMail++;
 			}
-			trx.commit();
-			trx.close();
+
 		}
 		return countMail;
 	}
