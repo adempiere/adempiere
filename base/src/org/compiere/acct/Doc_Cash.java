@@ -195,8 +195,8 @@ public class Doc_Cash extends Doc
 			{   //  amount is negative
 				//  Charge          DR
 				//  CashAsset               CR
-				fact.createLine(line, line.getChargeAccount(as, line.getAmount()),
-					getC_Currency_ID(), line.getAmount().negate(), null);
+				fact.createLine(line, line.getChargeAccount(as, line.getAmount().negate()),
+					getC_Currency_ID(), line.getAmount().negate());
 			//	fact.createLine(line, getAccount(Doc.ACCTTYPE_CashAsset, as),
 			//		p_vo.C_Currency_ID, null, line.getAmount().negate());
 				assetAmt = assetAmt.subtract(line.getAmount().negate());
