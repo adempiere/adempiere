@@ -450,6 +450,15 @@ public class MJournal extends X_GL_Journal implements DocAction
 			MJournalLine line = lines[i];
 			if (!isActive())
 				continue;
+			
+			// bcahya, BF [2789319] No check of Actual, Budget, Statistical attribute
+			if (!line.getAccountElementValue().isActive())
+			{
+				m_processMsg = "@InActiveAccount@ - @Line@=" + line.getLine()
+				+ " - " + line.getAccountElementValue();
+				return DocAction.STATUS_Invalid;
+			}
+			
 			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
 			if (line.isDocControlled() && 
 					( getPostingType().equals(POSTINGTYPE_Actual)) ||
@@ -462,6 +471,30 @@ public class MJournal extends X_GL_Journal implements DocAction
 				return DocAction.STATUS_Invalid;
 			}
 			//
+			
+			// bcahya, BF [2789319] No check of Actual, Budget, Statistical attribute
+			if (getPostingType().equals(POSTINGTYPE_Actual) && !line.getAccountElementValue().isPostActual())
+			{
+				m_processMsg = "@PostingTypeActualError@ - @Line@=" + line.getLine()
+				+ " - " + line.getAccountElementValue();
+				return DocAction.STATUS_Invalid;
+			}
+			
+			if (getPostingType().equals(POSTINGTYPE_Budget) && !line.getAccountElementValue().isPostBudget())
+			{
+				m_processMsg = "@PostingTypeBudgetError@ - @Line@=" + line.getLine()
+				+ " - " + line.getAccountElementValue();
+				return DocAction.STATUS_Invalid;
+			}
+			
+			if (getPostingType().equals(POSTINGTYPE_Statistical) && !line.getAccountElementValue().isPostStatistical())
+			{
+				m_processMsg = "@PostingTypeStatisticalError@ - @Line@=" + line.getLine()
+				+ " - " + line.getAccountElementValue();
+				return DocAction.STATUS_Invalid;
+			}
+			// end BF [2789319] No check of Actual, Budget, Statistical attribute
+			
 			AmtSourceDr = AmtSourceDr.add(line.getAmtSourceDr());
 			AmtSourceCr = AmtSourceCr.add(line.getAmtSourceCr());
 		}
