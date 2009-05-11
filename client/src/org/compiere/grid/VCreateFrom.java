@@ -117,7 +117,6 @@ public abstract class VCreateFrom extends CDialog
 		// Register defaults:
 		s_registeredClasses = new HashMap<Integer, Class<? extends VCreateFrom>>();
 		s_registeredClasses.put(I_C_BankStatement.Table_ID, VCreateFromStatement.class);
-		s_registeredClasses.put(I_C_Invoice.Table_ID, VCreateFromInvoice.class);
 		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipment.class);
 		//s_registeredClasses.put(I_C_PaySelection.Table_ID, null); //	ignore - will call process C_PaySelection_CreateFrom
 		s_registeredClasses.put(I_M_RMA.Table_ID, VCreateFromRMA.class);

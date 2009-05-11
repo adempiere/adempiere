@@ -100,8 +100,6 @@ public abstract class WCreateFrom extends Window
 		WCreateFrom retValue = null;
 		if (AD_Table_ID == 392)             //  C_BankStatement
 			retValue = new WCreateFromStatement (mTab);
-		else if (AD_Table_ID == 318)        //  C_Invoice
-			retValue = new WCreateFromInvoice (mTab);
 		else if (AD_Table_ID == 319)        //  M_InOut
 			retValue = new WCreateFromShipment (mTab);
 		else if (AD_Table_ID == 426)		//	C_PaySelection
