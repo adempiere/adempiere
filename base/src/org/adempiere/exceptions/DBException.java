@@ -19,6 +19,7 @@ package org.adempiere.exceptions;
 import java.sql.SQLException;
 
 import org.compiere.util.CLogMgt;
+import org.compiere.util.DB;
 
 
 /**
@@ -29,6 +30,9 @@ import org.compiere.util.CLogMgt;
  * @version $Id: DBException.java,v 1.2 2006/07/30 00:54:35 jjanke Exp $
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Armen Rizal, GOODWILL CONSULTING
+ * 		FR [2789943] Better DBException handling for PostgreSQL
+ * 		https://sourceforge.net/tracker/?func=detail&aid=2789943&group_id=176962&atid=879335
  */
 public class DBException extends AdempiereException
 {
@@ -131,11 +135,31 @@ public class DBException extends AdempiereException
     	return false;
     }
     
+    private static final boolean isSQLState(Exception e, String SQLState) {
+    	if (e == null) {
+    		return false;
+    	}
+    	else if (e instanceof SQLException) {
+    		return ((SQLException)e).getSQLState().equals(SQLState);
+    	}
+    	else if (e instanceof DBException) {
+    		SQLException sqlEx = ((DBException)e).getSQLException();
+    		if (sqlEx != null)
+    			return sqlEx.getSQLState().equals(SQLState);
+    		else
+    			return false;
+    	}
+    	return false;
+    }
+    
     /**
      * Check if Unique Constraint Exception (aka ORA-00001)
      * @param e exception
      */
     public static boolean isUniqueContraintError(Exception e) {
+    	if (DB.isPostgreSQL())
+    		return isSQLState(e, "23505");
+    	//
     	return isErrorCode(e, 1);
     }
     
