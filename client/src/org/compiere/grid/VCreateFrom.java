@@ -92,7 +92,7 @@ import org.compiere.util.TrxRunnable;
  * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  */
 public abstract class VCreateFrom extends CDialog
-	implements ActionListener, TableModelListener
+	implements ICreateFrom, ActionListener, TableModelListener
 {
 	/**
 	 * 
@@ -778,5 +778,15 @@ public abstract class VCreateFrom extends CDialog
 		statusBar.setStatusLine(sb.toString());
 		//
 		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
+	}
+	
+	public void showWindow()
+	{
+		setVisible(true);
+	}
+	
+	public void closeWindow()
+	{
+		dispose();
 	}
 }   //  VCreateFrom

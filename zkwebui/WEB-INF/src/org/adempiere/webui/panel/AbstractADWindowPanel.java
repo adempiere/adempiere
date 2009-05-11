@@ -33,7 +33,7 @@ import org.adempiere.webui.WZoomAcross;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
-import org.adempiere.webui.apps.form.WCreateFrom;
+import org.adempiere.webui.apps.form.WCreateFromFactory;
 import org.adempiere.webui.apps.form.WPayment;
 import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.IADTab;
@@ -50,6 +50,7 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.FindWindow;
 import org.adempiere.webui.window.WRecordAccessDialog;
+import org.compiere.grid.ICreateFrom;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
@@ -1706,14 +1707,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		else if (col.equals("CreateFrom"))
 		{
-			// curWindowNo
-			WCreateFrom wcf = WCreateFrom.create(curTab);
+			ICreateFrom cf = WCreateFromFactory.create(curTab);
 
-			if (wcf != null)
+			if(cf != null)
 			{
-				if (wcf.isInitOK())
+				if(cf.isInitOK())
 				{
-					wcf.setVisible(true);
+					cf.showWindow();
 					curTab.dataRefresh();
 				}
 				return;

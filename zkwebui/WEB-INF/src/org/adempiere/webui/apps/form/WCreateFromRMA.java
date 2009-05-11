@@ -43,7 +43,7 @@ public class WCreateFromRMA extends WCreateFrom
 	 * 
 	 * @param mTab
 	 */
-    WCreateFromRMA(GridTab mTab)
+    public WCreateFromRMA(GridTab mTab)
     {
         super(mTab);
         log.info(mTab.toString());

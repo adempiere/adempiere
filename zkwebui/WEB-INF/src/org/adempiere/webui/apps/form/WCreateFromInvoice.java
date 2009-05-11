@@ -60,7 +60,7 @@ public class WCreateFromInvoice extends WCreateFrom implements ValueChangeListen
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	WCreateFromInvoice(GridTab mTab)
+	public WCreateFromInvoice(GridTab mTab)
 	{
 		super (mTab);
 		log.info(mTab.toString());

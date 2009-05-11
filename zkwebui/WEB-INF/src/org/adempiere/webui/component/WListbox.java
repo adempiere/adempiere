@@ -32,6 +32,7 @@ import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.exception.ApplicationException;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.IMiniTable;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MRole;
 import org.compiere.model.PO;
@@ -54,7 +55,7 @@ import org.zkoss.zul.ListModel;
  * @author Andrew Kimball
  * @author Sendy Yagambrum
  */
-public class WListbox extends Listbox implements TableValueChangeListener, WTableModelListener
+public class WListbox extends Listbox implements IMiniTable, TableValueChangeListener, WTableModelListener
 {
 
 	/**

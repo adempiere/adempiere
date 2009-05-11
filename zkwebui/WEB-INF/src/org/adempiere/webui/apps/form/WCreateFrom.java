@@ -47,6 +47,7 @@ import org.adempiere.webui.editor.WStringEditor;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.compiere.grid.ICreateFrom;
 import org.compiere.model.GridTab;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -80,7 +81,7 @@ import org.zkoss.zul.Space;
  * 			<li>Bug [ 1759431 ] Problems with VCreateFrom
  */
 public abstract class WCreateFrom extends Window
-	implements EventListener, WTableModelListener
+	implements ICreateFrom, EventListener, WTableModelListener
 {
 	/**
 	 * 
@@ -625,4 +626,13 @@ public abstract class WCreateFrom extends Window
 		confirmPanel.getOKButton().setEnabled(selectedRowCount > 0);
 	}
 
+	public void showWindow()
+	{
+		setVisible(true);
+	}
+	
+	public void closeWindow()
+	{
+		dispose();
+	}
 }   //  VCreateFrom

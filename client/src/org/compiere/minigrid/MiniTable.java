@@ -68,7 +68,7 @@ import org.compiere.util.Util;
  * 				<li>BF [ 1891082 ] NPE on MiniTable when you hide some columns
  * 				<li>FR [ 1974299 ] Add MiniTable.getSelectedKeys method
  */
-public class MiniTable extends CTable
+public class MiniTable extends CTable implements IMiniTable
 {
 	/**
 	 * 
@@ -291,7 +291,7 @@ public class MiniTable extends CTable
 	 *  @param c   class of column - determines renderere
 	 *  @param readOnly read only flag
 	 */
-	public void setColumnClass (int index, Class<?> c, boolean readOnly)
+	public void setColumnClass (int index, Class c, boolean readOnly)
 	{
 		setColumnClass(index, c, readOnly, null);
 	}   //  setColumnClass
@@ -306,7 +306,7 @@ public class MiniTable extends CTable
 	 *  @param readOnly read only flag
 	 *  @param header optional header value
 	 */
-	public void setColumnClass (int index, Class<?> c, boolean readOnly, String header)
+	public void setColumnClass (int index, Class c, boolean readOnly, String header)
 	{
 	//	log.config( "MiniTable.setColumnClass - " + index, c.getName() + ", r/o=" + readOnly);
 		TableColumn tc = getColumnModel().getColumn(index);

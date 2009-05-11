@@ -62,8 +62,9 @@ import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
 import org.compiere.grid.GridController;
 import org.compiere.grid.GridSynchronizer;
+import org.compiere.grid.ICreateFrom;
 import org.compiere.grid.RecordAccessDialog;
-import org.compiere.grid.VCreateFrom;
+import org.compiere.grid.VCreateFromFactory;
 import org.compiere.grid.VOnlyCurrentDays;
 import org.compiere.grid.VPayment;
 import org.compiere.grid.VSortTab;
@@ -2350,20 +2351,19 @@ public final class APanel extends CPanel
 			// Run form only if the button has no process defined - teo_sarca [ 1974354 ] 
 			if (vButton.getProcess_ID() <= 0)
 			{
-				//  m_curWindowNo
-				VCreateFrom vcf = VCreateFrom.create (m_curTab);
-				if (vcf != null)
+				ICreateFrom cf = VCreateFromFactory.create(m_curTab);
+				if(cf != null)
 				{
-					if (vcf.isInitOK())
+					if(cf.isInitOK())
 					{
-						vcf.setVisible(true);
-						vcf.dispose();
+						cf.showWindow();
+						cf.closeWindow();
 						m_curTab.dataRefresh();
 					}
 					else
-						vcf.dispose();
+						cf.closeWindow();
 					return;
-				}
+				}				
 				//	else may start process
 			}
 		}	//	CreateFrom

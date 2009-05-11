@@ -64,7 +64,7 @@ public class WCreateFromStatement extends WCreateFrom implements ValueChangeList
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	WCreateFromStatement(GridTab mTab)
+	public WCreateFromStatement(GridTab mTab)
 	{
 		super (mTab);
 		log.info("");

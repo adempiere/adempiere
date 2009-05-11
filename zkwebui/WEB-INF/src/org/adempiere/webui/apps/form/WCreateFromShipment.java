@@ -63,7 +63,7 @@ public class WCreateFromShipment extends WCreateFrom implements ValueChangeListe
 	 *  Protected Constructor
 	 *  @param mTab MTab
 	 */
-	WCreateFromShipment(GridTab mTab)
+	public WCreateFromShipment(GridTab mTab)
 	{
 		super (mTab);
 	//	log.info( "VCreateFromShipment");
