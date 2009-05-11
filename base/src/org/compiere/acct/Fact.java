@@ -36,6 +36,8 @@ import org.compiere.util.Env;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: Fact.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
+ *  
+ *  BF [ 2789949 ] Multicurrency in matching posting
  */
 public final class Fact
 {
@@ -245,8 +247,10 @@ public final class Fact
 	 */
 	public boolean isSourceBalanced()
 	{
-		//  No lines -> balanded
-		if (m_lines.size() == 0)
+		//AZ Goodwill
+		//  Multi-Currency documents are source balanced by definition
+		//  No lines -> balanced
+		if (m_lines.size() == 0 || m_doc.isMultiCurrency())
 			return true;
 		BigDecimal balance = getSourceBalance();
 		boolean retValue = balance.signum() == 0;
@@ -317,7 +321,10 @@ public final class Fact
 	 */
 	public boolean isSegmentBalanced()
 	{
-		if (m_lines.size() == 0)
+		//AZ Goodwill
+		//  Multi-Currency documents are source balanced by definition
+		//  No lines -> balanced
+		if (m_lines.size() == 0 || m_doc.isMultiCurrency())
 			return true;
 
 		MAcctSchemaElement[] elements = m_acctSchema.getAcctSchemaElements();

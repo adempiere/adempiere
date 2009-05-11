@@ -45,9 +45,7 @@ import org.compiere.util.Env;
  *  
  *  FR [ 1840016 ] Avoid usage of clearing accounts - subject to C_AcctSchema.IsPostIfClearingEqual 
  *  Avoid posting if both accounts Not Invoiced Receipts and Inventory Clearing are equal
- *  
- *  @author Bayu Cahya, Sistematika
- *  		<li>BF [ 2268355 ] Invoice price variance doesn't use transactional currency
+ *  BF [ 2789949 ] Multicurrency in matching posting
  */
 public class Doc_MatchInv extends Doc
 {
@@ -257,6 +255,13 @@ public class Doc_MatchInv extends Doc
 		cr.setUser1_ID(m_invoiceLine.getUser1_ID());
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
 
+		//AZ Goodwill
+		//Desc: Source Not Balanced problem because Currency is Difference - PO=CNY but AP=USD 
+		//see also Fact.java: checking for isMultiCurrency()
+		if (dr.getC_Currency_ID() != cr.getC_Currency_ID())
+			setIsMultiCurrency(true);
+		//end AZ
+		
 		// Avoid usage of clearing accounts
 		// If both accounts Not Invoiced Receipts and Inventory Clearing are equal
 		// then remove the posting
@@ -279,16 +284,12 @@ public class Doc_MatchInv extends Doc
 		
 
 		//  Invoice Price Variance 	difference
-		//  Bayu, Sistematika
-		//  BF [ 2268355 ] Invoice price variance doesn't use transactional currency
-		BigDecimal ipv = cr.getSourceBalance().add(dr.getSourceBalance()).negate();
+		BigDecimal ipv = cr.getAcctBalance().add(dr.getAcctBalance()).negate();
 		if (ipv.signum() != 0)
 		{
-			MInvoice m_invoice = m_invoiceLine.getParent();
-			int C_Currency_ID = m_invoice.getC_Currency_ID();
 			FactLine pv = fact.createLine(null,
 				m_pc.getAccount(ProductCost.ACCTTYPE_P_IPV, as),
-				C_Currency_ID, ipv);
+				as.getC_Currency_ID(), ipv);
 			pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 			pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
 			pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
@@ -297,7 +298,7 @@ public class Doc_MatchInv extends Doc
 			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
 		}
 		log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
-		// end Bayu
+		
 // Elaine 2008/6/20		
 /* Source move to MInvoice.createMatchInvCostDetail()
 		//	Cost Detail Record - data from Expense/IncClearing (CR) record
