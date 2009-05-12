@@ -26,8 +26,10 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.compiere.model.MSequence;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
+import org.compiere.model.X_AD_Package_Imp_Detail;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -79,8 +81,9 @@ public abstract class AbstractElementHandler implements ElementHandler {
     	int id = 0;
     	TransformerHandler hd_document = getLogDocument(ctx);
 		AttributesImpl attsOut = new AttributesImpl();
-    	if (success == 1){    		
-    		//hd_documemt.startElement("","","Successfull",attsOut);
+		String result = success == 1 ? "Success" : "Failure";
+    	
+		//hd_documemt.startElement("","","Successful",attsOut);
     		recordLayout.append("Type:")
     			.append(objectType)
     			.append("  -   Name:")
@@ -89,91 +92,29 @@ public abstract class AbstractElementHandler implements ElementHandler {
     			.append(objectID)
     			.append("  -  Action:")
     			.append(objectStatus)
-    			.append("  -  Success");
+    			.append("  -  " + result);
     		
-    		hd_document.startElement("","","Success",attsOut);
+    		hd_document.startElement("","",result,attsOut);
     		hd_document.characters(recordLayout.toString().toCharArray(),0,recordLayout.length());
-    		hd_document.endElement("","","Success");
-    		//hd_documemt.endElement("","","Successfull");
+    		hd_document.endElement("","",result);
     		
-    		//String sql2 = "SELECT MAX(AD_PACKAGE_IMP_DETAIL_ID) FROM AD_PACKAGE_IMP_DETAIL";
-    		//int id = DB.getSQLValue(m_trxName, sql2)+1;
+    		X_AD_Package_Imp_Detail detail = new X_AD_Package_Imp_Detail(ctx, 0, getTrxName(ctx));
+    		detail.setAD_Package_Imp_ID(getPackageImpId(ctx));
+    		detail.setAD_Org_ID(Env.getAD_Org_ID(ctx) );
+    		detail.setType(objectType);
+    		detail.setName(objectName);
+    		detail.setAction(objectStatus);
+    		detail.setSuccess(result);
+    		detail.setAD_Original_ID(objectID);
+    		detail.setAd_Backup_ID(objectIDBackup);
+    		detail.setTableName(tableName);
+    		detail.setAD_Table_ID(AD_Table_ID);
     		
-    		id = DB.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
-    		
-    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
-    				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
-    				.append( "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," ) 
-    				.append( " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)" )
-    				.append( "VALUES(" )
-    				.append( " "+ Env.getAD_Client_ID(ctx) )
-    				.append( ", "+ Env.getAD_Org_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", " + id ) 
-    				.append( ", " + getPackageImpId(ctx) )
-    				.append( ", '" + objectType )
-    				.append( "', '" + objectName )
-    				.append( "', '" + objectStatus )
-    				.append( "', 'Success'" )
-    				.append( ", "+objectID )
-    				.append( ", "+objectIDBackup )
-    				.append( ", '"+tableName )
-    				.append( "', "+AD_Table_ID )
-    				.append(")");
-    		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
-    		if (no == -1)
+    		if ( !detail.save(getTrxName(ctx)) )
     			log.info("Insert to import detail failed");
     		
-    	}
-    	else{
-    		String PK_Status = "Completed with errors";
-    		hd_document.startElement("","","Failure",attsOut);    	
-    		recordLayout.append("Type:")
-    			.append(objectType)
-    			.append("  -   Name:")
-    			.append(tableName)
-    			.append("  -  ID:")
-    			.append(objectID)
-    			.append("  -  Action:")
-    			.append(objectStatus)
-    			.append("  -  Failure");
-    		//hd_documemt.startElement("","","Success",attsOut);
-    		hd_document.characters(recordLayout.toString().toCharArray(),0,recordLayout.length());
-    		//hd_documemt.endElement("","","Success");		
-    		hd_document.endElement("","","Failure");
-    		
-    		//String sql2 = "SELECT MAX(AD_PACKAGE_IMP_DETAIL_ID) FROM AD_PACKAGE_IMP_DETAIL";
-    		//int id = DB.getSQLValue(m_trxName,sql2)+1; 
-    		
-    		id = DB.getNextID (Env.getAD_Client_ID(ctx), "AD_Package_Imp_Detail", getTrxName(ctx));
-    		
-    		StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Detail") 
-    				.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
-    				.append( "AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID, TYPE, NAME," ) 
-    				.append( " ACTION, SUCCESS, AD_ORIGINAL_ID, AD_BACKUP_ID, TABLENAME, AD_TABLE_ID)" )
-    				.append( "VALUES(" )
-    				.append( " "+ Env.getAD_Client_ID(ctx) )
-    				.append( ", "+ Env.getAD_Org_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", "+ Env.getAD_User_ID(ctx) )
-    				.append( ", " + id ) 
-    				.append( ", " + getPackageImpId(ctx) )
-    				.append( ", '" + objectType )
-    				.append( "', '" + objectName )
-    				.append( "', '" + objectStatus )
-    				.append( "', 'Failure'" ) 
-    				.append( ", "+objectID )
-    				.append( ", "+objectIDBackup )
-    				.append( ", '"+tableName )
-    				.append( "', "+AD_Table_ID )
-    				.append( ")");
-    		int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
-    		if (no == -1)
-    			log.info("Insert to import detail failed");
-    	}
+    		id = detail.get_ID();
     	
-    	String Object_Status = "Status not set";
     	return id;  
     }
     
