@@ -1,11 +1,18 @@
 /* Compiere (c) Jorg Janke */
-/* $Id: menu.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+/* $Id: menu.css,v 1.1 2009/04/15 11:26:44 vinhpt Exp $ */
 
 body	{
 	/* Manu #F4FCFF; */
 	background-color: #FFFFFF;
 	color: #000000;
 	font-size: 10px;
+}
+
+input {
+	background-color: #FFFFFF;
+	font-size: 8pt;
+	font-family: verdana, arial;
+	border: solid gray 1px;
 }
 
 li{

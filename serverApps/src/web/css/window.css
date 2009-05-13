@@ -1,5 +1,5 @@
 /* Compiere HTML UI (c) Jorg Janke */
-/* $Id: window.css,v 1.1 2006/04/21 18:03:35 jjanke Exp $ */
+/* $Id: window.css,v 1.1 2009/04/15 11:26:44 vinhpt Exp $ */
 
 
 body	{
@@ -99,11 +99,11 @@ td {
 	background:url(/adempiere/images/Delete16.gif) no-repeat left;
 	background-color:#ffffff;
 }
-.nextpgbtn {
+.firstpgbtn {
 	cursor:pointer;
 	margin-top:5px;
 	border:outset 2px #ccc;
-	background:url(/adempiere/images/Next16.gif) no-repeat left;
+	background:url(/adempiere/images/First16.gif) no-repeat left;
 	background-color:#ffffff;
 }
 .prevpgbtn {
@@ -113,7 +113,20 @@ td {
 	background:url(/adempiere/images/Previous16.gif) no-repeat left;
 	background-color:#ffffff;
 }
-
+.nextpgbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Next16.gif) no-repeat left;
+	background-color:#ffffff;
+}
+.lastpgbtn {
+	cursor:pointer;
+	margin-top:5px;
+	border:outset 2px #ccc;
+	background:url(/adempiere/images/Last16.gif) no-repeat left;
+	background-color:#ffffff;
+}
 .Cerror	{
 	background: #FF4A4A;
 }
