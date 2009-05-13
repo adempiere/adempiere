@@ -6,7 +6,7 @@
 <project name="tools" default="toolsDistribution" basedir=".">
 
 	<description>
-	The resulting CCTools.jar and CSTools.jar 
+	The resulting CCTools.jar and CSTools.jar
 	repackage all third party libraries
 	in a single jar for simplified start and version control.
 	The resuling Server CSTools.jar is added to EARs
@@ -37,7 +37,7 @@
 		<exclude name="META-INF/MANIFEST.MF" />
 		<exclude name="META-INF/INDEX.LIST" />
 	</patternset>
-	
+
 	<taskdef resource="net/sf/antcontrib/antlib.xml">
 		<classpath>
 			<fileset file="lib/ant-contrib-1.0b1.jar"></fileset>
@@ -92,9 +92,15 @@
 	<target name="toolsAppsServer" depends="toolsCompile" unless="jars.uptodate" description="Create JBoss Client jar">
 		<!-- Create jboss.jar file 	-->
 		<jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
-			<zipgroupfileset dir="${jboss.dir}/client" includes="*.jar">
+			<zipfileset src="${jboss.dir}/client/jboss-ejb3x.jar">
 				<patternset refid="manifest.exclude" />
-			</zipgroupfileset>
+			</zipfileset>
+			<zipfileset src="${jboss.dir}/client/jboss-ejb3-client.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="${jboss.dir}/client/jbossall-client.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere JBoss Client" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
@@ -286,6 +292,9 @@
 			<zipfileset src="lib/commons-collections-3.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/commons-codec.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- jars for 2pack                         -->
 			<zipfileset src="lib/ant.jar">
 				<patternset refid="manifest.exclude" />
@@ -433,6 +442,9 @@
 			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections-3.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-codec.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 		</jar>
