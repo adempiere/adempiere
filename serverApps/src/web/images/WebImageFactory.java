@@ -29,7 +29,7 @@ import org.compiere.util.*;
  *  Icon Factory based on Metal Color Schema (Themes are automatically considered)
  *
  *  @author     Jorg Janke
- *  @version    $Id: ImageFactory.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version    $Id: WebImageFactory.java,v 1.1 2009/04/15 11:25:12 vinhpt Exp $
  */
 public class WebImageFactory
 {
