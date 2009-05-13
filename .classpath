@@ -126,5 +126,10 @@
 	<classpathentry kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
