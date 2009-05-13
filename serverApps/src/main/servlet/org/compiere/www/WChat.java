@@ -16,13 +16,10 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
+import java.io.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 import org.apache.ecs.AlignType;
 import org.apache.ecs.Element;
@@ -35,27 +32,17 @@ import org.apache.ecs.xhtml.tr;
 import org.compiere.model.GridField;
 import org.compiere.model.MChat;
 import org.compiere.model.MChatEntry;
-import org.compiere.util.CLogger;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import org.compiere.util.*;
 
 
 /**
  *	Web (window) Chat
  *	
  *  @author Jorg Janke
- *  @version $Id: WChat.java $
+ *  @version $Id: WChat.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WChat extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6826855534161342772L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	private MChat			m_chat;

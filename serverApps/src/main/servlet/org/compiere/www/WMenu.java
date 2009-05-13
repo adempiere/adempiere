@@ -16,60 +16,26 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.base;
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.cite;
-import org.apache.ecs.xhtml.head;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.tr;
-import org.compiere.model.MForm;
-import org.compiere.model.MTree;
-import org.compiere.model.MTreeNode;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Login;
-import org.compiere.util.Msg;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  * Web Menu
  * 
  * @author Jorg Janke
- * @version $Id: WMenu.java,v 1.3 2006/07/30 00:53:21 jjanke Exp $
+ * @version $Id: WMenu.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WMenu extends HttpServlet
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6357775290362135602L;
 	/** Logger */
 	protected CLogger	log	= CLogger.getCLogger (getClass ());
 
@@ -373,7 +339,7 @@ public class WMenu extends HttpServlet
 		//	Document
 		//Modified by Rob Klein 4/29/07
 		//String windowTitle = Msg.getMsg(wsc.ctx, "Menu");
-		String windowTitle = "";
+		String windowTitle = "Menu";
 		WebDoc doc = WebDoc.create (windowTitle);
 		head head = doc.getHead();
 		//  Target
@@ -381,6 +347,7 @@ public class WMenu extends HttpServlet
 		//  Specific Menu Script/Stylesheet
 		head.addElement(new link(WebEnv.getBaseDirectory("/css/menu.css"), link.REL_STYLESHEET, link.TYPE_CSS));
 		head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/menu.js")));
+		head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/window.js")));
 		//Modified by Rob Klein 4/29/07
 		//head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/mktree.js")));
 		//head.addElement(new link(WebEnv.getBaseDirectory("/css/mktree.css"), link.REL_STYLESHEET, link.TYPE_CSS));
@@ -391,6 +358,7 @@ public class WMenu extends HttpServlet
 		//Rob 12-16-2006 head.addElement(new script(scriptTxt));
 		
 		//	Body
+
 		body body = doc.getBody();
 		body.setTitle(statusMessage);
 		//  Clear Window Frame
@@ -398,9 +366,13 @@ public class WMenu extends HttpServlet
 
 		//  Header
 		table table = doc.getTable();
+		
 		doc.setClasses ("menuTable", "menuHeader");
 		//Rob 12-16-2006 doc.getTopLeft().addElement(new cite(wsc.loginInfo));
-		doc.getTopLeft().addElement(new cite(""));
+		input txtSearch = new input(input.TYPE_TEXT, "txtSearch", "");
+		txtSearch.setOnKeyDown("searchMenu('main',this.value,event,'" + WebEnv.TARGET_WINDOW + "')");
+		doc.getTopLeft().addElement("Find: ");
+		doc.getTopLeft().addElement(txtSearch);
 
 		//  Load Menu Structure     ----------------------
 		int AD_Tree_ID = DB.getSQLValue(null,
@@ -415,7 +387,7 @@ public class WMenu extends HttpServlet
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
 		Enumeration en = root.preorderEnumeration();
-		while (en.hasMoreElements())
+		/*while (en.hasMoreElements())
 		{
 			MTreeNode nd = (MTreeNode)en.nextElement();
 			if (nd.isTask() 
@@ -427,7 +399,7 @@ public class WMenu extends HttpServlet
 				MTreeNode parent = (MTreeNode)nd.getParent();
 				parent.remove(nd);
 			}
-		}
+		}*/
 		tree.trimTree();
 		
 		//	Print tree
@@ -587,15 +559,15 @@ public class WMenu extends HttpServlet
 					.append(node.getNode_ID());
 			}
 			//	remaining a tag
-			sb.append("\" onMouseOver=\"status='" + description 
-					+ "';\" onClick=\"showLoadingWindow('" + WebEnv.getBaseDirectory("") + "')\">")
+			sb.append("\" title=\"" + description 
+					+ "\" onClick=\"showLoadingWindow('" + WebEnv.getBaseDirectory("") + "')\">")
 				.append(name)		//	language set in MTree.getNodeDetails based on ctx
 				.append("</a></li>\n");
 		}
 		else
 		{
 			/**
-			 *  <li class="foldHeader" onClick="changeMenu(this)">MenuEntry
+			 *  <li class="foldHeader" onClick="changeMenu(event)">MenuEntry
 			 *  <ul style="display:none">
 			 *  ....
 			 *  </ul></li>

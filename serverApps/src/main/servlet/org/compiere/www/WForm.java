@@ -28,52 +28,25 @@ import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebUtil;
 
-/**
- *  Form
- *
- *  @author Jorg Janke
- *  @version  $Id: WForm.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
- */
 public class WForm extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3168260837305771442L;
-
-
-	/**
-	 * Initialize global variables
-	 */
 	public void init(ServletConfig config)
 		throws ServletException
 	{
 		super.init(config);
 		if (!WebEnv.initWeb(config))
 			throw new ServletException("WForm.init");
-	}   //  init
-
-	/**
-	 * Process the HTTP Get request
-	 */
+	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
-		WebDoc doc = WebDoc.create ("Not Implemented Yet");
-		//
+		WebDoc doc = WebDoc.create ("WForm - Get - Not Implemented Yet");
 		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doGet
-
-
-	/**
-	 *  Process the HTTP Post request
-	 */
+	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
-		WebDoc doc = WebDoc.create ("Not Implemented Yet");
-		//
+		WebDoc doc = WebDoc.create ("WForm - Post - Not Implemented Yet");
 		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doPost
-
-}   //  WForm
+	} 
+} 

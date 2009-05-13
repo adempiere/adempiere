@@ -16,16 +16,10 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.compiere.util.*;
 
 /**
  *  Application Start Page
@@ -44,16 +38,10 @@ import org.compiere.util.WebUtil;
  *        +- WWindow
  *  see webapps/adempiere/index.html
  *  @author Jorg Janke
- *  @version $Id: WStart.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version $Id: WStart.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WStart extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3520310916249390852L;
-
-
 	/**
 	 *  Set UI directory to Servlet init param
 	 */

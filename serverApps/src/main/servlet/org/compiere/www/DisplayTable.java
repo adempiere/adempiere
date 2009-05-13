@@ -15,39 +15,21 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.www;
-
-
-/**
- *	Display Table Information
- *	
- *  @author Jorg Janke
- *  @version $Id: DisplayTable.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
- */
 public class DisplayTable
 {
-	/**
-	 * 	DisplayTable
-	 */
 	public DisplayTable (String tableName, String columnName)
 	{
-	}	//	DisplayTable
-	
+	}	
 	public String[] getQueryLabels()
 	{
 		return null;
-	}	//	getQueryNames
-	
+	}	
 	public String[] getQueryFields()
 	{
 		return null;
-	}	//	getQueryFields
-	
+	}	
 	public String[] getResultLabels()
 	{
 		return null;
-	}	//	getResultLabels
-	
-	
-	
-	
-}	//	DisplayTable
+	}
+}

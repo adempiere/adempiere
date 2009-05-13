@@ -16,64 +16,29 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebUtil;
-
-/**
- *  Test Servlet
- *
- *  @author Jorg Janke
- *  @version  $Id: Test.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
- */
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.compiere.util.*;
 public class Test extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8474219907861637179L;
-
-
-	/**
-	 * Initialize global variables
-	 */
 	public void init(ServletConfig config)
 		throws ServletException
 	{
 		super.init(config);
 		if (!WebEnv.initWeb(config))
 			throw new ServletException("Test.init");
-	}   //  init
-
-	/**
-	 * Process the HTTP Get request
-	 */
+	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		WebDoc doc = WebDoc.create ("Get Request Test");
-		//
-		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doGet
-
-
-	/**
-	 *  Process the HTTP Post request
-	 */
+		WebUtil.createResponse(request, response, this, null, doc, true);
+	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		WebDoc doc = WebDoc.create ("Post Request Test");
-		//
-		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doPost
-
-}   //  Test
+		WebUtil.createResponse(request, response, this, null, doc, true);
+	}
+} 

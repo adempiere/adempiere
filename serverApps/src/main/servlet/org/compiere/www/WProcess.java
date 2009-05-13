@@ -16,62 +16,20 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.io.*;
+import java.math.*;
+import java.sql.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
+import java.util.logging.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.ecs.AlignType;
-import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.i;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.option;
-import org.apache.ecs.xhtml.p;
-import org.apache.ecs.xhtml.select;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.tr;
-import org.compiere.model.GridTab;
-import org.compiere.model.MAllocationHdr;
-import org.compiere.model.MBankStatement;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInventory;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MJournal;
-import org.compiere.model.MJournalBatch;
-import org.compiere.model.MMovement;
-import org.compiere.model.MOrder;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MPayment;
-import org.compiere.model.MProcess;
-import org.compiere.model.MProcessPara;
-import org.compiere.print.ReportEngine;
-import org.compiere.process.DocumentEngine;
-import org.compiere.process.ProcessInfo;
-import org.compiere.util.ASyncProcess;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.print.*;
+import org.compiere.process.*;
+import org.compiere.util.*;
 import org.compiere.wf.MWFActivity;
 
 
@@ -79,14 +37,10 @@ import org.compiere.wf.MWFActivity;
  *	HTML Process and Report UI
  *
  *  @author Jorg Janke
- *  @version  $Id: WProcess.java,v 1.3 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WProcess.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WProcess extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3937980012432969521L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	//Modified by Rob Klein 4/29/07
@@ -269,7 +223,9 @@ public class WProcess extends HttpServlet
 					center.addElement(new p(process.getHelp(), AlignType.LEFT));
 				form myForm = new form ("WProcess")
 					.setName("process" + process.getAD_Process_ID());
-				myForm.setOnSubmit("this.Submit.disabled=true;return true;");
+
+				myForm.setTarget("WPopup");
+				//myForm.setOnSubmit("this.Submit.disabled=true;return true;");
 				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Process_ID", process.getAD_Process_ID()));
 				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Window_ID", windowID));
 				myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Table_ID", tableID));
@@ -321,7 +277,8 @@ public class WProcess extends HttpServlet
 			//
 			form myForm = new form ("WProcess")
 				.setName("process" + process.getAD_Process_ID());
-			myForm.setOnSubmit("this.Submit.disabled=true;return true;");
+			myForm.setTarget("WPopup");
+			//myForm.setOnSubmit("this.Submit.disabled=true;return true;");
 			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Process_ID", process.getAD_Process_ID()));
 			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Window_ID", windowID));
 			myForm.addElement(new input(input.TYPE_HIDDEN, "AD_Table_ID", tableID));
@@ -377,8 +334,8 @@ public class WProcess extends HttpServlet
 				text = Msg.getMsg (wsc.ctx, "Submit");		
 			input submitbtn = new input(input.TYPE_SUBMIT, text, "  "+text);		
 			submitbtn.setID(text);
-			submitbtn.setClass("submitbtn");		
-			
+			submitbtn.setClass("submitbtn");
+			submitbtn.setOnClick("popUp('WProcess','WPopup')");
 			
 			myTable.addElement(new tr()
 				.addElement(new td(null, AlignType.RIGHT, AlignType.MIDDLE, false, 
@@ -478,8 +435,13 @@ public class WProcess extends HttpServlet
 			center.addElement(pi.getLogInfo(true));
 		}
 		
+		String jasper=process.getJasperReport();
 		if (process.isJavaProcess())
 		{
+			if (jasper!=null) {
+				pi.setPrintPreview (false);
+				pi.setIsBatch(true);
+			}
 			Trx trx = Trx.get(Trx.createTrxName("WebPrc"), true);
 			try
 			{				
@@ -497,62 +459,77 @@ public class WProcess extends HttpServlet
 				center.addElement(new p("Error:" + pi.getSummary(), 
 					AlignType.LEFT).setClass("Cerror"));
 				processOK = false;
+			} else {
+				if(jasper!=null) {
+					String error = WebUtil.streamFile(response, pi.getPDFReport());
+					//String error = streamResult (request, response, pInstance.getAD_PInstance_ID(), file);
+					if (error == null)
+						return;
+					doc = WebDoc.create(error);
+					wsc.ctx.put("AD_PInstance_ID=" + pInstance.getAD_PInstance_ID(), "ok");
+				} else {
+					center.addElement(new p().addElement(pi.getSummary()));
+					center.addElement(pi.getLogInfo(true));
+				}
 			}
-			center.addElement(new p().addElement(pi.getSummary()));
-			center.addElement(pi.getLogInfo(true));
 		}
 		
 		//	Report
 		if (process.isReport())
 		//if (processOK && process.isReport())
 		{
-			doc = null;
-			log.info(response.toString());
-			ReportEngine re = ReportEngine.get(wsc.ctx, pi);
-			if (re == null)
-			{
-				center.addElement(new p("Could not start ReportEngine", 
-					AlignType.LEFT).setClass("Cerror"));
-			}
-			else
-			{
-				try
+			//doc = null;
+			
+			
+			
+			if(jasper==null) {
+				log.info(response.toString());
+				ReportEngine re = ReportEngine.get(wsc.ctx, pi);
+				if (re == null)
 				{
-					File file = File.createTempFile("WProcess", ".pdf");
-					boolean ok = re.createPDF(file);
-					if (ok)
-					{	
-						String error = WebUtil.streamFile(response, file);
-						//String error = streamResult (request, response, pInstance.getAD_PInstance_ID(), file);
-						if (error == null)
-							return;
-						doc = WebDoc.create(error);
-						
-						//Modified by Rob Klein 6/1/07
-						/**
-						String url = "WProcess?AD_PInstance_ID=" 
-							+ pInstance.getAD_PInstance_ID()
-							+ "&File=" 
-							+ URLEncoder.encode(file.getAbsolutePath(), WebEnv.ENCODING);
-						a link = new a (url, null, a.TARGET_BLANK, process.getName());
-						center
-							.addElement(new p()
-								.addElement("Report created: ")
-								.addElement(link));
-						//	Marker that Process is OK
-						 * */
-						wsc.ctx.put("AD_PInstance_ID=" + pInstance.getAD_PInstance_ID(), "ok");
-						
-					}
-					else
-						center.addElement(new p("Could not create Report", 
-							AlignType.LEFT).setClass("Cerror"));
-				}
-				catch (Exception e)
-				{
-					center.addElement(new p("Could not create Report:", 
+					center.addElement(new p("Could not start ReportEngine", 
 						AlignType.LEFT).setClass("Cerror"));
-					center.addElement(e.toString());
+				}
+				else
+				{
+					try
+					{
+						File file = File.createTempFile("WProcess", ".pdf");
+						boolean ok = re.createPDF(file);
+						if (ok)
+						{	
+							String error = WebUtil.streamFile(response, file);
+							//String error = streamResult (request, response, pInstance.getAD_PInstance_ID(), file);
+							if (error == null)
+								return;
+							doc = WebDoc.create(error);
+							
+							//Modified by Rob Klein 6/1/07
+							/**
+							String url = "WProcess?AD_PInstance_ID=" 
+								+ pInstance.getAD_PInstance_ID()
+								+ "&File=" 
+								+ URLEncoder.encode(file.getAbsolutePath(), WebEnv.ENCODING);
+							a link = new a (url, null, a.TARGET_BLANK, process.getName());
+							center
+								.addElement(new p()
+									.addElement("Report created: ")
+									.addElement(link));
+							//	Marker that Process is OK
+							 * */
+							wsc.ctx.put("AD_PInstance_ID=" + pInstance.getAD_PInstance_ID(), "ok");
+							
+						}
+						else
+							center.addElement(new p("Could not create Report", 
+								AlignType.LEFT).setClass("Cerror"));
+					}
+					catch (Exception e)
+					{
+						center.addElement(new p("Could not create Report:", 
+							AlignType.LEFT).setClass("Cerror"));
+						center.addElement(e.toString());
+					}
 				}
 			}
 		}

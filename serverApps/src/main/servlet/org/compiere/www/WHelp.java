@@ -25,69 +25,39 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebUtil;
 
 
-/**
- *	Web (window) Help
- *	
- *  @author Jorg Janke
- *  @version $Id: WHelp.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
- */
 public class WHelp extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2586562865823315494L;
-	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 
-	/**
-	 * Initialize global variables
-	 */
 	public void init(ServletConfig config)
 		throws ServletException
 	{
 		super.init(config);
 		if (!WebEnv.initWeb(config))
 			throw new ServletException("WHelp.init");
-	}   //  init
-
-	/**
-	 * Process the HTTP Get request
-	 */
+	}
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		log.fine("doGet");
 		WWindowStatus ws = WWindowStatus.get(request);
-		//
 		WebDoc doc = null;
-		if (ws == null)
-		{
+		if (ws == null)	{
 			doc = WebDoc.createPopup("No Context");
-			//Modified by Rob Klein 4/29/07
-			doc.addPopupClose(Env.getCtx());
-		}
-		else
+			doc.addPopupClose(ws.ctx);
+		} else
 			doc = ws.mWindow.getHelpDoc(false);
-		//
 		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doGet
-
-
-	/**
-	 *  Process the HTTP Post request
-	 */
+	}
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		WebDoc doc = WebDoc.create ("Help - Post - Not Implemented");
 		WebUtil.createResponse(request, response, this, null, doc, false);
-	}   //  doPost
-
-}	//	WHelp
+	}
+}

@@ -16,32 +16,19 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.compiere.util.*;
 
 /**
  *  Status Servlet
  *
  *  @author Jorg Janke
- *  @version  $Id: WStatus.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WStatus.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WStatus extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6029799149174591507L;
-
-
 	/**
 	 *  Initialize global variables
 	 *  This servlet is also loaded on startup to initialize the system

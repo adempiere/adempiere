@@ -21,67 +21,96 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.GridTab;
-import org.compiere.model.GridWindow;
-import org.compiere.model.GridWindowVO;
+import org.compiere.model.*;
+import org.compiere.util.WebUtil;
 
 
-/**
- *  WWindow Status Information (Value Object)
- *
- *  @author Jorg Janke
- *  @version  $Id: WWindowStatus.java,v 1.3 2006/07/30 00:53:21 jjanke Exp $
- */
 public class WWindowStatus
 {
-	/**
-	 * 	Get Web Window Status.
-	 	WWindowStatus ws = WWindowStatus.get(ctx);
-	 *	@param request request
-	 *	@return ctx or null
-	 */
 	public static WWindowStatus get (HttpServletRequest request)
 	{
-		HttpSession session = request.getSession(false);
-		if (session == null)
+		HttpSession sess = request.getSession(false);
+		if (sess == null)
 			return null;
-		return (WWindowStatus)session.getAttribute(NAME);
-	}	//	get
-	
-	/**************************************************************************
-	 *  Constructor - First Tab - First Row - Single Row.
-	 *  <br>
-	 *  Initialize Formats
-	 *  @param mWindowVO window VO
-	 */
+		String wsName=WebUtil.getParameter(request,"wsName");
+		System.out.println("main window wsName = "+wsName);
+		String newWindow=WebUtil.getParameter(request,"blankWindow");
+		WWindowStatus clientWS=(WWindowStatus)sess.getAttribute(NAME);
+		if((wsName==null&&WStatusArrayList.get(request)==null)||clientWS.getStatusName().equals(wsName))
+		{
+			System.out.println("Run wsName==null 1");
+			System.out.println("clientWS = "+clientWS);
+			return clientWS;
+		}
+		String AD_Menu_ID=WebUtil.getParameter(request,"AD_Menu_ID");
+		if(wsName==null&&WStatusArrayList.get(request)!=null&&newWindow==null&&AD_Menu_ID!=null)
+		{     System.out.println("Run if(wsName == null) 2");
+			  WWindowStatus ws=(WWindowStatus)WStatusArrayList.get(request).getWSFromStatusArray("1");
+			  sess.setAttribute(WWindowStatus.NAME, ws);
+			  return ws;
+		}
+		if(wsName!=null)
+		{
+			System.out.println("if(wsName!=null)");
+		WStatusArrayList wsl=WStatusArrayList.get(request);
+		
+			if(wsl==null)
+			{System.out.println("wsName!=null && wsl == null");
+			return null;
+			}
+       
+		WWindowStatus serverWS=wsl.getWSFromStatusArray(wsName);
+	   
+			if(serverWS==null)
+			{ System.out.println("wsName!=null && serverWS == null");
+				return null;
+			}
+		
+		sess.setAttribute(WWindowStatus.NAME, serverWS); 
+		System.out.println("serverWS");
+		return serverWS;
+		
+		}
+	return clientWS;
+	}
 	public WWindowStatus (GridWindowVO mWindowVO)
 	{
-		mWindow = new GridWindow(mWindowVO);		
+		mWindow = new GridWindow(mWindowVO);
 		curTab = mWindow.getTab(0);
 		curTab.setSingleRow(true);
 		//
 		ctx = mWindowVO.ctx;
+		statusName="";
 	}   //  WWindowStatus
-
-	/**	Session Attribute Name			*/
+/*	public WWindowStatus (GridWindowVO mWindowVO)
+	{
+		mWindow = new GridWindow(mWindowVO);
+		curTab = mWindow.getTab(0);
+		curTab.setSingleRow(true);
+		ctx = mWindowVO.ctx;
+		statusName="";
+	} */
 	public static final String NAME	= "WWindowStatus"; 
-	
-	/** The MWindow                 */
 	protected GridWindow       mWindow;
-	/** The current MTab            */
 	protected GridTab          curTab;
-
-	/** Window Context 				*/
+	private String          statusName;
+	
 	public Properties    ctx = null;
-
-	/**
-	 *  String representation
-	 *  @return String representation
-	 */
+	public String getStatusName()
+		{
+	         return statusName;
+		}
+		public void setStatusName(String name)
+		{
+			statusName=name;
+		}		
+		public int getWindowNo()
+		{
+			return mWindow.getWindowNo();
+		}
 	public String toString()
 	{
 		return "WWindowStatus[" + mWindow
 			+ " - " + curTab + "]";
-	}   //  toString
-
-}   //  WWindowStatus
+	}
+}

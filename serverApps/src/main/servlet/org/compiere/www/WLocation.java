@@ -44,7 +44,6 @@ import org.compiere.model.MRegion;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebUtil;
@@ -64,17 +63,13 @@ import org.compiere.util.WebUtil;
  *  When selecting an entry, the window is closed and the value of the two fields set.
  *
  *  @author Jorg Janke
- *  @version  $Id: WLocation.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WLocation.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WLocation extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 285780594700749274L;
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLocation.class);
-	
+
 	/**
 	 * Initialize global variables
 	 *
@@ -93,6 +88,8 @@ public class WLocation extends HttpServlet
 	private static final String P_C_LOCATION_ID = "C_LOCATION_ID";
 	private static final String P_ADDRESS1 = "ADDRESS1";
 	private static final String P_ADDRESS2 = "ADDRESS2";
+	private static final String P_ADDRESS3= "ADDRESS3";
+	private static final String P_ADDRESS4= "ADDRESS4";	
 	private static final String P_CITY = "CITY";
 	private static final String P_POSTAL = "POSTAL";
 	private static final String P_C_COUNTRY_ID = "C_COUNTRY_ID";
@@ -122,35 +119,35 @@ public class WLocation extends HttpServlet
 		log.info ("ColumnName=" + columnName + " - " + ws.toString());
 		//
 		GridField mField = ws.curTab.getField(columnName);
-		log.config("ColumnName=" + columnName 
+		log.config("ColumnName=" + columnName
 			+ ", MField=" + mField);
-		if (mField == null || columnName == null 
+		if (mField == null || columnName == null
 			|| columnName.equals(""))
 		{
-			WebUtil.createErrorPage(request, response, this, 
+			WebUtil.createErrorPage(request, response, this,
 				Msg.getMsg(ws.ctx, "ParameterMissing"));
 			return;
 		}
-		MLocation location = null; 
-		Object value = mField.getValue(); 
+		MLocation location = null;
+		Object value = mField.getValue();
 		if (value != null && value instanceof Integer)
-			location = new MLocation(ws.ctx, ((Integer)value).intValue(), null);
+			location = new MLocation(ws.ctx, ((Integer)value).intValue(),null);
 		else
-			location = new MLocation(ws.ctx, 0, null);
-		
-		String targetBase = "parent.WWindow." + WWindow.FORM_NAME + "." + columnName;
-		String action = request.getRequestURI();
+			location = new MLocation(ws.ctx, 0,null);
+
+		//String targetBase = "parent.WWindow." + WWindow.FORM_NAME + "." + columnName;
+		String targetBase = "opener.WWindow." + WWindow.FORM_NAME + "." + columnName;
+                String action = request.getRequestURI();
 		//  Create Document
 		WebDoc doc = WebDoc.createPopup (mField.getHeader());
-		//Modified by Rob klein 4/29/07
 		doc.addPopupClose(ws.ctx);
 		boolean hasDependents = ws.curTab.hasDependants(columnName);
 		boolean hasCallout = mField.getCallout().length() > 0;
-		
+
 		//  Reset
 		button reset = new button();
 		reset.addElement("Reset");                      //  translate
-		String script = targetBase + "F.value='';" + targetBase + "D.value='';closePopup();";
+		String script = targetBase + "D.value='';" + targetBase + "F.value='';closePopup();";
 		if (hasDependents || hasCallout)
 			script += "startUpdate(" + targetBase + "F);";
 		reset.setOnClick(script);
@@ -158,10 +155,10 @@ public class WLocation extends HttpServlet
 		doc.getTable().addElement(new tr()
 			.addElement(fillForm(ws, action, location, targetBase, hasDependents || hasCallout))
 			.addElement(reset));
-		//Modified by Rob Klein 4/29/07
+		//
 		doc.addPopupClose(ws.ctx);
 	//	log.trace(log.l6_Database, doc.toString());
-		WebUtil.createResponse (request, response, this, null, doc, false);
+		WebUtil.createResponse (request, response, this, null, doc, true);
 	}   //  doGet
 
 
@@ -173,7 +170,7 @@ public class WLocation extends HttpServlet
 	 *  @throws ServletException
 	 *  @throws IOException
 	 */
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		log.fine("");
@@ -185,22 +182,23 @@ public class WLocation extends HttpServlet
 			return;
 		}
 		int C_Location_ID = WebUtil.getParameterAsInt(request, P_C_LOCATION_ID);
-		String targetBase = "parent.WWindow." + WWindow.FORM_NAME + ".C_Location_ID";
+		String targetBase = "opener.WWindow." + WWindow.FORM_NAME + ".C_Location_ID";
 
 		//  Create Location
-		MLocation location = new MLocation(ws.ctx, C_Location_ID, null);
+		MLocation location = new MLocation(ws.ctx, C_Location_ID,null);
 		log.fine("doPost updating C_Location_ID=" + C_Location_ID + " - " + targetBase);
 
 		location.setAddress1 (WebUtil.getParameter(request, P_ADDRESS1));
 		location.setAddress2 (WebUtil.getParameter(request, P_ADDRESS2));
+		location.setAddress3(WebUtil.getParameter(request, P_ADDRESS3));
+		location.setAddress4(WebUtil.getParameter(request, P_ADDRESS4));
 		location.setCity (WebUtil.getParameter(request, P_CITY));
 		location.setPostal (WebUtil.getParameter(request, P_POSTAL));
 		location.setC_Country_ID (WebUtil.getParameterAsInt(request, P_C_COUNTRY_ID));
-	    location.setC_Region_ID (WebUtil.getParameterAsInt(request, P_C_REGION_ID));
-
+                location.setC_Region_ID (WebUtil.getParameterAsInt(request, P_C_REGION_ID));
+                System.out.println("location =========== "+location);
 		//  Document
 		WebDoc doc = WebDoc.createPopup ("WLocation");
-		//Modified by Rob Klein 4/29/07
 		doc.addPopupClose(ws.ctx);
 
 		//  Save Location
@@ -211,7 +209,7 @@ public class WLocation extends HttpServlet
 		if (C_Location_ID == 0)
 			center.addElement(new p(new b("ERROR - Location=0")));
 		center.addElement(new p().addElement(location.toString()));
-		
+
 		//  Update Target
 		script script = new script(new StringBuffer()
 			.append(targetBase).append("D.value='").append(C_Location_ID).append("';")
@@ -220,7 +218,25 @@ public class WLocation extends HttpServlet
 		doc.getBody().addElement(script);
 		log.fine("script=" + script.toString());
 		//
-		WebUtil.createResponse(request, response, this, null, doc, false);
+                form myForm = null;
+		myForm = new form ();
+                table table = new table();
+		table.setID("WLocation");
+                button button = new button();
+                button.addElement("ok");
+                StringBuffer script2 = new StringBuffer();
+                String targetBase2 = "opener.document.WForm.C_Location_ID";
+                script2.append(targetBase2).append("D.value='").append(C_Location_ID).append("';")
+                        //script.append(targetBase).append("D.value='").append("';")
+                        .append(targetBase2).append("F.value='").append(location.toString())
+                        //.append(targetBase).append("F.value='")
+                         .append("';submit();window.close();");
+                button.setOnClick(script2.toString());
+                table.addElement(button);
+                myForm.addElement(table);
+                doc.getTable().addElement(myForm);
+
+		WebUtil.createResponse(request, response, this, null, doc, true);
 	}   //  doPost
 
 	/**
@@ -231,7 +247,7 @@ public class WLocation extends HttpServlet
 	 *	@param addStart add startUpdate
 	 *	@return  Table with selection
 	 */
-	private form fillForm (WWindowStatus ws, String action, MLocation location, 
+	private form fillForm (WWindowStatus ws, String action, MLocation location,
 		String targetBase, boolean addStart)
 	{
 		form myForm = null;
@@ -256,6 +272,23 @@ public class WLocation extends HttpServlet
 		myInput.setMaxlength(50).setSize(50);
 		line.addElement(new td(myInput).setAlign(AlignType.LEFT).setColSpan(5));
 		table.addElement(line);
+		
+		//-- add by Dan 
+		line = new tr();
+		line.addElement(new td(Msg.getMsg(ws.ctx, "Address")+ " 3").setAlign(AlignType.RIGHT));
+		myInput = new input (input.TYPE_TEXT, P_ADDRESS3, location.getAddress3());
+		myInput.setMaxlength(50).setSize(50);
+		line.addElement(new td(myInput).setAlign(AlignType.LEFT).setColSpan(5));
+		table.addElement(line);
+		
+//		-- add by Dan 
+		line = new tr();
+		line.addElement(new td(Msg.getMsg(ws.ctx, "Address")+ " 4").setAlign(AlignType.RIGHT));
+		myInput = new input (input.TYPE_TEXT, P_ADDRESS4, location.getAddress4());
+		myInput.setMaxlength(50).setSize(50);
+		line.addElement(new td(myInput).setAlign(AlignType.LEFT).setColSpan(5));
+		table.addElement(line);
+		
 		//  --  Line 3
 		line = new tr();
 		line.addElement(new td(Msg.getMsg(ws.ctx, "City")).setAlign(AlignType.RIGHT));      //  1
@@ -282,27 +315,38 @@ public class WLocation extends HttpServlet
 		line.addElement(new td(Msg.getMsg(ws.ctx, "Country")).setAlign(AlignType.RIGHT));
 		line.addElement(new td(this.getCountry(location, ws)).setAlign(AlignType.LEFT).setColSpan(5));
 		table.addElement(line);
-		
+
 
 		//  --  Line 5
 		line = new tr();
 		//  Submit
+                StringBuffer script = new StringBuffer();
+                script.append(targetBase).append("D.value='").append("temp").append("';")
+                        //script.append(targetBase).append("D.value='").append("';")
+                        .append(targetBase).append("F.value='").append("temp")
+                        //.append(targetBase).append("F.value='")
+                         .append("';submit();closePopup();");
+
+
 		line.addElement(new td("&nbsp;"));
 		input submit = new input(input.TYPE_SUBMIT, "Submit", "Submit"); //  translate
-		line.addElement(new td(submit).setAlign(AlignType.RIGHT).setColSpan(5));
+		submit.setOnClick(script.toString());
+                line.addElement(new td(submit).setAlign(AlignType.RIGHT).setColSpan(5));
 		table.addElement(line);
 
-		/**
-		button button = new button();
+
+		/*button button = new button();
 		button.addElement("&gt;");
 		StringBuffer script = new StringBuffer();
-		script.append(targetBase).append("D.value='").append(np.getKey()).append("';")
-			.append(targetBase).append("F.value='").append(np.getName())
-			.append("';closePopup();");
+		script.append(targetBase).append("D.value='").append("temp").append("';")
+			//script.append(targetBase).append("D.value='").append("';")
+                        .append(targetBase).append("F.value='").append("temp")
+			//.append(targetBase).append("F.value='")
+                         .append("';closePopup();");
 		if (addStart)
 			script.append("startUpdate(").append(targetBase).append("F);");
 		button.setOnClick(script.toString());
-		**/
+                table.addElement(button);*/
 		myForm.addElement(table);
 		//
 		return myForm;
@@ -326,7 +370,7 @@ public class WLocation extends HttpServlet
 		for (int i = 0; i < countries.length; i++)
 		{
 			options[i] = new option (String.valueOf(countries[i].getC_Country_ID()));
-			options[i].addElement(Util.maskHTML(countries[i].getName()));
+			options[i].addElement(countries[i].getName());
 			if (comp == countries[i].getC_Country_ID())
 				options[i].setSelected(true);
 		}
@@ -352,7 +396,7 @@ public class WLocation extends HttpServlet
 		for (int i = 0; i < regions.length; i++)
 		{
 			options[i] = new option (String.valueOf(regions[i].getC_Region_ID()));
-			options[i].addElement(Util.maskHTML(regions[i].getName()));
+			options[i].addElement(regions[i].getName());
 			if (comp == regions[i].getC_Region_ID())
 				options[i].setSelected(true);
 		}

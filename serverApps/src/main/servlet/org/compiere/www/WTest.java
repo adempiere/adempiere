@@ -16,32 +16,19 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.compiere.util.CLogger;
-import org.compiere.util.Env;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.compiere.util.*;
 
 /**
  *	Web (window) Help
  *	
  *  @author Jorg Janke
- *  @version $Id: WHelp.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version $Id: WTest.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WTest extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -669477433080711028L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(WTest.class);
 

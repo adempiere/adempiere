@@ -53,14 +53,10 @@ import org.compiere.util.WebUtil;
 *	Web (window) Report
 *	
 *  @author Jorg Janke
-*  @version $Id: WReport.java $
+*  @version $Id: WReport.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
 */
 public class WReport extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6281182537210181407L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	/** Current MTab                                    */

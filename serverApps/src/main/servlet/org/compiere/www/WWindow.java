@@ -16,65 +16,29 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Enumeration;
-import java.util.logging.Level;
+import java.io.*;
+import java.math.*;
+import java.sql.*;
+import java.util.*;
+import java.util.logging.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.button;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.hr;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.small;
-import org.apache.ecs.xhtml.span;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.thead;
-import org.apache.ecs.xhtml.tr;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.GridWindowVO;
-import org.compiere.model.MQuery;
-import org.compiere.model.MRole;
-import org.compiere.model.MSession;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import org.adempiere.exceptions.DBException;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  *  Web Window Servlet
  *
  *  @author Jorg Janke
- *  @version  $Id: WWindow.java,v 1.3 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WWindow.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WWindow extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8801734074649997374L;
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WWindow.class);
 	
@@ -128,13 +92,16 @@ public class WWindow extends HttpServlet
 	/** Multi Row Lines per Screen          */
 	// Modified by Rob Klein 4/29/2007
 	//private static final int    MAX_LINES   = 12;
-	private static final int    MAX_LINES   = 1000;
+	private static final int    MAX_LINES   = 100;
 	/** Indicator for last line             */
-	private static final int    LAST_LINE   = 999999;
+	private static final int    LAST_LINE   = 999999999;
 
 	/** Error Indicator                     */
 	private static final String ERROR       = " ERROR! ";
 
+	private String m_searchField;
+	private String m_targetWindow;
+	
 	/**
 	 *  Process the HTTP Get request - Initial Call.
 	 *  <br>
@@ -167,7 +134,7 @@ public class WWindow extends HttpServlet
 		int AD_Window_ID = WebUtil.getParameterAsInt(request, "AD_Window_ID");
 		//  Get Parameter: Menu_ID
 		int AD_Menu_ID = WebUtil.getParameterAsInt(request, "AD_Menu_ID");
-		//
+		
 		log.info("AD_Window_ID=" + AD_Window_ID
 			+ "; AD_Menu_ID=" + AD_Menu_ID);
 		
@@ -225,7 +192,8 @@ public class WWindow extends HttpServlet
 			ws.mWindow.dispose();
 			Env.clearWinContext(wsc.ctx, WindowNo);
 		}
-
+			
+		
 		/**
 		 *  New Window data
 		 */
@@ -247,8 +215,7 @@ public class WWindow extends HttpServlet
 			ws.mWindow.initTab(ws.curTab.getTabNo());
 			ws.curTab.setQuery(MQuery.getEqualQuery(TableName + "_ID", AD_Record_ID));
 			ws.curTab.query(false);
-		}
-		else{
+		} else {
 			ws.mWindow.initTab(ws.curTab.getTabNo());
 			ws.curTab.query(ws.mWindow.isTransaction());
 			ws.curTab.navigate(0);
@@ -294,6 +261,7 @@ public class WWindow extends HttpServlet
 				doGet(request, response);
 			return;
 		}
+		
 		//  Get Parameter: Command
 		String p_cmd = WebUtil.getParameter (request, P_Command);
 		String column = WebUtil.getParameter (request, P_ChangedColumn);
@@ -316,7 +284,6 @@ public class WWindow extends HttpServlet
 			}
 			executeCommand(request, p_cmd, wsc, ws);
 		}
-		
 
 		/**************************************************
 		 *  Build Page
@@ -435,7 +402,7 @@ public class WWindow extends HttpServlet
 		}
 		else if (p_cmd.equals("Last"))
 		{
-			ws.curTab.navigateRelative(999999);
+			ws.curTab.navigateRelative(LAST_LINE);
 		}
 		/**
 		 *  Find
@@ -563,6 +530,43 @@ public class WWindow extends HttpServlet
 		{
 			executeSave (request, wsc, ws);
 		}
+		
+		else if (p_cmd.equals("Find"))
+		{
+			String strSearch=WebUtil.getParameter(request, "txtSearch");
+			if (strSearch!=null) {
+				MQuery query=new MQuery();
+				if (strSearch.length()!=0)
+					query.addRestriction(m_searchField, MQuery.LIKE, strSearch);
+				ws.curTab.setQuery(query);
+				ws.curTab.query(false);
+				ws.curTab.navigate(0);
+			}
+		}
+		
+		else if (p_cmd.equals("FindAdv"))
+		{
+			String strSQL=WebUtil.getParameter(request, "txtSQL");
+			if (strSQL!=null) {
+				MQuery query=new MQuery();
+				if (strSQL.equals("FIND")) {
+					String value=WebUtil.getParameter(request, "txtValue");
+					String docno=WebUtil.getParameter(request, "txtDocumentNo");
+					String name=WebUtil.getParameter(request, "txtName");
+					String desc=WebUtil.getParameter(request, "txtDescription");
+					
+					if (value!=null && value.length()!=0) query.addRestriction("Value", MQuery.LIKE, value);
+					if (docno!=null && docno.length()!=0) query.addRestriction("DocumentNo", MQuery.LIKE, docno);
+					if (name!=null && name.length()!=0) query.addRestriction("Name", MQuery.LIKE, name);
+					if (desc!=null && desc.length()!=0) query.addRestriction("Description", MQuery.LIKE, desc);
+				} else {
+					query.addRestriction(strSQL);
+				}
+				ws.curTab.setQuery(query);
+				ws.curTab.query(false);
+				ws.curTab.navigate(0);
+			}
+		}
 	}   //  executeCommand
 
 	/**
@@ -644,7 +648,15 @@ public class WWindow extends HttpServlet
 			//  we found a writable field
 			if (mField != null && mField.isEditable(true))
 			{
-				String value = WebUtil.getParameter(request, key);
+				String oldValue = WebUtil.getParameter(request, key);
+				String newValue = WebUtil.getParameter(request, key + "F");
+				String value=null;
+				if (newValue!=null) {
+					Object val=lookupValue(newValue, mField.getLookup());
+					if (val!=null) value=val.toString();
+				}
+				if (value==null)value=oldValue;
+				
 				Object dbValue = mField.getValue();
 				boolean fieldError = false;
 				String columnName = mField.getColumnName();
@@ -675,7 +687,7 @@ public class WWindow extends HttpServlet
 		}   //  for all parameteres
 		
 		//	Re-Do Changed Column to overwrite
-		String columnName = WebUtil.getParameter (request, P_ChangedColumn);
+		/*String columnName = WebUtil.getParameter (request, P_ChangedColumn);
 		if (columnName != null && columnName.length() > 0)
 		{
 			GridField mField = ws.curTab.getField(columnName);
@@ -692,7 +704,7 @@ public class WWindow extends HttpServlet
 					ws.curTab.setValue(mField, newValue);
 				}
 			}
-		}
+		}*/
 		return error;
 	}	//	updateFields
 
@@ -856,6 +868,7 @@ public class WWindow extends HttpServlet
 		//
 		tr line = new tr();
 		//Modified by Rob Klein 4/29/07
+		m_searchField=null;
 		boolean isTabRO = ws.curTab.isReadOnly();
 		if (ws.curTab.isDisplayed())
 		{
@@ -898,6 +911,16 @@ public class WWindow extends HttpServlet
 							.append(".").append(columnName)
 							.append(".displayLogic='").append(dispLogic).append("';\n");
 					}
+					
+					if (m_searchField==null)
+						if (columnName.equals("Description"))
+							m_searchField=columnName;
+						else if (columnName.equals("Name"))
+							m_searchField=columnName;
+						else if (columnName.equals("DocumentNo"))
+							m_searchField=columnName;
+						else if (columnName.equals("Value"))
+							m_searchField=columnName;
 				}
 			}	//	for all fields
 		}	//	displayed
@@ -906,9 +929,9 @@ public class WWindow extends HttpServlet
 
 		//  Status Line
 		int rowNo = ws.curTab.getCurrentRow();
-		String statusDB = String.valueOf(rowNo+1) + " # " + ws.curTab.getRowCount();
+		String statusDB = String.valueOf(rowNo+1) + " / " + ws.curTab.getRowCount();
 		//
-		return createLayout (action, table, wsc, ws, "", statusDB);
+		return createLayout (action, table, wsc, ws, ws.curTab.getDescription(), statusDB);
 	}	//	getSR_Form
 
 
@@ -936,17 +959,19 @@ public class WWindow extends HttpServlet
 		table.setCellSpacing(1);
 		tr line = new tr();
 		//  First Column
-		//Modified by Rob Klein 4/29/07		
+		//Modified by Rob Klein 4/29/07
+		m_searchField=null;
 		line.addElement(new th().addElement(" "));
 		//	Tab not displayed
 		if (!ws.curTab.isDisplayed())
-			return createLayout (action, table, wsc, ws, "", "-");
+			return createLayout (action, table, wsc, ws, "The table is not displayed", "-");
 
 		int noFields = ws.curTab.getFieldCount();
 		//  for all (header) columns
 		for (int colNo = 0; colNo < noFields; colNo++)
 		{
 			GridField field = ws.curTab.getField(colNo);
+			String columnName = field.getColumnName();
 			if (field.isDisplayed(false))
 			{
 				th th = new th();
@@ -954,32 +979,43 @@ public class WWindow extends HttpServlet
 				th.addElement(field.getHeader()).setClass("table-filterable table-filtered table-sortable:default");
 				//th.addElement(field.getHeader()); 
 				th.setAbbr(field.getDescription());
-				line.addElement(th);				
+				line.addElement(th);
+
+				if (m_searchField==null)
+					if (columnName.equals("Description"))
+						m_searchField=columnName;
+					else if (columnName.equals("Name"))
+						m_searchField=columnName;
+					else if (columnName.equals("DocumentNo"))
+						m_searchField=columnName;
+					else if (columnName.equals("Value"))
+						m_searchField=columnName;
+						
 			}
 		}   //  for all columns
 		//	Modified by Rob Klein Client Side Filter Manual Filter 6/1/07
-		tr line2 = new tr();
-		th th = new th();
+		//tr line2 = new tr();
+		//th th = new th();
 		//input filter = new input (input.TYPE_TEXT, "  filter", "");
 		//filter.setOnKeyUp("Table.filter(this,this)");
-		th.addElement(" ");
-		line2.addElement(th);
-		input filter = null;
-		for (int colNo = 0; colNo < noFields; colNo++)
-		{
-			GridField field = ws.curTab.getField(colNo);
-			if (field.isDisplayed(false))
-			{
-				th = new th();
-				filter = new input (input.TYPE_TEXT, field.getHeader()+"filter", "");
-				filter.setOnKeyUp("Table.filter(this,this)");
-				th.addElement(filter);				
-				line2.addElement(th);				
+		//th.addElement(" ");
+		//line2.addElement(th);
+		//input filter = null;
+		//for (int colNo = 0; colNo < noFields; colNo++)
+		//{
+		//	GridField field = ws.curTab.getField(colNo);
+		//	if (field.isDisplayed(false))
+		//	{
+		//		th = new th();
+		//		filter = new input (input.TYPE_TEXT, field.getHeader()+"filter", "");
+		//		filter.setOnKeyUp("Table.filter(this,this)");
+		//		th.addElement(filter);				
+		//		line2.addElement(th);				
 				//line.addElement(th);
-			}
-		}   //  for all columns
+		//	}
+		//}   //  for all columns
 		//Modified by Rob Klein 4/29/07
-		table.addElement(new thead().addElement(line).addElement(line2));		
+		table.addElement(new thead().addElement(line));		
 		
 		//Modified by Rob Klein 4/29/07
 		table.addElement("<TBODY>");		
@@ -1070,9 +1106,9 @@ public class WWindow extends HttpServlet
 		//Modified by Rob Klein 4/29/07
 		table.addElement("</TBODY>");
 		//  Status Line
-		String statusDB = String.valueOf(initRowNo+1) + "-" + String.valueOf(lastRow) + " # " + ws.curTab.getRowCount();
+		String statusDB = String.valueOf(initRowNo+1) + "-" + String.valueOf(lastRow) + " / " + ws.curTab.getRowCount();
 		
-		return createLayout (action, table, wsc, ws, "", statusDB);
+		return createLayout (action, table, wsc, ws, ws.curTab.getDescription(), statusDB);
 	}	//	getMR_Form
 
 	/**
@@ -1087,11 +1123,11 @@ public class WWindow extends HttpServlet
 	 */
 	private WebDoc createLayout (String action, table contentTable, 
 		WebSessionCtx wsc, WWindowStatus ws, String statusInfo, String statusDB)
-	{
+	{	
 		form myForm = null;
 		myForm = new form(action);
-		myForm.setTarget(WebEnv.TARGET_WINDOW);
-		myForm.setID("WWindow" + ws.mWindow.getAD_Window_ID());
+		myForm.setID("WForm");
+		myForm.setOnSubmit("this.target=window.name");
 		String AD_Language = Env.getAD_Language(ws.ctx);
 
 		//	Window
@@ -1099,6 +1135,7 @@ public class WWindow extends HttpServlet
 		myForm.addElement(new input("hidden", P_Command, ""));    //  button commands
 		myForm.addElement(new input("hidden", P_MR_RowNo, ""));   //  RowNo
 		myForm.addElement(new input("hidden", P_ChangedColumn, ""));    //  
+		
 		//  Set Title of main window
 		String title = ws.mWindow.getName() + " - " + wsc.loginInfo;
 		myForm.addElement(new script("top.document.title='" + title + "';"));
@@ -1122,11 +1159,20 @@ public class WWindow extends HttpServlet
 		toolbar.addElement(createImageLink (AD_Language, "Chat","startPopup('WChat')", true, false));
 		toolbar.addElement(createImageLink (AD_Language, "Refresh"));
 		toolbar.addElement(createImageLink (AD_Language, "Attachment",
-			"startPopup('WAttachment')", ws.curTab.canHaveAttachment(), ws.curTab.hasAttachment()));
+				"startPopup('WAttachment')", ws.curTab.canHaveAttachment(), ws.curTab.hasAttachment()));
 		toolbar.addElement(createImageLink (AD_Language, "Multi", null, true, !ws.curTab.isSingleRow()));
+		toolbar.addElement(createImageLink (AD_Language, "FindAdv","startPopup('WFindAdv')", true, false));
+		
+		if (m_searchField!=null) {
+			input txtSearch = new input(input.TYPE_TEXT, "txtSearch", "[" + m_searchField + "]");
+			txtSearch.setOnChange("SubmitForm('Find', 'Submit','toolbar');return false;");
+			toolbar.addElement(txtSearch);
+		}
+		
 		toolbar.addElement("&nbsp;");
-		toolbar.addElement(createImageLink (AD_Language, "History", 
-			null, ws.mWindow.isTransaction()&&ws.curTab.getTabNo()==0, !ws.curTab.isOnlyCurrentRows()));
+		toolbar.addElement(createImageLink (AD_Language, "History","startPopup('WHistory')", true, false));
+		//toolbar.addElement(createImageLink (AD_Language, "History", 
+		//	null, ws.mWindow.isTransaction()&&ws.curTab.getTabNo()==0, !ws.curTab.isOnlyCurrentRows()));
 		toolbar.addElement("&nbsp;");
 		boolean isFirst = ws.curTab.getCurrentRow() < 1;
 		toolbar.addElement(createImageLink (AD_Language, "First", null, !isFirst, false));
@@ -1161,7 +1207,10 @@ public class WWindow extends HttpServlet
 			if (tab.getDescription().length() > 0)
 				big.setOnMouseOver("status='" + tab.getDescription() + "';return true;");
 		
-			tabbar.addElement(big);
+			if (tab.isReadOnly())
+				tabbar.addElement(new i().addElement(big));
+			else
+				tabbar.addElement(big);
 		}
 
 		//	Top Table
@@ -1173,16 +1222,24 @@ public class WWindow extends HttpServlet
 		myForm.addElement(topTable);
 		
 		//  Fields
-		myForm.addElement(contentTable);
+		
+		div panel=new div();
+		panel.setStyle("overflow: scroll;overflow: auto;");
+		panel.addElement(contentTable);
+		
+		myForm.addElement(panel);
 
 		//  Status Line
 		table statusTable = new table ("0", "0", "0", "100%", null);
 		topTable.setID("WWindow.statusLine");
 		tr statusLine = new tr();
 		statusLine.addElement(new td().setWidth("85%").setAlign(AlignType.LEFT)
-			.addElement(statusInfo));
+			.addElement("&nbsp;# " + statusInfo));
+		a db =new a("#");
+		db.setOnClick("alert('" + ws.curTab.getKeyColumnName() + " = " + ws.curTab.getRecord_ID() + "')");
+		db.addElement(statusDB);
 		statusLine.addElement(new td().setWidth("10%").setAlign(AlignType.RIGHT)
-			.addElement(new small(statusDB)));
+			.addElement(db));
 		statusLine.addElement(new td().setWidth("5%").setAlign(AlignType.RIGHT)
 		//Modified by Rob Klein 4/29/07
 			.addElement(createImageLink (AD_Language, "Save")));
@@ -1298,8 +1355,12 @@ public class WWindow extends HttpServlet
 		//
 		if (js_command == null)
 			js_command = "'Submit'";
-		if (js_command.length() > 0 && enabled)
-			img.setOnClick( "SubmitForm('" + name + "', " + js_command + ",'toolbar');return false;");		
+		if (js_command.length() > 0 && enabled){
+			if(js_command.startsWith("startPopup"))
+				img.setOnClick(js_command);
+			else
+				img.setOnClick( "SubmitForm('" + name + "', " + js_command + ",'toolbar');return false;");
+		}
 		img.setClass("ToolbarButton");
 		img.setOnMouseOver("window.status='"+name+"';return true;");
 		img.setOnMouseOut("window.status='';return true;");		
@@ -1327,7 +1388,7 @@ public class WWindow extends HttpServlet
 	 *  @param oData original data
 	 *  @param hasDependents has Callout function(s)
 	 */
-	private void addField (WebSessionCtx wsc, tr line, GridField field, 
+	public static void addField (WebSessionCtx wsc, tr line, GridField field, 
 		Object oData, boolean hasDependents, int recordID, int tableID, boolean tabRO, int fieldNumber,
 		GridTab mTab, MRole role)
 	{
@@ -1385,6 +1446,12 @@ public class WWindow extends HttpServlet
 			.addElement(wField.getLabel())			
 			.addElement(wField.getField(field.getLookup(), oData));		
 	}	//	addField
-
+ 
+	private Object lookupValue(String key, Lookup lookup) {
+		if (lookup.containsKey(key))
+			return lookup.get(key);
+		
+		return DB.getSQLValueString(null, "SELECT " + lookup.getColumnName() + " FROM " + lookup.getZoomQuery().getTableName() + " WHERE " + lookup.getZoomQuery().getWhereClause() + " AND Value LIKE ?", key);
+	}
 	
 }   //  WWindow

@@ -16,41 +16,22 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.p;
-import org.apache.ecs.xhtml.script;
-import org.compiere.util.CLogger;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Login;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.util.*;
 
 /**
  *  Dynamic Field Updates.
  * 	
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: WFieldUpdate.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version 	$Id: WFieldUpdate.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WFieldUpdate extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1576213475379404148L;
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (WFieldUpdate.class);
 	

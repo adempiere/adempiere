@@ -16,49 +16,24 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.ecs.AlignType;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.br;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.label;
-import org.apache.ecs.xhtml.p;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.textarea;
-import org.apache.ecs.xhtml.tr;
-import org.compiere.model.MAttachment;
-import org.compiere.model.MAttachmentEntry;
-import org.compiere.util.CLogger;
-import org.compiere.util.FileUpload;
-import org.compiere.util.Msg;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebUtil;
+import java.io.*;
+import java.util.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 
 /**
  *	HTML UI Attachment
  *	
  *  @author Jorg Janke
- *  @version $Id: WAttachment.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version $Id: WAttachment.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WAttachment extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4241116889907930155L;
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
 
@@ -77,6 +52,7 @@ public class WAttachment extends HttpServlet
 	public static final String	P_ATTACHMENT_INDEX = "AttachmentIndex";
 	public static final String	P_TEXTMSG = "TextMsg";
 
+	private String m_error;
 	
 	/**
 	 * 	Process the HTTP Get request.
@@ -99,20 +75,26 @@ public class WAttachment extends HttpServlet
 		}
 		else
 		{
-			String error = null;
+			m_error = null;
 			int AD_Attachment_ID = WebUtil.getParameterAsInt(request, P_Attachment_ID);
 			if (AD_Attachment_ID != 0)
 			{
 				int attachmentIndex = WebUtil.getParameterAsInt(request, P_ATTACHMENT_INDEX);
 				if (attachmentIndex != 0)
 				{
-					error = streamAttachment (AD_Attachment_ID, attachmentIndex, response, ws);
-					if (error == null)
+					m_error = streamAttachment (AD_Attachment_ID, attachmentIndex, response, ws);
+					if (m_error == null)
 						return;
 				}
 			}
-			doc = createPage (ws.ctx, ws.curTab.getAD_AttachmentID(),
-				ws.curTab.getAD_Table_ID(), ws.curTab.getRecord_ID(), error);
+			
+			MAttachment attachment = null;
+			if (AD_Attachment_ID != 0)
+				attachment = new MAttachment(ws.ctx, ws.curTab.getAD_AttachmentID(), null);
+			else
+				attachment = new MAttachment (ws.ctx, ws.curTab.getAD_Table_ID(), ws.curTab.getRecord_ID(), null);
+			
+			doc = createPage (ws.ctx, attachment, m_error);
 		}
 		//
 		WebUtil.createResponse(request, response, this, null, doc, false);
@@ -137,9 +119,8 @@ public class WAttachment extends HttpServlet
 			doc = WebDoc.create ("Help - No Context");
 		else
 		{
-			String error = processPost (request, response, ws);
-			doc = createPage (ws.ctx, ws.curTab.getAD_AttachmentID(),
-				ws.curTab.getAD_Table_ID(), ws.curTab.getRecord_ID(), error);
+			MAttachment attachment = processPost (request, response, ws);
+			doc = createPage (ws.ctx, attachment, m_error);
 		}
 		//
 		WebUtil.createResponse(request, response, this, null, doc, false);
@@ -151,11 +132,10 @@ public class WAttachment extends HttpServlet
 	 *	@param AD_Attachment_ID id for existing attachment
 	 *	@param AD_Table_ID table for new attachment
 	 *	@param Record_ID record for new attachment
-	 *	@param error optional error message
+	 *	@param m_error optional m_error message
 	 *	@return WebDoc
 	 */
-	private WebDoc createPage (Properties ctx, int AD_Attachment_ID,
-		int AD_Table_ID, int Record_ID, String error)
+	private WebDoc createPage (Properties ctx, MAttachment attachment, String error)
 	{
 		WebDoc doc = WebDoc.createPopup (Msg.translate(ctx, "AD_Attachment_ID"));
 		table table = doc.getTable();
@@ -168,11 +148,6 @@ public class WAttachment extends HttpServlet
 					new p(error, AlignType.LEFT).setClass("Cerror"))));	//	window.css
 		}
 
-		MAttachment attachment = null;
-		if (AD_Attachment_ID != 0)
-			attachment = new MAttachment(ctx, AD_Attachment_ID, null);
-		else
-			attachment = new MAttachment (ctx, AD_Table_ID, Record_ID, null);
 		//
 		tr tr = new tr();
 		td left = new td("popupCenter", AlignType.LEFT, AlignType.TOP, false,
@@ -182,9 +157,9 @@ public class WAttachment extends HttpServlet
 
 		//	Text Message Update
 		form textMsg = new form("WAttachment");
-		textMsg.addElement(new input (input.TYPE_HIDDEN, P_Attachment_ID, AD_Attachment_ID));
-		textMsg.addElement(new input (input.TYPE_HIDDEN, "AD_Table_ID", AD_Table_ID));
-		textMsg.addElement(new input (input.TYPE_HIDDEN, "Record_ID", Record_ID));
+		textMsg.addElement(new input (input.TYPE_HIDDEN, P_Attachment_ID, attachment.getAD_Attachment_ID()));
+		textMsg.addElement(new input (input.TYPE_HIDDEN, "AD_Table_ID", attachment.getAD_Table_ID()));
+		textMsg.addElement(new input (input.TYPE_HIDDEN, "Record_ID", attachment.getRecord_ID()));
 		textarea msg = new textarea(P_TEXTMSG, 5, 40);
 		msg.addElement(attachment.getTextMsg());
 		textMsg.addElement(msg);
@@ -211,7 +186,7 @@ public class WAttachment extends HttpServlet
 			MAttachmentEntry entry = entries[i];
 			if (i > 0)
 				p.addElement(" - ");
-			String url = "WAttachment?" + P_Attachment_ID + "=" + AD_Attachment_ID
+			String url = "WAttachment?" + P_Attachment_ID + "=" + attachment.getAD_Attachment_ID()
 				+ "&" + P_ATTACHMENT_INDEX + "=" + entry.getIndex();
 			p.addElement(new a(url, null, a.TARGET_BLANK, entry.getName()));
 		}
@@ -219,9 +194,9 @@ public class WAttachment extends HttpServlet
 		
 		//	Upload
 		form upload = FileUpload.createForm("WAttachment");
-		upload.addElement(new input (input.TYPE_HIDDEN, P_Attachment_ID, AD_Attachment_ID));
-		upload.addElement(new input (input.TYPE_HIDDEN, "AD_Table_ID", AD_Table_ID));
-		upload.addElement(new input (input.TYPE_HIDDEN, "Record_ID", Record_ID));
+		upload.addElement(new input (input.TYPE_HIDDEN, P_Attachment_ID, attachment.getAD_Attachment_ID()));
+		upload.addElement(new input (input.TYPE_HIDDEN, "AD_Table_ID", attachment.getAD_Table_ID()));
+		upload.addElement(new input (input.TYPE_HIDDEN, "Record_ID", attachment.getRecord_ID()));
 		right.addElement(upload);
 		//
 		tr.addElement(left);
@@ -242,7 +217,7 @@ public class WAttachment extends HttpServlet
 	 *	@param attachmentIndex index
 	 *	@param response response
 	 *	@param ws status
-	 *	@return error message
+	 *	@return m_error message
 	 */
 	private String streamAttachment (int AD_Attachment_ID, int attachmentIndex,  
 		HttpServletResponse response, WWindowStatus ws)
@@ -274,9 +249,9 @@ public class WAttachment extends HttpServlet
 	 * 	Upload Attachment Entry  
 	 *	@param request request
 	 *	@param response response
-	 *	@return error message
+	 *	@return m_error message
 	 */
-	private String processPost (HttpServletRequest request, 
+	private MAttachment processPost (HttpServletRequest request, 
 		HttpServletResponse response, WWindowStatus ws)
 	{
 		int AD_Attachment_ID = 0;
@@ -296,11 +271,11 @@ public class WAttachment extends HttpServlet
 		else
 		{
 			upload = new FileUpload(request);
-			String error = upload.getError();
-			if (error != null)
+			m_error = upload.getError();
+			if (m_error != null)
 			{
-				log.warning("pocessPost - " + error);
-				return error;
+				log.warning("pocessPost - " + m_error);
+				return null;
 			}
 			AD_Attachment_ID = upload.getParameterAsInt(P_Attachment_ID);
 			AD_Table_ID = upload.getParameterAsInt("AD_Table_ID");
@@ -312,11 +287,15 @@ public class WAttachment extends HttpServlet
 			+ " - Upload=" + upload);
 		
 		//	Check if you own the attachment
-		if (ws.curTab.getAD_AttachmentID() != AD_Attachment_ID)
-			return "Your Attachment not found";
+		if (ws.curTab.getAD_AttachmentID() != AD_Attachment_ID) {
+			m_error = "Your Attachment not found";
+			return null;
+		}
 		//	Check if we can save
-		if (AD_Attachment_ID != 0 && Record_ID == 0)
-			return "Need to save record first";
+		if (AD_Attachment_ID != 0 && Record_ID == 0) {
+			m_error = "Need to save record first";
+			return null;
+		}
 
 		MAttachment attachment = null;
 		if (AD_Attachment_ID == 0)
@@ -335,11 +314,13 @@ public class WAttachment extends HttpServlet
 		//	Save and update
 		if (attachment.save())
 			ws.curTab.loadAttachments();	//	update Tab
-		else
-			return "Attachment not saved";
+		else {
+			m_error = "Attachment not saved";
+			return null;
+		}
+
+		return attachment;
 		
-		//	OK
-		return null;
 	}	//	processPost
 
 	

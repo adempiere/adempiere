@@ -16,38 +16,16 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.div;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.label;
-import org.apache.ecs.xhtml.option;
-import org.apache.ecs.xhtml.select;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.textarea;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.Lookup;
-import org.compiere.model.MLocator;
-import org.compiere.model.MRole;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.NamePair;
-import org.compiere.util.Util;
-import org.compiere.util.ValueNamePair;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
+import org.apache.ecs.*;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  *	Web Field.
  *	
  *  @author Jorg Janke
- *  @version $Id: WebField.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version $Id: WebField.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WebField
 {
@@ -150,6 +128,8 @@ public class WebField
 	private Object	m_dataDisplay;
 	//Modified by Rob Klein 4/29/07
 	
+	private Lookup m_lookup;
+	
 	/**
 	 * 	Get the field Label
 	 *	@return label
@@ -196,7 +176,7 @@ public class WebField
 	 */
 	public td getField (Lookup lookup, Object data)
 	{
-		
+		m_lookup=lookup;
 		String dataValue = (data == null) ? "" : data.toString();
 		//
 		if (m_displayType == DisplayType.Search
@@ -461,10 +441,10 @@ public class WebField
 		input display = null;
 		m_dataDisplay = null;
 		//  The display field       Name=columnName, ID=FcolumnName		
-			display = new input(input.TYPE_TEXT, m_columnName, Util.maskHTML(dataDisplay));
+			display = new input(input.TYPE_TEXT, m_columnName + "F", Util.maskHTML(dataDisplay));
 			m_dataDisplay = dataDisplay;
 			display.setID(m_columnName + "F");
-			display.setReadOnly(true);
+			display.setReadOnly(m_readOnly);
 		
 		//Modified by Rob Klein 4/29/07
 		//  The button              Name=columnName, ID=BcolumnName
@@ -514,7 +494,7 @@ public class WebField
 			display.setClass(C_MANDATORY);
 		//
 		if (m_hasDependents || m_hasCallout){
-			display.setOnBlur("startUpdate("+m_columnName + "D);");			
+			display.setOnChange("startUpdate(this)");			
 		}
 		
 		//
@@ -571,7 +551,7 @@ public class WebField
 			}		
 		display = new input(input.TYPE_TEXT, m_columnName, formattedData);
 		display.setID(m_columnName + "F"+m_fieldNumber);
-		display.setReadOnly(true);		
+		display.setReadOnly(m_readOnly);		
 		//  The button              Name=columnName, ID=BcolumnName
 		input button = new input (input.TYPE_IMAGE, m_columnName+ "B", "x");
 		button.setID(m_columnName + "B");		
@@ -820,4 +800,33 @@ public class WebField
 		return menu;
 	}	//	getpopUpMenu
 	
+	public String getColumnName()
+	{
+		return m_columnName;
+	}
+	public String getFieldName()
+	{
+		return m_name;
+	}
+	public boolean isHasDependents()
+	{
+		return m_hasDependents;
+	}
+
+	public boolean isHasCallout()
+	{
+		return m_hasCallout;
+	}
+	//public Lookup getLookup()
+	//{
+	//	return m_lookup;
+	//}
+	public boolean isMandatory()
+	{
+		return m_mandatory;
+	}
+	public Lookup getLookup()
+	{
+		return m_lookup;
+	}
 }	//	WebField

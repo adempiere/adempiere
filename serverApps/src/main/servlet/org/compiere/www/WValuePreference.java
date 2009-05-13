@@ -52,14 +52,10 @@ import org.compiere.util.WebUtil;
  *	HTML Process and Report UI
  *
  *  @author Jorg Janke
- *  @version  $Id: WProcess.java,v 1.3 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WValuePreference.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WValuePreference extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6283213348834944668L;
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	//Modified by Rob Klein 4/29/07

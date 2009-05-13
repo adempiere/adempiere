@@ -16,37 +16,19 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
-import org.apache.ecs.xhtml.button;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.tr;
-import org.compiere.model.GridField;
-import org.compiere.model.MProcess;
-import org.compiere.model.MProcessPara;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
-import org.compiere.util.WebDoc;
-import org.compiere.util.WebEnv;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.util.WebUtil;
+import org.apache.ecs.xhtml.*;
+import org.compiere.model.*;
+import org.compiere.util.*;
 
 /**
  *  WLookup Servlet.
@@ -57,30 +39,27 @@ import org.compiere.util.WebUtil;
  *  </code>
  *  and assumes that in the opening window/form there are two fields
  *  <code>
- *  opener.document.formName.columnName - The (hidden) field for the ID
+ *  opener.document.formName.columnName - The (hidden) field for thcoe ID
  *  opener.document.formName.columnName_D - The display field for the value
  *  </code>
  *  When selecting an entry, the window is closed and the value of the two fields set.
  *
  *  @author Jorg Janke
- *  @version  $Id: WLookup.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
+ *  @version  $Id: WLookup.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WLookup extends HttpServlet
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1564370055815050553L;
-
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLookup.class);
 	
 	/** The Data List           */
 	protected volatile ArrayList<Object>   p_data = new ArrayList<Object>();
 	
-	private static final int    MAX_LINES   = 5;
+	private static final int    MAX_LINES   = 99999;
+	private int m_recordCount;
+	private int m_colCount;
 	
-	private StringBuffer HeaderSelect = null;
+	private StringBuffer m_HeaderSelect = null;
 	
 	/**
 	 * Initialize global variables
@@ -160,46 +139,75 @@ public class WLookup extends HttpServlet
 			//  Create Document
 			WebDoc doc = WebDoc.createPopup (para.getColumnName());			
 			
+			div panel=new div();
+			panel.setStyle("height: 330px;overflow: scroll;overflow: auto;");
+			panel.addElement(fillTable(wsc, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false, page));
+			
+			//tr tr = new tr().addElement(panel);
+			
 			//  Reset
 			String text = "Reset";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Reset");
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Reset");
 			
-			input button = new input("button", text, "  "+text);		
-			button.setID(text);
-			button.setClass("resetbtn");			
+			input resetbtn = new input("button", text, "  "+text);		
+			resetbtn.setID(text);
+			resetbtn.setClass("resetbtn");			
 			String script = targetBase + "F.value='';" + targetBase + "D.value='';closePopup();";			
-			button.setOnClick(script);
+			resetbtn.setOnClick(script);
 			//
-//			Next Page
-			String textbtn = "Next Page";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Next Page");		
-			input nextpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
-			int nextpage = (page+1);
-			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
-			nextpgbtn.setID(text);
-			nextpgbtn.setClass("nextpgbtn");
+//			
+			//First Page
+			text = "First";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Next Page");		
+			input firstpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+
+			firstpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", 1);return false;");
+			firstpgbtn.setID(text);
+			firstpgbtn.setClass("firstpgbtn");
 			
 			//Previous Page
-			textbtn = "Prior Page";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Prior Page");		
-			input prevpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			text = "Prior";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Prior Page");		
+			input prevpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
 			int prevpage = (page == 1) ? 1 : page-1;
 			prevpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+prevpage+");return false;");
 			prevpgbtn.setID(text);
 			prevpgbtn.setClass("prevpgbtn");
 			
-			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, para.getColumnName(), para.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase,false, page))				
-				.addElement(nextpgbtn)
-				.addElement(prevpgbtn)
-				.addElement(button));
+			//Next Page
+			text = "Next";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Next Page");		
+			input nextpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+			int nextpage = (page+1);
+			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
+			nextpgbtn.setID(text);
+			nextpgbtn.setClass("nextpgbtn");
 			
+			//Last Page
+			text = "Next";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Next Page");		
+			input lastpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+			int lastpage = m_recordCount/MAX_LINES + 1;
+			lastpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+lastpage+");return false;");
+			lastpgbtn.setID(text);
+			lastpgbtn.setClass("lastpgbtn");
 			
+			int index1=(page-1)*MAX_LINES+1;
+			int index2=(page)*MAX_LINES<m_recordCount?(page)*MAX_LINES:m_recordCount;
 			
-			doc.addPopupClose(wsc.ctx);
+			doc.getTable().addElement(new tr(new td(panel).setColSpan(2)));				
+
+			doc.addPopupClose(ws.ctx)[0].addElement("&nbsp;#&nbsp;" + index1 + "-" + index2 + " / " + m_recordCount)
+			.addElement(resetbtn)
+			.addElement(firstpgbtn)
+			.addElement(prevpgbtn)
+			.addElement(nextpgbtn)
+			.addElement(lastpgbtn);
 			
 			WebUtil.createResponse (request, response, this, null, doc, false);
 			
@@ -233,47 +241,75 @@ public class WLookup extends HttpServlet
 			boolean hasDependents = ws.curTab.hasDependants(columnName);
 			boolean hasCallout = mField.getCallout().length() > 0;
 			
+			div panel=new div();
+			panel.setStyle("height: 330px;overflow: scroll;overflow: auto;");
+			panel.addElement(fillTable(wsc, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout, page));
+			
+			//tr tr = new tr().addElement(panel);
+			
 			//  Reset
 			String text = "Reset";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Reset");		
-			input restbtn = new input(input.TYPE_RESET, text, "  "+text);		
-			restbtn.setID(text);
-			restbtn.setClass("resetbtn");			
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Reset");		
+			input resetbtn = new input(input.TYPE_RESET, text, "  "+text);		
+			resetbtn.setID(text);
+			resetbtn.setClass("resetbtn");			
 			
 			String script = targetBase + "F.value='';" + targetBase + "D.value='';self.close();";
 			if (hasDependents || hasCallout)
 				script += "startUpdate(" + targetBase + "F);";
-			restbtn.setOnClick(script);
+			resetbtn.setOnClick(script);
 			
-			//Next Page
-			String textbtn = "Next Page";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Next Page");		
-			input nextpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
-			int nextpage = (page+1);
-			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
-			nextpgbtn.setID(text);
-			nextpgbtn.setClass("nextpgbtn");
+			//First Page
+			text = "First";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "First");		
+			input firstpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+			firstpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", 1);return false;");
+			firstpgbtn.setID(text);
+			firstpgbtn.setClass("firstpgbtn");
 			
 			//Previous Page
-			textbtn = "Prior Page";
-			if (wsc.ctx != null)
-				text = Msg.getMsg (wsc.ctx, "Prior Page");		
-			input prevpgbtn = new input(input.TYPE_BUTTON, textbtn, "  "+text);
+			text = "Prior";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Prior");		
+			input prevpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
 			int prevpage = (page == 1) ? 1 : page-1;
 			prevpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+prevpage+");return false;");
 			prevpgbtn.setID(text);
 			prevpgbtn.setClass("prevpgbtn");
 			
+			//Next Page
+			text = "Next";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Next");		
+			input nextpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+			int nextpage = (page+1);
+			nextpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+nextpage+");return false;");
+			nextpgbtn.setID(text);
+			nextpgbtn.setClass("nextpgbtn");
 			
-			doc.getTable().addElement(new tr()
-				.addElement(fillTable(wsc, mField.getColumnName(), mField.getAD_Reference_Value_ID(), request.getRequestURI(),targetBase, hasDependents || hasCallout, page))				
-				.addElement(nextpgbtn)
-				.addElement(prevpgbtn));
-				//.addElement(restbtn));
+			//Last Page
+			text = "Last";
+			//if (wsc.ctx != null)
+			//	text = Msg.getMsg (wsc.ctx, "Last");		
+			input lastpgbtn = new input(input.TYPE_BUTTON, text, "  "+text);
+			int lastpage=m_recordCount/MAX_LINES + 1;
+			lastpgbtn.setOnClick("startLookup('" + columnName + "', "+AD_Process_ID+", "+ lastpage +");return false;");
+			lastpgbtn.setID(text);
+			lastpgbtn.setClass("lastpgbtn");
+			
+			int index1=(page-1)*MAX_LINES+1;
+			int index2=(page)*MAX_LINES<m_recordCount?(page)*MAX_LINES:m_recordCount;
+			
+			doc.getTable().addElement(new tr(new td(panel).setColSpan(2)));				
 
-			doc.addPopupClose(ws.ctx);
+			doc.addPopupClose(ws.ctx)[0].addElement("&nbsp;#&nbsp;" + index1 + "-" + index2 + " / " + m_recordCount)
+			.addElement(resetbtn)
+			.addElement(firstpgbtn)
+			.addElement(prevpgbtn)
+			.addElement(nextpgbtn)
+			.addElement(lastpgbtn);
 
 			WebUtil.createResponse (request, response, this, null, doc, false);
 		}
@@ -322,14 +358,15 @@ public class WLookup extends HttpServlet
 				
 		
 		//  Set Headers
-		line.addElement(new th("&nbsp")).
-			addElement(new th(Msg.translate(wsc.ctx, "Key Name")).setClass("table-filterable table-filtered table-sortable:default"));																		
+		//line.addElement(new th("&nbsp")).
+		//	addElement(new th(Msg.translate(wsc.ctx, "Key Name")).setClass("table-filterable table-filtered table-sortable:default"));																		
 		line = fillTable_Lookup_Headers(columnName, fieldRefId, line, targetBase, true, true, true, false, true);		
-		table.addElement(line);
+		
 		tr line2 = new tr();
-		line2.addElement(new th("&nbsp")).addElement(new th("&nbsp"));
+		//line2.addElement(new th("&nbsp")).addElement(new th("&nbsp"));
 		line2 = fillTable_Lookup_Headers( columnName, fieldRefId, line2, targetBase, true, true, true, false, false);		
 		table.addElement(line2);
+		table.addElement(line);
 		table.addElement("</thead>");
 		table.addElement("<tbody>");
 		
@@ -354,116 +391,66 @@ public class WLookup extends HttpServlet
 			table table1, String targetBase, boolean mandatory, boolean onlyValidated, boolean onlyActive,
 			boolean temporary, int page)
 	{		
-		ArrayList<Object> list = new ArrayList<Object>();		
 		StringBuffer sqlSelect = null;
-		StringBuffer sqlSelectDetail = null;
-		
-		int size = 0;
-		int colCount = 0;
-		
-		if (!mandatory)
-			list.add(new KeyNamePair (-1, ""));		
-		
-		StringBuffer sql = null;	
+		StringBuffer sqlCount = null;
+		String sql=null;
+		String colKey=null;
+		String colDisplay=null;
 		
 		if (fieldRefId > 0){
-			sql = new StringBuffer ("SELECT AD_Display, AD_Key, AD_Table_ID, WhereClause, OrderByClause " 
-					+ "FROM AD_Ref_Table WHERE AD_Reference_ID = "+fieldRefId);
+			sql = "SELECT AD_Table_ID, AD_Key, AD_Display, WhereClause, OrderByClause FROM AD_Ref_Table WHERE AD_Reference_ID = " + fieldRefId;
 			
-			int nameID = 0;
-			int keyID = 0;
 			int tableID = 0;
+			
 			String whereClause = null;
-			String orderBy = null;	
+			String orderBy = null;
+			
 			try
 			{			
 				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);			
 				ResultSet rs = pstmt.executeQuery();			
-				size=2;
 						
-				while (rs.next()){					
-					nameID = rs.getInt(1);
-					keyID = rs.getInt(2);
-					tableID = rs.getInt(3);					
+				if (rs.next()){					
+					tableID = rs.getInt(1);	
+					
 					whereClause = rs.getString(4);
 					orderBy = rs.getString(5);
+					sql="Select ColumnName FROM AD_Column Where AD_Column_ID = ? AND AD_Table_ID = ?";
+					colKey = DB.getSQLValueString(null, sql, rs.getInt(2), tableID);
+					colDisplay = DB.getSQLValueString(null, sql, rs.getInt(3), tableID);
 				}
-		
-				String sql1 = "Select ColumnName FROM AD_Column Where AD_Column_ID = ? AND AD_Table_ID = "+tableID;				
-				sql = new StringBuffer ("SELECT count(Name) FROM AD_Column WHERE AD_TABLE_ID="+tableID);
-				colCount = DB.getSQLValue(null, sql.toString());
-		
-				String name = DB.getSQLValueString(null, sql1 , nameID);				
-				String key = DB.getSQLValueString(null, sql1 , keyID);				
-				sqlSelect = new StringBuffer ("SELECT "+key+", "+name);
-		
 				rs.close();
 				pstmt.close();
 			}
 			catch (SQLException e)
 			{
-				log.log(Level.SEVERE, sqlSelect.toString(), e);
+				log.log(Level.SEVERE, sql.toString(), e);
 			}
 		
-			String sql1 = "Select TableName FROM AD_Table Where AD_Table_ID = ?";
-			String tableName = DB.getSQLValueString(null, sql1 , tableID);		
-			sqlSelect.append(" FROM " + tableName + " WHERE AD_Client_ID=?");			
-			sqlSelectDetail = HeaderSelect.append(" FROM " + tableName + " WHERE "+columnName+" = ?");
-					
+			sql = "Select TableName FROM AD_Table Where AD_Table_ID = ?";
+			String tableName = DB.getSQLValueString(null, sql , tableID);		
+			sqlSelect=new StringBuffer ( "SELECT " + m_HeaderSelect + " FROM " + tableName + " WHERE AD_Client_ID=?");
+			sqlCount=new StringBuffer ( "SELECT count(*) FROM " + tableName + " WHERE AD_Client_ID=?");
+			
 			if (whereClause != null){
 				sqlSelect.append(" AND " + whereClause);
-				sqlSelectDetail.append(" AND " + whereClause);
+				sqlCount.append(" AND " + whereClause);
 			}
-			
-			if (orderBy != null){
+			if (orderBy != null)
 				sqlSelect.append(" ORDER BY " + orderBy);
-				sqlSelectDetail.append(" ORDER BY " + orderBy);
-			}
+				
 		}
 		else{
-		
-			//direct select as indicated below
-			sql = new StringBuffer ("SELECT AD_Table_ID " 
-					+ "FROM AD_Table WHERE TableName = '"+columnName.replace("_ID", "")+"'");
-			int tableID = DB.getSQLValue(null, sql.toString());
-		
-			sql = new StringBuffer ("SELECT count(Name) FROM AD_Column WHERE AD_TABLE_ID="+tableID);
-			colCount = DB.getSQLValue(null, sql.toString());
-		
-			sql = new StringBuffer ("SELECT ColumnName "
-					+ "FROM AD_Column WHERE IsIdentifier = 'Y' AND " 
-					+ "AD_Table_ID= "+tableID
-					+ " ORDER BY SeqNo");
-		
-			sqlSelect = new StringBuffer ("SELECT "+columnName+", ");
-			size=1;
-			
-			try
-			{		
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);			
-				ResultSet rs = pstmt.executeQuery();
-		
-				while (rs.next()){				
-					if (size>1)
-						sqlSelect.append(", ");
-					sqlSelect.append(rs.getObject(1));
-					size++;				
-				}			
-				rs.close();
-				pstmt.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sqlSelect.toString(), e);
-			}
-		
-			sqlSelect.append(" FROM " + columnName.replace("_ID", "") + " WHERE AD_Client_ID=?");
-			sqlSelectDetail  = HeaderSelect.append(" FROM " + columnName.replace("_ID", "") + " WHERE "+columnName+" = ?");
-		
-			}		
+			sqlSelect=new StringBuffer("SELECT " + m_HeaderSelect + " FROM " + columnName.replace("_ID", "") + " WHERE AD_Client_ID=?");
+			sqlCount=new StringBuffer("SELECT count(*) FROM " + columnName.replace("_ID", "") + " WHERE AD_Client_ID=?");
+			colKey=columnName;
+			if (m_HeaderSelect.toString().contains("Name"))
+				colDisplay="Name";
+			else
+				colDisplay="Description";
+		}		
 		try
 		{	
-			
 			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE,	ResultSet.CONCUR_READ_ONLY, null);
 			
@@ -471,57 +458,38 @@ public class WLookup extends HttpServlet
 			ResultSet rs = pstmt.executeQuery();
 			log.info("This is the page number "+page);
 			log.info("This is the MAX_LINES "+MAX_LINES);
-			rs.absolute(((page-1)*MAX_LINES)+1);			
-		
-			for (int j= 1; j<= MAX_LINES; j++){
-				if(rs.next()){
-				StringBuffer name = new StringBuffer ("");
-				for (int i = 2; i <= size; i++)
-				{
-					if (i>2)
-						name.append("_");
-					name.append(rs.getObject(i));
-				}				
-				button button = new button();
-				button.addElement("&gt;");
-				StringBuffer script = new StringBuffer();
-				script
-					.append("startLookUpdate(").append(targetBase).append("F',")
-					.append(targetBase).append("D','").append(rs.getObject(1).toString()).append("',")
-					.append(targetBase).append("F','").append(name.toString())
-					.append("');startUpdate(").append(targetBase).append("');return false;");
-				button.setOnClick(script.toString());
+			//rs.absolute(((page-1)*MAX_LINES)+1);			
+			
+			//for (int j= 1; j<= MAX_LINES; j++){
+				while(rs.next()){
+					button button = new button();
+					button.addElement("&gt;");
+					StringBuffer script = new StringBuffer();
+					script
+						.append("startLookUpdate(").append(targetBase).append("F',")
+						.append(targetBase).append("D','").append(rs.getString(colKey)).append("',")
+						.append(targetBase).append("F','").append(rs.getString(colDisplay))
+						.append("');startUpdate(").append(targetBase).append("');return false;");
+					button.setOnClick(script.toString());
 				//
-				tr line = new tr();
-				line.addElement(new td(button));				
-				line.addElement(new td(name.toString()));
-				try
-				{						
-					PreparedStatement pstmt1 = DB.prepareStatement(sqlSelectDetail.toString(), null);			
-					pstmt1.setInt(1, rs.getInt(1));		
-					ResultSet rs1 = pstmt1.executeQuery();		
-					while (rs1.next()){						
-						for (int i = 1; i <= colCount; i++)
-						{
-							Object fieldRS = rs1.getObject(i);
-							if (fieldRS == null)
-								line.addElement(new td("&nbsp;"));
-							else
-								line.addElement(new td(rs1.getObject(i).toString()));					
-						}
+					tr line = new tr();
+					line.addElement(new td(button));				
+					//line.addElement(new td(rs.getString(i)));
+					
+					for (int i = 1; i <=m_colCount; i++)
+					{								
+						line.addElement(new td(rs.getString(i)));
 					}
-					rs1.close();
-					pstmt1.close();					
-						
-				}			
+					
+					table1.addElement(line);
+				}
+			//}
+		
+			
+			//count
+			m_recordCount = DB.getSQLValue(null, sqlCount.toString(),Env.getAD_Client_ID(wsc.ctx));
 				
-			catch (SQLException e)
-				{
-					log.log(Level.SEVERE, sql.toString(), e);
-				}			
-			table1.addElement(line);			
-			}
-			}
+			
 			rs.close();
 			pstmt.close();
 			
@@ -546,58 +514,49 @@ public class WLookup extends HttpServlet
 			boolean temporary, boolean firstHeaderLine)
 	{
 		
-		StringBuffer sqlSelect = null;
-		int size = 0;		
-		StringBuffer sql = null;
-		int colCount = 0;
-		if (fieldRefId > 0){
-			
-			sql = new StringBuffer ("SELECT AD_Table_ID " 
-					+ "FROM AD_Ref_Table WHERE AD_Reference_ID = "+fieldRefId);
-			int tableID = DB.getSQLValue(null, sql.toString());
-							
-			sql = new StringBuffer ("SELECT count(Name) FROM AD_Column WHERE AD_TABLE_ID="+tableID);
-			colCount = DB.getSQLValue(null, sql.toString());
-			sqlSelect = new StringBuffer ("SELECT ColumnName, Name FROM AD_Column WHERE AD_Table_ID="+tableID+" ORDER BY AD_Column_ID");			
-			
-		}
-		else{	
-		//direct select as indicated below
-			
-			sql = new StringBuffer ("SELECT AD_Table_ID " 
-					+ "FROM AD_Table WHERE TableName = '"+columnName.replace("_ID", "")+"'");
-			int tableID = DB.getSQLValue(null, sql.toString());			
-			sql = new StringBuffer ("SELECT count(Name) FROM AD_Column WHERE AD_TABLE_ID="+tableID);
-			colCount = DB.getSQLValue(null, sql.toString());			
-			sqlSelect = new StringBuffer ("SELECT ColumnName, Name FROM AD_Column WHERE AD_TABLE_ID="+tableID+" ORDER BY AD_Column_ID");
-			
-		}
+		String sqlSelect = null;	
+		input filter = null;
+		if (fieldRefId > 0)
+			sqlSelect = "SELECT ColumnName, Name FROM AD_Column WHERE AD_Table_ID IN (SELECT AD_Table_ID FROM AD_Ref_Table WHERE AD_Reference_ID = " + fieldRefId + ") ORDER BY SEQNO";			
+		else	
+			sqlSelect = "SELECT ColumnName, Name FROM AD_Column WHERE AD_Table_ID IN (SELECT AD_Table_ID FROM AD_Table WHERE TableName = '" + columnName.replace("_ID", "") + "') ORDER BY SEQNO";
 		
-		if(firstHeaderLine)
-			HeaderSelect = new StringBuffer ("Select ");		
+		
+		
+		if(firstHeaderLine) {
+			line.addElement(new th());
+			m_HeaderSelect = new StringBuffer(columnName);
+			line.addElement(new th(columnName).setClass("table-filterable table-filtered table-sortable:default"));
+			m_colCount=1;
+		} else {
+			line.addElement(new th("Find"));
+			filter = new input (input.TYPE_TEXT, columnName+"filter", "");
+			filter.setOnKeyUp("Table.filter(this,this)");				
+			line.addElement(new th().addElement(filter));
+		}
 		
 		try
 		{			
 			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(), null);			
 			ResultSet rs = pstmt.executeQuery();
-						
-			input filter = null;
+					
+			
+			String col;
 			while (rs.next()){
+				col=rs.getString(1);
+				if(col.equals("Value")||col.equals("DocumentNo")||col.equals("Name")||col.equals("Description")){
 					if(firstHeaderLine){						
 						line.addElement(new th(rs.getString(2)).setClass("table-filterable table-filtered table-sortable:default"));
-						HeaderSelect.append(rs.getString(1)+",");
+						m_HeaderSelect.append(",").append(col);
+						m_colCount++;
 					}
 					else{						
-						th th = new th();
 						filter = new input (input.TYPE_TEXT, rs.getString(2)+"filter", "");
-						filter.setOnKeyUp("Table.filter(this,this)");
-						th.addElement(filter);				
-						line.addElement(th);
+						filter.setOnKeyUp("Table.filter(this,this)");				
+						line.addElement(new th().addElement(filter));
 					}
+				}
 			}
-			
-			if(firstHeaderLine)
-				HeaderSelect.setLength(HeaderSelect.length()-1);
 			
 			rs.close();
 			pstmt.close();
@@ -605,7 +564,7 @@ public class WLookup extends HttpServlet
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, sql.toString(), e);
+			log.log(Level.SEVERE, sqlSelect.toString(), e);
 		}
 		return line;
 

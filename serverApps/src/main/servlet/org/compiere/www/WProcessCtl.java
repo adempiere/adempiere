@@ -16,40 +16,28 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.InvalidClassException;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.sql.CallableStatement;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.*;
+import java.lang.reflect.*;
+import java.sql.*;
 import java.util.Properties;
-import java.util.logging.Level;
+import java.util.logging.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.compiere.apps.Waiting;
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
-import org.compiere.model.MPInstance;
-import org.compiere.print.ReportCtl;
-import org.compiere.process.ProcessCall;
-import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
-import org.compiere.util.WebSessionCtx;
-import org.compiere.wf.MWFProcess;
-import org.compiere.wf.MWorkflow;
+import org.compiere.db.*;
+import org.compiere.interfaces.*;
+import org.compiere.model.*;
+import org.compiere.print.*;
+import org.compiere.process.*;
+import org.compiere.util.*;
+import org.compiere.wf.*;
 
 /**
  *	Process Interface Controller.
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: ProcessCtl.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ *  @version 	$Id: WProcessCtl.java,v 1.1 2009/04/15 11:27:15 vinhpt Exp $
  */
 public class WProcessCtl extends Thread
 {
@@ -382,7 +370,7 @@ public class WProcessCtl extends Thread
 				if (server != null)
 				{	//	See ServerBean
 					log.info("running on the server");
-					m_pi = server.workflow (Env.getRemoteCallCtx(m_wscctx), m_pi, AD_Workflow_ID);
+					m_pi = server.workflow (m_wscctx, m_pi, AD_Workflow_ID);
 					log.finest("server => " + m_pi);
 					started = true;
 				}
@@ -428,7 +416,7 @@ public class WProcessCtl extends Thread
 			{
 				if (server != null)
 				{	//	See ServerBean
-					m_pi = server.process (Env.getRemoteCallCtx(m_wscctx), m_pi);
+					m_pi = server.process (m_wscctx, m_pi);
 					log.finest("server => " + m_pi);
 					started = true;		
 				}
@@ -448,6 +436,14 @@ public class WProcessCtl extends Thread
 				else
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
 						+ m_pi, ex);
+				started = false;
+			}
+			catch (Exception ex)
+			{
+				Throwable cause = ex.getCause();
+				if (cause == null)
+					cause = ex;
+				log.log(Level.SEVERE, "AppsServer error - " + m_pi, cause);
 				started = false;
 			}
 		}
@@ -496,7 +492,7 @@ public class WProcessCtl extends Thread
 		String sql = "{call " + ProcedureName + "(?)}";
 		try
 		{
-			CallableStatement cstmt = DB.prepareCall(sql);	//	ro??
+			CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE,null);	//	ro??
 			cstmt.setInt(1, m_pi.getAD_PInstance_ID());
 			cstmt.executeUpdate();
 			cstmt.close();
