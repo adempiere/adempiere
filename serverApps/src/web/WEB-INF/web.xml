@@ -5,7 +5,7 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
    version="2.4">
 	<display-name>Adempiere Web Application</display-name>
-	<description>$Id: web.xml,v 1.1 2006/04/21 18:03:35 jjanke Exp $</description>
+	<description>$Id: web.xml,v 1.1 2009/04/15 11:30:04 vinhpt Exp $</description>
 	<context-param>
 		<param-name>AD_Client_ID</param-name>
 		<param-value>0</param-value>
@@ -15,8 +15,8 @@
 		<param-value>1</param-value>
 	</context-param>
 	<filter>
-		<display-name>Adempiere Web Filter</display-name>
 		<filter-name>WFilter</filter-name>
+		<display-name>Adempiere Web Filter</display-name>
 		<filter-class>org.compiere.www.WFilter</filter-class>
 		<init-param>
 			<param-name>Timing</param-name>
@@ -28,91 +28,91 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<servlet>
-		<display-name>Adempiere Account</display-name>
 		<servlet-name>WAccount</servlet-name>
+		<display-name>Adempiere Account</display-name>
 		<servlet-class>org.compiere.www.WAccount</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Counter</display-name>
 		<servlet-name>WCounter</servlet-name>
+		<display-name>Adempiere Counter</display-name>
 		<servlet-class>org.compiere.wstore.Counter</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Field Update</display-name>
 		<servlet-name>WFieldUpdate</servlet-name>
+		<display-name>Adempiere Field Update</display-name>
 		<servlet-class>org.compiere.www.WFieldUpdate</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Location</display-name>
 		<servlet-name>WLocation</servlet-name>
+		<display-name>Adempiere Location</display-name>
 		<servlet-class>org.compiere.www.WLocation</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Login</display-name>
 		<servlet-name>WLogin</servlet-name>
+		<display-name>Adempiere Login</display-name>
 		<servlet-class>org.compiere.www.WLogin</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Lookup</display-name>
 		<servlet-name>WLookup</servlet-name>
+		<display-name>Adempiere Lookup</display-name>
 		<servlet-class>org.compiere.www.WLookup</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Menu</display-name>
 		<servlet-name>WMenu</servlet-name>
+		<display-name>Adempiere Menu</display-name>
 		<servlet-class>org.compiere.www.WMenu</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Process</display-name>
 		<servlet-name>WProcess</servlet-name>
+		<display-name>Adempiere Process</display-name>
 		<servlet-class>org.compiere.www.WProcess</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Report</display-name>
 		<servlet-name>WReport</servlet-name>
+		<display-name>Adempiere Report</display-name>
 		<servlet-class>org.compiere.www.WReport</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Chat</display-name>
 		<servlet-name>WChat</servlet-name>
+		<display-name>Adempiere Chat</display-name>
 		<servlet-class>org.compiere.www.WChat</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Value Preference</display-name>
 		<servlet-name>WValuePreference</servlet-name>
+		<display-name>Adempiere Value Preference</display-name>
 		<servlet-class>org.compiere.www.WValuePreference</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Zoom</display-name>
 		<servlet-name>WZoom</servlet-name>
+		<display-name>Adempiere Zoom</display-name>
 		<servlet-class>org.compiere.www.WZoom</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Help</display-name>
 		<servlet-name>WHelp</servlet-name>
+		<display-name>Adempiere Help</display-name>
 		<servlet-class>org.compiere.www.WHelp</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Attachment</display-name>
 		<servlet-name>WAttachment</servlet-name>
+		<display-name>Adempiere Attachment</display-name>
 		<servlet-class>org.compiere.www.WAttachment</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Web Requests</display-name>
 		<servlet-name>WRequest</servlet-name>
+		<display-name>Web Requests</display-name>
 		<servlet-class>org.compiere.wstore.RequestServlet</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Start</display-name>
 		<servlet-name>WStart</servlet-name>
+		<display-name>Adempiere Start</display-name>
 		<servlet-class>org.compiere.www.WStart</servlet-class>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Status - first to load</display-name>
 		<servlet-name>WStatus</servlet-name>
+		<display-name>Adempiere Status - first to load</display-name>
 		<servlet-class>org.compiere.www.WStatus</servlet-class>
 		<init-param>
 			<param-name>StatusInfo</param-name>
@@ -121,19 +121,29 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Task</display-name>
 		<servlet-name>WTask</servlet-name>
+		<display-name>Adempiere Task</display-name>
 		<servlet-class>org.compiere.www.WTask</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Application Window</display-name>
 		<servlet-name>WWindow</servlet-name>
+		<display-name>Adempiere Application Window</display-name>
 		<servlet-class>org.compiere.www.WWindow</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Workflow</display-name>
 		<servlet-name>WWorkflow</servlet-name>
+		<display-name>Adempiere Workflow</display-name>
 		<servlet-class>org.compiere.www.WWorkflow</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WHistory</servlet-name>
+		<display-name>Adempiere History</display-name>
+		<servlet-class>org.compiere.www.WHistory</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>WFindAdv</servlet-name>
+		<display-name>Adempiere FindAdv</display-name>
+		<servlet-class>org.compiere.www.WFindAdv</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WAccount</servlet-name>
@@ -214,6 +224,14 @@
 	<servlet-mapping>
 		<servlet-name>WWorkflow</servlet-name>
 		<url-pattern>/WWorkflow</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WHistory</servlet-name>
+		<url-pattern>/WHistory</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WFindAdv</servlet-name>
+		<url-pattern>/WFindAdv</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>15</session-timeout>
