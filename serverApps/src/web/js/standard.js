@@ -1,11 +1,11 @@
 /****************************************************************************
  * Compiere (c) Jorg Janke - All rights reseverd
- * $Id: standard.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $
+ * $Id: standard.js,v 1.1 2009/04/15 11:27:37 vinhpt Exp $
  *
  * General Header Script shared by Web UI and WebStore
  ***************************************************************************/
  
-var cvs = '$Id: standard.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $';
+var cvs = '$Id: standard.js,v 1.1 2009/04/15 11:27:37 vinhpt Exp $';
 var isIE = (navigator.userAgent.indexOf("MSIE") != -1);
 
 

@@ -1,6 +1,6 @@
 /****************************************************************************
  * Compiere (c) Jorg Janke - All rights reseverd
- * $Id: window.js,v 1.1 2006/04/21 18:03:35 jjanke Exp $
+ * $Id: window.js,v 1.1 2009/04/15 11:27:37 vinhpt Exp $
  *
  * Web UI Window Utilities
  ***************************************************************************/
@@ -205,21 +205,10 @@ function getRealValue (myValue)
 function popUp(URL,name) {
 	day = new Date();
 	var id = day.getTime();
-	var callWindow;
-	browser = navigator.appName
+	var callWindow = window;
 	
-	if(browser=="Netscape" ){
-
-		if(window.parentopener){
-			callWindow = window.parentopener;	
-			window.close();
-		}
-		else{
-			callWindow = window;
-		}
-	}
-	var openwindow = eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=1,width=600,height=300,left = 212,top = 234');");
-	openwindow.parentopener = callWindow;
+	var openwindow = eval("page" + id + " = window.open(URL, '" + name + "', 'toolbar=0,scrollbars=1,location=0,statusbar=1,menubar=0,resizable=1,width=600,height=400,left = 212,top = 234');");
+	openwindow.opener = callWindow;
 }
 
 /****************************************************************************
@@ -255,7 +244,8 @@ function startLookup (columnName, processid, page)
 function startZoom (TableID, RecordID)
 {
 	var url = "WWindow?AD_Table_ID=" + TableID+"&AD_Record_ID="+RecordID;
-	parent.WWindow.location = '/adempiere/' + url;
+	//parent.WWindow.location = '/adempiere/' + url;
+	popUp('/adempiere/' + url, 'WTable' + TableID);
 	return false;   //  do not submit page
 
 }	//	startZoom 
@@ -291,7 +281,7 @@ function startUpdate (column)
  *	Lookup Field Updated - submit
  */
 function startLookUpdate(column, name1, value1, name2, value2)
-{		
+{	/*	
 	browser = navigator.appName
 	
 	if(browser=="Netscape" ){
@@ -299,8 +289,9 @@ function startLookUpdate(column, name1, value1, name2, value2)
 	}
 	else{
 		var d = opener.document;
-	}
-
+	}*/
+	
+	var d = opener.document;
 	window.close();	
 	d.getElementById(name2).focus();
 	d.getElementById(name1).value =value1;
