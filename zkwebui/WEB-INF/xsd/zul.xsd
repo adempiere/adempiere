@@ -483,6 +483,7 @@
 			<xs:element ref="menubar" />
 			<xs:element ref="menupopup" />
 			<xs:element ref="paging" />
+			<xs:element ref="panel" />
 			<xs:element ref="popup" />
 			<xs:element ref="portallayout" />
 			<xs:element ref="progressmeter" />
@@ -571,6 +572,14 @@
     <!--
     ELEMENT
     -->
+    <!-- applet -->
+	<xs:element name="applet" type="appletType" />
+	<xs:complexType name="appletType">
+		<xs:group ref="baseGroup" minOccurs="0" maxOccurs="unbounded" />
+		<xs:attributeGroup ref="xulElementAttrGroup" />
+		<xs:attribute name="code" type="xs:string" use="optional" />
+		<xs:attribute name="params" type="xs:string" use="optional" />
+	</xs:complexType>
     <!-- area -->
 	<xs:element name="area" type="areaType" />
 	<xs:complexType name="areaType">
@@ -636,7 +645,6 @@
 		<xs:attribute name="autodrop" type="booleanType" use="optional" />
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
 		<xs:attribute name="constraint" type="constraintAttrType" use="optional" />
-		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="value" type="xs:string" use="optional" />
 		<xs:attribute name="type" type="textboxTypeAttrType" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
@@ -726,6 +734,7 @@
 		<xs:attribute name="autoscroll" type="booleanType" use="optional" />
 		<xs:attribute name="border" type="layoutBorderAttrType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- chart -->
 	<xs:element name="chart" type="chartType" />
@@ -820,7 +829,6 @@
 		<xs:attribute name="autodrop" type="booleanType" use="optional" />
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
 		<xs:attribute name="constraint" type="constraintAttrType" use="optional" />
-		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="value" type="xs:string" use="optional" />
 		<xs:attribute name="model" type="xs:string" use="optional" />
 		<xs:attribute name="itemRenderer" type="xs:string" use="optional" />
@@ -858,7 +866,6 @@
 		<xs:attribute name="compact" type="booleanType" use="optional" />
 		<xs:attribute name="timeZone" type="xs:string" use="optional" />
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
-		<xs:attribute name="image" type="xs:string" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
@@ -920,6 +927,7 @@
 		<xs:attribute name="maxsize" type="intType" use="optional" />
 		<xs:attribute name="minsize" type="intType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- fileupload -->
 	<xs:element name="fileupload" type="fileuploadType" />
@@ -966,10 +974,12 @@
 		<xs:attributeGroup ref="htmlBasedComponentAttrGroup" />
 		<xs:attribute name="bgcolor" type="xs:string" use="optional" />
 		<xs:attribute name="loop" type="booleanType" use="optional" />
-		<xs:attribute name="autoPlay" type="booleanType" use="optional" />
+		<xs:attribute name="autoplay" type="booleanType" use="optional" />
 		<xs:attribute name="wmode" type="flashWmodeAttrType" use="optional" />
 		<xs:attribute name="src" type="xs:string" use="optional" />
+		<xs:attribute name="content" type="xs:string" use="optional" />
 	</xs:complexType>
+
     <!-- foot -->
 	<xs:element name="foot" type="footType" />
 	<xs:complexType name="footType">
@@ -1358,6 +1368,7 @@
 		<xs:attribute name="rows" type="intType" use="optional" />
 		<xs:attribute name="maxlength" type="intType" use="optional" />
 		<xs:attribute name="name" type="xs:string" use="optional" />
+		<xs:attribute name="oddRowSclass" type="xs:string" use="optional" />
 		<xs:attribute name="selectedItem" type="xs:string" use="optional" />
 		<xs:attribute name="selectedIndex" type="xs:string" use="optional" />
 		<xs:attribute name="tabindex" type="intType" use="optional" />
@@ -1555,6 +1566,7 @@
 		<xs:attribute name="maxsize" type="intType" use="optional" />
 		<xs:attribute name="minsize" type="intType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- panel -->
 	<xs:element name="panel" type="panelType" />
@@ -1772,6 +1784,7 @@
 		<xs:attribute name="maxsize" type="intType" use="optional" />
 		<xs:attribute name="minsize" type="intType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- space -->
 	<xs:element name="space" type="spaceType" />
@@ -2216,6 +2229,7 @@
 		<xs:attribute name="maxsize" type="intType" use="optional" />
 		<xs:attribute name="minsize" type="intType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
+		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- window -->
 	<xs:element name="window" type="windowType" />
