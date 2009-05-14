@@ -64,7 +64,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public static final String APP_NAME = "Adempiere";
 
-    public static final String UID          = "1.0";
+    public static final String UID          = "3.5";
 
     private WLogin             loginDesktop;
 

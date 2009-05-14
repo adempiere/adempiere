@@ -13,6 +13,12 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
+ *                                                                            *
+ * Contributors:                                                              *
+ * - Heng Sin Low                                                             *
+ *                                                                            *
+ * Sponsors:                                                                  *
+ * - Idalica Corporation                                                      *
  *****************************************************************************/
 
 package org.adempiere.webui.panel;
@@ -58,12 +64,8 @@ import org.zkoss.zul.Tab;
  */
 public class ADWindowPanel extends AbstractADWindowPanel
 {
-    private static final CLogger logger;
-
-    static
-    {
-        logger = CLogger.getCLogger(ADWindowPanel.class);
-    }
+    @SuppressWarnings("unused")
+	private static final CLogger logger = CLogger.getCLogger(ADWindowPanel.class);
 
 	private Borderlayout layout;
 
@@ -125,6 +127,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        layout.appendChild(west);
     	        west.setSplittable(false);
     	        west.setAutoscroll(true);
+    	        west.setFlex(true);
     	        LayoutUtils.addSclass("adwindow-nav adwindow-left-nav", west);
     	        adTab.setTabplacement(IADTab.LEFT);
     	        adTab.getTabSelectionComponent().setParent(west);
@@ -135,6 +138,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        layout.appendChild(east);
 		        east.setSplittable(false);
 		        east.setAutoscroll(true);
+		        east.setFlex(true);
 		        LayoutUtils.addSclass("adwindow-nav adwindow-right-nav", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
@@ -218,7 +222,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 				Tabbox tabbox = (Tabbox) tab.getTabbox();
 				if (tabbox.getSelectedTab() == tab) {
 					Tabs tabs = (Tabs) tabbox.getTabs();
-					List childs = tabs.getChildren();
+					List<?> childs = tabs.getChildren();
 					for(int i = 0; i < childs.size(); i++) {
 						if (childs.get(i) == tab) {
 							if (i > 0)

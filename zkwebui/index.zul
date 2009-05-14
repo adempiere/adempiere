@@ -3,10 +3,9 @@
 Copyright (C) 2007 Ashley G Ramdass.
 -->
 <?page style="height:100%"?>
-<?link rel="icon" type="image/png" href="/images/AD16.png"?>
-<?link rel="stylesheet" type="text/css" href="/css/default.css.dsp"?>
-<?link rel="javascript" type="text/javascript" href="/js/layout.js"?>
-<?link rel="javascript" type="text/javascript" href="/js/calc.js"?>
+<?init zscript="theme.zs" ?>
+<?link rel="icon" type="image/png" href="/theme/${theme}/images/icon.png"?>
+<?link rel="stylesheet" type="text/css" href="/theme/${theme}/css/theme.css.dsp"?>
 <zk>
 	<window use="org.adempiere.webui.AdempiereWebUI"/>
 </zk>

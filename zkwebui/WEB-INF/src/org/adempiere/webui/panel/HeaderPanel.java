@@ -19,6 +19,7 @@ package org.adempiere.webui.panel;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.AboutWindow;
 import org.compiere.model.MSysConfig;
 import org.zkoss.zk.ui.event.Event;
@@ -57,9 +58,12 @@ public class HeaderPanel extends Panel implements EventListener
 
     	UserPanel userPanel = new UserPanel();
 
-    	String logoURL = MSysConfig.getValue("ZK_LOGO_SMALL", null);
+    	String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", null);
     	if (logoURL == null || logoURL.trim().length() == 0)
-    		logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
+    	{
+    		String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
+    		logoURL = ITheme.THEME_PATH_PREFIX + theme + ITheme.HEADER_LOGO_IMAGE;
+    	}
     	image.setSrc(logoURL);
     	image.addEventListener(Events.ON_CLICK, this);
     	image.setStyle("cursor: pointer;");

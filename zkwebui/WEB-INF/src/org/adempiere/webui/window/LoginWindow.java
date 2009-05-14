@@ -13,6 +13,12 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
+ *                                                                            *
+ * Contributors:                                                              *
+ * - Heng Sin Low                                                             *
+ *                                                                            *
+ * Sponsors:                                                                  *
+ * - Idalica Corporation                                                      *
  *****************************************************************************/
 
 package org.adempiere.webui.window;
@@ -39,48 +45,47 @@ import org.zkoss.zk.ui.event.Events;
 public class LoginWindow extends FWindow implements EventListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -365979563919913804L;
 	private IWebClient app;
     private Properties ctx;
     private LoginPanel pnlLogin;
     private RolePanel pnlRole;
-    
+
     public LoginWindow(IWebClient app)
     {
         this.ctx = Env.getCtx();
         this.app = app;
-        initComponents(); 
+        initComponents();
         init();
         // add listener on 'ENTER' key for the login window
         addEventListener(Events.ON_OK,this);
     }
-    
+
     private void init()
     {
         this.appendChild(pnlLogin);
-        this.setWidth("500px");
-        
+        this.setStyle("background-color: transparent");
     }
-    
+
     private void initComponents()
     {
         pnlLogin = new LoginPanel(ctx, this);
     }
-    
+
     public void loginOk(String userName, String password)
     {
         pnlRole = new RolePanel(ctx, this, userName, password);
         this.getChildren().clear();
         this.appendChild(pnlRole);
     }
-    
+
     public void loginCompleted()
     {
         app.loginCompleted();
     }
-    
+
     public void loginCancelled()
     {
         pnlLogin = new LoginPanel(ctx, this);
@@ -88,10 +93,10 @@ public class LoginWindow extends FWindow implements EventListener
         this.appendChild(pnlLogin);
     }
 
-    public void onEvent(Event event) 
+    public void onEvent(Event event)
     {
        // check that 'ENTER' key is pressed
-       if ("onOK".equals(event.getName()))
+       if (Events.ON_OK.equals(event.getName()))
        {
           /**
            * LoginWindow can have as a child, either LoginPanel or RolePanel
@@ -104,7 +109,7 @@ public class LoginWindow extends FWindow implements EventListener
            {
                rolePanel.validateRoles();
            }
-           
+
            LoginPanel loginPanel = (LoginPanel)this.getFellowIfAny("loginPanel");
            if (loginPanel != null)
            {

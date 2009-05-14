@@ -29,6 +29,7 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.theme.ITheme;
 import org.compiere.Adempiere;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
@@ -302,9 +303,12 @@ public class AboutWindow extends Window implements EventListener {
 		vbox.setAlign("center");
 		vbox.setPack("center");
 		vbox.setParent(tabPanel);
-		String logoURL = MSysConfig.getValue("ZK_LOGO_SMALL", null);
+		String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", null);
     	if (logoURL == null || logoURL.trim().length() == 0)
-    		logoURL = MSysConfig.getValue("WEBUI_LOGOURL", "/images/AD10030.png");
+    	{
+    		String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
+    		logoURL = ITheme.THEME_PATH_PREFIX + theme + ITheme.HEADER_LOGO_IMAGE;
+    	}
 		Image image = new Image(logoURL);
 		image.setParent(vbox);
 

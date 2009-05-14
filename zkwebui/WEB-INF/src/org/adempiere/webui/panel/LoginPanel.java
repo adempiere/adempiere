@@ -13,6 +13,12 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
+ *                                                                            *
+ * Contributors:                                                              *
+ * - Heng Sin Low                                                             *
+ *                                                                            *
+ * Sponsors:                                                                  *
+ * - Idalica Corporation                                                      *
  *****************************************************************************/
 
 package org.adempiere.webui.panel;
@@ -20,15 +26,15 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MSysConfig;
@@ -38,6 +44,10 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.zkoss.util.Locales;
+import org.zkoss.zhtml.Div;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
@@ -45,9 +55,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 
 /**
  *
@@ -59,7 +68,7 @@ import org.zkoss.zul.Listitem;
  */
 public class LoginPanel extends Window implements EventListener
 {
-    /**
+	/**
 	 *
 	 */
 	private static final long serialVersionUID = -5823771596520748214L;
@@ -72,9 +81,7 @@ public class LoginPanel extends Window implements EventListener
     private Label lblLanguage;
     private Textbox txtUserId;
     private Textbox txtPassword;
-    private Listbox lstLanguage;
-/*    private Button btnOk;
-    private Button btnCancel;*/
+    private Combobox lstLanguage;
     private LoginWindow wndLogin;
 
     public LoginPanel(Properties ctx, LoginWindow loginWindow)
@@ -91,44 +98,78 @@ public class LoginPanel extends Window implements EventListener
 
     private void init()
     {
-        Grid grid = new Grid();
-        grid.setOddRowSclass("even");
-        grid.setId("grdLogin");
-        Rows rows = new Rows();
-        Row logo = new Row();
-        logo.setSpans("2");
-        Image image = new Image();
-        image.setSrc(MSysConfig.getValue("ZK_LOGO_LARGE", "images/logo.png"));
-        logo.appendChild(image);
-        Row rowUser = new Row();
-        rowUser.setId("rowUser");
-        Row rowPassword = new Row();
-        rowPassword.setId("rowPassword");
-        Row rowLanguage = new Row();
-        rowLanguage.setId("rowLanguage");
+    	String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
 
-        rowUser.appendChild(lblUserId.rightAlign());
-        rowUser.appendChild(txtUserId);
+    	Div div = new Div();
+    	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
+    	Label label = new Label("Login");
+    	label.setSclass(ITheme.LOGIN_BOX_HEADER_TXT_CLASS);
+    	div.appendChild(label);
+    	this.appendChild(div);
 
-        rowPassword.appendChild(lblPassword.rightAlign());
-        rowPassword.appendChild(txtPassword);
+    	Table table = new Table();
+    	table.setId("grdLogin");
+    	table.setDynamicProperty("cellpadding", "0");
+    	table.setDynamicProperty("cellspacing", "5");
+    	table.setSclass(ITheme.LOGIN_BOX_BODY_CLASS);
 
-        rowLanguage.appendChild(lblLanguage.rightAlign());
-        rowLanguage.appendChild(lstLanguage);
+    	this.appendChild(table);
 
-        Row rowButtons = new Row();
-        rowButtons.setSpans("2");
+    	Tr tr = new Tr();
+    	table.appendChild(tr);
+    	Td td = new Td();
+    	td.setSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS);
+    	tr.appendChild(td);
+    	td.setDynamicProperty("colspan", "2");
+    	Image image = new Image();
+        image.setSrc(ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE);
+        td.appendChild(image);
+
+        tr = new Tr();
+        tr.setId("rowUser");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblUserId);
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(txtUserId);
+
+    	tr = new Tr();
+        tr.setId("rowPassword");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblPassword);
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(txtPassword);
+
+    	tr = new Tr();
+        tr.setId("rowLanguage");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblLanguage);
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(lstLanguage);
+
+    	div = new Div();
+    	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
         pnlButtons.addActionListener(this);
-        rowButtons.appendChild(pnlButtons);
-
-        rows.appendChild(logo);
-        rows.appendChild(rowUser);
-        rows.appendChild(rowPassword);
-        rows.appendChild(rowLanguage);
-        rows.appendChild(rowButtons);
-        grid.appendChild(rows);
-        this.appendChild(grid);
+        LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
+        pnlButtons.setWidth(null);
+        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        div.appendChild(pnlButtons);
+        this.appendChild(div);
     }
 
     private void initComponents()
@@ -159,10 +200,10 @@ public class LoginPanel extends Window implements EventListener
         txtPassword.setMaxlength(40);
         txtPassword.setWidth("220px");
 
-        lstLanguage = new Listbox();
+        lstLanguage = new Combobox();
+        lstLanguage.setAutocomplete(true);
+        lstLanguage.setAutodrop(true);
         lstLanguage.setId("lstLanguage");
-        lstLanguage.setRows(1);
-        lstLanguage.setMold("select");
         lstLanguage.addEventListener(Events.ON_SELECT, this);
         lstLanguage.setWidth("220px");
 
@@ -206,7 +247,7 @@ public class LoginPanel extends Window implements EventListener
 	        			String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
 	        			for(int i = 0; i < lstLanguage.getItemCount(); i++)
 	        	        {
-	        	        	Listitem li = lstLanguage.getItemAtIndex(i);
+	        	        	Comboitem li = lstLanguage.getItemAtIndex(i);
 	        	        	if(li.getLabel().equals(initDefault))
 	        	        	{
 	        	        		lstLanguage.setSelectedIndex(i);

@@ -1,5 +1,6 @@
 /******************************************************************************
  * Copyright (C) 2008 Low Heng Sin                                            *
+ * Copyright (C) 2009 Idalica Corporation                                     *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -60,12 +61,14 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 	}
 
 	public synchronized void refresh() {
-		List childs = getChildren();
+		List<?> childs = getChildren();
 		int childCount = childs.size();
 		for (int c = childCount - 1; c >=0; c--) {
 			removeChild((Component) childs.get(c));
 		}
 		Object[] items = listItems.toArray();
+		int tabWidth = 100;
+		List<Button> btnList = new ArrayList<Button>();
 		for (int i = 0; i < items.length; i++) {
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
 			Button button = new Button();
@@ -92,12 +95,28 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 			}
 
 			String style = (tabPlacement == IADTab.LEFT ? "margin-left:" : "margin-right:") + (tabLabel.tabLevel*15+5) + "px";
-			String width = (195 - tabLabel.tabLevel*15)+"px";
-			style = style + "; width:" + width;
+			if (button.isVisible()) {
+				int width = tabLabel.label.length() * 10 + 20;
+				if (width > tabWidth)
+					tabWidth = width;
+			}
+			btnList.add(button);
 			button.setStyle(style);
 
 			button.setParent(this);
 			button.addEventListener(Events.ON_CLICK, this);
+		}
+
+		//set width
+		if (tabWidth > 190)
+			tabWidth = 190;
+		for (int i = 0; i < items.length; i++) {
+			ADTabLabel tabLabel = (ADTabLabel) items[i];
+			Button button = btnList.get(i);
+			if (!button.isVisible())
+				continue;
+			String width = (tabWidth - tabLabel.tabLevel*15)+"px";
+			button.setStyle(button.getStyle() + "; display: block; width:" + width);
 		}
 	}
 

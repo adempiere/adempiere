@@ -13,6 +13,12 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
  * or via info@posterita.org or http://www.posterita.org/                     *
+ *                                                                            *
+ * Contributors:                                                              *
+ * - Heng Sin Low                                                             *
+ *                                                                            *
+ * Sponsors:                                                                  *
+ * - Idalica Corporation                                                      *
  *****************************************************************************/
 
 package org.adempiere.webui.panel;
@@ -20,11 +26,15 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.component.ComboItem;
+import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
@@ -34,19 +44,21 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
+import org.compiere.util.Msg;
+import org.zkoss.zhtml.Table;
+import org.zkoss.zhtml.Td;
+import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.Deferrable;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.Grid;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Row;
-import org.zkoss.zul.Rows;
 
 /**
  *
@@ -56,7 +68,7 @@ import org.zkoss.zul.Rows;
  * @author <a href="mailto:sendy.yagambrum@posterita.org">Sendy Yagambrum</a>
  * @date    July 18, 2007
  */
-public class RolePanel extends Window implements EventListener
+public class RolePanel extends Window implements EventListener, Deferrable
 {
     /**
 	 *
@@ -69,11 +81,9 @@ public class RolePanel extends Window implements EventListener
     private Login login;
     private KeyNamePair rolesKNPairs[];
 
-    private Label lblErrorMsg;
-    private Listbox lstRole, lstClient, lstOrganisation, lstWarehouse;
+    private Combobox lstRole, lstClient, lstOrganisation, lstWarehouse;
     private Label lblRole, lblClient, lblOrganisation, lblWarehouse;
     private Button btnOk, btnCancel;
-
 
     public RolePanel(Properties ctx, LoginWindow loginWindow, String userName, String password)
     {
@@ -96,53 +106,91 @@ public class RolePanel extends Window implements EventListener
 
     private void init()
     {
-        Grid grid = new Grid();
-        grid.setId("grdChooseRole");
-        grid.setOddRowSclass("even");
-        Rows rows = new Rows();
+    	String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
 
-        Row logo = new Row();
-        logo.setSpans("2");
-        Image image = new Image();
-        image.setSrc(MSysConfig.getValue("ZK_LOGO_LARGE", "images/logo.png"));
-        logo.appendChild(image);
+    	Div div = new Div();
+    	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
+    	Label label = new Label("Login");
+    	label.setSclass(ITheme.LOGIN_BOX_HEADER_TXT_CLASS);
+    	div.appendChild(label);
+    	this.appendChild(div);
 
-        Row rowRole = new Row();
-        Row rowClient = new Row();
-        Row rowOrg = new Row();
-        Row rowWarehouse = new Row();
+        Table table = new Table();
+        table.setId("grdChooseRole");
+        table.setDynamicProperty("cellpadding", "0");
+    	table.setDynamicProperty("cellspacing", "5");
+    	table.setSclass(ITheme.LOGIN_BOX_BODY_CLASS);
 
-        rowRole.appendChild(lblRole.rightAlign());
-        rowRole.appendChild(lstRole);
+    	this.appendChild(table);
 
-        rowClient.appendChild(lblClient.rightAlign());
-        rowClient.appendChild(lstClient);
+    	Tr tr = new Tr();
+    	table.appendChild(tr);
+    	Td td = new Td();
+    	td.setSclass(ITheme.LOGIN_BOX_HEADER_LOGO_CLASS);
+    	tr.appendChild(td);
+    	td.setDynamicProperty("colspan", "2");
+    	Image image = new Image();
+        image.setSrc(ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE);
+        td.appendChild(image);
 
-        rowOrg.appendChild(lblOrganisation.rightAlign());
-        rowOrg.appendChild(lstOrganisation);
+        tr = new Tr();
+        tr.setId("rowRole");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblRole.rightAlign());
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(lstRole);
 
-        rowWarehouse.appendChild(lblWarehouse.rightAlign());
-        rowWarehouse.appendChild(lstWarehouse);
+    	tr = new Tr();
+        tr.setId("rowclient");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblClient.rightAlign());
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(lstClient);
 
-        Row rowButtons = new Row();
+    	tr = new Tr();
+        tr.setId("rowOrganisation");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblOrganisation.rightAlign());
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(lstOrganisation);
+
+    	tr = new Tr();
+        tr.setId("rowWarehouse");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(lblWarehouse.rightAlign());
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(lstWarehouse);
+
+    	div = new Div();
+    	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
         ConfirmPanel pnlButtons = new ConfirmPanel(true);
         pnlButtons.addActionListener(this);
-        rowButtons.setSpans("2");
-        rowButtons.appendChild(pnlButtons);
-
-        rows.appendChild(logo);
-        rows.appendChild(rowRole);
-        rows.appendChild(rowClient);
-        rows.appendChild(rowOrg);
-        rows.appendChild(rowWarehouse);
-        rows.appendChild(rowButtons);
-
-        grid.appendChild(rows);
-
-        Div divErr = new Div();
-        divErr.appendChild(lblErrorMsg);
-        this.appendChild(divErr);
-        this.appendChild(grid);
+        LayoutUtils.addSclass(ITheme.LOGIN_BOX_FOOTER_PANEL_CLASS, pnlButtons);
+        pnlButtons.setWidth(null);
+        pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        pnlButtons.getButton(ConfirmPanel.A_CANCEL).setSclass(ITheme.LOGIN_BUTTON_CLASS);
+        div.appendChild(pnlButtons);
+        this.appendChild(div);
     }
 
     private void initComponents()
@@ -150,9 +198,6 @@ public class RolePanel extends Window implements EventListener
     	Language language = Env.getLanguage(Env.getCtx());
 
     	ResourceBundle res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
-
-        lblErrorMsg = new Label();
-        lblErrorMsg.setValue(" ");
 
         lblRole = new Label();
         lblRole.setId("lblRole");
@@ -170,31 +215,31 @@ public class RolePanel extends Window implements EventListener
         lblWarehouse.setId("lblWarehouse");
         lblWarehouse.setValue(res.getString("Warehouse"));
 
-        lstRole = new Listbox();
+        lstRole = new Combobox();
+        lstRole.setAutocomplete(true);
+        lstRole.setAutodrop(true);
         lstRole.setId("lstRole");
-        lstRole.setRows(1);
-        lstRole.setMold("select");
         lstRole.addEventListener(Events.ON_SELECT, this);
         lstRole.setWidth("220px");
 
-        lstClient = new Listbox();
+        lstClient = new Combobox();
+        lstClient.setAutocomplete(true);
+        lstClient.setAutodrop(true);
         lstClient.setId("lstClient");
-        lstClient.setRows(1);
-        lstClient.setMold("select");
         lstClient.addEventListener(Events.ON_SELECT, this);
         lstClient.setWidth("220px");
 
-        lstOrganisation = new Listbox();
+        lstOrganisation = new Combobox();
+        lstOrganisation.setAutocomplete(true);
+        lstOrganisation.setAutodrop(true);
         lstOrganisation.setId("lstOrganisation");
-        lstOrganisation.setRows(1);
-        lstOrganisation.setMold("select");
         lstOrganisation.addEventListener(Events.ON_SELECT, this);
         lstOrganisation.setWidth("220px");
 
-        lstWarehouse = new Listbox();
+        lstWarehouse = new Combobox();
+        lstWarehouse.setAutocomplete(true);
+        lstWarehouse.setAutodrop(true);
         lstWarehouse.setId("lstWarehouse");
-        lstWarehouse.setRows(1);
-        lstWarehouse.setMold("select");
         lstWarehouse.addEventListener(Events.ON_SELECT, this);
         lstWarehouse.setWidth("220px");
 
@@ -213,11 +258,12 @@ public class RolePanel extends Window implements EventListener
         String initDefault = userPreference.getProperty(UserPreference.P_ROLE);
         for(int i = 0; i < rolesKNPairs.length; i++)
         {
-        	Listitem li = lstRole.appendItem(rolesKNPairs[i].getName(), rolesKNPairs[i].getID());
+        	ComboItem ci = new ComboItem(rolesKNPairs[i].getName(), rolesKNPairs[i].getID());
+        	lstRole.appendChild(ci);
         	if(rolesKNPairs[i].getID().equals(initDefault))
-        		lstRole.setSelectedItem(li);
+        		lstRole.setSelectedItem(ci);
         }
-        if (lstRole.getSelectedIndex() == -1)
+        if (lstRole.getSelectedIndex() == -1 && lstRole.getItemCount() > 0)
         	lstRole.setSelectedIndex(0);
         //
         updateClientList();
@@ -226,7 +272,7 @@ public class RolePanel extends Window implements EventListener
     private void updateClientList()
     {
         lstClient.getItems().clear();
-        Listitem lstItemRole = lstRole.getSelectedItem();
+        Comboitem lstItemRole = lstRole.getSelectedItem();
         if(lstItemRole != null)
         {
         	//  initial client - Elaine 2009/02/06
@@ -238,11 +284,12 @@ public class RolePanel extends Window implements EventListener
             {
                 for(int i = 0; i < clientKNPairs.length; i++)
                 {
-                	Listitem li = lstClient.appendItem(clientKNPairs[i].getName(), clientKNPairs[i].getID());
+                	ComboItem ci = new ComboItem(clientKNPairs[i].getName(), clientKNPairs[i].getID());
+                	lstClient.appendChild(ci);
                     if(clientKNPairs[i].getID().equals(initDefault))
-                    	lstClient.setSelectedItem(li);
+                    	lstClient.setSelectedItem(ci);
                 }
-                if (lstClient.getSelectedIndex() == -1)
+                if (lstClient.getSelectedIndex() == -1 && lstClient.getItemCount() > 0)
                 	lstClient.setSelectedIndex(0);
             }
             //
@@ -256,7 +303,8 @@ public class RolePanel extends Window implements EventListener
     private void updateOrganisationList()
     {
         lstOrganisation.getItems().clear();
-        Listitem lstItemClient = lstClient.getSelectedItem();
+        lstOrganisation.setText("");
+        Comboitem lstItemClient = lstClient.getSelectedItem();
         if(lstItemClient != null)
         {
 			//  initial organisation - Elaine 2009/02/06
@@ -268,11 +316,13 @@ public class RolePanel extends Window implements EventListener
             {
                 for(int i = 0; i < orgKNPairs.length; i++)
                 {
-                	Listitem li = lstOrganisation.appendItem(orgKNPairs[i].getName(), orgKNPairs[i].getID());
+                	ComboItem ci = new ComboItem(orgKNPairs[i].getName(), orgKNPairs[i].getID());
+                	lstOrganisation.appendChild(ci);
                     if(orgKNPairs[i].getID().equals(initDefault))
-                    	lstOrganisation.setSelectedItem(li);
+                    	lstOrganisation.setSelectedItem(ci);
+
                 }
-                if (lstOrganisation.getSelectedIndex() == -1)
+                if (lstOrganisation.getSelectedIndex() == -1 && lstOrganisation.getItemCount() > 0)
                 	lstOrganisation.setSelectedIndex(0);
             }
             //
@@ -283,7 +333,8 @@ public class RolePanel extends Window implements EventListener
     private void updateWarehouseList()
     {
         lstWarehouse.getItems().clear();
-        Listitem lstItemOrganisation = lstOrganisation.getSelectedItem();
+        lstWarehouse.setText("");
+        Comboitem lstItemOrganisation = lstOrganisation.getSelectedItem();
         if(lstItemOrganisation != null)
         {
 			//  initial warehouse - Elaine 2009/02/06
@@ -295,11 +346,12 @@ public class RolePanel extends Window implements EventListener
             {
                 for(int i = 0; i < warehouseKNPairs.length; i++)
                 {
-                    Listitem li = lstWarehouse.appendItem(warehouseKNPairs[i].getName(), warehouseKNPairs[i].getID());
+                	ComboItem ci = new ComboItem(warehouseKNPairs[i].getName(), warehouseKNPairs[i].getID());
+                	lstWarehouse.appendChild(ci);
                     if(warehouseKNPairs[i].getID().equals(initDefault))
-                    	lstWarehouse.setSelectedItem(li);
+                    	lstWarehouse.setSelectedItem(ci);
                 }
-                if (lstWarehouse.getSelectedIndex() == -1)
+                if (lstWarehouse.getSelectedIndex() == -1 && lstWarehouse.getItemCount() > 0)
                 	lstWarehouse.setSelectedIndex(0);
             }
             //
@@ -334,27 +386,23 @@ public class RolePanel extends Window implements EventListener
     **/
     public void validateRoles()
     {
-        Listitem lstItemRole = lstRole.getSelectedItem();
-        Listitem lstItemClient = lstClient.getSelectedItem();
-        Listitem lstItemOrg = lstOrganisation.getSelectedItem();
-        Listitem lstItemWarehouse = lstWarehouse.getSelectedItem();
+    	Comboitem lstItemRole = lstRole.getSelectedItem();
+    	Comboitem lstItemClient = lstClient.getSelectedItem();
+    	Comboitem lstItemOrg = lstOrganisation.getSelectedItem();
+    	Comboitem lstItemWarehouse = lstWarehouse.getSelectedItem();
 
         if(lstItemRole == null || lstItemRole.getValue() == null)
         {
-            lblErrorMsg.setValue("Role is mandatory!!!");
-            return ;
+            throw new WrongValueException(lstRole, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblRole.getValue());
         }
         else if(lstItemClient == null || lstItemClient.getValue() == null)
         {
-            lblErrorMsg.setValue("Client is mandatory!!!");
-            return ;
+        	throw new WrongValueException(lstClient, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblClient.getValue());
         }
         else if(lstItemOrg == null || lstItemOrg.getValue() == null)
         {
-            lblErrorMsg.setValue("Organisation is mandatory!!!");
-            return ;
+        	throw new WrongValueException(lstOrganisation, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblOrganisation.getValue());
         }
-        lblErrorMsg.setValue(" ");
         int orgId = 0, warehouseId = 0;
         orgId = Integer.parseInt((String)lstItemOrg.getValue());
         KeyNamePair orgKNPair = new KeyNamePair(orgId, lstItemOrg.getLabel());
@@ -368,15 +416,13 @@ public class RolePanel extends Window implements EventListener
         String msg = login.validateLogin(orgKNPair);
 		if (msg != null && msg.length() > 0)
 		{
-			lblErrorMsg.setValue("Error for user login: " + msg);
-			return;
+			throw new WrongValueException(msg);
 		}
 
         msg = login.loadPreferences(orgKNPair, warehouseKNPair, null, null);
         if(!(msg == null || msg.length() == 0))
         {
-            lblErrorMsg.setValue("Error for user login: " + msg);
-            return ;
+        	throw new WrongValueException(msg);
         }
         wndLogin.loginCompleted();
 
@@ -390,4 +436,8 @@ public class RolePanel extends Window implements EventListener
         userPreference.savePreference();
         //
     }
+
+	public boolean isDeferrable() {
+		return false;
+	}
 }

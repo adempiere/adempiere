@@ -8,10 +8,83 @@ html,body {
 	background-color: #D4E3F4;
 }
 
-.login {
-	background-color: #D4E3F4;
+<%-- login --%>
+.login-window {
+	background-color: #E5E5E5;
 }
 
+.login-box-body {
+	width: 660px;
+	height: 200px;
+	background-image: url(../images/login-box-bg.png);
+	background-repeat: repeat-y;
+	background-color: transparent;
+	z-index: 1;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+	padding-bottom: 100px;
+}
+
+.login-box-header {
+	background-image: url(../images/login-box-header.png);
+	background-color: transparent;
+	z-index: 2;
+	height: 54px;
+	width: 660px;
+}
+
+.login-box-header-txt {
+	color: white;
+	font-weight: bold;
+	position: relative;
+	top: 30px;
+}
+
+.login-box-header-logo {
+	padding-top: 20px;
+	padding-bottom: 25px;
+}
+
+.login-box-footer {
+	background-image: url(../images/login-box-footer.png);
+	background-color: transparent;
+	z-index: 2;
+	height: 110px;
+	width: 660px;
+	margin-left: 2px;
+}
+
+.login-box-footer-pnl {
+	width: 604px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 40px;
+}
+
+.login-label {
+	color: black;
+	text-align: right;
+	width: 40%;
+}
+
+.login-field {
+	text-align: left;
+	width: 55%;
+}
+
+.login-btn {
+	height: 36px;
+	width: 72px;
+}
+
+.login-east-panel, .login-west-panel {
+	width: 350px;
+	background-color: #E0EAF7;
+	position: relative;
+}
+
+<%-- header --%>
 .header-left {
 	margin: 0;
 	margin-left: 5px;
@@ -40,7 +113,8 @@ html,body {
 }
 
 .header {
-	background-image: url(images/gradient-bg.gif);
+	--background-image: url(images/gradient-bg.gif);
+	background-image: url(../images/header-bg.png);
 	background-repeat: repeat-x;
 	width: 100%;
 	height: 35px;
@@ -51,6 +125,7 @@ html,body {
 	font-size: 10px;
 }
 
+<%-- button --%>
 .action-button {
 	height: 32px;
 	width: 48px;
@@ -72,6 +147,7 @@ html,body {
 	text-align: center;
 }
 
+<%-- desktop --%>
 div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	background-color: white;
 }
@@ -88,7 +164,6 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 <%-- adwindow and form --%>
-
 .adform-content-none {
 	overflow: auto;
 	position: absolute;
@@ -102,7 +177,6 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 }
 
 .adwindow-nav {
-	width: 200px;
 }
 
 .adwindow-left-nav {
@@ -136,20 +210,36 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	font-weight: bold;
 	color: #274D5F;
 	cursor: pointer;
-	border-top: 1px solid #7EAAC6;
-	border-bottom: 1px solid #7EAAC6;
+	border-top: 2px solid #7EAAC6;
+	border-bottom: 2px solid #7EAAC6;
 }
 
 .adwindow-left-navbtn-sel {
-	border-left: 1px solid #7EAAC6;
+	border-left: 2px solid #7EAAC6;
 	border-right: none;
 	text-align: right;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-radius-top-left: 5px;
+	-webkit-border-radius-bottom-left: 5px;
+	background-color: #d1e7f6 !important;
+	background-image: url(../images/adtab-left-bg.png);
+	background-repeat: repeat-y;
+	background-position: top right;
 }
 
 .adwindow-right-navbtn-sel {
-	border-right: 1px solid #7EAAC6;
+	border-right: 2px solid #7EAAC6;
 	border-left: none;
 	text-align: left;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-webkit-border-radius-top-right: 5px;
+	-webkit-border-radius-bottom-right: 5px;
+	background-color: #d1e7f6 !important;
+	background-image: url(../images/adtab-right-bg.png);
+	background-repeat: repeat-y;
+	background-position: top left;
 }
 
 .adwindow-navbtn-uns {
@@ -172,16 +262,19 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	border-left: 1px solid #CCCCCC;
 	border-right: none;
 	text-align: right;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
 }
 
 .adwindow-right-navbtn-uns, .adwindow-right-navbtn-dis {
 	border-right: 1px solid #CCCCCC;
 	border-left: none;
 	text-align: left;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-bottomright: 5px;
 }
 
 <%-- ad tab --%>
-
 .adtab-body {
 	position: absolute;
 	margin: 0;
@@ -269,4 +362,14 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 <%-- highlight focus form element --%>
 input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
 	border: 1px solid #0000ff;
+}
+
+<%-- fixed combobox btn position when width is set 100% --%>
+.z-combobox-inp {
+	font-family: ${fontFamilyC};
+	font-size: ${fontSizeM};
+	font-weight: normal;
+	background: #FFF url(${c:encodeURL('~./zul/img/grid/text-bg.gif')}) repeat-x 0 0;
+	border: 1px solid #7F9DB9;
+	margin-right: -17px;
 }
