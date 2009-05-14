@@ -42,7 +42,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WNumberEditor extends WEditor
 {
-    public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+    public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE,Events.ON_BLUR};
 
     public static final int MAX_DISPLAY_LENGTH = 20;
 
@@ -118,9 +118,16 @@ public class WNumberEditor extends WEditor
 	 */
     public void onEvent(Event event)
     {
-    	if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
+    	if (Events.ON_CHANGE.equalsIgnoreCase(event.getName())
+    		|| Events.ON_BLUR.equalsIgnoreCase(event.getName()))
     	{
 	        BigDecimal newValue = getComponent().getValue();
+	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	    	    return;
+	    	}
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
