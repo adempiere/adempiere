@@ -131,5 +131,13 @@
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/itext-1.3.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jcommon-1.0.10.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/jfreechart-1.0.2.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
+	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
