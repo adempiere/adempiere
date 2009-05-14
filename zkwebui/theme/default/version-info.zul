@@ -64,6 +64,11 @@ Copyright (C) 2009 Idalica Corporation
 			<td>:</td>
 			<td aligh="left">${os}</td>
 		</tr>
+		<tr>
+			<td align="right">Host</td>
+			<td>:</td>
+			<td aligh="left">${desktop.execution.localName}</td>
+		</tr>
 	</table>
 </div>
 ]]>
