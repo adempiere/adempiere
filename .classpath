@@ -123,7 +123,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
-	<classpathentry kind="lib" path="tools/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
