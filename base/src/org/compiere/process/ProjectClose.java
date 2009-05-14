@@ -27,6 +27,10 @@ import org.compiere.model.MProjectLine;
  *
  *	@author Jorg Janke
  *	@version $Id: ProjectClose.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *
+ * @author Teo Sarca, wwww.arhipac.ro
+ * 			<li>FR [ 2791635 ] Use saveEx whenever is possible
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2791635&group_id=176962&atid=879335
  */
 public class ProjectClose extends SvrProcess
 {
@@ -71,11 +75,11 @@ public class ProjectClose extends SvrProcess
 		for (int line = 0; line < projectLines.length; line++)
 		{
 			projectLines[line].setProcessed(true);
-			projectLines[line].save();
+			projectLines[line].saveEx();
 		}
 
 		project.setProcessed(true);
-		project.save();
+		project.saveEx();
 
 		return "";
 	}	//	doIt
