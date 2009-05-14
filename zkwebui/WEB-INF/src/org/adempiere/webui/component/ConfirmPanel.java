@@ -38,7 +38,7 @@ import org.zkoss.zul.Messagebox;
 public final class ConfirmPanel extends Hbox
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -6050634074454659578L;
 	/** Action String OK.        */
@@ -70,17 +70,17 @@ public final class ConfirmPanel extends Hbox
     public static final String A_PATTRIBUTE = "PAttribute";
     /** Action String New.   */
     public static final String A_NEW = "New";
-    
+
     private boolean  m_withText = false;
-    
+
     private Map<String, Button> buttonMap = new HashMap<String, Button>();
-    
+
     /**
      * Creates a button of the specified id
-     * 
+     *
      * @param id button id
      * @return  button
-     * 
+     *
      * <p>The string can be any of the following and the corresponding button will be created: </p>
      * <dl>
      * <dt>Ok</dt>          <dd>Ok button</dd>
@@ -96,7 +96,7 @@ public final class ConfirmPanel extends Hbox
      * <dt>Zoom</dt>        <dd>Zoom button</dd>
      * <dt>Help</dt>        <dd>Help button</dd>
      * </dl>
-     * 
+     *
      */
     public Button createButton(String name)
     {
@@ -108,26 +108,26 @@ public final class ConfirmPanel extends Hbox
         	text = text.replaceAll("[&]", "");
         else
         	text = null;
-        
-        if (m_withText && text != null) 
+
+        if (m_withText && text != null)
         {
-        	button.setSrc("images/"+name+"16.png");
+        	button.setImage("images/"+name+"16.png");
         	button.setLabel(text);
         	LayoutUtils.addSclass("action-text-button", button);
         }
         else
         {
-        	button.setSrc("images/"+name+"24.png");
+        	button.setImage("images/"+name+"24.png");
         	if (text != null)
         		button.setTooltiptext(text);
         	LayoutUtils.addSclass("action-button", button);
         }
-        
+
         buttonMap.put(name, button);
-        
+
         return button;
     }
-    
+
     /**
      * create confirm panel with multiple options
      * @param withCancelButton       with cancel
@@ -138,15 +138,15 @@ public final class ConfirmPanel extends Hbox
      * @param withZoomButton         with zoom
      */
      public ConfirmPanel(boolean withCancelButton,
-             boolean withRefreshButton, 
-             boolean withResetButton, 
+             boolean withRefreshButton,
+             boolean withResetButton,
              boolean withCustomizeButton,
-             boolean withHistoryButton, 
+             boolean withHistoryButton,
              boolean withZoomButton)
      {
     	 this(withCancelButton, withRefreshButton, withResetButton, withCustomizeButton, withHistoryButton, withZoomButton, false);
      }
-     
+
    /**
     * create confirm panel with multiple options
     * @param withCancelButton       with cancel
@@ -157,23 +157,23 @@ public final class ConfirmPanel extends Hbox
     * @param withZoomButton         with zoom
     */
     public ConfirmPanel(boolean withCancelButton,
-            boolean withRefreshButton, 
-            boolean withResetButton, 
+            boolean withRefreshButton,
+            boolean withResetButton,
             boolean withCustomizeButton,
-            boolean withHistoryButton, 
+            boolean withHistoryButton,
             boolean withZoomButton,
             boolean withText)
     {
     	m_withText = withText;
-    	
+
         init();
-        
-        setVisible(A_CANCEL, withCancelButton);      
+
+        setVisible(A_CANCEL, withCancelButton);
         addComponentsRight(createButton(A_OK));
-        
+
         if (withCancelButton)
-        	addComponentsRight(createButton(A_CANCEL));   
-                 
+        	addComponentsRight(createButton(A_CANCEL));
+
         if (withRefreshButton)
         {
              addComponentsLeft(createButton(A_REFRESH));
@@ -193,9 +193,9 @@ public final class ConfirmPanel extends Hbox
         if (withZoomButton)
         {
             addComponentsLeft(createButton(A_ZOOM));
-        }                  
-    }    
-    
+        }
+    }
+
     /**
      * Create confirm panel with Ok button only
      */
@@ -203,62 +203,62 @@ public final class ConfirmPanel extends Hbox
     {
         this(false,false,false,false,false,false);
     }
-    
+
     /**
-     * Create confirm panel with Ok and Cancel button 
+     * Create confirm panel with Ok and Cancel button
      * @param withCancel with cancel
-     *   
+     *
      */
     public ConfirmPanel(boolean withCancel)
     {
         this(withCancel,false,false,false,false,false);
     }
-    //    
+    //
     private Hbox hboxBtnLeft;
-    private Hbox hboxBtnRight;   
+    private Hbox hboxBtnRight;
     //
     private Panel pnlBtnRight;
     private Panel pnlBtnLeft;
-   
+
     /**
-     * initialise components     
+     * initialise components
      */
     private void init()
     {
         pnlBtnLeft = new Panel();
         pnlBtnLeft.setAlign("left");
-        
+
         pnlBtnRight = new Panel();
         pnlBtnRight.setAlign("right");
-        
+
         hboxBtnRight = new Hbox();
         hboxBtnRight.appendChild(pnlBtnRight);
         hboxBtnRight.setWidth("100%");
         hboxBtnRight.setStyle("text-align:right");
-       
+
         hboxBtnLeft = new Hbox();
         hboxBtnLeft.appendChild(pnlBtnLeft);
         hboxBtnLeft.setWidth("100%");
-        hboxBtnLeft.setStyle("text-align:left");     
-        
+        hboxBtnLeft.setStyle("text-align:left");
+
         this.appendChild(hboxBtnLeft);
         this.appendChild(hboxBtnRight);
         this.setWidth("100%");
     }
-    
+
     /**
-     * add button to the left side of the confirm panel 
+     * add button to the left side of the confirm panel
      * @param button button
      */
     public void addComponentsLeft(Button button)
-    {  
+    {
     	if (!buttonMap.containsKey(button.getId()))
     		buttonMap.put(button.getId(), button);
-        pnlBtnLeft.appendChild(button);        
+        pnlBtnLeft.appendChild(button);
     }
-    
+
     /**
-     * add button to the right side of the confirm panel 
+     * add button to the right side of the confirm panel
      * @param button button
      */
     public void addComponentsRight(Button button)
@@ -266,8 +266,8 @@ public final class ConfirmPanel extends Hbox
     	if (!buttonMap.containsKey(button.getId()))
     		buttonMap.put(button.getId(), button);
         pnlBtnRight.appendChild(button);
-    } 
-    
+    }
+
     /**
      * return button of the specified id
      * @param id button id
@@ -292,7 +292,7 @@ public final class ConfirmPanel extends Hbox
     {
         return buttonMap.get(id);
     }
-    
+
     /**
      * sets the visibility of the specified button
      * @param btnName   button name
@@ -365,7 +365,7 @@ public final class ConfirmPanel extends Hbox
      * enable specific button
      * @param id   button id
      * @param enabled   enabled
-     * 
+     *
      * <p> The button id can be any of the following
      * <dl>
      * <dt>Ok</dt>          <dd>Ok button</dd>
@@ -390,7 +390,7 @@ public final class ConfirmPanel extends Hbox
             button.setEnabled(enabled);
         }
     }
-    
+
     /**
      * enable all components
      * @param enabled enabled
@@ -401,7 +401,7 @@ public final class ConfirmPanel extends Hbox
         List list2 = pnlBtnRight.getChildren();
         Iterator iter1 = list1.iterator();
         Iterator iter2 = list2.iterator();
-       
+
         while (iter1.hasNext())
         {
             Button button = (Button)iter1.next();
@@ -424,7 +424,7 @@ public final class ConfirmPanel extends Hbox
         List list2 = pnlBtnRight.getChildren();
         Iterator iter1 = list1.iterator();
         Iterator iter2 = list2.iterator();
-       
+
         while (iter1.hasNext())
         {
             Button button = (Button)iter1.next();
@@ -460,5 +460,5 @@ public final class ConfirmPanel extends Hbox
 	public Button getOKButton() {
 		return getButton(A_OK);
 	}
-    
+
 }   //  ConfirmPanel
