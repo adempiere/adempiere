@@ -24,14 +24,14 @@
 		<pathelement location="${basedir}"/>
 	  	<pathelement location="${basedir}/WEB-INF/classes"/>
 	  	<pathelement location="${basedir}/WEB-INF/src"/>
-		
+
 		<pathelement location="${Adempiere.dir}/../base/build"/>
 		<pathelement location="${Adempiere.dir}/../client/build"/>
 		<pathelement location="${Adempiere.dir}/../JasperReports/build"/>
 	    <fileset dir="${Adempiere.dir}">
 	    	<include name="*.jar"/>
 	    </fileset>
-		
+
 	    <pathelement location="${Adempiere.dir}/../tools/lib/servlet-api.jar"/>
 	    <fileset dir="${basedir}/WEB-INF/lib">
 	    	<include name="*.jar"/>
@@ -52,14 +52,19 @@
 	           optimize="${compile.optimize}">
 	        <classpath refid="compile.classpath"/>
 	    </javac>
+		<copy  todir="${classes.dir}">
+			<fileset dir="WEB-INF/src">
+				<include name="*.xml" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="war" depends="compile">
 		<echo message="=========== Build Zk Ajax UI ==========="/>
 		<delete dir="${dist.dir}" />
-		
+
 		<mkdir dir="${dist.dir}"/>
-		
+
 		<war
 			  warfile="${dist.dir}/${war.name}.war"
 			  webxml="${WEBINF.dir}/web.xml">
@@ -78,7 +83,7 @@
 
 		      </fileset>
 		</war>
-		
+
 		<copy file="${dist.dir}/${war.name}.war" tofile="../lib/${war.name}.war"/>
 	</target>
 </project>
