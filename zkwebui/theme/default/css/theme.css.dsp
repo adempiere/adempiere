@@ -48,11 +48,11 @@ html,body {
 
 .login-box-footer {
 	background-image: url(../images/login-box-footer.png);
+	background-position: top right;
 	background-color: transparent;
 	z-index: 2;
 	height: 110px;
 	width: 660px;
-	margin-left: 2px;
 }
 
 .login-box-footer-pnl {
@@ -113,7 +113,6 @@ html,body {
 }
 
 .header {
-	--background-image: url(images/gradient-bg.gif);
 	background-image: url(../images/header-bg.png);
 	background-repeat: repeat-x;
 	width: 100%;
@@ -137,7 +136,6 @@ html,body {
 }
 
 .editor-button {
-	--height: 22px;
 	width: 26px;
 	padding: 0px;
 }
@@ -352,6 +350,10 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 
 .z-combobox-disd * {
 	color: black !important; cursor: default !important;
+}
+
+.z-combobox-text-disd {
+	background-color: #ECEAE4 !important;
 }
 
 <%-- Button --%>
