@@ -141,17 +141,6 @@ public class WDateEditor extends WEditor
     }
 
     @Override
-    public boolean isMandatory()
-    {
-        return false;
-    }
-
-    @Override
-    public void setMandatory(boolean mandatory)
-    {
-    }
-
-    @Override
     public void setValue(Object value)
     {
     	if (value == null || value.toString().trim().length() == 0)

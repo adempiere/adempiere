@@ -75,7 +75,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 	protected boolean hasFocus;
 
     /**
-     * 
+     *
      * @param comp
      * @param gridField
      */
@@ -165,7 +165,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
         init();
     }
 
-    
+
     /**
      * Set the editor component.
      * @param comp the editor component
@@ -194,7 +194,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 
         ((HtmlBasedComponent)component).setTooltiptext(description);
         label.setTooltiptext(description);
-        
+
         //init listeners
         for (String event : this.getEvents())
         {
@@ -204,18 +204,18 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 			public void onEvent(Event event) throws Exception {
 				hasFocus = true;
 			}
-        	
+
         });
         component.addEventListener(Events.ON_BLUR, new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				hasFocus = false;
 			}
-        	
+
         });
     }
 
     /**
-     * 
+     *
      * @return grid field for this editor ( can be null )
      */
     public GridField getGridField()
@@ -224,7 +224,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @return columnNames
      */
     public String getColumnName()
@@ -264,7 +264,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @return Component
      */
     public Component getComponent()
@@ -281,7 +281,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @return popup menu instance ( if available )
      */
     public WEditorPopupMenu getPopupMenu()
@@ -313,12 +313,12 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     	if (!listeners.contains(listener))
     		listeners.add(listener);
     }
-    
+
     public boolean removeValuechangeListener(ValueChangeListener listener)
     {
     	return listeners.remove(listener);
     }
-    
+
     protected void fireValueChange(ValueChangeEvent event)
     {
     	//copy to array to avoid concurrent modification exception
@@ -331,7 +331,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @return Label
      */
     public Label getLabel()
@@ -340,19 +340,19 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @param readWrite
      */
     public abstract void setReadWrite(boolean readWrite);
 
     /**
-     * 
+     *
      * @return editable
      */
     public abstract boolean isReadWrite();
 
     /**
-     * 
+     *
      * @param visible
      */
     public void setVisible(boolean visible)
@@ -362,7 +362,7 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @return is visible
      */
     public boolean isVisible()
@@ -391,25 +391,25 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     }
 
     /**
-     * 
+     *
      * @param value
      */
     abstract public void setValue(Object value);
 
     /**
-     * 
+     *
      * @return Object
      */
     abstract public Object getValue();
 
     /**
-     * 
+     *
      * @return display text
      */
     abstract public String getDisplay();
 
     /**
-     * 
+     *
      * @return list of events
      */
     public String[] getEvents()
@@ -425,11 +425,11 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     {
         this.mandatory = mandatory;
         if (label != null)
-        	label.setMandatory(mandatory);
+        	label.setMandatory(mandatory && isReadWrite());
     }
 
     /**
-     * 
+     *
      * @return boolean
      */
     public boolean isMandatory()
@@ -441,9 +441,9 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
      * allow subclass to perform dynamic loading of data
      */
     public void dynamicDisplay()
-    {    	
+    {
     }
-    
+
     /**
      * Stretch editor component to fill container
      */
@@ -451,9 +451,9 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
     	//streach component to fill grid cell
         if (getComponent() instanceof HtmlBasedComponent) {
         	//can't stretch bandbox & datebox
-        	if (!(getComponent() instanceof Bandbox) && 
+        	if (!(getComponent() instanceof Bandbox) &&
         		!(getComponent() instanceof Datebox)) {
-        		String width = "100%";    
+        		String width = "100%";
         		if (getComponent() instanceof Button) {
         			Button btn = (Button) getComponent();
         			String zclass = btn.getZclass();

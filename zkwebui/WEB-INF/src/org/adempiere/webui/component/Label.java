@@ -29,19 +29,19 @@ import org.zkoss.zk.ui.Component;
 public class Label extends org.zkoss.zul.Label
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1912498227823474678L;
 
 	private Component decorator;
-    
+
     private boolean mandatory;
 
     public Label()
     {
         super();
     }
-    
+
     public Label(String value)
     {
         super(value != null ? value.replaceAll("[&]", "") : null);
@@ -52,10 +52,10 @@ public class Label extends org.zkoss.zul.Label
 	}
 
 	public void setMandatory(boolean mandatory) {
-		this.mandatory = mandatory;		
+		this.mandatory = mandatory;
 		setupMandatoryDecorator();
 	}
-	
+
 	public Component getDecorator() {
 		return decorator;
 	}
@@ -65,8 +65,8 @@ public class Label extends org.zkoss.zul.Label
 		super.setValue(value != null ? value.replaceAll("[&]", "") : null);
 		if ((value == null || value.trim().length() == 0) && decorator != null)
 			decorator.setVisible(false);
-	}		
-	
+	}
+
 	@Override
 	public boolean setVisible(boolean visible) {
 		if (decorator != null) {
@@ -84,13 +84,13 @@ public class Label extends org.zkoss.zul.Label
 		String value = getValue();
 		if (mandatory && value != null && value.trim().length() > 0) {
 			decorator.setVisible(true);
-		} else 
+		} else
 			decorator.setVisible(false);
 	}
 
 	private void createMandatoryDecorator() {
 		decorator = new Label("*");
-		((Label)decorator).setStyle("text-decoration: none; font-size: xx-small; vertical-align: top;");
+		((Label)decorator).setSclass("mandatory-decorator-text");
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class Label extends org.zkoss.zul.Label
 			translate = translate.replaceAll("[&]", "");
 		this.setValue(translate);
 	}
-	
+
 	public Component rightAlign() {
 		return LayoutUtils.makeRightAlign(this);
 	}

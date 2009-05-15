@@ -375,3 +375,7 @@ input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
 	border: 1px solid #7F9DB9;
 	margin-right: -17px;
 }
+
+.mandatory-decorator-text {
+	text-decoration: none; font-size: xx-small; vertical-align: top; color:red;
+}

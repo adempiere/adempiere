@@ -79,26 +79,26 @@ import org.zkoss.zul.Space;
 import org.zkoss.zul.Treeitem;
 
 /**
- * 
+ *
  * This class is based on org.compiere.grid.GridController written by Jorg Janke.
  * Changes have been brought for UI compatibility.
- * 
+ *
  * @author Jorg Janke
- * 
+ *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
  *
- * @author Low Heng Sin 
+ * @author Low Heng Sin
  */
-public class ADTabpanel extends Div implements Evaluatee, EventListener, 
+public class ADTabpanel extends Div implements Evaluatee, EventListener,
 DataStatusListener, IADTabpanel, VetoableChangeListener
 {
-    
+
 	private static final long serialVersionUID = 212250368715189455L;
 
 	private static final CLogger logger;
-    
+
     static
     {
         logger = CLogger.getCLogger(ADTabpanel.class);
@@ -114,39 +114,39 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     private int               windowNo;
 
     private Grid              grid;
-    
+
     private ArrayList<WEditor> editors = new ArrayList<WEditor>();
-    
+
     private ArrayList<String> editorIds = new ArrayList<String>();
-       
+
     private boolean			  uiCreated = false;
-    
+
     private GridPanel		  listPanel;
-    
+
     private Map<String, List<org.zkoss.zul.Row>> fieldGroupContents = new HashMap<String, List<org.zkoss.zul.Row>>();
-    
+
     private Map<String, List<org.zkoss.zul.Row>> fieldGroupHeaders = new HashMap<String, List<org.zkoss.zul.Row>>();
 
 	private ArrayList<org.zkoss.zul.Row> rowList;
-	
+
 	private Component formComponent = null;
-	
+
 	private ADTreePanel treePanel = null;
 
 	private GridTabDataBinder dataBinder;
 
 	private Map<Integer, Group> includedTab = new HashMap<Integer, Group>();
 	private Map<Integer, Groupfoot> includedTabFooter = new HashMap<Integer, Groupfoot>();
-	
+
 	private List<EmbeddedPanel> includedPanel = new ArrayList<EmbeddedPanel>();
-	
+
 	private boolean active = false;
 
 	private Group currentGroup;
 
 	private boolean m_vetoActive = false;
 
-	public ADTabpanel() 
+	public ADTabpanel()
 	{
         init();
     }
@@ -158,8 +158,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
     private void initComponents()
     {
-    	LayoutUtils.addSclass("adtab-content", this);    	    	    		
-    	
+    	LayoutUtils.addSclass("adtab-content", this);
+
         grid = new Grid();
         //have problem moving the following out as css class
         grid.setWidth("99%");
@@ -167,13 +167,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         grid.setVflex(true);
         grid.setStyle("margin:0; padding:0; position: absolute");
         grid.makeNoStrip();
-                
+
         listPanel = new GridPanel();
-        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);                
+        listPanel.getListbox().addEventListener(Events.ON_DOUBLE_CLICK, this);
     }
 
     /**
-     * 
+     *
      * @param winPanel
      * @param windowNo
      * @param gridTab
@@ -188,9 +188,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         this.windowPanel = winPanel;
         gridTab.addDataStatusListener(this);
         this.dataBinder = new GridTabDataBinder(gridTab);
-        
+
         this.getChildren().clear();
-                
+
         int AD_Tree_ID = 0;
 		if (gridTab.isTreeTab())
 			AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
@@ -200,7 +200,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			Borderlayout layout = new Borderlayout();
 			layout.setParent(this);
 			layout.setStyle("width: 100%; height: 100%; position: absolute;");
-		
+
 			treePanel = new ADTreePanel();
 			West west = new West();
 			west.appendChild(treePanel);
@@ -209,12 +209,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			west.setSplittable(true);
 			west.setAutoscroll(true);
 			layout.appendChild(west);
-			
+
 			Center center = new Center();
 			center.setFlex(true);
 			center.appendChild(grid);
 			layout.appendChild(center);
-			
+
 			formComponent = layout;
 			treePanel.getTree().addEventListener(Events.ON_SELECT, this);
 		}
@@ -226,7 +226,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         this.appendChild(listPanel);
         listPanel.setVisible(false);
         listPanel.setWindowNo(windowNo);
-        
+
         gridTab.getTableModel().addVetoableChangeListener(this);
     }
 
@@ -236,9 +236,9 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     public void createUI()
     {
     	if (uiCreated) return;
-    	
+
     	uiCreated = true;
-    	
+
     	//setup columns
     	Columns columns = new Columns();
     	grid.appendChild(columns);
@@ -257,11 +257,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     	col = new Column();
     	col.setWidth("2%");
     	columns.appendChild(col);
-    	
+
     	Rows rows = grid.newRows();
         GridField fields[] = gridTab.getFields();
-        org.zkoss.zul.Row row = new Row();                
-        
+        org.zkoss.zul.Row row = new Row();
+
         String currentFieldGroup = null;
         for (int i = 0; i < fields.length; i++)
         {
@@ -279,13 +279,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                         rows.appendChild(row);
                         if (rowList != null)
             				rowList.add(row);
-        			} else if (row.getChildren().size() > 0) 
+        			} else if (row.getChildren().size() > 0)
         			{
         				rows.appendChild(row);
         				if (rowList != null)
-            				rowList.add(row);        				
+            				rowList.add(row);
         			}
-            		
+
             		//end current field group
             		if (currentGroup != null) {
             			row = new Groupfoot();
@@ -293,12 +293,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             			currentGroup = null;
             			currentFieldGroup = null;
             		}
-            		
+
             		row = new Row();
             		row.setSpans("5");
         			row.appendChild(new Separator());
         			rows.appendChild(row);
-        			
+
             		row = new Group();
             		row.setSpans("2,3");
             		rows.appendChild(row);
@@ -306,7 +306,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             		row = new Groupfoot();
             		rows.appendChild(row);
             		includedTabFooter.put(field.getIncluded_Tab_ID(), (Groupfoot)row);
-            		
+
             		for (EmbeddedPanel ep : includedPanel) {
             			if (ep.adTabId == field.getIncluded_Tab_ID()) {
             				ep.group = includedTab.get(ep.adTabId);
@@ -314,16 +314,16 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             				break;
             			}
             		}
-            		
+
             		row = new Row();
             		continue;
             	}
-            	
+
             	//normal field
             	String fieldGroup = field.getFieldGroup();
             	if (fieldGroup != null && fieldGroup.trim().length() > 0)
             	{
-            		if (!fieldGroup.equals(currentFieldGroup)) 
+            		if (!fieldGroup.equals(currentFieldGroup))
             		{
             			currentFieldGroup = fieldGroup;
             			if (row.getChildren().size() == 2)
@@ -335,35 +335,35 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                             if (rowList != null)
                 				rowList.add(row);
                             row = new Row();
-            			} else if (row.getChildren().size() > 0) 
+            			} else if (row.getChildren().size() > 0)
             			{
             				rows.appendChild(row);
             				if (rowList != null)
                 				rowList.add(row);
             				row = new Row();
             			}
-            			
+
             			List<org.zkoss.zul.Row> headerRows = new ArrayList<org.zkoss.zul.Row>();
             			fieldGroupHeaders.put(fieldGroup, headerRows);
-            			
+
             			row.setSpans("5");
             			row.appendChild(new Separator());
             			rows.appendChild(row);
             			headerRows.add(row);
-            			            			
+
         				rowList = new ArrayList<org.zkoss.zul.Row>();
         				fieldGroupContents.put(fieldGroup, rowList);
-            			            			
-            			if (X_AD_FieldGroup.FIELDGROUPTYPE_Label.equals(field.getFieldGroupType())) 
+
+            			if (X_AD_FieldGroup.FIELDGROUPTYPE_Label.equals(field.getFieldGroupType()))
             			{
-            				row = new Row();            			
+            				row = new Row();
                 			row.setSpans("4");
-            				Label groupLabel = new Label(fieldGroup); 
+            				Label groupLabel = new Label(fieldGroup);
             				row.appendChild(groupLabel);
             				row.appendChild(createSpacer());
             				rows.appendChild(row);
             				headerRows.add(row);
-            				
+
             				row = new Row();
 	                        row.setSpans("4");
 	                        Separator separator = new Separator();
@@ -384,11 +384,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             				rows.appendChild(row);
             				headerRows.add(row);
             			}
-            			
+
             			row = new Row();
             		}
             	}
-            	
+
                 if (!field.isSameLine() || field.isLongField())
                 {
                 	//next line
@@ -408,8 +408,8 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	        				rowList.add(row);
 	                    row = new Row();
                 	}
-                } 
-                else if (row.getChildren().size() == 4) 
+                }
+                else if (row.getChildren().size() == 4)
                 {
                 	//next line if reach max column ( 4 )
                 	row.appendChild(createSpacer());
@@ -420,7 +420,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                 }
 
                 WEditor editor = WebEditorFactory.getEditor(gridTab, field, false);
-                
+
                 if (editor != null) // Not heading
                 {
                     editor.setGridTab(this.getGridTab());
@@ -443,7 +443,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             				rowList.add(row);
                     	row = new Row();
                     }
-                    
+
                     if (editor instanceof WButtonEditor)
                     {
                     	if (windowPanel != null)
@@ -453,28 +453,28 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                     {
                     	editor.addValueChangeListener(dataBinder);
                     }
-                    
+
                     //streach component to fill grid cell
                     editor.fillHorizontal();
-                    
+
                     //setup editor context menu
-                    WEditorPopupMenu popupMenu = editor.getPopupMenu();                    
+                    WEditorPopupMenu popupMenu = editor.getPopupMenu();
                     if (popupMenu != null)
                     {
                     	popupMenu.addMenuListener((ContextMenuListener)editor);
                         this.appendChild(popupMenu);
-                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor) 
+                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor)
                         {
                         	label.setStyle("cursor: pointer; text-decoration: underline;");
                         	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
                         }
-                        
+
                         label.setContext(popupMenu.getId());
                     }
                 }
             }
         }
-        
+
         //last row
         if (row.getChildren().size() > 0)
         {
@@ -488,14 +488,14 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             if (rowList != null)
 				rowList.add(row);
         }
-        
+
         //create tree
         if (gridTab.isTreeTab() && treePanel != null) {
 			int AD_Tree_ID = MTree.getDefaultAD_Tree_ID (
 				Env.getAD_Client_ID(Env.getCtx()), gridTab.getKeyColumnName());
 			treePanel.initTree(AD_Tree_ID, windowNo);
         }
-        
+
         if (!gridTab.isSingleRow() && !isGridView())
         	switchRowPresentation();
     }
@@ -503,7 +503,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	private Component createSpacer() {
 		return new Space();
 	}
-    
+
 	/**
 	 * Validate display properties of fields of current row
 	 * @param col
@@ -514,7 +514,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         {
             return;
         }
-        
+
         //  Selective
         if (col > 0)
         {
@@ -551,10 +551,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                     	comp.dynamicDisplay();
                         boolean rw = mField.isEditable(true);   //  r/w - check Context
                         comp.setReadWrite(rw);
-                        if (comp.getLabel() != null)
-                        {
-                        	comp.setMandatory(mField.isMandatory(true));    //  check context
-                        }
+                        comp.setMandatory(mField.isMandatory(true));    //  check context
                     }
                 }
                 else if (comp.isVisible())
@@ -563,10 +560,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                 }
             }
         }   //  all components
-        
+
         //hide row if all editor within the row is invisible
         List<?> rows = grid.getRows().getChildren();
-        for(int i = 0; i < rows.size(); i++) 
+        for(int i = 0; i < rows.size(); i++)
         {
         	org.zkoss.zul.Row row = (org.zkoss.zul.Row) rows.get(i);
         	List<?> components = row.getChildren();
@@ -575,7 +572,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	for (int j = 0; j < components.size(); j++)
         	{
         		Component component = (Component) components.get(j);
-        		if (editorIds.contains(component.getUuid())) 
+        		if (editorIds.contains(component.getUuid()))
         		{
         			editorRow = true;
         			if (component.isVisible())
@@ -588,7 +585,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	if (editorRow && (row.isVisible() != visible))
         		row.setVisible(visible);
         }
-        
+
         //hide fieldgroup if all editor row within the fieldgroup is invisible
         for(Iterator<Entry<String, List<org.zkoss.zul.Row>>> i = fieldGroupHeaders.entrySet().iterator(); i.hasNext();)
         {
@@ -610,7 +607,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         			row.setVisible(visible);
         	}
         }
-        
+
         logger.config(gridTab.toString() + " - fini - " + (col<=0 ? "complete" : "seletive"));
     }   //  dynamicDisplay
 
@@ -656,7 +653,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     }
 
     /**
-     * 
+     *
      * @return windowNo
      */
     public int getWindowNo()
@@ -674,7 +671,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         if (listPanel.isVisible() && !open)
         	gridTab.getTableModel().fireTableDataChanged();
     }
-    
+
     /**
      * Retrieve from db
      * @param onlyCurrentRows
@@ -688,7 +685,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         if (listPanel.isVisible() && !open)
         	gridTab.getTableModel().fireTableDataChanged();
     }
-    
+
     /**
      * @return GridTab
      */
@@ -696,7 +693,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     {
         return gridTab;
     }
-    
+
     /**
      * Refresh current row
      */
@@ -704,7 +701,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     {
         gridTab.dataRefresh();
     }
-    
+
     /**
      * Activate/deactivate panel
      * @param activate
@@ -723,7 +720,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         		setFocusToField();
         	}
         }
-        
+
         //activate embedded panel
         for(EmbeddedPanel ep : includedPanel)
         {
@@ -735,12 +732,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		if (activate)
 		{
 			panel.windowPanel.getADTab().evaluate(null);
-			panel.windowPanel.getADTab().setSelectedIndex(0);                
+			panel.windowPanel.getADTab().setSelectedIndex(0);
 			panel.tabPanel.query(false, 0, 0);
 		}
 		panel.tabPanel.activate(activate);
 	}
-    
+
 	/**
 	 * set focus to first active editor
 	 */
@@ -751,13 +748,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 				toFocus = editor;
 				break;
 			}
-			
+
 			if (toFocus == null) {
 				if (editor.isVisible() && editor.isReadWrite() && editor.getComponent().getParent() != null) {
-					toFocus = editor;				
+					toFocus = editor;
 				}
 			}
-		}		
+		}
 		if (toFocus != null) {
 			Component c = toFocus.getComponent();
 			if (c instanceof EditorBox) {
@@ -773,10 +770,10 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
      */
     public void onEvent(Event event)
     {
-    	if (event.getTarget() == listPanel.getListbox()) 
+    	if (event.getTarget() == listPanel.getListbox())
     	{
     		this.switchRowPresentation();
-    	} 
+    	}
     	else if (event.getTarget() == treePanel.getTree()) {
     		Treeitem item =  treePanel.getTree().getSelectedItem();
     		navigateTo((SimpleTreeNode)item.getValue());
@@ -810,7 +807,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		}
 
 		//  Navigate to node row
-		gridTab.navigate(row);		
+		gridTab.navigate(row);
 	}
 
     /**
@@ -821,13 +818,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     {
     	//ignore background event
     	if (Executions.getCurrent() == null) return;
-    	
+
         int col = e.getChangedColumn();
         logger.config("(" + gridTab + ") Col=" + col + ": " + e.toString());
 
         //  Process Callout
         GridField mField = gridTab.getField(col);
-        if (mField != null 
+        if (mField != null
             && (mField.getCallout().length() > 0 || gridTab.hasDependants(mField.getColumnName())))
         {
             String msg = gridTab.processFieldChange(mField);     //  Dependencies & Callout
@@ -835,7 +832,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
             {
                 FDialog.error(windowNo, this, msg);
             }
-            
+
             // Refresh the list on dependant fields
     		ArrayList<GridField> list = gridTab.getDependantFields(mField.getColumnName());
     		for (int i = 0; i < list.size(); i++)
@@ -853,18 +850,18 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
     				}
     			}
     		}   //  for all dependent fields
-            
+
         }
         //if (col >= 0)
         if (!uiCreated)
         	createUI();
         dynamicDisplay(col);
-        
-        //sync tree 
+
+        //sync tree
         if (treePanel != null) {
         	if ("Deleted".equalsIgnoreCase(e.getAD_Message()))
-        		if (e.Record_ID != null 
-        				&& e.Record_ID instanceof Integer 
+        		if (e.Record_ID != null
+        				&& e.Record_ID instanceof Integer
         				&& ((Integer)e.Record_ID != gridTab.getRecord_ID()))
         			deleteNode((Integer)e.Record_ID);
         		else
@@ -872,24 +869,24 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         	else
         		setSelectedNode(gridTab.getRecord_ID());
         }
-        
+
         if (listPanel.isVisible()) {
         	listPanel.updateListIndex();
         	listPanel.dynamicDisplay(col);
         }
-        
+
         if (!includedPanel.isEmpty()) {
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
         }
-        	
+
     }
-    
+
     private void deleteNode(int recordId) {
 		if (recordId <= 0) return;
-		
+
 		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
-		
+
 		if (treePanel.getTree().getSelectedItem() != null) {
 			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
 			MTreeNode data = (MTreeNode) treeNode.getData();
@@ -898,18 +895,18 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 				return;
 			}
 		}
-		
+
 		SimpleTreeNode treeNode = model.find(null, recordId);
 		if (treeNode != null) {
 			model.removeNode(treeNode);
-		} 
+		}
 	}
 
 	private void addNewNode() {
     	if (gridTab.getRecord_ID() > 0) {
 	    	String name = (String)gridTab.getValue("Name");
 			String description = (String)gridTab.getValue("Description");
-			boolean summary = gridTab.getValueAsBoolean("IsSummary"); 
+			boolean summary = gridTab.getValueAsBoolean("IsSummary");
 			String imageIndicator = (String)gridTab.getValue("Action");  //  Menu - Action
 			//
 			SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
@@ -927,13 +924,13 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
 	private void setSelectedNode(int recordId) {
 		if (recordId <= 0) return;
-		
+
 		if (treePanel.getTree().getSelectedItem() != null) {
 			SimpleTreeNode treeNode = (SimpleTreeNode) treePanel.getTree().getSelectedItem().getValue();
 			MTreeNode data = (MTreeNode) treeNode.getData();
 			if (data.getNode_ID() == recordId) return;
 		}
-		
+
 		SimpleTreeModel model = (SimpleTreeModel) treePanel.getTree().getModel();
 		SimpleTreeNode treeNode = model.find(null, recordId);
 		if (treeNode != null) {
@@ -971,7 +968,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			listPanel.deactivate();
 		}
 	}
-	
+
 	class ZoomListener implements EventListener {
 
 		private IZoomableEditor searchEditor;
@@ -979,14 +976,14 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		ZoomListener(IZoomableEditor editor) {
 			searchEditor = editor;
 		}
-		
+
 		public void onEvent(Event event) throws Exception {
 			if (Events.ON_CLICK.equals(event.getName())) {
 				searchEditor.actionZoom();
 			}
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -1007,27 +1004,27 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		ep.gridWindow = gridWindow;
 		includedPanel.add(ep);
 		Group group = includedTab.get(adTabId);
-		ep.group = group;		
+		ep.group = group;
 		if (tabPanel instanceof ADTabpanel) {
 			ADTabpanel atp = (ADTabpanel) tabPanel;
 			atp.listPanel.setPageSize(-1);
 		}
-		ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);						
+		ADWindowPanel panel = new ADWindowPanel(ctx, windowNo, gridWindow, tabIndex, tabPanel);
 		ep.windowPanel = panel;
-		
+
 		if (group != null) {
-			createEmbeddedPanelUI(ep);			
+			createEmbeddedPanelUI(ep);
 			if (active)
 				activateChild(true, ep);
-		}		
+		}
 	}
-	
+
 	class EmbeddedPanel {
 		Group group;
 		GridWindow gridWindow;
 		int tabIndex;
 		ADWindowPanel windowPanel;
-		IADTabpanel tabPanel;		
+		IADTabpanel tabPanel;
 		int adTabId;
 	}
 
@@ -1038,18 +1035,18 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 		if (!includedPanel.isEmpty()) {
         	for (EmbeddedPanel panel : includedPanel)
         		panel.tabPanel.query(false, 0, 0);
-        }	        	
+        }
 	}
-	
+
 	private void createEmbeddedPanelUI(EmbeddedPanel ep) {
 		org.zkoss.zul.Row row = new Row();
 		row.setSpans("5");
-		grid.getRows().insertBefore(row, includedTabFooter.get(ep.adTabId));			
-		ep.windowPanel.createPart(row);		
+		grid.getRows().insertBefore(row, includedTabFooter.get(ep.adTabId));
+		ep.windowPanel.createPart(row);
 		ep.windowPanel.getComponent().setWidth("100%");
 		ep.windowPanel.getComponent().setStyle("position: relative");
 		ep.windowPanel.getComponent().setHeight("400px");
-		
+
 		Label title = new Label(ep.gridWindow.getTab(ep.tabIndex).getName());
 		ep.group.appendChild(title);
 		ep.group.appendChild(ep.windowPanel.getToolbar());

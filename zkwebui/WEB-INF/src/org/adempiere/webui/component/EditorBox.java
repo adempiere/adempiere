@@ -29,7 +29,7 @@ import org.zkoss.zul.Div;
  */
 public class EditorBox extends Div {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3152111756471436612L;
 	protected PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(
@@ -66,7 +66,7 @@ public class EditorBox extends Div {
 		grid.setDynamicProperty("border", "0");
 		grid.setDynamicProperty("cellpadding", "0");
 		grid.setDynamicProperty("cellspacing", "0");
-		
+
 		Tr tr = new Tr();
 		grid.appendChild(tr);
 		tr.setStyle("width: 100%; border: none; padding: 0px; margin: 0px; white-space:nowrap; ");
@@ -77,7 +77,7 @@ public class EditorBox extends Div {
 		txt = new Textbox();
 		txt.setStyle("display: inline; width: 99%;");
 		td.appendChild(txt);
-		
+
 		btnColumn = new Td();
 		tr.appendChild(btnColumn);
 		btnColumn.setStyle("border: none; padding: 0px; margin: 0px;");
@@ -133,7 +133,7 @@ public class EditorBox extends Div {
 	 * @return boolean
 	 */
 	public boolean isEnabled() {
-		return txt.isReadonly();
+		return !txt.isReadonly();
 	}
 
 	/**
