@@ -1,3 +1,16 @@
+/******************************************************************************
+ * Copyright (C) 2008 Low Heng Sin                                            *
+ * Copyright (C) 2008 Idalica Corporation                                     *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package org.adempiere.webui.apps.graph;
 
 import java.awt.Color;
@@ -47,14 +60,13 @@ import org.zkoss.zul.Imagemap;
 
 /**
  * 	Bar Graph
- *	
- *  @author Jorg Janke
- *  @version $Id: BarGraph.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *
+ *	@author hengsin
  */
 public class WBarGraph extends Panel
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -975989183542113080L;
 
@@ -77,18 +89,13 @@ public class WBarGraph extends Panel
 		m_Y_AxisLabel = goal.getName();
 		m_X_AxisLabel = goal.getXAxisText();
 		loadData();
-		//addComponentListener(this);
 	}	//	BarGraph
-	
+
 	/** The Goal				*/
 	private MGoal 			m_goal = null;
-	/** Graph Size				*/
-	//private Dimension 		m_size = null;
 	/** Zero/Zero Coordibate point	*/
 	private Point			m_point0_0 = null;
-	/** Layout					*/
-//	private BarGraphLayout	m_layout = new BarGraphLayout(this);
-	
+
 	/**	Logger					*/
 	private static CLogger log = CLogger.getCLogger (WBarGraph.class);
 
@@ -96,23 +103,18 @@ public class WBarGraph extends Panel
 	private String		m_X_AxisLabel = "X Axis";
 	/** Y Axis Label			*/
 	private String		m_Y_AxisLabel = "Y Axis";
-	/** Y Axis Max				*/
-//	private double		m_Y_Max	= 0;
-	/** Y Axis Target Line		*/
-//	private double		m_Y_Target	= 0;
 	/** Y Axis Target Line Label */
 	private String		m_Y_TargetLabel = null;
-//	private static Dimension			paneldimension = new Dimension(180, 150);
-	
+
 	final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	
+
 	/**
 	 * 	Load Performance Data
 	 */
 	ArrayList<BarGraphColumn> list = new ArrayList<BarGraphColumn>();
 
 	private void loadData()
-	{		
+	{
 		//	Calculated
 		MMeasure measure = m_goal.getMeasure();
 		if (measure == null)
@@ -123,8 +125,8 @@ public class WBarGraph extends Panel
 		if (MMeasure.MEASURETYPE_Calculated.equals(measure.getMeasureType()))
 		{
 			MMeasureCalc mc = MMeasureCalc.get(Env.getCtx(), measure.getPA_MeasureCalc_ID());
-			String sql = mc.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), null, 
+			String sql = mc.getSqlBarChart(m_goal.getRestrictions(false),
+				m_goal.getMeasureDisplay(), null,
 				MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -138,10 +140,10 @@ public class WBarGraph extends Panel
 					BigDecimal data = rs.getBigDecimal(1);
 					Timestamp date = rs.getTimestamp(2);
 					BarGraphColumn bgc = new BarGraphColumn(mc, data);
-					bgc.setLabel(date, m_goal.getMeasureDisplay()); //TODO copy order-loop to other measures 
+					bgc.setLabel(date, m_goal.getMeasureDisplay()); //TODO copy order-loop to other measures
 					int pos=0;
 					for (int i = 0; i <  dataList.size(); i++)
-						if (dataList.get(i).before(date)) pos++; 
+						if (dataList.get(i).before(date)) pos++;
 					dataList.add(date); // list of dates
 					list.add(pos, bgc);
 				}
@@ -168,7 +170,7 @@ public class WBarGraph extends Panel
 					list.add(bgc);
 				}
 			}
-			else	//	MMeasure.MEASUREDATATYPE_QtyAmountInTime	
+			else	//	MMeasure.MEASUREDATATYPE_QtyAmountInTime
 			{
 				String MeasureDisplay = m_goal.getMeasureDisplay();
 				String trunc = "D";
@@ -214,13 +216,13 @@ public class WBarGraph extends Panel
 				}
 			}	//	Achievement in time
 		}	//	Achievement
-		
+
 		//	Request
 		else if (MMeasure.MEASURETYPE_Request.equals(measure.getMeasureType()))
 		{
 			MRequestType rt = MRequestType.get(Env.getCtx(), measure.getR_RequestType_ID());
-			String sql = rt.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
+			String sql = rt.getSqlBarChart(m_goal.getRestrictions(false),
+				m_goal.getMeasureDisplay(), measure.getMeasureDataType(),
 				null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -256,13 +258,13 @@ public class WBarGraph extends Panel
 				rs = null; pstmt = null;
 			}
 		}	//	Request
-		
+
 		//	Project
 		else if (MMeasure.MEASURETYPE_Project.equals(measure.getMeasureType()))
 		{
 			MProjectType pt = MProjectType.get(Env.getCtx(), measure.getC_ProjectType_ID());
-			String sql = pt.getSqlBarChart(m_goal.getRestrictions(false), 
-				m_goal.getMeasureDisplay(), measure.getMeasureDataType(), 
+			String sql = pt.getSqlBarChart(m_goal.getRestrictions(false),
+				m_goal.getMeasureDisplay(), measure.getMeasureDataType(),
 				null, MRole.getDefault());	//	logged in role
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -290,19 +292,13 @@ public class WBarGraph extends Panel
 				rs = null; pstmt = null;
 			}
 		}	//	Project
-		
+
 		//	Add last 20
 		int startValue = 0;
-		//if (list.size() > 20) //TODO CHECK
-		//	startValue = list.size()-20;
-		/*
-		for (int i = startValue; i < list.size(); i++)
-			add (list.get(i));
-		*/
 		for (int i = startValue; i < list.size(); i++){
 			dataset.addValue(list.get(i).getValue(), list.get(i).getLabel(), list.get(i).getLabel());
 		}
-			
+
         // create the chart...
         final JFreeChart chart = ChartFactory.createBarChart(
             measure.getName(),         // chart title
@@ -317,34 +313,34 @@ public class WBarGraph extends Panel
 
         CategoryPlot plot = chart.getCategoryPlot();
         //plot.setBackgroundPaint(Color.lightGray); //GraphUtil.getForeground(getBackground())
-        BarRenderer renderer = (BarRenderer) plot.getRenderer(); 
-        chart.getCategoryPlot().setRenderer(renderer);       
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        chart.getCategoryPlot().setRenderer(renderer);
 		 renderer.setSeriesPaint(0, new Color(92/255f, 178/255f, 232/255f));
-		 renderer.setSeriesPaint(1, new Color(56/255f, 97/255f, 119/255f));            
+		 renderer.setSeriesPaint(1, new Color(56/255f, 97/255f, 119/255f));
 		 renderer.setSeriesPaint(2, new Color(242/255f, 70/255f, 78/255f));
-		 renderer.setSeriesPaint(3, Color.orange);							
+		 renderer.setSeriesPaint(3, Color.orange);
 		 renderer.setSeriesPaint(4, new Color(147/255f, 196/255f, 51/255f));
 		 renderer.setSeriesPaint(5, new Color(210/255f, 247/255f, 91/255f));
 		 renderer.setSeriesPaint(6, new Color(129/255f, 235/255f, 249/255f));
-		 renderer.setSeriesPaint(7, new Color(60/255f, 84/255f, 8/255f));    
-		 renderer.setSeriesPaint(8, new Color(0.8f, 0.8f, 0.8f));  
+		 renderer.setSeriesPaint(7, new Color(60/255f, 84/255f, 8/255f));
+		 renderer.setSeriesPaint(8, new Color(0.8f, 0.8f, 0.8f));
 
 		ChartRenderingInfo info = new ChartRenderingInfo();
 		BufferedImage bi = chart.createBufferedImage(700, 500, BufferedImage.TRANSLUCENT, info);
-		try {			
+		try {
 			byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
 
 			AImage image = new AImage("", bytes);
 			Imagemap myImage = new Imagemap();
-			
+
 			myImage.setContent(image);
-			appendChild(myImage);	
-			
+			appendChild(myImage);
+
 			int count = 0;
-			for(Iterator it = info.getEntityCollection().getEntities().iterator(); it.hasNext(); ) 
-			{	
+			for(Iterator<?> it = info.getEntityCollection().getEntities().iterator(); it.hasNext(); )
+			{
 				ChartEntity ce = ( ChartEntity ) it.next();
-				
+
 				String tooltip = ce.getToolTipText();
 				if(tooltip == null) continue;
 
@@ -356,10 +352,10 @@ public class WBarGraph extends Panel
 				area.setId("WBG_"+tooltip);
 				count++;
 			}
-			
-			myImage.addEventListener(Events.ON_CLICK, new EventListener() 
+
+			myImage.addEventListener(Events.ON_CLICK, new EventListener()
 			{
-				public void onEvent(Event event) throws Exception 
+				public void onEvent(Event event) throws Exception
 				{
 					MouseEvent me = (MouseEvent) event;
 					String areaId = me.getArea();
@@ -377,22 +373,22 @@ public class WBarGraph extends Panel
 					}
 				}
 			});
-		} 
+		}
 		catch (Exception e) {
 			log.log (Level.SEVERE, "", e);
 		}
 	}	// loadData
 	/**
 	 * Get Point 0_0
-	 * 
+	 *
 	 * @return point
 	 */
 	public Point getPoint0_0()
 	{
 		return m_point0_0;
 	}	//	getPoint0_0
-	
-	
+
+
 	/**
 	 * @return Returns the x_AxisLabel.
 	 */
@@ -400,7 +396,7 @@ public class WBarGraph extends Panel
 	{
 		return m_X_AxisLabel;
 	}	//	getX_AxisLabel
-	
+
 	/**
 	 * @param axisLabel The x_AxisLabel to set.
 	 */
@@ -416,7 +412,7 @@ public class WBarGraph extends Panel
 	{
 		return m_Y_AxisLabel;
 	}	//	getY_AxisLabel
-	
+
 	/**
 	 * @param axisLabel The y_AxisLabel to set.
 	 */
@@ -424,7 +420,7 @@ public class WBarGraph extends Panel
 	{
 		m_Y_AxisLabel = axisLabel;
 	}	//	setY_AxisLabel
-	
+
 	/**
 	 * @return Returns the y_TargetLabel.
 	 */
@@ -432,7 +428,7 @@ public class WBarGraph extends Panel
 	{
 		return m_Y_TargetLabel;
 	}	//	getY_TargetLabel
-	
+
 	/**
 	 * @param targetLabel The y_TargetLabel to set.
 	 */
@@ -441,8 +437,8 @@ public class WBarGraph extends Panel
 		m_Y_TargetLabel = targetLabel;
 //		m_Y_Target = target;
 	}	//	setY_TargetLabel
-	
-	
+
+
 	/**
 	 * 	Add Column
 	 *	@param column column
@@ -450,16 +446,16 @@ public class WBarGraph extends Panel
 	public void add (BarGraphColumn column)
 	{
 //		super.add (column, "column");
-		//column.addActionListener(this);		
+		//column.addActionListener(this);
 	}	//	add
-	
-	
+
+
 	/**************************************************************************
 	 * 	Paint Component
 	 *	@param g graphics
 	 */
 
-	 public void chartMouseClicked(int index) 
+	 public void chartMouseClicked(int index)
 	 {
 		 BarGraphColumn bgc = list.get(index);
 		if (null == bgc)
@@ -470,13 +466,13 @@ public class WBarGraph extends Panel
 		{
 			MAchievement a = bgc.getAchievement();
 			query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
-		} 
+		}
 		else if (bgc.getGoal() != null) // Multiple Achievements
 		{
 			MGoal goal = bgc.getGoal();
 			query = MQuery.getEqualQuery("PA_Measure_ID", goal
 					.getPA_Measure_ID());
-		} 
+		}
 		else if (bgc.getMeasureCalc() != null) // Document
 		{
 			MMeasureCalc mc = bgc.getMeasureCalc();
@@ -484,14 +480,14 @@ public class WBarGraph extends Panel
 					.getMeasureDisplay(), bgc.getDate(), MRole.getDefault()); // logged
 																				// in
 																				// role
-		} 
+		}
 		else if (bgc.getProjectType() != null) // Document
 		{
 			MProjectType pt = bgc.getProjectType();
 			query = pt.getQuery(m_goal.getRestrictions(false), bgc
 					.getMeasureDisplay(), bgc.getDate(), bgc.getID(), MRole
 					.getDefault()); // logged in role
-		} 
+		}
 		else if (bgc.getRequestType() != null) // Document
 		{
 			MRequestType rt = bgc.getRequestType();
@@ -504,10 +500,10 @@ public class WBarGraph extends Panel
 		else
 			log.warning("Nothing to zoom to - " + bgc);
 	}
-     
+
     public void chartMouseMoved(ChartMouseEvent event) {}
 
-	public BarGraphColumn[] getBarGraphColumnList() 
+	public BarGraphColumn[] getBarGraphColumnList()
 	{
 		BarGraphColumn[] array = new BarGraphColumn[list.size()];
 		for (int i = 0; i < list.size(); i++){
