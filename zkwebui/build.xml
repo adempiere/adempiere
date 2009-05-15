@@ -52,9 +52,9 @@
 	           optimize="${compile.optimize}">
 	        <classpath refid="compile.classpath"/>
 	    </javac>
-		<copy  todir="${classes.dir}">
+		<copy  todir="${classes.dir}" overwrite="true">
 			<fileset dir="WEB-INF/src">
-				<include name="*.xml" />
+				<include name="**/*.xml" />
 			</fileset>
 		</copy>
 	</target>
