@@ -47,6 +47,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.StatusBar;
@@ -72,12 +73,16 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 
 /**
  * Allocation Form
  *
  * @author  Jorg Janke
+ * @author Victor Perez, e-Evolucion 
+ *          <li> [2792529] lockTrx when you try created a Payment Allocation 
+ *          <li> https://sourceforge.net/tracker/?func=detail&aid=2792529&group_id=176962&atid=879332
  * @version $Id: VAllocation.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  * 
  * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
@@ -933,207 +938,207 @@ public class VAllocation extends CPanel
 	{
 		if (m_noInvoices + m_noPayments == 0)
 			return;
-
-		//  fixed fields
-		int AD_Client_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_Client_ID");
-		int AD_Org_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_Org_ID");
-		int C_BPartner_ID = m_C_BPartner_ID;
-		int C_Order_ID = 0;
-		int C_CashLine_ID = 0;
-		Timestamp DateTrx = (Timestamp)dateField.getValue();
-		int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
-		//
-		if (AD_Org_ID == 0)
-		{
-			ADialog.error(m_WindowNo, this, "Org0NotAllowed", null);
-			return;
-		}
-		//
-		log.config("Client=" + AD_Client_ID + ", Org=" + AD_Org_ID
-			+ ", BPartner=" + C_BPartner_ID + ", Date=" + DateTrx);
 		
-		Trx trx = Trx.get(Trx.createTrxName("AL"), true);
-
-		//  Payment - Loop and add them to paymentList/amountList
-		int pRows = paymentTable.getRowCount();
-		TableModel payment = paymentTable.getModel();
-		ArrayList<Integer> paymentList = new ArrayList<Integer>(pRows);
-		ArrayList<BigDecimal> amountList = new ArrayList<BigDecimal>(pRows);
-		BigDecimal paymentAppliedAmt = Env.ZERO;
-		for (int i = 0; i < pRows; i++)
+		try
 		{
-			//  Payment line is selected
-			if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+			Trx.run(new TrxRunnable() 
 			{
-				KeyNamePair pp = (KeyNamePair)payment.getValueAt(i, 2);   //  Value
-				//  Payment variables
-				int C_Payment_ID = pp.getKey();
-				paymentList.add(new Integer(C_Payment_ID));
-				//
-				BigDecimal PaymentAmt = (BigDecimal)payment.getValueAt(i, i_payment);  //  Applied Payment
-				amountList.add(PaymentAmt);
-				//
-				paymentAppliedAmt = paymentAppliedAmt.add(PaymentAmt);
-				//
-				log.fine("C_Payment_ID=" + C_Payment_ID 
-					+ " - PaymentAmt=" + PaymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
-			}
-		}
-		log.config("Number of Payments=" + paymentList.size() + " - Total=" + paymentAppliedAmt);
-
-		//  Invoices - Loop and generate allocations
-		int iRows = invoiceTable.getRowCount();
-		TableModel invoice = invoiceTable.getModel();
-		
-		//	Create Allocation
-		MAllocationHdr alloc = new MAllocationHdr (Env.getCtx(), true,	//	manual
-			DateTrx, C_Currency_ID, Env.getContext(Env.getCtx(), "#AD_User_Name"), trx.getTrxName());
-		alloc.setAD_Org_ID(AD_Org_ID);
-		if (!alloc.save())
-		{
-			log.log(Level.SEVERE, "Allocation not created");
-			return;
-		}
-		
-		//	For all invoices
-		int invoiceLines = 0;
-		BigDecimal unmatchedApplied = Env.ZERO;
-		for (int i = 0; i < iRows; i++)
-		{
-			//  Invoice line is selected
-			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
-			{
-				invoiceLines++;
-				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
-				//  Invoice variables
-				int C_Invoice_ID = pp.getKey();
-				BigDecimal AppliedAmt = (BigDecimal)invoice.getValueAt(i, i_applied);
-				//  semi-fixed fields (reset after first invoice)
-				BigDecimal DiscountAmt = (BigDecimal)invoice.getValueAt(i, i_discount);
-				BigDecimal WriteOffAmt = (BigDecimal)invoice.getValueAt(i, i_writeOff);
-				//	OverUnderAmt needs to be in Allocation Currency
-				BigDecimal OverUnderAmt = ((BigDecimal)invoice.getValueAt(i, i_open))
-					.subtract(AppliedAmt).subtract(DiscountAmt).subtract(WriteOffAmt);
-				
-				log.config("Invoice #" + i + " - AppliedAmt=" + AppliedAmt);// + " -> " + AppliedAbs);
-				//  loop through all payments until invoice applied
-				
-				for (int j = 0; j < paymentList.size() && AppliedAmt.signum() != 0; j++)
+				public void run(String trxName)
 				{
-					int C_Payment_ID = ((Integer)paymentList.get(j)).intValue();
-					BigDecimal PaymentAmt = (BigDecimal)amountList.get(j);
-					if (PaymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
-					{												// and not zero (appliedAmt was checked earlier)
-						log.config(".. with payment #" + j + ", Amt=" + PaymentAmt);
-						
-						BigDecimal amount = AppliedAmt;
-						if (amount.abs().compareTo(PaymentAmt.abs()) > 0)  // if there's more open on the invoice
-							amount = PaymentAmt;							// than left in the payment
-						
-						//	Allocation Line
-						MAllocationLine aLine = new MAllocationLine (alloc, amount, 
-							DiscountAmt, WriteOffAmt, OverUnderAmt);
-						aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-						aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
-						if (!aLine.save())
-							log.log(Level.SEVERE, "Allocation Line not written - Invoice=" + C_Invoice_ID);
-
-						//  Apply Discounts and WriteOff only first time
-						DiscountAmt = Env.ZERO;
-						WriteOffAmt = Env.ZERO;
-						//  subtract amount from Payment/Invoice
-						AppliedAmt = AppliedAmt.subtract(amount);
-						PaymentAmt = PaymentAmt.subtract(amount);
-						log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + PaymentAmt);
-						amountList.set(j, PaymentAmt);  //  update
-					}	//	for all applied amounts
-				}	//	loop through payments for invoice
-				
-				if ( AppliedAmt.signum() == 0 && DiscountAmt.signum() == 0 && WriteOffAmt.signum() == 0)
-					continue;
-				else {			// remainder will need to match against other invoices
-					int C_Payment_ID = 0;
+					//  fixed fields
+					int AD_Client_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_Client_ID");
+					int AD_Org_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "AD_Org_ID");
+					int C_BPartner_ID = m_C_BPartner_ID;
+					int C_Order_ID = 0;
+					int C_CashLine_ID = 0;
+					Timestamp DateTrx = (Timestamp)dateField.getValue();
+					int C_Currency_ID = m_C_Currency_ID;	//	the allocation currency
+					//
+					if (AD_Org_ID == 0)
+					{
+						//ADialog.error(m_WindowNo, this, "Org0NotAllowed", null);
+						new AdempiereException("@Org0NotAllowed@");
+					}
+					//
+					log.config("Client=" + AD_Client_ID + ", Org=" + AD_Org_ID
+						+ ", BPartner=" + C_BPartner_ID + ", Date=" + DateTrx);
+			
+					//  Payment - Loop and add them to paymentList/amountList
+					int pRows = paymentTable.getRowCount();
+					TableModel payment = paymentTable.getModel();
+					ArrayList<Integer> paymentList = new ArrayList<Integer>(pRows);
+					ArrayList<BigDecimal> amountList = new ArrayList<BigDecimal>(pRows);
+					BigDecimal paymentAppliedAmt = Env.ZERO;
+					for (int i = 0; i < pRows; i++)
+					{
+						//  Payment line is selected
+						if (((Boolean)payment.getValueAt(i, 0)).booleanValue())
+						{
+							KeyNamePair pp = (KeyNamePair)payment.getValueAt(i, 2);   //  Value
+							//  Payment variables
+							int C_Payment_ID = pp.getKey();
+							paymentList.add(new Integer(C_Payment_ID));
+							//
+							BigDecimal PaymentAmt = (BigDecimal)payment.getValueAt(i, i_payment);  //  Applied Payment
+							amountList.add(PaymentAmt);
+							//
+							paymentAppliedAmt = paymentAppliedAmt.add(PaymentAmt);
+							//
+							log.fine("C_Payment_ID=" + C_Payment_ID 
+								+ " - PaymentAmt=" + PaymentAmt); // + " * " + Multiplier + " = " + PaymentAmtAbs);
+						}
+					}
+					log.config("Number of Payments=" + paymentList.size() + " - Total=" + paymentAppliedAmt);
+			
+					//  Invoices - Loop and generate allocations
+					int iRows = invoiceTable.getRowCount();
+					TableModel invoice = invoiceTable.getModel();
 					
-					//	Allocation Line
-					MAllocationLine aLine = new MAllocationLine (alloc, AppliedAmt, 
-						DiscountAmt, WriteOffAmt, OverUnderAmt);
-					aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
-					aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
-					if (!aLine.save(trx.getTrxName()))
-						log.log(Level.SEVERE, "Allocation Line not written - Invoice=" + C_Invoice_ID);
-
-					log.fine("Allocation Amount=" + AppliedAmt);
-					unmatchedApplied = unmatchedApplied.add(AppliedAmt);
-				}
-			}   //  invoice selected
-		}   //  invoice loop
-
-		// check for unapplied payment amounts (eg from payment reversals)
-		for (int i = 0; i < paymentList.size(); i++)	{
-			BigDecimal payAmt = (BigDecimal) amountList.get(i);
-			if ( payAmt.signum() == 0 )
-					continue;
-			int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
-			log.fine("Payment=" + C_Payment_ID  
-					+ ", Amount=" + payAmt);
-
-			//	Allocation Line
-			MAllocationLine aLine = new MAllocationLine (alloc, payAmt, 
-				Env.ZERO, Env.ZERO, Env.ZERO);
-			aLine.setDocInfo(C_BPartner_ID, 0, 0);
-			aLine.setPaymentInfo(C_Payment_ID, 0);
-			if (!aLine.save(trx.getTrxName()))
-				log.log(Level.SEVERE, "Allocation Line not saved - Payment=" + C_Payment_ID);
-			unmatchedApplied = unmatchedApplied.subtract(payAmt);
-		}		
-		
-		if ( unmatchedApplied.signum() != 0 )
-			log.log(Level.SEVERE, "Allocation not balanced -- out by " + unmatchedApplied );
-
-		//	Should start WF
-		if (alloc.get_ID() != 0)
-		{
-			alloc.processIt(DocAction.ACTION_Complete);
-			alloc.save();
-		}
-		
-		//  Test/Set IsPaid for Invoice - requires that allocation is posted
-		for (int i = 0; i < iRows; i++)
-		{
-			//  Invoice line is selected
-			if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
-			{
-				KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
-				//  Invoice variables
-				int C_Invoice_ID = pp.getKey();
-				String sql = "SELECT invoiceOpen(C_Invoice_ID, 0) "
-					+ "FROM C_Invoice WHERE C_Invoice_ID=?";
-				BigDecimal open = DB.getSQLValueBD(trx.getTrxName(), sql, C_Invoice_ID);
-				if (open != null && open.signum() == 0)	{
-					sql = "UPDATE C_Invoice SET IsPaid='Y' "
-						+ "WHERE C_Invoice_ID=" + C_Invoice_ID;
-					int no = DB.executeUpdate(sql, trx.getTrxName());
-					log.config("Invoice #" + i + " is paid - updated=" + no);
-				} else
-					log.config("Invoice #" + i + " is not paid - " + open);
-			}
-		}
-		//  Test/Set Payment is fully allocated
-		for (int i = 0; i < paymentList.size(); i++)
-		{
-			int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
-			MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trx.getTrxName());
-			if (pay.testAllocation())
-				pay.save();
-			log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
-					+ " fully allocated");
-		}
-		paymentList.clear();
-		amountList.clear();
-		trx.commit();
-		trx.close();
+					//	Create Allocation
+					MAllocationHdr alloc = new MAllocationHdr (Env.getCtx(), true,	//	manual
+						DateTrx, C_Currency_ID, Env.getContext(Env.getCtx(), "#AD_User_Name"), trxName);
+					alloc.setAD_Org_ID(AD_Org_ID);
+					alloc.saveEx();
+					//	For all invoices
+					int invoiceLines = 0;
+					BigDecimal unmatchedApplied = Env.ZERO;
+					for (int i = 0; i < iRows; i++)
+					{
+						//  Invoice line is selected
+						if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+						{
+							invoiceLines++;
+							KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
+							//  Invoice variables
+							int C_Invoice_ID = pp.getKey();
+							BigDecimal AppliedAmt = (BigDecimal)invoice.getValueAt(i, i_applied);
+							//  semi-fixed fields (reset after first invoice)
+							BigDecimal DiscountAmt = (BigDecimal)invoice.getValueAt(i, i_discount);
+							BigDecimal WriteOffAmt = (BigDecimal)invoice.getValueAt(i, i_writeOff);
+							//	OverUnderAmt needs to be in Allocation Currency
+							BigDecimal OverUnderAmt = ((BigDecimal)invoice.getValueAt(i, i_open))
+								.subtract(AppliedAmt).subtract(DiscountAmt).subtract(WriteOffAmt);
+							
+							log.config("Invoice #" + i + " - AppliedAmt=" + AppliedAmt);// + " -> " + AppliedAbs);
+							//  loop through all payments until invoice applied
+							
+							for (int j = 0; j < paymentList.size() && AppliedAmt.signum() != 0; j++)
+							{
+								int C_Payment_ID = ((Integer)paymentList.get(j)).intValue();
+								BigDecimal PaymentAmt = (BigDecimal)amountList.get(j);
+								if (PaymentAmt.signum() == AppliedAmt.signum())	// only match same sign (otherwise appliedAmt increases)
+								{												// and not zero (appliedAmt was checked earlier)
+									log.config(".. with payment #" + j + ", Amt=" + PaymentAmt);
+									
+									BigDecimal amount = AppliedAmt;
+									if (amount.abs().compareTo(PaymentAmt.abs()) > 0)  // if there's more open on the invoice
+										amount = PaymentAmt;							// than left in the payment
+									
+									//	Allocation Line
+									MAllocationLine aLine = new MAllocationLine (alloc, amount, 
+										DiscountAmt, WriteOffAmt, OverUnderAmt);
+									aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
+									aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
+									aLine.saveEx();
+			
+									//  Apply Discounts and WriteOff only first time
+									DiscountAmt = Env.ZERO;
+									WriteOffAmt = Env.ZERO;
+									//  subtract amount from Payment/Invoice
+									AppliedAmt = AppliedAmt.subtract(amount);
+									PaymentAmt = PaymentAmt.subtract(amount);
+									log.fine("Allocation Amount=" + amount + " - Remaining  Applied=" + AppliedAmt + ", Payment=" + PaymentAmt);
+									amountList.set(j, PaymentAmt);  //  update
+								}	//	for all applied amounts
+							}	//	loop through payments for invoice
+							
+							if ( AppliedAmt.signum() == 0 && DiscountAmt.signum() == 0 && WriteOffAmt.signum() == 0)
+								continue;
+							else {			// remainder will need to match against other invoices
+								int C_Payment_ID = 0;
+								
+								//	Allocation Line
+								MAllocationLine aLine = new MAllocationLine (alloc, AppliedAmt, 
+									DiscountAmt, WriteOffAmt, OverUnderAmt);
+								aLine.setDocInfo(C_BPartner_ID, C_Order_ID, C_Invoice_ID);
+								aLine.setPaymentInfo(C_Payment_ID, C_CashLine_ID);
+								aLine.saveEx();
+								log.fine("Allocation Amount=" + AppliedAmt);
+								unmatchedApplied = unmatchedApplied.add(AppliedAmt);
+							}
+						}   //  invoice selected
+					}   //  invoice loop
+			
+					// check for unapplied payment amounts (eg from payment reversals)
+					for (int i = 0; i < paymentList.size(); i++)	{
+						BigDecimal payAmt = (BigDecimal) amountList.get(i);
+						if ( payAmt.signum() == 0 )
+								continue;
+						int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
+						log.fine("Payment=" + C_Payment_ID  
+								+ ", Amount=" + payAmt);
+			
+						//	Allocation Line
+						MAllocationLine aLine = new MAllocationLine (alloc, payAmt, 
+							Env.ZERO, Env.ZERO, Env.ZERO);
+						aLine.setDocInfo(C_BPartner_ID, 0, 0);
+						aLine.setPaymentInfo(C_Payment_ID, 0);
+						aLine.saveEx();
+						unmatchedApplied = unmatchedApplied.subtract(payAmt);
+					}		
+					
+					if ( unmatchedApplied.signum() != 0 )
+						log.log(Level.SEVERE, "Allocation not balanced -- out by " + unmatchedApplied );
+			
+					//	Should start WF
+					if (alloc.get_ID() != 0)
+					{
+						alloc.processIt(DocAction.ACTION_Complete);
+						alloc.saveEx();
+					}
+					
+					//  Test/Set IsPaid for Invoice - requires that allocation is posted
+					for (int i = 0; i < iRows; i++)
+					{
+						//  Invoice line is selected
+						if (((Boolean)invoice.getValueAt(i, 0)).booleanValue())
+						{
+							KeyNamePair pp = (KeyNamePair)invoice.getValueAt(i, 2);    //  Value
+							//  Invoice variables
+							int C_Invoice_ID = pp.getKey();
+							String sql = "SELECT invoiceOpen(C_Invoice_ID, 0) "
+								+ "FROM C_Invoice WHERE C_Invoice_ID=?";
+							BigDecimal open = DB.getSQLValueBD(trxName, sql, C_Invoice_ID);
+							if (open != null && open.signum() == 0)	{
+								sql = "UPDATE C_Invoice SET IsPaid='Y' "
+									+ "WHERE C_Invoice_ID=" + C_Invoice_ID;
+								int no = DB.executeUpdate(sql, trxName);
+								log.config("Invoice #" + i + " is paid - updated=" + no);
+							} else
+								log.config("Invoice #" + i + " is not paid - " + open);
+						}
+					}
+					//  Test/Set Payment is fully allocated
+					for (int i = 0; i < paymentList.size(); i++)
+					{
+						int C_Payment_ID = ((Integer)paymentList.get(i)).intValue();
+						MPayment pay = new MPayment (Env.getCtx(), C_Payment_ID, trxName);
+						if (pay.testAllocation())
+							pay.saveEx();
+						log.config("Payment #" + i + (pay.isAllocated() ? " not" : " is") 
+								+ " fully allocated");
+					}
+					paymentList.clear();
+					amountList.clear();
 
 		statusBar.setStatusLine(alloc.getDocumentNo());
+		}});
+		}
+		catch (Exception e)
+		{
+			ADialog.error(m_WindowNo, this, "Error", e.getLocalizedMessage());
+			return;
+		}
 	}   //  saveData
 
 
