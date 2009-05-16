@@ -102,6 +102,10 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jfreechart.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
@@ -126,10 +130,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
