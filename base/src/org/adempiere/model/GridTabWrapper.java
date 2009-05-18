@@ -43,11 +43,7 @@ public class GridTabWrapper implements InvocationHandler
 											new GridTabWrapper(gridTab));
 	}
 	
-	private GridTab m_gridTab = null;
-	
-	private GridTabWrapper()
-	{
-	}
+	private final GridTab m_gridTab;
 	
 	private GridTabWrapper(GridTab gridTab)
 	{
@@ -110,5 +106,10 @@ public class GridTabWrapper implements InvocationHandler
 		{
 			return method.invoke(m_gridTab, args);
 		}
+	}
+	
+	public GridTab getGridTab()
+	{
+		return this.m_gridTab;
 	}
 }
