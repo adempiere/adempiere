@@ -30,6 +30,7 @@ import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeManager;
 import org.compiere.Adempiere;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
@@ -78,7 +79,7 @@ public class AboutWindow extends Window implements EventListener {
 		this.setWidth("500px");
 		this.setHeight("450px");
 		this.setPosition("center");
-		this.setTitle(MSysConfig.getValue("ZK_BROWSER_TITLE", "Adempiere"));
+		this.setTitle(ThemeManager.getBrowserTitle());
 		this.setClosable(true);
 		this.setSizable(true);
 
@@ -303,13 +304,8 @@ public class AboutWindow extends Window implements EventListener {
 		vbox.setAlign("center");
 		vbox.setPack("center");
 		vbox.setParent(tabPanel);
-		String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", null);
-    	if (logoURL == null || logoURL.trim().length() == 0)
-    	{
-    		String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
-    		logoURL = ITheme.THEME_PATH_PREFIX + theme + ITheme.HEADER_LOGO_IMAGE;
-    	}
-		Image image = new Image(logoURL);
+
+		Image image = new Image(ThemeManager.getSmallLogo());
 		image.setParent(vbox);
 
 		Text text = new Text(Adempiere.getSubtitle());

@@ -27,6 +27,7 @@ import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
@@ -88,7 +89,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     public void onCreate()
     {
-        this.getPage().setTitle(MSysConfig.getValue("ZK_BROWSER_TITLE", APP_NAME));
+        this.getPage().setTitle(ThemeManager.getBrowserTitle());
 
         Properties ctx = Env.getCtx();
         langSession = Env.getContext(ctx, Env.LANGUAGE);

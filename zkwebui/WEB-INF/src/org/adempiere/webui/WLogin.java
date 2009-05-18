@@ -16,10 +16,11 @@ package org.adempiere.webui;
 
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.LoginWindow;
-import org.compiere.model.MSysConfig;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.metainfo.PageDefinition;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
@@ -49,8 +50,6 @@ public class WLogin extends AbstractUIPart
 
     protected Component doCreatePart(Component parent)
     {
-    	String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
-
         layout = new Borderlayout();
         if (parent != null)
         	layout.setParent(parent);
@@ -77,36 +76,72 @@ public class WLogin extends AbstractUIPart
         loginWindow.setParent(vb);
 
         try {
-        	String right = ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_RIGHT_PANEL_ZUL;
+        	String right = ThemeManager.getLoginRightPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(right);
 	    	East east = new East();
 	    	east.setSclass(ITheme.LOGIN_EAST_PANEL_CLASS);
 	    	addContent(east, pageDefintion);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        	//ignore page not found exception
+        	if (e instanceof UiException) {
+        		if (!(e.getMessage() != null && e.getMessage().startsWith("Page not found"))) {
+        			e.printStackTrace();
+        		}
+        	} else {
+        		e.printStackTrace();
+        	}
+        }
 
         try {
-	        String left = ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_LEFT_PANEL_ZUL;
+	        String left = ThemeManager.getLoginLeftPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(left);
 	    	West west = new West();
 	    	west.setSclass(ITheme.LOGIN_WEST_PANEL_CLASS);
 	    	addContent(west, pageDefintion);
-        } catch (Exception e){}
+        } catch (Exception e){
+        	//ignore page not found exception
+        	if (e instanceof UiException) {
+        		if (!(e.getMessage() != null && e.getMessage().startsWith("Page not found"))) {
+        			e.printStackTrace();
+        		}
+        	} else {
+        		e.printStackTrace();
+        	}
+        }
 
         try {
-	        String top = ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_TOP_PANEL_ZUL;
+	        String top = ThemeManager.getLoginTopPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(top);
 	    	North north = new North();
 	    	north.setSclass(ITheme.LOGIN_NORTH_PANEL_CLASS);
 	    	addContent(north, pageDefintion);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        	//ignore page not found exception
+        	if (e instanceof UiException) {
+        		if (!(e.getMessage() != null && e.getMessage().startsWith("Page not found"))) {
+        			e.printStackTrace();
+        		}
+        	} else {
+        		e.printStackTrace();
+        	}
+        }
 
         try {
-	        String bottom = ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_BOTTOM_PANEL_ZUL;
+	        String bottom = ThemeManager.getLoginBottomPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(bottom);
 	    	South south = new South();
 	    	south.setSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS);
 	    	addContent(south, pageDefintion);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        	//ignore page not found exception
+        	if (e instanceof UiException) {
+        		if (!(e.getMessage() != null && e.getMessage().startsWith("Page not found"))) {
+        			e.printStackTrace();
+        		}
+        	} else {
+        		e.printStackTrace();
+        	}
+        }
 
         return layout;
     }

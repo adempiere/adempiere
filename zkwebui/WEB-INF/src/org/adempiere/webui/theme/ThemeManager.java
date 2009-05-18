@@ -13,6 +13,7 @@
  *****************************************************************************/
 package org.adempiere.webui.theme;
 
+import org.adempiere.webui.AdempiereWebUI;
 import org.compiere.model.MSysConfig;
 
 /**
@@ -48,5 +49,53 @@ public final class ThemeManager {
 	 */
 	public static String getTheme() {
 		return MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
+	}
+
+	/**
+	 * @return title text for the browser window
+	 */
+	public static String getBrowserTitle() {
+		return MSysConfig.getValue("ZK_BROWSER_TITLE", AdempiereWebUI.APP_NAME);
+	}
+
+	/**
+	 * @return url for right panel
+	 */
+	public static String getLoginRightPanel() {
+		String theme = getTheme();
+		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_RIGHT_PANEL_ZUL;
+	}
+
+	/**
+	 * @return url for left panel
+	 */
+	public static String getLoginLeftPanel() {
+		String theme = getTheme();
+		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_LEFT_PANEL_ZUL;
+	}
+
+	/**
+	 * @return url for top panel
+	 */
+	public static String getLoginTopPanel() {
+		String theme = getTheme();
+		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_TOP_PANEL_ZUL;
+	}
+
+	/**
+	 * @return url for bottom panel
+	 */
+	public static String getLoginBottomPanel() {
+		String theme = getTheme();
+		return ITheme.THEME_PATH_PREFIX + theme + ITheme.LOGIN_BOTTOM_PANEL_ZUL;
+	}
+
+	/**
+	 * @return url for browser icon
+	 */
+	public static String getBrowserIcon() {
+		String theme = getTheme();
+		String def = ITheme.THEME_PATH_PREFIX + theme + ITheme.BROWSER_ICON_IMAGE;
+		return MSysConfig.getValue("ZK_BROWSER_ICON", def);
 	}
 }
