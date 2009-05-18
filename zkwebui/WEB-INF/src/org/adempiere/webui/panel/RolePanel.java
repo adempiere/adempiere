@@ -35,11 +35,11 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.db.CConnection;
 import org.compiere.model.MRole;
-import org.compiere.model.MSysConfig;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -106,8 +106,6 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
     private void init()
     {
-    	String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
-
     	Div div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
     	Label label = new Label("Login");
@@ -130,7 +128,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE);
+        image.setSrc(ThemeManager.getLargeLogo());
         td.appendChild(image);
 
         tr = new Tr();

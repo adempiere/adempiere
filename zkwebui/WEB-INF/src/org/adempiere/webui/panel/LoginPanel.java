@@ -35,9 +35,9 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
-import org.compiere.model.MSysConfig;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -98,8 +98,6 @@ public class LoginPanel extends Window implements EventListener
 
     private void init()
     {
-    	String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
-
     	Div div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_HEADER_CLASS);
     	Label label = new Label("Login");
@@ -122,7 +120,7 @@ public class LoginPanel extends Window implements EventListener
     	tr.appendChild(td);
     	td.setDynamicProperty("colspan", "2");
     	Image image = new Image();
-        image.setSrc(ITheme.THEME_PATH_PREFIX+theme+ITheme.LOGIN_LOGO_IMAGE);
+        image.setSrc(ThemeManager.getLargeLogo());
         td.appendChild(image);
 
         tr = new Tr();

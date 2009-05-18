@@ -19,9 +19,8 @@ package org.adempiere.webui.panel;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.AboutWindow;
-import org.compiere.model.MSysConfig;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -58,13 +57,7 @@ public class HeaderPanel extends Panel implements EventListener
 
     	UserPanel userPanel = new UserPanel();
 
-    	String logoURL = MSysConfig.getValue("WEBUI_LOGOURL", null);
-    	if (logoURL == null || logoURL.trim().length() == 0)
-    	{
-    		String theme = MSysConfig.getValue(ITheme.ZK_THEME, ITheme.ZK_THEME_DEFAULT);
-    		logoURL = ITheme.THEME_PATH_PREFIX + theme + ITheme.HEADER_LOGO_IMAGE;
-    	}
-    	image.setSrc(logoURL);
+    	image.setSrc(ThemeManager.getSmallLogo());
     	image.addEventListener(Events.ON_CLICK, this);
     	image.setStyle("cursor: pointer;");
 
@@ -77,7 +70,6 @@ public class HeaderPanel extends Panel implements EventListener
     	Vbox vb = new Vbox();
         vb.setParent(west);
         vb.setHeight("100%");
-//        vb.setWidth("100%"); // Elaine 2008/11/19 the role and logout links don't work if width is set to 100%
         vb.setPack("center");
         vb.setAlign("left");
 
@@ -98,15 +90,6 @@ public class HeaderPanel extends Panel implements EventListener
     	LayoutUtils.addSclass("header-right", center);
     	//the following doesn't work when declare as part of the header-right style
     	center.setStyle("background-color: transparent; border: none;");
-
-//    	East east = new East();
-//    	east.setParent(layout);
-//    	userPanel.setParent(east);
-//    	userPanel.setHeight("100%");
-//    	east.setFlex(true);
-//    	LayoutUtils.addSclass("header-right", east);
-//    	//the following doesn't work when declare as part of the header-right style
-//    	east.setStyle("background-color: transparent; border: none;");
     }
 
 	public void onEvent(Event event) throws Exception {
