@@ -750,7 +750,7 @@ public final class AMenu extends CFrame
 		if (centerPane.getSelectedIndex() == m_tabActivities)
 		{
 			wfActivity.loadActivities();
-			wfActivity.display();
+			wfActivity.display(-1);
 		}
 	}	//	stateChanged
 

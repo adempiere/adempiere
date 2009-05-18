@@ -34,6 +34,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.model.MAttachment;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MConversionRate;
@@ -1752,5 +1753,52 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		}
 		return sb.toString();
 	}	//	toStringX
-	
+
+	/**
+	 * 	Get Document Summary
+	 *	@return PO Summary
+	 */
+	public String getSummary()
+	{
+		PO po = getPO();
+		if (po == null)
+			return null;
+		StringBuffer sb = new StringBuffer();
+		String[] keyColumns = po.get_KeyColumns();
+		if ((keyColumns != null) && (keyColumns.length > 0))
+			sb.append(Msg.getElement(getCtx(), keyColumns[0])).append(" ");
+		int index = po.get_ColumnIndex("DocumentNo");
+		if (index != -1)
+			sb.append(po.get_Value(index)).append(": ");
+		index = po.get_ColumnIndex("SalesRep_ID");
+		Integer sr = null;
+		if (index != -1)
+			sr = (Integer)po.get_Value(index);
+		else
+		{
+			index = po.get_ColumnIndex("AD_User_ID");
+			if (index != -1)
+				sr = (Integer)po.get_Value(index);
+		}
+		if (sr != null)
+		{
+			MUser user = MUser.get(getCtx(), sr.intValue());
+			if (user != null)
+				sb.append(user.getName()).append(" ");
+		}
+		//
+		index = po.get_ColumnIndex("C_BPartner_ID");
+		if (index != -1)
+		{
+			Integer bp = (Integer)po.get_Value(index);
+			if (bp != null)
+			{
+				MBPartner partner = MBPartner.get(getCtx(), bp.intValue());
+				if (partner != null)
+					sb.append(partner.getName()).append(" ");
+			}
+		}
+		return sb.toString();
+	}	//	getSummary
+
 }	//	MWFActivity

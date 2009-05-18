@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -31,6 +31,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -44,10 +47,13 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.model.MColumn;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRefList;
+import org.compiere.model.MSysConfig;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CTable;
 import org.compiere.swing.CTextArea;
 import org.compiere.swing.CTextField;
 import org.compiere.swing.CTextPane;
@@ -68,14 +74,17 @@ import org.compiere.wf.MWFNode;
  * 	@version 	$Id: WFActivity.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *
  * 	@author 	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
+ *  @author     Compiere - CarlosRuiz integrate code for table selection on workflow present at GPL version of Compiere 3.2.0
  */
 public class WFActivity extends CPanel 
-	implements FormPanel, ActionListener
+	implements FormPanel, ActionListener, ListSelectionListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1317405409770050809L;
+	private static final long serialVersionUID = 752377976007540423L;
+
+	private static final int MAX_ACTIVITIES_IN_LIST = MSysConfig.getIntValue("MAX_ACTIVITIES_IN_LIST", 200, Env.getAD_Client_ID(Env.getCtx()));
 
 	/**
 	 * 	WF Activity
@@ -124,6 +133,12 @@ public class WFActivity extends CPanel
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WFActivity.class);
 	
+	DefaultTableModel 	selTableModel = new DefaultTableModel(
+			new String[]{Msg.translate(Env.getCtx(), "Priority"),
+				Msg.translate(Env.getCtx(), "AD_WF_Node_ID"),
+				Msg.translate(Env.getCtx(), "Summary")}, 0); 
+	private CTable 		selTable = new CTable();
+	private CScrollPane selPane = new CScrollPane(selTable);
 	//
 	private CPanel centerPanel = new CPanel();
 	private GridBagLayout centerLayout = new GridBagLayout();
@@ -140,8 +155,8 @@ public class WFActivity extends CPanel
 	private CTextField fAnswerText = new CTextField();
 	private CComboBox fAnswerList = new CComboBox();
 	private CButton fAnswerButton = new CButton();
-	private CButton bPrevious = AEnv.getButton("Previous");
-	private CButton bNext = AEnv.getButton("Next");
+	// private CButton bPrevious = AEnv.getButton("Previous");
+	// private CButton bNext = AEnv.getButton("Next");
 	private CButton bZoom = AEnv.getButton("Zoom");
 	private CLabel lTextMsg = new CLabel(Msg.getMsg(Env.getCtx(), "Messages"));
 	private CTextArea fTextMsg = new CTextArea();
@@ -170,18 +185,21 @@ public class WFActivity extends CPanel
 	 */
 	private void jbInit () throws Exception
 	{
+		int width = 150;
 		centerPanel.setLayout (centerLayout);
 		fNode.setReadWrite (false);
 		fDescription.setReadWrite (false);
-		fDescription.setPreferredSize(new Dimension (130,40));
+		fDescription.setPreferredSize(new Dimension (width,40));
 		fHelp.setReadWrite (false);
-		fHelp.setPreferredSize(new Dimension (150,80));
+		fHelp.setPreferredSize(new Dimension (width,40));
 		fHistory.setReadWrite (false);
-		fHistory.setPreferredSize(new Dimension (150,60));
-		fTextMsg.setPreferredSize(new Dimension (150,40));
+		fHistory.setPreferredSize(new Dimension (width,80));
+		fTextMsg.setPreferredSize(new Dimension (width,40));
 		//
-		bPrevious.addActionListener(this);
-		bNext.addActionListener(this);
+		// bPrevious.addActionListener(this);
+		// bNext.addActionListener(this);
+		selTable.setModel(selTableModel);
+		selTable.getSelectionModel().addListSelectionListener(this);
 		bZoom.addActionListener(this);
 		bOK.addActionListener(this);
 		//
@@ -195,67 +213,68 @@ public class WFActivity extends CPanel
 		answers.add(fAnswerButton);
 		fAnswerButton.addActionListener(this);
 		//
-		centerPanel.add (lNode, new GridBagConstraints (0, 0, 1, 1, 0.0, 0.0, 
+		int row = 0;
+		selPane.setPreferredSize(new Dimension(width, 60));
+		selPane.setMinimumSize(new Dimension(100, 60));
+		centerPanel.add (selPane, new GridBagConstraints (0, row, 4, 1, 0.3, 0.3, 
+			GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, 
+			new Insets (5, 10, 5, 10), 0, 0));
+		
+		centerPanel.add (lNode, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
 			new Insets (5, 10, 5, 5), 0, 0));
-		centerPanel.add (fNode, new GridBagConstraints (1, 0, 2, 1, 0.5, 0.0, 
+		centerPanel.add (fNode, new GridBagConstraints (1, row, 3, 2, 0.5, 0.0, 
 			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
-			new Insets (5,	0, 5, 5), 0, 0));
-		centerPanel.add (bPrevious, new GridBagConstraints (3, 0, 1, 1, 0.0, 0.0, 
-			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
-			new Insets (5, 5, 5, 10), 0, 0));
+			new Insets (5,	0, 5, 10), 0, 0));
 		
-		centerPanel.add (lDesctiption, new GridBagConstraints (0, 1, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lDesctiption, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE,
 			new Insets (5, 10, 5, 5), 0, 0));
-		centerPanel.add (fDescription, new GridBagConstraints (1, 1, 2, 1, 0.0,	0.1, 
-			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
-			new Insets (5, 0, 5, 5), 0, 0));
-		centerPanel.add (bNext, new GridBagConstraints (3, 1, 1, 1, 0.0, 0.0, 
-			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
-			new Insets (5, 5, 5, 10), 0, 0));
-		
-		centerPanel.add (lHelp, new GridBagConstraints (0, 2, 1, 1, 0.0, 0.0, 
-			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
-			new Insets (5, 10, 5, 5), 0, 0));
-		centerPanel.add (fHelp, new GridBagConstraints (1, 2, 3, 1, 0.0, 0.1, 
+		centerPanel.add (fDescription, new GridBagConstraints (1, row, 3, 1, 0.0, 0.0, 
 			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
 			new Insets (5, 0, 5, 10), 0, 0));
 		
-		centerPanel.add (lHistory, new GridBagConstraints (0, 3, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lHelp, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
+			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
+			new Insets (2, 10, 5, 5), 0, 0));
+		centerPanel.add (fHelp, new GridBagConstraints (1, row, 3, 1, 0.0, 0.0, 
+			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
+			new Insets (2, 0, 5, 10), 0, 0));
+		
+		centerPanel.add (lHistory, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
 			new Insets (5, 10, 5, 5), 0, 0));
-		centerPanel.add (fHistory, new GridBagConstraints (1, 3, 3, 1, 0.5, 0.5, 
+		centerPanel.add (fHistory, new GridBagConstraints (1, row, 3, 1, 0.5, 0.5, 
 			GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH, 
 			new Insets (5,	0, 5, 10), 0, 0));
 		
-		centerPanel.add (lAnswer, new GridBagConstraints (0, 4, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lAnswer, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets (10, 10, 5, 5), 0, 0));
-		centerPanel.add (answers, new GridBagConstraints (1, 4, 2, 1, 0.0, 0.0, 
+		centerPanel.add (answers, new GridBagConstraints (1, row, 2, 1, 0.0, 0.0, 
 			GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, 
 			new Insets (10,	0, 5, 5), 0, 0));
-		centerPanel.add (bZoom, new GridBagConstraints (3, 4, 1, 1, 0.0, 0.0, 
+		centerPanel.add (bZoom, new GridBagConstraints (3, row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets (10,	0, 10, 10), 0, 0));
 
-		centerPanel.add (lTextMsg, new GridBagConstraints (0, 5, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lTextMsg, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.NORTHEAST, GridBagConstraints.NONE, 
 			new Insets (5, 10, 5, 5), 0, 0));
-		centerPanel.add (fTextMsg, new GridBagConstraints (1, 5, 3, 1, 0.5, 0.0, 
+		centerPanel.add (fTextMsg, new GridBagConstraints (1, row, 3, 1, 0.5, 0.0, 
 			GridBagConstraints.NORTHWEST, GridBagConstraints.HORIZONTAL, 
 			new Insets (5, 0, 5, 10), 0, 0));
 		
-		centerPanel.add (lForward, new GridBagConstraints (0, 6, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lForward, new GridBagConstraints (0, ++row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets (10, 10,	5, 5), 0, 0));
-		centerPanel.add (fForward, new GridBagConstraints (1, 6, 1, 1, 0.0, 0.0, 
+		centerPanel.add (fForward, new GridBagConstraints (1, row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets (10, 0, 5, 0), 0, 0));
-		centerPanel.add (lOptional, new GridBagConstraints (2, 6, 1, 1, 0.0, 0.0, 
+		centerPanel.add (lOptional, new GridBagConstraints (2, row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.WEST, GridBagConstraints.NONE, 
 			new Insets (10,	5, 5, 5), 0, 0));
-		centerPanel.add (bOK, new GridBagConstraints (3, 6, 1, 1, 0.0, 0.0, 
+		centerPanel.add (bOK, new GridBagConstraints (3, row, 1, 1, 0.0, 0.0, 
 			GridBagConstraints.EAST, GridBagConstraints.NONE, 
 			new Insets (10,	5, 5, 10), 0, 0));
 	}	//	jbInit
@@ -279,7 +298,7 @@ public class WFActivity extends CPanel
 			//
 		//	this.setPreferredSize(new Dimension (400,400));
 			frame.getContentPane().add(this, BorderLayout.CENTER);
-			display();
+			display(-1);
 		}
 		catch(Exception e)
 		{
@@ -356,6 +375,8 @@ public class WFActivity extends CPanel
 	 */
 	public int loadActivities()
 	{
+		while (selTableModel.getRowCount() > 0)
+			selTableModel.removeRow(0);	
 		long start = System.currentTimeMillis();
 		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
 		String sql = "SELECT * FROM AD_WF_Activity a "
@@ -386,10 +407,16 @@ public class WFActivity extends CPanel
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				list.add (new MWFActivity(Env.getCtx(), rs, null));
-				if (list.size() > 200)		//	HARDCODED
+				MWFActivity activity = new MWFActivity(Env.getCtx(), rs, null);
+				list.add (activity);
+				Object[] rowData = new Object[3];
+				rowData[0] = activity.getPriority();
+				rowData[1] = activity.getNodeName();
+				rowData[2] = activity.getSummary();
+				selTableModel.addRow(rowData);
+				if (list.size() > MAX_ACTIVITIES_IN_LIST)
 				{
-					log.warning("More then 200 Activities - ignored");
+					log.warning("More than " + MAX_ACTIVITIES_IN_LIST + " Activities - ignored");
 					break;
 				}
 			}
@@ -403,6 +430,7 @@ public class WFActivity extends CPanel
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+		selTable.autoSize(false);
 		m_activities = new MWFActivity[list.size ()];
 		list.toArray (m_activities);
 		//
@@ -414,50 +442,21 @@ public class WFActivity extends CPanel
 	
 	/**
 	 * 	Display.
+	 * 	@param index index of table
 	 * 	Fill Editors
 	 */
-	public void display ()
+	public void display(int index)
 	{
-		log.fine("Index=" + m_index);
+		log.fine("Index=" + index);
+		m_activity = resetDisplay(index);
 		//
-		fTextMsg.setText("");
-		fAnswerText.setVisible(false);
-		fAnswerList.setVisible(false);
-		fAnswerButton.setIcon(Env.getImageIcon("mWindow.gif"));
-		fAnswerButton.setVisible(false);
-		fTextMsg.setReadWrite(m_activities.length != 0);
-		bZoom.setEnabled(m_activities.length != 0);
-		bOK.setEnabled(m_activities.length != 0);
-		fForward.setValue(null);
-		fForward.setEnabled(m_activities.length != 0);
-		statusBar.setStatusDB(String.valueOf(m_index) + "/" + m_activities.length);
-		m_activity = null;
-		if (m_activities.length > 0)
+		if (m_menu != null)
 		{
-			if (m_index+1 > m_activities.length)
-			{
-				log.log(Level.SEVERE, "Index (" + m_index 
-					+ ") greater then activity length=" + m_activities.length);
-				m_index = 0;
-			}
-			else
-				m_activity = m_activities[m_index];
+		 	m_menu.updateActivities(m_activities.length);
 		}
-		//	Nothing to show
 		if (m_activity == null)
-		{
-			fNode.setText ("");
-			fDescription.setText ("");
-			fHelp.setText ("");
-			fHistory.setText ("");
-			statusBar.setStatusDB("0/0");
-			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFNoActivities"));
-			bNext.setEnabled(false);
-			bPrevious.setEnabled(false);
-			if (m_menu != null)
-				m_menu.updateActivities(0);
 			return;
-		}
+		
 		//	Display Activity
 		fNode.setText (m_activity.getNodeName());
 		fDescription.setText (m_activity.getNodeDescription());
@@ -503,35 +502,62 @@ public class WFActivity extends CPanel
 		}
 		/*
 		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))
-			log.log(Level.SEVERE, "Workflow Action not implemented yet");*/
+			log.log(Level.SEVERE, "Workflow Action not implemented yet"); */
 		else
 			log.log(Level.SEVERE, "Unknown Node Action: " + node.getAction());
-		//
-		// globalqss - comment following lines to solve the
-		// Bug [ 1711626 ] Workflow tab just allow to navigate first two activities
-		if (m_menu != null)
-		{
-		 	m_menu.updateActivities(m_activities.length);
-		}
-		//	End
-		if (m_index+1 >= m_activities.length)
-		{
-			m_index = m_activities.length - 1;
-			bNext.setEnabled(false);
-		}
-		else
-			bNext.setEnabled(true);
-		//	Start
-		if (m_index <= 0)
-		{
-			m_index = 0;
-			bPrevious.setEnabled(false);
-		}
-		else
-			bPrevious.setEnabled(true);
-		statusBar.setStatusDB((m_index+1) + "/" + m_activities.length);
+
+		statusBar.setStatusDB((index+1) + "/" + m_activities.length);
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFActivities"));
 	}	//	display
+
+	/**
+	 * 	Reset Display
+	 *	@param selIndex select index
+	 *	@return selected activity
+	 */
+	private MWFActivity resetDisplay(int selIndex)
+	{
+		fAnswerText.setVisible(false);
+		fAnswerList.setVisible(false);
+		fAnswerButton.setVisible(false);
+		fTextMsg.setReadWrite(selIndex >= 0);
+		bZoom.setEnabled(selIndex >= 0);
+		bOK.setEnabled(selIndex >= 0);
+		fForward.setValue(null);
+		fForward.setEnabled(selIndex >= 0);
+		//
+		statusBar.setStatusDB(String.valueOf(selIndex+1) + "/" + m_activities.length);
+		m_activity = null;
+		m_column = null;
+		if (m_activities.length > 0)
+		{
+			if (selIndex >= 0 && selIndex < m_activities.length)
+				m_activity = m_activities[selIndex];
+		}
+		//	Nothing to show
+		if (m_activity == null)
+		{
+			fNode.setText ("");
+			fDescription.setText ("");
+			fHelp.setText ("");
+			fHistory.setText ("");
+			statusBar.setStatusDB("0/0");
+			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFNoActivities"));
+		}
+		return m_activity;
+	}	//	resetDisplay
+	
+	
+	/**
+	 * 	Selection Listener
+	 * 	@param e event
+	 */
+    public void valueChanged(ListSelectionEvent e)
+    {
+		int m_index = selTable.getSelectedRow();
+		if (m_index >= 0)
+			display(m_index);
+    }	//	valueChanged
 
 	
 	/**
@@ -543,7 +569,7 @@ public class WFActivity extends CPanel
 	{
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//
-		if (e.getSource() == bNext || e.getSource() == bPrevious)
+		/* if (e.getSource() == bNext || e.getSource() == bPrevious)
 		{
 			if (e.getSource() == bNext)
 				m_index++;
@@ -551,7 +577,7 @@ public class WFActivity extends CPanel
 				m_index--;
 			display();
 		}
-		else if (e.getSource() == bZoom)
+		else */ if (e.getSource() == bZoom)
 			cmd_zoom();
 		else if (e.getSource() == bOK)
 			cmd_OK();
@@ -717,7 +743,7 @@ public class WFActivity extends CPanel
 
 		//	Next
 		loadActivities();
-		display();
+		display(-1);
 	}	//	cmd_OK
 	
 	
