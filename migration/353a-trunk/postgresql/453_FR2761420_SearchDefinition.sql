@@ -8,11 +8,6 @@ INSERT INTO AD_Table (AccessLevel,AD_Client_ID,AD_Org_ID,AD_Table_ID,CopyColumns
 INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy) SELECT l.AD_Language,t.AD_Table_ID, t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, AD_Table t WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.AD_Table_ID=53169 AND EXISTS (SELECT * FROM AD_Table_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.AD_Table_ID!=t.AD_Table_ID)
 ;
 
--- Feb 18, 2009 12:44:58 PM CET
--- Product Category QA - kthiemann@adempiere.org
-INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy,CurrentNext,CurrentNextSys,Description,IncrementNo,IsActive,IsAudited,IsAutoSequence,IsTableID,Name,StartNewYear,StartNo,Updated,UpdatedBy) VALUES (0,0,1000325,TO_TIMESTAMP('2009-02-18 12:44:58','YYYY-MM-DD HH24:MI:SS'),100,1000000,50000,'Table AD_SearchDefinition',1,'Y','N','Y','Y','AD_SearchDefinition','N',1000000,TO_TIMESTAMP('2009-02-18 12:44:58','YYYY-MM-DD HH24:MI:SS'),100)
-;
-
 -- Feb 18, 2009 12:47:51 PM CET
 -- Product Category QA - kthiemann@adempiere.org
 INSERT INTO AD_Column (AD_Client_ID,AD_Column_ID,AD_Element_ID,AD_Org_ID,AD_Reference_ID,AD_Table_ID,ColumnName,Created,CreatedBy,DefaultValue,Description,EntityType,FieldLength,Help,IsActive,IsAllowLogging,IsAlwaysUpdateable,IsAutocomplete,IsEncrypted,IsIdentifier,IsKey,IsMandatory,IsParent,IsSelectionColumn,IsSyncDatabase,IsTranslated,IsUpdateable,Name,SeqNo,Updated,UpdatedBy,Version) VALUES (0,56799,102,0,19,53169,'AD_Client_ID',TO_TIMESTAMP('2009-02-18 12:47:50','YYYY-MM-DD HH24:MI:SS'),100,'@#AD_Client_ID@','Client/Tenant for this installation.','D',22,'A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.','Y','Y','N','N','N','N','N','Y','N','N','N','N','N','Client',0,TO_TIMESTAMP('2009-02-18 12:47:50','YYYY-MM-DD HH24:MI:SS'),100,1.000000000000)
@@ -334,31 +329,6 @@ UPDATE AD_Window_Access SET IsReadWrite='N',Updated=TO_TIMESTAMP('2009-02-18 13:
 -- Feb 18, 2009 1:22:44 PM CET
 -- Product Category QA - kthiemann@adempiere.org
 UPDATE AD_Window_Access SET IsReadWrite='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:44','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=50002 AND AD_Window_ID=53069
-;
-
--- Feb 18, 2009 1:22:45 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_Window_Access SET IsReadWrite='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=1000000 AND AD_Window_ID=53069
-;
-
--- Feb 18, 2009 1:22:45 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_Window_Access SET IsReadWrite='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:45','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=1000001 AND AD_Window_ID=53069
-;
-
--- Feb 18, 2009 1:22:47 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_Window_Access SET IsActive='N', IsReadWrite='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:47','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=1000023 AND AD_Window_ID=53069
-;
-
--- Feb 18, 2009 1:22:48 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_Window_Access SET IsActive='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=1000001 AND AD_Window_ID=53069
-;
-
--- Feb 18, 2009 1:22:49 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_Window_Access SET IsActive='N',Updated=TO_TIMESTAMP('2009-02-18 13:22:49','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Role_ID=1000000 AND AD_Window_ID=53069
 ;
 
 -- Feb 18, 2009 1:22:50 PM CET
@@ -758,11 +728,6 @@ UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE A
 -- Feb 18, 2009 1:49:18 PM CET
 -- Product Category QA - kthiemann@adempiere.org
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
-;
-
--- Feb 18, 2009 1:49:18 PM CET
--- Product Category QA - kthiemann@adempiere.org
-UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=1000000
 ;
 
 -- Feb 18, 2009 1:49:18 PM CET
