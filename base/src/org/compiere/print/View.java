@@ -211,8 +211,6 @@ public class View extends CPanel
 
 	public Rectangle getRectangleOfPage(int pageNo, boolean doScale)
 	{
-		System.out.println("height: "+getPaperHeight(false)+"->"+getPaperHeight(true));
-		System.out.println("width: "+getPaperWidth(false)+"->"+getPaperWidth(true));
 		int y = (int)(getMarginSize(doScale) + ((pageNo-1) * (getPaperHeight(doScale) + getMarginSize(doScale))));
 		return new Rectangle (getMarginSize(doScale), y, getPaperWidth(doScale), getPaperHeight(doScale));
 	}	//	getRectangleOfPage
