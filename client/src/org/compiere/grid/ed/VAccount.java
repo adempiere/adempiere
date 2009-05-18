@@ -23,6 +23,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.sql.PreparedStatement;
@@ -46,14 +48,17 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version  $Id: VAccount.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * 			<li>BF [ 1830531 ] Process parameter with type Account not working
  */
 public final class VAccount extends JComponent
-	implements VEditor, ActionListener
+	implements VEditor, ActionListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 906418220544555281L;
+	private static final long serialVersionUID = -3397625857773619178L;
 
 	/**
 	 *	Constructor
@@ -82,6 +87,7 @@ public final class VAccount extends JComponent
 		//	***	Button & Text	***
 		m_text.setBorder(null);
 		m_text.addActionListener(this);
+		m_text.addFocusListener(this);
 		m_text.setFont(AdempierePLAF.getFont_Field());
 		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
 		this.add(m_text, BorderLayout.CENTER);
@@ -263,14 +269,19 @@ public final class VAccount extends JComponent
 	public void cmd_button()
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_AcctSchema_ID");
+		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_AcctSchema_ID", false);
+		// Try to get C_AcctSchema_ID from global context - teo_sarca BF [ 1830531 ]
+		if (C_AcctSchema_ID <= 0)
+		{
+			C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
+		}
 		VAccountDialog ad = new VAccountDialog (Env.getFrame(this), m_title, 
 			m_mAccount, C_AcctSchema_ID);
 		setCursor(Cursor.getDefaultCursor());
 		//
 		Integer newValue = ad.getValue();
-		if (newValue == null)
-			return;
+//		if (newValue == null)
+//			return;
 
 		//	set & redisplay
 		setValue(newValue);
@@ -285,16 +296,22 @@ public final class VAccount extends JComponent
 		}
 	}	//	cmd_button
 
+	private boolean m_cmdTextRunning = false; 
 	/**
 	 *	Text - try to find Alias or start Dialog
 	 */
 	public void cmd_text()
 	{
+		if (m_cmdTextRunning)
+			return;
+		m_cmdTextRunning = true;
+		
 		String text = m_text.getText();
 		log.info("Text=" + text);
 		if (text == null || text.length() == 0 || text.equals("%"))
 		{
 			cmd_button();
+			m_cmdTextRunning = false;
 			return;
 		}
 		if (!text.endsWith("%"))
@@ -344,6 +361,10 @@ public final class VAccount extends JComponent
 		if (C_ValidCombination_ID > 0)
 		{
 			Integer newValue = new Integer(C_ValidCombination_ID);
+
+			//	set & redisplay
+			setValue(newValue);
+			
 			//	Data Binding
 			try
 			{
@@ -355,6 +376,8 @@ public final class VAccount extends JComponent
 		}
 		else
 			cmd_button();
+		
+		m_cmdTextRunning = false;
 	}	//	actionPerformed
 
 
@@ -387,5 +410,29 @@ public final class VAccount extends JComponent
 		sb.append (m_value).append ("]");
 		return sb.toString ();
 	}	//	toString
+
+	public void focusGained(FocusEvent e)
+	{
+	}
+
+	public void focusLost(FocusEvent e)
+	{
+		if (m_text == null) return; // arhipac: teo_sarca: already disposed
+									// Test Case: Open a window, click on account field that is mandatory but not filled, close the window and you will get an NPE
+									// TODO: integrate to trunk
+		// New text
+		String newText = m_text.getText();
+		if (newText == null)
+			newText = "";
+		// Actual text
+		String actualText = m_mAccount.getDisplay(m_value);
+		if (actualText == null)
+			actualText = "";
+		// If text was modified, try to resolve the valid combination
+		if (!newText.equals(actualText))
+		{
+			cmd_text();
+		}
+	}
 	
 }	//	VAccount
