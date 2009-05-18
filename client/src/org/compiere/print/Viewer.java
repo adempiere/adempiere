@@ -115,6 +115,8 @@ import org.compiere.util.ValueNamePair;
  * 				<li>FR [ 1779403 ] Report Viewer: add PgUp and PgDown key handlers
  * 				<li>BF [ 1836908 ] Report customize NPE when no window access
  * 				<li>FR [ 1894640 ] Report Engine: Excel Export support
+ *				<li>FR [ 2539927 ] Display Zoom combobox
+ *					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2539927&group_id=176962
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
@@ -216,7 +218,7 @@ public class Viewer extends CFrame
 	private CComboBox comboDrill = new CComboBox();
 	//FR 201156
 	private CCheckBox summary = new CCheckBox();
-//	private CComboBox comboZoom = new CComboBox(View.ZOOM_OPTIONS);
+	private CComboBox comboZoom = new CComboBox(View.ZOOM_OPTIONS);
 
 
 	/**
@@ -269,8 +271,8 @@ public class Viewer extends CFrame
 		
 		//	Zoom Level
 		toolBar.addSeparator();
-//		toolBar.add(comboZoom, null);
-//		comboZoom.setToolTipText(Msg.getMsg(m_ctx, "Zoom"));
+		toolBar.add(comboZoom, null);
+		comboZoom.setToolTipText(Msg.getMsg(m_ctx, "Zoom"));
 		//	Drill
 		toolBar.addSeparator();
 		labelDrill.setText(Msg.getMsg(m_ctx, "Drill") + ": ");
@@ -313,7 +315,8 @@ public class Viewer extends CFrame
 	private void dynInit()
 	{
 		createMenu();
-//		comboZoom.addActionListener(this);
+		comboZoom.setSelectedIndex(m_viewPanel.getZoomLevel());
+		comboZoom.addActionListener(this);
 		//	Change Listener to set Page no
 		//pb comment this out so that scrolling works normally
 		//centerScrollPane.getViewport().addChangeListener(this);
@@ -454,8 +457,8 @@ public class Viewer extends CFrame
 		centerScrollPane.setPreferredSize(new Dimension
 			(m_viewPanel.getPaperWidth()+30, m_viewPanel.getPaperHeight()+15));
 		centerScrollPane.getViewport().setViewSize(new Dimension
-			(m_viewPanel.getPaperWidth()+2*View.MARGIN,
-			m_viewPanel.getPaperHeight()+2*View.MARGIN));
+			(m_viewPanel.getPaperWidth()+2*m_viewPanel.getMarginSize(true),
+			m_viewPanel.getPaperHeight()+2*m_viewPanel.getMarginSize(true)));
 
 		//	Report Info
 		setTitle(Msg.getMsg(m_ctx, "Report") + ": " + m_reportEngine.getName() + "  " + Env.getHeader(m_ctx, 0));
@@ -651,10 +654,9 @@ public class Viewer extends CFrame
 		log.config(cmd);
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//
-//		if (e.getSource() == comboZoom)
-//			cmd_zoom();
-//		else
-		if (e.getSource() == comboReport)
+		if (e.getSource() == comboZoom)
+			cmd_zoom();
+		else if (e.getSource() == comboReport)
 			cmd_report();
 		else if (e.getSource() == comboDrill)
 			cmd_drill();
@@ -744,8 +746,8 @@ public class Viewer extends CFrame
 		bNext.setEnabled (m_pageNo != m_pageMax);
 		//
 		Rectangle pageRectangle = m_viewPanel.getRectangleOfPage(m_pageNo);
-		pageRectangle.x -= View.MARGIN;
-		pageRectangle.y -= View.MARGIN;
+		pageRectangle.x -= m_viewPanel.getMarginSize(true);
+		pageRectangle.y -= m_viewPanel.getMarginSize(true);
 		centerScrollPane.getViewport().setViewPosition(pageRectangle.getLocation());
 	//	System.out.println("scrollTo " + pageRectangle);
 
@@ -1212,7 +1214,7 @@ public class Viewer extends CFrame
 	private void cmd_zoom()
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//		m_viewPanel.setZoomLevel(comboZoom.getSelectedIndex());
+		m_viewPanel.setZoomLevel(comboZoom.getSelectedIndex());
 		revalidate();
 		cmd_drill();	//	setCursor
 	}	//	cmd_zoom

@@ -22,6 +22,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.HashMap;
 
 import org.compiere.model.MQuery;
 import org.compiere.print.layout.LayoutEngine;
@@ -34,13 +35,17 @@ import org.compiere.util.CLogger;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: View.java,v 1.2 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>FR [ 2539927 ] Display Zoom combobox
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2539927&group_id=176962
  */
 public class View extends CPanel
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 851611162566661576L;
+	private static final long serialVersionUID = 5640892952739279088L;
 
 	/**
 	 *	Print Preview
@@ -56,10 +61,18 @@ public class View extends CPanel
 
 
 	/**	Zoom Level						*/
-	private int						m_zoomLevel = 0;
+	private int						m_zoomLevel = 2;
 	/** Zoom Options					*/
-	public static final String[]	ZOOM_OPTIONS = new String[]
-		{"100%", "75%", "50%"};
+	public static final String[]	ZOOM_OPTIONS = new String[] {"200%", "150%", "100%", "75%", "50%"};
+	private static HashMap<String, Double> ZOOM_ScaleValues = new HashMap<String, Double>();
+	static {
+		ZOOM_ScaleValues.put("200%",	2.00);
+		ZOOM_ScaleValues.put("150%",	1.50);
+		ZOOM_ScaleValues.put("100%",	1.00);
+		ZOOM_ScaleValues.put("75%",		0.75);
+		ZOOM_ScaleValues.put("50%",		0.50);
+	}
+	
 	/**	Margin around paper				*/
 	public static int				MARGIN = 5;
 	/** Margin Background Color			*/
@@ -70,6 +83,12 @@ public class View extends CPanel
 
 	/*************************************************************************/
 
+	public int getMarginSize(boolean doScale)
+	{
+		double scale = (doScale ? getScale() : 1.00);
+		return (int)(MARGIN * scale); 
+	}
+	
 	/**
 	 * 	Minimum Size
 	 * 	@return Max Page Size
@@ -85,8 +104,8 @@ public class View extends CPanel
 	 */
 	public Dimension getMaximumSize()
 	{
-		return new Dimension (getPaperWidth()+(2*MARGIN),
-			(getPaperHeight()+MARGIN)*getPageCount()+MARGIN);
+		return new Dimension (getPaperWidth()+(2*getMarginSize(true)),
+			(getPaperHeight()+getMarginSize(true))*getPageCount()+getMarginSize(true));
 	}	//	getMaximumSize
 
 	/**
@@ -115,6 +134,7 @@ public class View extends CPanel
 	{
 	//	log.fine( "View.paintComponent", g.getClip());
 		Graphics2D g2D = (Graphics2D)g;
+		g2D.scale(getScale(), getScale());
 		Rectangle bounds = g2D.getClipBounds();
 		//
 		g2D.setColor(COLOR_BACKGROUND);
@@ -123,7 +143,7 @@ public class View extends CPanel
 		//	for all pages
 		for (int page = 0; page < m_layout.getPages().size(); page++)
 		{
-			Rectangle pageRectangle = getRectangleOfPage(page+1);
+			Rectangle pageRectangle = getRectangleOfPage(page+1, false);
 			if (bounds.intersects(pageRectangle))
 			{
 				Page p = (Page)m_layout.getPages().get(page);
@@ -153,7 +173,7 @@ public class View extends CPanel
 		{
 			if (ZOOM_OPTIONS[i].equals(levelString))
 			{
-				m_zoomLevel = i;
+				setZoomLevel(i);
 				break;
 			}
 		}
@@ -167,6 +187,15 @@ public class View extends CPanel
 	{
 		return m_zoomLevel;
 	}	//	getZoomLevel
+	
+	private double getScale()
+	{
+		Double scale = ZOOM_ScaleValues.get(ZOOM_OPTIONS[m_zoomLevel]);
+		if (scale != null)
+			return scale.doubleValue();
+		else
+			return 1.00;
+	}
 
 	/**
 	 * 	Get Rectange of Page
@@ -175,10 +204,18 @@ public class View extends CPanel
 	 */
 	public Rectangle getRectangleOfPage(int pageNo)
 	{
-		int y = MARGIN + ((pageNo-1) * (getPaperHeight() + MARGIN));
-		return new Rectangle (MARGIN, y, getPaperWidth(), getPaperHeight());
+		return getRectangleOfPage(pageNo, true);
+//		int y = (int)(MARGIN + ((pageNo-1) * (getPaperHeight() + MARGIN)));
+//		return new Rectangle (MARGIN, y, getPaperWidth(), getPaperHeight());
 	}	//	getRectangleOfPage
 
+	public Rectangle getRectangleOfPage(int pageNo, boolean doScale)
+	{
+		System.out.println("height: "+getPaperHeight(false)+"->"+getPaperHeight(true));
+		System.out.println("width: "+getPaperWidth(false)+"->"+getPaperWidth(true));
+		int y = (int)(getMarginSize(doScale) + ((pageNo-1) * (getPaperHeight(doScale) + getMarginSize(doScale))));
+		return new Rectangle (getMarginSize(doScale), y, getPaperWidth(doScale), getPaperHeight(doScale));
+	}	//	getRectangleOfPage
 
 	/**
 	 * 	Get Page at Point
@@ -187,8 +224,8 @@ public class View extends CPanel
 	 */
 	public float getPageNoAt (Point p)
 	{
-		float y = p.y;
-		float pageHeight = getPaperHeight() + MARGIN;
+		float y = (float)(p.y / getScale());
+		float pageHeight = getPaperHeight(false) + getMarginSize(false);
 		return 1f + (y/pageHeight);
 	}	//	getPageAt
 
@@ -235,7 +272,14 @@ public class View extends CPanel
 	 */
 	public int getPaperHeight()
 	{
-		return (int)m_layout.getPaper().getHeight(true);
+		return getPaperHeight(true);
+//		return (int)(m_layout.getPaper().getHeight(true) * getScale());
+	}	//	getPaperHeight
+
+	public int getPaperHeight(boolean doScale)
+	{
+		double scale = (doScale ? getScale() : 1.0);
+		return (int)(m_layout.getPaper().getHeight(true) * scale);
 	}	//	getPaperHeight
 
 	/**
@@ -244,7 +288,14 @@ public class View extends CPanel
 	 */
 	public int getPaperWidth()
 	{
-		return (int)m_layout.getPaper().getWidth(true);
+		return getPaperWidth(true);
+//		return (int)(m_layout.getPaper().getWidth(true) * getScale());
+	}	//	getPaperHeight
+
+	public int getPaperWidth(boolean doScale)
+	{
+		double scale = (doScale ? getScale() : 1.0);
+		return (int)(m_layout.getPaper().getWidth(true) * scale);
 	}	//	getPaperHeight
 
 	/**
@@ -255,9 +306,11 @@ public class View extends CPanel
 	public MQuery getDrillDown (Point absolutePoint)
 	{
 		int pageNo = (int)getPageNoAt(absolutePoint);
-		Rectangle pageRectangle = getRectangleOfPage(pageNo);
-		Point relativePoint = new Point (absolutePoint.x-pageRectangle.x,
-			absolutePoint.y-pageRectangle.y);
+		Rectangle pageRectangle = getRectangleOfPage(pageNo, false);
+		Point relativePoint = new Point (
+				(int)(absolutePoint.x/getScale()-pageRectangle.x),
+				(int)(absolutePoint.y/getScale()-pageRectangle.y)
+		);
 		Page page = (Page)m_layout.getPages().get(pageNo-1);
 		//
 		log.config("Relative=" + relativePoint + ", " + page);
@@ -277,8 +330,10 @@ public class View extends CPanel
 	{
 		int pageNo = (int)getPageNoAt(absolutePoint);
 		Rectangle pageRectangle = getRectangleOfPage(pageNo);
-		Point relativePoint = new Point (absolutePoint.x-pageRectangle.x,
-			absolutePoint.y-pageRectangle.y);
+		Point relativePoint = new Point (
+				(int)(absolutePoint.x/getScale()-pageRectangle.x),
+				(int)(absolutePoint.y/getScale()-pageRectangle.y)
+		);
 		Page page = (Page)m_layout.getPages().get(pageNo-1);
 		//
 		log.config("Relative=" + relativePoint + ", " + page);
