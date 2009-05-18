@@ -30,36 +30,36 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  *
  */
-public class WAccountEditor extends WEditor 
+public class WAccountEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
-	
+
 	private MAccountLookup		m_mAccount;
 
 	private Object m_value;
-	
+
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WAccountEditor.class);
 
-	public WAccountEditor(GridField gridField) 
+	public WAccountEditor(GridField gridField)
 	{
 		super(new Combinationbox(), gridField);
 		getComponent().setButtonImage("/images/Account10.png");
-		
+
 		m_mAccount = new MAccountLookup (gridField.getVO().ctx, gridField.getWindowNo());
 	}
-	
+
 	@Override
 	public Combinationbox getComponent() {
 		return (Combinationbox) component;
 	}
-	
+
 	@Override
-	public void setValue(Object value) 
+	public void setValue(Object value)
 	{
 		m_value = value;
 		getComponent().setText(m_mAccount.getDisplay(value));	//	loads value
@@ -67,13 +67,13 @@ public class WAccountEditor extends WEditor
 	}
 
 	@Override
-	public Object getValue() 
+	public Object getValue()
 	{
 		return new Integer (m_mAccount.C_ValidCombination_ID);
 	}
 
 	@Override
-	public String getDisplay() 
+	public String getDisplay()
 	{
 		return getComponent().getText();
 	}
@@ -84,6 +84,11 @@ public class WAccountEditor extends WEditor
 	public void cmd_button()
 	{
 		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), gridField.getWindowNo(), "C_AcctSchema_ID");
+		// Try to get C_AcctSchema_ID from global context - teo_sarca BF [ 1830531 ]
+		if (C_AcctSchema_ID <= 0)
+		{
+			C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
+		}
 		WAccountDialog ad = new WAccountDialog (gridField.getHeader(), m_mAccount, C_AcctSchema_ID);
 		//
 		Integer newValue = ad.getValue();
@@ -91,13 +96,13 @@ public class WAccountEditor extends WEditor
 			return;
 
 		Object oldValue = m_value;
-		
+
 		//	set & redisplay
 		setValue(newValue);
 		ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 		fireValueChange(changeEvent);
 	}	//	cmd_button
-	
+
 	/**
 	 *	Text - try to find Alias or start Dialog
 	 */
@@ -114,9 +119,9 @@ public class WAccountEditor extends WEditor
 			text += "%";
 		//
 		String sql = "SELECT C_ValidCombination_ID FROM C_ValidCombination "
-			+ "WHERE C_AcctSchema_ID=?" 
+			+ "WHERE C_AcctSchema_ID=?"
 			+ " AND (UPPER(Alias) LIKE ? OR UPPER(Combination) LIKE ?)";
-		sql = MRole.getDefault().addAccessSQL(sql, 
+		sql = MRole.getDefault().addAccessSQL(sql,
 			"C_ValidCombination", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), gridField.getWindowNo(), "C_AcctSchema_ID");
 		//
@@ -149,7 +154,7 @@ public class WAccountEditor extends WEditor
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		//	We have a Value
 		if (C_ValidCombination_ID > 0)
 		{
@@ -162,8 +167,8 @@ public class WAccountEditor extends WEditor
 		else
 			cmd_button();
 	}	//	actionPerformed
-	
-	public void onEvent(Event event) 
+
+	public void onEvent(Event event)
 	{
 		if (Events.ON_CHANGE.equals(event.getName()))
 		{
@@ -174,7 +179,7 @@ public class WAccountEditor extends WEditor
 			cmd_button();
 		}
 	}
-	
+
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;
@@ -191,6 +196,6 @@ public class WAccountEditor extends WEditor
 	public void setReadWrite(boolean readWrite) {
 		getComponent().setEnabled(readWrite);
 	}
-	
-	
+
+
 }
