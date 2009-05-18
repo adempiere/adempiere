@@ -56,4 +56,7 @@ public interface ITheme {
 	public static final String LOGIN_LOGO_IMAGE = "/images/login-logo.png";
 	public static final String HEADER_LOGO_IMAGE = "/images/header-logo.png";
 	public static final String BROWSER_ICON_IMAGE= "/images/icon.png";
+
+	//stylesheet url
+	public static final String THEME_STYLESHEET = "/css/theme.css.dsp";
 }

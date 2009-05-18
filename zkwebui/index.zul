@@ -5,7 +5,7 @@ Copyright (C) 2007 Ashley G Ramdass.
 <?page style="height:100%"?>
 <?init zscript="theme.zs" ?>
 <?link rel="icon" type="image/png" href="${browserIcon}"?>
-<?link rel="stylesheet" type="text/css" href="/theme/${theme}/css/theme.css.dsp"?>
+<?link rel="stylesheet" type="text/css" href="${themeStyleSheet}"?>
 <zk>
 	<window use="org.adempiere.webui.AdempiereWebUI"/>
 </zk>
