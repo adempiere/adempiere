@@ -36,7 +36,7 @@ import org.zkoss.zul.Vbox;
 /**
  * This class is based on org.compiere.apps.StatusBar written by Jorg Janke.
  * @author Jorg Janke
- * 
+ *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
@@ -44,7 +44,7 @@ import org.zkoss.zul.Vbox;
 public class StatusBarPanel extends Panel implements EventListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -1799438509126878684L;
 	private Label statusDB;
@@ -58,19 +58,19 @@ public class StatusBarPanel extends Panel implements EventListener
 	private Div east;
 
 	private Div west;
-    
+
     public StatusBarPanel()
     {
         super();
         init();
     }
-    
+
     private void init()
     {
         statusLine = new Label();
         statusDB = new Label("  ");
         infoLine = new Label();
-        
+
         Hbox hbox = new Hbox();
         hbox.setWidth("100%");
         hbox.setHeight("100%");
@@ -81,35 +81,35 @@ public class StatusBarPanel extends Panel implements EventListener
         west.setWidth("100%");
         Vbox vbox = new Vbox();
         vbox.setPack("center");
-        LayoutUtils.addSclass("status", vbox);        
+        LayoutUtils.addSclass("status", vbox);
         vbox.appendChild(west);
         hbox.appendChild(vbox);
-        
+
         east = new Div();
         east.setWidth("100%");
         east.setStyle("text-align: right; ");
         east.appendChild(infoLine);
         east.appendChild(statusDB);
-        
+
         LayoutUtils.addSclass("status-db", statusDB);
         LayoutUtils.addSclass("status-info", infoLine);
         vbox = new Vbox();
         vbox.setPack("center");
-        LayoutUtils.addSclass("status", vbox);        
+        LayoutUtils.addSclass("status", vbox);
         vbox.appendChild(east);
         hbox.appendChild(vbox);
-        
+
         this.appendChild(hbox);
-        
+
         statusDB.addEventListener(Events.ON_CLICK, this);
         infoLine.setVisible(false);
     }
-    
+
     public void setStatusDB (String text)
     {
         setStatusDB(text, null);
     }
-    
+
     public void setStatusDB (String text, DataStatusEvent dse)
     {
         if (text == null || text.length() == 0)
@@ -122,25 +122,25 @@ public class StatusBarPanel extends Panel implements EventListener
             sb.append(text).append(" ");
             statusDB.setValue(sb.toString());
         }
-        
+
         m_text = text;
         m_dse = dse;
     }
-    
+
     public void setStatusLine (String text)
     {
         setStatusLine(text, false);
     }
-    
+
     public void setStatusLine (String text, boolean error)
     {
         statusLine.setValue(text);
         statusLine.setTooltiptext(text);
     }
-    
+
     /**
      * Add Component to East of StatusBar
-     * 
+     *
      * @param component
      *            component
      */
@@ -148,7 +148,7 @@ public class StatusBarPanel extends Panel implements EventListener
     {
         east.appendChild(component);
     } // addStatusComponent
-    
+
     /**
 	 *	Set Info Line
 	 *  @param text text
@@ -156,6 +156,7 @@ public class StatusBarPanel extends Panel implements EventListener
 	public void setInfo (String text)
 	{
 		infoLine.setValue(text != null ? text : "");
+		infoLine.setTooltiptext(text);
 		if (text == null || text.trim().length() == 0)
 			infoLine.setVisible(false);
 		else
@@ -164,14 +165,14 @@ public class StatusBarPanel extends Panel implements EventListener
 
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() == statusDB) {
-			if (m_dse == null 
+			if (m_dse == null
 				|| m_dse.CreatedBy == null
 				|| !MRole.getDefault().isShowPreference())
 				return;
-			
+
 			String title = Msg.getMsg(Env.getCtx(), "Who") + m_text;
 			new WRecordInfo (title, m_dse);
 		}
-		
+
 	}
 }
