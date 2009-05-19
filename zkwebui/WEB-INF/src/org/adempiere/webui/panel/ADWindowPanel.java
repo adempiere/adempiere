@@ -37,6 +37,8 @@ import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.GridWindow;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -131,6 +133,12 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        LayoutUtils.addSclass("adwindow-nav adwindow-left-nav", west);
     	        adTab.setTabplacement(IADTab.LEFT);
     	        adTab.getTabSelectionComponent().setParent(west);
+
+    	        if (SessionManager.getSessionApplication().getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
+    	        {
+    	        	west.setTitle(Msg.getElement(Env.getCtx(), "AD_Tab_ID"));
+    	        	west.setCollapsible(true);
+    	        }
         	}
 	        else
         	{
@@ -142,6 +150,12 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        LayoutUtils.addSclass("adwindow-nav adwindow-right-nav", east);
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
+
+		        if (SessionManager.getSessionApplication().getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
+    	        {
+		        	east.setTitle(Msg.getElement(Env.getCtx(), "AD_Tab_ID"));
+    	        	east.setCollapsible(true);
+    	        }
         	}
 	        LayoutUtils.addSclass("adwindow-nav-content", (HtmlBasedComponent) adTab.getTabSelectionComponent());
         }

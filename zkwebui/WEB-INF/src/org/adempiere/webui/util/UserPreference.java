@@ -63,6 +63,10 @@ public final class UserPreference implements Serializable {
 	public static final String P_WINDOW_TAB_PLACEMENT = "WindowTabPlacement";
 	public static final String DEFAULT_WINDOW_TAB_PLACEMENT = "Left";
 
+	/** window tab collapsible **/
+	public static final String P_WINDOW_TAB_COLLAPSIBLE = "WindowTabCollapsible";
+	public static final String DEFAULT_WINDOW_TAB_COLLAPSIBLE = "N";
+
 	/** Ini Properties */
 	private static final String[] PROPERTIES = new String[] {
 		P_LANGUAGE,
@@ -71,7 +75,8 @@ public final class UserPreference implements Serializable {
 		P_ORG,
 		P_WAREHOUSE,
 		P_AUTO_COMMIT,
-		P_WINDOW_TAB_PLACEMENT};
+		P_WINDOW_TAB_PLACEMENT,
+		P_WINDOW_TAB_COLLAPSIBLE};
 	/** Ini Property Values */
 	private static final String[] VALUES = new String[] {
 		DEFAULT_LANGUAGE,
@@ -80,7 +85,8 @@ public final class UserPreference implements Serializable {
 		DEFAULT_ORG,
 		DEFAULT_WAREHOUSE,
 		DEFAULT_AUTO_COMMIT,
-		DEFAULT_WINDOW_TAB_PLACEMENT};
+		DEFAULT_WINDOW_TAB_PLACEMENT,
+		DEFAULT_WINDOW_TAB_COLLAPSIBLE};
 
 	/** Container for Properties */
 	private Properties props = new Properties();
