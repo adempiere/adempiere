@@ -71,7 +71,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
-import org.jpedal.parser.Cmd;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -145,6 +144,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	protected Map<Integer, ADTabpanel> includedMap = new HashMap<Integer, ADTabpanel>();
 
 	private IADTabpanel embeddedTabPanel;
+
+	private boolean m_findCreateNew;
 
 	/**
 	 * Constructor for non-embedded mode
@@ -407,6 +408,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			    }
 		    }
 		}
+
+		if (tabIndex == 0) {
+			if (curTab.isHighVolume() && m_findCreateNew)
+				onNew();
+		    else if (query == null && curTab.getRowCount() == 0 && Env.isAutoNew(ctx, curWindowNo))
+		    	onNew();
+		}
 	}
 
     /**
@@ -459,6 +467,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (require)
         {
         	m_findCancelled = false;
+        	m_findCreateNew = false;
             GridField[] findFields = mTab.getFields();
             FindWindow find = new FindWindow(curWindowNo,
                     mTab.getName(), mTab.getAD_Table_ID(), mTab.getTableName(),
@@ -468,7 +477,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                 find.setVisible(true);
                 AEnv.showWindow(find);
                 if (!find.isCancel())
+                {
                 	query = find.getQuery();
+                	m_findCreateNew = find.isCreateNew();
+                }
                 else
                 	m_findCancelled = true;
                 find = null;

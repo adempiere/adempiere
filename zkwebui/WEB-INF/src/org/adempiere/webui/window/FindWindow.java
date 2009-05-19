@@ -92,7 +92,7 @@ import org.zkoss.zul.Vbox;
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7893948607004510173L;
 	/** Main Window for the Lookup Panel   */
@@ -159,6 +159,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	private Row pnlDescription;
 	private Row pnlValue;
 	private Row pnlName;
+	private boolean m_createNew = false;
 
 	/** Index ColumnName = 0		*/
 	public static final int		INDEX_COLUMNNAME = 0;
@@ -760,6 +761,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 {
                     m_query = MQuery.getNoRecordQuery(m_tableName, true);
                     m_total = 0;
+                    m_createNew  = true;
                     dispose();
                 }
             }
@@ -1688,6 +1690,14 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	public boolean isCancel() {
 		return m_isCancel;
 	}
+
+	/**
+	 * @return true if user press the new button
+	 */
+	public boolean isCreateNew() {
+		return m_createNew;
+	}
+
 	@Override
 	public boolean setVisible(boolean visible) {
 		boolean ret = super.setVisible(visible);
