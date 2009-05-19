@@ -1,19 +1,38 @@
+/******************************************************************************
+ * Copyright (C) 2008 Low Heng Sin                                            *
+ * Copyright (C) 2008 Idalica Corporation                                     *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package org.adempiere.webui.apps.wf;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
+import org.adempiere.webui.component.ListHeader;
 import org.adempiere.webui.component.ListItem;
+import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.WListItemRenderer;
+import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.panel.ADForm;
@@ -24,6 +43,7 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRefList;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -37,24 +57,28 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
+import org.zkoss.zul.Html;
 
+/**
+ * Direct port from WFActivity
+ * @author hengsin
+ *
+ */
 public class WWFActivity extends ADForm implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -653381810053334001L;
 	/**	Window No					*/
 	private int         		m_WindowNo = 0;
-	/**	FormFrame					*/
-//	private FormFrame 			m_frame = null;
-	/**	Menu						*/
-//	private AMenu 				m_menu = null;
 	/**	Open Activities				*/
 	private MWFActivity[] 		m_activities = null;
 	/**	Current Activity			*/
@@ -62,13 +86,11 @@ public class WWFActivity extends ADForm implements EventListener
 	/**	Current Activity			*/
 	private int	 				m_index = 0;
 	/**	Set Column					*/
-	private	MColumn 			m_column = null; 
+	private	MColumn 			m_column = null;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WWFActivity.class);
-	
+
 	//
-//	private Panel centerPanel = new Panel();
-//	private GridBagLayout centerLayout = new GridBagLayout();
 	private Label lNode = new Label(Msg.translate(Env.getCtx(), "AD_WF_Node_ID"));
 	private Textbox fNode = new Textbox();
 	private Label lDesctiption = new Label(Msg.translate(Env.getCtx(), "Description"));
@@ -76,60 +98,59 @@ public class WWFActivity extends ADForm implements EventListener
 	private Label lHelp = new Label(Msg.translate(Env.getCtx(), "Help"));
 	private Textbox fHelp = new Textbox();
 	private Label lHistory = new Label(Msg.translate(Env.getCtx(), "History"));
-	private Textbox fHistory = new Textbox();
+	private Html fHistory = new Html();
 	private Label lAnswer = new Label(Msg.getMsg(Env.getCtx(), "Answer"));
-//	private Panel answers = new Panel(new FlowLayout(FlowLayout.LEADING));
 	private Textbox fAnswerText = new Textbox();
 	private Listbox fAnswerList = new Listbox();
 	private Button fAnswerButton = new Button();
-	private Button bPrevious = new Button();//AEnv.getButton("Previous");
-	private Button bNext = new Button();//AEnv.getButton("Next");
-	private Button bZoom = new Button();//AEnv.getButton("Zoom");
+	private Button bZoom = new Button();
 	private Label lTextMsg = new Label(Msg.getMsg(Env.getCtx(), "Messages"));
 	private Textbox fTextMsg = new Textbox();
-	private Button bOK = new Button();//ConfirmPanel.createOKButton(true);
+	private Button bOK = new Button();
 	private WSearchEditor fForward = null;	//	dynInit
 	private Label lForward = new Label(Msg.getMsg(Env.getCtx(), "Forward"));
 	private Label lOptional = new Label("(" + Msg.translate(Env.getCtx(), "Optional") + ")");
-	private StatusBarPanel statusBar = new StatusBarPanel(); 
-	
+	private StatusBarPanel statusBar = new StatusBarPanel();
+
+	private ListModelTable model = null;
+	private WListbox listbox = new WListbox();
+
+	private final static String HISTORY_DIV_START_TAG = "<div style='width: 100%; height: 100px; border: 1px solid #7F9DB9;'>";
 	public WWFActivity()
 	{
 		super();
 	}
-	
+
     protected void initForm()
     {
         loadActivities();
-        
+
         fAnswerList.setMold("select");
-        
-    	bPrevious.setImage("/images/Previous16.png");
-    	bNext.setImage("/images/Next16.png");
+
     	bZoom.setImage("/images/Zoom16.png");
     	bOK.setImage("/images/Ok24.png");
-    	
+
         MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
                 0, 10443, DisplayType.Search);
         fForward = new WSearchEditor(lookup, Msg.translate(
                 Env.getCtx(), "AD_User_ID"), "", true, false, true);
-		
+
         init();
-        display();
+        display(-1);
     }
-	
+
 	private void init()
 	{
 		Grid grid = new Grid();
 		grid.setWidth("99%");
-        grid.setHeight("100%");        
+        grid.setHeight("100%");
         grid.setStyle("margin:0; padding:0; position: absolute; align: center; valign: center;");
         grid.makeNoStrip();
         grid.setOddRowSclass("even");
-        
+
 		Rows rows = new Rows();
 		grid.appendChild(rows);
-		
+
 		Row row = new Row();
 		rows.appendChild(row);
 		Div div = new Div();
@@ -138,9 +159,8 @@ public class WWFActivity extends ADForm implements EventListener
 		row.appendChild(div);
 		row.appendChild(fNode);
 		fNode.setWidth("100%");
-		row.appendChild(bPrevious);
-		bPrevious.addEventListener(Events.ON_CLICK, this);
-		
+		fNode.setReadonly(true);
+
 		row = new Row();
 		rows.appendChild(row);
 		row.setValign("top");
@@ -151,9 +171,8 @@ public class WWFActivity extends ADForm implements EventListener
 		row.appendChild(fDescription);
 		fDescription.setMultiline(true);
 		fDescription.setWidth("100%");
-		row.appendChild(bNext);
-		bNext.addEventListener(Events.ON_CLICK, this);
-		
+		fDescription.setReadonly(true);
+
 		row = new Row();
 		rows.appendChild(row);
 		div = new Div();
@@ -163,8 +182,10 @@ public class WWFActivity extends ADForm implements EventListener
 		row.appendChild(fHelp);
 		fHelp.setMultiline(true);
 		fHelp.setWidth("100%");
+		fHelp.setReadonly(true);
+		fHelp.setRows(3);
 		row.appendChild(new Label());
-		
+
 		row = new Row();
 		rows.appendChild(row);
 		div = new Div();
@@ -172,11 +193,8 @@ public class WWFActivity extends ADForm implements EventListener
 		div.appendChild(lHistory);
 		row.appendChild(div);
 		row.appendChild(fHistory);
-		fHistory.setRows(10);
-		fHistory.setMultiline(true);
-		fHistory.setWidth("100%");
 		row.appendChild(new Label());
-		
+
 		row = new Row();
 		rows.appendChild(row);
 		div = new Div();
@@ -191,7 +209,7 @@ public class WWFActivity extends ADForm implements EventListener
 		row.appendChild(hbox);
 		row.appendChild(bZoom);
 		bZoom.addEventListener(Events.ON_CLICK, this);
-		
+
 		row = new Row();
 		rows.appendChild(row);
 		div = new Div();
@@ -202,7 +220,7 @@ public class WWFActivity extends ADForm implements EventListener
 		fTextMsg.setMultiline(true);
 		fTextMsg.setWidth("100%");
 		row.appendChild(new Label());
-		
+
 		row = new Row();
 		rows.appendChild(row);
 		div = new Div();
@@ -215,61 +233,67 @@ public class WWFActivity extends ADForm implements EventListener
 		row.appendChild(hbox);
 		row.appendChild(bOK);
 		bOK.addEventListener(Events.ON_CLICK, this);
-		
+
 		Borderlayout layout = new Borderlayout();
 		layout.setWidth("100%");
 		layout.setHeight("100%");
 		layout.setStyle("background-color: transparent; position: absolute;");
-		
+
+		North north = new North();
+		north.appendChild(listbox);
+		north.setSplittable(true);
+		north.setFlex(true);
+		layout.appendChild(north);
+		north.setStyle("background-color: transparent");
+		listbox.addEventListener(Events.ON_SELECT, this);
+
 		Center center = new Center();
 		center.appendChild(grid);
 		layout.appendChild(center);
 		center.setStyle("background-color: transparent");
-		
+		center.setFlex(true);
+
 		South south = new South();
 		south.appendChild(statusBar);
 		layout.appendChild(south);
 		south.setStyle("background-color: transparent");
-		
+
 		this.appendChild(layout);
+		this.setStyle("height: 100%; width: 100%; position: absolute;");
 	}
 
-	public void onEvent(Event event) throws Exception 
+	public void onEvent(Event event) throws Exception
 	{
-//		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		
 		Component comp = event.getTarget();
         String eventName = event.getName();
-        
+
         if(eventName.equals(Events.ON_CLICK))
         {
-        	if(comp == bNext || comp == bPrevious)
-    		{
-    			if (comp == bNext)
-    				m_index++;
-    			else
-    				m_index--;
-    			display();
-    		}
-    		else if (comp == bZoom)
+    		if (comp == bZoom)
     			cmd_zoom();
     		else if (comp == bOK)
-    			cmd_OK();
+    		{
+    			Clients.showBusy(Msg.getMsg(Env.getCtx(), "Processing"), true);
+    			Events.echoEvent("onOK", this, null);
+    		}
     		else if (comp == fAnswerButton)
     			cmd_button();
+        } else if (Events.ON_SELECT.equals(eventName) && comp == listbox)
+        {
+        	m_index = listbox.getSelectedIndex();
+        	if (m_index >= 0)
+    			display(m_index);
         }
-        
-//		this.setCursor(Cursor.getDefaultCursor());
 	}
-	
+
 	/**
 	 * Get active activities count
 	 * @return int
 	 */
-	public int getActivitiesCount() 
+	public int getActivitiesCount()
 	{
 		int count = 0;
-		
+
 		String sql = "SELECT count(*) FROM AD_WF_Activity a "
 			+ "WHERE a.Processed='N' AND a.WFState='OS' AND ("
 			//	Owner of Activity
@@ -309,11 +333,11 @@ public class WWFActivity extends ADForm implements EventListener
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		return count;
-			
+
 	}
-	
+
 	/**
 	 * 	Load Activities
 	 * 	@return int
@@ -321,6 +345,11 @@ public class WWFActivity extends ADForm implements EventListener
 	public int loadActivities()
 	{
 		long start = System.currentTimeMillis();
+
+		int MAX_ACTIVITIES_IN_LIST = MSysConfig.getIntValue("MAX_ACTIVITIES_IN_LIST", 200, Env.getAD_Client_ID(Env.getCtx()));
+
+		model = new ListModelTable();
+
 		ArrayList<MWFActivity> list = new ArrayList<MWFActivity>();
 		String sql = "SELECT * FROM AD_WF_Activity a "
 			+ "WHERE a.Processed='N' AND a.WFState='OS' AND ("
@@ -350,8 +379,14 @@ public class WWFActivity extends ADForm implements EventListener
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				list.add (new MWFActivity(Env.getCtx(), rs, null));
-				if (list.size() > 200)		//	HARDCODED
+				MWFActivity activity = new MWFActivity(Env.getCtx(), rs, null);
+				list.add (activity);
+				List<Object> rowData = new ArrayList<Object>();
+				rowData.add(activity.getPriority());
+				rowData.add(activity.getNodeName());
+				rowData.add(activity.getSummary());
+				model.add(rowData);
+				if (list.size() > MAX_ACTIVITIES_IN_LIST && MAX_ACTIVITIES_IN_LIST > 0)
 				{
 					log.warning("More then 200 Activities - ignored");
 					break;
@@ -370,58 +405,78 @@ public class WWFActivity extends ADForm implements EventListener
 		m_activities = new MWFActivity[list.size ()];
 		list.toArray (m_activities);
 		//
-		log.fine("#" + m_activities.length 
+		log.fine("#" + m_activities.length
 			+ "(" + (System.currentTimeMillis()-start) + "ms)");
 		m_index = 0;
+
+		String[] columns = new String[]{Msg.translate(Env.getCtx(), "Priority"),
+				Msg.translate(Env.getCtx(), "AD_WF_Node_ID"),
+				Msg.translate(Env.getCtx(), "Summary")};
+
+		WListItemRenderer renderer = new WListItemRenderer(Arrays.asList(columns));
+		ListHeader header = new ListHeader();
+		header.setWidth("30px");
+		renderer.setListHeader(0, header);
+		renderer.addTableValueChangeListener(listbox);
+		model.setNoColumns(columns.length);
+		listbox.setModel(model);
+		listbox.setItemRenderer(renderer);
+		listbox.repaint();
+		listbox.setFixedLayout(true);
+
 		return m_activities.length;
 	}	//	loadActivities
-	
+
 	/**
-	 * 	Display.
-	 * 	Fill Editors
+	 * 	Reset Display
+	 *	@param selIndex select index
+	 *	@return selected activity
 	 */
-	public void display ()
+	private MWFActivity resetDisplay(int selIndex)
 	{
-		log.fine("Index=" + m_index);
-		//
-		fTextMsg.setValue ("");
 		fAnswerText.setVisible(false);
 		fAnswerList.setVisible(false);
-		fAnswerButton.setImage("/images/mWindow.png");
 		fAnswerButton.setVisible(false);
-		fTextMsg.setReadonly(m_activities.length == 0);
-//		fTextMsg.setReadWrite(m_activities.length != 0);
-		bZoom.setEnabled(m_activities.length != 0);
-		bOK.setEnabled(m_activities.length != 0);
+		fAnswerButton.setImage("/images/mWindow.png");
+		fTextMsg.setReadonly(!(selIndex >= 0));
+		bZoom.setEnabled(selIndex >= 0);
+		bOK.setEnabled(selIndex >= 0);
 		fForward.setValue(null);
-		fForward.setReadWrite(m_activities.length != 0);
-//		fForward.setEnabled(m_activities.length != 0);
-		statusBar.setStatusDB(String.valueOf(m_index) + "/" + m_activities.length);
+		fForward.setReadWrite(selIndex >= 0);
+		//
+		statusBar.setStatusDB(String.valueOf(selIndex+1) + "/" + m_activities.length);
 		m_activity = null;
+		m_column = null;
 		if (m_activities.length > 0)
 		{
-			if (m_index+1 > m_activities.length)
-			{
-				log.log(Level.SEVERE, "Index (" + m_index 
-					+ ") greater then activity length=" + m_activities.length);
-				m_index = 0;
-			}
-			else
-				m_activity = m_activities[m_index];
+			if (selIndex >= 0 && selIndex < m_activities.length)
+				m_activity = m_activities[selIndex];
 		}
 		//	Nothing to show
 		if (m_activity == null)
 		{
 			fNode.setText ("");
-			fDescription.setValue ("");
-			fHelp.setValue ("");
-			fHistory.setValue ("");
+			fDescription.setText ("");
+			fHelp.setText ("");
+			fHistory.setContent(HISTORY_DIV_START_TAG + "&nbsp;</div>");
 			statusBar.setStatusDB("0/0");
 			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFNoActivities"));
-			bNext.setEnabled(false);
-			bPrevious.setEnabled(false);
-//			if (m_menu != null)
-//				m_menu.updateActivities(0);
+		}
+		return m_activity;
+	}	//	resetDisplay
+
+	/**
+	 * 	Display.
+	 * 	Fill Editors
+	 */
+	public void display (int index)
+	{
+		log.fine("Index=" + index);
+		//
+		m_activity = resetDisplay(index);
+		//	Nothing to show
+		if (m_activity == null)
+		{
 			return;
 		}
 		//	Display Activity
@@ -429,8 +484,8 @@ public class WWFActivity extends ADForm implements EventListener
 		fDescription.setValue (m_activity.getNodeDescription());
 		fHelp.setValue (m_activity.getNodeHelp());
 		//
-		fHistory.setValue (m_activity.getHistoryHTML());
-		
+		fHistory.setContent (HISTORY_DIV_START_TAG+m_activity.getHistoryHTML()+"</div>");
+
 		//	User Actions
 		MWFNode node = m_activity.getNode();
 		if (MWFNode.ACTION_UserChoice.equals(node.getAction()))
@@ -447,7 +502,6 @@ public class WWFActivity extends ADForm implements EventListener
 					{
 						fAnswerList.appendItem(values[i].getName(), values[i].getValue());
 					}
-//					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
 				}
 				else if (dt == DisplayType.List)
@@ -457,7 +511,6 @@ public class WWFActivity extends ADForm implements EventListener
 					{
 						fAnswerList.appendItem(values[i].getName(), values[i].getValue());
 					}
-//					fAnswerList.setModel(new DefaultComboBoxModel(values));
 					fAnswerList.setVisible(true);
 				}
 				else	//	other display types come here
@@ -475,67 +528,14 @@ public class WWFActivity extends ADForm implements EventListener
 			fAnswerButton.setTooltiptext(node.getDescription());
 			fAnswerButton.setVisible(true);
 		}
-		/*
-		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))
-			log.log(Level.SEVERE, "Workflow Action not implemented yet");*/
 		else
 			log.log(Level.SEVERE, "Unknown Node Action: " + node.getAction());
-		//
-		// globalqss - comment following lines to solve the
-		// Bug [ 1711626 ] Workflow tab just allow to navigate first two activities
-//		if (m_menu != null)
-//		{
-//		 	m_menu.updateActivities(m_activities.length);
-//		}
-		//	End
-		if (m_index+1 >= m_activities.length)
-		{
-			m_index = m_activities.length - 1;
-			bNext.setEnabled(false);
-		}
-		else
-			bNext.setEnabled(true);
-		//	Start
-		if (m_index <= 0)
-		{
-			m_index = 0;
-			bPrevious.setEnabled(false);
-		}
-		else
-			bPrevious.setEnabled(true);
+
 		statusBar.setStatusDB((m_index+1) + "/" + m_activities.length);
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFActivities"));
 	}	//	display
 
-	
-	/**
-	 * 	Action Listener
-	 *	@param e event
-	 * 	@see java.awt.event.ActionListener#actionPerformed(ActionEvent)
-	 */
-/*	public void actionPerformed (ActionEvent e)
-	{
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		//
-		if (e.getSource() == bNext || e.getSource() == bPrevious)
-		{
-			if (e.getSource() == bNext)
-				m_index++;
-			else
-				m_index--;
-			display();
-		}
-		else if (e.getSource() == bZoom)
-			cmd_zoom();
-		else if (e.getSource() == bOK)
-			cmd_OK();
-		else if (e.getSource() == fAnswerButton)
-			cmd_button();
-		//
-		this.setCursor(Cursor.getDefaultCursor());
-	}	//	actionPerformed
-*/
-	
+
 	/**
 	 * 	Zoom
 	 */
@@ -565,137 +565,132 @@ public class WWFActivity extends ADForm implements EventListener
 			MQuery query = MQuery.getEqualQuery(ColumnName, Record_ID);
 			boolean IsSOTrx = m_activity.isSOTrx();
 			//
-			log.info("Zoom to AD_Window_ID=" + AD_Window_ID 
+			log.info("Zoom to AD_Window_ID=" + AD_Window_ID
 				+ " - " + query + " (IsSOTrx=" + IsSOTrx + ")");
-			
+
 			AEnv.zoom(AD_Window_ID, query);
-//			AWindow frame = new AWindow();
-//			if (!frame.initWindow(AD_Window_ID, query))
-//				return;
-//			AEnv.addToWindowManager(frame);
-//			AEnv.showCenterScreen(frame);
-//			frame = null;
 		}
 		else if (MWFNode.ACTION_UserForm.equals(node.getAction()))
 		{
 			int AD_Form_ID = node.getAD_Form_ID();
-			
+
 			Window form = ADForm.openForm(AD_Form_ID);
 			AEnv.showWindow(form);
-//			FormFrame ff = new FormFrame();
-//			ff.openForm(AD_Form_ID);
-//			ff.pack();
-//			AEnv.addToWindowManager(ff);
-//			AEnv.showCenterScreen(ff);
 		}
-		/*
-		else if (MWFNode.ACTION_UserWorkbench.equals(node.getAction()))
-		{
-			
-		}*/
 		else
 			log.log(Level.SEVERE, "No User Action:" + node.getAction());
 	}	//	cmd_button
-	
-	
+
+
 	/**
 	 * 	Save
 	 */
-	private void cmd_OK()
+	public void onOK()
 	{
 		log.config("Activity=" + m_activity);
 		if (m_activity == null)
+		{
+			Clients.showBusy(null, false);
 			return;
+		}
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
 		String textMsg = fTextMsg.getValue();
 		//
 		MWFNode node = m_activity.getNode();
-		
+
 		Object forward = null;//fForward.getValue();
 
 		// ensure activity is ran within a transaction - [ 1953628 ]
-		Trx trx = Trx.get(Trx.createTrxName("FWFA"), true);
-		m_activity.set_TrxName(trx.getTrxName());
-		
-		if (forward != null)
-		{
-			log.config("Forward to " + forward);
-			int fw = ((Integer)forward).intValue();
-			if (fw == AD_User_ID || fw == 0)
+		Trx trx = null;
+		try {
+			trx = Trx.get(Trx.createTrxName("FWFA"), true);
+			m_activity.set_TrxName(trx.getTrxName());
+
+			if (forward != null)
 			{
-				log.log(Level.SEVERE, "Forward User=" + fw);
-				trx.rollback();
-				trx.close();
-				return;
+				log.config("Forward to " + forward);
+				int fw = ((Integer)forward).intValue();
+				if (fw == AD_User_ID || fw == 0)
+				{
+					log.log(Level.SEVERE, "Forward User=" + fw);
+					trx.rollback();
+					trx.close();
+					return;
+				}
+				if (!m_activity.forwardTo(fw, textMsg))
+				{
+					FDialog.error(m_WindowNo, this, "CannotForward");
+					trx.rollback();
+					trx.close();
+					return;
+				}
 			}
-			if (!m_activity.forwardTo(fw, textMsg))
+			//	User Choice - Answer
+			else if (MWFNode.ACTION_UserChoice.equals(node.getAction()))
 			{
-				FDialog.error(m_WindowNo, this, "CannotForward");
-				trx.rollback();
-				trx.close();
-				return;
+				if (m_column == null)
+					m_column = node.getColumn();
+				//	Do we have an answer?
+				int dt = m_column.getAD_Reference_ID();
+				String value = fAnswerText.getText();
+				if (dt == DisplayType.YesNo || dt == DisplayType.List)
+				{
+					ListItem li = fAnswerList.getSelectedItem();
+					if(li != null) value = li.getValue().toString();
+				}
+				if (value == null || value.length() == 0)
+				{
+					FDialog.error(m_WindowNo, this, "FillMandatory", Msg.getMsg(Env.getCtx(), "Answer"));
+					trx.rollback();
+					trx.close();
+					return;
+				}
+				//
+				log.config("Answer=" + value + " - " + textMsg);
+				try
+				{
+					m_activity.setUserChoice(AD_User_ID, value, dt, textMsg);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, node.getName(), e);
+					FDialog.error(m_WindowNo, this, "Error", e.toString());
+					trx.rollback();
+					trx.close();
+					return;
+				}
 			}
+			//	User Action
+			else
+			{
+				log.config("Action=" + node.getAction() + " - " + textMsg);
+				try
+				{
+					// ensure activity is ran within a transaction
+					m_activity.setUserConfirmation(AD_User_ID, textMsg);
+				}
+				catch (Exception e)
+				{
+					log.log(Level.SEVERE, node.getName(), e);
+					FDialog.error(m_WindowNo, this, "Error", e.toString());
+					trx.rollback();
+					trx.close();
+					return;
+				}
+
+			}
+
+			trx.commit();
 		}
-		//	User Choice - Answer
-		else if (MWFNode.ACTION_UserChoice.equals(node.getAction()))
+		finally
 		{
-			if (m_column == null)
-				m_column = node.getColumn();
-			//	Do we have an answer?
-			int dt = m_column.getAD_Reference_ID();
-			String value = fAnswerText.getText();
-			if (dt == DisplayType.YesNo || dt == DisplayType.List)
-			{
-				ListItem li = fAnswerList.getSelectedItem();
-				if(li != null) value = li.getValue().toString();
-			}
-			if (value == null || value.length() == 0)
-			{
-				FDialog.error(m_WindowNo, this, "FillMandatory", Msg.getMsg(Env.getCtx(), "Answer"));
-				trx.rollback();
+			Clients.showBusy(null, false);
+			if (trx != null)
 				trx.close();
-				return;
-			}
-			//
-			log.config("Answer=" + value + " - " + textMsg);
-			try
-			{
-				m_activity.setUserChoice(AD_User_ID, value, dt, textMsg);
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, node.getName(), e);
-				FDialog.error(m_WindowNo, this, "Error", e.toString());
-				trx.rollback();
-				trx.close();
-				return;
-			}
 		}
-		//	User Action
-		else
-		{
-			log.config("Action=" + node.getAction() + " - " + textMsg);
-			try
-			{
-				// ensure activity is ran within a transaction
-				m_activity.setUserConfirmation(AD_User_ID, textMsg);
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, node.getName(), e);
-				FDialog.error(m_WindowNo, this, "Error", e.toString());
-				trx.rollback();
-				trx.close();
-				return;
-			}
-			
-		}
-		
-		trx.commit();
-		trx.close();
 
 		//	Next
 		loadActivities();
-		display();
-	}	//	cmd_OK
+		display(-1);
+	}	//	onOK
 }
