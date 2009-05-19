@@ -44,19 +44,19 @@ import org.zkoss.zul.Label;
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
- * 
+ *
  * @author Cristina Ghita, www.arhipac.ro
  * 				<li>FR [ 2076330 ] Add new methods in CWindowToolbar class
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8259762910508209764L;
 
 	private static final String BUTTON_WIDTH = "32px";
-    
+
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
     private ToolBarButton btnIgnore;
@@ -64,7 +64,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private ToolBarButton btnHelp, btnNew, btnCopy, btnDelete, btnDeleteSelection, btnSave;
 
     private ToolBarButton btnRefresh, btnFind, btnLock, btnAttachment;
-    
+
     private ToolBarButton btnGridToggle;
 
     private ToolBarButton btnHistoryRecords, btnParentRecord, btnDetailRecord;
@@ -74,21 +74,21 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private ToolBarButton btnReport, btnArchive, btnPrint;
 
     private ToolBarButton btnZoomAcross, btnActiveWorkflows, btnRequests, btnProductInfo;
-    
+
     private HashMap<String, ToolBarButton> buttons = new HashMap<String, ToolBarButton>();
 
 //    private ToolBarButton btnExit;
-    
+
     private ArrayList<ToolbarListener> listeners = new ArrayList<ToolbarListener>();
-        
+
     private Event event;
-    
+
     private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
     private Map<Integer, ToolBarButton> altKeyMap = new HashMap<Integer, ToolBarButton>();
     private Map<Integer, ToolBarButton> ctrlKeyMap = new HashMap<Integer, ToolBarButton>();
 
 	private boolean embedded;
-	
+
 	// Elaine 2008/12/04
 	/** Show Personal Lock								*/
 	public boolean isPersonalLock = MRole.getDefault().isPersonalLock();
@@ -97,18 +97,18 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	private int windowNo = 0;
 
 	private long prevKeyEventTime = 0;
-	
+
 	private KeyEvent prevKeyEvent;
-	
+
 	/**	Last Modifier of Action Event					*/
 //	public int 				lastModifiers;
 	//
 
-    public CWindowToolbar() 
+    public CWindowToolbar()
     {
     	this(false);
     }
-    
+
     public CWindowToolbar(boolean embedded)
     {
     	this.embedded = embedded;
@@ -153,7 +153,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnRequests = createButton("Requests", "Request", "Request");
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
         btnProductInfo.setVisible(isAllowProductInfo);
-        
+
         for (Object obj : this.getChildren())
         {
             if (obj instanceof ToolBarButton)
@@ -163,20 +163,20 @@ public class CWindowToolbar extends FToolbar implements EventListener
                 ((ToolBarButton)obj).setDisabled(true);
             }
         }
-        
+
         // Help and Exit should always be enabled
         btnHelp.setDisabled(false);
         btnGridToggle.setDisabled(false);
         btnZoomAcross.setDisabled(false);
-                
+
         btnActiveWorkflows.setDisabled(false); // Elaine 2008/07/17
         btnRequests.setDisabled(false); // Elaine 2008/07/22
         btnProductInfo.setDisabled(!isAllowProductInfo); // Elaine 2008/07/22
         btnArchive.setDisabled(false); // Elaine 2008/07/28
         btnLock.setDisabled(!isPersonalLock); // Elaine 2008/12/04
-        
+
         configureKeyMap();
-        
+
         if (embedded)
         {
         	btnParentRecord.setVisible(false);
@@ -193,8 +193,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
         	setWidth("100%");
         }
     }
-    
-    
+
+
     private ToolBarButton createButton(String name, String image, String tooltip)
     {
     	ToolBarButton btn = new ToolBarButton("");
@@ -206,10 +206,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
         buttons.put(name, btn);
         this.appendChild(btn);
         //make toolbar button last to receive focus
-        btn.setTabindex(32767);
+        btn.setTabindex(0);
         return btn;
     }
-    
+
     public ToolBarButton getButton(String name)
     {
     	return buttons.get(name);
@@ -242,10 +242,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public static final int VK_X              = 0x58;
     public static final int VK_Y              = 0x59;
     public static final int VK_Z              = 0x5A;
-    
-    private void configureKeyMap() 
+
+    private void configureKeyMap()
     {
-		keyMap.put(KeyEvent.F1, btnHelp);		
+		keyMap.put(KeyEvent.F1, btnHelp);
 		keyMap.put(KeyEvent.F2, btnNew);
 		keyMap.put(KeyEvent.F3, btnDelete);
 		keyMap.put(KeyEvent.F4, btnSave);
@@ -256,7 +256,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		keyMap.put(KeyEvent.F9, btnHistoryRecords);
 		keyMap.put(KeyEvent.F11, btnReport);
 		keyMap.put(KeyEvent.F12, btnPrint);
-		
+
 		altKeyMap.put(KeyEvent.LEFT, btnParentRecord);
 		altKeyMap.put(KeyEvent.RIGHT, btnDetailRecord);
 		altKeyMap.put(KeyEvent.UP, btnPrevious);
@@ -265,12 +265,12 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		altKeyMap.put(KeyEvent.PAGE_DOWN, btnLast);
 		altKeyMap.put(VK_P, btnReport);
 		altKeyMap.put(VK_Z, btnIgnore);
-		
+
 		ctrlKeyMap.put(VK_I, btnProductInfo);
 		ctrlKeyMap.put(VK_P, btnPrint);
 		ctrlKeyMap.put(VK_N, btnNew);
 		ctrlKeyMap.put(VK_S, btnSave);
-		ctrlKeyMap.put(VK_X, btnDelete);
+		ctrlKeyMap.put(VK_D, btnDelete);
 		ctrlKeyMap.put(VK_F, btnFind);
 	}
 
@@ -296,30 +296,30 @@ public class CWindowToolbar extends FToolbar implements EventListener
     public void onEvent(Event event)
     {
         String eventName = event.getName();
-        
+
         if(eventName.equals(Events.ON_CLICK))
         {
             if(event.getTarget() instanceof ToolBarButton)
             {
             	doOnClick(event);
             }
-        } else if (eventName.equals(Events.ON_CTRL_KEY)) 
+        } else if (eventName.equals(Events.ON_CTRL_KEY))
         {
         	KeyEvent keyEvent = (KeyEvent) event;
         	if (isRealVisible()) {
 	        	//filter same key event that is too close
 	        	//firefox fire key event twice when grid is visible
 	        	long time = System.currentTimeMillis();
-	        	if (prevKeyEvent != null && prevKeyEventTime > 0 && 
+	        	if (prevKeyEvent != null && prevKeyEventTime > 0 &&
 	        			prevKeyEvent.getKeyCode() == keyEvent.getKeyCode() &&
 	    				prevKeyEvent.getTarget() == keyEvent.getTarget() &&
 	    				prevKeyEvent.isAltKey() == keyEvent.isAltKey() &&
 	    				prevKeyEvent.isCtrlKey() == keyEvent.isCtrlKey() &&
 	    				prevKeyEvent.isShiftKey() == keyEvent.isShiftKey()) {
-	        		if ((time - prevKeyEventTime) <= 300) {	        			
+	        		if ((time - prevKeyEventTime) <= 300) {
 	        			return;
 	        		}
-	        	}	        	        	
+	        	}
 	        	this.onCtrlKeyEvent(keyEvent);
         	}
         }
@@ -362,12 +362,12 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		}
 		this.event = null;
 	}
-    
+
     public void enableHistoryRecords(boolean enabled)
     {
     	this.btnHistoryRecords.setDisabled(!enabled);
     }
-    
+
     public void enableNavigation(boolean enabled)
     {
         this.btnFirst.setDisabled(!enabled);
@@ -375,131 +375,131 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.btnNext.setDisabled(!enabled);
         this.btnLast.setDisabled(!enabled);
     }
-    
+
     public void enableTabNavigation(boolean enabled)
     {
         enableTabNavigation(enabled, enabled);
     }
-    
+
     public void enableTabNavigation(boolean enableParent, boolean enableDetail)
     {
         this.btnParentRecord.setDisabled(!enableParent);
         this.btnDetailRecord.setDisabled(!enableDetail);
     }
-    
+
     public void enableFirstNavigation(boolean enabled)
     {
         this.btnFirst.setDisabled(!enabled);
         this.btnPrevious.setDisabled(!enabled);
     }
-    
+
     public void enableLastNavigation(boolean enabled)
     {
         this.btnLast.setDisabled(!enabled);
         this.btnNext.setDisabled(!enabled);
     }
-    
+
     public void enabledNew(boolean enabled)
     {
         this.btnNew.setDisabled(!enabled);
     }
-    
+
    /* public void enableEdit(boolean enabled)
     {
         this.btnEdit.setEnabled(enabled);
     }*/
-    
+
     public void enableRefresh(boolean enabled)
     {
         this.btnRefresh.setDisabled(!enabled);
     }
-    
+
     public void enableSave(boolean enabled)
     {
         this.btnSave.setDisabled(!enabled);
     }
-    
+
     public boolean isSaveEnable() {
     	return !btnSave.isDisabled();
     }
-    
+
 //    public void enableExit(boolean enabled)
 //    {
 //    	this.btnExit.setDisabled(!enabled);
 //    }
-    
+
     public void enableDelete(boolean enabled)
     {
         this.btnDelete.setDisabled(!enabled);
     }
-    
+
     // Elaine 2008/12/01
     public void enableDeleteSelection(boolean enabled)
     {
         this.btnDeleteSelection.setDisabled(!enabled);
     }
     //
-    
+
     public void enableChanges(boolean enabled)
     {
         this.btnNew.setDisabled(!enabled);
         this.btnCopy.setDisabled(!enabled);
     }
-    
+
     public void enableIgnore(boolean enabled)
     {
         this.btnIgnore.setDisabled(!enabled);
     }
-    
+
     public void enableNew(boolean enabled)
     {
         this.btnNew.setDisabled(!enabled);
     }
-    
+
     public void enableAttachment(boolean enabled)
     {
         this.btnAttachment.setDisabled(!enabled);
     }
-    
+
     public void enablePrint(boolean enabled)
     {
     	this.btnPrint.setDisabled(!enabled);
     }
-    
+
     public void enableReport(boolean enabled)
     {
     	this.btnReport.setDisabled(!enabled);
     }
-    
+
     public void enableCopy(boolean enabled)
     {
     	this.btnCopy.setDisabled(!enabled);
     }
-    
+
     public void enableFind(boolean enabled)
     {
         this.btnFind.setDisabled(!enabled);
     }
-    
+
     public void enableGridToggle(boolean enabled)
     {
     	btnGridToggle.setDisabled(!enabled);
     }
-    
+
     public void lock(boolean locked)
     {
     	this.btnLock.setPressed(locked);
-    	
+
     	String imgURL = "/images/"+ (this.btnLock.isPressed() ? "LockX" : "Lock") + (embedded ? "16.png" : "24.png");
 		this.btnLock.setImage(imgURL);
     }
-    
-    public Event getEvent() 
+
+    public Event getEvent()
     {
     	return event;
     }
 
-	private void onCtrlKeyEvent(KeyEvent keyEvent) {		
+	private void onCtrlKeyEvent(KeyEvent keyEvent) {
 		ToolBarButton btn = null;
 		if (keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
 		{
@@ -522,7 +522,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
 		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
 			btn = keyMap.get(keyEvent.getKeyCode());
-		
+
 		if (btn != null) {
 			prevKeyEventTime = System.currentTimeMillis();
         	prevKeyEvent = keyEvent;
@@ -544,9 +544,9 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		}
 		return true;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param visible
 	 */
 	public void setVisibleAll(boolean visible)
@@ -556,9 +556,9 @@ public class CWindowToolbar extends FToolbar implements EventListener
 			btn.setVisible(visible);
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param buttonName
 	 * @param visible
 	 */
@@ -572,7 +572,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param windowNo
 	 */
 	public void setWindowNo(int windowNo) {

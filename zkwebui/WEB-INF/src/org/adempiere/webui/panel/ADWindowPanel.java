@@ -176,7 +176,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         		keyListener.detach();
         	keyListener = new Keylistener();
         	statusBar.appendChild(keyListener);
-        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^x@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
+        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
         	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
         	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
         }
