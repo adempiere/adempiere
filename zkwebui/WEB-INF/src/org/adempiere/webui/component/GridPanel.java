@@ -29,6 +29,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
+import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -40,6 +41,7 @@ import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Paging;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.event.ZulEvents;
 
 /**
@@ -82,6 +84,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	private South south;
 
 	private boolean modeless;
+
+	private String columnOnClick;
 
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 
@@ -329,21 +333,41 @@ public class GridPanel extends Borderlayout implements EventListener
 		else if (event.getTarget() == listbox && Events.ON_CLICK.equals(event.getName()))
 		{
 			Object data = event.getData();
-			if (data != null && data instanceof org.zkoss.zul.Row)
+			org.zkoss.zul.Row row = null;
+			String columnName = null;
+			if (data != null && data instanceof Component)
+			{
+				if (data instanceof org.zkoss.zul.Row)
+					row = (org.zkoss.zul.Row) data;
+				else
+				{
+					AbstractComponent cmp = (AbstractComponent) data;
+					if (cmp.getParent() instanceof org.zkoss.zul.Row)
+					{
+						row = (Row) cmp.getParent();
+						columnName = (String) cmp.getAttribute("columnName");
+					}
+				}
+			}
+			if (row != null)
 			{
 				//click on selected row to enter edit mode
-				if (data == renderer.getCurrentRow())
+				if (row == renderer.getCurrentRow())
 				{
 					if (!renderer.isEditing())
 					{
 						renderer.editCurrentRow();
-						renderer.setFocusToEditor();
+						if (columnName != null && columnName.trim().length() > 0)
+							setFocusToField(columnName);
+						else
+							renderer.setFocusToEditor();
 					}
 				}
 				else
 				{
-					int index = listbox.getRows().getChildren().indexOf(data);
+					int index = listbox.getRows().getChildren().indexOf(row);
 					if (index >= 0 ) {
+						columnOnClick = columnName;
 						onSelectedRowChange(index);
 					}
 				}
@@ -384,7 +408,12 @@ public class GridPanel extends Borderlayout implements EventListener
 			}
 			if (modeless && !renderer.isEditing()) {
 				renderer.editCurrentRow();
-				renderer.setFocusToEditor();
+				if (columnOnClick != null && columnOnClick.trim().length() > 0) {
+					setFocusToField(columnOnClick);
+					columnOnClick = null;
+				} else {
+					renderer.setFocusToEditor();
+				}
 			} else {
 				focusToRow(row);
 			}
@@ -397,7 +426,12 @@ public class GridPanel extends Borderlayout implements EventListener
 			}
 			if (modeless && !renderer.isEditing()) {
 				renderer.editCurrentRow();
-				renderer.setFocusToEditor();
+				if (columnOnClick != null && columnOnClick.trim().length() > 0) {
+					setFocusToField(columnOnClick);
+					columnOnClick = null;
+				} else {
+					renderer.setFocusToEditor();
+				}
 			} else {
 				focusToRow(row);
 			}
@@ -405,8 +439,32 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	private void focusToRow(org.zkoss.zul.Row row) {
-		Component c = row.getFirstChild().getFirstChild().getNextSibling();
-		Clients.response(new AuScript(null, "scrollToRow('" + c.getUuid() + "');"));
+		if (renderer.isEditing()) {
+			if (columnOnClick != null && columnOnClick.trim().length() > 0) {
+				setFocusToField(columnOnClick);
+				columnOnClick = null;
+			} else {
+				renderer.setFocusToEditor();
+			}
+		} else {
+			Component cmp = row.getFirstChild().getFirstChild().getNextSibling();
+			Clients.response(new AuScript(null, "scrollToRow('" + cmp.getUuid() + "');"));
+
+			if (columnOnClick != null && columnOnClick.trim().length() > 0) {
+				List<?> list = row.getChildren();
+				for(Object element : list) {
+					if (element instanceof Div) {
+						Div div = (Div) element;
+						if (columnOnClick.equals(div.getAttribute("columnName"))) {
+							cmp = div.getFirstChild().getNextSibling();
+							Clients.response(new AuScript(null, "scrollToRow('" + cmp.getUuid() + "');"));
+							break;
+						}
+					}
+				}
+				columnOnClick = null;
+			}
+		}
 	}
 
 	private boolean isRowRendered(org.zkoss.zul.Row row, int index) {
