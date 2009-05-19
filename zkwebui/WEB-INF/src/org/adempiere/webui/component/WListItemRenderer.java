@@ -69,7 +69,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
     private Listbox listBox;
 
 	private EventListener cellListener;
-	
+
 	/**
 	 * Default constructor.
 	 *
@@ -152,7 +152,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			throw new IllegalArgumentException("A model element was not a list");
 		}
 
-		if (listBox == null || listBox != item.getListbox()) 
+		if (listBox == null || listBox != item.getListbox())
 		{
 			listBox = item.getListbox();
 		}
@@ -160,7 +160,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		{
 			cellListener = new CellListener();
 		}
-		
+
 		for (Object field : (List<?>)data)
 		{
 			listcell = getCellComponent(table, field, rowIndex, colIndex);
@@ -259,7 +259,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		ListCell listcell = new ListCell();
 		boolean isCellEditable = table != null ? table.isCellEditable(rowIndex, columnIndex) : false;
 
-        // TODO put this in factory method for generating cell renderers, which 
+        // TODO put this in factory method for generating cell renderers, which
         // are assigned to Table Columns
 		if (field != null)
 		{
@@ -290,7 +290,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				DecimalFormat format = field instanceof BigDecimal
 					? DisplayType.getNumberFormat(DisplayType.Amount)
 				    : DisplayType.getNumberFormat(DisplayType.Integer);
-					
+
 				// set cell value to allow sorting
 				listcell.setValue(field.toString());
 
@@ -436,7 +436,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 *
 	 * @param headerValue	The object to use for generating the header text.
      * @param headerIndex   The column index of the header
-	 * @param classType 
+	 * @param classType
 	 * @return The generated ListHeader
 	 * @see #renderListHead(ListHead)
 	 */
@@ -445,7 +445,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         ListHeader header = null;
 
         String headerText = headerValue.toString();
-        if (m_headers.size() <= headerIndex)
+        if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
             Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
             Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
@@ -461,7 +461,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             	width = 300;
             else if (classType != null)
             {
-            	if (classType.equals(String.class)) 
+            	if (classType.equals(String.class))
             	{
             		if (width > 0 && width < 180)
             			width = 180;
@@ -477,7 +477,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             }
             else if (width > 0 && width < 100)
             	width = 100;
-            
+
             header.setWidth(width + "px");
             m_headers.add(header);
         }
@@ -492,6 +492,26 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         }
 
 		return header;
+	}
+
+	/**
+	 * set custom list header
+	 * @param index
+	 * @param header
+	 */
+	public void setListHeader(int index, ListHeader header) {
+		int size = m_headers.size();
+		if (size <= index) {
+			while (size <= index) {
+				if (size == index)
+					m_headers.add(header);
+				else
+					m_headers.add(null);
+				size++;
+			}
+
+		} else
+			m_headers.set(index, header);
 	}
 
     /**
@@ -590,7 +610,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 				fireTableValueChange(vcEvent);
 			}
-		} 
+		}
 		else if (event.getTarget() instanceof WListbox && Events.ON_SELECT.equals(event.getName()))
 		{
 			WListbox table = (WListbox) event.getTarget();
@@ -598,22 +618,22 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				int cnt = table.getRowCount();
 				if (cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn))
 					return;
-				
+
 				//update IDColumn
 				tableColumn = m_tableColumns.get(0);
 				for (int i = 0; i < cnt; i++) {
 					IDColumn idcolumn = (IDColumn) table.getValueAt(i, 0);
 					Listitem item = table.getItemAtIndex(i);
-					
+
 					value = item.isSelected();
 					Boolean old = idcolumn.isSelected();
-					
+
 					if (!old.equals(value)) {
 						vcEvent = new TableValueChangeEvent(source,
 								tableColumn.getHeaderValue().toString(),
 								i, 0,
 								old, value);
-	
+
 						fireTableValueChange(vcEvent);
 					}
 				}
@@ -758,7 +778,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	{
 		ListItem item = new ListItem();
 		item.applyProperties();
-		
+
 		return item;
 	}
 
@@ -766,34 +786,34 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	 * @param index
 	 * @param header
 	 */
-	public void setColumnHeader(int index, String header) 
+	public void setColumnHeader(int index, String header)
 	{
-		if (index >= 0 && index < m_tableColumns.size()) 
+		if (index >= 0 && index < m_tableColumns.size())
 		{
 			m_tableColumns.get(index).setHeaderValue(Util.cleanAmp(header));
 		}
-		
+
 	}
 
 	public void setColumnClass(int index, Class<?> classType) {
-		if (index >= 0 && index < m_tableColumns.size()) 
+		if (index >= 0 && index < m_tableColumns.size())
 		{
 			m_tableColumns.get(index).setColumnClass(classType);
-		}		
+		}
 	}
 
 	class CellListener implements EventListener {
 
 		public CellListener() {
 		}
-		
+
 		public void onEvent(Event event) throws Exception {
 			if (listBox != null && Events.ON_DOUBLE_CLICK.equals(event.getName())) {
 				Event evt = new Event(Events.ON_DOUBLE_CLICK, listBox);
 				Events.sendEvent(listBox, evt);
 			}
 		}
-		
+
 	}
 }
 

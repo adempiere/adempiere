@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -44,7 +45,7 @@ import org.zkoss.zul.ListModel;
 
 /**
  * Replacement for the Swing client minigrid component
- * 
+ *
  * ZK Listbox extension for Adempiere Web UI.
  * The listbox contains a model and a renderer.
  * The model holds the underlying data objects, while the
@@ -59,7 +60,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 5893174209599272896L;
 
@@ -93,7 +94,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	    rowRenderer.addTableValueChangeListener(this);
 
 		setItemRenderer(rowRenderer);
-		setModel(new ListModelTable());		
+		setModel(new ListModelTable());
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 * @param model        The data model to assign to the table
 	 * @param columnNames  The names of the table columns
 	 */
-	public void setData(ListModelTable model, Vector< ? extends String> columnNames)
+	public void setData(ListModelTable model, List< ? extends String> columnNames)
 	{
 	    //	 instantiate our custom row renderer
 	    WListItemRenderer rowRenderer = new WListItemRenderer(columnNames);
@@ -442,9 +443,9 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
 
 		setColumnReadOnly(index, readOnly);
-		
+
 		renderer.setColumnHeader(index, header);
-		
+
 		renderer.setColumnClass(index, classType);
 
 		if (index < m_modelHeaderClass.size())
@@ -472,9 +473,9 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         setColumnReadOnly(index, readOnly);
 
         WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
-        
+
         renderer.setColumnClass(index, classType);
-        
+
         m_modelHeaderClass.add(classType);
 
         return;
@@ -497,7 +498,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		setColumnReadOnly(m_modelHeaderClass.size() - 1, readOnly);
 
 		addColumn(header);
-		
+
 		WListItemRenderer renderer = (WListItemRenderer)getItemRenderer();
 		renderer.setColumnClass((renderer.getNoColumns() - 1), classType);
 
@@ -935,7 +936,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 		// if the event was caused by an ID Column and the value is a boolean
 		// then set the IDColumn's select field
-		if (col >= 0 && row >=0) 
+		if (col >= 0 && row >=0)
 		{
 			if (this.getValueAt(row, col) instanceof IDColumn
 				&& event.getNewValue() instanceof Boolean)
@@ -966,7 +967,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	    // this causes re-rendering of the Listbox
 		this.setModel(this.getModel());
-		
+
 		return;
 	}
 
@@ -1020,7 +1021,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
         		model.updateComponent(event.getFirstRow(), event.getLastRow());
         	else
         		model.updateComponent(event.getFirstRow());
-        	if (indices != null && indices.length > 0) 
+        	if (indices != null && indices.length > 0)
         	{
         		this.setSelectedIndices(indices);
         	}
@@ -1028,7 +1029,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
         return;
     }
-    
+
     /**
      * no op, to ease porting of swing form
      */
