@@ -56,7 +56,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
     }
 
     /** AccessLevel
-      * @return 3 - Client - Org 
+      * @return 7 - System - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -205,9 +205,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
-			set_Value (COLUMNNAME_HR_Concept_Category_ID, null);
+			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, null);
 		else 
-			set_Value (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
+			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
 	/** Get Payroll Concept Category.
