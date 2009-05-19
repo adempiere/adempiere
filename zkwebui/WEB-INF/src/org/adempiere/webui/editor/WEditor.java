@@ -478,4 +478,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 	public boolean isHasFocus() {
 		return hasFocus;
 	}
+
+	public void setHasFocus(boolean b) {
+		hasFocus = b;
+	}
 }

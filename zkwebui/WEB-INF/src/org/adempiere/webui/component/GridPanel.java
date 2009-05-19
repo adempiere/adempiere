@@ -27,6 +27,7 @@ import org.compiere.model.GridTable;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
@@ -49,7 +50,7 @@ import org.zkoss.zul.event.ZulEvents;
 public class GridPanel extends Borderlayout implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 860960136170704359L;
 
@@ -58,18 +59,18 @@ public class GridPanel extends Borderlayout implements EventListener
 	private static final int MAX_COLUMN_WIDTH = 300;
 
 	private Grid listbox = null;
-	
+
 	private int pageSize = 100;
-	
+
 	private GridField[] gridField;
 	private AbstractTableModel tableModel;
-	
+
 	private int numColumns = 5;
-	
+
 	private int windowNo;
-	
+
 	private GridTab gridTab;
-	
+
 	private boolean init;
 
 	private GridTableListModel listModel;
@@ -83,14 +84,14 @@ public class GridPanel extends Borderlayout implements EventListener
 	private boolean modeless;
 
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
-	
+
 	public static final String MODE_LESS_KEY = "ZK_GRID_EDIT_MODELESS";
-	
+
 	public GridPanel()
 	{
 		this(0);
 	}
-	
+
 	/**
 	 * @param windowNo
 	 */
@@ -100,55 +101,55 @@ public class GridPanel extends Borderlayout implements EventListener
 		listbox = new Grid();
 		south = new South();
 		this.appendChild(south);
-		
+
 		//default paging size
 		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
-		
+
 		//default true for backward compatibility
 		modeless = MSysConfig.getBooleanValue(MODE_LESS_KEY, true);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param gridTab
 	 */
 	public void init(GridTab gridTab)
 	{
 		if (init) return;
-				
+
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
-		
+
 		numColumns = tableModel.getColumnCount();
-		
+
 		gridField = ((GridTable)tableModel).getFields();
-				
+
 		setupColumns();
 		render();
-		
+
 		updateListIndex();
-		
+
 		this.init = true;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean isInit() {
 		return init;
 	}
-	
+
 	/**
 	 * call when tab is activated
 	 * @param gridTab
 	 */
-	public void activate(GridTab gridTab) {		
+	public void activate(GridTab gridTab) {
 		if (!isInit()) {
 			init(gridTab);
 		}
 	}
-	
+
 	/**
 	 * refresh after switching from form view
 	 * @param gridTab
@@ -171,9 +172,9 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void updateListIndex() {
 		if (gridTab == null || !gridTab.isOpen()) return;
-		
-		int rowIndex  = gridTab.getCurrentRow();		
-		if (pageSize > 0) {			
+
+		int rowIndex  = gridTab.getCurrentRow();
+		if (pageSize > 0) {
 			if (paging.getTotalSize() != gridTab.getRowCount())
 				paging.setTotalSize(gridTab.getRowCount());
 			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
@@ -186,18 +187,18 @@ public class GridPanel extends Borderlayout implements EventListener
 			} else if (rowIndex == renderer.getCurrentRowIndex()){
 				if (modeless && !renderer.isEditing())
 					Events.echoEvent("onPostSelectedRowChanged", this, null);
-				return;				
+				return;
 			} else {
 				if (renderer.isEditing()) {
 					renderer.stopEditing(false);
-					if (((renderer.getCurrentRowIndex() - pgIndex) / pageSize) == pgNo) { 
+					if (((renderer.getCurrentRowIndex() - pgIndex) / pageSize) == pgNo) {
 						listModel.updateComponent(renderer.getCurrentRowIndex() % pageSize);
 					}
 				}
 			}
 			if (paging.getActivePage() != pgNo) {
 				paging.setActivePage(pgNo);
-			}						
+			}
 			if (rowIndex >= 0 && pgIndex >= 0) {
 				Events.echoEvent("onPostSelectedRowChanged", this, null);
 			}
@@ -216,12 +217,12 @@ public class GridPanel extends Borderlayout implements EventListener
 	{
 		this.pageSize = pageSize;
 	}
-	
+
 	public void clear()
 	{
 		this.getChildren().clear();
 	}
-	
+
 	/**
 	 * toggle visibility
 	 * @param bool
@@ -233,17 +234,17 @@ public class GridPanel extends Borderlayout implements EventListener
 		else
 			this.setVisible(false);
 	}
-	
+
 	private void setupColumns()
-	{		
+	{
 		if (init) return;
-		
-		Columns columns = new Columns(); 
+
+		Columns columns = new Columns();
 		listbox.appendChild(columns);
 		columns.setSizable(true);
 		columns.setMenupopup("auto");
 		columns.setColumnsgroup(false);
-		
+
 		Map<Integer, String> colnames = new HashMap<Integer, String>();
 		int index = 0;
 		for (int i = 0; i < numColumns; i++)
@@ -256,35 +257,35 @@ public class GridPanel extends Borderlayout implements EventListener
 				column.setSortAscending(new SortComparator(i, true, Env.getLanguage(Env.getCtx())));
 				column.setSortDescending(new SortComparator(i, false, Env.getLanguage(Env.getCtx())));
 				column.setLabel(gridField[i].getHeader());
-				int l = DisplayType.isNumeric(gridField[i].getDisplayType()) 
+				int l = DisplayType.isNumeric(gridField[i].getDisplayType())
 					? 120 : gridField[i].getDisplayLength() * 9;
 				if (gridField[i].getHeader().length() * 9 > l)
 					l = gridField[i].getHeader().length() * 9;
-				if (l > MAX_COLUMN_WIDTH) 
+				if (l > MAX_COLUMN_WIDTH)
 					l = MAX_COLUMN_WIDTH;
 				else if ( l < MIN_COLUMN_WIDTH)
 					l = MIN_COLUMN_WIDTH;
 				column.setWidth(Integer.toString(l) + "px");
 				columns.appendChild(column);
 			}
-		}		
+		}
 	}
-	
+
 	private void render()
 	{
 		LayoutUtils.addSclass("adtab-grid-panel", this);
-		
+
 		listbox.setVflex(true);
 		listbox.setFixedLayout(true);
 		listbox.addEventListener(Events.ON_CLICK, this);
-		
-		updateModel();				
-		
+
+		updateModel();
+
 		Center center = new Center();
 		center.appendChild(listbox);
 		this.appendChild(center);
-		
-		if (pageSize > 0) 
+
+		if (pageSize > 0)
 		{
 			paging = new Paging();
 			paging.setPageSize(pageSize);
@@ -298,21 +299,21 @@ public class GridPanel extends Borderlayout implements EventListener
 		{
 			south.setVisible(false);
 		}
-				
+
 	}
-	
+
 	private void updateModel() {
-		listModel = new GridTableListModel((GridTable)tableModel, windowNo);		
+		listModel = new GridTableListModel((GridTable)tableModel, windowNo);
 		listModel.setPageSize(pageSize);
 		if (renderer != null && renderer.isEditing())
 			renderer.stopEditing(false);
 		renderer = new GridTabRowRenderer(gridTab, windowNo);
 		renderer.setGridPanel(this);
-				
+
 		listbox.setRowRenderer(renderer);
-		listbox.setModel(listModel);		
+		listbox.setModel(listModel);
 	}
-	
+
 	/**
 	 * deactivate panel
 	 */
@@ -322,9 +323,9 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	public void onEvent(Event event) throws Exception
-	{		
+	{
 		if (event == null)
-			return;		
+			return;
 		else if (event.getTarget() == listbox && Events.ON_CLICK.equals(event.getName()))
 		{
 			Object data = event.getData();
@@ -342,7 +343,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				else
 				{
 					int index = listbox.getRows().getChildren().indexOf(data);
-					if (index >= 0 ) {					
+					if (index >= 0 ) {
 						onSelectedRowChange(index);
 					}
 				}
@@ -362,24 +363,24 @@ public class GridPanel extends Borderlayout implements EventListener
 	private void onSelectedRowChange(int index) {
 		if (updateModelIndex(index)) {
 			updateListIndex();
-		} 
+		}
 	}
-	
+
 	/**
 	 * Event after the current selected row change
 	 */
 	public void onPostSelectedRowChanged() {
-		if (listbox.getRows().getChildren().isEmpty()) 
+		if (listbox.getRows().getChildren().isEmpty())
 			return;
-		
+
 		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
-		if (rowIndex >= 0 && pageSize > 0) {			
+		if (rowIndex >= 0 && pageSize > 0) {
 			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
 			org.zkoss.zul.Row row = (org.zkoss.zul.Row) listbox.getRows().getChildren().get(pgIndex);
 			if (!isRowRendered(row, pgIndex)) {
-				listbox.renderRow(row);				
+				listbox.renderRow(row);
 			} else {
-				renderer.setCurrentRow(row);				
+				renderer.setCurrentRow(row);
 			}
 			if (modeless && !renderer.isEditing()) {
 				renderer.editCurrentRow();
@@ -392,7 +393,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (!isRowRendered(row, rowIndex)) {
 				listbox.renderRow(row);
 			} else {
-				renderer.setCurrentRow(row);				
+				renderer.setCurrentRow(row);
 			}
 			if (modeless && !renderer.isEditing()) {
 				renderer.editCurrentRow();
@@ -409,7 +410,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	private boolean isRowRendered(org.zkoss.zul.Row row, int index) {
-		if (row.getChildren().size() == 0) {			
+		if (row.getChildren().size() == 0) {
 			return false;
 		} else if (row.getChildren().size() == 1) {
 			if (!(row.getChildren().get(0) instanceof Div)) {
@@ -418,20 +419,20 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 		return true;
 	}
-	
+
 	private boolean updateModelIndex(int rowIndex) {
 		if (pageSize > 0) {
 			int start = listModel.getPage() * listModel.getPageSize();
 			rowIndex = start + rowIndex;
-		} 
-		
+		}
+
 		if (gridTab.getCurrentRow() != rowIndex) {
 			gridTab.navigate(rowIndex);
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @return Grid
 	 */
@@ -448,7 +449,7 @@ public class GridPanel extends Borderlayout implements EventListener
         {
             return;
         }
-        
+
         //  Selective
         if (col > 0)
         	return;
@@ -475,7 +476,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 
 	/**
-	 * 
+	 *
 	 * @param windowNo
 	 */
 	public void setWindowNo(int windowNo) {
@@ -496,6 +497,19 @@ public class GridPanel extends Borderlayout implements EventListener
 		if (!modeless && renderer != null && !renderer.isEditing()) {
 			renderer.editCurrentRow();
 			renderer.setFocusToEditor();
+		}
+	}
+
+	public void setFocusToField(String columnName) {
+		boolean found = false;
+		for (WEditor editor : renderer.getEditors()) {
+			if (found)
+				editor.setHasFocus(false);
+			else if (columnName.equals(editor.getColumnName())) {
+				editor.setHasFocus(true);
+				Clients.response(new AuFocus(editor.getComponent()));
+				found = true;
+			}
 		}
 	}
 }

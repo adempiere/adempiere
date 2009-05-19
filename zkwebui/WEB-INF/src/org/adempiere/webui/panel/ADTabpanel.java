@@ -1062,6 +1062,23 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 			listPanel.focus();
 	}
 
+	public void setFocusToField(String columnName) {
+		if (formComponent.isVisible()) {
+			boolean found = false;
+			for (WEditor editor : editors) {
+				if (found)
+					editor.setHasFocus(false);
+				else if (columnName.equals(editor.getColumnName())) {
+					editor.setHasFocus(true);
+					Clients.response(new AuFocus(editor.getComponent()));
+					found = true;
+				}
+			}
+		} else {
+			listPanel.setFocusToField(columnName);
+		}
+	}
+
 	/**
 	 * @see IADTabpanel#onEnterKey()
 	 */

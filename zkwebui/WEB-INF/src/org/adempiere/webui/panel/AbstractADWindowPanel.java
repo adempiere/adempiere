@@ -928,6 +928,17 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         //  Confirm Error
         if (e.isError() && !e.isConfirmed())
         {
+        	//focus to error field
+        	ADTabpanel tabPanel = (ADTabpanel) getADTab().getSelectedTabpanel();
+        	GridField[] fields = curTab.getFields();
+        	for (GridField field : fields)
+        	{
+        		if (field.isError())
+        		{
+        			tabPanel.setFocusToField(field.getColumnName());
+        			break;
+        		}
+        	}
             FDialog.error(curWindowNo, null, e.getAD_Message(), e.getInfo());
             e.setConfirmed(true);   //  show just once - if MTable.setCurrentRow is involved the status event is re-issued
         }
@@ -1244,8 +1255,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		String msg = CLogger.retrieveErrorString(null);
 		if (msg != null)
 			FDialog.error(curWindowNo, parent, null, msg);
-		else
-			FDialog.error(curWindowNo, parent, "SaveIgnored");
+
 		//actual error will prompt in the dataStatusChanged event
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
 	}
