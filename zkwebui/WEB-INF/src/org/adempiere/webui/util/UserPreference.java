@@ -67,6 +67,10 @@ public final class UserPreference implements Serializable {
 	public static final String P_WINDOW_TAB_COLLAPSIBLE = "WindowTabCollapsible";
 	public static final String DEFAULT_WINDOW_TAB_COLLAPSIBLE = "N";
 
+	/** Auto New **/
+	public static final String P_AUTO_NEW = "AutoNew";
+	public static final String DEFAULT_AUTO_NEW = "Y";
+
 	/** Ini Properties */
 	private static final String[] PROPERTIES = new String[] {
 		P_LANGUAGE,
@@ -75,6 +79,7 @@ public final class UserPreference implements Serializable {
 		P_ORG,
 		P_WAREHOUSE,
 		P_AUTO_COMMIT,
+		P_AUTO_NEW,
 		P_WINDOW_TAB_PLACEMENT,
 		P_WINDOW_TAB_COLLAPSIBLE};
 	/** Ini Property Values */
@@ -85,6 +90,7 @@ public final class UserPreference implements Serializable {
 		DEFAULT_ORG,
 		DEFAULT_WAREHOUSE,
 		DEFAULT_AUTO_COMMIT,
+		DEFAULT_AUTO_NEW,
 		DEFAULT_WINDOW_TAB_PLACEMENT,
 		DEFAULT_WINDOW_TAB_COLLAPSIBLE};
 

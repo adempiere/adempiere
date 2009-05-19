@@ -71,6 +71,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
+import org.jpedal.parser.Cmd;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -835,6 +836,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (curTabpanel instanceof ADSortTab)
 		{
 			((ADSortTab)curTabpanel).registerAPanel(this);
+		}
+		else
+		{
+			if (curTab.getRowCount() == 0 && Env.isAutoNew(ctx, getWindowNo()))
+			{
+				onNew();
+			}
 		}
 
 		updateToolbar();
