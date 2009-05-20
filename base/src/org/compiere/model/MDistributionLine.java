@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -35,7 +35,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8967296538546883724L;
+	private static final long serialVersionUID = 6148743556518054326L;
 
 	/**
 	 * 	Standard Constructor
@@ -84,6 +84,8 @@ public class MDistributionLine extends X_GL_DistributionLine
 	private MDistribution		m_parent = null;
 	/** The Amount						*/
 	private BigDecimal			m_amt = null;
+	/** The Quantity					*/
+	private BigDecimal			m_qty = null;
 	/** The Base Account				*/
 	private MAccount			m_account = null;
 
@@ -164,6 +166,24 @@ public class MDistributionLine extends X_GL_DistributionLine
 		m_amt = amt;
 	}	//	setAmt
 	
+	/**************************************************************************
+	 * 	Get Distribution Quantity
+	 *	@return Returns the qty.
+	 */
+	public BigDecimal getQty ()
+	{
+		return m_qty;
+	}	//	getQty
+	
+	/**
+	 * 	Set Distribution Quantity
+	 *	@param qty The qty to set.
+	 */
+	public void setQty (BigDecimal qty)
+	{
+		m_qty = qty;
+	}	//	setQty
+	
 	/**
 	 * 	Set Distribution Amount
 	 *	@param amt The amt to set to be multiplied by percent.
@@ -175,7 +195,16 @@ public class MDistributionLine extends X_GL_DistributionLine
 		m_amt = m_amt.divide(Env.ONEHUNDRED, precision, BigDecimal.ROUND_HALF_UP);
 	}	//	setAmt
 
-	
+	/**
+	 * 	Set Distribution Quantity
+	 *	@param qty The qty to set to be multiplied by percent.
+	 */
+	public void calculateQty (BigDecimal qty)
+	{
+		m_qty = qty.multiply(getPercent());
+		m_qty = m_qty.divide(Env.ONEHUNDRED, BigDecimal.ROUND_HALF_UP);
+	}	//	setAmt
+
 	
 	/**************************************************************************
 	 * 	Before Save

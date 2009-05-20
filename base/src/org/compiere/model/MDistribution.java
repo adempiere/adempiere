@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -40,7 +40,7 @@ public class MDistribution extends X_GL_Distribution
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7136322027476009173L;
+	private static final long serialVersionUID = -906547096682610205L;
 
 
 	/**
@@ -355,15 +355,17 @@ public class MDistribution extends X_GL_Distribution
 	 * 	Distribute Amount to Lines
 	 * 	@param acct account
 	 *	@param Amt amount
+	 * @param Qty 
 	 *	@param C_Currency_ID currency
 	 */
-	public void distribute (MAccount acct, BigDecimal Amt, int C_Currency_ID)
+	public void distribute (MAccount acct, BigDecimal Amt, BigDecimal Qty, int C_Currency_ID)
 	{
-		log.info("distribute - Amt=" + Amt + " - " + acct);
+		log.info("distribute - Amt=" + Amt + " - Qty=" + Qty + " - " + acct);
 		getLines(false);
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		//	First Round
 		BigDecimal total = Env.ZERO;
+		BigDecimal totalQty = Env.ZERO;
 		int indexBiggest = -1;
 		int indexZeroPercent = -1;
 		for (int i = 0; i < m_lines.length; i++)
@@ -374,7 +376,10 @@ public class MDistribution extends X_GL_Distribution
 			dl.setAccount(acct);
 			//	Calculate Amount
 			dl.calculateAmt (Amt, precision);	
+			//	Calculate Quantity
+			dl.calculateQty (Qty);	
 			total = total.add(dl.getAmt());
+			totalQty = totalQty.add(dl.getQty());
 		//	log.fine("distribute - Line=" + dl.getLine() + " - " + dl.getPercent() + "% " + dl.getAmt() + " - Total=" + total);
 			//	Remainder
 			if (dl.getPercent().compareTo(Env.ZERO) == 0)
@@ -403,6 +408,23 @@ public class MDistribution extends X_GL_Distribution
 			}
 			else
 				log.warning("distribute - Remaining Difference=" + difference); 
+		}
+		//	Adjust Remainder
+		BigDecimal differenceQty = Qty.subtract(totalQty);
+		if (differenceQty.compareTo(Env.ZERO) != 0)
+		{
+			if (indexZeroPercent != -1)
+			{
+			//	log.fine("distribute - Difference=" + difference + " - 0%Line=" + m_lines[indexZeroPercent]); 
+				m_lines[indexZeroPercent].setQty (differenceQty);
+			}
+			else if (indexBiggest != -1)
+			{
+			//	log.fine("distribute - Difference=" + difference + " - MaxLine=" + m_lines[indexBiggest] + " - " + m_lines[indexBiggest].getAmt()); 
+				m_lines[indexBiggest].setQty (m_lines[indexBiggest].getQty().add(differenceQty));
+			}
+			else
+				log.warning("distribute - Remaining Qty Difference=" + differenceQty); 
 		}
 		//
 		if (CLogMgt.isLevelFinest())

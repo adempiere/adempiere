@@ -720,7 +720,7 @@ public final class Fact
 			}
 
 			//	Prepare
-			distribution.distribute(dLine.getAccount(), dLine.getSourceBalance(), dLine.getC_Currency_ID());
+			distribution.distribute(dLine.getAccount(), dLine.getSourceBalance(), dLine.getQty(), dLine.getC_Currency_ID());
 			MDistributionLine[] lines = distribution.getLines(false);
 			for (int j = 0; j < lines.length; j++)
 			{
@@ -740,6 +740,7 @@ public final class Fact
 					factLine.setAmtSource(dLine.getC_Currency_ID(), null, dl.getAmt().abs()); 
 				else
 					factLine.setAmtSource(dLine.getC_Currency_ID(), dl.getAmt(), null);
+				factLine.setQty(dl.getQty());
 				//  Convert
 				factLine.convert();
 				//

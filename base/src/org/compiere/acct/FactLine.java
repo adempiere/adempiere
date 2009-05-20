@@ -106,6 +106,7 @@ public final class FactLine extends X_Fact_Acct
 		reversal.setPostingType(getPostingType());
 		//
 		reversal.setAmtSource(getC_Currency_ID(), getAmtSourceDr().negate(), getAmtSourceCr().negate());
+		reversal.setQty(getQty().negate());
 		reversal.convert();
 		reversal.setDescription(description);
 		return reversal;
