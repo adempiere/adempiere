@@ -201,6 +201,8 @@ public class VPayment extends CDialog
 	private CComboBox kTypeCombo = new CComboBox();
 	private CLabel kNumberLabel = new CLabel();
 	private CTextField kNumberField = new CTextField();
+	private CLabel kNameLabel = new CLabel();
+	private CTextField kNameField = new CTextField();
 	private CLabel kExpLabel = new CLabel();
 	private CTextField kExpField = new CTextField();
 	private CLabel kApprovalLabel = new CLabel();
@@ -271,10 +273,12 @@ public class VPayment extends CDialog
 		//      CreditCard
 		kPanel.setLayout(kLayout);
 		kNumberField.setPreferredSize(new Dimension(160, 21));
+		kNameField.setPreferredSize(new Dimension(160, 21));
 		kExpField.setPreferredSize(new Dimension(40, 21));
 		kApprovalField.setPreferredSize(new Dimension(120, 21));
 		kTypeLabel.setText(Msg.translate(Env.getCtx(), "CreditCardType"));
 		kNumberLabel.setText(Msg.translate(Env.getCtx(), "CreditCardNumber"));
+		kNameLabel.setText(Msg.translate(Env.getCtx(),"Name"));
 		kExpLabel.setText(Msg.getMsg(Env.getCtx(), "Expires"));
 		kApprovalLabel.setText(Msg.translate(Env.getCtx(), "VoiceAuthCode"));
 		kAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
@@ -291,21 +295,25 @@ public class VPayment extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
 		kPanel.add(kNumberField, new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(2, 5, 2, 5), 0, 0));
-		kPanel.add(kExpLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+		kPanel.add(kNameLabel, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
-		kPanel.add(kExpField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+			kPanel.add(kNameField, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(2, 5, 2, 5), 0, 0));
+		kPanel.add(kExpLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+		kPanel.add(kExpField, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
-		kPanel.add(kAmountLabel,   new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+		kPanel.add(kAmountLabel,   new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 5, 0), 0, 0));
-		kPanel.add(kAmountField,     new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+		kPanel.add(kAmountField,     new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 5, 5), 0, 0));
-		kPanel.add(kApprovalLabel, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0
+		kPanel.add(kApprovalLabel, new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 0), 0, 0));
-		kPanel.add(kApprovalField, new GridBagConstraints(1, 4, 1, 1, 0.0, 0.0
+		kPanel.add(kApprovalField, new GridBagConstraints(1, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		kPanel.add(kStatus, new GridBagConstraints(0, 5, 2, 1, 0.0, 0.0
+		kPanel.add(kStatus, new GridBagConstraints(0, 6, 2, 1, 0.0, 0.0
 			,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		kPanel.add(kOnline, new GridBagConstraints(2, 4, 1, 1, 0.0, 0.0
+		kPanel.add(kOnline, new GridBagConstraints(2, 5, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
 		//	DircetDebit/Credit
 		tPanel.setLayout(tPanelLayout);
@@ -504,6 +512,7 @@ public class VPayment extends CDialog
 				//  CreditCard
 				m_CCType = m_mPayment.getCreditCardType();
 				kNumberField.setText(m_mPayment.getCreditCardNumber());
+				kNameField.setText(m_mPayment.getA_Name());
 				kExpField.setText(m_mPayment.getCreditCardExp(null));
 				kApprovalField.setText(m_mPayment.getVoiceAuthCode());
 				kStatus.setText(m_mPayment.getR_PnRef());
@@ -512,6 +521,7 @@ public class VPayment extends CDialog
 				//	if approved/paid, don't let it change
 				kTypeCombo.setReadWrite(!m_mPayment.isApproved());
 				kNumberField.setReadWrite(!m_mPayment.isApproved());
+				kNameField.setReadWrite(!m_mPayment.isApproved());
 				kExpField.setReadWrite(!m_mPayment.isApproved());
 				kApprovalField.setReadWrite(!m_mPayment.isApproved());
 				kOnline.setReadWrite(!m_mPayment.isApproved());
@@ -1149,6 +1159,7 @@ public class VPayment extends CDialog
 			{
 				m_mPayment.setCreditCard(MPayment.TRXTYPE_Sales, newCCType,
 					kNumberField.getText(), "", kExpField.getText());
+				m_mPayment.setA_Name(kNameField.getText());
 				// Get changes to credit card amount
 				m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) kAmountField.getValue());
 				m_mPayment.setPaymentProcessor();
@@ -1421,6 +1432,7 @@ public class VPayment extends CDialog
 
 			m_mPayment.setCreditCard(MPayment.TRXTYPE_Sales, CCType,
 				kNumberField.getText(), "", kExpField.getText());
+			m_mPayment.setA_Name(kNameField.getText());
 			m_mPayment.setAmount(m_C_Currency_ID, m_Amount);
 			m_mPayment.setPaymentProcessor();
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
