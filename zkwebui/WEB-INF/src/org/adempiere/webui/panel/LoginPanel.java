@@ -212,6 +212,19 @@ public class LoginPanel extends Window implements EventListener
     		Language language = Language.getLanguage(langName);
 			lstLanguage.appendItem(langName, language.getAD_Language());
 		}
+
+        //set base language
+        String baseLanguage = Language.getBaseLanguage().getName();
+        for(int i = 0; i < lstLanguage.getItemCount(); i++)
+        {
+        	Comboitem li = lstLanguage.getItemAtIndex(i);
+        	if(li.getLabel().equals(baseLanguage))
+        	{
+        		lstLanguage.setSelectedIndex(i);
+        		languageChanged(li.getLabel());
+        		break;
+        	}
+        }
    }
 
     public void onEvent(Event event)
