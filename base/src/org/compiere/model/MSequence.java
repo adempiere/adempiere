@@ -36,6 +36,8 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -556,7 +558,10 @@ public class MSequence extends X_AD_Sequence
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, "(Table) [" + trxName + "]", e);
-			next = -2;
+			if (DBException.isTimeout(e))
+				throw new AdempiereException("GenerateDocumentNoTimeOut", e);
+			else
+				throw new AdempiereException("GenerateDocumentNoError", e);
 		}
 		finally
 		{
@@ -838,7 +843,10 @@ public class MSequence extends X_AD_Sequence
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, "(DocType) [" + trxName + "]", e);
-			next = -2;
+			if (DBException.isTimeout(e))
+				throw new AdempiereException("GenerateDocumentNoTimeOut", e);
+			else
+				throw new AdempiereException("GenerateDocumentNoError", e);
 		}
 		finally
 		{
