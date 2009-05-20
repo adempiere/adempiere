@@ -74,9 +74,9 @@ import org.zkoss.zul.Html;
 public class WWFActivity extends ADForm implements EventListener
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -653381810053334001L;
+	private static final long serialVersionUID = -8405802852868437716L;
 	/**	Window No					*/
 	private int         		m_WindowNo = 0;
 	/**	Open Activities				*/

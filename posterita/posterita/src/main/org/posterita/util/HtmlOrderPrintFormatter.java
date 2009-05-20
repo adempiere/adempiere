@@ -314,7 +314,7 @@ public class HtmlOrderPrintFormatter extends AbstractPrintFormatter
         
         //adding orderlines
         //1.header
-        reportData.append(_lineTop).append("<br>");;
+        reportData.append(_lineTop).append("<br>");
         
         String headerFormat;
         if(_showDiscount)

@@ -314,7 +314,7 @@ public class AllocationAuto extends SvrProcess
 			sql += "AND IsSOTrx='N' ";
 		else if (ONLY_AR.equals(p_APAR))
 			sql += "AND IsSOTrx='Y' ";
-		sql += "ORDER BY DateInvoiced";;
+		sql += "ORDER BY DateInvoiced";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

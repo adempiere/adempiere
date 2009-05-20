@@ -55,9 +55,9 @@ import org.compiere.util.Trx;
 public class MSequence extends X_AD_Sequence
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 8830129847511432980L;
+	private static final long serialVersionUID = -6827013120475678483L;
 	/** Use SQL procedure to get next id			*/
 	  //begin vpj-cd e-evolution 02/11/2005  PostgreSQL
 	//private static final boolean USE_PROCEDURE = true;

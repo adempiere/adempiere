@@ -108,7 +108,7 @@ public class VPayment extends CDialog
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1752767963788940234L;
+	private static final long serialVersionUID = -7931457502030396154L;
 
 	/**
 	 *	Constructor
@@ -1188,7 +1188,7 @@ public class VPayment extends CDialog
 			m_mPayment.setDateTrx(m_DateAcct);
 			m_mPayment.setDateAcct(m_DateAcct);
 			if (!m_mPayment.save())
-				ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");;
+				ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
 			
 			//  Save/Post
 			if (m_mPayment.get_ID() > 0 && MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))

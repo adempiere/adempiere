@@ -32,9 +32,9 @@ import org.compiere.util.Language;
 public final class UserPreference implements Serializable {
 
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -1792570749461784394L;
+	private static final long serialVersionUID = 4965009332046125297L;
 	/** Language			*/
 	public static final String 	P_LANGUAGE = 		"Language";
 	private static final String DEFAULT_LANGUAGE = 	Language.getName

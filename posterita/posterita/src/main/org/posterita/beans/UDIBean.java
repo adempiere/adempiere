@@ -251,7 +251,7 @@ public class UDIBean
     protected Integer refOrderLineid;
     protected Integer refToQuote; 
     protected ReportBean report;
-    ArrayList<ReportBean> reportList = new ArrayList<ReportBean>();;
+    ArrayList<ReportBean> reportList = new ArrayList<ReportBean>();
     protected String region;
     protected Integer regionId;
     protected String regionName;

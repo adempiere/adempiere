@@ -41,10 +41,10 @@ import org.zkoss.zk.ui.event.EventListener;
  */
 public abstract class ADForm extends Window implements EventListener
 {
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -244953892567523316L;
+	private static final long serialVersionUID = -5183711788893823434L;
 	/** The class' logging enabler */
     protected static final CLogger logger;
 

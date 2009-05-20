@@ -1339,7 +1339,7 @@ public class POSProductManager extends ProductManager
             while (st.hasMoreTokens())
             {
                 
-                header[i] = st.nextToken().replaceAll("\"","");;
+                header[i] = st.nextToken().replaceAll("\"","");
                 i++;
             }
         }

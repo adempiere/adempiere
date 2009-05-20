@@ -1285,7 +1285,7 @@ public class POSReportManager {
 	 * 
 	 * if (orgLocation.getPhone() != null); phone = orgLocation.getPhone();
 	 * 
-	 * if (orgLocation.getFax() != null) fax = orgLocation.getFax();;
+	 * if (orgLocation.getFax() != null) fax = orgLocation.getFax();
 	 * 
 	 * orgName = org.getName();
 	 * 
@@ -1550,7 +1550,7 @@ public class POSReportManager {
 	 * 
 	 * if (orgLocation.getPhone() != null); phone = orgLocation.getPhone();
 	 * 
-	 * if (orgLocation.getFax() != null) fax = orgLocation.getFax();;
+	 * if (orgLocation.getFax() != null) fax = orgLocation.getFax();
 	 * 
 	 * orgName = org.getName();
 	 * 

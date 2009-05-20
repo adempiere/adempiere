@@ -799,7 +799,7 @@ public class CustomerManager
 
 		    	if (year.length() != 0)
 		    	{
-		    		sql.append(" and to_char(bp.created, 'yyyy') ='").append(year).append("'");;
+		    		sql.append(" and to_char(bp.created, 'yyyy') ='").append(year).append("'");
 		    	}
 
     	

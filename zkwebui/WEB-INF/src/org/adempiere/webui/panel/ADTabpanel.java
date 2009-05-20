@@ -94,8 +94,10 @@ import org.zkoss.zul.Treeitem;
 public class ADTabpanel extends Div implements Evaluatee, EventListener,
 DataStatusListener, IADTabpanel, VetoableChangeListener
 {
-
-	private static final long serialVersionUID = 212250368715189455L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7422816988041118839L;
 
 	private static final CLogger logger;
 

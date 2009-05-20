@@ -53,7 +53,10 @@ import org.compiere.util.Msg;
  */
 public class VGenPanel extends CPanel implements ActionListener, ChangeListener, TableModelListener, ASyncProcess
 {
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8154208229173738517L;
 
 	private GenForm genForm;
 	

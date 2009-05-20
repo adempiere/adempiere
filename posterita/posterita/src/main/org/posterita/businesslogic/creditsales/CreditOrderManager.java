@@ -614,7 +614,7 @@ public class CreditOrderManager
         " from c_payment"+
         " where C_INVOICE_ID="+invoiceId+
         " and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
-        " order by CREATED";;
+        " order by CREATED";
         
         ArrayList<CreditPaymentDetailsBean> list = new ArrayList<CreditPaymentDetailsBean>();
         PreparedStatement pstmt = DB.prepareStatement(sql,null);

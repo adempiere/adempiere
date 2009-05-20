@@ -86,7 +86,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	{
 		
 		log.info("Process=" + AD_Process_ID );
-		m_ctx = Env.getCtx();;
+		m_ctx = Env.getCtx();
 		m_ASyncProcess = aProcess;
 		m_WindowNo = WindowNo;
 		m_AD_Process_ID = AD_Process_ID;

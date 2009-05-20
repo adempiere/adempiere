@@ -97,7 +97,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	{
 		
 		log.info("Process=" + AD_Process_ID );
-		m_ctx = Env.getCtx();;
+		m_ctx = Env.getCtx();
 		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
 		this.setAttribute(IDesktop.WINDOWNO_ATTRIBUTE, m_WindowNo);
 		m_AD_Process_ID = AD_Process_ID;

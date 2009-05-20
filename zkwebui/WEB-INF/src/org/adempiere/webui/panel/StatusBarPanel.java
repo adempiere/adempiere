@@ -44,10 +44,10 @@ import org.zkoss.zul.Vbox;
  */
 public class StatusBarPanel extends Panel implements IStatusBar, EventListener
 {
-    /**
-	 *
+	/**
+	 * 
 	 */
-	private static final long serialVersionUID = -1799438509126878684L;
+	private static final long serialVersionUID = 8401520243224743864L;
 	private Label statusDB;
     private Label statusLine;
     private Label infoLine;

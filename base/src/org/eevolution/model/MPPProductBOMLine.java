@@ -39,7 +39,7 @@ import org.compiere.util.Env;
  * 	<code>
  * 			MPPProductBOMLine l = new MPPProductBOMLine(bom);
  * 			l.setM_Product_ID(wbl.getM_Product_ID());
- * 			l.setQty(wbl.getQuantity());;
+ * 			l.setQty(wbl.getQuantity());
  * 			l.saveEx();
  *	</code>
  *

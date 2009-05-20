@@ -282,7 +282,7 @@ public class PosPanel extends CPanel
 			JOptionPane.QUESTION_MESSAGE, null, poss, poss[0]);
 		if (selection != null)
 		{
-			p_pos = (MPOS)selection;;
+			p_pos = (MPOS)selection;
 			return true;
 		}
 		return false;

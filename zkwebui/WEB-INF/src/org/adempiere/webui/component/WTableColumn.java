@@ -136,7 +136,7 @@ public class WTableColumn
      */
     public void setPreferredWidth(int preferredWidth) 
     { 
-		this.preferredWidth = Math.min(Math.max(preferredWidth, minWidth), maxWidth);;	
+		this.preferredWidth = Math.min(Math.max(preferredWidth, minWidth), maxWidth);
     }
 
     /**

@@ -75,7 +75,7 @@ public final class Fact
 	/** Actual Balance Type */
 	public static final String	POST_Actual = MFactAcct.POSTINGTYPE_Actual;
 	/** Budget Balance Type */
-	public static final String	POST_Budget = MFactAcct.POSTINGTYPE_Budget;;
+	public static final String	POST_Budget = MFactAcct.POSTINGTYPE_Budget;
 	/** Encumbrance Posting */
 	public static final String	POST_Commitment = MFactAcct.POSTINGTYPE_Commitment;
 	/** Encumbrance Posting */

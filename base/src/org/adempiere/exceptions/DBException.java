@@ -37,9 +37,9 @@ import org.compiere.util.DB;
 public class DBException extends AdempiereException
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -1072176004008572154L;
+	private static final long serialVersionUID = 4264201718343118625L;
 	private String m_sql = null;
 
 	/**

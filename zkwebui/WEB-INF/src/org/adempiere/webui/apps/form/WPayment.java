@@ -1271,7 +1271,7 @@ public class WPayment extends Window
 			m_mPayment.setDateTrx(m_DateAcct);
 			m_mPayment.setDateAcct(m_DateAcct);
 			if (!m_mPayment.save())
-				FDialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");;
+				FDialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
 			
 			//  Save/Post
 			if (m_mPayment.get_ID() > 0 && MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))

@@ -91,10 +91,10 @@ import org.zkoss.zul.Vbox;
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
-    /**
-	 *
+	/**
+	 * 
 	 */
-	private static final long serialVersionUID = 7893948607004510173L;
+	private static final long serialVersionUID = 4937678675702382252L;
 	/** Main Window for the Lookup Panel   */
     private MultiTabPart winMain;
     /**  Simple Window Tab  */

@@ -113,7 +113,7 @@ public class FileManager
             colour = tokens.get(3).toString();
             KeyNamePair knpColour = new KeyNamePair(3,colour);
             
-            year = tokens.get(4).toString();;
+            year = tokens.get(4).toString();
             KeyNamePair knpYear = new KeyNamePair(4,year);
             
             pair = new AttributeValuesPair();
@@ -124,8 +124,8 @@ public class FileManager
             bean.setAttributeValuesPair(pair);
             
             
-            serno = tokens.get(5).toString();;
-            engineNo = tokens.get(6).toString();;
+            serno = tokens.get(5).toString();
+            engineNo = tokens.get(6).toString();
             bean.setSerno(serno);
             bean.setEngineNo(engineNo);
             list.add(bean);
