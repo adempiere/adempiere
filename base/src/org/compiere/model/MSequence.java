@@ -64,6 +64,8 @@ public class MSequence extends X_AD_Sequence
 	/** Log Level for Next ID Call					*/
 	private static final Level LOGLEVEL = Level.ALL;
 
+	private static final int QUERY_TIME_OUT = 10;
+
 	public static int getNextID (int AD_Client_ID, String TableName)
 	{
 		return getNextID(AD_Client_ID, TableName, null);
@@ -130,6 +132,8 @@ public class MSequence extends X_AD_Sequence
 					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 				pstmt.setString(1, TableName);
 				//
+				if (!USE_PROCEDURE)
+					pstmt.setQueryTimeout(QUERY_TIME_OUT);
 				rs = pstmt.executeQuery();
 				if (CLogMgt.isLevelFinest())
 					s_log.finest("AC=" + conn.getAutoCommit() + ", RO=" + conn.isReadOnly()
@@ -285,6 +289,7 @@ public class MSequence extends X_AD_Sequence
 			cstmt.setInt(1, AD_Sequence_ID);
 			cstmt.setString(2, adempiereSys ? "Y" : "N");
 			cstmt.registerOutParameter(3, Types.INTEGER);
+			cstmt.setQueryTimeout(QUERY_TIME_OUT);
 			cstmt.execute();
 			retValue = cstmt.getInt(3);
 		}
@@ -323,6 +328,7 @@ public class MSequence extends X_AD_Sequence
 			cstmt.setInt(2, incrementNo);
 			cstmt.setString(3, calendarYear);
 			cstmt.registerOutParameter(4, Types.INTEGER);
+			cstmt.setQueryTimeout(QUERY_TIME_OUT);
 			cstmt.execute();
 			retValue = cstmt.getInt(4);
 		} catch (Exception e) {
@@ -487,6 +493,8 @@ public class MSequence extends X_AD_Sequence
 				pstmt.setString(3, calendarYear);
 
 			//
+			if (!USE_PROCEDURE)
+				pstmt.setQueryTimeout(QUERY_TIME_OUT);
 			rs = pstmt.executeQuery();
 		//	s_log.fine("AC=" + conn.getAutoCommit() + " -Iso=" + conn.getTransactionIsolation()
 		//		+ " - Type=" + pstmt.getResultSetType() + " - Concur=" + pstmt.getResultSetConcurrency());
@@ -766,6 +774,8 @@ public class MSequence extends X_AD_Sequence
 				pstmt.setString(2, calendarYear);
 
 			//
+			if (!USE_PROCEDURE)
+				pstmt.setQueryTimeout(QUERY_TIME_OUT);
 			rs = pstmt.executeQuery();
 		//	s_log.fine("AC=" + conn.getAutoCommit() + " -Iso=" + conn.getTransactionIsolation()
 		//		+ " - Type=" + pstmt.getResultSetType() + " - Concur=" + pstmt.getResultSetConcurrency());
