@@ -1438,12 +1438,13 @@ public class VPayment extends CDialog
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
 			//
 			int C_Invoice_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Invoice_ID");
+			int C_Order_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Order_ID");
 			if (C_Invoice_ID == 0 && m_DocStatus.equals("CO"))
-			{
-				int C_Order_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Order_ID");
 				C_Invoice_ID = getInvoiceID (C_Order_ID);
-			}
-			m_mPayment.setC_Invoice_ID(C_Invoice_ID);
+			if ( C_Invoice_ID != 0 )
+				m_mPayment.setC_Invoice_ID(C_Invoice_ID);
+			else if ( C_Order_ID != 0 )
+				m_mPayment.setC_Order_ID(C_Order_ID);
 			m_mPayment.setDateTrx(m_DateAcct);
 			//  Set Amount
 			m_mPayment.setAmount(m_C_Currency_ID, m_Amount);
