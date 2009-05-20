@@ -230,7 +230,10 @@ public class Messagebox extends Window implements EventListener
 		this.setWidth("500px");
 		this.setPosition("center");
 		this.setClosable(true);
-		this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+		if (Events.inEventListener())
+			this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+		else
+			this.setAttribute(Window.MODE_KEY, Window.MODE_HIGHLIGHTED);
 		this.setSizable(true);
 
 		this.setVisible(true);
