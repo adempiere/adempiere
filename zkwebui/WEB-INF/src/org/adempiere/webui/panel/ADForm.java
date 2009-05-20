@@ -25,6 +25,7 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.ADClassNameMap;
+import org.compiere.apps.form.GenForm;
 import org.compiere.model.MForm;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -79,7 +80,7 @@ public abstract class ADForm extends Window implements EventListener
          this.setContentSclass("adform-content");
     }
 
-    protected int getWindowNo()
+    public int getWindowNo()
     {
     	return m_WindowNo;
     }
@@ -219,6 +220,21 @@ public abstract class ADForm extends Window implements EventListener
     				form = (ADForm)obj;
     				form.init(adFormID, name);
     				return form;
+        		}
+        		else if (obj instanceof GenForm)
+        		{
+        			GenForm genForm = (GenForm)obj;
+        			Object o = genForm.getForm();
+        			if(o instanceof ADForm)
+        			{
+        				form = (ADForm)o;
+        				form.init(adFormID, name);
+        				return form;
+        			}
+        			else
+	        			throw new ApplicationException("The web user interface custom form '" +
+	    						webClassName +
+	    						"' cannot be displayed in the web user interface.");
         		}
         		else
         		{

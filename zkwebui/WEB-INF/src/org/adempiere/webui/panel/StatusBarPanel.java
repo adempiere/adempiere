@@ -21,6 +21,7 @@ import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.window.WRecordInfo;
+import org.compiere.apps.IStatusBar;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.MRole;
 import org.compiere.util.Env;
@@ -41,7 +42,7 @@ import org.zkoss.zul.Vbox;
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
  */
-public class StatusBarPanel extends Panel implements EventListener
+public class StatusBarPanel extends Panel implements IStatusBar, EventListener
 {
     /**
 	 *
