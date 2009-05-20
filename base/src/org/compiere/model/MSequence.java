@@ -107,8 +107,7 @@ public class MSequence extends X_AD_Sequence
 			selectSQL = "SELECT CurrentNext, CurrentNextSys, IncrementNo, AD_Sequence_ID "
 			+ "FROM AD_Sequence "
 			+ "WHERE Name=?"
-			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' "
-			+ "FOR UPDATE";	// jz derby needs expicitly said it//OF CurrentNext, CurrentNextSys";
+			+ " AND IsActive='Y' AND IsTableID='Y' AND IsAutoSequence='Y' ";
 
 			USE_PROCEDURE = true;
 		}
