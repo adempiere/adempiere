@@ -44,6 +44,7 @@ import org.compiere.apps.StatusBar;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MColumn;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRefList;
@@ -53,7 +54,6 @@ import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
-import org.compiere.swing.CTable;
 import org.compiere.swing.CTextArea;
 import org.compiere.swing.CTextField;
 import org.compiere.swing.CTextPane;
@@ -82,7 +82,7 @@ public class WFActivity extends CPanel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 752377976007540423L;
+	private static final long serialVersionUID = 6917300855914216420L;
 
 	private static final int MAX_ACTIVITIES_IN_LIST = MSysConfig.getIntValue("MAX_ACTIVITIES_IN_LIST", 200, Env.getAD_Client_ID(Env.getCtx()));
 
@@ -126,8 +126,6 @@ public class WFActivity extends CPanel
 	private MWFActivity[] 		m_activities = null;
 	/**	Current Activity			*/
 	private MWFActivity 		m_activity = null;
-	/**	Current Activity			*/
-	private int	 				m_index = 0;
 	/**	Set Column					*/
 	private	MColumn 			m_column = null; 
 	/**	Logger			*/
@@ -137,7 +135,7 @@ public class WFActivity extends CPanel
 			new String[]{Msg.translate(Env.getCtx(), "Priority"),
 				Msg.translate(Env.getCtx(), "AD_WF_Node_ID"),
 				Msg.translate(Env.getCtx(), "Summary")}, 0); 
-	private CTable 		selTable = new CTable();
+	private MiniTable	selTable = new MiniTable();
 	private CScrollPane selPane = new CScrollPane(selTable);
 	//
 	private CPanel centerPanel = new CPanel();
@@ -199,6 +197,9 @@ public class WFActivity extends CPanel
 		// bPrevious.addActionListener(this);
 		// bNext.addActionListener(this);
 		selTable.setModel(selTableModel);
+		selTable.setColumnClass(0, Integer.class, true);      //  0-Priority
+		selTable.setColumnClass(1, String.class, true);        //  1-AD_WF_Node_ID
+		selTable.setColumnClass(2, String.class, true);        //  2-Summary
 		selTable.getSelectionModel().addListSelectionListener(this);
 		bZoom.addActionListener(this);
 		bOK.addActionListener(this);
@@ -436,7 +437,6 @@ public class WFActivity extends CPanel
 		//
 		log.fine("#" + m_activities.length 
 			+ "(" + (System.currentTimeMillis()-start) + "ms)");
-		m_index = 0;
 		return m_activities.length;
 	}	//	loadActivities
 	
@@ -554,9 +554,9 @@ public class WFActivity extends CPanel
 	 */
     public void valueChanged(ListSelectionEvent e)
     {
-		int m_index = selTable.getSelectedRow();
-		if (m_index >= 0)
-			display(m_index);
+		int index = selTable.getSelectedRow();
+		if (index >= 0)
+			display(index);
     }	//	valueChanged
 
 	
@@ -569,15 +569,7 @@ public class WFActivity extends CPanel
 	{
 		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//
-		/* if (e.getSource() == bNext || e.getSource() == bPrevious)
-		{
-			if (e.getSource() == bNext)
-				m_index++;
-			else
-				m_index--;
-			display();
-		}
-		else */ if (e.getSource() == bZoom)
+		if (e.getSource() == bZoom)
 			cmd_zoom();
 		else if (e.getSource() == bOK)
 			cmd_OK();
