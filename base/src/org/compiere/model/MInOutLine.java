@@ -494,7 +494,7 @@ public class MInOutLine extends X_M_InOutLine
 			return false;
 		}
 		// Locator is mandatory if no charge is defined - teo_sarca BF [ 2757978 ]
-		if(MProduct.PRODUCTTYPE_Item.equals(getProduct().getProductType()))
+		if(getProduct() != null && MProduct.PRODUCTTYPE_Item.equals(getProduct().getProductType()))
 		{		
 			if (getM_Locator_ID() <= 0 && getC_Charge_ID() <= 0)
 			{
