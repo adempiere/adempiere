@@ -74,9 +74,7 @@ import org.zkoss.zul.Vbox;
 public final class WAccountDialog extends Window
 	implements EventListener, DataStatusListener, ValueChangeListener
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 7999516267209766287L;
 
 	/**
@@ -85,15 +83,15 @@ public final class WAccountDialog extends Window
 	 *  @param mAccount account info
 	 *  @param C_AcctSchema_ID as
 	 */
-	public WAccountDialog (String title, 
+	public WAccountDialog (String title,
 		MAccountLookup mAccount, int C_AcctSchema_ID)
 	{
 		super ();
 		this.setTitle(title);
 		this.setHeight("500px");
 		this.setWidth("700px");
-		
-		log.config("C_AcctSchema_ID=" + C_AcctSchema_ID 
+
+		log.config("C_AcctSchema_ID=" + C_AcctSchema_ID
 			+ ", C_ValidCombination_ID=" + mAccount.C_ValidCombination_ID);
 		m_mAccount = mAccount;
 		m_C_AcctSchema_ID = C_AcctSchema_ID;
@@ -188,7 +186,7 @@ public final class WAccountDialog extends Window
 		parameterPanel.setStyle("background-color: transparent;");
 		toolBar.setOrient("vertical");
 		toolBar.setStyle("border: none; margin: 5px");
-		
+
 		bSave.setImage("images/Save24.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(),"AccountNewUpdate"));
 		bSave.addEventListener(Events.ON_CLICK, this);
@@ -203,14 +201,14 @@ public final class WAccountDialog extends Window
 		toolBar.appendChild(bIgnore);
 		toolBar.appendChild(bSave);
 		//
-		
+
 		northPanel.appendChild(parameterPanel);
 		parameterPanel.setWidth("95%");
 		northPanel.appendChild(toolBar);
 		northPanel.setWidth("100%");
-		
+
 		m_adTabPanel = new ADTabpanel();
-		
+
 		Borderlayout layout = new Borderlayout();
 		layout.setParent(this);
 		if (AEnv.isFirefox2())
@@ -226,19 +224,19 @@ public final class WAccountDialog extends Window
 			layout.setWidth("100%");
 			layout.setStyle("background-color: transparent;");
 		}
-		
+
 		North nRegion = new North();
 		nRegion.setParent(layout);
 		nRegion.setFlex(false);
 		nRegion.appendChild(northPanel);
 		nRegion.setStyle("background-color: transparent; border: none");
 		northPanel.setStyle("background-color: transparent;");
-		
+
 		Center cRegion = new Center();
 		cRegion.setParent(layout);
 		cRegion.appendChild(m_adTabPanel);
 		cRegion.setFlex(true);
-		
+
 		South sRegion = new South();
 		sRegion.setParent(layout);
 		Div div = new Div();
@@ -247,13 +245,13 @@ public final class WAccountDialog extends Window
 		div.appendChild(statusBar);
 		sRegion.appendChild(div);
 		sRegion.setStyle("background-color: transparent; border: none");
-		
+
 		confirmPanel.addActionListener(Events.ON_CLICK, this);
-		
+
 		this.setBorder("normal");
 		this.setClosable(false);
 		this.setAttribute("modal", Boolean.TRUE);
-		
+
 		this.setSizable(true);
 	}	//	jbInit
 
@@ -274,8 +272,8 @@ public final class WAccountDialog extends Window
 		Env.setContext(Env.getCtx(), m_WindowNo, "C_AcctSchema_ID", m_C_AcctSchema_ID);
 
 		//  Model
-		int AD_Window_ID = 153;		//	Maintain Account Combinations 
-		GridWindowVO wVO = AEnv.getMWindowVO (m_WindowNo, AD_Window_ID, 0);     
+		int AD_Window_ID = 153;		//	Maintain Account Combinations
+		GridWindowVO wVO = AEnv.getMWindowVO (m_WindowNo, AD_Window_ID, 0);
 		if (wVO == null)
 			return false;
 		m_mWindow = new GridWindow (wVO);
@@ -300,15 +298,15 @@ public final class WAccountDialog extends Window
 				field.setDisplayed (false);
 		}
 
-		//  GridController		
-		m_adTabPanel.init(null, m_WindowNo, m_mTab, null);		
-		
+		//  GridController
+		m_adTabPanel.init(null, m_WindowNo, m_mTab, null);
+
 		//  Prepare Parameter
 		parameterLayout.makeNoStrip();
 		parameterLayout.setOddRowSclass("even");
 		parameterLayout.setParent(parameterPanel);
 		parameterLayout.setStyle("background-color: transparent;");
-		
+
 		m_rows = new Rows();
 		m_rows.setParent(parameterLayout);
 
@@ -436,7 +434,7 @@ public final class WAccountDialog extends Window
 		row.setSpans("4");
 		row.setStyle("background-color: transparent;");
 		m_rows.appendChild(row);
-		
+
 		//	Finish
 		m_query = new MQuery();
 		m_query.addRestriction("C_AcctSchema_ID", MQuery.EQUAL, m_C_AcctSchema_ID);
@@ -608,7 +606,7 @@ public final class WAccountDialog extends Window
 		if (event.getTarget().getId().equals("Ok"))
 		{
 			m_changed = true;
-			dispose();			
+			dispose();
 		}
 		else if (event.getTarget().getId().equals("Cancel"))
 		{
@@ -622,9 +620,9 @@ public final class WAccountDialog extends Window
 			action_Ignore();
 		//	all other
 		else
-			action_Find (true);		
+			action_Find (true);
 	}
-	
+
 	/**
 	 *	Status Change Listener
 	 *  @param e event
@@ -635,8 +633,6 @@ public final class WAccountDialog extends Window
 		String info = (String)m_mTab.getValue("Description");
 		if (Executions.getCurrent() != null)
 			f_Description.setValue (info);
-		else
-			System.err.println(info);
 	}	//	statusChanged
 
 
@@ -893,7 +889,7 @@ public final class WAccountDialog extends Window
 			return;
 		}
 
-		
+
 		/**
 		 *	Check if already exists
 		 */
@@ -938,7 +934,7 @@ public final class WAccountDialog extends Window
 			int i = 0;
 			try
 			{
-				java.sql.PreparedStatement stmt = DB.prepareStatement(sql.toString(), 
+				java.sql.PreparedStatement stmt = DB.prepareStatement(sql.toString(),
 						ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, null);
 				i = stmt.executeUpdate();
 				stmt.close();
@@ -1000,13 +996,13 @@ public final class WAccountDialog extends Window
 		if (f_User2_ID != null && !isEmpty(f_User2_ID.getValue()))
 			User2_ID = ((Integer)f_User2_ID.getValue()).intValue();
 
-		MAccount acct = MAccount.get (Env.getCtx(), m_AD_Client_ID, 
+		MAccount acct = MAccount.get (Env.getCtx(), m_AD_Client_ID,
 			((Integer)f_AD_Org_ID.getValue()).intValue(),
-			s_AcctSchema.getC_AcctSchema_ID(), 
+			s_AcctSchema.getC_AcctSchema_ID(),
 			((Integer)f_Account_ID.getValue()).intValue(), C_SubAcct_ID,
 			M_Product_ID, C_BPartner_ID, AD_OrgTrx_ID,
-			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID, 
-			C_Project_ID, C_Campaign_ID, C_Activity_ID, 
+			C_LocFrom_ID, C_LocTo_ID, C_SRegion_ID,
+			C_Project_ID, C_Campaign_ID, C_Activity_ID,
 			User1_ID, User2_ID, 0, 0);
 		if (acct != null && acct.get_ID() == 0)
 			acct.save();
@@ -1030,10 +1026,10 @@ public final class WAccountDialog extends Window
 	private boolean isEmpty(Object value) {
 		if (value == null)
 			return true;
-		
+
 		if (value instanceof String)
 			return ((String)value).trim().length() == 0;
-		
+
 		return false;
 	}
 

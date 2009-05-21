@@ -41,9 +41,9 @@ import org.zkoss.zul.Vbox;
 
 public class HeaderPanel extends Panel implements EventListener
 {
-	private static final long serialVersionUID = -4293371180738797244L;
+	private static final long serialVersionUID = -2351317624519209484L;
 
-    private Image image = new Image();
+	private Image image = new Image();
 
     public HeaderPanel()
     {
@@ -93,7 +93,6 @@ public class HeaderPanel extends Panel implements EventListener
     }
 
 	public void onEvent(Event event) throws Exception {
-		System.out.println(event.getTarget());
 		if (Events.ON_CLICK.equals(event.getName())) {
 			if(event.getTarget() == image)
 			{

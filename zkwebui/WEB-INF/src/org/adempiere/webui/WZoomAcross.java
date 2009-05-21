@@ -33,12 +33,12 @@ import org.zkoss.zul.Menupopup;
 /**
  *	Application Zoom Across Launcher.
  *  Called from APanel; Queries available Zoom Targets for Table.
- *	
+ *
  *  @author Jorg Janke
  *  @version $Id: AZoomAcross.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL - FR [ 1762465 ]
- * 
+ *
  * ZK Port
  * @author Low Heng Sin
  */
@@ -55,7 +55,7 @@ public class WZoomAcross implements EventListener
 		log.config("TableName=" + tableName + " - " + query);
 		m_tableName = tableName;
 		m_query = query;
-		
+
 		//	See What is there
 		getZoomTargets (invoker, tableName);
 	}	//	AReport
@@ -82,7 +82,7 @@ public class WZoomAcross implements EventListener
 	{
 		String sql = "SELECT DISTINCT ws.AD_Window_ID,ws.Name, wp.AD_Window_ID,wp.Name, t.TableName "
 			+ "FROM AD_Table t ";
-		boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(), "AD_Window"); 
+		boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(), "AD_Window");
 		if (baseLanguage)
 			sql += "INNER JOIN AD_Window ws ON (t.AD_Window_ID=ws.AD_Window_ID)"
 				+ " LEFT OUTER JOIN AD_Window wp ON (t.PO_Window_ID=wp.AD_Window_ID) ";
@@ -145,7 +145,7 @@ public class WZoomAcross implements EventListener
 		else if (invoker.isShowing())
 			m_popup.show(invoker, 0, invoker.getHeight());	//	below button
 		*/
-		
+
 		//	No Zoom
 		if (m_list.size() == 0)
 		{
@@ -155,9 +155,9 @@ public class WZoomAcross implements EventListener
 		}
 		m_popup.setPage(invoker.getPage());
 		m_popup.open(invoker);
-	
+
 	    //End - afalcone - Bug Fix [ 1659420 ] Usability: zoom across
-		
+
 	}	//	getZoomTargets
 
 	/**
@@ -168,7 +168,7 @@ public class WZoomAcross implements EventListener
 	 *	@param isSO has po/so Window
 	 *	@return true if there is a record
 	 */
-	private boolean addTarget (String targetTableName, 
+	private boolean addTarget (String targetTableName,
 		int AD_Window_ID, String Name, Boolean isSO)
 	{
 		String key = targetTableName + AD_Window_ID + Name + isSO;
@@ -176,7 +176,7 @@ public class WZoomAcross implements EventListener
 			return false;
 		else
 			m_targets.add(key);
-		
+
 		String sql = "SELECT COUNT(*) FROM " + targetTableName
 			+ " WHERE " + m_query.getWhereClause(false);
 		String sqlAdd = "";
@@ -185,9 +185,9 @@ public class WZoomAcross implements EventListener
 			/*
 			For RMA, Material Receipt window should be loaded for IsSOTrx=true
 		    and Shipment for IsSOTrx=false
-			 */ 
-			
-			if (MRMA.Table_Name.equals(m_tableName) && (AD_Window_ID == 169 
+			 */
+
+			if (MRMA.Table_Name.equals(m_tableName) && (AD_Window_ID == 169
 					|| AD_Window_ID == 184))
 			{
 				isSO = !isSO;
@@ -200,7 +200,6 @@ public class WZoomAcross implements EventListener
 		if (count <= 0)
 			return false;
 		//
-		System.err.println("AD_Window_ID=" + AD_Window_ID + " targetTable=" + targetTableName + " Name="+Name + " Count=" + count);
 		KeyNamePair pp = new KeyNamePair (AD_Window_ID, Name + " (#"+count+")");
 		m_list.add(pp);
 		Menuitem menuItem = new Menuitem(pp.toString());
@@ -209,7 +208,7 @@ public class WZoomAcross implements EventListener
 		m_query.setRecordCount(count);
 		return true;
 	}	//	checkTarget
-	
+
 	/**
 	 * 	Launch Zoom
 	 *	@param pp KeyPair
@@ -234,5 +233,5 @@ public class WZoomAcross implements EventListener
 			}
 		}
 	}
-	
+
 }	//	AZoom

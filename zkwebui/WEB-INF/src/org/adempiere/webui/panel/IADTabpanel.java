@@ -39,7 +39,7 @@ public interface IADTabpanel extends Component, Evaluatee {
 	public boolean isCurrent();
 
 	/**
-	 * 
+	 *
 	 * @return title
 	 */
 	public String getTitle();
@@ -50,7 +50,7 @@ public interface IADTabpanel extends Component, Evaluatee {
 	public void createUI();
 
 	/**
-	 * 
+	 *
 	 * @return GridTab
 	 */
 	public GridTab getGridTab();
@@ -85,7 +85,7 @@ public interface IADTabpanel extends Component, Evaluatee {
 	public void switchRowPresentation();
 
 	/**
-	 * Dynamic update of field properties ( visibility, filter and mandatory )  
+	 * Dynamic update of field properties ( visibility, filter and mandatory )
 	 * @param i
 	 */
 	public void dynamicDisplay(int i);
@@ -98,6 +98,7 @@ public interface IADTabpanel extends Component, Evaluatee {
 
 	/**
 	 * Enter key event
+	 * @return true if the event is process
 	 */
-	public void onEnterKey();
+	public boolean onEnterKey();
 }

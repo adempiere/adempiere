@@ -116,7 +116,12 @@ public class WDateEditor extends WEditor
 	        {
 	            newValue = new Timestamp(date.getTime());
 	        }
-
+	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	    	    return;
+	    	}
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;

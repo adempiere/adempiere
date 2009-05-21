@@ -421,11 +421,12 @@ public final class AEnv
 
 		log.config(sqlRolePermission);
 		PreparedStatement prolestmt = null;
+		ResultSet rs = null;
 		try
 		{
 			prolestmt = DB.prepareStatement (sqlRolePermission, null);
 
-			ResultSet rs = prolestmt.executeQuery ();
+			rs = prolestmt.executeQuery ();
 
 			rs.next();
 
@@ -437,28 +438,14 @@ public final class AEnv
 			{
 				return false;
 			}
-
-			rs.close ();
-			prolestmt.close ();
-			prolestmt = null;
-		}
-		catch (Exception e)
-			{
-				System.out.println(e);
-				log.log(Level.SEVERE, "(1)", e);
-			}
-
-		try
-		{
-			if (prolestmt != null)
-			{
-				prolestmt.close ();
-			}
-			prolestmt = null;
 		}
 		catch (Exception e)
 		{
-			prolestmt = null;
+			log.log(Level.SEVERE, "(1)", e);
+		}
+		finally
+		{
+			DB.close(rs, prolestmt);
 		}
 
 		return result;

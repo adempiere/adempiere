@@ -25,42 +25,45 @@ import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class WUrlEditor extends WEditor 
+public class WUrlEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
-	
-	public WUrlEditor(GridField gridField) 
+	private String oldValue;
+
+	public WUrlEditor(GridField gridField)
 	{
 		super(new Urlbox(), gridField);
 		getComponent().setButtonImage("/images/Online10.png");
 	}
-	
+
 
 	@Override
-	public void setValue(Object value) 
+	public void setValue(Object value)
 	{
         if (value == null)
         {
+        	oldValue = null;
             getComponent().setText("");
         }
         else
         {
-            getComponent().setText(String.valueOf(value));
+        	oldValue = String.valueOf(value);
+            getComponent().setText(oldValue);
         }
 	}
 
 	@Override
-	public Object getValue() 
+	public Object getValue()
 	{
 		return getComponent().getText();
 	}
 
 	@Override
-	public String getDisplay() 
+	public String getDisplay()
 	{
 		return getComponent().getText();
 	}
-	
+
 	@Override
 	public Urlbox getComponent() {
 		return (Urlbox) component;
@@ -79,12 +82,20 @@ public class WUrlEditor extends WEditor
 	}
 
 
-	public void onEvent(Event event) 
+	public void onEvent(Event event)
 	{
 		if (Events.ON_CHANGE.equals(event.getName()))
 		{
-			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), getComponent().getText(), getComponent().getText());
+			String newValue = getComponent().getText();
+			if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	    	    return;
+	    	}
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
+			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 			fireValueChange(changeEvent);
+			oldValue = newValue;
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
@@ -103,14 +114,14 @@ public class WUrlEditor extends WEditor
                 }
 			}
             FDialog.warn(0, this.getComponent(), "URLnotValid", message);
-                       
+
 		}
 	}
-	
+
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
-	
-	
+
+
 }

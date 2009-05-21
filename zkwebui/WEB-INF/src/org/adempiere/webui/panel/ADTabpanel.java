@@ -94,10 +94,8 @@ import org.zkoss.zul.Treeitem;
 public class ADTabpanel extends Div implements Evaluatee, EventListener,
 DataStatusListener, IADTabpanel, VetoableChangeListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7422816988041118839L;
+
+	private static final long serialVersionUID = 6811039639239312863L;
 
 	private static final CLogger logger;
 
@@ -1084,10 +1082,11 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	/**
 	 * @see IADTabpanel#onEnterKey()
 	 */
-	public void onEnterKey() {
+	public boolean onEnterKey() {
 		if (listPanel.isVisible()) {
-			listPanel.onEnterKey();
+			return listPanel.onEnterKey();
 		}
+		return false;
 	}
 
 	/**
@@ -1111,7 +1110,6 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 				if (!FDialog.ask(getWindowNo(), this, "SaveChanges?", gridTab.getCommitWarning()))
 				{
 					m_vetoActive = true;
-					System.out.println("throw PropertyVetoException ");
 					throw new PropertyVetoException ("UserDeniedSave", e);
 				}
 			}

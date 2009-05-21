@@ -179,6 +179,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
         	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
         	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+        	keyListener.setAutoBlur(false);
         }
 
         return layout;
@@ -218,10 +219,12 @@ public class ADWindowPanel extends AbstractADWindowPanel
     		KeyEvent keyEvent = (KeyEvent) event;
     		//enter == 13
     		if (keyEvent.getKeyCode() == 13 && this.getComponent().getParent().isVisible()) {
-    			keyEvent.stopPropagation();
     			IADTabpanel panel = adTab.getSelectedTabpanel();
-    			if (panel != null)
-    				panel.onEnterKey();
+    			if (panel != null) {
+    				if (panel.onEnterKey()) {
+    					keyEvent.stopPropagation();
+    				}
+    			}
     		}
     	} else {
     		super.onEvent(event);

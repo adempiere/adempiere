@@ -52,9 +52,9 @@ import org.zkoss.zul.event.ZulEvents;
 public class GridPanel extends Borderlayout implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
-	private static final long serialVersionUID = 6786512082202412891L;
+	private static final long serialVersionUID = -8735897196875342427L;
 
 	private static final int MIN_COLUMN_WIDTH = 100;
 
@@ -551,11 +551,13 @@ public class GridPanel extends Borderlayout implements EventListener
 	/**
 	 * Handle enter key event
 	 */
-	public void onEnterKey() {
+	public boolean onEnterKey() {
 		if (!modeless && renderer != null && !renderer.isEditing()) {
 			renderer.editCurrentRow();
 			renderer.setFocusToEditor();
+			return true;
 		}
+		return false;
 	}
 
 	public void setFocusToField(String columnName) {

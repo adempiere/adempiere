@@ -31,50 +31,54 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Fileupload;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  *
  */
-public class WFilenameEditor extends WEditor 
+public class WFilenameEditor extends WEditor
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
-	
+
 	private static final CLogger log = CLogger.getCLogger(WFilenameEditor.class);
-	
-	public WFilenameEditor(GridField gridField) 
+
+	private String oldValue;
+
+	public WFilenameEditor(GridField gridField)
 	{
 		super(new FilenameBox(), gridField);
 		getComponent().setButtonImage("/images/Open16.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);
 	}
-	
-	@Override	
-	public FilenameBox getComponent() 
+
+	@Override
+	public FilenameBox getComponent()
 	{
 		return (FilenameBox) component;
 	}
 
 	@Override
-	public void setValue(Object value) 
+	public void setValue(Object value)
 	{
         if (value == null)
         {
+        	oldValue = null;
             getComponent().setText("");
         }
         else
         {
-            getComponent().setText(String.valueOf(value));
+        	oldValue = String.valueOf(value);
+            getComponent().setText(oldValue);
         }
 	}
 
 	@Override
-	public Object getValue() 
+	public Object getValue()
 	{
 		return getComponent().getText();
 	}
 
 	@Override
-	public String getDisplay() 
+	public String getDisplay()
 	{
 		return getComponent().getText();
 	}
@@ -89,19 +93,26 @@ public class WFilenameEditor extends WEditor
 		getComponent().setEnabled(readWrite);
 	}
 
-	public void onEvent(Event event) 
+	public void onEvent(Event event)
 	{
 		if (Events.ON_CHANGE.equals(event.getName()))
 		{
-			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), getComponent().getText(), getComponent().getText());
+			String newValue = getComponent().getText();
+			if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	    	    return;
+	    	}
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
+			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 			fireValueChange(changeEvent);
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
-			cmd_file();			
+			cmd_file();
 		}
 	}
-	
+
 	/**
 	 *  Load file
 	 */
@@ -109,23 +120,23 @@ public class WFilenameEditor extends WEditor
 	{
 		//  Show File Open Dialog
 		Media file = null;
-		
-		try 
+
+		try
 		{
-			file = Fileupload.get(true); 
-			
+			file = Fileupload.get(true);
+
 			if (file == null)
 				return;
 		}
-		catch (InterruptedException e) 
+		catch (InterruptedException e)
 		{
 			log.warning(e.getLocalizedMessage());
 			return;
 		}
-		
+
 		// String fileName = System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") + ;
 		// File tempFile = new File(fileName);
-		
+
 		FileOutputStream fos = null;
 		String fileName = null;
 		try {
@@ -153,18 +164,18 @@ public class WFilenameEditor extends WEditor
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			return;
-		} finally {			
+		} finally {
 			if (fos != null)
 				try {
 					fos.close();
 				} catch (IOException e) {}
 		}
 
-		getComponent().setText(fileName);		
+		getComponent().setText(fileName);
 	}   //  cmd_file
-	
+
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;
-    }		
+    }
 }

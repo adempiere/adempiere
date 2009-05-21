@@ -48,32 +48,32 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     private static final String EDITOR_EVENT = "EDITOR";
 
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
-    
-    private String oldText;
-    
+
+    private String oldValue;
+
     private WEditorPopupMenu	popupMenu;
-    
+
     private boolean tableEditor = false;
-    
+
     /**
      * to ease porting of swing form
      */
-    public WStringEditor() 
+    public WStringEditor()
     {
     	this("String", false, false, true, 30, 30, "", null);
     }
-    
+
     public WStringEditor(GridField gridField) {
     	this(gridField, false);
     }
-    
+
     public WStringEditor(GridField gridField, boolean tableEditor)
     {
         super(gridField.isAutocomplete() ? new Combobox() : new Textbox(), gridField);
         this.tableEditor = tableEditor;
         init(gridField.getObscureType());
     }
-    
+
     /**
      * to ease porting of swing form
      * @param columnName
@@ -89,15 +89,15 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     		int displayLength, int fieldLength, String vFormat, String obscureType)
     {
     	super(new Textbox(), columnName, null, null, mandatory, isReadOnly,isUpdateable);
-    	
+
     	init(obscureType);
     }
-    
+
     @Override
     public org.zkoss.zul.Textbox getComponent() {
     	return (org.zkoss.zul.Textbox) component;
     }
-            
+
     @Override
 	public boolean isReadWrite() {
 		return !getComponent().isReadonly();
@@ -107,7 +107,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	public void setReadWrite(boolean readWrite) {
 		getComponent().setReadonly(!readWrite);
 	}
-	
+
 	private void init(String obscureType)
     {
 		if (gridField != null)
@@ -118,8 +118,8 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        {
 	            displayLength = MAX_DISPLAY_LENGTH;
 	        }
-	        getComponent().setCols(displayLength);    
-	        
+	        getComponent().setCols(displayLength);
+
 	        if (!tableEditor)
 	        {
 		        if (gridField.getDisplayType() == DisplayType.Text)
@@ -138,18 +138,18 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		            getComponent().setRows(8);
 		        }
 	        }
-	        
+
 	        if (getComponent() instanceof Textbox)
 	        	((Textbox)getComponent()).setObscureType(obscureType);
-	        
+
 	        popupMenu = new WEditorPopupMenu(false, false, true);
 	        Menuitem editor = new Menuitem(Msg.getMsg(Env.getCtx(), "Editor"), "images/Editor16.png");
 	        editor.setAttribute("EVENT", EDITOR_EVENT);
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);
-	        
+
 	        getComponent().setContext(popupMenu.getId());
-	        
+
 	        if (gridField.isAutocomplete()) {
 	        	Combobox combo = (Combobox)getComponent();
 	        	combo.setAutodrop(true);
@@ -158,7 +158,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        	List<String> items = gridField.getEntries();
 	        	for(String s : items) {
 	        		combo.appendItem(s);
-	        	}	        		        	
+	        	}
 	        }
 		}
     }
@@ -167,11 +167,17 @@ public class WStringEditor extends WEditor implements ContextMenuListener
     {
     	if (Events.ON_CHANGE.equals(event.getName()))
     	{
-	        String newText = getComponent().getValue();
-	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
+	        String newValue = getComponent().getValue();
+	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	    	    return;
+	    	}
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
+	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
-	        oldText = newText;
-    	} 
+	        oldValue = newValue;
+    	}
     }
 
     @Override
@@ -197,9 +203,9 @@ public class WStringEditor extends WEditor implements ContextMenuListener
         {
             getComponent().setValue("");
         }
-        oldText = getComponent().getValue();
+        oldValue = getComponent().getValue();
     }
-    
+
     protected void setTypePassword(boolean password)
     {
         if (password)
@@ -211,38 +217,38 @@ public class WStringEditor extends WEditor implements ContextMenuListener
             getComponent().setType("text");
         }
     }
-    
+
     @Override
     public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
-    
+
     public WEditorPopupMenu getPopupMenu()
 	{
 	   	return popupMenu;
 	}
-    
-    public void onMenu(ContextMenuEvent evt) 
+
+    public void onMenu(ContextMenuEvent evt)
 	{
 		if (WEditorPopupMenu.PREFERENCE_EVENT.equals(evt.getContextEvent()))
 		{
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());
 			return;
-		} 
+		}
 		else if (EDITOR_EVENT.equals(evt.getContextEvent()))
 		{
-			WTextEditorDialog dialog = new WTextEditorDialog(this.getColumnName(), getDisplay(), 
+			WTextEditorDialog dialog = new WTextEditorDialog(this.getColumnName(), getDisplay(),
 					isReadWrite(), gridField.getFieldLength());
 			dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
 			SessionManager.getAppDesktop().showWindow(dialog);
 			if (!dialog.isCancelled()) {
 				getComponent().setText(dialog.getText());
 				String newText = getComponent().getValue();
-		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
+		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newText);
 		        super.fireValueChange(changeEvent);
-		        oldText = newText;
+		        oldValue = newText;
 			}
 		}
 	}
@@ -259,9 +265,9 @@ public class WStringEditor extends WEditor implements ContextMenuListener
         		for(String s : items) {
             		combo.appendItem(s);
             	}
-        	}        		        		        	
+        	}
         }
 	}
-    
-    
+
+
 }

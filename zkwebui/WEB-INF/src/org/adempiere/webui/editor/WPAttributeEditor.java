@@ -32,14 +32,14 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  *
  */
 public class WPAttributeEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
-	
+
 	private static final CLogger log = CLogger.getCLogger(WPAttributeEditor.class);
 
 	private int m_WindowNo;
@@ -47,49 +47,49 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private Lookup m_mPAttribute;
 
 	private int m_C_BPartner_ID;
-	
+
 	private WEditorPopupMenu	popupMenu;
 
 	private Object m_value;
 
 	private GridTab m_GridTab;
-	
+
 	/**	No Instance Key					*/
 	private static Integer		NO_INSTANCE = new Integer(0);
-	
-	public WPAttributeEditor(GridTab gridTab, GridField gridField) 
+
+	public WPAttributeEditor(GridTab gridTab, GridField gridField)
 	{
 		super(new PAttributebox(), gridField);
 		m_GridTab = gridTab;
 		initComponents();
 	}
-	
+
 	private void initComponents() {
 		getComponent().setButtonImage("images/PAttribute10.png");
 		getComponent().addEventListener(Events.ON_CLICK, this);
-		
+
 		m_WindowNo = gridField.getWindowNo();
 		m_mPAttribute = gridField.getLookup();
 		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_BPartner_ID");
-		
+
 		//	Popup
 		popupMenu = new WEditorPopupMenu(true, false, false);
-		getComponent().getTextbox().setContext(popupMenu.getId());		
+		getComponent().getTextbox().setContext(popupMenu.getId());
 	}
-		
+
 	@Override
 	public WEditorPopupMenu getPopupMenu() {
 		return popupMenu;
 	}
 
-	@Override	
-	public PAttributebox getComponent() 
+	@Override
+	public PAttributebox getComponent()
 	{
 		return (PAttributebox) component;
 	}
 
 	@Override
-	public void setValue(Object value) 
+	public void setValue(Object value)
 	{
 		if (value == null || NO_INSTANCE.equals(value))
 		{
@@ -97,9 +97,9 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			m_value = value;
 			return;
 		}
-		
+
 		//	The same
-		if (value.equals(m_value)) 
+		if (value.equals(m_value))
 			return;
 		//	new value
 		log.fine("Value=" + value);
@@ -108,30 +108,44 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	}
 
 	@Override
-	public Object getValue() 
+	public Object getValue()
 	{
 		return m_value;
 	}
 
 	@Override
-	public String getDisplay() 
+	public String getDisplay()
 	{
 		return getComponent().getText();
 	}
 
-	public void onEvent(Event event) 
+	public void onEvent(Event event)
 	{
 		if (Events.ON_CHANGE.equals(event.getName()))
 		{
-			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), getComponent().getText(), getComponent().getText());
+			String newText = getComponent().getText();
+			String oldText = null;
+			if (m_value != null)
+			{
+				oldText = m_mPAttribute.getDisplay(m_value);
+			}
+			if (oldText != null && newText != null && oldText.equals(newText))
+			{
+	    	    return;
+	    	}
+	        if (oldText == null && newText == null)
+	        {
+	        	return;
+	        }
+			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
 			fireValueChange(changeEvent);
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
-			cmd_dialog();			
+			cmd_dialog();
 		}
 	}
-	
+
 	/**
 	 *  Start dialog
 	 */
@@ -147,13 +161,13 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		log.config("M_Product_ID=" + M_Product_ID + "/" + M_ProductBOM_ID
 			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
 			+ ", AD_Column_ID=" + gridField.getAD_Column_ID());
-		
+
 		//	M_Product.M_AttributeSetInstance_ID = 8418
 		boolean productWindow = (gridField.getAD_Column_ID() == 8418);		//	HARDCODED
-		
+
 		//	Exclude ability to enter ASI
 		boolean exclude = true;
-		
+
 		if (M_Product_ID != 0)
 		{
 			MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
@@ -164,11 +178,11 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 				exclude = mas.excludeEntry(gridField.getAD_Column_ID(), Env.isSOTrx(Env.getCtx(), m_WindowNo));
 			}
 		}
-		
+
 		boolean changed = false;
 		if (M_ProductBOM_ID != 0)	//	Use BOM Component
 			M_Product_ID = M_ProductBOM_ID;
-		//	
+		//
 		if (!productWindow && (M_Product_ID == 0 || exclude))
 		{
 			changed = true;
@@ -177,7 +191,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		}
 		else
 		{
-			WPAttributeDialog vad = new WPAttributeDialog ( 
+			WPAttributeDialog vad = new WPAttributeDialog (
 				M_AttributeSetInstance_ID, M_Product_ID, m_C_BPartner_ID,
 				productWindow, gridField.getAD_Column_ID(), m_WindowNo);
 			if (vad.isChanged())
@@ -203,7 +217,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 				//	Get Attribute Set
 				MAttributeSet as = masi.getMAttributeSet();
 				//	Product has no Attribute Set
-				if (as == null)		
+				if (as == null)
 					ADialog.error(m_WindowNo, this, "PAttributeNoAttributeSet");
 				//	Product has no Instance Attributes
 				else if (!as.isInstanceAttribute())
@@ -214,7 +228,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 					int M_Locator_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Locator_ID");
 					String title = "";
 					PAttributeInstance pai = new PAttributeInstance (
-						Env.getFrame(this), title, 
+						Env.getFrame(this), title,
 						M_Warehouse_ID, M_Locator_ID, M_Product_ID, m_C_BPartner_ID);
 					if (pai.getM_AttributeSetInstance_ID() != -1)
 					{
@@ -226,7 +240,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			}
 		}
 		**/
-		
+
 		//	Set Value
 		if (changed)
 		{
@@ -236,22 +250,22 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 				setValue(null);
 			else
 				setValue(new Integer(M_AttributeSetInstance_ID));
-			
+
 			ValueChangeEvent vce = new ValueChangeEvent(this, gridField.getColumnName(), new Object(), getValue());
 			fireValueChange(vce);
 			if (M_AttributeSetInstance_ID == oldValueInt && m_GridTab != null && gridField != null)
 			{
 				//  force Change - user does not realize that embedded object is already saved.
-				m_GridTab.processFieldChange(gridField); 
+				m_GridTab.processFieldChange(gridField);
 			}
-		}	//	change		
+		}	//	change
 	}   //  cmd_file
-	
+
 	public String[] getEvents()
     {
         return LISTENER_EVENTS;
     }
-	
+
 	public void onMenu(ContextMenuEvent evt)
 	{
 		if (WEditorPopupMenu.ZOOM_EVENT.equals(evt.getContextEvent()))
@@ -259,7 +273,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			actionZoom();
 		}
 	}
-	
+
 	public void actionZoom()
 	{
 	   	AEnv.actionZoom(m_mPAttribute, getValue());
@@ -274,6 +288,6 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	public void setReadWrite(boolean readWrite) {
 		getComponent().setEnabled(readWrite);
 	}
-	
-	
+
+
 }

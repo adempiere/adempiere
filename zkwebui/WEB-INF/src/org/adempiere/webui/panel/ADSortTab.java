@@ -56,19 +56,17 @@ import org.zkoss.zul.event.ListDataEvent;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VSortTab.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
- * 
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				FR [ 1779410 ] VSortTab: display ID for not visible columns
- * 
+ *
  * Zk Port
  * @author Low Heng Sin
  */
 public class ADSortTab extends Panel implements IADTabpanel
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3533927024365752586L;
+
+	private static final long serialVersionUID = 4289328613547509587L;
 	private int m_AD_ColumnSortOrder_ID;
 
 	/**
@@ -111,7 +109,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 	//
 	SimpleListModel noModel = new SimpleListModel() {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -8261235952902938774L;
 
@@ -135,7 +133,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 
 	private GridTab gridTab;
 	private boolean uiCreated;
-	
+
 	/**
 	 * 	Dyanamic Init
 	 *  @param AD_Table_ID Table No
@@ -237,7 +235,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 			m_IdentifierSql = "NULL";
 		else if (identifiersCount == 1)
 			m_IdentifierSql = identifierSql.toString();
-		else 
+		else
 			m_IdentifierSql = identifierSql.insert(0, "COALESCE(").append(")").toString();
 		//
 		noLabel.setValue(Msg.getMsg(Env.getCtx(), "Available"));
@@ -253,31 +251,31 @@ public class ADSortTab extends Panel implements IADTabpanel
 		this.setStyle("height: 100%; width: 100%;");
 		//
 		noLabel.setValue("No");
-		yesLabel.setValue("Yes");		
+		yesLabel.setValue("Yes");
 
 		yesList.setHeight("100%");
 		noList.setHeight("100%");
 		yesList.setVflex(true);
 		noList.setVflex(true);
-		
+
 		EventListener mouseListener = new EventListener()
 		{
 
-			public void onEvent(Event event) throws Exception 
+			public void onEvent(Event event) throws Exception
 			{
 				if (Events.ON_DOUBLE_CLICK.equals(event.getName()))
 				{
-					migrateValueAcrossLists(event);					
-				}				
+					migrateValueAcrossLists(event);
+				}
 			}
 		};
 		yesList.addDoubleClickListener(mouseListener);
-		noList.addDoubleClickListener(mouseListener);		
+		noList.addDoubleClickListener(mouseListener);
 		//
 		EventListener actionListener = new EventListener()
 		{
 			public void onEvent(Event event) throws Exception {
-				migrateValueAcrossLists(event);				
+				migrateValueAcrossLists(event);
 			}
 		};
 		yesList.setSeltype("multiple");
@@ -294,7 +292,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		noList.addOnDropListener(crossListMouseListener);
 		yesList.setItemDraggable(true);
 		noList.setItemDraggable(true);
-		
+
 		actionListener = new EventListener()
 		{
 			public void onEvent(Event event) throws Exception {
@@ -317,12 +315,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 					ListItem startItem = (ListItem) me.getDragged();
 					ListItem endItem = (ListItem) me.getTarget();
 					if (startItem.getListbox() == endItem.getListbox() && startItem.getListbox() == yesList)
-					{					
+					{
 						int startIndex = yesList.getIndexOfItem(startItem);
 						int endIndex = yesList.getIndexOfItem(endItem);
 						Object endElement = yesModel.getElementAt(endIndex);
 						Object element = yesModel.getElementAt(startIndex);
-						yesModel.removeElement(element);					
+						yesModel.removeElement(element);
 						endIndex = yesModel.indexOf(endElement);
 						yesModel.add(endIndex, element);
 						yesList.setSelectedIndex(endIndex);
@@ -333,23 +331,23 @@ public class ADSortTab extends Panel implements IADTabpanel
 						}
 						setIsChanged(true);
 					}
-				}				
+				}
 			}
 		};
 		yesList.addOnDropListener(yesListMouseMotionListener);
-		
+
 		ListHead listHead = new ListHead();
-		listHead.setParent(yesList);		
+		listHead.setParent(yesList);
 		ListHeader listHeader = new ListHeader();
 		listHeader.appendChild(yesLabel);
 		listHeader.setParent(listHead);
-		
+
 		listHead = new ListHead();
-		listHead.setParent(noList);		
+		listHead.setParent(noList);
 		listHeader = new ListHeader();
 		listHeader.appendChild(noLabel);
 		listHeader.setParent(listHead);
-		
+
 		Span span = new Span();
 		span.setParent(this);
 		span.setStyle("height: 99%; display: inline-block; width: 40%;");
@@ -361,7 +359,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		span.setParent(this);
 		span.setStyle("height: 99%; display: inline-block; width: 46px");
 		span.appendChild(vbox);
-		
+
 		span = new Span();
 		span.setParent(this);
 		span.setStyle("height: 99%; display: inline-block; width: 40%");
@@ -408,7 +406,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		sql.append(" ORDER BY ");
 		if (m_ColumnYesNoName != null)
 			sql.append("6 DESC,");		//	t.IsDisplayed DESC
-		sql.append("3,2");				//	t.SeqNo, tt.Name 
+		sql.append("3,2");				//	t.SeqNo, tt.Name
 		int ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
 		log.fine(sql.toString() + " - ID=" + ID);
 		PreparedStatement pstmt = null;
@@ -430,7 +428,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 				int AD_Org_ID = rs.getInt(5);
 				if (m_ColumnYesNoName != null)
 					isYes = rs.getString(6).equals("Y");
-				
+
 				//
 				ListElement pp = new ListElement(key, name, seq, isYes, AD_Client_ID, AD_Org_ID);
 				if (isYes)
@@ -460,7 +458,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		bDown.setEnabled(isReadWrite);
 		yesList.setEnabled(isReadWrite);
 		noList.setEnabled(isReadWrite);
-		
+
 		yesList.setItemRenderer(yesModel);
 		yesList.setModel(yesModel);
 		noList.setItemRenderer(noModel);
@@ -501,18 +499,18 @@ public class ADSortTab extends Panel implements IADTabpanel
 			selObjects.add(selObject);
 		}
 		for (ListElement selObject : selObjects)
-		{			
+		{
 			if (selObject == null || !selObject.isUpdateable())
 				continue;
-			
+
 			lmFrom.removeElement(selObject);
 			lmTo.addElement(selObject);
 
 			//  Enable explicit Save
 			setIsChanged(true);
 		}
-		
-		for (ListElement selObject : selObjects) 
+
+		for (ListElement selObject : selObjects)
 		{
 			int index = lmTo.indexOf(selObject);
 			listTo.setSelectedIndex(index);
@@ -682,14 +680,14 @@ public class ADSortTab extends Panel implements IADTabpanel
 		saveData();
 		adWindowPanel = null;
 	}	//	dispoase
-	
+
 	/**
 	 * List Item
 	 * @author Teo Sarca
 	 */
 	private class ListElement extends NamePair {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -5645910649588308798L;
 		private int		m_key;
@@ -700,7 +698,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		/** Initial selection flag */
 		private boolean m_isYes;
 		private boolean	m_updateable;
-		
+
 		public ListElement(int key, String name, int sortNo, boolean isYes, int AD_Client_ID, int AD_Org_ID) {
 			super(name);
 			this.m_key = key;
@@ -708,7 +706,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 			this.m_AD_Org_ID = AD_Org_ID;
 			this.m_sortNo = sortNo;
 			this.m_isYes = isYes;
-			this.m_updateable = MRole.getDefault().canUpdate(m_AD_Client_ID, m_AD_Org_ID, m_AD_Table_ID, m_key, false); 
+			this.m_updateable = MRole.getDefault().canUpdate(m_AD_Client_ID, m_AD_Org_ID, m_AD_Table_ID, m_key, false);
 		}
 		public int getKey() {
 			return m_key;
@@ -757,7 +755,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 			}
 			return false;
 		}	//	equals
-		
+
 		@Override
 		public String toString() {
 			String s = super.toString();
@@ -785,13 +783,13 @@ public class ADSortTab extends Panel implements IADTabpanel
 			if (event instanceof DropEvent)
 			{
 				DropEvent me = (DropEvent) event;
-				
+
 				ListItem endItem = (ListItem) me.getTarget();
 				if (!(endItem.getListbox() == yesList))
 				{
 					return;		//	move within noList
 				}
-				
+
 				ListItem startItem = (ListItem) me.getDragged();
 				if (startItem.getListbox() == endItem.getListbox())
 				{
@@ -800,12 +798,12 @@ public class ADSortTab extends Panel implements IADTabpanel
 				int startIndex = noList.getIndexOfItem(startItem);
 				Object element = noModel.getElementAt(startIndex);
 				noModel.removeElement(element);
-				int endIndex = yesList.getIndexOfItem(endItem); 
+				int endIndex = yesList.getIndexOfItem(endItem);
 				yesModel.add(endIndex, element);
 				//
 				noList.clearSelection();
 				yesList.clearSelection();
-				
+
 				yesList.setSelectedIndex(endIndex);
 				//
 				setIsChanged(true);
@@ -828,7 +826,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-		uiCreated = true;		
+		uiCreated = true;
 	}
 
 	public void dynamicDisplay(int i) {
@@ -879,7 +877,8 @@ public class ADSortTab extends Panel implements IADTabpanel
 	public void afterSave(boolean onSaveEvent) {
 	}
 
-	public void onEnterKey() {
+	public boolean onEnterKey() {
+		return false;
 	}
 }	//ADSortTab
 
