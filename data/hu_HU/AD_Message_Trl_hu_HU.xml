@@ -2527,7 +2527,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="741" trl="N">
-  <value column="MsgText" original="Total VM Memory {0,number,integer} kB - Free {1,number,integer} kB">Teljes memória {0,szám,változó} kB - Szabad {1,szám,változó} kB</value>
+  <value column="MsgText" original="Total VM Memory {0,number,integer} kB - Free {1,number,integer} kB">Teljes memória {0,number,integer} kB - Szabad {1,number,integer} kB</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="743" trl="N">
