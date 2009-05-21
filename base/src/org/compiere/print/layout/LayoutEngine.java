@@ -479,7 +479,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		Image image = null;
 		MPrintTableFormat tf = m_format.getTableFormat();
 		MTable table = MTable.get(getCtx(), getPrintInfo().getAD_Table_ID());
-		if(table.getColumn("IsPrinted") != null)
+		if(table.getColumn("IsPrinted") != null && !table.isView())
 		{
 			String tableName = table.getTableName();
 			final String sql = "SELECT IsPrinted FROM "+tableName+" WHERE "+tableName+"_ID=?";
