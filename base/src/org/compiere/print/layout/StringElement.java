@@ -202,7 +202,7 @@ public class StringElement extends PrintElement
 	{
 		return m_ID;
 	}	//	getID
-	
+
 	/**
 	 * 	Get Original String
 	 *	@return original (may be null)
@@ -239,7 +239,7 @@ public class StringElement extends PrintElement
 		m_string_view = m_string_paper;
 	}	//	translate
 
-	
+
 	/**************************************************************************
 	 * 	Layout and Calculate Size.
 	 * 	Set p_width & p_height
@@ -358,7 +358,7 @@ public class StringElement extends PrintElement
 		return true;
 	}	//	calculateSize
 
-	
+
 	/**************************************************************************
 	 * 	Get Drill Down value
 	 * 	@param relativePoint relative Point
@@ -396,7 +396,7 @@ public class StringElement extends PrintElement
 		return null;
 	}	//	getDrillAcross
 
-	
+
 	/**************************************************************************
 	 * 	Paint/Print.
 	 *  Calculate actual Size.
@@ -419,7 +419,7 @@ public class StringElement extends PrintElement
 		if (m_originalString != null)
 			translate(ctx);
 
-		AttributedString aString = null; 
+		AttributedString aString = null;
 		AttributedCharacterIterator iter = null;
 		AttributedCharacterIterator iter2 = null;
 		float xPos = (float)location.x;
@@ -448,7 +448,7 @@ public class StringElement extends PrintElement
 			if (iter.getBeginIndex() == iter.getEndIndex())
 				continue;
 
-			
+
 			//	Check for Tab (just first) and 16 bit characters
 			int tabPos = -1;
 			boolean is8Bit = true;
@@ -512,7 +512,7 @@ public class StringElement extends PrintElement
 					if (tabPos == -1)
 					{
 						layout = measurer.nextLayout(p_maxWidth);
-						if (iter.getEndIndex() != measurer.nextOffset(p_maxWidth))
+						if (measurer.getPosition() < iter.getEndIndex())
 							fastDraw = false;
 					}
 					else	//	tab
@@ -551,6 +551,7 @@ public class StringElement extends PrintElement
 							g2D.setFont(m_font);
 							g2D.setPaint(m_paint);
 							g2D.drawString(iter, xPen, yPen);
+							break;
 						}
 						else
 						{
