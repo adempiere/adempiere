@@ -1,4 +1,3 @@
---DROP VIEW rv_pp_order_transactions;
 CREATE OR REPLACE VIEW rv_pp_order_transactions AS 
 SELECT DISTINCT 
 o.ad_client_id, 

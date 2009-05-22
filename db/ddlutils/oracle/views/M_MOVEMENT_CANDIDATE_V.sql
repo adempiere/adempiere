@@ -1,4 +1,3 @@
-DROP VIEW M_Movement_Candidate_v;
 CREATE OR REPLACE VIEW M_Movement_Candidate_v AS
 SELECT	
 	o.AD_Client_ID, o.AD_Org_ID, o.C_BPartner_ID, o.DD_Order_ID,

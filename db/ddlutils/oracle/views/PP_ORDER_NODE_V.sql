@@ -1,9 +1,8 @@
-DROP VIEW PP_Order_Node_v;
 CREATE OR REPLACE VIEW PP_Order_Node_v
 AS
 SELECT
 onode.AD_Client_ID, onode.AD_Org_ID, onode.IsActive, onode.Created, onode.CreatedBy, onode.Updated, onode.UpdatedBy,
-cast('en_US' as varchar) AS AD_Language,
+cast('en_US' as varchar2(6)) AS AD_Language,
 name, c_bpartner_id, cost, datefinish, datefinishschedule, datestart, datestartschedule , 
 description, docaction, docstatus,duration, durationreal, durationrequiered, help, ismilestone,
 issubcontracting, movingtime, overlapunits, 

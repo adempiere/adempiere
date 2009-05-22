@@ -1,4 +1,3 @@
---DROP VIEW RV_DD_ORDERDETAIL;
 CREATE OR REPLACE VIEW RV_DD_ORDERDETAIL AS
 SELECT l.AD_Client_ID, l.AD_Org_ID, 
 	l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,o.DD_Order_ID,

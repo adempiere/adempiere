@@ -1,8 +1,7 @@
-DROP VIEW DD_ORDER_HEADER_V;
 CREATE OR REPLACE VIEW DD_ORDER_HEADER_V
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
 	o.DD_Order_ID,o.C_Order_ID, o.IsSOTrx, o.DocumentNo, o.DocStatus,	 o.C_DocType_ID,
 	o.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
@@ -35,7 +34,3 @@ FROM DD_Order o
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
-
-
-
-

@@ -1,4 +1,3 @@
---DROP VIEW rv_pp_mrp;
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
 mrp.ad_client_id,

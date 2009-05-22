@@ -8,7 +8,7 @@ SELECT
   componenttype,
   bl.created ,
   bl.createdby,
-  cast('en_US' as varchar) AS AD_Language,
+  cast('en_US' as varchar2(6)) AS AD_Language,
   blt.description,
   forecast,
   blt.help ,

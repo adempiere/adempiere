@@ -1,4 +1,3 @@
--- DROP VIEW rv_pp_order_storage;
 CREATE OR REPLACE VIEW rv_pp_order_storage AS 
 SELECT 
 obl.ad_client_id,

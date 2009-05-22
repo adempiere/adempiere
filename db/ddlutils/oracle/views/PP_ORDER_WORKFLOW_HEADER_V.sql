@@ -1,8 +1,7 @@
-DROP VIEW PP_Order_Workflow_Header_v;
 CREATE OR REPLACE VIEW PP_Order_Workflow_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
 	o.PP_Order_ID, 
 	--o.DocumentNo,
 	o.DocStatus,

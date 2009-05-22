@@ -1,8 +1,7 @@
-DROP VIEW  PP_Order_BOMLine_v;	
 CREATE OR REPLACE VIEW PP_Order_BOMLine_v
 AS 
 SELECT obl.AD_Client_ID, obl.AD_Org_ID, obl.IsActive, obl.Created, obl.CreatedBy, obl.Updated, obl.UpdatedBy,
-cast('en_US' as varchar) AS AD_Language,
+cast('en_US' as varchar2(6)) AS AD_Language,
 obl.Description , feature , obl.M_Product_ID, obl.backflushgroup ,obl.C_UOM_ID, obl.componentType, obl.datedelivered, obl.forecast, obl.help ,
 obl.iscritical, obl.issuemethod , obl.leadtimeoffset, obl.line, obl.m_attributesetinstance_id , obl.m_changenotice_id, obl.m_locator_id , obl.m_warehouse_id, 
 obl.pp_order_bom_ID,obl.pp_order_bomLine_id,obl.pp_order_id, obl.qtydelivered, obl.qtypost, obl.qtyreject, obl.qtyscrap, obl.scrap , obl.validfrom, obl.validto , obl.assay, 

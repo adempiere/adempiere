@@ -1,4 +1,3 @@
--- DROP VIEW rv_pp_operation_activity;
 CREATE OR REPLACE VIEW rv_pp_operation_activity AS 
 SELECT n.ad_client_id,
 n.ad_org_id,

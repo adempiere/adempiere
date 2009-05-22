@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW PP_Order_BOM_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
 	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
 	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
@@ -21,7 +21,7 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-
+/
 CREATE OR REPLACE VIEW PP_Order_BOM_Header_vt
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
@@ -46,12 +46,11 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-	
-
+/
 CREATE OR REPLACE VIEW PP_Order_BOMLine_v
 AS 
 SELECT obl.AD_Client_ID, obl.AD_Org_ID, obl.IsActive, obl.Created, obl.CreatedBy, obl.Updated, obl.UpdatedBy,
-cast('en_US' as varchar) AS AD_Language,
+cast('en_US' as varchar2(6)) AS AD_Language,
 obl.Description , feature , obl.M_Product_ID, obl.backflushgroup ,obl.C_UOM_ID, obl.componentType, obl.datedelivered, obl.forecast, obl.help ,
 obl.iscritical, obl.issuemethod , obl.leadtimeoffset, obl.line, obl.m_attributesetinstance_id , obl.m_changenotice_id, obl.m_locator_id , obl.m_warehouse_id, 
 obl.pp_order_bom_ID,obl.pp_order_bomLine_id,obl.pp_order_id, obl.qtydelivered, obl.qtypost, obl.qtyreject, obl.qtyscrap, obl.scrap , obl.validfrom, obl.validto , obl.assay, 
@@ -66,7 +65,7 @@ round(obl.qtybatch, 4) AS qtybatch,
 CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequiered / o.qtybatchs, 4) END AS qtybatchsize  
 FROM PP_Order_BOMLine obl
 INNER JOIN PP_Order o ON (o.PP_Order_ID=obl.PP_Order_ID);
-
+/
 CREATE OR REPLACE VIEW PP_Order_BOMLine_vt
 AS 
 SELECT 
@@ -87,11 +86,11 @@ CASE WHEN o.qtybatchs = 0 THEN 1 ELSE round(obl.qtyrequiered / o.qtybatchs, 4) E
 FROM PP_Order_BOMLine obl
 INNER JOIN PP_Order o ON (o.PP_Order_ID=obl.PP_Order_ID)
 LEFT JOIN PP_Order_BOMLine_Trl oblt ON (oblt.PP_Order_BOMLine_ID=obl.PP_Order_BOMLine_ID);
-	
+/	
 CREATE OR REPLACE VIEW PP_Order_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
 	o.PP_Order_ID, o.DocumentNo, o.DocStatus,o.C_DocType_ID,
 	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
 	o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
@@ -107,8 +106,9 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-
+/
 DROP VIEW PP_Order_Header_v;
+/
 CREATE OR REPLACE VIEW PP_Order_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
@@ -128,19 +128,19 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-	
+/
 CREATE OR REPLACE VIEW PP_Order_Node_v
 AS
 SELECT
 onode.AD_Client_ID, onode.AD_Org_ID, onode.IsActive, onode.Created, onode.CreatedBy, onode.Updated, onode.UpdatedBy,
-cast('en_US' as varchar) AS AD_Language,
+cast('en_US' as varchar2(6)) AS AD_Language,
 name, c_bpartner_id, cost, datefinish, datefinishschedule, datestart, datestartschedule , 
 description, docaction, docstatus,duration, durationreal, durationrequiered, help, ismilestone,
 issubcontracting, movingtime, overlapunits, 
 pp_order_id, pp_order_workflow_id, onode.pp_order_node_id,priority, qtydelivered, qtyrequiered , 
 qtyscrap , queuingtime , s_resource_id , setuptime ,setuptimereal,  unitscycles ,  validfrom , validto , value , waitingtime , workingtime , yield 
 FROM PP_Order_Node onode;
-
+/
 CREATE OR REPLACE VIEW PP_Order_Node_vt
 AS
 SELECT
@@ -153,11 +153,11 @@ pp_order_id, pp_order_workflow_id,onode.pp_order_node_id, priority, qtydelivered
 qtyscrap , queuingtime , s_resource_id , setuptime ,setuptimereal,  unitscycles ,  validfrom , validto , value , waitingtime , workingtime , yield 
 FROM PP_Order_Node onode
 LEFT JOIN PP_Order_Node_Trl ont ON (ont.PP_Order_Node_ID=onode.PP_Order_Node_ID);
-
+/
 CREATE OR REPLACE VIEW PP_Order_Workflow_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
-	cast('en_US' as varchar) AS AD_Language,
+	cast('en_US' as varchar2(6)) AS AD_Language,
 	o.PP_Order_ID, 
 	--o.DocumentNo,
 	o.DocStatus,
@@ -183,7 +183,7 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-	
+/	
 CREATE OR REPLACE VIEW PP_Order_Workflow_Header_vt
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
@@ -213,8 +213,9 @@ FROM PP_Order o
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
-
+/
 DROP VIEW PP_Product_BOMLine_v;
+/
 CREATE VIEW PP_Product_BOMLine_v AS
 SELECT 
   feature ,
@@ -225,7 +226,7 @@ SELECT
   componenttype,
   bl.created ,
   bl.createdby,
-  cast('en_US' as varchar) AS AD_Language,
+  cast('en_US' as varchar2(6)) AS AD_Language,
   blt.description,
   forecast,
   blt.help ,
@@ -250,9 +251,10 @@ SELECT
   validto  
  FROM PP_Product_BOMLine bl
  INNER JOIN PP_Product_BOMLine_Trl blt ON (blt.PP_Product_BOMLine_ID=bl.PP_Product_BOMLine_ID);
-
- DROP VIEW PP_Product_BOMLine_vt;
- CREATE VIEW PP_Product_BOMLine_vt AS
+/
+DROP VIEW PP_Product_BOMLine_vt;
+/
+CREATE VIEW PP_Product_BOMLine_vt AS
 SELECT 
   feature ,
   bl.ad_org_id ,
@@ -287,4 +289,41 @@ SELECT
   validto  
  FROM PP_Product_BOMLine bl
  INNER JOIN PP_Product_BOMLine_Trl blt ON (blt.PP_Product_BOMLine_ID=bl.PP_Product_BOMLine_ID);
- 
+/
+CREATE OR REPLACE VIEW DD_ORDER_HEADER_V
+AS 
+SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
+	cast('en_US' as varchar2(6)) AS AD_Language,
+	o.DD_Order_ID,o.C_Order_ID, o.IsSOTrx, o.DocumentNo, o.DocStatus,	 o.C_DocType_ID,
+	o.C_BPartner_ID, bp.Value AS BPValue, bp.TaxID AS BPTaxID, bp.NAICS, bp.DUNS,
+	oi.C_Location_ID AS Org_Location_ID, oi.TaxID, 
+    o.M_Warehouse_ID, wh.C_Location_ID AS Warehouse_Location_ID,
+	dt.PrintName AS DocumentType, dt.DocumentNote AS DocumentTypeNote,
+	o.SalesRep_ID, COALESCE(ubp.Name, u.Name) AS SalesRep_Name,
+	o.DateOrdered, o.DatePromised,
+	bpg.Greeting AS BPGreeting,
+	bp.Name, bp.Name2,
+	bpcg.Greeting AS BPContactGreeting,
+	bpc.Title, bpc.Phone,
+	NULLIF (bpc.Name, bp.Name) AS ContactName,
+	bpl.C_Location_ID, l.Postal || l.Postal_Add AS Postal,
+	bp.ReferenceNo,
+	o.Description,
+	o.POReference,
+	o.C_Charge_ID, o.ChargeAmt,
+	o.Volume, o.Weight,
+	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID,
+	o.M_Shipper_ID, o.DeliveryRule, o.DeliveryViaRule, o.PriorityRule
+FROM DD_Order o
+	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
+    INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
+	INNER JOIN C_BPartner bp ON (o.C_BPartner_ID=bp.C_BPartner_ID)
+	LEFT OUTER JOIN C_Greeting bpg ON (bp.C_Greeting_ID=bpg.C_Greeting_ID)
+	INNER JOIN C_BPartner_Location bpl ON (o.C_BPartner_Location_ID=bpl.C_BPartner_Location_ID)
+    INNER JOIN C_Location l ON (bpl.C_Location_ID=l.C_Location_ID)
+	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
+	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
+	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
+	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
+/

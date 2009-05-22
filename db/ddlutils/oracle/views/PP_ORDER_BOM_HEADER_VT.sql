@@ -1,4 +1,3 @@
-DROP VIEW PP_Order_BOM_Header_vt;
 CREATE OR REPLACE VIEW PP_Order_BOM_Header_vt
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,

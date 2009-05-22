@@ -1,5 +1,3 @@
--- DROP VIEW rv_pp_order_receipt_issue;
-
 CREATE OR REPLACE VIEW rv_pp_order_receipt_issue AS 
 SELECT obl.pp_order_bomline_id,
 obl.iscritical,

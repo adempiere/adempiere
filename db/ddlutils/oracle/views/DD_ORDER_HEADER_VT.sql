@@ -1,4 +1,3 @@
-DROP VIEW DD_ORDER_HEADER_VT;
 CREATE OR REPLACE VIEW DD_ORDER_HEADER_VT
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,

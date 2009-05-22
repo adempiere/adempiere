@@ -1,4 +1,3 @@
-DROP VIEW PP_Order_BOMLine_vt;	
 CREATE OR REPLACE VIEW PP_Order_BOMLine_vt
 AS 
 SELECT 

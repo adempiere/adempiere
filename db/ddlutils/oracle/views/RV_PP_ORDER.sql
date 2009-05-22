@@ -1,4 +1,3 @@
--- DROP VIEW rv_pp_order;
 CREATE OR REPLACE VIEW rv_pp_order AS 
 SELECT 
 o.ad_client_id,

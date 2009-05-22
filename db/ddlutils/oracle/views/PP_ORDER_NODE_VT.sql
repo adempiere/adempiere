@@ -1,4 +1,3 @@
-DROP VIEW PP_Order_Node_vt;
 CREATE OR REPLACE VIEW PP_Order_Node_vt
 AS
 SELECT
