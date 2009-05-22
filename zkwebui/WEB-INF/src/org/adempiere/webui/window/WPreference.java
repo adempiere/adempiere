@@ -78,12 +78,13 @@ public class WPreference extends Popup implements EventListener {
 
 		div = new Div();
 		div.setStyle("background-color: transparent !important; border: none; margin: 5px;");
-		Label label = new Label(Msg.getMsg(Env.getCtx(), "WindowTabPlacement"));
+		Label label = new Label(Msg.getMsg(Env.getCtx(), "WindowTabPlacement", true));
+		label.setTooltiptext(Msg.getMsg(Env.getCtx(), "WindowTabPlacement", false));
 		div.appendChild(label);
 		div.appendChild(new Space());
 		tabPlacement = ListboxFactory.newDropdownListbox();
-		tabPlacement.appendItem("Left", "Left");
-		tabPlacement.appendItem("Right", "Right");
+		tabPlacement.appendItem(Msg.getMsg(Env.getCtx(), "Left", true), "Left");
+		tabPlacement.appendItem(Msg.getMsg(Env.getCtx(), "Right", true), "Right");
 		div.appendChild(tabPlacement);
 		this.appendChild(div);
 
@@ -113,11 +114,6 @@ public class WPreference extends Popup implements EventListener {
 
 	public void onEvent(Event event) throws Exception {
 		if (Events.ON_CLICK.equals(event.getName())) {
-//			if (event.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
-//				this.detach();
-//			} else if (event.getTarget().getId().equals(ConfirmPanel.A_OK)) {
-//				onSave();
-//			}
 			onSave();
 		}
 	}
