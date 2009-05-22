@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
 import org.compiere.model.MBPartner;
@@ -101,7 +102,7 @@ implements ImportProcess
 		{
 			sql = new StringBuffer ("DELETE I_BPartner "
 					+ "WHERE I_IsImported='Y'").append(clientCheck);
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
+			no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 			log.fine("Delete Old Impored =" + no);
 		}
 
@@ -117,7 +118,7 @@ implements ImportProcess
 						+ " I_ErrorMsg = ' ',"
 						+ " I_IsImported = 'N' "
 						+ "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Reset=" + no);
 
 		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_BEFORE_VALIDATE);
@@ -128,7 +129,7 @@ implements ImportProcess
 				+ " AND g.AD_Client_ID=i.AD_Client_ID) ");
 		sql.append("WHERE GroupValue IS NULL AND C_BP_Group_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Group Default=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
@@ -136,14 +137,14 @@ implements ImportProcess
 				+ " WHERE i.GroupValue=g.Value AND g.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BP_Group_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Group=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner "
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Group, ' "
 				+ "WHERE C_BP_Group_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Group=" + no);
 
 		//	Set Country
@@ -153,7 +154,7 @@ implements ImportProcess
 			+ " AND c.AD_Client_ID IN (0, i.AD_Client_ID) AND ROWNUM=1) "
 			+ "WHERE CountryCode IS NULL AND C_Country_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Country Default=" + no);
 		 **/
 		//
@@ -162,14 +163,14 @@ implements ImportProcess
 				+ " WHERE i.CountryCode=c.CountryCode AND c.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Country_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Country=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner "
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Country, ' "
 				+ "WHERE C_Country_ID IS NULL AND (City IS NOT NULL OR Address1 IS NOT NULL)"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Country=" + no);
 
 		//	Set Region
@@ -179,7 +180,7 @@ implements ImportProcess
 				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) " );
 		sql.append("WHERE RegionName IS NULL AND C_Region_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Region Default=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
@@ -188,7 +189,7 @@ implements ImportProcess
 				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Region_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Region=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
@@ -197,7 +198,7 @@ implements ImportProcess
 				+ " AND EXISTS (SELECT * FROM C_Country c"
 				+ " WHERE c.C_Country_ID=i.C_Country_ID AND c.HasRegion='Y')"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Region=" + no);
 
 		//	Set Greeting
@@ -206,14 +207,14 @@ implements ImportProcess
 				+ " WHERE i.BPContactGreeting=g.Name AND g.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Greeting_ID IS NULL AND BPContactGreeting IS NOT NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Greeting=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Greeting, ' "
 				+ "WHERE C_Greeting_ID IS NULL AND BPContactGreeting IS NOT NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Greeting=" + no);
 
 		//	Existing User ?
@@ -222,7 +223,7 @@ implements ImportProcess
 				+ "(SELECT C_BPartner_ID,AD_User_ID FROM AD_User u "
 				+ "WHERE i.EMail=u.EMail AND u.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found EMail User=" + no);
 
 		//	Existing BPartner ? Match Value
@@ -231,7 +232,7 @@ implements ImportProcess
 				+ " WHERE i.Value=p.Value AND p.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BPartner_ID IS NULL AND Value IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found BPartner=" + no);
 
 		//	Existing Contact ? Match Name
@@ -240,7 +241,7 @@ implements ImportProcess
 				+ " WHERE i.ContactName=c.Name AND i.C_BPartner_ID=c.C_BPartner_ID AND c.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND AD_User_ID IS NULL AND ContactName IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found Contact=" + no);
 
 		//	Existing Location ? Exact Match
@@ -253,7 +254,7 @@ implements ImportProcess
 				+ " AND i.C_Region_ID=l.C_Region_ID AND i.C_Country_ID=l.C_Country_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND C_BPartner_Location_ID IS NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found Location=" + no);
 
 		//	Interest Area
@@ -262,7 +263,7 @@ implements ImportProcess
 				+ "WHERE i.InterestAreaName=ia.Name AND ia.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE R_InterestArea_ID IS NULL AND InterestAreaName IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Set Interest Area=" + no);
 
 		// Value is mandatory error
@@ -270,7 +271,7 @@ implements ImportProcess
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Value is mandatory, ' "
 				+ "WHERE Value IS NULL "
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Value is mandatory=" + no);
 		
 		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
@@ -288,11 +289,13 @@ implements ImportProcess
 		sql = new StringBuffer ("SELECT * FROM I_BPartner "
 				+ "WHERE I_IsImported='N'").append(clientCheck);
 		// gody: 20070113 - Order so the same values are consecutive.
-		sql.append(" ORDER BY Value, I_BPartner_ID");	
+		sql.append(" ORDER BY Value, I_BPartner_ID");
+		PreparedStatement pstmt =  null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			rs = pstmt.executeQuery();
 
 			// Remember Previous BP Value BP is only first one, others are contacts.
 			// All contacts share BP location.
@@ -333,7 +336,7 @@ implements ImportProcess
 									+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 							.append("'Cannot Insert BPartner, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-							DB.executeUpdate(sql.toString(), get_TrxName());
+							DB.executeUpdateEx(sql.toString(), get_TrxName());
 							continue;
 						}
 					}
@@ -370,7 +373,7 @@ implements ImportProcess
 									+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 							.append("'Cannot Update BPartner, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-							DB.executeUpdate(sql.toString(), get_TrxName());
+							DB.executeUpdateEx(sql.toString(), get_TrxName());
 							continue;
 						}
 					}
@@ -422,7 +425,7 @@ implements ImportProcess
 										+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 								.append("'Cannot Insert Location, ' ")
 								.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-								DB.executeUpdate(sql.toString(), get_TrxName());
+								DB.executeUpdateEx(sql.toString(), get_TrxName());
 								continue;
 							}
 							//
@@ -445,7 +448,7 @@ implements ImportProcess
 										+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 								.append("'Cannot Insert BPLocation, ' ")
 								.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-								DB.executeUpdate(sql.toString(), get_TrxName());
+								DB.executeUpdateEx(sql.toString(), get_TrxName());
 								continue;
 							}
 						}
@@ -468,7 +471,7 @@ implements ImportProcess
 								+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 						.append("'BP of User <> BP, ' ")
 						.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-						DB.executeUpdate(sql.toString(), get_TrxName());
+						DB.executeUpdateEx(sql.toString(), get_TrxName());
 						continue;
 					}
 					if (impBP.getC_Greeting_ID() != 0)
@@ -508,7 +511,7 @@ implements ImportProcess
 								+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 						.append("'Cannot Update BP Contact, ' ")
 						.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-						DB.executeUpdate(sql.toString(), get_TrxName());
+						DB.executeUpdateEx(sql.toString(), get_TrxName());
 						continue;
 					}
 				}
@@ -546,7 +549,7 @@ implements ImportProcess
 									+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
 							.append("'Cannot Insert BPContact, ' ")
 							.append("WHERE I_BPartner_ID=").append(impBP.getI_BPartner_ID());
-							DB.executeUpdate(sql.toString(), get_TrxName());
+							DB.executeUpdateEx(sql.toString(), get_TrxName());
 							continue;
 						}
 					}
@@ -563,26 +566,30 @@ implements ImportProcess
 				impBP.setI_IsImported(true);
 				impBP.setProcessed(true);
 				impBP.setProcessing(false);
-				impBP.save();
+				impBP.saveEx();
 				commit();
 			}	//	for all I_Product
-			rs.close();
-			pstmt.close();
+			DB.close(rs, pstmt);
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, "", e);
 			rollback();
+			//log.log(Level.SEVERE, "", e);
+			throw new DBException(e, sql.toString());
 		}
-
-		//	Set Error to indicator to not imported
-		sql = new StringBuffer ("UPDATE I_BPartner "
-				+ "SET I_IsImported='N', Updated=SysDate "
-				+ "WHERE I_IsImported<>'Y'").append(clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
-		addLog (0, null, new BigDecimal (no), "@Errors@");
-		addLog (0, null, new BigDecimal (noInsert), "@C_BPartner_ID@: @Inserted@");
-		addLog (0, null, new BigDecimal (noUpdate), "@C_BPartner_ID@: @Updated@");
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+			//	Set Error to indicator to not imported
+			sql = new StringBuffer ("UPDATE I_BPartner "
+					+ "SET I_IsImported='N', Updated=SysDate "
+					+ "WHERE I_IsImported<>'Y'").append(clientCheck);
+			no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+			addLog (0, null, new BigDecimal (no), "@Errors@");
+			addLog (0, null, new BigDecimal (noInsert), "@C_BPartner_ID@: @Inserted@");
+			addLog (0, null, new BigDecimal (noUpdate), "@C_BPartner_ID@: @Updated@");
+		}
 		return "";
 	}	//	doIt
 
