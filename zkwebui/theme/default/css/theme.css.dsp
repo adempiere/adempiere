@@ -15,7 +15,6 @@ html,body {
 
 .login-box-body {
 	width: 660px;
-	height: 200px;
 	background-image: url(../images/login-box-bg.png);
 	background-repeat: repeat-y;
 	background-color: transparent;
@@ -49,7 +48,8 @@ html,body {
 .login-box-footer {
 	background-image: url(../images/login-box-footer.png);
 	background-position: top right;
-	background-color: transparent;
+	background-attachment: scroll;
+	background-repeat: repeat-y;
 	z-index: 2;
 	height: 110px;
 	width: 660px;
@@ -59,7 +59,7 @@ html,body {
 	width: 604px;
 	margin-left: 10px;
 	margin-right: 10px;
-	margin-top: 40px;
+	padding-top: 40px;
 }
 
 .login-label {
@@ -218,8 +218,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	text-align: right;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
-	-webkit-border-radius-top-left: 5px;
-	-webkit-border-radius-bottom-left: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
 	background-color: #d1e7f6 !important;
 	background-image: url(../images/adtab-left-bg.png);
 	background-repeat: repeat-y;
@@ -232,8 +232,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	text-align: left;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
-	-webkit-border-radius-top-right: 5px;
-	-webkit-border-radius-bottom-right: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
 	background-color: #d1e7f6 !important;
 	background-image: url(../images/adtab-right-bg.png);
 	background-repeat: repeat-y;
@@ -262,6 +262,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	text-align: right;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
 }
 
 .adwindow-right-navbtn-uns, .adwindow-right-navbtn-dis {
@@ -270,6 +272,8 @@ div.wc-modal, div.wc-modal-none, div.wc-highlighted, div.wc-highlighted-none {
 	text-align: left;
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
 }
 
 <%-- ad tab --%>
