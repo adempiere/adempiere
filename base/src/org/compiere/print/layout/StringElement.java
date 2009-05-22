@@ -551,6 +551,7 @@ public class StringElement extends PrintElement
 							g2D.setFont(m_font);
 							g2D.setPaint(m_paint);
 							g2D.drawString(iter, xPen, yPen);
+							height += lineHeight;
 							break;
 						}
 						else
