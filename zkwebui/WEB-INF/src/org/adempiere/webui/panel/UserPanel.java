@@ -20,11 +20,11 @@ package org.adempiere.webui.panel;
 import java.util.Properties;
 
 import org.adempiere.webui.LayoutUtils;
-import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Messagebox;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.WPreference;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrg;
 import org.compiere.model.MRole;
@@ -46,77 +46,87 @@ import org.zkoss.zul.Vbox;
  */
 public class UserPanel extends Vbox  implements EventListener
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 5340541881809458772L;
+
+	private static final long serialVersionUID = -45350536628290540L;
+
 	private Properties ctx;
-    private Grid grid;
-    
+
     private ToolBarButton logout = new ToolBarButton();
     private ToolBarButton role = new ToolBarButton();
-    
+    private ToolBarButton preference = new ToolBarButton();
+
     private Label lblUserNameValue = new Label();
-    
+	private WPreference preferencePopup;
+
     public UserPanel()
     {
         this.ctx = Env.getCtx();
         init();
     }
-    
+
     private void init()
     {
     	this.setStyle("text-align:right");
-    	
+
     	// Elaine 2008/11/07 - fix the layout problem in IE7
     	this.setWidth("100%");
     	this.setAlign("right");
     	//
-    	
+
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
     	lblUserNameValue.setStyle("text-align:right");
     	LayoutUtils.addSclass("headerFont", lblUserNameValue);
     	this.appendChild(lblUserNameValue);
-    
+
     	Hbox hbox = new Hbox();
-    	
+
+    	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
+    	preference.addEventListener(Events.ON_CLICK, this);
+    	preference.setStyle("text-align:right");
+    	LayoutUtils.addSclass("headerFont", preference);
+    	preference.setParent(hbox);
+
+    	Separator sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setParent(hbox);
+
     	role.setLabel(this.getRoleName());
     	role.addEventListener(Events.ON_CLICK, this);
     	role.setStyle("text-align:right");
     	LayoutUtils.addSclass("headerFont", role);
     	role.setParent(hbox);
-    	
-    	Separator sep = new Separator("vertical");
+
+    	sep = new Separator("vertical");
     	sep.setBar(true);
     	sep.setParent(hbox);
-    	
+
     	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
     	logout.addEventListener(Events.ON_CLICK, this);
     	logout.setStyle("text-align:right");
     	LayoutUtils.addSclass("headerFont", logout);
     	logout.setParent(hbox);
-    	
-    	this.appendChild(hbox);    	
+
+    	this.appendChild(hbox);
     }
-    
+
     private String getUserName()
     {
         MUser user = MUser.get(ctx);
         return user.getName();
     }
-    
+
     private String getRoleName()
     {
         MRole role = MRole.getDefault(ctx, false);
         return role.getName();
     }
-    
+
     private String getClientName()
     {
         MClient client = MClient.get(ctx);
         return client.getName();
     }
-    
+
     private String getOrgName()
     {
     	int orgId = Env.getAD_Org_ID(ctx);
@@ -134,7 +144,7 @@ public class UserPanel extends Vbox  implements EventListener
 	public void onEvent(Event event) throws Exception {
 		if (event == null)
 			return;
-		
+
 		if (logout == event.getTarget())
         {
             SessionManager.logoutSession();
@@ -145,6 +155,16 @@ public class UserPanel extends Vbox  implements EventListener
 			roleInfo = roleInfo.replace(Env.NL, "<br>");
 			Messagebox.showDialog(roleInfo, "Role Info", Messagebox.OK, Messagebox.INFORMATION);
 		}
-		
+		else if (preference == event.getTarget())
+		{
+			if (preferencePopup != null)
+			{
+				preferencePopup.detach();
+			}
+			preferencePopup = new WPreference();
+			preferencePopup.setPage(this.getPage());
+			preferencePopup.open(preference);
+		}
+
 	}
 }

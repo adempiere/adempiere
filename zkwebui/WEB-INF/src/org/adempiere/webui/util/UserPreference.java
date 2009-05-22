@@ -31,9 +31,6 @@ import org.compiere.util.Language;
  */
 public final class UserPreference implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4965009332046125297L;
 	/** Language			*/
 	public static final String 	P_LANGUAGE = 		"Language";
@@ -115,12 +112,14 @@ public final class UserPreference implements Serializable {
 
 				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
 				if (preference == null) {
-					preference = new MPreference(Env.getCtx(), 0, null);
+					preference = new MUserPreference(Env.getCtx(), 0, null);
 					preference.setAD_User_ID(m_AD_User_ID);
-					preference.setAD_Org_ID(0);
 					preference.setAttribute(attribute);
+				} else {
+					if (preference.getAD_Client_ID() > 0 || preference.getAD_Org_ID() > 0) {
+						preference = new MUserPreference(Env.getCtx(), preference.getAD_Preference_ID(), null);
+					}
 				}
-				preference.setAD_Org_ID(0);
 				preference.setValue(value);
 				preference.saveEx();
 			}

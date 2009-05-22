@@ -26,6 +26,7 @@ import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -39,25 +40,35 @@ public class WYesNoEditor extends WEditor
 {
     public static final String[] LISTENER_EVENTS = {Events.ON_CHECK};
     private static final CLogger logger;
-    
+
     static
     {
         logger = CLogger.getCLogger(WYesNoEditor.class);
     }
-    
+
     private boolean oldValue = false;
-    
+
     public WYesNoEditor(GridField gridField)
     {
         super(new Checkbox(), gridField);
         init();
     }
-    
-    private void init()
+
+    public WYesNoEditor(String columnName, String label,
+			String description, boolean mandatory, boolean readonly,
+			boolean updateable) {
+		super(new Checkbox(), columnName, label, description, mandatory, readonly, updateable);
+		init();
+	}
+
+	private void init()
     {
-        super.label.setValue("");
-        super.label.setTooltiptext("");
-        getComponent().setLabel(gridField.getHeader());
+		if (gridField != null)
+			getComponent().setLabel(gridField.getHeader());
+		else
+			getComponent().setLabel(label.getValue());
+        label.setValue("");
+        label.setTooltiptext("");
     }
 
     public void onEvent(Event event)
@@ -111,13 +122,13 @@ public class WYesNoEditor extends WEditor
         else
         {
             logger.log(Level.SEVERE,
-                    "New field value of unknown type, Type: "  
+                    "New field value of unknown type, Type: "
                     + value.getClass()
                     + ", Value: " + value);
             getComponent().setChecked(false);
         }
     }
-    
+
     @Override
 	public Checkbox getComponent() {
 		return (Checkbox) component;
