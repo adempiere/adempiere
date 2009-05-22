@@ -232,7 +232,7 @@ public class Doc_MatchPO extends Doc
 			MAccount acct_db =  dr.getAccount(); // PPV
 			MAccount acct_cr = cr.getAccount(); // PPV Offset
 			
-			if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr) && (!isInterOrg)) {
+			if ((!as.isPostIfClearingEqual()) && acct_db.getAccount().equals(acct_cr.getAccount()) && (!isInterOrg)) {
 				
 				BigDecimal debit = dr.getAmtSourceDr();
 				BigDecimal credit = cr.getAmtSourceCr();

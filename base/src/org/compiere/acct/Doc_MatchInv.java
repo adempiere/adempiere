@@ -269,7 +269,7 @@ public class Doc_MatchInv extends Doc
 		MAccount acct_db =  dr.getAccount(); // not_invoiced_receipts
 		MAccount acct_cr = cr.getAccount(); // inventory_clearing
 		
-		if ((!as.isPostIfClearingEqual()) && acct_db.equals(acct_cr) && (!isInterOrg)) {
+		if ((!as.isPostIfClearingEqual()) && acct_db.getAccount().equals(acct_cr.getAccount()) && (!isInterOrg)) {
 			
 			BigDecimal debit = dr.getAmtSourceDr();
 			BigDecimal credit = cr.getAmtSourceCr();
