@@ -245,7 +245,7 @@ public class Doc_Allocation extends Doc
 					acct_unallocated_cash =  getCashAcct(as, line.getC_CashLine_ID());
 				MAccount acct_receivable = getAccount(Doc.ACCTTYPE_C_Receivable, as);
 				
-				if ((!as.isPostIfClearingEqual()) && acct_unallocated_cash != null && acct_unallocated_cash.getAccount().equals(acct_receivable.getAccount()) && (!isInterOrg)) {
+				if ((!as.isPostIfClearingEqual()) && acct_unallocated_cash != null && acct_unallocated_cash.equals(acct_receivable) && (!isInterOrg)) {
 					
 					// if not using clearing accounts, then don't post amtsource
 					// change the allocationsource to be writeoff + discount
@@ -335,7 +335,7 @@ public class Doc_Allocation extends Doc
 				// Save original allocation source for realized gain & loss purposes
 				allocationSourceForRGL = allocationSourceForRGL.negate();
 				
-				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.getAccount().equals(acct_liability.getAccount()) && (!isInterOrg)) {
+				if ((!as.isPostIfClearingEqual()) && acct_payment_select != null && acct_payment_select.equals(acct_liability) && (!isInterOrg)) {
 					
 					// if not using clearing accounts, then don't post amtsource
 					// change the allocationsource to be writeoff + discount

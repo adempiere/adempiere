@@ -180,7 +180,7 @@ public class Doc_Bank extends Doc
 			
 			// if ((!as.isPostIfClearingEqual()) && acct_bank_asset.equals(acct_bank_in_transit) && (!isInterOrg)) {
 			// don't validate interorg on banks for this - normally banks are balanced by orgs
-			if ((!as.isPostIfClearingEqual()) && acct_bank_asset.getAccount().equals(acct_bank_in_transit.getAccount())) {
+			if ((!as.isPostIfClearingEqual()) && acct_bank_asset.equals(acct_bank_in_transit)) {
 				// Not using clearing accounts
 				// just post the difference (if any)
 				
