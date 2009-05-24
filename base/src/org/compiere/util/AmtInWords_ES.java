@@ -18,7 +18,7 @@ package org.compiere.util;
 
 /**
  *	Spanish Amount in Words
- *	
+ *
  *  @author Jorg Janke - http://www.rgagnon.com/javadetails/java-0426.html
  *  @translator Jordi Luna
  *  @version $Id: AmtInWords_ES.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
@@ -34,58 +34,58 @@ public class AmtInWords_ES implements AmtInWords
 	} //	AmtInWords_ES
 
 	private static final String[]	majorNames	= {
-		"", 
-		" MIL", 
+		"",
+		" MIL",
 		" MILL\u00d3N",
-		" MILLARDO", 
-		" BILL\u00d3N", 
-		" BILLARDO", 
-		" TRILL\u00d3N"  
+		" MILLARDO",
+		" BILL\u00d3N",
+		" BILLARDO",
+		" TRILL\u00d3N"
 		};
 
 	private static final String[]	majorNamesPlural	= {
-		"", 
-		" MIL", 
+		"",
+		" MIL",
 		" MILLONES",
-		" MILLARDOS", 
-		" BILLONES", 
-		" BILLARDOS", 
-		" TRILLONES"  
+		" MILLARDOS",
+		" BILLONES",
+		" BILLARDOS",
+		" TRILLONES"
 		};
 
-	private static final String[]	tensNames	= { 
-		"", 
-		" DIEZ", 
+	private static final String[]	tensNames	= {
+		"",
+		" DIEZ",
 		" VEINTE",
-		" TREINTA", 
-		" CUARENTA", 
-		" CINCUENTA", 
-		" SESENTA", 
+		" TREINTA",
+		" CUARENTA",
+		" CINCUENTA",
+		" SESENTA",
 		" SETENTA",
-		" OCHENTA", 
+		" OCHENTA",
 		" NOVENTA"
 		};
 
-	private static final String[]	numNames	= { 
-		"", 
+	private static final String[]	numNames	= {
+		"",
 		" UN",
 		" DOS",
-		" TRES", 
-		" CUATRO", 
-		" CINCO", 
-		" SEIS", 
-		" SIETE", 
-		" OCHO", 
+		" TRES",
+		" CUATRO",
+		" CINCO",
+		" SEIS",
+		" SIETE",
+		" OCHO",
 		" NUEVE",
-		" DIEZ", 
-		" ONCE", 
-		" DOCE", 
-		" TRECE", 
-		" CATORCE", 
+		" DIEZ",
+		" ONCE",
+		" DOCE",
+		" TRECE",
+		" CATORCE",
 		" QUINCE",
-		" DIECIS\u00c9IS", 
-		" DIECISIETE", 
-		" DIECIOCHO", 
+		" DIECIS\u00c9IS",
+		" DIECISIETE",
+		" DIECIOCHO",
 		" DIECINUEVE"
 		};
 
@@ -118,7 +118,7 @@ public class AmtInWords_ES implements AmtInWords
 		}
 		if (number == 0)
 		//return soFar;
-		// Begin e-Evolution ogi-cd 		
+		// Begin e-Evolution ogi-cd
 			return tensNames[number % 10] + soFar; // e-Evolution ogi-cd
 		// End e-Evolution ogi-cd
 		if (number > 1)
@@ -187,7 +187,7 @@ public class AmtInWords_ES implements AmtInWords
 		return (prefix + soFar).trim ();
 	}	//	convert
 
-	
+
 	/**************************************************************************
 	 * 	Get Amount in Words
 	 * 	@param amount numeric amount (352.80)
@@ -198,23 +198,23 @@ public class AmtInWords_ES implements AmtInWords
 	{
 		if (amount == null)
 			return amount;
-		
-		Language lang = Env.getLoginLanguage(Env.getCtx());
+
+		Language lang = Env.getLanguage(Env.getCtx());
 		//
 		StringBuffer sb = new StringBuffer ();
 		int pos = 0;
-		
-		if(lang.isDecimalPoint())			
+
+		if(lang.isDecimalPoint())
     	 pos = amount.lastIndexOf ('.');    // Old
 		else
-		 pos = amount.lastIndexOf (',');  		
-		
-		int pos2 = 0; 
+		 pos = amount.lastIndexOf (',');
+
+		int pos2 = 0;
 		if(lang.isDecimalPoint())
-			pos2 = amount.lastIndexOf (',');   // Old		
+			pos2 = amount.lastIndexOf (',');   // Old
 		else
 			pos2 = amount.lastIndexOf ('.');
-		
+
 		if (pos2 > pos)
 			pos = pos2;
 		String oldamt = amount;
@@ -229,7 +229,7 @@ public class AmtInWords_ES implements AmtInWords
 			newpos = amount.lastIndexOf ('.');  // Old
 		else
 			newpos = amount.lastIndexOf (',');
-		
+
 		long pesos = Long.parseLong(amount.substring (0, newpos));
 		sb.append (convert (pesos));
 		for (int i = 0; i < oldamt.length (); i++)
@@ -253,5 +253,5 @@ public class AmtInWords_ES implements AmtInWords
 			// System.out.println(aiw.getAmtInWords(i+",00"));
 		System.out.println(aiw.getAmtInWords("9223372036854775807.99"));
 	}
-	
+
 }	//	AmtInWords_ES
