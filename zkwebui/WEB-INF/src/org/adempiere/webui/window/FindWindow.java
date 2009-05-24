@@ -45,6 +45,7 @@ import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.ToolBar;
 import org.adempiere.webui.component.ToolBarButton;
@@ -77,10 +78,12 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hbox;
-import org.zkoss.zul.Separator;
-import org.zkoss.zul.Vbox;
 
 /**
  *  This class is based on org.compiere.apps.search.Find written by Jorg Janke.
@@ -92,7 +95,7 @@ import org.zkoss.zul.Vbox;
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4937678675702382252L;
 	/** Main Window for the Lookup Panel   */
@@ -211,7 +214,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             return;
         }
         this.setBorder("normal");
-        this.setWidth("700px");
+        this.setWidth("750px");
+        this.setHeight("350px");
         this.setTitle(Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", "") + ": " + title);
         this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
         this.setClosable(false);
@@ -310,11 +314,23 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         contentSimpleRows.appendChild(pnlName);
         contentSimpleRows.appendChild(pnlDocument);
         contentSimpleRows.appendChild(pnlDescription);
+        contentSimple.setVflex(true);
 
-        winLookupRecord.appendChild(contentSimple);
-        winLookupRecord.appendChild(new Separator());
-        winLookupRecord.appendChild(hboxButton);
+        Borderlayout layout = new Borderlayout();
+        layout.setStyle("height: 100%; width: 99%; position: relative");
+        winLookupRecord.appendChild(layout);
+
+        Center center = new Center();
+        layout.appendChild(center);
+        center.appendChild(contentSimple);
+        center.setFlex(true);
+
+        South south = new South();
+        layout.appendChild(south);
+        south.appendChild(hboxButton);
+
         winLookupRecord.setWidth("100%");
+        winLookupRecord.setHeight("100%");
         winLookupRecord.addEventListener(Events.ON_OK, this);
 
     }   //  initSimple
@@ -407,13 +423,27 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         listhead.appendChild(lstHQueryValue);
         listhead.appendChild(lstHQueryTo);
         advancedPanel.appendChild(listhead);
+        advancedPanel.setVflex(true);
 
-        Vbox advancedWindow = new Vbox();
-        advancedWindow.setWidth("100%");
-        advancedWindow.appendChild(toolBar);
-        advancedWindow.appendChild(advancedPanel);
-        advancedWindow.appendChild(confirmPanel);
-        winAdvanced.appendChild(advancedWindow);
+        Borderlayout layout = new Borderlayout();
+        layout.setStyle("height: 100%; width: 99%; position: relative;");
+        winAdvanced.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+        north.appendChild(toolBar);
+
+        Center center = new Center();
+        layout.appendChild(center);
+        center.appendChild(advancedPanel);
+        center.setFlex(true);
+
+        South south = new South();
+        layout.appendChild(south);
+        south.appendChild(confirmPanel);
+
+        winAdvanced.setHeight("100%");
+        winAdvanced.setWidth("100%");
         winAdvanced.addEventListener(Events.ON_OK,this);
 
     } // initAdvanced
@@ -426,10 +456,17 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     {
         winMain = new MultiTabPart();
         winMain.createPart(this);
+        winMain.getComponent().setStyle("height: 100%; width: 100%; position: relative;");
         winAdvanced = new Window();
         winLookupRecord = new Window();
-        winMain.addTab(winLookupRecord, Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", ""),false, true);
-        winMain.addTab(winAdvanced, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
+        Tabpanel tabPanel = new Tabpanel();
+        tabPanel.setStyle("height: 100%; width: 100%");
+        tabPanel.appendChild(winLookupRecord);
+        winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Find").replaceAll("&", ""),false, true);
+        tabPanel = new Tabpanel();
+        tabPanel.setStyle("height: 100%; width: 100%");
+        tabPanel.appendChild(winAdvanced);
+        winMain.addTab(tabPanel, Msg.getMsg(Env.getCtx(), "Advanced").replaceAll("&", ""), false, false);
         initSimple();
         initAdvanced();
 
@@ -1371,7 +1408,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             else if (field.getDisplayType() == DisplayType.YesNo)
                 infoDisplay = Msg.getMsg(Env.getCtx(), infoDisplay);
             //  Value2  ******
-            if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op))
+            if (MQuery.OPERATORS[MQuery.BETWEEN_INDEX].equals(op.getSelectedItem().toValueNamePair()))
             {
                 ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
                 Object value2 = cellQueryTo.getAttribute("value");
