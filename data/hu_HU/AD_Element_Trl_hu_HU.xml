@@ -18563,9 +18563,9 @@
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2671" trl="N">
-  <value column="Name" original="Archive">Achiv</value>
-  <value column="PrintName" original="Archive">Achiv</value>
-  <value column="Description" original="Document and Report Archive">Dokumentum és jelentés archiv</value>
+  <value column="Name" original="Archive">Archív</value>
+  <value column="PrintName" original="Archive">Archív</value>
+  <value column="Description" original="Document and Report Archive">Dokumentum és jelentés archív</value>
   <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view.">A vállalati archiválási szinten szerint kerülnek a dokumentumok és a jelentések mentésre, amelyek ismételt megtekintésre elérhetők.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

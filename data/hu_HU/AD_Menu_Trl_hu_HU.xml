@@ -1499,7 +1499,7 @@
   <value column="Description" original="Process Orders in Batch">Rendelések kötegenként való feldolgozása</value>
  </row>
  <row id="508" trl="N">
-  <value column="Name" original="Archive Viewer">Achiv betekintő</value>
+  <value column="Name" original="Archive Viewer">Archív betekintő</value>
   <value column="Description" original="View automatically archived Documents">Automatikusan archivált dokumentumok megtekintése</value>
  </row>
  <row id="509" trl="N">

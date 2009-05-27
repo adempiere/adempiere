@@ -1503,7 +1503,7 @@
   <value column="Name" original="Trial Balance">Próba egyenleg</value>
  </row>
  <row id="754" trl="N">
-  <value column="Name" original="Archive">Achiv</value>
+  <value column="Name" original="Archive">Archív</value>
  </row>
  <row id="755" trl="N">
   <value column="Name" original="Payment">Fizetés</value>
