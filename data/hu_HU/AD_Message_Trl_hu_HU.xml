@@ -1107,7 +1107,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="377" trl="N">
-  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Sor(ok) - {1,szám,#,##0.00} - Összesen: {2,szám,#,##0.00} {3} = {4,szám,#,##0.00}</value>
+  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Sor(ok) - {1,number,#,##0.00} - Összesen: {2,number,#,##0.00} {3} = {4,number,#,##0.00}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="378" trl="N">
@@ -1151,7 +1151,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="388" trl="N">
-  <value column="MsgText" original="Parent Record">Felettes rekord</value>
+  <value column="MsgText" original="Parent Record">Szülő rekord</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="389" trl="N">
