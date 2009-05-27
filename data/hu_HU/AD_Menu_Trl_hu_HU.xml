@@ -3,7 +3,7 @@
 
 <adempiereTrl language="hu_HU" table="AD_Menu">
  <row id="100" trl="N">
-  <value column="Name" original="Invoice Inquiry">Igény számlázása</value>
+  <value column="Name" original="Invoice Inquiry">Számla lekérdezések</value>
   <value column="Description" original=""/>
  </row>
  <row id="101" trl="N">

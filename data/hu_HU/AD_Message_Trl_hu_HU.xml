@@ -2547,7 +2547,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="747" trl="N">
-  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Letöltése {0} az {1} Verziónak = {2} - Lot = {3} - Szériaszám = {4} Garancia dátuma = {5,dátum,rövid} Köszönjük, hogy az Adempiere Vevői Eszközmenedzsmentet vette igénybe</value>
+  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Letöltése {0} az {1} Verziónak = {2} - Lot = {3} - Szériaszám = {4} Garancia dátuma = {5,date,short} Köszönjük, hogy az Adempiere Vevői Eszközmenedzsmentet vette igénybe</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="748" trl="N">
