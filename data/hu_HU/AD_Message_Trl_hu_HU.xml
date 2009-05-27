@@ -1531,7 +1531,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="483" trl="N">
-  <value column="MsgText" original="Request {0} was transferred by {1} from {2} to {3} ">Az igény {0} továbbításra került {1} részéről, {2} alapján és továbbítva {3} felé</value>
+  <value column="MsgText" original="Request {0} was transferred by {1} from {2} to {3} ">Az igény {0} továbbításra került {1} által , {2} -től {3} felé</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="484" trl="N">
@@ -1539,7 +1539,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="485" trl="N">
-  <value column="MsgText" original="Escalated Request {0} to {1}">Kivizsgálás alatt {1} álló igény {0}</value>
+  <value column="MsgText" original="Escalated Request {0} to {1}">{0} igény eszkalálva {1} felé</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="486" trl="N">
@@ -2091,7 +2091,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="623" trl="N">
-  <value column="MsgText" original="{0} Line(s) - Total: {1,number,#,##0.00} {2}">{0} Sor(ok) - Összesen: {1,szám,#,##0.00} {2}</value>
+  <value column="MsgText" original="{0} Line(s) - Total: {1,number,#,##0.00} {2}">{0} Sor(ok) - Összesen: {1,number,#,##0.00} {2}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="624" trl="N">
@@ -2871,7 +2871,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="828" trl="N">
-  <value column="MsgText" original="{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}">{0} Sor(ok) {1,szám,#,##0.00} - Összeg: {2,szám,#,##0.00}</value>
+  <value column="MsgText" original="{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}">{0} Sor(ok) {1,number,#,##0.00} - Összeg: {2,number,#,##0.00}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="829" trl="N">
