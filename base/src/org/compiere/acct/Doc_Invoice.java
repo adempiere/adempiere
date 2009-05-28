@@ -44,6 +44,9 @@ import org.compiere.util.Env;
  *  Document Types:     ARI, ARC, ARF, API, APC
  *  </pre>
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ *  	<li>BF: 2797257	Landed Cost Detail is not using allocation qty
+ *  
  *  @version  $Id: Doc_Invoice.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_Invoice extends Doc
@@ -859,22 +862,14 @@ public class Doc_Invoice extends Doc
 				allocationAmt = allocationAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
 			if (!dr)
 				allocationAmt = allocationAmt.negate();
-			// MZ Goodwill
-			// set Qty to 1 or -1 instead of 0 and allocation Amt is counted for each product qty
-			if (lca.getQty().signum() != 0)
-				allocationAmt = allocationAmt.divide(lca.getQty(), as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-			
-			// Qty is 1 or -1
-			BigDecimal qty = Env.ONE;
-			if (il.getQtyInvoiced().signum() != 0)
-				 qty = il.getQtyInvoiced().divide(il.getQtyInvoiced().abs());
+			// AZ Goodwill
 			// use createInvoice to create/update non Material Cost Detail
 			MCostDetail.createInvoice(as, lca.getAD_Org_ID(), 
 					lca.getM_Product_ID(), lca.getM_AttributeSetInstance_ID(),
 					C_InvoiceLine_ID, lca.getM_CostElement_ID(),
-					allocationAmt, qty, 		//	Qty
+					allocationAmt, lca.getQty(),
 					desc, getTrxName());
-			// end MZ
+			// end AZ
 		}
 		
 		log.config("Created #" + lcas.length);
