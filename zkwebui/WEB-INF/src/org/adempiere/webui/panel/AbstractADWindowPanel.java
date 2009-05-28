@@ -1859,9 +1859,29 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		 if (event.getSource() instanceof WButtonEditor)
 	     {
+			statusBar.setStatusLine(processButtonCallout((WButtonEditor)event.getSource()), true);
 	      	actionButton((WButtonEditor)event.getSource());
 	     }
 	}
+
+	/**************************************************************************
+	 *  Process Callout(s).
+	 *  <p>
+	 *  The Callout is in the string of
+	 *  "class.method;class.method;"
+	 * If there is no class name, i.e. only a method name, the class is regarded
+	 * as CalloutSystem.
+	 * The class needs to comply with the Interface Callout.
+	 *
+	 * @param field field
+	 * @return error message or ""
+	 * @see org.compiere.model.Callout
+	 */
+	private String processButtonCallout (WButtonEditor button)
+	{
+		GridField field = curTab.getField(button.getColumnName());
+		return curTab.processCallout(field);
+	}	//	processButtonCallout
 
 	/**
 	 *
