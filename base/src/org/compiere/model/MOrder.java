@@ -2383,4 +2383,16 @@ public class MOrder extends X_C_Order implements DocAction
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
+	/**
+	 * 	Is it a Return Material?
+	 *	@return true if RM
+	 */
+	public boolean isReturnMaterial()
+	{
+		MDocType dt = MDocType.get(getCtx(), 
+			getC_DocType_ID()==0 ? getC_DocTypeTarget_ID() : getC_DocType_ID());
+		return MDocType.DOCSUBTYPESO_ReturnMaterial.equals(dt.getDocSubTypeSO());
+	}	//	isReturnMaterial
+	
+	
 }	//	MOrder
