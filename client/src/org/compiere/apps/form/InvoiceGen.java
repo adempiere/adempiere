@@ -39,23 +39,23 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
 /**
- * Generate Shipment (manual) controller class
+ * Generate Invoice (manual) controller class
  * 
  */
-public class InOutGen extends GenForm
+public class InvoiceGen extends GenForm
 {
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(InOutGen.class);
+	private static CLogger log = CLogger.getCLogger(InvoiceGen.class);
 	//
 	
-	public Object 			m_M_Warehouse_ID = null;
+	public Object 			m_AD_Org_ID = null;
 	public Object 			m_C_BPartner_ID = null;
 	
 	public void dynInit() throws Exception
 	{
-		setTitle("InOutGenerateInfo");
-		setReportEngineType(ReportEngine.SHIPMENT);
-		setAskPrintMsg("PrintShipments");
+		setTitle("InvGenerateInfo");
+		setReportEngineType(ReportEngine.INVOICE);
+		setAskPrintMsg("PrintInvoices");
 	}
 	
 	public void configureMiniTable(IMiniTable miniTable)
@@ -70,7 +70,6 @@ public class InOutGen extends GenForm
 		miniTable.addColumn("TotalLines");
 		//
 		miniTable.setMultiSelection(true);
-
 		//  set details
 		miniTable.setColumnClass(0, IDColumn.class, false, " ");
 		miniTable.setColumnClass(1, String.class, true, Msg.translate(Env.getCtx(), "AD_Org_ID"));
@@ -89,21 +88,22 @@ public class InOutGen extends GenForm
 	 */
 	private String getOrderSQL()
 	{
-	//  Create SQL
-        StringBuffer sql = new StringBuffer(
-            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
-            + "FROM M_InOut_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
-            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
-            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
-            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
-            + " AND ic.AD_Client_ID=?");
+	    StringBuffer sql = new StringBuffer(
+	            "SELECT C_Order_ID, o.Name, dt.Name, DocumentNo, bp.Name, DateOrdered, TotalLines "
+	            + "FROM C_Invoice_Candidate_v ic, AD_Org o, C_BPartner bp, C_DocType dt "
+	            + "WHERE ic.AD_Org_ID=o.AD_Org_ID"
+	            + " AND ic.C_BPartner_ID=bp.C_BPartner_ID"
+	            + " AND ic.C_DocType_ID=dt.C_DocType_ID"
+	            + " AND ic.AD_Client_ID=?"
+	            + " AND NOT EXISTS (SELECT * FROM C_Invoice i"
+	            + " WHERE i.C_Order_ID=ic.C_Order_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
 
-        if (m_M_Warehouse_ID != null)
-            sql.append(" AND ic.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        if (m_AD_Org_ID != null)
+            sql.append(" AND ic.AD_Org_ID=").append(m_AD_Org_ID);
         if (m_C_BPartner_ID != null)
             sql.append(" AND ic.C_BPartner_ID=").append(m_C_BPartner_ID);
         
-        // bug - [ 1713317 ] Generate Shipments (manual) show locked records
+        // bug - [ 1713337 ] "Generate Invoices (manual)" show locked records.
         /* begin - Exclude locked records; @Trifon */
         int AD_User_ID = Env.getContextAsInt(Env.getCtx(), "#AD_User_ID");
         String lockedIDs = MPrivateAccess.getLockedRecordWhere(MOrder.Table_ID, AD_User_ID);
@@ -114,7 +114,7 @@ public class InOutGen extends GenForm
             sql.append("C_Order_ID").append(lockedIDs);
         }
         /* eng - Exclude locked records; @Trifon */
-          
+
         //
         sql.append(" ORDER BY o.Name,bp.Name,DateOrdered");
         
@@ -127,24 +127,26 @@ public class InOutGen extends GenForm
 	 */
 	private String getRMASql()
 	{
-	    StringBuffer sql = new StringBuffer();
-	    
+		StringBuffer sql = new StringBuffer();
 	    sql.append("SELECT rma.M_RMA_ID, org.Name, dt.Name, rma.DocumentNo, bp.Name, rma.Created, rma.Amt ");
-	    sql.append("FROM M_RMA rma INNER JOIN AD_Org org ON rma.AD_Org_ID=org.AD_Org_ID ");
-	    sql.append("INNER JOIN C_DocType dt ON rma.C_DocType_ID=dt.C_DocType_ID ");
-	    sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
-	    sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
-	    sql.append("WHERE rma.DocStatus='CO' ");
-	    sql.append("AND dt.DocBaseType = 'POO' ");
-	    sql.append("AND EXISTS (SELECT * FROM M_RMA r INNER JOIN M_RMALine rl ");
-	    sql.append("ON r.M_RMA_ID=rl.M_RMA_ID WHERE r.M_RMA_ID=rma.M_RMA_ID ");
-	    sql.append("AND rl.IsActive='Y' AND rl.M_InOutLine_ID > 0 AND rl.QtyDelivered < rl.Qty) ");
-	    sql.append("AND NOT EXISTS (SELECT * FROM M_InOut oio WHERE oio.M_RMA_ID=rma.M_RMA_ID ");
-	    sql.append("AND oio.DocStatus IN ('IP', 'CO', 'CL')) " );
-	    sql.append("AND rma.AD_Client_ID=?");
-	    
-	    if (m_M_Warehouse_ID != null)
-            sql.append(" AND io.M_Warehouse_ID=").append(m_M_Warehouse_ID);
+        sql.append("FROM M_RMA rma INNER JOIN AD_Org org ON rma.AD_Org_ID=org.AD_Org_ID ");
+        sql.append("INNER JOIN C_DocType dt ON rma.C_DocType_ID=dt.C_DocType_ID ");
+        sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
+        sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
+        sql.append("WHERE rma.DocStatus='CO' ");
+        sql.append("AND dt.DocBaseType = 'POO' ");
+        sql.append("AND NOT EXISTS (SELECT * FROM C_Invoice i ");
+        sql.append("WHERE i.M_RMA_ID=rma.M_RMA_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
+        sql.append("AND EXISTS (SELECT * FROM C_InvoiceLine il INNER JOIN M_InOutLine iol ");
+        sql.append("ON il.M_InOutLine_ID=iol.M_InOutLine_ID INNER JOIN C_Invoice i ");
+        sql.append("ON i.C_Invoice_ID=il.C_Invoice_ID WHERE i.DocStatus IN ('CO', 'CL') ");
+        sql.append("AND iol.M_InOutLine_ID IN ");
+        sql.append("(SELECT M_InOutLine_ID FROM M_RMALine rl WHERE rl.M_RMA_ID=rma.M_RMA_ID ");
+        sql.append("AND rl.M_InOutLine_ID IS NOT NULL)) ");
+        sql.append("AND rma.AD_Client_ID=?");
+        
+        if (m_AD_Org_ID != null)
+            sql.append(" AND rma.AD_Org_ID=").append(m_AD_Org_ID);
         if (m_C_BPartner_ID != null)
             sql.append(" AND bp.C_BPartner_ID=").append(m_C_BPartner_ID);
         
@@ -154,10 +156,10 @@ public class InOutGen extends GenForm
         {
             sql.append(" AND rma.M_RMA_ID").append(lockedIDs);
         }
-	    
-	    sql.append(" ORDER BY org.Name, bp.Name, rma.Created ");
-
-	    return sql.toString();
+        
+        sql.append(" ORDER BY org.Name, bp.Name, rma.Created ");
+        
+        return sql.toString();
 	}
 	
 	/**
@@ -167,19 +169,19 @@ public class InOutGen extends GenForm
 	{
 		log.info("");
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
+		//  Create SQL
 		
 		String sql = "";
-		
-		if (docTypeKNPair.getKey() == MRMA.Table_ID)
-		{
-		    sql = getRMASql();
-		}
-		else
-		{
-		    sql = getOrderSQL();
-		}
+        
+        if (docTypeKNPair.getKey() == MOrder.Table_ID)
+        {
+            sql = getOrderSQL();
+        }
+        else
+        {
+            sql = getRMASql();
+        }
 
-		log.fine(sql);
 		//  reset table
 		int row = 0;
 		miniTable.setRowCount(row);
@@ -246,31 +248,29 @@ public class InOutGen extends GenForm
 
 	
 	/**************************************************************************
-	 *	Generate Shipments
+	 *	Generate Invoices
 	 */
 	public String generate(IStatusBar statusBar, KeyNamePair docTypeKNPair, String docActionSelected)
 	{
 		String info = "";
-		log.info("M_Warehouse_ID=" + m_M_Warehouse_ID);
-		String trxName = Trx.createTrxName("IOG");	
+		String trxName = Trx.createTrxName("IVG");
 		Trx trx = Trx.get(trxName, true);	//trx needs to be committed too
 		
 		setSelectionActive(false);  //  prevents from being called twice
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateGen"));
+		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateGen"));
 		statusBar.setStatusDB(String.valueOf(getSelection().size()));
 
 		//	Prepare Process
-		int AD_Process_ID = 0;	  
+		int AD_Process_ID = 0;
         
         if (docTypeKNPair.getKey() == MRMA.Table_ID)
         {
-            AD_Process_ID = 52001; // M_InOut_GenerateRMA - org.adempiere.process.InOutGenerateRMA
+            AD_Process_ID = 52002; // C_Invoice_GenerateRMA - org.adempiere.process.InvoiceGenerateRMA
         }
         else
         {
-            AD_Process_ID = 199;      // M_InOut_Generate - org.compiere.process.InOutGenerate
+            AD_Process_ID = 134;  // HARDCODED    C_InvoiceCreate
         }
-		
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		if (!instance.save())
 		{
@@ -297,9 +297,9 @@ public class InOutGen extends GenForm
 			{
 				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
 				{
-					String msg = "No Shipments";     //  not translated!
-					log.config(msg);
+					String msg = "No Invoices";     //  not translated!
 					info = msg;
+					log.config(msg);
 					trx.rollback();
 					return info;
 				}
@@ -312,45 +312,34 @@ public class InOutGen extends GenForm
 		{
 			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
 			{
-				String msg = "No Shipments";     //  not translated!
-				log.config(msg);
+				String msg = "No Invoices";     //  not translated!
 				info = msg;
+				log.config(msg);
 				trx.rollback();
 				return info;
 			}
 		}
 		
-		//call process
-		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
+		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
-		//	Add Parameter - Selection=Y
-		MPInstancePara ip = new MPInstancePara(instance, 10);
-		ip.setParameter("Selection","Y");
-		if (!ip.save())
+		//	Add Parameters
+		MPInstancePara para = new MPInstancePara(instance, 10);
+		para.setParameter("Selection", "Y");
+		if (!para.save())
 		{
-			String msg = "No Parameter added";  //  not translated
+			String msg = "No Selection Parameter added";  //  not translated
 			info = msg;
 			log.log(Level.SEVERE, msg);
 			return info;
 		}
-		//Add Document action parameter
-		ip = new MPInstancePara(instance, 20);
-//		String docActionSelected = (String)docAction.getValue();
-		ip.setParameter("DocAction", docActionSelected);
-		if(!ip.save())
+		
+		para = new MPInstancePara(instance, 20);
+		para.setParameter("DocAction", docActionSelected);
+		
+		if (!para.save())
 		{
-			String msg = "No DocACtion Parameter added";
-			info = msg;
-			log.log(Level.SEVERE, msg);
-			return info;
-		}
-		//	Add Parameter - M_Warehouse_ID=x
-		ip = new MPInstancePara(instance, 30);
-		ip.setParameter("M_Warehouse_ID", Integer.parseInt(m_M_Warehouse_ID.toString()));
-		if(!ip.save())
-		{
-			String msg = "No Parameter added";  //  not translated
+			String msg = "No DocAction Parameter added";  //  not translated
 			info = msg;
 			log.log(Level.SEVERE, msg);
 			return info;
@@ -360,5 +349,5 @@ public class InOutGen extends GenForm
 		setProcessInfo(pi);
 		
 		return info;
-	}	//	generateShipments
+	}	//	generateInvoices
 }

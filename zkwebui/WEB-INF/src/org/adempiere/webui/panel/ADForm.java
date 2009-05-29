@@ -221,10 +221,10 @@ public abstract class ADForm extends Window implements EventListener
     				form.init(adFormID, name);
     				return form;
         		}
-        		else if (obj instanceof GenForm)
+        		else if (obj instanceof ICustomForm)
         		{
-        			GenForm genForm = (GenForm)obj;
-        			Object o = genForm.getForm();
+        			ICustomForm customForm = (ICustomForm)obj;
+        			Object o = customForm.getForm();
         			if(o instanceof ADForm)
         			{
         				form = (ADForm)o;

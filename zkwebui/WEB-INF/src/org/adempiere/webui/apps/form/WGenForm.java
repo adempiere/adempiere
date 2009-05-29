@@ -194,7 +194,6 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		genForm.configureMiniTable(miniTable);
 		miniTable.getModel().addTableModelListener(this);
 		//	Info
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
 		statusBar.setStatusDB(" ");
 		//	Tabbed Pane Listener
 		tabbedPane.addEventListener(Events.ON_SELECT, this);
@@ -306,7 +305,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		};
 		new Thread(runnable).start();				
 		//
-	}	//	generateShipments
+	}	//	generate
 
 	/**
 	 *  Complete generating shipments.
@@ -324,7 +323,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		StringBuffer iText = new StringBuffer();
 		iText.append("<b>").append(genForm.getProcessInfo().getSummary())
 			.append("</b><br>(")
-			.append(Msg.getMsg(Env.getCtx(), "InOutGenerateInfo"))
+			.append(Msg.getMsg(Env.getCtx(), genForm.getTitle()))
 			//  Shipments are generated depending on the Delivery Rule selection in the Order
 			.append(")<br>")
 			.append(genForm.getProcessInfo().getLogInfo(true));
@@ -344,29 +343,28 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	
 	public void onAfterProcess()
 	{
-		//	OK to print shipments
-		if (FDialog.ask(getWindowNo(), this, "PrintShipments"))
+		//	OK to print
+		if (FDialog.ask(getWindowNo(), this, genForm.getAskPrintMsg()))
 		{
-			//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
 			Clients.showBusy("Processing...", true);
-			Clients.response(new AuEcho(this, "onPrintShipments", null));			
-		}	//	OK to print shipments
+			Clients.response(new AuEcho(this, "onPrint", null));			
+		}	//	OK to print
 	}
 	
-	public void onPrintShipments() 
+	public void onPrint() 
 	{
 //		Loop through all items
 		List<File> pdfList = new ArrayList<File>();
 		for (int i = 0; i < m_ids.length; i++)
 		{
-			int M_InOut_ID = m_ids[i];
-			ReportEngine re = ReportEngine.get (Env.getCtx(), ReportEngine.SHIPMENT, M_InOut_ID);
+			int RecordID = m_ids[i];
+			ReportEngine re = ReportEngine.get (Env.getCtx(), genForm.getReportEngineType(), RecordID);
 			pdfList.add(re.getPDF());				
 		}
 		
 		if (pdfList.size() > 1) {
 			try {
-				File outFile = File.createTempFile("WInOutGen", ".pdf");					
+				File outFile = File.createTempFile(genForm.getClass().getName(), ".pdf");					
 				AEnv.mergePdf(pdfList, outFile);
 
 				Clients.showBusy(null, false);

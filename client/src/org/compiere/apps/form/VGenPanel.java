@@ -154,7 +154,6 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 		
 		miniTable.getModel().addTableModelListener(this);
 		//	Info
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
 		statusBar.setStatusDB(" ");
 		//	Tabbed Pane Listener
 		tabbedPane.addChangeListener(this);
@@ -271,10 +270,9 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 		log.config("PrintItems=" + ids.length);
 
 		confirmPanelGen.getOKButton().setEnabled(false);
-		//	OK to print shipments
-		if (ADialog.ask(m_WindowNo, this, "PrintShipments"))
+		//	OK to print
+		if (ADialog.ask(m_WindowNo, this, genForm.getAskPrintMsg()))
 		{
-		//	info.append("\n\n" + Msg.getMsg(Env.getCtx(), "PrintShipments"));
 			this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			int retValue = ADialogDialog.A_CANCEL;	//	see also ProcessDialog.printShipments/Invoices
 			do
@@ -293,7 +291,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 			}
 			while (retValue == ADialogDialog.A_CANCEL);
 			this.setCursor(Cursor.getDefaultCursor());
-		}	//	OK to print shipments
+		}	//	OK to print
 
 		//
 		confirmPanelGen.getOKButton().setEnabled(true);

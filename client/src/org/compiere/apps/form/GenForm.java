@@ -28,6 +28,7 @@ public abstract class GenForm
 	private boolean m_selectionActive = true;
 	private String title;
 	private int reportEngineType;
+	private String askPrintMsg;
 	
 	private Trx trx;
 	private ProcessInfo pi;
@@ -107,12 +108,11 @@ public abstract class GenForm
 		this.reportEngineType = reportEngineType;
 	}
 	
-	/**
-	 * Called by org.adempiere.webui.panel.ADForm.openForm(int)
-	 * @return
-	 */
-	public Object getForm()
-	{
-		return null;
+	public String getAskPrintMsg() {
+		return askPrintMsg;
+	}
+
+	public void setAskPrintMsg(String askPrintMsg) {
+		this.askPrintMsg = askPrintMsg;
 	}
 }

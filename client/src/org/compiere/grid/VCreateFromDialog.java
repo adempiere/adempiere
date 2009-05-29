@@ -160,6 +160,8 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 				count++;
 		}
 		setStatusLine(count, null);
+		
+		createFrom.info();
 	}
 	
 	protected void setStatusLine(int selectedRowCount, String text) 
@@ -181,5 +183,10 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 	public CPanel getParameterPanel()
 	{
 		return parameterPanel;
+	}
+	
+	public ConfirmPanel getConfirmPanel()
+	{
+		return confirmPanel;
 	}
 }

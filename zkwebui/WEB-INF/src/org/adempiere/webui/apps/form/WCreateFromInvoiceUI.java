@@ -134,7 +134,6 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		parameterLayout.appendChild(center);
 		center.appendChild(parameterStdPanel);
 		
-		parameterStdPanel.appendChild(parameterStdLayout);
 		Rows rows = (Rows) parameterStdLayout.newRows();
 		Row row = rows.newRow();
 		row.appendChild(bPartnerLabel.rightAlign());
@@ -347,10 +346,10 @@ public class WCreateFromInvoiceUI extends CreateFromInvoice implements EventList
 		window.getWListbox().clear();
 		
 		//  Remove previous listeners
-		window.getWListbox().getModel().removeTableModelListener(window.getWListbox());
+		window.getWListbox().getModel().removeTableModelListener(window);
 		//  Set Model
 		ListModelTable model = new ListModelTable(data);
-		model.addTableModelListener(window.getWListbox());
+		model.addTableModelListener(window);
 		window.getWListbox().setData(model, getOISColumnNames());
 		//
 		

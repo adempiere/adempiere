@@ -26,7 +26,6 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MOrder;
 import org.compiere.model.MRMA;
-import org.compiere.print.ReportEngine;
 import org.compiere.swing.CLabel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -76,6 +75,7 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 
 		try
 		{
+			super.dynInit();
 			dynInit();
 			jbInit();
 		}
@@ -107,10 +107,7 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 	 *  @throws Exception
 	 */
 	void jbInit() throws Exception
-	{
-		setTitle("InOutGenerateInfo");
-		setReportEngineType(ReportEngine.SHIPMENT);
-		
+	{		
 		lWarehouse.setLabelFor(fWarehouse);
 		lBPartner.setLabelFor(fBPartner);
 		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
@@ -157,6 +154,8 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 		cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
 		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
 		cmbDocType.addActionListener(this);
+		
+		panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
 	}	//	fillPicks
 	
 	public void executeQuery()

@@ -25,6 +25,8 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
+import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.ICustomForm;
 import org.compiere.apps.form.InOutGen;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -44,7 +46,7 @@ import org.zkoss.zul.Space;
  * Generate Shipment (manual) view class
  * 
  */
-public class WInOutGen extends InOutGen implements EventListener, ValueChangeListener
+public class WInOutGen extends InOutGen implements ICustomForm, EventListener, ValueChangeListener
 {
 	private static WGenForm form;
 	
@@ -69,6 +71,7 @@ public class WInOutGen extends InOutGen implements EventListener, ValueChangeLis
 		
 		try
 		{
+			super.dynInit();
 			dynInit();
 			zkInit();
 			
@@ -146,6 +149,8 @@ public class WInOutGen extends InOutGen implements EventListener, ValueChangeLis
 		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
 		cmbDocType.addActionListener(form);
 		cmbDocType.setSelectedIndex(0);
+		
+		form.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
 	}	//	fillPicks
     
 	/**
@@ -223,7 +228,7 @@ public class WInOutGen extends InOutGen implements EventListener, ValueChangeLis
 		return generate(form.getStatusBar(), docTypeKNPair, docActionSelected);
 	}	//	generateShipments
 	
-	public Object getForm()
+	public ADForm getForm()
 	{
 		return form;
 	}

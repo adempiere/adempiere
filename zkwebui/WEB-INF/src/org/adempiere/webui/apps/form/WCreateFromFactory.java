@@ -40,7 +40,7 @@ public class WCreateFromFactory
 		s_registeredClasses = new HashMap<Integer, Class<? extends ICreateFrom>>();
 		s_registeredClasses.put(I_C_Invoice.Table_ID, WCreateFromInvoiceUI.class);
 		
-		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatement.class);
+		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatementUI.class);
 		s_registeredClasses.put(I_M_InOut.Table_ID, WCreateFromShipment.class);
 		s_registeredClasses.put(I_M_RMA.Table_ID, WCreateFromRMA.class);
 	}

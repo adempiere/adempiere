@@ -195,4 +195,9 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 	{
 		return parameterPanel;
 	}
+	
+	public ConfirmPanel getConfirmPanel()
+	{
+		return confirmPanel;
+	}
 }
