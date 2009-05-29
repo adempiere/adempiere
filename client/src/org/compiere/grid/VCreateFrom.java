@@ -114,7 +114,6 @@ public abstract class VCreateFrom extends CDialog
 	{
 		// Register defaults:
 		s_registeredClasses = new HashMap<Integer, Class<? extends VCreateFrom>>();
-		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipment.class);
 		//s_registeredClasses.put(I_C_PaySelection.Table_ID, null); //	ignore - will call process C_PaySelection_CreateFrom
 		s_registeredClasses.put(I_M_RMA.Table_ID, VCreateFromRMA.class);
 	}
@@ -394,13 +393,13 @@ public abstract class VCreateFrom extends CDialog
     			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
     	parameterStdPanel.add(sameWarehouseCb, new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
     			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
-        if (this instanceof VCreateFromShipment) {
+/*        if (this instanceof VCreateFromShipment) {
             parameterStdPanel.add(upcLabel, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
                     ,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
             parameterStdPanel.add(upcField, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
                     ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
         }
-
+*/
 
     	// Add RMA document selection to panel
     	parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 3, 1, 1, 0.0, 0.0

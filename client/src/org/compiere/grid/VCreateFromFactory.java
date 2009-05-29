@@ -50,7 +50,7 @@ public class VCreateFromFactory
 		s_registeredClasses.put(I_C_Invoice.Table_ID, VCreateFromInvoiceUI.class);
 		
 		s_registeredClasses.put(I_C_BankStatement.Table_ID, VCreateFromStatementUI.class);
-		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipment.class);
+		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipmentUI.class);
 		s_registeredClasses.put(I_M_RMA.Table_ID, VCreateFromRMA.class);
 	}
 	

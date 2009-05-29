@@ -91,10 +91,10 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		setColumnName(columnName);
 		m_mLocator = mLocator;
 		getComponent().setButtonImage("/images/Locator10.png");
-		
+
+		m_WindowNo = windowNo;	//Yvonne: move it b4 setDefault_Locator_ID()
 		setDefault_Locator_ID(); // set default locator, teo_sarca [ 1661546 ]
 		
-		m_WindowNo = windowNo;
 	}
 	
 	/**
