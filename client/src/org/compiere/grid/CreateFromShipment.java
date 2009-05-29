@@ -732,7 +732,6 @@ public class CreateFromShipment extends CreateFrom
 
 	}   //  saveInvoice
 
-	@Override
 	protected Vector<String> getOISColumnNames()
 	{
 		//  Header Info

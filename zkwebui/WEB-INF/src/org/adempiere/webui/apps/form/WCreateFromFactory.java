@@ -52,7 +52,7 @@ public class WCreateFromFactory
 		
 		s_registeredClasses.put(I_C_BankStatement.Table_ID, WCreateFromStatementUI.class);
 		s_registeredClasses.put(I_M_InOut.Table_ID, WCreateFromShipmentUI.class);
-		s_registeredClasses.put(I_M_RMA.Table_ID, WCreateFromRMA.class);
+		s_registeredClasses.put(I_M_RMA.Table_ID, WCreateFromRMAUI.class);
 	}
 	
 	/**

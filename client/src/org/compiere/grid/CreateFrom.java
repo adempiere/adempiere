@@ -130,24 +130,6 @@ public abstract class CreateFrom implements ICreateFrom
 	}   //  initBPartnerOIS
 	
 	/**
-	 *  Load PBartner dependent Order/Invoice/Shipment Field.
-	 *  @param C_BPartner_ID BPartner
-	 */
-	protected ArrayList<KeyNamePair> loadRMAData (int C_BPartner_ID)
-	{
-		return null;
-	}
-	
-	/**
-	 *  Load PBartner dependent Order/Invoice/Shipment Field.
-	 *  @param C_BPartner_ID BPartner
-	 */
-	protected ArrayList<KeyNamePair> loadShipmentData (int C_BPartner_ID)
-	{
-		return null;
-	}
-	
-	/**
 	 *  Load Data - Order
 	 *  @param C_Order_ID Order
 	 *  @param forInvoice true if for invoice vs. delivery qty
@@ -233,36 +215,6 @@ public abstract class CreateFrom implements ICreateFrom
 		
 		return data;
 	}   //  LoadOrder
-	
-	protected Vector<Vector<Object>> getRMAData(int M_RMA_ID)
-	{
-		return null;
-	}
-	
-	protected Vector<Vector<Object>> getShipmentData(int M_InOut_ID)
-	{
-		return null;
-	}
-	
-	/**
-	 *  Load Order/Invoice/Shipment data into Table
-	 *  @param data data
-	 */
-	protected Vector<String> getOISColumnNames()
-	{
-		//  Header Info
-		Vector<String> columnNames = new Vector<String>(7);
-		columnNames.add(Msg.getMsg(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Quantity"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		columnNames.add(Msg.getElement(Env.getCtx(), "VendorProductNo", false));
-		columnNames.add(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
-		columnNames.add(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
-		columnNames.add(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
-		
-		return columnNames;
-	}   //  loadOrder
 	
 	public void showWindow()
 	{

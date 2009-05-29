@@ -480,7 +480,6 @@ public class CreateFromInvoice extends CreateFrom
 		return true;
 	}   //  saveInvoice
 
-	@Override
 	protected Vector<String> getOISColumnNames()
 	{
 		//  Header Info

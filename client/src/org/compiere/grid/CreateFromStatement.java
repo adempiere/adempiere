@@ -316,7 +316,6 @@ public class CreateFromStatement extends CreateFrom
 		return true;
 	}   //  save
 	
-	@Override
 	protected Vector<String> getOISColumnNames()
 	{
 		//  Header Info
