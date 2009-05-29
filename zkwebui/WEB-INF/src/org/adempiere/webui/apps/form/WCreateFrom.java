@@ -98,9 +98,7 @@ public abstract class WCreateFrom extends Window
 		int AD_Table_ID = Env.getContextAsInt(Env.getCtx(), mTab.getWindowNo(), "BaseTable_ID");
 
 		WCreateFrom retValue = null;
-		if (AD_Table_ID == 392)             //  C_BankStatement
-			retValue = new WCreateFromStatement (mTab);
-		else if (AD_Table_ID == 319)        //  M_InOut
+		if (AD_Table_ID == 319)        //  M_InOut
 			retValue = new WCreateFromShipment (mTab);
 		else if (AD_Table_ID == 426)		//	C_PaySelection
 			return null;	//	ignore - will call process C_PaySelection_CreateFrom

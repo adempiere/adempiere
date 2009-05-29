@@ -54,8 +54,6 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_C_BankStatement;
-import org.compiere.model.I_C_Invoice;
 import org.compiere.model.I_M_InOut;
 import org.compiere.model.I_M_RMA;
 import org.compiere.model.MLookup;
@@ -116,7 +114,6 @@ public abstract class VCreateFrom extends CDialog
 	{
 		// Register defaults:
 		s_registeredClasses = new HashMap<Integer, Class<? extends VCreateFrom>>();
-		s_registeredClasses.put(I_C_BankStatement.Table_ID, VCreateFromStatement.class);
 		s_registeredClasses.put(I_M_InOut.Table_ID, VCreateFromShipment.class);
 		//s_registeredClasses.put(I_C_PaySelection.Table_ID, null); //	ignore - will call process C_PaySelection_CreateFrom
 		s_registeredClasses.put(I_M_RMA.Table_ID, VCreateFromRMA.class);
