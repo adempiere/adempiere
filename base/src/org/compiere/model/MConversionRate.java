@@ -21,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -30,6 +32,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 
 /**
  *	Currency Conversion Rate Model
@@ -45,7 +48,6 @@ public class MConversionRate extends X_C_Conversion_Rate
 	private static final long serialVersionUID = -2753651400799848008L;
 	/**	Logger						*/
 	private static CLogger		s_log = CLogger.getCLogger (MConversionRate.class);
-
 
 	/**
 	 *	Convert an amount to base Currency
@@ -122,6 +124,72 @@ public class MConversionRate extends X_C_Conversion_Rate
 		return retValue;
 	}	//	convert
 
+	/**
+	 * Sets system spot conversion rate for a single day.
+	 * Checks for overlaps of spot rate is made. If an overlap is found, the overlapping
+	 * rate is removed.
+	 * 
+	 *  @param CurFrom_ISO		Currency from ISO code
+	 *  @param CurTo_ISO		Currency to ISO code
+	 *  @param spotDate			If null, today's date is used.
+	 *  @param multiplyRate		CurFrom_ISO * MultiplyRate = amount in CurTo_ISO
+	 */
+	public static void setRate(String CurFrom_ISO, String CurTo_ISO, java.util.Date spotDate, 
+							   BigDecimal MultiplyRate) throws Exception {
+		
+		String trxName = Trx.createTrxName();
+		Trx trx = Trx.get(trxName, true);
+		Properties ctx = Env.getCtx();
+		MCurrency curFrom = MCurrency.get(ctx, CurFrom_ISO);
+		if (curFrom==null) throw new Exception("Invalid currency " + CurFrom_ISO);
+		MCurrency curTo = MCurrency.get(ctx, CurTo_ISO);
+		if (curTo==null) throw new Exception("Invalid currency " + CurTo_ISO);
+		
+		java.sql.Timestamp startTs;
+		if (spotDate==null) {
+			spotDate = Calendar.getInstance().getTime();
+		}
+		Calendar spotCal = Calendar.getInstance();
+		spotCal.setTime(spotDate);
+		spotCal.set(Calendar.HOUR_OF_DAY, 0);
+		spotCal.set(Calendar.MINUTE, 0);
+		spotCal.set(Calendar.SECOND, 0);
+		spotCal.set(Calendar.MILLISECOND, 0);
+		startTs = new java.sql.Timestamp(spotCal.getTimeInMillis());
+		
+		MConversionRate rate, updateRate = null;
+		java.util.List<MConversionRate> rates = new Query(ctx, MConversionRate.Table_Name, 
+				"C_Currency_ID=? and C_Currency_ID_To=? and ValidFrom>=? and ValidTo<=? and C_ConversionType_ID=?",
+				trxName)
+				.setParameters(new Object[]{curFrom.get_ID(), curTo.get_ID(), startTs, startTs, MConversionType.TYPE_SPOT})
+				.list();
+
+		if (rates.size()>0) {
+			for (Iterator<MConversionRate> it = rates.iterator(); it.hasNext();) {
+				rate = it.next();
+				if (!rate.getValidFrom().equals(rate.getValidTo())) {
+					// Remove this since it's for more than one day
+					rate.deleteEx(true, trxName);
+				} else {
+					updateRate = rate;
+				}
+			}
+		}
+		if (updateRate==null) {
+			updateRate = new MConversionRate(ctx, 0, trxName);
+			updateRate.setAD_Client_ID(0);
+			updateRate.setAD_Org_ID(0);
+			updateRate.setC_Currency_ID(curFrom.get_ID());
+			updateRate.setC_Currency_ID_To(curTo.get_ID());
+			updateRate.setValidFrom(startTs);
+			updateRate.setValidTo(startTs);
+			updateRate.setC_ConversionType_ID(MConversionType.TYPE_SPOT);
+		}
+		updateRate.setMultiplyRate(MultiplyRate);
+		updateRate.saveEx(trxName);
+		trx.commit(true);
+	}
+	
 	/**
 	 *	Get Currency Conversion Rate
 	 *  @param  CurFrom_ID  The C_Currency_ID FROM

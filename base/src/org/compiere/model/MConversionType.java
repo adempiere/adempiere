@@ -36,6 +36,15 @@ public class MConversionType extends X_C_ConversionType
 	private static final long serialVersionUID = 7198388106444590667L;
 
 	/**
+	 * These static variables won't have to change unless we change the AD.
+	 * I've added them here for convenience. Daniel Tamm [usrdno] 090528
+	 */
+	public static final int TYPE_SPOT = 114;
+	public static final int TYPE_PERIOD_END = 115;
+	public static final int TYPE_AVERAGE = 200;
+	public static final int TYPE_COMPANY = 201;
+	
+	/**
 	 * 	Get Default Conversion Rate for Client/Org
 	 *	@param AD_Client_ID client
 	 *	@return C_ConversionType_ID or 0 if not found
