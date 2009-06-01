@@ -52,9 +52,9 @@ import org.compiere.util.ValueNamePair;
 public class CConnection implements Serializable, Cloneable
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -3653060934380586381L;
+	private static final long serialVersionUID = -7893119456331485444L;
 	/** Connection      */
 	private static CConnection	s_cc = null;
 	/** Logger			*/
