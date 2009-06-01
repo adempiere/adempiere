@@ -30,6 +30,8 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRMA;
+import org.compiere.model.MRMALine;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -41,12 +43,12 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version  $Id: VCreateFromInvoice.java,v 1.4 2006/07/30 00:51:28 jjanke Exp $
- * 
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1896947 ] Generate invoice from Order error
  * 			<li>BF [ 2007837 ] VCreateFrom.save() should run in trx
  */
-public class CreateFromInvoice extends CreateFrom 
+public class CreateFromInvoice extends CreateFrom
 {
 	/**
 	 *  Protected Constructor
@@ -66,7 +68,7 @@ public class CreateFromInvoice extends CreateFrom
 	{
 		log.config("");
 		setTitle(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false) + " .. " + Msg.translate(Env.getCtx(), "CreateFrom"));
-		
+
 		return true;
 	}   //  dynInit
 
@@ -77,7 +79,7 @@ public class CreateFromInvoice extends CreateFrom
 	protected ArrayList<KeyNamePair> loadShipmentData (int C_BPartner_ID)
 	{
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
-		
+
 		//	Display
 		StringBuffer display = new StringBuffer("s.DocumentNo||' - '||")
 			.append(DB.TO_CHAR("s.MovementDate", DisplayType.Date, Env.getAD_Language(Env.getCtx())));
@@ -111,10 +113,10 @@ public class CreateFromInvoice extends CreateFrom
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		
+
 		return list;
 	}
-	
+
 	/**
 	 *  Load PBartner dependent Order/Invoice/Shipment Field.
 	 *  @param C_BPartner_ID BPartner
@@ -164,6 +166,10 @@ public class CreateFromInvoice extends CreateFrom
 		if (inout.getC_Order_ID() != 0)
 			p_order = new MOrder (Env.getCtx(), inout.getC_Order_ID(), null);
 
+		m_rma = null;
+		if (inout.getM_RMA_ID() != 0)
+			m_rma = new MRMA (Env.getCtx(), inout.getM_RMA_ID(), null);
+
 		//
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = new StringBuffer("SELECT "	//	QtyEntered
@@ -172,18 +178,18 @@ public class CreateFromInvoice extends CreateFrom
 			+ " l.M_Product_ID, p.Name, po.VendorProductNo, l.M_InOutLine_ID, l.Line,"        //  5..9
 			+ " l.C_OrderLine_ID " //  10
 			+ " FROM M_InOutLine l "
-			);                             		
+			);
 		if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
 			sql.append(" LEFT OUTER JOIN C_UOM uom ON (l.C_UOM_ID=uom.C_UOM_ID)");
 		else
 			sql.append(" LEFT OUTER JOIN C_UOM_Trl uom ON (l.C_UOM_ID=uom.C_UOM_ID AND uom.AD_Language='")
 				.append(Env.getAD_Language(Env.getCtx())).append("')");
-		
+
 		sql.append(" LEFT OUTER JOIN M_Product p ON (l.M_Product_ID=p.M_Product_ID)")
 			.append(" INNER JOIN M_InOut io ON (l.M_InOut_ID=io.M_InOut_ID)")
 			.append(" LEFT OUTER JOIN M_Product_PO po ON (l.M_Product_ID = po.M_Product_ID AND io.C_BPartner_ID = po.C_BPartner_ID)")
 			.append(" LEFT OUTER JOIN M_MatchInv mi ON (l.M_InOutLine_ID=mi.M_InOutLine_ID)")
-			
+
 			.append(" WHERE l.M_InOut_ID=? AND l.MovementQty<>0 ")
 			.append("GROUP BY l.MovementQty, l.QtyEntered/l.MovementQty, "
 				+ "l.C_UOM_ID, COALESCE(uom.UOMSymbol, uom.Name), "
@@ -225,10 +231,10 @@ public class CreateFromInvoice extends CreateFrom
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
-		
+
 		return data;
 	}   //  loadShipment
-	
+
 	/**
 	 * Load RMA details
 	 * @param M_RMA_ID RMA
@@ -236,14 +242,14 @@ public class CreateFromInvoice extends CreateFrom
 	protected Vector<Vector<Object>> getRMAData(int M_RMA_ID)
 	{
 	    p_order = null;
-	        
+
 //	    MRMA m_rma = new MRMA(Env.getCtx(), M_RMA_ID, null);
-	        
+
 	    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 	    StringBuffer sqlStmt = new StringBuffer();
-	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
+	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - COALESCE(rl.QtyInvoiced, 0), iol.M_Product_ID, p.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
 	    sqlStmt.append("FROM M_RMALine rl INNER JOIN M_InOutLine iol ON rl.M_InOutLine_ID=iol.M_InOutLine_ID ");
-	          
+
 	    if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
         {
 	        sqlStmt.append("LEFT OUTER JOIN C_UOM uom ON (uom.C_UOM_ID=iol.C_UOM_ID) ");
@@ -256,9 +262,9 @@ public class CreateFromInvoice extends CreateFrom
 	    sqlStmt.append("LEFT OUTER JOIN M_Product p ON p.M_Product_ID=iol.M_Product_ID ");
 	    sqlStmt.append("WHERE rl.M_RMA_ID=? ");
 	    sqlStmt.append("AND rl.M_INOUTLINE_ID IS NOT NULL");
-	           
+
 	    sqlStmt.append(" UNION ");
-	            
+
 	    sqlStmt.append("SELECT rl.M_RMALine_ID, rl.line, rl.Qty - rl.QtyDelivered, 0, c.Name, uom.C_UOM_ID, COALESCE(uom.UOMSymbol,uom.Name) ");
 	    sqlStmt.append("FROM M_RMALine rl INNER JOIN C_Charge c ON c.C_Charge_ID = rl.C_Charge_ID ");
 	    if (Env.isBaseLanguage(Env.getCtx(), "C_UOM"))
@@ -272,7 +278,7 @@ public class CreateFromInvoice extends CreateFrom
         }
 	    sqlStmt.append("WHERE rl.M_RMA_ID=? ");
 	    sqlStmt.append("AND rl.C_Charge_ID IS NOT NULL");
-	         
+
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 	    try
@@ -281,7 +287,7 @@ public class CreateFromInvoice extends CreateFrom
 	        pstmt.setInt(1, M_RMA_ID);
 	        pstmt.setInt(2, M_RMA_ID);
 	        rs = pstmt.executeQuery();
-	               
+
 	        while (rs.next())
             {
 	            Vector<Object> line = new Vector<Object>(7);
@@ -309,7 +315,7 @@ public class CreateFromInvoice extends CreateFrom
 	    	DB.close(rs, pstmt);
 	    	rs = null; pstmt = null;
 	    }
-	    
+
 	    return data;
 	}
 
@@ -320,7 +326,7 @@ public class CreateFromInvoice extends CreateFrom
 	{
 
 	}   //  infoInvoice
-	
+
 	protected void configureMiniTable (IMiniTable miniTable)
 	{
 		miniTable.setColumnClass(0, Boolean.class, false);      //  0-Selection
@@ -351,19 +357,25 @@ public class CreateFromInvoice extends CreateFrom
 			invoice.setOrder(p_order);	//	overwrite header values
 			invoice.saveEx();
 		}
-		
+
+		if (m_rma != null)
+		{
+			invoice.setM_RMA_ID(m_rma.getM_RMA_ID());
+			invoice.saveEx();
+		}
+
 		MInOut inout = null;
 //		if (m_M_InOut_ID > 0)
 //		{
 //			inout = new MInOut(Env.getCtx(), m_M_InOut_ID, trxName);
 //		}
-		if (inout != null && inout.getM_InOut_ID() != 0 
+		if (inout != null && inout.getM_InOut_ID() != 0
 			&& inout.getC_Invoice_ID() == 0)	//	only first time
 		{
 			inout.setC_Invoice_ID(C_Invoice_ID);
 			inout.saveEx();
 		}
-		
+
 		//  Lines
 		for (int i = 0; i < miniTable.getRowCount(); i++)
 		{
@@ -371,7 +383,7 @@ public class CreateFromInvoice extends CreateFrom
 			{
 				//  variable values
 				BigDecimal QtyEntered = (BigDecimal)miniTable.getValueAt(i, 1);              //  1-Qty
-				
+
 				KeyNamePair pp = (KeyNamePair)miniTable.getValueAt(i, 2);   //  2-UOM
 				int C_UOM_ID = pp.getKey();
 				//
@@ -388,6 +400,12 @@ public class CreateFromInvoice extends CreateFrom
 				pp = (KeyNamePair)miniTable.getValueAt(i, 6);               //  6-Shipment
 				if (pp != null)
 					M_InOutLine_ID = pp.getKey();
+				//
+				int M_RMALine_ID = 0;
+				pp = (KeyNamePair)miniTable.getValueAt(i, 7);               //  7-RMALine
+				if (pp != null)
+					M_RMALine_ID = pp.getKey();
+
 				//	Precision of Qty UOM
 				int precision = 2;
 				if (M_Product_ID != 0)
@@ -398,7 +416,7 @@ public class CreateFromInvoice extends CreateFrom
 				QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
 				//
 				log.fine("Line QtyEntered=" + QtyEntered
-					+ ", Product_ID=" + M_Product_ID 
+					+ ", Product_ID=" + M_Product_ID
 					+ ", OrderLine_ID=" + C_OrderLine_ID + ", InOutLine_ID=" + M_InOutLine_ID);
 
 				//	Create new Invoice Line
@@ -410,6 +428,11 @@ public class CreateFromInvoice extends CreateFrom
 				MOrderLine orderLine = null;
 				if (C_OrderLine_ID != 0)
 					orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, trxName);
+				//
+				MRMALine rmaLine = null;
+				if (M_RMALine_ID > 0)
+					rmaLine = new MRMALine (Env.getCtx(), M_RMALine_ID, null);
+				//
 				MInOutLine inoutLine = null;
 				if (M_InOutLine_ID != 0)
 				{
@@ -420,10 +443,10 @@ public class CreateFromInvoice extends CreateFrom
 						orderLine = new MOrderLine (Env.getCtx(), C_OrderLine_ID, trxName);
 					}
 				}
-				else
+				else if (C_OrderLine_ID > 0)
 				{
 					String whereClause = "EXISTS (SELECT 1 FROM M_InOut io WHERE io.M_InOut_ID=M_InOutLine.M_InOut_ID AND io.DocStatus IN ('CO','CL'))";
-					MInOutLine[] lines = MInOutLine.getOfOrderLine(Env.getCtx(), 
+					MInOutLine[] lines = MInOutLine.getOfOrderLine(Env.getCtx(),
 						C_OrderLine_ID, whereClause, trxName);
 					log.fine ("Receipt Lines with OrderLine = #" + lines.length);
 					if (lines.length > 0)
@@ -444,7 +467,33 @@ public class CreateFromInvoice extends CreateFrom
 							M_InOutLine_ID = inoutLine.getM_InOutLine_ID();
 						}
 					}
-				}	//	get Ship info
+				}
+				else if (M_RMALine_ID != 0)
+				{
+					String whereClause = "EXISTS (SELECT 1 FROM M_InOut io WHERE io.M_InOut_ID=M_InOutLine.M_InOut_ID AND io.DocStatus IN ('CO','CL'))";
+					MInOutLine[] lines = MInOutLine.getOfRMALine(Env.getCtx(), M_RMALine_ID, whereClause, null);
+					log.fine ("Receipt Lines with RMALine = #" + lines.length);
+					if (lines.length > 0)
+					{
+						for (int j = 0; j < lines.length; j++)
+						{
+							MInOutLine line = lines[j];
+							if (rmaLine.getQty().compareTo(QtyEntered) == 0)
+							{
+								inoutLine = line;
+								M_InOutLine_ID = inoutLine.getM_InOutLine_ID();
+								break;
+							}
+						}
+						if (rmaLine == null)
+						{
+							inoutLine = lines[0];	//	first as default
+							M_InOutLine_ID = inoutLine.getM_InOutLine_ID();
+						}
+					}
+
+				}
+				//	get Ship info
 
 				//	Shipment Info
 				if (inoutLine != null)
@@ -472,6 +521,14 @@ public class CreateFromInvoice extends CreateFrom
 						invoiceLine.setPrice();
 						invoiceLine.setTax();
 					}
+
+					//RMA Info
+					if (rmaLine != null)
+					{
+						invoiceLine.setRMALine(rmaLine);		//	overwrites
+					}
+					else
+						log.fine("No RMA Line");
 				}
 				invoiceLine.saveEx();
 			}   //   if selected
@@ -492,7 +549,7 @@ public class CreateFromInvoice extends CreateFrom
 	    columnNames.add(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
 	    columnNames.add(Msg.getElement(Env.getCtx(), "M_InOut_ID", false));
 	    columnNames.add(Msg.getElement(Env.getCtx(), "M_RMA_ID", false));
-	    
+
 	    return columnNames;
 	}
 

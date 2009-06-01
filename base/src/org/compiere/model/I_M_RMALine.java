@@ -173,6 +173,19 @@ public interface I_M_RMALine
 
 	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
+    /** Column name M_RMALine_ID */
+    public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
+
+	/** Set RMA Line.
+	  * Return Material Authorization Line
+	  */
+	public void setM_RMALine_ID (int M_RMALine_ID);
+
+	/** Get RMA Line.
+	  * Return Material Authorization Line
+	  */
+	public int getM_RMALine_ID();
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -187,19 +200,6 @@ public interface I_M_RMALine
 	public int getM_RMA_ID();
 
 	public I_M_RMA getM_RMA() throws RuntimeException;
-
-    /** Column name M_RMALine_ID */
-    public static final String COLUMNNAME_M_RMALine_ID = "M_RMALine_ID";
-
-	/** Set RMA Line.
-	  * Return Material Authorization Line
-	  */
-	public void setM_RMALine_ID (int M_RMALine_ID);
-
-	/** Get RMA Line.
-	  * Return Material Authorization Line
-	  */
-	public int getM_RMALine_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -239,6 +239,28 @@ public interface I_M_RMALine
 	  * Delivered Quantity
 	  */
 	public BigDecimal getQtyDelivered();
+
+    /** Column name QtyInvoiced */
+    public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
+
+	/** Set Quantity Invoiced.
+	  * Invoiced Quantity
+	  */
+	public void setQtyInvoiced (BigDecimal QtyInvoiced);
+
+	/** Get Quantity Invoiced.
+	  * Invoiced Quantity
+	  */
+	public BigDecimal getQtyInvoiced();
+
+    /** Column name Ref_RMALine_ID */
+    public static final String COLUMNNAME_Ref_RMALine_ID = "Ref_RMALine_ID";
+
+	/** Set Referenced RMA Line	  */
+	public void setRef_RMALine_ID (int Ref_RMALine_ID);
+
+	/** Get Referenced RMA Line	  */
+	public int getRef_RMALine_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

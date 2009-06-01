@@ -29,8 +29,8 @@ import org.compiere.util.Env;
 
 
 /**
- *	Shipment/Receipt Callouts	
- *	
+ *	Shipment/Receipt Callouts
+ *
  *  @author Jorg Janke
  *  @version $Id: CalloutInOut.java,v 1.7 2006/07/30 00:51:05 jjanke Exp $
  *  @author victor.perez@e-evolution.com www.e-evolution.com [ 1867464 ] http://sourceforge.net/tracker/index.php?func=detail&aid=1867464&group_id=176962&atid=879332
@@ -54,7 +54,7 @@ public class CalloutInOut extends CalloutEngine
 		//	No Callout Active to fire dependent values
 		if (isCalloutActive())	//	prevent recursive
 			return "";
-		
+
 		//	Get Details
 		MOrder order = new MOrder (ctx, C_Order_ID.intValue(), null);
 		if (order.get_ID() != 0)
@@ -77,15 +77,15 @@ public class CalloutInOut extends CalloutEngine
 			mTab.setValue("FreightAmt", order.getFreightAmt());
 
 			mTab.setValue("C_BPartner_ID", new Integer(order.getC_BPartner_ID()));
-			
+
 			//[ 1867464 ]
 			mTab.setValue("C_BPartner_Location_ID", new Integer(order.getC_BPartner_Location_ID()));
 			mTab.setValue("AD_User_ID", new Integer(order.getAD_User_ID()));
 		}
 		return "";
 	}	//	order
-	
-	
+
+
 	/**
 	 *	InOut - DocType.
 	 *			- sets MovementType
@@ -107,7 +107,7 @@ public class CalloutInOut extends CalloutEngine
 			+ "s.AD_Sequence_ID, s.StartNewYear, s.DateColumn, d.IsSOTrx " //4..7
 			+ "FROM C_DocType d "
 			+ "LEFT OUTER JOIN AD_Sequence s ON (d.DocNoSequence_ID=s.AD_Sequence_ID) "
-			+ "WHERE C_DocType_ID=?";		//	1			
+			+ "WHERE C_DocType_ID=?";		//	1
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 			try
@@ -123,26 +123,28 @@ public class CalloutInOut extends CalloutEngine
 				// BF [2708789] Read IsSOTrx from C_DocType
 				String trxFlag = rs.getString(7);
 				if (DocBaseType.equals("MMS"))					//	Material Shipments
-				/**solve 1648131 bug vpj-cd e-evolution */ 
+				/**solve 1648131 bug vpj-cd e-evolution */
 				{
 						boolean IsSOTrx = "Y".equals(trxFlag);
 						if (IsSOTrx)
 							mTab.setValue("MovementType", "C-");	// Customer Shipments
-						else	
+						else
 							mTab.setValue("MovementType", "V-");	// Vendor Return
-										
+
 				}
-				/**END vpj-cd e-evolution */	
+				/**END vpj-cd e-evolution */
 				else if (DocBaseType.equals("MMR"))				//	Material Receipts
-			    /**solve 1648131 bug vpj-cd e-evolution  */	
+			    /**solve 1648131 bug vpj-cd e-evolution  */
 				{
 						boolean IsSOTrx = "Y".equals(trxFlag);
 						if (IsSOTrx)
-							mTab.setValue("MovementType", "C+"); // Customer Return	
-						else	
+							mTab.setValue("MovementType", "C+"); // Customer Return
+						else
 							mTab.setValue("MovementType", "V+"); // Vendor Receipts
 				}
-				/**END vpj-cd e-evolution */				
+				if (!(trxFlag.equals(mTab.getValue("IsSOTrx"))))
+					mTab.setValue("IsSOTrx", trxFlag);
+				/**END vpj-cd e-evolution */
 
 				//	DocumentNo
 				if (rs.getString("IsDocNoControlled").equals("Y"))
@@ -151,9 +153,9 @@ public class CalloutInOut extends CalloutEngine
 					{
 						String dateColumn = rs.getString(6);
 						int AD_Sequence_ID = rs.getInt(4);
-						mTab.setValue("DocumentNo", 
-								"<" 
-								+ MSequence.getPreliminaryNoByYear(mTab, AD_Sequence_ID, dateColumn, null) 
+						mTab.setValue("DocumentNo",
+								"<"
+								+ MSequence.getPreliminaryNoByYear(mTab, AD_Sequence_ID, dateColumn, null)
 								+ ">");
 					}
 					else
@@ -214,7 +216,7 @@ public class CalloutInOut extends CalloutEngine
 				//[ 1867464 ]
 				boolean IsSOTrx = "Y".equals(Env.getContext(ctx, WindowNo, "IsSOTrx"));
 				if (!IsSOTrx)
-				{	
+				{
 					//	Location
 					Integer ii = new Integer(rs.getInt("C_BPartner_Location_ID"));
 					if (rs.wasNull())
@@ -250,7 +252,7 @@ public class CalloutInOut extends CalloutEngine
 		{
 			DB.close(rs, pstmt);
 		}
-			
+
 		return "";
 	}	//	bpartner
 
@@ -315,7 +317,7 @@ public class CalloutInOut extends CalloutEngine
 		return "";
 	}	//	warehouse
 
-	
+
 	/**************************************************************************
 	 * 	OrderLine Callout
 	 *	@param ctx context
@@ -330,7 +332,7 @@ public class CalloutInOut extends CalloutEngine
 		Integer C_OrderLine_ID = (Integer)value;
 		if (C_OrderLine_ID == null || C_OrderLine_ID.intValue() == 0)
 			return "";
-		
+
 		//	Get Details
 		MOrderLine ol = new MOrderLine (ctx, C_OrderLine_ID.intValue(), null);
 		if (ol.get_ID() != 0)
@@ -375,13 +377,13 @@ public class CalloutInOut extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-		
+
 		//	Set Attribute & Locator
 		int M_Locator_ID = 0;
 		if (Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
 			&& Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
 		{
-			mTab.setValue("M_AttributeSetInstance_ID", 
+			mTab.setValue("M_AttributeSetInstance_ID",
 				new Integer(Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
 			M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, Env.TAB_INFO, "M_Locator_ID");
 			if (M_Locator_ID != 0)
@@ -436,7 +438,7 @@ public class CalloutInOut extends CalloutEngine
 		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
 		//	log.log(Level.WARNING,"qty - init - M_Product_ID=" + M_Product_ID);
 		BigDecimal MovementQty, QtyEntered;
-		
+
 		//	No Product
 		if (M_Product_ID == 0)
 		{
@@ -451,19 +453,19 @@ public class CalloutInOut extends CalloutEngine
 			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
-				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
-					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
+				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID
+					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);
 				QtyEntered = QtyEntered1;
 				mTab.setValue("QtyEntered", QtyEntered);
 			}
-			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID,
 				C_UOM_To_ID, QtyEntered);
 			if (MovementQty == null)
 				MovementQty = QtyEntered;
 			boolean conversion = QtyEntered.compareTo(MovementQty) != 0;
-			log.fine("UOM=" + C_UOM_To_ID 
+			log.fine("UOM=" + C_UOM_To_ID
 				+ ", QtyEntered=" + QtyEntered
-				+ " -> " + conversion 
+				+ " -> " + conversion
 				+ " MovementQty=" + MovementQty);
 			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
 			mTab.setValue("MovementQty", MovementQty);
@@ -482,19 +484,19 @@ public class CalloutInOut extends CalloutEngine
 			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
-				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
-					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);  
+				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID
+					+ "; QtyEntered=" + QtyEntered + "->" + QtyEntered1);
 				QtyEntered = QtyEntered1;
 				mTab.setValue("QtyEntered", QtyEntered);
 			}
-			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+			MovementQty = MUOMConversion.convertProductFrom (ctx, M_Product_ID,
 				C_UOM_To_ID, QtyEntered);
 			if (MovementQty == null)
 				MovementQty = QtyEntered;
 			boolean conversion = QtyEntered.compareTo(MovementQty) != 0;
-			log.fine("UOM=" + C_UOM_To_ID 
+			log.fine("UOM=" + C_UOM_To_ID
 				+ ", QtyEntered=" + QtyEntered
-				+ " -> " + conversion 
+				+ " -> " + conversion
 				+ " MovementQty=" + MovementQty);
 			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
 			mTab.setValue("MovementQty", MovementQty);
@@ -504,23 +506,23 @@ public class CalloutInOut extends CalloutEngine
 		{
 			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 			MovementQty = (BigDecimal)value;
-			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision(); 
+			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision();
 			BigDecimal MovementQty1 = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
 			if (MovementQty.compareTo(MovementQty1) != 0)
 			{
-				log.fine("Corrected MovementQty " 
-					+ MovementQty + "->" + MovementQty1);  
+				log.fine("Corrected MovementQty "
+					+ MovementQty + "->" + MovementQty1);
 				MovementQty = MovementQty1;
 				mTab.setValue("MovementQty", MovementQty);
 			}
-			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
+			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID,
 				C_UOM_To_ID, MovementQty);
 			if (QtyEntered == null)
 				QtyEntered = MovementQty;
 			boolean conversion = MovementQty.compareTo(QtyEntered) != 0;
-			log.fine("UOM=" + C_UOM_To_ID 
+			log.fine("UOM=" + C_UOM_To_ID
 				+ ", MovementQty=" + MovementQty
-				+ " -> " + conversion 
+				+ " -> " + conversion
 				+ " QtyEntered=" + QtyEntered);
 			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
 			mTab.setValue("QtyEntered", QtyEntered);
@@ -551,7 +553,7 @@ public class CalloutInOut extends CalloutEngine
 		int M_Locator_ID = Env.getContextAsInt(ctx, WindowNo, "M_Locator_ID");
 		log.fine("M_Product_ID=" + M_Product_ID
 			+ ", M_ASI_ID=" + M_ASI_ID
-			+ " - M_Warehouse_ID=" + M_Warehouse_ID 
+			+ " - M_Warehouse_ID=" + M_Warehouse_ID
 			+ ", M_Locator_ID=" + M_Locator_ID);
 		//	Check Selection
 		int M_AttributeSetInstance_ID =	Env.getContextAsInt(Env.getCtx(), WindowNo, Env.TAB_INFO, "M_AttributeSetInstance_ID");

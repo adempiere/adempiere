@@ -279,19 +279,6 @@ public interface I_M_RMA
 	  */
 	public boolean isSOTrx();
 
-    /** Column name M_RMA_ID */
-    public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
-
-	/** Set RMA.
-	  * Return Material Authorization
-	  */
-	public void setM_RMA_ID (int M_RMA_ID);
-
-	/** Get RMA.
-	  * Return Material Authorization
-	  */
-	public int getM_RMA_ID();
-
     /** Column name M_RMAType_ID */
     public static final String COLUMNNAME_M_RMAType_ID = "M_RMAType_ID";
 
@@ -306,6 +293,19 @@ public interface I_M_RMA
 	public int getM_RMAType_ID();
 
 	public I_M_RMAType getM_RMAType() throws RuntimeException;
+
+    /** Column name M_RMA_ID */
+    public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
+
+	/** Set RMA.
+	  * Return Material Authorization
+	  */
+	public void setM_RMA_ID (int M_RMA_ID);
+
+	/** Get RMA.
+	  * Return Material Authorization
+	  */
+	public int getM_RMA_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -341,6 +341,15 @@ public interface I_M_RMA
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name Ref_RMA_ID */
+    public static final String COLUMNNAME_Ref_RMA_ID = "Ref_RMA_ID";
+
+	/** Set Referenced RMA	  */
+	public void setRef_RMA_ID (int Ref_RMA_ID);
+
+	/** Get Referenced RMA	  */
+	public int getRef_RMA_ID();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

@@ -24,37 +24,40 @@ import java.util.logging.Level;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.GridTab;
 import org.compiere.model.MOrder;
+import org.compiere.model.MRMA;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
 
 public abstract class CreateFrom implements ICreateFrom
 {
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
-	
+
 	/** Loaded Order            */
 	protected MOrder p_order = null;
+
+	/**  Loaded RMA             */
+	protected MRMA m_rma = null;
 
 	private GridTab gridTab;
 
 	private String title;
-	
+
 	private boolean initOK = false;
-	
+
 	public CreateFrom(GridTab gridTab) {
 		this.gridTab = gridTab;
 	}
-	
+
 	public abstract boolean dynInit() throws Exception;
 
 	public abstract void info();
 
 	public abstract boolean save(IMiniTable miniTable, String trxName);
-	
+
 	/**
 	 *	Init OK to be able to make changes?
 	 *  @return on if initialized
@@ -63,12 +66,12 @@ public abstract class CreateFrom implements ICreateFrom
 	{
 		return initOK;
 	}
-	
+
 	public void setInitOK(boolean initOK)
 	{
 		this.initOK = initOK;
 	}
-	
+
 	/**
 	 *  Load PBartner dependent Order/Invoice/Shipment Field.
 	 *  @param C_BPartner_ID BPartner
@@ -77,7 +80,7 @@ public abstract class CreateFrom implements ICreateFrom
 	protected ArrayList<KeyNamePair> loadOrderData (int C_BPartner_ID, boolean forInvoice, boolean sameWarehouseOnly)
 	{
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
-		
+
 		//	Display
 		StringBuffer display = new StringBuffer("o.DocumentNo||' - ' ||")
 			.append(DB.TO_CHAR("o.DateOrdered", DisplayType.Date, Env.getAD_Language(Env.getCtx())))
@@ -125,10 +128,10 @@ public abstract class CreateFrom implements ICreateFrom
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		return list;
 	}   //  initBPartnerOIS
-	
+
 	/**
 	 *  Load Data - Order
 	 *  @param C_Order_ID Order
@@ -212,21 +215,21 @@ public abstract class CreateFrom implements ICreateFrom
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
+
 		return data;
 	}   //  LoadOrder
-	
+
 	public void showWindow()
 	{
-		
+
 	}
-	
+
 	public void closeWindow()
 	{
-		
+
 	}
-	
-	public GridTab getGridTab() 
+
+	public GridTab getGridTab()
 	{
 		return gridTab;
 	}
@@ -239,7 +242,7 @@ public abstract class CreateFrom implements ICreateFrom
 	{
 		return Env.getContextAsInt(Env.getCtx(), gridTab.getWindowNo(), "M_Warehouse_ID");
 	}
-	
+
 	public String getTitle() {
 		return title;
 	}

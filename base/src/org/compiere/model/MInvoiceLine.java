@@ -38,8 +38,9 @@ import org.compiere.util.Msg;
  */
 public class MInvoiceLine extends X_C_InvoiceLine
 {
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4264055057724565805L;
 
@@ -73,7 +74,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		}
 		catch (Exception e)
 		{
-			s_log.log(Level.SEVERE, sql, e); 
+			s_log.log(Level.SEVERE, sql, e);
 		}
 		try
 		{
@@ -87,11 +88,11 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		}
 		return retValue;
 	}	//	getOfInOutLine
-	
+
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MInvoiceLine.class);
 
-	
+
 	/**************************************************************************
 	 * 	Invoice Line Constructor
 	 * 	@param ctx context
@@ -117,7 +118,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			setQtyInvoiced(Env.ZERO);
 		}
 	}	//	MInvoiceLine
-	
+
 	/**
 	 * 	Parent Constructor
 	 * 	@param invoice parent
@@ -151,7 +152,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	private boolean		m_IsSOTrx = true;
 	private boolean		m_priceSet = false;
 	private MProduct	m_product = null;
-	
+
 	/**	Cached Name of the line		*/
 	private String		m_name = null;
 	/** Cached Precision			*/
@@ -188,7 +189,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			m_parent = new MInvoice(getCtx(), getC_Invoice_ID(), get_TrxName());
 		return m_parent;
 	}	//	getParent
-	
+
 	/**
 	 * 	Set values from Order Line.
 	 * 	Does not set quantity!
@@ -230,7 +231,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setRRAmt(oLine.getRRAmt());
 		setRRStartDate(oLine.getRRStartDate());
 	}	//	setOrderLine
-	
+
 	/**
 	 * 	Set values from Shipment Line.
 	 * 	Does not set quantity!
@@ -242,7 +243,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setC_OrderLine_ID(sLine.getC_OrderLine_ID());
 		// Set RMALine ID if shipment/receipt is based on RMA Doc
         setM_RMALine_ID(sLine.getM_RMALine_ID());
-		
+
 		//
 		setLine(sLine.getLine());
 		setIsDescription(sLine.isDescription());
@@ -282,7 +283,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
         {
         	// Set Pricing details from the RMA Line on which it is based
             MRMALine rmaLine = new MRMALine(getCtx(), sLine.getM_RMALine_ID(), get_TrxName());
-            
+
             setPrice();
             setPrice(rmaLine.getAmt());
             setC_Tax_ID(rmaLine.getC_Tax_ID());
@@ -329,7 +330,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			super.setM_AttributeSetInstance_ID (M_AttributeSetInstance_ID);
 	}	//	setM_AttributeSetInstance_ID
 
-	
+
 	/**************************************************************************
 	 * 	Set Price for Product and PriceList.
 	 * 	Uses standard SO price list of not set by invoice constructor
@@ -344,7 +345,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			throw new IllegalStateException("setPrice - PriceList unknown!");
 		setPrice (m_M_PriceList_ID, m_C_BPartner_ID);
 	}	//	setPrice
-	
+
 	/**
 	 * 	Set Price for Product and PriceList
 	 * 	@param M_PriceList_ID price list
@@ -356,7 +357,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			return;
 		//
 		log.fine("M_PriceList_ID=" + M_PriceList_ID);
-		m_productPricing = new MProductPricing (getM_Product_ID(), 
+		m_productPricing = new MProductPricing (getM_Product_ID(),
 			C_BPartner_ID, getQtyInvoiced(), m_IsSOTrx);
 		m_productPricing.setM_PriceList_ID(M_PriceList_ID);
 		m_productPricing.setPriceDate(m_DateInvoiced);
@@ -379,7 +380,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 
 	/**
 	 * 	Set Price Entered/Actual.
-	 * 	Use this Method if the Line UOM is the Product UOM 
+	 * 	Use this Method if the Line UOM is the Product UOM
 	 *	@param PriceActual price
 	 */
 	public void setPrice (BigDecimal PriceActual)
@@ -395,12 +396,12 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	 */
 	public void setPriceActual (BigDecimal PriceActual)
 	{
-		if (PriceActual == null) 
+		if (PriceActual == null)
 			throw new IllegalArgumentException ("PriceActual is mandatory");
 		set_ValueNoCheck("PriceActual", PriceActual);
 	}	//	setPriceActual
 
-	
+
 	/**
 	 *	Set Tax - requires Warehouse
 	 *	@return true if found
@@ -425,14 +426,14 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		return true;
 	}	//	setTax
 
-	
+
 	/**
 	 * 	Calculare Tax Amt.
 	 * 	Assumes Line Net is calculated
 	 */
 	public void setTaxAmt ()
 	{
-		BigDecimal TaxAmt = Env.ZERO; 
+		BigDecimal TaxAmt = Env.ZERO;
 		if (getC_Tax_ID() == 0)
 			return;
 	//	setLineNetAmt();
@@ -447,7 +448,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			setLineTotalAmt(getLineNetAmt().add(TaxAmt));
 		super.setTaxAmt (TaxAmt);
 	}	//	setTaxAmt
-	
+
 	/**
 	 * 	Calculate Extended Amt.
 	 * 	May or may not include tax
@@ -455,12 +456,12 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	public void setLineNetAmt ()
 	{
 		//	Calculations & Rounding
-		BigDecimal net = getPriceActual().multiply(getQtyInvoiced()); 
+		BigDecimal net = getPriceActual().multiply(getQtyInvoiced());
 		if (net.scale() > getPrecision())
 			net = net.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
 		super.setLineNetAmt (net);
 	}	//	setLineNetAmt
-	
+
 	/**
 	 * 	Set Qty Invoiced/Entered.
 	 *	@param Qty Invoiced/Ordered
@@ -481,7 +482,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	}	//	setQtyInvoiced
 
 	/**
-	 * 	Set Qty Entered - enforce entered UOM 
+	 * 	Set Qty Entered - enforce entered UOM
 	 *	@param QtyEntered
 	 */
 	public void setQtyEntered (BigDecimal QtyEntered)
@@ -495,7 +496,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	}	//	setQtyEntered
 
 	/**
-	 * 	Set Qty Invoiced - enforce Product UOM 
+	 * 	Set Qty Invoiced - enforce Product UOM
 	 *	@param QtyInvoiced
 	 */
 	public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -529,7 +530,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setM_AttributeSetInstance_ID(0);
 	}	//	setProduct
 
-	
+
 	/**
 	 * 	Set M_Product_ID
 	 *	@param M_Product_ID product
@@ -543,7 +544,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			super.setM_Product_ID (M_Product_ID);
 		setM_AttributeSetInstance_ID(0);
 	}	//	setM_Product_ID
-	
+
 	/**
 	 * 	Set Product and UOM
 	 *	@param M_Product_ID product
@@ -555,7 +556,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		super.setC_UOM_ID(C_UOM_ID);
 		setM_AttributeSetInstance_ID(0);
 	}	//	setM_Product_ID
-	
+
 	/**
 	 * 	Get Product
 	 *	@return product or null
@@ -578,7 +579,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			ii = getParent().getC_Project_ID();
 		return ii;
 	}	//	getC_Project_ID
-	
+
 	/**
 	 * 	Get C_Activity_ID
 	 *	@return Activity
@@ -590,7 +591,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			ii = getParent().getC_Activity_ID();
 		return ii;
 	}	//	getC_Activity_ID
-	
+
 	/**
 	 * 	Get C_Campaign_ID
 	 *	@return Campaign
@@ -602,7 +603,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			ii = getParent().getC_Campaign_ID();
 		return ii;
 	}	//	getC_Campaign_ID
-	
+
 	/**
 	 * 	Get User2_ID
 	 *	@return User2
@@ -726,7 +727,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	{
 		if (m_precision != null)
 			return m_precision.intValue();
-		
+
 		String sql = "SELECT c.StdPrecision "
 			+ "FROM C_Currency c INNER JOIN C_Invoice x ON (x.C_Currency_ID=c.C_Currency_ID) "
 			+ "WHERE x.C_Invoice_ID=?";
@@ -739,7 +740,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		m_precision = new Integer(i);
 		return m_precision.intValue();
 	}	//	getPrecision
-	
+
 	/**
 	 *	Is Tax Included in Amount
 	 *	@return true if tax is included
@@ -755,8 +756,8 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		MPriceList pl = MPriceList.get(getCtx(), m_M_PriceList_ID, get_TrxName());
 		return pl.isTaxIncluded();
 	}	//	isTaxIncluded
-	
-	
+
+
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord
@@ -779,12 +780,12 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		}
 		else	//	Set Product Price
 		{
-			if (!m_priceSet 
+			if (!m_priceSet
 				&&  Env.ZERO.compareTo(getPriceActual()) == 0
 				&&  Env.ZERO.compareTo(getPriceList()) == 0)
 				setPrice();
 		}
-		
+
 		//	Set Tax
 		if (getC_Tax_ID() == 0)
 			setTax();
@@ -818,12 +819,12 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		//
 		return true;
 	}	//	beforeSave
-	
+
 	/**
 	 * Recalculate invoice tax
 	 * @param oldTax true if the old C_Tax_ID should be used
 	 * @return true if success, false otherwise
-	 * 
+	 *
 	 * @author teo_sarca [ 1583825 ]
 	 */
 	private boolean updateInvoiceTax(boolean oldTax) {
@@ -837,7 +838,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 	After Save
 	 *	@param newRecord new
@@ -868,21 +869,21 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			return success;
 		return updateHeaderTax();
 	}	//	afterDelete
-	
+
 	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated with tax
 	 */
 	private boolean updateHeaderTax()
 	{
-		// Update header only if the document is not processed - teo_sarca BF [ 2317305 ] 
+		// Update header only if the document is not processed - teo_sarca BF [ 2317305 ]
 		if (isProcessed() && !is_ValueChanged(COLUMNNAME_Processed))
 			return true;
-		
+
 		//	Recalculate Tax for this Tax
 		if (!updateInvoiceTax(false))
 			return false;
-		
+
 		//	Update Invoice Header
 		String sql = "UPDATE C_Invoice i"
 			+ " SET TotalLines="
@@ -905,11 +906,11 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (no != 1)
 			log.warning("(2) #" + no);
 		m_parent = null;
-		
+
 		return no == 1;
 	}	//	updateHeaderTax
-	
-	
+
+
 	/**************************************************************************
 	 * 	Allocate Landed Costs
 	 *	@return error message or ""
@@ -925,7 +926,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		int no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 0)
 			log.info("Deleted #" + no);
-		
+
 		int inserted = 0;
 		//	*** Single Criteria ***
 		if (lcs.length == 1)
@@ -963,7 +964,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 					MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 					lca.setM_Product_ID(iol.getM_Product_ID());
 					lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
-					BigDecimal base = iol.getBase(lc.getLandedCostDistribution()); 
+					BigDecimal base = iol.getBase(lc.getLandedCostDistribution());
 					lca.setBase(base);
 					// MZ Goodwill
 					// add set Qty from InOutLine
@@ -999,22 +1000,22 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				// end MZ
 				if (lca.save())
 					return "";
-				return "Cannot save single line Allocation = " + lc; 
+				return "Cannot save single line Allocation = " + lc;
 			}
 			//	Single Product
 			else if (lc.getM_Product_ID() != 0)
 			{
-				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID()); 
+				MLandedCostAllocation lca = new MLandedCostAllocation (this, lc.getM_CostElement_ID());
 				lca.setM_Product_ID(lc.getM_Product_ID());	//	No ASI
 				lca.setAmt(getLineNetAmt());
 				if (lca.save())
 					return "";
-				return "Cannot save Product Allocation = " + lc; 
+				return "Cannot save Product Allocation = " + lc;
 			}
 			else
 				return "No Reference for " + lc;
 		}
-		
+
 		//	*** Multiple Criteria ***
 		String LandedCostDistribution = lcs[0].getLandedCostDistribution();
 		int M_CostElement_ID = lcs[0].getM_CostElement_ID();
@@ -1039,7 +1040,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				MInOutLine[] lines = ship.getLines();
 				for (int i = 0; i < lines.length; i++)
 				{
-					if (lines[i].isDescription()		//	decription or no product 
+					if (lines[i].isDescription()		//	decription or no product
 						|| lines[i].getM_Product_ID() == 0)
 						continue;
 					if (lc.getM_Product_ID() == 0		//	no restriction or product match
@@ -1072,7 +1073,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			MLandedCostAllocation lca = new MLandedCostAllocation (this, lcs[0].getM_CostElement_ID());
 			lca.setM_Product_ID(iol.getM_Product_ID());
 			lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
-			BigDecimal base = iol.getBase(LandedCostDistribution); 
+			BigDecimal base = iol.getBase(LandedCostDistribution);
 			lca.setBase(base);
 			// MZ Goodwill
 			// add set Qty from InOutLine
@@ -1088,7 +1089,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 				return "Cannot save line Allocation = " + lca;
 			inserted++;
 		}
-		
+
 		log.info("Inserted " + inserted);
 		allocateLandedCostRounding();
 		return "";
@@ -1106,7 +1107,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		for (int i = 0; i < allocations.length; i++)
 		{
 			MLandedCostAllocation allocation = allocations[i];
-			if (largestAmtAllocation == null 
+			if (largestAmtAllocation == null
 				|| allocation.getAmt().compareTo(largestAmtAllocation.getAmt()) > 0)
 				largestAmtAllocation = allocation;
 			allocationAmt = allocationAmt.add(allocation.getAmt());
@@ -1116,7 +1117,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		{
 			largestAmtAllocation.setAmt(largestAmtAllocation.getAmt().add(difference));
 			largestAmtAllocation.save();
-			log.config("Difference=" + difference 
+			log.config("Difference=" + difference
 				+ ", C_LandedCostAllocation_ID=" + largestAmtAllocation.getC_LandedCostAllocation_ID()
 				+ ", Amt" + largestAmtAllocation.getAmt());
 		}
@@ -1170,7 +1171,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		list.toArray(landedCost);
 		return landedCost;
 	}	//	getLandedCost
-	
+
 	/**
 	 * 	Copy LandedCost From other InvoiceLine.
 	 *	@param otherInvoiceLine invoiceline
@@ -1197,7 +1198,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		return count;
 	}	//	copyLinesFrom
 	// end MZ
-	
+
 	/**
 	 * @param rmaline
 	 */
@@ -1212,7 +1213,6 @@ public class MInvoiceLine extends X_C_InvoiceLine
         setC_UOM_ID(rmaLine.getC_UOM_ID());
         setC_Tax_ID(rmaLine.getC_Tax_ID());
         setPrice(rmaLine.getAmt());
-        setQty(rmaLine.getQty());
         setLineNetAmt();
         setTaxAmt();
         setLineTotalAmt(rmaLine.getLineNetAmt());
@@ -1220,7 +1220,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
         setC_Activity_ID(rmaLine.getC_Activity_ID());
         setC_Campaign_ID(rmaLine.getC_Campaign_ID());
 	}
-	
+
 	/**
 	 * @return matched qty
 	 */
