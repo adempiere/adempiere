@@ -17,6 +17,7 @@
 package org.compiere.db;
 
 import java.io.Serializable;
+import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
@@ -31,6 +32,7 @@ import javax.sql.DataSource;
 import javax.swing.JOptionPane;
 
 import org.adempiere.as.ASFactory;
+import org.adempiere.util.EmbeddedServerProxy;
 import org.compiere.Adempiere;
 import org.compiere.interfaces.Server;
 import org.compiere.interfaces.Status;
@@ -50,14 +52,14 @@ import org.compiere.util.ValueNamePair;
 public class CConnection implements Serializable, Cloneable
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -3653060934380586381L;
 	/** Connection      */
 	private static CConnection	s_cc = null;
 	/** Logger			*/
 	private static CLogger 		log = CLogger.getCLogger (CConnection.class);
-	
+
 	/** Connection profiles		*/
 	@Deprecated
 	public static ValueNamePair[] CONNECTIONProfiles = new ValueNamePair[]{
@@ -66,9 +68,9 @@ public class CConnection implements Serializable, Cloneable
 	/** Connection Profile LAN			*/
 	@Deprecated
 	public static final String	PROFILE_LAN = "L";
-	/** 
+	/**
 	 * Connection Profile Terminal Server
-	 * @deprecated	
+	 * @deprecated
 	 **/
 	public static final String	PROFILE_TERMINAL = "T";
 	/** Connection Profile VPM			*/
@@ -77,14 +79,17 @@ public class CConnection implements Serializable, Cloneable
 	/** Connection Profile WAN			*/
 	@Deprecated
 	public static final String	PROFILE_WAN = "W";
-	
+
 	private final static String COMPONENT_NS = "java:comp/env";
-	
-	/** Prefer component namespace when running at server **/ 
+
+	/** Prefer component namespace when running at server **/
 	private boolean useComponentNamespace = !Ini.isClient();
-	
+
+	/** System property flag to embed server bean in process **/
+	public final static String SERVER_EMBEDDED = "org.adempiere.server.embedded";
+
 	/**
-	 *  Get/Set default client/server Connection 
+	 *  Get/Set default client/server Connection
 	 *  @return Connection Descriptor
 	 */
 	public static CConnection get ()
@@ -93,7 +98,7 @@ public class CConnection implements Serializable, Cloneable
 	}	//	get
 
 	/**
-	 *  Get/Set default client/server Connection 
+	 *  Get/Set default client/server Connection
 	 *  @param apps_host optional apps host for new connections
 	 *  @return Connection Descriptor
 	 */
@@ -183,7 +188,7 @@ public class CConnection implements Serializable, Cloneable
 		return cc;
 	}	//  get
 
-	
+
 
 	/**************************************************************************
 	 *  Adempiere Connection
@@ -205,7 +210,7 @@ public class CConnection implements Serializable, Cloneable
 	private String 		m_apps_host = "MyAppsServer";
 	/** Application Port    */
 	private int 		m_apps_port = ASFactory.getApplicationServer().getDefaultNamingServicePort();
-	
+
 	/** Database Type       */
 	private String 		m_type = "";
 
@@ -257,12 +262,12 @@ public class CConnection implements Serializable, Cloneable
 	private Server		m_server = null;
 	/** DB Info				*/
 	private String		m_dbInfo = null;
-	
+
 	/** Had application server been query **/
-	private boolean m_queryAppsServer = false;	
+	private boolean m_queryAppsServer = false;
 
 	private final static String SECURITY_PRINCIPAL = "org.adempiere.security.principal";
-	
+
 	/*************************************************************************
 	 *  Get Name
 	 *  @return connection name
@@ -289,7 +294,7 @@ public class CConnection implements Serializable, Cloneable
 		m_name = toString ();
 	} 	//  setName
 
-	
+
 	/*************
 	 *  Get Application Host
 	 *  @return apps host
@@ -357,6 +362,9 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public boolean isAppsServerOK (boolean tryContactAgain)
 	{
+		if (isServerEmbedded())
+			return true;
+
 		if (Ini.isClient() && !tryContactAgain && m_queryAppsServer)
 			return m_okApps;
 
@@ -365,9 +373,9 @@ public class CConnection implements Serializable, Cloneable
 			log.warning (getAppsHost() + " ignored");
 			return false;
 		}
-		
+
 		m_queryAppsServer = true;
-		
+
 		//	Contact it
 		try
 		{
@@ -419,6 +427,13 @@ public class CConnection implements Serializable, Cloneable
 		//only cache ServerHome for client
 		if (m_server == null || !Ini.isClient())
 		{
+			if (isServerEmbedded())
+			{
+				m_server = (Server)Proxy.newProxyInstance(Server.class.getClassLoader(),
+						new Class[]{Server.class}, new EmbeddedServerProxy());
+				return m_server;
+			}
+
 			try
 			{
 				Server server = (Server)lookup (Server.JNDI_NAME);
@@ -448,7 +463,7 @@ public class CConnection implements Serializable, Cloneable
 		return m_version;
 	}	//	getServerVersion
 
-	
+
 	/*************
 	 *  Get Database Host name
 	 *  @return db host name
@@ -568,7 +583,7 @@ public class CConnection implements Serializable, Cloneable
 
 	/**
 	 * 	RMI over HTTP
-	 * 
+	 *
 	 *  Deprecated, always return false
 	 * 	@return true if RMI over HTTP (Wan Connection Profile)
 	 *  @deprecated
@@ -843,7 +858,7 @@ public class CConnection implements Serializable, Cloneable
 			setBequeath (false);
 			setViaFirewall (false);
 		}
-		
+
         // begin vpj-cd e-evolution 09 ene 2006
 		//  PostgreSQL
 		if (isPostgreSQL ())
@@ -938,7 +953,7 @@ public class CConnection implements Serializable, Cloneable
 		return m_ds != null;
 	} 	//	isDataSource
 
-	
+
 	/**************************************************************************
 	 *  Test Database Connection.
 	 *  -- Example --
@@ -954,7 +969,7 @@ public class CConnection implements Serializable, Cloneable
 	{
 		if (!retest && m_ds != null && m_okDB)
 			return null;
-		
+
 		getDatabase().close();
 		m_ds = null;
 		setDataSource();
@@ -963,7 +978,7 @@ public class CConnection implements Serializable, Cloneable
 			Connection.TRANSACTION_READ_COMMITTED);
 		if (conn != null)
 		{
-			try 
+			try
 			{
 				readInfo(conn);
 				conn.close ();
@@ -987,9 +1002,9 @@ public class CConnection implements Serializable, Cloneable
 		if (isDataSource())
 			m_info[1] += " - via DataSource";
 		m_info[1] = m_info[1].replace ('\n', ' ');
-		log.config(m_info[0] + " - " + m_info[1]);		
+		log.config(m_info[0] + " - " + m_info[1]);
 	}
-	
+
 	/*************************************************************************
 	 *  Short String representation
 	 *  @return appsHost{dbHost-dbName-uid}
@@ -1069,10 +1084,10 @@ public class CConnection implements Serializable, Cloneable
 			}
 		}
 		conn = null;
-		return sb.toString(); 
+		return sb.toString();
 	} 	//  toStringDetail
 
-	
+
 	/**
 	 *  String representation.
 	 *  Used also for Instanciation
@@ -1171,7 +1186,7 @@ public class CConnection implements Serializable, Cloneable
 		return sb.toString ();
 	}	//  getInfo
 
-	
+
 	/*************************************************************************
 	 *  Hashcode
 	 *  @return hashcode of name
@@ -1195,14 +1210,14 @@ public class CConnection implements Serializable, Cloneable
 		{
 			try
 			{
-		         for (int i = 0; i < Database.DB_NAMES.length; i++) 	                                
-	             { 	 
-	                     if (Database.DB_NAMES[i].equals (m_type)) 	 
-	                     { 	 
-	                             m_db = (AdempiereDatabase)Database.DB_CLASSES[i]. 	 
-	                                        newInstance (); 	 
-	                             break; 	 
-	                     } 	 
+		         for (int i = 0; i < Database.DB_NAMES.length; i++)
+	             {
+	                     if (Database.DB_NAMES[i].equals (m_type))
+	                     {
+	                             m_db = (AdempiereDatabase)Database.DB_CLASSES[i].
+	                                        newInstance ();
+	                             break;
+	                     }
 	             }
 		         if (m_db != null)		//	test class loader ability
 		        	 m_db.getDataSource(this);
@@ -1212,10 +1227,10 @@ public class CConnection implements Serializable, Cloneable
 				System.err.println("Environment Error - Check Adempiere.properties - " + ee);
 				if (Ini.isClient())
 				{
-					if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog	
+					if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog
 						(null, "There is a configuration error:\n" + ee
-							+ "\nDo you want to reset the saved configuration?", 
-							"Adempiere Configuration Error", 
+							+ "\nDo you want to reset the saved configuration?",
+							"Adempiere Configuration Error",
 							JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE))
 						Ini.deletePropertyFile();
 				}
@@ -1296,7 +1311,7 @@ public class CConnection implements Serializable, Cloneable
 
 		try
 		{
-		//	if (!Ini.isClient()			//	Server 
+		//	if (!Ini.isClient()			//	Server
 		//		&& trxLevel != Connection.TRANSACTION_READ_COMMITTED)		// PO_LOB.save()
 		//	{
 			Exception ee = null;
@@ -1320,7 +1335,7 @@ public class CConnection implements Serializable, Cloneable
 		}
 		catch (UnsatisfiedLinkError ule)
 		{
-			String msg = ule.getLocalizedMessage() 
+			String msg = ule.getLocalizedMessage()
 				+ " -> Did you set the LD_LIBRARY_PATH ? - " + getConnectionURL();
 			m_dbException = new Exception(msg);
 			log.severe(msg);
@@ -1345,7 +1360,7 @@ public class CConnection implements Serializable, Cloneable
 				try
 				{
 					log.severe(getConnectionURL ()
-						+ ", (2) AutoCommit=" + conn.getAutoCommit() + "->" + autoCommit 
+						+ ", (2) AutoCommit=" + conn.getAutoCommit() + "->" + autoCommit
 						+ ", TrxIso=" + getTransactionIsolationInfo(conn.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
 					//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
 						+ " - " + ex.getMessage());
@@ -1366,7 +1381,7 @@ public class CConnection implements Serializable, Cloneable
 			//log.log(Level.SEVERE, getConnectionURL(), ex);
 			System.err.println(getConnectionURL() + " - " + ex.getLocalizedMessage());
 		}
-	//	System.err.println ("CConnection.getConnection - " + conn); 
+	//	System.err.println ("CConnection.getConnection - " + conn);
 		return conn;
 	}	//  getConnection
 
@@ -1399,8 +1414,8 @@ public class CConnection implements Serializable, Cloneable
 		{
 			SecurityPrincipal sp = (SecurityPrincipal) Env.getCtx().get(SECURITY_PRINCIPAL);
 			String principal = sp != null ? sp.principal : null;
-			String credential = sp != null ? sp.credential : null; 
-			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), false, 
+			String credential = sp != null ? sp.credential : null;
+			m_env = getInitialEnvironment(getAppsHost(), getAppsPort(), false,
 					principal, credential);
 		}
 		String connect = (String)m_env.get(Context.PROVIDER_URL);
@@ -1455,13 +1470,13 @@ public class CConnection implements Serializable, Cloneable
 		m_okApps = false;
 		m_queryAppsServer = true;
 		m_appsException = null;
-		
+
 		// Carlos Ruiz - globalqss - speed up when jnp://MyAppsServer:1099 is set
 		if (getAppsHost().equalsIgnoreCase("MyAppsServer")) {
 			log.warning (getAppsHost() + " ignored");
 			return m_okApps; // false
 		}
-		
+
 		try
 		{
 			Status status = (Status)lookup (Status.JNDI_NAME);
@@ -1564,7 +1579,7 @@ public class CConnection implements Serializable, Cloneable
 		  sb.append (m_db.getStatus());
 		return sb.toString ();
 	}	//	getStatus
-	
+
 	/**
 	 * 	Get Transaction Isolation Info
 	 *	@param transactionIsolation trx iso
@@ -1584,7 +1599,14 @@ public class CConnection implements Serializable, Cloneable
 			return "SERIALIZABLE";
 		return "<?" + transactionIsolation + "?>";
 	}	//	getTransactionIsolationInfo
-	
+
+	/**
+	 * @return true if server is embedded in process
+	 */
+	public static boolean isServerEmbedded() {
+		return "true".equalsIgnoreCase(System.getProperty(SERVER_EMBEDDED));
+	}
+
 	public void setAppServerCredential(String principal, String credential)
 	{
 		SecurityPrincipal sp = new SecurityPrincipal();
@@ -1605,28 +1627,28 @@ public class CConnection implements Serializable, Cloneable
 		c.m_info = info;
 		return c;
 	}
-	
+
 	private Object lookup(String jndiName) throws NamingException {
 		InitialContext ctx = getInitialContext(Ini.isClient());
-		
+
 		if (useComponentNamespace)
 		{
-			try 
+			try
 			{
 				return ctx.lookup(COMPONENT_NS + "/" + jndiName);
-			} 
-			catch (Exception e) 
+			}
+			catch (Exception e)
 			{
 				log.warning("Component name space not available - " + e.getLocalizedMessage());
 				//not available
 				useComponentNamespace = false;
 			}
 		}
-		
+
 		//global jndi lookup
 		return ctx.lookup(jndiName);
 	}
-	
+
 	/**************************************************************************
 	 *  Testing
 	 *  @param args ignored
@@ -1655,5 +1677,5 @@ public class CConnection implements Serializable, Cloneable
 		Connection con = cc.getConnection (false,
 						 Connection.TRANSACTION_READ_COMMITTED);
 		new CConnectionDialog(cc);
-	}	//	main	
+	}	//	main
 }	//  CConnection
