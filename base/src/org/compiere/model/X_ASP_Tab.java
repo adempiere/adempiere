@@ -96,9 +96,10 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (AD_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
 	}
 
 	/** Get Tab.
@@ -145,7 +146,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

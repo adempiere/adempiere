@@ -81,9 +81,10 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	  */
 	public void setAD_ClientShare_ID (int AD_ClientShare_ID)
 	{
-		if (AD_ClientShare_ID < 1)
-			 throw new IllegalArgumentException ("AD_ClientShare_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ClientShare_ID, Integer.valueOf(AD_ClientShare_ID));
+		if (AD_ClientShare_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ClientShare_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ClientShare_ID, Integer.valueOf(AD_ClientShare_ID));
 	}
 
 	/** Get Client Share.
@@ -119,9 +120,10 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -158,8 +160,6 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -193,7 +193,7 @@ public class X_AD_ClientShare extends PO implements I_AD_ClientShare, I_Persiste
 	  */
 	public void setShareType (String ShareType)
 	{
-		if (ShareType == null) throw new IllegalArgumentException ("ShareType is mandatory");
+
 		set_Value (COLUMNNAME_ShareType, ShareType);
 	}
 

@@ -103,9 +103,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -202,8 +203,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
 	{
-		if (CurrentCostPrice == null)
-			throw new IllegalArgumentException ("CurrentCostPrice is mandatory.");
 		set_Value (COLUMNNAME_CurrentCostPrice, CurrentCostPrice);
 	}
 
@@ -224,8 +223,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setCurrentCostPriceLL (BigDecimal CurrentCostPriceLL)
 	{
-		if (CurrentCostPriceLL == null)
-			throw new IllegalArgumentException ("CurrentCostPriceLL is mandatory.");
 		set_Value (COLUMNNAME_CurrentCostPriceLL, CurrentCostPriceLL);
 	}
 
@@ -246,8 +243,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setCurrentQty (BigDecimal CurrentQty)
 	{
-		if (CurrentQty == null)
-			throw new IllegalArgumentException ("CurrentQty is mandatory.");
 		set_Value (COLUMNNAME_CurrentQty, CurrentQty);
 	}
 
@@ -283,8 +278,6 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 		@param FutureCostPrice Future Cost Price	  */
 	public void setFutureCostPrice (BigDecimal FutureCostPrice)
 	{
-		if (FutureCostPrice == null)
-			throw new IllegalArgumentException ("FutureCostPrice is mandatory.");
 		set_Value (COLUMNNAME_FutureCostPrice, FutureCostPrice);
 	}
 
@@ -345,9 +338,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -383,9 +377,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID < 1)
-			 throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.
@@ -421,9 +416,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setM_CostType_ID (int M_CostType_ID)
 	{
-		if (M_CostType_ID < 1)
-			 throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+		if (M_CostType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
 	}
 
 	/** Get Cost Type.
@@ -459,9 +455,10 @@ public class X_M_Cost extends PO implements I_M_Cost, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

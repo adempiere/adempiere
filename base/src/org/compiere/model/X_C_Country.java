@@ -106,9 +106,10 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID < 1)
-			 throw new IllegalArgumentException ("C_Country_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -167,8 +168,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setCountryCode (String CountryCode)
 	{
-		if (CountryCode == null)
-			throw new IllegalArgumentException ("CountryCode is mandatory.");
 		set_Value (COLUMNNAME_CountryCode, CountryCode);
 	}
 
@@ -203,8 +202,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setDisplaySequence (String DisplaySequence)
 	{
-		if (DisplaySequence == null)
-			throw new IllegalArgumentException ("DisplaySequence is mandatory.");
 		set_Value (COLUMNNAME_DisplaySequence, DisplaySequence);
 	}
 
@@ -529,8 +526,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

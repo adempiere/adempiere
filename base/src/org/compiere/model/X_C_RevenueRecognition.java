@@ -79,9 +79,10 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 	  */
 	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 	{
-		if (C_RevenueRecognition_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
+		if (C_RevenueRecognition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
 	}
 
 	/** Get Revenue Recognition.
@@ -142,8 +143,6 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -192,7 +191,7 @@ public class X_C_RevenueRecognition extends PO implements I_C_RevenueRecognition
 		@param RecognitionFrequency Recognition frequency	  */
 	public void setRecognitionFrequency (String RecognitionFrequency)
 	{
-		if (RecognitionFrequency == null) throw new IllegalArgumentException ("RecognitionFrequency is mandatory");
+
 		set_Value (COLUMNNAME_RecognitionFrequency, RecognitionFrequency);
 	}
 

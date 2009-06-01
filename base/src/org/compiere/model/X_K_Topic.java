@@ -166,9 +166,10 @@ public class X_K_Topic extends PO implements I_K_Topic, I_Persistent
 	  */
 	public void setK_Topic_ID (int K_Topic_ID)
 	{
-		if (K_Topic_ID < 1)
-			 throw new IllegalArgumentException ("K_Topic_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Topic_ID, Integer.valueOf(K_Topic_ID));
+		if (K_Topic_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Topic_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Topic_ID, Integer.valueOf(K_Topic_ID));
 	}
 
 	/** Get Knowledge Topic.
@@ -204,9 +205,10 @@ public class X_K_Topic extends PO implements I_K_Topic, I_Persistent
 	  */
 	public void setK_Type_ID (int K_Type_ID)
 	{
-		if (K_Type_ID < 1)
-			 throw new IllegalArgumentException ("K_Type_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Type_ID, Integer.valueOf(K_Type_ID));
+		if (K_Type_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Type_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Type_ID, Integer.valueOf(K_Type_ID));
 	}
 
 	/** Get Knowldge Type.
@@ -226,8 +228,6 @@ public class X_K_Topic extends PO implements I_K_Topic, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

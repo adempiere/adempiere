@@ -114,8 +114,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setIssueSummary (String IssueSummary)
 	{
-		if (IssueSummary == null)
-			throw new IllegalArgumentException ("IssueSummary is mandatory.");
 		set_Value (COLUMNNAME_IssueSummary, IssueSummary);
 	}
 
@@ -191,8 +189,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
-		if (ReleaseNo == null)
-			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
@@ -218,9 +214,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	  */
 	public void setR_IssueKnown_ID (int R_IssueKnown_ID)
 	{
-		if (R_IssueKnown_ID < 1)
-			 throw new IllegalArgumentException ("R_IssueKnown_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_IssueKnown_ID, Integer.valueOf(R_IssueKnown_ID));
+		if (R_IssueKnown_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_IssueKnown_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_IssueKnown_ID, Integer.valueOf(R_IssueKnown_ID));
 	}
 
 	/** Get Known Issue.

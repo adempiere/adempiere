@@ -155,9 +155,10 @@ public class X_M_ChangeNotice extends PO implements I_M_ChangeNotice, I_Persiste
 	  */
 	public void setM_ChangeNotice_ID (int M_ChangeNotice_ID)
 	{
-		if (M_ChangeNotice_ID < 1)
-			 throw new IllegalArgumentException ("M_ChangeNotice_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
+		if (M_ChangeNotice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeNotice_ID, Integer.valueOf(M_ChangeNotice_ID));
 	}
 
 	/** Get Change Notice.
@@ -177,8 +178,6 @@ public class X_M_ChangeNotice extends PO implements I_M_ChangeNotice, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

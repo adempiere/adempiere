@@ -112,9 +112,10 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		@param A_Asset_Acct_ID A_Asset_Acct_ID	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID)
 	{
-		if (A_Asset_Acct_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Acct_ID is mandatory.");
-		set_Value (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
+		if (A_Asset_Acct_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Acct_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
 	}
 
 	/** Get A_Asset_Acct_ID.
@@ -150,9 +151,10 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -187,9 +189,10 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		@param A_Asset_Split_ID A_Asset_Split_ID	  */
 	public void setA_Asset_Split_ID (int A_Asset_Split_ID)
 	{
-		if (A_Asset_Split_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Split_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Split_ID, Integer.valueOf(A_Asset_Split_ID));
+		if (A_Asset_Split_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Split_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Split_ID, Integer.valueOf(A_Asset_Split_ID));
 	}
 
 	/** Get A_Asset_Split_ID.
@@ -214,9 +217,10 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		@param A_Depreciation_Workfile_ID A_Depreciation_Workfile_ID	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID)
 	{
-		if (A_Depreciation_Workfile_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Workfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
+		if (A_Depreciation_Workfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
 	}
 
 	/** Get A_Depreciation_Workfile_ID.
@@ -267,8 +271,6 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		@param A_QTY_Current Quantity	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
-		if (A_QTY_Current == null)
-			throw new IllegalArgumentException ("A_QTY_Current is mandatory.");
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
@@ -311,7 +313,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		@param A_Split_Type Split Type	  */
 	public void setA_Split_Type (String A_Split_Type)
 	{
-		if (A_Split_Type == null) throw new IllegalArgumentException ("A_Split_Type is mandatory");
+
 		set_Value (COLUMNNAME_A_Split_Type, A_Split_Type);
 	}
 
@@ -349,9 +351,10 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_Value (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -371,8 +374,6 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -402,7 +403,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
 	}
 

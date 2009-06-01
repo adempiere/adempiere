@@ -190,9 +190,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		@param AD_Package_Exp_Common_ID AD_Package_Exp_Common_ID	  */
 	public void setAD_Package_Exp_Common_ID (int AD_Package_Exp_Common_ID)
 	{
-		if (AD_Package_Exp_Common_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Exp_Common_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_Common_ID, Integer.valueOf(AD_Package_Exp_Common_ID));
+		if (AD_Package_Exp_Common_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_Common_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_Common_ID, Integer.valueOf(AD_Package_Exp_Common_ID));
 	}
 
 	/** Get AD_Package_Exp_Common_ID.
@@ -313,7 +314,7 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));

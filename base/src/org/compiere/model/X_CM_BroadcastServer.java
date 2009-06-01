@@ -81,9 +81,10 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 	  */
 	public void setCM_BroadcastServer_ID (int CM_BroadcastServer_ID)
 	{
-		if (CM_BroadcastServer_ID < 1)
-			 throw new IllegalArgumentException ("CM_BroadcastServer_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_BroadcastServer_ID, Integer.valueOf(CM_BroadcastServer_ID));
+		if (CM_BroadcastServer_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_BroadcastServer_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_BroadcastServer_ID, Integer.valueOf(CM_BroadcastServer_ID));
 	}
 
 	/** Get Broadcast Server.
@@ -176,8 +177,6 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 	  */
 	public void setIP_Address (String IP_Address)
 	{
-		if (IP_Address == null)
-			throw new IllegalArgumentException ("IP_Address is mandatory.");
 		set_Value (COLUMNNAME_IP_Address, IP_Address);
 	}
 
@@ -212,8 +211,6 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

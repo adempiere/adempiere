@@ -79,9 +79,10 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 		@param ASP_Level_ID ASP Level	  */
 	public void setASP_Level_ID (int ASP_Level_ID)
 	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+		if (ASP_Level_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
 	}
 
 	/** Get ASP Level.
@@ -114,9 +115,10 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 		@param ASP_Module_ID ASP Module	  */
 	public void setASP_Module_ID (int ASP_Module_ID)
 	{
-		if (ASP_Module_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Module_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
+		if (ASP_Module_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Module_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
 	}
 
 	/** Get ASP Module.
@@ -169,8 +171,6 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -217,8 +217,6 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

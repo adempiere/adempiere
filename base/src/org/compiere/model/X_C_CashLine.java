@@ -87,8 +87,6 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setAmount (BigDecimal Amount)
 	{
-		if (Amount == null)
-			throw new IllegalArgumentException ("Amount is mandatory.");
 		set_Value (COLUMNNAME_Amount, Amount);
 	}
 
@@ -123,7 +121,7 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setCashType (String CashType)
 	{
-		if (CashType == null) throw new IllegalArgumentException ("CashType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
 	}
 
@@ -196,9 +194,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_Cash_ID (int C_Cash_ID)
 	{
-		if (C_Cash_ID < 1)
-			 throw new IllegalArgumentException ("C_Cash_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
+		if (C_Cash_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
 	}
 
 	/** Get Cash Journal.
@@ -226,9 +225,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 	  */
 	public void setC_CashLine_ID (int C_CashLine_ID)
 	{
-		if (C_CashLine_ID < 1)
-			 throw new IllegalArgumentException ("C_CashLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
+		if (C_CashLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CashLine_ID, Integer.valueOf(C_CashLine_ID));
 	}
 
 	/** Get Cash Journal Line.

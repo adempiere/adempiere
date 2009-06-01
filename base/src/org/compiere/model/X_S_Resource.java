@@ -264,9 +264,10 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -286,8 +287,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -311,8 +310,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		@param PercentUtilization % Utilization	  */
 	public void setPercentUtilization (BigDecimal PercentUtilization)
 	{
-		if (PercentUtilization == null)
-			throw new IllegalArgumentException ("PercentUtilization is mandatory.");
 		set_Value (COLUMNNAME_PercentUtilization, PercentUtilization);
 	}
 
@@ -369,9 +366,10 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.
@@ -405,9 +403,10 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		@param S_ResourceType_ID Resource Type	  */
 	public void setS_ResourceType_ID (int S_ResourceType_ID)
 	{
-		if (S_ResourceType_ID < 1)
-			 throw new IllegalArgumentException ("S_ResourceType_ID is mandatory.");
-		set_Value (COLUMNNAME_S_ResourceType_ID, Integer.valueOf(S_ResourceType_ID));
+		if (S_ResourceType_ID < 1) 
+			set_Value (COLUMNNAME_S_ResourceType_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_ResourceType_ID, Integer.valueOf(S_ResourceType_ID));
 	}
 
 	/** Get Resource Type.
@@ -426,8 +425,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

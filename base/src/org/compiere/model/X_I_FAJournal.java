@@ -604,7 +604,7 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -1239,9 +1239,10 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		@param I_FAJournal_ID I_FAJournal_ID	  */
 	public void setI_FAJournal_ID (int I_FAJournal_ID)
 	{
-		if (I_FAJournal_ID < 1)
-			 throw new IllegalArgumentException ("I_FAJournal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_FAJournal_ID, Integer.valueOf(I_FAJournal_ID));
+		if (I_FAJournal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_FAJournal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_FAJournal_ID, Integer.valueOf(I_FAJournal_ID));
 	}
 
 	/** Get I_FAJournal_ID.

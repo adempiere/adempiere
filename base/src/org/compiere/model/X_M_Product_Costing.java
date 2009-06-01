@@ -110,9 +110,10 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -132,8 +133,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostAverage (BigDecimal CostAverage)
 	{
-		if (CostAverage == null)
-			throw new IllegalArgumentException ("CostAverage is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostAverage, CostAverage);
 	}
 
@@ -154,8 +153,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostAverageCumAmt (BigDecimal CostAverageCumAmt)
 	{
-		if (CostAverageCumAmt == null)
-			throw new IllegalArgumentException ("CostAverageCumAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostAverageCumAmt, CostAverageCumAmt);
 	}
 
@@ -176,8 +173,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostAverageCumQty (BigDecimal CostAverageCumQty)
 	{
-		if (CostAverageCumQty == null)
-			throw new IllegalArgumentException ("CostAverageCumQty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostAverageCumQty, CostAverageCumQty);
 	}
 
@@ -198,8 +193,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostStandard (BigDecimal CostStandard)
 	{
-		if (CostStandard == null)
-			throw new IllegalArgumentException ("CostStandard is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostStandard, CostStandard);
 	}
 
@@ -220,8 +213,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostStandardCumAmt (BigDecimal CostStandardCumAmt)
 	{
-		if (CostStandardCumAmt == null)
-			throw new IllegalArgumentException ("CostStandardCumAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostStandardCumAmt, CostStandardCumAmt);
 	}
 
@@ -242,8 +233,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostStandardCumQty (BigDecimal CostStandardCumQty)
 	{
-		if (CostStandardCumQty == null)
-			throw new IllegalArgumentException ("CostStandardCumQty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostStandardCumQty, CostStandardCumQty);
 	}
 
@@ -264,8 +253,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostStandardPOAmt (BigDecimal CostStandardPOAmt)
 	{
-		if (CostStandardPOAmt == null)
-			throw new IllegalArgumentException ("CostStandardPOAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostStandardPOAmt, CostStandardPOAmt);
 	}
 
@@ -286,8 +273,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCostStandardPOQty (BigDecimal CostStandardPOQty)
 	{
-		if (CostStandardPOQty == null)
-			throw new IllegalArgumentException ("CostStandardPOQty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CostStandardPOQty, CostStandardPOQty);
 	}
 
@@ -308,8 +293,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
 	{
-		if (CurrentCostPrice == null)
-			throw new IllegalArgumentException ("CurrentCostPrice is mandatory.");
 		set_Value (COLUMNNAME_CurrentCostPrice, CurrentCostPrice);
 	}
 
@@ -328,8 +311,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 		@param FutureCostPrice Future Cost Price	  */
 	public void setFutureCostPrice (BigDecimal FutureCostPrice)
 	{
-		if (FutureCostPrice == null)
-			throw new IllegalArgumentException ("FutureCostPrice is mandatory.");
 		set_Value (COLUMNNAME_FutureCostPrice, FutureCostPrice);
 	}
 
@@ -365,9 +346,10 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -387,8 +369,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setPriceLastInv (BigDecimal PriceLastInv)
 	{
-		if (PriceLastInv == null)
-			throw new IllegalArgumentException ("PriceLastInv is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_PriceLastInv, PriceLastInv);
 	}
 
@@ -409,8 +389,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setPriceLastPO (BigDecimal PriceLastPO)
 	{
-		if (PriceLastPO == null)
-			throw new IllegalArgumentException ("PriceLastPO is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_PriceLastPO, PriceLastPO);
 	}
 
@@ -431,8 +409,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setTotalInvAmt (BigDecimal TotalInvAmt)
 	{
-		if (TotalInvAmt == null)
-			throw new IllegalArgumentException ("TotalInvAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalInvAmt, TotalInvAmt);
 	}
 
@@ -453,8 +429,6 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	  */
 	public void setTotalInvQty (BigDecimal TotalInvQty)
 	{
-		if (TotalInvQty == null)
-			throw new IllegalArgumentException ("TotalInvQty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalInvQty, TotalInvQty);
 	}
 

@@ -80,9 +80,10 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setC_Bank_ID (int C_Bank_ID)
 	{
-		if (C_Bank_ID < 1)
-			 throw new IllegalArgumentException ("C_Bank_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
+		if (C_Bank_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
 	}
 
 	/** Get Bank.
@@ -166,8 +167,6 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -193,8 +192,6 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	  */
 	public void setRoutingNo (String RoutingNo)
 	{
-		if (RoutingNo == null)
-			throw new IllegalArgumentException ("RoutingNo is mandatory.");
 		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
 	}
 

@@ -81,9 +81,10 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setA_Asset_Delivery_ID (int A_Asset_Delivery_ID)
 	{
-		if (A_Asset_Delivery_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Delivery_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Delivery_ID, Integer.valueOf(A_Asset_Delivery_ID));
+		if (A_Asset_Delivery_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Delivery_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Delivery_ID, Integer.valueOf(A_Asset_Delivery_ID));
 	}
 
 	/** Get Asset Delivery.
@@ -119,9 +120,10 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -304,8 +306,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
 	}
 

@@ -100,9 +100,10 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -138,9 +139,10 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -193,9 +195,10 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setM_DistributionList_ID (int M_DistributionList_ID)
 	{
-		if (M_DistributionList_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
+		if (M_DistributionList_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
 	}
 
 	/** Get Distribution List.
@@ -223,9 +226,10 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID)
 	{
-		if (M_DistributionListLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionListLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
+		if (M_DistributionListLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionListLine_ID, Integer.valueOf(M_DistributionListLine_ID));
 	}
 
 	/** Get Distribution List Line.
@@ -245,8 +249,6 @@ public class X_M_DistributionListLine extends PO implements I_M_DistributionList
 	  */
 	public void setMinQty (BigDecimal MinQty)
 	{
-		if (MinQty == null)
-			throw new IllegalArgumentException ("MinQty is mandatory.");
 		set_Value (COLUMNNAME_MinQty, MinQty);
 	}
 

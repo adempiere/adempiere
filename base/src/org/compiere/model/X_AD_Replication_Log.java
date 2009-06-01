@@ -81,9 +81,10 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	  */
 	public void setAD_Replication_Log_ID (int AD_Replication_Log_ID)
 	{
-		if (AD_Replication_Log_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_Log_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_Log_ID, Integer.valueOf(AD_Replication_Log_ID));
+		if (AD_Replication_Log_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Log_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Log_ID, Integer.valueOf(AD_Replication_Log_ID));
 	}
 
 	/** Get Replication Log.
@@ -119,9 +120,10 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 	  */
 	public void setAD_Replication_Run_ID (int AD_Replication_Run_ID)
 	{
-		if (AD_Replication_Run_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_Run_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, Integer.valueOf(AD_Replication_Run_ID));
+		if (AD_Replication_Run_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, Integer.valueOf(AD_Replication_Run_ID));
 	}
 
 	/** Get Replication Run.

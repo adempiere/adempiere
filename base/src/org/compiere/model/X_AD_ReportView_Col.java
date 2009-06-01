@@ -118,9 +118,10 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 		@param AD_ReportView_Col_ID Report view Column	  */
 	public void setAD_ReportView_Col_ID (int AD_ReportView_Col_ID)
 	{
-		if (AD_ReportView_Col_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReportView_Col_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReportView_Col_ID, Integer.valueOf(AD_ReportView_Col_ID));
+		if (AD_ReportView_Col_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_Col_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_Col_ID, Integer.valueOf(AD_ReportView_Col_ID));
 	}
 
 	/** Get Report view Column.
@@ -155,9 +156,10 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReportView_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+		if (AD_ReportView_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -185,8 +187,6 @@ public class X_AD_ReportView_Col extends PO implements I_AD_ReportView_Col, I_Pe
 	  */
 	public void setFunctionColumn (String FunctionColumn)
 	{
-		if (FunctionColumn == null)
-			throw new IllegalArgumentException ("FunctionColumn is mandatory.");
 		set_Value (COLUMNNAME_FunctionColumn, FunctionColumn);
 	}
 

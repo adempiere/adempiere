@@ -108,9 +108,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintColor_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+		if (AD_PrintColor_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
 	}
 
 	/** Get Print Color.
@@ -146,9 +147,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintFont_ID (int AD_PrintFont_ID)
 	{
-		if (AD_PrintFont_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFont_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintFont_ID, Integer.valueOf(AD_PrintFont_ID));
+		if (AD_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, Integer.valueOf(AD_PrintFont_ID));
 	}
 
 	/** Get Print Font.
@@ -168,9 +170,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -206,9 +209,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_PrintPaper_ID (int AD_PrintPaper_ID)
 	{
-		if (AD_PrintPaper_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintPaper_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintPaper_ID, Integer.valueOf(AD_PrintPaper_ID));
+		if (AD_PrintPaper_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintPaper_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintPaper_ID, Integer.valueOf(AD_PrintPaper_ID));
 	}
 
 	/** Get Print Paper.
@@ -322,9 +326,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -565,8 +570,6 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -99,9 +99,10 @@ public class X_B_Offer extends PO implements I_B_Offer, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -121,9 +122,10 @@ public class X_B_Offer extends PO implements I_B_Offer, I_Persistent
 	  */
 	public void setB_Offer_ID (int B_Offer_ID)
 	{
-		if (B_Offer_ID < 1)
-			 throw new IllegalArgumentException ("B_Offer_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_Offer_ID, Integer.valueOf(B_Offer_ID));
+		if (B_Offer_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_Offer_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_Offer_ID, Integer.valueOf(B_Offer_ID));
 	}
 
 	/** Get Offer.
@@ -159,9 +161,10 @@ public class X_B_Offer extends PO implements I_B_Offer, I_Persistent
 	  */
 	public void setB_SellerFunds_ID (int B_SellerFunds_ID)
 	{
-		if (B_SellerFunds_ID < 1)
-			 throw new IllegalArgumentException ("B_SellerFunds_ID is mandatory.");
-		set_Value (COLUMNNAME_B_SellerFunds_ID, Integer.valueOf(B_SellerFunds_ID));
+		if (B_SellerFunds_ID < 1) 
+			set_Value (COLUMNNAME_B_SellerFunds_ID, null);
+		else 
+			set_Value (COLUMNNAME_B_SellerFunds_ID, Integer.valueOf(B_SellerFunds_ID));
 	}
 
 	/** Get Seller Funds.
@@ -197,9 +200,10 @@ public class X_B_Offer extends PO implements I_B_Offer, I_Persistent
 	  */
 	public void setB_Topic_ID (int B_Topic_ID)
 	{
-		if (B_Topic_ID < 1)
-			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-		set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+		if (B_Topic_ID < 1) 
+			set_Value (COLUMNNAME_B_Topic_ID, null);
+		else 
+			set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
 	}
 
 	/** Get Topic.
@@ -240,8 +244,6 @@ public class X_B_Offer extends PO implements I_B_Offer, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

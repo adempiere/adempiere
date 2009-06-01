@@ -78,9 +78,10 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setAD_AccessLog_ID (int AD_AccessLog_ID)
 	{
-		if (AD_AccessLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_AccessLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AccessLog_ID, Integer.valueOf(AD_AccessLog_ID));
+		if (AD_AccessLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AccessLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AccessLog_ID, Integer.valueOf(AD_AccessLog_ID));
 	}
 
 	/** Get Access Log.
@@ -203,7 +204,7 @@ public class X_AD_AccessLog extends PO implements I_AD_AccessLog, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

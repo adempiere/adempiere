@@ -118,9 +118,10 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID < 1) 
+			set_Value (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.
@@ -156,9 +157,10 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -201,9 +203,10 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+		if (M_PriceList_Version_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
 	}
 
 	/** Get Price List Version.
@@ -223,8 +226,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -264,8 +265,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -110,9 +110,10 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -148,9 +149,10 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -190,8 +192,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -217,8 +217,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setX (String X)
 	{
-		if (X == null)
-			throw new IllegalArgumentException ("X is mandatory.");
 		set_Value (COLUMNNAME_X, X);
 	}
 
@@ -236,8 +234,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setY (String Y)
 	{
-		if (Y == null)
-			throw new IllegalArgumentException ("Y is mandatory.");
 		set_Value (COLUMNNAME_Y, Y);
 	}
 
@@ -255,8 +251,6 @@ public class X_M_Locator extends PO implements I_M_Locator, I_Persistent
 	  */
 	public void setZ (String Z)
 	{
-		if (Z == null)
-			throw new IllegalArgumentException ("Z is mandatory.");
 		set_Value (COLUMNNAME_Z, Z);
 	}
 

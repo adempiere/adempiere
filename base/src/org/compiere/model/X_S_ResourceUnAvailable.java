@@ -81,8 +81,6 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	  */
 	public void setDateFrom (Timestamp DateFrom)
 	{
-		if (DateFrom == null)
-			throw new IllegalArgumentException ("DateFrom is mandatory.");
 		set_Value (COLUMNNAME_DateFrom, DateFrom);
 	}
 
@@ -150,9 +148,10 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.
@@ -178,9 +177,10 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 		@param S_ResourceUnAvailable_ID Resource Unavailability	  */
 	public void setS_ResourceUnAvailable_ID (int S_ResourceUnAvailable_ID)
 	{
-		if (S_ResourceUnAvailable_ID < 1)
-			 throw new IllegalArgumentException ("S_ResourceUnAvailable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_ResourceUnAvailable_ID, Integer.valueOf(S_ResourceUnAvailable_ID));
+		if (S_ResourceUnAvailable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceUnAvailable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceUnAvailable_ID, Integer.valueOf(S_ResourceUnAvailable_ID));
 	}
 
 	/** Get Resource Unavailability.

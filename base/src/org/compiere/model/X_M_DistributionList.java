@@ -113,9 +113,10 @@ public class X_M_DistributionList extends PO implements I_M_DistributionList, I_
 	  */
 	public void setM_DistributionList_ID (int M_DistributionList_ID)
 	{
-		if (M_DistributionList_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
+		if (M_DistributionList_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
 	}
 
 	/** Get Distribution List.
@@ -135,8 +136,6 @@ public class X_M_DistributionList extends PO implements I_M_DistributionList, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

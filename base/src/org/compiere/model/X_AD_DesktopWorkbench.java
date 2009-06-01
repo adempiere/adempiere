@@ -97,9 +97,10 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 	  */
 	public void setAD_Desktop_ID (int AD_Desktop_ID)
 	{
-		if (AD_Desktop_ID < 1)
-			 throw new IllegalArgumentException ("AD_Desktop_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, Integer.valueOf(AD_Desktop_ID));
+		if (AD_Desktop_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, Integer.valueOf(AD_Desktop_ID));
 	}
 
 	/** Get Desktop.
@@ -117,9 +118,10 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 		@param AD_DesktopWorkbench_ID Desktop Workbench	  */
 	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID)
 	{
-		if (AD_DesktopWorkbench_ID < 1)
-			 throw new IllegalArgumentException ("AD_DesktopWorkbench_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, Integer.valueOf(AD_DesktopWorkbench_ID));
+		if (AD_DesktopWorkbench_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_DesktopWorkbench_ID, Integer.valueOf(AD_DesktopWorkbench_ID));
 	}
 
 	/** Get Desktop Workbench.
@@ -154,9 +156,10 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+		if (AD_Workbench_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
 	}
 
 	/** Get Workbench.

@@ -85,8 +85,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setActualAmt (BigDecimal ActualAmt)
 	{
-		if (ActualAmt == null)
-			throw new IllegalArgumentException ("ActualAmt is mandatory.");
 		set_Value (COLUMNNAME_ActualAmt, ActualAmt);
 	}
 
@@ -107,8 +105,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setActualQty (BigDecimal ActualQty)
 	{
-		if (ActualQty == null)
-			throw new IllegalArgumentException ("ActualQty is mandatory.");
 		set_Value (COLUMNNAME_ActualQty, ActualQty);
 	}
 
@@ -145,9 +141,10 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
 	{
-		if (C_CommissionAmt_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionAmt_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, Integer.valueOf(C_CommissionAmt_ID));
+		if (C_CommissionAmt_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, Integer.valueOf(C_CommissionAmt_ID));
 	}
 
 	/** Get Commission Amount.
@@ -167,9 +164,10 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setC_CommissionDetail_ID (int C_CommissionDetail_ID)
 	{
-		if (C_CommissionDetail_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionDetail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionDetail_ID, Integer.valueOf(C_CommissionDetail_ID));
+		if (C_CommissionDetail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionDetail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionDetail_ID, Integer.valueOf(C_CommissionDetail_ID));
 	}
 
 	/** Get Commission Detail.
@@ -205,9 +203,10 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -266,8 +265,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 	  */
 	public void setConvertedAmt (BigDecimal ConvertedAmt)
 	{
-		if (ConvertedAmt == null)
-			throw new IllegalArgumentException ("ConvertedAmt is mandatory.");
 		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
 	}
 

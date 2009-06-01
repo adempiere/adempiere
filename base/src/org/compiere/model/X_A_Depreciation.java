@@ -77,9 +77,10 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 		@param A_Depreciation_ID Depreciation Type	  */
 	public void setA_Depreciation_ID (int A_Depreciation_ID)
 	{
-		if (A_Depreciation_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_ID, Integer.valueOf(A_Depreciation_ID));
+		if (A_Depreciation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_ID, Integer.valueOf(A_Depreciation_ID));
 	}
 
 	/** Get Depreciation Type.
@@ -96,8 +97,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 		@param DepreciationType DepreciationType	  */
 	public void setDepreciationType (String DepreciationType)
 	{
-		if (DepreciationType == null)
-			throw new IllegalArgumentException ("DepreciationType is mandatory.");
 		set_Value (COLUMNNAME_DepreciationType, DepreciationType);
 	}
 
@@ -131,8 +130,6 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

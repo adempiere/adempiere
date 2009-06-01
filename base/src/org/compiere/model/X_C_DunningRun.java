@@ -97,9 +97,10 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 		@param C_DunningLevel_ID Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
-		if (C_DunningLevel_ID < 1)
-			 throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
+		if (C_DunningLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
 	}
 
 	/** Get Dunning Level.
@@ -118,9 +119,10 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	  */
 	public void setC_DunningRun_ID (int C_DunningRun_ID)
 	{
-		if (C_DunningRun_ID < 1)
-			 throw new IllegalArgumentException ("C_DunningRun_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DunningRun_ID, Integer.valueOf(C_DunningRun_ID));
+		if (C_DunningRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRun_ID, Integer.valueOf(C_DunningRun_ID));
 	}
 
 	/** Get Dunning Run.
@@ -157,8 +159,6 @@ public class X_C_DunningRun extends PO implements I_C_DunningRun, I_Persistent
 	  */
 	public void setDunningDate (Timestamp DunningDate)
 	{
-		if (DunningDate == null)
-			throw new IllegalArgumentException ("DunningDate is mandatory.");
 		set_Value (COLUMNNAME_DunningDate, DunningDate);
 	}
 

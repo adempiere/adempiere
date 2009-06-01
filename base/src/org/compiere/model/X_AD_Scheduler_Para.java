@@ -92,9 +92,10 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 		@param AD_Process_Para_ID Process Parameter	  */
 	public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 	{
-		if (AD_Process_Para_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_Para_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
+		if (AD_Process_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
 	}
 
 	/** Get Process Parameter.
@@ -129,9 +130,10 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 	  */
 	public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 	{
-		if (AD_Scheduler_ID < 1)
-			 throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
+		if (AD_Scheduler_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
 	}
 
 	/** Get Scheduler.

@@ -259,9 +259,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (AD_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
 	}
 
 	/** Get Tab.
@@ -297,9 +298,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -335,9 +337,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID < 1)
-			 throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -677,8 +680,6 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

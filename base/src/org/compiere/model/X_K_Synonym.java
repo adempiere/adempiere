@@ -99,9 +99,10 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
 	  */
 	public void setK_Synonym_ID (int K_Synonym_ID)
 	{
-		if (K_Synonym_ID < 1)
-			 throw new IllegalArgumentException ("K_Synonym_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Synonym_ID, Integer.valueOf(K_Synonym_ID));
+		if (K_Synonym_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Synonym_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Synonym_ID, Integer.valueOf(K_Synonym_ID));
 	}
 
 	/** Get Knowledge Synonym.
@@ -121,8 +122,6 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -148,8 +147,6 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
 	  */
 	public void setSynonymName (String SynonymName)
 	{
-		if (SynonymName == null)
-			throw new IllegalArgumentException ("SynonymName is mandatory.");
 		set_Value (COLUMNNAME_SynonymName, SynonymName);
 	}
 

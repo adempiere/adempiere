@@ -103,9 +103,10 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -139,9 +140,10 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 		@param AD_ImpFormat_ID Import Format	  */
 	public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 	{
-		if (AD_ImpFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_ImpFormat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
+		if (AD_ImpFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
 	}
 
 	/** Get Import Format.
@@ -158,9 +160,10 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 		@param AD_ImpFormat_Row_ID Format Field	  */
 	public void setAD_ImpFormat_Row_ID (int AD_ImpFormat_Row_ID)
 	{
-		if (AD_ImpFormat_Row_ID < 1)
-			 throw new IllegalArgumentException ("AD_ImpFormat_Row_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_Row_ID, Integer.valueOf(AD_ImpFormat_Row_ID));
+		if (AD_ImpFormat_Row_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_Row_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_Row_ID, Integer.valueOf(AD_ImpFormat_Row_ID));
 	}
 
 	/** Get Format Field.
@@ -240,7 +243,7 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setDataType (String DataType)
 	{
-		if (DataType == null) throw new IllegalArgumentException ("DataType is mandatory");
+
 		set_Value (COLUMNNAME_DataType, DataType);
 	}
 
@@ -258,8 +261,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setDecimalPoint (String DecimalPoint)
 	{
-		if (DecimalPoint == null)
-			throw new IllegalArgumentException ("DecimalPoint is mandatory.");
 		set_Value (COLUMNNAME_DecimalPoint, DecimalPoint);
 	}
 
@@ -318,8 +319,6 @@ public class X_AD_ImpFormat_Row extends PO implements I_AD_ImpFormat_Row, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

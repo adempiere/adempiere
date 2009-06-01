@@ -95,9 +95,10 @@ public class X_AD_Process_Access extends PO implements I_AD_Process_Access, I_Pe
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -133,9 +134,10 @@ public class X_AD_Process_Access extends PO implements I_AD_Process_Access, I_Pe
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.

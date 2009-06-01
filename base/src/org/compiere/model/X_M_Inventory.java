@@ -230,9 +230,10 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -338,7 +339,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -382,7 +383,7 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -400,8 +401,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -468,9 +467,10 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setM_Inventory_ID (int M_Inventory_ID)
 	{
-		if (M_Inventory_ID < 1)
-			 throw new IllegalArgumentException ("M_Inventory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+		if (M_Inventory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Inventory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
 	}
 
 	/** Get Phys.Inventory.
@@ -490,8 +490,6 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 
@@ -564,9 +562,10 @@ public class X_M_Inventory extends PO implements I_M_Inventory, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.

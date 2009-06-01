@@ -203,7 +203,7 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	  */
 	public void setCashBookTransferType (String CashBookTransferType)
 	{
-		if (CashBookTransferType == null) throw new IllegalArgumentException ("CashBookTransferType is mandatory");
+
 		set_Value (COLUMNNAME_CashBookTransferType, CashBookTransferType);
 	}
 
@@ -283,9 +283,10 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	  */
 	public void setC_CashBook_ID (int C_CashBook_ID)
 	{
-		if (C_CashBook_ID < 1)
-			 throw new IllegalArgumentException ("C_CashBook_ID is mandatory.");
-		set_Value (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+		if (C_CashBook_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
 	}
 
 	/** Get Cash Book.
@@ -305,9 +306,10 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	  */
 	public void setC_CashBPartner_ID (int C_CashBPartner_ID)
 	{
-		if (C_CashBPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_CashBPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
+		if (C_CashBPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
 	}
 
 	/** Get Cash BPartner.
@@ -689,9 +691,10 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		@param U_POSTerminal_ID POS Terminal	  */
 	public void setU_POSTerminal_ID (int U_POSTerminal_ID)
 	{
-		if (U_POSTerminal_ID < 1)
-			 throw new IllegalArgumentException ("U_POSTerminal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_U_POSTerminal_ID, Integer.valueOf(U_POSTerminal_ID));
+		if (U_POSTerminal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_U_POSTerminal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_U_POSTerminal_ID, Integer.valueOf(U_POSTerminal_ID));
 	}
 
 	/** Get POS Terminal.

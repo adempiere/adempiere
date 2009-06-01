@@ -440,9 +440,10 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	  */
 	public void setI_Product_ID (int I_Product_ID)
 	{
-		if (I_Product_ID < 1)
-			 throw new IllegalArgumentException ("I_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Product_ID, Integer.valueOf(I_Product_ID));
+		if (I_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Product_ID, Integer.valueOf(I_Product_ID));
 	}
 
 	/** Get Import Product.

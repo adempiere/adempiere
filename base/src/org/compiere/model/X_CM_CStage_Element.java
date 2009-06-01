@@ -80,9 +80,10 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	  */
 	public void setCM_CStage_Element_ID (int CM_CStage_Element_ID)
 	{
-		if (CM_CStage_Element_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_Element_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_Element_ID, Integer.valueOf(CM_CStage_Element_ID));
+		if (CM_CStage_Element_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_Element_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_Element_ID, Integer.valueOf(CM_CStage_Element_ID));
 	}
 
 	/** Get Container Stage Element.
@@ -118,9 +119,10 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	  */
 	public void setCM_CStage_ID (int CM_CStage_ID)
 	{
-		if (CM_CStage_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+		if (CM_CStage_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
 	}
 
 	/** Get Web Container Stage.
@@ -215,8 +217,6 @@ public class X_CM_CStage_Element extends PO implements I_CM_CStage_Element, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

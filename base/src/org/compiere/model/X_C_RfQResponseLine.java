@@ -98,9 +98,10 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	  */
 	public void setC_RfQLine_ID (int C_RfQLine_ID)
 	{
-		if (C_RfQLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
+		if (C_RfQLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
 	}
 
 	/** Get RfQ Line.
@@ -136,9 +137,10 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	  */
 	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 	{
-		if (C_RfQResponse_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
+		if (C_RfQResponse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
 	}
 
 	/** Get RfQ Response.
@@ -158,9 +160,10 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	  */
 	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
 	{
-		if (C_RfQResponseLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
+		if (C_RfQResponseLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
 	}
 
 	/** Get RfQ Response Line.

@@ -100,7 +100,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
@@ -196,9 +196,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -477,8 +478,6 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -578,8 +577,6 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

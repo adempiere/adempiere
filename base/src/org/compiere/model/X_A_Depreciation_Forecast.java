@@ -79,9 +79,10 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		@param A_Depreciation_Forecast_ID A_Depreciation_Forecast_ID	  */
 	public void setA_Depreciation_Forecast_ID (int A_Depreciation_Forecast_ID)
 	{
-		if (A_Depreciation_Forecast_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Forecast_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Forecast_ID, Integer.valueOf(A_Depreciation_Forecast_ID));
+		if (A_Depreciation_Forecast_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Forecast_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Forecast_ID, Integer.valueOf(A_Depreciation_Forecast_ID));
 	}
 
 	/** Get A_Depreciation_Forecast_ID.
@@ -106,9 +107,10 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		@param A_End_Asset_ID End Aset ID	  */
 	public void setA_End_Asset_ID (int A_End_Asset_ID)
 	{
-		if (A_End_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_End_Asset_ID is mandatory.");
-		set_Value (COLUMNNAME_A_End_Asset_ID, Integer.valueOf(A_End_Asset_ID));
+		if (A_End_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_End_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_End_Asset_ID, Integer.valueOf(A_End_Asset_ID));
 	}
 
 	/** Get End Aset ID.
@@ -125,9 +127,10 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 		@param A_Start_Asset_ID A_Start_Asset_ID	  */
 	public void setA_Start_Asset_ID (int A_Start_Asset_ID)
 	{
-		if (A_Start_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Start_Asset_ID is mandatory.");
-		set_Value (COLUMNNAME_A_Start_Asset_ID, Integer.valueOf(A_Start_Asset_ID));
+		if (A_Start_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Start_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Start_Asset_ID, Integer.valueOf(A_Start_Asset_ID));
 	}
 
 	/** Get A_Start_Asset_ID.
@@ -146,8 +149,6 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
@@ -177,7 +178,7 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

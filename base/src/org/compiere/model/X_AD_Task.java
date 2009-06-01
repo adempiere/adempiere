@@ -97,7 +97,7 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
@@ -115,9 +115,10 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID < 1)
-			 throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -215,8 +216,6 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -242,8 +241,6 @@ public class X_AD_Task extends PO implements I_AD_Task, I_Persistent
 	  */
 	public void setOS_Command (String OS_Command)
 	{
-		if (OS_Command == null)
-			throw new IllegalArgumentException ("OS_Command is mandatory.");
 		set_Value (COLUMNNAME_OS_Command, OS_Command);
 	}
 

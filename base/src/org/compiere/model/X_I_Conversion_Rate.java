@@ -279,9 +279,10 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	  */
 	public void setI_Conversion_Rate_ID (int I_Conversion_Rate_ID)
 	{
-		if (I_Conversion_Rate_ID < 1)
-			 throw new IllegalArgumentException ("I_Conversion_Rate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Conversion_Rate_ID, Integer.valueOf(I_Conversion_Rate_ID));
+		if (I_Conversion_Rate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Conversion_Rate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Conversion_Rate_ID, Integer.valueOf(I_Conversion_Rate_ID));
 	}
 
 	/** Get Import Conversion Rate.

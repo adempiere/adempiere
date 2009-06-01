@@ -110,9 +110,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -187,9 +188,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setC_PaySelection_ID (int C_PaySelection_ID)
 	{
-		if (C_PaySelection_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySelection_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
+		if (C_PaySelection_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
 	}
 
 	/** Get Payment Selection.
@@ -209,9 +211,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setC_PaySelectionLine_ID (int C_PaySelectionLine_ID)
 	{
-		if (C_PaySelectionLine_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySelectionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySelectionLine_ID, Integer.valueOf(C_PaySelectionLine_ID));
+		if (C_PaySelectionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionLine_ID, Integer.valueOf(C_PaySelectionLine_ID));
 	}
 
 	/** Get Payment Selection Line.
@@ -256,8 +259,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setDifferenceAmt (BigDecimal DifferenceAmt)
 	{
-		if (DifferenceAmt == null)
-			throw new IllegalArgumentException ("DifferenceAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DifferenceAmt, DifferenceAmt);
 	}
 
@@ -278,8 +279,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setDiscountAmt (BigDecimal DiscountAmt)
 	{
-		if (DiscountAmt == null)
-			throw new IllegalArgumentException ("DiscountAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DiscountAmt, DiscountAmt);
 	}
 
@@ -368,8 +367,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setOpenAmt (BigDecimal OpenAmt)
 	{
-		if (OpenAmt == null)
-			throw new IllegalArgumentException ("OpenAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_OpenAmt, OpenAmt);
 	}
 
@@ -390,8 +387,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setPayAmt (BigDecimal PayAmt)
 	{
-		if (PayAmt == null)
-			throw new IllegalArgumentException ("PayAmt is mandatory.");
 		set_Value (COLUMNNAME_PayAmt, PayAmt);
 	}
 
@@ -428,7 +423,7 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 

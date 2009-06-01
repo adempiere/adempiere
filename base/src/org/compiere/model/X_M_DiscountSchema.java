@@ -134,7 +134,7 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setDiscountType (String DiscountType)
 	{
-		if (DiscountType == null) throw new IllegalArgumentException ("DiscountType is mandatory");
+
 		set_Value (COLUMNNAME_DiscountType, DiscountType);
 	}
 
@@ -220,9 +220,10 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.
@@ -242,8 +243,6 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -307,8 +306,6 @@ public class X_M_DiscountSchema extends PO implements I_M_DiscountSchema, I_Pers
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -95,9 +95,10 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
 	  */
 	public void setK_Entry_ID (int K_Entry_ID)
 	{
-		if (K_Entry_ID < 1)
-			 throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+		if (K_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
 	}
 
 	/** Get Entry.
@@ -117,9 +118,10 @@ public class X_K_EntryRelated extends PO implements I_K_EntryRelated, I_Persiste
 	  */
 	public void setK_EntryRelated_ID (int K_EntryRelated_ID)
 	{
-		if (K_EntryRelated_ID < 1)
-			 throw new IllegalArgumentException ("K_EntryRelated_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_EntryRelated_ID, Integer.valueOf(K_EntryRelated_ID));
+		if (K_EntryRelated_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_EntryRelated_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_EntryRelated_ID, Integer.valueOf(K_EntryRelated_ID));
 	}
 
 	/** Get Related Entry.

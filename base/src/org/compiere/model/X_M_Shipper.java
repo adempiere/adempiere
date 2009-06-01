@@ -135,9 +135,10 @@ public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID < 1)
-			 throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.
@@ -157,8 +158,6 @@ public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

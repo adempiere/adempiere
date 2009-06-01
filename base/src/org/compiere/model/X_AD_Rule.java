@@ -112,9 +112,10 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 		@param AD_Rule_ID Rule	  */
 	public void setAD_Rule_ID (int AD_Rule_ID)
 	{
-		if (AD_Rule_ID < 1)
-			 throw new IllegalArgumentException ("AD_Rule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+		if (AD_Rule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
 	}
 
 	/** Get Rule.
@@ -182,7 +183,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setEventType (String EventType)
 	{
-		if (EventType == null) throw new IllegalArgumentException ("EventType is mandatory");
+
 		set_Value (COLUMNNAME_EventType, EventType);
 	}
 
@@ -217,8 +218,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -252,7 +251,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 		@param RuleType Rule Type	  */
 	public void setRuleType (String RuleType)
 	{
-		if (RuleType == null) throw new IllegalArgumentException ("RuleType is mandatory");
+
 		set_Value (COLUMNNAME_RuleType, RuleType);
 	}
 
@@ -286,8 +285,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

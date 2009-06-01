@@ -98,9 +98,10 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -120,9 +121,10 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	  */
 	public void setAD_User_Substitute_ID (int AD_User_Substitute_ID)
 	{
-		if (AD_User_Substitute_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_Substitute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_Substitute_ID, Integer.valueOf(AD_User_Substitute_ID));
+		if (AD_User_Substitute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_Substitute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_Substitute_ID, Integer.valueOf(AD_User_Substitute_ID));
 	}
 
 	/** Get User Substitute.
@@ -159,8 +161,6 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -186,9 +186,10 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	  */
 	public void setSubstitute_ID (int Substitute_ID)
 	{
-		if (Substitute_ID < 1)
-			 throw new IllegalArgumentException ("Substitute_ID is mandatory.");
-		set_Value (COLUMNNAME_Substitute_ID, Integer.valueOf(Substitute_ID));
+		if (Substitute_ID < 1) 
+			set_Value (COLUMNNAME_Substitute_ID, null);
+		else 
+			set_Value (COLUMNNAME_Substitute_ID, Integer.valueOf(Substitute_ID));
 	}
 
 	/** Get Substitute.

@@ -119,9 +119,10 @@ public class X_C_RfQ_Topic extends PO implements I_C_RfQ_Topic, I_Persistent
 	  */
 	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
 	{
-		if (C_RfQ_Topic_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_Topic_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
+		if (C_RfQ_Topic_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_Topic_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
 	}
 
 	/** Get RfQ Topic.
@@ -182,8 +183,6 @@ public class X_C_RfQ_Topic extends PO implements I_C_RfQ_Topic, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

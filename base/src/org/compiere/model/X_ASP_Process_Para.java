@@ -176,7 +176,7 @@ public class X_ASP_Process_Para extends PO implements I_ASP_Process_Para, I_Pers
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

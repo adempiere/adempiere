@@ -79,9 +79,10 @@ public class X_C_BankStatementMatcher extends PO implements I_C_BankStatementMat
 	  */
 	public void setC_BankStatementMatcher_ID (int C_BankStatementMatcher_ID)
 	{
-		if (C_BankStatementMatcher_ID < 1)
-			 throw new IllegalArgumentException ("C_BankStatementMatcher_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankStatementMatcher_ID, Integer.valueOf(C_BankStatementMatcher_ID));
+		if (C_BankStatementMatcher_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementMatcher_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementMatcher_ID, Integer.valueOf(C_BankStatementMatcher_ID));
 	}
 
 	/** Get Bank Statement Matcher.
@@ -101,8 +102,6 @@ public class X_C_BankStatementMatcher extends PO implements I_C_BankStatementMat
 	  */
 	public void setClassname (String Classname)
 	{
-		if (Classname == null)
-			throw new IllegalArgumentException ("Classname is mandatory.");
 		set_Value (COLUMNNAME_Classname, Classname);
 	}
 
@@ -137,8 +136,6 @@ public class X_C_BankStatementMatcher extends PO implements I_C_BankStatementMat
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

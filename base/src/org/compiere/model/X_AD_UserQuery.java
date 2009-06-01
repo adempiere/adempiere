@@ -97,9 +97,10 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (AD_Tab_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
 	}
 
 	/** Get Tab.
@@ -135,9 +136,10 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -196,9 +198,10 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setAD_UserQuery_ID (int AD_UserQuery_ID)
 	{
-		if (AD_UserQuery_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserQuery_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
+		if (AD_UserQuery_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
 	}
 
 	/** Get User Query.
@@ -252,8 +255,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

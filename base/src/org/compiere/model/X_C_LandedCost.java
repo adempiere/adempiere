@@ -98,9 +98,10 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -128,9 +129,10 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setC_LandedCost_ID (int C_LandedCost_ID)
 	{
-		if (C_LandedCost_ID < 1)
-			 throw new IllegalArgumentException ("C_LandedCost_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, Integer.valueOf(C_LandedCost_ID));
+		if (C_LandedCost_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, Integer.valueOf(C_LandedCost_ID));
 	}
 
 	/** Get Landed Cost.
@@ -179,7 +181,7 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setLandedCostDistribution (String LandedCostDistribution)
 	{
-		if (LandedCostDistribution == null) throw new IllegalArgumentException ("LandedCostDistribution is mandatory");
+
 		set_Value (COLUMNNAME_LandedCostDistribution, LandedCostDistribution);
 	}
 
@@ -213,9 +215,10 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID < 1)
-			 throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-		set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID < 1) 
+			set_Value (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.

@@ -153,7 +153,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -460,7 +460,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
+
 		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
@@ -488,7 +488,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
 	{
-		if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");
+
 		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
 	}
 
@@ -708,8 +708,6 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -743,7 +741,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setDueType (String DueType)
 	{
-		if (DueType == null) throw new IllegalArgumentException ("DueType is mandatory");
+
 		set_Value (COLUMNNAME_DueType, DueType);
 	}
 
@@ -1105,7 +1103,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setPriority (String Priority)
 	{
-		if (Priority == null) throw new IllegalArgumentException ("Priority is mandatory");
+
 		set_Value (COLUMNNAME_Priority, Priority);
 	}
 
@@ -1276,7 +1274,7 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
@@ -1299,8 +1297,6 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setRequestAmt (BigDecimal RequestAmt)
 	{
-		if (RequestAmt == null)
-			throw new IllegalArgumentException ("RequestAmt is mandatory.");
 		set_Value (COLUMNNAME_RequestAmt, RequestAmt);
 	}
 
@@ -1416,9 +1412,10 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID < 1)
-			 throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.
@@ -1477,9 +1474,10 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setR_RequestType_ID (int R_RequestType_ID)
 	{
-		if (R_RequestType_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestType_ID is mandatory.");
-		set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
+		if (R_RequestType_ID < 1) 
+			set_Value (COLUMNNAME_R_RequestType_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_RequestType_ID, Integer.valueOf(R_RequestType_ID));
 	}
 
 	/** Get Request Type.
@@ -1673,8 +1671,6 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	  */
 	public void setSummary (String Summary)
 	{
-		if (Summary == null)
-			throw new IllegalArgumentException ("Summary is mandatory.");
 		set_Value (COLUMNNAME_Summary, Summary);
 	}
 

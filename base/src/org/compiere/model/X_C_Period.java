@@ -85,9 +85,10 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -123,9 +124,10 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	  */
 	public void setC_Year_ID (int C_Year_ID)
 	{
-		if (C_Year_ID < 1)
-			 throw new IllegalArgumentException ("C_Year_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Year_ID, Integer.valueOf(C_Year_ID));
+		if (C_Year_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Year_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Year_ID, Integer.valueOf(C_Year_ID));
 	}
 
 	/** Get Year.
@@ -162,8 +164,6 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -215,7 +215,7 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	  */
 	public void setPeriodType (String PeriodType)
 	{
-		if (PeriodType == null) throw new IllegalArgumentException ("PeriodType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_PeriodType, PeriodType);
 	}
 
@@ -254,8 +254,6 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 	  */
 	public void setStartDate (Timestamp StartDate)
 	{
-		if (StartDate == null)
-			throw new IllegalArgumentException ("StartDate is mandatory.");
 		set_Value (COLUMNNAME_StartDate, StartDate);
 	}
 

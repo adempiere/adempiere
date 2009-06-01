@@ -75,9 +75,10 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 		@param A_Depreciation_Convention_ID A_Depreciation_Convention_ID	  */
 	public void setA_Depreciation_Convention_ID (int A_Depreciation_Convention_ID)
 	{
-		if (A_Depreciation_Convention_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Convention_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Convention_ID, Integer.valueOf(A_Depreciation_Convention_ID));
+		if (A_Depreciation_Convention_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Convention_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Convention_ID, Integer.valueOf(A_Depreciation_Convention_ID));
 	}
 
 	/** Get A_Depreciation_Convention_ID.

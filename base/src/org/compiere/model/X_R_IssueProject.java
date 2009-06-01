@@ -175,8 +175,6 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -219,9 +217,10 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setR_IssueProject_ID (int R_IssueProject_ID)
 	{
-		if (R_IssueProject_ID < 1)
-			 throw new IllegalArgumentException ("R_IssueProject_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_IssueProject_ID, Integer.valueOf(R_IssueProject_ID));
+		if (R_IssueProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_IssueProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_IssueProject_ID, Integer.valueOf(R_IssueProject_ID));
 	}
 
 	/** Get Issue Project.
@@ -266,7 +265,7 @@ public class X_R_IssueProject extends PO implements I_R_IssueProject, I_Persiste
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 

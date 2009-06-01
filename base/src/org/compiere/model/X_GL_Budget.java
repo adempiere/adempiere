@@ -119,9 +119,10 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID < 1)
-			 throw new IllegalArgumentException ("GL_Budget_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -165,8 +166,6 @@ public class X_GL_Budget extends PO implements I_GL_Budget, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

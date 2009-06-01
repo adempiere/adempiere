@@ -417,9 +417,10 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	  */
 	public void setGL_Distribution_ID (int GL_Distribution_ID)
 	{
-		if (GL_Distribution_ID < 1)
-			 throw new IllegalArgumentException ("GL_Distribution_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, Integer.valueOf(GL_Distribution_ID));
+		if (GL_Distribution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, Integer.valueOf(GL_Distribution_ID));
 	}
 
 	/** Get GL Distribution.
@@ -439,9 +440,10 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	  */
 	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
 	{
-		if (GL_DistributionLine_ID < 1)
-			 throw new IllegalArgumentException ("GL_DistributionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
+		if (GL_DistributionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
 	}
 
 	/** Get GL Distribution Line.
@@ -863,8 +865,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	  */
 	public void setPercent (BigDecimal Percent)
 	{
-		if (Percent == null)
-			throw new IllegalArgumentException ("Percent is mandatory.");
 		set_Value (COLUMNNAME_Percent, Percent);
 	}
 

@@ -261,9 +261,10 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param AD_Package_Exp_Detail_ID AD_Package_Exp_Detail_ID	  */
 	public void setAD_Package_Exp_Detail_ID (int AD_Package_Exp_Detail_ID)
 	{
-		if (AD_Package_Exp_Detail_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Exp_Detail_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Package_Exp_Detail_ID, Integer.valueOf(AD_Package_Exp_Detail_ID));
+		if (AD_Package_Exp_Detail_ID < 1) 
+			set_Value (COLUMNNAME_AD_Package_Exp_Detail_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Package_Exp_Detail_ID, Integer.valueOf(AD_Package_Exp_Detail_ID));
 	}
 
 	/** Get AD_Package_Exp_Detail_ID.
@@ -288,9 +289,10 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		@param AD_Package_Exp_ID AD_Package_Exp_ID	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 	{
-		if (AD_Package_Exp_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Exp_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
+		if (AD_Package_Exp_ID < 1) 
+			set_Value (COLUMNNAME_AD_Package_Exp_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
 	}
 
 	/** Get AD_Package_Exp_ID.
@@ -481,7 +483,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -716,8 +718,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -984,7 +984,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	  */
 	public void setType (String Type)
 	{
-		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
+
 		set_Value (COLUMNNAME_Type, Type);
 	}
 

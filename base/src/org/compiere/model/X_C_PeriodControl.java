@@ -80,9 +80,10 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 		@param C_PeriodControl_ID Period Control	  */
 	public void setC_PeriodControl_ID (int C_PeriodControl_ID)
 	{
-		if (C_PeriodControl_ID < 1)
-			 throw new IllegalArgumentException ("C_PeriodControl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, Integer.valueOf(C_PeriodControl_ID));
+		if (C_PeriodControl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, Integer.valueOf(C_PeriodControl_ID));
 	}
 
 	/** Get Period Control.
@@ -125,9 +126,10 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -207,7 +209,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	  */
 	public void setDocBaseType (String DocBaseType)
 	{
-		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
@@ -235,7 +237,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	  */
 	public void setPeriodAction (String PeriodAction)
 	{
-		if (PeriodAction == null) throw new IllegalArgumentException ("PeriodAction is mandatory");
+
 		set_Value (COLUMNNAME_PeriodAction, PeriodAction);
 	}
 

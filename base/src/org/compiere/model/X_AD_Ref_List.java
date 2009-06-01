@@ -100,9 +100,10 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -122,9 +123,10 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	  */
 	public void setAD_Ref_List_ID (int AD_Ref_List_ID)
 	{
-		if (AD_Ref_List_ID < 1)
-			 throw new IllegalArgumentException ("AD_Ref_List_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
+		if (AD_Ref_List_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
 	}
 
 	/** Get Reference List.
@@ -181,8 +183,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -242,8 +242,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

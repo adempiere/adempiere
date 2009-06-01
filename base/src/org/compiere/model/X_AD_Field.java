@@ -110,9 +110,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -171,9 +172,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_Field_ID (int AD_Field_ID)
 	{
-		if (AD_Field_ID < 1)
-			 throw new IllegalArgumentException ("AD_Field_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
+		if (AD_Field_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
 	}
 
 	/** Get Field.
@@ -255,9 +257,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (AD_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
 	}
 
 	/** Get Tab.
@@ -633,8 +636,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

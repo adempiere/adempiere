@@ -121,8 +121,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setBeginningBalance (BigDecimal BeginningBalance)
 	{
-		if (BeginningBalance == null)
-			throw new IllegalArgumentException ("BeginningBalance is mandatory.");
 		set_Value (COLUMNNAME_BeginningBalance, BeginningBalance);
 	}
 
@@ -237,9 +235,10 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setC_CashBook_ID (int C_CashBook_ID)
 	{
-		if (C_CashBook_ID < 1)
-			 throw new IllegalArgumentException ("C_CashBook_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+		if (C_CashBook_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
 	}
 
 	/** Get Cash Book.
@@ -259,9 +258,10 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setC_Cash_ID (int C_Cash_ID)
 	{
-		if (C_Cash_ID < 1)
-			 throw new IllegalArgumentException ("C_Cash_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
+		if (C_Cash_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
 	}
 
 	/** Get Cash Journal.
@@ -320,8 +320,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -386,7 +384,7 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -430,7 +428,7 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -448,8 +446,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setEndingBalance (BigDecimal EndingBalance)
 	{
-		if (EndingBalance == null)
-			throw new IllegalArgumentException ("EndingBalance is mandatory.");
 		set_Value (COLUMNNAME_EndingBalance, EndingBalance);
 	}
 
@@ -494,8 +490,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -590,8 +584,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	  */
 	public void setStatementDate (Timestamp StatementDate)
 	{
-		if (StatementDate == null)
-			throw new IllegalArgumentException ("StatementDate is mandatory.");
 		set_Value (COLUMNNAME_StatementDate, StatementDate);
 	}
 

@@ -95,9 +95,10 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 	{
-		if (AD_WorkflowProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_WorkflowProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
+		if (AD_WorkflowProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
 	}
 
 	/** Get Workflow Processor.
@@ -117,9 +118,10 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
 	  */
 	public void setAD_WorkflowProcessorLog_ID (int AD_WorkflowProcessorLog_ID)
 	{
-		if (AD_WorkflowProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_WorkflowProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, Integer.valueOf(AD_WorkflowProcessorLog_ID));
+		if (AD_WorkflowProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessorLog_ID, Integer.valueOf(AD_WorkflowProcessorLog_ID));
 	}
 
 	/** Get Workflow Processorl Log.

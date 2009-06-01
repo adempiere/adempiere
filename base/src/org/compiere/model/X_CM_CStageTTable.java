@@ -97,9 +97,10 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setCM_CStage_ID (int CM_CStage_ID)
 	{
-		if (CM_CStage_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+		if (CM_CStage_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
 	}
 
 	/** Get Web Container Stage.
@@ -119,9 +120,10 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
 	{
-		if (CM_CStageTTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStageTTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
+		if (CM_CStageTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
 	}
 
 	/** Get Stage T.Table.
@@ -157,9 +159,10 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
 	{
-		if (CM_TemplateTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+		if (CM_TemplateTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
 	}
 
 	/** Get Template Table.
@@ -196,8 +199,6 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -240,7 +241,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

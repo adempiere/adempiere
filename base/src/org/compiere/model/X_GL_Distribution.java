@@ -487,9 +487,10 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -642,7 +643,7 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -806,9 +807,10 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setGL_Distribution_ID (int GL_Distribution_ID)
 	{
-		if (GL_Distribution_ID < 1)
-			 throw new IllegalArgumentException ("GL_Distribution_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, Integer.valueOf(GL_Distribution_ID));
+		if (GL_Distribution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Distribution_ID, Integer.valueOf(GL_Distribution_ID));
 	}
 
 	/** Get GL Distribution.
@@ -932,8 +934,6 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -982,8 +982,6 @@ public class X_GL_Distribution extends PO implements I_GL_Distribution, I_Persis
 	  */
 	public void setPercentTotal (BigDecimal PercentTotal)
 	{
-		if (PercentTotal == null)
-			throw new IllegalArgumentException ("PercentTotal is mandatory.");
 		set_Value (COLUMNNAME_PercentTotal, PercentTotal);
 	}
 

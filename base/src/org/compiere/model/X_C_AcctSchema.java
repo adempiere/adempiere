@@ -150,9 +150,10 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -188,9 +189,10 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -224,7 +226,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setCommitmentType (String CommitmentType)
 	{
-		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
+
 		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
 	}
 
@@ -250,7 +252,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setCostingLevel (String CostingLevel)
 	{
-		if (CostingLevel == null) throw new IllegalArgumentException ("CostingLevel is mandatory");
+
 		set_Value (COLUMNNAME_CostingLevel, CostingLevel);
 	}
 
@@ -288,7 +290,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setCostingMethod (String CostingMethod)
 	{
-		if (CostingMethod == null) throw new IllegalArgumentException ("CostingMethod is mandatory");
+
 		set_Value (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
@@ -374,7 +376,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setGAAP (String GAAP)
 	{
-		if (GAAP == null) throw new IllegalArgumentException ("GAAP is mandatory");
+
 		set_Value (COLUMNNAME_GAAP, GAAP);
 	}
 
@@ -648,9 +650,10 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setM_CostType_ID (int M_CostType_ID)
 	{
-		if (M_CostType_ID < 1)
-			 throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-		set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+		if (M_CostType_ID < 1) 
+			set_Value (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
 	}
 
 	/** Get Cost Type.
@@ -670,8 +673,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -758,8 +759,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setSeparator (String Separator)
 	{
-		if (Separator == null)
-			throw new IllegalArgumentException ("Separator is mandatory.");
 		set_Value (COLUMNNAME_Separator, Separator);
 	}
 
@@ -787,7 +786,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	  */
 	public void setTaxCorrectionType (String TaxCorrectionType)
 	{
-		if (TaxCorrectionType == null) throw new IllegalArgumentException ("TaxCorrectionType is mandatory");
+
 		set_Value (COLUMNNAME_TaxCorrectionType, TaxCorrectionType);
 	}
 

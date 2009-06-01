@@ -103,7 +103,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setAccountSign (String AccountSign)
 	{
-		if (AccountSign == null) throw new IllegalArgumentException ("AccountSign is mandatory");
+
 		set_Value (COLUMNNAME_AccountSign, AccountSign);
 	}
 
@@ -135,7 +135,7 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setAccountType (String AccountType)
 	{
-		if (AccountType == null) throw new IllegalArgumentException ("AccountType is mandatory");
+
 		set_Value (COLUMNNAME_AccountType, AccountType);
 	}
 
@@ -247,9 +247,10 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setC_Element_ID (int C_Element_ID)
 	{
-		if (C_Element_ID < 1)
-			 throw new IllegalArgumentException ("C_Element_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
+		if (C_Element_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Element_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
 	}
 
 	/** Get Element.
@@ -269,9 +270,10 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID < 1)
-			 throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -404,8 +406,6 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -553,8 +553,6 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

@@ -95,8 +95,6 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -120,9 +118,10 @@ public class X_PA_ReportLineSet extends PO implements I_PA_ReportLineSet, I_Pers
 		@param PA_ReportLineSet_ID Report Line Set	  */
 	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 	{
-		if (PA_ReportLineSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
+		if (PA_ReportLineSet_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
 	}
 
 	/** Get Report Line Set.

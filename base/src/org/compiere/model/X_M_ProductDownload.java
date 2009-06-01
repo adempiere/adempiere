@@ -81,8 +81,6 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	  */
 	public void setDownloadURL (String DownloadURL)
 	{
-		if (DownloadURL == null)
-			throw new IllegalArgumentException ("DownloadURL is mandatory.");
 		set_Value (COLUMNNAME_DownloadURL, DownloadURL);
 	}
 
@@ -100,9 +98,10 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	  */
 	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
 	{
-		if (M_ProductDownload_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductDownload_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
+		if (M_ProductDownload_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
 	}
 
 	/** Get Product Download.
@@ -138,9 +137,10 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -160,8 +160,6 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

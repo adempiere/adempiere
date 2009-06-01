@@ -156,9 +156,10 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param A_Asset_Change_ID A_Asset_Change_ID	  */
 	public void setA_Asset_Change_ID (int A_Asset_Change_ID)
 	{
-		if (A_Asset_Change_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Change_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Change_ID, Integer.valueOf(A_Asset_Change_ID));
+		if (A_Asset_Change_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Change_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Change_ID, Integer.valueOf(A_Asset_Change_ID));
 	}
 
 	/** Get A_Asset_Change_ID.
@@ -199,9 +200,10 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -937,7 +939,7 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param ChangeType ChangeType	  */
 	public void setChangeType (String ChangeType)
 	{
-		if (ChangeType == null) throw new IllegalArgumentException ("ChangeType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_ChangeType, ChangeType);
 	}
 
@@ -1250,8 +1252,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param TextDetails Details	  */
 	public void setTextDetails (String TextDetails)
 	{
-		if (TextDetails == null)
-			throw new IllegalArgumentException ("TextDetails is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TextDetails, TextDetails);
 	}
 

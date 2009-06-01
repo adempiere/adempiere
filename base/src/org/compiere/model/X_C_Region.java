@@ -96,9 +96,10 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
 	  */
 	public void setC_Country_ID (int C_Country_ID)
 	{
-		if (C_Country_ID < 1)
-			 throw new IllegalArgumentException ("C_Country_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
+		if (C_Country_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Country_ID, Integer.valueOf(C_Country_ID));
 	}
 
 	/** Get Country.
@@ -118,9 +119,10 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
 	  */
 	public void setC_Region_ID (int C_Region_ID)
 	{
-		if (C_Region_ID < 1)
-			 throw new IllegalArgumentException ("C_Region_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+		if (C_Region_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
 	}
 
 	/** Get Region.
@@ -181,8 +183,6 @@ public class X_C_Region extends PO implements I_C_Region, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

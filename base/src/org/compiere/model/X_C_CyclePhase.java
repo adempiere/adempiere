@@ -94,9 +94,10 @@ public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent
 	  */
 	public void setC_CycleStep_ID (int C_CycleStep_ID)
 	{
-		if (C_CycleStep_ID < 1)
-			 throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
+		if (C_CycleStep_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
 	}
 
 	/** Get Cycle Step.
@@ -132,9 +133,10 @@ public class X_C_CyclePhase extends PO implements I_C_CyclePhase, I_Persistent
 	  */
 	public void setC_Phase_ID (int C_Phase_ID)
 	{
-		if (C_Phase_ID < 1)
-			 throw new IllegalArgumentException ("C_Phase_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
+		if (C_Phase_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Phase_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
 	}
 
 	/** Get Standard Phase.

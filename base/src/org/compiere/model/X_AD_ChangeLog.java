@@ -83,9 +83,10 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setAD_ChangeLog_ID (int AD_ChangeLog_ID)
 	{
-		if (AD_ChangeLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_ChangeLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ChangeLog_ID, Integer.valueOf(AD_ChangeLog_ID));
+		if (AD_ChangeLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ChangeLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ChangeLog_ID, Integer.valueOf(AD_ChangeLog_ID));
 	}
 
 	/** Get Change Log.
@@ -121,9 +122,10 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -159,9 +161,10 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setAD_Session_ID (int AD_Session_ID)
 	{
-		if (AD_Session_ID < 1)
-			 throw new IllegalArgumentException ("AD_Session_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));
+		if (AD_Session_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Session_ID, Integer.valueOf(AD_Session_ID));
 	}
 
 	/** Get Session.
@@ -205,9 +208,10 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -328,9 +332,10 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

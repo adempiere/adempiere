@@ -497,7 +497,7 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -987,9 +987,10 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 	  */
 	public void setI_Invoice_ID (int I_Invoice_ID)
 	{
-		if (I_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("I_Invoice_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Invoice_ID, Integer.valueOf(I_Invoice_ID));
+		if (I_Invoice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Invoice_ID, Integer.valueOf(I_Invoice_ID));
 	}
 
 	/** Get Import Invoice.

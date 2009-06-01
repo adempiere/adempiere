@@ -112,9 +112,10 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param AD_Original_ID AD_Original_ID	  */
 	public void setAD_Original_ID (int AD_Original_ID)
 	{
-		if (AD_Original_ID < 1)
-			 throw new IllegalArgumentException ("AD_Original_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Original_ID, Integer.valueOf(AD_Original_ID));
+		if (AD_Original_ID < 1) 
+			set_Value (COLUMNNAME_AD_Original_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Original_ID, Integer.valueOf(AD_Original_ID));
 	}
 
 	/** Get AD_Original_ID.
@@ -131,9 +132,10 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param AD_Package_Imp_Detail_ID AD_Package_Imp_Detail_ID	  */
 	public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
 	{
-		if (AD_Package_Imp_Detail_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Imp_Detail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Detail_ID, Integer.valueOf(AD_Package_Imp_Detail_ID));
+		if (AD_Package_Imp_Detail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Detail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Detail_ID, Integer.valueOf(AD_Package_Imp_Detail_ID));
 	}
 
 	/** Get AD_Package_Imp_Detail_ID.
@@ -150,9 +152,10 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		@param AD_Package_Imp_ID AD_Package_Imp_ID	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 	{
-		if (AD_Package_Imp_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Imp_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
+		if (AD_Package_Imp_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
 	}
 
 	/** Get AD_Package_Imp_ID.

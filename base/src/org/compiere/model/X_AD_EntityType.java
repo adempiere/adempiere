@@ -78,9 +78,10 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setAD_EntityType_ID (int AD_EntityType_ID)
 	{
-		if (AD_EntityType_ID < 1)
-			 throw new IllegalArgumentException ("AD_EntityType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_EntityType_ID, Integer.valueOf(AD_EntityType_ID));
+		if (AD_EntityType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_EntityType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_EntityType_ID, Integer.valueOf(AD_EntityType_ID));
 	}
 
 	/** Get Entity Type.
@@ -134,8 +135,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
-		if (EntityType == null)
-			throw new IllegalArgumentException ("EntityType is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -187,8 +186,6 @@ public class X_AD_EntityType extends PO implements I_AD_EntityType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

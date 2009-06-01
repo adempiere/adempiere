@@ -99,9 +99,10 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	  */
 	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 	{
-		if (AD_ReplicationStrategy_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
+		if (AD_ReplicationStrategy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
 	}
 
 	/** Get Replication Strategy.
@@ -129,9 +130,10 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	  */
 	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID)
 	{
-		if (AD_ReplicationTable_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
+		if (AD_ReplicationTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationTable_ID, Integer.valueOf(AD_ReplicationTable_ID));
 	}
 
 	/** Get Replication Table.
@@ -167,9 +169,10 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -234,7 +237,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 

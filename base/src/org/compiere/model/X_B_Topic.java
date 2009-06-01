@@ -104,9 +104,10 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setB_TopicCategory_ID (int B_TopicCategory_ID)
 	{
-		if (B_TopicCategory_ID < 1)
-			 throw new IllegalArgumentException ("B_TopicCategory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, Integer.valueOf(B_TopicCategory_ID));
+		if (B_TopicCategory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, Integer.valueOf(B_TopicCategory_ID));
 	}
 
 	/** Get Topic Category.
@@ -126,9 +127,10 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setB_Topic_ID (int B_Topic_ID)
 	{
-		if (B_Topic_ID < 1)
-			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+		if (B_Topic_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
 	}
 
 	/** Get Topic.
@@ -164,9 +166,10 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setB_TopicType_ID (int B_TopicType_ID)
 	{
-		if (B_TopicType_ID < 1)
-			 throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
+		if (B_TopicType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
 	}
 
 	/** Get Topic Type.
@@ -184,8 +187,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		@param DecisionDate Decision date	  */
 	public void setDecisionDate (Timestamp DecisionDate)
 	{
-		if (DecisionDate == null)
-			throw new IllegalArgumentException ("DecisionDate is mandatory.");
 		set_Value (COLUMNNAME_DecisionDate, DecisionDate);
 	}
 
@@ -219,8 +220,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -262,8 +261,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -363,8 +360,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		@param TopicAction Topic Action	  */
 	public void setTopicAction (String TopicAction)
 	{
-		if (TopicAction == null)
-			throw new IllegalArgumentException ("TopicAction is mandatory.");
 		set_Value (COLUMNNAME_TopicAction, TopicAction);
 	}
 
@@ -379,8 +374,6 @@ public class X_B_Topic extends PO implements I_B_Topic, I_Persistent
 		@param TopicStatus Topic Status	  */
 	public void setTopicStatus (String TopicStatus)
 	{
-		if (TopicStatus == null)
-			throw new IllegalArgumentException ("TopicStatus is mandatory.");
 		set_Value (COLUMNNAME_TopicStatus, TopicStatus);
 	}
 

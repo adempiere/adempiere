@@ -152,8 +152,6 @@ public class X_R_Category extends PO implements I_R_Category, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -179,9 +177,10 @@ public class X_R_Category extends PO implements I_R_Category, I_Persistent
 	  */
 	public void setR_Category_ID (int R_Category_ID)
 	{
-		if (R_Category_ID < 1)
-			 throw new IllegalArgumentException ("R_Category_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Category_ID, Integer.valueOf(R_Category_ID));
+		if (R_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Category_ID, Integer.valueOf(R_Category_ID));
 	}
 
 	/** Get Category.

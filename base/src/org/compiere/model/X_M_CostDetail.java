@@ -86,8 +86,6 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (Amt == null)
-			throw new IllegalArgumentException ("Amt is mandatory.");
 		set_Value (COLUMNNAME_Amt, Amt);
 	}
 
@@ -124,9 +122,10 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -344,9 +343,10 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -366,9 +366,10 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_CostDetail_ID (int M_CostDetail_ID)
 	{
-		if (M_CostDetail_ID < 1)
-			 throw new IllegalArgumentException ("M_CostDetail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_CostDetail_ID, Integer.valueOf(M_CostDetail_ID));
+		if (M_CostDetail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_CostDetail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostDetail_ID, Integer.valueOf(M_CostDetail_ID));
 	}
 
 	/** Get Cost Detail.
@@ -560,9 +561,10 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -700,8 +702,6 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

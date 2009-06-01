@@ -96,9 +96,10 @@ public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -152,8 +153,6 @@ public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -179,9 +178,10 @@ public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID)
 	{
-		if (PA_Ratio_ID < 1)
-			 throw new IllegalArgumentException ("PA_Ratio_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
+		if (PA_Ratio_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
 	}
 
 	/** Get Ratio.

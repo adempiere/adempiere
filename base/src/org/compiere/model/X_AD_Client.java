@@ -166,7 +166,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setAutoArchive (String AutoArchive)
 	{
-		if (AutoArchive == null) throw new IllegalArgumentException ("AutoArchive is mandatory");
+
 		set_Value (COLUMNNAME_AutoArchive, AutoArchive);
 	}
 
@@ -406,7 +406,7 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setMMPolicy (String MMPolicy)
 	{
-		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
+
 		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
 
@@ -441,8 +441,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -623,8 +621,6 @@ public class X_AD_Client extends PO implements I_AD_Client, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

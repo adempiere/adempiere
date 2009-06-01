@@ -92,9 +92,10 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setCM_CStage_ID (int CM_CStage_ID)
 	{
-		if (CM_CStage_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+		if (CM_CStage_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
 	}
 
 	/** Get Web Container Stage.
@@ -192,9 +193,10 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -239,7 +241,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setContainerType (String ContainerType)
 	{
-		if (ContainerType == null) throw new IllegalArgumentException ("ContainerType is mandatory");
+
 		set_Value (COLUMNNAME_ContainerType, ContainerType);
 	}
 
@@ -479,8 +481,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Description (String Meta_Description)
 	{
-		if (Meta_Description == null)
-			throw new IllegalArgumentException ("Meta_Description is mandatory.");
 		set_Value (COLUMNNAME_Meta_Description, Meta_Description);
 	}
 
@@ -498,8 +498,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setMeta_Keywords (String Meta_Keywords)
 	{
-		if (Meta_Keywords == null)
-			throw new IllegalArgumentException ("Meta_Keywords is mandatory.");
 		set_Value (COLUMNNAME_Meta_Keywords, Meta_Keywords);
 	}
 
@@ -568,8 +566,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -595,8 +591,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setNotice (String Notice)
 	{
-		if (Notice == null)
-			throw new IllegalArgumentException ("Notice is mandatory.");
 		set_Value (COLUMNNAME_Notice, Notice);
 	}
 
@@ -655,8 +649,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	  */
 	public void setRelativeURL (String RelativeURL)
 	{
-		if (RelativeURL == null)
-			throw new IllegalArgumentException ("RelativeURL is mandatory.");
 		set_Value (COLUMNNAME_RelativeURL, RelativeURL);
 	}
 

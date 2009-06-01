@@ -95,9 +95,10 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setAD_LdapProcessor_ID (int AD_LdapProcessor_ID)
 	{
-		if (AD_LdapProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_LdapProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, Integer.valueOf(AD_LdapProcessor_ID));
+		if (AD_LdapProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, Integer.valueOf(AD_LdapProcessor_ID));
 	}
 
 	/** Get Ldap Processor.
@@ -117,9 +118,10 @@ public class X_AD_LdapProcessorLog extends PO implements I_AD_LdapProcessorLog, 
 	  */
 	public void setAD_LdapProcessorLog_ID (int AD_LdapProcessorLog_ID)
 	{
-		if (AD_LdapProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_LdapProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LdapProcessorLog_ID, Integer.valueOf(AD_LdapProcessorLog_ID));
+		if (AD_LdapProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessorLog_ID, Integer.valueOf(AD_LdapProcessorLog_ID));
 	}
 
 	/** Get Ldap Processor Log.

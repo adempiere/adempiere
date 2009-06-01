@@ -79,9 +79,10 @@ public class X_C_SubscriptionType extends PO implements I_C_SubscriptionType, I_
 	  */
 	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 	{
-		if (C_SubscriptionType_ID < 1)
-			 throw new IllegalArgumentException ("C_SubscriptionType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
+		if (C_SubscriptionType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_SubscriptionType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
 	}
 
 	/** Get Subscription Type.
@@ -146,7 +147,7 @@ public class X_C_SubscriptionType extends PO implements I_C_SubscriptionType, I_
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -164,8 +165,6 @@ public class X_C_SubscriptionType extends PO implements I_C_SubscriptionType, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -583,7 +583,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -1164,9 +1164,10 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	  */
 	public void setI_GLJournal_ID (int I_GLJournal_ID)
 	{
-		if (I_GLJournal_ID < 1)
-			 throw new IllegalArgumentException ("I_GLJournal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_GLJournal_ID, Integer.valueOf(I_GLJournal_ID));
+		if (I_GLJournal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_GLJournal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_GLJournal_ID, Integer.valueOf(I_GLJournal_ID));
 	}
 
 	/** Get Import GL Journal.

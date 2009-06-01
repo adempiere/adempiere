@@ -98,9 +98,10 @@ public class X_B_Seller extends PO implements I_B_Seller, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -161,8 +162,6 @@ public class X_B_Seller extends PO implements I_B_Seller, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -188,8 +187,6 @@ public class X_B_Seller extends PO implements I_B_Seller, I_Persistent
 	  */
 	public void setValidTo (Timestamp ValidTo)
 	{
-		if (ValidTo == null)
-			throw new IllegalArgumentException ("ValidTo is mandatory.");
 		set_Value (COLUMNNAME_ValidTo, ValidTo);
 	}
 

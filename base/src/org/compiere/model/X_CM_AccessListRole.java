@@ -94,9 +94,10 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -132,9 +133,10 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.

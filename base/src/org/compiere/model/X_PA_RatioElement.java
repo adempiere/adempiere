@@ -146,8 +146,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -204,9 +202,10 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setPA_RatioElement_ID (int PA_RatioElement_ID)
 	{
-		if (PA_RatioElement_ID < 1)
-			 throw new IllegalArgumentException ("PA_RatioElement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, Integer.valueOf(PA_RatioElement_ID));
+		if (PA_RatioElement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, Integer.valueOf(PA_RatioElement_ID));
 	}
 
 	/** Get Ratio Element.
@@ -242,9 +241,10 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID)
 	{
-		if (PA_Ratio_ID < 1)
-			 throw new IllegalArgumentException ("PA_Ratio_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
+		if (PA_Ratio_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
 	}
 
 	/** Get Ratio.
@@ -327,7 +327,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setRatioElementType (String RatioElementType)
 	{
-		if (RatioElementType == null) throw new IllegalArgumentException ("RatioElementType is mandatory");
+
 		set_Value (COLUMNNAME_RatioElementType, RatioElementType);
 	}
 
@@ -355,7 +355,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	  */
 	public void setRatioOperand (String RatioOperand)
 	{
-		if (RatioOperand == null) throw new IllegalArgumentException ("RatioOperand is mandatory");
+
 		set_Value (COLUMNNAME_RatioOperand, RatioOperand);
 	}
 

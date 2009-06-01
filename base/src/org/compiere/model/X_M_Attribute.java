@@ -91,7 +91,7 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	  */
 	public void setAttributeValueType (String AttributeValueType)
 	{
-		if (AttributeValueType == null) throw new IllegalArgumentException ("AttributeValueType is mandatory");
+
 		set_Value (COLUMNNAME_AttributeValueType, AttributeValueType);
 	}
 
@@ -174,9 +174,10 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	  */
 	public void setM_Attribute_ID (int M_Attribute_ID)
 	{
-		if (M_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
 	}
 
 	/** Get Attribute.
@@ -235,8 +236,6 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

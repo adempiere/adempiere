@@ -97,7 +97,7 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -183,8 +183,6 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	  */
 	public void setKeyword (String Keyword)
 	{
-		if (Keyword == null)
-			throw new IllegalArgumentException ("Keyword is mandatory.");
 		set_Value (COLUMNNAME_Keyword, Keyword);
 	}
 
@@ -210,9 +208,10 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	  */
 	public void setK_IndexStop_ID (int K_IndexStop_ID)
 	{
-		if (K_IndexStop_ID < 1)
-			 throw new IllegalArgumentException ("K_IndexStop_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
+		if (K_IndexStop_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
 	}
 
 	/** Get Index Stop.

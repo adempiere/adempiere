@@ -82,9 +82,10 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	  */
 	public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID)
 	{
-		if (C_BankAccountDoc_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccountDoc_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, Integer.valueOf(C_BankAccountDoc_ID));
+		if (C_BankAccountDoc_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, Integer.valueOf(C_BankAccountDoc_ID));
 	}
 
 	/** Get Bank Account Document.
@@ -120,9 +121,10 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -202,8 +204,6 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -245,7 +245,7 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 

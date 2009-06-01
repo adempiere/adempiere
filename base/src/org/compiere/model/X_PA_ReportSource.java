@@ -421,7 +421,7 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	  */
 	public void setElementType (String ElementType)
 	{
-		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
+
 		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
 
@@ -811,9 +811,10 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 		@param PA_ReportLine_ID Report Line	  */
 	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 	{
-		if (PA_ReportLine_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+		if (PA_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
 	}
 
 	/** Get Report Line.
@@ -832,9 +833,10 @@ public class X_PA_ReportSource extends PO implements I_PA_ReportSource, I_Persis
 	  */
 	public void setPA_ReportSource_ID (int PA_ReportSource_ID)
 	{
-		if (PA_ReportSource_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportSource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportSource_ID, Integer.valueOf(PA_ReportSource_ID));
+		if (PA_ReportSource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportSource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportSource_ID, Integer.valueOf(PA_ReportSource_ID));
 	}
 
 	/** Get Report Source.

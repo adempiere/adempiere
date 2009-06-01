@@ -123,9 +123,10 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -145,9 +146,10 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 	  */
 	public void setC_Withholding_ID (int C_Withholding_ID)
 	{
-		if (C_Withholding_ID < 1)
-			 throw new IllegalArgumentException ("C_Withholding_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, Integer.valueOf(C_Withholding_ID));
+		if (C_Withholding_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, Integer.valueOf(C_Withholding_ID));
 	}
 
 	/** Get Withholding.
@@ -340,8 +342,6 @@ public class X_C_Withholding extends PO implements I_C_Withholding, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

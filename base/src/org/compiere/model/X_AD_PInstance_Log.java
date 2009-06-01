@@ -97,9 +97,10 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 	  */
 	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (AD_PInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
 	/** Get Process Instance.
@@ -117,9 +118,10 @@ public class X_AD_PInstance_Log extends PO implements I_AD_PInstance_Log, I_Pers
 		@param Log_ID Log	  */
 	public void setLog_ID (int Log_ID)
 	{
-		if (Log_ID < 1)
-			 throw new IllegalArgumentException ("Log_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Log_ID, Integer.valueOf(Log_ID));
+		if (Log_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Log_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Log_ID, Integer.valueOf(Log_ID));
 	}
 
 	/** Get Log.

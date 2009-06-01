@@ -79,9 +79,10 @@ public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent
 	  */
 	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
 	{
-		if (AD_PrintColor_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintColor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+		if (AD_PrintColor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
 	}
 
 	/** Get Print Color.
@@ -101,8 +102,6 @@ public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
-		if (Code == null)
-			throw new IllegalArgumentException ("Code is mandatory.");
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -144,8 +143,6 @@ public class X_AD_PrintColor extends PO implements I_AD_PrintColor, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -141,9 +141,10 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
 	{
-		if (AD_LabelPrinterFunction_ID < 1)
-			 throw new IllegalArgumentException ("AD_LabelPrinterFunction_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
+		if (AD_LabelPrinterFunction_ID < 1) 
+			set_Value (COLUMNNAME_AD_LabelPrinterFunction_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
 	}
 
 	/** Get Label printer Function.
@@ -179,9 +180,10 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
 	{
-		if (AD_PrintLabel_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintLabel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, Integer.valueOf(AD_PrintLabel_ID));
+		if (AD_PrintLabel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, Integer.valueOf(AD_PrintLabel_ID));
 	}
 
 	/** Get Print Label.
@@ -201,9 +203,10 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setAD_PrintLabelLine_ID (int AD_PrintLabelLine_ID)
 	{
-		if (AD_PrintLabelLine_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintLabelLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
+		if (AD_PrintLabelLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabelLine_ID, Integer.valueOf(AD_PrintLabelLine_ID));
 	}
 
 	/** Get Print Label Line.
@@ -229,7 +232,7 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setLabelFormatType (String LabelFormatType)
 	{
-		if (LabelFormatType == null) throw new IllegalArgumentException ("LabelFormatType is mandatory");
+
 		set_Value (COLUMNNAME_LabelFormatType, LabelFormatType);
 	}
 
@@ -247,8 +250,6 @@ public class X_AD_PrintLabelLine extends PO implements I_AD_PrintLabelLine, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

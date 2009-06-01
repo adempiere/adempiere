@@ -95,9 +95,10 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
 	  */
 	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
 	{
-		if (C_RfQ_TopicSubscriber_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_TopicSubscriber_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
+		if (C_RfQ_TopicSubscriber_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
 	}
 
 	/** Get RfQ Subscriber.
@@ -117,9 +118,10 @@ public class X_C_RfQ_TopicSubscriberOnly extends PO implements I_C_RfQ_TopicSubs
 	  */
 	public void setC_RfQ_TopicSubscriberOnly_ID (int C_RfQ_TopicSubscriberOnly_ID)
 	{
-		if (C_RfQ_TopicSubscriberOnly_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_TopicSubscriberOnly_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, Integer.valueOf(C_RfQ_TopicSubscriberOnly_ID));
+		if (C_RfQ_TopicSubscriberOnly_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriberOnly_ID, Integer.valueOf(C_RfQ_TopicSubscriberOnly_ID));
 	}
 
 	/** Get RfQ Topic Subscriber Restriction.

@@ -85,8 +85,6 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setBenchmarkDate (Timestamp BenchmarkDate)
 	{
-		if (BenchmarkDate == null)
-			throw new IllegalArgumentException ("BenchmarkDate is mandatory.");
 		set_Value (COLUMNNAME_BenchmarkDate, BenchmarkDate);
 	}
 
@@ -104,8 +102,6 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setBenchmarkValue (BigDecimal BenchmarkValue)
 	{
-		if (BenchmarkValue == null)
-			throw new IllegalArgumentException ("BenchmarkValue is mandatory.");
 		set_Value (COLUMNNAME_BenchmarkValue, BenchmarkValue);
 	}
 
@@ -143,8 +139,6 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -170,9 +164,10 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID)
 	{
-		if (PA_BenchmarkData_ID < 1)
-			 throw new IllegalArgumentException ("PA_BenchmarkData_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, Integer.valueOf(PA_BenchmarkData_ID));
+		if (PA_BenchmarkData_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, Integer.valueOf(PA_BenchmarkData_ID));
 	}
 
 	/** Get Benchmark Data.
@@ -208,9 +203,10 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	  */
 	public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 	{
-		if (PA_Benchmark_ID < 1)
-			 throw new IllegalArgumentException ("PA_Benchmark_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, Integer.valueOf(PA_Benchmark_ID));
+		if (PA_Benchmark_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, Integer.valueOf(PA_Benchmark_ID));
 	}
 
 	/** Get Benchmark.

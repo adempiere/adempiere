@@ -79,9 +79,10 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	  */
 	public void setC_ProjectType_ID (int C_ProjectType_ID)
 	{
-		if (C_ProjectType_ID < 1)
-			 throw new IllegalArgumentException ("C_ProjectType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
+		if (C_ProjectType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
 	}
 
 	/** Get Project Type.
@@ -135,8 +136,6 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -172,7 +171,7 @@ public class X_C_ProjectType extends PO implements I_C_ProjectType, I_Persistent
 	  */
 	public void setProjectCategory (String ProjectCategory)
 	{
-		if (ProjectCategory == null) throw new IllegalArgumentException ("ProjectCategory is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_ProjectCategory, ProjectCategory);
 	}
 

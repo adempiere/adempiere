@@ -75,9 +75,10 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 		@param A_Depreciation_Build_ID A_Depreciation_Build_ID	  */
 	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID)
 	{
-		if (A_Depreciation_Build_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Build_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Build_ID, Integer.valueOf(A_Depreciation_Build_ID));
+		if (A_Depreciation_Build_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Build_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Build_ID, Integer.valueOf(A_Depreciation_Build_ID));
 	}
 
 	/** Get A_Depreciation_Build_ID.

@@ -80,9 +80,10 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		@param A_Asset_Addition_ID A_Asset_Addition_ID	  */
 	public void setA_Asset_Addition_ID (int A_Asset_Addition_ID)
 	{
-		if (A_Asset_Addition_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Addition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Addition_ID, Integer.valueOf(A_Asset_Addition_ID));
+		if (A_Asset_Addition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Addition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Addition_ID, Integer.valueOf(A_Asset_Addition_ID));
 	}
 
 	/** Get A_Asset_Addition_ID.
@@ -109,9 +110,10 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -194,8 +196,6 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	  */
 	public void setAssetValueAmt (BigDecimal AssetValueAmt)
 	{
-		if (AssetValueAmt == null)
-			throw new IllegalArgumentException ("AssetValueAmt is mandatory.");
 		set_Value (COLUMNNAME_AssetValueAmt, AssetValueAmt);
 	}
 

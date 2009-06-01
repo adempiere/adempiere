@@ -84,8 +84,6 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (Amt == null)
-			throw new IllegalArgumentException ("Amt is mandatory.");
 		set_Value (COLUMNNAME_Amt, Amt);
 	}
 
@@ -122,9 +120,10 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -195,9 +194,10 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setGL_Fund_ID (int GL_Fund_ID)
 	{
-		if (GL_Fund_ID < 1)
-			 throw new IllegalArgumentException ("GL_Fund_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, Integer.valueOf(GL_Fund_ID));
+		if (GL_Fund_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, Integer.valueOf(GL_Fund_ID));
 	}
 
 	/** Get GL Fund.
@@ -234,8 +234,6 @@ public class X_GL_Fund extends PO implements I_GL_Fund, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

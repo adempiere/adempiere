@@ -140,9 +140,10 @@ public class X_M_LotCtl extends PO implements I_M_LotCtl, I_Persistent
 	  */
 	public void setM_LotCtl_ID (int M_LotCtl_ID)
 	{
-		if (M_LotCtl_ID < 1)
-			 throw new IllegalArgumentException ("M_LotCtl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
+		if (M_LotCtl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
 	}
 
 	/** Get Lot Control.
@@ -162,8 +163,6 @@ public class X_M_LotCtl extends PO implements I_M_LotCtl, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

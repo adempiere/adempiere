@@ -86,9 +86,10 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		@param AD_Attribute_ID System Attribute	  */
 	public void setAD_Attribute_ID (int AD_Attribute_ID)
 	{
-		if (AD_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("AD_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, Integer.valueOf(AD_Attribute_ID));
+		if (AD_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, Integer.valueOf(AD_Attribute_ID));
 	}
 
 	/** Get System Attribute.
@@ -107,9 +108,10 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -168,9 +170,10 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -522,8 +525,6 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

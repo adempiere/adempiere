@@ -411,8 +411,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -526,9 +524,10 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		@param Test_ID Test ID	  */
 	public void setTest_ID (int Test_ID)
 	{
-		if (Test_ID < 1)
-			 throw new IllegalArgumentException ("Test_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
+		if (Test_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
 	}
 
 	/** Get Test ID.

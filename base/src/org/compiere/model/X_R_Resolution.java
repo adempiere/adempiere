@@ -111,8 +111,6 @@ public class X_R_Resolution extends PO implements I_R_Resolution, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -138,9 +136,10 @@ public class X_R_Resolution extends PO implements I_R_Resolution, I_Persistent
 	  */
 	public void setR_Resolution_ID (int R_Resolution_ID)
 	{
-		if (R_Resolution_ID < 1)
-			 throw new IllegalArgumentException ("R_Resolution_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, Integer.valueOf(R_Resolution_ID));
+		if (R_Resolution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Resolution_ID, Integer.valueOf(R_Resolution_ID));
 	}
 
 	/** Get Resolution.

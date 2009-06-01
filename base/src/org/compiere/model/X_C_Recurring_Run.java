@@ -251,9 +251,10 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 	  */
 	public void setC_Recurring_ID (int C_Recurring_ID)
 	{
-		if (C_Recurring_ID < 1)
-			 throw new IllegalArgumentException ("C_Recurring_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, Integer.valueOf(C_Recurring_ID));
+		if (C_Recurring_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, Integer.valueOf(C_Recurring_ID));
 	}
 
 	/** Get Recurring.
@@ -273,9 +274,10 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 	  */
 	public void setC_Recurring_Run_ID (int C_Recurring_Run_ID)
 	{
-		if (C_Recurring_Run_ID < 1)
-			 throw new IllegalArgumentException ("C_Recurring_Run_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Recurring_Run_ID, Integer.valueOf(C_Recurring_Run_ID));
+		if (C_Recurring_Run_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_Run_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_Run_ID, Integer.valueOf(C_Recurring_Run_ID));
 	}
 
 	/** Get Recurring Run.

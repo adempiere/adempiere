@@ -100,9 +100,10 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 	{
-		if (C_TaxCategory_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
+		if (C_TaxCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
 	}
 
 	/** Get Tax Category.
@@ -138,9 +139,10 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -217,9 +219,10 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -239,8 +242,6 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -266,9 +267,10 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
 	{
-		if (S_ExpenseType_ID < 1)
-			 throw new IllegalArgumentException ("S_ExpenseType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
+		if (S_ExpenseType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
 	}
 
 	/** Get Expense Type.
@@ -288,8 +290,6 @@ public class X_S_ExpenseType extends PO implements I_S_ExpenseType, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

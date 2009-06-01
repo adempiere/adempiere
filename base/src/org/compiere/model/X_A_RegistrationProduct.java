@@ -94,9 +94,10 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
 	  */
 	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 	{
-		if (A_RegistrationAttribute_ID < 1)
-			 throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
+		if (A_RegistrationAttribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
 	}
 
 	/** Get Registration Attribute.
@@ -149,9 +150,10 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

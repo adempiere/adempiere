@@ -95,9 +95,10 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -125,9 +126,10 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 	  */
 	public void setAD_UserMail_ID (int AD_UserMail_ID)
 	{
-		if (AD_UserMail_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserMail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
+		if (AD_UserMail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
 	}
 
 	/** Get User Mail.

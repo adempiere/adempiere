@@ -80,9 +80,10 @@ public class X_CM_Container_Element extends PO implements I_CM_Container_Element
 	  */
 	public void setCM_Container_Element_ID (int CM_Container_Element_ID)
 	{
-		if (CM_Container_Element_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_Element_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Container_Element_ID, Integer.valueOf(CM_Container_Element_ID));
+		if (CM_Container_Element_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_Element_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_Element_ID, Integer.valueOf(CM_Container_Element_ID));
 	}
 
 	/** Get Container Element.
@@ -118,9 +119,10 @@ public class X_CM_Container_Element extends PO implements I_CM_Container_Element
 	  */
 	public void setCM_Container_ID (int CM_Container_ID)
 	{
-		if (CM_Container_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+		if (CM_Container_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
 	}
 
 	/** Get Web Container.
@@ -215,8 +217,6 @@ public class X_CM_Container_Element extends PO implements I_CM_Container_Element
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

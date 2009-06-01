@@ -94,9 +94,10 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
 	  */
 	public void setK_Source_ID (int K_Source_ID)
 	{
-		if (K_Source_ID < 1)
-			 throw new IllegalArgumentException ("K_Source_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Source_ID, Integer.valueOf(K_Source_ID));
+		if (K_Source_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Source_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Source_ID, Integer.valueOf(K_Source_ID));
 	}
 
 	/** Get Knowledge Source.
@@ -116,8 +117,6 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

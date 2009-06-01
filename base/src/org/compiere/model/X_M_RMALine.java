@@ -26,15 +26,15 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMALine
- *  @author Adempiere (generated)
+ *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
+public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090601;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_RMALine (Properties ctx, int M_RMALine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
       super (ctx, M_RMALine_ID, trxName);
       /** if (M_RMALine_ID == 0)
         {
-			setM_RMALine_ID (0);
 			setM_RMA_ID (0);
+			setM_RMALine_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
         } */
@@ -56,7 +56,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     }
 
     /** AccessLevel
-      * @return 1 - Org
+      * @return 1 - Org 
       */
     protected int get_AccessLevel()
     {
@@ -78,7 +78,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     }
 
 	/** Set Amount.
-		@param Amt
+		@param Amt 
 		Amount
 	  */
 	public void setAmt (BigDecimal Amt)
@@ -89,7 +89,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Amount.
 		@return Amount
 	  */
-	public BigDecimal getAmt ()
+	public BigDecimal getAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Amt);
 		if (bd == null)
@@ -97,7 +97,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public I_C_Charge getC_Charge() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
         I_C_Charge result = null;
@@ -114,21 +114,21 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     }
 
 	/** Set Charge.
-		@param C_Charge_ID
+		@param C_Charge_ID 
 		Additional document charges
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1)
+		if (C_Charge_ID < 1) 
 			set_Value (COLUMNNAME_C_Charge_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
 		@return Additional document charges
 	  */
-	public int getC_Charge_ID ()
+	public int getC_Charge_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
 		if (ii == null)
@@ -137,7 +137,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	}
 
 	/** Set Description.
-		@param Description
+		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
@@ -148,13 +148,13 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Description.
 		@return Optional short description of the record
 	  */
-	public String getDescription ()
+	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** Set Line No.
-		@param Line
+		@param Line 
 		Unique line for this document
 	  */
 	public void setLine (int Line)
@@ -165,7 +165,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Line No.
 		@return Unique line for this document
 	  */
-	public int getLine ()
+	public int getLine () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Line);
 		if (ii == null)
@@ -174,7 +174,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	}
 
 	/** Set Line Amount.
-		@param LineNetAmt
+		@param LineNetAmt 
 		Line Extended Amount (Quantity * Actual Price) without Freight and Charges
 	  */
 	public void setLineNetAmt (BigDecimal LineNetAmt)
@@ -185,7 +185,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Line Amount.
 		@return Line Extended Amount (Quantity * Actual Price) without Freight and Charges
 	  */
-	public BigDecimal getLineNetAmt ()
+	public BigDecimal getLineNetAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineNetAmt);
 		if (bd == null)
@@ -193,7 +193,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
         I_M_InOutLine result = null;
@@ -210,21 +210,21 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     }
 
 	/** Set Shipment/Receipt Line.
-		@param M_InOutLine_ID
+		@param M_InOutLine_ID 
 		Line on Shipment or Receipt document
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID < 1)
+		if (M_InOutLine_ID < 1) 
 			set_Value (COLUMNNAME_M_InOutLine_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
 		@return Line on Shipment or Receipt document
 	  */
-	public int getM_InOutLine_ID ()
+	public int getM_InOutLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
 		if (ii == null)
@@ -232,30 +232,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set RMA Line.
-		@param M_RMALine_ID
-		Return Material Authorization Line
-	  */
-	public void setM_RMALine_ID (int M_RMALine_ID)
-	{
-		if (M_RMALine_ID < 1)
-			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, null);
-		else
-			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
-	}
-
-	/** Get RMA Line.
-		@return Return Material Authorization Line
-	  */
-	public int getM_RMALine_ID ()
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_RMA getM_RMA() throws RuntimeException
+	public I_M_RMA getM_RMA() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
         I_M_RMA result = null;
@@ -272,21 +249,21 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     }
 
 	/** Set RMA.
-		@param M_RMA_ID
+		@param M_RMA_ID 
 		Return Material Authorization
 	  */
 	public void setM_RMA_ID (int M_RMA_ID)
 	{
-		if (M_RMA_ID < 1)
+		if (M_RMA_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
-		else
+		else 
 			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
 	}
 
 	/** Get RMA.
 		@return Return Material Authorization
 	  */
-	public int getM_RMA_ID ()
+	public int getM_RMA_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMA_ID);
 		if (ii == null)
@@ -297,13 +274,36 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
-    public KeyNamePair getKeyNamePair()
+    public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_RMA_ID()));
     }
 
+	/** Set RMA Line.
+		@param M_RMALine_ID 
+		Return Material Authorization Line
+	  */
+	public void setM_RMALine_ID (int M_RMALine_ID)
+	{
+		if (M_RMALine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMALine_ID, Integer.valueOf(M_RMALine_ID));
+	}
+
+	/** Get RMA Line.
+		@return Return Material Authorization Line
+	  */
+	public int getM_RMALine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMALine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Processed.
-		@param Processed
+		@param Processed 
 		The document has been processed
 	  */
 	public void setProcessed (boolean Processed)
@@ -314,20 +314,20 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Processed.
 		@return The document has been processed
 	  */
-	public boolean isProcessed ()
+	public boolean isProcessed () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processed);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
 	}
 
 	/** Set Quantity.
-		@param Qty
+		@param Qty 
 		Quantity
 	  */
 	public void setQty (BigDecimal Qty)
@@ -338,7 +338,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Quantity.
 		@return Quantity
 	  */
-	public BigDecimal getQty ()
+	public BigDecimal getQty () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Qty);
 		if (bd == null)
@@ -347,7 +347,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	}
 
 	/** Set Delivered Quantity.
-		@param QtyDelivered
+		@param QtyDelivered 
 		Delivered Quantity
 	  */
 	public void setQtyDelivered (BigDecimal QtyDelivered)
@@ -358,7 +358,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Delivered Quantity.
 		@return Delivered Quantity
 	  */
-	public BigDecimal getQtyDelivered ()
+	public BigDecimal getQtyDelivered () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyDelivered);
 		if (bd == null)
@@ -367,7 +367,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	}
 
 	/** Set Quantity Invoiced.
-		@param QtyInvoiced
+		@param QtyInvoiced 
 		Invoiced Quantity
 	  */
 	public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -378,7 +378,7 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 	/** Get Quantity Invoiced.
 		@return Invoiced Quantity
 	  */
-	public BigDecimal getQtyInvoiced ()
+	public BigDecimal getQtyInvoiced () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyInvoiced);
 		if (bd == null)
@@ -390,15 +390,15 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		@param Ref_RMALine_ID Referenced RMA Line	  */
 	public void setRef_RMALine_ID (int Ref_RMALine_ID)
 	{
-		if (Ref_RMALine_ID < 1)
+		if (Ref_RMALine_ID < 1) 
 			set_Value (COLUMNNAME_Ref_RMALine_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_Ref_RMALine_ID, Integer.valueOf(Ref_RMALine_ID));
 	}
 
 	/** Get Referenced RMA Line.
 		@return Referenced RMA Line	  */
-	public int getRef_RMALine_ID ()
+	public int getRef_RMALine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_RMALine_ID);
 		if (ii == null)

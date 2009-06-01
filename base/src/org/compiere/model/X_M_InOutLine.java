@@ -426,9 +426,10 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -541,9 +542,10 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -579,9 +581,10 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID < 1)
-			 throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
@@ -601,9 +604,10 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -646,8 +650,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
 		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
@@ -787,8 +789,6 @@ public class X_M_InOutLine extends PO implements I_M_InOutLine, I_Persistent
 	  */
 	public void setQtyEntered (BigDecimal QtyEntered)
 	{
-		if (QtyEntered == null)
-			throw new IllegalArgumentException ("QtyEntered is mandatory.");
 		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
 	}
 

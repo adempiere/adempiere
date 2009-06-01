@@ -84,7 +84,7 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	  */
 	public void setAccumulationType (String AccumulationType)
 	{
-		if (AccumulationType == null) throw new IllegalArgumentException ("AccumulationType is mandatory");
+
 		set_Value (COLUMNNAME_AccumulationType, AccumulationType);
 	}
 
@@ -136,8 +136,6 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -163,9 +161,10 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	  */
 	public void setPA_Benchmark_ID (int PA_Benchmark_ID)
 	{
-		if (PA_Benchmark_ID < 1)
-			 throw new IllegalArgumentException ("PA_Benchmark_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, Integer.valueOf(PA_Benchmark_ID));
+		if (PA_Benchmark_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Benchmark_ID, Integer.valueOf(PA_Benchmark_ID));
 	}
 
 	/** Get Benchmark.

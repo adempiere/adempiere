@@ -101,9 +101,10 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
 	{
-		if (CM_NewsChannel_ID < 1)
-			 throw new IllegalArgumentException ("CM_NewsChannel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
+		if (CM_NewsChannel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
 	}
 
 	/** Get News Channel.
@@ -139,9 +140,10 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID < 1) 
+			set_Value (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -161,8 +163,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -214,8 +214,6 @@ public class X_CM_NewsChannel extends PO implements I_CM_NewsChannel, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

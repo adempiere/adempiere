@@ -81,9 +81,10 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID < 1)
-			 throw new IllegalArgumentException ("Account_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+		if (Account_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Account_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
 	/** Get Account.
@@ -159,9 +160,10 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -406,9 +408,10 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 	  */
 	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 	{
-		if (C_ValidCombination_ID < 1)
-			 throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+		if (C_ValidCombination_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
 	}
 
 	/** Get Combination.

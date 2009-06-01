@@ -87,9 +87,10 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID)
 	{
-		if (C_Conversion_Rate_ID < 1)
-			 throw new IllegalArgumentException ("C_Conversion_Rate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
+		if (C_Conversion_Rate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Conversion_Rate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Conversion_Rate_ID, Integer.valueOf(C_Conversion_Rate_ID));
 	}
 
 	/** Get Conversion Rate.
@@ -133,9 +134,10 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID < 1)
-			 throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -155,9 +157,10 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -197,8 +200,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setDivideRate (BigDecimal DivideRate)
 	{
-		if (DivideRate == null)
-			throw new IllegalArgumentException ("DivideRate is mandatory.");
 		set_Value (COLUMNNAME_DivideRate, DivideRate);
 	}
 
@@ -219,8 +220,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setMultiplyRate (BigDecimal MultiplyRate)
 	{
-		if (MultiplyRate == null)
-			throw new IllegalArgumentException ("MultiplyRate is mandatory.");
 		set_Value (COLUMNNAME_MultiplyRate, MultiplyRate);
 	}
 
@@ -241,8 +240,6 @@ public class X_C_Conversion_Rate extends PO implements I_C_Conversion_Rate, I_Pe
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

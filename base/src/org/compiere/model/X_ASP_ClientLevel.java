@@ -77,9 +77,10 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		@param ASP_ClientLevel_ID Client Level	  */
 	public void setASP_ClientLevel_ID (int ASP_ClientLevel_ID)
 	{
-		if (ASP_ClientLevel_ID < 1)
-			 throw new IllegalArgumentException ("ASP_ClientLevel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_ClientLevel_ID, Integer.valueOf(ASP_ClientLevel_ID));
+		if (ASP_ClientLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_ClientLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_ClientLevel_ID, Integer.valueOf(ASP_ClientLevel_ID));
 	}
 
 	/** Get Client Level.
@@ -112,9 +113,10 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		@param ASP_Level_ID ASP Level	  */
 	public void setASP_Level_ID (int ASP_Level_ID)
 	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_Value (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+		if (ASP_Level_ID < 1) 
+			set_Value (COLUMNNAME_ASP_Level_ID, null);
+		else 
+			set_Value (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
 	}
 
 	/** Get ASP Level.
@@ -147,9 +149,10 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		@param ASP_Module_ID ASP Module	  */
 	public void setASP_Module_ID (int ASP_Module_ID)
 	{
-		if (ASP_Module_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Module_ID is mandatory.");
-		set_Value (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
+		if (ASP_Module_ID < 1) 
+			set_Value (COLUMNNAME_ASP_Module_ID, null);
+		else 
+			set_Value (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
 	}
 
 	/** Get ASP Module.

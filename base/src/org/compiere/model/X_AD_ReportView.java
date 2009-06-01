@@ -82,9 +82,10 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	  */
 	public void setAD_ReportView_ID (int AD_ReportView_ID)
 	{
-		if (AD_ReportView_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReportView_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
+		if (AD_ReportView_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReportView_ID, Integer.valueOf(AD_ReportView_ID));
 	}
 
 	/** Get Report View.
@@ -120,9 +121,10 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -179,8 +181,6 @@ public class X_AD_ReportView extends PO implements I_AD_ReportView, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

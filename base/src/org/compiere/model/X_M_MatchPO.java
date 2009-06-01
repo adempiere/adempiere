@@ -145,9 +145,10 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+		if (C_OrderLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -167,8 +168,6 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -186,8 +185,6 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -271,7 +268,7 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -310,9 +307,10 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -332,9 +330,10 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setM_MatchPO_ID (int M_MatchPO_ID)
 	{
-		if (M_MatchPO_ID < 1)
-			 throw new IllegalArgumentException ("M_MatchPO_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
+		if (M_MatchPO_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MatchPO_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
 	}
 
 	/** Get Match PO.
@@ -370,9 +369,10 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -481,8 +481,6 @@ public class X_M_MatchPO extends PO implements I_M_MatchPO, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Qty, Qty);
 	}
 

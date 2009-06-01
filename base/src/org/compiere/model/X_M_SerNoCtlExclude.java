@@ -96,9 +96,10 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -142,9 +143,10 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 	  */
 	public void setM_SerNoCtlExclude_ID (int M_SerNoCtlExclude_ID)
 	{
-		if (M_SerNoCtlExclude_ID < 1)
-			 throw new IllegalArgumentException ("M_SerNoCtlExclude_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, Integer.valueOf(M_SerNoCtlExclude_ID));
+		if (M_SerNoCtlExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, Integer.valueOf(M_SerNoCtlExclude_ID));
 	}
 
 	/** Get Exclude SerNo.
@@ -180,9 +182,10 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 	  */
 	public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
 	{
-		if (M_SerNoCtl_ID < 1)
-			 throw new IllegalArgumentException ("M_SerNoCtl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
+		if (M_SerNoCtl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
 	}
 
 	/** Get Serial No Control.

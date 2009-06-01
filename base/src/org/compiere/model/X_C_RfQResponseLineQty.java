@@ -99,9 +99,10 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 	  */
 	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
 	{
-		if (C_RfQLineQty_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
+		if (C_RfQLineQty_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
 	}
 
 	/** Get RfQ Line Quantity.
@@ -137,9 +138,10 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 	  */
 	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
 	{
-		if (C_RfQResponseLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponseLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
+		if (C_RfQResponseLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
 	}
 
 	/** Get RfQ Response Line.
@@ -167,9 +169,10 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 	  */
 	public void setC_RfQResponseLineQty_ID (int C_RfQResponseLineQty_ID)
 	{
-		if (C_RfQResponseLineQty_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponseLineQty_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, Integer.valueOf(C_RfQResponseLineQty_ID));
+		if (C_RfQResponseLineQty_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLineQty_ID, Integer.valueOf(C_RfQResponseLineQty_ID));
 	}
 
 	/** Get RfQ Response Line Qty.
@@ -209,8 +212,6 @@ public class X_C_RfQResponseLineQty extends PO implements I_C_RfQResponseLineQty
 	  */
 	public void setPrice (BigDecimal Price)
 	{
-		if (Price == null)
-			throw new IllegalArgumentException ("Price is mandatory.");
 		set_Value (COLUMNNAME_Price, Price);
 	}
 

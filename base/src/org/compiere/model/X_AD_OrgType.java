@@ -79,9 +79,10 @@ public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
-		if (AD_OrgType_ID < 1)
-			 throw new IllegalArgumentException ("AD_OrgType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_OrgType_ID, Integer.valueOf(AD_OrgType_ID));
+		if (AD_OrgType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_OrgType_ID, Integer.valueOf(AD_OrgType_ID));
 	}
 
 	/** Get Organization Type.
@@ -157,8 +158,6 @@ public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

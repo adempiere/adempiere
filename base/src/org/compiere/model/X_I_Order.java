@@ -506,7 +506,7 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -1072,9 +1072,10 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	  */
 	public void setI_Order_ID (int I_Order_ID)
 	{
-		if (I_Order_ID < 1)
-			 throw new IllegalArgumentException ("I_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Order_ID, Integer.valueOf(I_Order_ID));
+		if (I_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Order_ID, Integer.valueOf(I_Order_ID));
 	}
 
 	/** Get Import Order.

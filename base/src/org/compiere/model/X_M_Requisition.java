@@ -115,9 +115,10 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -153,9 +154,10 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -175,8 +177,6 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
@@ -194,8 +194,6 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setDateRequired (Timestamp DateRequired)
 	{
-		if (DateRequired == null)
-			throw new IllegalArgumentException ("DateRequired is mandatory.");
 		set_Value (COLUMNNAME_DateRequired, DateRequired);
 	}
 
@@ -260,7 +258,7 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -304,7 +302,7 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -322,8 +320,6 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -406,9 +402,10 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -428,9 +425,10 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setM_Requisition_ID (int M_Requisition_ID)
 	{
-		if (M_Requisition_ID < 1)
-			 throw new IllegalArgumentException ("M_Requisition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
+		if (M_Requisition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
 	}
 
 	/** Get Requisition.
@@ -466,9 +464,10 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -524,7 +523,7 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setPriorityRule (String PriorityRule)
 	{
-		if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
+
 		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}
 
@@ -587,8 +586,6 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
 	  */
 	public void setTotalLines (BigDecimal TotalLines)
 	{
-		if (TotalLines == null)
-			throw new IllegalArgumentException ("TotalLines is mandatory.");
 		set_Value (COLUMNNAME_TotalLines, TotalLines);
 	}
 

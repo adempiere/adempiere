@@ -80,9 +80,10 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -180,8 +181,6 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -215,7 +214,7 @@ public class X_AD_Reference extends PO implements I_AD_Reference, I_Persistent
 	  */
 	public void setValidationType (String ValidationType)
 	{
-		if (ValidationType == null) throw new IllegalArgumentException ("ValidationType is mandatory");
+
 		set_Value (COLUMNNAME_ValidationType, ValidationType);
 	}
 

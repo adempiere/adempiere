@@ -192,9 +192,10 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 	{
-		if (C_TaxCategory_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
+		if (C_TaxCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
 	}
 
 	/** Get Tax Category.
@@ -214,9 +215,10 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -373,8 +375,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -423,8 +423,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setRate (BigDecimal Rate)
 	{
-		if (Rate == null)
-			throw new IllegalArgumentException ("Rate is mandatory.");
 		set_Value (COLUMNNAME_Rate, Rate);
 	}
 
@@ -477,7 +475,7 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setSOPOType (String SOPOType)
 	{
-		if (SOPOType == null) throw new IllegalArgumentException ("SOPOType is mandatory");
+
 		set_Value (COLUMNNAME_SOPOType, SOPOType);
 	}
 
@@ -558,8 +556,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -77,9 +77,10 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID < 1)
-			 throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID < 1) 
+			set_Value (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -97,9 +98,10 @@ public class X_AD_TaskInstance extends PO implements I_AD_TaskInstance, I_Persis
 		@param AD_TaskInstance_ID Task Instance	  */
 	public void setAD_TaskInstance_ID (int AD_TaskInstance_ID)
 	{
-		if (AD_TaskInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_TaskInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_TaskInstance_ID, Integer.valueOf(AD_TaskInstance_ID));
+		if (AD_TaskInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_TaskInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_TaskInstance_ID, Integer.valueOf(AD_TaskInstance_ID));
 	}
 
 	/** Get Task Instance.

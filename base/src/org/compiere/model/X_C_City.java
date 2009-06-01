@@ -96,9 +96,10 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setC_City_ID (int C_City_ID)
 	{
-		if (C_City_ID < 1)
-			 throw new IllegalArgumentException ("C_City_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_City_ID, Integer.valueOf(C_City_ID));
+		if (C_City_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_City_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_City_ID, Integer.valueOf(C_City_ID));
 	}
 
 	/** Get City.
@@ -214,8 +215,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

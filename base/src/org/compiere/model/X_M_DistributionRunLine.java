@@ -141,9 +141,10 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setM_DistributionList_ID (int M_DistributionList_ID)
 	{
-		if (M_DistributionList_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
+		if (M_DistributionList_ID < 1) 
+			set_Value (COLUMNNAME_M_DistributionList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_DistributionList_ID, Integer.valueOf(M_DistributionList_ID));
 	}
 
 	/** Get Distribution List.
@@ -179,9 +180,10 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setM_DistributionRun_ID (int M_DistributionRun_ID)
 	{
-		if (M_DistributionRun_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionRun_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionRun_ID, Integer.valueOf(M_DistributionRun_ID));
+		if (M_DistributionRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRun_ID, Integer.valueOf(M_DistributionRun_ID));
 	}
 
 	/** Get Distribution Run.
@@ -209,9 +211,10 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
 	{
-		if (M_DistributionRunLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DistributionRunLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
+		if (M_DistributionRunLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DistributionRunLine_ID, Integer.valueOf(M_DistributionRunLine_ID));
 	}
 
 	/** Get Distribution Run Line.
@@ -231,8 +234,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setMinQty (BigDecimal MinQty)
 	{
-		if (MinQty == null)
-			throw new IllegalArgumentException ("MinQty is mandatory.");
 		set_Value (COLUMNNAME_MinQty, MinQty);
 	}
 
@@ -269,9 +270,10 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -291,8 +293,6 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	  */
 	public void setTotalQty (BigDecimal TotalQty)
 	{
-		if (TotalQty == null)
-			throw new IllegalArgumentException ("TotalQty is mandatory.");
 		set_Value (COLUMNNAME_TotalQty, TotalQty);
 	}
 

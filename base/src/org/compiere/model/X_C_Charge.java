@@ -126,9 +126,10 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1)
-			 throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -184,8 +185,6 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	  */
 	public void setChargeAmt (BigDecimal ChargeAmt)
 	{
-		if (ChargeAmt == null)
-			throw new IllegalArgumentException ("ChargeAmt is mandatory.");
 		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
 	}
 
@@ -222,9 +221,10 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	  */
 	public void setC_TaxCategory_ID (int C_TaxCategory_ID)
 	{
-		if (C_TaxCategory_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
+		if (C_TaxCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TaxCategory_ID, Integer.valueOf(C_TaxCategory_ID));
 	}
 
 	/** Get Tax Category.
@@ -330,8 +330,6 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

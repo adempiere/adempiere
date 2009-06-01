@@ -243,8 +243,6 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -301,9 +299,10 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setR_StatusCategory_ID (int R_StatusCategory_ID)
 	{
-		if (R_StatusCategory_ID < 1)
-			 throw new IllegalArgumentException ("R_StatusCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_R_StatusCategory_ID, Integer.valueOf(R_StatusCategory_ID));
+		if (R_StatusCategory_ID < 1) 
+			set_Value (COLUMNNAME_R_StatusCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_StatusCategory_ID, Integer.valueOf(R_StatusCategory_ID));
 	}
 
 	/** Get Status Category.
@@ -323,9 +322,10 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setR_Status_ID (int R_Status_ID)
 	{
-		if (R_Status_ID < 1)
-			 throw new IllegalArgumentException ("R_Status_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
+		if (R_Status_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
 	}
 
 	/** Get Status.
@@ -416,8 +416,6 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

@@ -141,8 +141,6 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setConfirmedQty (BigDecimal ConfirmedQty)
 	{
-		if (ConfirmedQty == null)
-			throw new IllegalArgumentException ("ConfirmedQty is mandatory.");
 		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
 	}
 
@@ -216,9 +214,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
 	{
-		if (M_InOutConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
+		if (M_InOutConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
 	}
 
 	/** Get Ship/Receipt Confirmation.
@@ -238,9 +237,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
 	{
-		if (M_InOutLineConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLineConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
+		if (M_InOutLineConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
 	}
 
 	/** Get Ship/Receipt Confirmation Line.
@@ -276,9 +276,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -389,8 +390,6 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 	  */
 	public void setTargetQty (BigDecimal TargetQty)
 	{
-		if (TargetQty == null)
-			throw new IllegalArgumentException ("TargetQty is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TargetQty, TargetQty);
 	}
 

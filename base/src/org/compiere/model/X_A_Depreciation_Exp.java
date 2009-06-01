@@ -104,9 +104,10 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -124,9 +125,10 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		@param A_Depreciation_Exp_ID A_Depreciation_Exp_ID	  */
 	public void setA_Depreciation_Exp_ID (int A_Depreciation_Exp_ID)
 	{
-		if (A_Depreciation_Exp_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Exp_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Exp_ID, Integer.valueOf(A_Depreciation_Exp_ID));
+		if (A_Depreciation_Exp_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Exp_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Exp_ID, Integer.valueOf(A_Depreciation_Exp_ID));
 	}
 
 	/** Get A_Depreciation_Exp_ID.
@@ -165,7 +167,7 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		@param A_Entry_Type Entry Type	  */
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
-		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
+
 		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
@@ -216,8 +218,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -233,8 +233,6 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		@param Expense Expense	  */
 	public void setExpense (BigDecimal Expense)
 	{
-		if (Expense == null)
-			throw new IllegalArgumentException ("Expense is mandatory.");
 		set_Value (COLUMNNAME_Expense, Expense);
 	}
 

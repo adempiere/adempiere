@@ -102,9 +102,10 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -140,9 +141,10 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Element_ID (int AD_Element_ID)
 	{
-		if (AD_Element_ID < 1)
-			 throw new IllegalArgumentException ("AD_Element_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
+		if (AD_Element_ID < 1) 
+			set_Value (COLUMNNAME_AD_Element_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
 	}
 
 	/** Get System Element.
@@ -201,9 +203,10 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -262,9 +265,10 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -340,8 +344,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setColumnName (String ColumnName)
 	{
-		if (ColumnName == null)
-			throw new IllegalArgumentException ("ColumnName is mandatory.");
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -587,7 +589,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setIsEncrypted (String IsEncrypted)
 	{
-		if (IsEncrypted == null) throw new IllegalArgumentException ("IsEncrypted is mandatory");
+
 		set_Value (COLUMNNAME_IsEncrypted, IsEncrypted);
 	}
 
@@ -804,8 +806,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -894,8 +894,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	  */
 	public void setVersion (BigDecimal Version)
 	{
-		if (Version == null)
-			throw new IllegalArgumentException ("Version is mandatory.");
 		set_Value (COLUMNNAME_Version, Version);
 	}
 

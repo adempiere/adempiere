@@ -135,9 +135,10 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	  */
 	public void setR_IssueUser_ID (int R_IssueUser_ID)
 	{
-		if (R_IssueUser_ID < 1)
-			 throw new IllegalArgumentException ("R_IssueUser_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_IssueUser_ID, Integer.valueOf(R_IssueUser_ID));
+		if (R_IssueUser_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_IssueUser_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_IssueUser_ID, Integer.valueOf(R_IssueUser_ID));
 	}
 
 	/** Get IssueUser.
@@ -157,8 +158,6 @@ public class X_R_IssueUser extends PO implements I_R_IssueUser, I_Persistent
 	  */
 	public void setUserName (String UserName)
 	{
-		if (UserName == null)
-			throw new IllegalArgumentException ("UserName is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_UserName, UserName);
 	}
 

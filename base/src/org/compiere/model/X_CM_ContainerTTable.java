@@ -97,9 +97,10 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setCM_Container_ID (int CM_Container_ID)
 	{
-		if (CM_Container_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+		if (CM_Container_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
 	}
 
 	/** Get Web Container.
@@ -119,9 +120,10 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
 	{
-		if (CM_ContainerTTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_ContainerTTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
+		if (CM_ContainerTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
 	}
 
 	/** Get Container T.Table.
@@ -157,9 +159,10 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
 	{
-		if (CM_TemplateTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+		if (CM_TemplateTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
 	}
 
 	/** Get Template Table.
@@ -196,8 +199,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -240,7 +241,7 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

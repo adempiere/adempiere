@@ -499,8 +499,6 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	  */
 	public void setDateExpense (Timestamp DateExpense)
 	{
-		if (DateExpense == null)
-			throw new IllegalArgumentException ("DateExpense is mandatory.");
 		set_Value (COLUMNNAME_DateExpense, DateExpense);
 	}
 
@@ -870,9 +868,10 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	  */
 	public void setS_TimeExpense_ID (int S_TimeExpense_ID)
 	{
-		if (S_TimeExpense_ID < 1)
-			 throw new IllegalArgumentException ("S_TimeExpense_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, Integer.valueOf(S_TimeExpense_ID));
+		if (S_TimeExpense_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, Integer.valueOf(S_TimeExpense_ID));
 	}
 
 	/** Get Expense Report.
@@ -892,9 +891,10 @@ public class X_S_TimeExpenseLine extends PO implements I_S_TimeExpenseLine, I_Pe
 	  */
 	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
 	{
-		if (S_TimeExpenseLine_ID < 1)
-			 throw new IllegalArgumentException ("S_TimeExpenseLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
+		if (S_TimeExpenseLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
 	}
 
 	/** Get Expense Line.

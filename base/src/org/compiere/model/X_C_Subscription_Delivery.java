@@ -79,9 +79,10 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
 	  */
 	public void setC_Subscription_Delivery_ID (int C_Subscription_Delivery_ID)
 	{
-		if (C_Subscription_Delivery_ID < 1)
-			 throw new IllegalArgumentException ("C_Subscription_Delivery_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Subscription_Delivery_ID, Integer.valueOf(C_Subscription_Delivery_ID));
+		if (C_Subscription_Delivery_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_Delivery_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_Delivery_ID, Integer.valueOf(C_Subscription_Delivery_ID));
 	}
 
 	/** Get Subscription Delivery.
@@ -125,9 +126,10 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
 	  */
 	public void setC_Subscription_ID (int C_Subscription_ID)
 	{
-		if (C_Subscription_ID < 1)
-			 throw new IllegalArgumentException ("C_Subscription_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
+		if (C_Subscription_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
 	}
 
 	/** Get Subscription.

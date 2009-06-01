@@ -179,9 +179,10 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -235,8 +236,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setMeta_Author (String Meta_Author)
 	{
-		if (Meta_Author == null)
-			throw new IllegalArgumentException ("Meta_Author is mandatory.");
 		set_Value (COLUMNNAME_Meta_Author, Meta_Author);
 	}
 
@@ -254,8 +253,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setMeta_Content (String Meta_Content)
 	{
-		if (Meta_Content == null)
-			throw new IllegalArgumentException ("Meta_Content is mandatory.");
 		set_Value (COLUMNNAME_Meta_Content, Meta_Content);
 	}
 
@@ -273,8 +270,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setMeta_Copyright (String Meta_Copyright)
 	{
-		if (Meta_Copyright == null)
-			throw new IllegalArgumentException ("Meta_Copyright is mandatory.");
 		set_Value (COLUMNNAME_Meta_Copyright, Meta_Copyright);
 	}
 
@@ -292,8 +287,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setMeta_Publisher (String Meta_Publisher)
 	{
-		if (Meta_Publisher == null)
-			throw new IllegalArgumentException ("Meta_Publisher is mandatory.");
 		set_Value (COLUMNNAME_Meta_Publisher, Meta_Publisher);
 	}
 
@@ -311,8 +304,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setMeta_RobotsTag (String Meta_RobotsTag)
 	{
-		if (Meta_RobotsTag == null)
-			throw new IllegalArgumentException ("Meta_RobotsTag is mandatory.");
 		set_Value (COLUMNNAME_Meta_RobotsTag, Meta_RobotsTag);
 	}
 
@@ -330,8 +321,6 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

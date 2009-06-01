@@ -95,9 +95,10 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -133,9 +134,10 @@ public class X_CM_ChatTypeUpdate extends PO implements I_CM_ChatTypeUpdate, I_Pe
 	  */
 	public void setCM_ChatType_ID (int CM_ChatType_ID)
 	{
-		if (CM_ChatType_ID < 1)
-			 throw new IllegalArgumentException ("CM_ChatType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));
+		if (CM_ChatType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));
 	}
 
 	/** Get Chat Type.

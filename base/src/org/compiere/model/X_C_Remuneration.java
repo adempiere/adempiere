@@ -85,9 +85,10 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setC_Remuneration_ID (int C_Remuneration_ID)
 	{
-		if (C_Remuneration_ID < 1)
-			 throw new IllegalArgumentException ("C_Remuneration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, Integer.valueOf(C_Remuneration_ID));
+		if (C_Remuneration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, Integer.valueOf(C_Remuneration_ID));
 	}
 
 	/** Get Remuneration.
@@ -124,8 +125,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setGrossRAmt (BigDecimal GrossRAmt)
 	{
-		if (GrossRAmt == null)
-			throw new IllegalArgumentException ("GrossRAmt is mandatory.");
 		set_Value (COLUMNNAME_GrossRAmt, GrossRAmt);
 	}
 
@@ -146,8 +145,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setGrossRCost (BigDecimal GrossRCost)
 	{
-		if (GrossRCost == null)
-			throw new IllegalArgumentException ("GrossRCost is mandatory.");
 		set_Value (COLUMNNAME_GrossRCost, GrossRCost);
 	}
 
@@ -185,8 +182,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -212,8 +207,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setOvertimeAmt (BigDecimal OvertimeAmt)
 	{
-		if (OvertimeAmt == null)
-			throw new IllegalArgumentException ("OvertimeAmt is mandatory.");
 		set_Value (COLUMNNAME_OvertimeAmt, OvertimeAmt);
 	}
 
@@ -234,8 +227,6 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setOvertimeCost (BigDecimal OvertimeCost)
 	{
-		if (OvertimeCost == null)
-			throw new IllegalArgumentException ("OvertimeCost is mandatory.");
 		set_Value (COLUMNNAME_OvertimeCost, OvertimeCost);
 	}
 
@@ -270,7 +261,7 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	  */
 	public void setRemunerationType (String RemunerationType)
 	{
-		if (RemunerationType == null) throw new IllegalArgumentException ("RemunerationType is mandatory");
+
 		set_Value (COLUMNNAME_RemunerationType, RemunerationType);
 	}
 

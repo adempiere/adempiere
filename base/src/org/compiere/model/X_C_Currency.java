@@ -91,9 +91,10 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -150,8 +151,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -254,8 +253,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setISO_Code (String ISO_Code)
 	{
-		if (ISO_Code == null)
-			throw new IllegalArgumentException ("ISO_Code is mandatory.");
 		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
 
@@ -281,8 +278,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 	  */
 	public void setRoundOffFactor (BigDecimal RoundOffFactor)
 	{
-		if (RoundOffFactor == null)
-			throw new IllegalArgumentException ("RoundOffFactor is mandatory.");
 		set_Value (COLUMNNAME_RoundOffFactor, RoundOffFactor);
 	}
 

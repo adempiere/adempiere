@@ -96,9 +96,10 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -142,9 +143,10 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 	  */
 	public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID)
 	{
-		if (M_AttributeSetExclude_ID < 1)
-			 throw new IllegalArgumentException ("M_AttributeSetExclude_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, Integer.valueOf(M_AttributeSetExclude_ID));
+		if (M_AttributeSetExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, Integer.valueOf(M_AttributeSetExclude_ID));
 	}
 
 	/** Get Exclude Attribute Set.
@@ -180,9 +182,10 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+		if (M_AttributeSet_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
 	/** Get Attribute Set.

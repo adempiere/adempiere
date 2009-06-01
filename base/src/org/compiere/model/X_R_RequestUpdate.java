@@ -93,7 +93,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	  */
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
 	{
-		if (ConfidentialTypeEntry == null) throw new IllegalArgumentException ("ConfidentialTypeEntry is mandatory");
+
 		set_Value (COLUMNNAME_ConfidentialTypeEntry, ConfidentialTypeEntry);
 	}
 
@@ -224,9 +224,10 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID < 1)
-			 throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.
@@ -246,9 +247,10 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	  */
 	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID)
 	{
-		if (R_RequestUpdate_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestUpdate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestUpdate_ID, Integer.valueOf(R_RequestUpdate_ID));
+		if (R_RequestUpdate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestUpdate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestUpdate_ID, Integer.valueOf(R_RequestUpdate_ID));
 	}
 
 	/** Get Request Update.

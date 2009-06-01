@@ -163,8 +163,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param MenuLink Menu Link	  */
 	public void setMenuLink (String MenuLink)
 	{
-		if (MenuLink == null)
-			throw new IllegalArgumentException ("MenuLink is mandatory.");
 		set_Value (COLUMNNAME_MenuLink, MenuLink);
 	}
 
@@ -179,8 +177,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param Module Module	  */
 	public void setModule (String Module)
 	{
-		if (Module == null)
-			throw new IllegalArgumentException ("Module is mandatory.");
 		set_Value (COLUMNNAME_Module, Module);
 	}
 
@@ -197,8 +193,6 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -265,9 +259,10 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		@param U_WebMenu_ID Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID)
 	{
-		if (U_WebMenu_ID < 1)
-			 throw new IllegalArgumentException ("U_WebMenu_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
+		if (U_WebMenu_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_U_WebMenu_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
 	}
 
 	/** Get Web Menu.

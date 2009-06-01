@@ -102,9 +102,10 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -124,9 +125,10 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -162,9 +164,10 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -184,8 +187,6 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setQtyOnHand (BigDecimal QtyOnHand)
 	{
-		if (QtyOnHand == null)
-			throw new IllegalArgumentException ("QtyOnHand is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyOnHand, QtyOnHand);
 	}
 
@@ -206,8 +207,6 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setQtyOrdered (BigDecimal QtyOrdered)
 	{
-		if (QtyOrdered == null)
-			throw new IllegalArgumentException ("QtyOrdered is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyOrdered, QtyOrdered);
 	}
 
@@ -228,8 +227,6 @@ public class X_M_Storage extends PO implements I_M_Storage, I_Persistent
 	  */
 	public void setQtyReserved (BigDecimal QtyReserved)
 	{
-		if (QtyReserved == null)
-			throw new IllegalArgumentException ("QtyReserved is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyReserved, QtyReserved);
 	}
 

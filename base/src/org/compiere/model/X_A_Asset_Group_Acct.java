@@ -119,9 +119,10 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		@param A_Asset_Group_Acct_ID A_Asset_Group_Acct_ID	  */
 	public void setA_Asset_Group_Acct_ID (int A_Asset_Group_Acct_ID)
 	{
-		if (A_Asset_Group_Acct_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Group_Acct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Group_Acct_ID, Integer.valueOf(A_Asset_Group_Acct_ID));
+		if (A_Asset_Group_Acct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Group_Acct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Group_Acct_ID, Integer.valueOf(A_Asset_Group_Acct_ID));
 	}
 
 	/** Get A_Asset_Group_Acct_ID.
@@ -164,9 +165,10 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 	  */
 	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
 	{
-		if (A_Asset_Group_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Group_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
+		if (A_Asset_Group_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Group_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
 	}
 
 	/** Get Asset Group.
@@ -489,8 +491,6 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		@param A_Split_Percent Split Percentage	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent)
 	{
-		if (A_Split_Percent == null)
-			throw new IllegalArgumentException ("A_Split_Percent is mandatory.");
 		set_Value (COLUMNNAME_A_Split_Percent, A_Split_Percent);
 	}
 
@@ -526,9 +526,10 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -594,7 +595,7 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

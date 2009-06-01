@@ -101,9 +101,10 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (AD_PInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
 	/** Get Process Instance.
@@ -139,9 +140,10 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -177,7 +179,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -200,8 +202,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setLevel_Max (BigDecimal Level_Max)
 	{
-		if (Level_Max == null)
-			throw new IllegalArgumentException ("Level_Max is mandatory.");
 		set_Value (COLUMNNAME_Level_Max, Level_Max);
 	}
 
@@ -222,8 +222,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setLevel_Min (BigDecimal Level_Min)
 	{
-		if (Level_Min == null)
-			throw new IllegalArgumentException ("Level_Min is mandatory.");
 		set_Value (COLUMNNAME_Level_Min, Level_Min);
 	}
 
@@ -260,9 +258,10 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -298,9 +297,10 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -498,7 +498,7 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
 	  */
 	public void setReplenishType (String ReplenishType)
 	{
-		if (ReplenishType == null) throw new IllegalArgumentException ("ReplenishType is mandatory");
+
 		set_Value (COLUMNNAME_ReplenishType, ReplenishType);
 	}
 

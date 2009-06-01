@@ -96,9 +96,10 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
 		@param C_ChargeType_ID Charge Type	  */
 	public void setC_ChargeType_ID (int C_ChargeType_ID)
 	{
-		if (C_ChargeType_ID < 1)
-			 throw new IllegalArgumentException ("C_ChargeType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, Integer.valueOf(C_ChargeType_ID));
+		if (C_ChargeType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, Integer.valueOf(C_ChargeType_ID));
 	}
 
 	/** Get Charge Type.
@@ -133,9 +134,10 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.

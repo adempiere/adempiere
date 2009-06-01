@@ -94,9 +94,10 @@ public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persiste
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.
@@ -132,9 +133,10 @@ public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persiste
 	  */
 	public void setCM_Media_ID (int CM_Media_ID)
 	{
-		if (CM_Media_ID < 1)
-			 throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
+		if (CM_Media_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
 	}
 
 	/** Get Media Item.

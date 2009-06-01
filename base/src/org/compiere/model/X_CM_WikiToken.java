@@ -120,9 +120,10 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setCM_WikiToken_ID (int CM_WikiToken_ID)
 	{
-		if (CM_WikiToken_ID < 1)
-			 throw new IllegalArgumentException ("CM_WikiToken_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WikiToken_ID, Integer.valueOf(CM_WikiToken_ID));
+		if (CM_WikiToken_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WikiToken_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WikiToken_ID, Integer.valueOf(CM_WikiToken_ID));
 	}
 
 	/** Get Wiki Token.
@@ -176,8 +177,6 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -230,7 +229,7 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	  */
 	public void setTokenType (String TokenType)
 	{
-		if (TokenType == null) throw new IllegalArgumentException ("TokenType is mandatory");
+
 		set_Value (COLUMNNAME_TokenType, TokenType);
 	}
 

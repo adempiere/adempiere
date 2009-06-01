@@ -96,9 +96,10 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -118,9 +119,10 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	  */
 	public void setB_BidComment_ID (int B_BidComment_ID)
 	{
-		if (B_BidComment_ID < 1)
-			 throw new IllegalArgumentException ("B_BidComment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_BidComment_ID, Integer.valueOf(B_BidComment_ID));
+		if (B_BidComment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_BidComment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_BidComment_ID, Integer.valueOf(B_BidComment_ID));
 	}
 
 	/** Get Bid Comment.
@@ -156,9 +158,10 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	  */
 	public void setB_Topic_ID (int B_Topic_ID)
 	{
-		if (B_Topic_ID < 1)
-			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-		set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+		if (B_Topic_ID < 1) 
+			set_Value (COLUMNNAME_B_Topic_ID, null);
+		else 
+			set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
 	}
 
 	/** Get Topic.
@@ -178,8 +181,6 @@ public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-		if (TextMsg == null)
-			throw new IllegalArgumentException ("TextMsg is mandatory.");
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

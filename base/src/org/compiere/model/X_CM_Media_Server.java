@@ -81,9 +81,10 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setCM_Media_Server_ID (int CM_Media_Server_ID)
 	{
-		if (CM_Media_Server_ID < 1)
-			 throw new IllegalArgumentException ("CM_Media_Server_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, Integer.valueOf(CM_Media_Server_ID));
+		if (CM_Media_Server_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, Integer.valueOf(CM_Media_Server_ID));
 	}
 
 	/** Get Media Server.
@@ -119,9 +120,10 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -233,8 +235,6 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

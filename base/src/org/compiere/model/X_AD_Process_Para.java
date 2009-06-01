@@ -146,9 +146,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -166,9 +167,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		@param AD_Process_Para_ID Process Parameter	  */
 	public void setAD_Process_Para_ID (int AD_Process_Para_ID)
 	{
-		if (AD_Process_Para_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_Para_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
+		if (AD_Process_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_Para_ID, Integer.valueOf(AD_Process_Para_ID));
 	}
 
 	/** Get Process Parameter.
@@ -187,9 +189,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -271,8 +274,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setColumnName (String ColumnName)
 	{
-		if (ColumnName == null)
-			throw new IllegalArgumentException ("ColumnName is mandatory.");
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -487,8 +488,6 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

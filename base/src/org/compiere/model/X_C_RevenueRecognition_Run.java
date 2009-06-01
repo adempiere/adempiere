@@ -99,9 +99,10 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	  */
 	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
 	{
-		if (C_RevenueRecognition_Plan_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_Plan_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
+		if (C_RevenueRecognition_Plan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
 	}
 
 	/** Get Revenue Recognition Plan.
@@ -129,9 +130,10 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	  */
 	public void setC_RevenueRecognition_Run_ID (int C_RevenueRecognition_Run_ID)
 	{
-		if (C_RevenueRecognition_Run_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_Run_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Run_ID, Integer.valueOf(C_RevenueRecognition_Run_ID));
+		if (C_RevenueRecognition_Run_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Run_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Run_ID, Integer.valueOf(C_RevenueRecognition_Run_ID));
 	}
 
 	/** Get Revenue Recognition Run.
@@ -167,9 +169,10 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 	  */
 	public void setGL_Journal_ID (int GL_Journal_ID)
 	{
-		if (GL_Journal_ID < 1)
-			 throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+		if (GL_Journal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
 	}
 
 	/** Get Journal.
@@ -187,8 +190,6 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 		@param RecognizedAmt Recognized Amount	  */
 	public void setRecognizedAmt (BigDecimal RecognizedAmt)
 	{
-		if (RecognizedAmt == null)
-			throw new IllegalArgumentException ("RecognizedAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_RecognizedAmt, RecognizedAmt);
 	}
 

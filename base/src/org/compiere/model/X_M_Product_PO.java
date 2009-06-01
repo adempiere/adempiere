@@ -103,9 +103,10 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -361,9 +362,10 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -594,8 +596,6 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 	  */
 	public void setVendorProductNo (String VendorProductNo)
 	{
-		if (VendorProductNo == null)
-			throw new IllegalArgumentException ("VendorProductNo is mandatory.");
 		set_Value (COLUMNNAME_VendorProductNo, VendorProductNo);
 	}
 

@@ -120,7 +120,7 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setMailMsgType (String MailMsgType)
 	{
-		if (MailMsgType == null) throw new IllegalArgumentException ("MailMsgType is mandatory");
+
 		set_Value (COLUMNNAME_MailMsgType, MailMsgType);
 	}
 
@@ -138,8 +138,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setMessage (String Message)
 	{
-		if (Message == null)
-			throw new IllegalArgumentException ("Message is mandatory.");
 		set_Value (COLUMNNAME_Message, Message);
 	}
 
@@ -191,8 +189,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -218,8 +214,6 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setSubject (String Subject)
 	{
-		if (Subject == null)
-			throw new IllegalArgumentException ("Subject is mandatory.");
 		set_Value (COLUMNNAME_Subject, Subject);
 	}
 
@@ -237,9 +231,10 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setW_MailMsg_ID (int W_MailMsg_ID)
 	{
-		if (W_MailMsg_ID < 1)
-			 throw new IllegalArgumentException ("W_MailMsg_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_MailMsg_ID, Integer.valueOf(W_MailMsg_ID));
+		if (W_MailMsg_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_MailMsg_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_MailMsg_ID, Integer.valueOf(W_MailMsg_ID));
 	}
 
 	/** Get Mail Message.
@@ -275,9 +270,10 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 	  */
 	public void setW_Store_ID (int W_Store_ID)
 	{
-		if (W_Store_ID < 1)
-			 throw new IllegalArgumentException ("W_Store_ID is mandatory.");
-		set_Value (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
+		if (W_Store_ID < 1) 
+			set_Value (COLUMNNAME_W_Store_ID, null);
+		else 
+			set_Value (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
 	}
 
 	/** Get Web Store.

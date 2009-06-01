@@ -104,9 +104,10 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setAD_Process_ID (int AD_Process_ID)
 	{
-		if (AD_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
+		if (AD_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Process_ID, Integer.valueOf(AD_Process_ID));
 	}
 
 	/** Get Process.
@@ -126,9 +127,10 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 	{
-		if (AD_Scheduler_ID < 1)
-			 throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
+		if (AD_Scheduler_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
 	}
 
 	/** Get Scheduler.
@@ -227,7 +229,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -285,8 +287,6 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -341,7 +341,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setScheduleType (String ScheduleType)
 	{
-		if (ScheduleType == null) throw new IllegalArgumentException ("ScheduleType is mandatory");
+
 		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
 	}
 
@@ -359,9 +359,10 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID < 1)
-			 throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID < 1) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.

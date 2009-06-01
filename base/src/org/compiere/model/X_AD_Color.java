@@ -88,9 +88,10 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	  */
 	public void setAD_Color_ID (int AD_Color_ID)
 	{
-		if (AD_Color_ID < 1)
-			 throw new IllegalArgumentException ("AD_Color_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
+		if (AD_Color_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Color_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Color_ID, Integer.valueOf(AD_Color_ID));
 	}
 
 	/** Get System Color.
@@ -239,7 +240,7 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	  */
 	public void setColorType (String ColorType)
 	{
-		if (ColorType == null) throw new IllegalArgumentException ("ColorType is mandatory");
+
 		set_Value (COLUMNNAME_ColorType, ColorType);
 	}
 
@@ -297,8 +298,6 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	  */
 	public void setImageAlpha (BigDecimal ImageAlpha)
 	{
-		if (ImageAlpha == null)
-			throw new IllegalArgumentException ("ImageAlpha is mandatory.");
 		set_Value (COLUMNNAME_ImageAlpha, ImageAlpha);
 	}
 
@@ -383,8 +382,6 @@ public class X_AD_Color extends PO implements I_AD_Color, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -96,9 +96,10 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -118,9 +119,10 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	  */
 	public void setCM_ChatType_ID (int CM_ChatType_ID)
 	{
-		if (CM_ChatType_ID < 1)
-			 throw new IllegalArgumentException ("CM_ChatType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));
+		if (CM_ChatType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatType_ID, Integer.valueOf(CM_ChatType_ID));
 	}
 
 	/** Get Chat Type.
@@ -183,8 +185,6 @@ public class X_CM_ChatType extends PO implements I_CM_ChatType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

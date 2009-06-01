@@ -111,9 +111,10 @@ public class X_M_CostType extends PO implements I_M_CostType, I_Persistent
 	  */
 	public void setM_CostType_ID (int M_CostType_ID)
 	{
-		if (M_CostType_ID < 1)
-			 throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+		if (M_CostType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
 	}
 
 	/** Get Cost Type.
@@ -133,8 +134,6 @@ public class X_M_CostType extends PO implements I_M_CostType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

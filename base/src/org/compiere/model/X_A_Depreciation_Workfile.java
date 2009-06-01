@@ -116,9 +116,10 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -238,9 +239,10 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		@param A_Depreciation_Workfile_ID A_Depreciation_Workfile_ID	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID)
 	{
-		if (A_Depreciation_Workfile_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Workfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
+		if (A_Depreciation_Workfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
 	}
 
 	/** Get A_Depreciation_Workfile_ID.
@@ -333,8 +335,6 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		@param A_QTY_Current Quantity	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
-		if (A_QTY_Current == null)
-			throw new IllegalArgumentException ("A_QTY_Current is mandatory.");
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 

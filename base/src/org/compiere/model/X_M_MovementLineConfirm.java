@@ -87,8 +87,6 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setConfirmedQty (BigDecimal ConfirmedQty)
 	{
-		if (ConfirmedQty == null)
-			throw new IllegalArgumentException ("ConfirmedQty is mandatory.");
 		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
 	}
 
@@ -126,8 +124,6 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setDifferenceQty (BigDecimal DifferenceQty)
 	{
-		if (DifferenceQty == null)
-			throw new IllegalArgumentException ("DifferenceQty is mandatory.");
 		set_Value (COLUMNNAME_DifferenceQty, DifferenceQty);
 	}
 
@@ -203,9 +199,10 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
 	{
-		if (M_MovementConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
+		if (M_MovementConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
 	}
 
 	/** Get Move Confirm.
@@ -233,9 +230,10 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID)
 	{
-		if (M_MovementLineConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementLineConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, Integer.valueOf(M_MovementLineConfirm_ID));
+		if (M_MovementLineConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, Integer.valueOf(M_MovementLineConfirm_ID));
 	}
 
 	/** Get Move Line Confirm.
@@ -271,9 +269,10 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-		set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+		if (M_MovementLine_ID < 1) 
+			set_Value (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
 	}
 
 	/** Get Move Line.
@@ -317,8 +316,6 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setScrappedQty (BigDecimal ScrappedQty)
 	{
-		if (ScrappedQty == null)
-			throw new IllegalArgumentException ("ScrappedQty is mandatory.");
 		set_Value (COLUMNNAME_ScrappedQty, ScrappedQty);
 	}
 
@@ -339,8 +336,6 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	  */
 	public void setTargetQty (BigDecimal TargetQty)
 	{
-		if (TargetQty == null)
-			throw new IllegalArgumentException ("TargetQty is mandatory.");
 		set_Value (COLUMNNAME_TargetQty, TargetQty);
 	}
 

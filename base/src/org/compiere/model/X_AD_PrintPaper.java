@@ -92,9 +92,10 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	  */
 	public void setAD_PrintPaper_ID (int AD_PrintPaper_ID)
 	{
-		if (AD_PrintPaper_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintPaper_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintPaper_ID, Integer.valueOf(AD_PrintPaper_ID));
+		if (AD_PrintPaper_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintPaper_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintPaper_ID, Integer.valueOf(AD_PrintPaper_ID));
 	}
 
 	/** Get Print Paper.
@@ -114,8 +115,6 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	  */
 	public void setCode (String Code)
 	{
-		if (Code == null)
-			throw new IllegalArgumentException ("Code is mandatory.");
 		set_Value (COLUMNNAME_Code, Code);
 	}
 
@@ -302,8 +301,6 @@ public class X_AD_PrintPaper extends PO implements I_AD_PrintPaper, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -75,8 +75,6 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		@param U_Key Key	  */
 	public void setU_Key (String U_Key)
 	{
-		if (U_Key == null)
-			throw new IllegalArgumentException ("U_Key is mandatory.");
 		set_Value (COLUMNNAME_U_Key, U_Key);
 	}
 
@@ -91,8 +89,6 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		@param U_Value Value	  */
 	public void setU_Value (String U_Value)
 	{
-		if (U_Value == null)
-			throw new IllegalArgumentException ("U_Value is mandatory.");
 		set_Value (COLUMNNAME_U_Value, U_Value);
 	}
 
@@ -107,9 +103,10 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 		@param U_Web_Properties_ID Web Properties	  */
 	public void setU_Web_Properties_ID (int U_Web_Properties_ID)
 	{
-		if (U_Web_Properties_ID < 1)
-			 throw new IllegalArgumentException ("U_Web_Properties_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_U_Web_Properties_ID, Integer.valueOf(U_Web_Properties_ID));
+		if (U_Web_Properties_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_U_Web_Properties_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_U_Web_Properties_ID, Integer.valueOf(U_Web_Properties_ID));
 	}
 
 	/** Get Web Properties.

@@ -104,9 +104,10 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -126,9 +127,10 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setAD_WF_NextCondition_ID (int AD_WF_NextCondition_ID)
 	{
-		if (AD_WF_NextCondition_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_NextCondition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_NextCondition_ID, Integer.valueOf(AD_WF_NextCondition_ID));
+		if (AD_WF_NextCondition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NextCondition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NextCondition_ID, Integer.valueOf(AD_WF_NextCondition_ID));
 	}
 
 	/** Get Transition Condition.
@@ -164,9 +166,10 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
 	{
-		if (AD_WF_NodeNext_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_NodeNext_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
+		if (AD_WF_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
 	}
 
 	/** Get Node Transition.
@@ -192,7 +195,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setAndOr (String AndOr)
 	{
-		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
+
 		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
 
@@ -250,7 +253,7 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setOperation (String Operation)
 	{
-		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
+
 		set_Value (COLUMNNAME_Operation, Operation);
 	}
 
@@ -288,8 +291,6 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

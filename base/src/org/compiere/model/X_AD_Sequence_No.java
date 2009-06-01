@@ -95,9 +95,10 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
 	  */
 	public void setAD_Sequence_ID (int AD_Sequence_ID)
 	{
-		if (AD_Sequence_ID < 1)
-			 throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+		if (AD_Sequence_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
 	}
 
 	/** Get Sequence.
@@ -117,8 +118,6 @@ public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persiste
 	  */
 	public void setCalendarYear (String CalendarYear)
 	{
-		if (CalendarYear == null)
-			throw new IllegalArgumentException ("CalendarYear is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CalendarYear, CalendarYear);
 	}
 

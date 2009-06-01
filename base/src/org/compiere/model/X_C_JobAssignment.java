@@ -98,9 +98,10 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -120,9 +121,10 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	  */
 	public void setC_JobAssignment_ID (int C_JobAssignment_ID)
 	{
-		if (C_JobAssignment_ID < 1)
-			 throw new IllegalArgumentException ("C_JobAssignment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, Integer.valueOf(C_JobAssignment_ID));
+		if (C_JobAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, Integer.valueOf(C_JobAssignment_ID));
 	}
 
 	/** Get Position Assignment.
@@ -158,9 +160,10 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID < 1)
-			 throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+		if (C_Job_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
 	}
 
 	/** Get Position.
@@ -205,8 +208,6 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

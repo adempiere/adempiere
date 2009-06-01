@@ -83,8 +83,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setAD_Language (String AD_Language)
 	{
-		if (AD_Language == null)
-			throw new IllegalArgumentException ("AD_Language is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AD_Language, AD_Language);
 	}
 
@@ -100,9 +98,10 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 		@param AD_Language_ID Language ID	  */
 	public void setAD_Language_ID (int AD_Language_ID)
 	{
-		if (AD_Language_ID < 1)
-			 throw new IllegalArgumentException ("AD_Language_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Language_ID, Integer.valueOf(AD_Language_ID));
+		if (AD_Language_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Language_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Language_ID, Integer.valueOf(AD_Language_ID));
 	}
 
 	/** Get Language ID.
@@ -244,8 +243,6 @@ public class X_AD_Language extends PO implements I_AD_Language, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

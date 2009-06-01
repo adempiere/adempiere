@@ -154,8 +154,6 @@ public class X_PA_SLA_Criteria extends PO implements I_PA_SLA_Criteria, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -181,9 +179,10 @@ public class X_PA_SLA_Criteria extends PO implements I_PA_SLA_Criteria, I_Persis
 	  */
 	public void setPA_SLA_Criteria_ID (int PA_SLA_Criteria_ID)
 	{
-		if (PA_SLA_Criteria_ID < 1)
-			 throw new IllegalArgumentException ("PA_SLA_Criteria_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_SLA_Criteria_ID, Integer.valueOf(PA_SLA_Criteria_ID));
+		if (PA_SLA_Criteria_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Criteria_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Criteria_ID, Integer.valueOf(PA_SLA_Criteria_ID));
 	}
 
 	/** Get SLA Criteria.

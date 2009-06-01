@@ -147,9 +147,10 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setCM_Ad_Cat_ID (int CM_Ad_Cat_ID)
 	{
-		if (CM_Ad_Cat_ID < 1)
-			 throw new IllegalArgumentException ("CM_Ad_Cat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Ad_Cat_ID, Integer.valueOf(CM_Ad_Cat_ID));
+		if (CM_Ad_Cat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Ad_Cat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Ad_Cat_ID, Integer.valueOf(CM_Ad_Cat_ID));
 	}
 
 	/** Get Advertisement Category.
@@ -169,9 +170,10 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setCM_Ad_ID (int CM_Ad_ID)
 	{
-		if (CM_Ad_ID < 1)
-			 throw new IllegalArgumentException ("CM_Ad_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Ad_ID, Integer.valueOf(CM_Ad_ID));
+		if (CM_Ad_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Ad_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Ad_ID, Integer.valueOf(CM_Ad_ID));
 	}
 
 	/** Get Advertisement.
@@ -207,9 +209,10 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setCM_Media_ID (int CM_Media_ID)
 	{
-		if (CM_Media_ID < 1)
-			 throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
+		if (CM_Media_ID < 1) 
+			set_Value (COLUMNNAME_CM_Media_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
 	}
 
 	/** Get Media Item.
@@ -385,8 +388,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -412,8 +413,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setStartDate (Timestamp StartDate)
 	{
-		if (StartDate == null)
-			throw new IllegalArgumentException ("StartDate is mandatory.");
 		set_Value (COLUMNNAME_StartDate, StartDate);
 	}
 
@@ -451,8 +450,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	  */
 	public void setTarget_Frame (String Target_Frame)
 	{
-		if (Target_Frame == null)
-			throw new IllegalArgumentException ("Target_Frame is mandatory.");
 		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
 	}
 

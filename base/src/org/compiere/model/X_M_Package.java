@@ -115,8 +115,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -150,9 +148,10 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID < 1)
-			 throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
@@ -172,9 +171,10 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setM_Package_ID (int M_Package_ID)
 	{
-		if (M_Package_ID < 1)
-			 throw new IllegalArgumentException ("M_Package_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Package_ID, Integer.valueOf(M_Package_ID));
+		if (M_Package_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Package_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Package_ID, Integer.valueOf(M_Package_ID));
 	}
 
 	/** Get Package.
@@ -210,9 +210,10 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID < 1)
-			 throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID < 1) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.

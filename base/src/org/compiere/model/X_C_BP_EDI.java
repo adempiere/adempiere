@@ -92,9 +92,10 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setAD_Sequence_ID (int AD_Sequence_ID)
 	{
-		if (AD_Sequence_ID < 1)
-			 throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+		if (AD_Sequence_ID < 1) 
+			set_Value (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
 	}
 
 	/** Get Sequence.
@@ -130,9 +131,10 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -152,9 +154,10 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
 	{
-		if (C_BP_EDI_ID < 1)
-			 throw new IllegalArgumentException ("C_BP_EDI_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
+		if (C_BP_EDI_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
 	}
 
 	/** Get EDI Definition.
@@ -174,8 +177,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setCustomerNo (String CustomerNo)
 	{
-		if (CustomerNo == null)
-			throw new IllegalArgumentException ("CustomerNo is mandatory.");
 		set_Value (COLUMNNAME_CustomerNo, CustomerNo);
 	}
 
@@ -216,7 +217,7 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		@param EDIType EDI Type	  */
 	public void setEDIType (String EDIType)
 	{
-		if (EDIType == null) throw new IllegalArgumentException ("EDIType is mandatory");
+
 		set_Value (COLUMNNAME_EDIType, EDIType);
 	}
 
@@ -233,8 +234,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_Error_To (String EMail_Error_To)
 	{
-		if (EMail_Error_To == null)
-			throw new IllegalArgumentException ("EMail_Error_To is mandatory.");
 		set_Value (COLUMNNAME_EMail_Error_To, EMail_Error_To);
 	}
 
@@ -303,8 +302,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setEMail_Info_To (String EMail_Info_To)
 	{
-		if (EMail_Info_To == null)
-			throw new IllegalArgumentException ("EMail_Info_To is mandatory.");
 		set_Value (COLUMNNAME_EMail_Info_To, EMail_Info_To);
 	}
 
@@ -403,9 +400,10 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -425,8 +423,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

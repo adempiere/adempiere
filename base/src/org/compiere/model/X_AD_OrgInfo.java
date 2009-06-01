@@ -204,8 +204,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setDUNS (String DUNS)
 	{
-		if (DUNS == null)
-			throw new IllegalArgumentException ("DUNS is mandatory.");
 		set_Value (COLUMNNAME_DUNS, DUNS);
 	}
 
@@ -285,8 +283,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setReceiptFooterMsg (String ReceiptFooterMsg)
 	{
-		if (ReceiptFooterMsg == null)
-			throw new IllegalArgumentException ("ReceiptFooterMsg is mandatory.");
 		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
 	}
 
@@ -327,8 +323,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	  */
 	public void setTaxID (String TaxID)
 	{
-		if (TaxID == null)
-			throw new IllegalArgumentException ("TaxID is mandatory.");
 		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
 

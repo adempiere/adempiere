@@ -113,9 +113,10 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 		@param AD_Package_Imp_Proc_ID AD_Package_Imp_Proc_ID	  */
 	public void setAD_Package_Imp_Proc_ID (int AD_Package_Imp_Proc_ID)
 	{
-		if (AD_Package_Imp_Proc_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Imp_Proc_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Proc_ID, Integer.valueOf(AD_Package_Imp_Proc_ID));
+		if (AD_Package_Imp_Proc_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Proc_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Proc_ID, Integer.valueOf(AD_Package_Imp_Proc_ID));
 	}
 
 	/** Get AD_Package_Imp_Proc_ID.
@@ -134,8 +135,6 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	  */
 	public void setAD_Package_Source (String AD_Package_Source)
 	{
-		if (AD_Package_Source == null)
-			throw new IllegalArgumentException ("AD_Package_Source is mandatory.");
 		set_Value (COLUMNNAME_AD_Package_Source, AD_Package_Source);
 	}
 
@@ -159,7 +158,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	  */
 	public void setAD_Package_Source_Type (String AD_Package_Source_Type)
 	{
-		if (AD_Package_Source_Type == null) throw new IllegalArgumentException ("AD_Package_Source_Type is mandatory");
+
 		set_Value (COLUMNNAME_AD_Package_Source_Type, AD_Package_Source_Type);
 	}
 

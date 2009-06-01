@@ -116,9 +116,10 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	  */
 	public void setI_Inventory_ID (int I_Inventory_ID)
 	{
-		if (I_Inventory_ID < 1)
-			 throw new IllegalArgumentException ("I_Inventory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Inventory_ID, Integer.valueOf(I_Inventory_ID));
+		if (I_Inventory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Inventory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Inventory_ID, Integer.valueOf(I_Inventory_ID));
 	}
 
 	/** Get Import Inventory.

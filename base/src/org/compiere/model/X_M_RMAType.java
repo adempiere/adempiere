@@ -111,9 +111,10 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	  */
 	public void setM_RMAType_ID (int M_RMAType_ID)
 	{
-		if (M_RMAType_ID < 1)
-			 throw new IllegalArgumentException ("M_RMAType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
+		if (M_RMAType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RMAType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
 	}
 
 	/** Get RMA Type.
@@ -133,8 +134,6 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

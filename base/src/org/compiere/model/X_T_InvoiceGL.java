@@ -109,9 +109,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (AD_PInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+		if (AD_PInstance_ID < 1) 
+			set_Value (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
 	/** Get Process Instance.
@@ -131,8 +132,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtAcctBalance (BigDecimal AmtAcctBalance)
 	{
-		if (AmtAcctBalance == null)
-			throw new IllegalArgumentException ("AmtAcctBalance is mandatory.");
 		set_Value (COLUMNNAME_AmtAcctBalance, AmtAcctBalance);
 	}
 
@@ -153,8 +152,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtRevalCr (BigDecimal AmtRevalCr)
 	{
-		if (AmtRevalCr == null)
-			throw new IllegalArgumentException ("AmtRevalCr is mandatory.");
 		set_Value (COLUMNNAME_AmtRevalCr, AmtRevalCr);
 	}
 
@@ -175,8 +172,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtRevalCrDiff (BigDecimal AmtRevalCrDiff)
 	{
-		if (AmtRevalCrDiff == null)
-			throw new IllegalArgumentException ("AmtRevalCrDiff is mandatory.");
 		set_Value (COLUMNNAME_AmtRevalCrDiff, AmtRevalCrDiff);
 	}
 
@@ -197,8 +192,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtRevalDr (BigDecimal AmtRevalDr)
 	{
-		if (AmtRevalDr == null)
-			throw new IllegalArgumentException ("AmtRevalDr is mandatory.");
 		set_Value (COLUMNNAME_AmtRevalDr, AmtRevalDr);
 	}
 
@@ -219,8 +212,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtRevalDrDiff (BigDecimal AmtRevalDrDiff)
 	{
-		if (AmtRevalDrDiff == null)
-			throw new IllegalArgumentException ("AmtRevalDrDiff is mandatory.");
 		set_Value (COLUMNNAME_AmtRevalDrDiff, AmtRevalDrDiff);
 	}
 
@@ -241,8 +232,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setAmtSourceBalance (BigDecimal AmtSourceBalance)
 	{
-		if (AmtSourceBalance == null)
-			throw new IllegalArgumentException ("AmtSourceBalance is mandatory.");
 		set_Value (COLUMNNAME_AmtSourceBalance, AmtSourceBalance);
 	}
 
@@ -289,9 +278,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setC_ConversionTypeReval_ID (int C_ConversionTypeReval_ID)
 	{
-		if (C_ConversionTypeReval_ID < 1)
-			 throw new IllegalArgumentException ("C_ConversionTypeReval_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ConversionTypeReval_ID, Integer.valueOf(C_ConversionTypeReval_ID));
+		if (C_ConversionTypeReval_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionTypeReval_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionTypeReval_ID, Integer.valueOf(C_ConversionTypeReval_ID));
 	}
 
 	/** Get Revaluation Conversion Type.
@@ -350,9 +340,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -372,8 +363,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setDateReval (Timestamp DateReval)
 	{
-		if (DateReval == null)
-			throw new IllegalArgumentException ("DateReval is mandatory.");
 		set_Value (COLUMNNAME_DateReval, DateReval);
 	}
 
@@ -389,9 +378,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
 	{
-		if (Fact_Acct_ID < 1)
-			 throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
+		if (Fact_Acct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
 	}
 
 	/** Get Accounting Fact.
@@ -410,8 +400,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setGrandTotal (BigDecimal GrandTotal)
 	{
-		if (GrandTotal == null)
-			throw new IllegalArgumentException ("GrandTotal is mandatory.");
 		set_Value (COLUMNNAME_GrandTotal, GrandTotal);
 	}
 
@@ -456,8 +444,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	  */
 	public void setOpenAmt (BigDecimal OpenAmt)
 	{
-		if (OpenAmt == null)
-			throw new IllegalArgumentException ("OpenAmt is mandatory.");
 		set_Value (COLUMNNAME_OpenAmt, OpenAmt);
 	}
 

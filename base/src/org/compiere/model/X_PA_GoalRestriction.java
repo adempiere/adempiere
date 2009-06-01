@@ -171,7 +171,7 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setGoalRestrictionType (String GoalRestrictionType)
 	{
-		if (GoalRestrictionType == null) throw new IllegalArgumentException ("GoalRestrictionType is mandatory");
+
 		set_Value (COLUMNNAME_GoalRestrictionType, GoalRestrictionType);
 	}
 
@@ -267,8 +267,6 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -333,9 +331,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setPA_Goal_ID (int PA_Goal_ID)
 	{
-		if (PA_Goal_ID < 1)
-			 throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
-		set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+		if (PA_Goal_ID < 1) 
+			set_Value (COLUMNNAME_PA_Goal_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
 	}
 
 	/** Get Goal.
@@ -355,9 +354,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 	  */
 	public void setPA_GoalRestriction_ID (int PA_GoalRestriction_ID)
 	{
-		if (PA_GoalRestriction_ID < 1)
-			 throw new IllegalArgumentException ("PA_GoalRestriction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
+		if (PA_GoalRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_GoalRestriction_ID, Integer.valueOf(PA_GoalRestriction_ID));
 	}
 
 	/** Get Goal Restriction.

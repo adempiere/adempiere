@@ -100,9 +100,10 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setAD_Alert_ID (int AD_Alert_ID)
 	{
-		if (AD_Alert_ID < 1)
-			 throw new IllegalArgumentException ("AD_Alert_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
+		if (AD_Alert_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
 	}
 
 	/** Get Alert.
@@ -122,9 +123,10 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setAD_AlertRule_ID (int AD_AlertRule_ID)
 	{
-		if (AD_AlertRule_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertRule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
+		if (AD_AlertRule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRule_ID, Integer.valueOf(AD_AlertRule_ID));
 	}
 
 	/** Get Alert Rule.
@@ -197,8 +199,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setFromClause (String FromClause)
 	{
-		if (FromClause == null)
-			throw new IllegalArgumentException ("FromClause is mandatory.");
 		set_Value (COLUMNNAME_FromClause, FromClause);
 	}
 
@@ -240,8 +240,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -318,8 +316,6 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 	  */
 	public void setSelectClause (String SelectClause)
 	{
-		if (SelectClause == null)
-			throw new IllegalArgumentException ("SelectClause is mandatory.");
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 

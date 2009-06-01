@@ -89,8 +89,6 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setAmtMultiplier (BigDecimal AmtMultiplier)
 	{
-		if (AmtMultiplier == null)
-			throw new IllegalArgumentException ("AmtMultiplier is mandatory.");
 		set_Value (COLUMNNAME_AmtMultiplier, AmtMultiplier);
 	}
 
@@ -111,8 +109,6 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setAmtSubtract (BigDecimal AmtSubtract)
 	{
-		if (AmtSubtract == null)
-			throw new IllegalArgumentException ("AmtSubtract is mandatory.");
 		set_Value (COLUMNNAME_AmtSubtract, AmtSubtract);
 	}
 
@@ -227,9 +223,10 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setC_Commission_ID (int C_Commission_ID)
 	{
-		if (C_Commission_ID < 1)
-			 throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
 	}
 
 	/** Get Commission.
@@ -257,9 +254,10 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setC_CommissionLine_ID (int C_CommissionLine_ID)
 	{
-		if (C_CommissionLine_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
+		if (C_CommissionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
 	}
 
 	/** Get Commission Line.
@@ -538,8 +536,6 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setQtyMultiplier (BigDecimal QtyMultiplier)
 	{
-		if (QtyMultiplier == null)
-			throw new IllegalArgumentException ("QtyMultiplier is mandatory.");
 		set_Value (COLUMNNAME_QtyMultiplier, QtyMultiplier);
 	}
 
@@ -560,8 +556,6 @@ public class X_C_CommissionLine extends PO implements I_C_CommissionLine, I_Pers
 	  */
 	public void setQtySubtract (BigDecimal QtySubtract)
 	{
-		if (QtySubtract == null)
-			throw new IllegalArgumentException ("QtySubtract is mandatory.");
 		set_Value (COLUMNNAME_QtySubtract, QtySubtract);
 	}
 

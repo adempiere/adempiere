@@ -201,7 +201,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setMeasureDataType (String MeasureDataType)
 	{
-		if (MeasureDataType == null) throw new IllegalArgumentException ("MeasureDataType is mandatory");
+
 		set_Value (COLUMNNAME_MeasureDataType, MeasureDataType);
 	}
 
@@ -235,7 +235,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setMeasureType (String MeasureType)
 	{
-		if (MeasureType == null) throw new IllegalArgumentException ("MeasureType is mandatory");
+
 		set_Value (COLUMNNAME_MeasureType, MeasureType);
 	}
 
@@ -253,8 +253,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -397,9 +395,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	  */
 	public void setPA_Measure_ID (int PA_Measure_ID)
 	{
-		if (PA_Measure_ID < 1)
-			 throw new IllegalArgumentException ("PA_Measure_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
+		if (PA_Measure_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
 	}
 
 	/** Get Measure.

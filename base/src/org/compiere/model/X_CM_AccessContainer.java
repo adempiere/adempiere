@@ -94,9 +94,10 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.
@@ -132,9 +133,10 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
 	  */
 	public void setCM_Container_ID (int CM_Container_ID)
 	{
-		if (CM_Container_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+		if (CM_Container_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
 	}
 
 	/** Get Web Container.

@@ -77,9 +77,10 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 		@param AD_Package_Imp_ID AD_Package_Imp_ID	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 	{
-		if (AD_Package_Imp_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Imp_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
+		if (AD_Package_Imp_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
 	}
 
 	/** Get AD_Package_Imp_ID.
@@ -148,8 +149,6 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -184,8 +183,6 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

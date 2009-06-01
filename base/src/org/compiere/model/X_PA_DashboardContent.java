@@ -217,8 +217,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -242,9 +240,10 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		@param PA_DashboardContent_ID PA_DashboardContent_ID	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
 	{
-		if (PA_DashboardContent_ID < 1)
-			 throw new IllegalArgumentException ("PA_DashboardContent_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, Integer.valueOf(PA_DashboardContent_ID));
+		if (PA_DashboardContent_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, Integer.valueOf(PA_DashboardContent_ID));
 	}
 
 	/** Get PA_DashboardContent_ID.

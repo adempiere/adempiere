@@ -91,8 +91,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (Amt == null)
-			throw new IllegalArgumentException ("Amt is mandatory.");
 		set_Value (COLUMNNAME_Amt, Amt);
 	}
 
@@ -129,9 +127,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
 	{
-		if (C_DunningRunEntry_ID < 1)
-			 throw new IllegalArgumentException ("C_DunningRunEntry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, Integer.valueOf(C_DunningRunEntry_ID));
+		if (C_DunningRunEntry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, Integer.valueOf(C_DunningRunEntry_ID));
 	}
 
 	/** Get Dunning Run Entry.
@@ -151,9 +150,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setC_DunningRunLine_ID (int C_DunningRunLine_ID)
 	{
-		if (C_DunningRunLine_ID < 1)
-			 throw new IllegalArgumentException ("C_DunningRunLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DunningRunLine_ID, Integer.valueOf(C_DunningRunLine_ID));
+		if (C_DunningRunLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunLine_ID, Integer.valueOf(C_DunningRunLine_ID));
 	}
 
 	/** Get Dunning Run Line.
@@ -259,8 +259,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setConvertedAmt (BigDecimal ConvertedAmt)
 	{
-		if (ConvertedAmt == null)
-			throw new IllegalArgumentException ("ConvertedAmt is mandatory.");
 		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
 	}
 
@@ -340,8 +338,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setFeeAmt (BigDecimal FeeAmt)
 	{
-		if (FeeAmt == null)
-			throw new IllegalArgumentException ("FeeAmt is mandatory.");
 		set_Value (COLUMNNAME_FeeAmt, FeeAmt);
 	}
 
@@ -362,8 +358,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setInterestAmt (BigDecimal InterestAmt)
 	{
-		if (InterestAmt == null)
-			throw new IllegalArgumentException ("InterestAmt is mandatory.");
 		set_Value (COLUMNNAME_InterestAmt, InterestAmt);
 	}
 
@@ -408,8 +402,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setOpenAmt (BigDecimal OpenAmt)
 	{
-		if (OpenAmt == null)
-			throw new IllegalArgumentException ("OpenAmt is mandatory.");
 		set_Value (COLUMNNAME_OpenAmt, OpenAmt);
 	}
 
@@ -474,8 +466,6 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 	  */
 	public void setTotalAmt (BigDecimal TotalAmt)
 	{
-		if (TotalAmt == null)
-			throw new IllegalArgumentException ("TotalAmt is mandatory.");
 		set_Value (COLUMNNAME_TotalAmt, TotalAmt);
 	}
 

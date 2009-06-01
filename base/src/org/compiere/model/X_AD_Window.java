@@ -165,9 +165,10 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID < 1)
-			 throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -313,8 +314,6 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -371,7 +370,7 @@ public class X_AD_Window extends PO implements I_AD_Window, I_Persistent
 	  */
 	public void setWindowType (String WindowType)
 	{
-		if (WindowType == null) throw new IllegalArgumentException ("WindowType is mandatory");
+
 		set_Value (COLUMNNAME_WindowType, WindowType);
 	}
 

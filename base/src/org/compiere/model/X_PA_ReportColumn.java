@@ -432,7 +432,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		@param ColumnType Column Type	  */
 	public void setColumnType (String ColumnType)
 	{
-		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
+
 		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
@@ -1074,8 +1074,6 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1170,9 +1168,10 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	  */
 	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
 	{
-		if (PA_ReportColumn_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportColumn_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
+		if (PA_ReportColumn_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
 	}
 
 	/** Get Report Column.
@@ -1208,9 +1207,10 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	  */
 	public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 	{
-		if (PA_ReportColumnSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
+		if (PA_ReportColumnSet_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
 	}
 
 	/** Get Report Column Set.
@@ -1242,7 +1242,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

@@ -81,9 +81,10 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setAD_Archive_ID (int AD_Archive_ID)
 	{
-		if (AD_Archive_ID < 1)
-			 throw new IllegalArgumentException ("AD_Archive_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Archive_ID, Integer.valueOf(AD_Archive_ID));
+		if (AD_Archive_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Archive_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Archive_ID, Integer.valueOf(AD_Archive_ID));
 	}
 
 	/** Get Archive.
@@ -181,8 +182,6 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setBinaryData (byte[] BinaryData)
 	{
-		if (BinaryData == null)
-			throw new IllegalArgumentException ("BinaryData is mandatory.");
 		set_Value (COLUMNNAME_BinaryData, BinaryData);
 	}
 
@@ -297,8 +296,6 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -324,7 +321,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

@@ -80,9 +80,10 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 		@param AD_MigrationScript_ID Migration Script	  */
 	public void setAD_MigrationScript_ID (int AD_MigrationScript_ID)
 	{
-		if (AD_MigrationScript_ID < 1)
-			 throw new IllegalArgumentException ("AD_MigrationScript_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_MigrationScript_ID, Integer.valueOf(AD_MigrationScript_ID));
+		if (AD_MigrationScript_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_MigrationScript_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_MigrationScript_ID, Integer.valueOf(AD_MigrationScript_ID));
 	}
 
 	/** Get Migration Script.
@@ -132,8 +133,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setFileName (String FileName)
 	{
-		if (FileName == null)
-			throw new IllegalArgumentException ("FileName is mandatory.");
 		set_Value (COLUMNNAME_FileName, FileName);
 	}
 
@@ -172,8 +171,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -199,8 +196,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setProjectName (String ProjectName)
 	{
-		if (ProjectName == null)
-			throw new IllegalArgumentException ("ProjectName is mandatory.");
 		set_Value (COLUMNNAME_ProjectName, ProjectName);
 	}
 
@@ -235,8 +230,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
-		if (ReleaseNo == null)
-			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
@@ -293,7 +286,7 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	  */
 	public void setStatus (String Status)
 	{
-		if (Status == null) throw new IllegalArgumentException ("Status is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_Status, Status);
 	}
 

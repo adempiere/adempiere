@@ -96,9 +96,10 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setAD_System_ID (int AD_System_ID)
 	{
-		if (AD_System_ID < 1)
-			 throw new IllegalArgumentException ("AD_System_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_System_ID, Integer.valueOf(AD_System_ID));
+		if (AD_System_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_System_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_System_ID, Integer.valueOf(AD_System_ID));
 	}
 
 	/** Get System.
@@ -243,8 +244,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setInfo (String Info)
 	{
-		if (Info == null)
-			throw new IllegalArgumentException ("Info is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Info, Info);
 	}
 
@@ -424,8 +423,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -485,8 +482,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setPassword (String Password)
 	{
-		if (Password == null)
-			throw new IllegalArgumentException ("Password is mandatory.");
 		set_Value (COLUMNNAME_Password, Password);
 	}
 
@@ -542,7 +537,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
@@ -590,7 +585,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 
@@ -704,7 +699,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 
@@ -722,8 +717,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setUserName (String UserName)
 	{
-		if (UserName == null)
-			throw new IllegalArgumentException ("UserName is mandatory.");
 		set_Value (COLUMNNAME_UserName, UserName);
 	}
 
@@ -741,8 +734,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	  */
 	public void setVersion (String Version)
 	{
-		if (Version == null)
-			throw new IllegalArgumentException ("Version is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Version, Version);
 	}
 

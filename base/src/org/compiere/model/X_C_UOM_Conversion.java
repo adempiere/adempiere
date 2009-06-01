@@ -84,9 +84,10 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	  */
 	public void setC_UOM_Conversion_ID (int C_UOM_Conversion_ID)
 	{
-		if (C_UOM_Conversion_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_Conversion_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_Conversion_ID, Integer.valueOf(C_UOM_Conversion_ID));
+		if (C_UOM_Conversion_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Conversion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_Conversion_ID, Integer.valueOf(C_UOM_Conversion_ID));
 	}
 
 	/** Get UOM Conversion.
@@ -130,9 +131,10 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -152,9 +154,10 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	  */
 	public void setC_UOM_To_ID (int C_UOM_To_ID)
 	{
-		if (C_UOM_To_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_To_ID is mandatory.");
-		set_Value (COLUMNNAME_C_UOM_To_ID, Integer.valueOf(C_UOM_To_ID));
+		if (C_UOM_To_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_To_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_To_ID, Integer.valueOf(C_UOM_To_ID));
 	}
 
 	/** Get UoM To.
@@ -174,8 +177,6 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	  */
 	public void setDivideRate (BigDecimal DivideRate)
 	{
-		if (DivideRate == null)
-			throw new IllegalArgumentException ("DivideRate is mandatory.");
 		set_Value (COLUMNNAME_DivideRate, DivideRate);
 	}
 
@@ -235,8 +236,6 @@ public class X_C_UOM_Conversion extends PO implements I_C_UOM_Conversion, I_Pers
 	  */
 	public void setMultiplyRate (BigDecimal MultiplyRate)
 	{
-		if (MultiplyRate == null)
-			throw new IllegalArgumentException ("MultiplyRate is mandatory.");
 		set_Value (COLUMNNAME_MultiplyRate, MultiplyRate);
 	}
 

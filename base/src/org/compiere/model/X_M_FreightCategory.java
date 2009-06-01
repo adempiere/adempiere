@@ -112,9 +112,10 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 	  */
 	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 	{
-		if (M_FreightCategory_ID < 1)
-			 throw new IllegalArgumentException ("M_FreightCategory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+		if (M_FreightCategory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
 	}
 
 	/** Get Freight Category.
@@ -134,8 +135,6 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -161,8 +160,6 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

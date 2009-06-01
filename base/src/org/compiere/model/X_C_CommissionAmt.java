@@ -85,8 +85,6 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setActualQty (BigDecimal ActualQty)
 	{
-		if (ActualQty == null)
-			throw new IllegalArgumentException ("ActualQty is mandatory.");
 		set_Value (COLUMNNAME_ActualQty, ActualQty);
 	}
 
@@ -107,9 +105,10 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setC_CommissionAmt_ID (int C_CommissionAmt_ID)
 	{
-		if (C_CommissionAmt_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionAmt_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, Integer.valueOf(C_CommissionAmt_ID));
+		if (C_CommissionAmt_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionAmt_ID, Integer.valueOf(C_CommissionAmt_ID));
 	}
 
 	/** Get Commission Amount.
@@ -145,9 +144,10 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setC_CommissionLine_ID (int C_CommissionLine_ID)
 	{
-		if (C_CommissionLine_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionLine_ID is mandatory.");
-		set_Value (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
+		if (C_CommissionLine_ID < 1) 
+			set_Value (COLUMNNAME_C_CommissionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CommissionLine_ID, Integer.valueOf(C_CommissionLine_ID));
 	}
 
 	/** Get Commission Line.
@@ -183,9 +183,10 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
 	{
-		if (C_CommissionRun_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
+		if (C_CommissionRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
 	}
 
 	/** Get Commission Run.
@@ -213,8 +214,6 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setCommissionAmt (BigDecimal CommissionAmt)
 	{
-		if (CommissionAmt == null)
-			throw new IllegalArgumentException ("CommissionAmt is mandatory.");
 		set_Value (COLUMNNAME_CommissionAmt, CommissionAmt);
 	}
 
@@ -235,8 +234,6 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 	  */
 	public void setConvertedAmt (BigDecimal ConvertedAmt)
 	{
-		if (ConvertedAmt == null)
-			throw new IllegalArgumentException ("ConvertedAmt is mandatory.");
 		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
 	}
 

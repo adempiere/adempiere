@@ -75,9 +75,10 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 		@param AD_Error_ID Error	  */
 	public void setAD_Error_ID (int AD_Error_ID)
 	{
-		if (AD_Error_ID < 1)
-			 throw new IllegalArgumentException ("AD_Error_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Error_ID, Integer.valueOf(AD_Error_ID));
+		if (AD_Error_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Error_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Error_ID, Integer.valueOf(AD_Error_ID));
 	}
 
 	/** Get Error.
@@ -133,8 +134,6 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

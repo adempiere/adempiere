@@ -90,9 +90,10 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Asset_Spread_ID A_Asset_Spread_ID	  */
 	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID)
 	{
-		if (A_Asset_Spread_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Spread_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Spread_ID, Integer.valueOf(A_Asset_Spread_ID));
+		if (A_Asset_Spread_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Spread_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Spread_ID, Integer.valueOf(A_Asset_Spread_ID));
 	}
 
 	/** Get A_Asset_Spread_ID.
@@ -131,8 +132,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_1 A_Period_1	  */
 	public void setA_Period_1 (BigDecimal A_Period_1)
 	{
-		if (A_Period_1 == null)
-			throw new IllegalArgumentException ("A_Period_1 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_1, A_Period_1);
 	}
 
@@ -150,8 +149,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_10 A_Period_10	  */
 	public void setA_Period_10 (BigDecimal A_Period_10)
 	{
-		if (A_Period_10 == null)
-			throw new IllegalArgumentException ("A_Period_10 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_10, A_Period_10);
 	}
 
@@ -169,8 +166,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_11 A_Period_11	  */
 	public void setA_Period_11 (BigDecimal A_Period_11)
 	{
-		if (A_Period_11 == null)
-			throw new IllegalArgumentException ("A_Period_11 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_11, A_Period_11);
 	}
 
@@ -188,8 +183,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_12 A_Period_12	  */
 	public void setA_Period_12 (BigDecimal A_Period_12)
 	{
-		if (A_Period_12 == null)
-			throw new IllegalArgumentException ("A_Period_12 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_12, A_Period_12);
 	}
 
@@ -207,8 +200,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_13 A_Period_13	  */
 	public void setA_Period_13 (BigDecimal A_Period_13)
 	{
-		if (A_Period_13 == null)
-			throw new IllegalArgumentException ("A_Period_13 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_13, A_Period_13);
 	}
 
@@ -226,8 +217,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_14 A_Period_14	  */
 	public void setA_Period_14 (BigDecimal A_Period_14)
 	{
-		if (A_Period_14 == null)
-			throw new IllegalArgumentException ("A_Period_14 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_14, A_Period_14);
 	}
 
@@ -245,8 +234,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_2 A_Period_2	  */
 	public void setA_Period_2 (BigDecimal A_Period_2)
 	{
-		if (A_Period_2 == null)
-			throw new IllegalArgumentException ("A_Period_2 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_2, A_Period_2);
 	}
 
@@ -264,8 +251,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_3 A_Period_3	  */
 	public void setA_Period_3 (BigDecimal A_Period_3)
 	{
-		if (A_Period_3 == null)
-			throw new IllegalArgumentException ("A_Period_3 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_3, A_Period_3);
 	}
 
@@ -283,8 +268,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_4 A_Period_4	  */
 	public void setA_Period_4 (BigDecimal A_Period_4)
 	{
-		if (A_Period_4 == null)
-			throw new IllegalArgumentException ("A_Period_4 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_4, A_Period_4);
 	}
 
@@ -302,8 +285,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_5 A_Period_5	  */
 	public void setA_Period_5 (BigDecimal A_Period_5)
 	{
-		if (A_Period_5 == null)
-			throw new IllegalArgumentException ("A_Period_5 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_5, A_Period_5);
 	}
 
@@ -321,8 +302,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_6 A_Period_6	  */
 	public void setA_Period_6 (BigDecimal A_Period_6)
 	{
-		if (A_Period_6 == null)
-			throw new IllegalArgumentException ("A_Period_6 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_6, A_Period_6);
 	}
 
@@ -340,8 +319,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_7 A_Period_7	  */
 	public void setA_Period_7 (BigDecimal A_Period_7)
 	{
-		if (A_Period_7 == null)
-			throw new IllegalArgumentException ("A_Period_7 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_7, A_Period_7);
 	}
 
@@ -359,8 +336,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_8 A_Period_8	  */
 	public void setA_Period_8 (BigDecimal A_Period_8)
 	{
-		if (A_Period_8 == null)
-			throw new IllegalArgumentException ("A_Period_8 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_8, A_Period_8);
 	}
 
@@ -378,8 +353,6 @@ public class X_A_Asset_Spread extends PO implements I_A_Asset_Spread, I_Persiste
 		@param A_Period_9 A_Period_9	  */
 	public void setA_Period_9 (BigDecimal A_Period_9)
 	{
-		if (A_Period_9 == null)
-			throw new IllegalArgumentException ("A_Period_9 is mandatory.");
 		set_Value (COLUMNNAME_A_Period_9, A_Period_9);
 	}
 

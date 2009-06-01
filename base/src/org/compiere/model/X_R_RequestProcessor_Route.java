@@ -97,9 +97,10 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -152,9 +153,10 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 	{
-		if (R_RequestProcessor_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
+		if (R_RequestProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
 	}
 
 	/** Get Request Processor.
@@ -174,9 +176,10 @@ public class X_R_RequestProcessor_Route extends PO implements I_R_RequestProcess
 	  */
 	public void setR_RequestProcessor_Route_ID (int R_RequestProcessor_Route_ID)
 	{
-		if (R_RequestProcessor_Route_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestProcessor_Route_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_Route_ID, Integer.valueOf(R_RequestProcessor_Route_ID));
+		if (R_RequestProcessor_Route_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_Route_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_Route_ID, Integer.valueOf(R_RequestProcessor_Route_ID));
 	}
 
 	/** Get Request Routing.

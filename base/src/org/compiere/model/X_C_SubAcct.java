@@ -97,9 +97,10 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID < 1)
-			 throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -119,9 +120,10 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
 	  */
 	public void setC_SubAcct_ID (int C_SubAcct_ID)
 	{
-		if (C_SubAcct_ID < 1)
-			 throw new IllegalArgumentException ("C_SubAcct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
+		if (C_SubAcct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_SubAcct_ID, Integer.valueOf(C_SubAcct_ID));
 	}
 
 	/** Get Sub Account.
@@ -175,8 +177,6 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -194,8 +194,6 @@ public class X_C_SubAcct extends PO implements I_C_SubAcct, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

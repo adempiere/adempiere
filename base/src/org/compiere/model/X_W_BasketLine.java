@@ -86,8 +86,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -172,8 +170,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	  */
 	public void setPrice (BigDecimal Price)
 	{
-		if (Price == null)
-			throw new IllegalArgumentException ("Price is mandatory.");
 		set_Value (COLUMNNAME_Price, Price);
 	}
 
@@ -192,8 +188,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		@param Product Product	  */
 	public void setProduct (String Product)
 	{
-		if (Product == null)
-			throw new IllegalArgumentException ("Product is mandatory.");
 		set_Value (COLUMNNAME_Product, Product);
 	}
 
@@ -210,8 +204,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 
@@ -248,9 +240,10 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	  */
 	public void setW_Basket_ID (int W_Basket_ID)
 	{
-		if (W_Basket_ID < 1)
-			 throw new IllegalArgumentException ("W_Basket_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
+		if (W_Basket_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Basket_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
 	}
 
 	/** Get W_Basket_ID.
@@ -270,9 +263,10 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	  */
 	public void setW_BasketLine_ID (int W_BasketLine_ID)
 	{
-		if (W_BasketLine_ID < 1)
-			 throw new IllegalArgumentException ("W_BasketLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
+		if (W_BasketLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
 	}
 
 	/** Get Basket Line.

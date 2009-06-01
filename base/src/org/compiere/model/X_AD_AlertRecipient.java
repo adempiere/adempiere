@@ -95,9 +95,10 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	  */
 	public void setAD_Alert_ID (int AD_Alert_ID)
 	{
-		if (AD_Alert_ID < 1)
-			 throw new IllegalArgumentException ("AD_Alert_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
+		if (AD_Alert_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
 	}
 
 	/** Get Alert.
@@ -117,9 +118,10 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	  */
 	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID)
 	{
-		if (AD_AlertRecipient_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertRecipient_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
+		if (AD_AlertRecipient_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
 	}
 
 	/** Get Alert Recipient.
@@ -155,7 +157,7 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));

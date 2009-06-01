@@ -104,9 +104,10 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -142,9 +143,10 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -180,9 +182,10 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -218,9 +221,10 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID)
 	{
-		if (C_RevenueRecognition_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
+		if (C_RevenueRecognition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_ID, Integer.valueOf(C_RevenueRecognition_ID));
 	}
 
 	/** Get Revenue Recognition.
@@ -248,9 +252,10 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
 	{
-		if (C_RevenueRecognition_Plan_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_Plan_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
+		if (C_RevenueRecognition_Plan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
 	}
 
 	/** Get Revenue Recognition Plan.
@@ -288,8 +293,6 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 		@param RecognizedAmt Recognized Amount	  */
 	public void setRecognizedAmt (BigDecimal RecognizedAmt)
 	{
-		if (RecognizedAmt == null)
-			throw new IllegalArgumentException ("RecognizedAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_RecognizedAmt, RecognizedAmt);
 	}
 
@@ -309,8 +312,6 @@ public class X_C_RevenueRecognition_Plan extends PO implements I_C_RevenueRecogn
 	  */
 	public void setTotalAmt (BigDecimal TotalAmt)
 	{
-		if (TotalAmt == null)
-			throw new IllegalArgumentException ("TotalAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalAmt, TotalAmt);
 	}
 

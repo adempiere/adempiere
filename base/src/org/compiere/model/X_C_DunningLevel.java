@@ -107,9 +107,10 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setC_Dunning_ID (int C_Dunning_ID)
 	{
-		if (C_Dunning_ID < 1)
-			 throw new IllegalArgumentException ("C_Dunning_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
+		if (C_Dunning_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Dunning_ID, Integer.valueOf(C_Dunning_ID));
 	}
 
 	/** Get Dunning.
@@ -127,9 +128,10 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		@param C_DunningLevel_ID Dunning Level	  */
 	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
 	{
-		if (C_DunningLevel_ID < 1)
-			 throw new IllegalArgumentException ("C_DunningLevel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
+		if (C_DunningLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
 	}
 
 	/** Get Dunning Level.
@@ -235,8 +237,6 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setDaysAfterDue (BigDecimal DaysAfterDue)
 	{
-		if (DaysAfterDue == null)
-			throw new IllegalArgumentException ("DaysAfterDue is mandatory.");
 		set_Value (COLUMNNAME_DaysAfterDue, DaysAfterDue);
 	}
 
@@ -453,8 +453,6 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -497,8 +495,6 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	  */
 	public void setPrintName (String PrintName)
 	{
-		if (PrintName == null)
-			throw new IllegalArgumentException ("PrintName is mandatory.");
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

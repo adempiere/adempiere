@@ -87,8 +87,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setAccountNo (String AccountNo)
 	{
-		if (AccountNo == null)
-			throw new IllegalArgumentException ("AccountNo is mandatory.");
 		set_Value (COLUMNNAME_AccountNo, AccountNo);
 	}
 
@@ -112,7 +110,7 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setBankAccountType (String BankAccountType)
 	{
-		if (BankAccountType == null) throw new IllegalArgumentException ("BankAccountType is mandatory");
+
 		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
 	}
 
@@ -147,9 +145,10 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -185,9 +184,10 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setC_Bank_ID (int C_Bank_ID)
 	{
-		if (C_Bank_ID < 1)
-			 throw new IllegalArgumentException ("C_Bank_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
+		if (C_Bank_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
 	}
 
 	/** Get Bank.
@@ -231,9 +231,10 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -253,8 +254,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setCreditLimit (BigDecimal CreditLimit)
 	{
-		if (CreditLimit == null)
-			throw new IllegalArgumentException ("CreditLimit is mandatory.");
 		set_Value (COLUMNNAME_CreditLimit, CreditLimit);
 	}
 
@@ -275,8 +274,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	  */
 	public void setCurrentBalance (BigDecimal CurrentBalance)
 	{
-		if (CurrentBalance == null)
-			throw new IllegalArgumentException ("CurrentBalance is mandatory.");
 		set_Value (COLUMNNAME_CurrentBalance, CurrentBalance);
 	}
 

@@ -76,9 +76,10 @@ public class X_A_Depreciation_Method extends PO implements I_A_Depreciation_Meth
 		@param A_Depreciation_Method_ID Depreciation Calculation Type	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID)
 	{
-		if (A_Depreciation_Method_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Method_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Method_ID, Integer.valueOf(A_Depreciation_Method_ID));
+		if (A_Depreciation_Method_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Method_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Method_ID, Integer.valueOf(A_Depreciation_Method_ID));
 	}
 
 	/** Get Depreciation Calculation Type.

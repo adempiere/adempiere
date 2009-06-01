@@ -80,9 +80,10 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 	  */
 	public void setB_TopicCategory_ID (int B_TopicCategory_ID)
 	{
-		if (B_TopicCategory_ID < 1)
-			 throw new IllegalArgumentException ("B_TopicCategory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, Integer.valueOf(B_TopicCategory_ID));
+		if (B_TopicCategory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_TopicCategory_ID, Integer.valueOf(B_TopicCategory_ID));
 	}
 
 	/** Get Topic Category.
@@ -118,9 +119,10 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 	  */
 	public void setB_TopicType_ID (int B_TopicType_ID)
 	{
-		if (B_TopicType_ID < 1)
-			 throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
+		if (B_TopicType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
 	}
 
 	/** Get Topic Type.
@@ -157,8 +159,6 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -101,9 +101,10 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -164,8 +165,6 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -228,8 +227,6 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	  */
 	public void setX12DE355 (String X12DE355)
 	{
-		if (X12DE355 == null)
-			throw new IllegalArgumentException ("X12DE355 is mandatory.");
 		set_Value (COLUMNNAME_X12DE355, X12DE355);
 	}
 

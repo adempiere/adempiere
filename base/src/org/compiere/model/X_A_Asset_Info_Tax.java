@@ -77,9 +77,10 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -97,9 +98,10 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 		@param A_Asset_Info_Tax_ID A_Asset_Info_Tax_ID	  */
 	public void setA_Asset_Info_Tax_ID (int A_Asset_Info_Tax_ID)
 	{
-		if (A_Asset_Info_Tax_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Info_Tax_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Tax_ID, Integer.valueOf(A_Asset_Info_Tax_ID));
+		if (A_Asset_Info_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Tax_ID, Integer.valueOf(A_Asset_Info_Tax_ID));
 	}
 
 	/** Get A_Asset_Info_Tax_ID.

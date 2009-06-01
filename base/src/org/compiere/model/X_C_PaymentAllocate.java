@@ -86,8 +86,6 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setAmount (BigDecimal Amount)
 	{
-		if (Amount == null)
-			throw new IllegalArgumentException ("Amount is mandatory.");
 		set_Value (COLUMNNAME_Amount, Amount);
 	}
 
@@ -163,9 +161,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -193,9 +192,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setC_PaymentAllocate_ID (int C_PaymentAllocate_ID)
 	{
-		if (C_PaymentAllocate_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentAllocate_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentAllocate_ID, Integer.valueOf(C_PaymentAllocate_ID));
+		if (C_PaymentAllocate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentAllocate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentAllocate_ID, Integer.valueOf(C_PaymentAllocate_ID));
 	}
 
 	/** Get Allocate Payment.
@@ -231,9 +231,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID < 1)
-			 throw new IllegalArgumentException ("C_Payment_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID < 1) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -253,8 +254,6 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setDiscountAmt (BigDecimal DiscountAmt)
 	{
-		if (DiscountAmt == null)
-			throw new IllegalArgumentException ("DiscountAmt is mandatory.");
 		set_Value (COLUMNNAME_DiscountAmt, DiscountAmt);
 	}
 
@@ -292,8 +291,6 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setOverUnderAmt (BigDecimal OverUnderAmt)
 	{
-		if (OverUnderAmt == null)
-			throw new IllegalArgumentException ("OverUnderAmt is mandatory.");
 		set_Value (COLUMNNAME_OverUnderAmt, OverUnderAmt);
 	}
 
@@ -333,8 +330,6 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 	  */
 	public void setWriteOffAmt (BigDecimal WriteOffAmt)
 	{
-		if (WriteOffAmt == null)
-			throw new IllegalArgumentException ("WriteOffAmt is mandatory.");
 		set_Value (COLUMNNAME_WriteOffAmt, WriteOffAmt);
 	}
 

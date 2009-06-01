@@ -96,9 +96,10 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 	  */
 	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 	{
-		if (A_RegistrationAttribute_ID < 1)
-			 throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
+		if (A_RegistrationAttribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
 	}
 
 	/** Get Registration Attribute.
@@ -142,9 +143,10 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 	  */
 	public void setA_Registration_ID (int A_Registration_ID)
 	{
-		if (A_Registration_ID < 1)
-			 throw new IllegalArgumentException ("A_Registration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
 	}
 
 	/** Get Registration.
@@ -181,8 +183,6 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -132,9 +132,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -170,9 +171,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID < 1)
-			 throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -208,9 +210,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -246,9 +249,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -288,9 +292,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_Value (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -310,8 +315,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setCurrencyRate (BigDecimal CurrencyRate)
 	{
-		if (CurrencyRate == null)
-			throw new IllegalArgumentException ("CurrencyRate is mandatory.");
 		set_Value (COLUMNNAME_CurrencyRate, CurrencyRate);
 	}
 
@@ -332,8 +335,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -351,8 +352,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
@@ -370,8 +369,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -419,7 +416,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -463,7 +460,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -481,8 +478,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -563,9 +558,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID < 1)
-			 throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID < 1) 
+			set_Value (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -624,9 +620,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setGL_Journal_ID (int GL_Journal_ID)
 	{
-		if (GL_Journal_ID < 1)
-			 throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+		if (GL_Journal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
 	}
 
 	/** Get Journal.
@@ -730,7 +727,7 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
@@ -816,8 +813,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setTotalCr (BigDecimal TotalCr)
 	{
-		if (TotalCr == null)
-			throw new IllegalArgumentException ("TotalCr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalCr, TotalCr);
 	}
 
@@ -838,8 +833,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	  */
 	public void setTotalDr (BigDecimal TotalDr)
 	{
-		if (TotalDr == null)
-			throw new IllegalArgumentException ("TotalDr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalDr, TotalDr);
 	}
 

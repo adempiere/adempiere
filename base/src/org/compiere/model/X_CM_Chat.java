@@ -98,9 +98,10 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -120,9 +121,10 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setCM_Chat_ID (int CM_Chat_ID)
 	{
-		if (CM_Chat_ID < 1)
-			 throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+		if (CM_Chat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
 	}
 
 	/** Get Chat.
@@ -191,7 +193,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
+
 		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 
@@ -209,8 +211,6 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -262,9 +262,10 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

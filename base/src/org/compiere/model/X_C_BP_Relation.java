@@ -103,9 +103,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -164,9 +165,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	  */
 	public void setC_BPartnerRelation_ID (int C_BPartnerRelation_ID)
 	{
-		if (C_BPartnerRelation_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartnerRelation_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartnerRelation_ID, Integer.valueOf(C_BPartnerRelation_ID));
+		if (C_BPartnerRelation_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerRelation_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerRelation_ID, Integer.valueOf(C_BPartnerRelation_ID));
 	}
 
 	/** Get Related Partner.
@@ -186,9 +188,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	  */
 	public void setC_BPartnerRelation_Location_ID (int C_BPartnerRelation_Location_ID)
 	{
-		if (C_BPartnerRelation_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartnerRelation_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartnerRelation_Location_ID, Integer.valueOf(C_BPartnerRelation_Location_ID));
+		if (C_BPartnerRelation_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerRelation_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerRelation_Location_ID, Integer.valueOf(C_BPartnerRelation_Location_ID));
 	}
 
 	/** Get Related Partner Location.
@@ -208,9 +211,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	  */
 	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
 	{
-		if (C_BP_Relation_ID < 1)
-			 throw new IllegalArgumentException ("C_BP_Relation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
+		if (C_BP_Relation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
 	}
 
 	/** Get Partner Relation.
@@ -343,8 +347,6 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

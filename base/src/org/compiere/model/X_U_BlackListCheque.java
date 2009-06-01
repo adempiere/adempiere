@@ -75,8 +75,6 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		@param BankName Bank Name	  */
 	public void setBankName (String BankName)
 	{
-		if (BankName == null)
-			throw new IllegalArgumentException ("BankName is mandatory.");
 		set_Value (COLUMNNAME_BankName, BankName);
 	}
 
@@ -91,8 +89,6 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		@param ChequeNo Cheque No	  */
 	public void setChequeNo (String ChequeNo)
 	{
-		if (ChequeNo == null)
-			throw new IllegalArgumentException ("ChequeNo is mandatory.");
 		set_Value (COLUMNNAME_ChequeNo, ChequeNo);
 	}
 
@@ -107,9 +103,10 @@ public class X_U_BlackListCheque extends PO implements I_U_BlackListCheque, I_Pe
 		@param U_BlackListCheque_ID Black List Cheque	  */
 	public void setU_BlackListCheque_ID (int U_BlackListCheque_ID)
 	{
-		if (U_BlackListCheque_ID < 1)
-			 throw new IllegalArgumentException ("U_BlackListCheque_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_U_BlackListCheque_ID, Integer.valueOf(U_BlackListCheque_ID));
+		if (U_BlackListCheque_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_U_BlackListCheque_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_U_BlackListCheque_ID, Integer.valueOf(U_BlackListCheque_ID));
 	}
 
 	/** Get Black List Cheque.

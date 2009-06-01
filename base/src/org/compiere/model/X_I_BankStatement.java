@@ -736,9 +736,10 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 	  */
 	public void setI_BankStatement_ID (int I_BankStatement_ID)
 	{
-		if (I_BankStatement_ID < 1)
-			 throw new IllegalArgumentException ("I_BankStatement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_BankStatement_ID, Integer.valueOf(I_BankStatement_ID));
+		if (I_BankStatement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_BankStatement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_BankStatement_ID, Integer.valueOf(I_BankStatement_ID));
 	}
 
 	/** Get Import Bank Statement.

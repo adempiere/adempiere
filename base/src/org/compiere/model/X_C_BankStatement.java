@@ -134,9 +134,10 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -156,9 +157,10 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setC_BankStatement_ID (int C_BankStatement_ID)
 	{
-		if (C_BankStatement_ID < 1)
-			 throw new IllegalArgumentException ("C_BankStatement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
+		if (C_BankStatement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
 	}
 
 	/** Get Bank Statement.
@@ -242,7 +244,7 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -286,7 +288,7 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -338,8 +340,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setEndingBalance (BigDecimal EndingBalance)
 	{
-		if (EndingBalance == null)
-			throw new IllegalArgumentException ("EndingBalance is mandatory.");
 		set_Value (COLUMNNAME_EndingBalance, EndingBalance);
 	}
 
@@ -422,8 +422,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -518,8 +516,6 @@ public class X_C_BankStatement extends PO implements I_C_BankStatement, I_Persis
 	  */
 	public void setStatementDate (Timestamp StatementDate)
 	{
-		if (StatementDate == null)
-			throw new IllegalArgumentException ("StatementDate is mandatory.");
 		set_Value (COLUMNNAME_StatementDate, StatementDate);
 	}
 

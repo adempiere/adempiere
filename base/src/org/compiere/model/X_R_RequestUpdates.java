@@ -95,9 +95,10 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -157,9 +158,10 @@ public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Pers
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID < 1)
-			 throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.

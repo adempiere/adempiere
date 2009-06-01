@@ -95,9 +95,10 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -115,9 +116,10 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		@param U_RoleMenu_ID Role Menu	  */
 	public void setU_RoleMenu_ID (int U_RoleMenu_ID)
 	{
-		if (U_RoleMenu_ID < 1)
-			 throw new IllegalArgumentException ("U_RoleMenu_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_U_RoleMenu_ID, Integer.valueOf(U_RoleMenu_ID));
+		if (U_RoleMenu_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_U_RoleMenu_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_U_RoleMenu_ID, Integer.valueOf(U_RoleMenu_ID));
 	}
 
 	/** Get Role Menu.
@@ -150,9 +152,10 @@ public class X_U_RoleMenu extends PO implements I_U_RoleMenu, I_Persistent
 		@param U_WebMenu_ID Web Menu	  */
 	public void setU_WebMenu_ID (int U_WebMenu_ID)
 	{
-		if (U_WebMenu_ID < 1)
-			 throw new IllegalArgumentException ("U_WebMenu_ID is mandatory.");
-		set_Value (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
+		if (U_WebMenu_ID < 1) 
+			set_Value (COLUMNNAME_U_WebMenu_ID, null);
+		else 
+			set_Value (COLUMNNAME_U_WebMenu_ID, Integer.valueOf(U_WebMenu_ID));
 	}
 
 	/** Get Web Menu.

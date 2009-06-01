@@ -103,9 +103,10 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -125,9 +126,10 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setC_Subscription_ID (int C_Subscription_ID)
 	{
-		if (C_Subscription_ID < 1)
-			 throw new IllegalArgumentException ("C_Subscription_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
+		if (C_Subscription_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Subscription_ID, Integer.valueOf(C_Subscription_ID));
 	}
 
 	/** Get Subscription.
@@ -163,9 +165,10 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setC_SubscriptionType_ID (int C_SubscriptionType_ID)
 	{
-		if (C_SubscriptionType_ID < 1)
-			 throw new IllegalArgumentException ("C_SubscriptionType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
+		if (C_SubscriptionType_ID < 1) 
+			set_Value (COLUMNNAME_C_SubscriptionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SubscriptionType_ID, Integer.valueOf(C_SubscriptionType_ID));
 	}
 
 	/** Get Subscription Type.
@@ -225,9 +228,10 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -247,8 +251,6 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -274,8 +276,6 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setPaidUntilDate (Timestamp PaidUntilDate)
 	{
-		if (PaidUntilDate == null)
-			throw new IllegalArgumentException ("PaidUntilDate is mandatory.");
 		set_Value (COLUMNNAME_PaidUntilDate, PaidUntilDate);
 	}
 
@@ -291,8 +291,6 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 		@param RenewalDate Renewal Date	  */
 	public void setRenewalDate (Timestamp RenewalDate)
 	{
-		if (RenewalDate == null)
-			throw new IllegalArgumentException ("RenewalDate is mandatory.");
 		set_Value (COLUMNNAME_RenewalDate, RenewalDate);
 	}
 
@@ -309,8 +307,6 @@ public class X_C_Subscription extends PO implements I_C_Subscription, I_Persiste
 	  */
 	public void setStartDate (Timestamp StartDate)
 	{
-		if (StartDate == null)
-			throw new IllegalArgumentException ("StartDate is mandatory.");
 		set_Value (COLUMNNAME_StartDate, StartDate);
 	}
 

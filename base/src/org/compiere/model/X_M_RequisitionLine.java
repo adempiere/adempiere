@@ -249,8 +249,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setLineNetAmt (BigDecimal LineNetAmt)
 	{
-		if (LineNetAmt == null)
-			throw new IllegalArgumentException ("LineNetAmt is mandatory.");
 		set_Value (COLUMNNAME_LineNetAmt, LineNetAmt);
 	}
 
@@ -271,7 +269,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -349,9 +347,10 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setM_Requisition_ID (int M_Requisition_ID)
 	{
-		if (M_Requisition_ID < 1)
-			 throw new IllegalArgumentException ("M_Requisition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
+		if (M_Requisition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Requisition_ID, Integer.valueOf(M_Requisition_ID));
 	}
 
 	/** Get Requisition.
@@ -371,9 +370,10 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
 	{
-		if (M_RequisitionLine_ID < 1)
-			 throw new IllegalArgumentException ("M_RequisitionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+		if (M_RequisitionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
 	}
 
 	/** Get Requisition Line.
@@ -393,8 +393,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setPriceActual (BigDecimal PriceActual)
 	{
-		if (PriceActual == null)
-			throw new IllegalArgumentException ("PriceActual is mandatory.");
 		set_Value (COLUMNNAME_PriceActual, PriceActual);
 	}
 
@@ -415,8 +413,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

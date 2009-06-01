@@ -147,9 +147,10 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -185,9 +186,10 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -223,9 +225,10 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -314,9 +317,10 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setC_RfQ_ID (int C_RfQ_ID)
 	{
-		if (C_RfQ_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
+		if (C_RfQ_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
 	}
 
 	/** Get RfQ.
@@ -336,9 +340,10 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setC_RfQResponse_ID (int C_RfQResponse_ID)
 	{
-		if (C_RfQResponse_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQResponse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
+		if (C_RfQResponse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponse_ID, Integer.valueOf(C_RfQResponse_ID));
 	}
 
 	/** Get RfQ Response.
@@ -552,8 +557,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -579,8 +582,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	  */
 	public void setPrice (BigDecimal Price)
 	{
-		if (Price == null)
-			throw new IllegalArgumentException ("Price is mandatory.");
 		set_Value (COLUMNNAME_Price, Price);
 	}
 

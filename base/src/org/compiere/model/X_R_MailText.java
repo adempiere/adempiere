@@ -120,8 +120,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setMailText (String MailText)
 	{
-		if (MailText == null)
-			throw new IllegalArgumentException ("MailText is mandatory.");
 		set_Value (COLUMNNAME_MailText, MailText);
 	}
 
@@ -173,8 +171,6 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -200,9 +196,10 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	  */
 	public void setR_MailText_ID (int R_MailText_ID)
 	{
-		if (R_MailText_ID < 1)
-			 throw new IllegalArgumentException ("R_MailText_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
+		if (R_MailText_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_MailText_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
 	}
 
 	/** Get Mail Template.

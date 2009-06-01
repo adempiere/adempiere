@@ -77,9 +77,10 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setAD_PrintForm_ID (int AD_PrintForm_ID)
 	{
-		if (AD_PrintForm_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintForm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintForm_ID, Integer.valueOf(AD_PrintForm_ID));
+		if (AD_PrintForm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintForm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintForm_ID, Integer.valueOf(AD_PrintForm_ID));
 	}
 
 	/** Get Print Form.
@@ -254,8 +255,6 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

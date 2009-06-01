@@ -79,9 +79,10 @@ public class X_CM_AccessProfile extends PO implements I_CM_AccessProfile, I_Pers
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.
@@ -159,8 +160,6 @@ public class X_CM_AccessProfile extends PO implements I_CM_AccessProfile, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

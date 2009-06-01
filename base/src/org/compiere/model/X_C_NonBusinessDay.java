@@ -97,9 +97,10 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
 	  */
 	public void setC_Calendar_ID (int C_Calendar_ID)
 	{
-		if (C_Calendar_ID < 1)
-			 throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
+		if (C_Calendar_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
 	}
 
 	/** Get Calendar.
@@ -119,9 +120,10 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
 	  */
 	public void setC_NonBusinessDay_ID (int C_NonBusinessDay_ID)
 	{
-		if (C_NonBusinessDay_ID < 1)
-			 throw new IllegalArgumentException ("C_NonBusinessDay_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_NonBusinessDay_ID, Integer.valueOf(C_NonBusinessDay_ID));
+		if (C_NonBusinessDay_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_NonBusinessDay_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_NonBusinessDay_ID, Integer.valueOf(C_NonBusinessDay_ID));
 	}
 
 	/** Get Non Business Day.
@@ -141,8 +143,6 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
 	  */
 	public void setDate1 (Timestamp Date1)
 	{
-		if (Date1 == null)
-			throw new IllegalArgumentException ("Date1 is mandatory.");
 		set_Value (COLUMNNAME_Date1, Date1);
 	}
 

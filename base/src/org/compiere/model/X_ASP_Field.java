@@ -143,7 +143,7 @@ public class X_ASP_Field extends PO implements I_ASP_Field, I_Persistent
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

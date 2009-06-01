@@ -103,9 +103,10 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -133,9 +134,10 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 	  */
 	public void setC_PaySchedule_ID (int C_PaySchedule_ID)
 	{
-		if (C_PaySchedule_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySchedule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
+		if (C_PaySchedule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySchedule_ID, Integer.valueOf(C_PaySchedule_ID));
 	}
 
 	/** Get Payment Schedule.
@@ -155,8 +157,6 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 	  */
 	public void setDiscount (BigDecimal Discount)
 	{
-		if (Discount == null)
-			throw new IllegalArgumentException ("Discount is mandatory.");
 		set_Value (COLUMNNAME_Discount, Discount);
 	}
 
@@ -295,8 +295,6 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
 	  */
 	public void setPercentage (BigDecimal Percentage)
 	{
-		if (Percentage == null)
-			throw new IllegalArgumentException ("Percentage is mandatory.");
 		set_Value (COLUMNNAME_Percentage, Percentage);
 	}
 

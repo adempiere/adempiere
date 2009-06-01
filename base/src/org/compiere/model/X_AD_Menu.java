@@ -158,9 +158,10 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setAD_Menu_ID (int AD_Menu_ID)
 	{
-		if (AD_Menu_ID < 1)
-			 throw new IllegalArgumentException ("AD_Menu_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
+		if (AD_Menu_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Menu_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Menu_ID, Integer.valueOf(AD_Menu_ID));
 	}
 
 	/** Get Menu.
@@ -484,8 +485,6 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

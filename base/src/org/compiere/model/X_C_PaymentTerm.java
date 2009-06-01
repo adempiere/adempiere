@@ -113,9 +113,10 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -152,8 +153,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setDiscount (BigDecimal Discount)
 	{
-		if (Discount == null)
-			throw new IllegalArgumentException ("Discount is mandatory.");
 		set_Value (COLUMNNAME_Discount, Discount);
 	}
 
@@ -174,8 +173,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setDiscount2 (BigDecimal Discount2)
 	{
-		if (Discount2 == null)
-			throw new IllegalArgumentException ("Discount2 is mandatory.");
 		set_Value (COLUMNNAME_Discount2, Discount2);
 	}
 
@@ -429,8 +426,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -531,8 +526,6 @@ public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

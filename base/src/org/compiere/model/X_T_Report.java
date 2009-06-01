@@ -99,9 +99,10 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	  */
 	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (AD_PInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
 	/** Get Process Instance.
@@ -493,9 +494,10 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
 	{
-		if (Fact_Acct_ID < 1)
-			 throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
+		if (Fact_Acct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
 	}
 
 	/** Get Accounting Fact.
@@ -570,9 +572,10 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		@param PA_ReportLine_ID Report Line	  */
 	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 	{
-		if (PA_ReportLine_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+		if (PA_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
 	}
 
 	/** Get Report Line.
@@ -591,9 +594,10 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

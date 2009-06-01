@@ -213,9 +213,10 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Project_ID < 1)
-			 throw new IllegalArgumentException ("C_Project_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+		if (C_Project_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
 	/** Get Project.
@@ -274,9 +275,10 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setC_ProjectLine_ID (int C_ProjectLine_ID)
 	{
-		if (C_ProjectLine_ID < 1)
-			 throw new IllegalArgumentException ("C_ProjectLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ProjectLine_ID, Integer.valueOf(C_ProjectLine_ID));
+		if (C_ProjectLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectLine_ID, Integer.valueOf(C_ProjectLine_ID));
 	}
 
 	/** Get Project Line.
@@ -405,8 +407,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setInvoicedAmt (BigDecimal InvoicedAmt)
 	{
-		if (InvoicedAmt == null)
-			throw new IllegalArgumentException ("InvoicedAmt is mandatory.");
 		set_Value (COLUMNNAME_InvoicedAmt, InvoicedAmt);
 	}
 
@@ -427,8 +427,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setInvoicedQty (BigDecimal InvoicedQty)
 	{
-		if (InvoicedQty == null)
-			throw new IllegalArgumentException ("InvoicedQty is mandatory.");
 		set_Value (COLUMNNAME_InvoicedQty, InvoicedQty);
 	}
 
@@ -579,8 +577,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setPlannedAmt (BigDecimal PlannedAmt)
 	{
-		if (PlannedAmt == null)
-			throw new IllegalArgumentException ("PlannedAmt is mandatory.");
 		set_Value (COLUMNNAME_PlannedAmt, PlannedAmt);
 	}
 
@@ -601,8 +597,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setPlannedMarginAmt (BigDecimal PlannedMarginAmt)
 	{
-		if (PlannedMarginAmt == null)
-			throw new IllegalArgumentException ("PlannedMarginAmt is mandatory.");
 		set_Value (COLUMNNAME_PlannedMarginAmt, PlannedMarginAmt);
 	}
 
@@ -623,8 +617,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setPlannedPrice (BigDecimal PlannedPrice)
 	{
-		if (PlannedPrice == null)
-			throw new IllegalArgumentException ("PlannedPrice is mandatory.");
 		set_Value (COLUMNNAME_PlannedPrice, PlannedPrice);
 	}
 
@@ -645,8 +637,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	  */
 	public void setPlannedQty (BigDecimal PlannedQty)
 	{
-		if (PlannedQty == null)
-			throw new IllegalArgumentException ("PlannedQty is mandatory.");
 		set_Value (COLUMNNAME_PlannedQty, PlannedQty);
 	}
 

@@ -85,9 +85,10 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -105,9 +106,10 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 		@param AD_Find_ID Find	  */
 	public void setAD_Find_ID (int AD_Find_ID)
 	{
-		if (AD_Find_ID < 1)
-			 throw new IllegalArgumentException ("AD_Find_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Find_ID, Integer.valueOf(AD_Find_ID));
+		if (AD_Find_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Find_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Find_ID, Integer.valueOf(AD_Find_ID));
 	}
 
 	/** Get Find.
@@ -140,7 +142,7 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	  */
 	public void setAndOr (String AndOr)
 	{
-		if (AndOr == null) throw new IllegalArgumentException ("AndOr is mandatory");
+
 		set_Value (COLUMNNAME_AndOr, AndOr);
 	}
 
@@ -156,8 +158,6 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 		@param Find_ID Find_ID	  */
 	public void setFind_ID (BigDecimal Find_ID)
 	{
-		if (Find_ID == null)
-			throw new IllegalArgumentException ("Find_ID is mandatory.");
 		set_Value (COLUMNNAME_Find_ID, Find_ID);
 	}
 
@@ -197,7 +197,7 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	  */
 	public void setOperation (String Operation)
 	{
-		if (Operation == null) throw new IllegalArgumentException ("Operation is mandatory");
+
 		set_Value (COLUMNNAME_Operation, Operation);
 	}
 
@@ -215,8 +215,6 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

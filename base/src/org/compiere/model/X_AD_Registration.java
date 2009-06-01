@@ -88,9 +88,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setAD_Registration_ID (int AD_Registration_ID)
 	{
-		if (AD_Registration_ID < 1)
-			 throw new IllegalArgumentException ("AD_Registration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Registration_ID, Integer.valueOf(AD_Registration_ID));
+		if (AD_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Registration_ID, Integer.valueOf(AD_Registration_ID));
 	}
 
 	/** Get System Registration.
@@ -126,9 +127,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setAD_System_ID (int AD_System_ID)
 	{
-		if (AD_System_ID < 1)
-			 throw new IllegalArgumentException ("AD_System_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_System_ID, Integer.valueOf(AD_System_ID));
+		if (AD_System_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_System_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_System_ID, Integer.valueOf(AD_System_ID));
 	}
 
 	/** Get System.
@@ -398,7 +400,7 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

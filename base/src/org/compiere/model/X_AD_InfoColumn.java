@@ -126,9 +126,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setAD_InfoColumn_ID (int AD_InfoColumn_ID)
 	{
-		if (AD_InfoColumn_ID < 1)
-			 throw new IllegalArgumentException ("AD_InfoColumn_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_InfoColumn_ID, Integer.valueOf(AD_InfoColumn_ID));
+		if (AD_InfoColumn_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoColumn_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoColumn_ID, Integer.valueOf(AD_InfoColumn_ID));
 	}
 
 	/** Get Info Column.
@@ -164,9 +165,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setAD_InfoWindow_ID (int AD_InfoWindow_ID)
 	{
-		if (AD_InfoWindow_ID < 1)
-			 throw new IllegalArgumentException ("AD_InfoWindow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, Integer.valueOf(AD_InfoWindow_ID));
+		if (AD_InfoWindow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, Integer.valueOf(AD_InfoWindow_ID));
 	}
 
 	/** Get Info Window.
@@ -186,9 +188,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -310,8 +313,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -337,8 +338,6 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 	  */
 	public void setSelectClause (String SelectClause)
 	{
-		if (SelectClause == null)
-			throw new IllegalArgumentException ("SelectClause is mandatory.");
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 

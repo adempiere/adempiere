@@ -98,9 +98,10 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	  */
 	public void setC_JobCategory_ID (int C_JobCategory_ID)
 	{
-		if (C_JobCategory_ID < 1)
-			 throw new IllegalArgumentException ("C_JobCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_C_JobCategory_ID, Integer.valueOf(C_JobCategory_ID));
+		if (C_JobCategory_ID < 1) 
+			set_Value (COLUMNNAME_C_JobCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_JobCategory_ID, Integer.valueOf(C_JobCategory_ID));
 	}
 
 	/** Get Position Category.
@@ -120,9 +121,10 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID < 1)
-			 throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+		if (C_Job_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
 	}
 
 	/** Get Position.
@@ -200,8 +202,6 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

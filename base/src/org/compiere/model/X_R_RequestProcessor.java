@@ -173,7 +173,7 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -231,8 +231,6 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -339,9 +337,10 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 	{
-		if (R_RequestProcessor_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
+		if (R_RequestProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
 	}
 
 	/** Get Request Processor.
@@ -400,9 +399,10 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID < 1)
-			 throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID < 1) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.

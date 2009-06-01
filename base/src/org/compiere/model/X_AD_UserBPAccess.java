@@ -79,9 +79,10 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	  */
 	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID)
 	{
-		if (AD_UserBPAccess_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserBPAccess_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, Integer.valueOf(AD_UserBPAccess_ID));
+		if (AD_UserBPAccess_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, Integer.valueOf(AD_UserBPAccess_ID));
 	}
 
 	/** Get User BP Access.
@@ -117,9 +118,10 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -147,7 +149,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	  */
 	public void setBPAccessType (String BPAccessType)
 	{
-		if (BPAccessType == null) throw new IllegalArgumentException ("BPAccessType is mandatory");
+
 		set_Value (COLUMNNAME_BPAccessType, BPAccessType);
 	}
 

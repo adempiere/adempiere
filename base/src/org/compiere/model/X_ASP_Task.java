@@ -96,9 +96,10 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 	  */
 	public void setAD_Task_ID (int AD_Task_ID)
 	{
-		if (AD_Task_ID < 1)
-			 throw new IllegalArgumentException ("AD_Task_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
+		if (AD_Task_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Task_ID, Integer.valueOf(AD_Task_ID));
 	}
 
 	/** Get OS Task.
@@ -132,9 +133,10 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 		@param ASP_Level_ID ASP Level	  */
 	public void setASP_Level_ID (int ASP_Level_ID)
 	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+		if (ASP_Level_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
 	}
 
 	/** Get ASP Level.
@@ -159,7 +161,7 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

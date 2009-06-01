@@ -137,8 +137,6 @@ public class X_W_CounterCount extends PO implements I_W_CounterCount, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -162,8 +160,6 @@ public class X_W_CounterCount extends PO implements I_W_CounterCount, I_Persiste
 		@param PageURL Page URL	  */
 	public void setPageURL (String PageURL)
 	{
-		if (PageURL == null)
-			throw new IllegalArgumentException ("PageURL is mandatory.");
 		set_Value (COLUMNNAME_PageURL, PageURL);
 	}
 
@@ -180,9 +176,10 @@ public class X_W_CounterCount extends PO implements I_W_CounterCount, I_Persiste
 	  */
 	public void setW_CounterCount_ID (int W_CounterCount_ID)
 	{
-		if (W_CounterCount_ID < 1)
-			 throw new IllegalArgumentException ("W_CounterCount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
+		if (W_CounterCount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_CounterCount_ID, Integer.valueOf(W_CounterCount_ID));
 	}
 
 	/** Get Counter Count.

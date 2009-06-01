@@ -96,9 +96,10 @@ public class X_C_Cycle extends PO implements I_C_Cycle, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -118,9 +119,10 @@ public class X_C_Cycle extends PO implements I_C_Cycle, I_Persistent
 	  */
 	public void setC_Cycle_ID (int C_Cycle_ID)
 	{
-		if (C_Cycle_ID < 1)
-			 throw new IllegalArgumentException ("C_Cycle_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, Integer.valueOf(C_Cycle_ID));
+		if (C_Cycle_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, Integer.valueOf(C_Cycle_ID));
 	}
 
 	/** Get Project Cycle.
@@ -157,8 +159,6 @@ public class X_C_Cycle extends PO implements I_C_Cycle, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

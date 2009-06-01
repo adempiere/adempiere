@@ -237,7 +237,7 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setMMPolicy (String MMPolicy)
 	{
-		if (MMPolicy == null) throw new IllegalArgumentException ("MMPolicy is mandatory");
+
 		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
 	}
 
@@ -255,9 +255,10 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setM_Product_Category_ID (int M_Product_Category_ID)
 	{
-		if (M_Product_Category_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_Category_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
+		if (M_Product_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_Category_ID, Integer.valueOf(M_Product_Category_ID));
 	}
 
 	/** Get Product Category.
@@ -297,8 +298,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -324,8 +323,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setPlannedMargin (BigDecimal PlannedMargin)
 	{
-		if (PlannedMargin == null)
-			throw new IllegalArgumentException ("PlannedMargin is mandatory.");
 		set_Value (COLUMNNAME_PlannedMargin, PlannedMargin);
 	}
 
@@ -346,8 +343,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

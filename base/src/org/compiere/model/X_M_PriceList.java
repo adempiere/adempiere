@@ -127,9 +127,10 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -307,9 +308,10 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -329,8 +331,6 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -356,8 +356,6 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	  */
 	public void setPricePrecision (BigDecimal PricePrecision)
 	{
-		if (PricePrecision == null)
-			throw new IllegalArgumentException ("PricePrecision is mandatory.");
 		set_Value (COLUMNNAME_PricePrecision, PricePrecision);
 	}
 

@@ -86,8 +86,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setConfirmationNo (String ConfirmationNo)
 	{
-		if (ConfirmationNo == null)
-			throw new IllegalArgumentException ("ConfirmationNo is mandatory.");
 		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
 	}
 
@@ -105,8 +103,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setConfirmedQty (BigDecimal ConfirmedQty)
 	{
-		if (ConfirmedQty == null)
-			throw new IllegalArgumentException ("ConfirmedQty is mandatory.");
 		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
 	}
 
@@ -144,8 +140,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setDifferenceQty (BigDecimal DifferenceQty)
 	{
-		if (DifferenceQty == null)
-			throw new IllegalArgumentException ("DifferenceQty is mandatory.");
 		set_Value (COLUMNNAME_DifferenceQty, DifferenceQty);
 	}
 
@@ -183,9 +177,10 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setI_InOutLineConfirm_ID (int I_InOutLineConfirm_ID)
 	{
-		if (I_InOutLineConfirm_ID < 1)
-			 throw new IllegalArgumentException ("I_InOutLineConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_InOutLineConfirm_ID, Integer.valueOf(I_InOutLineConfirm_ID));
+		if (I_InOutLineConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_InOutLineConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_InOutLineConfirm_ID, Integer.valueOf(I_InOutLineConfirm_ID));
 	}
 
 	/** Get Ship/Receipt Confirmation Import Line.
@@ -253,9 +248,10 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
 	{
-		if (M_InOutLineConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLineConfirm_ID is mandatory.");
-		set_Value (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
+		if (M_InOutLineConfirm_ID < 1) 
+			set_Value (COLUMNNAME_M_InOutLineConfirm_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
 	}
 
 	/** Get Ship/Receipt Confirmation Line.
@@ -320,8 +316,6 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 	  */
 	public void setScrappedQty (BigDecimal ScrappedQty)
 	{
-		if (ScrappedQty == null)
-			throw new IllegalArgumentException ("ScrappedQty is mandatory.");
 		set_Value (COLUMNNAME_ScrappedQty, ScrappedQty);
 	}
 

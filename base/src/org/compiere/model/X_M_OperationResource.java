@@ -197,9 +197,10 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setM_OperationResource_ID (int M_OperationResource_ID)
 	{
-		if (M_OperationResource_ID < 1)
-			 throw new IllegalArgumentException ("M_OperationResource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_OperationResource_ID, Integer.valueOf(M_OperationResource_ID));
+		if (M_OperationResource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_OperationResource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_OperationResource_ID, Integer.valueOf(M_OperationResource_ID));
 	}
 
 	/** Get Operation Resource.
@@ -235,9 +236,10 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 	{
-		if (M_ProductOperation_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductOperation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
+		if (M_ProductOperation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
 	}
 
 	/** Get Product Operation.
@@ -257,8 +259,6 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -284,8 +284,6 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setSetupTime (BigDecimal SetupTime)
 	{
-		if (SetupTime == null)
-			throw new IllegalArgumentException ("SetupTime is mandatory.");
 		set_Value (COLUMNNAME_SetupTime, SetupTime);
 	}
 
@@ -306,8 +304,6 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setTeardownTime (BigDecimal TeardownTime)
 	{
-		if (TeardownTime == null)
-			throw new IllegalArgumentException ("TeardownTime is mandatory.");
 		set_Value (COLUMNNAME_TeardownTime, TeardownTime);
 	}
 
@@ -328,8 +324,6 @@ public class X_M_OperationResource extends PO implements I_M_OperationResource, 
 	  */
 	public void setUnitRuntime (BigDecimal UnitRuntime)
 	{
-		if (UnitRuntime == null)
-			throw new IllegalArgumentException ("UnitRuntime is mandatory.");
 		set_Value (COLUMNNAME_UnitRuntime, UnitRuntime);
 	}
 

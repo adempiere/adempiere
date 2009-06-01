@@ -98,9 +98,10 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	  */
 	public void setAD_Attachment_ID (int AD_Attachment_ID)
 	{
-		if (AD_Attachment_ID < 1)
-			 throw new IllegalArgumentException ("AD_Attachment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, Integer.valueOf(AD_Attachment_ID));
+		if (AD_Attachment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, Integer.valueOf(AD_Attachment_ID));
 	}
 
 	/** Get Attachment.
@@ -120,9 +121,10 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	  */
 	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID)
 	{
-		if (AD_AttachmentNote_ID < 1)
-			 throw new IllegalArgumentException ("AD_AttachmentNote_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, Integer.valueOf(AD_AttachmentNote_ID));
+		if (AD_AttachmentNote_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, Integer.valueOf(AD_AttachmentNote_ID));
 	}
 
 	/** Get Attachment Note.
@@ -158,9 +160,10 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -180,8 +183,6 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-		if (TextMsg == null)
-			throw new IllegalArgumentException ("TextMsg is mandatory.");
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 
@@ -199,8 +200,6 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 	  */
 	public void setTitle (String Title)
 	{
-		if (Title == null)
-			throw new IllegalArgumentException ("Title is mandatory.");
 		set_Value (COLUMNNAME_Title, Title);
 	}
 

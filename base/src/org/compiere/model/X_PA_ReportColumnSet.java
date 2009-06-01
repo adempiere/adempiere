@@ -95,8 +95,6 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -122,9 +120,10 @@ public class X_PA_ReportColumnSet extends PO implements I_PA_ReportColumnSet, I_
 	  */
 	public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 	{
-		if (PA_ReportColumnSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
+		if (PA_ReportColumnSet_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
 	}
 
 	/** Get Report Column Set.

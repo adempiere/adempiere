@@ -99,9 +99,10 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -121,9 +122,10 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 	  */
 	public void setA_Asset_Retirement_ID (int A_Asset_Retirement_ID)
 	{
-		if (A_Asset_Retirement_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Retirement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Retirement_ID, Integer.valueOf(A_Asset_Retirement_ID));
+		if (A_Asset_Retirement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Retirement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Retirement_ID, Integer.valueOf(A_Asset_Retirement_ID));
 	}
 
 	/** Get Asset Retirement.
@@ -151,8 +153,6 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 	  */
 	public void setAssetMarketValueAmt (BigDecimal AssetMarketValueAmt)
 	{
-		if (AssetMarketValueAmt == null)
-			throw new IllegalArgumentException ("AssetMarketValueAmt is mandatory.");
 		set_Value (COLUMNNAME_AssetMarketValueAmt, AssetMarketValueAmt);
 	}
 
@@ -173,8 +173,6 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 	  */
 	public void setAssetValueAmt (BigDecimal AssetValueAmt)
 	{
-		if (AssetValueAmt == null)
-			throw new IllegalArgumentException ("AssetValueAmt is mandatory.");
 		set_Value (COLUMNNAME_AssetValueAmt, AssetValueAmt);
 	}
 

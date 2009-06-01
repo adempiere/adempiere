@@ -81,9 +81,10 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 	  */
 	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 	{
-		if (AD_ReplicationStrategy_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
+		if (AD_ReplicationStrategy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
 	}
 
 	/** Get Replication Strategy.
@@ -193,8 +194,6 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

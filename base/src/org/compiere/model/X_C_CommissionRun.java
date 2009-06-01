@@ -102,9 +102,10 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setC_Commission_ID (int C_Commission_ID)
 	{
-		if (C_Commission_ID < 1)
-			 throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
 	}
 
 	/** Get Commission.
@@ -124,9 +125,10 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setC_CommissionRun_ID (int C_CommissionRun_ID)
 	{
-		if (C_CommissionRun_ID < 1)
-			 throw new IllegalArgumentException ("C_CommissionRun_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
+		if (C_CommissionRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionRun_ID, Integer.valueOf(C_CommissionRun_ID));
 	}
 
 	/** Get Commission Run.
@@ -163,8 +165,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -190,8 +190,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setGrandTotal (BigDecimal GrandTotal)
 	{
-		if (GrandTotal == null)
-			throw new IllegalArgumentException ("GrandTotal is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_GrandTotal, GrandTotal);
 	}
 
@@ -257,8 +255,6 @@ public class X_C_CommissionRun extends PO implements I_C_CommissionRun, I_Persis
 	  */
 	public void setStartDate (Timestamp StartDate)
 	{
-		if (StartDate == null)
-			throw new IllegalArgumentException ("StartDate is mandatory.");
 		set_Value (COLUMNNAME_StartDate, StartDate);
 	}
 

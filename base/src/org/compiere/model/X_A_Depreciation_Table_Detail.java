@@ -80,8 +80,6 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 		@param A_Depreciation_Rate Rate	  */
 	public void setA_Depreciation_Rate (BigDecimal A_Depreciation_Rate)
 	{
-		if (A_Depreciation_Rate == null)
-			throw new IllegalArgumentException ("A_Depreciation_Rate is mandatory.");
 		set_Value (COLUMNNAME_A_Depreciation_Rate, A_Depreciation_Rate);
 	}
 
@@ -99,8 +97,6 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 		@param A_Depreciation_Table_Code Depreciation Code	  */
 	public void setA_Depreciation_Table_Code (String A_Depreciation_Table_Code)
 	{
-		if (A_Depreciation_Table_Code == null)
-			throw new IllegalArgumentException ("A_Depreciation_Table_Code is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Code, A_Depreciation_Table_Code);
 	}
 
@@ -115,9 +111,10 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 		@param A_Depreciation_Table_Detail_ID A_Depreciation_Table_Detail_ID	  */
 	public void setA_Depreciation_Table_Detail_ID (int A_Depreciation_Table_Detail_ID)
 	{
-		if (A_Depreciation_Table_Detail_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Table_Detail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Detail_ID, Integer.valueOf(A_Depreciation_Table_Detail_ID));
+		if (A_Depreciation_Table_Detail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Detail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Detail_ID, Integer.valueOf(A_Depreciation_Table_Detail_ID));
 	}
 
 	/** Get A_Depreciation_Table_Detail_ID.

@@ -292,9 +292,10 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	  */
 	public void setW_Click_ID (int W_Click_ID)
 	{
-		if (W_Click_ID < 1)
-			 throw new IllegalArgumentException ("W_Click_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
+		if (W_Click_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
 	}
 
 	/** Get Web Click.

@@ -425,9 +425,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		@param ASP_ClientException_ID Client Exception	  */
 	public void setASP_ClientException_ID (int ASP_ClientException_ID)
 	{
-		if (ASP_ClientException_ID < 1)
-			 throw new IllegalArgumentException ("ASP_ClientException_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_ClientException_ID, Integer.valueOf(ASP_ClientException_ID));
+		if (ASP_ClientException_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_ClientException_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_ClientException_ID, Integer.valueOf(ASP_ClientException_ID));
 	}
 
 	/** Get Client Exception.
@@ -452,7 +453,7 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

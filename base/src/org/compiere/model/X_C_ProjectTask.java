@@ -88,8 +88,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setCommittedAmt (BigDecimal CommittedAmt)
 	{
-		if (CommittedAmt == null)
-			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
 		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
 	}
 
@@ -126,9 +124,10 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setC_ProjectPhase_ID (int C_ProjectPhase_ID)
 	{
-		if (C_ProjectPhase_ID < 1)
-			 throw new IllegalArgumentException ("C_ProjectPhase_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
+		if (C_ProjectPhase_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectPhase_ID, Integer.valueOf(C_ProjectPhase_ID));
 	}
 
 	/** Get Project Phase.
@@ -148,9 +147,10 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setC_ProjectTask_ID (int C_ProjectTask_ID)
 	{
-		if (C_ProjectTask_ID < 1)
-			 throw new IllegalArgumentException ("C_ProjectTask_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
+		if (C_ProjectTask_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectTask_ID, Integer.valueOf(C_ProjectTask_ID));
 	}
 
 	/** Get Project Task.
@@ -282,8 +282,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -301,8 +299,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setPlannedAmt (BigDecimal PlannedAmt)
 	{
-		if (PlannedAmt == null)
-			throw new IllegalArgumentException ("PlannedAmt is mandatory.");
 		set_Value (COLUMNNAME_PlannedAmt, PlannedAmt);
 	}
 
@@ -335,7 +331,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	  */
 	public void setProjInvoiceRule (String ProjInvoiceRule)
 	{
-		if (ProjInvoiceRule == null) throw new IllegalArgumentException ("ProjInvoiceRule is mandatory");
+
 		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
 	}
 

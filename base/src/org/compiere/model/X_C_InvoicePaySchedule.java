@@ -104,9 +104,10 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -126,9 +127,10 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
 	{
-		if (C_InvoicePaySchedule_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoicePaySchedule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+		if (C_InvoicePaySchedule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
 	}
 
 	/** Get Invoice Payment Schedule.
@@ -187,8 +189,6 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setDiscountAmt (BigDecimal DiscountAmt)
 	{
-		if (DiscountAmt == null)
-			throw new IllegalArgumentException ("DiscountAmt is mandatory.");
 		set_Value (COLUMNNAME_DiscountAmt, DiscountAmt);
 	}
 
@@ -209,8 +209,6 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setDiscountDate (Timestamp DiscountDate)
 	{
-		if (DiscountDate == null)
-			throw new IllegalArgumentException ("DiscountDate is mandatory.");
 		set_Value (COLUMNNAME_DiscountDate, DiscountDate);
 	}
 
@@ -236,8 +234,6 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setDueAmt (BigDecimal DueAmt)
 	{
-		if (DueAmt == null)
-			throw new IllegalArgumentException ("DueAmt is mandatory.");
 		set_Value (COLUMNNAME_DueAmt, DueAmt);
 	}
 
@@ -258,8 +254,6 @@ public class X_C_InvoicePaySchedule extends PO implements I_C_InvoicePaySchedule
 	  */
 	public void setDueDate (Timestamp DueDate)
 	{
-		if (DueDate == null)
-			throw new IllegalArgumentException ("DueDate is mandatory.");
 		set_Value (COLUMNNAME_DueDate, DueDate);
 	}
 

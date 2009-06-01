@@ -112,9 +112,10 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
 	{
-		if (CM_NewsChannel_ID < 1)
-			 throw new IllegalArgumentException ("CM_NewsChannel_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
+		if (CM_NewsChannel_ID < 1) 
+			set_Value (COLUMNNAME_CM_NewsChannel_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
 	}
 
 	/** Get News Channel.
@@ -134,9 +135,10 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	  */
 	public void setCM_NewsItem_ID (int CM_NewsItem_ID)
 	{
-		if (CM_NewsItem_ID < 1)
-			 throw new IllegalArgumentException ("CM_NewsItem_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_NewsItem_ID, Integer.valueOf(CM_NewsItem_ID));
+		if (CM_NewsItem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsItem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsItem_ID, Integer.valueOf(CM_NewsItem_ID));
 	}
 
 	/** Get News Item / Article.

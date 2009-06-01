@@ -101,9 +101,10 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -147,9 +148,10 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setM_Demand_ID (int M_Demand_ID)
 	{
-		if (M_Demand_ID < 1)
-			 throw new IllegalArgumentException ("M_Demand_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Demand_ID, Integer.valueOf(M_Demand_ID));
+		if (M_Demand_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Demand_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Demand_ID, Integer.valueOf(M_Demand_ID));
 	}
 
 	/** Get Demand.
@@ -169,9 +171,10 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setM_DemandLine_ID (int M_DemandLine_ID)
 	{
-		if (M_DemandLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DemandLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
+		if (M_DemandLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
 	}
 
 	/** Get Demand Line.
@@ -207,9 +210,10 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -229,8 +233,6 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 
@@ -251,8 +253,6 @@ public class X_M_DemandLine extends PO implements I_M_DemandLine, I_Persistent
 	  */
 	public void setQtyCalculated (BigDecimal QtyCalculated)
 	{
-		if (QtyCalculated == null)
-			throw new IllegalArgumentException ("QtyCalculated is mandatory.");
 		set_Value (COLUMNNAME_QtyCalculated, QtyCalculated);
 	}
 

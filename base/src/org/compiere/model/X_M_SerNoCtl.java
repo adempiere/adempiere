@@ -140,9 +140,10 @@ public class X_M_SerNoCtl extends PO implements I_M_SerNoCtl, I_Persistent
 	  */
 	public void setM_SerNoCtl_ID (int M_SerNoCtl_ID)
 	{
-		if (M_SerNoCtl_ID < 1)
-			 throw new IllegalArgumentException ("M_SerNoCtl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
+		if (M_SerNoCtl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtl_ID, Integer.valueOf(M_SerNoCtl_ID));
 	}
 
 	/** Get Serial No Control.
@@ -162,8 +163,6 @@ public class X_M_SerNoCtl extends PO implements I_M_SerNoCtl, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

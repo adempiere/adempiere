@@ -136,8 +136,6 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -163,9 +161,10 @@ public class X_R_StatusCategory extends PO implements I_R_StatusCategory, I_Pers
 	  */
 	public void setR_StatusCategory_ID (int R_StatusCategory_ID)
 	{
-		if (R_StatusCategory_ID < 1)
-			 throw new IllegalArgumentException ("R_StatusCategory_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_StatusCategory_ID, Integer.valueOf(R_StatusCategory_ID));
+		if (R_StatusCategory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_StatusCategory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_StatusCategory_ID, Integer.valueOf(R_StatusCategory_ID));
 	}
 
 	/** Get Status Category.

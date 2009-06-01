@@ -119,8 +119,6 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setDBAddress (String DBAddress)
 	{
-		if (DBAddress == null)
-			throw new IllegalArgumentException ("DBAddress is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DBAddress, DBAddress);
 	}
 
@@ -163,9 +161,10 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setR_IssueSystem_ID (int R_IssueSystem_ID)
 	{
-		if (R_IssueSystem_ID < 1)
-			 throw new IllegalArgumentException ("R_IssueSystem_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_IssueSystem_ID, Integer.valueOf(R_IssueSystem_ID));
+		if (R_IssueSystem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_IssueSystem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_IssueSystem_ID, Integer.valueOf(R_IssueSystem_ID));
 	}
 
 	/** Get Issue System.
@@ -210,7 +209,7 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 

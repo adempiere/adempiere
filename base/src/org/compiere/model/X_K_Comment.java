@@ -146,9 +146,10 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	  */
 	public void setK_Comment_ID (int K_Comment_ID)
 	{
-		if (K_Comment_ID < 1)
-			 throw new IllegalArgumentException ("K_Comment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Comment_ID, Integer.valueOf(K_Comment_ID));
+		if (K_Comment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Comment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Comment_ID, Integer.valueOf(K_Comment_ID));
 	}
 
 	/** Get Entry Comment.
@@ -192,9 +193,10 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	  */
 	public void setK_Entry_ID (int K_Entry_ID)
 	{
-		if (K_Entry_ID < 1)
-			 throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+		if (K_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
 	}
 
 	/** Get Entry.
@@ -234,8 +236,6 @@ public class X_K_Comment extends PO implements I_K_Comment, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-		if (TextMsg == null)
-			throw new IllegalArgumentException ("TextMsg is mandatory.");
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

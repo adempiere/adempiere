@@ -107,9 +107,10 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -565,8 +566,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -602,7 +601,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	  */
 	public void setNotificationType (String NotificationType)
 	{
-		if (NotificationType == null) throw new IllegalArgumentException ("NotificationType is mandatory");
+
 		set_Value (COLUMNNAME_NotificationType, NotificationType);
 	}
 

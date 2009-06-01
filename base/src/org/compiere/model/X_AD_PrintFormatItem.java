@@ -145,9 +145,10 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -245,9 +246,10 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintFormatChild_ID (int AD_PrintFormatChild_ID)
 	{
-		if (AD_PrintFormatChild_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormatChild_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintFormatChild_ID, Integer.valueOf(AD_PrintFormatChild_ID));
+		if (AD_PrintFormatChild_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFormatChild_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormatChild_ID, Integer.valueOf(AD_PrintFormatChild_ID));
 	}
 
 	/** Get Included Print Format.
@@ -283,9 +285,10 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -305,9 +308,10 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
 	{
-		if (AD_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormatItem_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
+		if (AD_PrintFormatItem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
 	}
 
 	/** Get Print Format Item.
@@ -486,7 +490,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setFieldAlignmentType (String FieldAlignmentType)
 	{
-		if (FieldAlignmentType == null) throw new IllegalArgumentException ("FieldAlignmentType is mandatory");
+
 		set_Value (COLUMNNAME_FieldAlignmentType, FieldAlignmentType);
 	}
 
@@ -1124,7 +1128,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setLineAlignmentType (String LineAlignmentType)
 	{
-		if (LineAlignmentType == null) throw new IllegalArgumentException ("LineAlignmentType is mandatory");
+
 		set_Value (COLUMNNAME_LineAlignmentType, LineAlignmentType);
 	}
 
@@ -1202,8 +1206,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1237,7 +1239,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setPrintAreaType (String PrintAreaType)
 	{
-		if (PrintAreaType == null) throw new IllegalArgumentException ("PrintAreaType is mandatory");
+
 		set_Value (COLUMNNAME_PrintAreaType, PrintAreaType);
 	}
 
@@ -1269,7 +1271,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	  */
 	public void setPrintFormatType (String PrintFormatType)
 	{
-		if (PrintFormatType == null) throw new IllegalArgumentException ("PrintFormatType is mandatory");
+
 		set_Value (COLUMNNAME_PrintFormatType, PrintFormatType);
 	}
 

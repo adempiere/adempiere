@@ -85,8 +85,6 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	  */
 	public void setAssignDateFrom (Timestamp AssignDateFrom)
 	{
-		if (AssignDateFrom == null)
-			throw new IllegalArgumentException ("AssignDateFrom is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AssignDateFrom, AssignDateFrom);
 	}
 
@@ -162,8 +160,6 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -201,9 +197,10 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	  */
 	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
 	{
-		if (S_ResourceAssignment_ID < 1)
-			 throw new IllegalArgumentException ("S_ResourceAssignment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
+		if (S_ResourceAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
 	}
 
 	/** Get Resource Assignment.
@@ -239,9 +236,10 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.

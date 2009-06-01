@@ -94,8 +94,6 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -121,9 +119,10 @@ public class X_R_IssueStatus extends PO implements I_R_IssueStatus, I_Persistent
 	  */
 	public void setR_IssueStatus_ID (int R_IssueStatus_ID)
 	{
-		if (R_IssueStatus_ID < 1)
-			 throw new IllegalArgumentException ("R_IssueStatus_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_IssueStatus_ID, Integer.valueOf(R_IssueStatus_ID));
+		if (R_IssueStatus_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_IssueStatus_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_IssueStatus_ID, Integer.valueOf(R_IssueStatus_ID));
 	}
 
 	/** Get Issue Status.

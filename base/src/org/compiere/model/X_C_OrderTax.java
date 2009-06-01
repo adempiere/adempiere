@@ -100,9 +100,10 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID < 1)
-			 throw new IllegalArgumentException ("C_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -138,9 +139,10 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -208,8 +210,6 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 	  */
 	public void setTaxAmt (BigDecimal TaxAmt)
 	{
-		if (TaxAmt == null)
-			throw new IllegalArgumentException ("TaxAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TaxAmt, TaxAmt);
 	}
 
@@ -230,8 +230,6 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 	  */
 	public void setTaxBaseAmt (BigDecimal TaxBaseAmt)
 	{
-		if (TaxBaseAmt == null)
-			throw new IllegalArgumentException ("TaxBaseAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TaxBaseAmt, TaxBaseAmt);
 	}
 

@@ -111,8 +111,6 @@ public class X_S_TimeType extends PO implements I_S_TimeType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -138,9 +136,10 @@ public class X_S_TimeType extends PO implements I_S_TimeType, I_Persistent
 	  */
 	public void setS_TimeType_ID (int S_TimeType_ID)
 	{
-		if (S_TimeType_ID < 1)
-			 throw new IllegalArgumentException ("S_TimeType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_TimeType_ID, Integer.valueOf(S_TimeType_ID));
+		if (S_TimeType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_TimeType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_TimeType_ID, Integer.valueOf(S_TimeType_ID));
 	}
 
 	/** Get Time Type.

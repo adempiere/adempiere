@@ -96,9 +96,10 @@ public class X_AD_TreeBar extends PO implements I_AD_TreeBar, I_Persistent
 	  */
 	public void setAD_Tree_ID (int AD_Tree_ID)
 	{
-		if (AD_Tree_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
+		if (AD_Tree_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
 	}
 
 	/** Get Tree.
@@ -134,9 +135,10 @@ public class X_AD_TreeBar extends PO implements I_AD_TreeBar, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -154,9 +156,10 @@ public class X_AD_TreeBar extends PO implements I_AD_TreeBar, I_Persistent
 		@param Node_ID Node_ID	  */
 	public void setNode_ID (int Node_ID)
 	{
-		if (Node_ID < 0)
-			 throw new IllegalArgumentException ("Node_ID is mandatory.");
-		set_Value (COLUMNNAME_Node_ID, Integer.valueOf(Node_ID));
+		if (Node_ID < 0) 
+			set_Value (COLUMNNAME_Node_ID, null);
+		else 
+			set_Value (COLUMNNAME_Node_ID, Integer.valueOf(Node_ID));
 	}
 
 	/** Get Node_ID.

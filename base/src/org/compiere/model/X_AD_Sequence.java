@@ -86,9 +86,10 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setAD_Sequence_ID (int AD_Sequence_ID)
 	{
-		if (AD_Sequence_ID < 1)
-			 throw new IllegalArgumentException ("AD_Sequence_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+		if (AD_Sequence_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
 	}
 
 	/** Get Sequence.
@@ -291,8 +292,6 @@ public class X_AD_Sequence extends PO implements I_AD_Sequence, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

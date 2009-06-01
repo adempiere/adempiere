@@ -82,9 +82,10 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setAD_Message_ID (int AD_Message_ID)
 	{
-		if (AD_Message_ID < 1)
-			 throw new IllegalArgumentException ("AD_Message_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
+		if (AD_Message_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Message_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
 	}
 
 	/** Get Message.
@@ -124,8 +125,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setMsgText (String MsgText)
 	{
-		if (MsgText == null)
-			throw new IllegalArgumentException ("MsgText is mandatory.");
 		set_Value (COLUMNNAME_MsgText, MsgText);
 	}
 
@@ -168,7 +167,7 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setMsgType (String MsgType)
 	{
-		if (MsgType == null) throw new IllegalArgumentException ("MsgType is mandatory");
+
 		set_Value (COLUMNNAME_MsgType, MsgType);
 	}
 
@@ -186,8 +185,6 @@ public class X_AD_Message extends PO implements I_AD_Message, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

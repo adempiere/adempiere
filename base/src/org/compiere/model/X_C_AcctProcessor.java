@@ -124,9 +124,10 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	  */
 	public void setC_AcctProcessor_ID (int C_AcctProcessor_ID)
 	{
-		if (C_AcctProcessor_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, Integer.valueOf(C_AcctProcessor_ID));
+		if (C_AcctProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, Integer.valueOf(C_AcctProcessor_ID));
 	}
 
 	/** Get Accounting Processor.
@@ -264,7 +265,7 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -302,8 +303,6 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -350,9 +349,10 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID < 1)
-			 throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID < 1) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.

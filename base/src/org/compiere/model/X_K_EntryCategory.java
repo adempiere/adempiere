@@ -96,9 +96,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 	  */
 	public void setK_Category_ID (int K_Category_ID)
 	{
-		if (K_Category_ID < 1)
-			 throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
+		if (K_Category_ID < 1) 
+			set_Value (COLUMNNAME_K_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
 	}
 
 	/** Get Knowledge Category.
@@ -134,9 +135,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 	  */
 	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
 	{
-		if (K_CategoryValue_ID < 1)
-			 throw new IllegalArgumentException ("K_CategoryValue_ID is mandatory.");
-		set_Value (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
+		if (K_CategoryValue_ID < 1) 
+			set_Value (COLUMNNAME_K_CategoryValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
 	}
 
 	/** Get Category Value.
@@ -180,9 +182,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 	  */
 	public void setK_Entry_ID (int K_Entry_ID)
 	{
-		if (K_Entry_ID < 1)
-			 throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+		if (K_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
 	}
 
 	/** Get Entry.

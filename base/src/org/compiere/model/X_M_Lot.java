@@ -188,9 +188,10 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 	  */
 	public void setM_Lot_ID (int M_Lot_ID)
 	{
-		if (M_Lot_ID < 1)
-			 throw new IllegalArgumentException ("M_Lot_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
+		if (M_Lot_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
 	}
 
 	/** Get Lot.
@@ -226,9 +227,10 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -256,8 +258,6 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

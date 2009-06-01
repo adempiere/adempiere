@@ -81,8 +81,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 		@param AuctionType Auction Type	  */
 	public void setAuctionType (String AuctionType)
 	{
-		if (AuctionType == null)
-			throw new IllegalArgumentException ("AuctionType is mandatory.");
 		set_Value (COLUMNNAME_AuctionType, AuctionType);
 	}
 
@@ -99,9 +97,10 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setB_TopicType_ID (int B_TopicType_ID)
 	{
-		if (B_TopicType_ID < 1)
-			 throw new IllegalArgumentException ("B_TopicType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
+		if (B_TopicType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_TopicType_ID, Integer.valueOf(B_TopicType_ID));
 	}
 
 	/** Get Topic Type.
@@ -171,9 +170,10 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -209,9 +209,10 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -231,9 +232,10 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setM_ProductMember_ID (int M_ProductMember_ID)
 	{
-		if (M_ProductMember_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductMember_ID is mandatory.");
-		set_Value (COLUMNNAME_M_ProductMember_ID, Integer.valueOf(M_ProductMember_ID));
+		if (M_ProductMember_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductMember_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductMember_ID, Integer.valueOf(M_ProductMember_ID));
 	}
 
 	/** Get Membership.
@@ -253,8 +255,6 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

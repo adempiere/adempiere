@@ -99,9 +99,10 @@ public class X_B_BuyerFunds extends PO implements I_B_BuyerFunds, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -129,9 +130,10 @@ public class X_B_BuyerFunds extends PO implements I_B_BuyerFunds, I_Persistent
 	  */
 	public void setB_BuyerFunds_ID (int B_BuyerFunds_ID)
 	{
-		if (B_BuyerFunds_ID < 1)
-			 throw new IllegalArgumentException ("B_BuyerFunds_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_BuyerFunds_ID, Integer.valueOf(B_BuyerFunds_ID));
+		if (B_BuyerFunds_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_BuyerFunds_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_BuyerFunds_ID, Integer.valueOf(B_BuyerFunds_ID));
 	}
 
 	/** Get Buyer Funds.
@@ -151,8 +153,6 @@ public class X_B_BuyerFunds extends PO implements I_B_BuyerFunds, I_Persistent
 	  */
 	public void setCommittedAmt (BigDecimal CommittedAmt)
 	{
-		if (CommittedAmt == null)
-			throw new IllegalArgumentException ("CommittedAmt is mandatory.");
 		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
 	}
 
@@ -251,8 +251,6 @@ public class X_B_BuyerFunds extends PO implements I_B_BuyerFunds, I_Persistent
 	  */
 	public void setNonCommittedAmt (BigDecimal NonCommittedAmt)
 	{
-		if (NonCommittedAmt == null)
-			throw new IllegalArgumentException ("NonCommittedAmt is mandatory.");
 		set_Value (COLUMNNAME_NonCommittedAmt, NonCommittedAmt);
 	}
 

@@ -77,9 +77,10 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	  */
 	public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
 	{
-		if (C_POSKeyLayout_ID < 1)
-			 throw new IllegalArgumentException ("C_POSKeyLayout_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
+		if (C_POSKeyLayout_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
 	}
 
 	/** Get POS Key Layout.
@@ -133,8 +134,6 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

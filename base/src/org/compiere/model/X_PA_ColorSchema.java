@@ -83,9 +83,10 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setAD_PrintColor1_ID (int AD_PrintColor1_ID)
 	{
-		if (AD_PrintColor1_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintColor1_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintColor1_ID, Integer.valueOf(AD_PrintColor1_ID));
+		if (AD_PrintColor1_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintColor1_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor1_ID, Integer.valueOf(AD_PrintColor1_ID));
 	}
 
 	/** Get Color 1.
@@ -105,9 +106,10 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setAD_PrintColor2_ID (int AD_PrintColor2_ID)
 	{
-		if (AD_PrintColor2_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintColor2_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintColor2_ID, Integer.valueOf(AD_PrintColor2_ID));
+		if (AD_PrintColor2_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintColor2_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor2_ID, Integer.valueOf(AD_PrintColor2_ID));
 	}
 
 	/** Get Color 2.
@@ -290,8 +292,6 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -317,9 +317,10 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 	  */
 	public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
 	{
-		if (PA_ColorSchema_ID < 1)
-			 throw new IllegalArgumentException ("PA_ColorSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ColorSchema_ID, Integer.valueOf(PA_ColorSchema_ID));
+		if (PA_ColorSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ColorSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ColorSchema_ID, Integer.valueOf(PA_ColorSchema_ID));
 	}
 
 	/** Get Color Schema.

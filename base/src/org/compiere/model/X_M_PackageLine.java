@@ -116,9 +116,10 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setM_InOutLine_ID (int M_InOutLine_ID)
 	{
-		if (M_InOutLine_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+		if (M_InOutLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
 	}
 
 	/** Get Shipment/Receipt Line.
@@ -154,9 +155,10 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setM_Package_ID (int M_Package_ID)
 	{
-		if (M_Package_ID < 1)
-			 throw new IllegalArgumentException ("M_Package_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Package_ID, Integer.valueOf(M_Package_ID));
+		if (M_Package_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Package_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Package_ID, Integer.valueOf(M_Package_ID));
 	}
 
 	/** Get Package.
@@ -184,9 +186,10 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setM_PackageLine_ID (int M_PackageLine_ID)
 	{
-		if (M_PackageLine_ID < 1)
-			 throw new IllegalArgumentException ("M_PackageLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
+		if (M_PackageLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PackageLine_ID, Integer.valueOf(M_PackageLine_ID));
 	}
 
 	/** Get Package Line.
@@ -206,8 +209,6 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

@@ -85,9 +85,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Account_ID (int AD_Tree_Account_ID)
 	{
-		if (AD_Tree_Account_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Account_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Account_ID, Integer.valueOf(AD_Tree_Account_ID));
+		if (AD_Tree_Account_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Account_ID, Integer.valueOf(AD_Tree_Account_ID));
 	}
 
 	/** Get Account Tree.
@@ -107,9 +108,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Activity_ID (int AD_Tree_Activity_ID)
 	{
-		if (AD_Tree_Activity_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Activity_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Activity_ID, Integer.valueOf(AD_Tree_Activity_ID));
+		if (AD_Tree_Activity_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Activity_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Activity_ID, Integer.valueOf(AD_Tree_Activity_ID));
 	}
 
 	/** Get Activity Tree.
@@ -129,9 +131,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_BPartner_ID (int AD_Tree_BPartner_ID)
 	{
-		if (AD_Tree_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_BPartner_ID, Integer.valueOf(AD_Tree_BPartner_ID));
+		if (AD_Tree_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_BPartner_ID, Integer.valueOf(AD_Tree_BPartner_ID));
 	}
 
 	/** Get BPartner Tree.
@@ -151,9 +154,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Campaign_ID (int AD_Tree_Campaign_ID)
 	{
-		if (AD_Tree_Campaign_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Campaign_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Campaign_ID, Integer.valueOf(AD_Tree_Campaign_ID));
+		if (AD_Tree_Campaign_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Campaign_ID, Integer.valueOf(AD_Tree_Campaign_ID));
 	}
 
 	/** Get Campaign Tree.
@@ -173,9 +177,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
-		if (AD_Tree_Org_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Org_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
+		if (AD_Tree_Org_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Org_ID, Integer.valueOf(AD_Tree_Org_ID));
 	}
 
 	/** Get Organization Tree.
@@ -195,9 +200,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Product_ID (int AD_Tree_Product_ID)
 	{
-		if (AD_Tree_Product_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Product_ID, Integer.valueOf(AD_Tree_Product_ID));
+		if (AD_Tree_Product_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Product_ID, Integer.valueOf(AD_Tree_Product_ID));
 	}
 
 	/** Get Product Tree.
@@ -217,9 +223,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_Project_ID (int AD_Tree_Project_ID)
 	{
-		if (AD_Tree_Project_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_Project_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_Project_ID, Integer.valueOf(AD_Tree_Project_ID));
+		if (AD_Tree_Project_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_Project_ID, Integer.valueOf(AD_Tree_Project_ID));
 	}
 
 	/** Get Project Tree.
@@ -239,9 +246,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setAD_Tree_SalesRegion_ID (int AD_Tree_SalesRegion_ID)
 	{
-		if (AD_Tree_SalesRegion_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_SalesRegion_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tree_SalesRegion_ID, Integer.valueOf(AD_Tree_SalesRegion_ID));
+		if (AD_Tree_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tree_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tree_SalesRegion_ID, Integer.valueOf(AD_Tree_SalesRegion_ID));
 	}
 
 	/** Get Sales Region Tree.
@@ -295,8 +303,6 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -322,9 +328,10 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	  */
 	public void setPA_Hierarchy_ID (int PA_Hierarchy_ID)
 	{
-		if (PA_Hierarchy_ID < 1)
-			 throw new IllegalArgumentException ("PA_Hierarchy_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Hierarchy_ID, Integer.valueOf(PA_Hierarchy_ID));
+		if (PA_Hierarchy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Hierarchy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Hierarchy_ID, Integer.valueOf(PA_Hierarchy_ID));
 	}
 
 	/** Get Reporting Hierarchy.

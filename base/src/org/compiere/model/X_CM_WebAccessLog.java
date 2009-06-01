@@ -217,9 +217,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setCM_WebAccessLog_ID (int CM_WebAccessLog_ID)
 	{
-		if (CM_WebAccessLog_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebAccessLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebAccessLog_ID, Integer.valueOf(CM_WebAccessLog_ID));
+		if (CM_WebAccessLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebAccessLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebAccessLog_ID, Integer.valueOf(CM_WebAccessLog_ID));
 	}
 
 	/** Get Web Access Log.
@@ -312,8 +313,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setIP_Address (String IP_Address)
 	{
-		if (IP_Address == null)
-			throw new IllegalArgumentException ("IP_Address is mandatory.");
 		set_Value (COLUMNNAME_IP_Address, IP_Address);
 	}
 
@@ -339,7 +338,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setLogType (String LogType)
 	{
-		if (LogType == null) throw new IllegalArgumentException ("LogType is mandatory");
+
 		set_Value (COLUMNNAME_LogType, LogType);
 	}
 
@@ -371,8 +370,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	  */
 	public void setProtocol (String Protocol)
 	{
-		if (Protocol == null)
-			throw new IllegalArgumentException ("Protocol is mandatory.");
 		set_Value (COLUMNNAME_Protocol, Protocol);
 	}
 
@@ -439,8 +436,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		@param RequestType Request Type	  */
 	public void setRequestType (String RequestType)
 	{
-		if (RequestType == null)
-			throw new IllegalArgumentException ("RequestType is mandatory.");
 		set_Value (COLUMNNAME_RequestType, RequestType);
 	}
 

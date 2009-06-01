@@ -180,7 +180,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setConfirmType (String ConfirmType)
 	{
-		if (ConfirmType == null) throw new IllegalArgumentException ("ConfirmType is mandatory");
+
 		set_Value (COLUMNNAME_ConfirmType, ConfirmType);
 	}
 
@@ -259,7 +259,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -303,7 +303,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -321,8 +321,6 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -420,9 +418,10 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
 	{
-		if (M_InOutConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_InOutConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
+		if (M_InOutConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
 	}
 
 	/** Get Ship/Receipt Confirmation.
@@ -458,9 +457,10 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	  */
 	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_InOut_ID < 1)
-			 throw new IllegalArgumentException ("M_InOut_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
+		if (M_InOut_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.

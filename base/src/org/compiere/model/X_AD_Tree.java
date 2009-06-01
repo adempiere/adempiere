@@ -81,9 +81,10 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	  */
 	public void setAD_Tree_ID (int AD_Tree_ID)
 	{
-		if (AD_Tree_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
+		if (AD_Tree_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
 	}
 
 	/** Get Tree.
@@ -168,8 +169,6 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -256,7 +255,7 @@ public class X_AD_Tree extends PO implements I_AD_Tree, I_Persistent
 	  */
 	public void setTreeType (String TreeType)
 	{
-		if (TreeType == null) throw new IllegalArgumentException ("TreeType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_TreeType, TreeType);
 	}
 

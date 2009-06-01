@@ -85,9 +85,10 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
 	  */
 	public void setC_Campaign_ID (int C_Campaign_ID)
 	{
-		if (C_Campaign_ID < 1)
-			 throw new IllegalArgumentException ("C_Campaign_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+		if (C_Campaign_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
 	}
 
 	/** Get Campaign.
@@ -146,8 +147,6 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
 	  */
 	public void setCosts (BigDecimal Costs)
 	{
-		if (Costs == null)
-			throw new IllegalArgumentException ("Costs is mandatory.");
 		set_Value (COLUMNNAME_Costs, Costs);
 	}
 
@@ -226,8 +225,6 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -270,8 +267,6 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

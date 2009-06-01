@@ -81,9 +81,10 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 		@param A_Asset_Reval_Index_ID A_Asset_Reval_Index_ID	  */
 	public void setA_Asset_Reval_Index_ID (int A_Asset_Reval_Index_ID)
 	{
-		if (A_Asset_Reval_Index_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Reval_Index_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Index_ID, Integer.valueOf(A_Asset_Reval_Index_ID));
+		if (A_Asset_Reval_Index_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Index_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Index_ID, Integer.valueOf(A_Asset_Reval_Index_ID));
 	}
 
 	/** Get A_Asset_Reval_Index_ID.
@@ -108,8 +109,6 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 		@param A_Effective_Date A_Effective_Date	  */
 	public void setA_Effective_Date (Timestamp A_Effective_Date)
 	{
-		if (A_Effective_Date == null)
-			throw new IllegalArgumentException ("A_Effective_Date is mandatory.");
 		set_Value (COLUMNNAME_A_Effective_Date, A_Effective_Date);
 	}
 
@@ -132,7 +131,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 		@param A_Reval_Code A_Reval_Code	  */
 	public void setA_Reval_Code (String A_Reval_Code)
 	{
-		if (A_Reval_Code == null) throw new IllegalArgumentException ("A_Reval_Code is mandatory");
+
 		set_Value (COLUMNNAME_A_Reval_Code, A_Reval_Code);
 	}
 
@@ -153,7 +152,7 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 		@param A_Reval_Multiplier A_Reval_Multiplier	  */
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
-		if (A_Reval_Multiplier == null) throw new IllegalArgumentException ("A_Reval_Multiplier is mandatory");
+
 		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
@@ -168,8 +167,6 @@ public class X_A_Asset_Reval_Index extends PO implements I_A_Asset_Reval_Index, 
 		@param A_Reval_Rate A_Reval_Rate	  */
 	public void setA_Reval_Rate (BigDecimal A_Reval_Rate)
 	{
-		if (A_Reval_Rate == null)
-			throw new IllegalArgumentException ("A_Reval_Rate is mandatory.");
 		set_Value (COLUMNNAME_A_Reval_Rate, A_Reval_Rate);
 	}
 

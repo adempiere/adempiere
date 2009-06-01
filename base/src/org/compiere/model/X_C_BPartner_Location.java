@@ -106,9 +106,10 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -128,9 +129,10 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -150,9 +152,10 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setC_Location_ID (int C_Location_ID)
 	{
-		if (C_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+		if (C_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
 	}
 
 	/** Get Address.
@@ -341,8 +344,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

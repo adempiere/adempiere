@@ -88,9 +88,10 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	  */
 	public void setAD_Alert_ID (int AD_Alert_ID)
 	{
-		if (AD_Alert_ID < 1)
-			 throw new IllegalArgumentException ("AD_Alert_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
+		if (AD_Alert_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Alert_ID, Integer.valueOf(AD_Alert_ID));
 	}
 
 	/** Get Alert.
@@ -126,9 +127,10 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	  */
 	public void setAD_AlertProcessor_ID (int AD_AlertProcessor_ID)
 	{
-		if (AD_AlertProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertProcessor_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_AlertProcessor_ID, Integer.valueOf(AD_AlertProcessor_ID));
+		if (AD_AlertProcessor_ID < 1) 
+			set_Value (COLUMNNAME_AD_AlertProcessor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_AlertProcessor_ID, Integer.valueOf(AD_AlertProcessor_ID));
 	}
 
 	/** Get Alert Processor.
@@ -148,8 +150,6 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	  */
 	public void setAlertMessage (String AlertMessage)
 	{
-		if (AlertMessage == null)
-			throw new IllegalArgumentException ("AlertMessage is mandatory.");
 		set_Value (COLUMNNAME_AlertMessage, AlertMessage);
 	}
 
@@ -167,8 +167,6 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	  */
 	public void setAlertSubject (String AlertSubject)
 	{
-		if (AlertSubject == null)
-			throw new IllegalArgumentException ("AlertSubject is mandatory.");
 		set_Value (COLUMNNAME_AlertSubject, AlertSubject);
 	}
 
@@ -292,8 +290,6 @@ public class X_AD_Alert extends PO implements I_AD_Alert, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

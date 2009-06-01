@@ -101,7 +101,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setBOMProductType (String BOMProductType)
 	{
-		if (BOMProductType == null) throw new IllegalArgumentException ("BOMProductType is mandatory");
+
 		set_Value (COLUMNNAME_BOMProductType, BOMProductType);
 	}
 
@@ -119,8 +119,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setBOMQty (BigDecimal BOMQty)
 	{
-		if (BOMQty == null)
-			throw new IllegalArgumentException ("BOMQty is mandatory.");
 		set_Value (COLUMNNAME_BOMQty, BOMQty);
 	}
 
@@ -247,7 +245,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -325,9 +323,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID < 1)
-			 throw new IllegalArgumentException ("M_BOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+		if (M_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
 	}
 
 	/** Get BOM.
@@ -347,9 +346,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	  */
 	public void setM_BOMProduct_ID (int M_BOMProduct_ID)
 	{
-		if (M_BOMProduct_ID < 1)
-			 throw new IllegalArgumentException ("M_BOMProduct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_BOMProduct_ID, Integer.valueOf(M_BOMProduct_ID));
+		if (M_BOMProduct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_BOMProduct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOMProduct_ID, Integer.valueOf(M_BOMProduct_ID));
 	}
 
 	/** Get BOM Component.

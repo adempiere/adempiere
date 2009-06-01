@@ -80,9 +80,10 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -100,9 +101,10 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 		@param A_Asset_Use_ID A_Asset_Use_ID	  */
 	public void setA_Asset_Use_ID (int A_Asset_Use_ID)
 	{
-		if (A_Asset_Use_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Use_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Use_ID, Integer.valueOf(A_Asset_Use_ID));
+		if (A_Asset_Use_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Use_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Use_ID, Integer.valueOf(A_Asset_Use_ID));
 	}
 
 	/** Get A_Asset_Use_ID.
@@ -144,8 +146,6 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 		@param UseDate UseDate	  */
 	public void setUseDate (Timestamp UseDate)
 	{
-		if (UseDate == null)
-			throw new IllegalArgumentException ("UseDate is mandatory.");
 		set_Value (COLUMNNAME_UseDate, UseDate);
 	}
 

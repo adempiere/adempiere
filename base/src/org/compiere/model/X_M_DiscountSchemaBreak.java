@@ -87,8 +87,6 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 	  */
 	public void setBreakDiscount (BigDecimal BreakDiscount)
 	{
-		if (BreakDiscount == null)
-			throw new IllegalArgumentException ("BreakDiscount is mandatory.");
 		set_Value (COLUMNNAME_BreakDiscount, BreakDiscount);
 	}
 
@@ -109,8 +107,6 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 	  */
 	public void setBreakValue (BigDecimal BreakValue)
 	{
-		if (BreakValue == null)
-			throw new IllegalArgumentException ("BreakValue is mandatory.");
 		set_Value (COLUMNNAME_BreakValue, BreakValue);
 	}
 
@@ -155,9 +151,10 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 	  */
 	public void setM_DiscountSchemaBreak_ID (int M_DiscountSchemaBreak_ID)
 	{
-		if (M_DiscountSchemaBreak_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchemaBreak_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaBreak_ID, Integer.valueOf(M_DiscountSchemaBreak_ID));
+		if (M_DiscountSchemaBreak_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaBreak_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaBreak_ID, Integer.valueOf(M_DiscountSchemaBreak_ID));
 	}
 
 	/** Get Discount Schema Break.
@@ -193,9 +190,10 @@ public class X_M_DiscountSchemaBreak extends PO implements I_M_DiscountSchemaBre
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.

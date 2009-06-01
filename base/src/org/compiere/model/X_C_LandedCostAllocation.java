@@ -86,8 +86,6 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (Amt == null)
-			throw new IllegalArgumentException ("Amt is mandatory.");
 		set_Value (COLUMNNAME_Amt, Amt);
 	}
 
@@ -108,8 +106,6 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setBase (BigDecimal Base)
 	{
-		if (Base == null)
-			throw new IllegalArgumentException ("Base is mandatory.");
 		set_Value (COLUMNNAME_Base, Base);
 	}
 
@@ -146,9 +142,10 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
 	{
-		if (C_InvoiceLine_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+		if (C_InvoiceLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
 	}
 
 	/** Get Invoice Line.
@@ -176,9 +173,10 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setC_LandedCostAllocation_ID (int C_LandedCostAllocation_ID)
 	{
-		if (C_LandedCostAllocation_ID < 1)
-			 throw new IllegalArgumentException ("C_LandedCostAllocation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_LandedCostAllocation_ID, Integer.valueOf(C_LandedCostAllocation_ID));
+		if (C_LandedCostAllocation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCostAllocation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCostAllocation_ID, Integer.valueOf(C_LandedCostAllocation_ID));
 	}
 
 	/** Get Landed Cost Allocation.
@@ -198,7 +196,7 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -237,9 +235,10 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID < 1)
-			 throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-		set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID < 1) 
+			set_Value (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.
@@ -275,9 +274,10 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -297,8 +297,6 @@ public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAlloca
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

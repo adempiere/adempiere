@@ -107,9 +107,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -191,9 +192,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
 	{
-		if (C_PaySelectionCheck_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySelectionCheck_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));
+		if (C_PaySelectionCheck_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));
 	}
 
 	/** Get Pay Selection Check.
@@ -229,9 +231,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setC_PaySelection_ID (int C_PaySelection_ID)
 	{
-		if (C_PaySelection_ID < 1)
-			 throw new IllegalArgumentException ("C_PaySelection_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
+		if (C_PaySelection_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
 	}
 
 	/** Get Payment Selection.
@@ -251,8 +254,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setDiscountAmt (BigDecimal DiscountAmt)
 	{
-		if (DiscountAmt == null)
-			throw new IllegalArgumentException ("DiscountAmt is mandatory.");
 		set_Value (COLUMNNAME_DiscountAmt, DiscountAmt);
 	}
 
@@ -359,8 +360,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setPayAmt (BigDecimal PayAmt)
 	{
-		if (PayAmt == null)
-			throw new IllegalArgumentException ("PayAmt is mandatory.");
 		set_Value (COLUMNNAME_PayAmt, PayAmt);
 	}
 
@@ -397,7 +396,7 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 

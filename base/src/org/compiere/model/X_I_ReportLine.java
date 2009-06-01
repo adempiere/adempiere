@@ -264,9 +264,10 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	  */
 	public void setI_ReportLine_ID (int I_ReportLine_ID)
 	{
-		if (I_ReportLine_ID < 1)
-			 throw new IllegalArgumentException ("I_ReportLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_ReportLine_ID, Integer.valueOf(I_ReportLine_ID));
+		if (I_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_ReportLine_ID, Integer.valueOf(I_ReportLine_ID));
 	}
 
 	/** Get Import Report Line Set.

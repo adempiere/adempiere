@@ -82,9 +82,10 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 	{
-		if (C_TaxDeclaration_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
+		if (C_TaxDeclaration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
 	}
 
 	/** Get Tax Declaration.
@@ -104,8 +105,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setDateFrom (Timestamp DateFrom)
 	{
-		if (DateFrom == null)
-			throw new IllegalArgumentException ("DateFrom is mandatory.");
 		set_Value (COLUMNNAME_DateFrom, DateFrom);
 	}
 
@@ -123,8 +122,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setDateTo (Timestamp DateTo)
 	{
-		if (DateTo == null)
-			throw new IllegalArgumentException ("DateTo is mandatory.");
 		set_Value (COLUMNNAME_DateTo, DateTo);
 	}
 
@@ -142,8 +139,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_Value (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -178,8 +173,6 @@ public class X_C_TaxDeclaration extends PO implements I_C_TaxDeclaration, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

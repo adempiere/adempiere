@@ -137,8 +137,6 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -164,8 +162,6 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
 	  */
 	public void setTargetURL (String TargetURL)
 	{
-		if (TargetURL == null)
-			throw new IllegalArgumentException ("TargetURL is mandatory.");
 		set_Value (COLUMNNAME_TargetURL, TargetURL);
 	}
 
@@ -183,9 +179,10 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
 	  */
 	public void setW_ClickCount_ID (int W_ClickCount_ID)
 	{
-		if (W_ClickCount_ID < 1)
-			 throw new IllegalArgumentException ("W_ClickCount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
+		if (W_ClickCount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_ClickCount_ID, Integer.valueOf(W_ClickCount_ID));
 	}
 
 	/** Get Click Count.

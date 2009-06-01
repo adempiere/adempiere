@@ -98,9 +98,10 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setC_Job_ID (int C_Job_ID)
 	{
-		if (C_Job_ID < 1)
-			 throw new IllegalArgumentException ("C_Job_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+		if (C_Job_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
 	}
 
 	/** Get Position.
@@ -128,9 +129,10 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
 	{
-		if (C_JobRemuneration_ID < 1)
-			 throw new IllegalArgumentException ("C_JobRemuneration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
+		if (C_JobRemuneration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
 	}
 
 	/** Get Position Remuneration.
@@ -166,9 +168,10 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setC_Remuneration_ID (int C_Remuneration_ID)
 	{
-		if (C_Remuneration_ID < 1)
-			 throw new IllegalArgumentException ("C_Remuneration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, Integer.valueOf(C_Remuneration_ID));
+		if (C_Remuneration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Remuneration_ID, Integer.valueOf(C_Remuneration_ID));
 	}
 
 	/** Get Remuneration.
@@ -205,8 +208,6 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

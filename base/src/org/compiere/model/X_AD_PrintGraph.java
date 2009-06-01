@@ -100,9 +100,10 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
 	{
-		if (AD_PrintFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintFormat_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+		if (AD_PrintFormat_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
 	}
 
 	/** Get Print Format.
@@ -122,9 +123,10 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setAD_PrintGraph_ID (int AD_PrintGraph_ID)
 	{
-		if (AD_PrintGraph_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintGraph_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintGraph_ID, Integer.valueOf(AD_PrintGraph_ID));
+		if (AD_PrintGraph_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintGraph_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintGraph_ID, Integer.valueOf(AD_PrintGraph_ID));
 	}
 
 	/** Get Graph.
@@ -236,9 +238,10 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
 	{
-		if (Data_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("Data_PrintFormatItem_ID is mandatory.");
-		set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
+		if (Data_PrintFormatItem_ID < 1) 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
 	}
 
 	/** Get Data Column.
@@ -275,9 +278,10 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setDescription_PrintFormatItem_ID (int Description_PrintFormatItem_ID)
 	{
-		if (Description_PrintFormatItem_ID < 1)
-			 throw new IllegalArgumentException ("Description_PrintFormatItem_ID is mandatory.");
-		set_Value (COLUMNNAME_Description_PrintFormatItem_ID, Integer.valueOf(Description_PrintFormatItem_ID));
+		if (Description_PrintFormatItem_ID < 1) 
+			set_Value (COLUMNNAME_Description_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Description_PrintFormatItem_ID, Integer.valueOf(Description_PrintFormatItem_ID));
 	}
 
 	/** Get Description Column.
@@ -305,7 +309,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setGraphType (String GraphType)
 	{
-		if (GraphType == null) throw new IllegalArgumentException ("GraphType is mandatory");
+
 		set_Value (COLUMNNAME_GraphType, GraphType);
 	}
 
@@ -323,8 +327,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

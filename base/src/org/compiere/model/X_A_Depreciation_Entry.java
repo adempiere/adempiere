@@ -94,9 +94,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		@param A_Depreciation_Entry_ID A_Depreciation_Entry_ID	  */
 	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID)
 	{
-		if (A_Depreciation_Entry_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Entry_ID, Integer.valueOf(A_Depreciation_Entry_ID));
+		if (A_Depreciation_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Entry_ID, Integer.valueOf(A_Depreciation_Entry_ID));
 	}
 
 	/** Get A_Depreciation_Entry_ID.
@@ -135,7 +136,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		@param A_Entry_Type Entry Type	  */
 	public void setA_Entry_Type (String A_Entry_Type)
 	{
-		if (A_Entry_Type == null) throw new IllegalArgumentException ("A_Entry_Type is mandatory");
+
 		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
 	}
 
@@ -168,9 +169,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -206,9 +208,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -244,9 +247,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -266,9 +270,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_Value (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -288,8 +293,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -307,8 +310,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
@@ -326,8 +327,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -345,8 +344,6 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -380,9 +377,10 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID < 1)
-			 throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID < 1) 
+			set_Value (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -414,7 +412,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

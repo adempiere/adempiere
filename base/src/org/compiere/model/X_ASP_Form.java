@@ -96,9 +96,10 @@ public class X_ASP_Form extends PO implements I_ASP_Form, I_Persistent
 	  */
 	public void setAD_Form_ID (int AD_Form_ID)
 	{
-		if (AD_Form_ID < 1)
-			 throw new IllegalArgumentException ("AD_Form_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
+		if (AD_Form_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Form_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Form_ID, Integer.valueOf(AD_Form_ID));
 	}
 
 	/** Get Special Form.
@@ -152,9 +153,10 @@ public class X_ASP_Form extends PO implements I_ASP_Form, I_Persistent
 		@param ASP_Level_ID ASP Level	  */
 	public void setASP_Level_ID (int ASP_Level_ID)
 	{
-		if (ASP_Level_ID < 1)
-			 throw new IllegalArgumentException ("ASP_Level_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+		if (ASP_Level_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
 	}
 
 	/** Get ASP Level.
@@ -179,7 +181,7 @@ public class X_ASP_Form extends PO implements I_ASP_Form, I_Persistent
 		@param ASP_Status ASP Status	  */
 	public void setASP_Status (String ASP_Status)
 	{
-		if (ASP_Status == null) throw new IllegalArgumentException ("ASP_Status is mandatory");
+
 		set_Value (COLUMNNAME_ASP_Status, ASP_Status);
 	}
 

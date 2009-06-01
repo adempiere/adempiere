@@ -118,9 +118,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	  */
 	public void setM_DemandDetail_ID (int M_DemandDetail_ID)
 	{
-		if (M_DemandDetail_ID < 1)
-			 throw new IllegalArgumentException ("M_DemandDetail_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DemandDetail_ID, Integer.valueOf(M_DemandDetail_ID));
+		if (M_DemandDetail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DemandDetail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DemandDetail_ID, Integer.valueOf(M_DemandDetail_ID));
 	}
 
 	/** Get Demand Detail.
@@ -164,9 +165,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 	  */
 	public void setM_DemandLine_ID (int M_DemandLine_ID)
 	{
-		if (M_DemandLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DemandLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
+		if (M_DemandLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DemandLine_ID, Integer.valueOf(M_DemandLine_ID));
 	}
 
 	/** Get Demand Line.

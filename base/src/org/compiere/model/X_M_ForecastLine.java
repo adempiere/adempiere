@@ -104,9 +104,10 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -134,8 +135,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setDatePromised (Timestamp DatePromised)
 	{
-		if (DatePromised == null)
-			throw new IllegalArgumentException ("DatePromised is mandatory.");
 		set_Value (COLUMNNAME_DatePromised, DatePromised);
 	}
 
@@ -169,9 +168,10 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setM_Forecast_ID (int M_Forecast_ID)
 	{
-		if (M_Forecast_ID < 1)
-			 throw new IllegalArgumentException ("M_Forecast_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
+		if (M_Forecast_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
 	}
 
 	/** Get Forecast.
@@ -191,9 +191,10 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
 	{
-		if (M_ForecastLine_ID < 1)
-			 throw new IllegalArgumentException ("M_ForecastLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+		if (M_ForecastLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
 	}
 
 	/** Get Forecast Line.
@@ -229,9 +230,10 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -267,9 +269,10 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -289,8 +292,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 
@@ -311,8 +312,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	  */
 	public void setQtyCalculated (BigDecimal QtyCalculated)
 	{
-		if (QtyCalculated == null)
-			throw new IllegalArgumentException ("QtyCalculated is mandatory.");
 		set_Value (COLUMNNAME_QtyCalculated, QtyCalculated);
 	}
 

@@ -289,9 +289,10 @@ public class X_I_ElementValue extends PO implements I_I_ElementValue, I_Persiste
 	  */
 	public void setI_ElementValue_ID (int I_ElementValue_ID)
 	{
-		if (I_ElementValue_ID < 1)
-			 throw new IllegalArgumentException ("I_ElementValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_ElementValue_ID, Integer.valueOf(I_ElementValue_ID));
+		if (I_ElementValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_ElementValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_ElementValue_ID, Integer.valueOf(I_ElementValue_ID));
 	}
 
 	/** Get Import Account.

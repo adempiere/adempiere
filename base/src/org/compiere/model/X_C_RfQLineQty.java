@@ -89,8 +89,6 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	  */
 	public void setBenchmarkPrice (BigDecimal BenchmarkPrice)
 	{
-		if (BenchmarkPrice == null)
-			throw new IllegalArgumentException ("BenchmarkPrice is mandatory.");
 		set_Value (COLUMNNAME_BenchmarkPrice, BenchmarkPrice);
 	}
 
@@ -147,9 +145,10 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	  */
 	public void setC_RfQLine_ID (int C_RfQLine_ID)
 	{
-		if (C_RfQLine_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
+		if (C_RfQLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
 	}
 
 	/** Get RfQ Line.
@@ -169,9 +168,10 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	  */
 	public void setC_RfQLineQty_ID (int C_RfQLineQty_ID)
 	{
-		if (C_RfQLineQty_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQLineQty_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
+		if (C_RfQLineQty_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQLineQty_ID, Integer.valueOf(C_RfQLineQty_ID));
 	}
 
 	/** Get RfQ Line Quantity.
@@ -207,9 +207,10 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -349,8 +350,6 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

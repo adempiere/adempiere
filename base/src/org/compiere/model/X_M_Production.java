@@ -263,8 +263,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 
@@ -282,9 +280,10 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 	  */
 	public void setM_Production_ID (int M_Production_ID)
 	{
-		if (M_Production_ID < 1)
-			 throw new IllegalArgumentException ("M_Production_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+		if (M_Production_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
 	}
 
 	/** Get Production.
@@ -304,8 +303,6 @@ public class X_M_Production extends PO implements I_M_Production, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

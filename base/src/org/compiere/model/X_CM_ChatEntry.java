@@ -122,8 +122,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setCharacterData (String CharacterData)
 	{
-		if (CharacterData == null)
-			throw new IllegalArgumentException ("CharacterData is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CharacterData, CharacterData);
 	}
 
@@ -149,7 +147,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setChatEntryType (String ChatEntryType)
 	{
-		if (ChatEntryType == null) throw new IllegalArgumentException ("ChatEntryType is mandatory");
+
 		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
 	}
 
@@ -190,9 +188,10 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setCM_ChatEntry_ID (int CM_ChatEntry_ID)
 	{
-		if (CM_ChatEntry_ID < 1)
-			 throw new IllegalArgumentException ("CM_ChatEntry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, Integer.valueOf(CM_ChatEntry_ID));
+		if (CM_ChatEntry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, Integer.valueOf(CM_ChatEntry_ID));
 	}
 
 	/** Get Chat Entry.
@@ -259,9 +258,10 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setCM_Chat_ID (int CM_Chat_ID)
 	{
-		if (CM_Chat_ID < 1)
-			 throw new IllegalArgumentException ("CM_Chat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+		if (CM_Chat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
 	}
 
 	/** Get Chat.
@@ -291,7 +291,7 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	  */
 	public void setConfidentialType (String ConfidentialType)
 	{
-		if (ConfidentialType == null) throw new IllegalArgumentException ("ConfidentialType is mandatory");
+
 		set_Value (COLUMNNAME_ConfidentialType, ConfidentialType);
 	}
 

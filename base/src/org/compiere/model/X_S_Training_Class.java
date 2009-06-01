@@ -83,8 +83,6 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	  */
 	public void setEndDate (Timestamp EndDate)
 	{
-		if (EndDate == null)
-			throw new IllegalArgumentException ("EndDate is mandatory.");
 		set_Value (COLUMNNAME_EndDate, EndDate);
 	}
 
@@ -118,9 +116,10 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -140,8 +139,6 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	  */
 	public void setStartDate (Timestamp StartDate)
 	{
-		if (StartDate == null)
-			throw new IllegalArgumentException ("StartDate is mandatory.");
 		set_Value (COLUMNNAME_StartDate, StartDate);
 	}
 
@@ -167,9 +164,10 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	  */
 	public void setS_Training_Class_ID (int S_Training_Class_ID)
 	{
-		if (S_Training_Class_ID < 1)
-			 throw new IllegalArgumentException ("S_Training_Class_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, Integer.valueOf(S_Training_Class_ID));
+		if (S_Training_Class_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, Integer.valueOf(S_Training_Class_ID));
 	}
 
 	/** Get Training Class.
@@ -205,9 +203,10 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	  */
 	public void setS_Training_ID (int S_Training_ID)
 	{
-		if (S_Training_ID < 1)
-			 throw new IllegalArgumentException ("S_Training_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_Training_ID, Integer.valueOf(S_Training_ID));
+		if (S_Training_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Training_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Training_ID, Integer.valueOf(S_Training_ID));
 	}
 
 	/** Get Training.

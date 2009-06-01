@@ -86,8 +86,6 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setAmt (BigDecimal Amt)
 	{
-		if (Amt == null)
-			throw new IllegalArgumentException ("Amt is mandatory.");
 		set_Value (COLUMNNAME_Amt, Amt);
 	}
 
@@ -108,9 +106,10 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setC_InvoiceSchedule_ID (int C_InvoiceSchedule_ID)
 	{
-		if (C_InvoiceSchedule_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceSchedule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
+		if (C_InvoiceSchedule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceSchedule_ID, Integer.valueOf(C_InvoiceSchedule_ID));
 	}
 
 	/** Get Invoice Schedule.
@@ -221,7 +220,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setInvoiceFrequency (String InvoiceFrequency)
 	{
-		if (InvoiceFrequency == null) throw new IllegalArgumentException ("InvoiceFrequency is mandatory");
+
 		set_Value (COLUMNNAME_InvoiceFrequency, InvoiceFrequency);
 	}
 
@@ -255,7 +254,7 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setInvoiceWeekDay (String InvoiceWeekDay)
 	{
-		if (InvoiceWeekDay == null) throw new IllegalArgumentException ("InvoiceWeekDay is mandatory");
+
 		set_Value (COLUMNNAME_InvoiceWeekDay, InvoiceWeekDay);
 	}
 
@@ -355,8 +354,6 @@ public class X_C_InvoiceSchedule extends PO implements I_C_InvoiceSchedule, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

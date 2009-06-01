@@ -102,9 +102,10 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	  */
 	public void setC_Cycle_ID (int C_Cycle_ID)
 	{
-		if (C_Cycle_ID < 1)
-			 throw new IllegalArgumentException ("C_Cycle_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, Integer.valueOf(C_Cycle_ID));
+		if (C_Cycle_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Cycle_ID, Integer.valueOf(C_Cycle_ID));
 	}
 
 	/** Get Project Cycle.
@@ -124,9 +125,10 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	  */
 	public void setC_CycleStep_ID (int C_CycleStep_ID)
 	{
-		if (C_CycleStep_ID < 1)
-			 throw new IllegalArgumentException ("C_CycleStep_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
+		if (C_CycleStep_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CycleStep_ID, Integer.valueOf(C_CycleStep_ID));
 	}
 
 	/** Get Cycle Step.
@@ -146,8 +148,6 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -173,8 +173,6 @@ public class X_C_CycleStep extends PO implements I_C_CycleStep, I_Persistent
 	  */
 	public void setRelativeWeight (BigDecimal RelativeWeight)
 	{
-		if (RelativeWeight == null)
-			throw new IllegalArgumentException ("RelativeWeight is mandatory.");
 		set_Value (COLUMNNAME_RelativeWeight, RelativeWeight);
 	}
 

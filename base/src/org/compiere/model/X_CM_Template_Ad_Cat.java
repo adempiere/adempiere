@@ -96,9 +96,10 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	  */
 	public void setCM_Ad_Cat_ID (int CM_Ad_Cat_ID)
 	{
-		if (CM_Ad_Cat_ID < 1)
-			 throw new IllegalArgumentException ("CM_Ad_Cat_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_Ad_Cat_ID, Integer.valueOf(CM_Ad_Cat_ID));
+		if (CM_Ad_Cat_ID < 1) 
+			set_Value (COLUMNNAME_CM_Ad_Cat_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_Ad_Cat_ID, Integer.valueOf(CM_Ad_Cat_ID));
 	}
 
 	/** Get Advertisement Category.
@@ -134,9 +135,10 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	  */
 	public void setCM_Template_ID (int CM_Template_ID)
 	{
-		if (CM_Template_ID < 1)
-			 throw new IllegalArgumentException ("CM_Template_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_Template_ID, Integer.valueOf(CM_Template_ID));
+		if (CM_Template_ID < 1) 
+			set_Value (COLUMNNAME_CM_Template_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_Template_ID, Integer.valueOf(CM_Template_ID));
 	}
 
 	/** Get Template.
@@ -173,8 +175,6 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

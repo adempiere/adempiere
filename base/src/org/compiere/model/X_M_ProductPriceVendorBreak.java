@@ -86,8 +86,6 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setBreakValue (BigDecimal BreakValue)
 	{
-		if (BreakValue == null)
-			throw new IllegalArgumentException ("BreakValue is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_BreakValue, BreakValue);
 	}
 
@@ -108,9 +106,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -146,9 +145,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+		if (M_PriceList_Version_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
 	}
 
 	/** Get Price List Version.
@@ -184,9 +184,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -204,9 +205,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 		@param M_ProductPriceVendorBreak_ID Product Price Vendor Break	  */
 	public void setM_ProductPriceVendorBreak_ID (int M_ProductPriceVendorBreak_ID)
 	{
-		if (M_ProductPriceVendorBreak_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductPriceVendorBreak_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, Integer.valueOf(M_ProductPriceVendorBreak_ID));
+		if (M_ProductPriceVendorBreak_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductPriceVendorBreak_ID, Integer.valueOf(M_ProductPriceVendorBreak_ID));
 	}
 
 	/** Get Product Price Vendor Break.
@@ -225,8 +227,6 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setPriceLimit (BigDecimal PriceLimit)
 	{
-		if (PriceLimit == null)
-			throw new IllegalArgumentException ("PriceLimit is mandatory.");
 		set_Value (COLUMNNAME_PriceLimit, PriceLimit);
 	}
 
@@ -247,8 +247,6 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setPriceList (BigDecimal PriceList)
 	{
-		if (PriceList == null)
-			throw new IllegalArgumentException ("PriceList is mandatory.");
 		set_Value (COLUMNNAME_PriceList, PriceList);
 	}
 
@@ -269,8 +267,6 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 	  */
 	public void setPriceStd (BigDecimal PriceStd)
 	{
-		if (PriceStd == null)
-			throw new IllegalArgumentException ("PriceStd is mandatory.");
 		set_Value (COLUMNNAME_PriceStd, PriceStd);
 	}
 

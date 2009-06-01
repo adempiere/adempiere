@@ -194,9 +194,10 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -286,9 +287,10 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 	  */
 	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
 	{
-		if (C_TaxDeclarationAcct_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxDeclarationAcct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
+		if (C_TaxDeclarationAcct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
 	}
 
 	/** Get Tax Declaration Accounting.
@@ -324,9 +326,10 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 	  */
 	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 	{
-		if (C_TaxDeclaration_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
+		if (C_TaxDeclaration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
 	}
 
 	/** Get Tax Declaration.
@@ -428,9 +431,10 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
 	{
-		if (Fact_Acct_ID < 1)
-			 throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
+		if (Fact_Acct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
 	}
 
 	/** Get Accounting Fact.

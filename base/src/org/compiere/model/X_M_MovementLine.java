@@ -194,7 +194,7 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -240,9 +240,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -262,9 +263,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
 	{
-		if (M_LocatorTo_ID < 1)
-			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
-		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+		if (M_LocatorTo_ID < 1) 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
 	}
 
 	/** Get Locator To.
@@ -300,9 +302,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		if (M_Movement_ID < 1)
-			 throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
+		if (M_Movement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
 	}
 
 	/** Get Inventory Move.
@@ -322,9 +325,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_MovementLine_ID (int M_MovementLine_ID)
 	{
-		if (M_MovementLine_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+		if (M_MovementLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
 	}
 
 	/** Get Move Line.
@@ -344,8 +348,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
 		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
@@ -366,9 +368,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -455,8 +458,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	  */
 	public void setTargetQty (BigDecimal TargetQty)
 	{
-		if (TargetQty == null)
-			throw new IllegalArgumentException ("TargetQty is mandatory.");
 		set_Value (COLUMNNAME_TargetQty, TargetQty);
 	}
 

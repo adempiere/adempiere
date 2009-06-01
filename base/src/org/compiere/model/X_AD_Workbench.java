@@ -103,9 +103,10 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -148,9 +149,10 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+		if (AD_Workbench_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
 	}
 
 	/** Get Workbench.
@@ -224,8 +226,6 @@ public class X_AD_Workbench extends PO implements I_AD_Workbench, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

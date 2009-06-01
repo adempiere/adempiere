@@ -79,9 +79,10 @@ public class X_C_Activity extends PO implements I_C_Activity, I_Persistent
 	  */
 	public void setC_Activity_ID (int C_Activity_ID)
 	{
-		if (C_Activity_ID < 1)
-			 throw new IllegalArgumentException ("C_Activity_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
+		if (C_Activity_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Activity_ID, Integer.valueOf(C_Activity_ID));
 	}
 
 	/** Get Activity.
@@ -159,8 +160,6 @@ public class X_C_Activity extends PO implements I_C_Activity, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -186,8 +185,6 @@ public class X_C_Activity extends PO implements I_C_Activity, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

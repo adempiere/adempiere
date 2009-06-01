@@ -400,9 +400,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -633,9 +634,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -671,9 +673,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -847,9 +850,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setC_Payment_ID (int C_Payment_ID)
 	{
-		if (C_Payment_ID < 1)
-			 throw new IllegalArgumentException ("C_Payment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+		if (C_Payment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
 	}
 
 	/** Get Payment.
@@ -1016,8 +1020,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -1035,8 +1037,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_Value (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -1121,7 +1121,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -1165,7 +1165,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -1183,8 +1183,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -1497,8 +1495,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setPayAmt (BigDecimal PayAmt)
 	{
-		if (PayAmt == null)
-			throw new IllegalArgumentException ("PayAmt is mandatory.");
 		set_Value (COLUMNNAME_PayAmt, PayAmt);
 	}
 
@@ -1911,7 +1907,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setTenderType (String TenderType)
 	{
-		if (TenderType == null) throw new IllegalArgumentException ("TenderType is mandatory");
+
 		set_Value (COLUMNNAME_TenderType, TenderType);
 	}
 
@@ -1943,7 +1939,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	  */
 	public void setTrxType (String TrxType)
 	{
-		if (TrxType == null) throw new IllegalArgumentException ("TrxType is mandatory");
+
 		set_Value (COLUMNNAME_TrxType, TrxType);
 	}
 

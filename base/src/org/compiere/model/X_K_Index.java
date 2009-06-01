@@ -99,9 +99,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -137,7 +138,7 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -216,8 +217,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setKeyword (String Keyword)
 	{
-		if (Keyword == null)
-			throw new IllegalArgumentException ("Keyword is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Keyword, Keyword);
 	}
 
@@ -243,9 +242,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setK_INDEX_ID (int K_INDEX_ID)
 	{
-		if (K_INDEX_ID < 1)
-			 throw new IllegalArgumentException ("K_INDEX_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
+		if (K_INDEX_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
 	}
 
 	/** Get Index.
@@ -265,9 +265,10 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -326,8 +327,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	  */
 	public void setSourceUpdated (Timestamp SourceUpdated)
 	{
-		if (SourceUpdated == null)
-			throw new IllegalArgumentException ("SourceUpdated is mandatory.");
 		set_Value (COLUMNNAME_SourceUpdated, SourceUpdated);
 	}
 

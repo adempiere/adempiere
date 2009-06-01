@@ -103,9 +103,10 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -176,8 +177,6 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setMeasureActual (BigDecimal MeasureActual)
 	{
-		if (MeasureActual == null)
-			throw new IllegalArgumentException ("MeasureActual is mandatory.");
 		set_Value (COLUMNNAME_MeasureActual, MeasureActual);
 	}
 
@@ -198,8 +197,6 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setMeasureTarget (BigDecimal MeasureTarget)
 	{
-		if (MeasureTarget == null)
-			throw new IllegalArgumentException ("MeasureTarget is mandatory.");
 		set_Value (COLUMNNAME_MeasureTarget, MeasureTarget);
 	}
 
@@ -220,8 +217,6 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -263,9 +258,10 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setPA_SLA_Criteria_ID (int PA_SLA_Criteria_ID)
 	{
-		if (PA_SLA_Criteria_ID < 1)
-			 throw new IllegalArgumentException ("PA_SLA_Criteria_ID is mandatory.");
-		set_Value (COLUMNNAME_PA_SLA_Criteria_ID, Integer.valueOf(PA_SLA_Criteria_ID));
+		if (PA_SLA_Criteria_ID < 1) 
+			set_Value (COLUMNNAME_PA_SLA_Criteria_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_SLA_Criteria_ID, Integer.valueOf(PA_SLA_Criteria_ID));
 	}
 
 	/** Get SLA Criteria.
@@ -285,9 +281,10 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
 	  */
 	public void setPA_SLA_Goal_ID (int PA_SLA_Goal_ID)
 	{
-		if (PA_SLA_Goal_ID < 1)
-			 throw new IllegalArgumentException ("PA_SLA_Goal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, Integer.valueOf(PA_SLA_Goal_ID));
+		if (PA_SLA_Goal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, Integer.valueOf(PA_SLA_Goal_ID));
 	}
 
 	/** Get SLA Goal.

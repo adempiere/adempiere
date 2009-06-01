@@ -78,9 +78,10 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 		@param AD_SysConfig_ID System Configurator	  */
 	public void setAD_SysConfig_ID (int AD_SysConfig_ID)
 	{
-		if (AD_SysConfig_ID < 1)
-			 throw new IllegalArgumentException ("AD_SysConfig_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_SysConfig_ID, Integer.valueOf(AD_SysConfig_ID));
+		if (AD_SysConfig_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_SysConfig_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_SysConfig_ID, Integer.valueOf(AD_SysConfig_ID));
 	}
 
 	/** Get System Configurator.
@@ -162,8 +163,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -189,8 +188,6 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

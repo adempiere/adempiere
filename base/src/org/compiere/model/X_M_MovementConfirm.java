@@ -154,7 +154,7 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -198,7 +198,7 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -216,8 +216,6 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -306,9 +304,10 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
 	{
-		if (M_MovementConfirm_ID < 1)
-			 throw new IllegalArgumentException ("M_MovementConfirm_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
+		if (M_MovementConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
 	}
 
 	/** Get Move Confirm.
@@ -344,9 +343,10 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	  */
 	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		if (M_Movement_ID < 1)
-			 throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
+		if (M_Movement_ID < 1) 
+			set_Value (COLUMNNAME_M_Movement_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
 	}
 
 	/** Get Inventory Move.

@@ -136,7 +136,7 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -955,9 +955,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_RequestAction_ID (int R_RequestAction_ID)
 	{
-		if (R_RequestAction_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestAction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, Integer.valueOf(R_RequestAction_ID));
+		if (R_RequestAction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, Integer.valueOf(R_RequestAction_ID));
 	}
 
 	/** Get Request History.
@@ -993,9 +994,10 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	  */
 	public void setR_Request_ID (int R_Request_ID)
 	{
-		if (R_Request_ID < 1)
-			 throw new IllegalArgumentException ("R_Request_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+		if (R_Request_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
 	}
 
 	/** Get Request.

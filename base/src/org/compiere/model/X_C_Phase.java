@@ -86,9 +86,10 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	  */
 	public void setC_Phase_ID (int C_Phase_ID)
 	{
-		if (C_Phase_ID < 1)
-			 throw new IllegalArgumentException ("C_Phase_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
+		if (C_Phase_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Phase_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Phase_ID, Integer.valueOf(C_Phase_ID));
 	}
 
 	/** Get Standard Phase.
@@ -124,9 +125,10 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	  */
 	public void setC_ProjectType_ID (int C_ProjectType_ID)
 	{
-		if (C_ProjectType_ID < 1)
-			 throw new IllegalArgumentException ("C_ProjectType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
+		if (C_ProjectType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectType_ID, Integer.valueOf(C_ProjectType_ID));
 	}
 
 	/** Get Project Type.
@@ -219,8 +221,6 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -266,8 +266,6 @@ public class X_C_Phase extends PO implements I_C_Phase, I_Persistent
 	  */
 	public void setStandardQty (BigDecimal StandardQty)
 	{
-		if (StandardQty == null)
-			throw new IllegalArgumentException ("StandardQty is mandatory.");
 		set_Value (COLUMNNAME_StandardQty, StandardQty);
 	}
 

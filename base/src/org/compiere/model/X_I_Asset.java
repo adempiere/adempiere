@@ -1087,9 +1087,10 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		@param I_Asset_ID I_Asset_ID	  */
 	public void setI_Asset_ID (int I_Asset_ID)
 	{
-		if (I_Asset_ID < 1)
-			 throw new IllegalArgumentException ("I_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_Asset_ID, Integer.valueOf(I_Asset_ID));
+		if (I_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Asset_ID, Integer.valueOf(I_Asset_ID));
 	}
 
 	/** Get I_Asset_ID.
@@ -1328,7 +1329,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));

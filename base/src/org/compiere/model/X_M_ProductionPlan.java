@@ -134,9 +134,10 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -156,9 +157,10 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -194,9 +196,10 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setM_Production_ID (int M_Production_ID)
 	{
-		if (M_Production_ID < 1)
-			 throw new IllegalArgumentException ("M_Production_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+		if (M_Production_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
 	}
 
 	/** Get Production.
@@ -216,9 +219,10 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setM_ProductionPlan_ID (int M_ProductionPlan_ID)
 	{
-		if (M_ProductionPlan_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductionPlan_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductionPlan_ID, Integer.valueOf(M_ProductionPlan_ID));
+		if (M_ProductionPlan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionPlan_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionPlan_ID, Integer.valueOf(M_ProductionPlan_ID));
 	}
 
 	/** Get Production Plan.
@@ -262,8 +266,6 @@ public class X_M_ProductionPlan extends PO implements I_M_ProductionPlan, I_Pers
 	  */
 	public void setProductionQty (BigDecimal ProductionQty)
 	{
-		if (ProductionQty == null)
-			throw new IllegalArgumentException ("ProductionQty is mandatory.");
 		set_Value (COLUMNNAME_ProductionQty, ProductionQty);
 	}
 

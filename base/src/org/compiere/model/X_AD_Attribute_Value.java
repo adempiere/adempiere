@@ -75,9 +75,10 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		@param AD_Attribute_ID System Attribute	  */
 	public void setAD_Attribute_ID (int AD_Attribute_ID)
 	{
-		if (AD_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("AD_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, Integer.valueOf(AD_Attribute_ID));
+		if (AD_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Attribute_ID, Integer.valueOf(AD_Attribute_ID));
 	}
 
 	/** Get System Attribute.
@@ -96,9 +97,10 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

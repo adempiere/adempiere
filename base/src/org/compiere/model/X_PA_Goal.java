@@ -107,7 +107,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -237,8 +237,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setGoalPerformance (BigDecimal GoalPerformance)
 	{
-		if (GoalPerformance == null)
-			throw new IllegalArgumentException ("GoalPerformance is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_GoalPerformance, GoalPerformance);
 	}
 
@@ -283,8 +281,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setMeasureActual (BigDecimal MeasureActual)
 	{
-		if (MeasureActual == null)
-			throw new IllegalArgumentException ("MeasureActual is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_MeasureActual, MeasureActual);
 	}
 
@@ -351,7 +347,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setMeasureScope (String MeasureScope)
 	{
-		if (MeasureScope == null) throw new IllegalArgumentException ("MeasureScope is mandatory");
+
 		set_Value (COLUMNNAME_MeasureScope, MeasureScope);
 	}
 
@@ -369,8 +365,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setMeasureTarget (BigDecimal MeasureTarget)
 	{
-		if (MeasureTarget == null)
-			throw new IllegalArgumentException ("MeasureTarget is mandatory.");
 		set_Value (COLUMNNAME_MeasureTarget, MeasureTarget);
 	}
 
@@ -391,8 +385,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -451,9 +443,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
 	{
-		if (PA_ColorSchema_ID < 1)
-			 throw new IllegalArgumentException ("PA_ColorSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_PA_ColorSchema_ID, Integer.valueOf(PA_ColorSchema_ID));
+		if (PA_ColorSchema_ID < 1) 
+			set_Value (COLUMNNAME_PA_ColorSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ColorSchema_ID, Integer.valueOf(PA_ColorSchema_ID));
 	}
 
 	/** Get Color Schema.
@@ -473,9 +466,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setPA_Goal_ID (int PA_Goal_ID)
 	{
-		if (PA_Goal_ID < 1)
-			 throw new IllegalArgumentException ("PA_Goal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
+		if (PA_Goal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
 	}
 
 	/** Get Goal.
@@ -557,8 +551,6 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	  */
 	public void setRelativeWeight (BigDecimal RelativeWeight)
 	{
-		if (RelativeWeight == null)
-			throw new IllegalArgumentException ("RelativeWeight is mandatory.");
 		set_Value (COLUMNNAME_RelativeWeight, RelativeWeight);
 	}
 

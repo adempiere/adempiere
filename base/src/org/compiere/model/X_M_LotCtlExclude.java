@@ -96,9 +96,10 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -142,9 +143,10 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 	  */
 	public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID)
 	{
-		if (M_LotCtlExclude_ID < 1)
-			 throw new IllegalArgumentException ("M_LotCtlExclude_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, Integer.valueOf(M_LotCtlExclude_ID));
+		if (M_LotCtlExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, Integer.valueOf(M_LotCtlExclude_ID));
 	}
 
 	/** Get Exclude Lot.
@@ -180,9 +182,10 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 	  */
 	public void setM_LotCtl_ID (int M_LotCtl_ID)
 	{
-		if (M_LotCtl_ID < 1)
-			 throw new IllegalArgumentException ("M_LotCtl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
+		if (M_LotCtl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtl_ID, Integer.valueOf(M_LotCtl_ID));
 	}
 
 	/** Get Lot Control.

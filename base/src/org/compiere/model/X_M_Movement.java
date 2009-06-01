@@ -354,9 +354,10 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -610,7 +611,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -654,7 +655,7 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -672,8 +673,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -795,9 +794,10 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setM_Movement_ID (int M_Movement_ID)
 	{
-		if (M_Movement_ID < 1)
-			 throw new IllegalArgumentException ("M_Movement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
+		if (M_Movement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Movement_ID, Integer.valueOf(M_Movement_ID));
 	}
 
 	/** Get Inventory Move.
@@ -817,8 +817,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 

@@ -334,7 +334,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setMandatoryType (String MandatoryType)
 	{
-		if (MandatoryType == null) throw new IllegalArgumentException ("MandatoryType is mandatory");
+
 		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
 	}
 
@@ -352,9 +352,10 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+		if (M_AttributeSet_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
 	/** Get Attribute Set.
@@ -452,8 +453,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

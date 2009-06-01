@@ -100,9 +100,10 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID)
 	{
-		if (C_RevenueRecognition_Plan_ID < 1)
-			 throw new IllegalArgumentException ("C_RevenueRecognition_Plan_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
+		if (C_RevenueRecognition_Plan_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RevenueRecognition_Plan_ID, Integer.valueOf(C_RevenueRecognition_Plan_ID));
 	}
 
 	/** Get Revenue Recognition Plan.
@@ -122,9 +123,10 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID)
 	{
-		if (C_ServiceLevel_ID < 1)
-			 throw new IllegalArgumentException ("C_ServiceLevel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, Integer.valueOf(C_ServiceLevel_ID));
+		if (C_ServiceLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, Integer.valueOf(C_ServiceLevel_ID));
 	}
 
 	/** Get Service Level.
@@ -185,9 +187,10 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -252,8 +255,6 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setServiceLevelInvoiced (BigDecimal ServiceLevelInvoiced)
 	{
-		if (ServiceLevelInvoiced == null)
-			throw new IllegalArgumentException ("ServiceLevelInvoiced is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_ServiceLevelInvoiced, ServiceLevelInvoiced);
 	}
 
@@ -274,8 +275,6 @@ public class X_C_ServiceLevel extends PO implements I_C_ServiceLevel, I_Persiste
 	  */
 	public void setServiceLevelProvided (BigDecimal ServiceLevelProvided)
 	{
-		if (ServiceLevelProvided == null)
-			throw new IllegalArgumentException ("ServiceLevelProvided is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_ServiceLevelProvided, ServiceLevelProvided);
 	}
 

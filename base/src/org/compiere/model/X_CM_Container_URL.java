@@ -82,8 +82,6 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	  */
 	public void setChecked (Timestamp Checked)
 	{
-		if (Checked == null)
-			throw new IllegalArgumentException ("Checked is mandatory.");
 		set_Value (COLUMNNAME_Checked, Checked);
 	}
 
@@ -117,9 +115,10 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	  */
 	public void setCM_Container_ID (int CM_Container_ID)
 	{
-		if (CM_Container_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_ID is mandatory.");
-		set_Value (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+		if (CM_Container_ID < 1) 
+			set_Value (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_Value (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
 	}
 
 	/** Get Web Container.
@@ -139,9 +138,10 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	  */
 	public void setCM_Container_URL_ID (int CM_Container_URL_ID)
 	{
-		if (CM_Container_URL_ID < 1)
-			 throw new IllegalArgumentException ("CM_Container_URL_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Container_URL_ID, Integer.valueOf(CM_Container_URL_ID));
+		if (CM_Container_URL_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_URL_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_URL_ID, Integer.valueOf(CM_Container_URL_ID));
 	}
 
 	/** Get Container URL.
@@ -161,8 +161,6 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	  */
 	public void setLast_Result (String Last_Result)
 	{
-		if (Last_Result == null)
-			throw new IllegalArgumentException ("Last_Result is mandatory.");
 		set_Value (COLUMNNAME_Last_Result, Last_Result);
 	}
 
@@ -180,8 +178,6 @@ public class X_CM_Container_URL extends PO implements I_CM_Container_URL, I_Pers
 	  */
 	public void setStatus (String Status)
 	{
-		if (Status == null)
-			throw new IllegalArgumentException ("Status is mandatory.");
 		set_Value (COLUMNNAME_Status, Status);
 	}
 

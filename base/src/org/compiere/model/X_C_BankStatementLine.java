@@ -117,9 +117,10 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setC_BankStatement_ID (int C_BankStatement_ID)
 	{
-		if (C_BankStatement_ID < 1)
-			 throw new IllegalArgumentException ("C_BankStatement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
+		if (C_BankStatement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatement_ID, Integer.valueOf(C_BankStatement_ID));
 	}
 
 	/** Get Bank Statement.
@@ -139,9 +140,10 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setC_BankStatementLine_ID (int C_BankStatementLine_ID)
 	{
-		if (C_BankStatementLine_ID < 1)
-			 throw new IllegalArgumentException ("C_BankStatementLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankStatementLine_ID, Integer.valueOf(C_BankStatementLine_ID));
+		if (C_BankStatementLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementLine_ID, Integer.valueOf(C_BankStatementLine_ID));
 	}
 
 	/** Get Bank statement line.
@@ -216,9 +218,10 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1)
-			 throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -254,9 +257,10 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -276,8 +280,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setChargeAmt (BigDecimal ChargeAmt)
 	{
-		if (ChargeAmt == null)
-			throw new IllegalArgumentException ("ChargeAmt is mandatory.");
 		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
 	}
 
@@ -390,8 +392,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -616,8 +616,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setInterestAmt (BigDecimal InterestAmt)
 	{
-		if (InterestAmt == null)
-			throw new IllegalArgumentException ("InterestAmt is mandatory.");
 		set_Value (COLUMNNAME_InterestAmt, InterestAmt);
 	}
 
@@ -786,8 +784,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setStatementLineDate (Timestamp StatementLineDate)
 	{
-		if (StatementLineDate == null)
-			throw new IllegalArgumentException ("StatementLineDate is mandatory.");
 		set_Value (COLUMNNAME_StatementLineDate, StatementLineDate);
 	}
 
@@ -805,8 +801,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setStmtAmt (BigDecimal StmtAmt)
 	{
-		if (StmtAmt == null)
-			throw new IllegalArgumentException ("StmtAmt is mandatory.");
 		set_Value (COLUMNNAME_StmtAmt, StmtAmt);
 	}
 
@@ -827,8 +821,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setTrxAmt (BigDecimal TrxAmt)
 	{
-		if (TrxAmt == null)
-			throw new IllegalArgumentException ("TrxAmt is mandatory.");
 		set_Value (COLUMNNAME_TrxAmt, TrxAmt);
 	}
 
@@ -849,8 +841,6 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	  */
 	public void setValutaDate (Timestamp ValutaDate)
 	{
-		if (ValutaDate == null)
-			throw new IllegalArgumentException ("ValutaDate is mandatory.");
 		set_Value (COLUMNNAME_ValutaDate, ValutaDate);
 	}
 

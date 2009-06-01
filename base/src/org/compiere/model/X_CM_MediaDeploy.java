@@ -81,9 +81,10 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	  */
 	public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID)
 	{
-		if (CM_MediaDeploy_ID < 1)
-			 throw new IllegalArgumentException ("CM_MediaDeploy_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, Integer.valueOf(CM_MediaDeploy_ID));
+		if (CM_MediaDeploy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, Integer.valueOf(CM_MediaDeploy_ID));
 	}
 
 	/** Get Media Deploy.
@@ -119,9 +120,10 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	  */
 	public void setCM_Media_ID (int CM_Media_ID)
 	{
-		if (CM_Media_ID < 1)
-			 throw new IllegalArgumentException ("CM_Media_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
+		if (CM_Media_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_ID, Integer.valueOf(CM_Media_ID));
 	}
 
 	/** Get Media Item.
@@ -157,9 +159,10 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	  */
 	public void setCM_Media_Server_ID (int CM_Media_Server_ID)
 	{
-		if (CM_Media_Server_ID < 1)
-			 throw new IllegalArgumentException ("CM_Media_Server_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, Integer.valueOf(CM_Media_Server_ID));
+		if (CM_Media_Server_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Media_Server_ID, Integer.valueOf(CM_Media_Server_ID));
 	}
 
 	/** Get Media Server.

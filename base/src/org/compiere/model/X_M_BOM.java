@@ -104,7 +104,7 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setBOMType (String BOMType)
 	{
-		if (BOMType == null) throw new IllegalArgumentException ("BOMType is mandatory");
+
 		set_Value (COLUMNNAME_BOMType, BOMType);
 	}
 
@@ -134,7 +134,7 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setBOMUse (String BOMUse)
 	{
-		if (BOMUse == null) throw new IllegalArgumentException ("BOMUse is mandatory");
+
 		set_Value (COLUMNNAME_BOMUse, BOMUse);
 	}
 
@@ -186,9 +186,10 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setM_BOM_ID (int M_BOM_ID)
 	{
-		if (M_BOM_ID < 1)
-			 throw new IllegalArgumentException ("M_BOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+		if (M_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
 	}
 
 	/** Get BOM.
@@ -263,9 +264,10 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -285,8 +287,6 @@ public class X_M_BOM extends PO implements I_M_BOM, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

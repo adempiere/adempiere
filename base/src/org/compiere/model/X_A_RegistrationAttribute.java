@@ -81,9 +81,10 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setAD_Reference_ID (int AD_Reference_ID)
 	{
-		if (AD_Reference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Reference_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
 	}
 
 	/** Get Reference.
@@ -126,9 +127,10 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
 	{
-		if (A_RegistrationAttribute_ID < 1)
-			 throw new IllegalArgumentException ("A_RegistrationAttribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
+		if (A_RegistrationAttribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
 	}
 
 	/** Get Registration Attribute.
@@ -206,8 +208,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

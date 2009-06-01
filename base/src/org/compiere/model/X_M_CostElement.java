@@ -91,7 +91,7 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	  */
 	public void setCostElementType (String CostElementType)
 	{
-		if (CostElementType == null) throw new IllegalArgumentException ("CostElementType is mandatory");
+
 		set_Value (COLUMNNAME_CostElementType, CostElementType);
 	}
 
@@ -188,9 +188,10 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	  */
 	public void setM_CostElement_ID (int M_CostElement_ID)
 	{
-		if (M_CostElement_ID < 1)
-			 throw new IllegalArgumentException ("M_CostElement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
+		if (M_CostElement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_CostElement_ID, Integer.valueOf(M_CostElement_ID));
 	}
 
 	/** Get Cost Element.
@@ -210,8 +211,6 @@ public class X_M_CostElement extends PO implements I_M_CostElement, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

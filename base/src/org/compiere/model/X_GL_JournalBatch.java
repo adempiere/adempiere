@@ -149,9 +149,10 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -265,8 +266,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -314,7 +313,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -358,7 +357,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -376,8 +375,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -442,9 +439,10 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
 	{
-		if (GL_JournalBatch_ID < 1)
-			 throw new IllegalArgumentException ("GL_JournalBatch_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+		if (GL_JournalBatch_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
 	}
 
 	/** Get Journal Batch.
@@ -500,7 +498,7 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 
@@ -586,8 +584,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setTotalCr (BigDecimal TotalCr)
 	{
-		if (TotalCr == null)
-			throw new IllegalArgumentException ("TotalCr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalCr, TotalCr);
 	}
 
@@ -608,8 +604,6 @@ public class X_GL_JournalBatch extends PO implements I_GL_JournalBatch, I_Persis
 	  */
 	public void setTotalDr (BigDecimal TotalDr)
 	{
-		if (TotalDr == null)
-			throw new IllegalArgumentException ("TotalDr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalDr, TotalDr);
 	}
 

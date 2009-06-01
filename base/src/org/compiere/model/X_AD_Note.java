@@ -79,9 +79,10 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 	  */
 	public void setAD_Message_ID (int AD_Message_ID)
 	{
-		if (AD_Message_ID < 1)
-			 throw new IllegalArgumentException ("AD_Message_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
+		if (AD_Message_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Message_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Message_ID, Integer.valueOf(AD_Message_ID));
 	}
 
 	/** Get Message.
@@ -109,9 +110,10 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 	  */
 	public void setAD_Note_ID (int AD_Note_ID)
 	{
-		if (AD_Note_ID < 1)
-			 throw new IllegalArgumentException ("AD_Note_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Note_ID, Integer.valueOf(AD_Note_ID));
+		if (AD_Note_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Note_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Note_ID, Integer.valueOf(AD_Note_ID));
 	}
 
 	/** Get Notice.
@@ -310,7 +312,7 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

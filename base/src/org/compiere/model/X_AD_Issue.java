@@ -169,9 +169,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setAD_Issue_ID (int AD_Issue_ID)
 	{
-		if (AD_Issue_ID < 1)
-			 throw new IllegalArgumentException ("AD_Issue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Issue_ID, Integer.valueOf(AD_Issue_ID));
+		if (AD_Issue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Issue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Issue_ID, Integer.valueOf(AD_Issue_ID));
 	}
 
 	/** Get System Issue.
@@ -395,8 +396,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setIssueSummary (String IssueSummary)
 	{
-		if (IssueSummary == null)
-			throw new IllegalArgumentException ("IssueSummary is mandatory.");
 		set_Value (COLUMNNAME_IssueSummary, IssueSummary);
 	}
 
@@ -517,8 +516,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Name, Name);
 	}
 
@@ -615,7 +612,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
 		else 
 			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
@@ -638,8 +635,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
-		if (ReleaseNo == null)
-			throw new IllegalArgumentException ("ReleaseNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
@@ -1030,7 +1025,7 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setSystemStatus (String SystemStatus)
 	{
-		if (SystemStatus == null) throw new IllegalArgumentException ("SystemStatus is mandatory");
+
 		set_Value (COLUMNNAME_SystemStatus, SystemStatus);
 	}
 
@@ -1048,8 +1043,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setUserName (String UserName)
 	{
-		if (UserName == null)
-			throw new IllegalArgumentException ("UserName is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_UserName, UserName);
 	}
 
@@ -1067,8 +1060,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 	  */
 	public void setVersion (String Version)
 	{
-		if (Version == null)
-			throw new IllegalArgumentException ("Version is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Version, Version);
 	}
 

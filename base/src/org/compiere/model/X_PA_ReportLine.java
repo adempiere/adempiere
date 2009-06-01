@@ -240,7 +240,7 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		@param LineType Line Type	  */
 	public void setLineType (String LineType)
 	{
-		if (LineType == null) throw new IllegalArgumentException ("LineType is mandatory");
+
 		set_Value (COLUMNNAME_LineType, LineType);
 	}
 
@@ -257,8 +257,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -328,9 +326,10 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		@param PA_ReportLine_ID Report Line	  */
 	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
 	{
-		if (PA_ReportLine_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+		if (PA_ReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
 	}
 
 	/** Get Report Line.
@@ -363,9 +362,10 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		@param PA_ReportLineSet_ID Report Line Set	  */
 	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 	{
-		if (PA_ReportLineSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
+		if (PA_ReportLineSet_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
 	}
 
 	/** Get Report Line Set.

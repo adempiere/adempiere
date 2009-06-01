@@ -141,9 +141,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -179,9 +180,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setC_Calendar_ID (int C_Calendar_ID)
 	{
-		if (C_Calendar_ID < 1)
-			 throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
+		if (C_Calendar_ID < 1) 
+			set_Value (COLUMNNAME_C_Calendar_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
 	}
 
 	/** Get Calendar.
@@ -303,8 +305,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -346,9 +346,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID)
 	{
-		if (PA_ReportColumnSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportColumnSet_ID is mandatory.");
-		set_Value (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
+		if (PA_ReportColumnSet_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportColumnSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportColumnSet_ID, Integer.valueOf(PA_ReportColumnSet_ID));
 	}
 
 	/** Get Report Column Set.
@@ -368,9 +369,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	  */
 	public void setPA_Report_ID (int PA_Report_ID)
 	{
-		if (PA_Report_ID < 1)
-			 throw new IllegalArgumentException ("PA_Report_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
+		if (PA_Report_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
 	}
 
 	/** Get Financial Report.
@@ -404,9 +406,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		@param PA_ReportLineSet_ID Report Line Set	  */
 	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
 	{
-		if (PA_ReportLineSet_ID < 1)
-			 throw new IllegalArgumentException ("PA_ReportLineSet_ID is mandatory.");
-		set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
+		if (PA_ReportLineSet_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
 	}
 
 	/** Get Report Line Set.

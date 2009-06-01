@@ -88,9 +88,10 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		@param A_Asset_Disposed_ID A_Asset_Disposed_ID	  */
 	public void setA_Asset_Disposed_ID (int A_Asset_Disposed_ID)
 	{
-		if (A_Asset_Disposed_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Disposed_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Disposed_ID, Integer.valueOf(A_Asset_Disposed_ID));
+		if (A_Asset_Disposed_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Disposed_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Disposed_ID, Integer.valueOf(A_Asset_Disposed_ID));
 	}
 
 	/** Get A_Asset_Disposed_ID.
@@ -117,9 +118,10 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
-		if (A_Asset_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+		if (A_Asset_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Asset.
@@ -157,8 +159,6 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		@param A_Disposed_Date Disposed Date	  */
 	public void setA_Disposed_Date (Timestamp A_Disposed_Date)
 	{
-		if (A_Disposed_Date == null)
-			throw new IllegalArgumentException ("A_Disposed_Date is mandatory.");
 		set_Value (COLUMNNAME_A_Disposed_Date, A_Disposed_Date);
 	}
 
@@ -183,7 +183,7 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		@param A_Disposed_Method Disposal Method	  */
 	public void setA_Disposed_Method (String A_Disposed_Method)
 	{
-		if (A_Disposed_Method == null) throw new IllegalArgumentException ("A_Disposed_Method is mandatory");
+
 		set_Value (COLUMNNAME_A_Disposed_Method, A_Disposed_Method);
 	}
 
@@ -212,7 +212,7 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		@param A_Disposed_Reason Disposed Reason Code	  */
 	public void setA_Disposed_Reason (String A_Disposed_Reason)
 	{
-		if (A_Disposed_Reason == null) throw new IllegalArgumentException ("A_Disposed_Reason is mandatory");
+
 		set_Value (COLUMNNAME_A_Disposed_Reason, A_Disposed_Reason);
 	}
 
@@ -246,9 +246,10 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_Value (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -268,8 +269,6 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -287,8 +286,6 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 

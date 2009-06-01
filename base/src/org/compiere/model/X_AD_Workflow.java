@@ -114,7 +114,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
@@ -249,9 +249,10 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -310,8 +311,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setAuthor (String Author)
 	{
-		if (Author == null)
-			throw new IllegalArgumentException ("Author is mandatory.");
 		set_Value (COLUMNNAME_Author, Author);
 	}
 
@@ -329,8 +328,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setCost (BigDecimal Cost)
 	{
-		if (Cost == null)
-			throw new IllegalArgumentException ("Cost is mandatory.");
 		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
@@ -600,8 +597,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -706,7 +701,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setPublishStatus (String PublishStatus)
 	{
-		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
+
 		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
@@ -885,8 +880,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -956,7 +949,7 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	  */
 	public void setWorkflowType (String WorkflowType)
 	{
-		if (WorkflowType == null) throw new IllegalArgumentException ("WorkflowType is mandatory");
+
 		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}
 

@@ -77,9 +77,10 @@ public class X_C_Calendar extends PO implements I_C_Calendar, I_Persistent
 	  */
 	public void setC_Calendar_ID (int C_Calendar_ID)
 	{
-		if (C_Calendar_ID < 1)
-			 throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
+		if (C_Calendar_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
 	}
 
 	/** Get Calendar.
@@ -116,8 +117,6 @@ public class X_C_Calendar extends PO implements I_C_Calendar, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

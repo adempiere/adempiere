@@ -114,9 +114,10 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	  */
 	public void setM_Attribute_ID (int M_Attribute_ID)
 	{
-		if (M_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
 	}
 
 	/** Get Attribute.
@@ -136,9 +137,10 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	  */
 	public void setM_AttributeValue_ID (int M_AttributeValue_ID)
 	{
-		if (M_AttributeValue_ID < 1)
-			 throw new IllegalArgumentException ("M_AttributeValue_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
+		if (M_AttributeValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeValue_ID, Integer.valueOf(M_AttributeValue_ID));
 	}
 
 	/** Get Attribute Value.
@@ -158,8 +160,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -185,8 +185,6 @@ public class X_M_AttributeValue extends PO implements I_M_AttributeValue, I_Pers
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

@@ -97,9 +97,10 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setC_ElementValue_ID (int C_ElementValue_ID)
 	{
-		if (C_ElementValue_ID < 1)
-			 throw new IllegalArgumentException ("C_ElementValue_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
+		if (C_ElementValue_ID < 1) 
+			set_Value (COLUMNNAME_C_ElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ElementValue_ID, Integer.valueOf(C_ElementValue_ID));
 	}
 
 	/** Get Account Element.
@@ -152,9 +153,10 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setGL_Fund_ID (int GL_Fund_ID)
 	{
-		if (GL_Fund_ID < 1)
-			 throw new IllegalArgumentException ("GL_Fund_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, Integer.valueOf(GL_Fund_ID));
+		if (GL_Fund_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Fund_ID, Integer.valueOf(GL_Fund_ID));
 	}
 
 	/** Get GL Fund.
@@ -174,9 +176,10 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
 	{
-		if (GL_FundRestriction_ID < 1)
-			 throw new IllegalArgumentException ("GL_FundRestriction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
+		if (GL_FundRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
 	}
 
 	/** Get Fund Restriction.
@@ -196,8 +199,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

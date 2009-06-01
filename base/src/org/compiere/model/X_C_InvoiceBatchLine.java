@@ -224,9 +224,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -262,9 +263,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -300,9 +302,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1)
-			 throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -338,9 +341,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -376,9 +380,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_InvoiceBatch_ID (int C_InvoiceBatch_ID)
 	{
-		if (C_InvoiceBatch_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceBatch_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, Integer.valueOf(C_InvoiceBatch_ID));
+		if (C_InvoiceBatch_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, Integer.valueOf(C_InvoiceBatch_ID));
 	}
 
 	/** Get Invoice Batch.
@@ -398,9 +403,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_InvoiceBatchLine_ID (int C_InvoiceBatchLine_ID)
 	{
-		if (C_InvoiceBatchLine_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceBatchLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceBatchLine_ID, Integer.valueOf(C_InvoiceBatchLine_ID));
+		if (C_InvoiceBatchLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatchLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatchLine_ID, Integer.valueOf(C_InvoiceBatchLine_ID));
 	}
 
 	/** Get Invoice Batch Line.
@@ -553,9 +559,10 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -575,8 +582,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -594,8 +599,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setDateInvoiced (Timestamp DateInvoiced)
 	{
-		if (DateInvoiced == null)
-			throw new IllegalArgumentException ("DateInvoiced is mandatory.");
 		set_Value (COLUMNNAME_DateInvoiced, DateInvoiced);
 	}
 
@@ -630,8 +633,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -701,8 +702,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setLineNetAmt (BigDecimal LineNetAmt)
 	{
-		if (LineNetAmt == null)
-			throw new IllegalArgumentException ("LineNetAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_LineNetAmt, LineNetAmt);
 	}
 
@@ -723,8 +722,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setLineTotalAmt (BigDecimal LineTotalAmt)
 	{
-		if (LineTotalAmt == null)
-			throw new IllegalArgumentException ("LineTotalAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_LineTotalAmt, LineTotalAmt);
 	}
 
@@ -745,8 +742,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setPriceEntered (BigDecimal PriceEntered)
 	{
-		if (PriceEntered == null)
-			throw new IllegalArgumentException ("PriceEntered is mandatory.");
 		set_Value (COLUMNNAME_PriceEntered, PriceEntered);
 	}
 
@@ -791,8 +786,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setQtyEntered (BigDecimal QtyEntered)
 	{
-		if (QtyEntered == null)
-			throw new IllegalArgumentException ("QtyEntered is mandatory.");
 		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
 	}
 
@@ -813,8 +806,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	  */
 	public void setTaxAmt (BigDecimal TaxAmt)
 	{
-		if (TaxAmt == null)
-			throw new IllegalArgumentException ("TaxAmt is mandatory.");
 		set_Value (COLUMNNAME_TaxAmt, TaxAmt);
 	}
 

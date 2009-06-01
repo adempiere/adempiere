@@ -97,9 +97,10 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
 	  */
 	public void setM_Attribute_ID (int M_Attribute_ID)
 	{
-		if (M_Attribute_ID < 1)
-			 throw new IllegalArgumentException ("M_Attribute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
 	}
 
 	/** Get Attribute.
@@ -135,9 +136,10 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
 	  */
 	public void setM_AttributeSet_ID (int M_AttributeSet_ID)
 	{
-		if (M_AttributeSet_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSet_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
+		if (M_AttributeSet_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSet_ID, Integer.valueOf(M_AttributeSet_ID));
 	}
 
 	/** Get Attribute Set.

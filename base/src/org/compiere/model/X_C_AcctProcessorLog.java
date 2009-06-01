@@ -112,9 +112,10 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setC_AcctProcessor_ID (int C_AcctProcessor_ID)
 	{
-		if (C_AcctProcessor_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, Integer.valueOf(C_AcctProcessor_ID));
+		if (C_AcctProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessor_ID, Integer.valueOf(C_AcctProcessor_ID));
 	}
 
 	/** Get Accounting Processor.
@@ -134,9 +135,10 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	  */
 	public void setC_AcctProcessorLog_ID (int C_AcctProcessorLog_ID)
 	{
-		if (C_AcctProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctProcessorLog_ID, Integer.valueOf(C_AcctProcessorLog_ID));
+		if (C_AcctProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctProcessorLog_ID, Integer.valueOf(C_AcctProcessorLog_ID));
 	}
 
 	/** Get Accounting Processor Log.

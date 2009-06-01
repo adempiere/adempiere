@@ -590,9 +590,10 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		@param I_BPartner_ID Import Business Partner	  */
 	public void setI_BPartner_ID (int I_BPartner_ID)
 	{
-		if (I_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("I_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_BPartner_ID, Integer.valueOf(I_BPartner_ID));
+		if (I_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_BPartner_ID, Integer.valueOf(I_BPartner_ID));
 	}
 
 	/** Get Import Business Partner.

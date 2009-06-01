@@ -80,9 +80,10 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 		@param AD_ImpFormat_ID Import Format	  */
 	public void setAD_ImpFormat_ID (int AD_ImpFormat_ID)
 	{
-		if (AD_ImpFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_ImpFormat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
+		if (AD_ImpFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ImpFormat_ID, Integer.valueOf(AD_ImpFormat_ID));
 	}
 
 	/** Get Import Format.
@@ -117,9 +118,10 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -166,7 +168,7 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	  */
 	public void setFormatType (String FormatType)
 	{
-		if (FormatType == null) throw new IllegalArgumentException ("FormatType is mandatory");
+
 		set_Value (COLUMNNAME_FormatType, FormatType);
 	}
 
@@ -184,8 +186,6 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

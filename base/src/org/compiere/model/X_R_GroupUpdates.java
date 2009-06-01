@@ -95,9 +95,10 @@ public class X_R_GroupUpdates extends PO implements I_R_GroupUpdates, I_Persiste
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -157,9 +158,10 @@ public class X_R_GroupUpdates extends PO implements I_R_GroupUpdates, I_Persiste
 	  */
 	public void setR_Group_ID (int R_Group_ID)
 	{
-		if (R_Group_ID < 1)
-			 throw new IllegalArgumentException ("R_Group_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_Group_ID, Integer.valueOf(R_Group_ID));
+		if (R_Group_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Group_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Group_ID, Integer.valueOf(R_Group_ID));
 	}
 
 	/** Get Group.

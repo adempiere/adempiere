@@ -88,9 +88,10 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Asset_Reval_Entry_ID A_Asset_Reval_Entry_ID	  */
 	public void setA_Asset_Reval_Entry_ID (int A_Asset_Reval_Entry_ID)
 	{
-		if (A_Asset_Reval_Entry_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Reval_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Entry_ID, Integer.valueOf(A_Asset_Reval_Entry_ID));
+		if (A_Asset_Reval_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Entry_ID, Integer.valueOf(A_Asset_Reval_Entry_ID));
 	}
 
 	/** Get A_Asset_Reval_Entry_ID.
@@ -115,8 +116,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Effective_Date A_Effective_Date	  */
 	public void setA_Effective_Date (Timestamp A_Effective_Date)
 	{
-		if (A_Effective_Date == null)
-			throw new IllegalArgumentException ("A_Effective_Date is mandatory.");
 		set_Value (COLUMNNAME_A_Effective_Date, A_Effective_Date);
 	}
 
@@ -139,7 +138,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Reval_Cal_Method Revaluation Calculation Method	  */
 	public void setA_Reval_Cal_Method (String A_Reval_Cal_Method)
 	{
-		if (A_Reval_Cal_Method == null) throw new IllegalArgumentException ("A_Reval_Cal_Method is mandatory");
+
 		set_Value (COLUMNNAME_A_Reval_Cal_Method, A_Reval_Cal_Method);
 	}
 
@@ -162,7 +161,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Reval_Effective_Date A_Reval_Effective_Date	  */
 	public void setA_Reval_Effective_Date (String A_Reval_Effective_Date)
 	{
-		if (A_Reval_Effective_Date == null) throw new IllegalArgumentException ("A_Reval_Effective_Date is mandatory");
+
 		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
 	}
 
@@ -183,7 +182,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Reval_Multiplier A_Reval_Multiplier	  */
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
-		if (A_Reval_Multiplier == null) throw new IllegalArgumentException ("A_Reval_Multiplier is mandatory");
+
 		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
@@ -206,7 +205,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		@param A_Rev_Code A_Rev_Code	  */
 	public void setA_Rev_Code (String A_Rev_Code)
 	{
-		if (A_Rev_Code == null) throw new IllegalArgumentException ("A_Rev_Code is mandatory");
+
 		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
 	}
 
@@ -278,9 +277,10 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -316,7 +316,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 1) 
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
 		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
@@ -396,8 +396,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -415,8 +413,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -485,7 +481,7 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_Value (COLUMNNAME_PostingType, PostingType);
 	}
 

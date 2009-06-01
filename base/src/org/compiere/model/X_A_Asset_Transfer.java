@@ -234,9 +234,10 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Asset_Transfer_ID A_Asset_Transfer_ID	  */
 	public void setA_Asset_Transfer_ID (int A_Asset_Transfer_ID)
 	{
-		if (A_Asset_Transfer_ID < 1)
-			 throw new IllegalArgumentException ("A_Asset_Transfer_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Asset_Transfer_ID, Integer.valueOf(A_Asset_Transfer_ID));
+		if (A_Asset_Transfer_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Transfer_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Asset_Transfer_ID, Integer.valueOf(A_Asset_Transfer_ID));
 	}
 
 	/** Get A_Asset_Transfer_ID.
@@ -439,8 +440,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		@param A_Split_Percent Split Percentage	  */
 	public void setA_Split_Percent (BigDecimal A_Split_Percent)
 	{
-		if (A_Split_Percent == null)
-			throw new IllegalArgumentException ("A_Split_Percent is mandatory.");
 		set_Value (COLUMNNAME_A_Split_Percent, A_Split_Percent);
 	}
 
@@ -548,8 +547,6 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 

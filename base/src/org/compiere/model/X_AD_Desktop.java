@@ -100,9 +100,10 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setAD_Desktop_ID (int AD_Desktop_ID)
 	{
-		if (AD_Desktop_ID < 1)
-			 throw new IllegalArgumentException ("AD_Desktop_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, Integer.valueOf(AD_Desktop_ID));
+		if (AD_Desktop_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Desktop_ID, Integer.valueOf(AD_Desktop_ID));
 	}
 
 	/** Get Desktop.
@@ -179,8 +180,6 @@ public class X_AD_Desktop extends PO implements I_AD_Desktop, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -84,9 +84,10 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 	  */
 	public void setAD_LabelPrinter_ID (int AD_LabelPrinter_ID)
 	{
-		if (AD_LabelPrinter_ID < 1)
-			 throw new IllegalArgumentException ("AD_LabelPrinter_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_LabelPrinter_ID, Integer.valueOf(AD_LabelPrinter_ID));
+		if (AD_LabelPrinter_ID < 1) 
+			set_Value (COLUMNNAME_AD_LabelPrinter_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_LabelPrinter_ID, Integer.valueOf(AD_LabelPrinter_ID));
 	}
 
 	/** Get Label printer.
@@ -106,9 +107,10 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 	  */
 	public void setAD_PrintLabel_ID (int AD_PrintLabel_ID)
 	{
-		if (AD_PrintLabel_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintLabel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, Integer.valueOf(AD_PrintLabel_ID));
+		if (AD_PrintLabel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintLabel_ID, Integer.valueOf(AD_PrintLabel_ID));
 	}
 
 	/** Get Print Label.
@@ -144,9 +146,10 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -247,8 +250,6 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

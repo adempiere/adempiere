@@ -94,7 +94,7 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
 	  */
 	public void setAccessTypeRule (String AccessTypeRule)
 	{
-		if (AccessTypeRule == null) throw new IllegalArgumentException ("AccessTypeRule is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_AccessTypeRule, AccessTypeRule);
 	}
 
@@ -128,9 +128,10 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -166,9 +167,10 @@ public class X_AD_Table_Access extends PO implements I_AD_Table_Access, I_Persis
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.

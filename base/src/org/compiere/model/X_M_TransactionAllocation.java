@@ -93,7 +93,7 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setAllocationStrategyType (String AllocationStrategyType)
 	{
-		if (AllocationStrategyType == null) throw new IllegalArgumentException ("AllocationStrategyType is mandatory");
+
 		set_Value (COLUMNNAME_AllocationStrategyType, AllocationStrategyType);
 	}
 
@@ -159,9 +159,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -275,9 +276,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -350,9 +352,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		@param M_Transaction_ID Inventory Transaction	  */
 	public void setM_Transaction_ID (int M_Transaction_ID)
 	{
-		if (M_Transaction_ID < 1)
-			 throw new IllegalArgumentException ("M_Transaction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
+		if (M_Transaction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
 	}
 
 	/** Get Inventory Transaction.
@@ -463,8 +466,6 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

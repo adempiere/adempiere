@@ -126,7 +126,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAction (String Action)
 	{
-		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
+
 		set_Value (COLUMNNAME_Action, Action);
 	}
 
@@ -378,9 +378,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+		if (AD_WF_Node_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
 	}
 
 	/** Get Node.
@@ -494,9 +495,10 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -589,8 +591,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setCost (BigDecimal Cost)
 	{
-		if (Cost == null)
-			throw new IllegalArgumentException ("Cost is mandatory.");
 		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
@@ -918,7 +918,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setJoinElement (String JoinElement)
 	{
-		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
+
 		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
 
@@ -973,8 +973,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1122,7 +1120,7 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setSplitElement (String SplitElement)
 	{
-		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
+
 		set_Value (COLUMNNAME_SplitElement, SplitElement);
 	}
 
@@ -1281,8 +1279,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

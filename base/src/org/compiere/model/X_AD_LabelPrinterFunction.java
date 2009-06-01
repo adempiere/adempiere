@@ -81,9 +81,10 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
 	{
-		if (AD_LabelPrinterFunction_ID < 1)
-			 throw new IllegalArgumentException ("AD_LabelPrinterFunction_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
+		if (AD_LabelPrinterFunction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
 	}
 
 	/** Get Label printer Function.
@@ -119,9 +120,10 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setAD_LabelPrinter_ID (int AD_LabelPrinter_ID)
 	{
-		if (AD_LabelPrinter_ID < 1)
-			 throw new IllegalArgumentException ("AD_LabelPrinter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LabelPrinter_ID, Integer.valueOf(AD_LabelPrinter_ID));
+		if (AD_LabelPrinter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinter_ID, Integer.valueOf(AD_LabelPrinter_ID));
 	}
 
 	/** Get Label printer.
@@ -216,8 +218,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

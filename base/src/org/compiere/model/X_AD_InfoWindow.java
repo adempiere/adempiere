@@ -83,9 +83,10 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setAD_InfoWindow_ID (int AD_InfoWindow_ID)
 	{
-		if (AD_InfoWindow_ID < 1)
-			 throw new IllegalArgumentException ("AD_InfoWindow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, Integer.valueOf(AD_InfoWindow_ID));
+		if (AD_InfoWindow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_InfoWindow_ID, Integer.valueOf(AD_InfoWindow_ID));
 	}
 
 	/** Get Info Window.
@@ -121,9 +122,10 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -180,8 +182,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setFromClause (String FromClause)
 	{
-		if (FromClause == null)
-			throw new IllegalArgumentException ("FromClause is mandatory.");
 		set_Value (COLUMNNAME_FromClause, FromClause);
 	}
 
@@ -216,8 +216,6 @@ public class X_AD_InfoWindow extends PO implements I_AD_InfoWindow, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

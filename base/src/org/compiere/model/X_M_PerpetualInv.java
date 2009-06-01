@@ -129,8 +129,6 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setDateNextRun (Timestamp DateNextRun)
 	{
-		if (DateNextRun == null)
-			throw new IllegalArgumentException ("DateNextRun is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DateNextRun, DateNextRun);
 	}
 
@@ -165,9 +163,10 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setM_PerpetualInv_ID (int M_PerpetualInv_ID)
 	{
-		if (M_PerpetualInv_ID < 1)
-			 throw new IllegalArgumentException ("M_PerpetualInv_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PerpetualInv_ID, Integer.valueOf(M_PerpetualInv_ID));
+		if (M_PerpetualInv_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PerpetualInv_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PerpetualInv_ID, Integer.valueOf(M_PerpetualInv_ID));
 	}
 
 	/** Get Perpetual Inventory.
@@ -265,8 +264,6 @@ public class X_M_PerpetualInv extends PO implements I_M_PerpetualInv, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

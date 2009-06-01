@@ -181,8 +181,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setAmtAcctCr (BigDecimal AmtAcctCr)
 	{
-		if (AmtAcctCr == null)
-			throw new IllegalArgumentException ("AmtAcctCr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtAcctCr, AmtAcctCr);
 	}
 
@@ -203,8 +201,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setAmtAcctDr (BigDecimal AmtAcctDr)
 	{
-		if (AmtAcctDr == null)
-			throw new IllegalArgumentException ("AmtAcctDr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtAcctDr, AmtAcctDr);
 	}
 
@@ -225,8 +221,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setAmtSourceCr (BigDecimal AmtSourceCr)
 	{
-		if (AmtSourceCr == null)
-			throw new IllegalArgumentException ("AmtSourceCr is mandatory.");
 		set_Value (COLUMNNAME_AmtSourceCr, AmtSourceCr);
 	}
 
@@ -247,8 +241,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setAmtSourceDr (BigDecimal AmtSourceDr)
 	{
-		if (AmtSourceDr == null)
-			throw new IllegalArgumentException ("AmtSourceDr is mandatory.");
 		set_Value (COLUMNNAME_AmtSourceDr, AmtSourceDr);
 	}
 
@@ -306,9 +298,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID < 1)
-			 throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -344,9 +337,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -405,8 +399,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setCurrencyRate (BigDecimal CurrencyRate)
 	{
-		if (CurrencyRate == null)
-			throw new IllegalArgumentException ("CurrencyRate is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_CurrencyRate, CurrencyRate);
 	}
 
@@ -427,9 +419,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
 	{
-		if (C_ValidCombination_ID < 1)
-			 throw new IllegalArgumentException ("C_ValidCombination_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
 	}
 
 	/** Get Combination.
@@ -449,8 +442,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -501,9 +492,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setGL_Journal_ID (int GL_Journal_ID)
 	{
-		if (GL_Journal_ID < 1)
-			 throw new IllegalArgumentException ("GL_Journal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+		if (GL_Journal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
 	}
 
 	/** Get Journal.
@@ -523,9 +515,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	  */
 	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
 	{
-		if (GL_JournalLine_ID < 1)
-			 throw new IllegalArgumentException ("GL_JournalLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+		if (GL_JournalLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
 	}
 
 	/** Get Journal Line.

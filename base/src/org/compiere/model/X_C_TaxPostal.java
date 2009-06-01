@@ -96,9 +96,10 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -118,9 +119,10 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	  */
 	public void setC_TaxPostal_ID (int C_TaxPostal_ID)
 	{
-		if (C_TaxPostal_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxPostal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
+		if (C_TaxPostal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
 	}
 
 	/** Get Tax ZIP.
@@ -140,8 +142,6 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	  */
 	public void setPostal (String Postal)
 	{
-		if (Postal == null)
-			throw new IllegalArgumentException ("Postal is mandatory.");
 		set_Value (COLUMNNAME_Postal, Postal);
 	}
 

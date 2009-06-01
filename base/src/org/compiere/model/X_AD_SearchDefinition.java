@@ -102,9 +102,10 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 		@param AD_SearchDefinition_ID AD_SearchDefinition_ID	  */
 	public void setAD_SearchDefinition_ID (int AD_SearchDefinition_ID)
 	{
-		if (AD_SearchDefinition_ID < 1)
-			 throw new IllegalArgumentException ("AD_SearchDefinition_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_SearchDefinition_ID, Integer.valueOf(AD_SearchDefinition_ID));
+		if (AD_SearchDefinition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_SearchDefinition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_SearchDefinition_ID, Integer.valueOf(AD_SearchDefinition_ID));
 	}
 
 	/** Get AD_SearchDefinition_ID.
@@ -123,9 +124,10 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -145,9 +147,10 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 	  */
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
-		if (AD_Window_ID < 1)
-			 throw new IllegalArgumentException ("AD_Window_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -167,8 +170,6 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 	  */
 	public void setDataType (String DataType)
 	{
-		if (DataType == null)
-			throw new IllegalArgumentException ("DataType is mandatory.");
 		set_Value (COLUMNNAME_DataType, DataType);
 	}
 
@@ -284,8 +285,6 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 	  */
 	public void setSearchType (String SearchType)
 	{
-		if (SearchType == null)
-			throw new IllegalArgumentException ("SearchType is mandatory.");
 		set_Value (COLUMNNAME_SearchType, SearchType);
 	}
 

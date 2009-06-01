@@ -255,9 +255,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 	  */
 	public void setAD_Workbench_ID (int AD_Workbench_ID)
 	{
-		if (AD_Workbench_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workbench_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
+		if (AD_Workbench_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workbench_ID, Integer.valueOf(AD_Workbench_ID));
 	}
 
 	/** Get Workbench.
@@ -275,9 +276,10 @@ public class X_AD_WorkbenchWindow extends PO implements I_AD_WorkbenchWindow, I_
 		@param AD_WorkbenchWindow_ID Workbench Window	  */
 	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID)
 	{
-		if (AD_WorkbenchWindow_ID < 1)
-			 throw new IllegalArgumentException ("AD_WorkbenchWindow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, Integer.valueOf(AD_WorkbenchWindow_ID));
+		if (AD_WorkbenchWindow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkbenchWindow_ID, Integer.valueOf(AD_WorkbenchWindow_ID));
 	}
 
 	/** Get Workbench Window.

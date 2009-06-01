@@ -137,9 +137,10 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -904,8 +905,6 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -965,7 +964,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setPreferenceType (String PreferenceType)
 	{
-		if (PreferenceType == null) throw new IllegalArgumentException ("PreferenceType is mandatory");
+
 		set_Value (COLUMNNAME_PreferenceType, PreferenceType);
 	}
 
@@ -1033,7 +1032,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	  */
 	public void setUserLevel (String UserLevel)
 	{
-		if (UserLevel == null) throw new IllegalArgumentException ("UserLevel is mandatory");
+
 		set_Value (COLUMNNAME_UserLevel, UserLevel);
 	}
 

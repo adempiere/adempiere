@@ -162,9 +162,10 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	  */
 	public void setA_Registration_ID (int A_Registration_ID)
 	{
-		if (A_Registration_ID < 1)
-			 throw new IllegalArgumentException ("A_Registration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
 	}
 
 	/** Get Registration.
@@ -184,8 +185,6 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	  */
 	public void setAssetServiceDate (Timestamp AssetServiceDate)
 	{
-		if (AssetServiceDate == null)
-			throw new IllegalArgumentException ("AssetServiceDate is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AssetServiceDate, AssetServiceDate);
 	}
 
@@ -387,8 +386,6 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

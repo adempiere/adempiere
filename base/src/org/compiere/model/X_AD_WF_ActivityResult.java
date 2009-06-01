@@ -96,9 +96,10 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setAD_WF_Activity_ID (int AD_WF_Activity_ID)
 	{
-		if (AD_WF_Activity_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Activity_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
+		if (AD_WF_Activity_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
 	}
 
 	/** Get Workflow Activity.
@@ -126,9 +127,10 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID)
 	{
-		if (AD_WF_ActivityResult_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_ActivityResult_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
+		if (AD_WF_ActivityResult_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
 	}
 
 	/** Get Workflow Activity Result.
@@ -148,8 +150,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-		if (AttributeName == null)
-			throw new IllegalArgumentException ("AttributeName is mandatory.");
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 

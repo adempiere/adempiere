@@ -118,9 +118,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAccount_ID (int Account_ID)
 	{
-		if (Account_ID < 1)
-			 throw new IllegalArgumentException ("Account_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+		if (Account_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Account_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
 	/** Get Account.
@@ -179,9 +180,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -201,8 +203,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAmtAcctCr (BigDecimal AmtAcctCr)
 	{
-		if (AmtAcctCr == null)
-			throw new IllegalArgumentException ("AmtAcctCr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtAcctCr, AmtAcctCr);
 	}
 
@@ -223,8 +223,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAmtAcctDr (BigDecimal AmtAcctDr)
 	{
-		if (AmtAcctDr == null)
-			throw new IllegalArgumentException ("AmtAcctDr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtAcctDr, AmtAcctDr);
 	}
 
@@ -245,8 +243,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAmtSourceCr (BigDecimal AmtSourceCr)
 	{
-		if (AmtSourceCr == null)
-			throw new IllegalArgumentException ("AmtSourceCr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtSourceCr, AmtSourceCr);
 	}
 
@@ -267,8 +263,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setAmtSourceDr (BigDecimal AmtSourceDr)
 	{
-		if (AmtSourceDr == null)
-			throw new IllegalArgumentException ("AmtSourceDr is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_AmtSourceDr, AmtSourceDr);
 	}
 
@@ -305,9 +299,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -460,9 +455,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -544,9 +540,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setC_Period_ID (int C_Period_ID)
 	{
-		if (C_Period_ID < 1)
-			 throw new IllegalArgumentException ("C_Period_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
 	}
 
 	/** Get Period.
@@ -839,8 +836,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -858,8 +853,6 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -892,9 +885,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 		@param Fact_Acct_ID Accounting Fact	  */
 	public void setFact_Acct_ID (int Fact_Acct_ID)
 	{
-		if (Fact_Acct_ID < 1)
-			 throw new IllegalArgumentException ("Fact_Acct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
+		if (Fact_Acct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Fact_Acct_ID, Integer.valueOf(Fact_Acct_ID));
 	}
 
 	/** Get Accounting Fact.
@@ -976,9 +970,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID < 1)
-			 throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -1111,7 +1106,7 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setPostingType (String PostingType)
 	{
-		if (PostingType == null) throw new IllegalArgumentException ("PostingType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_PostingType, PostingType);
 	}
 
@@ -1149,9 +1144,10 @@ public class X_Fact_Acct extends PO implements I_Fact_Acct, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.

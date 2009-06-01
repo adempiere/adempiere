@@ -96,9 +96,10 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -134,9 +135,10 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 	  */
 	public void setC_Withholding_ID (int C_Withholding_ID)
 	{
-		if (C_Withholding_ID < 1)
-			 throw new IllegalArgumentException ("C_Withholding_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, Integer.valueOf(C_Withholding_ID));
+		if (C_Withholding_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Withholding_ID, Integer.valueOf(C_Withholding_ID));
 	}
 
 	/** Get Withholding.

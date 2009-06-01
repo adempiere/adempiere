@@ -88,9 +88,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -126,9 +127,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setC_Charge_ID (int C_Charge_ID)
 	{
-		if (C_Charge_ID < 1)
-			 throw new IllegalArgumentException ("C_Charge_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
 	}
 
 	/** Get Charge.
@@ -148,9 +150,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setC_Commission_ID (int C_Commission_ID)
 	{
-		if (C_Commission_ID < 1)
-			 throw new IllegalArgumentException ("C_Commission_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
 	}
 
 	/** Get Commission.
@@ -186,9 +189,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -267,7 +271,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setDocBasisType (String DocBasisType)
 	{
-		if (DocBasisType == null) throw new IllegalArgumentException ("DocBasisType is mandatory");
+
 		set_Value (COLUMNNAME_DocBasisType, DocBasisType);
 	}
 
@@ -295,7 +299,7 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -337,8 +341,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

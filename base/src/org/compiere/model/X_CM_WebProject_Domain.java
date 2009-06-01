@@ -120,9 +120,10 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	  */
 	public void setCM_WebProject_Domain_ID (int CM_WebProject_Domain_ID)
 	{
-		if (CM_WebProject_Domain_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_Domain_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_Domain_ID, Integer.valueOf(CM_WebProject_Domain_ID));
+		if (CM_WebProject_Domain_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_Domain_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_Domain_ID, Integer.valueOf(CM_WebProject_Domain_ID));
 	}
 
 	/** Get WebProject Domain.
@@ -158,9 +159,10 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	  */
 	public void setCM_WebProject_ID (int CM_WebProject_ID)
 	{
-		if (CM_WebProject_ID < 1)
-			 throw new IllegalArgumentException ("CM_WebProject_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
+		if (CM_WebProject_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_WebProject_ID, Integer.valueOf(CM_WebProject_ID));
 	}
 
 	/** Get Web Project.
@@ -197,8 +199,6 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	  */
 	public void setFQDN (String FQDN)
 	{
-		if (FQDN == null)
-			throw new IllegalArgumentException ("FQDN is mandatory.");
 		set_Value (COLUMNNAME_FQDN, FQDN);
 	}
 
@@ -233,8 +233,6 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

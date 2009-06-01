@@ -76,9 +76,10 @@ public class X_C_ChargeType extends PO implements I_C_ChargeType, I_Persistent
 		@param C_ChargeType_ID Charge Type	  */
 	public void setC_ChargeType_ID (int C_ChargeType_ID)
 	{
-		if (C_ChargeType_ID < 1)
-			 throw new IllegalArgumentException ("C_ChargeType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, Integer.valueOf(C_ChargeType_ID));
+		if (C_ChargeType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ChargeType_ID, Integer.valueOf(C_ChargeType_ID));
 	}
 
 	/** Get Charge Type.
@@ -131,8 +132,6 @@ public class X_C_ChargeType extends PO implements I_C_ChargeType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -158,8 +157,6 @@ public class X_C_ChargeType extends PO implements I_C_ChargeType, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

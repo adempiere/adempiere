@@ -107,9 +107,10 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -146,8 +147,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setDateColumn (String DateColumn)
 	{
-		if (DateColumn == null)
-			throw new IllegalArgumentException ("DateColumn is mandatory.");
 		set_Value (COLUMNNAME_DateColumn, DateColumn);
 	}
 
@@ -202,8 +201,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setKeyColumn (String KeyColumn)
 	{
-		if (KeyColumn == null)
-			throw new IllegalArgumentException ("KeyColumn is mandatory.");
 		set_Value (COLUMNNAME_KeyColumn, KeyColumn);
 	}
 
@@ -221,8 +218,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -248,8 +243,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setOrgColumn (String OrgColumn)
 	{
-		if (OrgColumn == null)
-			throw new IllegalArgumentException ("OrgColumn is mandatory.");
 		set_Value (COLUMNNAME_OrgColumn, OrgColumn);
 	}
 
@@ -267,9 +260,10 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setPA_MeasureCalc_ID (int PA_MeasureCalc_ID)
 	{
-		if (PA_MeasureCalc_ID < 1)
-			 throw new IllegalArgumentException ("PA_MeasureCalc_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
+		if (PA_MeasureCalc_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_MeasureCalc_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_MeasureCalc_ID, Integer.valueOf(PA_MeasureCalc_ID));
 	}
 
 	/** Get Measure Calculation.
@@ -306,8 +300,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setSelectClause (String SelectClause)
 	{
-		if (SelectClause == null)
-			throw new IllegalArgumentException ("SelectClause is mandatory.");
 		set_Value (COLUMNNAME_SelectClause, SelectClause);
 	}
 
@@ -325,8 +317,6 @@ public class X_PA_MeasureCalc extends PO implements I_PA_MeasureCalc, I_Persiste
 	  */
 	public void setWhereClause (String WhereClause)
 	{
-		if (WhereClause == null)
-			throw new IllegalArgumentException ("WhereClause is mandatory.");
 		set_Value (COLUMNNAME_WhereClause, WhereClause);
 	}
 

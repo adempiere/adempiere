@@ -103,9 +103,10 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (AD_PInstance_ID < 1)
-			 throw new IllegalArgumentException ("AD_PInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+		if (AD_PInstance_ID < 1) 
+			set_Value (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
 	/** Get Process Instance.
@@ -203,9 +204,10 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -381,9 +383,10 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -481,8 +484,6 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 
@@ -500,8 +501,6 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
 		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
@@ -548,7 +547,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setMovementType (String MovementType)
 	{
-		if (MovementType == null) throw new IllegalArgumentException ("MovementType is mandatory");
+
 		set_Value (COLUMNNAME_MovementType, MovementType);
 	}
 
@@ -582,9 +581,10 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -696,9 +696,10 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		@param M_Transaction_ID Inventory Transaction	  */
 	public void setM_Transaction_ID (int M_Transaction_ID)
 	{
-		if (M_Transaction_ID < 1)
-			 throw new IllegalArgumentException ("M_Transaction_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
+		if (M_Transaction_ID < 1) 
+			set_Value (COLUMNNAME_M_Transaction_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
 	}
 
 	/** Get Inventory Transaction.

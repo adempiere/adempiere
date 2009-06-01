@@ -79,9 +79,10 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setAD_Image_ID (int AD_Image_ID)
 	{
-		if (AD_Image_ID < 1)
-			 throw new IllegalArgumentException ("AD_Image_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+		if (AD_Image_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
 	}
 
 	/** Get Image.
@@ -172,8 +173,6 @@ public class X_AD_Image extends PO implements I_AD_Image, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

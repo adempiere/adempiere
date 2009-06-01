@@ -237,9 +237,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -275,9 +276,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -453,9 +455,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -491,9 +494,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -513,9 +517,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 	{
-		if (C_DocTypeTarget_ID < 1)
-			 throw new IllegalArgumentException ("C_DocTypeTarget_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+		if (C_DocTypeTarget_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
 	}
 
 	/** Get Target Document Type.
@@ -591,9 +596,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_Invoice_ID (int C_Invoice_ID)
 	{
-		if (C_Invoice_ID < 1)
-			 throw new IllegalArgumentException ("C_Invoice_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+		if (C_Invoice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
 	}
 
 	/** Get Invoice.
@@ -724,9 +730,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -802,8 +809,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -821,8 +826,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setDateInvoiced (Timestamp DateInvoiced)
 	{
-		if (DateInvoiced == null)
-			throw new IllegalArgumentException ("DateInvoiced is mandatory.");
 		set_Value (COLUMNNAME_DateInvoiced, DateInvoiced);
 	}
 
@@ -921,7 +924,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -965,7 +968,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -983,8 +986,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -1041,8 +1042,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setGrandTotal (BigDecimal GrandTotal)
 	{
-		if (GrandTotal == null)
-			throw new IllegalArgumentException ("GrandTotal is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_GrandTotal, GrandTotal);
 	}
 
@@ -1347,9 +1346,10 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -1424,7 +1424,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setPaymentRule (String PaymentRule)
 	{
-		if (PaymentRule == null) throw new IllegalArgumentException ("PaymentRule is mandatory");
+
 		set_Value (COLUMNNAME_PaymentRule, PaymentRule);
 	}
 
@@ -1618,8 +1618,6 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	  */
 	public void setTotalLines (BigDecimal TotalLines)
 	{
-		if (TotalLines == null)
-			throw new IllegalArgumentException ("TotalLines is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TotalLines, TotalLines);
 	}
 

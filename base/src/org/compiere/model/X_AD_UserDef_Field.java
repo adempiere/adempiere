@@ -102,9 +102,10 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setAD_Field_ID (int AD_Field_ID)
 	{
-		if (AD_Field_ID < 1)
-			 throw new IllegalArgumentException ("AD_Field_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
+		if (AD_Field_ID < 1) 
+			set_Value (COLUMNNAME_AD_Field_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
 	}
 
 	/** Get Field.
@@ -122,9 +123,10 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 		@param AD_UserDef_Field_ID User defined Field	  */
 	public void setAD_UserDef_Field_ID (int AD_UserDef_Field_ID)
 	{
-		if (AD_UserDef_Field_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserDef_Field_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserDef_Field_ID, Integer.valueOf(AD_UserDef_Field_ID));
+		if (AD_UserDef_Field_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Field_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Field_ID, Integer.valueOf(AD_UserDef_Field_ID));
 	}
 
 	/** Get User defined Field.
@@ -157,9 +159,10 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 		@param AD_UserDef_Tab_ID User defined Tab	  */
 	public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
 	{
-		if (AD_UserDef_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserDef_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, Integer.valueOf(AD_UserDef_Tab_ID));
+		if (AD_UserDef_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, Integer.valueOf(AD_UserDef_Tab_ID));
 	}
 
 	/** Get User defined Tab.
@@ -178,8 +181,6 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setDefaultValue (String DefaultValue)
 	{
-		if (DefaultValue == null)
-			throw new IllegalArgumentException ("DefaultValue is mandatory.");
 		set_Value (COLUMNNAME_DefaultValue, DefaultValue);
 	}
 
@@ -364,8 +365,6 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

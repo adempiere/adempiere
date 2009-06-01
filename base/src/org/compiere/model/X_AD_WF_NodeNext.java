@@ -85,9 +85,10 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
 	  */
 	public void setAD_WF_Next_ID (int AD_WF_Next_ID)
 	{
-		if (AD_WF_Next_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Next_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_WF_Next_ID, Integer.valueOf(AD_WF_Next_ID));
+		if (AD_WF_Next_ID < 1) 
+			set_Value (COLUMNNAME_AD_WF_Next_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Next_ID, Integer.valueOf(AD_WF_Next_ID));
 	}
 
 	/** Get Next Node.
@@ -123,9 +124,10 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+		if (AD_WF_Node_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
 	}
 
 	/** Get Node.
@@ -153,9 +155,10 @@ public class X_AD_WF_NodeNext extends PO implements I_AD_WF_NodeNext, I_Persiste
 	  */
 	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID)
 	{
-		if (AD_WF_NodeNext_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_NodeNext_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
+		if (AD_WF_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_NodeNext_ID, Integer.valueOf(AD_WF_NodeNext_ID));
 	}
 
 	/** Get Node Transition.

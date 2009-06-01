@@ -113,9 +113,10 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -135,8 +136,6 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -154,9 +153,10 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 	  */
 	public void setRelatedProduct_ID (int RelatedProduct_ID)
 	{
-		if (RelatedProduct_ID < 1)
-			 throw new IllegalArgumentException ("RelatedProduct_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_RelatedProduct_ID, Integer.valueOf(RelatedProduct_ID));
+		if (RelatedProduct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_RelatedProduct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_RelatedProduct_ID, Integer.valueOf(RelatedProduct_ID));
 	}
 
 	/** Get Related Product.
@@ -182,7 +182,7 @@ public class X_M_RelatedProduct extends PO implements I_M_RelatedProduct, I_Pers
 		@param RelatedProductType Related Product Type	  */
 	public void setRelatedProductType (String RelatedProductType)
 	{
-		if (RelatedProductType == null) throw new IllegalArgumentException ("RelatedProductType is mandatory");
+
 		set_ValueNoCheck (COLUMNNAME_RelatedProductType, RelatedProductType);
 	}
 

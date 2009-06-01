@@ -90,7 +90,7 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	  */
 	public void setCategoryType (String CategoryType)
 	{
-		if (CategoryType == null) throw new IllegalArgumentException ("CategoryType is mandatory");
+
 		set_Value (COLUMNNAME_CategoryType, CategoryType);
 	}
 
@@ -125,9 +125,10 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID < 1)
-			 throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -171,8 +172,6 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

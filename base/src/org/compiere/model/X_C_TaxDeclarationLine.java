@@ -145,9 +145,10 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -183,9 +184,10 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -299,9 +301,10 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setC_TaxDeclaration_ID (int C_TaxDeclaration_ID)
 	{
-		if (C_TaxDeclaration_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxDeclaration_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
+		if (C_TaxDeclaration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclaration_ID, Integer.valueOf(C_TaxDeclaration_ID));
 	}
 
 	/** Get Tax Declaration.
@@ -321,9 +324,10 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setC_TaxDeclarationLine_ID (int C_TaxDeclarationLine_ID)
 	{
-		if (C_TaxDeclarationLine_ID < 1)
-			 throw new IllegalArgumentException ("C_TaxDeclarationLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, Integer.valueOf(C_TaxDeclarationLine_ID));
+		if (C_TaxDeclarationLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationLine_ID, Integer.valueOf(C_TaxDeclarationLine_ID));
 	}
 
 	/** Get Tax Declaration Line.
@@ -359,9 +363,10 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -381,8 +386,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -461,8 +464,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setTaxAmt (BigDecimal TaxAmt)
 	{
-		if (TaxAmt == null)
-			throw new IllegalArgumentException ("TaxAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TaxAmt, TaxAmt);
 	}
 
@@ -483,8 +484,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	  */
 	public void setTaxBaseAmt (BigDecimal TaxBaseAmt)
 	{
-		if (TaxBaseAmt == null)
-			throw new IllegalArgumentException ("TaxBaseAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_TaxBaseAmt, TaxBaseAmt);
 	}
 

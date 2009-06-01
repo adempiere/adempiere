@@ -124,9 +124,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 		@param C_AcctSchema_Element_ID Acct.Schema Element	  */
 	public void setC_AcctSchema_Element_ID (int C_AcctSchema_Element_ID)
 	{
-		if (C_AcctSchema_Element_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_Element_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_Element_ID, Integer.valueOf(C_AcctSchema_Element_ID));
+		if (C_AcctSchema_Element_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_Element_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_Element_ID, Integer.valueOf(C_AcctSchema_Element_ID));
 	}
 
 	/** Get Acct.Schema Element.
@@ -161,9 +162,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -316,9 +318,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setC_Element_ID (int C_Element_ID)
 	{
-		if (C_Element_ID < 1)
-			 throw new IllegalArgumentException ("C_Element_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
+		if (C_Element_ID < 1) 
+			set_Value (COLUMNNAME_C_Element_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Element_ID, Integer.valueOf(C_Element_ID));
 	}
 
 	/** Get Element.
@@ -512,7 +515,7 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setElementType (String ElementType)
 	{
-		if (ElementType == null) throw new IllegalArgumentException ("ElementType is mandatory");
+
 		set_Value (COLUMNNAME_ElementType, ElementType);
 	}
 
@@ -614,8 +617,6 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -641,9 +642,10 @@ public class X_C_AcctSchema_Element extends PO implements I_C_AcctSchema_Element
 	  */
 	public void setOrg_ID (int Org_ID)
 	{
-		if (Org_ID < 1)
-			 throw new IllegalArgumentException ("Org_ID is mandatory.");
-		set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
+		if (Org_ID < 1) 
+			set_Value (COLUMNNAME_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_Org_ID, Integer.valueOf(Org_ID));
 	}
 
 	/** Get Organization.

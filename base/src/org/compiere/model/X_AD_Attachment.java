@@ -81,9 +81,10 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 	  */
 	public void setAD_Attachment_ID (int AD_Attachment_ID)
 	{
-		if (AD_Attachment_ID < 1)
-			 throw new IllegalArgumentException ("AD_Attachment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, Integer.valueOf(AD_Attachment_ID));
+		if (AD_Attachment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Attachment_ID, Integer.valueOf(AD_Attachment_ID));
 	}
 
 	/** Get Attachment.
@@ -119,9 +120,10 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -158,9 +160,10 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -197,8 +200,6 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 	  */
 	public void setTitle (String Title)
 	{
-		if (Title == null)
-			throw new IllegalArgumentException ("Title is mandatory.");
 		set_Value (COLUMNNAME_Title, Title);
 	}
 

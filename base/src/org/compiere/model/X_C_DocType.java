@@ -160,9 +160,10 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -348,7 +349,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setDocBaseType (String DocBaseType)
 	{
-		if (DocBaseType == null) throw new IllegalArgumentException ("DocBaseType is mandatory");
+
 		set_Value (COLUMNNAME_DocBaseType, DocBaseType);
 	}
 
@@ -478,9 +479,10 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setGL_Category_ID (int GL_Category_ID)
 	{
-		if (GL_Category_ID < 1)
-			 throw new IllegalArgumentException ("GL_Category_ID is mandatory.");
-		set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
+		if (GL_Category_ID < 1) 
+			set_Value (COLUMNNAME_GL_Category_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Category_ID, Integer.valueOf(GL_Category_ID));
 	}
 
 	/** Get GL Category.
@@ -830,8 +832,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -857,8 +857,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	  */
 	public void setPrintName (String PrintName)
 	{
-		if (PrintName == null)
-			throw new IllegalArgumentException ("PrintName is mandatory.");
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

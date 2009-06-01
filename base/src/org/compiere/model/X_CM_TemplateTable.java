@@ -97,9 +97,10 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -135,9 +136,10 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setCM_Template_ID (int CM_Template_ID)
 	{
-		if (CM_Template_ID < 1)
-			 throw new IllegalArgumentException ("CM_Template_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_Template_ID, Integer.valueOf(CM_Template_ID));
+		if (CM_Template_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Template_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Template_ID, Integer.valueOf(CM_Template_ID));
 	}
 
 	/** Get Template.
@@ -157,9 +159,10 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID)
 	{
-		if (CM_TemplateTable_ID < 1)
-			 throw new IllegalArgumentException ("CM_TemplateTable_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
+		if (CM_TemplateTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_TemplateTable_ID, Integer.valueOf(CM_TemplateTable_ID));
 	}
 
 	/** Get Template Table.
@@ -196,8 +199,6 @@ public class X_CM_TemplateTable extends PO implements I_CM_TemplateTable, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -194,9 +194,10 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -232,9 +233,10 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_BP_Group_ID < 1)
-			 throw new IllegalArgumentException ("C_BP_Group_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
 	/** Get Business Partner Group.
@@ -980,8 +982,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1359,8 +1359,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setSO_CreditLimit (BigDecimal SO_CreditLimit)
 	{
-		if (SO_CreditLimit == null)
-			throw new IllegalArgumentException ("SO_CreditLimit is mandatory.");
 		set_Value (COLUMNNAME_SO_CreditLimit, SO_CreditLimit);
 	}
 
@@ -1411,8 +1409,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setSO_CreditUsed (BigDecimal SO_CreditUsed)
 	{
-		if (SO_CreditUsed == null)
-			throw new IllegalArgumentException ("SO_CreditUsed is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_SO_CreditUsed, SO_CreditUsed);
 	}
 
@@ -1504,8 +1500,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

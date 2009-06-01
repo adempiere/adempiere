@@ -100,9 +100,10 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	  */
 	public void setAD_Tab_ID (int AD_Tab_ID)
 	{
-		if (AD_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tab_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+		if (AD_Tab_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
 	}
 
 	/** Get Tab.
@@ -120,9 +121,10 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 		@param AD_UserDef_Tab_ID User defined Tab	  */
 	public void setAD_UserDef_Tab_ID (int AD_UserDef_Tab_ID)
 	{
-		if (AD_UserDef_Tab_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserDef_Tab_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, Integer.valueOf(AD_UserDef_Tab_ID));
+		if (AD_UserDef_Tab_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Tab_ID, Integer.valueOf(AD_UserDef_Tab_ID));
 	}
 
 	/** Get User defined Tab.
@@ -155,9 +157,10 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 		@param AD_UserDef_Win_ID User defined Window	  */
 	public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID)
 	{
-		if (AD_UserDef_Win_ID < 1)
-			 throw new IllegalArgumentException ("AD_UserDef_Win_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_UserDef_Win_ID, Integer.valueOf(AD_UserDef_Win_ID));
+		if (AD_UserDef_Win_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Win_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Win_ID, Integer.valueOf(AD_UserDef_Win_ID));
 	}
 
 	/** Get User defined Window.
@@ -282,8 +285,6 @@ public class X_AD_UserDef_Tab extends PO implements I_AD_UserDef_Tab, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

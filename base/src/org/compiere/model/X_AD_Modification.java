@@ -80,9 +80,10 @@ public class X_AD_Modification extends PO implements I_AD_Modification, I_Persis
 	  */
 	public void setAD_Modification_ID (int AD_Modification_ID)
 	{
-		if (AD_Modification_ID < 1)
-			 throw new IllegalArgumentException ("AD_Modification_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Modification_ID, Integer.valueOf(AD_Modification_ID));
+		if (AD_Modification_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Modification_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Modification_ID, Integer.valueOf(AD_Modification_ID));
 	}
 
 	/** Get Modification.
@@ -156,8 +157,6 @@ public class X_AD_Modification extends PO implements I_AD_Modification, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

@@ -79,9 +79,10 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	  */
 	public void setAD_FieldGroup_ID (int AD_FieldGroup_ID)
 	{
-		if (AD_FieldGroup_ID < 1)
-			 throw new IllegalArgumentException ("AD_FieldGroup_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_FieldGroup_ID, Integer.valueOf(AD_FieldGroup_ID));
+		if (AD_FieldGroup_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_FieldGroup_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_FieldGroup_ID, Integer.valueOf(AD_FieldGroup_ID));
 	}
 
 	/** Get Field Group.
@@ -168,8 +169,6 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

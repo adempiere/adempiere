@@ -79,8 +79,6 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 		@param A_Depreciation_Table_Code Depreciation Code	  */
 	public void setA_Depreciation_Table_Code (String A_Depreciation_Table_Code)
 	{
-		if (A_Depreciation_Table_Code == null)
-			throw new IllegalArgumentException ("A_Depreciation_Table_Code is mandatory.");
 		set_Value (COLUMNNAME_A_Depreciation_Table_Code, A_Depreciation_Table_Code);
 	}
 
@@ -95,9 +93,10 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
 	{
-		if (A_Depreciation_Table_Header_ID < 1)
-			 throw new IllegalArgumentException ("A_Depreciation_Table_Header_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
+		if (A_Depreciation_Table_Header_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Header_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
 	}
 
 	/** Get A_Depreciation_Table_Header_ID.
@@ -128,7 +127,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 		@param A_Table_Rate_Type Type	  */
 	public void setA_Table_Rate_Type (String A_Table_Rate_Type)
 	{
-		if (A_Table_Rate_Type == null) throw new IllegalArgumentException ("A_Table_Rate_Type is mandatory");
+
 		set_Value (COLUMNNAME_A_Table_Rate_Type, A_Table_Rate_Type);
 	}
 
@@ -149,7 +148,7 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 		@param A_Term Period/Yearly	  */
 	public void setA_Term (String A_Term)
 	{
-		if (A_Term == null) throw new IllegalArgumentException ("A_Term is mandatory");
+
 		set_Value (COLUMNNAME_A_Term, A_Term);
 	}
 
@@ -166,8 +165,6 @@ public class X_A_Depreciation_Table_Header extends PO implements I_A_Depreciatio
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 

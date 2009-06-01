@@ -131,9 +131,10 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -153,9 +154,10 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setC_BankStatementLoader_ID (int C_BankStatementLoader_ID)
 	{
-		if (C_BankStatementLoader_ID < 1)
-			 throw new IllegalArgumentException ("C_BankStatementLoader_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankStatementLoader_ID, Integer.valueOf(C_BankStatementLoader_ID));
+		if (C_BankStatementLoader_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementLoader_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankStatementLoader_ID, Integer.valueOf(C_BankStatementLoader_ID));
 	}
 
 	/** Get Bank Statement Loader.
@@ -297,8 +299,6 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

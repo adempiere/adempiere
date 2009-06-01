@@ -316,9 +316,10 @@ public class X_I_PriceList extends PO implements I_I_PriceList, I_Persistent
 		@param I_PriceList_ID Import Price List	  */
 	public void setI_PriceList_ID (int I_PriceList_ID)
 	{
-		if (I_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("I_PriceList_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_I_PriceList_ID, Integer.valueOf(I_PriceList_ID));
+		if (I_PriceList_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_PriceList_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_PriceList_ID, Integer.valueOf(I_PriceList_ID));
 	}
 
 	/** Get Import Price List.

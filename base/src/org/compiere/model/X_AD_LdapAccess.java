@@ -80,9 +80,10 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setAD_LdapAccess_ID (int AD_LdapAccess_ID)
 	{
-		if (AD_LdapAccess_ID < 1)
-			 throw new IllegalArgumentException ("AD_LdapAccess_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LdapAccess_ID, Integer.valueOf(AD_LdapAccess_ID));
+		if (AD_LdapAccess_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapAccess_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapAccess_ID, Integer.valueOf(AD_LdapAccess_ID));
 	}
 
 	/** Get Ldap Access.
@@ -118,9 +119,10 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	  */
 	public void setAD_LdapProcessor_ID (int AD_LdapProcessor_ID)
 	{
-		if (AD_LdapProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_LdapProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, Integer.valueOf(AD_LdapProcessor_ID));
+		if (AD_LdapProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LdapProcessor_ID, Integer.valueOf(AD_LdapProcessor_ID));
 	}
 
 	/** Get Ldap Processor.

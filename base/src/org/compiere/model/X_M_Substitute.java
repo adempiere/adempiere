@@ -113,9 +113,10 @@ public class X_M_Substitute extends PO implements I_M_Substitute, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -135,8 +136,6 @@ public class X_M_Substitute extends PO implements I_M_Substitute, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -162,9 +161,10 @@ public class X_M_Substitute extends PO implements I_M_Substitute, I_Persistent
 	  */
 	public void setSubstitute_ID (int Substitute_ID)
 	{
-		if (Substitute_ID < 1)
-			 throw new IllegalArgumentException ("Substitute_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Substitute_ID, Integer.valueOf(Substitute_ID));
+		if (Substitute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Substitute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Substitute_ID, Integer.valueOf(Substitute_ID));
 	}
 
 	/** Get Substitute.

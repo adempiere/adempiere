@@ -99,9 +99,10 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -121,9 +122,10 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setB_Bid_ID (int B_Bid_ID)
 	{
-		if (B_Bid_ID < 1)
-			 throw new IllegalArgumentException ("B_Bid_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_B_Bid_ID, Integer.valueOf(B_Bid_ID));
+		if (B_Bid_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_B_Bid_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_B_Bid_ID, Integer.valueOf(B_Bid_ID));
 	}
 
 	/** Get Bid.
@@ -159,9 +161,10 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setB_BuyerFunds_ID (int B_BuyerFunds_ID)
 	{
-		if (B_BuyerFunds_ID < 1)
-			 throw new IllegalArgumentException ("B_BuyerFunds_ID is mandatory.");
-		set_Value (COLUMNNAME_B_BuyerFunds_ID, Integer.valueOf(B_BuyerFunds_ID));
+		if (B_BuyerFunds_ID < 1) 
+			set_Value (COLUMNNAME_B_BuyerFunds_ID, null);
+		else 
+			set_Value (COLUMNNAME_B_BuyerFunds_ID, Integer.valueOf(B_BuyerFunds_ID));
 	}
 
 	/** Get Buyer Funds.
@@ -197,9 +200,10 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setB_Topic_ID (int B_Topic_ID)
 	{
-		if (B_Topic_ID < 1)
-			 throw new IllegalArgumentException ("B_Topic_ID is mandatory.");
-		set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
+		if (B_Topic_ID < 1) 
+			set_Value (COLUMNNAME_B_Topic_ID, null);
+		else 
+			set_Value (COLUMNNAME_B_Topic_ID, Integer.valueOf(B_Topic_ID));
 	}
 
 	/** Get Topic.
@@ -240,8 +244,6 @@ public class X_B_Bid extends PO implements I_B_Bid, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

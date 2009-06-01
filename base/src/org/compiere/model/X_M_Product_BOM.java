@@ -86,8 +86,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	  */
 	public void setBOMQty (BigDecimal BOMQty)
 	{
-		if (BOMQty == null)
-			throw new IllegalArgumentException ("BOMQty is mandatory.");
 		set_Value (COLUMNNAME_BOMQty, BOMQty);
 	}
 
@@ -185,9 +183,10 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 		@param M_Product_BOM_ID BOM Line	  */
 	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
 	{
-		if (M_Product_BOM_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_BOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
+		if (M_Product_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
 	}
 
 	/** Get BOM Line.
@@ -206,9 +205,10 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	  */
 	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
 	{
-		if (M_ProductBOM_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductBOM_ID is mandatory.");
-		set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
+		if (M_ProductBOM_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
 	}
 
 	/** Get BOM Product.
@@ -252,9 +252,10 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.

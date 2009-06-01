@@ -166,9 +166,10 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_ConversionType_ID < 1)
-			 throw new IllegalArgumentException ("C_ConversionType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
 	/** Get Currency Type.
@@ -205,8 +206,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setConversionDate (Timestamp ConversionDate)
 	{
-		if (ConversionDate == null)
-			throw new IllegalArgumentException ("ConversionDate is mandatory.");
 		set_Value (COLUMNNAME_ConversionDate, ConversionDate);
 	}
 
@@ -252,8 +251,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_AddAmt (BigDecimal Limit_AddAmt)
 	{
-		if (Limit_AddAmt == null)
-			throw new IllegalArgumentException ("Limit_AddAmt is mandatory.");
 		set_Value (COLUMNNAME_Limit_AddAmt, Limit_AddAmt);
 	}
 
@@ -284,7 +281,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_Base (String Limit_Base)
 	{
-		if (Limit_Base == null) throw new IllegalArgumentException ("Limit_Base is mandatory");
+
 		set_Value (COLUMNNAME_Limit_Base, Limit_Base);
 	}
 
@@ -302,8 +299,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_Discount (BigDecimal Limit_Discount)
 	{
-		if (Limit_Discount == null)
-			throw new IllegalArgumentException ("Limit_Discount is mandatory.");
 		set_Value (COLUMNNAME_Limit_Discount, Limit_Discount);
 	}
 
@@ -344,8 +339,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_MaxAmt (BigDecimal Limit_MaxAmt)
 	{
-		if (Limit_MaxAmt == null)
-			throw new IllegalArgumentException ("Limit_MaxAmt is mandatory.");
 		set_Value (COLUMNNAME_Limit_MaxAmt, Limit_MaxAmt);
 	}
 
@@ -366,8 +359,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_MinAmt (BigDecimal Limit_MinAmt)
 	{
-		if (Limit_MinAmt == null)
-			throw new IllegalArgumentException ("Limit_MinAmt is mandatory.");
 		set_Value (COLUMNNAME_Limit_MinAmt, Limit_MinAmt);
 	}
 
@@ -406,7 +397,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setLimit_Rounding (String Limit_Rounding)
 	{
-		if (Limit_Rounding == null) throw new IllegalArgumentException ("Limit_Rounding is mandatory");
+
 		set_Value (COLUMNNAME_Limit_Rounding, Limit_Rounding);
 	}
 
@@ -424,8 +415,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_AddAmt (BigDecimal List_AddAmt)
 	{
-		if (List_AddAmt == null)
-			throw new IllegalArgumentException ("List_AddAmt is mandatory.");
 		set_Value (COLUMNNAME_List_AddAmt, List_AddAmt);
 	}
 
@@ -456,7 +445,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_Base (String List_Base)
 	{
-		if (List_Base == null) throw new IllegalArgumentException ("List_Base is mandatory");
+
 		set_Value (COLUMNNAME_List_Base, List_Base);
 	}
 
@@ -474,8 +463,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_Discount (BigDecimal List_Discount)
 	{
-		if (List_Discount == null)
-			throw new IllegalArgumentException ("List_Discount is mandatory.");
 		set_Value (COLUMNNAME_List_Discount, List_Discount);
 	}
 
@@ -516,8 +503,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_MaxAmt (BigDecimal List_MaxAmt)
 	{
-		if (List_MaxAmt == null)
-			throw new IllegalArgumentException ("List_MaxAmt is mandatory.");
 		set_Value (COLUMNNAME_List_MaxAmt, List_MaxAmt);
 	}
 
@@ -538,8 +523,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_MinAmt (BigDecimal List_MinAmt)
 	{
-		if (List_MinAmt == null)
-			throw new IllegalArgumentException ("List_MinAmt is mandatory.");
 		set_Value (COLUMNNAME_List_MinAmt, List_MinAmt);
 	}
 
@@ -578,7 +561,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setList_Rounding (String List_Rounding)
 	{
-		if (List_Rounding == null) throw new IllegalArgumentException ("List_Rounding is mandatory");
+
 		set_Value (COLUMNNAME_List_Rounding, List_Rounding);
 	}
 
@@ -612,9 +595,10 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setM_DiscountSchema_ID (int M_DiscountSchema_ID)
 	{
-		if (M_DiscountSchema_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchema_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
+		if (M_DiscountSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchema_ID, Integer.valueOf(M_DiscountSchema_ID));
 	}
 
 	/** Get Discount Schema.
@@ -634,9 +618,10 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
 	{
-		if (M_DiscountSchemaLine_ID < 1)
-			 throw new IllegalArgumentException ("M_DiscountSchemaLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
+		if (M_DiscountSchemaLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
 	}
 
 	/** Get Discount Pricelist.
@@ -762,8 +747,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_AddAmt (BigDecimal Std_AddAmt)
 	{
-		if (Std_AddAmt == null)
-			throw new IllegalArgumentException ("Std_AddAmt is mandatory.");
 		set_Value (COLUMNNAME_Std_AddAmt, Std_AddAmt);
 	}
 
@@ -794,7 +777,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_Base (String Std_Base)
 	{
-		if (Std_Base == null) throw new IllegalArgumentException ("Std_Base is mandatory");
+
 		set_Value (COLUMNNAME_Std_Base, Std_Base);
 	}
 
@@ -812,8 +795,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_Discount (BigDecimal Std_Discount)
 	{
-		if (Std_Discount == null)
-			throw new IllegalArgumentException ("Std_Discount is mandatory.");
 		set_Value (COLUMNNAME_Std_Discount, Std_Discount);
 	}
 
@@ -854,8 +835,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_MaxAmt (BigDecimal Std_MaxAmt)
 	{
-		if (Std_MaxAmt == null)
-			throw new IllegalArgumentException ("Std_MaxAmt is mandatory.");
 		set_Value (COLUMNNAME_Std_MaxAmt, Std_MaxAmt);
 	}
 
@@ -876,8 +855,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_MinAmt (BigDecimal Std_MinAmt)
 	{
-		if (Std_MinAmt == null)
-			throw new IllegalArgumentException ("Std_MinAmt is mandatory.");
 		set_Value (COLUMNNAME_Std_MinAmt, Std_MinAmt);
 	}
 
@@ -916,7 +893,7 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	  */
 	public void setStd_Rounding (String Std_Rounding)
 	{
-		if (Std_Rounding == null) throw new IllegalArgumentException ("Std_Rounding is mandatory");
+
 		set_Value (COLUMNNAME_Std_Rounding, Std_Rounding);
 	}
 

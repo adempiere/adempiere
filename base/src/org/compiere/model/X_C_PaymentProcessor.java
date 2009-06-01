@@ -378,9 +378,10 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setC_BankAccount_ID (int C_BankAccount_ID)
 	{
-		if (C_BankAccount_ID < 1)
-			 throw new IllegalArgumentException ("C_BankAccount_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+		if (C_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
 	}
 
 	/** Get Bank Account.
@@ -439,8 +440,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setCommission (BigDecimal Commission)
 	{
-		if (Commission == null)
-			throw new IllegalArgumentException ("Commission is mandatory.");
 		set_Value (COLUMNNAME_Commission, Commission);
 	}
 
@@ -461,8 +460,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setCostPerTrx (BigDecimal CostPerTrx)
 	{
-		if (CostPerTrx == null)
-			throw new IllegalArgumentException ("CostPerTrx is mandatory.");
 		set_Value (COLUMNNAME_CostPerTrx, CostPerTrx);
 	}
 
@@ -483,9 +480,10 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
 	{
-		if (C_PaymentProcessor_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
+		if (C_PaymentProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
 	}
 
 	/** Get Payment Processor.
@@ -522,8 +520,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setHostAddress (String HostAddress)
 	{
-		if (HostAddress == null)
-			throw new IllegalArgumentException ("HostAddress is mandatory.");
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
 
@@ -581,8 +577,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -625,8 +619,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setPassword (String Password)
 	{
-		if (Password == null)
-			throw new IllegalArgumentException ("Password is mandatory.");
 		set_Value (COLUMNNAME_Password, Password);
 	}
 
@@ -756,8 +748,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	  */
 	public void setUserID (String UserID)
 	{
-		if (UserID == null)
-			throw new IllegalArgumentException ("UserID is mandatory.");
 		set_Value (COLUMNNAME_UserID, UserID);
 	}
 

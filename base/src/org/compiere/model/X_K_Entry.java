@@ -165,9 +165,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setK_Entry_ID (int K_Entry_ID)
 	{
-		if (K_Entry_ID < 1)
-			 throw new IllegalArgumentException ("K_Entry_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
+		if (K_Entry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Entry_ID, Integer.valueOf(K_Entry_ID));
 	}
 
 	/** Get Entry.
@@ -259,9 +260,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setK_Topic_ID (int K_Topic_ID)
 	{
-		if (K_Topic_ID < 1)
-			 throw new IllegalArgumentException ("K_Topic_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Topic_ID, Integer.valueOf(K_Topic_ID));
+		if (K_Topic_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Topic_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Topic_ID, Integer.valueOf(K_Topic_ID));
 	}
 
 	/** Get Knowledge Topic.
@@ -281,8 +283,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -328,8 +328,6 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 	  */
 	public void setTextMsg (String TextMsg)
 	{
-		if (TextMsg == null)
-			throw new IllegalArgumentException ("TextMsg is mandatory.");
 		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 

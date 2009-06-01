@@ -170,9 +170,10 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setR_RequestProcessor_ID (int R_RequestProcessor_ID)
 	{
-		if (R_RequestProcessor_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
+		if (R_RequestProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessor_ID, Integer.valueOf(R_RequestProcessor_ID));
 	}
 
 	/** Get Request Processor.
@@ -192,9 +193,10 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	  */
 	public void setR_RequestProcessorLog_ID (int R_RequestProcessorLog_ID)
 	{
-		if (R_RequestProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("R_RequestProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, Integer.valueOf(R_RequestProcessorLog_ID));
+		if (R_RequestProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestProcessorLog_ID, Integer.valueOf(R_RequestProcessorLog_ID));
 	}
 
 	/** Get Request Processor Log.

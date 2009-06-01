@@ -97,9 +97,10 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -160,9 +161,10 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 	  */
 	public void setR_InterestArea_ID (int R_InterestArea_ID)
 	{
-		if (R_InterestArea_ID < 1)
-			 throw new IllegalArgumentException ("R_InterestArea_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
+		if (R_InterestArea_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_InterestArea_ID, Integer.valueOf(R_InterestArea_ID));
 	}
 
 	/** Get Interest Area.

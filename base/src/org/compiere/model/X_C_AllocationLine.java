@@ -85,8 +85,6 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setAmount (BigDecimal Amount)
 	{
-		if (Amount == null)
-			throw new IllegalArgumentException ("Amount is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_Amount, Amount);
 	}
 
@@ -123,9 +121,10 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
 	{
-		if (C_AllocationHdr_ID < 1)
-			 throw new IllegalArgumentException ("C_AllocationHdr_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, Integer.valueOf(C_AllocationHdr_ID));
+		if (C_AllocationHdr_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, Integer.valueOf(C_AllocationHdr_ID));
 	}
 
 	/** Get Allocation.
@@ -145,9 +144,10 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setC_AllocationLine_ID (int C_AllocationLine_ID)
 	{
-		if (C_AllocationLine_ID < 1)
-			 throw new IllegalArgumentException ("C_AllocationLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
+		if (C_AllocationLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationLine_ID, Integer.valueOf(C_AllocationLine_ID));
 	}
 
 	/** Get Allocation Line.
@@ -387,8 +387,6 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setDiscountAmt (BigDecimal DiscountAmt)
 	{
-		if (DiscountAmt == null)
-			throw new IllegalArgumentException ("DiscountAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DiscountAmt, DiscountAmt);
 	}
 
@@ -453,8 +451,6 @@ public class X_C_AllocationLine extends PO implements I_C_AllocationLine, I_Pers
 	  */
 	public void setWriteOffAmt (BigDecimal WriteOffAmt)
 	{
-		if (WriteOffAmt == null)
-			throw new IllegalArgumentException ("WriteOffAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_WriteOffAmt, WriteOffAmt);
 	}
 

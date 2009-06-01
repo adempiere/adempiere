@@ -80,9 +80,10 @@ public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent
 	  */
 	public void setAD_Preference_ID (int AD_Preference_ID)
 	{
-		if (AD_Preference_ID < 1)
-			 throw new IllegalArgumentException ("AD_Preference_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Preference_ID, Integer.valueOf(AD_Preference_ID));
+		if (AD_Preference_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Preference_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Preference_ID, Integer.valueOf(AD_Preference_ID));
 	}
 
 	/** Get Preference.
@@ -178,8 +179,6 @@ public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent
 		@param Attribute Attribute	  */
 	public void setAttribute (String Attribute)
 	{
-		if (Attribute == null)
-			throw new IllegalArgumentException ("Attribute is mandatory.");
 		set_Value (COLUMNNAME_Attribute, Attribute);
 	}
 
@@ -204,8 +203,6 @@ public class X_AD_Preference extends PO implements I_AD_Preference, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

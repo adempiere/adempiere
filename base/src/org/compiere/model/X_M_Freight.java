@@ -141,9 +141,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -202,8 +203,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setFreightAmt (BigDecimal FreightAmt)
 	{
-		if (FreightAmt == null)
-			throw new IllegalArgumentException ("FreightAmt is mandatory.");
 		set_Value (COLUMNNAME_FreightAmt, FreightAmt);
 	}
 
@@ -240,9 +239,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
 	{
-		if (M_FreightCategory_ID < 1)
-			 throw new IllegalArgumentException ("M_FreightCategory_ID is mandatory.");
-		set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
 	}
 
 	/** Get Freight Category.
@@ -262,9 +262,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setM_Freight_ID (int M_Freight_ID)
 	{
-		if (M_Freight_ID < 1)
-			 throw new IllegalArgumentException ("M_Freight_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
+		if (M_Freight_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
 	}
 
 	/** Get Freight.
@@ -300,9 +301,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID < 1)
-			 throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.
@@ -376,8 +378,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -84,9 +84,10 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		@param AD_Package_Exp_ID AD_Package_Exp_ID	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 	{
-		if (AD_Package_Exp_ID < 1)
-			 throw new IllegalArgumentException ("AD_Package_Exp_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
+		if (AD_Package_Exp_ID < 1) 
+			set_Value (COLUMNNAME_AD_Package_Exp_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
 	}
 
 	/** Get AD_Package_Exp_ID.
@@ -136,8 +137,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setDescription (String Description)
 	{
-		if (Description == null)
-			throw new IllegalArgumentException ("Description is mandatory.");
 		set_Value (COLUMNNAME_Description, Description);
 	}
 
@@ -155,8 +154,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setEMail (String EMail)
 	{
-		if (EMail == null)
-			throw new IllegalArgumentException ("EMail is mandatory.");
 		set_Value (COLUMNNAME_EMail, EMail);
 	}
 
@@ -172,8 +169,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		@param File_Directory File_Directory	  */
 	public void setFile_Directory (String File_Directory)
 	{
-		if (File_Directory == null)
-			throw new IllegalArgumentException ("File_Directory is mandatory.");
 		set_Value (COLUMNNAME_File_Directory, File_Directory);
 	}
 
@@ -188,8 +183,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		@param Instructions Instructions	  */
 	public void setInstructions (String Instructions)
 	{
-		if (Instructions == null)
-			throw new IllegalArgumentException ("Instructions is mandatory.");
 		set_Value (COLUMNNAME_Instructions, Instructions);
 	}
 
@@ -206,8 +199,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -223,8 +214,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		@param PK_Version Package Version	  */
 	public void setPK_Version (String PK_Version)
 	{
-		if (PK_Version == null)
-			throw new IllegalArgumentException ("PK_Version is mandatory.");
 		set_Value (COLUMNNAME_PK_Version, PK_Version);
 	}
 
@@ -310,7 +299,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setReleaseNo (String ReleaseNo)
 	{
-		if (ReleaseNo == null) throw new IllegalArgumentException ("ReleaseNo is mandatory");
+
 		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
 	}
 
@@ -328,8 +317,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setUserName (String UserName)
 	{
-		if (UserName == null)
-			throw new IllegalArgumentException ("UserName is mandatory.");
 		set_Value (COLUMNNAME_UserName, UserName);
 	}
 
@@ -347,8 +334,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	  */
 	public void setVersion (String Version)
 	{
-		if (Version == null)
-			throw new IllegalArgumentException ("Version is mandatory.");
 		set_Value (COLUMNNAME_Version, Version);
 	}
 

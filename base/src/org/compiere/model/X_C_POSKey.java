@@ -124,9 +124,10 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	  */
 	public void setC_POSKey_ID (int C_POSKey_ID)
 	{
-		if (C_POSKey_ID < 1)
-			 throw new IllegalArgumentException ("C_POSKey_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
+		if (C_POSKey_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POSKey_ID, Integer.valueOf(C_POSKey_ID));
 	}
 
 	/** Get POS Key.
@@ -162,9 +163,10 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	  */
 	public void setC_POSKeyLayout_ID (int C_POSKeyLayout_ID)
 	{
-		if (C_POSKeyLayout_ID < 1)
-			 throw new IllegalArgumentException ("C_POSKeyLayout_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
+		if (C_POSKeyLayout_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_POSKeyLayout_ID, Integer.valueOf(C_POSKeyLayout_ID));
 	}
 
 	/** Get POS Key Layout.
@@ -217,9 +219,10 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -239,8 +242,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -266,8 +267,6 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	  */
 	public void setQty (BigDecimal Qty)
 	{
-		if (Qty == null)
-			throw new IllegalArgumentException ("Qty is mandatory.");
 		set_Value (COLUMNNAME_Qty, Qty);
 	}
 

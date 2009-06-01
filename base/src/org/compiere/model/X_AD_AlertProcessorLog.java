@@ -95,9 +95,10 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
 	  */
 	public void setAD_AlertProcessor_ID (int AD_AlertProcessor_ID)
 	{
-		if (AD_AlertProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AlertProcessor_ID, Integer.valueOf(AD_AlertProcessor_ID));
+		if (AD_AlertProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessor_ID, Integer.valueOf(AD_AlertProcessor_ID));
 	}
 
 	/** Get Alert Processor.
@@ -117,9 +118,10 @@ public class X_AD_AlertProcessorLog extends PO implements I_AD_AlertProcessorLog
 	  */
 	public void setAD_AlertProcessorLog_ID (int AD_AlertProcessorLog_ID)
 	{
-		if (AD_AlertProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("AD_AlertProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, Integer.valueOf(AD_AlertProcessorLog_ID));
+		if (AD_AlertProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertProcessorLog_ID, Integer.valueOf(AD_AlertProcessorLog_ID));
 	}
 
 	/** Get Alert Processor Log.

@@ -97,9 +97,10 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 		@param AD_Rule_ID Rule	  */
 	public void setAD_Rule_ID (int AD_Rule_ID)
 	{
-		if (AD_Rule_ID < 1)
-			 throw new IllegalArgumentException ("AD_Rule_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+		if (AD_Rule_ID < 1) 
+			set_Value (COLUMNNAME_AD_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
 	}
 
 	/** Get Rule.
@@ -134,9 +135,10 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -154,9 +156,10 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 		@param AD_Table_ScriptValidator_ID Table Script Validator	  */
 	public void setAD_Table_ScriptValidator_ID (int AD_Table_ScriptValidator_ID)
 	{
-		if (AD_Table_ScriptValidator_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ScriptValidator_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ScriptValidator_ID, Integer.valueOf(AD_Table_ScriptValidator_ID));
+		if (AD_Table_ScriptValidator_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ScriptValidator_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ScriptValidator_ID, Integer.valueOf(AD_Table_ScriptValidator_ID));
 	}
 
 	/** Get Table Script Validator.
@@ -225,7 +228,7 @@ public class X_AD_Table_ScriptValidator extends PO implements I_AD_Table_ScriptV
 		@param EventModelValidator Event Model Validator	  */
 	public void setEventModelValidator (String EventModelValidator)
 	{
-		if (EventModelValidator == null) throw new IllegalArgumentException ("EventModelValidator is mandatory");
+
 		set_Value (COLUMNNAME_EventModelValidator, EventModelValidator);
 	}
 

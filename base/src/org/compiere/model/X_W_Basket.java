@@ -96,9 +96,10 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -211,9 +212,10 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 		@param Session_ID Session ID	  */
 	public void setSession_ID (int Session_ID)
 	{
-		if (Session_ID < 1)
-			 throw new IllegalArgumentException ("Session_ID is mandatory.");
-		set_Value (COLUMNNAME_Session_ID, Integer.valueOf(Session_ID));
+		if (Session_ID < 1) 
+			set_Value (COLUMNNAME_Session_ID, null);
+		else 
+			set_Value (COLUMNNAME_Session_ID, Integer.valueOf(Session_ID));
 	}
 
 	/** Get Session ID.
@@ -240,9 +242,10 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	  */
 	public void setW_Basket_ID (int W_Basket_ID)
 	{
-		if (W_Basket_ID < 1)
-			 throw new IllegalArgumentException ("W_Basket_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
+		if (W_Basket_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Basket_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
 	}
 
 	/** Get W_Basket_ID.

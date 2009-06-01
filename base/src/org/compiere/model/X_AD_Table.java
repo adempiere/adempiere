@@ -107,7 +107,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
+
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
@@ -125,9 +125,10 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -447,8 +448,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -497,7 +496,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 
@@ -515,8 +514,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	  */
 	public void setTableName (String TableName)
 	{
-		if (TableName == null)
-			throw new IllegalArgumentException ("TableName is mandatory.");
 		set_Value (COLUMNNAME_TableName, TableName);
 	}
 

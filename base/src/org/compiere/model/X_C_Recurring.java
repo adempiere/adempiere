@@ -242,9 +242,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setC_Recurring_ID (int C_Recurring_ID)
 	{
-		if (C_Recurring_ID < 1)
-			 throw new IllegalArgumentException ("C_Recurring_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, Integer.valueOf(C_Recurring_ID));
+		if (C_Recurring_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Recurring_ID, Integer.valueOf(C_Recurring_ID));
 	}
 
 	/** Get Recurring.
@@ -281,8 +282,6 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setDateNextRun (Timestamp DateNextRun)
 	{
-		if (DateNextRun == null)
-			throw new IllegalArgumentException ("DateNextRun is mandatory.");
 		set_Value (COLUMNNAME_DateNextRun, DateNextRun);
 	}
 
@@ -347,7 +346,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -421,8 +420,6 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -479,7 +476,7 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 	  */
 	public void setRecurringType (String RecurringType)
 	{
-		if (RecurringType == null) throw new IllegalArgumentException ("RecurringType is mandatory");
+
 		set_Value (COLUMNNAME_RecurringType, RecurringType);
 	}
 

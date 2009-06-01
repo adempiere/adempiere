@@ -80,9 +80,10 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 	  */
 	public void setAD_WF_ProcessData_ID (int AD_WF_ProcessData_ID)
 	{
-		if (AD_WF_ProcessData_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_ProcessData_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, Integer.valueOf(AD_WF_ProcessData_ID));
+		if (AD_WF_ProcessData_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, Integer.valueOf(AD_WF_ProcessData_ID));
 	}
 
 	/** Get Workflow Process Data.
@@ -118,9 +119,10 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 	  */
 	public void setAD_WF_Process_ID (int AD_WF_Process_ID)
 	{
-		if (AD_WF_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, Integer.valueOf(AD_WF_Process_ID));
+		if (AD_WF_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, Integer.valueOf(AD_WF_Process_ID));
 	}
 
 	/** Get Workflow Process.
@@ -148,8 +150,6 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
 	  */
 	public void setAttributeName (String AttributeName)
 	{
-		if (AttributeName == null)
-			throw new IllegalArgumentException ("AttributeName is mandatory.");
 		set_Value (COLUMNNAME_AttributeName, AttributeName);
 	}
 

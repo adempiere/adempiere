@@ -95,9 +95,10 @@ public class X_AD_TreeNode extends PO implements I_AD_TreeNode, I_Persistent
 	  */
 	public void setAD_Tree_ID (int AD_Tree_ID)
 	{
-		if (AD_Tree_ID < 1)
-			 throw new IllegalArgumentException ("AD_Tree_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
+		if (AD_Tree_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Tree_ID, Integer.valueOf(AD_Tree_ID));
 	}
 
 	/** Get Tree.
@@ -115,9 +116,10 @@ public class X_AD_TreeNode extends PO implements I_AD_TreeNode, I_Persistent
 		@param Node_ID Node_ID	  */
 	public void setNode_ID (int Node_ID)
 	{
-		if (Node_ID < 0)
-			 throw new IllegalArgumentException ("Node_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Node_ID, Integer.valueOf(Node_ID));
+		if (Node_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Node_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Node_ID, Integer.valueOf(Node_ID));
 	}
 
 	/** Get Node_ID.

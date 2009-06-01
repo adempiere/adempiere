@@ -77,9 +77,10 @@ public class X_AD_ModelValidator extends PO implements I_AD_ModelValidator, I_Pe
 		@param AD_ModelValidator_ID Model Validator	  */
 	public void setAD_ModelValidator_ID (int AD_ModelValidator_ID)
 	{
-		if (AD_ModelValidator_ID < 1)
-			 throw new IllegalArgumentException ("AD_ModelValidator_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ModelValidator_ID, Integer.valueOf(AD_ModelValidator_ID));
+		if (AD_ModelValidator_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ModelValidator_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ModelValidator_ID, Integer.valueOf(AD_ModelValidator_ID));
 	}
 
 	/** Get Model Validator.
@@ -150,8 +151,6 @@ public class X_AD_ModelValidator extends PO implements I_AD_ModelValidator, I_Pe
 		@param ModelValidationClass Model Validation Class	  */
 	public void setModelValidationClass (String ModelValidationClass)
 	{
-		if (ModelValidationClass == null)
-			throw new IllegalArgumentException ("ModelValidationClass is mandatory.");
 		set_Value (COLUMNNAME_ModelValidationClass, ModelValidationClass);
 	}
 
@@ -168,8 +167,6 @@ public class X_AD_ModelValidator extends PO implements I_AD_ModelValidator, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

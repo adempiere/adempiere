@@ -231,9 +231,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -337,9 +338,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setC_RfQ_ID (int C_RfQ_ID)
 	{
-		if (C_RfQ_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
+		if (C_RfQ_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
 	}
 
 	/** Get RfQ.
@@ -375,9 +377,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
 	{
-		if (C_RfQ_Topic_ID < 1)
-			 throw new IllegalArgumentException ("C_RfQ_Topic_ID is mandatory.");
-		set_Value (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
+		if (C_RfQ_Topic_ID < 1) 
+			set_Value (COLUMNNAME_C_RfQ_Topic_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
 	}
 
 	/** Get RfQ Topic.
@@ -397,8 +400,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setDateResponse (Timestamp DateResponse)
 	{
-		if (DateResponse == null)
-			throw new IllegalArgumentException ("DateResponse is mandatory.");
 		set_Value (COLUMNNAME_DateResponse, DateResponse);
 	}
 
@@ -487,8 +488,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -671,8 +670,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -757,7 +754,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setQuoteType (String QuoteType)
 	{
-		if (QuoteType == null) throw new IllegalArgumentException ("QuoteType is mandatory");
+
 		set_Value (COLUMNNAME_QuoteType, QuoteType);
 	}
 
@@ -789,9 +786,10 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID < 1)
-			 throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.

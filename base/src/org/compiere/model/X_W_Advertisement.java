@@ -120,9 +120,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -142,9 +143,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -239,8 +241,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -297,7 +297,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setPublishStatus (String PublishStatus)
 	{
-		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
+
 		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
 
@@ -369,9 +369,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	  */
 	public void setW_Advertisement_ID (int W_Advertisement_ID)
 	{
-		if (W_Advertisement_ID < 1)
-			 throw new IllegalArgumentException ("W_Advertisement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Advertisement_ID, Integer.valueOf(W_Advertisement_ID));
+		if (W_Advertisement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Advertisement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Advertisement_ID, Integer.valueOf(W_Advertisement_ID));
 	}
 
 	/** Get Advertisement.

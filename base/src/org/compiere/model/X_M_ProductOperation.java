@@ -132,9 +132,10 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -154,9 +155,10 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	  */
 	public void setM_ProductOperation_ID (int M_ProductOperation_ID)
 	{
-		if (M_ProductOperation_ID < 1)
-			 throw new IllegalArgumentException ("M_ProductOperation_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
+		if (M_ProductOperation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductOperation_ID, Integer.valueOf(M_ProductOperation_ID));
 	}
 
 	/** Get Product Operation.
@@ -176,8 +178,6 @@ public class X_M_ProductOperation extends PO implements I_M_ProductOperation, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

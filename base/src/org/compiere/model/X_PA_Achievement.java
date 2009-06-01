@@ -144,8 +144,6 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setManualActual (BigDecimal ManualActual)
 	{
-		if (ManualActual == null)
-			throw new IllegalArgumentException ("ManualActual is mandatory.");
 		set_Value (COLUMNNAME_ManualActual, ManualActual);
 	}
 
@@ -166,8 +164,6 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -210,9 +206,10 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setPA_Achievement_ID (int PA_Achievement_ID)
 	{
-		if (PA_Achievement_ID < 1)
-			 throw new IllegalArgumentException ("PA_Achievement_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Achievement_ID, Integer.valueOf(PA_Achievement_ID));
+		if (PA_Achievement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Achievement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Achievement_ID, Integer.valueOf(PA_Achievement_ID));
 	}
 
 	/** Get Achievement.
@@ -248,9 +245,10 @@ public class X_PA_Achievement extends PO implements I_PA_Achievement, I_Persiste
 	  */
 	public void setPA_Measure_ID (int PA_Measure_ID)
 	{
-		if (PA_Measure_ID < 1)
-			 throw new IllegalArgumentException ("PA_Measure_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
+		if (PA_Measure_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
 	}
 
 	/** Get Measure.

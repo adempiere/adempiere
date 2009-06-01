@@ -99,9 +99,10 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 	  */
 	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
 	{
-		if (M_PriceList_Version_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_Version_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+		if (M_PriceList_Version_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
 	}
 
 	/** Get Price List Version.
@@ -137,9 +138,10 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -159,8 +161,6 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 	  */
 	public void setPriceLimit (BigDecimal PriceLimit)
 	{
-		if (PriceLimit == null)
-			throw new IllegalArgumentException ("PriceLimit is mandatory.");
 		set_Value (COLUMNNAME_PriceLimit, PriceLimit);
 	}
 
@@ -181,8 +181,6 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 	  */
 	public void setPriceList (BigDecimal PriceList)
 	{
-		if (PriceList == null)
-			throw new IllegalArgumentException ("PriceList is mandatory.");
 		set_Value (COLUMNNAME_PriceList, PriceList);
 	}
 
@@ -203,8 +201,6 @@ public class X_M_ProductPrice extends PO implements I_M_ProductPrice, I_Persiste
 	  */
 	public void setPriceStd (BigDecimal PriceStd)
 	{
-		if (PriceStd == null)
-			throw new IllegalArgumentException ("PriceStd is mandatory.");
 		set_Value (COLUMNNAME_PriceStd, PriceStd);
 	}
 

@@ -129,9 +129,10 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setAD_PrintTableFormat_ID (int AD_PrintTableFormat_ID)
 	{
-		if (AD_PrintTableFormat_ID < 1)
-			 throw new IllegalArgumentException ("AD_PrintTableFormat_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PrintTableFormat_ID, Integer.valueOf(AD_PrintTableFormat_ID));
+		if (AD_PrintTableFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintTableFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintTableFormat_ID, Integer.valueOf(AD_PrintTableFormat_ID));
 	}
 
 	/** Get Print Table Format.
@@ -759,8 +760,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

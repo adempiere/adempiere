@@ -83,9 +83,10 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	  */
 	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
 	{
-		if (AD_WorkflowProcessor_ID < 1)
-			 throw new IllegalArgumentException ("AD_WorkflowProcessor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
+		if (AD_WorkflowProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
 	}
 
 	/** Get Workflow Processor.
@@ -204,7 +205,7 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -262,8 +263,6 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -330,9 +329,10 @@ public class X_AD_WorkflowProcessor extends PO implements I_AD_WorkflowProcessor
 	  */
 	public void setSupervisor_ID (int Supervisor_ID)
 	{
-		if (Supervisor_ID < 1)
-			 throw new IllegalArgumentException ("Supervisor_ID is mandatory.");
-		set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
+		if (Supervisor_ID < 1) 
+			set_Value (COLUMNNAME_Supervisor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Supervisor_ID, Integer.valueOf(Supervisor_ID));
 	}
 
 	/** Get Supervisor.

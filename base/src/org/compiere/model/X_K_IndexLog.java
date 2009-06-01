@@ -79,8 +79,6 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	  */
 	public void setIndexQuery (String IndexQuery)
 	{
-		if (IndexQuery == null)
-			throw new IllegalArgumentException ("IndexQuery is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_IndexQuery, IndexQuery);
 	}
 
@@ -126,9 +124,10 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	  */
 	public void setK_IndexLog_ID (int K_IndexLog_ID)
 	{
-		if (K_IndexLog_ID < 1)
-			 throw new IllegalArgumentException ("K_IndexLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_IndexLog_ID, Integer.valueOf(K_IndexLog_ID));
+		if (K_IndexLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_IndexLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_IndexLog_ID, Integer.valueOf(K_IndexLog_ID));
 	}
 
 	/** Get Index Log.
@@ -158,7 +157,7 @@ public class X_K_IndexLog extends PO implements I_K_IndexLog, I_Persistent
 	  */
 	public void setQuerySource (String QuerySource)
 	{
-		if (QuerySource == null) throw new IllegalArgumentException ("QuerySource is mandatory");
+
 		set_Value (COLUMNNAME_QuerySource, QuerySource);
 	}
 

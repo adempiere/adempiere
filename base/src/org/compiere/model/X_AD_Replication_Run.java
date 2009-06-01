@@ -98,9 +98,10 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	  */
 	public void setAD_Replication_ID (int AD_Replication_ID)
 	{
-		if (AD_Replication_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
+		if (AD_Replication_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
 	}
 
 	/** Get Replication.
@@ -120,9 +121,10 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	  */
 	public void setAD_Replication_Run_ID (int AD_Replication_Run_ID)
 	{
-		if (AD_Replication_Run_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_Run_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, Integer.valueOf(AD_Replication_Run_ID));
+		if (AD_Replication_Run_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_Run_ID, Integer.valueOf(AD_Replication_Run_ID));
 	}
 
 	/** Get Replication Run.
@@ -183,8 +185,6 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

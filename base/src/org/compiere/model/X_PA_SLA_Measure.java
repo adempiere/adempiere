@@ -124,8 +124,6 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_Value (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -168,8 +166,6 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setMeasureActual (BigDecimal MeasureActual)
 	{
-		if (MeasureActual == null)
-			throw new IllegalArgumentException ("MeasureActual is mandatory.");
 		set_Value (COLUMNNAME_MeasureActual, MeasureActual);
 	}
 
@@ -206,9 +202,10 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setPA_SLA_Goal_ID (int PA_SLA_Goal_ID)
 	{
-		if (PA_SLA_Goal_ID < 1)
-			 throw new IllegalArgumentException ("PA_SLA_Goal_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, Integer.valueOf(PA_SLA_Goal_ID));
+		if (PA_SLA_Goal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Goal_ID, Integer.valueOf(PA_SLA_Goal_ID));
 	}
 
 	/** Get SLA Goal.
@@ -228,9 +225,10 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setPA_SLA_Measure_ID (int PA_SLA_Measure_ID)
 	{
-		if (PA_SLA_Measure_ID < 1)
-			 throw new IllegalArgumentException ("PA_SLA_Measure_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PA_SLA_Measure_ID, Integer.valueOf(PA_SLA_Measure_ID));
+		if (PA_SLA_Measure_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Measure_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_SLA_Measure_ID, Integer.valueOf(PA_SLA_Measure_ID));
 	}
 
 	/** Get SLA Measure.
@@ -295,7 +293,7 @@ public class X_PA_SLA_Measure extends PO implements I_PA_SLA_Measure, I_Persiste
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 1) 
+		if (Record_ID < 0) 
 			set_Value (COLUMNNAME_Record_ID, null);
 		else 
 			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));

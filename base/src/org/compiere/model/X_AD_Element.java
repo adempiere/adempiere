@@ -81,9 +81,10 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setAD_Element_ID (int AD_Element_ID)
 	{
-		if (AD_Element_ID < 1)
-			 throw new IllegalArgumentException ("AD_Element_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
+		if (AD_Element_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Element_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Element_ID, Integer.valueOf(AD_Element_ID));
 	}
 
 	/** Get System Element.
@@ -103,8 +104,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setColumnName (String ColumnName)
 	{
-		if (ColumnName == null)
-			throw new IllegalArgumentException ("ColumnName is mandatory.");
 		set_Value (COLUMNNAME_ColumnName, ColumnName);
 	}
 
@@ -184,8 +183,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -271,8 +268,6 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	  */
 	public void setPrintName (String PrintName)
 	{
-		if (PrintName == null)
-			throw new IllegalArgumentException ("PrintName is mandatory.");
 		set_Value (COLUMNNAME_PrintName, PrintName);
 	}
 

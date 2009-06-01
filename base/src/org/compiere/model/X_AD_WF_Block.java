@@ -80,9 +80,10 @@ public class X_AD_WF_Block extends PO implements I_AD_WF_Block, I_Persistent
 	  */
 	public void setAD_WF_Block_ID (int AD_WF_Block_ID)
 	{
-		if (AD_WF_Block_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Block_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
+		if (AD_WF_Block_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Block_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Block_ID, Integer.valueOf(AD_WF_Block_ID));
 	}
 
 	/** Get Workflow Block.
@@ -118,9 +119,10 @@ public class X_AD_WF_Block extends PO implements I_AD_WF_Block, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -157,8 +159,6 @@ public class X_AD_WF_Block extends PO implements I_AD_WF_Block, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

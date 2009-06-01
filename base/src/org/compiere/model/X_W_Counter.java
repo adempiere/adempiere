@@ -137,8 +137,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		@param PageURL Page URL	  */
 	public void setPageURL (String PageURL)
 	{
-		if (PageURL == null)
-			throw new IllegalArgumentException ("PageURL is mandatory.");
 		set_Value (COLUMNNAME_PageURL, PageURL);
 	}
 
@@ -196,8 +194,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setRemote_Addr (String Remote_Addr)
 	{
-		if (Remote_Addr == null)
-			throw new IllegalArgumentException ("Remote_Addr is mandatory.");
 		set_Value (COLUMNNAME_Remote_Addr, Remote_Addr);
 	}
 
@@ -223,8 +219,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setRemote_Host (String Remote_Host)
 	{
-		if (Remote_Host == null)
-			throw new IllegalArgumentException ("Remote_Host is mandatory.");
 		set_Value (COLUMNNAME_Remote_Host, Remote_Host);
 	}
 
@@ -298,9 +292,10 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	  */
 	public void setW_Counter_ID (int W_Counter_ID)
 	{
-		if (W_Counter_ID < 1)
-			 throw new IllegalArgumentException ("W_Counter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
+		if (W_Counter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
 	}
 
 	/** Get Web Counter.

@@ -96,9 +96,10 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
-			 throw new IllegalArgumentException ("AD_User_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -118,9 +119,10 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	  */
 	public void setC_OrgAssignment_ID (int C_OrgAssignment_ID)
 	{
-		if (C_OrgAssignment_ID < 1)
-			 throw new IllegalArgumentException ("C_OrgAssignment_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_OrgAssignment_ID, Integer.valueOf(C_OrgAssignment_ID));
+		if (C_OrgAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrgAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrgAssignment_ID, Integer.valueOf(C_OrgAssignment_ID));
 	}
 
 	/** Get Org Assignment.
@@ -157,8 +159,6 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -98,9 +98,10 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setC_Calendar_ID (int C_Calendar_ID)
 	{
-		if (C_Calendar_ID < 1)
-			 throw new IllegalArgumentException ("C_Calendar_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
+		if (C_Calendar_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Calendar_ID, Integer.valueOf(C_Calendar_ID));
 	}
 
 	/** Get Calendar.
@@ -136,9 +137,10 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setC_Year_ID (int C_Year_ID)
 	{
-		if (C_Year_ID < 1)
-			 throw new IllegalArgumentException ("C_Year_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Year_ID, Integer.valueOf(C_Year_ID));
+		if (C_Year_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Year_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Year_ID, Integer.valueOf(C_Year_ID));
 	}
 
 	/** Get Year.
@@ -216,9 +218,10 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setM_Demand_ID (int M_Demand_ID)
 	{
-		if (M_Demand_ID < 1)
-			 throw new IllegalArgumentException ("M_Demand_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Demand_ID, Integer.valueOf(M_Demand_ID));
+		if (M_Demand_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Demand_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Demand_ID, Integer.valueOf(M_Demand_ID));
 	}
 
 	/** Get Demand.
@@ -238,8 +241,6 @@ public class X_M_Demand extends PO implements I_M_Demand, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

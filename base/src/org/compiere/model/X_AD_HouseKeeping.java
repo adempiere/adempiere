@@ -80,9 +80,10 @@ public class X_AD_HouseKeeping extends PO implements I_AD_HouseKeeping, I_Persis
 		@param AD_HouseKeeping_ID House Keeping Configuration	  */
 	public void setAD_HouseKeeping_ID (int AD_HouseKeeping_ID)
 	{
-		if (AD_HouseKeeping_ID < 1)
-			 throw new IllegalArgumentException ("AD_HouseKeeping_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_HouseKeeping_ID, Integer.valueOf(AD_HouseKeeping_ID));
+		if (AD_HouseKeeping_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_HouseKeeping_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_HouseKeeping_ID, Integer.valueOf(AD_HouseKeeping_ID));
 	}
 
 	/** Get House Keeping Configuration.
@@ -117,9 +118,10 @@ public class X_AD_HouseKeeping extends PO implements I_AD_HouseKeeping, I_Persis
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -263,8 +265,6 @@ public class X_AD_HouseKeeping extends PO implements I_AD_HouseKeeping, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -311,8 +311,6 @@ public class X_AD_HouseKeeping extends PO implements I_AD_HouseKeeping, I_Persis
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

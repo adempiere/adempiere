@@ -111,9 +111,10 @@ public class X_K_Category extends PO implements I_K_Category, I_Persistent
 	  */
 	public void setK_Category_ID (int K_Category_ID)
 	{
-		if (K_Category_ID < 1)
-			 throw new IllegalArgumentException ("K_Category_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
+		if (K_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_Category_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_Category_ID, Integer.valueOf(K_Category_ID));
 	}
 
 	/** Get Knowledge Category.
@@ -133,8 +134,6 @@ public class X_K_Category extends PO implements I_K_Category, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

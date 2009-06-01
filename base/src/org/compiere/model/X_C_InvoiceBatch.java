@@ -148,9 +148,10 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -170,9 +171,10 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setC_InvoiceBatch_ID (int C_InvoiceBatch_ID)
 	{
-		if (C_InvoiceBatch_ID < 1)
-			 throw new IllegalArgumentException ("C_InvoiceBatch_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, Integer.valueOf(C_InvoiceBatch_ID));
+		if (C_InvoiceBatch_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_InvoiceBatch_ID, Integer.valueOf(C_InvoiceBatch_ID));
 	}
 
 	/** Get Invoice Batch.
@@ -192,8 +194,6 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setControlAmt (BigDecimal ControlAmt)
 	{
-		if (ControlAmt == null)
-			throw new IllegalArgumentException ("ControlAmt is mandatory.");
 		set_Value (COLUMNNAME_ControlAmt, ControlAmt);
 	}
 
@@ -214,8 +214,6 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setDateDoc (Timestamp DateDoc)
 	{
-		if (DateDoc == null)
-			throw new IllegalArgumentException ("DateDoc is mandatory.");
 		set_Value (COLUMNNAME_DateDoc, DateDoc);
 	}
 
@@ -250,8 +248,6 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setDocumentAmt (BigDecimal DocumentAmt)
 	{
-		if (DocumentAmt == null)
-			throw new IllegalArgumentException ("DocumentAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentAmt, DocumentAmt);
 	}
 
@@ -272,8 +268,6 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -368,9 +362,10 @@ public class X_C_InvoiceBatch extends PO implements I_C_InvoiceBatch, I_Persiste
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID < 1)
-			 throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.

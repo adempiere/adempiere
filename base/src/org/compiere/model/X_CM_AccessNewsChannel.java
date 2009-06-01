@@ -94,9 +94,10 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.
@@ -132,9 +133,10 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
 	  */
 	public void setCM_NewsChannel_ID (int CM_NewsChannel_ID)
 	{
-		if (CM_NewsChannel_ID < 1)
-			 throw new IllegalArgumentException ("CM_NewsChannel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
+		if (CM_NewsChannel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_NewsChannel_ID, Integer.valueOf(CM_NewsChannel_ID));
 	}
 
 	/** Get News Channel.

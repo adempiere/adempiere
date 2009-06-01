@@ -93,7 +93,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setBudgetControlScope (String BudgetControlScope)
 	{
-		if (BudgetControlScope == null) throw new IllegalArgumentException ("BudgetControlScope is mandatory");
+
 		set_Value (COLUMNNAME_BudgetControlScope, BudgetControlScope);
 	}
 
@@ -127,9 +127,10 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -163,7 +164,7 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setCommitmentType (String CommitmentType)
 	{
-		if (CommitmentType == null) throw new IllegalArgumentException ("CommitmentType is mandatory");
+
 		set_Value (COLUMNNAME_CommitmentType, CommitmentType);
 	}
 
@@ -198,9 +199,10 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setGL_BudgetControl_ID (int GL_BudgetControl_ID)
 	{
-		if (GL_BudgetControl_ID < 1)
-			 throw new IllegalArgumentException ("GL_BudgetControl_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, Integer.valueOf(GL_BudgetControl_ID));
+		if (GL_BudgetControl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, Integer.valueOf(GL_BudgetControl_ID));
 	}
 
 	/** Get Budget Control.
@@ -236,9 +238,10 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setGL_Budget_ID (int GL_Budget_ID)
 	{
-		if (GL_Budget_ID < 1)
-			 throw new IllegalArgumentException ("GL_Budget_ID is mandatory.");
-		set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
+		if (GL_Budget_ID < 1) 
+			set_Value (COLUMNNAME_GL_Budget_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Budget_ID, Integer.valueOf(GL_Budget_ID));
 	}
 
 	/** Get Budget.
@@ -299,8 +302,6 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

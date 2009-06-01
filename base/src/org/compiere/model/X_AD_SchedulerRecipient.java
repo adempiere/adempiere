@@ -95,7 +95,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 1) 
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
 		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
@@ -134,9 +134,10 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	  */
 	public void setAD_Scheduler_ID (int AD_Scheduler_ID)
 	{
-		if (AD_Scheduler_ID < 1)
-			 throw new IllegalArgumentException ("AD_Scheduler_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
+		if (AD_Scheduler_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Scheduler_ID, Integer.valueOf(AD_Scheduler_ID));
 	}
 
 	/** Get Scheduler.
@@ -156,9 +157,10 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	  */
 	public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID)
 	{
-		if (AD_SchedulerRecipient_ID < 1)
-			 throw new IllegalArgumentException ("AD_SchedulerRecipient_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, Integer.valueOf(AD_SchedulerRecipient_ID));
+		if (AD_SchedulerRecipient_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, Integer.valueOf(AD_SchedulerRecipient_ID));
 	}
 
 	/** Get Scheduler Recipient.

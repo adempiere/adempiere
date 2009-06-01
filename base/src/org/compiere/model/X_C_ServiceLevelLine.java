@@ -100,9 +100,10 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	  */
 	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID)
 	{
-		if (C_ServiceLevel_ID < 1)
-			 throw new IllegalArgumentException ("C_ServiceLevel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, Integer.valueOf(C_ServiceLevel_ID));
+		if (C_ServiceLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevel_ID, Integer.valueOf(C_ServiceLevel_ID));
 	}
 
 	/** Get Service Level.
@@ -122,9 +123,10 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	  */
 	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID)
 	{
-		if (C_ServiceLevelLine_ID < 1)
-			 throw new IllegalArgumentException ("C_ServiceLevelLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
+		if (C_ServiceLevelLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ServiceLevelLine_ID, Integer.valueOf(C_ServiceLevelLine_ID));
 	}
 
 	/** Get Service Level Line.
@@ -185,8 +187,6 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	  */
 	public void setServiceDate (Timestamp ServiceDate)
 	{
-		if (ServiceDate == null)
-			throw new IllegalArgumentException ("ServiceDate is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_ServiceDate, ServiceDate);
 	}
 
@@ -212,8 +212,6 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
 	  */
 	public void setServiceLevelProvided (BigDecimal ServiceLevelProvided)
 	{
-		if (ServiceLevelProvided == null)
-			throw new IllegalArgumentException ("ServiceLevelProvided is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_ServiceLevelProvided, ServiceLevelProvided);
 	}
 

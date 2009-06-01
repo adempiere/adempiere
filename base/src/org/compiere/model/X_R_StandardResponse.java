@@ -78,8 +78,6 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -105,8 +103,6 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	  */
 	public void setResponseText (String ResponseText)
 	{
-		if (ResponseText == null)
-			throw new IllegalArgumentException ("ResponseText is mandatory.");
 		set_Value (COLUMNNAME_ResponseText, ResponseText);
 	}
 
@@ -124,9 +120,10 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	  */
 	public void setR_StandardResponse_ID (int R_StandardResponse_ID)
 	{
-		if (R_StandardResponse_ID < 1)
-			 throw new IllegalArgumentException ("R_StandardResponse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_R_StandardResponse_ID, Integer.valueOf(R_StandardResponse_ID));
+		if (R_StandardResponse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_StandardResponse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_StandardResponse_ID, Integer.valueOf(R_StandardResponse_ID));
 	}
 
 	/** Get Standard Response.

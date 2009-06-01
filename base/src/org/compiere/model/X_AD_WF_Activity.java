@@ -141,9 +141,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -186,9 +187,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setAD_WF_Activity_ID (int AD_WF_Activity_ID)
 	{
-		if (AD_WF_Activity_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Activity_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
+		if (AD_WF_Activity_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Activity_ID, Integer.valueOf(AD_WF_Activity_ID));
 	}
 
 	/** Get Workflow Activity.
@@ -224,9 +226,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+		if (AD_WF_Node_ID < 1) 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
 	}
 
 	/** Get Node.
@@ -270,9 +273,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setAD_WF_Process_ID (int AD_WF_Process_ID)
 	{
-		if (AD_WF_Process_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Process_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, Integer.valueOf(AD_WF_Process_ID));
+		if (AD_WF_Process_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_Process_ID, Integer.valueOf(AD_WF_Process_ID));
 	}
 
 	/** Get Workflow Process.
@@ -347,9 +351,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -488,9 +493,10 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setRecord_ID (int Record_ID)
 	{
-		if (Record_ID < 0)
-			 throw new IllegalArgumentException ("Record_ID is mandatory.");
-		set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+		if (Record_ID < 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
 	}
 
 	/** Get Record ID.
@@ -541,7 +547,7 @@ public class X_AD_WF_Activity extends PO implements I_AD_WF_Activity, I_Persiste
 	  */
 	public void setWFState (String WFState)
 	{
-		if (WFState == null) throw new IllegalArgumentException ("WFState is mandatory");
+
 		set_Value (COLUMNNAME_WFState, WFState);
 	}
 

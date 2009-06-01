@@ -94,9 +94,10 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
 	  */
 	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
 	{
-		if (CM_AccessProfile_ID < 1)
-			 throw new IllegalArgumentException ("CM_AccessProfile_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
 	}
 
 	/** Get Web Access Profile.
@@ -132,9 +133,10 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
 	  */
 	public void setCM_CStage_ID (int CM_CStage_ID)
 	{
-		if (CM_CStage_ID < 1)
-			 throw new IllegalArgumentException ("CM_CStage_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+		if (CM_CStage_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
 	}
 
 	/** Get Web Container Stage.

@@ -26,15 +26,15 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_RMA
- *  @author Adempiere (generated)
+ *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
+public class X_M_RMA extends PO implements I_M_RMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090601L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_RMA (Properties ctx, int M_RMA_ID, String trxName)
@@ -52,8 +52,8 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 			setIsApproved (false);
 			setIsSOTrx (false);
 // @IsSOTrx@
-			setM_RMAType_ID (0);
 			setM_RMA_ID (0);
+			setM_RMAType_ID (0);
 			setName (null);
 			setProcessed (false);
 			setSalesRep_ID (0);
@@ -67,7 +67,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
     /** AccessLevel
-      * @return 1 - Org
+      * @return 1 - Org 
       */
     protected int get_AccessLevel()
     {
@@ -89,7 +89,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
 	/** Set Amount.
-		@param Amt
+		@param Amt 
 		Amount
 	  */
 	public void setAmt (BigDecimal Amt)
@@ -100,7 +100,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Amount.
 		@return Amount
 	  */
-	public BigDecimal getAmt ()
+	public BigDecimal getAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Amt);
 		if (bd == null)
@@ -108,7 +108,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
         I_C_BPartner result = null;
@@ -125,21 +125,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
 	/** Set Business Partner .
-		@param C_BPartner_ID
+		@param C_BPartner_ID 
 		Identifies a Business Partner
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
+		if (C_BPartner_ID < 1) 
 			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
 		@return Identifies a Business Partner
 	  */
-	public int getC_BPartner_ID ()
+	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
@@ -147,7 +147,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public I_C_Currency getC_Currency() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
         I_C_Currency result = null;
@@ -164,21 +164,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
 	/** Set Currency.
-		@param C_Currency_ID
+		@param C_Currency_ID 
 		The Currency for this record
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
+		if (C_Currency_ID < 1) 
 			set_Value (COLUMNNAME_C_Currency_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
 		@return The Currency for this record
 	  */
-	public int getC_Currency_ID ()
+	public int getC_Currency_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
 		if (ii == null)
@@ -187,21 +187,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	}
 
 	/** Set Document Type.
-		@param C_DocType_ID
+		@param C_DocType_ID 
 		Document type or rules
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
+		if (C_DocType_ID < 0) 
 			set_Value (COLUMNNAME_C_DocType_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
 		@return Document type or rules
 	  */
-	public int getC_DocType_ID ()
+	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
 		if (ii == null)
@@ -209,7 +209,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
         I_C_Order result = null;
@@ -226,21 +226,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
 	/** Set Order.
-		@param C_Order_ID
+		@param C_Order_ID 
 		Order
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID < 1)
+		if (C_Order_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
-		else
+		else 
 			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
 		@return Order
 	  */
-	public int getC_Order_ID ()
+	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
@@ -249,7 +249,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	}
 
 	/** Set Description.
-		@param Description
+		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
@@ -260,7 +260,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Description.
 		@return Optional short description of the record
 	  */
-	public String getDescription ()
+	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
@@ -296,7 +296,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Wait Complete = WC */
 	public static final String DOCACTION_WaitComplete = "WC";
 	/** Set Document Action.
-		@param DocAction
+		@param DocAction 
 		The targeted status of the document
 	  */
 	public void setDocAction (String DocAction)
@@ -308,7 +308,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Document Action.
 		@return The targeted status of the document
 	  */
-	public String getDocAction ()
+	public String getDocAction () 
 	{
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
@@ -340,7 +340,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Waiting Confirmation = WC */
 	public static final String DOCSTATUS_WaitingConfirmation = "WC";
 	/** Set Document Status.
-		@param DocStatus
+		@param DocStatus 
 		The current status of the document
 	  */
 	public void setDocStatus (String DocStatus)
@@ -352,13 +352,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Document Status.
 		@return The current status of the document
 	  */
-	public String getDocStatus ()
+	public String getDocStatus () 
 	{
 		return (String)get_Value(COLUMNNAME_DocStatus);
 	}
 
 	/** Set Document No.
-		@param DocumentNo
+		@param DocumentNo 
 		Document sequence number of the document
 	  */
 	public void setDocumentNo (String DocumentNo)
@@ -369,7 +369,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Document No.
 		@return Document sequence number of the document
 	  */
-	public String getDocumentNo ()
+	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
@@ -377,13 +377,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
-    public KeyNamePair getKeyNamePair()
+    public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
 	/** Set Generate To.
-		@param GenerateTo
+		@param GenerateTo 
 		Generate To
 	  */
 	public void setGenerateTo (String GenerateTo)
@@ -394,13 +394,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Generate To.
 		@return Generate To
 	  */
-	public String getGenerateTo ()
+	public String getGenerateTo () 
 	{
 		return (String)get_Value(COLUMNNAME_GenerateTo);
 	}
 
 	/** Set Comment/Help.
-		@param Help
+		@param Help 
 		Comment or Hint
 	  */
 	public void setHelp (String Help)
@@ -411,27 +411,27 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Comment/Help.
 		@return Comment or Hint
 	  */
-	public String getHelp ()
+	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
 	/** Set Shipment/Receipt.
-		@param InOut_ID
+		@param InOut_ID 
 		MaterialShipment Document
 	  */
 	public void setInOut_ID (int InOut_ID)
 	{
-		if (InOut_ID < 1)
+		if (InOut_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_InOut_ID, null);
-		else
+		else 
 			set_ValueNoCheck (COLUMNNAME_InOut_ID, Integer.valueOf(InOut_ID));
 	}
 
 	/** Get Shipment/Receipt.
 		@return MaterialShipment Document
 	  */
-	public int getInOut_ID ()
+	public int getInOut_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_InOut_ID);
 		if (ii == null)
@@ -440,7 +440,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	}
 
 	/** Set Approved.
-		@param IsApproved
+		@param IsApproved 
 		Indicates if this document requires approval
 	  */
 	public void setIsApproved (boolean IsApproved)
@@ -451,20 +451,20 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Approved.
 		@return Indicates if this document requires approval
 	  */
-	public boolean isApproved ()
+	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
 	}
 
 	/** Set Sales Transaction.
-		@param IsSOTrx
+		@param IsSOTrx 
 		This is a Sales Transaction
 	  */
 	public void setIsSOTrx (boolean IsSOTrx)
@@ -475,19 +475,42 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Sales Transaction.
 		@return This is a Sales Transaction
 	  */
-	public boolean isSOTrx ()
+	public boolean isSOTrx () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
 	}
 
-	public I_M_RMAType getM_RMAType() throws RuntimeException
+	/** Set RMA.
+		@param M_RMA_ID 
+		Return Material Authorization
+	  */
+	public void setM_RMA_ID (int M_RMA_ID)
+	{
+		if (M_RMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
+	}
+
+	/** Get RMA.
+		@return Return Material Authorization
+	  */
+	public int getM_RMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMA_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_RMAType getM_RMAType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMAType.Table_Name);
         I_M_RMAType result = null;
@@ -504,21 +527,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
     }
 
 	/** Set RMA Type.
-		@param M_RMAType_ID
+		@param M_RMAType_ID 
 		Return Material Authorization Type
 	  */
 	public void setM_RMAType_ID (int M_RMAType_ID)
 	{
-		if (M_RMAType_ID < 1)
+		if (M_RMAType_ID < 1) 
 			set_Value (COLUMNNAME_M_RMAType_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
 	}
 
 	/** Get RMA Type.
 		@return Return Material Authorization Type
 	  */
-	public int getM_RMAType_ID ()
+	public int getM_RMAType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
 		if (ii == null)
@@ -526,31 +549,8 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set RMA.
-		@param M_RMA_ID
-		Return Material Authorization
-	  */
-	public void setM_RMA_ID (int M_RMA_ID)
-	{
-		if (M_RMA_ID < 1)
-			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
-		else
-			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
-	}
-
-	/** Get RMA.
-		@return Return Material Authorization
-	  */
-	public int getM_RMA_ID ()
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMA_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
-		@param Name
+		@param Name 
 		Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name)
@@ -561,13 +561,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Name.
 		@return Alphanumeric identifier of the entity
 	  */
-	public String getName ()
+	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
 	/** Set Processed.
-		@param Processed
+		@param Processed 
 		The document has been processed
 	  */
 	public void setProcessed (boolean Processed)
@@ -578,13 +578,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/** Get Processed.
 		@return The document has been processed
 	  */
-	public boolean isProcessed ()
+	public boolean isProcessed () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processed);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
@@ -599,13 +599,13 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 
 	/** Get Process Now.
 		@return Process Now	  */
-	public boolean isProcessing ()
+	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
@@ -615,15 +615,15 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		@param Ref_RMA_ID Referenced RMA	  */
 	public void setRef_RMA_ID (int Ref_RMA_ID)
 	{
-		if (Ref_RMA_ID < 1)
+		if (Ref_RMA_ID < 1) 
 			set_Value (COLUMNNAME_Ref_RMA_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_Ref_RMA_ID, Integer.valueOf(Ref_RMA_ID));
 	}
 
 	/** Get Referenced RMA.
 		@return Referenced RMA	  */
-	public int getRef_RMA_ID ()
+	public int getRef_RMA_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_RMA_ID);
 		if (ii == null)
@@ -632,21 +632,21 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	}
 
 	/** Set Sales Representative.
-		@param SalesRep_ID
+		@param SalesRep_ID 
 		Sales Representative or Company Agent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID < 1)
+		if (SalesRep_ID < 1) 
 			set_Value (COLUMNNAME_SalesRep_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
 		@return Sales Representative or Company Agent
 	  */
-	public int getSalesRep_ID ()
+	public int getSalesRep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
 		if (ii == null)

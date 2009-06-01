@@ -90,9 +90,10 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setAD_Replication_ID (int AD_Replication_ID)
 	{
-		if (AD_Replication_ID < 1)
-			 throw new IllegalArgumentException ("AD_Replication_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
+		if (AD_Replication_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Replication_ID, Integer.valueOf(AD_Replication_ID));
 	}
 
 	/** Get Replication.
@@ -128,9 +129,10 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 	{
-		if (AD_ReplicationStrategy_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
+		if (AD_ReplicationStrategy_ID < 1) 
+			set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
 	}
 
 	/** Get Replication Strategy.
@@ -201,8 +203,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setHostAddress (String HostAddress)
 	{
-		if (HostAddress == null)
-			throw new IllegalArgumentException ("HostAddress is mandatory.");
 		set_Value (COLUMNNAME_HostAddress, HostAddress);
 	}
 
@@ -304,8 +304,6 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -369,9 +367,10 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setRemote_Client_ID (int Remote_Client_ID)
 	{
-		if (Remote_Client_ID < 1)
-			 throw new IllegalArgumentException ("Remote_Client_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Remote_Client_ID, Integer.valueOf(Remote_Client_ID));
+		if (Remote_Client_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Remote_Client_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Remote_Client_ID, Integer.valueOf(Remote_Client_ID));
 	}
 
 	/** Get Remote Client.
@@ -391,9 +390,10 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 	  */
 	public void setRemote_Org_ID (int Remote_Org_ID)
 	{
-		if (Remote_Org_ID < 1)
-			 throw new IllegalArgumentException ("Remote_Org_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_Remote_Org_ID, Integer.valueOf(Remote_Org_ID));
+		if (Remote_Org_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Remote_Org_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Remote_Org_ID, Integer.valueOf(Remote_Org_ID));
 	}
 
 	/** Get Remote Organization.

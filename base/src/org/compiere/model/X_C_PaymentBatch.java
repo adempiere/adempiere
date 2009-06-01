@@ -83,9 +83,10 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	  */
 	public void setC_PaymentBatch_ID (int C_PaymentBatch_ID)
 	{
-		if (C_PaymentBatch_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentBatch_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_PaymentBatch_ID, Integer.valueOf(C_PaymentBatch_ID));
+		if (C_PaymentBatch_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentBatch_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentBatch_ID, Integer.valueOf(C_PaymentBatch_ID));
 	}
 
 	/** Get Payment Batch.
@@ -121,9 +122,10 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	  */
 	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
 	{
-		if (C_PaymentProcessor_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentProcessor_ID is mandatory.");
-		set_Value (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
+		if (C_PaymentProcessor_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentProcessor_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
 	}
 
 	/** Get Payment Processor.
@@ -168,8 +170,6 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

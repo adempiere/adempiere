@@ -80,9 +80,10 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
 	{
-		if (AD_Val_Rule_ID < 1)
-			 throw new IllegalArgumentException ("AD_Val_Rule_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
+		if (AD_Val_Rule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Val_Rule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
 	}
 
 	/** Get Dynamic Validation.
@@ -156,8 +157,6 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -191,7 +190,7 @@ public class X_AD_Val_Rule extends PO implements I_AD_Val_Rule, I_Persistent
 	  */
 	public void setType (String Type)
 	{
-		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
+
 		set_Value (COLUMNNAME_Type, Type);
 	}
 

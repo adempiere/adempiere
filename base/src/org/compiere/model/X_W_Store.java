@@ -122,9 +122,10 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
 	{
-		if (C_PaymentTerm_ID < 1)
-			 throw new IllegalArgumentException ("C_PaymentTerm_ID is mandatory.");
-		set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+		if (C_PaymentTerm_ID < 1) 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
 	}
 
 	/** Get Payment Term.
@@ -492,9 +493,10 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -530,9 +532,10 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -552,8 +555,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -579,9 +580,10 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setSalesRep_ID (int SalesRep_ID)
 	{
-		if (SalesRep_ID < 1)
-			 throw new IllegalArgumentException ("SalesRep_ID is mandatory.");
-		set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
 	}
 
 	/** Get Sales Representative.
@@ -618,8 +620,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setURL (String URL)
 	{
-		if (URL == null)
-			throw new IllegalArgumentException ("URL is mandatory.");
 		set_Value (COLUMNNAME_URL, URL);
 	}
 
@@ -637,8 +637,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setWebContext (String WebContext)
 	{
-		if (WebContext == null)
-			throw new IllegalArgumentException ("WebContext is mandatory.");
 		set_Value (COLUMNNAME_WebContext, WebContext);
 	}
 
@@ -809,9 +807,10 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	  */
 	public void setW_Store_ID (int W_Store_ID)
 	{
-		if (W_Store_ID < 1)
-			 throw new IllegalArgumentException ("W_Store_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
+		if (W_Store_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Store_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
 	}
 
 	/** Get Web Store.

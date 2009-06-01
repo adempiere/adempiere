@@ -79,9 +79,10 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 		@param AD_ReplicationDocument_ID Replication Document	  */
 	public void setAD_ReplicationDocument_ID (int AD_ReplicationDocument_ID)
 	{
-		if (AD_ReplicationDocument_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationDocument_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReplicationDocument_ID, Integer.valueOf(AD_ReplicationDocument_ID));
+		if (AD_ReplicationDocument_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationDocument_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationDocument_ID, Integer.valueOf(AD_ReplicationDocument_ID));
 	}
 
 	/** Get Replication Document.
@@ -100,9 +101,10 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 	  */
 	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 	{
-		if (AD_ReplicationStrategy_ID < 1)
-			 throw new IllegalArgumentException ("AD_ReplicationStrategy_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
+		if (AD_ReplicationStrategy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
 	}
 
 	/** Get Replication Strategy.
@@ -138,9 +140,10 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -176,9 +179,10 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -223,7 +227,7 @@ public class X_AD_ReplicationDocument extends PO implements I_AD_ReplicationDocu
 	  */
 	public void setReplicationType (String ReplicationType)
 	{
-		if (ReplicationType == null) throw new IllegalArgumentException ("ReplicationType is mandatory");
+
 		set_Value (COLUMNNAME_ReplicationType, ReplicationType);
 	}
 

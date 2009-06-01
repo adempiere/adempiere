@@ -74,9 +74,10 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
 		@param AD_PACKAGE_IMP_INST_ID AD_PACKAGE_IMP_INST_ID	  */
 	public void setAD_PACKAGE_IMP_INST_ID (int AD_PACKAGE_IMP_INST_ID)
 	{
-		if (AD_PACKAGE_IMP_INST_ID < 1)
-			 throw new IllegalArgumentException ("AD_PACKAGE_IMP_INST_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_PACKAGE_IMP_INST_ID, Integer.valueOf(AD_PACKAGE_IMP_INST_ID));
+		if (AD_PACKAGE_IMP_INST_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PACKAGE_IMP_INST_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PACKAGE_IMP_INST_ID, Integer.valueOf(AD_PACKAGE_IMP_INST_ID));
 	}
 
 	/** Get AD_PACKAGE_IMP_INST_ID.

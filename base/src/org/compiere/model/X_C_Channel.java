@@ -118,9 +118,10 @@ public class X_C_Channel extends PO implements I_C_Channel, I_Persistent
 	  */
 	public void setC_Channel_ID (int C_Channel_ID)
 	{
-		if (C_Channel_ID < 1)
-			 throw new IllegalArgumentException ("C_Channel_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Channel_ID, Integer.valueOf(C_Channel_ID));
+		if (C_Channel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Channel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Channel_ID, Integer.valueOf(C_Channel_ID));
 	}
 
 	/** Get Channel.
@@ -157,8 +158,6 @@ public class X_C_Channel extends PO implements I_C_Channel, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

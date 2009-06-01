@@ -113,9 +113,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -135,8 +136,6 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setDateReport (Timestamp DateReport)
 	{
-		if (DateReport == null)
-			throw new IllegalArgumentException ("DateReport is mandatory.");
 		set_Value (COLUMNNAME_DateReport, DateReport);
 	}
 
@@ -201,7 +200,7 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -245,7 +244,7 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -263,8 +262,6 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -330,9 +327,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		if (M_PriceList_ID < 1)
-			 throw new IllegalArgumentException ("M_PriceList_ID is mandatory.");
-		set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
 	}
 
 	/** Get Price List.
@@ -368,9 +366,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -435,9 +434,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 	  */
 	public void setS_TimeExpense_ID (int S_TimeExpense_ID)
 	{
-		if (S_TimeExpense_ID < 1)
-			 throw new IllegalArgumentException ("S_TimeExpense_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, Integer.valueOf(S_TimeExpense_ID));
+		if (S_TimeExpense_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_TimeExpense_ID, Integer.valueOf(S_TimeExpense_ID));
 	}
 
 	/** Get Expense Report.

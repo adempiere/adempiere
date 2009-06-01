@@ -117,8 +117,6 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -224,9 +222,10 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setM_ChangeRequest_ID (int M_ChangeRequest_ID)
 	{
-		if (M_ChangeRequest_ID < 1)
-			 throw new IllegalArgumentException ("M_ChangeRequest_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_ChangeRequest_ID, Integer.valueOf(M_ChangeRequest_ID));
+		if (M_ChangeRequest_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeRequest_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ChangeRequest_ID, Integer.valueOf(M_ChangeRequest_ID));
 	}
 
 	/** Get Change Request.
@@ -269,8 +268,6 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

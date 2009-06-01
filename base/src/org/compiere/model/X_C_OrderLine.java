@@ -230,9 +230,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
 	{
-		if (C_BPartner_Location_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_Location_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
 	}
 
 	/** Get Partner Location.
@@ -346,9 +347,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -384,9 +386,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Order_ID < 1)
-			 throw new IllegalArgumentException ("C_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
 	/** Get Order.
@@ -414,9 +417,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_OrderLine_ID (int C_OrderLine_ID)
 	{
-		if (C_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("C_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+		if (C_OrderLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
 	}
 
 	/** Get Sales Order Line.
@@ -569,9 +573,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		if (C_Tax_ID < 1)
-			 throw new IllegalArgumentException ("C_Tax_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
 	/** Get Tax.
@@ -607,9 +612,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -663,8 +669,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setDateOrdered (Timestamp DateOrdered)
 	{
-		if (DateOrdered == null)
-			throw new IllegalArgumentException ("DateOrdered is mandatory.");
 		set_Value (COLUMNNAME_DateOrdered, DateOrdered);
 	}
 
@@ -736,8 +740,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setFreightAmt (BigDecimal FreightAmt)
 	{
-		if (FreightAmt == null)
-			throw new IllegalArgumentException ("FreightAmt is mandatory.");
 		set_Value (COLUMNNAME_FreightAmt, FreightAmt);
 	}
 
@@ -802,8 +804,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setLineNetAmt (BigDecimal LineNetAmt)
 	{
-		if (LineNetAmt == null)
-			throw new IllegalArgumentException ("LineNetAmt is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_LineNetAmt, LineNetAmt);
 	}
 
@@ -847,9 +847,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -947,9 +948,10 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -1005,8 +1007,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setPriceActual (BigDecimal PriceActual)
 	{
-		if (PriceActual == null)
-			throw new IllegalArgumentException ("PriceActual is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_PriceActual, PriceActual);
 	}
 
@@ -1047,8 +1047,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setPriceEntered (BigDecimal PriceEntered)
 	{
-		if (PriceEntered == null)
-			throw new IllegalArgumentException ("PriceEntered is mandatory.");
 		set_Value (COLUMNNAME_PriceEntered, PriceEntered);
 	}
 
@@ -1069,8 +1067,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setPriceLimit (BigDecimal PriceLimit)
 	{
-		if (PriceLimit == null)
-			throw new IllegalArgumentException ("PriceLimit is mandatory.");
 		set_Value (COLUMNNAME_PriceLimit, PriceLimit);
 	}
 
@@ -1091,8 +1087,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setPriceList (BigDecimal PriceList)
 	{
-		if (PriceList == null)
-			throw new IllegalArgumentException ("PriceList is mandatory.");
 		set_Value (COLUMNNAME_PriceList, PriceList);
 	}
 
@@ -1137,8 +1131,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyDelivered (BigDecimal QtyDelivered)
 	{
-		if (QtyDelivered == null)
-			throw new IllegalArgumentException ("QtyDelivered is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyDelivered, QtyDelivered);
 	}
 
@@ -1159,8 +1151,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyEntered (BigDecimal QtyEntered)
 	{
-		if (QtyEntered == null)
-			throw new IllegalArgumentException ("QtyEntered is mandatory.");
 		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
 	}
 
@@ -1181,8 +1171,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyInvoiced (BigDecimal QtyInvoiced)
 	{
-		if (QtyInvoiced == null)
-			throw new IllegalArgumentException ("QtyInvoiced is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyInvoiced, QtyInvoiced);
 	}
 
@@ -1203,8 +1191,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyLostSales (BigDecimal QtyLostSales)
 	{
-		if (QtyLostSales == null)
-			throw new IllegalArgumentException ("QtyLostSales is mandatory.");
 		set_Value (COLUMNNAME_QtyLostSales, QtyLostSales);
 	}
 
@@ -1225,8 +1211,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyOrdered (BigDecimal QtyOrdered)
 	{
-		if (QtyOrdered == null)
-			throw new IllegalArgumentException ("QtyOrdered is mandatory.");
 		set_Value (COLUMNNAME_QtyOrdered, QtyOrdered);
 	}
 
@@ -1247,8 +1231,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	  */
 	public void setQtyReserved (BigDecimal QtyReserved)
 	{
-		if (QtyReserved == null)
-			throw new IllegalArgumentException ("QtyReserved is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_QtyReserved, QtyReserved);
 	}
 

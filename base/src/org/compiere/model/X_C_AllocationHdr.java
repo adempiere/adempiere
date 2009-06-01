@@ -94,8 +94,6 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setApprovalAmt (BigDecimal ApprovalAmt)
 	{
-		if (ApprovalAmt == null)
-			throw new IllegalArgumentException ("ApprovalAmt is mandatory.");
 		set_Value (COLUMNNAME_ApprovalAmt, ApprovalAmt);
 	}
 
@@ -116,9 +114,10 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setC_AllocationHdr_ID (int C_AllocationHdr_ID)
 	{
-		if (C_AllocationHdr_ID < 1)
-			 throw new IllegalArgumentException ("C_AllocationHdr_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, Integer.valueOf(C_AllocationHdr_ID));
+		if (C_AllocationHdr_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AllocationHdr_ID, Integer.valueOf(C_AllocationHdr_ID));
 	}
 
 	/** Get Allocation.
@@ -154,9 +153,10 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setC_Currency_ID (int C_Currency_ID)
 	{
-		if (C_Currency_ID < 1)
-			 throw new IllegalArgumentException ("C_Currency_ID is mandatory.");
-		set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
 	}
 
 	/** Get Currency.
@@ -176,8 +176,6 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -195,8 +193,6 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setDateTrx (Timestamp DateTrx)
 	{
-		if (DateTrx == null)
-			throw new IllegalArgumentException ("DateTrx is mandatory.");
 		set_Value (COLUMNNAME_DateTrx, DateTrx);
 	}
 
@@ -261,7 +257,7 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
+
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -305,7 +301,7 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
+
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
@@ -323,8 +319,6 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
