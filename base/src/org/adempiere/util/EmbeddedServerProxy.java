@@ -16,7 +16,7 @@ package org.adempiere.util;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
-import org.compiere.session.ServerBean;
+import org.compiere.interfaces.Server;
 
 /**
  *
@@ -25,11 +25,24 @@ import org.compiere.session.ServerBean;
  */
 public class EmbeddedServerProxy implements InvocationHandler {
 
-	private ServerBean server = new ServerBean();
+	private Server server = null;
+
+	public EmbeddedServerProxy() {
+		ClassLoader loader = null;
+		loader = Thread.currentThread().getContextClassLoader();
+		if (loader == null)
+			loader = this.getClass().getClassLoader();
+		try {
+			Class<?> clazz = loader.loadClass("org.compiere.session.ServerBean");
+			server = (Server) clazz.newInstance();
+		} catch (Exception e) {
+			throw new IllegalStateException("Failed to load org.compiere.session.ServerBean.", e);
+		}
+	}
 
 	public Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
-		Method m = ServerBean.class.getMethod(method.getName(), method.getParameterTypes());
+		Method m = Server.class.getMethod(method.getName(), method.getParameterTypes());
 		return m.invoke(server, args);
 	}
 
