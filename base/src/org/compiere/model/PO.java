@@ -716,9 +716,7 @@ public abstract class PO
 		{
 			if (p_info.isColumnMandatory(index))
 			{
-				log.log(Level.WARNING, "Cannot set mandatory column to null " + colInfo);
-			//	Trace.printStack();
-				return false;
+				throw new IllegalArgumentException (ColumnName + " is mandatory.");
 			}
 			m_newValues[index] = Null.NULL;          //  correct
 			log.finer(ColumnName + " = null");

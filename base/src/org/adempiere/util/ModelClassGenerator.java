@@ -48,19 +48,19 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version $Id: GenerateModel.java,v 1.42 2005/05/08 15:16:56 jjanke Exp $
- * 
+ *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1781629 ] Don't use Env.NL in model class/interface generators
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
- * 				<li>better formating of generated source 
+ * 				<li>better formating of generated source
  * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * 				<li>FR [ 1990848 ] Generated Models: remove hardcoded field length
  * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
  * 				<li>BF [ 2780468 ] ModelClassGenerator: not generating methods for Created*
  * @author Victor Perez, e-Evolution
- * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class  
+ * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class
  */
 public class ModelClassGenerator
 {
@@ -73,33 +73,33 @@ public class ModelClassGenerator
 	public ModelClassGenerator (int AD_Table_ID, String directory, String packageName)
 	{
 		this.packageName = packageName;
-		
+
 		//	create column access methods
 		StringBuffer mandatory = new StringBuffer();
 		StringBuffer sb = createColumns(AD_Table_ID, mandatory);
-		
+
 		// Header
 		String tableName = createHeader(AD_Table_ID, sb, mandatory, packageName);
-		
+
 		// Save
 		if ( ! directory.endsWith(File.separator) )
 			directory += File.separator;
-		
+
 		writeToFile (sb, directory + tableName + ".java");
 	}
-	
+
 	public static final String NL = "\n";
-	
+
 	/**	Logger			*/
 	private static CLogger	log	= CLogger.getCLogger (ModelClassGenerator.class);
-	
+
 	/** Package Name */
 	private String packageName = "";
-	
+
 	/** EntityType */
 	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
 
-	
+
 	/**
 	 * 	Add Header info to buffer
 	 * 	@param AD_Table_ID table
@@ -145,7 +145,7 @@ public class ModelClassGenerator
 			accessLevelInfo += "- Client ";
 		if (accessLevel == 1 || accessLevel == 3 || accessLevel == 5 || accessLevel == 7)
 			accessLevelInfo += "- Org ";
-		
+
 		//
 		String keyColumn = tableName + "_ID";
 		String className = "X_" + tableName;
@@ -156,7 +156,7 @@ public class ModelClassGenerator
 			.append("package " + packageName + ";").append(NL)
 			.append(NL)
 		;
-		
+
 		addImportClass(java.util.Properties.class);
 		addImportClass(java.sql.ResultSet.class);
 		if (!packageName.equals("org.compiere.model"))
@@ -172,7 +172,7 @@ public class ModelClassGenerator
 			 	.append(", I_Persistent ")
 			 	.append(NL)
 			 .append("{").append(NL)
-			
+
 			 // serialVersionUID
 			 .append(NL)
 			 .append("\t/**").append(NL)
@@ -184,7 +184,7 @@ public class ModelClassGenerator
 			 	.append(Adempiere.DB_VERSION.substring(8))
 			 	.append("L;").append(NL)
 			 //.append("\tprivate static final long serialVersionUID = 1L;").append(NL)
-			
+
 			//	Standard Constructor
 			 .append(NL)
 			 .append("    /** Standard Constructor */").append(NL)
@@ -197,7 +197,7 @@ public class ModelClassGenerator
 			 .append("        } */").append(NL)
 			 .append("    }").append(NL)
 			//	Constructor End
-			
+
 			//	Load Constructor
 			 .append(NL)
 			 .append("    /** Load Constructor */").append(NL)
@@ -206,21 +206,21 @@ public class ModelClassGenerator
 			 .append("      super (ctx, rs, trxName);").append(NL)
 			 .append("    }").append(NL)
 			//	Load Constructor End
-			
+
 			// TableName
 //			 .append(NL)
 //			 .append("    /** TableName=").append(tableName).append(" */").append(NL)
 //			 .append("    public static final String Table_Name = \"").append(tableName).append("\";").append(NL)
-			 
+
 			// AD_Table_ID
 //			 .append(NL)
 //			 .append("    /** AD_Table_ID=").append(AD_Table_ID).append(" */").append(NL)
 //			 .append("    public static final int Table_ID = MTable.getTable_ID(Table_Name);").append(NL)
-			 
+
 			// KeyNamePair
 //			 .append(NL)
 //			 .append("    protected static KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);").append(NL)
-			 
+
 			// accessLevel
 //			 .append(NL)
 //			 .append("    protected BigDecimal accessLevel = BigDecimal.valueOf(").append(accessLevel).append(");").append(NL)
@@ -242,7 +242,7 @@ public class ModelClassGenerator
 			 .append("      return poi;").append(NL)
 			 .append("    }").append(NL)
 			// initPO
-			
+
 			// toString()
 			 .append(NL)
 			 .append("    public String toString()").append(NL)
@@ -303,7 +303,7 @@ public class ModelClassGenerator
 				String Callout = rs.getString(12);
 				String Name = rs.getString(13);
 				String Description = rs.getString(14);
-				String ColumnSQL = rs.getString(15); 
+				String ColumnSQL = rs.getString(15);
 				boolean virtualColumn = ColumnSQL != null && ColumnSQL.length() > 0;
 				boolean IsEncrypted = "Y".equals(rs.getString(16));
 				boolean IsKey = "Y".equals(rs.getString(17));
@@ -311,12 +311,12 @@ public class ModelClassGenerator
 				//
 				sb.append(
 					createColumnMethods (mandatory,
-							columnName, isUpdateable, isMandatory, 
-							displayType, AD_Reference_Value_ID, fieldLength, 
+							columnName, isUpdateable, isMandatory,
+							displayType, AD_Reference_Value_ID, fieldLength,
 							defaultValue, ValueMin, ValueMax, VFormat,
 							Callout, Name, Description, virtualColumn, IsEncrypted, IsKey)
 				);
-				//	
+				//
 				if (seqNo == 1 && IsIdentifier) {
 					if (!isKeyNamePairCreated) {
 						sb.append(createKeyNamePair(columnName, displayType));
@@ -363,9 +363,9 @@ public class ModelClassGenerator
 	 */
 	private String createColumnMethods (StringBuffer mandatory,
 		String columnName, boolean isUpdateable, boolean isMandatory,
-		int displayType, int AD_Reference_ID, int fieldLength, 
+		int displayType, int AD_Reference_ID, int fieldLength,
 		String defaultValue, String ValueMin, String ValueMax, String VFormat,
-		String Callout, String Name, String Description, 
+		String Callout, String Name, String Description,
 		boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
 	{
 		Class<?> clazz = ModelInterfaceGenerator.getClass(columnName, displayType, AD_Reference_ID);
@@ -388,38 +388,38 @@ public class ModelClassGenerator
 		}
 
 		StringBuffer sb = new StringBuffer();
-		
+
 		// TODO - New functionality
 		// 1) Must understand which class to reference
 		if (DisplayType.isID(displayType) && !IsKey)
 		{
 			if (displayType == DisplayType.TableDir
 					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
-			{	
-				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
+			{
+				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd
 				String tableName = columnName.substring(0, columnName.length()-3);
 				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
-				
+
 				MTable table = MTable.get(Env.getCtx(), tableName);
 				if (table != null)
 				{
 					String entityType = table.getEntityType();
 					if (!"D".equals(entityType))
-					{	
+					{
 						for (int i = 0; i < entityTypes.length; i++)
 						{
 							if (entityTypes[i].getEntityType().equals(entityType))
 							{
-								String modelpackage = entityTypes[i].getModelPackage(); 
+								String modelpackage = entityTypes[i].getModelPackage();
 								if (modelpackage != null)
-								{						
+								{
 									referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
-								    break; 
+								    break;
 								}
 							}
 						}
-					}	
-					//end [ 1785001 ]				
+					}
+					//end [ 1785001 ]
 					sb.append(NL)
 						.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException ").append(NL)
 						.append("    {").append(NL)
@@ -438,7 +438,7 @@ public class ModelClassGenerator
 						.append("        } catch (Exception e) {").append(NL)
 						.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(NL)
 						.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(NL)
-						.append("           throw new RuntimeException( e );").append(NL)					
+						.append("           throw new RuntimeException( e );").append(NL)
 						.append("        }").append(NL)
 						.append("        return result;").append(NL)
 						.append("    }").append(NL)
@@ -464,7 +464,7 @@ public class ModelClassGenerator
 		//	List Validation
 		if (AD_Reference_ID != 0 && String.class == clazz)
 		{
-			String staticVar = addListValidation (sb, AD_Reference_ID, columnName, !isMandatory);
+			String staticVar = addListValidation (sb, AD_Reference_ID, columnName);
 			sb.insert(0, staticVar);
 		}
 		//	setValue ("ColumnName", xx);
@@ -478,41 +478,29 @@ public class ModelClassGenerator
 			if (columnName.endsWith("_ID"))
 			{
 				int firstOK = 1;
-				if (isMandatory)	//	check mandatory ID
-				{
-					if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID") 
-						|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
-						|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
-						|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
-						firstOK = 0;
-					sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(")").append(NL)
-						.append("\t\t\t throw new IllegalArgumentException (\"")
-						.append(columnName).append(" is mandatory.\");").append(NL);
-				}
-				else				//	set optional _ID to null if 0
-					sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(") ").append(NL)
-						.append("\t").append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", null);").append(NL)
-						.append("\t\telse ").append(NL).append("\t");
+				//	check special column
+				if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID")
+					|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
+					|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
+					|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID"))
+					firstOK = 0;
+				//	set _ID to null if < 0 for special column or < 1 for others
+				sb.append("\t\tif (").append (columnName).append (" < ").append(firstOK).append(") ").append(NL)
+					.append("\t").append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", null);").append(NL)
+					.append("\t\telse ").append(NL).append("\t");
 			}
 			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Integer.valueOf(").append(columnName).append("));").append(NL);
 		}
-//		Boolean
+		//		Boolean
 		else if (clazz.equals(Boolean.class))
 			sb.append(setValue).append(" (").append ("COLUMNNAME_").append(columnName).append(", Boolean.valueOf(").append(columnName).append("));").append(NL);
 		else
 		{
-			if (isMandatory && AD_Reference_ID == 0)	//	does not apply to int/boolean
-			{
-				sb.append("\t\tif (").append(columnName).append (" == null)").append(NL)
-					.append("\t\t\tthrow new IllegalArgumentException (\"")
-				  	.append(columnName).append(" is mandatory.\");").append(NL);
-			}
-			//
 			sb.append(setValue).append(" (").append ("COLUMNNAME_").append (columnName).append (", ")
 				.append(columnName).append (");").append(NL);
 		}
 		sb.append("\t}").append(NL);
-		
+
 		//	Mandatory call in constructor
 		if (isMandatory)
 		{
@@ -538,14 +526,14 @@ public class ModelClassGenerator
 		}
 
 
-		//	****** Get Comment ****** 
+		//	****** Get Comment ******
 		generateJavaGetComment(Name, Description, sb);
-		
+
 		//	Get	********
 		String getValue = "get_Value";
 		if (IsEncrypted)
 			getValue = "get_ValueE";
-		
+
 		sb.append("\tpublic ").append(dataType);
 		if (clazz.equals(Boolean.class))
 		{
@@ -601,7 +589,7 @@ public class ModelClassGenerator
 
 	//	****** Set Comment ******
 	public void generateJavaSetComment(String columnName, String propertyName, String description, StringBuffer result) {
-		
+
 		result.append(NL)
 			.append("\t/** Set ").append(propertyName).append(".").append(NL)
 			.append("\t\t@param ").append(columnName).append(" ")
@@ -617,7 +605,7 @@ public class ModelClassGenerator
 
 	//	****** Get Comment ******
 	public void generateJavaGetComment(String propertyName, String description, StringBuffer result) {
-		
+
 		result.append(NL)
 			.append("\t/** Get ").append(propertyName);
 		if (description != null && description.length() > 0) {
@@ -637,14 +625,13 @@ public class ModelClassGenerator
 		else throw new IllegalArgumentException ("NextAction Invalid value - Reference_ID=219 - N - F");
 	 * 	@param AD_Reference_ID reference
 	 * 	@param columnName column
-	 * 	@param nullable the validation must allow null values
 	 * 	@return static parameter - Example:
 		public static final int NEXTACTION_AD_Reference_ID=219;
 		public static final String NEXTACTION_None = "N";
 		public static final String NEXTACTION_FollowUp = "F";
 	 */
-	private String addListValidation (StringBuffer sb, int AD_Reference_ID, 
-		String columnName, boolean nullable)
+	private String addListValidation (StringBuffer sb, int AD_Reference_ID,
+		String columnName)
 	{
 		StringBuffer retValue = new StringBuffer();
 		retValue.append("\n\t/** ").append(columnName).append(" AD_Reference_ID=").append(AD_Reference_ID) .append(" */")
@@ -655,8 +642,6 @@ public class ModelClassGenerator
 		StringBuffer values = new StringBuffer("Reference_ID=")
 			.append(AD_Reference_ID);
 		StringBuffer statement = new StringBuffer();
-		if (nullable)
-			statement.append("\n\t\tif (").append(columnName).append(" == null");
 		//
 		String sql = "SELECT Value, Name FROM AD_Ref_List WHERE AD_Reference_ID=? ORDER BY AD_Ref_List_ID";
 		PreparedStatement pstmt = null;
@@ -680,14 +665,9 @@ public class ModelClassGenerator
 				if (!found)
 				{
 					found = true;
-					if (!nullable)
-						sb.append("\t\tif (")
-							.append (columnName).append (" == null)"
-							+ " throw new IllegalArgumentException (\"")
-							.append(columnName).append(" is mandatory\");");
 				}
-				
-				
+
+
 				//	Name (SmallTalkNotation)
 				String name = rs.getString(2);
 				char[] nameArray = name.toCharArray();
@@ -768,7 +748,7 @@ public class ModelClassGenerator
 		String method = "get" + columnName + "()";
 		if (displayType != DisplayType.String)
 			method = "String.valueOf(" + method + ")";
-		
+
 		StringBuffer sb = new StringBuffer(NL)
 			.append("    /** Get Record ID/ColumnName").append(NL)
 			.append("        @return ID/ColumnName pair").append(NL)
@@ -793,7 +773,7 @@ public class ModelClassGenerator
 		try
 		{
 			File out = new File (fileName);
-			Writer fw = new OutputStreamWriter(new FileOutputStream(out, false), "UTF-8"); 
+			Writer fw = new OutputStreamWriter(new FileOutputStream(out, false), "UTF-8");
 			for (int i = 0; i < sb.length(); i++)
 			{
 				char c = sb.charAt(i);
@@ -829,11 +809,11 @@ public class ModelClassGenerator
 			throw new RuntimeException(ex);
 		}
 	}
-	
+
 	/** Import classes */
 	private Collection<String> s_importClasses = new TreeSet<String>();
 	/**
-	 * Add class name to class import list 
+	 * Add class name to class import list
 	 * @param className
 	 */
 	private void addImportClass(String className) {
@@ -848,7 +828,7 @@ public class ModelClassGenerator
 		s_importClasses.add(className);
 	}
 	/**
-	 * Add class to class import list 
+	 * Add class to class import list
 	 * @param cl
 	 */
 	private void addImportClass(Class<?> cl) {
@@ -860,7 +840,7 @@ public class ModelClassGenerator
 		addImportClass(cl.getCanonicalName());
 	}
 	/**
-	 * Generate java imports 
+	 * Generate java imports
 	 * @param sb
 	 */
 	private void createImports(StringBuffer sb) {
@@ -890,7 +870,7 @@ public class ModelClassGenerator
 	 * 	Without parameters, the default is used:
 	 * 	C:\Compiere\compiere-all\extend\src\compiere\model\ compiere.model 'U','A'
 	 * 	</pre>
-	 * 	@param args directory package entityType 
+	 * 	@param args directory package entityType
 	 * 	- directory where to save the generated file
 	 * 	- package of the classes to be generated
 	 * 	- entityType to be generated
@@ -911,22 +891,22 @@ public class ModelClassGenerator
 			System.exit(1);
 		}
 		log.info("Directory: " + directory);
-		
+
 		//	second parameter
 		String packageName = "compiere.model";
 		if (args.length > 1)
-			packageName = args[1]; 
+			packageName = args[1];
 		if (packageName == null || packageName.length() == 0)
 		{
 			System.err.println("No package");
 			System.exit(1);
 		}
 		log.info("Package:   " + packageName);
-		
+
 		//	third parameter
-		String entityType = "'U','A'";	//	User, Application		
+		String entityType = "'U','A'";	//	User, Application
 		if (args.length > 2)
-			entityType = args[2]; 
+			entityType = args[2];
 		if (entityType == null || entityType.length() == 0)
 		{
 			System.err.println("No EntityType");
@@ -936,7 +916,7 @@ public class ModelClassGenerator
 			.append(entityType).append(")");
 		log.info(sql.toString());
 		log.info("----------------------------------");
-		
+
 		String tableLike = "'%'";	//	All tables
 		//tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";
 		if (args.length > 3)
@@ -952,7 +932,7 @@ public class ModelClassGenerator
 		sql.append(" AND TableName LIKE ").append(tableLike);
 
 		sql.append(" ORDER BY TableName");
-		
+
 		//
 		int count = 0;
 		PreparedStatement pstmt = null;
