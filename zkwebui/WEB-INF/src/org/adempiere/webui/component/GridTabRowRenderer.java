@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
@@ -33,6 +34,7 @@ import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.NamePair;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
@@ -182,12 +184,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
     	}
     	else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
     	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
+    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))
     	{
-    		return DisplayType.getNumberFormat(gridField.getDisplayType()).format(value);
+    		return DisplayType.getNumberFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx())).format(value);
     	}
     	else if (DisplayType.Button == gridField.getDisplayType())
     	{
