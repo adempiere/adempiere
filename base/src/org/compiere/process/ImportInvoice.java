@@ -554,7 +554,7 @@ public class ImportInvoice extends SvrProcess
 						continue;
 					//
 					bpl = new MBPartnerLocation (bp);
-					bpl.setC_Location_ID (imp.getC_Location_ID ());
+					bpl.setC_Location_ID (imp.getC_Location_ID() > 0 ? imp.getC_Location_ID() : loc.getC_Location_ID());
 					if (!bpl.save ())
 						continue;
 				}
