@@ -2505,6 +2505,8 @@ public final class APanel extends CPanel
 			m_curGC.dynamicDisplay(0);
 			//	Update Status Line
 			setStatusLine(pi.getSummary(), pi.isError());
+			if ( pi.isError() )
+				ADialog.error(m_curWindowNo, this, null, pi.getSummary());
 			//	Get Log Info
 			ProcessInfoUtil.setLogFromDB(pi);
 			String logInfo = pi.getLogInfo();
@@ -2516,6 +2518,8 @@ public final class APanel extends CPanel
 		{
 			//	Update Status Line
 			setStatusLine(pi.getSummary(), pi.isError());
+			if ( pi.isError() )
+				ADialog.error(m_curWindowNo, this, null, pi.getSummary());
 		}
 	}   //  unlockUI
 
