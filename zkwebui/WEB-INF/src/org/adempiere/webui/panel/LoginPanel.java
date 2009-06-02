@@ -49,6 +49,8 @@ import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
+import org.zkoss.zk.au.out.AuScript;
+import org.zkoss.zk.fn.ZkFns;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
@@ -69,7 +71,7 @@ import org.zkoss.zul.Image;
 public class LoginPanel extends Window implements EventListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -2243984359460922023L;
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
@@ -318,6 +320,8 @@ public class LoginPanel extends Window implements EventListener
             Env.setContext(ctx, UserPreference.LANGUAGE_NAME, language.getName()); // Elaine 2009/02/06
 
             Locales.setThreadLocal(language.getLocale());
+
+            Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
         }
     }
 }
