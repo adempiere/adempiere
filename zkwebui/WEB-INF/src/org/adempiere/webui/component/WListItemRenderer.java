@@ -28,10 +28,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.MSort;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
@@ -288,8 +290,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof Number)
 			{
 				DecimalFormat format = field instanceof BigDecimal
-					? DisplayType.getNumberFormat(DisplayType.Amount)
-				    : DisplayType.getNumberFormat(DisplayType.Integer);
+					? DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()))
+				    : DisplayType.getNumberFormat(DisplayType.Integer, AEnv.getLanguage(Env.getCtx()));
 
 				// set cell value to allow sorting
 				listcell.setValue(field.toString());
@@ -315,7 +317,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof Timestamp)
 			{
 
-				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date);
+				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
 				listcell.setValue(dateFormat.format((Timestamp)field));
 				if (isCellEditable)
 				{
