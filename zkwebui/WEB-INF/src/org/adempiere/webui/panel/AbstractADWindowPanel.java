@@ -1775,13 +1775,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				}
 			}
 
+			// try to get table and record id from context data (eg for unposted view)
+			// otherwise use current table/record
+			int tableId = Env.getContextAsInt(ctx, curWindowNo, "AD_Table_ID", true);
+			int recordId = Env.getContextAsInt(ctx, curWindowNo, "Record_ID", true);
+			if ( tableId == 0 || recordId == 0 )
+			{
+				tableId = curTab.getAD_Table_ID();
+				recordId = curTab.getRecord_ID();
+			}
+
 			//  Check Post Status
 			Object ps = curTab.getValue("Posted");
 
 			if (ps != null && ps.equals("Y"))
 			{
 				new org.adempiere.webui.acct.WAcctViewer(Env.getContextAsInt (ctx, curWindowNo, "AD_Client_ID"),
-						curTab.getAD_Table_ID(), curTab.getRecord_ID());
+						tableId, recordId);
 			}
 			else
 			{
@@ -1790,12 +1800,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					boolean force = ps != null && !ps.equals ("N");		//	force when problems
 
 					String error = AEnv.postImmediate (curWindowNo, Env.getAD_Client_ID(ctx),
-						curTab.getAD_Table_ID(), curTab.getRecord_ID(), force);
-
-					curTab.dataRefresh();
+						tableId, recordId, force);
 
 					if (error != null)
 						FDialog.error(curWindowNo, null, "PostingError-N", error);
+
+					onRefresh();
 				}
 			}
 			return;
