@@ -2388,12 +2388,22 @@ public final class APanel extends CPanel
 				}
 			}
 
+			// try to get table and record id from context data (eg for unposted view)
+			// otherwise use current table/record
+			int tableId = Env.getContextAsInt(m_ctx, m_curWindowNo, "AD_Table_ID", true);
+			int recordId = Env.getContextAsInt(m_ctx, m_curWindowNo, "Record_ID", true);
+			if ( tableId == 0 || recordId == 0 )
+			{
+				tableId = m_curTab.getAD_Table_ID();
+				recordId = m_curTab.getRecord_ID();
+			}
+
 			//  Check Post Status
 			Object ps = m_curTab.getValue("Posted");
 			if (ps != null && ps.equals("Y"))
 			{
 				new org.compiere.acct.AcctViewer (Env.getContextAsInt (m_ctx, m_curWindowNo, "AD_Client_ID"),
-					m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID());
+					tableId, recordId);
 			}
 			else
 			{
@@ -2401,10 +2411,10 @@ public final class APanel extends CPanel
 				{
 					boolean force = ps != null && !ps.equals ("N");		//	force when problems
 					String error = AEnv.postImmediate (m_curWindowNo, Env.getAD_Client_ID(m_ctx),
-						m_curTab.getAD_Table_ID(), m_curTab.getRecord_ID(), force);
-					m_curTab.dataRefresh();
+						tableId, recordId, force);
 					if (error != null)
 						ADialog.error(m_curWindowNo, this, "PostingError-N", error);
+					cmd_refresh();
 				}
 			}
 			return;
