@@ -452,12 +452,17 @@ public class MUOMConversion extends X_C_UOM_Conversion
 
 	
 	/**************************************************************************
-	 *	Convert Qty/Amt from entered UOM TO product UoM and round.
+	 *	Convert PRICE expressed in entered UoM to equivalent price in product UoM and round. <br/>
+	 *  OR Convert QTY in product UOM to qty in entered UoM and round. <br/>
+	 *  
+	 *   eg: $6/6pk => $1/ea <br/>
+	 *   OR 6 X ea => 1 X 6pk
+	 *   
 	 *  @param ctx context
 	 *  @param M_Product_ID product
 	 *  @param C_UOM_To_ID entered UOM
-	 *  @param qtyPrice entered quantity or price
-	 *  @return Product: Qty/Amt in product UoM (precision rounded)
+	 *  @param qtyPrice quantity or price
+	 *  @return Product: Qty/Price (precision rounded)
 	 */
 	static public BigDecimal convertProductTo (Properties ctx,
 		int M_Product_ID, int C_UOM_To_ID, BigDecimal qtyPrice)
@@ -480,7 +485,8 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	}	//	convertProductTo
 
 	/**
-	 *	Get Multiplier Rate from entered UOM TO product UoM
+	 *	Get multiply rate to convert PRICE from price in entered UOM to price in product UOM <br/>
+	 *  OR multiply rate to convert QTY from product UOM to entered UOM
 	 *  @param ctx context
 	 *  @param M_Product_ID product
 	 *  @param C_UOM_To_ID entered UOM
@@ -508,13 +514,18 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		return null;
 	}	//	getProductRateTo
 
-	/**
-	 *	Convert Qty/Amt FROM product UOM to entered UOM and round.
+	/**************************************************************************
+	 *	Convert PRICE expressed in product UoM to equivalent price in entered UoM and round. <br/>
+	 *  OR Convert QTY in entered UOM to qty in product UoM and round.  <br/>
+	 *  
+	 *   eg: $1/ea => $6/6pk <br/>
+	 *   OR 1 X 6pk => 6 X ea
+	 *   
 	 *  @param ctx context
 	 *  @param M_Product_ID product
 	 *  @param C_UOM_To_ID entered UOM
 	 *  @param qtyPrice quantity or price
-	 *  @return Entered: Qty in entered UoM (precision rounded)
+	 *  @return Product: Qty/Price (precision rounded)
 	 */
 	static public BigDecimal convertProductFrom (Properties ctx,
 		int M_Product_ID, int C_UOM_To_ID, BigDecimal qtyPrice)
@@ -542,11 +553,12 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	}	//	convertProductFrom
 
 	/**
-	 *	Get Divide Rate FROM product UOM to entered UOM and round.
+	 *	Get multiply rate to convert PRICE from price in entered UOM to price in product UOM <br/>
+	 *  OR multiply rate to convert QTY from product UOM to entered UOM
 	 *  @param ctx context
 	 *  @param M_Product_ID product
 	 *  @param C_UOM_To_ID entered UOM
-	 *  @return divisor or null
+	 *  @return multiplier or null
 	 */
 	static public BigDecimal getProductRateFrom (Properties ctx,
 		int M_Product_ID, int C_UOM_To_ID)
