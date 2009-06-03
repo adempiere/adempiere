@@ -867,6 +867,15 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	{
 		if (!success)
 			return success;
+		
+		// reset shipment line invoiced flag
+		if ( getM_InOutLine_ID() > 0 )
+		{
+			MInOutLine sLine = new MInOutLine(getCtx(), getM_InOutLine_ID(), get_TrxName());
+			sLine.setIsInvoiced(false);
+			sLine.saveEx();
+		}
+		
 		return updateHeaderTax();
 	}	//	afterDelete
 
