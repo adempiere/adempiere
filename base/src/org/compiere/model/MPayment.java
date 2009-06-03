@@ -1793,7 +1793,7 @@ public final class MPayment extends X_C_Payment
 				
 			bp.setTotalOpenBalance(newBalance);
 			bp.setSOCreditStatus();
-			bp.save();
+			bp.saveEx();
 		}		
 
 		//	Counter Doc
