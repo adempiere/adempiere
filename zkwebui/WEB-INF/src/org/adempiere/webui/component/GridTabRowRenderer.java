@@ -372,8 +372,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (rowIndex == gridTab.getCurrentRow()) {
 			setCurrentRow(row);
 		}
-//		row.addEventListener(Events.ON_CLICK, rowListener);
-//		row.addEventListener(Events.ON_DOUBLE_CLICK, rowListener);
 		row.addEventListener(Events.ON_OK, rowListener);
 	}
 
@@ -406,6 +404,9 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			}
 		} else {
 			currentRowIndex = gridTab.getCurrentRow();
+			if (editing) {
+				stopEditing(false);
+			}
 		}
 	}
 
@@ -464,6 +465,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 
 			GridTableListModel model = (GridTableListModel) grid.getModel();
 			model.setEditing(true);
+
 		}
 	}
 
