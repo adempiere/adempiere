@@ -387,11 +387,11 @@ public class MCost extends X_M_Cost
 		{
 			BigDecimal price = pos[i].getPricePO();
 			if (price == null || price.signum() == 0)
-				price = pos[0].getPriceList();
+				price = pos[i].getPriceList();
 			if (price != null && price.signum() != 0)
 			{
 				price = MConversionRate.convert(product.getCtx(), price,
-					pos[0].getC_Currency_ID(), as.getC_Currency_ID(),
+					pos[i].getC_Currency_ID(), as.getC_Currency_ID(),
 					as.getAD_Client_ID(), Org_ID);
 				if (price != null && price.signum() != 0)
 				{
