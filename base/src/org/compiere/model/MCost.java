@@ -400,6 +400,9 @@ public class MCost extends X_M_Cost
 						price = MUOMConversion.convertProductTo (Env.getCtx(), product.getM_Product_ID(),
 								pos[i].getC_UOM_ID(), price);
 					}
+				}
+				if (price != null && price.signum() != 0)
+				{
 					retValue = price;
 					s_log.fine(product.getName() + ", Product_PO = " + retValue);
 					return retValue;
