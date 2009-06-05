@@ -232,7 +232,7 @@ public class ProcessModalDialog extends CDialog
 		super.dispose();
 	}	//	dispose
 
-	public boolean isValid()
+	public boolean isValidDialog()
 	{
 		return m_valid;
 	}
