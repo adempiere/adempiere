@@ -27,6 +27,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MMessage;
 import org.compiere.model.X_AD_Message;
@@ -53,6 +54,8 @@ public class MessageElementHandler extends AbstractElementHandler {
 			MMessage m_Message = new MMessage(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID  = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_Message_ID") != null && Integer.parseInt(atts.getValue("AD_Message_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Message.setAD_Message_ID(Integer.parseInt(atts.getValue("AD_Message_ID")));
 			if (id > 0){		
 				AD_Backup_ID = copyRecord(ctx, "AD_Message",m_Message);
 				Object_Status = "Update";			
@@ -121,6 +124,8 @@ public class MessageElementHandler extends AbstractElementHandler {
 	private AttributesImpl createMessageBinding( AttributesImpl atts, X_AD_Message m_Message) 
 	{
 		atts.clear();
+		if (m_Message.getAD_Message_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Message_ID","CDATA",Integer.toString(m_Message.getAD_Message_ID()));
 		//FIXME:  may not need this I guess
 		//atts.addAttribute("","","AccessLevel","CDATA",(m_Message.getAccessLevel () != null ? m_Message.getAccessLevel ():""));
 		atts.addAttribute("","","MsgText","CDATA",(m_Message.getMsgText() != null ? m_Message.getMsgText():""));

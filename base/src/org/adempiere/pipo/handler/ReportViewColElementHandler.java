@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.util.DB;
@@ -80,6 +81,8 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 			if (id < 0) id = 0;
 			X_AD_ReportView_Col m_Reportview_Col = new X_AD_ReportView_Col(ctx,
 					id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_ReportView_Col_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Reportview_Col.setAD_ReportView_Col_ID(Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Reportview_Col",
 						m_Reportview_Col);
@@ -143,6 +146,8 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Reportview_Col.getAD_ReportView_Col_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_ReportView_Col_ID","CDATA",Integer.toString(m_Reportview_Col.getAD_ReportView_Col_ID()));
 		if (m_Reportview_Col.getAD_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Reportview_Col

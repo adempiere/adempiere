@@ -59,6 +59,8 @@ public class AdElementHandler extends AbstractElementHandler {
 
 			X_AD_Element m_AdElement = new X_AD_Element(ctx, id,
 					getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Element_ID") != null && Integer.parseInt(atts.getValue("AD_Element_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_AdElement.setAD_Element_ID(Integer.parseInt(atts.getValue("AD_Element_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, AD_ELEMENT, m_AdElement);
 				Object_Status = "Update";
@@ -145,6 +147,8 @@ public class AdElementHandler extends AbstractElementHandler {
 			X_AD_Element m_AdElement) {
 		
 		AttributeFiller filler = new AttributeFiller(atts, m_AdElement);
+		if (m_AdElement.getAD_Element_ID() <= PackOut.MAX_OFFICIAL_ID)
+			filler.add(X_AD_Element.COLUMNNAME_AD_Element_ID);
 		
 		filler.add("IsActive");
 		

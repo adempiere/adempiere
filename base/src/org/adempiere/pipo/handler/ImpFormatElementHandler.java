@@ -27,6 +27,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_ImpFormat;
@@ -55,6 +56,8 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 		int id = get_ID(ctx, "AD_ImpFormat", atts.getValue("Name"));
 		X_AD_ImpFormat m_ImpFormat = new X_AD_ImpFormat(ctx, id,
 				getTrxName(ctx));
+		if (id <= 0 && atts.getValue("AD_ImpFormat_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_ImpFormat.setAD_ImpFormat_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat", m_ImpFormat);
 			Object_Status = "Update";
@@ -154,6 +157,8 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 	private AttributesImpl createImpFormatBinding(AttributesImpl atts,
 			X_AD_ImpFormat m_ImpFormat) {
 		atts.clear();
+		if (m_ImpFormat.getAD_ImpFormat_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_ImpFormat_ID","CDATA",Integer.toString(m_ImpFormat.getAD_ImpFormat_ID()));
 		if (m_ImpFormat.getAD_Table_ID() > 0) {
 			String sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";
 			String name = DB.getSQLValueString(null, sql, m_ImpFormat

@@ -28,6 +28,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MRole;
@@ -70,6 +71,8 @@ public class RoleElementHandler extends AbstractElementHandler {
 
 		int AD_Backup_ID = -1;
 		String Object_Status = null;
+		if (id <= 0 && atts.getValue("AD_Role_ID") != null && Integer.parseInt(atts.getValue("AD_Role_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_Role.setAD_Role_ID(Integer.parseInt(atts.getValue("AD_Role_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_Role", m_Role);
 			Object_Status = "Update";
@@ -430,6 +433,8 @@ public class RoleElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Role.getAD_Role_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Role_ID","CDATA",Integer.toString(m_Role.getAD_Role_ID()));
 
 		if (m_Role.getAD_Tree_Menu_ID() > 0) {
 			sql = "SELECT Name FROM AD_Tree WHERE AD_Tree_ID=? AND AD_Tree.TreeType='MM'";

@@ -29,6 +29,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
@@ -59,6 +60,8 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 		int id = get_IDWithColumn(ctx, "AD_PrintFormat", "Name", name);
 		X_AD_PrintFormat m_PrintFormat = new X_AD_PrintFormat(ctx, id,
 				getTrxName(ctx));
+		if (id <= 0 && atts.getValue("AD_PrintFormat_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_PrintFormat.setAD_PrintFormat_ID(Integer.parseInt(atts.getValue("AD_PrintFormat_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_PrintFormat", m_PrintFormat);
 			Object_Status = "Update";
@@ -268,6 +271,8 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Printformat.getAD_PrintFormat_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_PrintFormat_ID","CDATA",Integer.toString(m_Printformat.getAD_PrintFormat_ID()));
 		if (m_Printformat.getAD_ReportView_ID() > 0) {
 			sql = "SELECT Name FROM AD_ReportView WHERE AD_ReportView_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Printformat

@@ -24,6 +24,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MForm;
 import org.compiere.model.X_AD_Form;
@@ -49,6 +50,8 @@ public class FormElementHandler extends AbstractElementHandler {
 			MForm m_Form = new MForm(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_Form_ID") != null && Integer.parseInt(atts.getValue("AD_Form_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Form.setAD_Form_ID(Integer.parseInt(atts.getValue("AD_Form_ID")));
 			if (id > 0){
 				AD_Backup_ID = copyRecord(ctx, "AD_Form",m_Form);
 				Object_Status = "Update";
@@ -109,6 +112,8 @@ public class FormElementHandler extends AbstractElementHandler {
         } else {
         	atts.addAttribute("","","ADFormNameID","CDATA","");
         }
+		if (m_Form.getAD_Form_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Form_ID","CDATA",Integer.toString(m_Form.getAD_Form_ID()));
         	
         atts.addAttribute("","","Classname","CDATA",(m_Form.getClassname () != null ? m_Form.getClassname ():""));
         atts.addAttribute("","","isBetaFunctionality","CDATA",(m_Form.isBetaFunctionality()== true ? "true":"false"));

@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MPreference;
 import org.compiere.model.X_AD_Preference;
@@ -54,6 +55,8 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 		MPreference m_Preference = new MPreference(ctx, id, getTrxName(ctx));
 		int AD_Backup_ID = -1;
 		String Object_Status = null;
+		if (id <= 0 && atts.getValue("AD_Preference_ID") != null && Integer.parseInt(atts.getValue("AD_Preference_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_Preference.setAD_Preference_ID(Integer.parseInt(atts.getValue("AD_Preference_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_Preference", m_Preference);
 			Object_Status = "Update";
@@ -99,6 +102,8 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Preference.getAD_Preference_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Preference_ID","CDATA",Integer.toString(m_Preference.getAD_Preference_ID()));
 		sql = "SELECT Name FROM AD_Window WHERE AD_Window_ID=?";
 		name = DB.getSQLValueString(null, sql, m_Preference.getAD_Window_ID());
 		atts.addAttribute("", "", "ADWindowNameID", "CDATA", name);

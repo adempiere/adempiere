@@ -28,6 +28,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Ref_List;
@@ -63,6 +64,8 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 
 			X_AD_Reference m_Reference = new X_AD_Reference(ctx, id,
 					getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Reference.setAD_Reference_ID(Integer.parseInt(atts.getValue("AD_Reference_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Reference", m_Reference);
 				Object_Status = "Update";
@@ -246,6 +249,8 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Reference.getAD_Reference_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Reference_ID", "CDATA", Integer.toString(m_Reference.getAD_Reference_ID()));
 		if (m_Reference.getAD_Reference_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Reference

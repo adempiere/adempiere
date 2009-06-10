@@ -25,6 +25,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MColumn;
@@ -63,6 +64,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 					"SELECT AD_Reference_ID FROM AD_Reference WHERE Name= ?");
 				AD_Reference_ID = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), name);
 			}
+			if (AD_Reference_ID <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				AD_Reference_ID = Integer.parseInt(atts.getValue("AD_Reference_ID"));
 			
 			StringBuffer sqlB = new StringBuffer(
 					"SELECT Count(*) FROM AD_Ref_Table WHERE AD_Reference_ID= ?");
@@ -214,6 +217,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 	private AttributesImpl createReferenceTableBinding(Properties ctx,
 			AttributesImpl atts, int reference_ID) {
 		atts.clear();
+		if (reference_ID <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Reference_ID", "CDATA", Integer.toString(reference_ID));
 		String name = null;
 		String sql = null;
 		String sql1 = "SELECT * FROM AD_Ref_Table WHERE AD_Reference_ID= "

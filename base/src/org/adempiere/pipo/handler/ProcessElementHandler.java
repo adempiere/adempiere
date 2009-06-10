@@ -73,6 +73,8 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				Object_Status = "New";
 				AD_Backup_ID = 0;
 			}
+			if (id <= 0 && atts.getValue("AD_Process_ID") != null && Integer.parseInt(atts.getValue("AD_Process_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Process.setAD_Process_ID(Integer.parseInt(atts.getValue("AD_Process_ID")));
 			m_Process.setName(name);
 
 			name = atts.getValue("ADWorkflowNameID");
@@ -271,6 +273,9 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+
+		if (m_Process.getAD_Process_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Process_ID","CDATA",Integer.toString(m_Process.getAD_Process_ID()));
 
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_Process.getName() != null ? m_Process.getName() : ""));

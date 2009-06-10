@@ -79,6 +79,8 @@ public class TabElementHandler extends AbstractElementHandler {
 			
 			int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString (), tableid);
 			MTab m_Tab = new MTab(ctx, id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Tab_ID") != null && Integer.parseInt(atts.getValue("AD_Tab_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Tab.setAD_Tab_ID(Integer.parseInt(atts.getValue("AD_Tab_ID")));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){			
@@ -243,6 +245,8 @@ public class TabElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Tab.getAD_Tab_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Tab_ID", "CDATA", Integer.toString(m_Tab.getAD_Tab_ID()));
 		atts.addAttribute("","","Name","CDATA",(m_Tab.getName () != null ? m_Tab.getName ():"")); 
 		if (m_Tab.getAD_ColumnSortOrder_ID()>0){
 			sql = "SELECT Name FROM AD_Column WHERE AD_Column_ID=?";

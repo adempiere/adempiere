@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_ImpFormat_Row;
 import org.compiere.util.DB;
@@ -69,6 +70,8 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		StringBuffer sqlB = new StringBuffer ("SELECT AD_ImpFormat_Row_ID FROM AD_ImpFormat_Row WHERE AD_Column_ID=? and AD_ImpFormat_ID=?");		
 		int id = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),columnid,impformid);
 		X_AD_ImpFormat_Row m_ImpFormat_row = new X_AD_ImpFormat_Row(ctx, id, getTrxName(ctx));
+		if (id <= 0 && atts.getValue("AD_ImpFormat_Row_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_ImpFormat_row.setAD_ImpFormat_Row_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")));
 		if (id > 0){
 			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat",m_ImpFormat_row);
 			Object_Status = "Update";			
@@ -144,6 +147,8 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		}
 		else
 			atts.addAttribute("","","ADTableNameID","CDATA","");
+		if (m_ImpFormat_Row.getAD_ImpFormat_Row_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_ImpFormat_Row_ID","CDATA",Integer.toString(m_ImpFormat_Row.getAD_ImpFormat_Row_ID()));
 		
 		atts.addAttribute("","","Name","CDATA",(m_ImpFormat_Row.getName () != null ? m_ImpFormat_Row.getName ():""));
 		atts.addAttribute("","","SeqNo","CDATA",""+m_ImpFormat_Row.getSeqNo());

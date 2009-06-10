@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_Process_Para;
@@ -77,6 +78,8 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 					getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Process_para.setAD_Process_Para_ID(Integer.parseInt(atts.getValue("AD_Process_Para_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Process_Para",
 						m_Process_para);
@@ -217,6 +220,8 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Processpara.getAD_Process_Para_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Process_Para_ID","CDATA",Integer.toString(m_Processpara.getAD_Process_Para_ID()));
 		atts
 				.addAttribute("", "", "Name", "CDATA",
 						(m_Processpara.getName() != null ? m_Processpara

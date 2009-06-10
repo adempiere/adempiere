@@ -29,6 +29,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Package_Exp_Detail;
@@ -72,6 +73,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			MWorkflow m_Workflow = new MWorkflow(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_Workflow_ID") != null && Integer.parseInt(atts.getValue("AD_Workflow_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Workflow.setAD_Workflow_ID(Integer.parseInt(atts.getValue("AD_Workflow_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Workflow", m_Workflow);
 				Object_Status = "Update";
@@ -367,6 +370,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Workflow.getAD_Workflow_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Workflow_ID","CDATA",Integer.toString(m_Workflow.getAD_Workflow_ID()));
 		atts.addAttribute("", "", "Value", "CDATA", (m_Workflow.getValue() != null ? m_Workflow.getValue() : ""));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_Workflow.getName() != null ? m_Workflow.getName() : ""));

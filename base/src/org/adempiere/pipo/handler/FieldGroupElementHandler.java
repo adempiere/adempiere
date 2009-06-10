@@ -57,6 +57,8 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 
 			X_AD_FieldGroup fieldGroup = new X_AD_FieldGroup(ctx, id,
 					getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_FieldGroup_ID") != null && Integer.parseInt(atts.getValue("AD_FieldGroup_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				fieldGroup.setAD_FieldGroup_ID(Integer.parseInt(atts.getValue("AD_FieldGroup_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, X_AD_FieldGroup.Table_Name, fieldGroup);
 				Object_Status = "Update";
@@ -134,6 +136,8 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 			X_AD_FieldGroup fieldGroup) {
 		
 		AttributeFiller filler = new AttributeFiller(atts, fieldGroup);
+		if (fieldGroup.getAD_FieldGroup_ID() <= PackOut.MAX_OFFICIAL_ID)
+			filler.add(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
 		
 		filler.add("IsActive");
 		

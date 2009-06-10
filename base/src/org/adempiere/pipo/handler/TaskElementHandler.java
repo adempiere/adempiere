@@ -24,6 +24,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTask;
 import org.compiere.model.X_AD_Task;
@@ -49,6 +50,8 @@ public class TaskElementHandler extends AbstractElementHandler {
 			MTask m_Task = new MTask(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_Task_ID") != null && Integer.parseInt(atts.getValue("AD_Task_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Task.setAD_Task_ID(Integer.parseInt(atts.getValue("AD_Task_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Task", m_Task);
 				Object_Status = "Update";
@@ -103,6 +106,8 @@ public class TaskElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Task.getAD_Task_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_Task_ID","CDATA",Integer.toString(m_Task.getAD_Task_ID()));
 		if (m_Task.getAD_Task_ID() > 0) {
 			sql = "SELECT Name FROM AD_Task WHERE AD_Task_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Task.getAD_Task_ID());

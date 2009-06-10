@@ -66,6 +66,8 @@ public class TableElementHandler extends AbstractElementHandler {
 			}
 			
 			MTable m_Table = new MTable(ctx, id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Table_ID") != null && Integer.parseInt(atts.getValue("AD_Table_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Table.setAD_Table_ID(Integer.parseInt(atts.getValue("AD_Table_ID")));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){		
@@ -235,6 +237,8 @@ public class TableElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;        
 		atts.clear();
+		if (m_Table.getAD_Table_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Table_ID", "CDATA", Integer.toString(m_Table.getAD_Table_ID()));
 		atts.addAttribute("","","Name","CDATA",(m_Table.getName () != null ? m_Table.getName ():""));        
 		if (m_Table.getAD_Table_ID()> 0 ){
 			sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";

@@ -103,6 +103,8 @@ public class FieldElementHandler extends AbstractElementHandler {
 				int id = DB
 						.getSQLValue(getTrxName(ctx), sqlB.toString(), tabid);
 				MField m_Field = new MField(ctx, id, getTrxName(ctx));
+				if (id <= 0 && atts.getValue("AD_Field_ID") != null && Integer.parseInt(atts.getValue("AD_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
+					m_Field.setAD_Field_ID(Integer.parseInt(atts.getValue("AD_Field_ID")));
 				int AD_Backup_ID = -1;
 				String Object_Status = null;
 				if (id > 0) {
@@ -217,6 +219,8 @@ public class FieldElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Field.getAD_Field_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Field_ID", "CDATA", Integer.toString(m_Field.getAD_Field_ID()));
 		if (m_Field.getAD_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Field.getAD_Column_ID());

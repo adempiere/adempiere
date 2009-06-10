@@ -82,9 +82,12 @@ public class AttributeFiller {
 		}else if(value instanceof Boolean) {
 			atts.addAttribute("", "", columnName, "CDATA",  (Boolean)value == true ? "true" : "false");
 			
+		}else if(value instanceof Integer) {
+			atts.addAttribute("", "", columnName, "CDATA",  value.toString());
+			
 		}else{
 			
-			throw new IllegalArgumentException("Add you own type implemantation here.");
+			throw new IllegalArgumentException("Add your own type implementation here.");
 		}
 	}
 	

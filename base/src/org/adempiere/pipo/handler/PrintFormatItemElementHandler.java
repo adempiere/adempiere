@@ -23,6 +23,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.DB;
@@ -52,6 +53,8 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 
 		X_AD_PrintFormatItem m_PrintFormatItem = new X_AD_PrintFormatItem(ctx,
 				id, getTrxName(ctx));
+		if (id <= 0 && atts.getValue("AD_PrintFormatItem_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_PrintFormatItem.setAD_PrintFormatItem_ID(Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_PrintFormatItem",
 					m_PrintFormatItem);
@@ -261,6 +264,8 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_PrintformatItem.getAD_PrintFormatItem_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_PrintFormatItem_ID","CDATA",Integer.toString(m_PrintformatItem.getAD_PrintFormatItem_ID()));
 		if (m_PrintformatItem.getAD_PrintFormat_ID() > 0) {
 			sql = "SELECT Name FROM AD_PrintFormat WHERE AD_PrintFormat_ID=?";
 			name = DB.getSQLValueString(null, sql, m_PrintformatItem

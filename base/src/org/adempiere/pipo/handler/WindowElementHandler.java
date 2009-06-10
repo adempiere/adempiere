@@ -62,6 +62,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 				return;
 			}
 			MWindow m_Window = new MWindow(ctx, id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Window_ID") != null && Integer.parseInt(atts.getValue("AD_Window_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Window.setAD_Window_ID(Integer.parseInt(atts.getValue("AD_Window_ID")));
 			String Object_Status = null;
 			int AD_Backup_ID = -1;
 			if (id > 0) {
@@ -241,6 +243,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 	private AttributesImpl createWindowBinding(AttributesImpl atts,
 			X_AD_Window m_Window) {
 		atts.clear();
+		if (m_Window.getAD_Window_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Window_ID", "CDATA", Integer.toString(m_Window.getAD_Window_ID()));
 		String sql = "SELECT Name FROM AD_Window WHERE AD_Window_ID=?";
 		String name = DB.getSQLValueString(null, sql, m_Window
 				.getAD_Window_ID());

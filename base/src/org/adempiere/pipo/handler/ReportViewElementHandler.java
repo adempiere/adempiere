@@ -59,6 +59,8 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 		int id = get_ID(ctx, "AD_ReportView", name);
 		X_AD_ReportView m_Reportview = new X_AD_ReportView(ctx, id,
 				getTrxName(ctx));
+		if (id <= 0 && atts.getValue("AD_ReportView_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_ID")) <= PackOut.MAX_OFFICIAL_ID)
+			m_Reportview.setAD_ReportView_ID(Integer.parseInt(atts.getValue("AD_ReportView_ID")));
 		if (id > 0) {
 			AD_Backup_ID = copyRecord(ctx, "AD_Reportview", m_Reportview);
 			Object_Status = "Update";
@@ -224,6 +226,8 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Reportview.getAD_ReportView_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_ReportView_ID","CDATA",Integer.toString(m_Reportview.getAD_ReportView_ID()));
 
 		if (m_Reportview.getAD_ReportView_ID() > 0) {
 			sql = "SELECT Name FROM AD_ReportView WHERE AD_ReportView_ID=?";

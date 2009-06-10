@@ -27,6 +27,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Val_Rule;
@@ -50,6 +51,8 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 			int id = get_IDWithColumn(ctx, "AD_Val_Rule", "name", name);
 			
 			X_AD_Val_Rule m_ValRule = new X_AD_Val_Rule(ctx, id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Val_Rule_ID") != null && Integer.parseInt(atts.getValue("AD_Val_Rule_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_ValRule.setAD_Val_Rule_ID(Integer.parseInt(atts.getValue("AD_Val_Rule_ID")));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){		
@@ -121,6 +124,8 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 	private AttributesImpl createDynamicValidationRuleBinding( AttributesImpl atts, X_AD_Val_Rule m_ValRule) 
 	{
 		atts.clear();
+		if (m_ValRule.getAD_Val_Rule_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("","","AD_Val_Rule_ID","CDATA",Integer.toString(m_ValRule.getAD_Val_Rule_ID()));        
 		atts.addAttribute("","","Name","CDATA",(m_ValRule.getName () != null ? m_ValRule.getName ():""));        
 		//FIXME:  may not need this I guess
 		//atts.addAttribute("","","AccessLevel","CDATA",(m_ValRule.getAccessLevel () != null ? m_ValRule.getAccessLevel ():""));

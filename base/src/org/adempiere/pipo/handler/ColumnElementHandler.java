@@ -29,6 +29,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackIn;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MColumn;
@@ -82,6 +83,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				}
 			}
 			MColumn m_Column = new MColumn(ctx, id, getTrxName(ctx));
+			if (id <= 0 && atts.getValue("AD_Column_ID") != null && Integer.parseInt(atts.getValue("AD_Column_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Column.setAD_Column_ID(Integer.parseInt(atts.getValue("AD_Column_ID")));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0) {
@@ -397,6 +400,8 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Column.getAD_Column_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Column_ID", "CDATA", Integer.toString(m_Column.getAD_Column_ID()));
 		if (m_Column.getAD_Column_ID() > 0) {
 			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Column.getAD_Column_ID());

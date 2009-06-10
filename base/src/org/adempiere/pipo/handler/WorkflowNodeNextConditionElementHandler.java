@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_WF_NextCondition;
 import org.compiere.util.DB;
@@ -93,6 +94,8 @@ public class WorkflowNodeNextConditionElementHandler extends
 					id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_WF_NextCondition_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NextCondition_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_WFNodeNextCondition.setAD_WF_NextCondition_ID(Integer.parseInt(atts.getValue("AD_WF_NextCondition_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_WF_NextCondition",
 						m_WFNodeNextCondition);
@@ -181,6 +184,8 @@ public class WorkflowNodeNextConditionElementHandler extends
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_WF_NodeNextCondition.getAD_WF_NextCondition_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_WF_NextCondition_ID","CDATA",Integer.toString(m_WF_NodeNextCondition.getAD_WF_NextCondition_ID()));
 
 		if (m_WF_NodeNextCondition.getAD_WF_NodeNext_ID() > 0) {
 			// FIXME: it appears nodes point back to themselves

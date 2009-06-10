@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Ref_List;
 import org.compiere.util.DB;
@@ -60,6 +61,8 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			int AD_Ref_List_ID = get_IDWithMasterAndColumn(ctx, "AD_Ref_List", "Value", value, "AD_Reference", AD_Reference_ID);
 			X_AD_Ref_List m_Ref_List = new X_AD_Ref_List(ctx, AD_Ref_List_ID,
 					getTrxName(ctx));
+			if (AD_Ref_List_ID <= 0 && atts.getValue("AD_Ref_List_ID") != null && Integer.parseInt(atts.getValue("AD_Ref_List_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_Ref_List.setAD_Ref_List_ID(Integer.parseInt(atts.getValue("AD_Ref_List_ID")));
 			if (AD_Ref_List_ID > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_Ref_List", m_Ref_List);
 				Object_Status = "Update";
@@ -113,6 +116,8 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_Ref_List.getAD_Ref_List_ID() <= PackOut.MAX_OFFICIAL_ID)
+			atts.addAttribute("", "", "AD_Ref_List_ID", "CDATA", Integer.toString(m_Ref_List.getAD_Ref_List_ID()));
 		if (m_Ref_List.getAD_Ref_List_ID() > 0) {
 			sql = "SELECT Name FROM AD_Ref_List WHERE AD_Ref_List_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Ref_List

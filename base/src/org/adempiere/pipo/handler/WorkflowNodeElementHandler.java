@@ -24,6 +24,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.DB;
@@ -82,6 +83,8 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			X_AD_WF_Node m_WFNode = new X_AD_WF_Node(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_WF_Node_ID") != null && Integer.parseInt(atts.getValue("AD_WF_Node_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_WFNode.setAD_WF_Node_ID(Integer.parseInt(atts.getValue("AD_WF_Node_ID")));
 			if (id > 0) {
 				AD_Backup_ID = copyRecord(ctx, "AD_WF_Node", m_WFNode);
 				Object_Status = "Update";
@@ -264,6 +267,8 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_WF_Node.getAD_WF_Node_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_WF_Node_ID","CDATA",Integer.toString(m_WF_Node.getAD_WF_Node_ID()));
 		atts.addAttribute("", "", "Value", "CDATA", (m_WF_Node.getValue() != null ? m_WF_Node.getValue() : ""));
 		atts.addAttribute("", "", "Name", "CDATA",
 				(m_WF_Node.getName() != null ? m_WF_Node.getName() : ""));

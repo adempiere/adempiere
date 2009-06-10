@@ -92,7 +92,9 @@ public class PackOut extends SvrProcess
     private String packagedir = null;
     private String packagename = null;
     private String includesdir = null;
-    
+
+    public final static int MAX_OFFICIAL_ID = 999999;
+
     private Properties localContext = null;
     
     ProcessElementHandler processHandler = new ProcessElementHandler();

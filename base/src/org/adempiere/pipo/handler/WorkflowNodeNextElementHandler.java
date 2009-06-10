@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
+import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_WF_NextCondition;
 import org.compiere.model.X_AD_WF_NodeNext;
@@ -79,6 +80,8 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			MWFNodeNext m_WFNodeNext = new MWFNodeNext(ctx, id, getTrxName(ctx));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
+			if (id <= 0 && atts.getValue("AD_WF_NodeNext_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")) <= PackOut.MAX_OFFICIAL_ID)
+				m_WFNodeNext.setAD_WF_NodeNext_ID(Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")));
 			if (id > 0){		
 				AD_Backup_ID = copyRecord(ctx, "AD_WF_NodeNext",m_WFNodeNext);
 				Object_Status = "Update";			
@@ -134,6 +137,8 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 		String sql = null;
 		String name = null;
 		atts.clear();
+		if (m_WF_NodeNext.getAD_WF_NodeNext_ID() <= PackOut.MAX_OFFICIAL_ID)
+	        atts.addAttribute("","","AD_WF_NodeNext_ID","CDATA",Integer.toString(m_WF_NodeNext.getAD_WF_NodeNext_ID()));
 		// log.log(Level.INFO,"m_WF_NodeNext.getAD_WF_Node_ID: ",
 		// m_WF_NodeNext.getAD_WF_Node_ID());
 		// log.log(Level.INFO,"m_WF_NodeNext.getAD_WF_Next_ID: ",
