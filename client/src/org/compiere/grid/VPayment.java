@@ -54,6 +54,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_Order;
 import org.compiere.process.DocAction;
 import org.compiere.swing.CButton;
@@ -83,7 +84,7 @@ import org.compiere.util.ValueNamePair;
  *
  *  When processing:
  *  - If an invoice is a S/K/U, but has no Payment Entry, it is changed to P
- *  - If an invoive is B and has no Cash Entry, it is created
+ *  - If an invoice is B and has no Cash Entry, it is created
  *  - An invoice is "Open" if it is "P" and no Payment
  *
  *  Entry:
@@ -101,6 +102,8 @@ import org.compiere.util.ValueNamePair;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1763488 ] Error on cash payment
  * 				<li>BF [ 1789949 ] VPayment: is displaying just "CashNotCreated"
+ * @author Michael Judd, Akuna Ltd
+ * 				<li>FR [ 2803341 ] Deprecate Cash Journal
  */
 public class VPayment extends CDialog
 	implements ActionListener
@@ -397,18 +400,32 @@ public class VPayment extends CDialog
 		pPanel.add(pTermCombo, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
 		//
-		bCashBookLabel.setText(Msg.translate(Env.getCtx(), "C_CashBook_ID"));
+		
 		bCurrencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
+		
 		bPanel.setLayout(bPanelLayout);
 		bAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
 		//bAmountField.setText("");
 		bDateLabel.setText(Msg.translate(Env.getCtx(), "DateAcct"));
 		centerLayout.addLayoutComponent(bPanel, "bPanel");
 		centerPanel.add(bPanel, "bPanel");
-		bPanel.add(bCashBookLabel,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
-		bPanel.add(bCashBookCombo,  new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+		
+		if(MSysConfig.getBooleanValue("CASH_AS_PAYMENT",true)){
+			sBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+			bPanel.add(sBankAccountLabel,   new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+			bPanel.add(sBankAccountCombo,    new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+
+		} else {
+			bCashBookLabel.setText(Msg.translate(Env.getCtx(), "C_CashBook_ID"));
+			bPanel.add(bCashBookLabel,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
+			bPanel.add(bCashBookCombo,  new GridBagConstraints(1, 0, 2, 1, 0.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(2, 5, 2, 5), 0, 0));
+
+		}
+		
 		bPanel.add(bCurrencyLabel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
 		bPanel.add(bCurrencyCombo,  new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
@@ -460,7 +477,7 @@ public class VPayment extends CDialog
 		m_DocStatus = (String)m_mTab.getValue("DocStatus");
 		if (m_DocStatus == null)
 			m_DocStatus = "";
-		//	Is the Trx closed?		Reversed / Voided / Cloased
+		//	Is the Trx closed?		Reversed / Voided / Closed
 		if (m_DocStatus.equals("RE") || m_DocStatus.equals("VO") || m_DocStatus.equals("CL"))
 			return false;
 		//  Document is not complete - allow to change the Payment Rule only
@@ -537,6 +554,8 @@ public class VPayment extends CDialog
 				tRoutingField.setText(m_mPayment.getRoutingNo());
 				tNumberField.setText(m_mPayment.getAccountNo());
 				tStatus.setText(m_mPayment.getR_PnRef());
+				// Cash
+				bAmountField.setValue(m_mPayment.getPayAmt());
 			}
 		}
 		if (m_mPayment == null)
@@ -888,7 +907,7 @@ public class VPayment extends CDialog
 
 	/**************************************************************************
 	 *	Save Changes
-	 *	@return true, if eindow can exit
+	 *	@return true, if Window can exit
 	 */
 	private boolean saveChanges()
 	{
@@ -911,13 +930,23 @@ public class VPayment extends CDialog
 		int newC_CashBook_ID = m_C_CashBook_ID;
 		String newCCType = m_CCType;
 		int newC_BankAccount_ID = 0;
+		String payTypes = MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ? "KTSDB" : "KTSD";
 		
 		//	B (Cash)		(Currency)
 		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
 		{
-			KeyNamePair kp = (KeyNamePair)bCashBookCombo.getSelectedItem();
-			if (kp != null)
-				newC_CashBook_ID = kp.getKey();
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)){
+				// get bank account
+				KeyNamePair kp = (KeyNamePair)sBankAccountCombo.getSelectedItem();
+				if (kp != null)
+					newC_BankAccount_ID = kp.getKey();
+			} else {
+				// get cash book
+				KeyNamePair kp = (KeyNamePair)bCashBookCombo.getSelectedItem();
+				if (kp != null)
+					newC_CashBook_ID = kp.getKey();	
+			}
+			
 			newDateAcct = (Timestamp)bDateField.getValue();
 			
 			// Get changes to cash amount
@@ -960,13 +989,15 @@ public class VPayment extends CDialog
 			return false;
 
 		//  find Bank Account if not qualified yet
-		if ("KTSD".indexOf(newPaymentRule) != -1 && newC_BankAccount_ID == 0)
+		if (payTypes.indexOf(newPaymentRule) != -1 && newC_BankAccount_ID == 0)
 		{
 			String tender = MPayment.TENDERTYPE_CreditCard;
 			if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
 				tender = MPayment.TENDERTYPE_DirectDeposit;
 			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
 				tender = MPayment.TENDERTYPE_DirectDebit;
+			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Cash))
+				tender = MPayment.TENDERTYPE_Cash;
 			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Check))
 				tender = MPayment.TENDERTYPE_Check;
 		}
@@ -978,7 +1009,8 @@ public class VPayment extends CDialog
 		{
 			log.fine("Changed PaymentRule: " + m_PaymentRule + " -> " + newPaymentRule);
 			//  We had a CashBook Entry
-			if (m_PaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
+			if (m_PaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) 
+					&& !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) 
 			{
 				log.fine("Old Cash - " + m_cashLine);
 				if (m_cashLine != null)
@@ -992,7 +1024,7 @@ public class VPayment extends CDialog
 				newC_CashLine_ID = 0;      //  reset
 			}
 			//  We had a change in Payment type (e.g. Check to CC)
-			else if ("KTSD".indexOf(m_PaymentRule) != -1 && "KTSD".indexOf(newPaymentRule) != -1 && m_mPaymentOriginal != null)
+			else if (payTypes.indexOf(m_PaymentRule) != -1 && payTypes.indexOf(newPaymentRule) != -1 && m_mPaymentOriginal != null)
 			{
 				log.fine("Old Payment(1) - " + m_mPaymentOriginal);
 				m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
@@ -1005,7 +1037,7 @@ public class VPayment extends CDialog
 				m_mPayment.resetNew();
 			}
 			//	We had a Payment and something else (e.g. Check to Cash)
-			else if ("KTSD".indexOf(m_PaymentRule) != -1 && "KTSD".indexOf(newPaymentRule) == -1)
+			else if (payTypes.indexOf(m_PaymentRule) != -1 && payTypes.indexOf(newPaymentRule) == -1) 
 			{
 				log.fine("Old Payment(2) - " + m_mPaymentOriginal);
 				if (m_mPaymentOriginal != null)
@@ -1055,7 +1087,7 @@ public class VPayment extends CDialog
 		/***********************
 		 *  CashBook
 		 */
-		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
+		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))
 		{
 			log.fine("Cash");
 			String description = (String)m_mTab.getValue("DocumentNo");
@@ -1150,7 +1182,8 @@ public class VPayment extends CDialog
 		/***********************
 		 *  Payments
 		 */
-		if ("KS".indexOf(newPaymentRule) != -1)
+		if (("KS".indexOf(newPaymentRule) != -1) || 
+				(newPaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)))
 		{
 			log.fine("Payment - " + newPaymentRule);
 			//  Set Amount
@@ -1177,6 +1210,13 @@ public class VPayment extends CDialog
 					sNumberField.getText(), sCheckField.getText());
 				// Get changes to check amount
 				m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) sAmountField.getValue());
+			}
+			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Cash))
+			{
+				// Get changes to cash amount
+				m_mPayment.setTenderType(MPayment.TENDERTYPE_Cash);
+				m_mPayment.setBankCash(newC_BankAccount_ID, m_isSOTrx, MPayment.TENDERTYPE_Cash);
+				m_mPayment.setAmount(m_C_Currency_ID, payAmount);
 			}
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
 			m_mPayment.setC_Invoice_ID(C_Invoice_ID);
@@ -1265,9 +1305,17 @@ public class VPayment extends CDialog
 		//	B (Cash)		(Currency)
 		if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
 		{
-			KeyNamePair kp = (KeyNamePair)bCashBookCombo.getSelectedItem();
-			if (kp != null)
-				C_CashBook_ID = kp.getKey();
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))
+			{
+				KeyNamePair kp = (KeyNamePair)sBankAccountCombo.getSelectedItem();
+				if (kp != null)
+					C_BankAccount_ID = kp.getKey();
+			} else {
+				KeyNamePair kp = (KeyNamePair)bCashBookCombo.getSelectedItem();
+				if (kp != null)
+					C_CashBook_ID = kp.getKey();	
+			}
+			
 			DateAcct = (Timestamp)bDateField.getValue();
 		}
 
@@ -1360,7 +1408,9 @@ public class VPayment extends CDialog
 		}
 
 		//  find Bank Account if not qualified yet
-		if ("KTSD".indexOf(PaymentRule) != -1 && C_BankAccount_ID == 0)
+		if (("KTSD".indexOf(PaymentRule) != -1 || 
+				(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))) 
+					&& C_BankAccount_ID == 0)
 		{
 			String tender = MPayment.TENDERTYPE_CreditCard;
 			if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
@@ -1369,8 +1419,11 @@ public class VPayment extends CDialog
 				tender = MPayment.TENDERTYPE_DirectDebit;
 			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
 				tender = MPayment.TENDERTYPE_Check;
-			//	Check must have a bank account
-			if (C_BankAccount_ID == 0 && "S".equals(PaymentRule))
+			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
+				tender = MPayment.TENDERTYPE_Cash;
+			//	Check & Cash (Payment) must have a bank account
+			if (C_BankAccount_ID == 0 && (PaymentRule.equals(MOrder.PAYMENTRULE_Check)) || 
+					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ))
                         {
 				ADialog.error(m_WindowNo, this, "PaymentNoProcessor");
 				dataOK = false;
