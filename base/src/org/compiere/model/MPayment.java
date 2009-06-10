@@ -1827,7 +1827,7 @@ public final class MPayment extends X_C_Payment
 
 		// @Trifon - CashPayments
 		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() ) {
+		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) {
 			// Create Cash Book entry
 			if ( getC_CashBook_ID() <= 0 ) {
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
