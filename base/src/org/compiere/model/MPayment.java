@@ -329,9 +329,7 @@ public final class MPayment extends X_C_Payment
 	 *
 	 *  @param C_BankAccount_ID bank account
 	 *  @param isReceipt true if receipt
-	 * 	@param tenderType - Direct Debit or Direct Deposit
-	 *  @param routingNo routing
-	 *  @param accountNo account
+	 * 	@param tenderType - Cash (Payment)
 	 *  @return true if valid
 	 */
 	public boolean setBankCash (int C_BankAccount_ID, boolean isReceipt, String tenderType)
