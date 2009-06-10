@@ -44,6 +44,8 @@ import org.compiere.util.KeyNamePair;
  * 				<li>FR [ 1724662 ] Support Email should contain model validators info
  * 				<li>FR [ 2788276 ] Data Import Validator
  * 					https://sourceforge.net/tracker/?func=detail&aid=2788276&group_id=176962&atid=879335
+ * 				<li>BF [ 2804135 ] Global FactsValidator are not invoked
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2804135&group_id=176962&atid=879332
  */
 public class ModelValidationEngine 
 {
@@ -654,7 +656,8 @@ public class ModelValidationEngine
 			try
 			{
 				validator = list.get(i);
-				if (validator.getAD_Client_ID() == po.getAD_Client_ID())
+				if (validator.getAD_Client_ID() == po.getAD_Client_ID()
+						|| m_globalValidators.contains(validator))
 				{
 					String error = validator.factsValidate(schema, facts, po);
 					if (error != null && error.length() > 0)
