@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -35,6 +36,10 @@ import org.compiere.util.Msg;
  *
  *  @author Jorg Janke
  *  @version $Id: MInvoiceLine.java,v 1.5 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2804142 ] MInvoice.setRMALine should work only for CreditMemo invoices
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2804142&group_id=176962&atid=879332
  */
 public class MInvoiceLine extends X_C_InvoiceLine
 {
@@ -1213,6 +1218,11 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	 */
 	public void setRMALine(MRMALine rmaLine)
 	{
+		// Check if this invoice is CreditMemo - teo_sarca [ 2804142 ]
+		if (!getParent().isCreditMemo())
+		{
+			throw new AdempiereException("InvoiceNotCreditMemo");
+		}
 		setAD_Org_ID(rmaLine.getAD_Org_ID());
         setM_RMALine_ID(rmaLine.getM_RMALine_ID());
         setDescription(rmaLine.getDescription());
