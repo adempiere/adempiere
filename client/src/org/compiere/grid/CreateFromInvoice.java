@@ -526,6 +526,7 @@ public class CreateFromInvoice extends CreateFrom
 					if (rmaLine != null)
 					{
 						invoiceLine.setRMALine(rmaLine);		//	overwrites
+						invoiceLine.setQty(QtyEntered);
 					}
 					else
 						log.fine("No RMA Line");

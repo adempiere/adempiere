@@ -872,7 +872,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	{
 		if (!success)
 			return success;
-		
+
 		// reset shipment line invoiced flag
 		if ( getM_InOutLine_ID() > 0 )
 		{
@@ -880,7 +880,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			sLine.setIsInvoiced(false);
 			sLine.saveEx();
 		}
-		
+
 		return updateHeaderTax();
 	}	//	afterDelete
 
@@ -1232,6 +1232,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
         setC_UOM_ID(rmaLine.getC_UOM_ID());
         setC_Tax_ID(rmaLine.getC_Tax_ID());
         setPrice(rmaLine.getAmt());
+        BigDecimal qty = rmaLine.getQty();
+        if (rmaLine.getQtyInvoiced() != null)
+        	qty = qty.subtract(rmaLine.getQtyInvoiced());
+        setQty(qty);
         setLineNetAmt();
         setTaxAmt();
         setLineTotalAmt(rmaLine.getLineNetAmt());
