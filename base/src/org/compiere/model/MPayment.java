@@ -324,13 +324,37 @@ public final class MPayment extends X_C_Payment
 			+ MPaymentValidate.validateAccountNo(accountNo).length();
 		return check == 0;
 	}   //  setBankACH
+	/**
+	 *  Set Cash BankAccount Info
+	 *
+	 *  @param C_BankAccount_ID bank account
+	 *  @param isReceipt true if receipt
+	 * 	@param tenderType - Direct Debit or Direct Deposit
+	 *  @param routingNo routing
+	 *  @param accountNo account
+	 *  @return true if valid
+	 */
+	public boolean setBankCash (int C_BankAccount_ID, boolean isReceipt, String tenderType)
+	{
+		setTenderType (tenderType);
+		setIsReceipt (isReceipt);
+		//
+		if (C_BankAccount_ID > 0)
+			setBankAccountDetails(C_BankAccount_ID);
+		else
+		{
+			setC_BankAccount_ID(C_BankAccount_ID);
+		}
+		//
+		return true;
+	}   //  setBankCash
 
 	/**
 	 *  Set Check BankAccount Info
 	 *
 	 *  @param C_BankAccount_ID bank account
 	 *  @param isReceipt true if receipt
-	 *  @param checkNo chack no
+	 *  @param checkNo check no
 	 *  @return true if valid
 	 */
 	public boolean setBankCheck (int C_BankAccount_ID, boolean isReceipt, String checkNo)
@@ -522,7 +546,7 @@ public final class MPayment extends X_C_Payment
 	{
 		// @Trifon - CashPayments
 		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() ) {
+		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) {
 			// Cash Book Is mandatory
 			if ( getC_CashBook_ID() <= 0 ) {
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
