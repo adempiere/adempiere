@@ -23,6 +23,7 @@ import org.compiere.util.Env;
  */
 public class NoUOMConversionException extends AdempiereException
 {
+	public static final String AD_Message = "NoUOMConversion";
 	/**
 	 * 
 	 */
@@ -35,23 +36,26 @@ public class NoUOMConversionException extends AdempiereException
 
 	private static String buildMessage(int M_Product_ID, int C_UOM_ID, int C_UOM_To_ID)
 	{
-		StringBuffer sb = new StringBuffer();
+		StringBuffer sb = new StringBuffer("@"+AD_Message+"@ - ");
 		//
-		sb.append("@M_Product_ID@: ");
+		sb.append("@M_Product_ID@:");
 		MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
 		if (product != null)
 		{
 			sb.append(product.getValue()).append("_").append(product.getName());
 		}
 		//
-		sb.append("  @C_UOM_ID@: ");
-		MUOM uom = MUOM.get(Env.getCtx(), C_UOM_ID);
-		if (uom != null)
+		if (C_UOM_ID > 0 || product == null)
 		{
-			sb.append(uom.getUOMSymbol());
+			sb.append("  @C_UOM_ID@:");
+			MUOM uom = MUOM.get(Env.getCtx(), C_UOM_ID);
+			if (uom != null)
+			{
+				sb.append(uom.getUOMSymbol());
+			}
 		}
 		//
-		sb.append("  @C_UOM_To_ID@: ");
+		sb.append("  @C_UOM_To_ID@:");
 		MUOM uomTo = MUOM.get(Env.getCtx(), C_UOM_To_ID);
 		if (uomTo != null)
 		{
