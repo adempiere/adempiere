@@ -25,9 +25,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -174,10 +176,12 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			+ "FROM C_UOM_Conversion "
 			+ "WHERE IsActive='Y' AND M_Product_ID IS NULL",
 			"C_UOM_Conversion", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Point p = new Point (rs.getInt(1), rs.getInt(2));
@@ -191,12 +195,15 @@ public class MUOMConversion extends X_C_UOM_Conversion
 				if (dr != null)
 					s_conversions.put(new Point(p.y,p.x), dr);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			s_log.log(Level.SEVERE, sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	createRatess
 
@@ -403,39 +410,31 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			+ " AND c.M_Product_ID IS NULL"
 			+ " ORDER BY c.AD_Client_ID DESC, c.AD_Org_ID DESC";
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_UOM_From_ID);
 			pstmt.setInt(2, C_UOM_To_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				retValue = rs.getBigDecimal(1);
 				precision = rs.getInt(StdPrecision ? 2 : 3);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
-		catch (Exception e)
+		catch (SQLException e)
 		{
-			s_log.log(Level.SEVERE, sql, e);
+			throw new DBException(e, sql);
 		}
-		try
+		finally
 		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		if (retValue == null)
 		{
-			s_log.info ("NOT found - FromUOM=" + C_UOM_From_ID
-				+ ", ToUOM=" + C_UOM_To_ID);
+			s_log.info ("NOT found - FromUOM=" + C_UOM_From_ID + ", ToUOM=" + C_UOM_To_ID);
 			return null;
 		}
 			
@@ -601,37 +600,14 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		MUOMConversion defRate = new MUOMConversion (MProduct.get(ctx, M_Product_ID));
 		list.add(defRate);
 		//
-		String sql = "SELECT * FROM C_UOM_Conversion c "
-			+ "WHERE c.M_Product_ID=?"
-			+ " AND EXISTS (SELECT * FROM M_Product p "
-				+ "WHERE c.M_Product_ID=p.M_Product_ID AND c.C_UOM_ID=p.C_UOM_ID)"
-			+ " AND c.IsActive='Y'";  
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MUOMConversion(ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = "M_Product_ID=?"
+			+ " AND EXISTS (SELECT 1 FROM M_Product p "
+				+ "WHERE C_UOM_Conversion.M_Product_ID=p.M_Product_ID AND C_UOM_Conversion.C_UOM_ID=p.C_UOM_ID)";
+		List<MUOMConversion> conversions = new Query(ctx, Table_Name, whereClause, null)
+		.setParameters(new Object[]{M_Product_ID})
+		.setOnlyActiveRecords(true)
+		.list();
+		list.addAll(conversions);
 		
 		//	Convert & save
 		result = new MUOMConversion[list.size ()];
@@ -642,13 +618,13 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	}	//	getProductConversions
 
 	/** Static Logger					*/
-	private static CLogger s_log = CLogger.getCLogger(MUOMConversion.class);
+	private static final CLogger s_log = CLogger.getCLogger(MUOMConversion.class);
 	/**	Indicator for Rate					*/
-	private static BigDecimal GETRATE = new BigDecimal(123.456);
+	private static final BigDecimal GETRATE = new BigDecimal(123.456);
 	/**	Conversion Map: Key=Point(from,to) Value=BigDecimal	*/
 	private static CCache<Point,BigDecimal>	s_conversions = null;
 	/** Product Conversion Map					*/
-	private static CCache<Integer,MUOMConversion[]>	s_conversionProduct 
+	private static final CCache<Integer,MUOMConversion[]>	s_conversionProduct 
 		= new CCache<Integer,MUOMConversion[]>("C_UOMConversion", 20); 
 	
 	
@@ -716,7 +692,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		//	From - To is the same
 		if (getC_UOM_ID() == getC_UOM_To_ID())
 		{
-			log.saveError("Error", Msg.parseTranslation(getCtx(), "@C_UOM_ID@ = @C_UOM_ID@"));
+			log.saveError("Error", Msg.parseTranslation(getCtx(), "@C_UOM_ID@ = @C_UOM_To_ID@"));
 			return false;
 		}
 		//	Nothing to convert
