@@ -56,6 +56,8 @@ import org.eevolution.model.MPPProductBOMLine;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
+ * @author Michael Judd, www.akunagroup.com
+ *          <li>BF [ 2804888 ] Incorrect reservation of products with attributes
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -1191,7 +1193,7 @@ public class MOrder extends X_C_Order implements DocAction
 			+ " INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)" 
 			+ " INNER JOIN M_AttributeSet pas ON (p.M_AttributeSet_ID=pas.M_AttributeSet_ID) "
 			+ "WHERE pas.MandatoryType" + mandatoryType		
-			+ " AND ol.M_AttributeSetInstance_ID IS NULL"
+			+ " AND (ol.M_AttributeSetInstance_ID is NULL OR ol.M_AttributeSetInstance_ID = 0)"
 			+ " AND ol.C_Order_ID=?";
 		int no = DB.getSQLValue(get_TrxName(), sql, getC_Order_ID());
 		if (no != 0)
