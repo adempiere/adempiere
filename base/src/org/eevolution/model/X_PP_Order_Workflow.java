@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_Order_Workflow (Properties ctx, int PP_Order_Workflow_ID, String trxName)
@@ -273,9 +273,10 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -309,9 +310,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setAccessLevel (String AccessLevel)
 	{
-		if (AccessLevel == null) throw new IllegalArgumentException ("AccessLevel is mandatory");
-		if (AccessLevel.equals("1") || AccessLevel.equals("3") || AccessLevel.equals("4") || AccessLevel.equals("7") || AccessLevel.equals("6") || AccessLevel.equals("2"));
-		else throw new IllegalArgumentException ("AccessLevel Invalid value - " + AccessLevel + " - Reference_ID=5 - 1 - 3 - 4 - 7 - 6 - 2");
 
 		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
@@ -330,8 +328,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setAuthor (String Author)
 	{
-		if (Author == null)
-			throw new IllegalArgumentException ("Author is mandatory.");
 		set_Value (COLUMNNAME_Author, Author);
 	}
 
@@ -349,8 +345,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setCost (BigDecimal Cost)
 	{
-		if (Cost == null)
-			throw new IllegalArgumentException ("Cost is mandatory.");
 		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
@@ -439,9 +433,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setDurationUnit (String DurationUnit)
 	{
-		if (DurationUnit == null) throw new IllegalArgumentException ("DurationUnit is mandatory");
-		if (DurationUnit.equals("Y") || DurationUnit.equals("M") || DurationUnit.equals("D") || DurationUnit.equals("h") || DurationUnit.equals("m") || DurationUnit.equals("s"));
-		else throw new IllegalArgumentException ("DurationUnit Invalid value - " + DurationUnit + " - Reference_ID=299 - Y - M - D - h - m - s");
 
 		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
 	}
@@ -462,6 +453,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -557,8 +549,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -577,6 +567,26 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Overlap Units.
+		@param OverlapUnits 
+		Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public void setOverlapUnits (BigDecimal OverlapUnits)
+	{
+		set_Value (COLUMNNAME_OverlapUnits, OverlapUnits);
+	}
+
+	/** Get Overlap Units.
+		@return Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public BigDecimal getOverlapUnits () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_OverlapUnits);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
     {
@@ -598,9 +608,10 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
-		if (PP_Order_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+		if (PP_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
 	/** Get Manufacturing Order.
@@ -653,9 +664,10 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 		@param PP_Order_Workflow_ID Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID)
 	{
-		if (PP_Order_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
+		if (PP_Order_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
 	}
 
 	/** Get Manufacturing Order Workflow.
@@ -707,9 +719,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setProcessType (String ProcessType)
 	{
 
-		if (ProcessType == null || ProcessType.equals("BF") || ProcessType.equals("CF") || ProcessType.equals("DR") || ProcessType.equals("JS") || ProcessType.equals("MR") || ProcessType.equals("PL"));
-		else throw new IllegalArgumentException ("ProcessType Invalid value - " + ProcessType + " - Reference_ID=53224 - BF - CF - DR - JS - MR - PL");
-
 		set_Value (COLUMNNAME_ProcessType, ProcessType);
 	}
 
@@ -736,9 +745,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	  */
 	public void setPublishStatus (String PublishStatus)
 	{
-		if (PublishStatus == null) throw new IllegalArgumentException ("PublishStatus is mandatory");
-		if (PublishStatus.equals("R") || PublishStatus.equals("T") || PublishStatus.equals("U") || PublishStatus.equals("V"));
-		else throw new IllegalArgumentException ("PublishStatus Invalid value - " + PublishStatus + " - Reference_ID=310 - R - T - U - V");
 
 		set_Value (COLUMNNAME_PublishStatus, PublishStatus);
 	}
@@ -844,6 +850,26 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Units by Cycles.
+		@param UnitsCycles 
+		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public void setUnitsCycles (BigDecimal UnitsCycles)
+	{
+		set_Value (COLUMNNAME_UnitsCycles, UnitsCycles);
+	}
+
+	/** Get Units by Cycles.
+		@return The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public BigDecimal getUnitsCycles () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnitsCycles);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Valid from.
 		@param ValidFrom 
 		Valid from including this date (first day)
@@ -882,8 +908,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 		@param ValidateWorkflow Validate Workflow	  */
 	public void setValidateWorkflow (String ValidateWorkflow)
 	{
-		if (ValidateWorkflow == null)
-			throw new IllegalArgumentException ("ValidateWorkflow is mandatory.");
 		set_Value (COLUMNNAME_ValidateWorkflow, ValidateWorkflow);
 	}
 
@@ -968,9 +992,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public void setWorkflowType (String WorkflowType)
 	{
 
-		if (WorkflowType == null || WorkflowType.equals("S") || WorkflowType.equals("M") || WorkflowType.equals("T") || WorkflowType.equals("Q"));
-		else throw new IllegalArgumentException ("WorkflowType Invalid value - " + WorkflowType + " - Reference_ID=108 - S - M - T - Q");
-
 		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
 	}
 
@@ -997,6 +1018,26 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public int getWorkingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WorkingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

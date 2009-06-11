@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_DD_OrderLine (Properties ctx, int DD_OrderLine_ID, String trxName)
@@ -52,7 +52,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 // N
 			setIsInvoiced (false);
 			setLine (0);
-// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM DD_OrderLine WHERE DD_OrderLine_ID=@DD_OrderLine_ID@
+// @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM DD_OrderLine WHERE DD_OrderLine_ID=@DD_Order_ID@
 			setM_LocatorTo_ID (0);
 // @M_LocatorTo_ID@
 			setM_Locator_ID (0);
@@ -294,9 +294,10 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
-		if (C_UOM_ID < 1)
-			 throw new IllegalArgumentException ("C_UOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -334,9 +335,10 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		@param DD_OrderLine_ID Distribution Order Line	  */
 	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
 	{
-		if (DD_OrderLine_ID < 1)
-			 throw new IllegalArgumentException ("DD_OrderLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+		if (DD_OrderLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
 	}
 
 	/** Get Distribution Order Line.
@@ -369,9 +371,10 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		@param DD_Order_ID Distribution Order	  */
 	public void setDD_Order_ID (int DD_Order_ID)
 	{
-		if (DD_Order_ID < 1)
-			 throw new IllegalArgumentException ("DD_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+		if (DD_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
 	}
 
 	/** Get Distribution Order.
@@ -597,7 +600,7 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -620,9 +623,10 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setM_LocatorTo_ID (int M_LocatorTo_ID)
 	{
-		if (M_LocatorTo_ID < 1)
-			 throw new IllegalArgumentException ("M_LocatorTo_ID is mandatory.");
-		set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
+		if (M_LocatorTo_ID < 1) 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_LocatorTo_ID, Integer.valueOf(M_LocatorTo_ID));
 	}
 
 	/** Get Locator To.
@@ -658,9 +662,10 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -764,8 +769,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setQtyEntered (BigDecimal QtyEntered)
 	{
-		if (QtyEntered == null)
-			throw new IllegalArgumentException ("QtyEntered is mandatory.");
 		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
 	}
 
@@ -803,8 +806,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	  */
 	public void setQtyOrdered (BigDecimal QtyOrdered)
 	{
-		if (QtyOrdered == null)
-			throw new IllegalArgumentException ("QtyOrdered is mandatory.");
 		set_Value (COLUMNNAME_QtyOrdered, QtyOrdered);
 	}
 

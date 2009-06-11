@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for PP_Order_Node
+/** Generated Interface for PP_Order_Node_v
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_PP_Order_Node 
+public interface I_PP_Order_Node_v 
 {
 
-    /** TableName=PP_Order_Node */
-    public static final String Table_Name = "PP_Order_Node";
+    /** TableName=PP_Order_Node_v */
+    public static final String Table_Name = "PP_Order_Node_v";
 
-    /** AD_Table_ID=53022 */
+    /** AD_Table_ID=53200 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -50,51 +50,6 @@ public interface I_PP_Order_Node
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
-
-	/** Set Column.
-	  * Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID);
-
-	/** Get Column.
-	  * Column in the table
-	  */
-	public int getAD_Column_ID();
-
-	public I_AD_Column getAD_Column() throws RuntimeException;
-
-    /** Column name AD_Form_ID */
-    public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
-
-	/** Set Special Form.
-	  * Special Form
-	  */
-	public void setAD_Form_ID (int AD_Form_ID);
-
-	/** Get Special Form.
-	  * Special Form
-	  */
-	public int getAD_Form_ID();
-
-	public I_AD_Form getAD_Form() throws RuntimeException;
-
-    /** Column name AD_Image_ID */
-    public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
-
-	/** Set Image.
-	  * Image or Icon
-	  */
-	public void setAD_Image_ID (int AD_Image_ID);
-
-	/** Get Image.
-	  * Image or Icon
-	  */
-	public int getAD_Image_ID();
-
-	public I_AD_Image getAD_Image() throws RuntimeException;
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -107,150 +62,6 @@ public interface I_PP_Order_Node
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name AD_Process_ID */
-    public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
-
-	/** Set Process.
-	  * Process or Report
-	  */
-	public void setAD_Process_ID (int AD_Process_ID);
-
-	/** Get Process.
-	  * Process or Report
-	  */
-	public int getAD_Process_ID();
-
-	public I_AD_Process getAD_Process() throws RuntimeException;
-
-    /** Column name AD_Task_ID */
-    public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
-
-	/** Set OS Task.
-	  * Operation System Task
-	  */
-	public void setAD_Task_ID (int AD_Task_ID);
-
-	/** Get OS Task.
-	  * Operation System Task
-	  */
-	public int getAD_Task_ID();
-
-	public I_AD_Task getAD_Task() throws RuntimeException;
-
-    /** Column name AD_WF_Block_ID */
-    public static final String COLUMNNAME_AD_WF_Block_ID = "AD_WF_Block_ID";
-
-	/** Set Workflow Block.
-	  * Workflow Transaction Execution Block
-	  */
-	public void setAD_WF_Block_ID (int AD_WF_Block_ID);
-
-	/** Get Workflow Block.
-	  * Workflow Transaction Execution Block
-	  */
-	public int getAD_WF_Block_ID();
-
-	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException;
-
-    /** Column name AD_WF_Node_ID */
-    public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
-
-	/** Set Node.
-	  * Workflow Node (activity), step or process
-	  */
-	public void setAD_WF_Node_ID (int AD_WF_Node_ID);
-
-	/** Get Node.
-	  * Workflow Node (activity), step or process
-	  */
-	public int getAD_WF_Node_ID();
-
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
-
-    /** Column name AD_WF_Responsible_ID */
-    public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
-
-	/** Set Workflow Responsible.
-	  * Responsible for Workflow Execution
-	  */
-	public void setAD_WF_Responsible_ID (int AD_WF_Responsible_ID);
-
-	/** Get Workflow Responsible.
-	  * Responsible for Workflow Execution
-	  */
-	public int getAD_WF_Responsible_ID();
-
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
-
-    /** Column name AD_Window_ID */
-    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
-
-	/** Set Window.
-	  * Data entry or display window
-	  */
-	public void setAD_Window_ID (int AD_Window_ID);
-
-	/** Get Window.
-	  * Data entry or display window
-	  */
-	public int getAD_Window_ID();
-
-	public I_AD_Window getAD_Window() throws RuntimeException;
-
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
-
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
-
-    /** Column name AttributeName */
-    public static final String COLUMNNAME_AttributeName = "AttributeName";
-
-	/** Set Attribute Name.
-	  * Name of the Attribute
-	  */
-	public void setAttributeName (String AttributeName);
-
-	/** Get Attribute Name.
-	  * Name of the Attribute
-	  */
-	public String getAttributeName();
-
-    /** Column name AttributeValue */
-    public static final String COLUMNNAME_AttributeValue = "AttributeValue";
-
-	/** Set Attribute Value.
-	  * Value of the Attribute
-	  */
-	public void setAttributeValue (String AttributeValue);
-
-	/** Get Attribute Value.
-	  * Value of the Attribute
-	  */
-	public String getAttributeValue();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -406,34 +217,6 @@ public interface I_PP_Order_Node
 	/** Get Duration Requiered	  */
 	public int getDurationRequiered();
 
-    /** Column name EntityType */
-    public static final String COLUMNNAME_EntityType = "EntityType";
-
-	/** Set Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType);
-
-	/** Get Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public String getEntityType();
-
-    /** Column name FinishMode */
-    public static final String COLUMNNAME_FinishMode = "FinishMode";
-
-	/** Set Finish Mode.
-	  * Workflow Activity Finish Mode
-	  */
-	public void setFinishMode (String FinishMode);
-
-	/** Get Finish Mode.
-	  * Workflow Activity Finish Mode
-	  */
-	public String getFinishMode();
-
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -460,19 +243,6 @@ public interface I_PP_Order_Node
 	  */
 	public boolean isActive();
 
-    /** Column name IsCentrallyMaintained */
-    public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
-
-	/** Set Centrally maintained.
-	  * Information maintained in System Element table
-	  */
-	public void setIsCentrallyMaintained (boolean IsCentrallyMaintained);
-
-	/** Get Centrally maintained.
-	  * Information maintained in System Element table
-	  */
-	public boolean isCentrallyMaintained();
-
     /** Column name IsMilestone */
     public static final String COLUMNNAME_IsMilestone = "IsMilestone";
 
@@ -490,32 +260,6 @@ public interface I_PP_Order_Node
 
 	/** Get Is Subcontracting	  */
 	public boolean isSubcontracting();
-
-    /** Column name JoinElement */
-    public static final String COLUMNNAME_JoinElement = "JoinElement";
-
-	/** Set Join Element.
-	  * Semantics for multiple incoming Transitions
-	  */
-	public void setJoinElement (String JoinElement);
-
-	/** Get Join Element.
-	  * Semantics for multiple incoming Transitions
-	  */
-	public String getJoinElement();
-
-    /** Column name Limit */
-    public static final String COLUMNNAME_Limit = "Limit";
-
-	/** Set Duration Limit.
-	  * Maximum Duration in Duration Unit
-	  */
-	public void setLimit (int Limit);
-
-	/** Get Duration Limit.
-	  * Maximum Duration in Duration Unit
-	  */
-	public int getLimit();
 
     /** Column name MovingTime */
     public static final String COLUMNNAME_MovingTime = "MovingTime";
@@ -572,6 +316,8 @@ public interface I_PP_Order_Node
 	/** Get Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID();
 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
+
     /** Column name PP_Order_Workflow_ID */
     public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
 
@@ -589,12 +335,12 @@ public interface I_PP_Order_Node
 	/** Set Priority.
 	  * Indicates if this request is of a high, medium or low priority.
 	  */
-	public void setPriority (int Priority);
+	public void setPriority (String Priority);
 
 	/** Get Priority.
 	  * Indicates if this request is of a high, medium or low priority.
 	  */
-	public int getPriority();
+	public String getPriority();
 
     /** Column name QtyDelivered */
     public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
@@ -608,15 +354,6 @@ public interface I_PP_Order_Node
 	  * Delivered Quantity
 	  */
 	public BigDecimal getQtyDelivered();
-
-    /** Column name QtyReject */
-    public static final String COLUMNNAME_QtyReject = "QtyReject";
-
-	/** Set Qty Reject	  */
-	public void setQtyReject (BigDecimal QtyReject);
-
-	/** Get Qty Reject	  */
-	public BigDecimal getQtyReject();
 
     /** Column name QtyRequiered */
     public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
@@ -685,54 +422,6 @@ public interface I_PP_Order_Node
 
 	/** Get Setup Time Real	  */
 	public int getSetupTimeReal();
-
-    /** Column name SetupTimeRequiered */
-    public static final String COLUMNNAME_SetupTimeRequiered = "SetupTimeRequiered";
-
-	/** Set Setup Time Requiered	  */
-	public void setSetupTimeRequiered (int SetupTimeRequiered);
-
-	/** Get Setup Time Requiered	  */
-	public int getSetupTimeRequiered();
-
-    /** Column name SplitElement */
-    public static final String COLUMNNAME_SplitElement = "SplitElement";
-
-	/** Set Split Element.
-	  * Semantics for multiple outgoing Transitions
-	  */
-	public void setSplitElement (String SplitElement);
-
-	/** Get Split Element.
-	  * Semantics for multiple outgoing Transitions
-	  */
-	public String getSplitElement();
-
-    /** Column name StartMode */
-    public static final String COLUMNNAME_StartMode = "StartMode";
-
-	/** Set Start Mode.
-	  * Workflow Activity Start Mode 
-	  */
-	public void setStartMode (String StartMode);
-
-	/** Get Start Mode.
-	  * Workflow Activity Start Mode 
-	  */
-	public String getStartMode();
-
-    /** Column name SubflowExecution */
-    public static final String COLUMNNAME_SubflowExecution = "SubflowExecution";
-
-	/** Set Subflow Execution.
-	  * Mode how the sub-workflow is executed
-	  */
-	public void setSubflowExecution (String SubflowExecution);
-
-	/** Get Subflow Execution.
-	  * Mode how the sub-workflow is executed
-	  */
-	public String getSubflowExecution();
 
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
@@ -815,19 +504,6 @@ public interface I_PP_Order_Node
 	  */
 	public int getWaitingTime();
 
-    /** Column name Workflow_ID */
-    public static final String COLUMNNAME_Workflow_ID = "Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or tasks
-	  */
-	public void setWorkflow_ID (int Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or tasks
-	  */
-	public int getWorkflow_ID();
-
     /** Column name WorkingTime */
     public static final String COLUMNNAME_WorkingTime = "WorkingTime";
 
@@ -840,32 +516,6 @@ public interface I_PP_Order_Node
 	  * Workflow Simulation Execution Time
 	  */
 	public int getWorkingTime();
-
-    /** Column name XPosition */
-    public static final String COLUMNNAME_XPosition = "XPosition";
-
-	/** Set X Position.
-	  * Absolute X (horizontal) position in 1/72 of an inch
-	  */
-	public void setXPosition (int XPosition);
-
-	/** Get X Position.
-	  * Absolute X (horizontal) position in 1/72 of an inch
-	  */
-	public int getXPosition();
-
-    /** Column name YPosition */
-    public static final String COLUMNNAME_YPosition = "YPosition";
-
-	/** Set Y Position.
-	  * Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public void setYPosition (int YPosition);
-
-	/** Get Y Position.
-	  * Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public int getYPosition();
 
     /** Column name Yield */
     public static final String COLUMNNAME_Yield = "Yield";

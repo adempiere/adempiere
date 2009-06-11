@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -307,9 +307,10 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -362,15 +363,18 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set Order Max.
-		@param Order_Max Order Max	  */
+	/** Set Maximum Order Qty.
+		@param Order_Max 
+		Maximum order quantity in UOM
+	  */
 	public void setOrder_Max (BigDecimal Order_Max)
 	{
 		set_Value (COLUMNNAME_Order_Max, Order_Max);
 	}
 
-	/** Get Order Max.
-		@return Order Max	  */
+	/** Get Maximum Order Qty.
+		@return Maximum order quantity in UOM
+	  */
 	public BigDecimal getOrder_Max () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Order_Max);
@@ -449,7 +453,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	public void setOrder_Policy (String Order_Policy)
 	{
 
-		if (Order_Policy == null || Order_Policy.equals("FOQ") || Order_Policy.equals("LFL") || Order_Policy.equals("POQ")); else throw new IllegalArgumentException ("Order_Policy Invalid value - " + Order_Policy + " - Reference_ID=53228 - FOQ - LFL - POQ");		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
+		set_Value (COLUMNNAME_Order_Policy, Order_Policy);
 	}
 
 	/** Get Order Policy.
@@ -519,9 +523,10 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		@param PP_Product_Planning_ID Product Planning	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID)
 	{
-		if (PP_Product_Planning_ID < 1)
-			 throw new IllegalArgumentException ("PP_Product_Planning_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, Integer.valueOf(PP_Product_Planning_ID));
+		if (PP_Product_Planning_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, Integer.valueOf(PP_Product_Planning_ID));
 	}
 
 	/** Get Product Planning.
@@ -667,15 +672,18 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return bd;
 	}
 
-	/** Set Yield.
-		@param Yield Yield	  */
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
 	public void setYield (int Yield)
 	{
 		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
 	}
 
-	/** Get Yield.
-		@return Yield	  */
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
 	public int getYield () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);

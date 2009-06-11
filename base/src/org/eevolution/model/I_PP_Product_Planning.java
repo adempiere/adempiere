@@ -1,17 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software;
- you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY;
- without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program;
- if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -220,10 +217,14 @@ public interface I_PP_Product_Planning
     /** Column name Order_Max */
     public static final String COLUMNNAME_Order_Max = "Order_Max";
 
-	/** Set Order Max	  */
+	/** Set Maximum Order Qty.
+	  * Maximum order quantity in UOM
+	  */
 	public void setOrder_Max (BigDecimal Order_Max);
 
-	/** Get Order Max	  */
+	/** Get Maximum Order Qty.
+	  * Maximum order quantity in UOM
+	  */
 	public BigDecimal getOrder_Max();
 
     /** Column name Order_Min */
@@ -390,9 +391,13 @@ public interface I_PP_Product_Planning
     /** Column name Yield */
     public static final String COLUMNNAME_Yield = "Yield";
 
-	/** Set Yield	  */
+	/** Set Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
 	public void setYield (int Yield);
 
-	/** Get Yield	  */
+	/** Get Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
 	public int getYield();
 }

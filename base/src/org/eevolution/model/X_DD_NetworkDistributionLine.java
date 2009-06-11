@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -35,7 +35,7 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_DD_NetworkDistributionLine (Properties ctx, int DD_NetworkDistributionLine_ID, String trxName)
@@ -84,9 +84,10 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		@param DD_NetworkDistributionLine_ID Network Distribution Line	  */
 	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID)
 	{
-		if (DD_NetworkDistributionLine_ID < 1)
-			 throw new IllegalArgumentException ("DD_NetworkDistributionLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, Integer.valueOf(DD_NetworkDistributionLine_ID));
+		if (DD_NetworkDistributionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistributionLine_ID, Integer.valueOf(DD_NetworkDistributionLine_ID));
 	}
 
 	/** Get Network Distribution Line.
@@ -119,9 +120,10 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 		@param DD_NetworkDistribution_ID Network Distribution	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
 	{
-		if (DD_NetworkDistribution_ID < 1)
-			 throw new IllegalArgumentException ("DD_NetworkDistribution_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
+		if (DD_NetworkDistribution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
 	}
 
 	/** Get Network Distribution.
@@ -156,9 +158,10 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	  */
 	public void setM_Shipper_ID (int M_Shipper_ID)
 	{
-		if (M_Shipper_ID < 1)
-			 throw new IllegalArgumentException ("M_Shipper_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
+		if (M_Shipper_ID < 1) 
+			set_Value (COLUMNNAME_M_Shipper_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Shipper_ID, Integer.valueOf(M_Shipper_ID));
 	}
 
 	/** Get Shipper.
@@ -178,9 +181,10 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	  */
 	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID)
 	{
-		if (M_WarehouseSource_ID < 1)
-			 throw new IllegalArgumentException ("M_WarehouseSource_ID is mandatory.");
-		set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
+		if (M_WarehouseSource_ID < 1) 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_WarehouseSource_ID, Integer.valueOf(M_WarehouseSource_ID));
 	}
 
 	/** Get Source Warehouse.
@@ -200,9 +204,10 @@ public class X_DD_NetworkDistributionLine extends PO implements I_DD_NetworkDist
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.

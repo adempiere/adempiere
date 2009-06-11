@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -83,9 +83,10 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 0)
-			 throw new IllegalArgumentException ("M_AttributeSetInstance_ID is mandatory.");
-		set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
 	/** Get Attribute Set Instance.
@@ -105,8 +106,6 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 	  */
 	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
 		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
@@ -125,9 +124,10 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
 	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
 	{
-		if (PP_Cost_CollectorMA_ID < 1)
-			 throw new IllegalArgumentException ("PP_Cost_CollectorMA_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
+		if (PP_Cost_CollectorMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
 	}
 
 	/** Get Manufacturing Order MA.
@@ -160,9 +160,10 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
 	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
 	{
-		if (PP_Cost_Collector_ID < 1)
-			 throw new IllegalArgumentException ("PP_Cost_Collector_ID is mandatory.");
-		set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
+		if (PP_Cost_Collector_ID < 1) 
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
 	}
 
 	/** Get Manufacturing Cost Collector.

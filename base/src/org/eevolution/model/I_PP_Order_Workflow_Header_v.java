@@ -21,24 +21,24 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for PP_Order
+/** Generated Interface for PP_Order_Workflow_Header_v
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_PP_Order 
+public interface I_PP_Order_Workflow_Header_v 
 {
 
-    /** TableName=PP_Order */
-    public static final String Table_Name = "PP_Order";
+    /** TableName=PP_Order_Workflow_Header_v */
+    public static final String Table_Name = "PP_Order_Workflow_Header_v";
 
-    /** AD_Table_ID=53027 */
+    /** AD_Table_ID=53199 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 1 - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(1);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -50,18 +50,18 @@ public interface I_PP_Order
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name AD_Language */
+    public static final String COLUMNNAME_AD_Language = "AD_Language";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Language.
+	  * Language for this entity
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAD_Language (String AD_Language);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Language.
+	  * Language for this entity
 	  */
-	public int getAD_OrgTrx_ID();
+	public String getAD_Language();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -104,6 +104,19 @@ public interface I_PP_Order
 	  */
 	public BigDecimal getAssay();
 
+    /** Column name Author */
+    public static final String COLUMNNAME_Author = "Author";
+
+	/** Set Author.
+	  * Author/Creator of the Entity
+	  */
+	public void setAuthor (String Author);
+
+	/** Get Author.
+	  * Author/Creator of the Entity
+	  */
+	public String getAuthor();
+
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -134,19 +147,6 @@ public interface I_PP_Order
 
 	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name C_DocTypeTarget_ID */
-    public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
-
-	/** Set Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID);
-
-	/** Get Target Document Type.
-	  * Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID();
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -159,6 +159,8 @@ public interface I_PP_Order
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
+
+	public I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -205,18 +207,18 @@ public interface I_PP_Order
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
 
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+    /** Column name Cost */
+    public static final String COLUMNNAME_Cost = "Cost";
 
-	/** Set Copy From.
-	  * Copy From Record
+	/** Set Cost.
+	  * Cost information
 	  */
-	public void setCopyFrom (String CopyFrom);
+	public void setCost (BigDecimal Cost);
 
-	/** Get Copy From.
-	  * Copy From Record
+	/** Get Cost.
+	  * Cost information
 	  */
-	public String getCopyFrom();
+	public BigDecimal getCost();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -335,19 +337,6 @@ public interface I_PP_Order
 	  */
 	public String getDescription();
 
-    /** Column name DocAction */
-    public static final String COLUMNNAME_DocAction = "DocAction";
-
-	/** Set Document Action.
-	  * The targeted status of the document
-	  */
-	public void setDocAction (String DocAction);
-
-	/** Get Document Action.
-	  * The targeted status of the document
-	  */
-	public String getDocAction();
-
     /** Column name DocStatus */
     public static final String COLUMNNAME_DocStatus = "DocStatus";
 
@@ -374,6 +363,58 @@ public interface I_PP_Order
 	  */
 	public String getDocumentNo();
 
+    /** Column name DocumentType */
+    public static final String COLUMNNAME_DocumentType = "DocumentType";
+
+	/** Set Document Type.
+	  * Document Type
+	  */
+	public void setDocumentType (String DocumentType);
+
+	/** Get Document Type.
+	  * Document Type
+	  */
+	public String getDocumentType();
+
+    /** Column name DocumentTypeNote */
+    public static final String COLUMNNAME_DocumentTypeNote = "DocumentTypeNote";
+
+	/** Set Document Type Note.
+	  * Optional note of a document type
+	  */
+	public void setDocumentTypeNote (String DocumentTypeNote);
+
+	/** Get Document Type Note.
+	  * Optional note of a document type
+	  */
+	public String getDocumentTypeNote();
+
+    /** Column name Duration */
+    public static final String COLUMNNAME_Duration = "Duration";
+
+	/** Set Duration.
+	  * Normal Duration in Duration Unit
+	  */
+	public void setDuration (int Duration);
+
+	/** Get Duration.
+	  * Normal Duration in Duration Unit
+	  */
+	public int getDuration();
+
+    /** Column name DurationUnit */
+    public static final String COLUMNNAME_DurationUnit = "DurationUnit";
+
+	/** Set Duration Unit.
+	  * Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit);
+
+	/** Get Duration Unit.
+	  * Unit of Duration
+	  */
+	public String getDurationUnit();
+
     /** Column name FloatAfter */
     public static final String COLUMNNAME_FloatAfter = "FloatAfter";
 
@@ -392,6 +433,19 @@ public interface I_PP_Order
 	/** Get Float Befored	  */
 	public BigDecimal getFloatBefored();
 
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -404,67 +458,6 @@ public interface I_PP_Order
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsApproved */
-    public static final String COLUMNNAME_IsApproved = "IsApproved";
-
-	/** Set Approved.
-	  * Indicates if this document requires approval
-	  */
-	public void setIsApproved (boolean IsApproved);
-
-	/** Get Approved.
-	  * Indicates if this document requires approval
-	  */
-	public boolean isApproved();
-
-    /** Column name IsPrinted */
-    public static final String COLUMNNAME_IsPrinted = "IsPrinted";
-
-	/** Set Printed.
-	  * Indicates if this document / line is printed
-	  */
-	public void setIsPrinted (boolean IsPrinted);
-
-	/** Get Printed.
-	  * Indicates if this document / line is printed
-	  */
-	public boolean isPrinted();
-
-    /** Column name IsQtyPercentage */
-    public static final String COLUMNNAME_IsQtyPercentage = "IsQtyPercentage";
-
-	/** Set Is Qty Percentage.
-	  * Indicate that this component is based in % Quantity
-	  */
-	public void setIsQtyPercentage (boolean IsQtyPercentage);
-
-	/** Get Is Qty Percentage.
-	  * Indicate that this component is based in % Quantity
-	  */
-	public boolean isQtyPercentage();
-
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
-
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx);
-
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public boolean isSOTrx();
-
-    /** Column name IsSelected */
-    public static final String COLUMNNAME_IsSelected = "IsSelected";
-
-	/** Set Selected	  */
-	public void setIsSelected (boolean IsSelected);
-
-	/** Get Selected	  */
-	public boolean isSelected();
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
@@ -492,32 +485,6 @@ public interface I_PP_Order
 	  */
 	public String getLot();
 
-    /** Column name M_AttributeSetInstance_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
-
-	/** Set Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
-
-	/** Get Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID();
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -533,14 +500,53 @@ public interface I_PP_Order
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name OrderType */
-    public static final String COLUMNNAME_OrderType = "OrderType";
+    /** Column name MovingTime */
+    public static final String COLUMNNAME_MovingTime = "MovingTime";
 
-	/** Set OrderType	  */
-	public void setOrderType (String OrderType);
+	/** Set Moving Time	  */
+	public void setMovingTime (int MovingTime);
 
-	/** Get OrderType	  */
-	public String getOrderType();
+	/** Get Moving Time	  */
+	public int getMovingTime();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
+
+    /** Column name Org_Location_ID */
+    public static final String COLUMNNAME_Org_Location_ID = "Org_Location_ID";
+
+	/** Set Org Address.
+	  * Organization Location/Address
+	  */
+	public void setOrg_Location_ID (int Org_Location_ID);
+
+	/** Get Org Address.
+	  * Organization Location/Address
+	  */
+	public int getOrg_Location_ID();
+
+    /** Column name OverlapUnits */
+    public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
+
+	/** Set Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public void setOverlapUnits (BigDecimal OverlapUnits);
+
+	/** Get Overlap Units.
+	  * Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public BigDecimal getOverlapUnits();
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
@@ -550,6 +556,8 @@ public interface I_PP_Order
 
 	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
@@ -575,19 +583,6 @@ public interface I_PP_Order
 	/** Get Planner	  */
 	public int getPlanner_ID();
 
-    /** Column name Posted */
-    public static final String COLUMNNAME_Posted = "Posted";
-
-	/** Set Posted.
-	  * Posting status
-	  */
-	public void setPosted (boolean Posted);
-
-	/** Get Posted.
-	  * Posting status
-	  */
-	public boolean isPosted();
-
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
 
@@ -601,27 +596,18 @@ public interface I_PP_Order
 	  */
 	public String getPriorityRule();
 
-    /** Column name Processed */
-    public static final String COLUMNNAME_Processed = "Processed";
+    /** Column name PublishStatus */
+    public static final String COLUMNNAME_PublishStatus = "PublishStatus";
 
-	/** Set Processed.
-	  * The document has been processed
+	/** Set Publication Status.
+	  * Status of Publication
 	  */
-	public void setProcessed (boolean Processed);
+	public void setPublishStatus (boolean PublishStatus);
 
-	/** Get Processed.
-	  * The document has been processed
+	/** Get Publication Status.
+	  * Status of Publication
 	  */
-	public boolean isProcessed();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	public boolean isPublishStatus();
 
     /** Column name QtyBatchSize */
     public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
@@ -715,6 +701,15 @@ public interface I_PP_Order
 	  */
 	public BigDecimal getQtyScrap();
 
+    /** Column name QueuingTime */
+    public static final String COLUMNNAME_QueuingTime = "QueuingTime";
+
+	/** Set Queuing Time	  */
+	public void setQueuingTime (int QueuingTime);
+
+	/** Get Queuing Time	  */
+	public int getQueuingTime();
+
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -730,18 +725,14 @@ public interface I_PP_Order
 
 	public I_S_Resource getS_Resource() throws RuntimeException;
 
-    /** Column name ScheduleType */
-    public static final String COLUMNNAME_ScheduleType = "ScheduleType";
+    /** Column name SalesRep_Name */
+    public static final String COLUMNNAME_SalesRep_Name = "SalesRep_Name";
 
-	/** Set Schedule Type.
-	  * Type of schedule
-	  */
-	public void setScheduleType (String ScheduleType);
+	/** Set Sales Representative	  */
+	public void setSalesRep_Name (String SalesRep_Name);
 
-	/** Get Schedule Type.
-	  * Type of schedule
-	  */
-	public String getScheduleType();
+	/** Get Sales Representative	  */
+	public String getSalesRep_Name();
 
     /** Column name SerNo */
     public static final String COLUMNNAME_SerNo = "SerNo";
@@ -755,6 +746,45 @@ public interface I_PP_Order
 	  * Product Serial Number 
 	  */
 	public String getSerNo();
+
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
+
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
+
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
+
+    /** Column name TaxID */
+    public static final String COLUMNNAME_TaxID = "TaxID";
+
+	/** Set Tax ID.
+	  * Tax Identification
+	  */
+	public void setTaxID (String TaxID);
+
+	/** Get Tax ID.
+	  * Tax Identification
+	  */
+	public String getTaxID();
+
+    /** Column name UnitsCycles */
+    public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
+
+	/** Set Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public void setUnitsCycles (BigDecimal UnitsCycles);
+
+	/** Get Units by Cycles.
+	  * The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public BigDecimal getUnitsCycles();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -772,31 +802,96 @@ public interface I_PP_Order
 	  */
 	public int getUpdatedBy();
 
-    /** Column name User1_ID */
-    public static final String COLUMNNAME_User1_ID = "User1_ID";
+    /** Column name ValidFrom */
+    public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 
-	/** Set User List 1.
-	  * User defined list element #1
+	/** Set Valid from.
+	  * Valid from including this date (first day)
 	  */
-	public void setUser1_ID (int User1_ID);
+	public void setValidFrom (Timestamp ValidFrom);
 
-	/** Get User List 1.
-	  * User defined list element #1
+	/** Get Valid from.
+	  * Valid from including this date (first day)
 	  */
-	public int getUser1_ID();
+	public Timestamp getValidFrom();
 
-    /** Column name User2_ID */
-    public static final String COLUMNNAME_User2_ID = "User2_ID";
+    /** Column name ValidTo */
+    public static final String COLUMNNAME_ValidTo = "ValidTo";
 
-	/** Set User List 2.
-	  * User defined list element #2
+	/** Set Valid to.
+	  * Valid to including this date (last day)
 	  */
-	public void setUser2_ID (int User2_ID);
+	public void setValidTo (Timestamp ValidTo);
 
-	/** Get User List 2.
-	  * User defined list element #2
+	/** Get Valid to.
+	  * Valid to including this date (last day)
 	  */
-	public int getUser2_ID();
+	public Timestamp getValidTo();
+
+    /** Column name Version */
+    public static final String COLUMNNAME_Version = "Version";
+
+	/** Set Version.
+	  * Version of the table definition
+	  */
+	public void setVersion (int Version);
+
+	/** Get Version.
+	  * Version of the table definition
+	  */
+	public int getVersion();
+
+    /** Column name WaitingTime */
+    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
+
+	/** Set Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime);
+
+	/** Get Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime();
+
+    /** Column name Warehouse_Location_ID */
+    public static final String COLUMNNAME_Warehouse_Location_ID = "Warehouse_Location_ID";
+
+	/** Set Warehouse Address.
+	  * Warehouse Location/Address
+	  */
+	public void setWarehouse_Location_ID (int Warehouse_Location_ID);
+
+	/** Get Warehouse Address.
+	  * Warehouse Location/Address
+	  */
+	public int getWarehouse_Location_ID();
+
+    /** Column name WorkflowType */
+    public static final String COLUMNNAME_WorkflowType = "WorkflowType";
+
+	/** Set Workflow Type.
+	  * Type of Worflow
+	  */
+	public void setWorkflowType (String WorkflowType);
+
+	/** Get Workflow Type.
+	  * Type of Worflow
+	  */
+	public String getWorkflowType();
+
+    /** Column name WorkingTime */
+    public static final String COLUMNNAME_WorkingTime = "WorkingTime";
+
+	/** Set Working Time.
+	  * Workflow Simulation Execution Time
+	  */
+	public void setWorkingTime (int WorkingTime);
+
+	/** Get Working Time.
+	  * Workflow Simulation Execution Time
+	  */
+	public int getWorkingTime();
 
     /** Column name Yield */
     public static final String COLUMNNAME_Yield = "Yield";
@@ -804,10 +899,10 @@ public interface I_PP_Order
 	/** Set Yield %.
 	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
 	  */
-	public void setYield (BigDecimal Yield);
+	public void setYield (int Yield);
 
 	/** Get Yield %.
 	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
 	  */
-	public BigDecimal getYield();
+	public int getYield();
 }

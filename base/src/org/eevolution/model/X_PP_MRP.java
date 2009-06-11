@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -303,8 +303,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setDateOrdered (Timestamp DateOrdered)
 	{
-		if (DateOrdered == null)
-			throw new IllegalArgumentException ("DateOrdered is mandatory.");
 		set_Value (COLUMNNAME_DateOrdered, DateOrdered);
 	}
 
@@ -322,8 +320,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setDatePromised (Timestamp DatePromised)
 	{
-		if (DatePromised == null)
-			throw new IllegalArgumentException ("DatePromised is mandatory.");
 		set_Value (COLUMNNAME_DatePromised, DatePromised);
 	}
 
@@ -427,7 +423,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setDocStatus (String DocStatus)
 	{
 
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC")); else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");		set_Value (COLUMNNAME_DocStatus, DocStatus);
+		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
 
 	/** Get Document Status.
@@ -679,9 +675,10 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -739,7 +736,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setOrderType (String OrderType)
 	{
 
-		if (OrderType == null || OrderType.equals("FCT") || OrderType.equals("MOP") || OrderType.equals("POO") || OrderType.equals("POR") || OrderType.equals("SOO") || OrderType.equals("DOO")); else throw new IllegalArgumentException ("OrderType Invalid value - " + OrderType + " - Reference_ID=53229 - FCT - MOP - POO - POR - SOO - DOO");		set_Value (COLUMNNAME_OrderType, OrderType);
+		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
 	/** Get OrderType.
@@ -753,9 +750,10 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		@param PP_MRP_ID Material Requirement Planning	  */
 	public void setPP_MRP_ID (int PP_MRP_ID)
 	{
-		if (PP_MRP_ID < 1)
-			 throw new IllegalArgumentException ("PP_MRP_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_MRP_ID, Integer.valueOf(PP_MRP_ID));
+		if (PP_MRP_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_MRP_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_MRP_ID, Integer.valueOf(PP_MRP_ID));
 	}
 
 	/** Get Material Requirement Planning.
@@ -947,7 +945,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public void setTypeMRP (String TypeMRP)
 	{
 
-		if (TypeMRP == null || TypeMRP.equals("D") || TypeMRP.equals("S")); else throw new IllegalArgumentException ("TypeMRP Invalid value - " + TypeMRP + " - Reference_ID=53230 - D - S");		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
+		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
 	}
 
 	/** Get TypeMRP.
@@ -963,8 +961,6 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

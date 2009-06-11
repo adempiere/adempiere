@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for PP_Product_BOMLine
+/** Generated Interface for PP_Order_BOMLine_v
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_PP_Product_BOMLine 
+public interface I_PP_Order_BOMLine_v 
 {
 
-    /** TableName=PP_Product_BOMLine */
-    public static final String Table_Name = "PP_Product_BOMLine";
+    /** TableName=PP_Order_BOMLine_v */
+    public static final String Table_Name = "PP_Order_BOMLine_v";
 
-    /** AD_Table_ID=53019 */
+    /** AD_Table_ID=53198 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,6 +62,21 @@ public interface I_PP_Product_BOMLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
@@ -132,6 +147,19 @@ public interface I_PP_Product_BOMLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name DateDelivered */
+    public static final String COLUMNNAME_DateDelivered = "DateDelivered";
+
+	/** Set Date Delivered.
+	  * Date when the product was delivered
+	  */
+	public void setDateDelivered (Timestamp DateDelivered);
+
+	/** Get Date Delivered.
+	  * Date when the product was delivered
+	  */
+	public Timestamp getDateDelivered();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -217,12 +245,12 @@ public interface I_PP_Product_BOMLine
 	/** Set Is Qty Percentage.
 	  * Indicate that this component is based in % Quantity
 	  */
-	public void setIsQtyPercentage (boolean IsQtyPercentage);
+	public void setIsQtyPercentage (BigDecimal IsQtyPercentage);
 
 	/** Get Is Qty Percentage.
 	  * Indicate that this component is based in % Quantity
 	  */
-	public boolean isQtyPercentage();
+	public BigDecimal getIsQtyPercentage();
 
     /** Column name IssueMethod */
     public static final String COLUMNNAME_IssueMethod = "IssueMethod";
@@ -291,6 +319,21 @@ public interface I_PP_Product_BOMLine
 
 	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
 
+    /** Column name M_Locator_ID */
+    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
+
+	/** Set Locator.
+	  * Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID);
+
+	/** Get Locator.
+	  * Warehouse Locator
+	  */
+	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -306,33 +349,66 @@ public interface I_PP_Product_BOMLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Product_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
-	/** Set BOM Line.
-	  * BOM Line
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
 
-	/** Get BOM Line.
-	  * BOM Line
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
 	  */
-	public int getPP_Product_BOMLine_ID();
+	public int getM_Warehouse_ID();
 
-    /** Column name PP_Product_BOM_ID */
-    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-	/** Set BOM & Formula.
-	  * BOM & Formula
+    /** Column name PP_Order_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+
+	/** Set Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+
+	/** Get Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID();
+
+	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException;
+
+    /** Column name PP_Order_BOM_ID */
+    public static final String COLUMNNAME_PP_Order_BOM_ID = "PP_Order_BOM_ID";
+
+	/** Set Manufacturing Order BOM	  */
+	public void setPP_Order_BOM_ID (int PP_Order_BOM_ID);
+
+	/** Get Manufacturing Order BOM	  */
+	public int getPP_Order_BOM_ID();
+
+	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException;
+
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order	  */
+	public int getPP_Order_ID();
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name QtyAvailable */
+    public static final String COLUMNNAME_QtyAvailable = "QtyAvailable";
+
+	/** Set Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
 	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+	public void setQtyAvailable (BigDecimal QtyAvailable);
 
-	/** Get BOM & Formula.
-	  * BOM & Formula
+	/** Get Available Quantity.
+	  * Available Quantity (On Hand - Reserved)
 	  */
-	public int getPP_Product_BOM_ID();
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+	public BigDecimal getQtyAvailable();
 
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";
@@ -359,6 +435,94 @@ public interface I_PP_Product_BOMLine
 	  * Indicate the Quantity % use in this Formula
 	  */
 	public BigDecimal getQtyBatch();
+
+    /** Column name QtyBatchSize */
+    public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
+
+	/** Set Qty Batch Size	  */
+	public void setQtyBatchSize (BigDecimal QtyBatchSize);
+
+	/** Get Qty Batch Size	  */
+	public BigDecimal getQtyBatchSize();
+
+    /** Column name QtyDelivered */
+    public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
+
+	/** Set Delivered Quantity.
+	  * Delivered Quantity
+	  */
+	public void setQtyDelivered (BigDecimal QtyDelivered);
+
+	/** Get Delivered Quantity.
+	  * Delivered Quantity
+	  */
+	public BigDecimal getQtyDelivered();
+
+    /** Column name QtyOnHand */
+    public static final String COLUMNNAME_QtyOnHand = "QtyOnHand";
+
+	/** Set On Hand Quantity.
+	  * On Hand Quantity
+	  */
+	public void setQtyOnHand (BigDecimal QtyOnHand);
+
+	/** Get On Hand Quantity.
+	  * On Hand Quantity
+	  */
+	public BigDecimal getQtyOnHand();
+
+    /** Column name QtyPost */
+    public static final String COLUMNNAME_QtyPost = "QtyPost";
+
+	/** Set Qty Post	  */
+	public void setQtyPost (BigDecimal QtyPost);
+
+	/** Get Qty Post	  */
+	public BigDecimal getQtyPost();
+
+    /** Column name QtyReject */
+    public static final String COLUMNNAME_QtyReject = "QtyReject";
+
+	/** Set Qty Reject	  */
+	public void setQtyReject (BigDecimal QtyReject);
+
+	/** Get Qty Reject	  */
+	public BigDecimal getQtyReject();
+
+    /** Column name QtyRequiered */
+    public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
+
+	/** Set Qty Requiered	  */
+	public void setQtyRequiered (BigDecimal QtyRequiered);
+
+	/** Get Qty Requiered	  */
+	public BigDecimal getQtyRequiered();
+
+    /** Column name QtyReserved */
+    public static final String COLUMNNAME_QtyReserved = "QtyReserved";
+
+	/** Set Reserved Quantity.
+	  * Reserved Quantity
+	  */
+	public void setQtyReserved (BigDecimal QtyReserved);
+
+	/** Get Reserved Quantity.
+	  * Reserved Quantity
+	  */
+	public BigDecimal getQtyReserved();
+
+    /** Column name QtyScrap */
+    public static final String COLUMNNAME_QtyScrap = "QtyScrap";
+
+	/** Set QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
+	public void setQtyScrap (BigDecimal QtyScrap);
+
+	/** Get QtyScrap.
+	  * Scrap Quantity for this componet
+	  */
+	public BigDecimal getQtyScrap();
 
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";

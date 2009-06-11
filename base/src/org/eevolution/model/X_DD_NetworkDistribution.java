@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -34,7 +34,7 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_DD_NetworkDistribution (Properties ctx, int DD_NetworkDistribution_ID, String trxName)
@@ -97,9 +97,10 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 		@param DD_NetworkDistribution_ID Network Distribution	  */
 	public void setDD_NetworkDistribution_ID (int DD_NetworkDistribution_ID)
 	{
-		if (DD_NetworkDistribution_ID < 1)
-			 throw new IllegalArgumentException ("DD_NetworkDistribution_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
+		if (DD_NetworkDistribution_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_NetworkDistribution_ID, Integer.valueOf(DD_NetworkDistribution_ID));
 	}
 
 	/** Get Network Distribution.
@@ -208,8 +209,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -296,8 +295,6 @@ public class X_DD_NetworkDistribution extends PO implements I_DD_NetworkDistribu
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

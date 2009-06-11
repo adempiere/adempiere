@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_BOMLine
  *  @author Adempiere (generated) 
@@ -35,7 +36,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_Product_BOMLine (Properties ctx, int PP_Product_BOMLine_ID, String trxName)
@@ -161,8 +162,8 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 
 	/** ComponentType AD_Reference_ID=53225 */
 	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
-	/** By Product = BY */
-	public static final String COMPONENTTYPE_ByProduct = "BY";
+	/** By-Product = BY */
+	public static final String COMPONENTTYPE_By_Product = "BY";
 	/** Component = CO */
 	public static final String COMPONENTTYPE_Component = "CO";
 	/** Phantom = PH */
@@ -177,15 +178,14 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	public static final String COMPONENTTYPE_Option = "OP";
 	/** Variant = VA */
 	public static final String COMPONENTTYPE_Variant = "VA";
+	/** Co-Product = CP */
+	public static final String COMPONENTTYPE_Co_Product = "CP";
 	/** Set Component Type.
 		@param ComponentType 
 		Component Type for a Bill of Material or Formula
 	  */
 	public void setComponentType (String ComponentType)
 	{
-
-		if (ComponentType == null || ComponentType.equals("BY") || ComponentType.equals("CO") || ComponentType.equals("PH") || ComponentType.equals("PK") || ComponentType.equals("PL") || ComponentType.equals("TL") || ComponentType.equals("OP") || ComponentType.equals("VA"));
-		else throw new IllegalArgumentException ("ComponentType Invalid value - " + ComponentType + " - Reference_ID=53225 - BY - CO - PH - PK - PL - TL - OP - VA");
 
 		set_Value (COLUMNNAME_ComponentType, ComponentType);
 	}
@@ -331,9 +331,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setIssueMethod (String IssueMethod)
 	{
-		if (IssueMethod == null) throw new IllegalArgumentException ("IssueMethod is mandatory");
-		if (IssueMethod.equals("0") || IssueMethod.equals("1") || IssueMethod.equals("2"));
-		else throw new IllegalArgumentException ("IssueMethod Invalid value - " + IssueMethod + " - Reference_ID=53226 - 0 - 1 - 2");
 
 		set_Value (COLUMNNAME_IssueMethod, IssueMethod);
 	}
@@ -392,7 +389,7 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -470,9 +467,10 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -486,15 +484,24 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 		return ii.intValue();
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_Product_ID()));
+    }
+
 	/** Set BOM Line.
 		@param PP_Product_BOMLine_ID 
 		BOM Line
 	  */
 	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID)
 	{
-		if (PP_Product_BOMLine_ID < 1)
-			 throw new IllegalArgumentException ("PP_Product_BOMLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, Integer.valueOf(PP_Product_BOMLine_ID));
+		if (PP_Product_BOMLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, Integer.valueOf(PP_Product_BOMLine_ID));
 	}
 
 	/** Get BOM Line.
@@ -530,9 +537,10 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
 	{
-		if (PP_Product_BOM_ID < 1)
-			 throw new IllegalArgumentException ("PP_Product_BOM_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+		if (PP_Product_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
 	}
 
 	/** Get BOM & Formula.
@@ -612,8 +620,6 @@ public class X_PP_Product_BOMLine extends PO implements I_PP_Product_BOMLine, I_
 	  */
 	public void setValidFrom (Timestamp ValidFrom)
 	{
-		if (ValidFrom == null)
-			throw new IllegalArgumentException ("ValidFrom is mandatory.");
 		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
 	}
 

@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_Cost_Collector (Properties ctx, int PP_Cost_Collector_ID, String trxName)
@@ -239,9 +239,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
 	{
-		if (C_DocTypeTarget_ID < 1)
-			 throw new IllegalArgumentException ("C_DocTypeTarget_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+		if (C_DocTypeTarget_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
 	}
 
 	/** Get Target Document Type.
@@ -261,9 +262,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -377,9 +379,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setCostCollectorType (String CostCollectorType)
 	{
-		if (CostCollectorType == null) throw new IllegalArgumentException ("CostCollectorType is mandatory");
-		if (CostCollectorType.equals("100") || CostCollectorType.equals("110") || CostCollectorType.equals("120") || CostCollectorType.equals("130") || CostCollectorType.equals("140") || CostCollectorType.equals("150") || CostCollectorType.equals("160"));
-		else throw new IllegalArgumentException ("CostCollectorType Invalid value - " + CostCollectorType + " - Reference_ID=53287 - 100 - 110 - 120 - 130 - 140 - 150 - 160");
 
 		set_Value (COLUMNNAME_CostCollectorType, CostCollectorType);
 	}
@@ -398,8 +397,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setDateAcct (Timestamp DateAcct)
 	{
-		if (DateAcct == null)
-			throw new IllegalArgumentException ("DateAcct is mandatory.");
 		set_Value (COLUMNNAME_DateAcct, DateAcct);
 	}
 
@@ -465,9 +462,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
-		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -511,9 +505,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
-		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
 
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -608,7 +599,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -631,9 +622,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setM_Locator_ID (int M_Locator_ID)
 	{
-		if (M_Locator_ID < 1)
-			 throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}
 
 	/** Get Locator.
@@ -669,9 +661,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -715,9 +708,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -737,8 +731,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setMovementDate (Timestamp MovementDate)
 	{
-		if (MovementDate == null)
-			throw new IllegalArgumentException ("MovementDate is mandatory.");
 		set_Value (COLUMNNAME_MovementDate, MovementDate);
 	}
 
@@ -756,8 +748,6 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (MovementQty == null)
-			throw new IllegalArgumentException ("MovementQty is mandatory.");
 		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
@@ -776,9 +766,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
 	public void setPP_Cost_Collector_ID (int PP_Cost_Collector_ID)
 	{
-		if (PP_Cost_Collector_ID < 1)
-			 throw new IllegalArgumentException ("PP_Cost_Collector_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
+		if (PP_Cost_Collector_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_Collector_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_Collector_ID, Integer.valueOf(PP_Cost_Collector_ID));
 	}
 
 	/** Get Manufacturing Cost Collector.
@@ -847,9 +838,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
-		if (PP_Order_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_ID is mandatory.");
-		set_Value (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+		if (PP_Order_ID < 1) 
+			set_Value (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
 	/** Get Manufacturing Order.
@@ -1065,9 +1057,10 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	  */
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (S_Resource_ID < 1)
-			 throw new IllegalArgumentException ("S_Resource_ID is mandatory.");
-		set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.

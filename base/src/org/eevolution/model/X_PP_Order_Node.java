@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -354,9 +354,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setAD_WF_Node_ID (int AD_WF_Node_ID)
 	{
-		if (AD_WF_Node_ID < 1)
-			 throw new IllegalArgumentException ("AD_WF_Node_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
+		if (AD_WF_Node_ID < 1) 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WF_Node_ID, Integer.valueOf(AD_WF_Node_ID));
 	}
 
 	/** Get Node.
@@ -470,9 +471,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
-		if (AD_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("AD_Workflow_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+		if (AD_Workflow_ID < 1) 
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -518,9 +520,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setAction (String Action)
 	{
-		if (Action == null) throw new IllegalArgumentException ("Action is mandatory");
-		if (Action.equals("Z") || Action.equals("C") || Action.equals("F") || Action.equals("V") || Action.equals("W") || Action.equals("X") || Action.equals("T") || Action.equals("R") || Action.equals("P") || Action.equals("D") || Action.equals("M") || Action.equals("B"));
-		else throw new IllegalArgumentException ("Action Invalid value - " + Action + " - Reference_ID=302 - Z - C - F - V - W - X - T - R - P - D - M - B");
 
 		set_Value (COLUMNNAME_Action, Action);
 	}
@@ -612,8 +611,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setCost (BigDecimal Cost)
 	{
-		if (Cost == null)
-			throw new IllegalArgumentException ("Cost is mandatory.");
 		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
@@ -741,9 +738,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setDocAction (String DocAction)
 	{
 
-		if (DocAction == null || DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
-		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
-
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
 
@@ -787,9 +781,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-
-		if (DocStatus == null || DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
-		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
 
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -864,6 +855,7 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setEntityType (String EntityType)
 	{
+
 		set_Value (COLUMNNAME_EntityType, EntityType);
 	}
 
@@ -887,9 +879,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setFinishMode (String FinishMode)
 	{
-
-		if (FinishMode == null || FinishMode.equals("A") || FinishMode.equals("M"));
-		else throw new IllegalArgumentException ("FinishMode Invalid value - " + FinishMode + " - Reference_ID=303 - A - M");
 
 		set_Value (COLUMNNAME_FinishMode, FinishMode);
 	}
@@ -997,9 +986,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setJoinElement (String JoinElement)
 	{
-		if (JoinElement == null) throw new IllegalArgumentException ("JoinElement is mandatory");
-		if (JoinElement.equals("A") || JoinElement.equals("X"));
-		else throw new IllegalArgumentException ("JoinElement Invalid value - " + JoinElement + " - Reference_ID=301 - A - X");
 
 		set_Value (COLUMNNAME_JoinElement, JoinElement);
 	}
@@ -1055,8 +1041,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -1077,14 +1061,17 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
     }
 
 	/** Set Overlap Units.
-		@param OverlapUnits Overlap Units	  */
+		@param OverlapUnits 
+		Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public void setOverlapUnits (int OverlapUnits)
 	{
 		set_Value (COLUMNNAME_OverlapUnits, Integer.valueOf(OverlapUnits));
 	}
 
 	/** Get Overlap Units.
-		@return Overlap Units	  */
+		@return Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
 	public int getOverlapUnits () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_OverlapUnits);
@@ -1113,9 +1100,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
-		if (PP_Order_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+		if (PP_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
 	/** Get Manufacturing Order.
@@ -1132,9 +1120,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		@param PP_Order_Node_ID Manufacturing Order Activity	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
-		if (PP_Order_Node_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_Node_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
+		if (PP_Order_Node_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Node_ID, Integer.valueOf(PP_Order_Node_ID));
 	}
 
 	/** Get Manufacturing Order Activity.
@@ -1167,9 +1156,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		@param PP_Order_Workflow_ID Manufacturing Order Workflow	  */
 	public void setPP_Order_Workflow_ID (int PP_Order_Workflow_ID)
 	{
-		if (PP_Order_Workflow_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_Workflow_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
+		if (PP_Order_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Workflow_ID, Integer.valueOf(PP_Order_Workflow_ID));
 	}
 
 	/** Get Manufacturing Order Workflow.
@@ -1398,9 +1388,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setSplitElement (String SplitElement)
 	{
-		if (SplitElement == null) throw new IllegalArgumentException ("SplitElement is mandatory");
-		if (SplitElement.equals("A") || SplitElement.equals("X"));
-		else throw new IllegalArgumentException ("SplitElement Invalid value - " + SplitElement + " - Reference_ID=301 - A - X");
 
 		set_Value (COLUMNNAME_SplitElement, SplitElement);
 	}
@@ -1426,9 +1413,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setStartMode (String StartMode)
 	{
 
-		if (StartMode == null || StartMode.equals("A") || StartMode.equals("M"));
-		else throw new IllegalArgumentException ("StartMode Invalid value - " + StartMode + " - Reference_ID=303 - A - M");
-
 		set_Value (COLUMNNAME_StartMode, StartMode);
 	}
 
@@ -1453,9 +1437,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public void setSubflowExecution (String SubflowExecution)
 	{
 
-		if (SubflowExecution == null || SubflowExecution.equals("A") || SubflowExecution.equals("S"));
-		else throw new IllegalArgumentException ("SubflowExecution Invalid value - " + SubflowExecution + " - Reference_ID=307 - A - S");
-
 		set_Value (COLUMNNAME_SubflowExecution, SubflowExecution);
 	}
 
@@ -1467,15 +1448,18 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
 	}
 
-	/** Set Units Cycles.
-		@param UnitsCycles Units Cycles	  */
+	/** Set Units by Cycles.
+		@param UnitsCycles 
+		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public void setUnitsCycles (int UnitsCycles)
 	{
 		set_Value (COLUMNNAME_UnitsCycles, Integer.valueOf(UnitsCycles));
 	}
 
-	/** Get Units Cycles.
-		@return Units Cycles	  */
+	/** Get Units by Cycles.
+		@return The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
 	public int getUnitsCycles () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_UnitsCycles);
@@ -1524,8 +1508,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -1635,6 +1617,26 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public int getYPosition () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Yield %.
+		@param Yield 
+		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield)
+	{
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
+	}
+
+	/** Get Yield %.
+		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

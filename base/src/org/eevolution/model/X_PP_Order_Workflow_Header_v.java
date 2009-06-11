@@ -27,10 +27,10 @@ import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for PP_Order
+/** Generated Model for PP_Order_Workflow_Header_v
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_PP_Order extends PO implements I_PP_Order, I_Persistent 
+public class X_PP_Order_Workflow_Header_v extends PO implements I_PP_Order_Workflow_Header_v, I_Persistent 
 {
 
 	/**
@@ -39,64 +39,22 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_PP_Order (Properties ctx, int PP_Order_ID, String trxName)
+    public X_PP_Order_Workflow_Header_v (Properties ctx, int PP_Order_Workflow_Header_v_ID, String trxName)
     {
-      super (ctx, PP_Order_ID, trxName);
-      /** if (PP_Order_ID == 0)
+      super (ctx, PP_Order_Workflow_Header_v_ID, trxName);
+      /** if (PP_Order_Workflow_Header_v_ID == 0)
         {
-			setAD_Workflow_ID (0);
-			setC_DocTypeTarget_ID (0);
-// 0
-			setC_UOM_ID (0);
-// @UOMConversion@=Y | @Processed@='Y'
-			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
-// @#Date@
-			setDatePromised (new Timestamp( System.currentTimeMillis() ));
-			setDateStartSchedule (new Timestamp( System.currentTimeMillis() ));
-// @#Date@
-			setDocAction (null);
-// --
-			setDocStatus (null);
-// DR
-			setDocumentNo (null);
-			setIsApproved (false);
-// N
-			setIsPrinted (false);
-// N
-			setIsSOTrx (false);
-// N
-			setIsSelected (false);
-// N
-			setLine (0);
-			setM_Product_ID (0);
-			setM_Warehouse_ID (0);
-			setPP_Order_ID (0);
-			setPP_Product_BOM_ID (0);
-			setPriorityRule (null);
-			setProcessed (false);
-// N
-			setQtyDelivered (Env.ZERO);
-// 0
-			setQtyOrdered (Env.ZERO);
-// 1
-			setQtyReject (Env.ZERO);
-// 0
-			setQtyScrap (Env.ZERO);
-// 0
-			setS_Resource_ID (0);
-			setYield (Env.ZERO);
-// 100
         } */
     }
 
     /** Load Constructor */
-    public X_PP_Order (Properties ctx, ResultSet rs, String trxName)
+    public X_PP_Order_Workflow_Header_v (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 1 - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -112,32 +70,26 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_PP_Order[")
+      StringBuffer sb = new StringBuffer ("X_PP_Order_Workflow_Header_v[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
+	/** Set Language.
+		@param AD_Language 
+		Language for this entity
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	public void setAD_Language (String AD_Language)
 	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		set_Value (COLUMNNAME_AD_Language, AD_Language);
 	}
 
-	/** Get Trx Organization.
-		@return Performing or initiating organization
+	/** Get Language.
+		@return Language for this entity
 	  */
-	public int getAD_OrgTrx_ID () 
+	public String getAD_Language () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
 	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
@@ -163,9 +115,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setAD_Workflow_ID (int AD_Workflow_ID)
 	{
 		if (AD_Workflow_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, null);
+			set_Value (COLUMNNAME_AD_Workflow_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
+			set_Value (COLUMNNAME_AD_Workflow_ID, Integer.valueOf(AD_Workflow_ID));
 	}
 
 	/** Get Workflow.
@@ -197,6 +149,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Author.
+		@param Author 
+		Author/Creator of the Entity
+	  */
+	public void setAuthor (String Author)
+	{
+		set_Value (COLUMNNAME_Author, Author);
+	}
+
+	/** Get Author.
+		@return Author/Creator of the Entity
+	  */
+	public String getAuthor () 
+	{
+		return (String)get_Value(COLUMNNAME_Author);
 	}
 
 	public I_C_Activity getC_Activity() throws RuntimeException 
@@ -277,28 +246,21 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
-		Target document type for conversing documents
-	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
-	{
-		if (C_DocTypeTarget_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
-	}
-
-	/** Get Target Document Type.
-		@return Target document type for conversing documents
-	  */
-	public int getC_DocTypeTarget_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public I_C_DocType getC_DocType() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
+        I_C_DocType result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -424,9 +386,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setC_UOM_ID (int C_UOM_ID)
 	{
 		if (C_UOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+			set_Value (COLUMNNAME_C_UOM_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
 	}
 
 	/** Get UOM.
@@ -440,28 +402,31 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
+	/** Set Cost.
+		@param Cost 
+		Cost information
 	  */
-	public void setCopyFrom (String CopyFrom)
+	public void setCost (BigDecimal Cost)
 	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+		set_Value (COLUMNNAME_Cost, Cost);
 	}
 
-	/** Get Copy From.
-		@return Copy From Record
+	/** Get Cost.
+		@return Cost information
 	  */
-	public String getCopyFrom () 
+	public BigDecimal getCost () 
 	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set DateConfirm.
 		@param DateConfirm DateConfirm	  */
 	public void setDateConfirm (Timestamp DateConfirm)
 	{
-		set_ValueNoCheck (COLUMNNAME_DateConfirm, DateConfirm);
+		set_Value (COLUMNNAME_DateConfirm, DateConfirm);
 	}
 
 	/** Get DateConfirm.
@@ -477,7 +442,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setDateDelivered (Timestamp DateDelivered)
 	{
-		set_ValueNoCheck (COLUMNNAME_DateDelivered, DateDelivered);
+		set_Value (COLUMNNAME_DateDelivered, DateDelivered);
 	}
 
 	/** Get Date Delivered.
@@ -494,7 +459,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setDateFinish (Timestamp DateFinish)
 	{
-		set_ValueNoCheck (COLUMNNAME_DateFinish, DateFinish);
+		set_Value (COLUMNNAME_DateFinish, DateFinish);
 	}
 
 	/** Get Finish Date.
@@ -557,7 +522,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		@param DateStart DateStart	  */
 	public void setDateStart (Timestamp DateStart)
 	{
-		set_ValueNoCheck (COLUMNNAME_DateStart, DateStart);
+		set_Value (COLUMNNAME_DateStart, DateStart);
 	}
 
 	/** Get DateStart.
@@ -596,54 +561,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** DocAction AD_Reference_ID=135 */
-	public static final int DOCACTION_AD_Reference_ID=135;
-	/** Complete = CO */
-	public static final String DOCACTION_Complete = "CO";
-	/** Approve = AP */
-	public static final String DOCACTION_Approve = "AP";
-	/** Reject = RJ */
-	public static final String DOCACTION_Reject = "RJ";
-	/** Post = PO */
-	public static final String DOCACTION_Post = "PO";
-	/** Void = VO */
-	public static final String DOCACTION_Void = "VO";
-	/** Close = CL */
-	public static final String DOCACTION_Close = "CL";
-	/** Reverse - Correct = RC */
-	public static final String DOCACTION_Reverse_Correct = "RC";
-	/** Reverse - Accrual = RA */
-	public static final String DOCACTION_Reverse_Accrual = "RA";
-	/** Invalidate = IN */
-	public static final String DOCACTION_Invalidate = "IN";
-	/** Re-activate = RE */
-	public static final String DOCACTION_Re_Activate = "RE";
-	/** <None> = -- */
-	public static final String DOCACTION_None = "--";
-	/** Prepare = PR */
-	public static final String DOCACTION_Prepare = "PR";
-	/** Unlock = XL */
-	public static final String DOCACTION_Unlock = "XL";
-	/** Wait Complete = WC */
-	public static final String DOCACTION_WaitComplete = "WC";
-	/** Set Document Action.
-		@param DocAction 
-		The targeted status of the document
-	  */
-	public void setDocAction (String DocAction)
-	{
-
-		set_Value (COLUMNNAME_DocAction, DocAction);
-	}
-
-	/** Get Document Action.
-		@return The targeted status of the document
-	  */
-	public String getDocAction () 
-	{
-		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
 	/** DocStatus AD_Reference_ID=131 */
@@ -707,13 +624,91 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getDocumentNo());
-    }
+	/** Set Document Type.
+		@param DocumentType 
+		Document Type
+	  */
+	public void setDocumentType (String DocumentType)
+	{
+		set_Value (COLUMNNAME_DocumentType, DocumentType);
+	}
+
+	/** Get Document Type.
+		@return Document Type
+	  */
+	public String getDocumentType () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentType);
+	}
+
+	/** Set Document Type Note.
+		@param DocumentTypeNote 
+		Optional note of a document type
+	  */
+	public void setDocumentTypeNote (String DocumentTypeNote)
+	{
+		set_Value (COLUMNNAME_DocumentTypeNote, DocumentTypeNote);
+	}
+
+	/** Get Document Type Note.
+		@return Optional note of a document type
+	  */
+	public String getDocumentTypeNote () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentTypeNote);
+	}
+
+	/** Set Duration.
+		@param Duration 
+		Normal Duration in Duration Unit
+	  */
+	public void setDuration (int Duration)
+	{
+		set_Value (COLUMNNAME_Duration, Integer.valueOf(Duration));
+	}
+
+	/** Get Duration.
+		@return Normal Duration in Duration Unit
+	  */
+	public int getDuration () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Duration);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** DurationUnit AD_Reference_ID=299 */
+	public static final int DURATIONUNIT_AD_Reference_ID=299;
+	/** Year = Y */
+	public static final String DURATIONUNIT_Year = "Y";
+	/** Month = M */
+	public static final String DURATIONUNIT_Month = "M";
+	/** Day = D */
+	public static final String DURATIONUNIT_Day = "D";
+	/** hour = h */
+	public static final String DURATIONUNIT_Hour = "h";
+	/** minute = m */
+	public static final String DURATIONUNIT_Minute = "m";
+	/** second = s */
+	public static final String DURATIONUNIT_Second = "s";
+	/** Set Duration Unit.
+		@param DurationUnit 
+		Unit of Duration
+	  */
+	public void setDurationUnit (String DurationUnit)
+	{
+
+		set_Value (COLUMNNAME_DurationUnit, DurationUnit);
+	}
+
+	/** Get Duration Unit.
+		@return Unit of Duration
+	  */
+	public String getDurationUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_DurationUnit);
+	}
 
 	/** Set Float After.
 		@param FloatAfter Float After	  */
@@ -749,121 +744,21 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set Approved.
-		@param IsApproved 
-		Indicates if this document requires approval
+	/** Set Comment/Help.
+		@param Help 
+		Comment or Hint
 	  */
-	public void setIsApproved (boolean IsApproved)
+	public void setHelp (String Help)
 	{
-		set_Value (COLUMNNAME_IsApproved, Boolean.valueOf(IsApproved));
+		set_Value (COLUMNNAME_Help, Help);
 	}
 
-	/** Get Approved.
-		@return Indicates if this document requires approval
+	/** Get Comment/Help.
+		@return Comment or Hint
 	  */
-	public boolean isApproved () 
+	public String getHelp () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsApproved);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Printed.
-		@param IsPrinted 
-		Indicates if this document / line is printed
-	  */
-	public void setIsPrinted (boolean IsPrinted)
-	{
-		set_Value (COLUMNNAME_IsPrinted, Boolean.valueOf(IsPrinted));
-	}
-
-	/** Get Printed.
-		@return Indicates if this document / line is printed
-	  */
-	public boolean isPrinted () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsPrinted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Is Qty Percentage.
-		@param IsQtyPercentage 
-		Indicate that this component is based in % Quantity
-	  */
-	public void setIsQtyPercentage (boolean IsQtyPercentage)
-	{
-		set_Value (COLUMNNAME_IsQtyPercentage, Boolean.valueOf(IsQtyPercentage));
-	}
-
-	/** Get Is Qty Percentage.
-		@return Indicate that this component is based in % Quantity
-	  */
-	public boolean isQtyPercentage () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsQtyPercentage);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Sales Transaction.
-		@param IsSOTrx 
-		This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx)
-	{
-		set_Value (COLUMNNAME_IsSOTrx, Boolean.valueOf(IsSOTrx));
-	}
-
-	/** Get Sales Transaction.
-		@return This is a Sales Transaction
-	  */
-	public boolean isSOTrx () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSOTrx);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Selected.
-		@param IsSelected Selected	  */
-	public void setIsSelected (boolean IsSelected)
-	{
-		set_Value (COLUMNNAME_IsSelected, Boolean.valueOf(IsSelected));
-	}
-
-	/** Get Selected.
-		@return Selected	  */
-	public boolean isSelected () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsSelected);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_Help);
 	}
 
 	/** Set Line No.
@@ -903,52 +798,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	/** Set Attribute Set Instance.
-		@param M_AttributeSetInstance_ID 
-		Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
-	{
-		if (M_AttributeSetInstance_ID < 0) 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
-	}
-
-	/** Get Attribute Set Instance.
-		@return Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
@@ -972,9 +821,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
 		if (M_Warehouse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -988,28 +837,115 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set OrderType.
-		@param OrderType OrderType	  */
-	public void setOrderType (String OrderType)
+	/** Set Moving Time.
+		@param MovingTime Moving Time	  */
+	public void setMovingTime (int MovingTime)
 	{
-		set_Value (COLUMNNAME_OrderType, OrderType);
+		set_Value (COLUMNNAME_MovingTime, Integer.valueOf(MovingTime));
 	}
 
-	/** Get OrderType.
-		@return OrderType	  */
-	public String getOrderType () 
+	/** Get Moving Time.
+		@return Moving Time	  */
+	public int getMovingTime () 
 	{
-		return (String)get_Value(COLUMNNAME_OrderType);
+		Integer ii = (Integer)get_Value(COLUMNNAME_MovingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
+
+	/** Set Org Address.
+		@param Org_Location_ID 
+		Organization Location/Address
+	  */
+	public void setOrg_Location_ID (int Org_Location_ID)
+	{
+		if (Org_Location_ID < 1) 
+			set_Value (COLUMNNAME_Org_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_Org_Location_ID, Integer.valueOf(Org_Location_ID));
+	}
+
+	/** Get Org Address.
+		@return Organization Location/Address
+	  */
+	public int getOrg_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Org_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Overlap Units.
+		@param OverlapUnits 
+		Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public void setOverlapUnits (BigDecimal OverlapUnits)
+	{
+		set_Value (COLUMNNAME_OverlapUnits, OverlapUnits);
+	}
+
+	/** Get Overlap Units.
+		@return Overlap Units are number of units that must be completed before they are moved the next activity
+	  */
+	public BigDecimal getOverlapUnits () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_OverlapUnits);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
+        org.eevolution.model.I_PP_Order result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.eevolution.model.I_PP_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
 
 	/** Set Manufacturing Order.
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+			set_Value (COLUMNNAME_PP_Order_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+			set_Value (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
 	/** Get Manufacturing Order.
@@ -1045,9 +981,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
 	{
 		if (PP_Product_BOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, null);
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
 	}
 
 	/** Get BOM & Formula.
@@ -1081,30 +1017,6 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Posted.
-		@param Posted 
-		Posting status
-	  */
-	public void setPosted (boolean Posted)
-	{
-		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
-	}
-
-	/** Get Posted.
-		@return Posting status
-	  */
-	public boolean isPosted () 
-	{
-		Object oo = get_Value(COLUMNNAME_Posted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** PriorityRule AD_Reference_ID=154 */
 	public static final int PRIORITYRULE_AD_Reference_ID=154;
 	/** High = 3 */
@@ -1135,42 +1047,21 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_PriorityRule);
 	}
 
-	/** Set Processed.
-		@param Processed 
-		The document has been processed
+	/** Set Publication Status.
+		@param PublishStatus 
+		Status of Publication
 	  */
-	public void setProcessed (boolean Processed)
+	public void setPublishStatus (boolean PublishStatus)
 	{
-		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+		set_Value (COLUMNNAME_PublishStatus, Boolean.valueOf(PublishStatus));
 	}
 
-	/** Get Processed.
-		@return The document has been processed
+	/** Get Publication Status.
+		@return Status of Publication
 	  */
-	public boolean isProcessed () 
+	public boolean isPublishStatus () 
 	{
-		Object oo = get_Value(COLUMNNAME_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Process Now.
-		@param Processing Process Now	  */
-	public void setProcessing (boolean Processing)
-	{
-		set_Value (COLUMNNAME_Processing, Boolean.valueOf(Processing));
-	}
-
-	/** Get Process Now.
-		@return Process Now	  */
-	public boolean isProcessing () 
-	{
-		Object oo = get_Value(COLUMNNAME_Processing);
+		Object oo = get_Value(COLUMNNAME_PublishStatus);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -1184,7 +1075,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		@param QtyBatchSize Qty Batch Size	  */
 	public void setQtyBatchSize (BigDecimal QtyBatchSize)
 	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatchSize, QtyBatchSize);
+		set_Value (COLUMNNAME_QtyBatchSize, QtyBatchSize);
 	}
 
 	/** Get Qty Batch Size.
@@ -1201,7 +1092,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		@param QtyBatchs Qty Batchs	  */
 	public void setQtyBatchs (BigDecimal QtyBatchs)
 	{
-		set_ValueNoCheck (COLUMNNAME_QtyBatchs, QtyBatchs);
+		set_Value (COLUMNNAME_QtyBatchs, QtyBatchs);
 	}
 
 	/** Get Qty Batchs.
@@ -1260,7 +1151,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	  */
 	public void setQtyOrdered (BigDecimal QtyOrdered)
 	{
-		set_ValueNoCheck (COLUMNNAME_QtyOrdered, QtyOrdered);
+		set_Value (COLUMNNAME_QtyOrdered, QtyOrdered);
 	}
 
 	/** Get Ordered Quantity.
@@ -1331,6 +1222,23 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
+	/** Set Queuing Time.
+		@param QueuingTime Queuing Time	  */
+	public void setQueuingTime (int QueuingTime)
+	{
+		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
+	}
+
+	/** Get Queuing Time.
+		@return Queuing Time	  */
+	public int getQueuingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -1354,9 +1262,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	public void setS_Resource_ID (int S_Resource_ID)
 	{
 		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+			set_Value (COLUMNNAME_S_Resource_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
 	/** Get Resource.
@@ -1370,21 +1278,18 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Schedule Type.
-		@param ScheduleType 
-		Type of schedule
-	  */
-	public void setScheduleType (String ScheduleType)
+	/** Set Sales Representative.
+		@param SalesRep_Name Sales Representative	  */
+	public void setSalesRep_Name (String SalesRep_Name)
 	{
-		set_Value (COLUMNNAME_ScheduleType, ScheduleType);
+		set_Value (COLUMNNAME_SalesRep_Name, SalesRep_Name);
 	}
 
-	/** Get Schedule Type.
-		@return Type of schedule
-	  */
-	public String getScheduleType () 
+	/** Get Sales Representative.
+		@return Sales Representative	  */
+	public String getSalesRep_Name () 
 	{
-		return (String)get_Value(COLUMNNAME_ScheduleType);
+		return (String)get_Value(COLUMNNAME_SalesRep_Name);
 	}
 
 	/** Set Serial No.
@@ -1404,47 +1309,205 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_SerNo);
 	}
 
-	/** Set User List 1.
-		@param User1_ID 
-		User defined list element #1
+	/** Set Setup Time.
+		@param SetupTime 
+		Setup time before starting Production
 	  */
-	public void setUser1_ID (int User1_ID)
+	public void setSetupTime (int SetupTime)
 	{
-		if (User1_ID < 1) 
-			set_Value (COLUMNNAME_User1_ID, null);
-		else 
-			set_Value (COLUMNNAME_User1_ID, Integer.valueOf(User1_ID));
+		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
 	}
 
-	/** Get User List 1.
-		@return User defined list element #1
+	/** Get Setup Time.
+		@return Setup time before starting Production
 	  */
-	public int getUser1_ID () 
+	public int getSetupTime () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User1_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set User List 2.
-		@param User2_ID 
-		User defined list element #2
+	/** Set Tax ID.
+		@param TaxID 
+		Tax Identification
 	  */
-	public void setUser2_ID (int User2_ID)
+	public void setTaxID (String TaxID)
 	{
-		if (User2_ID < 1) 
-			set_Value (COLUMNNAME_User2_ID, null);
-		else 
-			set_Value (COLUMNNAME_User2_ID, Integer.valueOf(User2_ID));
+		set_Value (COLUMNNAME_TaxID, TaxID);
 	}
 
-	/** Get User List 2.
-		@return User defined list element #2
+	/** Get Tax ID.
+		@return Tax Identification
 	  */
-	public int getUser2_ID () 
+	public String getTaxID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_User2_ID);
+		return (String)get_Value(COLUMNNAME_TaxID);
+	}
+
+	/** Set Units by Cycles.
+		@param UnitsCycles 
+		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public void setUnitsCycles (BigDecimal UnitsCycles)
+	{
+		set_Value (COLUMNNAME_UnitsCycles, UnitsCycles);
+	}
+
+	/** Get Units by Cycles.
+		@return The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
+	  */
+	public BigDecimal getUnitsCycles () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnitsCycles);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Valid from.
+		@param ValidFrom 
+		Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom)
+	{
+		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
+	}
+
+	/** Get Valid from.
+		@return Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
+	}
+
+	/** Set Valid to.
+		@param ValidTo 
+		Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo)
+	{
+		set_Value (COLUMNNAME_ValidTo, ValidTo);
+	}
+
+	/** Get Valid to.
+		@return Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
+	}
+
+	/** Set Version.
+		@param Version 
+		Version of the table definition
+	  */
+	public void setVersion (int Version)
+	{
+		set_Value (COLUMNNAME_Version, Integer.valueOf(Version));
+	}
+
+	/** Get Version.
+		@return Version of the table definition
+	  */
+	public int getVersion () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Version);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Waiting Time.
+		@param WaitingTime 
+		Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime)
+	{
+		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
+	}
+
+	/** Get Waiting Time.
+		@return Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Warehouse Address.
+		@param Warehouse_Location_ID 
+		Warehouse Location/Address
+	  */
+	public void setWarehouse_Location_ID (int Warehouse_Location_ID)
+	{
+		if (Warehouse_Location_ID < 1) 
+			set_Value (COLUMNNAME_Warehouse_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_Warehouse_Location_ID, Integer.valueOf(Warehouse_Location_ID));
+	}
+
+	/** Get Warehouse Address.
+		@return Warehouse Location/Address
+	  */
+	public int getWarehouse_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Warehouse_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** WorkflowType AD_Reference_ID=328 */
+	public static final int WORKFLOWTYPE_AD_Reference_ID=328;
+	/** General = G */
+	public static final String WORKFLOWTYPE_General = "G";
+	/** Document Process = P */
+	public static final String WORKFLOWTYPE_DocumentProcess = "P";
+	/** Document Value = V */
+	public static final String WORKFLOWTYPE_DocumentValue = "V";
+	/** Manufacturing = M */
+	public static final String WORKFLOWTYPE_Manufacturing = "M";
+	/** Quality = Q */
+	public static final String WORKFLOWTYPE_Quality = "Q";
+	/** Set Workflow Type.
+		@param WorkflowType 
+		Type of Worflow
+	  */
+	public void setWorkflowType (String WorkflowType)
+	{
+
+		set_Value (COLUMNNAME_WorkflowType, WorkflowType);
+	}
+
+	/** Get Workflow Type.
+		@return Type of Worflow
+	  */
+	public String getWorkflowType () 
+	{
+		return (String)get_Value(COLUMNNAME_WorkflowType);
+	}
+
+	/** Set Working Time.
+		@param WorkingTime 
+		Workflow Simulation Execution Time
+	  */
+	public void setWorkingTime (int WorkingTime)
+	{
+		set_Value (COLUMNNAME_WorkingTime, Integer.valueOf(WorkingTime));
+	}
+
+	/** Get Working Time.
+		@return Workflow Simulation Execution Time
+	  */
+	public int getWorkingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WorkingTime);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1454,19 +1517,19 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		@param Yield 
 		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
 	  */
-	public void setYield (BigDecimal Yield)
+	public void setYield (int Yield)
 	{
-		set_Value (COLUMNNAME_Yield, Yield);
+		set_Value (COLUMNNAME_Yield, Integer.valueOf(Yield));
 	}
 
 	/** Get Yield %.
 		@return The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
 	  */
-	public BigDecimal getYield () 
+	public int getYield () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Yield);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

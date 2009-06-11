@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -36,7 +36,7 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_DD_Order (Properties ctx, int DD_Order_ID, String trxName)
@@ -224,9 +224,10 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
-		if (C_BPartner_ID < 1)
-			 throw new IllegalArgumentException ("C_BPartner_ID is mandatory.");
-		set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
 	}
 
 	/** Get Business Partner .
@@ -363,9 +364,10 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setC_DocType_ID (int C_DocType_ID)
 	{
-		if (C_DocType_ID < 0)
-			 throw new IllegalArgumentException ("C_DocType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
 	}
 
 	/** Get Document Type.
@@ -565,9 +567,10 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 		@param DD_Order_ID Distribution Order	  */
 	public void setDD_Order_ID (int DD_Order_ID)
 	{
-		if (DD_Order_ID < 1)
-			 throw new IllegalArgumentException ("DD_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
+		if (DD_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Order_ID, Integer.valueOf(DD_Order_ID));
 	}
 
 	/** Get Distribution Order.
@@ -668,9 +671,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setDeliveryRule (String DeliveryRule)
 	{
-		if (DeliveryRule == null) throw new IllegalArgumentException ("DeliveryRule is mandatory");
-		if (DeliveryRule.equals("R") || DeliveryRule.equals("A") || DeliveryRule.equals("L") || DeliveryRule.equals("O") || DeliveryRule.equals("F") || DeliveryRule.equals("M"));
-		else throw new IllegalArgumentException ("DeliveryRule Invalid value - " + DeliveryRule + " - Reference_ID=151 - R - A - L - O - F - M");
 
 		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
 	}
@@ -697,9 +697,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setDeliveryViaRule (String DeliveryViaRule)
 	{
-		if (DeliveryViaRule == null) throw new IllegalArgumentException ("DeliveryViaRule is mandatory");
-		if (DeliveryViaRule.equals("P") || DeliveryViaRule.equals("D") || DeliveryViaRule.equals("S"));
-		else throw new IllegalArgumentException ("DeliveryViaRule Invalid value - " + DeliveryViaRule + " - Reference_ID=152 - P - D - S");
 
 		set_Value (COLUMNNAME_DeliveryViaRule, DeliveryViaRule);
 	}
@@ -765,9 +762,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setDocAction (String DocAction)
 	{
-		if (DocAction == null) throw new IllegalArgumentException ("DocAction is mandatory");
-		if (DocAction.equals("CO") || DocAction.equals("AP") || DocAction.equals("RJ") || DocAction.equals("PO") || DocAction.equals("VO") || DocAction.equals("CL") || DocAction.equals("RC") || DocAction.equals("RA") || DocAction.equals("IN") || DocAction.equals("RE") || DocAction.equals("--") || DocAction.equals("PR") || DocAction.equals("XL") || DocAction.equals("WC"));
-		else throw new IllegalArgumentException ("DocAction Invalid value - " + DocAction + " - Reference_ID=135 - CO - AP - RJ - PO - VO - CL - RC - RA - IN - RE - -- - PR - XL - WC");
 
 		set_Value (COLUMNNAME_DocAction, DocAction);
 	}
@@ -812,9 +806,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setDocStatus (String DocStatus)
 	{
-		if (DocStatus == null) throw new IllegalArgumentException ("DocStatus is mandatory");
-		if (DocStatus.equals("DR") || DocStatus.equals("CO") || DocStatus.equals("AP") || DocStatus.equals("NA") || DocStatus.equals("VO") || DocStatus.equals("IN") || DocStatus.equals("RE") || DocStatus.equals("CL") || DocStatus.equals("??") || DocStatus.equals("IP") || DocStatus.equals("WP") || DocStatus.equals("WC"));
-		else throw new IllegalArgumentException ("DocStatus Invalid value - " + DocStatus + " - Reference_ID=131 - DR - CO - AP - NA - VO - IN - RE - CL - ?? - IP - WP - WC");
 
 		set_Value (COLUMNNAME_DocStatus, DocStatus);
 	}
@@ -833,8 +824,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setDocumentNo (String DocumentNo)
 	{
-		if (DocumentNo == null)
-			throw new IllegalArgumentException ("DocumentNo is mandatory.");
 		set_ValueNoCheck (COLUMNNAME_DocumentNo, DocumentNo);
 	}
 
@@ -890,9 +879,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setFreightCostRule (String FreightCostRule)
 	{
-		if (FreightCostRule == null) throw new IllegalArgumentException ("FreightCostRule is mandatory");
-		if (FreightCostRule.equals("I") || FreightCostRule.equals("F") || FreightCostRule.equals("C") || FreightCostRule.equals("L"));
-		else throw new IllegalArgumentException ("FreightCostRule Invalid value - " + FreightCostRule + " - Reference_ID=153 - I - F - C - L");
 
 		set_Value (COLUMNNAME_FreightCostRule, FreightCostRule);
 	}
@@ -1169,9 +1155,10 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setM_Warehouse_ID (int M_Warehouse_ID)
 	{
-		if (M_Warehouse_ID < 1)
-			 throw new IllegalArgumentException ("M_Warehouse_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		if (M_Warehouse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
 	}
 
 	/** Get Warehouse.
@@ -1281,9 +1268,6 @@ public class X_DD_Order extends PO implements I_DD_Order, I_Persistent
 	  */
 	public void setPriorityRule (String PriorityRule)
 	{
-		if (PriorityRule == null) throw new IllegalArgumentException ("PriorityRule is mandatory");
-		if (PriorityRule.equals("3") || PriorityRule.equals("5") || PriorityRule.equals("7") || PriorityRule.equals("1") || PriorityRule.equals("9"));
-		else throw new IllegalArgumentException ("PriorityRule Invalid value - " + PriorityRule + " - Reference_ID=154 - 3 - 5 - 7 - 1 - 9");
 
 		set_Value (COLUMNNAME_PriorityRule, PriorityRule);
 	}

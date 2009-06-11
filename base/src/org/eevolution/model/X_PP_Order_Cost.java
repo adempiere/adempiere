@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -139,9 +139,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	  */
 	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
 	{
-		if (C_AcctSchema_ID < 1)
-			 throw new IllegalArgumentException ("C_AcctSchema_ID is mandatory.");
-		set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
 	}
 
 	/** Get Accounting Schema.
@@ -182,7 +183,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	public void setCostingMethod (String CostingMethod)
 	{
 
-		if (CostingMethod == null || CostingMethod.equals("S") || CostingMethod.equals("A") || CostingMethod.equals("L") || CostingMethod.equals("F") || CostingMethod.equals("p") || CostingMethod.equals("I") || CostingMethod.equals("i") || CostingMethod.equals("U") || CostingMethod.equals("x")); else throw new IllegalArgumentException ("CostingMethod Invalid value - " + CostingMethod + " - Reference_ID=122 - S - A - L - F - p - I - i - U - x");		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
+		set_ValueNoCheck (COLUMNNAME_CostingMethod, CostingMethod);
 	}
 
 	/** Get Costing Method.
@@ -333,7 +334,7 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	  */
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_AttributeSetInstance_ID < 1) 
+		if (M_AttributeSetInstance_ID < 0) 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
 			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
@@ -411,9 +412,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	  */
 	public void setM_CostType_ID (int M_CostType_ID)
 	{
-		if (M_CostType_ID < 1)
-			 throw new IllegalArgumentException ("M_CostType_ID is mandatory.");
-		set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
+		if (M_CostType_ID < 1) 
+			set_Value (COLUMNNAME_M_CostType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_CostType_ID, Integer.valueOf(M_CostType_ID));
 	}
 
 	/** Get Cost Type.
@@ -449,9 +451,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 	  */
 	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_Product_ID < 1)
-			 throw new IllegalArgumentException ("M_Product_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
 	/** Get Product.
@@ -469,9 +472,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		@param PP_Order_Cost_ID Manufacturing Order Cost	  */
 	public void setPP_Order_Cost_ID (int PP_Order_Cost_ID)
 	{
-		if (PP_Order_Cost_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_Cost_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_Cost_ID, Integer.valueOf(PP_Order_Cost_ID));
+		if (PP_Order_Cost_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Cost_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_Cost_ID, Integer.valueOf(PP_Order_Cost_ID));
 	}
 
 	/** Get Manufacturing Order Cost.
@@ -504,9 +508,10 @@ public class X_PP_Order_Cost extends PO implements I_PP_Order_Cost, I_Persistent
 		@param PP_Order_ID Manufacturing Order	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
-		if (PP_Order_ID < 1)
-			 throw new IllegalArgumentException ("PP_Order_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+		if (PP_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
 	}
 
 	/** Get Manufacturing Order.
