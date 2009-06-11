@@ -115,6 +115,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	private String 				m_keyColumnName = "";
 	private String 				m_linkColumnName = "";
+
+	private String m_parentColumnName = "";
 	private String				m_extendedWhere;
 	/** Attachments         */
 	private HashMap<Integer,Integer>	m_Attachments = null;
@@ -597,6 +599,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			else
 			{
 				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true);
+				// explicit parent link defined
+				if ( m_parentColumnName.length() > 0 )
+					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_parentColumnName, true);
+				
 				//	Same link value?
 				if (refresh)
 					refresh = m_linkValue.equals(value);
@@ -1152,6 +1158,14 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void setLinkColumnName (String linkColumnName)
 	{
+		// set parent column name
+		String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
+		m_parentColumnName = DB.getSQLValueString(null, sql, m_vo.Parent_Column_ID );
+		if ( m_parentColumnName == null )
+			m_parentColumnName = "";
+		
+		
+		
 		if (linkColumnName != null)
 			m_linkColumnName = linkColumnName;
 		else

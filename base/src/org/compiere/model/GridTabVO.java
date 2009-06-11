@@ -180,7 +180,8 @@ public class GridTabVO implements Evaluatee, Serializable
 			vo.TableName = rs.getString("TableName");
 			if (rs.getString("IsView").equals("Y"))
 				vo.IsView = true;
-			vo.AD_Column_ID = rs.getInt("AD_Column_ID");   //  Primary Parent Column
+			vo.AD_Column_ID = rs.getInt("AD_Column_ID");   //  Primary Link Column
+			vo.Parent_Column_ID = rs.getInt("Parent_Column_ID");   // Parent tab link column
 
 			if (rs.getString("IsSecurityEnabled").equals("Y"))
 				vo.IsSecurityEnabled = true;
@@ -384,8 +385,10 @@ public class GridTabVO implements Evaluatee, Serializable
 	public  boolean	    HasTree = false;
 	/** Table			*/
 	public  int		    AD_Table_ID;
-	/** Primary Parent Column   */
+	/** Primary Link Column   */
 	public  int		    AD_Column_ID = 0;
+	/** Parent Tab Link Column */
+	public	int			Parent_Column_ID = 0;
 	/** Table Name		*/
 	public  String	    TableName;
 	/** Table is View	*/
@@ -493,6 +496,7 @@ public class GridTabVO implements Evaluatee, Serializable
 		clone.HasTree = HasTree;
 		clone.AD_Table_ID = AD_Table_ID;
 		clone.AD_Column_ID = AD_Column_ID;
+		clone.Parent_Column_ID = Parent_Column_ID;
 		clone.TableName = TableName;
 		clone.IsView = IsView;
 		clone.AccessLevel = AccessLevel;
