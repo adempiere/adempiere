@@ -397,15 +397,18 @@ public class Doc_Order extends Doc
 						getC_Currency_ID(), null, cost);
 				}
 				//	Offset
-				MAccount offset = getAccount(ACCTTYPE_CommitmentOffset, as);
-				if (offset == null)
+				if (m_requisitions.length > 0)
 				{
-					p_Error = "@NotFound@ @CommitmentOffset_Acct@";
-					log.log(Level.SEVERE, p_Error);
-					return null;
+					MAccount offset = getAccount(ACCTTYPE_CommitmentOffset, as);
+					if (offset == null)
+					{
+						p_Error = "@NotFound@ @CommitmentOffset_Acct@";
+						log.log(Level.SEVERE, p_Error);
+						return null;
+					}
+					fact.createLine (null, offset,
+						getC_Currency_ID(), total, null);
 				}
-				fact.createLine (null, offset,
-					getC_Currency_ID(), total, null);
 				//
 				facts.add(fact);
 			}	//	reservations
