@@ -107,9 +107,9 @@ FROM PP_Order o
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 /
-DROP VIEW PP_Order_Header_v;
-/
-CREATE OR REPLACE VIEW PP_Order_Header_v
+--DROP VIEW PP_Order_Header_v;
+--/
+CREATE OR REPLACE VIEW PP_Order_Header_vt
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
 	dt.AD_Language,
