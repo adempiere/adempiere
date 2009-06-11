@@ -31,42 +31,42 @@ extends AbstractExcelExporter
 	}
 	
 	@Override
-	protected int getColumnCount() {
+	public int getColumnCount() {
 		return m_model.getColumnCount();
 	}
 
 	@Override
-	protected int getDisplayType(int row, int col) {
+	public int getDisplayType(int row, int col) {
 		return m_model.getRColumn(col).getDisplayType();
 	}
 
 	@Override
-	protected String getHeaderName(int col) {
+	public String getHeaderName(int col) {
 		return m_model.getRColumn(col).getColHeader();
 	}
 
 	@Override
-	protected int getRowCount() {
+	public int getRowCount() {
 		return m_model.getRowCount();
 	}
 
 	@Override
-	protected Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col) {
 		return m_model.getValueAt(row, col);
 	}
 
 	@Override
-	protected boolean isColumnPrinted(int col) {
+	public boolean isColumnPrinted(int col) {
 		return true;
 	}
 
 	@Override
-	protected boolean isFunctionRow() {
+	public boolean isFunctionRow() {
 		return m_model.isGroupRow(m_currentRow);
 	}
 
 	@Override
-	protected boolean isPageBreak(int row, int col) {
+	public boolean isPageBreak(int row, int col) {
 		return false;
 	}
 

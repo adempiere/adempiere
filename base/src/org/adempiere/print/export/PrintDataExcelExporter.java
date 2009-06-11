@@ -46,7 +46,7 @@ extends AbstractExcelExporter
 	}
 	
 	@Override
-	protected int getColumnCount() {
+	public int getColumnCount() {
 		return m_printFormat.getItemCount();
 	}
 
@@ -65,7 +65,7 @@ extends AbstractExcelExporter
 		return null;
 	}
 	@Override
-	protected int getDisplayType(int row, int col) {
+	public int getDisplayType(int row, int col) {
 		PrintDataElement pde = getPDE(row, col);
 		if (pde != null) {
 			return pde.getDisplayType();
@@ -75,7 +75,7 @@ extends AbstractExcelExporter
 	}
 	
 	@Override
-	protected Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col) {
 		PrintDataElement pde = getPDE(row, col);
 		Object value = null;
 		if (pde == null)
@@ -107,23 +107,23 @@ extends AbstractExcelExporter
 	}
 
 	@Override
-	protected String getHeaderName(int col) {
+	public String getHeaderName(int col) {
 		return m_printFormat.getItem(col).getPrintName(getLanguage());
 	}
 
 	@Override
-	protected int getRowCount() {
+	public int getRowCount() {
 		return m_printData.getRowCount();
 	}
 
 	@Override
-	protected boolean isColumnPrinted(int col) {
+	public boolean isColumnPrinted(int col) {
 		MPrintFormatItem item = m_printFormat.getItem(col);
 		return item.isPrinted();
 	}
 
 	@Override
-	protected boolean isPageBreak(int row, int col) {
+	public boolean isPageBreak(int row, int col) {
 		PrintDataElement pde = getPDE(row, col);
 		return pde != null ? pde.isPageBreak() : false;
 	}
@@ -134,7 +134,7 @@ extends AbstractExcelExporter
 	}
 
 	@Override
-	protected boolean isFunctionRow() {
+	public boolean isFunctionRow() {
 		return m_printData.isFunctionRow();
 	}
 

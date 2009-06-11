@@ -40,31 +40,31 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 	}
 	
 	@Override
-	protected int getColumnCount()
+	public int getColumnCount()
 	{
 		return m_tab.getFieldCount();
 	}
 
 	@Override
-	protected int getDisplayType(int row, int col)
+	public int getDisplayType(int row, int col)
 	{
 		return m_tab.getField(col).getDisplayType();
 	}
 
 	@Override
-	protected String getHeaderName(int col)
+	public String getHeaderName(int col)
 	{
 		return m_tab.getField(col).getHeader();
 	}
 
 	@Override
-	protected int getRowCount()
+	public int getRowCount()
 	{
 		return m_tab.getRowCount();
 	}
 
 	@Override
-	protected Object getValueAt(int row, int col)
+	public Object getValueAt(int row, int col)
 	{
 		GridField f = m_tab.getField(col);
 		Object key = m_tab.getValue(row, f.getColumnName());
@@ -87,7 +87,7 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 	}
 
 	@Override
-	protected boolean isColumnPrinted(int col)
+	public boolean isColumnPrinted(int col)
 	{
 		GridField f = m_tab.getField(col);
 		// Hide not displayed fields
@@ -103,13 +103,13 @@ public class GridTabExcelExporter extends AbstractExcelExporter
 	}
 
 	@Override
-	protected boolean isFunctionRow()
+	public boolean isFunctionRow()
 	{
 		return false;
 	}
 
 	@Override
-	protected boolean isPageBreak(int row, int col)
+	public boolean isPageBreak(int row, int col)
 	{
 		return false;
 	}

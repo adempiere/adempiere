@@ -50,18 +50,70 @@ import org.compiere.util.Util;
  */
 public abstract class AbstractExcelExporter
 {
-	protected abstract boolean isFunctionRow();
-	protected abstract int getColumnCount();
-	protected abstract int getRowCount();
+	/**
+	 * Is the current Row a Function Row
+	 * @return true if function row
+	 */
+	public abstract boolean isFunctionRow();
+	
+	/**
+	 * Get Columns Count
+	 * @return number of columns
+	 */
+	public abstract int getColumnCount();
+	
+	/**
+	 * Get Rows Count
+	 * @return number of rows
+	 */
+	public abstract int getRowCount();
+	
+	/**
+	 * Set current row
+	 * @param row row index
+	 */
 	protected abstract void setCurrentRow(int row);
-	protected abstract boolean isColumnPrinted(int col);
-	protected abstract String getHeaderName(int col);
-	protected abstract int getDisplayType(int row, int col);
-	protected abstract Object getValueAt(int row, int col);
-	protected abstract boolean isPageBreak(int row, int col);
+	
+	/**
+	 * Check if column is printed (displayed) 
+	 * @param col column index
+	 * @return true if is visible
+	 */
+	public abstract boolean isColumnPrinted(int col);
+
+	/**
+	 * Get column header name
+	 * @param col column index
+	 * @return header name
+	 */
+	public abstract String getHeaderName(int col);
+	
+	/**
+	 * Get cell display type (see {@link DisplayType})
+	 * @param row row index
+	 * @param col column index
+	 * @return display type
+	 */
+	public abstract int getDisplayType(int row, int col);
+	
+	/**
+	 * Get cell value
+	 * @param row row index
+	 * @param col column index
+	 * @return cell value
+	 */
+	public abstract Object getValueAt(int row, int col);
+	
+	/**
+	 * Check if there is a page break on given cell
+	 * @param row row index
+	 * @param col column index
+	 * @return true if there is a page break
+	 */
+	public abstract boolean isPageBreak(int row, int col);
 
 	/** Logger */
-	protected CLogger log = CLogger.getCLogger(getClass());
+	protected final CLogger log = CLogger.getCLogger(getClass());
 	//
 	private HSSFWorkbook m_workbook;
 	private HSSFDataFormat m_dataFormat;

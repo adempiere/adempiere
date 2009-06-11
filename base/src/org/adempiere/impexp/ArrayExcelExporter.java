@@ -42,12 +42,12 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 	}
 	
 	@Override
-	protected int getColumnCount() {
+	public int getColumnCount() {
 		return m_data.get(0).size();
 	}
 
 	@Override
-	protected int getDisplayType(int row, int col) {
+	public int getDisplayType(int row, int col) {
 		ArrayList<Object> dataRow = m_data.get(row+1);
 		Object value = dataRow.get(col);
 		if (value == null)
@@ -74,7 +74,7 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 	}
 
 	@Override
-	protected String getHeaderName(int col) {
+	public String getHeaderName(int col) {
 		Object o = m_data.get(0).get(col);
 		String name = o != null ? o.toString() : null;
 		String nameTrl = Msg.translate(getLanguage(), name);
@@ -84,29 +84,29 @@ public class ArrayExcelExporter extends AbstractExcelExporter {
 	}
 
 	@Override
-	protected int getRowCount() {
+	public int getRowCount() {
 		return m_data.size() - 1;
 	}
 
 	@Override
-	protected Object getValueAt(int row, int col) {
+	public Object getValueAt(int row, int col) {
 		ArrayList<Object> dataRow = m_data.get(row+1);
 		Object value = dataRow.get(col);
 		return value;
 	}
 
 	@Override
-	protected boolean isColumnPrinted(int col) {
+	public boolean isColumnPrinted(int col) {
 		return true;
 	}
 
 	@Override
-	protected boolean isFunctionRow() {
+	public boolean isFunctionRow() {
 		return false;
 	}
 
 	@Override
-	protected boolean isPageBreak(int row, int col) {
+	public boolean isPageBreak(int row, int col) {
 		return false;
 	}
 
