@@ -3,12 +3,7 @@
 	<classpathentry kind="src" path="posterita/src/main"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/barcode4j.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-collections.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-digester.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-lang-2.3.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-logging.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-validator.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
