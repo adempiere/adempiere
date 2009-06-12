@@ -155,11 +155,16 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		return true;
 	}
 	
+	public boolean isByProduct()
+	{
+		String componentType = getComponentType();
+		return COMPONENTTYPE_By_Product.equals(componentType);
+	}
+	
 	public boolean isCoProduct()
 	{
-//		String componentType = getComponentType();
-//		return COMPONENTTYPE_ByProduct.equals(componentType); // TODO
-		return false;
+		String componentType = getComponentType();
+		return COMPONENTTYPE_Co_Product.equals(componentType);
 	}
 	
 	/**
