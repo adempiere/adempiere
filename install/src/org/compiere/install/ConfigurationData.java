@@ -107,7 +107,7 @@ public class ConfigurationData
 	/** 				*/
 	public static final String	ADEMPIERE_SSL_PORT 		= "ADEMPIERE_SSL_PORT";
 	/** 				*/
-	public static final String	ADEMPIERE_WEB_ALIAS 		= "ADEMPIERE_WEB_ALIAS";
+	public static final String	ADEMPIERE_WEB_ALIAS 	= "ADEMPIERE_WEB_ALIAS";
 	
 	/** 				*/
 	public static final String	ADEMPIERE_KEYSTORE 		= "ADEMPIERE_KEYSTORE";
@@ -136,7 +136,7 @@ public class ConfigurationData
 	public static final String	ADEMPIERE_DB_PATH		= "ADEMPIERE_DB_PATH";
 	/** 				*/
 	/** 				*/
-	public static final String	ADEMPIERE_DB_SERVER 		= "ADEMPIERE_DB_SERVER";
+	public static final String	ADEMPIERE_DB_SERVER 	= "ADEMPIERE_DB_SERVER";
 	/** 				*/
 	public static final String	ADEMPIERE_DB_PORT 		= "ADEMPIERE_DB_PORT";
 	/** 				*/
@@ -149,27 +149,27 @@ public class ConfigurationData
 	/** 				*/
 	public static final String	ADEMPIERE_DB_PASSWORD 	= "ADEMPIERE_DB_PASSWORD";
 	/** 				*/
-	public static final String	ADEMPIERE_DB_SYSTEM 		= "ADEMPIERE_DB_SYSTEM";
+	public static final String	ADEMPIERE_DB_SYSTEM 	= "ADEMPIERE_DB_SYSTEM";
 
 	/** 				*/
 	public static final String	ADEMPIERE_MAIL_SERVER 	= "ADEMPIERE_MAIL_SERVER";
 	/** 				*/
-	public static final String	ADEMPIERE_MAIL_USER 		= "ADEMPIERE_MAIL_USER";
+	public static final String	ADEMPIERE_MAIL_USER 	= "ADEMPIERE_MAIL_USER";
 	/** 				*/
-	public static final String	ADEMPIERE_MAIL_PASSWORD 	= "ADEMPIERE_MAIL_PASSWORD";
+	public static final String	ADEMPIERE_MAIL_PASSWORD = "ADEMPIERE_MAIL_PASSWORD";
 	/** 				*/
 	public static final String	ADEMPIERE_ADMIN_EMAIL	= "ADEMPIERE_ADMIN_EMAIL";
 	/** 				*/
 	public static final String	ADEMPIERE_MAIL_UPDATED	= "ADEMPIERE_MAIL_UPDATED";
 
 	/** 				*/
-	public static final String	ADEMPIERE_FTP_SERVER		= "ADEMPIERE_FTP_SERVER";
+	public static final String	ADEMPIERE_FTP_SERVER	= "ADEMPIERE_FTP_SERVER";
 	/** 				*/
 	public static final String	ADEMPIERE_FTP_USER		= "ADEMPIERE_FTP_USER";
 	/** 				*/
 	public static final String	ADEMPIERE_FTP_PASSWORD	= "ADEMPIERE_FTP_PASSWORD";
 	/** 				*/
-	public static final String	ADEMPIERE_FTP_PREFIX		= "ADEMPIERE_FTP_PREFIX";
+	public static final String	ADEMPIERE_FTP_PREFIX	= "ADEMPIERE_FTP_PREFIX";
 
 	/** 				*/
 	public static final String	ADEMPIERE_WEBSTORES		= "ADEMPIERE_WEBSTORES";
@@ -934,12 +934,15 @@ public class ConfigurationData
 	private static String	JAVATYPE_MAC = "mac";
 	/** IBM VM				*/
 	private static String	JAVATYPE_IBM = "<ibm>";
+	/** Open JDK			*/
+	private static String	JAVATYPE_OPENJDK = "OpenJDK";
 	/** Java VM Types		*/
 	static String[]	JAVATYPE = new String[]
-		{JAVATYPE_SUN, JAVATYPE_MAC, JAVATYPE_IBM};
-	/** Database Configs	*/
+		{JAVATYPE_SUN, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
+	
+	/** Virtual machine Configurations	*/
 	private Config[] m_javaConfig = new Config[]
-	    {new ConfigVMSun(this), new ConfigVMMac(this), null};
+	    {new ConfigVMSun(this), new ConfigVMOpenJDK(this), new ConfigVMMac(this), null};
 
 	/**
 	 * 	Init Database
