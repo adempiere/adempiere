@@ -84,7 +84,6 @@ public class ConfigVMSun extends Config
 		setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		System.setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		
-		
 		//	Java Version
 		final String VERSION = "1.5.0";
 		final String VERSION2 = "1.6.0";	//	The real one
@@ -115,5 +114,5 @@ public class ConfigVMSun extends Config
 		
 		return null;
 	}	//	test
-	
-}	//	ConfigVMSun
+
+}
