@@ -18,11 +18,9 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -185,11 +183,13 @@ public class MInOut extends X_M_InOut implements DocAction
 		to.setIsSOTrx(isSOTrx);
 		if (counter)
 		{
-			MDocType docType = new MDocType(from.getCtx(), C_DocType_ID, trxName);
-			if (docType.getDocBaseType().equals("MMS"))	{
+			MDocType docType = MDocType.get(from.getCtx(), C_DocType_ID);
+			if (MDocType.DOCBASETYPE_MaterialDelivery.equals(docType.getDocBaseType()))
+			{
 				to.setMovementType (isSOTrx ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReturns);
 			}
-			else if (docType.getDocBaseType().equals("MMR")) {
+			else if (MDocType.DOCBASETYPE_MaterialReceipt.equals(docType.getDocBaseType()))
+			{
 				to.setMovementType (isSOTrx ? MOVEMENTTYPE_CustomerReturns : MOVEMENTTYPE_VendorReceipts);
 			}
 		}
@@ -594,32 +594,10 @@ public class MInOut extends X_M_InOut implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		ArrayList<MInOutLine> list = new ArrayList<MInOutLine>();
-		String sql = "SELECT * FROM M_InOutLine WHERE M_InOut_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getM_InOut_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MInOutLine(getCtx(), rs, get_TrxName()));
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-			list = null;
-		//	throw new DBException(ex);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		if (list == null)
-			return null;
+		List<MInOutLine> list = new Query(getCtx(), MInOutLine.Table_Name, "M_InOut_ID=?", get_TrxName())
+		.setParameters(new Object[]{getM_InOut_ID()})
+		.setOrderBy(MInOutLine.COLUMNNAME_Line)
+		.list();
 		//
 		m_lines = new MInOutLine[list.size()];
 		list.toArray(m_lines);
@@ -644,37 +622,13 @@ public class MInOut extends X_M_InOut implements DocAction
 	public MInOutConfirm[] getConfirmations(boolean requery)
 	{
 		if (m_confirms != null && !requery)
+		{
+			set_TrxName(m_confirms, get_TrxName());
 			return m_confirms;
-
-		ArrayList<MInOutConfirm> list = new ArrayList<MInOutConfirm> ();
-		String sql = "SELECT * FROM M_InOutConfirm WHERE M_InOut_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_InOut_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MInOutConfirm(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-
+		List<MInOutConfirm> list = new Query(getCtx(), MInOutConfirm.Table_Name, "M_InOut_ID=?", get_TrxName())
+		.setParameters(new Object[]{getM_InOut_ID()})
+		.list();
 		m_confirms = new MInOutConfirm[list.size ()];
 		list.toArray (m_confirms);
 		return m_confirms;
@@ -1967,16 +1921,16 @@ public class MInOut extends X_M_InOut implements DocAction
 		{
 			MMatchInv[] mInv = MMatchInv.getInOut(getCtx(), getM_InOut_ID(), get_TrxName());
 			for (int i = 0; i < mInv.length; i++)
-				mInv[i].delete(true);
+				mInv[i].deleteEx(true);
 			MMatchPO[] mPO = MMatchPO.getInOut(getCtx(), getM_InOut_ID(), get_TrxName());
 			for (int i = 0; i < mPO.length; i++)
 			{
 				if (mPO[i].getC_InvoiceLine_ID() == 0)
-					mPO[i].delete(true);
+					mPO[i].deleteEx(true);
 				else
 				{
 					mPO[i].setM_InOutLine_ID(0);
-					mPO[i].save();
+					mPO[i].saveEx();
 
 				}
 			}
@@ -2018,8 +1972,7 @@ public class MInOut extends X_M_InOut implements DocAction
 					MInOutLineMA ma = new MInOutLineMA (rLine,
 						mas[j].getM_AttributeSetInstance_ID(),
 						mas[j].getMovementQty().negate());
-					if (!ma.save())
-						;
+					ma.saveEx();
 				}
 			}
 			//	De-Activate Asset
