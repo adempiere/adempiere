@@ -17,12 +17,9 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -35,6 +32,7 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1817757 ] Error on saving MInventoryLine in a custom environment
+ * 			<li>BF [ 1722982 ] Error with inventory when you enter count qty in negative
  */
 public class MInventoryLine extends X_M_InventoryLine 
 {
@@ -55,47 +53,12 @@ public class MInventoryLine extends X_M_InventoryLine
 	public static MInventoryLine get (MInventory inventory, 
 		int M_Locator_ID, int M_Product_ID, int M_AttributeSetInstance_ID)
 	{
-		MInventoryLine retValue = null;
-		String sql = "SELECT * FROM M_InventoryLine "
-			+ "WHERE M_Inventory_ID=? AND M_Locator_ID=?"
-			+ " AND M_Product_ID=? AND M_AttributeSetInstance_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, inventory.get_TrxName());
-			pstmt.setInt (1, inventory.getM_Inventory_ID());
-			pstmt.setInt(2, M_Locator_ID);
-			pstmt.setInt(3, M_Product_ID);
-			pstmt.setInt(4, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MInventoryLine (inventory.getCtx(), rs, inventory.get_TrxName());
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
-		return retValue;
+		final String whereClause = "M_Inventory_ID=? AND M_Locator_ID=?"
+									+" AND M_Product_ID=? AND M_AttributeSetInstance_ID=?";
+		return new Query(inventory.getCtx(), MInventoryLine.Table_Name, whereClause, inventory.get_TrxName())
+			.setParameters(new Object[]{inventory.get_ID(), M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID})
+			.firstOnly();
 	}	//	get
-	
-	
-	/**	Logger				*/
-	private static CLogger	s_log	= CLogger.getCLogger (MInventoryLine.class);
-	
 	
 	/**************************************************************************
 	 * 	Default Constructor
@@ -171,30 +134,6 @@ public class MInventoryLine extends X_M_InventoryLine
 	private MProduct 	m_product = null;
 	
 	/**
-	 * 	Get Qty Book
-	 *	@return Qty Book
-	 */
-	public BigDecimal getQtyBook ()
-	{
-		BigDecimal bd = super.getQtyBook ();
-		if (bd == null)
-			bd = Env.ZERO;
-		return bd;
-	}	//	getQtyBook
-
-	/**
-	 * 	Get Qty Count
-	 *	@return Qty Count
-	 */
-	public BigDecimal getQtyCount ()
-	{
-		BigDecimal bd = super.getQtyCount();
-		if (bd == null)
-			bd = Env.ZERO;
-		return bd;
-	}	//	getQtyBook
-
-	/**
 	 * 	Get Product
 	 *	@return product or null if not defined
 	 */
@@ -214,6 +153,7 @@ public class MInventoryLine extends X_M_InventoryLine
 	 * 	Set Count Qty - enforce UOM 
 	 *	@param QtyCount qty
 	 */
+	@Override
 	public void setQtyCount (BigDecimal QtyCount)
 	{
 		if (QtyCount != null)
@@ -232,6 +172,7 @@ public class MInventoryLine extends X_M_InventoryLine
 	 * 	Set Internal Use Qty - enforce UOM 
 	 *	@param QtyInternalUse qty
 	 */
+	@Override
 	public void setQtyInternalUse (BigDecimal QtyInternalUse)
 	{
 		if (QtyInternalUse != null)
@@ -330,6 +271,12 @@ public class MInventoryLine extends X_M_InventoryLine
 			setLine (ii);
 		}
 
+		// Enforce QtyCount >= 0  - teo_sarca BF [ 1722982 ]
+		if (getQtyCount().signum() < 0)
+		{
+			log.saveError("Warning", Msg.getElement(getCtx(), COLUMNNAME_QtyCount)+" < 0");
+			return false;
+		}
 		//	Enforce Qty UOM
 		if (newRecord || is_ValueChanged("QtyCount"))
 			setQtyCount(getQtyCount());
