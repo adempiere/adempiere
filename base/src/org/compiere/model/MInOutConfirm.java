@@ -18,17 +18,16 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -37,6 +36,10 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: MInOutConfirm.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2800460 ] System generate Material Receipt with no lines
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2800460&group_id=176962
  */
 public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 {
@@ -69,14 +72,14 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 		}
 
 		MInOutConfirm confirm = new MInOutConfirm (ship, confirmType);
-		confirm.save(ship.get_TrxName());
+		confirm.saveEx();
 		MInOutLine[] shipLines = ship.getLines(false);
 		for (int i = 0; i < shipLines.length; i++)
 		{
 			MInOutLine sLine = shipLines[i];
 			MInOutLineConfirm cLine = new MInOutLineConfirm (confirm);
 			cLine.setInOutLine(sLine);
-			cLine.save(ship.get_TrxName());
+			cLine.saveEx();
 		}
 		s_log.info("New: " + confirm);
 		return confirm;
@@ -148,35 +151,10 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		String sql = "SELECT * FROM M_InOutLineConfirm "
-			+ "WHERE M_InOutConfirm_ID=?";
-		ArrayList<MInOutLineConfirm> list = new ArrayList<MInOutLineConfirm>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_InOutConfirm_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MInOutLineConfirm(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = MInOutLineConfirm.COLUMNNAME_M_InOutConfirm_ID+"=?";
+		List<MInOutLineConfirm> list = new Query(getCtx(), MInOutLineConfirm.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{getM_InOutConfirm_ID()})
+		.list();
 		m_lines = new MInOutLineConfirm[list.size ()];
 		list.toArray (m_lines);
 		return m_lines;
@@ -442,14 +420,14 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			if (confirmLine.isFullyConfirmed())
 			{
 				confirmLine.setProcessed(true);
-				confirmLine.save(get_TrxName());
+				confirmLine.saveEx();
 			}
 			else
 			{
 				if (createDifferenceDoc (inout, confirmLine))
 				{
 					confirmLine.setProcessed(true);
-					confirmLine.save(get_TrxName());
+					confirmLine.saveEx();
 				}
 				else
 				{
@@ -491,15 +469,7 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 	 */
 	private void splitInOut (MInOut original, int C_DocType_ID, MInOutLineConfirm[] confirmLines)
 	{
-		MInOut split = new MInOut (original, C_DocType_ID, original.getMovementDate());
-		split.addDescription("Splitted from " + original.getDocumentNo());
-		split.setIsInDispute(true);
-		if (!split.save(get_TrxName()))
-			throw new IllegalStateException("Cannot save Split");
-		original.addDescription("Split: " + split.getDocumentNo());
-		if (!original.save(get_TrxName()))
-			throw new IllegalStateException("Cannot update original Shipment");
-		
+		MInOut split = null;
 		//	Go through confirmations 
 		for (int i = 0; i < confirmLines.length; i++)
 		{
@@ -510,6 +480,17 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			//
 			MInOutLine oldLine = confirmLine.getLine();
 			log.fine("Qty=" + differenceQty + ", Old=" + oldLine);
+			//
+			// Create Header
+			if (split == null)
+			{
+				split = new MInOut (original, C_DocType_ID, original.getMovementDate());
+				split.addDescription("Splitted from " + original.getDocumentNo());
+				split.setIsInDispute(true);
+				split.saveEx();
+				original.addDescription("Split: " + split.getDocumentNo());
+				original.saveEx();
+			}
 			//
 			MInOutLine splitLine = new MInOutLine (split);
 			splitLine.setC_OrderLine_ID(oldLine.getC_OrderLine_ID());
@@ -525,27 +506,31 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			splitLine.addDescription("Split: from " + oldLine.getMovementQty());
 			//	Qtys
 			splitLine.setQty(differenceQty);		//	Entered/Movement
-			if (!splitLine.save(get_TrxName()))
-				throw new IllegalStateException("Cannot save Split Line");
+			splitLine.saveEx();
 			//	Old
 			oldLine.addDescription("Splitted: from " + oldLine.getMovementQty());
 			oldLine.setQty(oldLine.getMovementQty().subtract(differenceQty));
-			if (!oldLine.save(get_TrxName()))
-				throw new IllegalStateException("Cannot save Splited Line");
+			oldLine.saveEx();
 			//	Update Confirmation Line
 			confirmLine.setTargetQty(confirmLine.getTargetQty().subtract(differenceQty));
 			confirmLine.setDifferenceQty(Env.ZERO);
-			if (!confirmLine.save(get_TrxName()))
-				throw new IllegalStateException("Cannot save Split Confirmation");
+			confirmLine.saveEx();
 		}	//	for all confirmations
+		
+		// Nothing to split
+		if (split == null)
+		{
+			return ;
+		}
 
 		m_processMsg = "Split @M_InOut_ID@=" + split.getDocumentNo()
 			+ " - @M_InOutConfirm_ID@=";
 
 		//	Create Dispute Confirmation
-		split.processIt(DocAction.ACTION_Prepare);
+		if (!split.processIt(DocAction.ACTION_Prepare))
+			throw new AdempiereException(split.getProcessMsg());
 	//	split.createConfirmation();
-		split.save(get_TrxName());
+		split.saveEx();
 		MInOutConfirm[] splitConfirms = split.getConfirmations(true);
 		if (splitConfirms.length > 0)
 		{
@@ -561,7 +546,7 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 				}
 			}
 			splitConfirms[index].setIsInDispute(true);
-			splitConfirms[index].save(get_TrxName());
+			splitConfirms[index].saveEx();
 			m_processMsg += splitConfirms[index].getDocumentNo();
 			//	Set Lines to unconfirmed
 			MInOutLineConfirm[] splitConfirmLines = splitConfirms[index].getLines(false);
@@ -570,7 +555,7 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 				MInOutLineConfirm splitConfirmLine = splitConfirmLines[i];
 				splitConfirmLine.setScrappedQty(Env.ZERO);
 				splitConfirmLine.setConfirmedQty(Env.ZERO);
-				splitConfirmLine.save(get_TrxName());
+				splitConfirmLine.saveEx();
 			}
 		}
 		else
@@ -601,11 +586,7 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 				m_creditMemo = new MInvoice (inout, null);
 				m_creditMemo.setDescription(Msg.translate(getCtx(), "M_InOutConfirm_ID") + " " + getDocumentNo());
 				m_creditMemo.setC_DocTypeTarget_ID(MDocType.DOCBASETYPE_APCreditMemo);
-				if (!m_creditMemo.save(get_TrxName()))
-				{
-					m_processMsg += "Credit Memo not created";
-					return false;
-				}
+				m_creditMemo.saveEx();
 				setC_Invoice_ID(m_creditMemo.getC_Invoice_ID());
 			}
 			MInvoiceLine line = new MInvoiceLine (m_creditMemo);
@@ -616,11 +597,7 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			}
 			// Note: confirmation is always in the qty according to the product UOM
 			line.setQty(confirm.getDifferenceQty());	//	Entered/Invoiced
-			if (!line.save(get_TrxName()))
-			{
-				m_processMsg += "Credit Memo Line not created";
-				return false;
-			}
+			line.saveEx();
 			confirm.setC_InvoiceLine_ID(line.getC_InvoiceLine_ID());
 		}
 		
@@ -631,13 +608,9 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			if (m_inventory == null)
 			{
 				MWarehouse wh = MWarehouse.get(getCtx(), inout.getM_Warehouse_ID());
-				m_inventory = new MInventory (wh);
+				m_inventory = new MInventory (wh, get_TrxName());
 				m_inventory.setDescription(Msg.translate(getCtx(), "M_InOutConfirm_ID") + " " + getDocumentNo());
-				if (!m_inventory.save(get_TrxName()))
-				{
-					m_processMsg += "Inventory not created";
-					return false;
-				}
+				m_inventory.saveEx();
 				setM_Inventory_ID(m_inventory.getM_Inventory_ID());
 			}
 			MInOutLine ioLine = confirm.getLine();

@@ -109,15 +109,26 @@ public class MInventory extends X_M_Inventory implements DocAction
 	}	//	MInventory
 
 	/**
-	 * 	Warehouse Constructor
-	 *	@param wh warehouse
+	 * Warehouse Constructor
+	 * @param wh warehouse
+	 * @deprecated since 3.5.3a . Please use {@link #MInventory(MWarehouse, String)}.
 	 */
 	public MInventory (MWarehouse wh)
 	{
-		this (wh.getCtx(), 0, wh.get_TrxName());
+		this(wh, wh.get_TrxName());
+	}	//	MInventory
+	
+	/**
+	 * Warehouse Constructor
+	 * @param wh
+	 * @param trxName
+	 */
+	public MInventory (MWarehouse wh, String trxName)
+	{
+		this (wh.getCtx(), 0, trxName);
 		setClientOrg(wh);
 		setM_Warehouse_ID(wh.getM_Warehouse_ID());
-	}	//	MInventory
+	}
 	
 	
 	/**	Lines						*/
