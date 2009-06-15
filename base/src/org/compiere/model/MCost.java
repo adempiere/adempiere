@@ -1295,7 +1295,7 @@ public class MCost extends X_M_Cost
 						as.getM_CostType_ID(),
 						as.getC_AcctSchema_ID(),
 						M_CostElement_ID})
-		.first();
+		.firstOnly();
 		//FR: [ 2214883 ] - end -
 		//	New
 		if (cost == null)
