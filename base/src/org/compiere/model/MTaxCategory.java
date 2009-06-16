@@ -18,6 +18,9 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.List;
+
+import org.adempiere.exceptions.AdempiereException;
 
 /**
  * 	Tax Category Model
@@ -51,12 +54,36 @@ public class MTaxCategory extends X_C_TaxCategory
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context
-	 *	@param rs resukt set
+	 *	@param rs result set
 	 *	@param trxName trx
 	 */
 	public MTaxCategory (Properties ctx, ResultSet rs, String trxName)
 	{
 		super (ctx, rs, trxName);
 	}	//	MTaxCategory
-
+	
+	/**
+	 * 	getDefaultTax
+	 *	Get the default tax id associated with this tax category
+	 *	
+	 */
+	public MTax getDefaultTax()
+	{
+		MTax m_tax = new MTax(getCtx(), 0, get_TrxName());
+		
+		String whereClause = COLUMNNAME_C_TaxCategory_ID+"=? AND "+ COLUMNNAME_IsDefault+"='Y'";
+		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
+			.setParameters(new Object[]{getC_TaxCategory_ID()})
+			.list();
+		if (list.size() == 1)
+			m_tax = list.get(0);
+		else {
+			// Error - should only be one default	
+			throw new AdempiereException("TooManyDefaults");
+		}
+		
+			
+		
+		return m_tax;
+	} // getDefaultTax
 }	//	MTaxCategory

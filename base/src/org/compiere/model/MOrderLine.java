@@ -45,6 +45,10 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  *			<li>BF [ 2588043 ] Insufficient message ProductNotOnPriceList
+ * @author Michael Judd, www.akunagroup.com
+ * 			<li>BF [ 1733602 ] Price List including Tax Error - when a user changes the orderline or
+ * 				invoice line for a product on a price list that includes tax, the net amount is
+ * 				incorrectly calculated.
  */
 public class MOrderLine extends X_C_OrderLine
 {
@@ -196,11 +200,16 @@ public class MOrderLine extends X_C_OrderLine
 	private boolean			m_IsSOTrx = true;
 	//	Product Pricing
 	private MProductPricing	m_productPrice = null;
+
+	/** Tax							*/
+	private MTax 		m_tax = null;
 	
 	/** Cached Currency Precision	*/
 	private Integer			m_precision = null;
 	/**	Product					*/
 	private MProduct 		m_product = null;
+	/**	Charge					*/
+	private MCharge 		m_charge = null;
 	/** Parent					*/
 	private MOrder			m_parent = null;
 	
@@ -352,11 +361,75 @@ public class MOrderLine extends X_C_OrderLine
 	public void setLineNetAmt ()
 	{
 		BigDecimal bd = getPriceActual().multiply(getQtyOrdered()); 
+		
+		boolean documentLevel = getTax().isDocumentLevel();
+		
+		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
+		//  http://sourceforge.net/tracker/index.php?func=detail&aid=1733602&group_id=176962&atid=879332
+		if (isTaxIncluded() && !documentLevel)	{
+			BigDecimal taxStdAmt = Env.ZERO, taxThisAmt = Env.ZERO;
+			
+			MTax orderTax = getTax();
+			MTax stdTax = null;
+			
+			//	get the standard tax
+			if (getProduct() == null)
+			{
+				if (getCharge() != null)	// Charge 
+				{
+					stdTax = new MTax (getCtx(), 
+							((MTaxCategory) getCharge().getC_TaxCategory()).getDefaultTax().getC_Tax_ID(),
+							get_TrxName());
+				}
+					
+			}
+			else	// Product
+				stdTax = new MTax (getCtx(), 
+							((MTaxCategory) getProduct().getC_TaxCategory()).getDefaultTax().getC_Tax_ID(), 
+							get_TrxName());
+
+			if (stdTax != null)
+			{
+				log.fine("stdTax rate is " + stdTax.getRate());
+				log.fine("orderTax rate is " + orderTax.getRate());
+				
+				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				
+				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+				
+				log.fine("Price List includes Tax and Tax Changed on Order Line: New Tax Amt: " 
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
+			}
+			
+		}
+		
 		if (bd.scale() > getPrecision())
 			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
 		super.setLineNetAmt (bd);
 	}	//	setLineNetAmt
 	
+	/**
+	 * 	Get Charge
+	 *	@return product or null
+	 */
+	public MCharge getCharge()
+	{
+		if (m_charge == null && getC_Charge_ID() != 0)
+			m_charge =  MCharge.get (getCtx(), getC_Charge_ID());
+		return m_charge;
+	}
+	/**
+	 * 	Get Tax
+	 *	@return tax
+	 */
+	protected MTax getTax()
+	{
+		if (m_tax == null)
+			m_tax = MTax.get(getCtx(), getC_Tax_ID());
+		return m_tax;
+	}	//	getTax
+
 	/**
 	 * 	Get Currency Precision from Currency
 	 *	@return precision
@@ -808,6 +881,7 @@ public class MOrderLine extends X_C_OrderLine
 						if (storages[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID())
 							qty = qty.add(storages[i].getQtyOnHand());
 					}
+					
 					if (getQtyOrdered().compareTo(qty) > 0)
 					{
 						log.warning("Qty - Stock=" + qty + ", Ordered=" + getQtyOrdered());

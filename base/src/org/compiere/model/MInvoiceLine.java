@@ -40,6 +40,10 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2804142 ] MInvoice.setRMALine should work only for CreditMemo invoices
  * 				https://sourceforge.net/tracker/?func=detail&aid=2804142&group_id=176962&atid=879332
+ * @author Michael Judd, www.akunagroup.com
+ * 			<li>BF [ 1733602 ] Price List including Tax Error - when a user changes the orderline or
+ * 				invoice line for a product on a price list that includes tax, the net amount is
+ * 				incorrectly calculated.
  */
 public class MInvoiceLine extends X_C_InvoiceLine
 {
@@ -97,7 +101,10 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MInvoiceLine.class);
 
-
+	/** Tax							*/
+	private MTax 		m_tax = null;
+	
+	
 	/**************************************************************************
 	 * 	Invoice Line Constructor
 	 * 	@param ctx context
@@ -157,7 +164,9 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	private boolean		m_IsSOTrx = true;
 	private boolean		m_priceSet = false;
 	private MProduct	m_product = null;
-
+	/**	Charge					*/
+	private MCharge 		m_charge = null;
+	
 	/**	Cached Name of the line		*/
 	private String		m_name = null;
 	/** Cached Precision			*/
@@ -433,7 +442,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 
 
 	/**
-	 * 	Calculare Tax Amt.
+	 * 	Calculate Tax Amt.
 	 * 	Assumes Line Net is calculated
 	 */
 	public void setTaxAmt ()
@@ -461,11 +470,73 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	public void setLineNetAmt ()
 	{
 		//	Calculations & Rounding
-		BigDecimal net = getPriceActual().multiply(getQtyInvoiced());
-		if (net.scale() > getPrecision())
-			net = net.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		super.setLineNetAmt (net);
+		BigDecimal bd = getPriceActual().multiply(getQtyInvoiced());
+		
+		boolean documentLevel = getTax().isDocumentLevel();
+
+		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
+		//  http://sourceforge.net/tracker/index.php?func=detail&aid=1733602&group_id=176962&atid=879332
+		if (isTaxIncluded() && !documentLevel)	{
+			BigDecimal taxStdAmt = Env.ZERO, taxThisAmt = Env.ZERO;
+			
+			MTax invoiceTax = getTax();
+			MTax stdTax = null;
+			
+			if (getProduct() == null)
+			{
+				if (getCharge() != null)	// Charge 
+				{
+					stdTax = new MTax (getCtx(), 
+							((MTaxCategory) getCharge().getC_TaxCategory()).getDefaultTax().getC_Tax_ID(),
+							get_TrxName());
+				}
+					
+			}
+			else	// Product
+				stdTax = new MTax (getCtx(), 
+							((MTaxCategory) getProduct().getC_TaxCategory()).getDefaultTax().getC_Tax_ID(), 
+							get_TrxName());
+
+			if (stdTax != null)
+			{
+				
+				log.fine("stdTax rate is " + stdTax.getRate());
+				log.fine("invoiceTax rate is " + invoiceTax.getRate());
+				
+				taxThisAmt = taxThisAmt.add(invoiceTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				
+				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+				
+				log.fine("Price List includes Tax and Tax Changed on Invoice Line: New Tax Amt: " 
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
+			}
+		}
+		
+		if (bd.scale() > getPrecision())
+			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		super.setLineNetAmt (bd);
 	}	//	setLineNetAmt
+	/**
+	 * 	Get Charge
+	 *	@return product or null
+	 */
+	public MCharge getCharge()
+	{
+		if (m_charge == null && getC_Charge_ID() != 0)
+			m_charge =  MCharge.get (getCtx(), getC_Charge_ID());
+		return m_charge;
+	}
+	/**
+	 * 	Get Tax
+	 *	@return tax
+	 */
+	protected MTax getTax()
+	{
+		if (m_tax == null)
+			m_tax = MTax.get(getCtx(), getC_Tax_ID());
+		return m_tax;
+	}	//	getTax
 
 	/**
 	 * 	Set Qty Invoiced/Entered.
@@ -837,9 +908,16 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (tax != null) {
 			if (!tax.calculateTaxFromLines())
 				return false;
+		
 			// red1 - solving BUGS #[ 1701331 ] , #[ 1786103 ]
-			if (!tax.save(get_TrxName()))
-				return false;
+			if (tax.getTaxAmt().signum() != 0) {
+				if (!tax.save(get_TrxName()))
+					return false;
+			}
+			else {
+				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
+					return false;
+			}
 		}
 		return true;
 	}
