@@ -1059,12 +1059,12 @@ public class DistributionRun extends SvrProcess
 				//line.setTargetQty(detail.getActualAllocation());
 				line.setTargetQty(Env.ZERO);
 				//line.setConfirmedQty(detail.getActualAllocation());
-				line.setDescription(m_run.getName());
-				if (!line.save())
-				{
-					log.log(Level.SEVERE, "OrderLine not saved");
-					return false;
-				}
+				String Description ="";
+				if (m_run.getName() != null)
+					Description =Description.concat(m_run.getName());
+				line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +detail.getActualAllocation()+" ");
+				line.saveEx();
+				
 			}	
 			addLog(0,null, detail.getActualAllocation(), order.getDocumentNo() 
 				+ ": " + bp.getName() + " - " + product.getName());
