@@ -73,9 +73,9 @@ public class ScheduleUtil
 	private	MAssignmentSlot[] 	m_timeSlots = null;
 
 	/**	Begin Timestamp		1/1/1970			*/
-	public static final Timestamp	EARLIEST = new Timestamp(new GregorianCalendar(1970,0,1).getTimeInMillis());
+	public static final Timestamp	EARLIEST = new Timestamp(new GregorianCalendar(1970,Calendar.JANUARY,1).getTimeInMillis());
 	/**	End Timestamp		12/31/2070			*/
-	public static final Timestamp	LATEST = new Timestamp(new GregorianCalendar(2070,11,31).getTimeInMillis());
+	public static final Timestamp	LATEST = new Timestamp(new GregorianCalendar(2070,Calendar.DECEMBER,31).getTimeInMillis());
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ScheduleUtil.class);
@@ -95,7 +95,7 @@ public class ScheduleUtil
 	 *  @param qty optional qty in ResourceType UOM - ignored, if end date is not null
 	 *  @param getAll if true return all errors
 	 *	@param trxName transaction
-	 *  @return Array of existing Assigments or null - if free
+	 *  @return Array of existing Assignments or null - if free
 	 */
 	@SuppressWarnings("unchecked")
 	public MAssignmentSlot[] getAssignmentSlots (int S_Resource_ID,
@@ -374,7 +374,7 @@ public class ScheduleUtil
 			return;
 		}
 
-		//	Delete Unavailability TimeSlots when all day assigments exist
+		//	Delete Unavailability TimeSlots when all day assignments exist
 		boolean allDay = false;
 		for (int i = 0; !allDay && i < size; i++)
 		{
@@ -490,7 +490,7 @@ public class ScheduleUtil
 				if (y > 0 && matrix[0][y-1].size() > 0)
 					above = matrix[0][y-1].get(0);
 				//
-				for (int i = 0; matrix[0][y].size() > 1; i++)
+				for (int i = 0; i < matrix[0][y].size(); i++)
 				{
 					Object move = matrix[0][y].get(i);
 					if (!move.equals(above))	//	we can move it
