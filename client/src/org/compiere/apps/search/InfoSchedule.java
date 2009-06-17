@@ -275,7 +275,7 @@ public class InfoSchedule extends CDialog
 		//	Load Resources
 		m_loading = true;
 		fieldResource.removeAllItems();
-		String sql = "SELECT S_Resource_ID, Name FROM S_Resource WHERE S_ResourceType_ID=? ORDER BY 2";
+		String sql = "SELECT S_Resource_ID, Name FROM S_Resource WHERE IsActive='Y' AND S_ResourceType_ID=? ORDER BY 2";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
