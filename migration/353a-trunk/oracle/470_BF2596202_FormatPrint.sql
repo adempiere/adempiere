@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF 
 -- May 20, 2009 6:50:30 PM ECT
 -- Manufacturing Print Format
 INSERT INTO AD_PrintFormat (AD_Client_ID,AD_Org_ID,AD_PrintColor_ID,AD_PrintFont_ID,AD_PrintFormat_ID,AD_PrintPaper_ID,AD_PrintTableFormat_ID,AD_Table_ID,CreateCopy,Created,CreatedBy,Description,FooterMargin,HeaderMargin,IsActive,IsDefault,IsForm,IsStandardHeaderFooter,IsTableBased,Name,Updated,UpdatedBy) VALUES (0,0,100,119,50040,101,100,53198,'N',TO_DATE('2009-05-20 18:50:28','YYYY-MM-DD HH24:MI:SS'),0,'Manufacturing Order BOM Line',0,0,'Y','N','N','N','Y','Manufacturing_Order_BOMLine_Component ** TEMPLATE **',TO_DATE('2009-05-20 18:50:28','YYYY-MM-DD HH24:MI:SS'),0)
