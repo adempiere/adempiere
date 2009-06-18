@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: eEvolution Libero Base Plug-in
+Bundle-SymbolicName: eEvolutionLiberoBase;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: org.eevolution.plugin.Activator
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: 
+ org.adempiere.exceptions,
+ org.adempiere.plaf,
+ org.compiere,
+ org.compiere.apps,
+ org.compiere.apps.form,
+ org.compiere.grid.ed,
+ org.compiere.minigrid,
+ org.compiere.model,
+ org.compiere.process,
+ org.compiere.server,
+ org.compiere.swing,
+ org.compiere.util,
+ org.compiere.wf,
+ org.osgi.framework;version="1.3.0"
+Bundle-ClassPath: .
+Require-Bundle: AdempiereEquinox;bundle-version="1.0.0"
+Export-Package: org.eevolution.model
