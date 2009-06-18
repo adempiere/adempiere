@@ -59,7 +59,7 @@ public class LiberoValidator implements ModelValidator
 	/**	Logger			*/
 	private CLogger log = CLogger.getCLogger(getClass());
 	/** Client			*/
-	private int		m_AD_Client_ID = -1;
+	private int		m_AD_Client_ID = 11; // TODO - change it to <> 11 at Berlin conference!
 	
 	
 	public void initialize (ModelValidationEngine engine, MClient client)
