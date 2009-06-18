@@ -318,7 +318,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 					Integer PP_Order_ID = id.getRecord_ID();                                                          
 					MPPOrder order = new MPPOrder(Env.getCtx(), PP_Order_ID.intValue(), null);
 					order.setDocStatus(order.prepareIt());
-					order.setDocAction(MPPOrder.DOCACTION_Prepare);
+					order.setDocAction(MPPOrder.DOCACTION_Complete);
 					order.save();
 				}
 			}        
