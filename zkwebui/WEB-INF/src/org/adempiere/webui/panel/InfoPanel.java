@@ -919,7 +919,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     				contentPanel.setSelectedIndex(0);
     			}
             }
-            else if (Events.ON_OK.equals(event.getName()))
+            //default
+            else
             {
             	executeQuery();
                 renderItems();

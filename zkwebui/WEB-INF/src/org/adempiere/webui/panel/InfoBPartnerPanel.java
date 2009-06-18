@@ -60,7 +60,7 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -660673175154418548L;
+	private static final long serialVersionUID = 5677624151607188344L;
 	private Label lblValue ;
 	private Textbox fieldValue ;
 	private Label lblName;
@@ -74,9 +74,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	private Label lblPhone;
 	private Intbox fieldPhone;
 	private Checkbox checkAND ;
-	private Checkbox checkCustomer; 
-	private Checkbox checkVendor;
-	
+	private Checkbox checkCustomer;
+
 	private int m_AD_User_ID_index = -1; // Elaine 2008/12/16
     private int m_C_BPartner_Location_ID_index = -1;
 		
@@ -171,14 +170,13 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		checkAND.setChecked(true);
 		checkAND.addEventListener(Events.ON_CHECK, this);
 		checkCustomer = new Checkbox();
-		checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyCustomers"));
 		checkCustomer.setChecked(true);
 		checkCustomer.addEventListener(Events.ON_CHECK, this);
-		checkVendor = new Checkbox();
-		checkVendor.setChecked(true);
-		checkVendor.setLabel(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
-		checkVendor.addEventListener(Events.ON_CHECK, this);
-        
+		if (m_isSOTrx)
+			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyCustomers"));
+		else
+			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
+
         contentPanel.setWidth("99%");
         contentPanel.setHeight("400px");
         contentPanel.setVflex(true);       
@@ -207,8 +205,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		row.appendChild(fieldContact);
 		row.appendChild(lblPhone.rightAlign());
 		row.appendChild(fieldPhone);
-		row.appendChild(m_isSOTrx ? checkCustomer : checkVendor);
-		
+		row.appendChild(checkCustomer);
+
 		row = new Row();
 		rows.appendChild(row);
 		row.appendChild(lblName.rightAlign());
