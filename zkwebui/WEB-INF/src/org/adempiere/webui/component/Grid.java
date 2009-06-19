@@ -27,10 +27,7 @@ import org.zkoss.zk.ui.Component;
  */
 public class Grid extends org.zkoss.zul.Grid
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8286221761079570001L;
+	private static final long serialVersionUID = -4483759833677794926L;
 	private boolean noStrip = false;
 	private String oddRowSclass;
 
@@ -43,7 +40,6 @@ public class Grid extends org.zkoss.zul.Grid
 
 	public void makeNoStrip() {
     	setStyle("border: none");
-//        setOddRowSclass("even");
     	setOddRowSclass(null);
         noStrip = true;
     }
