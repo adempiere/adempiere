@@ -103,6 +103,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	{
 		this.windowNo = windowNo;
 		listbox = new Grid();
+		listbox.setOddRowSclass(null);
 		south = new South();
 		this.appendChild(south);
 

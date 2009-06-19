@@ -32,10 +32,19 @@ public class Grid extends org.zkoss.zul.Grid
 	 */
 	private static final long serialVersionUID = -8286221761079570001L;
 	private boolean noStrip = false;
-    
-    public void makeNoStrip() {
-    	setStyle("border: none");        
-        setOddRowSclass("even");
+	private String oddRowSclass;
+
+    public Grid() {
+		super();
+		//cache default
+		oddRowSclass = super.getOddRowSclass();
+		super.setOddRowSclass(oddRowSclass);
+	}
+
+	public void makeNoStrip() {
+    	setStyle("border: none");
+//        setOddRowSclass("even");
+    	setOddRowSclass(null);
         noStrip = true;
     }
 
@@ -53,5 +62,22 @@ public class Grid extends org.zkoss.zul.Grid
 			rows.setNoStrip(true);
 		}
 		return b;
+	}
+
+	@Override
+	public String getOddRowSclass() {
+		if (oddRowSclass == null)
+			return null;
+		else
+			return super.getOddRowSclass();
+	}
+
+	@Override
+	public void setOddRowSclass(String scls) {
+		if (scls != null && scls.length() == 0)
+			oddRowSclass = null;
+		else
+			oddRowSclass = scls;
+		super.setOddRowSclass(scls);
 	}
 }
