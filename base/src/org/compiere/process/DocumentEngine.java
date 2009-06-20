@@ -44,10 +44,10 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.eevolution.model.X_DD_Order;
-import org.eevolution.model.X_HR_Process;
-import org.eevolution.model.X_PP_Cost_Collector;
-import org.eevolution.model.X_PP_Order;
+import org.eevolution.model.I_DD_Order;
+import org.eevolution.model.I_HR_Process;
+import org.eevolution.model.I_PP_Cost_Collector;
+import org.eevolution.model.I_PP_Order;
 
 /**
  *	Document Action Engine
@@ -1044,7 +1044,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Manufacturing Order
 		 */
-		else if (AD_Table_ID == X_PP_Order.Table_ID)
+		else if (AD_Table_ID == I_PP_Order.Table_ID)
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
@@ -1063,7 +1063,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Manufacturing Cost Collector
 		 */
-		else if (AD_Table_ID == X_PP_Cost_Collector.Table_ID)
+		else if (AD_Table_ID == I_PP_Cost_Collector.Table_ID)
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
@@ -1082,7 +1082,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Distribution Order
 		 */
-		else if (AD_Table_ID == X_DD_Order.Table_ID)
+		else if (AD_Table_ID == I_DD_Order.Table_ID)
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
@@ -1101,7 +1101,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (AD_Table_ID == X_HR_Process.Table_ID)
+		else if (AD_Table_ID == I_HR_Process.Table_ID)
 		{
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
