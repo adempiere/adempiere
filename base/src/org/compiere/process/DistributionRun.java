@@ -202,9 +202,10 @@ public class DistributionRun extends SvrProcess
 		{
 			distributionOrders();
 		}
-		else	
-		//	Create Orders
-		createOrders();
+		else {
+			//	Create Orders
+			createOrders();
+		}
 		
 		return "@Created@ #" + m_counter;
 	}	//	doIt
