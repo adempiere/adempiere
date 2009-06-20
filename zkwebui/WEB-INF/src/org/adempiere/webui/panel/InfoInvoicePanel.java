@@ -298,15 +298,15 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         }
         if (fromDate == null && toDate != null)
         {
-            sql.append(" AND TRUNC(o.DateOrdered) <= ?");
+            sql.append(" AND TRUNC(i.DateInvoiced) <= ?");
         }
         else if (fromDate != null && toDate == null)
         {
-            sql.append(" AND TRUNC(o.DateOrdered) >= ?");
+            sql.append(" AND TRUNC(i.DateInvoiced) >= ?");
         }
         else if (fromDate != null && toDate != null)
-        {    
-                sql.append(" AND TRUNC(o.DateOrdered) BETWEEN ? AND ?");
+        {
+                sql.append(" AND TRUNC(i.DateInvoiced) BETWEEN ? AND ?");
         }
         //
         Double fromAmount = null;
@@ -335,15 +335,15 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         }
         if (fromAmount == null && toAmount != null)
         {
-            sql.append(" AND o.GrandTotal <= ?");
+            sql.append(" AND i.GrandTotal <= ?");
         }
         else if (fromAmount != null && toAmount == null)
         {
-            sql.append(" AND o.GrandTotal >= ?");
+            sql.append(" AND i.GrandTotal >= ?");
         }
         else if (fromAmount != null && toAmount != null)
         {
-              sql.append(" AND o.GrandTotal BETWEEN ? AND ?");
+              sql.append(" AND i.GrandTotal BETWEEN ? AND ?");
         }
         sql.append(" AND i.IsPaid=? AND i.IsSOTrx=?");
 
