@@ -75,7 +75,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.X_PP_Product_BOMLine;
+import org.eevolution.model.I_PP_Product_BOMLine;
 
 /**
  *  Lookup Visual Field.
@@ -825,7 +825,7 @@ public class VLookup extends JComponent
 			{
 			int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
 
-			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (X_PP_Product_BOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
+			multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || (MInvoiceLine.Table_ID == AD_Table_ID) || (I_PP_Product_BOMLine.Table_ID == AD_Table_ID) || (MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
 			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
