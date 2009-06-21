@@ -729,6 +729,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			m_printData.createXML(new StreamResult(writer));
 			writer.flush();
 			writer.close();
+			return true;
 		}
 		catch (Exception e)
 		{
