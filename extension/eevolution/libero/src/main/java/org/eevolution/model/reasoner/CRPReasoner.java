@@ -184,7 +184,7 @@ public class CRPReasoner
 	{
 		Timestamp date = dateTime;
 		int direction = isScheduleBackward ? -1 : +1; 
-		for (int i = 0; i <= 7; i++)
+		for (int i = 1; i <= 7; i++)
 		{
 			date = TimeUtil.addDays(date, i * direction);
 			if (t.isDayAvailable(date))
