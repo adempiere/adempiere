@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="extension/eevolution/libero/src/main/java"/>
+	<classpathentry excluding="org/eevolution/plugin/" kind="src" path="extension/eevolution/libero/src/main/java"/>
 	<classpathentry kind="src" path="extension/eevolution/libero/src/test/java"/>
 	<classpathentry kind="src" path="extension/eevolution/mm/src/main/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
