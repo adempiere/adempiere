@@ -1,3 +1,16 @@
+/******************************************************************************
+ * Copyright (C) 2009 Low Heng Sin                                            *
+ * Copyright (C) 2009 Idalica Corporation                                     *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
 package org.adempiere.model;
 
 import java.math.BigDecimal;
@@ -21,6 +34,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *
@@ -72,13 +86,13 @@ public class PromotionRule {
 		OrderLineComparator olComparator = new OrderLineComparator(orderLineIndex);
 		//distribute order lines
 		for (Map.Entry<Integer, List<Integer>> entry : promotions.entrySet()) {
-			Query query = new Query(MTable.get(order.getCtx(), I_M_PromotionDistribution.Table_ID),
+			Query query = new Query(Env.getCtx(), MTable.get(order.getCtx(), I_M_PromotionDistribution.Table_ID),
 					"M_PromotionDistribution.M_Promotion_ID = ? AND M_PromotionDistribution.IsActive = 'Y'", order.get_TrxName());
 			query.setParameters(new Object[]{entry.getKey()});
 			query.setOrderBy("SeqNo");
 			List<X_M_PromotionDistribution> list = query.<X_M_PromotionDistribution>list();
 
-			Query rewardQuery = new Query(MTable.get(order.getCtx(), I_M_PromotionReward.Table_ID),
+			Query rewardQuery = new Query(Env.getCtx(), MTable.get(order.getCtx(), I_M_PromotionReward.Table_ID),
 					"M_PromotionReward.M_Promotion_ID = ? AND M_PromotionReward.IsActive = 'Y'", order.get_TrxName());
 			rewardQuery.setParameters(new Object[]{entry.getKey()});
 			rewardQuery.setOrderBy("SeqNo");
@@ -504,7 +518,7 @@ public class PromotionRule {
 	 * @throws SQLException
 	 */
 	private static List<Integer> findPromotionLine(int promotion_ID, MOrder order) throws SQLException {
-		Query query = new Query(MTable.get(order.getCtx(), I_M_PromotionLine.Table_ID), " M_PromotionLine.M_Promotion_ID = ? AND M_PromotionLine.IsActive = 'Y'", order.get_TrxName());
+		Query query = new Query(Env.getCtx(), MTable.get(order.getCtx(), I_M_PromotionLine.Table_ID), " M_PromotionLine.M_Promotion_ID = ? AND M_PromotionLine.IsActive = 'Y'", order.get_TrxName());
 		query.setParameters(new Object[]{promotion_ID});
 		List<X_M_PromotionLine>plist = query.<X_M_PromotionLine>list();
 		//List<M_PromotionLine_ID>
