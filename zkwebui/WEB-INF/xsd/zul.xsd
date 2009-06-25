@@ -344,6 +344,22 @@
 			</xs:simpleType>
 		</xs:union>
 	</xs:simpleType>
+	<xs:simpleType name="zslangAttrType">
+		<xs:union>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Java" />
+					<xs:enumeration value="JavaScript" />
+					<xs:enumeration value="Groovy" />
+					<xs:enumeration value="Ruby" />
+					<xs:enumeration value="Python" />
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType>
+				<xs:restriction base="annotationType" />
+			</xs:simpleType>
+		</xs:union>
+	</xs:simpleType>
     <!--
     ATTRIBUTEGROUP
     -->
@@ -402,6 +418,8 @@
 		<xs:attribute name="context" type="xs:string" use="optional" />
 		<xs:attribute name="popup" type="xs:string" use="optional" />
 		<xs:attribute name="tooltip" type="xs:string" use="optional" />
+		<xs:attribute name="onCtrlKey" type="xs:string" use="optional" />
+		<xs:attribute name="ctrlKeys" type="xs:string" use="optional" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="inputElementAttrGroup">
 		<xs:attributeGroup ref="xulElementAttrGroup" />
@@ -415,6 +433,8 @@
 		<xs:attribute name="onChanging" type="xs:string" use="optional" />
 		<xs:attribute name="onFocus" type="xs:string" use="optional" />
 		<xs:attribute name="onBlur" type="xs:string" use="optional" />
+		<xs:attribute name="onOK" type="xs:string" use="optional" />
+		<xs:attribute name="onCancel" type="xs:string" use="optional" />
 	</xs:attributeGroup>
 	<xs:attributeGroup name="formatInputElementAttrGroup">
 		<xs:attributeGroup ref="inputElementAttrGroup" />
@@ -650,7 +670,6 @@
 		<xs:attribute name="open" type="booleanType" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
-		<xs:attribute name="onOK" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- bandpopup -->
 	<xs:element name="bandpopup" type="bandpopupType" />
@@ -1270,6 +1289,7 @@
 		<xs:attribute name="src" type="xs:string" use="optional" />
 		<xs:attribute name="localized" type="booleanType" use="optional" />
 		<xs:attribute name="progressing" type="booleanType" use="optional" />
+		<xs:attribute name="mode" type="booleanType" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- intbox -->
@@ -1528,6 +1548,7 @@
 		<xs:attribute name="href" type="xs:string" use="optional" />
 		<xs:attribute name="target" type="xs:string" use="optional" />
 		<xs:attribute name="disabled" type="booleanType" use="optional" />
+		<xs:attribute name="src" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- menupopup -->
 	<xs:element name="menupopup" type="menupopupType" />
@@ -1577,6 +1598,7 @@
 			<xs:element ref="panelchildren" />
 			<xs:element ref="toolbar" minOccurs="0" maxOccurs="2" />
 		</xs:sequence>
+		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="border" type="panelBorderAttrType"
 			use="optional" />
 		<xs:attribute name="closable" type="booleanType" use="optional" />
@@ -1673,6 +1695,7 @@
 		<xs:attribute name="disabled" type="booleanType" use="optional" />
 		<xs:attribute name="readonly" type="booleanType" use="optional" />
 		<xs:attribute name="tabindex" type="intType" use="optional" />
+		<xs:attribute name="value" type="xs:string" use="optional" />
 		<xs:attribute name="onCheck" type="xs:string" use="optional" />
 	</xs:complexType>
     <!-- radiogroup -->
@@ -1682,6 +1705,8 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
+		<xs:attribute name="selectedItem" type="xs:string" use="optional" />
+		<xs:attribute name="selectedIndex" type="intType" use="optional" />
 		<xs:attribute name="onCheck" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
@@ -1940,7 +1965,7 @@
 	<xs:element name="toolbar" type="toolbarType" />
 	<xs:complexType name="toolbarType">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:group ref="baseGroup" />
+			<xs:group ref="anyGroup" />
 			<xs:element ref="toolbarbutton" />
 			<xs:element ref="button" />
 			<xs:element ref="image" />
@@ -2244,7 +2269,6 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="border" type="windowBorderAttrType" use="optional" />
 		<xs:attribute name="title" type="xs:string" use="optional" />
-		<xs:attribute name="ctrlKeys" type="windowCtrlKeysAttrType" use="optional" />
 		<xs:attribute name="mode" type="windowModeAttrType" use="optional" />
 		<xs:attribute name="closable" type="booleanType" use="optional" />
 		<xs:attribute name="sizable" type="booleanType" use="optional" />
@@ -2261,7 +2285,6 @@
 		<xs:attributeGroup ref="mouseExtAttrGroup" />
 		<xs:attribute name="onOK" type="xs:string" use="optional" />
 		<xs:attribute name="onCancel" type="xs:string" use="optional" />
-		<xs:attribute name="onCtrlKey" type="xs:string" use="optional" />
 		<xs:attribute name="onMove" type="xs:string" use="optional" />
 		<xs:attribute name="onOpen" type="xs:string" use="optional" />
 		<xs:attribute name="onClose" type="xs:string" use="optional" />
@@ -2415,6 +2438,7 @@
 				<xs:attributeGroup ref="zkAttrGroup" />
 				<xs:attribute name="src" type="xs:string" use="optional" />
 				<xs:attribute name="deferred" type="xs:string" use="optional" />
+				<xs:attribute name="language" type="zslangAttrType" use="optional" />
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>

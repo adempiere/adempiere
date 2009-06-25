@@ -43,6 +43,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.impl.ExecutionCarryOver;
+import org.zkoss.zk.ui.sys.DesktopCtrl;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
@@ -187,7 +188,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 					Collection<Component> rootComponents = new ArrayList<Component>();
 					try {
 						ctrl = ExecutionsCtrl.getCurrentCtrl();
-						ctrl.setVisualizer(vi);
+						((DesktopCtrl)Executions.getCurrent().getDesktop()).setVisualizer(vi);
 
 						//detach root component from old page
 						Page page = appDesktop.getComponent().getPage();
