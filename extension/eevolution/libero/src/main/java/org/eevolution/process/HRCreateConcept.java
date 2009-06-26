@@ -16,7 +16,6 @@ package org.eevolution.process;
 
 import org.compiere.model.Query;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHRPayrollConcept;
 
