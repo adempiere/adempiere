@@ -19,17 +19,17 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_S_Resource;
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.POResultSet;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
+import org.eevolution.exceptions.CRPException;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderNode;
 import org.eevolution.model.MPPOrderWorkflow;
@@ -88,19 +88,29 @@ public class CRP extends SvrProcess
 
 	private String runCRP()
 	{
-		POResultSet<MPPOrder> rs = reasoner.getPPOrdersNotCompletedQuery(p_S_Resource_ID, get_TrxName())
-											.scroll();		
-		try
+		Iterator<MPPOrder> it = reasoner.getPPOrdersNotCompletedQuery(p_S_Resource_ID, get_TrxName()).iterate();
+		while(it.hasNext())
 		{
-			while(rs.hasNext())
+			MPPOrder order = it.next();
+			try
 			{
-				runCRP(rs.next());
+				runCRP(order);
 			}
-		}
-		finally
-		{
-			DB.close(rs);
-			rs = null;
+			catch (Exception e)
+			{
+				CRPException crpEx;
+				if (e instanceof CRPException)
+				{
+					crpEx = (CRPException)e;
+					crpEx.setPP_Order(order);
+					throw crpEx;
+				}
+				else
+				{
+					crpEx = new CRPException(e);
+				}
+				throw crpEx;
+			}
 		}
 
 		return "OK";
@@ -135,7 +145,7 @@ public class CRP extends SvrProcess
 				
 				if(!reasoner.isAvailable(resource))
 				{
-					throw new AdempiereException("@ResourceNotInSlotDay@");
+					throw new CRPException("@ResourceNotInSlotDay@").setS_Resource(resource);
 				}
 
 				MResourceType resourceType = resource.getResourceType();
@@ -144,7 +154,7 @@ public class CRP extends SvrProcess
 
 				node.setDateStartSchedule(date);
 				node.setDateFinishSchedule(dateFinish);	
-				node.saveEx(get_TrxName());
+				node.saveEx();
 
 				date = node.getDateFinishSchedule();
 				nodeId = owf.getNext(nodeId, getAD_Client_ID());
@@ -166,6 +176,7 @@ public class CRP extends SvrProcess
 			{
 				node = owf.getNode(nodeId);
 				log.info("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
+				//
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				// Skip this node if there is no resource
@@ -174,10 +185,10 @@ public class CRP extends SvrProcess
 					nodeId = owf.getPrevious(nodeId, getAD_Client_ID());
 					continue;
 				}
-				
+
 				if(!reasoner.isAvailable(resource))
 				{
-					throw new AdempiereException("@ResourceNotInSlotDay@");
+					throw new CRPException("@ResourceNotInSlotDay@").setS_Resource(resource);
 				}
 
 				MResourceType resourceType = resource.getResourceType();
@@ -199,7 +210,7 @@ public class CRP extends SvrProcess
 		}
 		else
 		{
-			throw new AdempiereException("Unknown scheduling method - "+p_ScheduleType);
+			throw new CRPException("Unknown scheduling method - "+p_ScheduleType);
 		}
 
 		order.saveEx(get_TrxName());
@@ -236,50 +247,69 @@ public class CRP extends SvrProcess
 		return (long)(totalDuration * commonBase * 1000);
 	}
 
-	private Timestamp scheduleForward(Timestamp start, long nodeDurationMillis, MResource r)
+	/**
+	 * Calculate duration in millis 
+	 * @param dayStart
+	 * @param dayEnd
+	 * @param resource
+	 * @return dayEnd - dayStart in millis
+	 * @throws CRPException if dayStart > dayEnd
+	 */
+	private long getAvailableDurationMillis(Timestamp dayStart, Timestamp dayEnd, I_S_Resource resource)
+	{
+		long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
+		log.info("--> availableDayDuration  " + availableDayDuration);
+		if (availableDayDuration < 0)
+		{
+			throw new CRPException("@TimeSlotStart@ > @TimeSlotEnd@ ("+dayEnd+" > "+dayStart+")")
+					.setS_Resource(resource);
+		}
+		return availableDayDuration;
+	}
+	
+	private Timestamp scheduleForward(final Timestamp start, final long nodeDurationMillis, MResource r)
 	{
 		MResourceType t = r.getResourceType();
-		Timestamp end = null;
 		int iteration = 0; // statistical interation count
+		Timestamp currentDate = start;
+		Timestamp end = null;
+		long remainingMillis = nodeDurationMillis;
 		do
 		{
-			start = reasoner.getAvailableDate(r, start, false);
-			Timestamp dayStart = t.getDayStart(start);
-			Timestamp dayEnd = t.getDayEnd(start);
+			currentDate = reasoner.getAvailableDate(r, currentDate, false);
+			Timestamp dayStart = t.getDayStart(currentDate);
+			Timestamp dayEnd = t.getDayEnd(currentDate);
 			// If working has already began at this day and the value is in the range of the 
 			// resource's availability, switch start time to the given again
-			if(start.after(dayStart) && start.before(dayEnd))
+			if(currentDate.after(dayStart) && currentDate.before(dayEnd))
 			{
-				dayStart = start;
+				dayStart = currentDate;
 			}
 	
 			// The available time at this day in milliseconds
-			long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
-			if (availableDayDuration < 0)
-			{
-				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@ ("+dayEnd+" > "+dayStart+")");
-			}
+			long availableDayDuration = getAvailableDurationMillis(dayStart, dayEnd, r);
 	
 			// The work can be finish on this day.
-			if(availableDayDuration >= nodeDurationMillis)
+			if(availableDayDuration >= remainingMillis)
 			{
-				end = new Timestamp(dayStart.getTime() + nodeDurationMillis);
-				nodeDurationMillis = 0;
+				end = new Timestamp(dayStart.getTime() + remainingMillis);
+				remainingMillis = 0;
 				break;
 			}
 			// Otherwise recall with next day and the remained node duration.
 			else
 			{
-				start = TimeUtil.addDays(TimeUtil.getDayBorder(start, null, false), 1);
-				nodeDurationMillis -= availableDayDuration;
+				currentDate = TimeUtil.addDays(TimeUtil.getDayBorder(currentDate, null, false), 1);
+				remainingMillis -= availableDayDuration;
 			}
 			
 			iteration++;
 			if (iteration > p_MaxIterationsNo)
 			{
-				throw new AdempiereException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")");
+				throw new CRPException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")"
+						+" - Date:"+currentDate+", RemainingMillis:"+remainingMillis);
 			}
-		} while (nodeDurationMillis > 0);
+		} while (remainingMillis > 0);
 
 		return end;
 	}  	
@@ -291,68 +321,64 @@ public class CRP extends SvrProcess
 	 * @param r resource
 	 * @return start date
 	 */
-	private Timestamp scheduleBackward(Timestamp end, long nodeDurationMillis, MResource r)
+	private Timestamp scheduleBackward(final Timestamp end, final long nodeDurationMillis, MResource r)
 	{
 		MResourceType t = r.getResourceType();
 		log.info("--> ResourceType " + t);
 		Timestamp start = null;
+		Timestamp currentDate = end;
+		long remainingMillis = nodeDurationMillis;
 		int iteration = 0; // statistical iteration count
 		do
 		{
-			log.info("--> end=" + end);
-			log.info("--> nodeDuration=" + nodeDurationMillis);
+			log.info("--> end=" + currentDate);
+			log.info("--> nodeDuration=" + remainingMillis);
 	
-			end = reasoner.getAvailableDate(r, end, true);
-			log.info("--> end(available)=" + end);
-			Timestamp dayEnd = t.getDayEnd(end);
-			Timestamp dayStart = t.getDayStart(end);
+			currentDate = reasoner.getAvailableDate(r, currentDate, true);
+			log.info("--> end(available)=" + currentDate);
+			Timestamp dayEnd = t.getDayEnd(currentDate);
+			Timestamp dayStart = t.getDayStart(currentDate);
 			log.info("--> dayStart=" + dayStart + ", dayEnd=" + dayEnd);
 			
 			// If working has already began at this day and the value is in the range of the 
 			// resource's availability, switch end time to the given again
-			if(end.before(dayEnd) && end.after(dayStart))
+			if(currentDate.before(dayEnd) && currentDate.after(dayStart))
 			{
-				dayEnd = end;
+				dayEnd = currentDate;
 			}
 	
 			// The available time at this day in milliseconds
-			long availableDayDuration = dayEnd.getTime() - dayStart.getTime();
-			log.info("--> availableDayDuration  " + availableDayDuration);
-			if (availableDayDuration < 0)
-			{
-				throw new AdempiereException("@TimeSlotStart@ > @TimeSlotEnd@ ("+dayEnd+" > "+dayStart+")");
-			}
+			long availableDayDuration = getAvailableDurationMillis(dayStart, dayEnd, r);
 	
 			// The work can be finish on this day.
-			if(availableDayDuration >= nodeDurationMillis)
+			if(availableDayDuration >= remainingMillis)
 			{
-				log.info("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + nodeDurationMillis );
-				start = new Timestamp(dayEnd.getTime() - nodeDurationMillis);
-				nodeDurationMillis = 0;
+				log.info("--> availableDayDuration >= nodeDuration true " + availableDayDuration + "|" + remainingMillis );
+				start = new Timestamp(dayEnd.getTime() - remainingMillis);
+				remainingMillis = 0;
 				break;
 			}
 			// Otherwise recall with previous day and the remained node duration.
 			else
 			{
-				log.info("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + nodeDurationMillis );
-				log.info("--> nodeDuration-availableDayDuration " + (nodeDurationMillis-availableDayDuration) );
+				log.info("--> availableDayDuration >= nodeDuration false " + availableDayDuration + "|" + remainingMillis );
+				log.info("--> nodeDuration-availableDayDuration " + (remainingMillis-availableDayDuration) );
 				
-				end = TimeUtil.addDays(TimeUtil.getDayBorder(end, null, true), -1);
-				nodeDurationMillis -= availableDayDuration;
+				currentDate = TimeUtil.addDays(TimeUtil.getDayBorder(currentDate, null, true), -1);
+				remainingMillis -= availableDayDuration;
 			}
 			//
 			iteration++;
 			if (iteration > p_MaxIterationsNo)
 			{
-				throw new AdempiereException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")");
+				throw new CRPException("Maximum number of iterations exceeded ("+p_MaxIterationsNo+")"
+						+" - Date:"+start+", RemainingMillis:"+remainingMillis);
 			}
 		}
-		while(nodeDurationMillis > 0);
+		while(remainingMillis > 0);
 	
 		log.info("         -->  start=" +  start + " <---------------------------------------- ");
 		return start;
-	}  
-	
-	
+	}
 }
 
