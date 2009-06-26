@@ -19,6 +19,7 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 
@@ -122,6 +123,8 @@ public class CRP extends SvrProcess
 		BigDecimal qtyOpen = order.getQtyOpen();
 		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
 		log.info("PP_Order Workflow:" + owf.getName());
+		
+		final ArrayList<Integer> visitedNodes = new ArrayList<Integer>();
 
 		// Schedule Fordward
 		if (p_ScheduleType.equals(FORWARD_SCHEDULING))
@@ -133,7 +136,13 @@ public class CRP extends SvrProcess
 			while(nodeId != 0)
 			{
 				node = owf.getNode(nodeId);
+				if (visitedNodes.contains(nodeId))
+				{
+					throw new CRPException("Cyclic transition found").setPP_Order_Node(node);
+				}
+				visitedNodes.add(nodeId);
 				log.info("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
+				//
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
 				
 				// Skip this node if there is no resource
@@ -175,6 +184,11 @@ public class CRP extends SvrProcess
 			while(nodeId != 0)
 			{
 				node = owf.getNode(nodeId);
+				if (visitedNodes.contains(nodeId))
+				{
+					throw new CRPException("Cyclic transition found - ").setPP_Order_Node(node);
+				}
+				visitedNodes.add(nodeId);
 				log.info("PP_Order Node:" + node.getName() != null ? node.getName() : ""  + " Description:" + node.getDescription() != null ? node.getDescription() : "");
 				//
 				MResource resource = MResource.get(getCtx(), node.getS_Resource_ID());
