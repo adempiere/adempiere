@@ -47,6 +47,8 @@ import org.compiere.util.Msg;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2609760 ] RequisitionPOCreate not using DateRequired
  *  		<li>BF [ 2605888 ] CreatePOfromRequisition creates more PO than needed
+ *  		<li>BF [ 2811718 ] Create PO from Requsition without any parameter teminate in NPE
+ *  			http://sourceforge.net/tracker/?func=detail&atid=879332&aid=2811718&group_id=176962
  */
 public class RequisitionPOCreate extends SvrProcess
 {
@@ -224,6 +226,7 @@ public class RequisitionPOCreate extends SvrProcess
 		POResultSet<MRequisitionLine> rs = new Query(getCtx(), MRequisitionLine.Table_Name, whereClause.toString(), get_TrxName())
 											.setParameters(params)
 											.setOrderBy(orderClause.toString())
+											.setClient_ID()
 											.scroll();
 		try
 		{
