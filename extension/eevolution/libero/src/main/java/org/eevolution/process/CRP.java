@@ -122,6 +122,12 @@ public class CRP extends SvrProcess
 		log.info("PP_Order DocumentNo:" + order.getDocumentNo());
 		BigDecimal qtyOpen = order.getQtyOpen();
 		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
+		if (owf == null)
+		{
+			// TODO: generate notice
+			addLog("WARNING: No workflow found - "+order);
+			return;
+		}
 		log.info("PP_Order Workflow:" + owf.getName());
 		
 		final ArrayList<Integer> visitedNodes = new ArrayList<Integer>();
