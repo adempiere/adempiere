@@ -29,11 +29,9 @@ import org.compiere.util.Env;
 import org.compiere.wf.MWorkflow;
 
 /**
- *	Order CalloutOrder
+ *	Callout (Manufacturing) Order
  *	
  *  @author Victor Perez
- *  @version $Id: CalloutOrder.java,v 1.23 2004/08/27 21:24:12 vpj-cd Exp $
- *  
  *  @author Teo Sarca, www.arhipac.ro
  */
 public class CalloutOrder extends CalloutEngine
@@ -134,20 +132,64 @@ public class CalloutOrder extends CalloutEngine
 		I_PP_Order order = GridTabWrapper.create(mTab, I_PP_Order.class);
 		MProduct product = MProduct.get(ctx, order.getM_Product_ID());
 		if (product == null)
+		{
 			return "";
+		}
 		order.setC_UOM_ID(product.getC_UOM_ID());
 		
-		int workflow_id = MWorkflow.getWorkflowSearchKey(product);
-		order.setAD_Workflow_ID(workflow_id);
+		I_PP_Product_Planning pp = getPP_Product_Planning(ctx, order);
+		order.setAD_Workflow_ID(pp.getAD_Workflow_ID());
+		order.setPP_Product_BOM_ID(pp.getPP_Product_BOM_ID());
 		
-		MPPProductBOM bom = MPPProductBOM.getDefault(product, null);
-		if (bom == null)
-			return "";
-		order.setPP_Product_BOM_ID(bom.get_ID());
-		order.setC_UOM_ID(bom.getC_UOM_ID());
+		if (pp.getPP_Product_BOM_ID() > 0)
+		{
+			I_PP_Product_BOM bom = pp.getPP_Product_BOM();
+			order.setC_UOM_ID(bom.getC_UOM_ID());
+		}
+		
 		MPPOrder.updateQtyBatchs(ctx, order, true);
 		
 		return "";
+	}
+
+	/**
+	 * Find Product Planning Data for given manufacturing order.
+	 * If not planning found, a new one is created and filled with default values.
+	 * <p>TODO: refactor with org.eevolution.process.MRP.getProductPlanning method 
+	 * @param ctx context
+	 * @param order manufacturing order
+	 * @return product planning data (never return null) 
+	 */
+	private static I_PP_Product_Planning getPP_Product_Planning(Properties ctx, I_PP_Order order)
+	{
+		I_PP_Product_Planning pp = MPPProductPlanning.find(ctx,
+				order.getAD_Org_ID(), order.getM_Warehouse_ID(),
+				order.getS_Resource_ID(), order.getM_Product_ID(),
+				null);
+		if (pp == null)
+		{
+			pp = new MPPProductPlanning(ctx, 0, null);
+			pp.setAD_Org_ID(order.getAD_Org_ID());
+			pp.setM_Warehouse_ID(order.getM_Warehouse_ID());
+			pp.setS_Resource_ID(order.getS_Resource_ID());
+			pp.setM_Product_ID(order.getM_Product_ID());
+		}
+		MProduct product = MProduct.get(ctx, pp.getM_Product_ID());
+		//
+		if (pp.getAD_Workflow_ID() <= 0)
+		{
+			pp.setAD_Workflow_ID(MWorkflow.getWorkflowSearchKey(product));
+		}
+		if (pp.getPP_Product_BOM_ID() <= 0)
+		{
+			I_PP_Product_BOM bom = MPPProductBOM.getDefault(product, null);
+			if (bom != null)
+			{
+				pp.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
+			}
+		}
+		//
+		return pp;
 	}
 }	//	CalloutOrder
 
