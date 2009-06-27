@@ -104,4 +104,10 @@
             class="org.eevolution.process.RollupWorkflow">
       </client>   
    </extension>
+   <extension
+         point="AdempiereEquinox.Form">
+      <client
+            class="org.eevolution.form.VProductConfigurationBOM">
+      </client>
+   </extension>
 </plugin>
