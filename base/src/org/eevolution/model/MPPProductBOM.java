@@ -92,10 +92,17 @@ public class MPPProductBOM extends X_PP_Product_BOM
 	 */
 	public static MPPProductBOM getDefault(MProduct product, String trxName)
 	{
-		return new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
+		MPPProductBOM bom = new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()})
 				.setClient_ID()
 				.firstOnly();
+		// If outside trx, then cache it
+		if (bom != null && trxName == null)
+		{
+			s_cache.put(bom.get_ID(), bom);
+		}
+		//
+		return bom;
 	}
 	
 	/**
