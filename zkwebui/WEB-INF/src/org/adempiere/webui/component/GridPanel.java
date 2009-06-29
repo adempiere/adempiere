@@ -60,6 +60,10 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private static final int MAX_COLUMN_WIDTH = 300;
 
+	private static final int MIN_COMBOBOX_WIDTH = 160;
+
+	private static final int MIN_NUMERIC_COL_WIDTH = 130;
+
 	private Grid listbox = null;
 
 	private int pageSize = 100;
@@ -270,6 +274,16 @@ public class GridPanel extends Borderlayout implements EventListener
 					l = MAX_COLUMN_WIDTH;
 				else if ( l < MIN_COLUMN_WIDTH)
 					l = MIN_COLUMN_WIDTH;
+				if (gridField[i].getDisplayType() == DisplayType.Table || gridField[i].getDisplayType() == DisplayType.TableDir)
+				{
+					if (l < MIN_COMBOBOX_WIDTH)
+						l = MIN_COMBOBOX_WIDTH;
+				}
+				else if (DisplayType.isNumeric(gridField[i].getDisplayType()))
+				{
+					if (l < MIN_NUMERIC_COL_WIDTH)
+						l = MIN_NUMERIC_COL_WIDTH;
+				}
 				column.setWidth(Integer.toString(l) + "px");
 				columns.appendChild(column);
 			}
