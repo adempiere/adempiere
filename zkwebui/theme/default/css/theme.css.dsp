@@ -370,16 +370,6 @@ input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
 	border: 1px solid #0000ff;
 }
 
-<%-- fixed combobox btn position when width is set 100% --%>
-.z-combobox-inp {
-	font-family: ${fontFamilyC};
-	font-size: ${fontSizeM};
-	font-weight: normal;
-	background: #FFF url(${c:encodeURL('~./zul/img/grid/text-bg.gif')}) repeat-x 0 0;
-	border: 1px solid #7F9DB9;
-	margin-right: -17px;
-}
-
 .mandatory-decorator-text {
 	text-decoration: none; font-size: xx-small; vertical-align: top; color:red;
 }

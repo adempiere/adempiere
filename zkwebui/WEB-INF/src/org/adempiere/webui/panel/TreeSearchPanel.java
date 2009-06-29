@@ -33,6 +33,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
@@ -86,17 +87,20 @@ public class TreeSearchPanel extends Panel implements EventListener, TreeDataLis
 
     private void init()
     {
+    	Div div = new Div();
         lblSearch = new Label();
         lblSearch.setValue(Msg.getMsg(Env.getCtx(),"TreeSearch").replaceAll("&", "") + ":");
         lblSearch.setTooltiptext(Msg.getMsg(Env.getCtx(),"TreeSearchText"));
+        div.appendChild(lblSearch);
+        div.setStyle("display: inline-block; height: 20px; margin-bottom: 10px; vertical-align: middle");
 
         cmbSearch = new AutoComplete();
         cmbSearch.setAutodrop(true);
-
         cmbSearch.addEventListener(Events.ON_CHANGE, this);
 
-        this.appendChild(lblSearch);
+        this.appendChild(div);
         this.appendChild(cmbSearch);
+        this.setStyle("height: 20px;");
     }
 
     private void addTreeItem(Treeitem treeItem)
