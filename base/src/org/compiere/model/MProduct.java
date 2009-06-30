@@ -37,6 +37,9 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1885414 ] ASI should be always mandatory if CostingLevel is Batch/Lot
  * 			<li>FR [ 2093551 ] Refactor/Add org.compiere.model.MProduct.getCostingLevel
  * 			<li>FR [ 2093569 ] Refactor/Add org.compiere.model.MProduct.getCostingMethod
+ * 
+ * @author Mark Ostermann (mark_o), metas consult GmbH
+ * 			<li>BF [ 2814628 ] Wrong evaluation of Product inactive in beforeSave()
  */
 public class MProduct extends X_M_Product
 {
@@ -556,8 +559,8 @@ public class MProduct extends X_M_Product
 			for (int i = 0; i < storages.length; i++)
 			{
 				OnHand = OnHand.add(storages[i].getQtyOnHand());
-				Ordered = OnHand.add(storages[i].getQtyOrdered());
-				Reserved = OnHand.add(storages[i].getQtyReserved());
+				Ordered = Ordered.add(storages[i].getQtyOrdered());
+				Reserved = Reserved.add(storages[i].getQtyReserved());
 			}
 			String errMsg = "";
 			if (OnHand.signum() != 0)
