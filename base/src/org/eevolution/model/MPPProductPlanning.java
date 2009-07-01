@@ -222,6 +222,14 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		return MWorkflow.get(getCtx(), getAD_Workflow_ID());
 	}
 	
+	@Override
+	public MResource getS_Resource()
+	{
+		return MResource.get(getCtx(), getS_Resource_ID());
+	}
+
+
+
 	private int m_C_BPartner_ID = 0;
 	
 	/**
