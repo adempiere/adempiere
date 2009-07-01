@@ -921,7 +921,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				MHRMovement movement = m_movement.get(pc.getHR_Concept_ID());
 				if (movement==null)
 				{
-					return 0.0; // TODO: need to throw exception ?
+					continue;
 				}
 				else
 				{
