@@ -544,9 +544,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			+ "WHERE AD_Client_ID=? AND DocBaseType=?"
 			+ " AND IsActive='Y' "
 			+ "ORDER BY IsDefault DESC";
-		int C_DocType_ID = DB.getSQLValue(null, sql, getAD_Client_ID(), DocBaseType);
+		int C_DocType_ID = DB.getSQLValueEx(null, sql, getAD_Client_ID(), DocBaseType);
 		if (C_DocType_ID <= 0)
-			log.log(Level.SEVERE, "Not found for AC_Client_ID="
+			log.log(Level.SEVERE, "Not found for AD_Client_ID="
 				+ getAD_Client_ID() + " - " + DocBaseType);
 		else
 		{
@@ -1834,21 +1834,11 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		{
 			MAcctSchema as = acctschemas[asn];
 
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
+			if (as.isSkipOrg(getAD_Org_ID())						//	Header Level Org
+					|| as.isSkipOrg(m_invoiceLine.getAD_Org_ID()) )	//	Line Level Org
 			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(),
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization,
-						as.getAD_OrgOnly_ID()));
-
-				//	Header Level Org
-				skip = as.isSkipOrg(getAD_Org_ID());
-				//	Line Level Org
-				skip = as.isSkipOrg(m_invoiceLine.getAD_Org_ID());
-			}
-			if (skip)
 				continue;
+			}
 
 			BigDecimal LineNetAmt = m_invoiceLine.getLineNetAmt();
 			BigDecimal multiplier = inv.getQty()
@@ -2387,17 +2377,10 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		{
 			MAcctSchema as = acctschemas[asn];
 
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
+			if (as.isSkipOrg(getAD_Org_ID()))
 			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(),
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization,
-						as.getAD_OrgOnly_ID()));
-				skip = as.isSkipOrg(getAD_Org_ID());
-			}
-			if (skip)
 				continue;
+			}
 
 			// update/delete Cost Detail and recalculate Current Cost
 			MCostDetail cd = MCostDetail.get (getCtx(), "C_InvoiceLine_ID=?",

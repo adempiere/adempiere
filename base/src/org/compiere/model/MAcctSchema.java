@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
 
 /**
@@ -139,9 +139,6 @@ public class MAcctSchema extends X_C_AcctSchema
 	private static CCache<Integer,MAcctSchema[]> s_schema = new CCache<Integer,MAcctSchema[]>("AD_ClientInfo", 3);	//  3 clients
 	/**	Cache of AcctSchemas 					**/
 	private static CCache<Integer,MAcctSchema> s_cache = new CCache<Integer,MAcctSchema>("C_AcctSchema", 3);	//  3 accounting schemas
-
-	/**	Logger			*/
-	private static CLogger s_log = CLogger.getCLogger(MAcctSchema.class);	
 	
 	
 	/**************************************************************************
@@ -386,26 +383,34 @@ public class MAcctSchema extends X_C_AcctSchema
 	}	//	getDueFrom_Acct
 
 	/**
-	 * 	Set Only Org Childs
-	 *	@param orgs
+	 * Set Only Org Childs
+	 * @param orgs
+	 * @deprecated only orgs are now fetched automatically
+	 * @throws IllegalStateException every time when you call it 
 	 */
 	public void setOnlyOrgs (Integer[] orgs)
 	{
-		m_onlyOrgs = orgs;
+//		m_onlyOrgs = orgs;
+		throw new IllegalStateException("The OnlyOrgs are now fetched automatically");
 	}	//	setOnlyOrgs
 	
 	/**
-	 * 	Set Only Org Childs
-	 *	@return orgs
+	 * Get Only Org Children
+	 * @return array of AD_Org_ID
 	 */
 	public Integer[] getOnlyOrgs()
 	{
+		if (m_onlyOrgs == null)
+		{
+			m_onlyOrgs = MReportTree.getChildIDs(getCtx(), 
+					0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
+					getAD_OrgOnly_ID());
+		}
 		return m_onlyOrgs;
 	}	//	getOnlyOrgs
 
 	/**
 	 * 	Skip creating postings for this Org.
-	 * 	Requires setOnlyOrgs (MReportTree requires MTree in Basis)
 	 *	@param AD_Org_ID
 	 *	@return true if to skip
 	 */
@@ -421,11 +426,14 @@ public class MAcctSchema extends X_C_AcctSchema
 		//	Not Summary Only - i.e. skip it
 		if (!m_onlyOrg.isSummary())
 			return true;
-		if (m_onlyOrgs == null)
-			return false;
-		for (int i = 0; i < m_onlyOrgs.length; i++)
+		final Integer[] onlyOrgs = getOnlyOrgs();
+		if (onlyOrgs == null)
 		{
-			if (AD_Org_ID == m_onlyOrgs[i].intValue())
+			return false;
+		}
+		for (int i = 0; i < onlyOrgs.length; i++)
+		{
+			if (AD_Org_ID == onlyOrgs[i].intValue())
 				return false;
 		}
 		return true;

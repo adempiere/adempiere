@@ -25,7 +25,6 @@ import java.util.Properties;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
-import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -936,7 +935,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * @param Qty
 	 * @return
 	 */
-	private String createCostDetail(MInventoryLine  line,int M_AttributeSetInstance_ID, BigDecimal qty)
+	private String createCostDetail(MInventoryLine line, int M_AttributeSetInstance_ID, BigDecimal qty)
 	{
 		// Get Account Schemas to create MCostDetail
 		MAcctSchema[] acctschemas = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
@@ -944,21 +943,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 		{
 			MAcctSchema as = acctschemas[asn];
 			
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
+			if (as.isSkipOrg(getAD_Org_ID()) || as.isSkipOrg(line.getAD_Org_ID()))
 			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-						as.getAD_OrgOnly_ID()));
-
-				//	Header Level Org
-				skip = as.isSkipOrg(getAD_Org_ID());
-				//	Line Level Org
-				skip = as.isSkipOrg(line.getAD_Org_ID());
-			}
-			if (skip)
 				continue;
+			}
 			
 			ProductCost pc = new ProductCost (Env.getCtx(), 
 					line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());

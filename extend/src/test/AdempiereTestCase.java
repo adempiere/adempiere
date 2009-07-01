@@ -24,6 +24,7 @@ import javax.swing.JFileChooser;
 import junit.framework.TestCase;
 
 import org.compiere.util.CLogMgt;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
@@ -32,8 +33,8 @@ import org.compiere.util.Trx;
  * ADempiere Base Test Case
  * @author Teo Sarca
  */
-public class AdempiereTestCase extends TestCase {
-
+public class AdempiereTestCase extends TestCase
+{
 	// Test: General
 	protected Properties testProperties = null;
 	protected String testPropertiesFileName = "test.properties";
@@ -65,6 +66,9 @@ public class AdempiereTestCase extends TestCase {
 	public final String LogLevel_Key = "LogLevel";
 	private String LogLevel_DefaultValue = Level.FINEST.toString();
 	private Level LogLevel_Value = Level.FINEST;
+	
+	/** Logger */
+	protected final CLogger log = CLogger.getCLogger(getClass()); 
 
 	/** Trx name */
 	private String trxName = Trx.createTrxName(getClass().getName()+"_");
@@ -120,6 +124,7 @@ public class AdempiereTestCase extends TestCase {
 		testProperties = new Properties();
 		File file = new File(testPropertiesFileName);
 		if (!file.isFile()) {
+			log.warning("File not found - "+file.getAbsolutePath());
 			JFileChooser chooser = new JFileChooser();
 			int returnVal = chooser.showOpenDialog(null);
 			if(returnVal == JFileChooser.APPROVE_OPTION) {

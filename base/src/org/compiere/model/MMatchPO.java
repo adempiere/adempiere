@@ -866,17 +866,10 @@ public class MMatchPO extends X_M_MatchPO
 			{
 				MAcctSchema as = acctschemas[asn];
 				
-				boolean skip = false;
-				if (as.getAD_OrgOnly_ID() != 0)
+				if (as.isSkipOrg(getAD_Org_ID()))
 				{
-					if (as.getOnlyOrgs() == null)
-						as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-							0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-							as.getAD_OrgOnly_ID()));
-					skip = as.isSkipOrg(getAD_Org_ID());
-				}
-				if (skip)
 					continue;
+				}
 				
 				// Purchase Order Line
 				BigDecimal poCost = oLine.getPriceCost();
@@ -958,17 +951,10 @@ public class MMatchPO extends X_M_MatchPO
 		{
 			MAcctSchema as = acctschemas[asn];
 			
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
+			if (as.isSkipOrg(getAD_Org_ID()))
 			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-						as.getAD_OrgOnly_ID()));
-				skip = as.isSkipOrg(getAD_Org_ID());
-			}
-			if (skip)
 				continue;
+			}
 			
 			// update/delete Cost Detail and recalculate Current Cost
 			MCostDetail cd = MCostDetail.get (getCtx(), "C_OrderLine_ID=?", 

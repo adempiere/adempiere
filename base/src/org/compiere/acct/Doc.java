@@ -616,11 +616,6 @@ public abstract class Doc
 				boolean skip = false;
 				if (m_ass[i].getAD_OrgOnly_ID() != 0)
 				{
-					if (m_ass[i].getOnlyOrgs() == null)
-						m_ass[i].setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-							0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-							m_ass[i].getAD_OrgOnly_ID()));
-
 					//	Header Level Org
 					skip = m_ass[i].isSkipOrg(getAD_Org_ID());
 					//	Line Level Org

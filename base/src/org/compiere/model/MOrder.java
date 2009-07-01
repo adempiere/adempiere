@@ -2342,17 +2342,10 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			MAcctSchema as = acctschemas[asn];
 			
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
+			if (as.isSkipOrg(getAD_Org_ID()))
 			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-						as.getAD_OrgOnly_ID()));
-				skip = as.isSkipOrg(getAD_Org_ID());
-			}
-			if (skip)
 				continue;
+			}
 			
 			// update/delete Cost Detail and recalculate Current Cost
 			MMatchPO[] mPO = MMatchPO.getOrderLine(getCtx(), line.getC_OrderLine_ID(), get_TrxName()); 
