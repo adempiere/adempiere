@@ -20,7 +20,6 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
 /**
@@ -70,12 +69,8 @@ public class MProductCosting extends X_M_Product_Costing
 		
 		return new Query(ctx, MProductCosting.Table_Name,whereClause, trxName )
 		.setParameters(new Object[]{M_Product_ID, C_AcctSchema_ID})
-		.first();	
+		.firstOnly();	
 	}	//	get
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MProductCosting.class);
-
 	
 	/**************************************************************************
 	 * 	Standard Constructor (odl)
