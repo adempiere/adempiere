@@ -42,7 +42,9 @@ import org.compiere.util.Msg;
  * 	@version 	$Id: MWFNode.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  * 
  * @author Teo Sarca, www.arhipac.ro
- * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query 
+ * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
+ * 			<li>BF [ 2815732 ] MWFNode.getWorkflow not working in trx
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2815732&group_id=176962&atid=879332 
  */
 public class MWFNode extends X_AD_WF_Node
 {
@@ -426,7 +428,7 @@ public class MWFNode extends X_AD_WF_Node
 		if (duration == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getAD_Workflow().getDurationBaseSec() * 1000;
 		return duration * m_durationBaseMS;
 	}	//	getDurationMS
 	
@@ -440,7 +442,7 @@ public class MWFNode extends X_AD_WF_Node
 		if (limit == 0)
 			return 0;
 		if (m_durationBaseMS == -1)
-			m_durationBaseMS = getWorkflow().getDurationBaseSec() * 1000;
+			m_durationBaseMS = getAD_Workflow().getDurationBaseSec() * 1000;
 		return limit * m_durationBaseMS;
 	}	//	getLimitMS
 	
@@ -450,7 +452,7 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public int getDurationCalendarField()
 	{
-		return getWorkflow().getDurationCalendarField();
+		return getAD_Workflow().getDurationCalendarField();
 	}	//	getDirationCalendarField
 	
 	/**
@@ -493,13 +495,23 @@ public class MWFNode extends X_AD_WF_Node
 	}	//	getParameters
 
 	/**
-	 * 	Get Workflow
-	 *	@return workflow
+	 * Get Workflow
+	 * @return workflow
+	 * @deprecated please use {@link #getAD_Window()}
 	 */
 	public MWorkflow getWorkflow()
 	{
-		return MWorkflow.get(getCtx(), getAD_Workflow_ID());
+		return getAD_Workflow();
 	}	//	getWorkflow
+	
+	@Override
+	public MWorkflow getAD_Workflow()
+	{
+		if (get_TrxName() == null)
+			return MWorkflow.get(getCtx(), getAD_Workflow_ID());
+		else 
+			return (MWorkflow)super.getAD_Workflow();
+	}
 	
 	/**
 	 * 	String Representation
@@ -536,7 +548,7 @@ public class MWFNode extends X_AD_WF_Node
 	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if(MWorkflow.WORKFLOWTYPE_Manufacturing.equals(getWorkflow().getWorkflowType()))
+		if(MWorkflow.WORKFLOWTYPE_Manufacturing.equals(getAD_Workflow().getWorkflowType()))
 		{
 			setAction(MWFNode.ACTION_WaitSleep);
 			return true;
