@@ -422,7 +422,7 @@ public abstract class PO
 	 *  @param index index
 	 *  @return int value or 0
 	 */
-	protected int get_ValueAsInt (int index)
+	public int get_ValueAsInt (int index)
 	{
 		Object value = get_Value(index);
 		if (value == null)
@@ -532,7 +532,7 @@ public abstract class PO
 	 *  @param columnName column name
 	 *  @return int value or 0
 	 */
-	protected int get_ValueOldAsInt (String columnName)
+	public int get_ValueOldAsInt (String columnName)
 	{
 		Object value = get_ValueOld(columnName);
 		if (value == null)
@@ -1013,7 +1013,7 @@ public abstract class PO
 	 *  Get Column Count
 	 *  @return column count
 	 */
-	protected int get_ColumnCount()
+	public int get_ColumnCount()
 	{
 		return p_info.getColumnCount();
 	}   //  getColumnCount
@@ -1023,7 +1023,7 @@ public abstract class PO
 	 *  @param index index
 	 *  @return ColumnName
 	 */
-	protected String get_ColumnName (int index)
+	public String get_ColumnName (int index)
 	{
 		return p_info.getColumnName (index);
 	}   //  getColumnName
