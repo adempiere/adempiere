@@ -398,6 +398,7 @@ public final class VBPartner extends CDialog implements ActionListener
 		{
 			int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 			m_partner = MBPartner.getTemplate(Env.getCtx(), AD_Client_ID);
+			m_partner.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx())); // Elaine 2009/07/03
 			boolean isSOTrx = !"N".equals(Env.getContext(Env.getCtx(), m_WindowNo, "IsSOTrx"));
 			m_partner.setIsCustomer (isSOTrx);
 			m_partner.setIsVendor (!isSOTrx);
