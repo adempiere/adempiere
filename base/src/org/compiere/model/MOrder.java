@@ -1971,6 +1971,15 @@ public class MOrder extends X_C_Order implements DocAction
 				deleteMatchPOCostDetail(line);
 			}
 		}
+		
+		// update taxes
+		MOrderTax[] taxes = getTaxes(true);
+		for (MOrderTax tax : taxes )
+		{
+			if ( !(tax.calculateTaxFromLines() && tax.save()) )
+				return false;
+		}
+		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		//	Clear Reservations
 		if (!reserveStock(null, lines))
