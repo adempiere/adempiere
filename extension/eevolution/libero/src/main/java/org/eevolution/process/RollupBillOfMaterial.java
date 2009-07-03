@@ -228,6 +228,13 @@ public class RollupBillOfMaterial extends SvrProcess
 			for (MCost cost : getCosts(component, element.get_ID()))
 			{                 
 				BigDecimal qty = bomline.getQty(true);
+				
+				// ByProducts
+				if (bomline.isByProduct())
+				{
+					cost.setCurrentCostPriceLL(Env.ZERO);
+				}
+				
 				BigDecimal costPrice = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
 				BigDecimal componentCost = costPrice.multiply(qty);
 				costPriceLL = costPriceLL.add(componentCost);
