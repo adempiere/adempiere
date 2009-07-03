@@ -30,7 +30,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
@@ -54,7 +53,6 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.X_M_Production;
 import org.compiere.process.DocumentEngine;
-import org.compiere.report.MReportTree;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -628,11 +626,6 @@ public abstract class Doc
 				boolean skip = false;
 				if (m_ass[i].getAD_OrgOnly_ID() != 0)
 				{
-					if (m_ass[i].getOnlyOrgs() == null)
-						m_ass[i].setOnlyOrgs(MReportTree.getChildIDs(getCtx(), 
-							0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-							m_ass[i].getAD_OrgOnly_ID()));
-
 					//	Header Level Org
 					skip = m_ass[i].isSkipOrg(getAD_Org_ID());
 					//	Line Level Org
