@@ -36,6 +36,8 @@ import org.compiere.util.Env;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.model.MPPProductPlanning;
+import org.eevolution.model.RoutingService;
+import org.eevolution.model.RoutingServiceFactory;
 
 /**
  *	RollUp of Cost Manufacturing Workflow 
@@ -63,6 +65,9 @@ public class RollupWorkflow extends SvrProcess
 	private String 			p_ConstingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
 
 	private MAcctSchema m_as = null;
+	
+	private RoutingService m_routingService = null;
+
 
 	protected void prepare()
 	{
@@ -94,6 +99,8 @@ public class RollupWorkflow extends SvrProcess
 
 	protected String doIt() throws Exception                
 	{
+		m_routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
+
 		for (MProduct product : getProducts())
 		{ 
 			log.info("Product: "+product);
@@ -179,7 +186,7 @@ public class RollupWorkflow extends SvrProcess
 		int WaitingTime = 0;
 		int MovingTime = 0;
 		int WorkingTime = 0;
-
+		
 		MWFNode[] nodes = workflow.getNodes(false, getAD_Client_ID());
 		for (MWFNode node : nodes)
 		{
@@ -188,9 +195,11 @@ public class RollupWorkflow extends SvrProcess
 			{	
 				Yield = Yield * ((double)node.getYield() / 100);
 			}
+			BigDecimal nodeDuration = m_routingService.estimateWorkingTime(node);
+			
 			QueuingTime += node.getQueuingTime();
 			SetupTime += node.getSetupTime();
-			Duration += node.getDuration();
+			Duration += nodeDuration.intValueExact();
 			WaitingTime += node.getWaitingTime();
 			MovingTime += node.getMovingTime();
 			WorkingTime += node.getWorkingTime();
@@ -217,7 +226,7 @@ public class RollupWorkflow extends SvrProcess
 				BigDecimal segmentCost = Env.ZERO;
 				for (MWFNode node : nodes)
 				{
-					BigDecimal nodeCost = CostEngine.getNodeCost(node, node.getSetupTime(), node.getDuration(), d, get_TrxName());
+					BigDecimal nodeCost = m_routingService.calculateCost(node, d, get_TrxName());
 					segmentCost = segmentCost.add(nodeCost);
 					log.info("Element : "+element+", Node="+node+", nodeCost="+nodeCost+" => Cost="+segmentCost);
 					// Update AD_WF_Node.Cost:

@@ -37,7 +37,6 @@ import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MResource;
-import org.compiere.model.MResourceType;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
@@ -490,7 +489,10 @@ public class MPPMRP extends X_PP_MRP
 					//
 					if (plant_id > 0 && workflow != null)
 					{
-						int duration = MPPMRP.getDays(ol.getCtx(), plant_id, workflow.get_ID(), ol.getQtyOrdered(), ol.get_TrxName()).intValue();
+						RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ol.getCtx());
+						int duration = routingService.calculateDuration(workflow,
+								MResource.get(ol.getCtx(), plant_id),
+								ol.getQtyOrdered()).intValueExact(); 
 						//
 						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
 						//comment for Manufacturing Order
@@ -881,45 +883,6 @@ public class MPPMRP extends X_PP_MRP
 		int LowLevel = DB.getSQLValueEx(trxName, sql, AD_Client_ID);
 		return LowLevel + 1;
 	}
-
-	/**
-	 * Calculated duration of given workflow, considering resource's available days and timeslot.
-	 * @param ctx
-	 * @param S_Resource_ID
-	 * @param AD_Workflow_ID
-	 * @param QtyOrdered
-	 * @param trxName not used
-	 * @return duration [days]
-	 */
-	public static BigDecimal getDays(Properties ctx ,int S_Resource_ID, int AD_Workflow_ID, BigDecimal QtyOrdered, String trxName)
-	{
-		if (S_Resource_ID <= 0)
-			return Env.ZERO;
-
-		MResource S_Resource = MResource.get(ctx, S_Resource_ID);
-		MResourceType S_ResourceType = MResourceType.get(ctx, S_Resource.getS_ResourceType_ID());  	
-
-		BigDecimal AvailableDayTime  = BigDecimal.valueOf(S_ResourceType.getTimeSlotHours());
-		int AvailableDays = S_ResourceType.getAvailableDaysWeek();
-
-		MWorkflow wf = MWorkflow.get(ctx, AD_Workflow_ID);
-		
-		BigDecimal RequiredTime = BigDecimal.valueOf (	
-								(	  wf.getQueuingTime()
-									+ wf.getSetupTime()
-									+ (wf.getDuration() * QtyOrdered.doubleValue())
-									+ wf.getWaitingTime()
-									+ wf.getMovingTime()
-								)
-								* ( (double)wf.getDurationBaseSec() / 60 / 60 ) // convert to hours
-		);
-		// TODO: implement here, Victor's suggestion - https://sourceforge.net/forum/message.php?msg_id=5179460
-
-		// Weekly Factor  	
-		BigDecimal WeeklyFactor = BigDecimal.valueOf(7).divide(BigDecimal.valueOf(AvailableDays), 8, BigDecimal.ROUND_UP);
-
-		return (RequiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime, 0, BigDecimal.ROUND_UP);
-	}
 	
 	/**
 	 * Duration to have this Qty available (i.e. Lead Time + Transfer Time)
@@ -930,16 +893,13 @@ public class MPPMRP extends X_PP_MRP
 	public static int getDurationDays(BigDecimal qty, I_PP_Product_Planning pp)
 	{
 		Properties ctx = null;
-		String trxName = null;
 		if (pp instanceof PO)
 		{
 			ctx = ((PO)pp).getCtx();
-			trxName = ((PO)pp).get_TrxName();
 		}
 		else
 		{
 			ctx = Env.getCtx();
-			trxName = null;
 		}
 		
 		MProduct product = MProduct.get(ctx, pp.getM_Product_ID());
@@ -950,7 +910,8 @@ public class MPPMRP extends X_PP_MRP
 		}
 		else if (pp.getS_Resource_ID() > 0 && pp.getAD_Workflow_ID() > 0)
 		{
-			leadtime = getDays(ctx, pp.getS_Resource_ID(), pp.getAD_Workflow_ID(), qty, trxName);
+			RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ctx);
+			routingService.calculateDuration(pp.getAD_Workflow(), pp.getS_Resource(), qty);
 		}
 		else
 		{

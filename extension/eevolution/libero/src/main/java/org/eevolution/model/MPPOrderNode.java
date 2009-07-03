@@ -17,7 +17,6 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -63,27 +62,6 @@ public class MPPOrderNode extends X_PP_Order_Node
 			s_cache.put (PP_Order_Node_ID, retValue);
 		return retValue;
 	}	//	get
-	
-	/**
-	 * Calculate Standard Activity Duration (considering units/cycle too) 
-	 * @param node activity
-	 * @param qty
-	 * @return duration
-	 */
-	public static BigDecimal calculateDuration(I_PP_Order_Node node, BigDecimal qty)
-	{
-		int unitsCycle = node.getUnitsCycles();
-		int unitDuration = node.getDuration();
-		BigDecimal cycles = qty;
-		BigDecimal unitsCycleBD = BigDecimal.valueOf(unitsCycle);
-		if (unitsCycleBD.signum() > 0)
-		{
-			cycles = qty.divide(unitsCycleBD, 0, RoundingMode.UP);
-		}
-		BigDecimal unitDurationBD = BigDecimal.valueOf(unitDuration);
-		BigDecimal duration = unitDurationBD.multiply(cycles);
-		return duration;
-	}
 
 	/**
 	 * @return true if this is last node
@@ -252,10 +230,15 @@ public class MPPOrderNode extends X_PP_Order_Node
 	public void setQtyOrdered(BigDecimal qtyOrdered)
 	{
 		setQtyRequiered(qtyOrdered);
-		BigDecimal time = MPPOrderNode.calculateDuration(this, qtyOrdered);
-		setDurationRequiered(time.intValue());
+		RoutingService routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
+		BigDecimal workingTime = routingService.estimateWorkingTime(this, qtyOrdered);
+		setDurationRequiered(workingTime.intValueExact());
 	}
 	
+	/**
+	 * Get Qty To Deliver (Open Qty)
+	 * @return open qty
+	 */
 	public BigDecimal getQtyToDeliver()
 	{
 		return getQtyRequiered().subtract(getQtyDelivered());

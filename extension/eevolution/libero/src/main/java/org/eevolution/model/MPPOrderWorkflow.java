@@ -605,7 +605,8 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 					continue;
 				}
 				int setupTimeReal = 0; //node.getSetupTimeReal();
-				BigDecimal durationReal = MPPOrderNode.calculateDuration(node, qtyToDeliver);
+				RoutingService routingService = RoutingServiceFactory.get().getRoutingService(node.getAD_Client_ID());
+				BigDecimal durationReal = routingService.estimateWorkingTime(node, qtyToDeliver);
 				if (setupTimeReal <= 0 && durationReal.signum() <= 0)
 				{
 					continue;

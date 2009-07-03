@@ -29,8 +29,10 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
 import org.compiere.util.Env;
+import org.eevolution.model.I_PP_Order_Node;
 import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrderNode;
+import org.eevolution.model.RoutingService;
+import org.eevolution.model.RoutingServiceFactory;
 
 /**
  *  Post Cost Collector
@@ -247,7 +249,7 @@ public class Doc_CostCollector extends Doc
 		 */
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
 		{
-			MPPOrderNode activity = (MPPOrderNode) m_cc.getPP_Order_Node();
+			I_PP_Order_Node activity = m_cc.getPP_Order_Node();
 
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 				for(MCostElement element : elements)
@@ -260,9 +262,8 @@ public class Doc_CostCollector extends Doc
 					MAccount credit = m_line.getAccount(as, element);
 					CostDimension d = new CostDimension(null, as, as.getM_CostType_ID(),
 							m_cc.getAD_Org_ID(), 0, element.get_ID());
-					BigDecimal costs = CostEngine.getNodeCost(activity,
-							m_cc.getSetupTimeReal(), m_cc.getDurationReal(),
-							d, getTrxName());
+					final RoutingService routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
+					BigDecimal costs = routingService.calculateCost(m_cc, d, getTrxName());
 					createLines(element, as, fact, product, debit, credit, costs, m_cc.getMovementQty());
 				}
 		}

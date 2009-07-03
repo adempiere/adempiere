@@ -68,10 +68,9 @@ public class CalloutCostCollector extends CalloutEngine
 		I_PP_Cost_Collector cc = GridTabWrapper.create(mTab, I_PP_Cost_Collector.class);
 		if (cc.getPP_Order_Node_ID() <= 0)
 			return "";
-		BigDecimal qty = cc.getMovementQty();
-		MPPOrderNode node = getPP_Order_Node(ctx, cc.getPP_Order_Node_ID());
 		
-		BigDecimal durationReal = MPPOrderNode.calculateDuration(node, qty);
+		RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ctx);
+		BigDecimal durationReal = routingService.estimateWorkingTime(cc);
 		// If Activity Control Duration should be specified
 		if(durationReal.signum() == 0)
 		{
