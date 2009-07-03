@@ -25,7 +25,6 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
@@ -35,7 +34,6 @@ import org.compiere.model.MResource;
 import org.compiere.model.MTransaction;
 import org.compiere.model.MUOM;
 import org.compiere.model.Query;
-import org.compiere.report.MReportTree;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -224,20 +222,7 @@ public class CostEngine
 		BigDecimal Amt = Env.ZERO;
 		for(MAcctSchema as : MAcctSchema.getClientAcctSchema(mtrx.getCtx(), mtrx.getAD_Client_ID()))
 		{
-			boolean skip = false;
-			if (as.getAD_OrgOnly_ID() != 0)
-			{
-				if (as.getOnlyOrgs() == null)
-					as.setOnlyOrgs(MReportTree.getChildIDs(mtrx.getCtx(), 
-						0, MAcctSchemaElement.ELEMENTTYPE_Organization, 
-						as.getAD_OrgOnly_ID()));
-
-				//	Header Level Org
-				skip = as.isSkipOrg(mtrx.getAD_Org_ID());
-				//	Line Level Org
-				skip = as.isSkipOrg(mtrx.getAD_Org_ID());
-			}
-			if (skip)
+			if (as.isSkipOrg(mtrx.getAD_Org_ID()))
 			{
 				continue;
 			}
