@@ -120,7 +120,6 @@ public class CRP extends SvrProcess
 	public void runCRP(MPPOrder order)
 	{
 		log.info("PP_Order DocumentNo:" + order.getDocumentNo());
-		BigDecimal qtyOpen = order.getQtyOpen();
 		MPPOrderWorkflow owf = order.getMPPOrderWorkflow();
 		if (owf == null)
 		{
@@ -163,8 +162,7 @@ public class CRP extends SvrProcess
 					throw new CRPException("@ResourceNotInSlotDay@").setS_Resource(resource);
 				}
 
-				MResourceType resourceType = resource.getResourceType();
-				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
+				long nodeMillis = calculateMillisFor(node, owf.getDurationBaseSec());
 				Timestamp dateFinish = scheduleForward(date, nodeMillis ,resource);
 
 				node.setDateStartSchedule(date);
@@ -211,8 +209,7 @@ public class CRP extends SvrProcess
 					throw new CRPException("@ResourceNotInSlotDay@").setS_Resource(resource);
 				}
 
-				MResourceType resourceType = resource.getResourceType();
-				long nodeMillis = calculateMillisFor(node, resourceType, qtyOpen, owf.getDurationBaseSec());
+				long nodeMillis = calculateMillisFor(node, owf.getDurationBaseSec());
 				Timestamp dateStart = scheduleBackward(date, nodeMillis ,resource);
 
 				node.setDateStartSchedule(dateStart);
@@ -239,19 +236,12 @@ public class CRP extends SvrProcess
 	/**
 	 * Calculate how many millis take to complete given qty on given node(operation).
 	 * @param node operation
-	 * @param type resource type
-	 * @param resource resource involved in that operation
-	 * @param qty required quantity 
-	 * @param commonBase 
+	 * @param commonBase multiplier to convert duration to seconds 
 	 * @return duration in millis
 	 */
-	private long calculateMillisFor(MPPOrderNode node, MResourceType type, BigDecimal qty, long commonBase)
+	private long calculateMillisFor(MPPOrderNode node, long commonBase)
 	{
-//		// Available time factor of the resource of the workflow node
-//		double actualDay = type.getDayDurationMillis();
-//		final double aDay24 = 24*60*60*1000; // A day of 24 hours in milliseconds
-//		BigDecimal factorAvailablility = new BigDecimal((actualDay / aDay24));  
-
+		final BigDecimal qty = node.getQtyToDeliver();
 		// Total duration of workflow node (seconds) ...
 		// ... its static single parts ...
 		long totalDuration =
