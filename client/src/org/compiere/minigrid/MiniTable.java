@@ -109,6 +109,24 @@ public class MiniTable extends CTable implements IMiniTable
 	private boolean showTotals = false;
 
 	/**
+	 * Gets the swing column of given index. No index checking 
+	 * is done.
+	 * 
+	 * @param col
+	 * @return
+	 */
+	public TableColumn getColumn(int col) {
+		return(getColumnModel().getColumn(col));
+	}
+
+	/**
+	 * Return number of columns in the mini table
+	 */
+	public int getColumnCount() {
+		return(getColumnModel().getColumnCount());
+	}
+	
+	/**
 	 *	Size Columns.
 	 *  Uses Mimimum Column Size
 	 */

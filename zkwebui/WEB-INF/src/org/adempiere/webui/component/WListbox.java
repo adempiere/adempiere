@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.swing.table.TableColumn;
+
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
@@ -1034,6 +1036,18 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
      */
 	public void autoSize() {
 		//no op
+	}
+
+	@Override
+	public TableColumn getColumn(int col) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
