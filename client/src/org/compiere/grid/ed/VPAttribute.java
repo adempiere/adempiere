@@ -66,6 +66,37 @@ public class VPAttribute extends JComponent
 	 */
 	private static final long serialVersionUID = 108156477716619163L;
 
+	/**
+	 *	Mouse Listener
+	 */
+	final class VPAttribute_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VPAttribute_mouseAdapter(VPAttribute adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VPAttribute_mouseAdapter
+
+		private VPAttribute m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	Double Click
+			if (e.getClickCount() > 1)
+				m_adaptee.actionPerformed(new ActionEvent(e.getSource(), e.getID(), "Mouse"));
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VPAttribute_mouseAdapter
 
 	/**
 	 *	IDE Constructor
@@ -437,35 +468,3 @@ public class VPAttribute extends JComponent
 	}   //  propertyChange
 
 }	//	VPAttribute
-
-/**
- *	Mouse Listener
- */
-final class VPAttribute_mouseAdapter extends MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VPAttribute_mouseAdapter(VPAttribute adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VPAttribute_mouseAdapter
-
-	private VPAttribute m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	Double Click
-		if (e.getClickCount() > 1)
-			m_adaptee.actionPerformed(new ActionEvent(e.getSource(), e.getID(), "Mouse"));
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VPAttribute_mouseAdapter

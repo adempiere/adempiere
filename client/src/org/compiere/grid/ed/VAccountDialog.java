@@ -84,6 +84,29 @@ public final class VAccountDialog extends CDialog
 	private static final long serialVersionUID = -1980622319541357651L;
 
 	/**
+	 *	Mouse Listener
+	 */
+	class VAccountDialog_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		VAccountDialog_mouseAdapter(VAccountDialog adaptee)
+		{
+			this.adaptee = adaptee;
+		}
+
+		VAccountDialog adaptee;
+
+		public void mouseClicked(MouseEvent e)
+		{
+			//	Table => select
+			if (e.getSource() instanceof JTable && e.getClickCount() > 1)
+			{
+				adaptee.m_changed = true;
+				adaptee.dispose();
+			}
+		}
+	}	//	VAccountDialog_mouseListener
+	
+	/**
 	 * 	Constructor
 	 *  @param frame frame
 	 *  @param title title
@@ -1103,26 +1126,3 @@ public final class VAccountDialog extends CDialog
 	}	//	vetoableChange
 
 }	//	VAccountDialog
-
-/**
- *	Mouse Listener
- */
-class VAccountDialog_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	VAccountDialog_mouseAdapter(VAccountDialog adaptee)
-	{
-		this.adaptee = adaptee;
-	}
-
-	VAccountDialog adaptee;
-
-	public void mouseClicked(MouseEvent e)
-	{
-		//	Table => select
-		if (e.getSource() instanceof JTable && e.getClickCount() > 1)
-		{
-			adaptee.m_changed = true;
-			adaptee.dispose();
-		}
-	}
-}	//	VAccountDialog_mouseListener

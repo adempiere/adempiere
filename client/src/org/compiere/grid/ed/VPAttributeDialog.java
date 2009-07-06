@@ -86,6 +86,36 @@ public class VPAttributeDialog extends CDialog
 	 */
 	private static final long serialVersionUID = -1062346984681892620L;
 
+	/*****************************************************************************
+	 *	Mouse Listener for Popup Menu
+	 */
+	final class VPAttributeDialog_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VPAttributeDialog_mouseAdapter(VPAttributeDialog adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VPAttributeDialog_mouseAdapter
+
+		private VPAttributeDialog m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+		//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VPAttributeDialog_mouseAdapter	
+	
 	/**
 	 *	Product Attribute Instance Dialog
 	 *	@param frame parent frame
@@ -808,33 +838,3 @@ public class VPAttributeDialog extends CDialog
 	}	//	isChanged
 
 } //	VPAttributeDialog
-
-/*****************************************************************************
- *	Mouse Listener for Popup Menu
- */
-final class VPAttributeDialog_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VPAttributeDialog_mouseAdapter(VPAttributeDialog adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VPAttributeDialog_mouseAdapter
-
-	private VPAttributeDialog m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-	//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VPAttributeDialog_mouseAdapter

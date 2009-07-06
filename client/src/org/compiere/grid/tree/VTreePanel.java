@@ -117,6 +117,63 @@ import de.schaeffer.compiere.tools.DocumentSearch;
 public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
 {
+
+	/******************************************************************************
+	 *  Mouse Clicked
+	 */
+	class VTreePanel_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		VTreePanel m_adaptee;
+
+		/**
+		 * 	VTreePanel_mouseAdapter
+		 *	@param adaptee
+		 */
+		VTreePanel_mouseAdapter(VTreePanel adaptee)
+		{
+			m_adaptee = adaptee;
+		}
+
+		/**
+		 *	Mouse Clicked
+		 *	@param e
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			m_adaptee.mouseClicked(e);
+		}
+
+
+	}   //  VTreePanel_mouseAdapter
+
+	/**
+	 *  Key Pressed
+	 */
+	class VTreePanel_keyAdapter extends java.awt.event.KeyAdapter
+	{
+		VTreePanel m_adaptee;
+
+		/**
+		 * 	VTreePanel_keyAdapter
+		 *	@param adaptee
+		 */
+		VTreePanel_keyAdapter(VTreePanel adaptee)
+		{
+			m_adaptee = adaptee;
+		}
+
+		/**
+		 * 	Key Pressed
+		 *	@param e
+		 */
+		public void keyPressed(KeyEvent e)
+		{
+			if (e.getKeyCode() == KeyEvent.VK_ENTER)
+				m_adaptee.keyPressed(e);
+		}
+	}   //  VTreePanel_keyAdapter
+	
+	
 	/**
 	 *
 	 */
@@ -1199,57 +1256,3 @@ public final class VTreePanel extends CPanel
 }   //  VTreePanel
 
 
-/******************************************************************************
- *  Mouse Clicked
- */
-class VTreePanel_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	VTreePanel m_adaptee;
-
-	/**
-	 * 	VTreePanel_mouseAdapter
-	 *	@param adaptee
-	 */
-	VTreePanel_mouseAdapter(VTreePanel adaptee)
-	{
-		m_adaptee = adaptee;
-	}
-
-	/**
-	 *	Mouse Clicked
-	 *	@param e
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		m_adaptee.mouseClicked(e);
-	}
-
-
-}   //  VTreePanel_mouseAdapter
-
-/**
- *  Key Pressed
- */
-class VTreePanel_keyAdapter extends java.awt.event.KeyAdapter
-{
-	VTreePanel m_adaptee;
-
-	/**
-	 * 	VTreePanel_keyAdapter
-	 *	@param adaptee
-	 */
-	VTreePanel_keyAdapter(VTreePanel adaptee)
-	{
-		m_adaptee = adaptee;
-	}
-
-	/**
-	 * 	Key Pressed
-	 *	@param e
-	 */
-	public void keyPressed(KeyEvent e)
-	{
-		if (e.getKeyCode() == KeyEvent.VK_ENTER)
-			m_adaptee.keyPressed(e);
-	}
-}   //  VTreePanel_keyAdapter

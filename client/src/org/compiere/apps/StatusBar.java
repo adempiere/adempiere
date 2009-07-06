@@ -40,6 +40,33 @@ import org.compiere.util.Msg;
  */
 public class StatusBar extends CPanel implements IStatusBar
 {
+
+	/******************************************************************************
+	 *  Mouse Adapter for Status Bar (statusDB)
+	 */
+	class StatusBar_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		private StatusBar adaptee;
+
+		/**
+		 *  Constructor
+		 *  @param adaptee adaptee
+		 */
+		StatusBar_mouseAdapter(StatusBar adaptee)
+		{
+			this.adaptee = adaptee;
+		}
+
+		/**
+		 *  Click
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			adaptee.mouseClicked(e);
+		}
+	}   //  StatusBar_mouseAdapter
+	
 	/**
 	 * 
 	 */
@@ -240,30 +267,3 @@ public class StatusBar extends CPanel implements IStatusBar
 	}	//	addStatusComponent
 
 }	//	StatusBar
-
-
-/******************************************************************************
- *  Mouse Adapter for Status Bar (statusDB)
- */
-class StatusBar_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	private StatusBar adaptee;
-
-	/**
-	 *  Constructor
-	 *  @param adaptee adaptee
-	 */
-	StatusBar_mouseAdapter(StatusBar adaptee)
-	{
-		this.adaptee = adaptee;
-	}
-
-	/**
-	 *  Click
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		adaptee.mouseClicked(e);
-	}
-}   //  StatusBar_mouseAdapter

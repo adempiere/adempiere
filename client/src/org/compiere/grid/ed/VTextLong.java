@@ -54,6 +54,37 @@ public class VTextLong extends CTextPane
 	 */
 	private static final long serialVersionUID = 4776186117962407679L;
 
+	/*****************************************************************************/
+
+	/**
+	 *	Mouse Listener
+	 */
+	final class VTextLong_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee VText
+		 */
+		VTextLong_mouseAdapter(VTextLong adaptee)
+		{
+			this.adaptee = adaptee;
+		}	//	VText_mouseAdapter
+
+		private VTextLong adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VTextLong_mouseAdapter
+	
 	/**
 	 *	Factory: Start Editor
 	 *	@param jc container to get parent frame
@@ -219,34 +250,3 @@ public class VTextLong extends CTextPane
 
 
 }	//	VTextLong
-
-/*****************************************************************************/
-
-/**
- *	Mouse Listener
- */
-final class VTextLong_mouseAdapter extends MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee VText
-	 */
-	VTextLong_mouseAdapter(VTextLong adaptee)
-	{
-		this.adaptee = adaptee;
-	}	//	VText_mouseAdapter
-
-	private VTextLong adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VTextLong_mouseAdapter

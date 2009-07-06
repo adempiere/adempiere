@@ -58,6 +58,33 @@ public class VFile extends JComponent
 	 */
 	private static final long serialVersionUID = 7246339063197204992L;
 
+	/******************************************************************************
+	 *	Mouse Listener for Popup Menu
+	 */
+	final class VFile_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VFile_mouseAdapter(VFile adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VLookup_mouseAdapter
+
+		private VFile m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			
+		}	//	mouse Clicked
+
+	}	//	VFile_mouseAdapter
+	
 	/**
 	 *	Constructor
 	 *
@@ -382,30 +409,3 @@ public class VFile extends JComponent
 	}
 
 }	//	VFile
-
-/******************************************************************************
- *	Mouse Listener for Popup Menu
- */
-final class VFile_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VFile_mouseAdapter(VFile adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VLookup_mouseAdapter
-
-	private VFile m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		
-	}	//	mouse Clicked
-
-}	//	VFile_mouseAdapter

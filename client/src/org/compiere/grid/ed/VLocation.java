@@ -60,6 +60,35 @@ public class VLocation extends JComponent
 	private static final long serialVersionUID = -3155246553879767899L;
 
 	/**
+	 *	Mouse Listener for Popup Menu
+	 */
+	final class VLocation_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VLocation_mouseAdapter(VLocation adaptee)
+		{
+			this.adaptee = adaptee;
+		}	//	VLookup_mouseAdapter
+
+		private VLocation adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VLocation_mouseAdapter
+	
+	/**
 	 *	Constructor
 	 *
 	 * 	@param columnName column name
@@ -371,32 +400,3 @@ public class VLocation extends JComponent
 }	//	VLocation
 
 /*****************************************************************************/
-
-/**
- *	Mouse Listener for Popup Menu
- */
-final class VLocation_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VLocation_mouseAdapter(VLocation adaptee)
-	{
-		this.adaptee = adaptee;
-	}	//	VLookup_mouseAdapter
-
-	private VLocation adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VLocation_mouseAdapter

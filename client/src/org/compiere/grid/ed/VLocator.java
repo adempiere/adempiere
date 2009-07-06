@@ -70,6 +70,36 @@ public class VLocator extends JComponent
 	private static final long serialVersionUID = 6173109396306219205L;
 
 	/**
+	 *	Mouse Listener for Popup Menu
+	 */
+	final class VLocator_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee VLocator
+		 */
+		VLocator_mouseAdapter(VLocator adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VLookup_mouseAdapter
+
+		/** Adaptee	*/
+		private VLocator m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VLocator_mouseAdapter
+	
+	/**
 	 *  IDE Constructor
 	 */
 	public VLocator ()
@@ -580,33 +610,3 @@ public class VLocator extends JComponent
 }	//	VLocator
 
 /*****************************************************************************/
-
-/**
- *	Mouse Listener for Popup Menu
- */
-final class VLocator_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee VLocator
-	 */
-	VLocator_mouseAdapter(VLocator adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VLookup_mouseAdapter
-
-	/** Adaptee	*/
-	private VLocator m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VLocator_mouseAdapter

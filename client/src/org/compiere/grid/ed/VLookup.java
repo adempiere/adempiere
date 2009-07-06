@@ -105,6 +105,40 @@ public class VLookup extends JComponent
 	 */
 	private static final long serialVersionUID = -104909868954609498L;
 
+	/*****************************************************************************
+	 *	Mouse Listener for Popup Menu
+	 */
+	final class VLookup_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VLookup_mouseAdapter(VLookup adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VLookup_mouseAdapter
+
+		private VLookup m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+		//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+			// Hide the popup if not right click - teo_sarca [ 1734802 ]
+			else
+				m_adaptee.popupMenu.setVisible(false);
+		}	//	mouse Clicked
+
+	}	//	VLookup_mouseAdapter
+	
+	
 	@Override
 	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 			int condition, boolean pressed) {
@@ -1580,36 +1614,3 @@ public class VLookup extends JComponent
 
 
 }	//	VLookup
-
-/*****************************************************************************
- *	Mouse Listener for Popup Menu
- */
-final class VLookup_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VLookup_mouseAdapter(VLookup adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VLookup_mouseAdapter
-
-	private VLookup m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-	//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-		// Hide the popup if not right click - teo_sarca [ 1734802 ]
-		else
-			m_adaptee.popupMenu.setVisible(false);
-	}	//	mouse Clicked
-
-}	//	VLookup_mouseAdapter

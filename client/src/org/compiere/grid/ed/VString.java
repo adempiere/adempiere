@@ -63,6 +63,35 @@ public final class VString extends CTextField
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
 
+	/******************************************************************************
+	 *	Mouse Listener
+	 */
+	final class VString_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VString_mouseAdapter(VString adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VString_mouseAdapter
+
+		private VString m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouseClicked
+
+	}	//	VText_mouseAdapter
+	
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
 	 */
@@ -383,33 +412,3 @@ public final class VString extends CTextField
 	}
 	
 }	//	VString
-
-
-/******************************************************************************
- *	Mouse Listener
- */
-final class VString_mouseAdapter extends MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VString_mouseAdapter(VString adaptee)
-	{
-		m_adaptee = adaptee;
-	}	//	VString_mouseAdapter
-
-	private VString m_adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouseClicked
-
-}	//	VText_mouseAdapter

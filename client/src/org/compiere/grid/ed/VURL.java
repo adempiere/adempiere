@@ -63,6 +63,35 @@ public class VURL extends JComponent
 	 */
 	private static final long serialVersionUID = -5090157084793992376L;
 
+	/******************************************************************************
+	 *	Mouse Listener
+	 */
+	final class VURL_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VURL_mouseAdapter(VURL adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VString_mouseAdapter
+
+		private VURL m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouseClicked
+
+	}	//	VURL_mouseAdapter
+	
 	/**
 	 * 	IDE Constructor
 	 */
@@ -457,36 +486,6 @@ public class VURL extends JComponent
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost
-	
-	
-	/******************************************************************************
-	 *	Mouse Listener
-	 */
-	final class VURL_mouseAdapter extends MouseAdapter
-	{
-		/**
-		 *	Constructor
-		 *  @param adaptee adaptee
-		 */
-		VURL_mouseAdapter(VURL adaptee)
-		{
-			m_adaptee = adaptee;
-		}	//	VString_mouseAdapter
-
-		private VURL m_adaptee;
-
-		/**
-		 *	Mouse Listener
-		 *  @param e event
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-			//	popup menu
-			if (SwingUtilities.isRightMouseButton(e))
-				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-		}	//	mouseClicked
-
-	}	//	VURL_mouseAdapter
 
 	
 }	//	VURL

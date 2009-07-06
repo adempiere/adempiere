@@ -52,6 +52,37 @@ public class VText extends CTextArea
 	 */
 	private static final long serialVersionUID = -2479847373606754733L;
 
+	/*****************************************************************************/
+
+	/**
+	 *	Mouse Listener
+	 */
+	final class VText_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee VText
+		 */
+		VText_mouseAdapter(VText adaptee)
+		{
+			this.adaptee = adaptee;
+		}	//	VText_mouseAdapter
+
+		private VText adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VText_mouseAdapter
+	
 	/**
 	 *	Standard Constructor
 	 *  @param columnName column name
@@ -212,34 +243,3 @@ public class VText extends CTextArea
 	}   //  setField
 
 }	//	VText
-
-/*****************************************************************************/
-
-/**
- *	Mouse Listener
- */
-final class VText_mouseAdapter extends MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee VText
-	 */
-	VText_mouseAdapter(VText adaptee)
-	{
-		this.adaptee = adaptee;
-	}	//	VText_mouseAdapter
-
-	private VText adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VText_mouseAdapter

@@ -69,6 +69,36 @@ public class VDate extends JComponent
 	 */
 	private static final long serialVersionUID = -9090302458969544529L;
 
+	/*****************************************************************************
+	 *	Mouse Listener for Popup Menu
+	 */
+	class VDate_mouseAdapter extends java.awt.event.MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VDate_mouseAdapter(VDate adaptee)
+		{
+			this.adaptee = adaptee;
+		}	//	VLookup_mouseAdapter
+
+		private VDate adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e MouseEvent
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+		//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+	}	//	VLookup_mouseAdapter
+	
 	/**
 	 *  IDE Bean Constructor
 	 */
@@ -586,33 +616,3 @@ public class VDate extends JComponent
 	}	//	fireActionPerformed
 	/**/
 }	//	VDate
-
-/*****************************************************************************
- *	Mouse Listener for Popup Menu
- */
-final class VDate_mouseAdapter extends java.awt.event.MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee adaptee
-	 */
-	VDate_mouseAdapter(VDate adaptee)
-	{
-		this.adaptee = adaptee;
-	}	//	VLookup_mouseAdapter
-
-	private VDate adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e MouseEvent
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-	//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-}	//	VLookup_mouseAdapter

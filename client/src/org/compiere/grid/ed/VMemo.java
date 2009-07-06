@@ -57,6 +57,40 @@ public class VMemo extends CTextArea
 	 */
 	private static final long serialVersionUID = 9218826231484540367L;
 
+	/*****************************************************************************/
+
+	/**
+	 *	Mouse Listener
+	 */
+	final class VMemo_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee
+		 */
+		VMemo_mouseAdapter(VMemo adaptee)
+		{
+			this.adaptee = adaptee;
+		}	//	VMemo_mouseAdapter
+
+		private VMemo adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouse Clicked
+
+
+
+	}	//	VMemo_mouseAdapter
+	
+	
 	/**
 	 *	IDE Baan Constructor
 	 */
@@ -291,40 +325,3 @@ private class CInputVerifier extends InputVerifier {
 
 
 }	//	VMemo
-
-/*****************************************************************************/
-
-/**
- *	Mouse Listener
- */
-final class VMemo_mouseAdapter extends MouseAdapter
-{
-	/**
-	 *	Constructor
-	 *  @param adaptee
-	 */
-	VMemo_mouseAdapter(VMemo adaptee)
-	{
-		this.adaptee = adaptee;
-	}	//	VMemo_mouseAdapter
-
-	private VMemo adaptee;
-
-	/**
-	 *	Mouse Listener
-	 *  @param e
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//	popup menu
-		if (SwingUtilities.isRightMouseButton(e))
-			adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-	}	//	mouse Clicked
-
-
-
-}	//	VMemo_mouseAdapter
-
-
-
-
